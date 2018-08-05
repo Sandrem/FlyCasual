@@ -73,8 +73,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
 
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new EvadeAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new EvadeAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(OnyxSquadronScout);
             }

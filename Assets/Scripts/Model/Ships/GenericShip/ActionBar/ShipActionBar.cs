@@ -35,6 +35,7 @@ namespace Ship
         }
 
         public List<GenericAction> PrintedActions;
+        public List<KeyValuePair<Type, GenericAction>> LinkedActions;
         private List<AddedAction> AddedActions;
 
         public ShipActionBar(GenericShip host)
@@ -43,6 +44,7 @@ namespace Ship
 
             PrintedActions = new List<GenericAction>();
             AddedActions = new List<AddedAction>();
+            LinkedActions = new List<KeyValuePair<Type, GenericAction>>();
         }
 
         public void AddPrintedAction(GenericAction action)
@@ -50,6 +52,17 @@ namespace Ship
             action.Host = Host;
             action.IsInActionBar = true;
             PrintedActions.Add(action);
+        }
+
+        public void AddActionLink(Type actionType, GenericAction link, GenericUpgrade source = null)
+        {
+            LinkedActions.Add(new KeyValuePair<Type, GenericAction>(actionType, link));
+        }
+
+        public void RemoveActionLink(Type actionType, Type linkedRedAction, GenericUpgrade source)
+        {
+            KeyValuePair<Type, GenericAction> linkToRemove = LinkedActions.First(n => n.Key == actionType && n.Value.GetType() == linkedRedAction && n.Value.Source == source);
+            LinkedActions.Remove(linkToRemove);
         }
 
         public void AddGrantedAction(GenericAction action, GenericUpgrade source)
@@ -69,12 +82,6 @@ namespace Ship
         public void RemoveGrantedAction(Type actionType, GenericUpgrade source)
         {
             AddedAction actionToRemove = AddedActions.First(n => n.Action.GetType() == actionType && n.Source == source);
-            AddedActions.Remove(actionToRemove);
-        }
-
-        public void RemoveGrantedAction(Type actionType, Type linkedRedAction, GenericUpgrade source)
-        {
-            AddedAction actionToRemove = AddedActions.First(n => n.Action.GetType() == actionType && n.Action.LinkedRedAction.GetType() == linkedRedAction && n.Source == source);
             AddedActions.Remove(actionToRemove);
         }
 

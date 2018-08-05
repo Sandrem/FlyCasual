@@ -1,6 +1,7 @@
 ﻿
 using ActionsList;
 using Ship;
+using System;
 using System.Collections.Generic;
 using Tokens;
 using UnityEngine;
@@ -40,9 +41,17 @@ namespace RulesList
         {
             if (action == null) return;
 
-            if (action.LinkedRedAction != null)
+            List<GenericAction> possibleLinkedActions = new List<GenericAction>();
+
+            foreach(KeyValuePair<Type, GenericAction> linkedAction in Selection.ThisShip.ActionBar.LinkedActions)
             {
-                Selection.ThisShip.PlannedLinkedAction = action.LinkedRedAction;
+                if (linkedAction.Key == action.GetType())
+                    possibleLinkedActions.Add(linkedAction.Value);
+            }
+
+            if (possibleLinkedActions.Count > 0)
+            {
+                Selection.ThisShip.PlannedLinkedActions = possibleLinkedActions;
                 Selection.ThisShip.OnActionDecisionSubphaseEnd += DoSecondAction;
             }
         }
@@ -65,8 +74,7 @@ namespace RulesList
         private void PerformLinkedAction(object sender, System.EventArgs e)
         {
             Selection.ThisShip.GenerateAvailableActionsList();
-            List<GenericAction> linkedAction = new List<GenericAction>() { Selection.ThisShip.PlannedLinkedAction };
-            Selection.ThisShip.AskPerformFreeAction(linkedAction, Triggers.FinishTrigger);
+            Selection.ThisShip.AskPerformFreeAction(Selection.ThisShip.PlannedLinkedActions, Triggers.FinishTrigger);
         }
 
     }

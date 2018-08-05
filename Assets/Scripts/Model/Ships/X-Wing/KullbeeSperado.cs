@@ -3,12 +3,13 @@ using Abilities;
 using ActionsList;
 using System.Linq;
 using SubPhases;
+using RuleSets;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class KullbeeSperado : XWing
+        public class KullbeeSperado : XWing, ISecondEditionPilot
         {
             public KullbeeSperado() : base()
             {
@@ -23,6 +24,12 @@ namespace Ship
                 SkinName = "Partisan";
 
                 PilotAbilities.Add(new KullbeeSperadoAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 48;
             }
         }
     }

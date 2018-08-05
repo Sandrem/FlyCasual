@@ -183,6 +183,12 @@ namespace BoardTools
             return positionInfo.Range;
         }
 
+        public static bool IsShipInArc(GenericShip source, GenericShip target)
+        {
+            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
+            return shotInfo.InArc;
+        }
+
         public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcTypes arc)
         {
             ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);

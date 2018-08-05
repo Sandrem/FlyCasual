@@ -88,10 +88,9 @@ namespace Ship
 
                 MaxHull = 3;
 
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
-
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddPrintedAction(new BoostAction());
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
 
                 SetTargetLockRange(2, int.MaxValue);
 

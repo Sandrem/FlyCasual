@@ -74,7 +74,7 @@ namespace Ship
 
                 ActionBar.AddPrintedAction(new ReinforceForeAction());
                 ActionBar.AddPrintedAction(new ReinforceAftAction());
-
+                ActionBar.AddPrintedAction(new CoordinateAction());
                 ActionBar.AddPrintedAction(new JamAction() { IsRed = true });
 
                 IconicPilots[Faction.Imperial] = typeof(OmicronGroupPilot);

@@ -7,39 +7,38 @@ using RuleSets;
 
 namespace Ship
 {
-    namespace AttackShuttle
+    namespace EscapeCraft
     {
-        public class AttackShuttle : GenericShip, ISecondEditionShip
+        public class EscapeCraft : GenericShip, ISecondEditionShip
         {
 
-            public AttackShuttle() : base()
+            public EscapeCraft() : base()
             {
-                Type = FullType = "Attack Shuttle";
-                IconicPilots.Add(Faction.Rebel, typeof(EzraBridger));
+                Type = FullType = "Escape Craft";
+                IconicPilots.Add(Faction.Scum, typeof(AutopilotDrone));
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/MR_ATTACK-SHUTTLE.png";
+                //ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/MR_ATTACK-SHUTTLE.png";
 
-                Firepower = 3;
+                Firepower = 2;
                 Agility = 2;
                 MaxHull = 2;
                 MaxShields = 2;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
 
                 ActionBar.AddPrintedAction(new BarrelRollAction());
-                ActionBar.AddPrintedAction(new EvadeAction());
+                ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true});
 
                 AssignTemporaryManeuvers();
                 HotacManeuverTable = new AI.AttackShuttleTable();
 
-                factions.Add(Faction.Rebel);
-                faction = Faction.Rebel;
+                factions.Add(Faction.Scum);
+                faction = Faction.Scum;
 
-                SkinName = "Attack Shuttle";
+                SkinName = "Default";
 
                 SoundShotsPath = "XWing-Laser";
-                ShotsCount = 3;
+                ShotsCount = 2;
 
                 for (int i = 1; i < 4; i++)
                 {
@@ -71,15 +70,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Ability
-
-                MaxHull = 3;
-                MaxShields = 1;
-
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
-                ActionBar.AddActionLink(typeof(BarrelRollAction), new EvadeAction() { IsRed = true });
-
-                IconicPilots[Faction.Rebel] = typeof(HeraSyndulla);
+                //Not required
             }
 
         }

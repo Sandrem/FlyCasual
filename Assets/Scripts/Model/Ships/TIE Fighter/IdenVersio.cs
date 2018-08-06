@@ -24,6 +24,8 @@ namespace Ship
                 UsesCharges = true;
                 MaxCharges = 1;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.IdenVersioAbilitySE());
             }

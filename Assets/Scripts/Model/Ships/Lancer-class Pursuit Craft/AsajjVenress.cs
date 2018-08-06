@@ -8,12 +8,13 @@ using Abilities;
 using System.Linq;
 using Arcs;
 using Tokens;
+using RuleSets;
 
 namespace Ship
 {
     namespace LancerClassPursuitCraft
     {
-        public class AsajjVentress : LancerClassPursuitCraft
+        public class AsajjVentress : LancerClassPursuitCraft, ISecondEditionPilot
         {
             public AsajjVentress() : base()
             {
@@ -26,6 +27,16 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new AsajjVentressPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 84;
+                MaxForce = 2;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.AsajjVentressPilotAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.AsajjVentressPilotAbilitySE());
             }
         }
     }
@@ -46,7 +57,7 @@ namespace Abilities
             Phases.Events.OnCombatPhaseStart_Triggers -= TryRegisterAsajjVentressPilotAbility;
         }
 
-        private void TryRegisterAsajjVentressPilotAbility()
+        protected virtual void TryRegisterAsajjVentressPilotAbility()
         {
             if (TargetsForAbilityExist(FilterTargetsOfAbility))
             {
@@ -54,7 +65,7 @@ namespace Abilities
             }
         }
 
-        private void AskSelectShip(object sender, System.EventArgs e)
+        protected virtual void AskSelectShip(object sender, System.EventArgs e)
         {
             SelectTargetForAbility(
                 CheckAssignStress,
@@ -69,12 +80,12 @@ namespace Abilities
             );
         }
 
-        private bool FilterTargetsOfAbility(GenericShip ship)
+        protected bool FilterTargetsOfAbility(GenericShip ship)
         {
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 2) && FilterTargetInMobileFiringArc(ship);
         }
 
-        private int GetAiPriorityOfTarget(GenericShip ship)
+        protected int GetAiPriorityOfTarget(GenericShip ship)
         {
             int priority = 50;
 
@@ -107,5 +118,71 @@ namespace Abilities
             }
         }
 
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class AsajjVentressPilotAbilitySE : AsajjVentressPilotAbility
+    {
+
+        protected override void TryRegisterAsajjVentressPilotAbility()
+        {
+            if (TargetsForAbilityExist(FilterTargetsOfAbility) && HostShip.Force > 0)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskSelectShip);
+            }
+        }
+
+        protected override void AskSelectShip(object sender, System.EventArgs e)
+        {
+            SelectTargetForAbility(
+                CheckAssignStress,
+                FilterTargetsOfAbility,
+                GetAiPriorityOfTarget,
+                HostShip.Owner.PlayerNo,
+                true,
+                null,
+                HostShip.PilotName,
+                "Choose a ship inside your mobile firing arc to assign Stress token to it.",
+                HostShip.ImageUrl
+            );
+        }
+
+        private void CheckAssignStress()
+        {
+            SelectShipSubPhase.FinishSelectionNoCallback();
+            AsajjVentressAbilityDecisionSubPhaseSE subphase = (AsajjVentressAbilityDecisionSubPhaseSE)
+                Phases.StartTemporarySubPhaseNew(
+                "Choose effect of Asajj Ventress' ability.",
+                typeof(AsajjVentressAbilityDecisionSubPhaseSE),
+                Triggers.FinishTrigger
+            );
+
+            Selection.ThisShip = TargetShip;
+            Selection.ActiveShip = HostShip;
+            subphase.Start();
+        }
+    }
+}
+
+namespace SubPhases
+{
+    public class AsajjVentressAbilityDecisionSubPhaseSE : RemoveGreenTokenDecisionSubPhase
+    {
+        public override void PrepareCustomDecisions()
+        {
+            InfoText = Selection.ThisShip.ShipId + ": " + "Select the effect of Asajj Ventress' ability.";
+            DecisionOwner = Selection.ThisShip.Owner;
+            DefaultDecisionName = "Recieve a stress token.";
+
+            AddDecision("Recieve a stress token.", RecieveStress);
+        }
+
+        private void RecieveStress(object sender, System.EventArgs e)
+        {
+            Selection.ActiveShip.Force--;
+            Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), DecisionSubPhase.ConfirmDecision);
+        }
     }
 }

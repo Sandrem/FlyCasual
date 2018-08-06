@@ -183,6 +183,60 @@ namespace BoardTools
             return positionInfo.Range;
         }
 
+        public static bool IsShipInFacing(GenericShip from, GenericShip to, ArcFacing facing)
+        {
+            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+
+            if (facing == ArcFacing.Front180)
+                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+            else
+                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
+
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+
+            from.ArcInfo.Arcs = savedArcs;
+            return reverseShotInfo.InArc;
+        }
+
+        public static bool IsShipInFacingOnly(GenericShip from, GenericShip to, ArcFacing facing)
+        {
+            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            bool inForward180Arc = reverseShotInfo.InArc;
+
+            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
+            reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            bool inRear180Arc = reverseShotInfo.InArc;
+
+            from.ArcInfo.Arcs = savedArcs;
+
+            return (facing == ArcFacing.Front180) ? inForward180Arc && !inRear180Arc : !inForward180Arc && inRear180Arc;
+        }
+
+        public static bool IsShipAtRange(GenericShip from, GenericShip to, int range)
+        {
+            return IsShipBetweenRange(from, to, range, range);
+        }
+
+        public static bool IsShipBetweenRange(GenericShip from, GenericShip to, int minrange, int maxrange)
+        {
+            if(minrange == maxrange && minrange == 0)
+            {
+                if (from.ShipsBumped.Contains(to) || from == to)
+                    return true;
+
+                return false;
+            }
+
+            int range = GetRangeOfShips(from, to);
+
+            if (range >= minrange && range <= maxrange)
+                return true;
+
+            return false;
+        }
+
         public static bool IsShipInArc(GenericShip source, GenericShip target)
         {
             ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);

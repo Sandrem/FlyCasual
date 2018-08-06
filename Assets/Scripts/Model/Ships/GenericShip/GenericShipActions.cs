@@ -92,6 +92,22 @@ namespace Ship
             return AvailableActionsList;
         }
 
+        public List<GenericAction> GetAvailableActionsAsRed()
+        {
+            List<GenericAction> redActions = new List<GenericAction>();
+
+            GenerateAvailableActionsList();
+
+            foreach(GenericAction action in AvailableActionsList)
+            {
+                GenericAction instance = (GenericAction)Activator.CreateInstance(action.GetType());
+                instance.IsRed = true;
+                redActions.Add(instance);
+            }
+
+            return redActions;
+        }
+
         public List<GenericAction> GetAvailableFreeActions()
         {
             return AvailableFreeActionsList;

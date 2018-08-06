@@ -5,12 +5,13 @@ using Ship;
 using System;
 using System.Linq;
 using Tokens;
+using RuleSets;
 
 namespace Ship
 {
     namespace Vcx100
     {
-        public class Chopper : Vcx100
+        public class Chopper : Vcx100, ISecondEditionPilot
         {
             public Chopper() : base()
             {
@@ -22,6 +23,14 @@ namespace Ship
 
                 PilotAbilities.Add(new Abilities.ChopperPilotAbility());
             }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
+                Cost = 72;
+                PilotAbilities.RemoveAll(ability => ability is Abilities.ChopperPilotAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.ChopperPilotAbilitySE());
+            }
         }
     }
 }
@@ -30,7 +39,7 @@ namespace Abilities
 {
     public class ChopperPilotAbility : GenericAbility
     {
-        private List<GenericShip> shipsToAssignStress;
+        protected List<GenericShip> shipsToAssignStress;
 
         public override void ActivateAbility()
         {
@@ -53,7 +62,7 @@ namespace Abilities
             AssignStressTokenRecursive();
         }
 
-        private void AssignStressTokenRecursive()
+        protected virtual void AssignStressTokenRecursive()
         {
             if (shipsToAssignStress.Count > 0)
             {
@@ -61,6 +70,27 @@ namespace Abilities
                 shipsToAssignStress.Remove(shipToAssignStress);
                 Messages.ShowErrorToHuman(shipToAssignStress.PilotName + " is bumped into \"Chopper\" and gets Stress");
                 shipToAssignStress.Tokens.AssignToken(typeof(StressToken), AssignStressTokenRecursive);
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class ChopperPilotAbilitySE : ChopperPilotAbility
+    {
+        protected override void AssignStressTokenRecursive()
+        {
+            if(shipsToAssignStress.Count > 0)
+            {
+                GenericShip shipToAssignStress = shipsToAssignStress[0];
+                shipsToAssignStress.Remove(shipToAssignStress);
+                Messages.ShowErrorToHuman(shipToAssignStress.PilotName + " is bumped into \"Chopper\" and gets a jam token.");
+                shipToAssignStress.Tokens.AssignTokens(() => new JamToken(shipToAssignStress), 2, AssignStressTokenRecursive);
             }
             else
             {

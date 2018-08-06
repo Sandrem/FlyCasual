@@ -137,7 +137,8 @@ namespace Abilities.SecondEdition
             {
                 Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
                 Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
-                Combat.Attacker.Tokens.SpendToken(typeof(ForceToken), callBack);
+                Combat.Attacker.Force--;
+                callBack();
             }
 
             public override bool IsDiceModificationAvailable()

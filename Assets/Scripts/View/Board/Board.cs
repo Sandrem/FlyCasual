@@ -183,6 +183,29 @@ namespace BoardTools
             return positionInfo.Range;
         }
 
+        public static bool IsShipAtRange(GenericShip from, GenericShip to, int range)
+        {
+            return IsShipBetweenRange(from, to, range, range);
+        }
+
+        public static bool IsShipBetweenRange(GenericShip from, GenericShip to, int minrange, int maxrange)
+        {
+            if(minrange == maxrange && minrange == 0)
+            {
+                if (from.ShipsBumped.Contains(to) || from == to)
+                    return true;
+
+                return false;
+            }
+
+            int range = GetRangeOfShips(from, to);
+
+            if (range >= minrange && range <= maxrange)
+                return true;
+
+            return false;
+        }
+
         public static bool IsShipInArc(GenericShip source, GenericShip target)
         {
             ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);

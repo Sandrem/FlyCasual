@@ -137,7 +137,7 @@ namespace Abilities.SecondEdition
         protected override void AskSelectShip(object sender, System.EventArgs e)
         {
             SelectTargetForAbility(
-                delegate { HostShip.Tokens.RemoveToken(typeof(ForceToken), CheckAssignStress); },
+                CheckAssignStress,
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
@@ -181,6 +181,7 @@ namespace SubPhases
 
         private void RecieveStress(object sender, System.EventArgs e)
         {
+            Selection.ActiveShip.Force--;
             Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), DecisionSubPhase.ConfirmDecision);
         }
     }

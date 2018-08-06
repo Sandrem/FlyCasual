@@ -84,8 +84,23 @@ public class GenericDamageCard
 
     public void Expose(Action callback)
     {
-        IsFaceup = true;
-        Assign(Host, callback);
+        Combat.CurrentCriticalHitCard = this;
+
+        Triggers.RegisterTrigger(new Trigger
+        {
+            Name = "Information about exposed damage card",
+            TriggerOwner = this.Host.Owner.PlayerNo,
+            TriggerType = TriggerTypes.OnAbilityDirect,
+            EventHandler = InformCrit.LoadAndShow
+        });
+
+        Triggers.ResolveTriggers(
+            TriggerTypes.OnAbilityDirect,
+            delegate {
+                IsFaceup = true;
+                Assign(Host, callback);
+            }
+        );
     }
 
 }

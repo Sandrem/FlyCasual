@@ -76,19 +76,33 @@ public static class DirectionsMenu
 
     private static void CustomizeDirectionsMenu(Func<string, bool> filter = null)
     {
-        List<int> linesExist = new List<int>();
+        List<char> linesExist = new List<char>();
 
         foreach (KeyValuePair<string, Movement.MovementComplexity> maneuverData in Selection.ThisShip.GetManeuvers())
         {
             string[] parameters = maneuverData.Key.Split('.');
-            string maneuverSpeed = parameters[0];
+            char maneuverSpeed = parameters[0].ToCharArray()[0];
+            if (parameters[2] == "V")
+            {
+                switch (maneuverSpeed)
+                {
+                    case '1':
+                        maneuverSpeed = '-';
+                        break;
+                    case '2':
+                        maneuverSpeed = '=';
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             GameObject button = DirectionsWindow.transform.Find("Directions").Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
             if (maneuverData.Value != Movement.MovementComplexity.None)
             {
                 if (filter == null || filter(maneuverData.Key))
                 {
-                    if (!linesExist.Contains(int.Parse(maneuverSpeed))) linesExist.Add(int.Parse(maneuverSpeed));
+                    if (!linesExist.Contains(maneuverSpeed)) linesExist.Add(maneuverSpeed);
 
                     SetManeuverColor(button, maneuverData);
                     button.SetActive(true);
@@ -105,18 +119,33 @@ public static class DirectionsMenu
 
     private static void CustomizeDirectionsMenuAll(Func<string, bool> filter = null)
     {
-        List<int> linesExist = new List<int>();
+        List<char> linesExist = new List<char>();
 
         foreach (string maneuverCode in Movement.GenericMovement.GetAllManeuvers())
         {
             string[] parameters = maneuverCode.Split('.');
-            string maneuverSpeed = parameters[0];
+            char maneuverSpeed = parameters[0].ToCharArray()[0];
+
+            if (parameters[2] == "V")
+            {
+                switch (maneuverSpeed)
+                {
+                    case '1':
+                        maneuverSpeed = '-';
+                        break;
+                    case '2':
+                        maneuverSpeed = '=';
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             GameObject button = DirectionsWindow.transform.Find("Directions").Find("Speed" + maneuverSpeed).Find(maneuverCode).gameObject;
 
             if (filter == null || filter(maneuverCode))
             {
-                if (!linesExist.Contains(int.Parse(maneuverSpeed))) linesExist.Add(int.Parse(maneuverSpeed));
+                if (!linesExist.Contains(maneuverSpeed)) linesExist.Add(maneuverSpeed);
 
                 SetManeuverColor(button, new KeyValuePair<string, Movement.MovementComplexity>(maneuverCode, Movement.MovementComplexity.Normal));
                 button.SetActive(true);
@@ -131,7 +160,7 @@ public static class DirectionsMenu
         HideExtraElements(linesExist);
     }
 
-    private static void HideExtraElements(List<int> linesExist)
+    private static void HideExtraElements(List<char> linesExist)
     {
         float freeSpace = 40;
 
@@ -175,17 +204,16 @@ public static class DirectionsMenu
 
         // LINES
 
-        for (int i = -1; i < 6; i++)
+        for (int i = -2; i < 6; i++)
         {
-            if (!linesExist.Contains(i))
+            char c = (i >= 0) ? i.ToString().ToCharArray()[0] : ((i == -1) ? '-' : '=');
+            if (!linesExist.Contains(c))
             {
-                int rowFixed = (i != -1) ? i : 6;
-
                 GameObject numbersLinePanel = DirectionsWindow.transform.Find("Numbers").gameObject;
-                numbersLinePanel.transform.Find("Speed" + rowFixed).gameObject.SetActive(false);
+                numbersLinePanel.transform.Find("Speed" + c).gameObject.SetActive(false);
 
                 GameObject directionsLinePanel = DirectionsWindow.transform.Find("Directions").gameObject;
-                directionsLinePanel.transform.Find("Speed" + rowFixed).gameObject.SetActive(false);
+                directionsLinePanel.transform.Find("Speed" + c).gameObject.SetActive(false);
             }
         }
 

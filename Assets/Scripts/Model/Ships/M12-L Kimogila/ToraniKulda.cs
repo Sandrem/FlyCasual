@@ -164,34 +164,14 @@ namespace SubPhases
         }
     }
 
-    public class ToraniKuldaAbilityDecisionSubPhaseSE : DecisionSubPhase
+    public class ToraniKuldaAbilityDecisionSubPhaseSE : RemoveGreenTokenDecisionSubPhase
     {
-        public override void PrepareDecision(Action callBack)
+        public override void PrepareCustomDecisions()
         {
             InfoText = Selection.ThisShip.ShipId + ": " + "Select effect of Torani Kulda's ability";
             DecisionOwner = Selection.ThisShip.Owner;
 
             AddDecision("Suffer 1 damage.", SufferDamage);
-            
-            if(Selection.ThisShip.Tokens.HasToken(typeof(FocusToken)))
-                AddDecision("Discard focus token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(FocusToken), DecisionSubPhase.ConfirmDecision); });
-
-            if (Selection.ThisShip.Tokens.HasToken(typeof(EvadeToken)))
-                AddDecision("Discard evade token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(EvadeToken), DecisionSubPhase.ConfirmDecision); });
-
-            if (Selection.ThisShip.Tokens.HasToken(typeof(CalculateToken)))
-                AddDecision("Discard calculate token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(CalculateToken), DecisionSubPhase.ConfirmDecision); });
-
-            if (Selection.ThisShip.Tokens.HasToken(typeof(ReinforceAftToken)))
-                AddDecision("Discard reinforce token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(ReinforceAftToken), DecisionSubPhase.ConfirmDecision); });
-
-            if (Selection.ThisShip.Tokens.HasToken(typeof(ReinforceForeToken)))
-                AddDecision("Discard reinforce token.", delegate { Selection.ThisShip.Tokens.RemoveToken(typeof(ReinforceForeToken), DecisionSubPhase.ConfirmDecision); });
-
-
-            DefaultDecisionName = "Suffer 1 damage.";
-
-            callBack();
         }
 
         private void SufferDamage(object sender, System.EventArgs e)

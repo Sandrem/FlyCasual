@@ -75,6 +75,8 @@ namespace Ship
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
         public event EventHandlerShip OnMovementFinishSuccessfully;
+        public event EventHandlerShip OnMovementFinishUnsuccessfully;
+        public event EventHandlerShip OnMovementBumped;
         public static event EventHandlerShip OnMovementFinishGlobal;
 
         public event EventHandlerShip OnPositionFinish;
@@ -142,6 +144,11 @@ namespace Ship
             );
         }
 
+        public void CallOnMovementBumped(GenericShip ship)
+        {
+            if (OnMovementBumped != null) OnMovementBumped(ship);
+        }
+
         public void CallFinishMovement(Action callback)
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
@@ -151,6 +158,15 @@ namespace Ship
             if(!IsBumped && !IsHitObstacles && !BoardTools.Board.IsOffTheBoard(this))
             {
                 if (OnMovementFinishSuccessfully != null) OnMovementFinishSuccessfully(this);
+            }
+            else if(IsBumped)
+            {
+                if (OnMovementFinishUnsuccessfully != null) OnMovementFinishUnsuccessfully(this);
+
+                foreach(GenericShip ship in ShipsBumped)
+                {
+                    ship.CallOnMovementBumped(this);
+                }
             }
 
             Triggers.ResolveTriggers(

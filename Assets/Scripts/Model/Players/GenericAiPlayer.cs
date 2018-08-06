@@ -554,11 +554,19 @@ namespace Players
         {
             base.PlaceObstacle();
 
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(1, delegate {
+            ObstaclesPlacementSubPhase subphase = Phases.CurrentSubPhase as ObstaclesPlacementSubPhase;
+            if (subphase.IsRandomSetupSelected[Roster.AnotherPlayer(this.PlayerNo)])
+            {
                 (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();
-                Messages.ShowInfo("AI: Obstacle was placed");
-            });
+            }
+            else
+            {
+                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                Game.Wait(1, delegate {
+                    (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();
+                    Messages.ShowInfo("AI: Obstacle was placed");
+                });
+            }
         }
 
         public override void PerformSystemsActivation()

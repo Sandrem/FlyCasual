@@ -183,6 +183,35 @@ namespace BoardTools
             return positionInfo.Range;
         }
 
+        public static bool IsShipInFacing(GenericShip from, GenericShip to, ArcFacing facing)
+        {
+            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+            
+            if(facing == ArcFacing.Front180)
+                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+            else
+                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
+
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            return reverseShotInfo.InArc;
+        }
+
+        public static bool IsShipInFacingOnly(GenericShip from, GenericShip to, ArcFacing facing)
+        {
+            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            bool inForward180Arc = reverseShotInfo.InArc;
+
+            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
+            reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            bool inRear180Arc = reverseShotInfo.InArc;
+
+            from.ArcInfo.Arcs = savedArcs;
+
+            return (facing == ArcFacing.Front180) ? inForward180Arc && !inRear180Arc : !inForward180Arc && inRear180Arc;
+        }
+
         public static bool IsShipAtRange(GenericShip from, GenericShip to, int range)
         {
             return IsShipBetweenRange(from, to, range, range);

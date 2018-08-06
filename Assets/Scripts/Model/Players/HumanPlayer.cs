@@ -144,8 +144,15 @@ namespace Players
             SubPhases.ObstaclesPlacementSubPhase subphase = Phases.CurrentSubPhase as SubPhases.ObstaclesPlacementSubPhase;
             if (subphase.IsRandomSetupSelected[this.PlayerNo])
             {
-                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.Wait(1, subphase.SkipButton);
+                if (subphase.IsRandomSetupSelected[Roster.AnotherPlayer(this.PlayerNo)])
+                {
+                    subphase.SkipButton();
+                }
+                else
+                {
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    Game.Wait(1, subphase.SkipButton);
+                }
             }
             else
             {

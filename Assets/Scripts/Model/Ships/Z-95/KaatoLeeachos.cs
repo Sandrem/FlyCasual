@@ -102,8 +102,6 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger
             );
 
-            Selection.ThisShip = TargetShip;
-            Selection.ActiveShip = HostShip;
             subphase.Start();
 
         }
@@ -111,24 +109,26 @@ namespace Abilities.SecondEdition
 
         public class KaatoLeeachosDecisionSubPhaseSE : DecisionSubPhase
         {
+            public GenericShip target;
             Type tokenType = null;
+
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = Selection.ThisShip.PilotName + ": " + "Select token to transfer to Kaato.";
-                DecisionOwner = Selection.ThisShip.Owner;
+                InfoText = Selection.AnotherShip.PilotName + ": " + "Select token to transfer to Kaato.";
+                DecisionOwner = Selection.AnotherShip.Owner;
 
-                if (Selection.ThisShip.Tokens.HasToken(typeof(FocusToken)))
-                    AddDecision("Transfer focus token.", delegate { tokenType = typeof(FocusToken); Selection.ThisShip.Tokens.RemoveToken(tokenType, AddTokenToKaato); });
+                if (Selection.AnotherShip.Tokens.HasToken(typeof(FocusToken)))
+                    AddDecision("Transfer focus token.", delegate { tokenType = typeof(FocusToken); Selection.AnotherShip.Tokens.RemoveToken(tokenType, AddTokenToKaato); });
 
-                if (Selection.ThisShip.Tokens.HasToken(typeof(EvadeToken)))
-                    AddDecision("Transfer evade token.", delegate { tokenType = typeof(EvadeToken); Selection.ThisShip.Tokens.RemoveToken(tokenType, AddTokenToKaato); });
+                if (Selection.AnotherShip.Tokens.HasToken(typeof(EvadeToken)))
+                    AddDecision("Transfer evade token.", delegate { tokenType = typeof(EvadeToken); Selection.AnotherShip.Tokens.RemoveToken(tokenType, AddTokenToKaato); });
 
                 callBack();
             }
 
             private void AddTokenToKaato()
             {
-                Selection.ActiveShip.Tokens.AssignToken(tokenType, DecisionSubPhase.ConfirmDecision);
+                Selection.ThisShip.Tokens.AssignToken(tokenType, DecisionSubPhase.ConfirmDecision);
             }
         }
     }

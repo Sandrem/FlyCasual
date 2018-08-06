@@ -2,21 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Ship;
 
 namespace SubPhases
 {
     public class SelectDamageCardDecisionSubPhase : DecisionSubPhase
     {
+        public GenericShip withDamageCards;
         Action<GenericDamageCard> damageCardHandler;
 
         public override void PrepareDecision(Action callBack)
         {
-            InfoText = Selection.ActiveShip.PilotName + ": " + "Select a face down damage card.";
-            DecisionOwner = Selection.ActiveShip.Owner;
+            InfoText = withDamageCards.PilotName + ": " + "Select a face down damage card.";
+            DecisionOwner = withDamageCards.Owner;
 
             Dictionary<string, GenericDamageCard> selection = new Dictionary<string, GenericDamageCard>();
 
-            foreach(GenericDamageCard card in Selection.ThisShip.Damage.DamageCards)
+            foreach(GenericDamageCard card in withDamageCards.Damage.DamageCards)
             {
                 if (card.IsFaceup)
                     continue;

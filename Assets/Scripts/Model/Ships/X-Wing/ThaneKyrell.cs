@@ -65,6 +65,7 @@ namespace ActionsList.SecondEdition
         {
             if (Combat.AttackStep != CombatStep.Attack) return false;
             if (Combat.DiceRollAttack.CriticalSuccesses == 0 && Combat.DiceRollAttack.Successes == 0 && Combat.DiceRollAttack.Focuses == 0) return false;
+            if (!Combat.Defender.Damage.HasFacedownCards) return false;
 
             return true;
         }
@@ -116,6 +117,7 @@ namespace SubPhases
 
             var damageCardSubPhase = Phases.StartTemporarySubPhaseNew<SelectDamageCardDecisionSubPhase>(Name, Triggers.FinishTrigger);
             damageCardSubPhase.RegisterDamageCardHandler(HandleDamageCard);
+            damageCardSubPhase.withDamageCards = Combat.Defender;
             damageCardSubPhase.Start();
         }
 

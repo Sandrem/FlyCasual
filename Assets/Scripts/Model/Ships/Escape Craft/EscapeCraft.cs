@@ -44,7 +44,9 @@ namespace Ship
                 {
                     SoundFlyPaths.Add("XWing-Fly" + i);
                 }
-                
+
+                ShipRuleType = typeof(SecondEdition);
+
             }
 
             private void AssignTemporaryManeuvers()

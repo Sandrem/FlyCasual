@@ -48,21 +48,17 @@ namespace Abilities
 
         protected virtual bool AbilityCanBeUsed()
         {
-            // Is this ship the defender in combat?
-            if (Combat.Defender == curToDamage)
-                return false;
-
             // Is the damage type a ship attack?
             if (curDamageInfo.DamageType != DamageTypes.ShipAttack)
                 return false;
 
             // Is the defender on our team and not us? If not return.
-            if (Combat.Defender.Owner.PlayerNo != HostShip.Owner.PlayerNo || Combat.Defender.ShipId == HostShip.ShipId)
+            if (curToDamage.Owner.PlayerNo != HostShip.Owner.PlayerNo || curToDamage.ShipId == HostShip.ShipId)
                 return false;
 
             // Is the defender at range 1 and is there a crit result?
-            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Defender, HostShip);
-            if (distanceInfo.Range > 1 || Combat.DiceRollAttack.CriticalSuccesses < 1)
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(curToDamage, HostShip);
+            if (distanceInfo.Range > 1 || curToDamage.AssignedDamageDiceroll.CriticalSuccesses < 1)
                 return false;
 
             return true;
@@ -70,7 +66,7 @@ namespace Abilities
 
         private void UseDrawTheirFireAbility(object sender, System.EventArgs e)
         {
-            if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+            if (curToDamage.AssignedDamageDiceroll.CriticalSuccesses > 0)
             {
                 AskToUseAbility(AlwaysUseByDefault, UseAbility, null, null, true);
             }
@@ -83,7 +79,7 @@ namespace Abilities
         private void UseAbility(object sender, System.EventArgs e)
         {
             // Find a crit and remove it from the ship we're protecting's assigned damage.
-            Die criticalHitDice = Combat.DiceRollAttack.DiceList.Find(n => n.Side == DieSide.Crit);
+            Die criticalHitDice = curToDamage.AssignedDamageDiceroll.DiceList.Find(n => n.Side == DieSide.Crit);
             curToDamage.AssignedDamageDiceroll.DiceList.Remove(criticalHitDice);
 
             DamageSourceEventArgs drawtheirfireDamage = new DamageSourceEventArgs()

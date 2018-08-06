@@ -95,7 +95,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
 
-                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(FocusAction), new BarrelRollAction() { IsRed = true });
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AdvancedTargetingComputer());
             }

@@ -6,12 +6,13 @@ using SubPhases;
 using Abilities;
 using BoardTools;
 using System.Linq;
+using RuleSets;
 
 namespace Ship
 {
     namespace Z95
     {
-        public class AirenCracken : Z95
+        public class AirenCracken : Z95, ISecondEditionPilot
         {
             public AirenCracken() : base()
             {
@@ -25,6 +26,15 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 SkinName = "Red";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 36;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.AirenCrackenAbiliity);
+                PilotAbilities.Add(new Abilities.SecondEdition.AirenCrackenAbilitySE());
             }
         }
     }
@@ -92,13 +102,31 @@ namespace Abilities
             return 0;
         }
 
-        private void PerformFreeAction()
+        protected virtual void PerformFreeAction()
         {
             Selection.ThisShip = TargetShip;
 
             TargetShip.AskPerformFreeAction(
                 TargetShip.GetAvailableActions(),
                 delegate{
+                    Selection.ThisShip = HostShip;
+                    SelectShipSubPhase.FinishSelection();
+                });
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class AirenCrackenAbilitySE : AirenCrackenAbiliity
+    {
+        protected override void PerformFreeAction()
+        {
+            Selection.ThisShip = TargetShip;
+
+            TargetShip.AskPerformFreeAction(
+                TargetShip.GetAvailableActionsAsRed(),
+                delegate {
                     Selection.ThisShip = HostShip;
                     SelectShipSubPhase.FinishSelection();
                 });

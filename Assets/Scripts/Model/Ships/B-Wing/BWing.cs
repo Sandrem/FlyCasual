@@ -77,8 +77,7 @@ namespace Ship
                 MaxHull = 4;
                 MaxShields = 4;
 
-                ActionBar.RemovePrintedAction(typeof(FocusAction));
-                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(FocusAction), new BarrelRollAction() { IsRed = true });
 
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);

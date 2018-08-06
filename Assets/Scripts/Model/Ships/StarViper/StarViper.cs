@@ -77,11 +77,8 @@ namespace Ship
 
                 ShipAbilities.Add(new StarViperMkIIAbility());
 
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
-                ActionBar.RemovePrintedAction(typeof(BoostAction));
-
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
 

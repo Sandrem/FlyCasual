@@ -21,7 +21,6 @@ namespace ActionsList
         public string ImageUrl;
 
         public bool IsRed;
-        public GenericAction LinkedRedAction;
 
         public bool IsCritCancelAction;
 

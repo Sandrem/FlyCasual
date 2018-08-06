@@ -80,10 +80,8 @@ namespace Ship
 
                 UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
 
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
-                ActionBar.RemovePrintedAction(typeof(BoostAction));
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
             }
 
         }

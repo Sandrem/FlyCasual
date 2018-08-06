@@ -23,7 +23,7 @@ namespace Ship
         private     List<GenericAction> AlreadyExecutedDiceModificationsOpposite        = new List<GenericAction>();
         private     List<GenericAction> AlreadyExecutedDiceModificationsCompareResults  = new List<GenericAction>();
 
-        public GenericAction PlannedLinkedAction;
+        public List<GenericAction> PlannedLinkedActions;
 
         // EVENTS
         public event EventHandlerShip OnMovementActivation;
@@ -90,6 +90,22 @@ namespace Ship
         {
             GenerateAvailableActionsList();
             return AvailableActionsList;
+        }
+
+        public List<GenericAction> GetAvailableActionsAsRed()
+        {
+            List<GenericAction> redActions = new List<GenericAction>();
+
+            GenerateAvailableActionsList();
+
+            foreach(GenericAction action in AvailableActionsList)
+            {
+                GenericAction instance = (GenericAction)Activator.CreateInstance(action.GetType());
+                instance.IsRed = true;
+                redActions.Add(instance);
+            }
+
+            return redActions;
         }
 
         public List<GenericAction> GetAvailableFreeActions()
@@ -211,7 +227,7 @@ namespace Ship
         {
             if (CanPerformAction(action))
             {
-                if (!AvailableActionsList.Any(n => n.GetType() == action.GetType() && n.IsRed == action.IsRed && n.LinkedRedAction == action.LinkedRedAction))
+                if (!AvailableActionsList.Any(n => n.GetType() == action.GetType() && n.IsRed == action.IsRed))
                 {
                     AvailableActionsList.Add(action);
                 }
@@ -222,7 +238,7 @@ namespace Ship
         {
             if (CanPerformFreeAction(action))
             {
-                if (!AvailableFreeActionsList.Any(n => n.GetType() == action.GetType() && n.IsRed == action.IsRed && n.LinkedRedAction == action.LinkedRedAction))
+                if (!AvailableFreeActionsList.Any(n => n.GetType() == action.GetType() && n.IsRed == action.IsRed))
                 {
                     AvailableFreeActionsList.Add(action);
                 }

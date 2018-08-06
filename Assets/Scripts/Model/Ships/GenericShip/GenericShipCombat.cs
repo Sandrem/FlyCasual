@@ -158,7 +158,7 @@ namespace Ship
         public static event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealtGlobal;
         public event EventHandlerShipCritArgs OnAssignCrit;
 
-        public event EventHandlerShip OnDamageIsDealt;
+        public event EventHandlerShip OnDamageWasSuccessfullyDealt;
         public event EventHandlerShip OnDamageCardIsDealt;
 
         public event EventHandlerShip OnReadyToBeDestroyed;
@@ -581,7 +581,7 @@ namespace Ship
         {
             CallAfterAssignedDamageIsChanged();
 
-            CallOnDamageIsDealt(
+            CallOnDamageWasSuccessfullyDealt(
                 delegate { IsHullDestroyedCheck(callBack); }
             );
             
@@ -606,15 +606,15 @@ namespace Ship
             CallAfterAssignedDamageIsChanged();
 
             CallOnShieldIsLost(
-                delegate { CallOnDamageIsDealt(Triggers.FinishTrigger); }
+                delegate { CallOnDamageWasSuccessfullyDealt(Triggers.FinishTrigger); }
             );
         }
 
-        private void CallOnDamageIsDealt(Action callback)
+        private void CallOnDamageWasSuccessfullyDealt(Action callback)
         {
-            if (OnDamageIsDealt != null) OnDamageIsDealt(this);
+            if (OnDamageWasSuccessfullyDealt != null) OnDamageWasSuccessfullyDealt(this);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageWasSuccessfullyDealt, callback);
         }
 
         public void LoseShield()

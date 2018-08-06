@@ -72,8 +72,6 @@ namespace Ship
         {
             bool result = true;
 
-            
-
             ShotInfo shotInfo = new ShotInfo(Host, targetShip, this);
             if (!CanShootOutsideArc)
             {
@@ -160,6 +158,7 @@ namespace Ship
         public static event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealtGlobal;
         public event EventHandlerShipCritArgs OnAssignCrit;
 
+        public event EventHandlerShip OnDamageWasSuccessfullyDealt;
         public event EventHandlerShip OnDamageCardIsDealt;
 
         public event EventHandlerShip OnReadyToBeDestroyed;
@@ -582,7 +581,10 @@ namespace Ship
         {
             CallAfterAssignedDamageIsChanged();
 
-            IsHullDestroyedCheck(callBack);
+            CallOnDamageWasSuccessfullyDealt(
+                delegate { IsHullDestroyedCheck(callBack); }
+            );
+            
         }
 
         public void CallAfterAssignedDamageIsChanged()
@@ -603,7 +605,16 @@ namespace Ship
             Shields--;
             CallAfterAssignedDamageIsChanged();
 
-            CallOnShieldIsLost(Triggers.FinishTrigger);
+            CallOnShieldIsLost(
+                delegate { CallOnDamageWasSuccessfullyDealt(Triggers.FinishTrigger); }
+            );
+        }
+
+        private void CallOnDamageWasSuccessfullyDealt(Action callback)
+        {
+            if (OnDamageWasSuccessfullyDealt != null) OnDamageWasSuccessfullyDealt(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageWasSuccessfullyDealt, callback);
         }
 
         public void LoseShield()

@@ -99,7 +99,7 @@ public static class MovementTemplates {
                 case Movement.ManeuverBearing.KoiogranTurn:
                     return Templates.Find("straight" + movement.Speed);
                 case Movement.ManeuverBearing.Reverse:
-                    return Templates.Find("straight" + movement.Speed);
+                    return Templates.Find(((movement.Direction == Movement.ManeuverDirection.Forward) ? "straight" : "bank") + movement.Speed);
                 case Movement.ManeuverBearing.Stationary:
                     return null;
             }

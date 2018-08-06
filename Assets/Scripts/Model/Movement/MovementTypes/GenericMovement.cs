@@ -17,9 +17,7 @@ namespace Movement
         Speed2,
         Speed3,
         Speed4,
-        Speed5,
-        SpeedMinus1,
-        SpeedMinus2
+        Speed5
     }
 
     public enum ManeuverDirection

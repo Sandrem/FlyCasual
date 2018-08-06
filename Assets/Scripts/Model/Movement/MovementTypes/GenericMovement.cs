@@ -17,7 +17,9 @@ namespace Movement
         Speed2,
         Speed3,
         Speed4,
-        Speed5
+        Speed5,
+        SpeedMinus1,
+        SpeedMinus2
     }
 
     public enum ManeuverDirection
@@ -121,6 +123,9 @@ namespace Movement
                     break;
                 case "T":
                     bearing = ManeuverBearing.Turn;
+                    break;
+                case "V":
+                    bearing = ManeuverBearing.Reverse;
                     break;
             }
 
@@ -264,6 +269,9 @@ namespace Movement
                     break;
                 case ManeuverBearing.Stationary:
                     maneuverString += "S";
+                    break;
+                case ManeuverBearing.Reverse:
+                    maneuverString += "V";
                     break;
                 default:
                     break;
@@ -500,6 +508,9 @@ namespace Movement
                 case ManeuverBearing.Stationary:
                     maneuverString += "S";
                     break;
+                case ManeuverBearing.Reverse:
+                    maneuverString += "V";
+                    break;
                 default:
                     break;
             }
@@ -580,6 +591,12 @@ namespace Movement
         public static List<string> GetAllManeuvers()
         {
             List<string> result = new List<string>();
+
+            result.Add("2.F.V");
+
+            result.Add("1.F.V");
+            result.Add("1.L.V");
+            result.Add("1.R.V");
 
             result.Add("0.S.S");
 

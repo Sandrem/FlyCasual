@@ -62,8 +62,19 @@ namespace Abilities.SecondEdition
 
         private void UseHeffTobberAbility(object sender, EventArgs e)
         {
+            Messages.ShowInfo("Heff Tobber can perform free action");
+
+            GenericShip previousActiveShip = Selection.ThisShip;
+            Selection.ChangeActiveShip(HostShip);
             List<GenericAction> actions = HostShip.GetAvailableActions();
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+
+            HostShip.AskPerformFreeAction(
+                actions,
+                delegate {
+                    Selection.ChangeActiveShip(previousActiveShip);
+                    Triggers.FinishTrigger();
+                }
+            );
         }
     }
 }

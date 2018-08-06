@@ -85,6 +85,9 @@ namespace ActionsList
             if (!Board.IsShipInFacing(Combat.Attacker, Combat.Defender, rtoken.Facing))
                 return false;
 
+            if (Combat.DiceRollAttack.Focuses == 0)
+                return false;
+
             return true;
         }
     }

@@ -186,13 +186,15 @@ namespace BoardTools
         public static bool IsShipInFacing(GenericShip from, GenericShip to, ArcFacing facing)
         {
             List<GenericArc> savedArcs = from.ArcInfo.Arcs;
-            
-            if(facing == ArcFacing.Front180)
+
+            if (facing == ArcFacing.Front180)
                 from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
             else
                 from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
 
             ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+
+            from.ArcInfo.Arcs = savedArcs;
             return reverseShotInfo.InArc;
         }
 

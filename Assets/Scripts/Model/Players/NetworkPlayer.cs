@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using ActionsList;
+using Ship;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,21 +31,21 @@ namespace Players
         {
             base.UseOwnDiceModifications();
 
-            Combat.ShowOwnDiceResultMenu();
+            Combat.ShowDiceModificationButtons(DiceModificationTimingType.Normal);
         }
 
         public override void UseOppositeDiceModifications()
         {
             base.UseOppositeDiceModifications();
 
-            Combat.ShowOppositeDiceResultMenu();
+            Combat.ShowDiceModificationButtons(DiceModificationTimingType.Opposite);
         }
 
         public override void UseCompareResultsDiceModifications()
         {
             base.UseCompareResultsDiceModifications();
 
-            Combat.ShowCompareResultsMenu();
+            Combat.ShowDiceModificationButtons(DiceModificationTimingType.CompareResults);
         }
 
         public override void PerformTractorBeamReposition(GenericShip ship)

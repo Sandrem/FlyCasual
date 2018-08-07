@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ActionsList;
 using GameModes;
 using Ship;
 using UnityEngine;
@@ -29,21 +30,21 @@ namespace Players
         {
             base.UseOwnDiceModifications();
 
-            Combat.ShowOwnDiceResultMenu();
+            Combat.ShowDiceModificationButtons(DiceModificationTimingType.Normal);
         }
 
         public override void UseOppositeDiceModifications()
         {
             base.UseOppositeDiceModifications();
 
-            Combat.ShowOppositeDiceResultMenu();
+            Combat.ShowDiceModificationButtons(DiceModificationTimingType.Opposite);
         }
 
         public override void UseCompareResultsDiceModifications()
         {
             base.UseCompareResultsDiceModifications();
 
-            Combat.ShowCompareResultsMenu();
+            Combat.ShowDiceModificationButtons(DiceModificationTimingType.CompareResults);
         }
 
         public override void TakeDecision()

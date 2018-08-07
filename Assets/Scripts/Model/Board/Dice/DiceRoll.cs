@@ -1,4 +1,5 @@
-﻿using RuleSets;
+﻿using ActionsList;
+using RuleSets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -796,9 +797,7 @@ public partial class DiceRoll
         if (isActive)
         {
             Combat.ToggleConfirmDiceResultsButton(true);
-
-            // No branch for opposite dice modifications?
-            Combat.ShowDiceModificationButtons();
+            Combat.ShowDiceModificationButtons(DiceModificationTimingType.Normal);
         }
         else
         {

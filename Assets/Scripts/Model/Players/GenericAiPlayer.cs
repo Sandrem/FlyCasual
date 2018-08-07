@@ -7,6 +7,7 @@ using Ship;
 using ActionsList;
 using BoardTools;
 using SubPhases;
+using GameModes;
 
 namespace Players
 {
@@ -364,22 +365,35 @@ namespace Players
             {
                 case DiceModificationTimingType.Normal:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = Phases.CurrentSubPhase.CallBack;
+                    FinalEffect = delegate
+                    {
+                        Messages.ShowInfo("AI finished Normal");
+                        Phases.CurrentSubPhase.CallBack();
+                    };
                     break;
                 case DiceModificationTimingType.AfterRolled:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = delegate { Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal); };
+                    FinalEffect = delegate
+                    {
+                        Messages.ShowInfo("AI finished AfterRolled");
+                        GameMode.CurrentGameMode.SwitchToRegularDiceModifications();
+                    };
                     break;
                 case DiceModificationTimingType.Opposite:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
                     FinalEffect = delegate {
+                        Messages.ShowInfo("AI finished Opposite");
                         Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                        Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Opposite);
+                        GameMode.CurrentGameMode.SwitchToAfterRolledDiceModifications();
                     };
                     break;
                 case DiceModificationTimingType.CompareResults:
                     Selection.ActiveShip = Combat.Attacker;
-                    FinalEffect = Combat.CompareResultsAndDealDamage;
+                    FinalEffect = delegate
+                    {
+                        Messages.ShowInfo("AI finished CompareResults");
+                        Combat.CompareResultsAndDealDamage();
+                    };
                     break;
                 default:
                     break;
@@ -420,7 +434,6 @@ namespace Players
             {
                 GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                 Game.Wait(2, FinalEffect.Invoke);
-                
             }
         }
 

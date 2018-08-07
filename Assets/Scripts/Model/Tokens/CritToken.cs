@@ -12,6 +12,7 @@ namespace Tokens
         {
             Name = "Critical Hit Token";
             Temporary = false;
+            PriorityUI = 33;
         }
     }
 

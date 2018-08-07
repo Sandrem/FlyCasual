@@ -7,6 +7,7 @@ using Players;
 using System.Linq;
 using Ship;
 using System;
+using Tokens;
 
 public static partial class Roster {
 
@@ -416,7 +417,8 @@ public static partial class Roster {
 
         int columnCounter = 0;
         int rowCounter = 0;
-        foreach (var token in thisShip.Tokens.GetAllTokens())
+
+        foreach (var token in GetTokensSorted(thisShip))
         {
             GameObject prefab = (GameObject)Resources.Load("Prefabs/PanelToken", typeof(GameObject));
             GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
@@ -441,6 +443,11 @@ public static partial class Roster {
         }
 
         OrganizeRosters();
+    }
+
+    private static List<GenericToken> GetTokensSorted(GenericShip ship)
+    {
+        return ship.Tokens.GetAllTokens().OrderByDescending(t => t.PriorityUI).ToList();
     }
 
     public static void UpdateUpgradesPanel(GenericShip newShip, GameObject newPanel)

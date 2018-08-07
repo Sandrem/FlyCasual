@@ -14,6 +14,7 @@ namespace Tokens
             Name = "Jam Token";
             Temporary = RuleSet.Instance is SecondEdition;
             TokenColor = TokenColors.Yellow;
+            PriorityUI = 40;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/ReloadActionAndJamTokens.png";
         }
     }

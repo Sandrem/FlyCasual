@@ -15,6 +15,7 @@ namespace Tokens
         {
             Name = "Cloak Token";
             TokenColor = TokenColors.Blue;
+            PriorityUI = 50;
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/CloakAction.png";
         }

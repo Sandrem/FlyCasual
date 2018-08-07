@@ -12,6 +12,7 @@ namespace Tokens
         {
             Name = "Calculate Token";
             TokenColor = TokenColors.Green;
+            PriorityUI = 65;
             Action = new ActionsList.CalculateAction() { Host = host};
         }
     }

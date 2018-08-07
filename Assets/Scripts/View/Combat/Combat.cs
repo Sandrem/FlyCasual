@@ -17,13 +17,17 @@ public static partial class Combat
         UnityAction CloseButtonEffect = null;
         switch (type)
         {
+            case DiceModificationTimingType.Opposite:
+                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
+                CloseButtonEffect = SwitchToAfterRolledDiceModifications;
+                break;
+            case DiceModificationTimingType.AfterRolled:
+                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
+                CloseButtonEffect = SwitchToRegularDiceModifications;
+                break;
             case DiceModificationTimingType.Normal:
                 Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
                 CloseButtonEffect = Combat.ConfirmDiceResults;
-                break;
-            case DiceModificationTimingType.Opposite:
-                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
-                CloseButtonEffect = SwitchToOwnDiceModifications;
                 break;
             case DiceModificationTimingType.CompareResults:
                 Selection.ActiveShip = Attacker;
@@ -88,19 +92,34 @@ public static partial class Combat
         GameMode.CurrentGameMode.CompareResultsAndDealDamage();
     }
 
-    private static void SwitchToOwnDiceModifications()
+    private static void SwitchToRegularDiceModifications()
     {
-        GameMode.CurrentGameMode.SwitchToOwnDiceModifications();
+        GameMode.CurrentGameMode.SwitchToRegularDiceModifications();
     }
 
-    public static void SwitchToOwnDiceModificationsClient()
+    private static void SwitchToAfterRolledDiceModifications()
+    {
+        GameMode.CurrentGameMode.SwitchToAfterRolledDiceModifications();
+    }
+
+    public static void SwitchToRegularDiceModificationsClient()
     {
         HideDiceModificationButtons();
         ToggleConfirmDiceResultsButton(false);
 
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
-        Selection.ActiveShip.Owner.UseOwnDiceModifications();
+        Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
+    }
+
+    public static void SwitchToAfterRolledDiceModificationsClient()
+    {
+        HideDiceModificationButtons();
+        ToggleConfirmDiceResultsButton(false);
+
+        Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
+        Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
+        Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.AfterRolled);
     }
 
     public static void ToggleConfirmDiceResultsButton(bool isActive)
@@ -139,6 +158,7 @@ public static partial class Combat
         switch (diceModification.DiceModificationTiming)
         {
             case DiceModificationTimingType.Normal:
+            case DiceModificationTimingType.AfterRolled:
                 Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
                 break;
             case DiceModificationTimingType.Opposite:

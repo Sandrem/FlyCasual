@@ -37,6 +37,10 @@ namespace Ship
         public static event EventHandlerShip OnGenerateDiceModificationsOppositeGlobal;
         public event EventHandlerShipActionBool OnTryAddDiceModificationOpposite;
 
+        public event EventHandlerShip OnGenerateDiceModificationsAfterRolled;
+        public static event EventHandlerShip OnGenerateDiceModificationsAfterRolledGlobal;
+        public event EventHandlerShipActionBool OnTryAddDiceModificationAfterRolled;
+
         public event EventHandlerShip OnGenerateDiceModificationsCompareResults;
         public static event EventHandlerShip OnGenerateDiceModificationsCompareResultsGlobal;
         public event EventHandlerActionBool OnTryAddDiceModificationCompareResults;
@@ -297,6 +301,9 @@ namespace Ship
                 case DiceModificationTimingType.Normal:
                     GenerateDiceModificationsNormal();
                     break;
+                case DiceModificationTimingType.AfterRolled:
+                    GenerateDiceModificationsAfterRolled();
+                    break;
                 case DiceModificationTimingType.Opposite:
                     GenerateDiceModificationsOpposite();
                     break;
@@ -322,6 +329,15 @@ namespace Ship
             if (OnGenerateDiceModifications != null) OnGenerateDiceModifications(this);
 
             if (OnGenerateDiceModificationsGlobal != null) OnGenerateDiceModificationsGlobal(this);
+        }
+
+        private void GenerateDiceModificationsAfterRolled()
+        {
+            AvailableDiceModifications = new List<GenericAction>(); ;
+
+            if (OnGenerateDiceModificationsAfterRolled != null) OnGenerateDiceModificationsAfterRolled(this);
+
+            if (OnGenerateDiceModificationsAfterRolledGlobal != null) OnGenerateDiceModificationsAfterRolledGlobal(this);
         }
 
         private void GenerateDiceModificationsOpposite()
@@ -375,6 +391,7 @@ namespace Ship
                         if (OnTryAddAvailableDiceModificationGlobal != null) OnTryAddAvailableDiceModificationGlobal(this, action, ref result);
                         break;
                     case DiceModificationTimingType.Opposite:
+                    case DiceModificationTimingType.AfterRolled:
                         break;
                     case DiceModificationTimingType.CompareResults:
                         if (OnTryAddDiceModificationCompareResults != null) OnTryAddDiceModificationCompareResults(action, ref result);

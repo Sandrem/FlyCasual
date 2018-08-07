@@ -443,6 +443,9 @@ namespace Abilities
             {
                 switch (timing)
                 {
+                    case DiceModificationTimingType.AfterRolled:
+                        HostShip.OnGenerateDiceModificationsAfterRolled += DiceModification;
+                        break;
                     case DiceModificationTimingType.Normal:
                         HostShip.OnGenerateDiceModifications += DiceModification;
                         break;
@@ -460,6 +463,9 @@ namespace Abilities
             {
                 switch (timing)
                 {
+                    case DiceModificationTimingType.AfterRolled:
+                        GenericShip.OnGenerateDiceModificationsAfterRolledGlobal += DiceModification;
+                        break;
                     case DiceModificationTimingType.Normal:
                         GenericShip.OnGenerateDiceModificationsGlobal += DiceModification;
                         break;

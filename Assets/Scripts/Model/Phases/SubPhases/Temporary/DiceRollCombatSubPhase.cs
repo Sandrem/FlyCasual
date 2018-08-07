@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ActionsList;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -107,7 +108,7 @@ namespace SubPhases
         {
             CurentDiceRoll = diceRoll;
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
-            Selection.ActiveShip.Owner.UseOppositeDiceModifications();
+            Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Opposite);
         }
 
         protected virtual void FinishAction()

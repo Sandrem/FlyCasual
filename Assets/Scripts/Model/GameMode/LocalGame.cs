@@ -159,9 +159,14 @@ namespace GameModes
             Combat.CompareResultsAndDealDamageClient();
         }
 
-        public override void SwitchToOwnDiceModifications()
+        public override void SwitchToRegularDiceModifications()
         {
-            Combat.SwitchToOwnDiceModificationsClient();
+            Combat.SwitchToRegularDiceModificationsClient();
+        }
+
+        public override void SwitchToAfterRolledDiceModifications()
+        {
+            Combat.SwitchToAfterRolledDiceModificationsClient();
         }
 
         public override void TakeDecision(Decision decision, GameObject button)

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using ActionsList;
 
 public enum Faction
 {
@@ -95,17 +96,7 @@ namespace Players
             Roster.HighlightPlayer(PlayerNo);
         }
 
-        public virtual void UseOwnDiceModifications()
-        {
-            Roster.HighlightPlayer(PlayerNo);
-        }
-
-        public virtual void UseOppositeDiceModifications()
-        {
-            Roster.HighlightPlayer(PlayerNo);
-        }
-
-        public virtual void UseCompareResultsDiceModifications()
+        public virtual void UseDiceModifications(DiceModificationTimingType type)
         {
             Roster.HighlightPlayer(PlayerNo);
         }

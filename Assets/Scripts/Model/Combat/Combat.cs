@@ -7,6 +7,7 @@ using BoardTools;
 using GameModes;
 using Ship;
 using SubPhases;
+using ActionsList;
 
 public enum CombatStep
 {
@@ -244,7 +245,7 @@ public static partial class Combat
         Defender.ClearAlreadyUsedDiceModifications();
         AttackStep = CombatStep.CompareResults;
 
-        Combat.Attacker.Owner.UseCompareResultsDiceModifications();
+        Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);
     }
 
     public static void CompareResultsAndDealDamageClient()

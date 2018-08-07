@@ -27,25 +27,11 @@ namespace Players
             (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowConfirmButton();
         }
 
-        public override void UseOwnDiceModifications()
+        public override void UseDiceModifications(DiceModificationTimingType type)
         {
-            base.UseOwnDiceModifications();
+            base.UseDiceModifications(type);
 
-            Combat.ShowDiceModificationButtons(DiceModificationTimingType.Normal);
-        }
-
-        public override void UseOppositeDiceModifications()
-        {
-            base.UseOppositeDiceModifications();
-
-            Combat.ShowDiceModificationButtons(DiceModificationTimingType.Opposite);
-        }
-
-        public override void UseCompareResultsDiceModifications()
-        {
-            base.UseCompareResultsDiceModifications();
-
-            Combat.ShowDiceModificationButtons(DiceModificationTimingType.CompareResults);
+            Combat.ShowDiceModificationButtons(type);
         }
 
         public override void PerformTractorBeamReposition(GenericShip ship)

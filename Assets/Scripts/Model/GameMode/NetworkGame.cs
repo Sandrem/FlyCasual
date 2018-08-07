@@ -179,9 +179,14 @@ namespace GameModes
             Network.CompareResultsAndDealDamage();
         }
 
-        public override void SwitchToOwnDiceModifications()
+        public override void SwitchToRegularDiceModifications()
         {
-            Network.SwitchToOwnDiceModifications();
+            Network.SwitchToRegularDiceModifications();
+        }
+
+        public override void SwitchToAfterRolledDiceModifications()
+        {
+            Network.SwitchToAfterRolledDiceModifications();
         }
 
         public override void TakeDecision(Decision decision, GameObject button)

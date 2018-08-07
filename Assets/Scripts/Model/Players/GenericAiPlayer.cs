@@ -355,22 +355,46 @@ namespace Players
             return results;
         }
 
-        public override void UseOwnDiceModifications()
+        public override void UseDiceModifications(DiceModificationTimingType type)
         {
-            base.UseOwnDiceModifications();
+            base.UseDiceModifications(type);
 
-            Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
+            Action FinalEffect = null;
+            switch (type)
+            {
+                case DiceModificationTimingType.Normal:
+                    Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
+                    FinalEffect = Phases.CurrentSubPhase.CallBack;
+                    break;
+                case DiceModificationTimingType.AfterRolled:
+                    Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
+                    FinalEffect = delegate { Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal); };
+                    break;
+                case DiceModificationTimingType.Opposite:
+                    Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
+                    FinalEffect = delegate {
+                        Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
+                        Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Opposite);
+                    };
+                    break;
+                case DiceModificationTimingType.CompareResults:
+                    Selection.ActiveShip = Combat.Attacker;
+                    FinalEffect = Combat.CompareResultsAndDealDamage;
+                    break;
+                default:
+                    break;
+            }
 
-            Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.Normal);
-            List<GenericAction> availableActionEffectsList = Selection.ActiveShip.GetDiceModificationsGenerated();
+            Selection.ActiveShip.GenerateDiceModifications(type);
+            List<GenericAction> availableDiceModifications = Selection.ActiveShip.GetDiceModificationsGenerated();
 
             Dictionary<GenericAction, int> actionsPriority = new Dictionary<GenericAction, int>();
 
-            foreach (var actionEffect in availableActionEffectsList)
+            foreach (var diceModification in availableDiceModifications)
             {
-                int priority = actionEffect.GetDiceModificationPriority();
-                Selection.ActiveShip.CallOnAiGetDiceModificationPriority(actionEffect, ref priority);
-                actionsPriority.Add(actionEffect, priority);
+                int priority = diceModification.GetDiceModificationPriority();
+                Selection.ActiveShip.CallOnAiGetDiceModificationPriority(diceModification, ref priority);
+                actionsPriority.Add(diceModification, priority);
             }
 
             actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
@@ -387,7 +411,7 @@ namespace Players
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
                         Selection.ActiveShip.AddAlreadyUsedDiceModification(prioritizedActionEffect.Key);
-                        prioritizedActionEffect.Key.ActionEffect(UseOwnDiceModifications);
+                        prioritizedActionEffect.Key.ActionEffect(delegate { UseDiceModifications(type); });
                     });                    
                 }
             }
@@ -395,92 +419,8 @@ namespace Players
             if (!isActionEffectTaken)
             {
                 GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.Wait(2, delegate { Phases.CurrentSubPhase.CallBack(); });
-            }
-        }
-
-        public override void UseOppositeDiceModifications()
-        {
-            base.UseOppositeDiceModifications();
-
-            Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.Opposite);
-            List<GenericAction> availableOppositeActionEffectsList = Selection.ActiveShip.GetDiceModificationsGenerated();
-
-            Dictionary<GenericAction, int> oppositeActionsPriority = new Dictionary<GenericAction, int>();
-
-            foreach (var oppositeActionEffect in availableOppositeActionEffectsList)
-            {
-                int priority = oppositeActionEffect.GetDiceModificationPriority();
-                oppositeActionsPriority.Add(oppositeActionEffect, priority);
-            }
-
-            oppositeActionsPriority = oppositeActionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
-
-            bool isActionEffectTaken = false;
-
-            if (oppositeActionsPriority.Count > 0)
-            {
-                KeyValuePair<GenericAction, int> prioritizedOppositeActionEffect = oppositeActionsPriority.First();
-                if (prioritizedOppositeActionEffect.Value > 0)
-                {
-                    isActionEffectTaken = true;
-                    Messages.ShowInfo("AI uses \"" + prioritizedOppositeActionEffect.Key.Name + "\"");
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(1, delegate {
-                        Selection.ActiveShip.AddAlreadyUsedDiceModification(prioritizedOppositeActionEffect.Key);
-                        prioritizedOppositeActionEffect.Key.ActionEffect(UseOppositeDiceModifications);
-                    });
-                }
-            }
-
-            if (!isActionEffectTaken)
-            {
-                Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                Selection.ActiveShip.Owner.UseOwnDiceModifications();
-            }
-        }
-
-        public override void UseCompareResultsDiceModifications()
-        {
-            base.UseCompareResultsDiceModifications();
-
-            Combat.ToggleConfirmDiceResultsButton(false);
-
-            Selection.ActiveShip = Combat.Attacker;
-
-            Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.CompareResults);
-            List<GenericAction> availableCompareResultsEffectsList = Selection.ActiveShip.GetDiceModificationsGenerated();
-
-            Dictionary<GenericAction, int> actionsPriority = new Dictionary<GenericAction, int>();
-
-            foreach (var actionEffect in availableCompareResultsEffectsList)
-            {
-                int priority = actionEffect.GetDiceModificationPriority();
-                actionsPriority.Add(actionEffect, priority);
-            }
-
-            actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
-
-            bool isActionEffectTaken = false;
-
-            if (actionsPriority.Count > 0)
-            {
-                KeyValuePair<GenericAction, int> prioritizedActionEffect = actionsPriority.First();
-                if (prioritizedActionEffect.Value > 0)
-                {
-                    isActionEffectTaken = true;
-                    Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(1, delegate {
-                        Selection.ActiveShip.AddAlreadyUsedDiceModification(prioritizedActionEffect.Key);
-                        prioritizedActionEffect.Key.ActionEffect(UseCompareResultsDiceModifications);
-                    });
-                }
-            }
-
-            if (!isActionEffectTaken)
-            {
-                Combat.CompareResultsAndDealDamage();
+                Game.Wait(2, FinalEffect.Invoke);
+                
             }
         }
 

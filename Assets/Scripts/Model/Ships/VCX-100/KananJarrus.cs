@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using BoardTools;
+using RuleSets;
 
 namespace Ship
 {
     namespace Vcx100
     {
-        public class KananJarrus : Vcx100
+        public class KananJarrus : Vcx100, ISecondEditionPilot
         {
             public KananJarrus() : base()
             {
@@ -19,6 +21,16 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.KananJarrusPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 90;
+                MaxForce = 2;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.KananJarrusPilotAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.KananJarrusAbilitySE());
             }
         }
     }
@@ -38,7 +50,7 @@ namespace Abilities
             GenericShip.OnAttackStartAsAttackerGlobal -= CheckPilotAbility;
         }
 
-        private void CheckPilotAbility()
+        protected virtual void CheckPilotAbility()
         {
             bool IsDifferentPlayer = (HostShip.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo);
             bool HasFocusTokens = HostShip.Tokens.HasToken(typeof(Tokens.FocusToken));
@@ -50,18 +62,18 @@ namespace Abilities
             }
         }
 
-        private void AskDecreaseAttack(object sender, System.EventArgs e)
+        protected void AskDecreaseAttack(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, DecreaseAttack, null, null, true);
+            AskToUseAbility(AlwaysUseByDefault, DecreaseAttack, null, null, false);
         }
 
-        private void DecreaseAttack(object sender, System.EventArgs e)
+        protected virtual void DecreaseAttack(object sender, System.EventArgs e)
         {
             HostShip.Tokens.SpendToken(typeof(Tokens.FocusToken), RegisterDecreaseNumberOfAttackDice);
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
-        private void RegisterDecreaseNumberOfAttackDice()
+        protected void RegisterDecreaseNumberOfAttackDice()
         {
             Combat.Attacker.AfterGotNumberOfAttackDice += DecreaseNumberOfAttackDice;
         }
@@ -70,6 +82,32 @@ namespace Abilities
         {
             diceCount--;
             Combat.Attacker.AfterGotNumberOfAttackDice -= DecreaseNumberOfAttackDice;
+        }
+    }
+
+}
+
+namespace Abilities.SecondEdition
+{
+    public class KananJarrusAbilitySE : KananJarrusPilotAbility
+    {
+        protected override void CheckPilotAbility()
+        {
+            bool enemy = HostShip.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo;
+            bool hasForceTokens = HostShip.Force > 0;
+            bool inArc = Board.IsShipInArc(HostShip, Combat.Attacker);
+
+            if (enemy && hasForceTokens && inArc)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskDecreaseAttack);
+            }
+        }
+
+        protected override void DecreaseAttack(object sender, System.EventArgs e)
+        {
+            HostShip.Force--;
+            RegisterDecreaseNumberOfAttackDice();
+            SubPhases.DecisionSubPhase.ConfirmDecision();
         }
     }
 }

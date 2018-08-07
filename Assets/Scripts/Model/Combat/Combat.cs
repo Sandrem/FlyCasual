@@ -203,6 +203,8 @@ public static partial class Combat
 
     public static void ConfirmAttackDiceResults()
     {
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
         Attacker.CallAfterAttackDiceModification();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(AttackDiceRollCombatSubPhase));
@@ -238,6 +240,8 @@ public static partial class Combat
 
     public static void ConfirmDefenceDiceResults()
     {
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
         AttackStep = CombatStep.CompareResults;
 
         Combat.Attacker.Owner.UseCompareResultsDiceModifications();
@@ -245,6 +249,8 @@ public static partial class Combat
 
     public static void CompareResultsAndDealDamageClient()
     {
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(DefenceDiceRollCombatSubPhase));

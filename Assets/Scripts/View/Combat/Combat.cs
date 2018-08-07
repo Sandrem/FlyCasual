@@ -32,14 +32,14 @@ public static partial class Combat
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
         AvailableDecisions = new Dictionary<string, GenericAction>();
-        Selection.ActiveShip.GenerateDiceModificationsOpposite();
+        Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.Opposite);
 
-        if (Selection.ActiveShip.GetDiceModificationsOpposite().Count > 0 || isForced)
+        if (Selection.ActiveShip.GetDiceModificationsGenerated().Count > 0 || isForced)
         {
             float offset = 0;
             Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
 
-            foreach (var oppositeActionEffect in Selection.ActiveShip.GetDiceModificationsOpposite())
+            foreach (var oppositeActionEffect in Selection.ActiveShip.GetDiceModificationsGenerated())
             {
                 AvailableDecisions.Add(oppositeActionEffect.Name, oppositeActionEffect);
 
@@ -68,14 +68,14 @@ public static partial class Combat
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
         AvailableDecisions = new Dictionary<string, GenericAction>();
-        Selection.ActiveShip.GenerateAvailableCompareResultsEffectsList();
+        Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.CompareResults);
 
-        if (Selection.ActiveShip.GetAvailableCompareResultsEffectsList().Count > 0 || isForced)
+        if (Selection.ActiveShip.GetDiceModificationsGenerated().Count > 0 || isForced)
         {
             float offset = 0;
             Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
 
-            foreach (var compareResultsEffect in Selection.ActiveShip.GetAvailableCompareResultsEffectsList())
+            foreach (var compareResultsEffect in Selection.ActiveShip.GetDiceModificationsGenerated())
             {
                 AvailableDecisions.Add(compareResultsEffect.Name, compareResultsEffect);
 
@@ -123,12 +123,12 @@ public static partial class Combat
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
 
         AvailableDecisions = new Dictionary<string, GenericAction>();
-        Selection.ActiveShip.GenerateAvailableDiceModifications();
+        Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.Normal);
 
         float offset = 0;
         Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
 
-        foreach (var actionEffect in Selection.ActiveShip.GetAvailableDiceModifications())
+        foreach (var actionEffect in Selection.ActiveShip.GetDiceModificationsGenerated())
         {
             AvailableDecisions.Add(actionEffect.Name, actionEffect);
 
@@ -183,19 +183,18 @@ public static partial class Combat
         {
             case DiceModificationTimingType.Normal:
                 Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
-                Selection.ActiveShip.AddAlreadyExecutedDiceModification(diceModification);
                 break;
             case DiceModificationTimingType.Opposite:
                 Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
-                Selection.ActiveShip.AddAlreadyExecutedDiceModificationsOpposite(diceModification);
                 break;
             case DiceModificationTimingType.CompareResults:
                 Selection.ActiveShip = Attacker;
-                Selection.ActiveShip.AddAlreadyExecutedCompareResultsEffect(diceModification);
                 break;
             default:
                 break;
         }
+
+        Selection.ActiveShip.AddAlreadyUsedDiceModification(diceModification);
 
         diceModification.ActionEffect(delegate { ReGenerateListOfButtons(diceModification.DiceModificationTiming); });
     }

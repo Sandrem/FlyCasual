@@ -361,8 +361,8 @@ namespace Players
 
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
 
-            Selection.ActiveShip.GenerateAvailableDiceModifications();
-            List<GenericAction> availableActionEffectsList = Selection.ActiveShip.GetAvailableDiceModifications();
+            Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.Normal);
+            List<GenericAction> availableActionEffectsList = Selection.ActiveShip.GetDiceModificationsGenerated();
 
             Dictionary<GenericAction, int> actionsPriority = new Dictionary<GenericAction, int>();
 
@@ -386,7 +386,7 @@ namespace Players
                     Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
-                        Selection.ActiveShip.AddAlreadyExecutedDiceModification(prioritizedActionEffect.Key);
+                        Selection.ActiveShip.AddAlreadyUsedDiceModification(prioritizedActionEffect.Key);
                         prioritizedActionEffect.Key.ActionEffect(UseOwnDiceModifications);
                     });                    
                 }
@@ -403,8 +403,8 @@ namespace Players
         {
             base.UseOppositeDiceModifications();
 
-            Selection.ActiveShip.GenerateDiceModificationsOpposite();
-            List<GenericAction> availableOppositeActionEffectsList = Selection.ActiveShip.GetDiceModificationsOpposite();
+            Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.Opposite);
+            List<GenericAction> availableOppositeActionEffectsList = Selection.ActiveShip.GetDiceModificationsGenerated();
 
             Dictionary<GenericAction, int> oppositeActionsPriority = new Dictionary<GenericAction, int>();
 
@@ -427,7 +427,7 @@ namespace Players
                     Messages.ShowInfo("AI uses \"" + prioritizedOppositeActionEffect.Key.Name + "\"");
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
-                        Selection.ActiveShip.AddAlreadyExecutedDiceModificationsOpposite(prioritizedOppositeActionEffect.Key);
+                        Selection.ActiveShip.AddAlreadyUsedDiceModification(prioritizedOppositeActionEffect.Key);
                         prioritizedOppositeActionEffect.Key.ActionEffect(UseOppositeDiceModifications);
                     });
                 }
@@ -448,8 +448,8 @@ namespace Players
 
             Selection.ActiveShip = Combat.Attacker;
 
-            Selection.ActiveShip.GenerateAvailableCompareResultsEffectsList();
-            List<GenericAction> availableCompareResultsEffectsList = Selection.ActiveShip.GetAvailableCompareResultsEffectsList();
+            Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.CompareResults);
+            List<GenericAction> availableCompareResultsEffectsList = Selection.ActiveShip.GetDiceModificationsGenerated();
 
             Dictionary<GenericAction, int> actionsPriority = new Dictionary<GenericAction, int>();
 
@@ -472,7 +472,7 @@ namespace Players
                     Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
-                        Selection.ActiveShip.AddAlreadyExecutedCompareResultsEffect(prioritizedActionEffect.Key);
+                        Selection.ActiveShip.AddAlreadyUsedDiceModification(prioritizedActionEffect.Key);
                         prioritizedActionEffect.Key.ActionEffect(UseCompareResultsDiceModifications);
                     });
                 }

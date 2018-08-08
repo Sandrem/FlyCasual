@@ -86,6 +86,15 @@ namespace Ship
             return result;
         }
 
+        public List<T> GetTokens<T>(char letter = ' ') where T : GenericToken
+        {
+            var result = AssignedTokens
+                .OfType<T>()
+                .Where(t => !(t is GenericTargetLockToken) || letter == '*' || (t as GenericTargetLockToken).Letter == letter)
+                .ToList();
+            return result;
+        }
+
         public GenericTargetLockToken GetTargetLockToken(char letter)
         {
             return (GenericTargetLockToken)AssignedTokens.Find(n => n.GetType().BaseType == typeof(GenericTargetLockToken) && (n as GenericTargetLockToken).Letter == letter);
@@ -95,8 +104,9 @@ namespace Ship
         {
             char result = ' ';
 
-            GenericToken blueToken = GetToken(typeof(BlueTargetLockToken), '*');
-            if (blueToken != null)
+            List<BlueTargetLockToken> blueTokens = GetTokens<BlueTargetLockToken>('*');
+
+            foreach (BlueTargetLockToken blueToken in blueTokens)
             {
                 char foundLetter = (blueToken as BlueTargetLockToken).Letter;
 
@@ -106,6 +116,7 @@ namespace Ship
                     return foundLetter;
                 }
             }
+
             return result;
         }
 
@@ -208,6 +219,24 @@ namespace Ship
                 RemoveToken(
                     tokenType,
                     delegate { RemoveAllTokensByType(tokenType, callback); }
+                );
+            }
+            else
+            {
+                callback();
+            }
+        }
+
+        public void RemoveTokens(List<GenericToken> tokensToRemove, Action callback)
+        {
+            if (tokensToRemove != null && tokensToRemove.Count != 0)
+            {
+                GenericToken tokenToRemove = tokensToRemove.First();
+                tokensToRemove.Remove(tokenToRemove);
+
+                RemoveToken(
+                    tokenToRemove,
+                    delegate { RemoveTokens(tokensToRemove, callback); }
                 );
             }
             else

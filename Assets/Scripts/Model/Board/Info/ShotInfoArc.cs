@@ -111,11 +111,11 @@ namespace BoardTools
             if (Arc.ArcType != ArcTypes.Bullseye || (Arc.ArcType == ArcTypes.Bullseye && Ship1.ArcInfo.Arcs.Any(a => a.Facing == ArcFacing.Forward)))
             {
                 IsShotAvailable = true;
-            }
 
-            if (Arc.ArcType != ArcTypes.None)
-            {
-                InArc = true;
+                if (Arc.ArcType != ArcTypes.None)
+                {
+                    InArc = true;
+                }
             }
         }
     }

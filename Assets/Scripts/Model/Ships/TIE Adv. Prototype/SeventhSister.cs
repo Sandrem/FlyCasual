@@ -50,7 +50,7 @@ namespace Abilities.SecondEdition
                 ImageUrl = HostShip.ImageUrl,
                 Host = host,
             };
-            host.AddAvailableCompareResultsEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }

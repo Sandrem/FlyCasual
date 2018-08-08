@@ -90,8 +90,6 @@ namespace Ship
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
                 ActionBar.AddPrintedAction(new RotateArcAction());
 
-                IconicPilots[Faction.Rebel] = typeof(WildSpaceFringer);
-
                 ShipAbilities.Add(new Abilities.SecondEdition.SensorBlindspot());
             }
 

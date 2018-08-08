@@ -78,7 +78,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
 
-                IconicPilots[Faction.Imperial] = typeof(PlanetarySentinel);
+                IconicPilots[Faction.Imperial] = typeof(Duchess);
             }
 
         }

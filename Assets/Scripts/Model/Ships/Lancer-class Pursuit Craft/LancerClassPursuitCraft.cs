@@ -76,6 +76,8 @@ namespace Ship
                 MaxHull = 8;
                 MaxShields = 2;
 
+                IconicPilots[Faction.Scum] = typeof(ShadowportHunter);
+
                 ShipAbilities.Add(new Abilities.SecondEdition.WeakNonPrimaryArc());
             }
 

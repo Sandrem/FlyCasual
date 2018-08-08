@@ -80,8 +80,6 @@ namespace Ship
                 MaxHull = 3;
 
                 ShipAbilities.Add(new Abilities.SecondEdition.StygiumArray());
-
-                IconicPilots[Faction.Imperial] = typeof(SigmaSquadronAce);
             }
         }
     }

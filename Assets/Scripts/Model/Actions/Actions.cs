@@ -8,6 +8,7 @@ using Ship;
 using System.ComponentModel;
 using Tokens;
 using System.Linq;
+using SubPhases;
 
 public static partial class Actions
 {
@@ -51,6 +52,13 @@ public static partial class Actions
         Straight2Right
     }
 
+    public static List<GenericToken> TokensToRemove;
+
+    private class EventArgsTokensList : EventArgs
+    {
+        public List<GenericToken> List;
+    }
+
     public static void Initialize()
     {
         Letters = new Dictionary<char, bool>();
@@ -65,26 +73,7 @@ public static partial class Actions
         {
             List<BlueTargetLockToken> existingBlueTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>('*');
 
-            BlueTargetLockToken tokenToRemove = null;
-            foreach (BlueTargetLockToken existingBlueToken in existingBlueTokens)
-            {
-                if (IsSecondTargetLockTokenMustBRemoved(thisShip, targetShip, existingBlueToken))
-                {
-                    tokenToRemove = existingBlueToken;
-                }
-            }
-
-            if (tokenToRemove != null)
-            {
-                thisShip.Tokens.RemoveToken(
-                    tokenToRemove,
-                    delegate { FinishAcquireTargetLock(thisShip, targetShip, successCallback); }
-                );
-            }
-            else
-            {
-                FinishAcquireTargetLock(thisShip, targetShip, successCallback);
-            }
+            GetTokensToRemoveThenAssign(existingBlueTokens, thisShip, targetShip, successCallback);
         }
         else
         {
@@ -93,23 +82,140 @@ public static partial class Actions
         }
     }
 
-    private static bool IsSecondTargetLockTokenMustBRemoved(GenericShip thisShip, GenericShip targetShip, BlueTargetLockToken existingToken)
+    private static void GetTokensToRemoveThenAssign(List<BlueTargetLockToken> existingBlueTokens, GenericShip thisShip, GenericShip targetShip, Action successCallback)
     {
-        bool result = true;
+        TokensToRemove = new List<GenericToken>();
+        List<GenericToken> tokensAskToRemove = new List<GenericToken>();
 
-        if (thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count == 0 && existingToken.OtherTokenOwner != targetShip)
+        foreach (BlueTargetLockToken existingBlueToken in existingBlueTokens)
         {
-            result = false;
+            bool tokenMustBeRemoved = false;
+            bool tokenMaybeWillBeRemoved = false;
+
+            //Two TLs on the different targets are allowed
+            if (thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count > 0)
+            {
+                //Remove if token is on the same target
+                if (existingBlueToken.OtherTokenOwner == targetShip)
+                {
+                    tokenMustBeRemoved = true;
+                }
+                else //If target is different
+                {
+                    //If already >1 of tokens, then ask to remove
+                    int alreadyAssignedSameTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>('*').Count;
+                    if (alreadyAssignedSameTokens > 1 && TokensToRemove.Count < alreadyAssignedSameTokens - 1)
+                    {
+                        tokenMaybeWillBeRemoved = true;
+                    }
+                }
+            } 
+
+            //Two TLs on the same target are allowed
+            if (thisShip.TwoTargetLocksOnSameTargetsAreAllowed.Count > 0)
+            {
+                //Remove all if new target is another
+                if (existingBlueToken.OtherTokenOwner != targetShip)
+                {
+                    tokenMustBeRemoved = true;
+                }
+                else //If target is the same
+                {
+                    //If already >1 of tokens, then remove all except one
+                    int alreadyAssignedSameTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>().Count(t => t.OtherTokenOwner == targetShip);
+                    if (alreadyAssignedSameTokens > 1 && TokensToRemove.Count < alreadyAssignedSameTokens -1)
+                    {
+                        tokenMustBeRemoved = true;
+                    }
+                }
+            }
+
+            //Always remove if only 1 token is allowed
+            if (thisShip.TwoTargetLocksOnSameTargetsAreAllowed.Count == 0 && thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count == 0)
+            {
+                tokenMustBeRemoved = true;
+            }
+
+            if (tokenMustBeRemoved)
+            {
+                TokensToRemove.Add(existingBlueToken);
+            }
+            else if (tokenMaybeWillBeRemoved)
+            {
+                tokensAskToRemove.Add(existingBlueToken);
+            }
         }
 
-        if (thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count == 0 && existingToken.OtherTokenOwner == targetShip)
+        if (tokensAskToRemove.Count > 0)
         {
-            result = false;
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Select token to remove",
+                TriggerOwner = thisShip.Owner.PlayerNo,
+                TriggerType = TriggerTypes.OnAbilityDirect,
+                EventHandler = StartSelectTokenToRemoveSubPhase,
+                Sender = thisShip,
+                EventArgs = new EventArgsTokensList()
+                {
+                    List = tokensAskToRemove
+                }
+            });
         }
 
-        return result;
+        Triggers.ResolveTriggers(
+            TriggerTypes.OnAbilityDirect,
+            delegate{ AssignNewTargetLockToken(TokensToRemove, thisShip, targetShip, successCallback); }
+        );
     }
-    
+
+    private static void StartSelectTokenToRemoveSubPhase(object sender, System.EventArgs e)
+    {
+        EventArgsTokensList tokensToAskList = e as EventArgsTokensList;
+
+        var subphase = Phases.StartTemporarySubPhaseNew<TokenToRemoveSubPhase>(
+            "Select token to remove",
+            Triggers.FinishTrigger
+        );
+
+        subphase.InfoText = "Select token to remove";
+        subphase.RequiredPlayer = (sender as GenericShip).Owner.PlayerNo;
+        subphase.ShowSkipButton = false;
+
+        foreach (var token in tokensToAskList.List)
+        {
+            subphase.AddDecision(
+                (token as BlueTargetLockToken).Letter.ToString(),
+                delegate
+                {
+                    TokensToRemove.Add(token);
+                    DecisionSubPhase.ConfirmDecision();
+                }
+            );
+        }
+
+        subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
+
+        subphase.Start();
+    }
+
+    private class TokenToRemoveSubPhase : DecisionSubPhase { };
+
+    private static void AssignNewTargetLockToken(List<GenericToken> tokensToRemove, GenericShip thisShip, GenericShip targetShip, Action successCallback)
+    {
+        if (tokensToRemove.Count != 0)
+        {
+            thisShip.Tokens.RemoveTokens(
+                tokensToRemove,
+                delegate { FinishAcquireTargetLock(thisShip, targetShip, successCallback); }
+            );
+        }
+        else
+        {
+            FinishAcquireTargetLock(thisShip, targetShip, successCallback);
+        }
+    }
+
+   
     private static void FinishAcquireTargetLock(GenericShip thisShip, GenericShip targetShip, Action callback)
     {
         BlueTargetLockToken tokenBlue = new BlueTargetLockToken(thisShip);

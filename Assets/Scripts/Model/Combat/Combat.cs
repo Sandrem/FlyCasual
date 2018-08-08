@@ -241,8 +241,12 @@ public static partial class Combat
 
     public static void ConfirmDefenceDiceResults()
     {
+        HideDiceModificationButtons();
+        ToggleConfirmDiceResultsButton(false);
+
         Attacker.ClearAlreadyUsedDiceModifications();
         Defender.ClearAlreadyUsedDiceModifications();
+
         AttackStep = CombatStep.CompareResults;
 
         Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);

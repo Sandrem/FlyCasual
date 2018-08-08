@@ -365,35 +365,19 @@ namespace Players
             {
                 case DiceModificationTimingType.Normal:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = delegate
-                    {
-                        Messages.ShowInfo("AI finished Normal");
-                        Phases.CurrentSubPhase.CallBack();
-                    };
+                    FinalEffect = Phases.CurrentSubPhase.CallBack;
                     break;
                 case DiceModificationTimingType.AfterRolled:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = delegate
-                    {
-                        Messages.ShowInfo("AI finished AfterRolled");
-                        GameMode.CurrentGameMode.SwitchToRegularDiceModifications();
-                    };
+                    FinalEffect = GameMode.CurrentGameMode.SwitchToRegularDiceModifications;
                     break;
                 case DiceModificationTimingType.Opposite:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
-                    FinalEffect = delegate {
-                        Messages.ShowInfo("AI finished Opposite");
-                        Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                        GameMode.CurrentGameMode.SwitchToAfterRolledDiceModifications();
-                    };
+                    FinalEffect = GameMode.CurrentGameMode.SwitchToAfterRolledDiceModifications;
                     break;
                 case DiceModificationTimingType.CompareResults:
                     Selection.ActiveShip = Combat.Attacker;
-                    FinalEffect = delegate
-                    {
-                        Messages.ShowInfo("AI finished CompareResults");
-                        Combat.CompareResultsAndDealDamage();
-                    };
+                    FinalEffect = Combat.CompareResultsAndDealDamage;
                     break;
                 default:
                     break;
@@ -432,8 +416,15 @@ namespace Players
 
             if (!isActionEffectTaken)
             {
-                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.Wait(2, FinalEffect.Invoke);
+                if (type == DiceModificationTimingType.Normal)
+                {
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    Game.Wait(2, FinalEffect.Invoke);
+                }
+                else
+                {
+                    FinalEffect.Invoke();
+                }
             }
         }
 

@@ -107,6 +107,9 @@ public static partial class Combat
         HideDiceModificationButtons();
         ToggleConfirmDiceResultsButton(false);
 
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
+
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
@@ -116,6 +119,9 @@ public static partial class Combat
     {
         HideDiceModificationButtons();
         ToggleConfirmDiceResultsButton(false);
+
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
 
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;

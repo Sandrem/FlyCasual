@@ -86,7 +86,7 @@ namespace ActionsList
                 int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
-                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
+                if (Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
                 {
                     if (attackBlanks > 0) result = 90;
                 }

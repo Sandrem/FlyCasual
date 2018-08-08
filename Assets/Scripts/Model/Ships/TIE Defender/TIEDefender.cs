@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEDefender() : base()
             {
-                Type = "TIE Defender";
+                Type = FullType = "TIE Defender";
                 IconicPilots.Add(Faction.Imperial, typeof(ColonelVessery));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4b/MI_TIE-DEFENDER.png";
@@ -51,37 +51,39 @@ namespace Ship
             {
                 Maneuvers.Add("1.L.T", MovementComplexity.Complex);
                 Maneuvers.Add("1.L.B", MovementComplexity.Normal);
-                Maneuvers.Add("1.F.S", MovementComplexity.None);
                 Maneuvers.Add("1.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("1.R.T", MovementComplexity.Complex);
-                Maneuvers.Add("1.F.R", MovementComplexity.None);
                 Maneuvers.Add("2.L.T", MovementComplexity.Complex);
                 Maneuvers.Add("2.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("2.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("2.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("2.R.T", MovementComplexity.Complex);
-                Maneuvers.Add("2.F.R", MovementComplexity.None);
                 Maneuvers.Add("3.L.T", MovementComplexity.Normal);
                 Maneuvers.Add("3.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
-                Maneuvers.Add("3.F.R", MovementComplexity.None);
                 Maneuvers.Add("4.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("4.F.R", MovementComplexity.Normal);
                 Maneuvers.Add("5.F.S", MovementComplexity.Easy);
-                Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Ship ability
+                FullType = "TIE/D Defender";
+
+                Maneuvers["1.L.B"] = MovementComplexity.Easy;
+                Maneuvers["1.R.B"] = MovementComplexity.Easy;
+
+                PilotAbilities.Add(new Abilities.TIEx7Ability());
 
                 MaxShields = 4;
 
                 ActionBar.AddPrintedAction(new EvadeAction());
                 ActionBar.AddPrintedAction(new BoostAction());
+
+                UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
 
                 IconicPilots[Faction.Imperial] = typeof(OnyxSquadronAce);
             }

@@ -57,6 +57,12 @@ namespace Ship
 
         public bool IsHidden { get; protected set; }
 
+        public bool IsStressed { get { return Tokens.HasToken<Tokens.StressToken>(); } }
+
+        public bool IsAttacking { get { return Combat.AttackStep == CombatStep.Attack && Combat.Attacker == this; } }
+
+        public bool IsDefending { get { return Combat.AttackStep == CombatStep.Defence && Combat.Defender == this; } }
+
         public char ShipIconLetter { get; protected set; }
 
         public List<Type> RequiredMods { get; set; }

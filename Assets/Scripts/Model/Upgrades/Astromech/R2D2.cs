@@ -22,8 +22,14 @@ namespace UpgradesList
             UpgradeAbilities.Add(new R2D2Ability());
         }
 
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.faction == Faction.Rebel;
+        }
+
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 8;
             MaxCharges = 3;
 
             UpgradeAbilities.RemoveAll(a => a is R2D2Ability);

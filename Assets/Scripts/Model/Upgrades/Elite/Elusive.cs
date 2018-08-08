@@ -16,7 +16,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Elite);
             Name = "Elusive";
-            Cost = 1;
+            Cost = 3;
 
             MaxCharges = 1;
 

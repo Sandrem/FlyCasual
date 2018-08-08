@@ -5,12 +5,13 @@ using Abilities;
 using SubPhases;
 using Ship;
 using System;
+using RuleSets;
 
 namespace Ship
 {
     namespace KWing
     {
-        public class MirandaDoni : KWing
+        public class MirandaDoni : KWing, ISecondEditionPilot
         {
             public MirandaDoni() : base()
             {
@@ -21,6 +22,15 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new MirandaDoniAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 48;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.MirandaDoniAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.MirandaDoniAbilitySE());
             }
         }
     }
@@ -50,7 +60,7 @@ namespace Abilities
             }
         }
 
-        private void StartQuestionSubphase(object sender, System.EventArgs e)
+        protected virtual void StartQuestionSubphase(object sender, System.EventArgs e)
         {
             MirandaDoniDecisionSubPhase selectMirandaDoniSubPhase = (MirandaDoniDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
@@ -81,7 +91,7 @@ namespace Abilities
             selectMirandaDoniSubPhase.Start();
         }
 
-        private string GetDefaultDecision()
+        protected string GetDefaultDecision()
         {
             string result = "No";
 
@@ -90,7 +100,7 @@ namespace Abilities
             return result;
         }
 
-        private void RegisterRollExtraDice(object sender, System.EventArgs e)
+        protected void RegisterRollExtraDice(object sender, System.EventArgs e)
         {
             IsAbilityUsed = true;
             HostShip.AfterGotNumberOfAttackDice += RollExtraDice;
@@ -108,7 +118,7 @@ namespace Abilities
             HostShip.AfterGotNumberOfAttackDice -= RollExtraDice;
         }
 
-        private void RegisterRegeneration(object sender, System.EventArgs e)
+        protected void RegisterRegeneration(object sender, System.EventArgs e)
         {
             IsAbilityUsed = true;
             HostShip.AfterGotNumberOfAttackDice += RegenerateShield;
@@ -131,6 +141,43 @@ namespace Abilities
             IsAbilityUsed = false;
         }
 
-        private class MirandaDoniDecisionSubPhase : DecisionSubPhase { }
+        protected class MirandaDoniDecisionSubPhase : DecisionSubPhase { }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class MirandaDoniAbilitySE : MirandaDoniAbility
+    {
+        protected override void StartQuestionSubphase(object sender, System.EventArgs e)
+        {
+            MirandaDoniDecisionSubPhase selectMirandaDoniSubPhase = (MirandaDoniDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                Name,
+                typeof(MirandaDoniDecisionSubPhase),
+                Triggers.FinishTrigger
+            );
+
+            selectMirandaDoniSubPhase.InfoText = "Use " + Name + "?";
+
+            if (HostShip.Shields > 0)
+            {
+                selectMirandaDoniSubPhase.AddDecision("Spend 1 shield to roll 1 extra die", RegisterRollExtraDice);
+                selectMirandaDoniSubPhase.AddTooltip("Spend 1 shield to roll 1 extra die", HostShip.ImageUrl);
+            }
+
+            if (HostShip.Shields == 0)
+            {
+                selectMirandaDoniSubPhase.AddDecision("Roll 1 fewer die to recover 1 shield", RegisterRegeneration);
+                selectMirandaDoniSubPhase.AddTooltip("Roll 1 fewer die to recover 1 shield", HostShip.ImageUrl);
+            }
+
+            selectMirandaDoniSubPhase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); });
+
+            selectMirandaDoniSubPhase.DefaultDecisionName = GetDefaultDecision();
+
+            selectMirandaDoniSubPhase.ShowSkipButton = true;
+
+            selectMirandaDoniSubPhase.Start();
+        }
     }
 }

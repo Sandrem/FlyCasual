@@ -389,7 +389,7 @@ namespace Abilities
         /// <summary>
         /// Adds available dice modification
         /// </summary>
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false)
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false, Action<Action<bool>> payAbilityCost = null)
         {
             AddDiceModification(
                 name,
@@ -400,14 +400,15 @@ namespace Abilities
                 sidesCanBeSelected,
                 sideCanBeChangedTo,
                 timing,
-                isGlobal
+                isGlobal, 
+                payAbilityCost
             );
         }
 
         /// <summary>
         /// Adds available dice modification
         /// </summary>
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false)
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false, Action<Action<bool>> payAbilityCost = null)
         {
             if (sidesCanBeSelected == null) sidesCanBeSelected = new List<DieSide>() { DieSide.Blank, DieSide.Focus, DieSide.Success, DieSide.Crit };
 
@@ -425,7 +426,13 @@ namespace Abilities
                     GenerateDiceModificationAiPriority = aiPriority,
                     DoDiceModification = (Action callback) =>
                     {
-                        GenericDiceModification(callback, modificationType, getCount, sidesCanBeSelected, sideCanBeChangedTo, timing);
+                        if (payAbilityCost == null) payAbilityCost = payCallback => payCallback(true);
+                        
+                        payAbilityCost(success =>
+                        {
+                            if (success) GenericDiceModification(callback, modificationType, getCount, sidesCanBeSelected, sideCanBeChangedTo, timing);
+                            else callback();
+                        });
                     },
                     IsReroll = modificationType == DiceModificationType.Reroll,
                 };
@@ -436,6 +443,9 @@ namespace Abilities
             {
                 switch (timing)
                 {
+                    case DiceModificationTimingType.AfterRolled:
+                        HostShip.OnGenerateDiceModificationsAfterRolled += DiceModification;
+                        break;
                     case DiceModificationTimingType.Normal:
                         HostShip.OnGenerateDiceModifications += DiceModification;
                         break;
@@ -453,6 +463,9 @@ namespace Abilities
             {
                 switch (timing)
                 {
+                    case DiceModificationTimingType.AfterRolled:
+                        GenericShip.OnGenerateDiceModificationsAfterRolledGlobal += DiceModification;
+                        break;
                     case DiceModificationTimingType.Normal:
                         GenericShip.OnGenerateDiceModificationsGlobal += DiceModification;
                         break;

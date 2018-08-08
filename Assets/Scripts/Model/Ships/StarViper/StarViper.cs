@@ -4,6 +4,7 @@ using UnityEngine;
 using Movement;
 using ActionsList;
 using RuleSets;
+using Abilities;
 
 namespace Ship
 {
@@ -14,7 +15,7 @@ namespace Ship
 
             public StarViper() : base()
             {
-                Type = "StarViper";
+                Type = FullType = "StarViper";
                 IconicPilots.Add(Faction.Scum, typeof(Thweek));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/bd/MS_STARVIPER.png";
@@ -69,14 +70,17 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Ship Ability
+                FullType = "StarViper-class Attack Platform";
 
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
-                ActionBar.RemovePrintedAction(typeof(BoostAction));
+                Maneuvers["2.L.B"] = MovementComplexity.Easy;
+                Maneuvers["2.R.B"] = MovementComplexity.Easy;
 
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                ShipAbilities.Add(new StarViperMkIIAbility());
+
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
 
                 IconicPilots[Faction.Scum] = typeof(BlackSunEnforcer);
             }

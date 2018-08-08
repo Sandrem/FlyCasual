@@ -6,10 +6,11 @@ using System.Linq;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class Ig2000 : GenericUpgrade
+    public class Ig2000 : GenericUpgrade, ISecondEditionUpgrade
     {
         public Ig2000() : base()
         {
@@ -18,6 +19,11 @@ namespace UpgradesList
             Cost = 0;
 
             UpgradeAbilities.Add(new Ig2000Ability());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 2;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

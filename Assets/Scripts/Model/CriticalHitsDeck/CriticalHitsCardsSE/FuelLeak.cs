@@ -31,22 +31,13 @@ namespace DamageDeckCardSE
             {
                 Messages.ShowInfo("Fuel Leak: Suffer 1 additional damage");
 
-                Host.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-                Triggers.RegisterTrigger(new Trigger()
+                DamageSourceEventArgs fuelleakDamage = new DamageSourceEventArgs()
                 {
-                    Name = "Suffer damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = Host.Owner.PlayerNo,
-                    EventHandler = Host.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = "Critical hit card",
-                        DamageType = DamageTypes.CriticalHitCard
-                    }
-                });
+                    Source = "Critical hit card",
+                    DamageType = DamageTypes.CriticalHitCard
+                };
 
-                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, RepairFuelLeak);
+                Selection.ActiveShip.Damage.TryResolveDamage(1, fuelleakDamage, RepairFuelLeak);
             }
         }
 

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Abilities;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEFighter
     {
-        public class ZebOrrelios : TIEFighter
+        public class ZebOrrelios : TIEFighter, ISecondEditionPilot
         {
             public ZebOrrelios() : base()
             {
@@ -18,6 +19,12 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 PilotAbilities.Add(new ZebOrreliosPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
+                Cost = 26;
             }
         }
     }

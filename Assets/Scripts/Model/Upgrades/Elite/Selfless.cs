@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using RuleSets;
 using BoardTools;
+using Ship;
 
 namespace UpgradesList
 {
@@ -10,11 +11,16 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Elite);
             Name = "Selfless";
-            Cost = 11;
+            Cost = 3;
 
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.Selfless());
+        }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.faction == Faction.Rebel;
         }
     }
 }

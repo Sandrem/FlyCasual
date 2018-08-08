@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using RuleSets;
+using System;
 
 namespace Ship
 {
     namespace TIEDefender
     {
-        public class ColonelVessery : TIEDefender
+        public class ColonelVessery : TIEDefender, ISecondEditionPilot
         {
             public ColonelVessery() : base()
             {
@@ -20,6 +18,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.ColonelVesseryAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 88;
             }
         }
     }

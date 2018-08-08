@@ -29,27 +29,42 @@ namespace UpgradesList
         {
             IsDiscardedAfterDropped = false;
             UsesCharges = true;
+
             MaxCharges = 2;
+            Cost = 5;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
             _ship = ship;
 
-            Triggers.RegisterTrigger(new Trigger()
+            if (RuleSet.Instance is FirstEdition)
             {
-                Name = "Suffer damage from bomb",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = ship.Owner.PlayerNo,
-                EventHandler = SufferProtonBombDamage,
-                EventArgs = new DamageSourceEventArgs()
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Suffer damage from bomb",
+                    TriggerType = TriggerTypes.OnDamageIsDealt,
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    EventHandler = DetonationFE,
+                    EventArgs = new DamageSourceEventArgs()
+                    {
+                        Source = this,
+                        DamageType = DamageTypes.BombDetonation
+                    }
+                });
+
+                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
+            }
+            else if (RuleSet.Instance is SecondEdition)
+            {
+                DamageSourceEventArgs protonDamage = new DamageSourceEventArgs()
                 {
                     Source = this,
                     DamageType = DamageTypes.BombDetonation
-                }
-            });
+                };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
+                _ship.Damage.TryResolveDamage(0, 1, protonDamage, callBack);
+            }
         }
 
         public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
@@ -64,23 +79,12 @@ namespace UpgradesList
             Game.Wait(1.4f, delegate { callBack(); });
         }
 
-        private void SufferProtonBombDamage(object sender, EventArgs e)
-        {
-            if (RuleSet.Instance is FirstEdition) DetonationFE(sender, e);
-            else if (RuleSet.Instance is SecondEdition) DetonationSE(sender, e);
-        }
-
         private void DetonationFE(object sender, EventArgs e)
         {
             Messages.ShowInfoToHuman(string.Format("{0}: Dealt faceup card to {1}", Name, _ship.PilotName));
             _ship.SufferHullDamage(true, e);
         }
 
-        private void DetonationSE(object sender, EventArgs e)
-        {
-            _ship.AssignedDamageDiceroll.AddDice(DieSide.Crit);
-            _ship.SufferDamage(sender, e);
-        }
     }
 
 }

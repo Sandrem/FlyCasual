@@ -5,12 +5,13 @@ using Ship;
 using System.Linq;
 using Tokens;
 using BoardTools;
+using RuleSets;
 
 namespace Ship
 {
     namespace ARC170
     {
-        public class SharaBey : ARC170
+        public class SharaBey : ARC170, ISecondEditionPilot
         {
             public SharaBey() : base()
             {
@@ -23,6 +24,15 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SharaBeyPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 53;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.SharaBeyPilotAbility);
+                PilotAbilities.Add(new Abilities.NorraWexleyPilotAbility());
             }
         }
     }
@@ -115,7 +125,7 @@ namespace ActionsList
                 {
                     result = 90;
                 }
-                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 90;
                 }

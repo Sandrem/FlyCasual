@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEStriker() : base()
             {
-                Type = "TIE Striker";
+                Type = FullType = "TIE Striker";
                 IconicPilots.Add(Faction.Imperial, typeof(PureSabacc));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/9b/MI_TIE-STRIKER.png";
@@ -66,8 +66,17 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Ship ability
+                FullType = "TIE/sk Striker";
+
+                Maneuvers.Add("1.F.R", MovementComplexity.Complex);
+                Maneuvers["2.L.B"] = MovementComplexity.Easy;
+                Maneuvers["2.R.B"] = MovementComplexity.Easy;
+                Maneuvers.Remove("2.F.R");
+
+                ShipAbilities.Add(new Abilities.AdaptiveAileronsAbility());
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
 
                 IconicPilots[Faction.Imperial] = typeof(PlanetarySentinel);
             }

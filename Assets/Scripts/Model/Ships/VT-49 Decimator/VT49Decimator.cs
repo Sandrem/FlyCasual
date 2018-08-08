@@ -14,7 +14,7 @@ namespace Ship
 
             public VT49Decimator() : base()
             {
-                Type = "VT-49 Decimator";
+                Type = FullType = "VT-49 Decimator";
                 IconicPilots.Add(Faction.Imperial, typeof(RearAdmiralChiraneau));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
@@ -54,39 +54,42 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("1.L.T", MovementComplexity.None);
                 Maneuvers.Add("1.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("1.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("1.R.B", MovementComplexity.Normal);
-                Maneuvers.Add("1.R.T", MovementComplexity.None);
-                Maneuvers.Add("1.F.R", MovementComplexity.None);
                 Maneuvers.Add("2.L.T", MovementComplexity.Normal);
                 Maneuvers.Add("2.L.B", MovementComplexity.Easy);
                 Maneuvers.Add("2.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("2.R.B", MovementComplexity.Easy);
                 Maneuvers.Add("2.R.T", MovementComplexity.Normal);
-                Maneuvers.Add("2.F.R", MovementComplexity.None);
                 Maneuvers.Add("3.L.T", MovementComplexity.Normal);
                 Maneuvers.Add("3.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.T", MovementComplexity.Normal);
-                Maneuvers.Add("3.F.R", MovementComplexity.None);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
-                Maneuvers.Add("4.F.R", MovementComplexity.None);
-                Maneuvers.Add("5.F.S", MovementComplexity.None);
-                Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Arc
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileDual;
+
+                Maneuvers.Add("1.L.T", MovementComplexity.Complex);
+                Maneuvers["1.L.B"] = MovementComplexity.Easy;
+                Maneuvers["1.F.S"] = MovementComplexity.Easy;
+                Maneuvers["1.R.B"] = MovementComplexity.Easy;
+                Maneuvers.Add("1.R.T", MovementComplexity.Complex);
+                Maneuvers["2.L.B"] = MovementComplexity.Normal;
+                Maneuvers["2.R.B"] = MovementComplexity.Normal;
+                Maneuvers["3.F.S"] = MovementComplexity.Normal;
 
                 ActionBar.AddPrintedAction(new ReinforceForeAction());
                 ActionBar.AddPrintedAction(new ReinforceAftAction());
                 ActionBar.AddPrintedAction(new RotateArcAction());
                 ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });
+
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
 
                 IconicPilots[Faction.Imperial] = typeof(PatrolLeader);
             }

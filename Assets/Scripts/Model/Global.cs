@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Analytics;
 
 public class Global : MonoBehaviour {
 
@@ -9,8 +10,8 @@ public class Global : MonoBehaviour {
 
     private static bool isAlreadyInitialized;
 
-    public static string CurrentVersion = "0.5.2";
-    public static int CurrentVersionInt = 100050200;
+    public static string CurrentVersion = "0.5.3 HF 1";
+    public static int CurrentVersionInt = 100050301;
 
     void Awake()
     {
@@ -45,6 +46,12 @@ public class Global : MonoBehaviour {
 
     public static void StartBattle()
     {
+        AnalyticsEvent.GameStart(new Dictionary<string, object>()
+        {
+            { "Edition", RuleSets.RuleSet.Instance.Name },
+            { "GameMode", GameModes.GameMode.CurrentGameMode.Name }
+        });
+
         ToggelLoadingScreen(false);
         Phases.StartPhases();
     }

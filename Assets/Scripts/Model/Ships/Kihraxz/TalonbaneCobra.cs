@@ -1,10 +1,11 @@
-﻿using Ship;
+﻿using RuleSets;
+using Ship;
 
 namespace Ship
 {
     namespace Kihraxz
     {
-        public class TalonbaneCobra : Kihraxz
+        public class TalonbaneCobra : Kihraxz, ISecondEditionPilot
         {
             public TalonbaneCobra() : base()
             {
@@ -17,6 +18,12 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.TalonbaneCobraAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 50;
             }
         }
     }

@@ -14,11 +14,16 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Astromech);
             Name = "R4 Astromech";
-            Cost = 10;
+            Cost = 2;
 
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.R4AstromechAbilitySE());
+        }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.ShipBaseSize == BaseSize.Small;
         }
     }
 

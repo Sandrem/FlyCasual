@@ -25,7 +25,14 @@ namespace Arcs
                 new Vector3( shipBase.HALF_OF_BULLSEYEARC_SIZE, 0, 0),
             };
 
-            ShotPermissions = new ArcShotPermissions();
+            ShotPermissions = new ArcShotPermissions()
+            {
+                CanShootPrimaryWeapon = true,
+                CanShootCannon = true,
+                CanShootMissiles = true,
+                CanShootTorpedoes = true,
+                CanShootTurret = true
+            };
         }
     }
 }

@@ -23,6 +23,7 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             MaxCharges = 2;
+            Cost = 5;
 
             UpgradeAbilities.RemoveAll(a => a is R5AstromechAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R5AstromechAbility());

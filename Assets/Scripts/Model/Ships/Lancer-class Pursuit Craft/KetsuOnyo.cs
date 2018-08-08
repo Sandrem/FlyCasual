@@ -7,12 +7,13 @@ using BoardTools;
 using Abilities;
 using System.Linq;
 using Arcs;
+using RuleSets;
 
 namespace Ship
 {
     namespace LancerClassPursuitCraft
     {
-        public class KetsuOnyo : LancerClassPursuitCraft
+        public class KetsuOnyo : LancerClassPursuitCraft, ISecondEditionPilot
         {
             public KetsuOnyo() : base()
             {
@@ -25,6 +26,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new KetsuOnyoPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 74;
             }
         }
     }

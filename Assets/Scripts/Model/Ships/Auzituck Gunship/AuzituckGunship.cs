@@ -14,7 +14,7 @@ namespace Ship
 
             public AuzituckGunship() : base()
             {
-                Type = "Auzituck Gunship";
+                Type = FullType = "Auzituck Gunship";
                 IconicPilots.Add(Faction.Rebel, typeof(Lowhhrick));
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcSpecial180;
 
@@ -70,7 +70,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                // TODO: Maneuvers
+                Maneuvers.Add("0.S.S", MovementComplexity.Complex);
+                Maneuvers.Remove("5.F.S");
 
                 MaxShields = 2;
 

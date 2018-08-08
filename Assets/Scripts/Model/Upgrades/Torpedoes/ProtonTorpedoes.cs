@@ -33,6 +33,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 9;
+
             MaxCharges = 2;
 
             SpendsTargetLockOnTargetToShoot = false;

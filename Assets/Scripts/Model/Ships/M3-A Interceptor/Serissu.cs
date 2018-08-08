@@ -1,11 +1,12 @@
 ﻿using Ship;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace M3AScyk
     {
-        public class Serissu : M3AScyk
+        public class Serissu : M3AScyk, ISecondEditionPilot
         {
             public Serissu() : base()
             {
@@ -17,6 +18,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SerissuAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 43;
             }
         }
    }

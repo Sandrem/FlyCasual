@@ -520,7 +520,12 @@ namespace SubPhases
         {
             Phases.FinishSubPhase(typeof(DecloakExecutionSubPhase));
 
-            Selection.ThisShip.Tokens.SpendToken(typeof(Tokens.CloakToken), CallBack);
+            Selection.ThisShip.Tokens.SpendToken(typeof(Tokens.CloakToken), FinishDecloakAnimationPart3);
+        }
+
+        private void FinishDecloakAnimationPart3()
+        {
+            Selection.ThisShip.CallDecloak(CallBack);
         }
 
         public override void Next()

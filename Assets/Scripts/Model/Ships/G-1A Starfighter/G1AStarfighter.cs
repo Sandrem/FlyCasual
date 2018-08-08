@@ -14,7 +14,7 @@ namespace Ship
 
             public G1AStarfighter() : base()
             {
-                Type = "G-1A Starfighter";
+                Type = FullType = "G-1A Starfighter";
                 IconicPilots.Add(Faction.Scum, typeof(Zuckuss));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/6/67/MS_G-1A-STARFIGHTER.png";
@@ -71,7 +71,11 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                Maneuvers.Add("0.S.S", MovementComplexity.Complex);
+                Maneuvers.Add("2.F.R", MovementComplexity.Complex);
+                Maneuvers.Remove("3.F.R");
+                Maneuvers["3.F.S"] = MovementComplexity.Normal;
+                Maneuvers["4.F.S"] = MovementComplexity.Complex;
 
                 MaxHull = 5;
                 MaxShields = 4;

@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace AttackShuttle
     {
-        public class AttackShuttle : GenericShip
+        public class AttackShuttle : GenericShip, ISecondEditionShip
         {
 
             public AttackShuttle() : base()
             {
-                Type = "Attack Shuttle";
+                Type = FullType = "Attack Shuttle";
                 IconicPilots.Add(Faction.Rebel, typeof(EzraBridger));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/MR_ATTACK-SHUTTLE.png";
@@ -66,6 +67,19 @@ namespace Ship
                 Maneuvers.Add("3.R.T", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Ability
+
+                MaxHull = 3;
+                MaxShields = 1;
+
+                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new EvadeAction() { IsRed = true });
+
+                IconicPilots[Faction.Rebel] = typeof(HeraSyndulla);
             }
 
         }

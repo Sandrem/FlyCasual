@@ -14,7 +14,7 @@ namespace Ship
 
             public JumpMaster5000() : base()
             {
-                Type = "JumpMaster 5000";
+                Type = FullType = "JumpMaster 5000";
                 IconicPilots.Add(Faction.Scum, typeof(Dengar));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
@@ -73,19 +73,28 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Arc
-
                 MaxHull = 6;
                 MaxShields = 3;
 
-                ActionBar.RemovePrintedAction(typeof(FocusAction));
-                ActionBar.RemovePrintedAction(typeof(TargetLockAction));
-
-                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new TargetLockAction() { LinkedRedAction = new RotateArcAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(FocusAction), new RotateArcAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(TargetLockAction), new RotateArcAction() { IsRed = true });
 
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);
+
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileOnly;
+
+                Maneuvers["1.L.T"] = MovementComplexity.Normal;
+                Maneuvers["1.R.T"] = MovementComplexity.Complex;
+                Maneuvers.Remove("2.L.R");
+                Maneuvers["2.L.T"] = MovementComplexity.Normal;
+                Maneuvers["2.R.T"] = MovementComplexity.Complex;
+                Maneuvers.Remove("2.R.R");
+                Maneuvers.Add("3.L.R", MovementComplexity.Complex);
+                Maneuvers["3.L.B"] = MovementComplexity.Easy;
+                Maneuvers["3.F.S"] = MovementComplexity.Easy;
 
                 IconicPilots[Faction.Scum] = typeof(ContractedScout);
             }

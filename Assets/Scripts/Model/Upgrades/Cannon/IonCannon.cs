@@ -5,11 +5,12 @@ using Abilities;
 using Tokens;
 using UnityEngine;
 using Upgrade;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class IonCannon : GenericSecondaryWeapon
+    public class IonCannon : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public IonCannon()
         {
@@ -23,6 +24,14 @@ namespace UpgradesList
             AttackValue = 3;
 
             UpgradeAbilities.Add(new IonCannonAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 5;
+
+            UpgradeAbilities.RemoveAll(a => a is IonCannonAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.IonCannonAbilitySE());
         }
     }
 }
@@ -49,7 +58,7 @@ namespace Abilities
 			}
 		}
 
-		private void IonCannonEffect(object sender, System.EventArgs e)
+		protected virtual void IonCannonEffect(object sender, System.EventArgs e)
 		{
 			Combat.DiceRollAttack.CancelAllResults();
 			Combat.DiceRollAttack.RemoveAllFailures();
@@ -63,20 +72,40 @@ namespace Abilities
 			);
 		}
 
-		private void DefenderSuffersDamage()
-		{
-			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
+        protected void DefenderSuffersDamage()
+        {
+            DamageSourceEventArgs ionCannonDamage = new DamageSourceEventArgs()
+            {
+                Source = Combat.Attacker,
+                DamageType = DamageTypes.ShipAttack
+            };
 
-            var trigger = RegisterAbilityTrigger(TriggerTypes.OnDamageIsDealt, Combat.Defender.SufferDamage, new DamageSourceEventArgs()
-			{
-				Source = Combat.Attacker,
-				DamageType = DamageTypes.ShipAttack
-			});
-            trigger.Skippable = true;
-
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
-		}
-
+            Combat.Defender.Damage.TryResolveDamage(1, ionCannonDamage, Triggers.FinishTrigger);
+        }
     }
 
+}
+
+namespace Abilities.SecondEdition
+{
+    public class IonCannonAbilitySE : IonCannonAbility
+    {
+
+        protected override void IonCannonEffect(object sender, System.EventArgs e)
+        {
+            int ionTokens = Combat.DiceRollAttack.Successes - 1;
+            Combat.DiceRollAttack.CancelAllResults();
+            Combat.DiceRollAttack.RemoveAllFailures();
+
+            Combat.Defender.Tokens.AssignTokens(
+                () => new IonToken(Combat.Defender),
+                ionTokens,
+                delegate
+                {
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    Game.Wait(2, DefenderSuffersDamage);
+                }
+            );
+        }
+    }
 }

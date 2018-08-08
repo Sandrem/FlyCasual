@@ -13,7 +13,7 @@ namespace Ship
 
             public TIESF() : base()
             {
-                Type = "TIE/SF Fighter";
+                Type = FullType = "TIE/SF Fighter";
                 IconicPilots.Add(Faction.Imperial, typeof(QuickDraw));
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;

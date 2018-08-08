@@ -93,26 +93,13 @@ namespace SubPhases
         {
             Messages.ShowError("Cluster Mines: ship suffered damage");
 
-            for (int i = 0; i < CurrentDiceRoll.DiceList.Count; i++)
+            DamageSourceEventArgs clustermineDamage = new DamageSourceEventArgs()
             {
-                Selection.ActiveShip.AssignedDamageDiceroll.AddDice(CurrentDiceRoll.DiceList[i].Side);
+                Source = "Cluster Mines",
+                DamageType = DamageTypes.BombDetonation
+            };
 
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Suffer damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    EventHandler = Selection.ActiveShip.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = "Cluster Mines",
-                        DamageType = DamageTypes.BombDetonation
-                    },
-                    Skippable = true
-                });
-            }
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
+            Selection.ActiveShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, clustermineDamage, CallBack);
         }
 
         private void NoDamage()

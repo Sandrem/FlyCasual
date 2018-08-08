@@ -19,6 +19,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 6;
+
             UpgradeAbilities.RemoveAll(a => a is OutmaneuverAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.OutmaneuverAbilitySE());
         }

@@ -1,5 +1,6 @@
 ﻿using Abilities;
 using Movement;
+using RuleSets;
 using Ship;
 using SubPhases;
 using System;
@@ -9,7 +10,7 @@ using Upgrade;
 
 namespace UpgradesList
 {
-    public class TrickShot : GenericUpgrade
+    public class TrickShot : GenericUpgrade, ISecondEditionUpgrade
     {
         public TrickShot() : base()
         {
@@ -18,6 +19,14 @@ namespace UpgradesList
             Cost = 0;
 
             UpgradeAbilities.Add(new TrickShotAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 1;
+
+            UpgradeAbilities.RemoveAll(ability => ability is Abilities.TrickShotAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.TrickShotAbilitySE());
         }
     }
 }
@@ -69,11 +78,35 @@ namespace Abilities
             HostShip.AfterGotNumberOfAttackDice += RollExtraDie;            
         }
 
-        private void RollExtraDie(ref int diceCount)
+        protected void RollExtraDie(ref int diceCount)
         {
             HostShip.AfterGotNumberOfAttackDice -= RollExtraDie;
             Messages.ShowInfo("Trick Shot: +1 attack die");
             diceCount++;         
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class TrickShotAbilitySE : TrickShotAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnShotStartAsAttacker += CheckAbilityAndAddDice;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotStartAsAttacker -= CheckAbilityAndAddDice;
+        }
+
+        private void CheckAbilityAndAddDice()
+        {
+            if (Combat.Attacker.ShipId == HostShip.ShipId && Combat.ShotInfo.IsObstructedByAsteroid)
+            {
+                HostShip.AfterGotNumberOfAttackDice += RollExtraDie;
+            }
         }
     }
 }

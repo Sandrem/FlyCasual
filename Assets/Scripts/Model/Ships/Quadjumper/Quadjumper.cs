@@ -14,7 +14,7 @@ namespace Ship
 
             public Quadjumper() : base()
             {
-                Type = "Quadjumper";
+                Type = FullType = "Quadjumper";
                 IconicPilots.Add(Faction.Scum, typeof(JakkuGunrunner));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4d/MS_QUADJUMPER.png";
@@ -50,6 +50,9 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
+                Maneuvers.Add("1.F.V", MovementComplexity.Complex);
+                Maneuvers.Add("1.L.V", MovementComplexity.Complex);
+                Maneuvers.Add("1.R.V", MovementComplexity.Complex);
                 Maneuvers.Add("1.L.T", MovementComplexity.Normal);
                 Maneuvers.Add("1.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("1.R.T", MovementComplexity.Normal);
@@ -67,8 +70,14 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
                 //TODO: Ship ability
+
+                FullType = "Quadrijet Transfer Spacetug";
+
+                Maneuvers.Remove("1.F.V");
+                Maneuvers.Add("2.F.V", MovementComplexity.Complex);
+                Maneuvers.Add("1.L.B", MovementComplexity.Normal);
+                Maneuvers.Add("1.R.B", MovementComplexity.Normal);
 
                 ActionBar.AddPrintedAction(new EvadeAction() { IsRed = true });
             }

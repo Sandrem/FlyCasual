@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace ARC170
     {
-        public class ARC170 : GenericShip
+        public class ARC170 : GenericShip, ISecondEditionShip
         {
 
             public ARC170() : base()
             {
-                Type = "ARC-170";
+                Type = FullType = "ARC-170";
                 IconicPilots.Add(Faction.Rebel, typeof(NorraWexley));
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
@@ -66,6 +67,19 @@ namespace Ship
                 Maneuvers.Add("3.R.T", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
+            }
+
+            public void AdaptShipToSecondEdition()
+            {
+                FullType = "ARC-170 Starfighter";
+
+                Firepower = 3;
+
+                ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+
+                IconicPilots[Faction.Rebel] = typeof(Ibtisam);
             }
 
         }

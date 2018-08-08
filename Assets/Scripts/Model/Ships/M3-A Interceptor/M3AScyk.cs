@@ -4,6 +4,8 @@ using UnityEngine;
 using Movement;
 using ActionsList;
 using RuleSets;
+using Upgrade;
+using System.Linq;
 
 namespace Ship
 {
@@ -14,7 +16,7 @@ namespace Ship
 
             public M3AScyk() : base()
             {
-                Type = "M3-A Interceptor";
+                Type = FullType = "M3-A Interceptor";
                 IconicPilots.Add(Faction.Scum, typeof(Inaldra));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/48/MS_M3-A-INTERCEPTOR.png";
@@ -62,14 +64,55 @@ namespace Ship
                 Maneuvers.Add("3.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("3.F.R", MovementComplexity.Complex);
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
-                Maneuvers.Add("5.F.S", MovementComplexity.None);
                 Maneuvers.Add("5.F.R", MovementComplexity.Complex);
             }
 
             public void AdaptShipToSecondEdition()
             {
-                // TODO: Maneuvers
-                // TODO: Ship ability
+                Maneuvers["2.L.B"] = MovementComplexity.Normal;
+                Maneuvers["2.R.B"] = MovementComplexity.Normal;
+                Maneuvers.Add("5.F.S", MovementComplexity.Normal);
+
+                MaxHull = 3;
+
+                AddedSlots = SlotTypes.Select(CreateSlot).ToList();
+                AddedSlots.ForEach(slot => {
+                    slot.GrantedBy = this;
+                    UpgradeBar.AddSlot(slot);
+                });
+            }
+
+            private List<UpgradeSlot> AddedSlots = new List<UpgradeSlot>();
+            private readonly List<UpgradeType> SlotTypes = new List<UpgradeType>
+            {
+                UpgradeType.Cannon,
+                UpgradeType.Torpedo,
+                UpgradeType.Missile
+            };
+
+            private UpgradeSlot CreateSlot(UpgradeType slotType)
+            {
+                var slot = new UpgradeSlot(slotType);
+                slot.OnPreInstallUpgrade += delegate { UpgradeInstalled(slotType); };
+                slot.OnRemovePreInstallUpgrade += delegate { UpgradeRemoved(slotType); };
+                slot.GrantedBy = this;
+                return slot;
+            }
+
+            private void UpgradeInstalled(UpgradeType slotType)
+            {
+                SlotTypes
+                    .Where(slot => slot != slotType)
+                    .ToList()
+                    .ForEach(slot => UpgradeBar.RemoveSlot(slot, this));
+            }
+
+            private void UpgradeRemoved(UpgradeType slotType)
+            {
+                SlotTypes
+                    .Where(slot => slot != slotType)
+                    .ToList()
+                    .ForEach(slot => UpgradeBar.AddSlot(CreateSlot(slot)));
             }
 
         }

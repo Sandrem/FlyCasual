@@ -5,10 +5,11 @@ using Abilities;
 using Tokens;
 using UnityEngine;
 using Upgrade;
+using RuleSets;
 
 namespace UpgradesList
 {
-	public class JammingBeam : GenericSecondaryWeapon
+	public class JammingBeam : GenericSecondaryWeapon, ISecondEditionUpgrade
 	{
 		public JammingBeam()
 		{
@@ -22,8 +23,16 @@ namespace UpgradesList
 			AttackValue = 3;
 
             UpgradeAbilities.Add(new JammingBeamAbility());
-        }        
-	}
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 2;
+
+            UpgradeAbilities.RemoveAll(a => a is JammingBeamAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.JammingBeamAbilitySE());
+        }
+    }
 }
 
 namespace Abilities
@@ -54,6 +63,26 @@ namespace Abilities
             Combat.DiceRollAttack.RemoveAllFailures();
 
             Combat.Defender.Tokens.AssignToken(typeof(JamToken), Triggers.FinishTrigger);
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class JammingBeamAbilitySE : JammingBeamAbility
+    {
+
+        protected void JammingBeamEffect(object sender, System.EventArgs e)
+        {
+            int jammingBeamTokens = Combat.DiceRollAttack.Successes;
+            Combat.DiceRollAttack.CancelAllResults();
+            Combat.DiceRollAttack.RemoveAllFailures();
+
+            Combat.Defender.Tokens.AssignTokens(
+                () => new JamToken(Combat.Defender),
+                jammingBeamTokens,
+                Triggers.FinishTrigger
+            );
         }
     }
 }

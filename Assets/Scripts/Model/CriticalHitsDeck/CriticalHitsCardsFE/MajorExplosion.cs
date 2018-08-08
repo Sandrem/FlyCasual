@@ -77,22 +77,13 @@ namespace SubPhases
         {
             Messages.ShowInfo("Major Explosion: Suffer 1 additional critical damage");
 
-            Selection.ActiveShip.AssignedDamageDiceroll.AddDice(DieSide.Crit);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs majorexplosionDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer critical damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                EventHandler = Selection.ActiveShip.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = "Critical hit card",
-                    DamageType = DamageTypes.CriticalHitCard
-                }
-            });
+                Source = "Critical hit card",
+                DamageType = DamageTypes.CriticalHitCard
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
+            Selection.ActiveShip.Damage.TryResolveDamage(0, 1, majorexplosionDamage, CallBack);
         }
 
         private void NoDamage()

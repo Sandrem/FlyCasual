@@ -13,7 +13,7 @@ namespace Ship
             {
                 PilotName = "Inquisitor";
                 PilotSkill = 3;
-                Cost = 19;
+                Cost = 40;
 
                 MaxForce = 1;
 

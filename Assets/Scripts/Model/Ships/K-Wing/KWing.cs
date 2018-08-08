@@ -14,7 +14,7 @@ namespace Ship
 
             public KWing() : base()
             {
-                Type = "K-Wing";
+                Type = FullType = "K-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(MirandaDoni));
 
                 ShipBaseArcsType = Arcs.BaseArcsType.Arc360;
@@ -71,15 +71,22 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                // TODO: Maneuvers
+                FullType = "BTL-S8 K-wing";
 
                 MaxHull = 6;
                 MaxShields = 3;
+
+                ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileDual;
 
                 ShipBaseSize = BaseSize.Medium;
 
                 ActionBar.AddPrintedAction(new RotateArcAction());
                 ActionBar.AddPrintedAction(new ReloadAction());
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Turret);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
 
                 IconicPilots[Faction.Rebel] = typeof(WardenSquadronPilot);
             }

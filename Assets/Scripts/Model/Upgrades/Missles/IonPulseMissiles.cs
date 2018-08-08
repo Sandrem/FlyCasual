@@ -90,25 +90,15 @@ namespace Abilities
 		{
 			Messages.ShowError ("Defender suffers 1 damage");
 
-			Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
+            DamageSourceEventArgs ionpulseDamage = new DamageSourceEventArgs()
+            {
+                Source = "Ion Pulse Missiles",
+                DamageType = DamageTypes.ShipAttack
+            };
 
-			Triggers.RegisterTrigger(new Trigger()
-				{
-					Name = "Suffer damage",
-					TriggerType = TriggerTypes.OnDamageIsDealt,
-					TriggerOwner = Combat.Defender.Owner.PlayerNo,
-					EventHandler = Combat.Defender.SufferDamage,
-					EventArgs = new DamageSourceEventArgs()
-					{
-						Source = Combat.Attacker,
-						DamageType = DamageTypes.ShipAttack
-					},
-					Skippable = true
-				});
+            Combat.Defender.Damage.TryResolveDamage(1, ionpulseDamage, Triggers.FinishTrigger);
 
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
-
-			HostShip.OnShotHitAsAttacker -= RegisterIonPulseMissleHit;
+            HostShip.OnShotHitAsAttacker -= RegisterIonPulseMissleHit;
 		}
 	}
 }

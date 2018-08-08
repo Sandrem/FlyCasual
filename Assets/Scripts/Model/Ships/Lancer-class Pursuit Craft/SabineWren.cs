@@ -3,12 +3,13 @@ using BoardTools;
 using Abilities;
 using ActionsList;
 using Arcs;
+using RuleSets;
 
 namespace Ship
 {
     namespace LancerClassPursuitCraft
     {
-        public class SabineWren : LancerClassPursuitCraft
+        public class SabineWren : LancerClassPursuitCraft, ISecondEditionPilot
         {
             public SabineWren() : base()
             {
@@ -19,6 +20,12 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new SabineWrenLancerPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 68;
             }
         }
     }

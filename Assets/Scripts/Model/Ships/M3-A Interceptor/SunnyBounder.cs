@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using RuleSets;
+using Ship;
 using System;
 using System.Linq;
 
@@ -6,7 +7,7 @@ namespace Ship
 {
     namespace M3AScyk
     {
-        public class SunnyBounder : M3AScyk
+        public class SunnyBounder : M3AScyk, ISecondEditionPilot
         {
             public SunnyBounder() : base()
             {
@@ -17,6 +18,15 @@ namespace Ship
                 PilotAbilities.Add(new Abilities.SunnyBounderAbility());
                 
                 SkinName = "Sunny Bounder";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 1;
+                Cost = 31;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.SunnyBounderAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.SunnyBounderAbilitySE());
             }
         }
     }
@@ -41,7 +51,7 @@ namespace Abilities
             Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
-        public void AddAbility(DiceRoll diceroll)
+        protected virtual void AddAbility(DiceRoll diceroll)
         {
             if (!IsAbilityUsed && diceroll.DiceList.All(die => die.Side == diceroll.DiceList.First().Side))
             {
@@ -49,7 +59,7 @@ namespace Abilities
             }
         }
 
-        private void AddAvailableActionEffect(GenericShip ship)
+        protected void AddAvailableActionEffect(GenericShip ship)
         {
             ship.AddAvailableDiceModification(new ActionsList.SunnyBounderAbilityAction(() => { IsAbilityUsed = true; }));
             HostShip.OnGenerateDiceModifications -= AddAvailableActionEffect;
@@ -57,6 +67,20 @@ namespace Abilities
     }
 }
 
+namespace Abilities.SecondEdition
+{
+    public class SunnyBounderAbilitySE : SunnyBounderAbility
+    {
+        // No more "once per round".
+        protected override void AddAbility(DiceRoll diceroll)
+        {
+            if (diceroll.DiceList.All(die => die.Side == diceroll.DiceList.First().Side))
+            {
+                HostShip.OnGenerateDiceModifications += AddAvailableActionEffect;
+            }
+        }
+    }
+}
 
 namespace ActionsList
 {

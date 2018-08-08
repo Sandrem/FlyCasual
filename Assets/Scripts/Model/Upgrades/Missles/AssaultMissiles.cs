@@ -86,29 +86,17 @@ namespace Abilities
 
 				if (shotInfo.Range == 1) {
 
-					//Messages.ShowErrorToHuman(string.Format("{0} is within range 1 of {1}; assault missile deals 1 damage!", ship.PilotName, Combat.Defender.PilotName));
+                    //Messages.ShowErrorToHuman(string.Format("{0} is within range 1 of {1}; assault missile deals 1 damage!", ship.PilotName, Combat.Defender.PilotName));
 
-					var diceRoll = new DiceRoll (DiceKind.Attack, 0, DiceRollCheckType.Combat);
-					diceRoll.AddDice (DieSide.Success);
-					var hitDie = diceRoll.DiceList [0];
-					ship.AssignedDamageDiceroll.DiceList.Add(hitDie);
+                    DamageSourceEventArgs assaultsplashDamage = new DamageSourceEventArgs()
+                    {
+                        Source = "Assault Missile",
+                        DamageType = DamageTypes.CardAbility
+                    };
 
-					Triggers.RegisterTrigger(new Trigger() {
-						Name = "Suffer Assault Missile Damage",
-						TriggerType = TriggerTypes.OnDamageIsDealt,
-						TriggerOwner = ship.Owner.PlayerNo,
-						EventHandler = ship.SufferDamage,
-                        Skippable = true,
-						EventArgs = new DamageSourceEventArgs()
-						{
-							Source = "Assault Missile",
-							DamageType = DamageTypes.CardAbility
-						}
-					});
+                    ship.Damage.TryResolveDamage(1, assaultsplashDamage, Triggers.FinishTrigger);
 				}
             }
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
 		}
 	}
 }

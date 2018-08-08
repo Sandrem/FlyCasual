@@ -72,8 +72,6 @@ namespace Ship
         {
             bool result = true;
 
-            
-
             ShotInfo shotInfo = new ShotInfo(Host, targetShip, this);
             if (!CanShootOutsideArc)
             {
@@ -96,7 +94,7 @@ namespace Ship
     {
         public PrimaryWeaponClass PrimaryWeapon;
 
-        public AssignedDamageCards Damage { get; private set; }
+        public Damage Damage { get; private set; }
 
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
@@ -136,7 +134,7 @@ namespace Ship
         public event EventHandler OnShotHitAsDefender;
         public static event EventHandler OnShotHitAsDefenderGlobal;
 
-        public static event EventHandler OnTryDamagePreventionGlobal;
+        public static event EventHandlerShipDamage OnTryDamagePreventionGlobal;
 
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
@@ -160,6 +158,7 @@ namespace Ship
         public static event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealtGlobal;
         public event EventHandlerShipCritArgs OnAssignCrit;
 
+        public event EventHandlerShip OnDamageWasSuccessfullyDealt;
         public event EventHandlerShip OnDamageCardIsDealt;
 
         public event EventHandlerShip OnReadyToBeDestroyed;
@@ -199,6 +198,8 @@ namespace Ship
 
         public event EventHandlerShip OnCombatCompareResults;
 
+        public event EventHandler AfterAttackDiceModification;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -235,6 +236,11 @@ namespace Ship
             return result;
         }
 
+        public void CallAfterAttackDiceModification()
+        {
+            if (AfterAttackDiceModification != null) AfterAttackDiceModification();
+        }
+
         public void CallAttackStart()
         {
             if (Combat.Attacker.ShipId == this.ShipId)
@@ -262,10 +268,6 @@ namespace Ship
 
         public void CallShotStart()
         {
-            ClearAlreadyExecutedDiceModificationsCompareResults();
-            ClearAlreadyExecutedDiceModificationsOpposite();
-            ClearAlreadyExecutedDiceModifications();
-
             if (Combat.Attacker.ShipId == this.ShipId)
             {
                 if (OnShotStartAsAttacker != null) OnShotStartAsAttacker();
@@ -283,17 +285,11 @@ namespace Ship
 
         public void CallDefenceStartAsAttacker()
         {
-            ClearAlreadyExecutedDiceModificationsCompareResults();
-            ClearAlreadyExecutedDiceModificationsOpposite();
-            ClearAlreadyExecutedDiceModifications();
             if (OnDefenceStartAsAttacker != null) OnDefenceStartAsAttacker();
         }
 
         public void CallDefenceStartAsDefender()
         {
-            ClearAlreadyExecutedDiceModificationsCompareResults();
-            ClearAlreadyExecutedDiceModificationsOpposite();
-            ClearAlreadyExecutedDiceModifications();
             if (OnDefenceStartAsDefender != null) OnDefenceStartAsDefender();
         }
 
@@ -309,11 +305,11 @@ namespace Ship
             if (OnShotHitAsDefender != null) OnShotHitAsDefender();
         }
 
-        public void CallTryDamagePrevention(Action callBack)
+        public void CallTryDamagePrevention(DamageSourceEventArgs e, Action callback)
         {
-            if (OnTryDamagePreventionGlobal != null) OnTryDamagePreventionGlobal();
+            if (OnTryDamagePreventionGlobal != null) OnTryDamagePreventionGlobal(this, e);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnTryDamagePrevention, callBack);
+            Triggers.ResolveTriggers(TriggerTypes.OnTryDamagePrevention, callback);
         }
 
         public void CallOnAttackHitAsAttacker()
@@ -575,7 +571,10 @@ namespace Ship
         {
             CallAfterAssignedDamageIsChanged();
 
-            IsHullDestroyedCheck(callBack);
+            CallOnDamageWasSuccessfullyDealt(
+                delegate { IsHullDestroyedCheck(callBack); }
+            );
+            
         }
 
         public void CallAfterAssignedDamageIsChanged()
@@ -596,7 +595,16 @@ namespace Ship
             Shields--;
             CallAfterAssignedDamageIsChanged();
 
-            CallOnShieldIsLost(Triggers.FinishTrigger);
+            CallOnShieldIsLost(
+                delegate { CallOnDamageWasSuccessfullyDealt(Triggers.FinishTrigger); }
+            );
+        }
+
+        private void CallOnDamageWasSuccessfullyDealt(Action callback)
+        {
+            if (OnDamageWasSuccessfullyDealt != null) OnDamageWasSuccessfullyDealt(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageWasSuccessfullyDealt, callback);
         }
 
         public void LoseShield()

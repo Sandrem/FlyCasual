@@ -34,7 +34,7 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             MaxCharges = 4;
-            Cost = 10;
+            Cost = 5;
 
             SpendsTargetLockOnTargetToShoot = false;
             IsDiscardedForShot = false;

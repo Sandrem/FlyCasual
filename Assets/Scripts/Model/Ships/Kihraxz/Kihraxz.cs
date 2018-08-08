@@ -14,7 +14,7 @@ namespace Ship
 
             public Kihraxz() : base()
             {
-                Type = "Kihraxz Fighter";
+                Type = FullType = "Kihraxz Fighter";
                 IconicPilots.Add(Faction.Scum, typeof(TalonbaneCobra));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d8/MS_KIHRAXZ-FIGHTER.png";
@@ -68,11 +68,17 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                Maneuvers.Add("2.L.E", MovementComplexity.Complex);
+                Maneuvers.Add("2.R.E", MovementComplexity.Complex);
+                Maneuvers["3.F.S"] = MovementComplexity.Easy;
+                Maneuvers.Remove("5.F.R");
 
                 MaxHull = 5;
 
                 ActionBar.AddPrintedAction(new BarrelRollAction());
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);
 
                 IconicPilots[Faction.Scum] = typeof(BlackSunAce);
             }

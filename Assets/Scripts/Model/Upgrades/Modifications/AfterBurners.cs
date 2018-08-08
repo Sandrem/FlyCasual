@@ -21,6 +21,11 @@ namespace UpgradesList
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.AfterBurnersAbility());
         }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.ShipBaseSize == BaseSize.Small;
+        }
     }
 }
 

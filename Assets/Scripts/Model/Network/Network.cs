@@ -272,9 +272,14 @@ public static partial class Network
         CurrentPlayer.CmdConfirmDiceResults();
     }
 
-    public static void SwitchToOwnDiceModifications()
+    public static void SwitchToRegularDiceModifications()
     {
-        CurrentPlayer.CmdSwitchToOwnDiceModifications();
+        CurrentPlayer.CmdSwitchToRegularDiceModifications();
+    }
+
+    public static void SwitchToAfterRolledDiceModifications()
+    {
+        CurrentPlayer.CmdSwitchToAfterRolledDiceModifications();
     }
 
     public static void CompareResultsAndDealDamage()

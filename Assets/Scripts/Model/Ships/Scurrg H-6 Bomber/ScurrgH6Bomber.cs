@@ -14,7 +14,7 @@ namespace Ship
 
             public ScurrgH6Bomber() : base()
             {
-                Type = "Scurrg H-6 Bomber";
+                Type = FullType = "Scurrg H-6 Bomber";
                 IconicPilots.Add(Faction.Rebel, typeof(CaptainNymRebel));
                 IconicPilots.Add(Faction.Scum, typeof(CaptainNymScum));
 
@@ -76,7 +76,13 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                Maneuvers["1.L.B"] = MovementComplexity.Easy;
+                Maneuvers["1.R.B"] = MovementComplexity.Easy;
+                Maneuvers["2.L.B"] = MovementComplexity.Normal;
+                Maneuvers["2.R.B"] = MovementComplexity.Normal;
+                Maneuvers["3.F.S"] = MovementComplexity.Normal;
+                Maneuvers["4.F.S"] = MovementComplexity.Complex;
+                Maneuvers.Remove("5.F.S");
 
                 factions.Remove(Faction.Rebel);
 
@@ -87,6 +93,9 @@ namespace Ship
 
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
+
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Missile);
             }
 
         }

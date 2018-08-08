@@ -16,7 +16,7 @@ namespace Ship
 
             public UWing() : base()
             {
-                Type = "U-Wing";
+                Type = FullType = "U-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(BlueSquadronPathfinder));
                 ShipBaseSize = BaseSize.Large;
 
@@ -74,12 +74,15 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "UT-60D U-wing";
+
                 ShipBaseSize = BaseSize.Medium;
 
                 Agility = 2;
                 MaxHull = 5;
                 MaxShields = 3;
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
 
                 ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });

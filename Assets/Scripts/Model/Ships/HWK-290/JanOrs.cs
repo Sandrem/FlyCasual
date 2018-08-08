@@ -4,12 +4,15 @@ using UnityEngine;
 using Ship;
 using System;
 using Tokens;
+using BoardTools;
+using Arcs;
+using RuleSets;
 
 namespace Ship
 {
     namespace HWK290
     {
-        public class JanOrs : HWK290
+        public class JanOrs : HWK290, ISecondEditionPilot
         {
             public JanOrs() : base()
             {
@@ -24,6 +27,15 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 PilotAbilities.Add(new Abilities.JanOrsAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 42;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.JanOrsAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.JanOrsAbilitySE());
             }
         }
     }
@@ -43,7 +55,7 @@ namespace Abilities
             GenericShip.OnAttackStartAsAttackerGlobal -= RegisterJanOrsAbility;
         }
 
-        private void RegisterJanOrsAbility()
+        protected virtual void RegisterJanOrsAbility()
         {
             if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId != HostShip.ShipId)
             {
@@ -55,7 +67,7 @@ namespace Abilities
             }
         }
 
-        private void AskJanOrsAbility(object sender, System.EventArgs e)
+        protected void AskJanOrsAbility(object sender, System.EventArgs e)
         {
             if (!HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
@@ -82,6 +94,24 @@ namespace Abilities
         {
             value++;
             Combat.Attacker.AfterGotNumberOfAttackDice -= IncreaseByOne;
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class JanOrsAbilitySE : JanOrsAbility
+    {
+        protected override void RegisterJanOrsAbility()
+        {
+            if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId != HostShip.ShipId)
+            {
+                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Attacker, HostShip);
+                if (distanceInfo.Range < 4 && Board.IsShipInArcByType(HostShip, Combat.Attacker, ArcTypes.Mobile))
+                {
+                    RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskJanOrsAbility);
+                }
+            }
         }
     }
 }

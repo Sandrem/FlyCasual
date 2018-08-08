@@ -28,6 +28,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 5;
+
             UpgradeAbilities.RemoveAll(a => a is DirectorKrennicAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.DirectorKrennicAbilitySE());
         }
@@ -337,7 +339,7 @@ namespace ActionsList
                 {
                     result = 90;
                 }
-                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 90;
                 }

@@ -24,11 +24,12 @@ namespace Ship
             {
                 PilotSkill = 5;
                 MaxForce = 2;
-                Cost = 60;
+                Cost = 62;
 
                 PilotAbilities.RemoveAll(a => a is Abilities.LukeSkywalkerAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.LukeSkywalkerAbility());
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
             }
         }

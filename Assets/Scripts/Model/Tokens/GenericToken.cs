@@ -22,7 +22,8 @@ namespace Tokens
         public bool CanBeUsed = true;
         public string Tooltip;
         public TokenColors TokenColor = TokenColors.Empty;
-        public Type TooltipType; 
+        public Type TooltipType;
+        public int PriorityUI { get; protected set; }
 
         public GenericToken(GenericShip host)
         {

@@ -14,7 +14,7 @@ namespace Ship
 
             public Aggressor() : base()
             {
-                Type = "Aggressor";
+                Type = FullType = "Aggressor";
                 IconicPilots.Add(Faction.Scum, typeof(IG88C));
                 ShipBaseSize = BaseSize.Large;
 
@@ -76,15 +76,48 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Ship Ability
-                //TODO: Maneuvers
-                //TODO: Calculate action instead of Focus action
+                ActionBar.RemovePrintedAction(typeof(FocusAction));
+                ActionBar.AddPrintedAction(new CalculateAction());
+
+                FullType = "Aggressor Assault Fighter";
 
                 MaxHull = 5;
                 MaxShields = 3;
 
                 ShipBaseSize = BaseSize.Medium;
+
+                ShipAbilities.Add(new Abilities.SecondEdition.AdvancedDroidBrain());
+                Maneuvers.Add("4.F.S", MovementComplexity.Normal);
             }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class AdvancedDroidBrain : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionIsPerformed += CheckAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionIsPerformed -= CheckAbility;
+        }
+
+        private void CheckAbility(GenericAction action)
+        {
+            if (action is CalculateAction)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, AssignCalculateToken);
+            }
+        }
+
+        private void AssignCalculateToken(object sender, System.EventArgs e)
+        {
+            HostShip.Tokens.AssignToken(typeof(Tokens.CalculateToken), Triggers.FinishTrigger);
         }
     }
 }

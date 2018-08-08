@@ -13,9 +13,10 @@ namespace Ship
             {
                 PilotName = "Gold Squadron Veteran";
                 PilotSkill = 3;
-                Cost = 37;
+                Cost = 34;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotRuleType = typeof(SecondEdition);
 

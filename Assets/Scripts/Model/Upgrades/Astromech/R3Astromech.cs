@@ -15,7 +15,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Astromech);
             Name = "R3 Astromech";
-            Cost = 10;
+            Cost = 3;
 
             UpgradeRuleType = typeof(SecondEdition);
 

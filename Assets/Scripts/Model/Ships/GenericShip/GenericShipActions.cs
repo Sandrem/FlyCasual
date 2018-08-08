@@ -391,13 +391,15 @@ namespace Ship
                         if (OnTryAddAvailableDiceModificationGlobal != null) OnTryAddAvailableDiceModificationGlobal(this, action, ref result);
                         break;
                     case DiceModificationTimingType.Opposite:
+                        if (OnTryAddDiceModificationOpposite != null) OnTryAddDiceModificationOpposite(this, action, ref result);
+                        break;
                     case DiceModificationTimingType.AfterRolled:
+                        if (OnTryAddDiceModificationAfterRolled != null) OnTryAddDiceModificationAfterRolled(this, action, ref result);
                         break;
                     case DiceModificationTimingType.CompareResults:
                         if (OnTryAddDiceModificationCompareResults != null) OnTryAddDiceModificationCompareResults(action, ref result);
                         break;
                     default:
-                        if (OnTryAddDiceModificationOpposite != null) OnTryAddDiceModificationOpposite(this, action, ref result);
                         break;
                 }
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Analytics;
 
 public class Global : MonoBehaviour {
 
@@ -45,6 +46,12 @@ public class Global : MonoBehaviour {
 
     public static void StartBattle()
     {
+        AnalyticsEvent.GameStart(new Dictionary<string, object>()
+        {
+            { "Edition", RuleSets.RuleSet.Instance.Name },
+            { "GameMode", GameModes.GameMode.CurrentGameMode.Name }
+        });
+
         ToggelLoadingScreen(false);
         Phases.StartPhases();
     }

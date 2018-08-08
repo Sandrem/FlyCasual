@@ -10,6 +10,8 @@ namespace GameModes
 {
     public class LocalGame : GameMode
     {
+        public override string Name { get { return "Local"; } }
+
         public override void RevertSubPhase()
         {
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();

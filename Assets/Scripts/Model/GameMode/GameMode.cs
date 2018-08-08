@@ -7,6 +7,8 @@ namespace GameModes
 { 
     public abstract class GameMode
     {
+        public abstract string Name { get; }
+
         public static GameMode CurrentGameMode;
 
         public abstract void RevertSubPhase();

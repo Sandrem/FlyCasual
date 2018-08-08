@@ -10,6 +10,8 @@ namespace GameModes
 { 
     public class NetworkGame : GameMode
     {
+        public override string Name { get { return "Network"; } }
+
         public override void RevertSubPhase()
         {
             Network.RevertSubPhase();

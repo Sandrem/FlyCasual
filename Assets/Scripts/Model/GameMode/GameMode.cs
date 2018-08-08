@@ -53,7 +53,8 @@ namespace GameModes
 
         public abstract void ConfirmDiceResults();
         public abstract void CompareResultsAndDealDamage();
-        public abstract void SwitchToOwnDiceModifications();
+        public abstract void SwitchToRegularDiceModifications();
+        public abstract void SwitchToAfterRolledDiceModifications();
 
         public abstract void TakeDecision(Decision decision, GameObject button);
 

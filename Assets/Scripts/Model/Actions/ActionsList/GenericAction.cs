@@ -9,8 +9,9 @@ namespace ActionsList
 {
     public enum DiceModificationTimingType
     {
-        Normal,
+        AfterRolled,
         Opposite,
+        Normal,
         CompareResults
     }
 

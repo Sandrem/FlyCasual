@@ -40,7 +40,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddDiceModificationOpposite(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }

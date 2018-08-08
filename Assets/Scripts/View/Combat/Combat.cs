@@ -4,98 +4,87 @@ using UnityEngine;
 using UnityEngine.UI;
 using GameModes;
 using ActionsList;
+using UnityEngine.Events;
 
 public static partial class Combat
 {
-
     public static Dictionary<string, GenericAction> AvailableDecisions;
 
-    public static void ShowOwnDiceResultMenu()
-    {
-        ShowDiceModificationButtons();
-    }
-
-    public static void ShowOppositeDiceResultMenu()
-    {
-        ShowOppositeDiceModificationButtons();
-    }
-
-    public static void ShowCompareResultsMenu()
+    public static void ShowDiceModificationButtons(DiceModificationTimingType type, bool isForced = false)
     {
         HideDiceModificationButtons();
-        ShowCompareResultsButtons();
-    }
 
-    public static void ShowOppositeDiceModificationButtons(bool isForced = false)
-    {
-        Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
+        UnityAction CloseButtonEffect = null;
+        switch (type)
+        {
+            case DiceModificationTimingType.Opposite:
+                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
+                CloseButtonEffect = SwitchToAfterRolledDiceModifications;
+                break;
+            case DiceModificationTimingType.AfterRolled:
+                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
+                CloseButtonEffect = SwitchToRegularDiceModifications;
+                break;
+            case DiceModificationTimingType.Normal:
+                Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
+                CloseButtonEffect = Combat.ConfirmDiceResults;
+                break;
+            case DiceModificationTimingType.CompareResults:
+                Selection.ActiveShip = Attacker;
+                CloseButtonEffect = CompareResultsAndDealDamageClient;
+                break;
+            default:
+                break;
+        }
+
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
         AvailableDecisions = new Dictionary<string, GenericAction>();
-        Selection.ActiveShip.GenerateDiceModificationsOpposite();
+        Selection.ActiveShip.GenerateDiceModifications(type);
 
-        if (Selection.ActiveShip.GetDiceModificationsOpposite().Count > 0 || isForced)
+        if (Selection.ActiveShip.GetDiceModificationsGenerated().Count > 0 || isForced)
         {
             float offset = 0;
             Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
 
-            foreach (var oppositeActionEffect in Selection.ActiveShip.GetDiceModificationsOpposite())
+            foreach (var actionEffect in Selection.ActiveShip.GetDiceModificationsGenerated())
             {
-                AvailableDecisions.Add(oppositeActionEffect.Name, oppositeActionEffect);
+                AvailableDecisions.Add(actionEffect.Name, actionEffect);
 
                 Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
-                CreateDiceModificationsButton(oppositeActionEffect, position);
+                CreateDiceModificationsButton(actionEffect, position);
                 offset += 40;
             }
 
-            ToggleConfirmDiceResultsButton(true);
-
-            Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
-            closeButton.onClick.RemoveAllListeners();
-            closeButton.onClick.AddListener(SwitchToOwnDiceModifications);
-
-            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
+            ShowCloseButton(CloseButtonEffect);
+            ShowDiceResultsPanel();
         }
         else
         {
-            SwitchToOwnDiceModificationsClient();
+            if (type != DiceModificationTimingType.Normal)
+            {
+                CloseButtonEffect.Invoke();
+            }
+            else
+            {
+                ShowCloseButton(CloseButtonEffect);
+                ShowDiceResultsPanel();
+            }
         }
     }
 
-    public static void ShowCompareResultsButtons(bool isForced = false)
+    private static void ShowCloseButton(UnityAction closeButtonEffect)
     {
-        Selection.ActiveShip = Attacker;
-        Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
+        ToggleConfirmDiceResultsButton(true);
 
-        AvailableDecisions = new Dictionary<string, GenericAction>();
-        Selection.ActiveShip.GenerateAvailableCompareResultsEffectsList();
+        Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
+        closeButton.onClick.RemoveAllListeners();
+        closeButton.onClick.AddListener(closeButtonEffect);
+    }
 
-        if (Selection.ActiveShip.GetAvailableCompareResultsEffectsList().Count > 0 || isForced)
-        {
-            float offset = 0;
-            Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
-
-            foreach (var compareResultsEffect in Selection.ActiveShip.GetAvailableCompareResultsEffectsList())
-            {
-                AvailableDecisions.Add(compareResultsEffect.Name, compareResultsEffect);
-
-                Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
-                CreateDiceModificationsButton(compareResultsEffect, position);
-                offset += 40;
-            }
-
-            ToggleConfirmDiceResultsButton(true);
-
-            Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
-            closeButton.onClick.RemoveAllListeners();
-            closeButton.onClick.AddListener(CompareResultsAndDealDamage);
-
-            GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
-        }
-        else
-        {
-            CompareResultsAndDealDamageClient();
-        }
+    private static void ShowDiceResultsPanel()
+    {
+        GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
     }
 
     public static void CompareResultsAndDealDamage()
@@ -103,47 +92,40 @@ public static partial class Combat
         GameMode.CurrentGameMode.CompareResultsAndDealDamage();
     }
 
-    private static void SwitchToOwnDiceModifications()
+    private static void SwitchToRegularDiceModifications()
     {
-        GameMode.CurrentGameMode.SwitchToOwnDiceModifications();
+        GameMode.CurrentGameMode.SwitchToRegularDiceModifications();
     }
 
-    public static void SwitchToOwnDiceModificationsClient()
+    private static void SwitchToAfterRolledDiceModifications()
+    {
+        GameMode.CurrentGameMode.SwitchToAfterRolledDiceModifications();
+    }
+
+    public static void SwitchToRegularDiceModificationsClient()
     {
         HideDiceModificationButtons();
         ToggleConfirmDiceResultsButton(false);
 
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
+
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
-        Selection.ActiveShip.Owner.UseOwnDiceModifications();
+        Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
     }
 
-    public static void ShowDiceModificationButtons()
+    public static void SwitchToAfterRolledDiceModificationsClient()
     {
+        HideDiceModificationButtons();
+        ToggleConfirmDiceResultsButton(false);
+
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
+
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
-
-        AvailableDecisions = new Dictionary<string, GenericAction>();
-        Selection.ActiveShip.GenerateAvailableDiceModifications();
-
-        float offset = 0;
-        Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
-
-        foreach (var actionEffect in Selection.ActiveShip.GetAvailableDiceModifications())
-        {
-            AvailableDecisions.Add(actionEffect.Name, actionEffect);
-
-            Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
-            CreateDiceModificationsButton(actionEffect, position);
-            offset += 40;
-        }
-
-        ToggleConfirmDiceResultsButton(true);
-
-        Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel/Confirm").GetComponent<Button>();
-        closeButton.onClick.RemoveAllListeners();
-        closeButton.onClick.AddListener(Combat.ConfirmDiceResults);
-
-        GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
+        Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
+        Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.AfterRolled);
     }
 
     public static void ToggleConfirmDiceResultsButton(bool isActive)
@@ -182,42 +164,27 @@ public static partial class Combat
         switch (diceModification.DiceModificationTiming)
         {
             case DiceModificationTimingType.Normal:
+            case DiceModificationTimingType.AfterRolled:
                 Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
-                Selection.ActiveShip.AddAlreadyExecutedDiceModification(diceModification);
                 break;
             case DiceModificationTimingType.Opposite:
                 Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Defender : Attacker;
-                Selection.ActiveShip.AddAlreadyExecutedDiceModificationsOpposite(diceModification);
                 break;
             case DiceModificationTimingType.CompareResults:
                 Selection.ActiveShip = Attacker;
-                Selection.ActiveShip.AddAlreadyExecutedCompareResultsEffect(diceModification);
                 break;
             default:
                 break;
         }
+
+        Selection.ActiveShip.AddAlreadyUsedDiceModification(diceModification);
 
         diceModification.ActionEffect(delegate { ReGenerateListOfButtons(diceModification.DiceModificationTiming); });
     }
 
     private static void ReGenerateListOfButtons(DiceModificationTimingType timingType)
     {
-        HideDiceModificationButtons();
-
-        switch (timingType)
-        {
-            case DiceModificationTimingType.Normal:
-                ShowDiceModificationButtons();
-                break;
-            case DiceModificationTimingType.Opposite:
-                ShowOppositeDiceModificationButtons(true);
-                break;
-            case DiceModificationTimingType.CompareResults:
-                ShowCompareResultsButtons(true);
-                break;
-            default:
-                break;
-        }
+        ShowDiceModificationButtons(timingType, true);
     }
 
     public static void ConfirmDiceResults()

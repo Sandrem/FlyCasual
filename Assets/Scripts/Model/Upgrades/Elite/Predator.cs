@@ -90,7 +90,7 @@ namespace ActionsList
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
                 //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
+                if (Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
                 {
                     if (attackBlanks > 0) result = 90;
                 }
@@ -155,7 +155,7 @@ namespace Abilities.SecondEdition
                 int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
                 //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                if (Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
                     if (attackBlanks > 0) result = 90;
                 }

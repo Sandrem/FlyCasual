@@ -71,8 +71,6 @@ namespace Ship
             {
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
-
-                IconicPilots[Faction.Imperial] = typeof(RhoSquadronPilot);
             }
 
         }

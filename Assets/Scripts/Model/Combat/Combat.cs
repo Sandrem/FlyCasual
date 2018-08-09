@@ -7,6 +7,7 @@ using BoardTools;
 using GameModes;
 using Ship;
 using SubPhases;
+using ActionsList;
 
 public enum CombatStep
 {
@@ -203,6 +204,8 @@ public static partial class Combat
 
     public static void ConfirmAttackDiceResults()
     {
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
         Attacker.CallAfterAttackDiceModification();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(AttackDiceRollCombatSubPhase));
@@ -238,13 +241,21 @@ public static partial class Combat
 
     public static void ConfirmDefenceDiceResults()
     {
+        HideDiceModificationButtons();
+        ToggleConfirmDiceResultsButton(false);
+
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
+
         AttackStep = CombatStep.CompareResults;
 
-        Combat.Attacker.Owner.UseCompareResultsDiceModifications();
+        Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);
     }
 
     public static void CompareResultsAndDealDamageClient()
     {
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(DefenceDiceRollCombatSubPhase));

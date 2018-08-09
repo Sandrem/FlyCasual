@@ -72,7 +72,7 @@ namespace Abilities
                 int focuses = Combat.DiceRollAttack.FocusesNotRerolled;
                 int blanks = Combat.DiceRollAttack.BlanksNotRerolled;
 
-                if (friendlyShip.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                if (friendlyShip.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                 {
                     if (blanks > 0) result = 90;
                 }

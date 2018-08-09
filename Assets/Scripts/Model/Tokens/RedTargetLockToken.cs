@@ -12,6 +12,7 @@ namespace Tokens
         {
             Name = "Red Target Lock Token";
             TokenColor = TokenColors.Red;
+            PriorityUI = 20;
         }
     }
 

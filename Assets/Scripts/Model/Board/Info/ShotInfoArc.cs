@@ -107,11 +107,15 @@ namespace BoardTools
 
         private void Success()
         {
-            IsShotAvailable = true;
-
-            if (Arc.ArcType != ArcTypes.None)
+            //Fix of "Shot Available" for bullseye are when there is no forward-facing arc
+            if (Arc.ArcType != ArcTypes.Bullseye || (Arc.ArcType == ArcTypes.Bullseye && Ship1.ArcInfo.Arcs.Any(a => a.Facing == ArcFacing.Forward)))
             {
-                InArc = true;
+                IsShotAvailable = true;
+
+                if (Arc.ArcType != ArcTypes.None)
+                {
+                    InArc = true;
+                }
             }
         }
     }

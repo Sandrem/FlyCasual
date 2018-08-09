@@ -58,7 +58,7 @@ namespace Abilities
                 Host = host,
                 Source = this.HostUpgrade
             };
-            host.AddAvailableCompareResultsEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -129,7 +129,7 @@ namespace Abilities.SecondEdition
                 Host = host,
                 Source = this.HostUpgrade
             };
-            host.AddAvailableCompareResultsEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }

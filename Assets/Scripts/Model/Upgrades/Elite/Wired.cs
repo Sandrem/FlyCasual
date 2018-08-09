@@ -61,7 +61,7 @@ namespace ActionsList
                 
             if (Combat.Attacker.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
-                if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 95;
                 }

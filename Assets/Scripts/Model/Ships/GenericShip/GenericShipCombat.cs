@@ -268,10 +268,6 @@ namespace Ship
 
         public void CallShotStart()
         {
-            ClearAlreadyExecutedDiceModificationsCompareResults();
-            ClearAlreadyExecutedDiceModificationsOpposite();
-            ClearAlreadyExecutedDiceModifications();
-
             if (Combat.Attacker.ShipId == this.ShipId)
             {
                 if (OnShotStartAsAttacker != null) OnShotStartAsAttacker();
@@ -289,17 +285,11 @@ namespace Ship
 
         public void CallDefenceStartAsAttacker()
         {
-            ClearAlreadyExecutedDiceModificationsCompareResults();
-            ClearAlreadyExecutedDiceModificationsOpposite();
-            ClearAlreadyExecutedDiceModifications();
             if (OnDefenceStartAsAttacker != null) OnDefenceStartAsAttacker();
         }
 
         public void CallDefenceStartAsDefender()
         {
-            ClearAlreadyExecutedDiceModificationsCompareResults();
-            ClearAlreadyExecutedDiceModificationsOpposite();
-            ClearAlreadyExecutedDiceModifications();
             if (OnDefenceStartAsDefender != null) OnDefenceStartAsDefender();
         }
 

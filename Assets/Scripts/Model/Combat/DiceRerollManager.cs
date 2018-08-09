@@ -88,7 +88,7 @@ public partial class DiceRerollManager
         if (SidesCanBeRerolled.Contains(DieSide.Focus))
         {
             //if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
-            if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+            if (Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
             {
                 dieSides.Add(DieSide.Focus);
             }
@@ -114,7 +114,7 @@ public partial class DiceRerollManager
         if (SidesCanBeRerolled.Contains(DieSide.Focus))
         {
             //if (!Selection.ActiveShip.HasToken(typeof(Tokens.FocusToken)))
-            if ((Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0))
+            if ((Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0))
             {
                 dieSides.Add(DieSide.Focus);
             }

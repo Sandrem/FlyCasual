@@ -104,11 +104,11 @@ namespace Abilities
                 {
                     int focusToTurnIntoHit = 0;
                     int focusToTurnIntoHitLeft = 0;
-                    if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                    if (Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                     {
                         focusToTurnIntoHit = int.MaxValue;
                     }
-                    else if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsOneFocusIntoSuccess) > 0)
+                    else if (Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsOneFocusIntoSuccess) > 0)
                     {
                         focusToTurnIntoHit = 1;
                     }

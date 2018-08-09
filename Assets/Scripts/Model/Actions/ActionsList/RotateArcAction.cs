@@ -3,28 +3,95 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Arcs;
+using BoardTools;
+using Ship;
 
 namespace ActionsList
 {
 
     public class RotateArcAction : GenericAction
     {
-        public RotateArcAction() {
+        private static List<ArcFacing> ArcFacings = new List<ArcFacing>() { ArcFacing.Forward, ArcFacing.Left, ArcFacing.Right, ArcFacing.Rear };
+        private static Dictionary<ArcFacing, ArcFacing> DualPointerArcs = new Dictionary<ArcFacing, ArcFacing>()
+        {
+            { ArcFacing.Forward, ArcFacing.Rear},
+            { ArcFacing.Left, ArcFacing.Right}
+        };
+        private Dictionary<ArcFacing, List<GenericShip>> EnemiesInArcHolder = new Dictionary<ArcFacing, List<GenericShip>>();
+
+        public RotateArcAction()
+        {
             Name = DiceModificationName = "Rotate Arc";
         }
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhaseOld(
+            var subphase = Phases.StartTemporarySubPhaseNew<SubPhases.RotateArcDecisionSubPhase>(
                 "Rotate Arc decision",
-                typeof(SubPhases.RotateArcDecisionSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
+            subphase.EnemiesInArcHolder = EnemiesInArcHolder;
+            subphase.Start();
+
         }
 
         public override int GetActionPriority()
         {
+            if (Actions.HasTarget(Selection.ThisShip)) return 0;
+
+            GetShipsInAllArcDirections();
+            foreach (var arcInfo in EnemiesInArcHolder)
+            {
+                if (arcInfo.Value.Count > 0) return 100;
+            }
+
             return 1;
+        }
+
+        private void GetShipsInAllArcDirections()
+        {
+            ArcMobile temporaryArc = new ArcMobile(Selection.ThisShip.ShipBase);
+            Selection.ThisShip.ArcInfo.Arcs.Add(temporaryArc);
+
+            EnemiesInArcHolder = new Dictionary<ArcFacing, List<GenericShip>>();
+
+            foreach (var arc in ArcFacings)
+            {
+                EnemiesInArcHolder.Add(arc, new List<GenericShip>());
+
+                foreach (GenericShip enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(Selection.ThisShip.Owner.PlayerNo)).Ships.Values)
+                {
+                    temporaryArc.Facing = arc;
+
+                    if (Selection.ThisShip.ShipsBumped.Contains(enemyShip)) continue;
+                    if (Selection.ThisShip.ShipBaseArcsType == BaseArcsType.ArcMobileDual && (arc == ArcFacing.Right || arc == ArcFacing.Rear)) continue;
+
+                    ShotInfoArc arcShotInfo = new ShotInfoArc(Selection.ThisShip, enemyShip, temporaryArc);
+                    if (arcShotInfo.InArc && arcShotInfo.Range < 4)
+                    {
+                        EnemiesInArcHolder[arc].Add(enemyShip);
+                    }
+                    else if (Selection.ThisShip.ShipBaseArcsType == BaseArcsType.ArcMobile) // With primary firing arc
+                    {
+                        ShotInfoArc arcPrimaryShotInfo = new ShotInfoArc(Selection.ThisShip, enemyShip, Selection.ThisShip.ArcInfo.GetArc<ArcPrimary>());
+                        if (arcPrimaryShotInfo.InArc && arcPrimaryShotInfo.Range < 4)
+                        {
+                            EnemiesInArcHolder[arc].Add(enemyShip);
+                        }
+                    }
+                    else if (Selection.ThisShip.ShipBaseArcsType == BaseArcsType.ArcMobileDual)
+                    {
+                        temporaryArc.Facing = DualPointerArcs[arc];
+                        ShotInfoArc secondArcShotInfo = new ShotInfoArc(Selection.ThisShip, enemyShip, temporaryArc);
+                        if (secondArcShotInfo.InArc && secondArcShotInfo.Range < 4)
+                        {
+                            EnemiesInArcHolder[arc].Add(enemyShip);
+                        }
+                    }
+                }
+            }
+
+            Selection.ThisShip.ArcInfo.Arcs.Remove(temporaryArc);
         }
 
     }
@@ -36,6 +103,22 @@ namespace SubPhases
 
     public class RotateArcDecisionSubPhase : DecisionSubPhase
     {
+        private static Dictionary<BaseArcsType, ArcFacing> DefaultArcPositions = new Dictionary<BaseArcsType, ArcFacing>()
+        {
+            {BaseArcsType.ArcMobile,        ArcFacing.Rear },
+            {BaseArcsType.ArcMobileDual,    ArcFacing.Forward },
+            {BaseArcsType.ArcMobileOnly,    ArcFacing.Forward }
+        };
+
+        private static Dictionary<ArcFacing, string> ArcFacingToString = new Dictionary<ArcFacing, string>()
+        {
+            { ArcFacing.Forward,    "Front"},
+            { ArcFacing.Left,       "Left"},
+            { ArcFacing.Right,      "Right" },
+            { ArcFacing.Rear,       "Rear" }
+        };
+
+        public Dictionary<ArcFacing, List<GenericShip>> EnemiesInArcHolder = new Dictionary<ArcFacing, List<GenericShip>>();
 
         public override void PrepareDecision(System.Action callBack)
         {
@@ -62,18 +145,24 @@ namespace SubPhases
         //TODO: Update for AI
         private string GetDefaultDecision()
         {
-            if (Selection.ThisShip.ArcInfo.Arcs.Any(a => a is ArcMobileDualA))
+            //Initial position
+            if (EnemiesInArcHolder.Count == 0 || EnemiesInArcHolder.First(n => n.Value.Count == EnemiesInArcHolder.Max(a => a.Value.Count)).Value.Count == 0)
             {
-                return "Front-Rear";
+                string defaultPosition = ArcFacingToString[DefaultArcPositions[Selection.ThisShip.ShipBaseArcsType]];
+                if (Selection.ThisShip.ShipBaseArcsType == BaseArcsType.ArcMobileDual)
+                {
+                    defaultPosition = (defaultPosition == "Front") ? "Front-Rear" : "Left-Right";
+                }
+                return defaultPosition;
             }
-            else if (Selection.ThisShip.ArcInfo.Arcs.Any(a => a is ArcPrimary))
+
+            //Regular action
+            string facing = ArcFacingToString[EnemiesInArcHolder.First(n => n.Value.Count == EnemiesInArcHolder.Max(a => a.Value.Count)).Key];
+            if (Selection.ThisShip.ShipBaseArcsType == BaseArcsType.ArcMobileDual)
             {
-                return "Rear";
+                facing = (facing == "Front") ? "Front-Rear" : "Left-Right";
             }
-            else
-            {
-                return "Front";
-            }
+            return facing;
         }
 
         private void ChangeMobileArcFacing(ArcFacing facing)

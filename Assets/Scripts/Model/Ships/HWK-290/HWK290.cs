@@ -94,7 +94,7 @@ namespace Ship
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileOnly;
 
                 IconicPilots[Faction.Scum] = typeof(SpiceRunner);
-                IconicPilots[Faction.Rebel] = typeof(RebelScout);
+                IconicPilots[Faction.Rebel] = typeof(KyleKatarn);
             }
 
         }

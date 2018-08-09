@@ -87,8 +87,6 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Turret);
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
-
-                IconicPilots[Faction.Rebel] = typeof(WardenSquadronPilot);
             }
         }
     }

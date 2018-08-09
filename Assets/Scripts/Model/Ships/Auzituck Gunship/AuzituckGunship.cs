@@ -76,8 +76,6 @@ namespace Ship
                 MaxShields = 2;
 
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
-
-                IconicPilots[Faction.Rebel] = typeof(KashyyykDefender);
             }
         }
     }

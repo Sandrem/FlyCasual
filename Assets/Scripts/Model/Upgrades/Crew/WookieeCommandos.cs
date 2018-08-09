@@ -83,7 +83,7 @@ namespace ActionsList
             {
                 int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;                
 
-                if (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess || n.IsTurnsOneFocusIntoSuccess) == 0)
+                if (Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess || n.IsTurnsOneFocusIntoSuccess) == 0)
                 {
                     result = 95;
                 }                

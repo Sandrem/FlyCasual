@@ -80,6 +80,8 @@ namespace Ship
                     slot.GrantedBy = this;
                     UpgradeBar.AddSlot(slot);
                 });
+
+                IconicPilots[Faction.Scum] = typeof(Serissu);
             }
 
             private List<UpgradeSlot> AddedSlots = new List<UpgradeSlot>();

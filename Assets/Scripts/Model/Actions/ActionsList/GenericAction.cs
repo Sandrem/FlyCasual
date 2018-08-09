@@ -9,8 +9,9 @@ namespace ActionsList
 {
     public enum DiceModificationTimingType
     {
-        Normal,
+        AfterRolled,
         Opposite,
+        Normal,
         CompareResults
     }
 
@@ -143,6 +144,7 @@ namespace ActionsList
             int result = 0;
 
             /*
+            * 100 - Rotate arc to get a shot in no enemies in arc
             * 90 - Cancel crit
             * 50 - Focus action if has target
             * 40 - Evade action

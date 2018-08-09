@@ -73,9 +73,9 @@ namespace Ship
             {
                 //TODO: Ability
 
-                ActionBar.RemovePrintedAction(typeof(TargetLockAction));
+                Maneuvers.Add("1.F.V", MovementComplexity.Complex);
 
-                IconicPilots[Faction.Rebel] = typeof(ZebOrrelios);
+                ActionBar.RemovePrintedAction(typeof(TargetLockAction));
             }
         }
     }

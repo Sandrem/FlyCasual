@@ -87,7 +87,7 @@ namespace Ship
 
                 ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });
 
-                IconicPilots[Faction.Rebel] = typeof(BenthicTwoTubes);
+                IconicPilots[Faction.Rebel] = typeof(HeffTobber);
             }
 
         }

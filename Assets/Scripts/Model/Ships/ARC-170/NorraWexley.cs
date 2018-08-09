@@ -113,12 +113,12 @@ namespace Abilities
 
                 if (GetTargetLockTokenLetterOnAnotherShip() != ' ')
                 {
-                    if (Host.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                    if (Host.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                     {
                         switch (Combat.AttackStep)
                         {
                             case CombatStep.Attack:
-                                if (Host.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                                if (Host.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                                 {
                                     result = 110;
                                 }

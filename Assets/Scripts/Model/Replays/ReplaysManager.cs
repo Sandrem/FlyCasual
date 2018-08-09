@@ -35,7 +35,7 @@ public static class ReplaysManager
 
         parameters = new JSONObject();
         parameters.AddField("Name", "A1");
-        parameters.AddField("PositionX", 0f); parameters.AddField("PositionY", 0f); parameters.AddField("PositionZ", 0f);
+        parameters.AddField("PositionX", 2.5f); parameters.AddField("PositionY", 0f); parameters.AddField("PositionZ", 0f);
         parameters.AddField("RotationX", 0f); parameters.AddField("RotationY", 0f); parameters.AddField("RotationZ", 0f);
         GameController.SendCommand(
             GameCommandTypes.ObstaclePlacement,
@@ -97,7 +97,7 @@ public static class ReplaysManager
 
         parameters = new JSONObject();
         parameters.AddField("Id", 2);
-        parameters.AddField("PositionX", -3f); parameters.AddField("PositionY", 0f); parameters.AddField("PositionZ", 4f);
+        parameters.AddField("PositionX", -0.5f); parameters.AddField("PositionY", 0f); parameters.AddField("PositionZ", 4f);
         parameters.AddField("RotationX", 0f); parameters.AddField("RotationY", 180f); parameters.AddField("RotationZ", 0f);
         GameController.SendCommand(
             GameCommandTypes.ShipPlacement,
@@ -107,7 +107,7 @@ public static class ReplaysManager
 
         parameters = new JSONObject();
         parameters.AddField("Id", 3);
-        parameters.AddField("PositionX", 3f); parameters.AddField("PositionY", 0f); parameters.AddField("PositionZ", 4f);
+        parameters.AddField("PositionX", 0.5f); parameters.AddField("PositionY", 0f); parameters.AddField("PositionZ", 4f);
         parameters.AddField("RotationX", 0f); parameters.AddField("RotationY", 180f); parameters.AddField("RotationZ", 0f);
         GameController.SendCommand(
             GameCommandTypes.ShipPlacement,
@@ -125,6 +125,124 @@ public static class ReplaysManager
             parameters.ToString()
         );
 
+        // AsSIGN MANEUVERS
+
+        // Player With Initialive
+
+        parameters = new JSONObject();
+        parameters.AddField("Id", 2);
+        parameters.AddField("ManeuverCode", "5.F.S");
+        GameController.SendCommand(
+            GameCommandTypes.AssignManeuver,
+            typeof(SubPhases.PlanningSubPhase),
+            parameters.ToString()
+        );
+
+        parameters = new JSONObject();
+        parameters.AddField("Id", 3);
+        parameters.AddField("ManeuverCode", "5.F.S");
+        GameController.SendCommand(
+            GameCommandTypes.AssignManeuver,
+            typeof(SubPhases.PlanningSubPhase),
+            parameters.ToString()
+        );
+
+        GameController.SendCommand(
+            GameCommandTypes.PressNext,
+            typeof(SubPhases.PlanningSubPhase)
+        );
+
+        // Player Without Initialive
+
+        parameters = new JSONObject();
+        parameters.AddField("Id", 1);
+        parameters.AddField("ManeuverCode", "4.F.S");
+        GameController.SendCommand(
+            GameCommandTypes.AssignManeuver,
+            typeof(SubPhases.PlanningSubPhase),
+            parameters.ToString()
+        );
+
+        GameController.SendCommand(
+            GameCommandTypes.PressNext,
+            typeof(SubPhases.PlanningSubPhase)
+        );
+
+        // MOVEMENT
+
+        parameters = new JSONObject();
+        parameters.AddField("Id", 2);
+        GameController.SendCommand(
+            GameCommandTypes.ActiveShipMovement,
+            typeof(SubPhases.ActivationSubPhase),
+            parameters.ToString()
+        );
+
+        parameters = new JSONObject();
+        parameters.AddField("Name", "Focus");
+        GameController.SendCommand(
+            GameCommandTypes.Decision,
+            typeof(SubPhases.ActionDecisonSubPhase),
+            parameters.ToString()
+        );
+
+        parameters = new JSONObject();
+        parameters.AddField("Id", 3);
+        GameController.SendCommand(
+            GameCommandTypes.ActiveShipMovement,
+            typeof(SubPhases.ActivationSubPhase),
+            parameters.ToString()
+        );
+
+        parameters = new JSONObject();
+        parameters.AddField("Name", "Focus");
+        GameController.SendCommand(
+            GameCommandTypes.Decision,
+            typeof(SubPhases.ActionDecisonSubPhase),
+            parameters.ToString()
+        );
+
+        parameters = new JSONObject();
+        parameters.AddField("Id", 1);
+        GameController.SendCommand(
+            GameCommandTypes.ActiveShipMovement,
+            typeof(SubPhases.ActivationSubPhase),
+            parameters.ToString()
+        );
+
+        parameters = new JSONObject();
+        parameters.AddField("Name", "Focus");
+        GameController.SendCommand(
+            GameCommandTypes.Decision,
+            typeof(SubPhases.ActionDecisonSubPhase),
+            parameters.ToString()
+        );
+
+        // COMBAT
+        parameters = new JSONObject();
+        parameters.AddField("Id", 1);
+        parameters.AddField("TargetId", 2);
+        GameController.SendCommand(
+            GameCommandTypes.DeclareAttack,
+            typeof(SubPhases.CombatSubPhase),
+            parameters.ToString()
+        );
+
+        parameters = new JSONObject();
+        parameters.AddField("Name", "OK");
+        GameController.SendCommand(
+            GameCommandTypes.DiceModification,
+            typeof(SubPhases.AttackDiceRollCombatSubPhase),
+            parameters.ToString()
+        );
+
+        /*parameters = new JSONObject();
+        parameters.AddField("Name", "OK");
+        GameController.SendCommand(
+            GameCommandTypes.DiceModification,
+            typeof(SubPhases.DefenceDiceRollCombatSubPhase),
+            parameters.ToString()
+        );*/
     }
 
 }

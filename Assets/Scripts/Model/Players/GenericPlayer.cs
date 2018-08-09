@@ -104,7 +104,10 @@ namespace Players
 
         public virtual void TakeDecision() { }
 
-        public virtual void AfterShipMovementPrediction() { }
+        public virtual void AfterShipMovementPrediction()
+        {
+            Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+        }
 
         public virtual void ConfirmDiceCheck() { }
 
@@ -156,6 +159,11 @@ namespace Players
         public virtual void PerformSystemsActivation()
         {
             Roster.HighlightPlayer(PlayerNo);
+        }
+
+        public virtual void PressNext()
+        {
+            UI.NextButtonEffect();
         }
     }
 

@@ -13,7 +13,7 @@ public static class GameController
         CommandsReceived = new List<GameCommand>();
     }
 
-    public static void SendCommand(GameCommandTypes commandType, Type subPhase, string parameters)
+    public static void SendCommand(GameCommandTypes commandType, Type subPhase, string parameters = null)
     {
         CommandsReceived.Add(new GameCommand(commandType, subPhase, parameters));
     }
@@ -26,5 +26,24 @@ public static class GameController
     public static void ConfirmCommand()
     {
         CommandsReceived.RemoveAt(0);
+    }
+
+    public static void Next()
+    {
+        GameCommand command = CommandsReceived.FirstOrDefault();
+        if (command != null)
+        {
+            switch (command.Type)
+            {
+                case GameCommandTypes.AssignManeuver:
+                    Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).AssignManeuver();
+                    break;
+                case GameCommandTypes.PressNext:
+                    Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PressNext();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

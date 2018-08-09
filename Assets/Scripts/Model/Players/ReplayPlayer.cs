@@ -32,7 +32,7 @@ namespace Players
             }
             else
             {
-                Console.Write("Replay: No saved Decision", color: "blue");
+                Console.Write("Replay: No saved Decision", color: "aqua");
             }
         }
 
@@ -56,7 +56,7 @@ namespace Players
             }
             else
             {
-                Console.Write("Replay: No saved Obstacle Placement", color: "blue");
+                Console.Write("Replay: No saved Obstacle Placement", color: "aqua");
             }
         }
 
@@ -73,16 +73,142 @@ namespace Players
                 GameController.ConfirmCommand();
 
                 GameMode.CurrentGameMode.ConfirmShipSetup(
-                    (int)(float)command.GetParameter("Id"),
+                    (int) (float) command.GetParameter("Id"),
                     new Vector3((float)command.GetParameter("PositionX"), (float)command.GetParameter("PositionY"), (float)command.GetParameter("PositionZ")),
                     new Vector3((float)command.GetParameter("RotationX"), (float)command.GetParameter("RotationY"), (float)command.GetParameter("RotationZ"))
                 );
             }
             else
             {
-                Console.Write("Replay: No saved Ship Setup", color: "blue");
+                Console.Write("Replay: No saved Ship Setup", color: "aqua");
             }
             
+        }
+
+        public override void AssignManeuver()
+        {
+            base.AssignManeuver();
+
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.AssignManeuver && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            {
+                Console.Write("Replay: Assign Maneuver is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                Selection.ChangeActiveShip("ShipId:" + (int) (float) command.GetParameter("Id"));
+                Selection.ThisShip.SetAssignedManeuver(ShipMovementScript.MovementFromString((string) command.GetParameter("ManeuverCode")));
+
+                //Check next commands
+                GameCommand nextCommand = GameController.GetCommand();
+                if (nextCommand != null && nextCommand.SubPhase == command.SubPhase) GameController.Next();
+            }
+            else
+            {
+                Console.Write("Replay: No saved Assign Maneuver", color: "aqua");
+            }
+        }
+
+        public override void PressNext()
+        {
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.PressNext && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            {
+                Console.Write("Replay: Press Next is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                UI.NextButtonEffect();
+
+                //Check next commands
+                GameCommand nextCommand = GameController.GetCommand();
+                if (nextCommand != null && nextCommand.SubPhase == command.SubPhase) GameController.Next();
+            }
+            else
+            {
+                Console.Write("Replay: No saved Press Next", color: "aqua");
+            }
+        }
+
+        public override void PerformManeuver()
+        {
+            base.PerformManeuver();
+
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.ActiveShipMovement && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            {
+                Console.Write("Replay: Activate Ship Movement is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                Selection.ChangeActiveShip("ShipId:" + (int)(float) command.GetParameter("Id"));
+                ShipMovementScript.ActivateAndMove((int)(float)command.GetParameter("Id"));
+            }
+            else
+            {
+                Console.Write("Replay: No saved Activate Ship Movement", color: "aqua");
+            }
+        }
+
+        public override void PerformAttack()
+        {
+            base.PerformManeuver();
+
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.DeclareAttack && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            {
+                Console.Write("Replay: Declare Attack is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                Selection.ChangeActiveShip("ShipId:" + (int)(float)command.GetParameter("Id"));
+                Selection.ThisShip.CallCombatActivation(
+                    delegate {
+                        Selection.ThisShip.CallAfterAttackWindow();
+                        Selection.ThisShip.IsAttackPerformed = true;
+
+                        Selection.TryToChangeAnotherShip("ShipId:" + (int)(float)command.GetParameter("TargetId"));
+                        Combat.DeclareIntentToAttack((int)(float)command.GetParameter("Id"), (int)(float)command.GetParameter("TargetId"));
+                    }
+                );
+            }
+            else
+            {
+                Console.Write("Replay: No saved Declare Attack Movement", color: "aqua");
+            }
+        }
+
+        public override void UseDiceModifications(DiceModificationTimingType type)
+        {
+            base.UseDiceModifications(type);
+            Combat.ShowDiceModificationButtons(type);
+
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.DiceModification && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            {
+                Console.Write("Replay: Dice Modification is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                string diceModificationName = (string) command.GetParameter("Name");
+                if (diceModificationName == "OK")
+                {
+                    Combat.ConfirmDiceResultsClient();
+                }
+                else
+                {
+                    Combat.UseDiceModification(diceModificationName);
+                }
+            }
+            else
+            {
+                Console.Write("Replay: No saved Dice Modification", color: "aqua");
+            }
         }
     }
 

@@ -41,11 +41,6 @@ namespace Players
             if (subphase.IsForced) GameMode.CurrentGameMode.TakeDecision(subphase.GetDecisions().First(), null);
         }
 
-        public override void AfterShipMovementPrediction()
-        {
-            Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
-        }
-
         public override void ConfirmDiceCheck()
         {
             (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowConfirmButton();

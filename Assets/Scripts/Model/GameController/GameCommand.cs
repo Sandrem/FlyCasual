@@ -8,7 +8,12 @@ public enum GameCommandTypes
     SquadsSync,
     Decision,
     ObstaclePlacement,
-    ShipPlacement
+    ShipPlacement,
+    AssignManeuver,
+    PressNext,
+    ActiveShipMovement,
+    DeclareAttack,
+    DiceModification
 }
 
 namespace GameCommands

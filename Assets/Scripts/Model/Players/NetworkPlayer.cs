@@ -17,11 +17,6 @@ namespace Players
             Name = "Network";
         }
 
-        public override void AfterShipMovementPrediction()
-        {
-            Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
-        }
-
         public override void ConfirmDiceCheck()
         {
             (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowConfirmButton();

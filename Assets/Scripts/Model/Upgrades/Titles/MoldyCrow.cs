@@ -2,10 +2,13 @@
 using Ship.HWK290;
 using Upgrade;
 using Abilities;
+using RuleSets;
+using Abilities.SecondEdition;
+using Arcs;
 
 namespace UpgradesList
 {
-    public class MoldyCrow : GenericUpgrade
+    public class MoldyCrow : GenericUpgrade, ISecondEditionUpgrade
     {
         public MoldyCrow() : base()
         {
@@ -16,6 +19,13 @@ namespace UpgradesList
             isUnique = true;
 
             UpgradeAbilities.Add(new MoldyCrowAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 12;
+            UpgradeAbilities.Clear();
+            UpgradeAbilities.Add(new MoldyCrowAbilitySe());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -42,6 +52,61 @@ namespace Abilities
         private void KeepFocusTokens(Tokens.GenericToken token, ref bool remove)
         {
             if (token is Tokens.FocusToken) remove = false;
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class MoldyCrowAbilitySe : GenericAbility
+    {
+        private int tokenCount = 0;
+
+        public override void ActivateAbility()
+        {
+            HostShip.ChangeFirepowerBy(1);
+
+            HostShip.ShipBaseArcsType = Arcs.BaseArcsType.ArcMobile; //This seems to work, but still prompt the user twice at the beginning
+            HostShip.InitializeShipBaseArc();
+
+            //HostShip.ArcInfo.Arcs.Add(new Arcs.ArcPrimary(HostShip.ShipBase)); //This code has issues with the arc pointing in the right direction
+            //HostShip.ArcInfo.RefreshArcs(); TODO: Added by Sandrem later
+            
+            HostShip.AfterGotNumberOfAttackDice += CheckWeakArc;
+            HostShip.BeforeRemovingTokenInEndPhase += KeepTwoFocusTokens;
+            Phases.Events.OnEndPhaseStart_NoTriggers += OnEndPhaseStart_NoTriggers;
+        }
+
+        private void OnEndPhaseStart_NoTriggers()
+        {
+            tokenCount = 0;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.ChangeFirepowerBy(-1);
+            HostShip.ArcInfo.Arcs.RemoveAll(arc => arc is ArcPrimary);
+            HostShip.AfterGotNumberOfAttackDice -= CheckWeakArc;
+            HostShip.BeforeRemovingTokenInEndPhase -= KeepTwoFocusTokens;
+            Phases.Events.OnEndPhaseStart_NoTriggers -= OnEndPhaseStart_NoTriggers;
+        }
+
+        private void KeepTwoFocusTokens(Tokens.GenericToken token, ref bool remove)
+        {
+            if (tokenCount < 2) //We can only keep up to two focus tokens in Second Edition
+            {
+                if (token is Tokens.FocusToken) remove = false;
+                tokenCount++;
+            }
+            else
+            {
+                if (token is Tokens.FocusToken) remove = true;
+            }
+        }
+
+        private void CheckWeakArc(ref int count)
+        {
+            if (!Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Primary)) count--;
         }
     }
 }

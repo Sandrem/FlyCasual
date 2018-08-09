@@ -52,9 +52,8 @@ namespace Abilities.SecondEdition
         protected override bool FilterAbilityTarget(GenericShip ship)
         {
             return
-                FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) &&
                 FilterTargetsByRange(ship, 1, 3) &&
-                Board.IsShipInArcByType(HostShip, ship, ArcTypes.Mobile);
+                (Board.IsShipInArcByType(HostShip, ship, ArcTypes.Mobile) || Board.IsShipInArcByType(HostShip, ship, ArcTypes.Primary));
         }
     }
 }

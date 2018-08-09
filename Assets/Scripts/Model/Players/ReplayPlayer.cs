@@ -192,17 +192,21 @@ namespace Players
 
             if (command.Type == GameCommandTypes.DiceModification && Phases.CurrentSubPhase.GetType() == command.SubPhase)
             {
-                Console.Write("Replay: Dice Modification is executed", color: "aqua");
-                GameController.ConfirmCommand();
+                DiceModificationTimingType diceModificationType = (DiceModificationTimingType)Enum.Parse(typeof(DiceModificationTimingType), (string)command.GetParameter("Type"));
+                if (type == diceModificationType)
+                {
+                    Console.Write("Replay: Dice Modification is executed", color: "aqua");
+                    GameController.ConfirmCommand();
 
-                string diceModificationName = (string) command.GetParameter("Name");
-                if (diceModificationName == "OK")
-                {
-                    Combat.ConfirmDiceResultsClient();
-                }
-                else
-                {
-                    Combat.UseDiceModification(diceModificationName);
+                    string diceModificationName = (string)command.GetParameter("Name");
+                    if (diceModificationName == "OK")
+                    {
+                        Combat.ConfirmDiceResultsClient();
+                    }
+                    else
+                    {
+                        Combat.UseDiceModification(diceModificationName);
+                    }
                 }
             }
             else

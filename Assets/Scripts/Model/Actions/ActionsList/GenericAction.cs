@@ -5,16 +5,16 @@ using Ship;
 using Upgrade;
 using System;
 
+public enum DiceModificationTimingType
+{
+    AfterRolled,
+    Opposite,
+    Normal,
+    CompareResults
+}
+
 namespace ActionsList
 {
-    public enum DiceModificationTimingType
-    {
-        AfterRolled,
-        Opposite,
-        Normal,
-        CompareResults
-    }
-
     public class GenericAction
     {
         public string Name;

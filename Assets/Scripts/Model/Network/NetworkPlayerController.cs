@@ -206,7 +206,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
             Messages.ShowError("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType());
         }
 
-        (Phases.CurrentSubPhase as DecisionSubPhase).ExecuteDecision(decisionName);
+        DecisionSubPhase.ExecuteDecision(decisionName);
     }
 
     // SETUP

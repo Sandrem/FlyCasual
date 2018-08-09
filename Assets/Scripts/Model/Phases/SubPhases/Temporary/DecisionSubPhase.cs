@@ -134,6 +134,24 @@ namespace SubPhases
             return decisions;
         }
 
+        public static void ExecuteDecision(string decisionName)
+        {
+            Decision decision = (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions().FirstOrDefault(n => n.Name == decisionName);
+            if (decision == null)
+            {
+                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
+
+                string alldecisions = null;
+                foreach (var singleDecision in (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions())
+                {
+                    alldecisions += singleDecision.Name + " ";
+                }
+                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
+                Console.Write("Available decisions: " + alldecisions, LogTypes.Errors, true, "red");
+            }
+            decision.ExecuteDecision();
+        }
+
         public override void Initialize()
         {
             if (decisions.Count != 0)
@@ -321,19 +339,9 @@ namespace SubPhases
             return result;
         }
 
-        public void ExecuteDecision(string decisionName)
-        {
-            Decision decision = decisions.Find(n => n.Name == decisionName);
-            if (decision == null)
-            {
-                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
-            }
-            decision.ExecuteDecision();
-        }
-
         public override void DoDefault()
         {
-            ExecuteDecision(DefaultDecisionName);
+            DecisionSubPhase.ExecuteDecision(DefaultDecisionName);
         }
 
         public static void ConfirmDecision()

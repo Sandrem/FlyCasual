@@ -35,7 +35,8 @@ namespace Players
     {
         Human,
         Ai,
-        Network
+        Network,
+        Replay
     }
 
     public partial class GenericPlayer

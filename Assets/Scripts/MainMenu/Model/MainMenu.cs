@@ -128,11 +128,23 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartSquadBuilerMode(string modeName)
     {
+        InitializeSquadBuilder(modeName);
+        ChangePanel("SelectFactionPanel");
+    }
+
+    public void StartReplay()
+    {
+        Messages.ShowInfo("Replay is started");
+        InitializeSquadBuilder("Replay");
+        ReplaysManager.StartBattle();
+    }
+
+    private void InitializeSquadBuilder(string modeName)
+    {
         SquadBuilder.Initialize();
         SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
         SquadBuilder.SetPlayers(modeName);
         SquadBuilder.SetDefaultPlayerNames();
-        ChangePanel("SelectFactionPanel");
     }
 
     public void InitializePlayerCustomization()

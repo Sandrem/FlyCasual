@@ -1,5 +1,7 @@
-﻿using Ship;
+﻿using RuleSets;
+using Ship;
 using SubPhases;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +9,7 @@ namespace Ship
 {
     namespace LambdaShuttle
     {
-        public class ColonelJendon : LambdaShuttle
+        public class ColonelJendon : LambdaShuttle, ISecondEditionPilot
         {
             public ColonelJendon() : base()
             {
@@ -17,6 +19,18 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.ColonelJendonAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 46;
+
+                UsesCharges = true;
+                MaxCharges = 2;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.ColonelJendonAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.ColonelJendonAbilitySE());
             }
         }
     }
@@ -144,6 +158,72 @@ namespace Abilities
             public override void SkipButton()
             {
                 ConfirmDecision();
+            }
+        }
+    }
+}
+
+
+namespace Abilities.SecondEdition
+{
+    public class ColonelJendonAbilitySE : GenericAbility
+    {
+
+        Dictionary<GenericShip, int[]> savedTargetLockRestrictions;
+
+        public override void ActivateAbility()
+        {
+            Phases.Events.OnActivationPhaseStart += RegisterAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnActivationPhaseStart -= RegisterAbility;
+        }
+
+        private void RegisterAbility()
+        {
+            if (HostShip.Charges > 0)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnActivationPhaseStart, AskUseColonelJendonAbility);
+            }
+        }
+
+        private void AskUseColonelJendonAbility(object sender, EventArgs e)
+        {
+            AskToUseAbility(NeverUseByDefault, UseColonelJendonAbility);
+        }
+
+        private void UseColonelJendonAbility(object sender, EventArgs e)
+        {
+            Phases.Events.OnEndPhaseStart_NoTriggers += RestoreTargetLockRestrictions;
+
+            savedTargetLockRestrictions = new Dictionary<GenericShip, int[]>();
+            foreach(var kv in HostShip.Owner.Ships)
+            {
+                GenericShip curship = kv.Value;
+
+                int[] targetlockRange = new int[2];
+                targetlockRange[0] = curship.TargetLockMinRange;
+                targetlockRange[1] = curship.TargetLockMaxRange;
+
+                savedTargetLockRestrictions.Add(curship, targetlockRange);
+                curship.SetTargetLockRange(4, int.MaxValue);
+            }
+
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void RestoreTargetLockRestrictions()
+        {
+            Phases.Events.OnEndPhaseStart_NoTriggers -= RestoreTargetLockRestrictions;
+
+            foreach(var kv in HostShip.Owner.Ships)
+            {
+                GenericShip curship = kv.Value;
+                int min = savedTargetLockRestrictions[curship][0];
+                int max = savedTargetLockRestrictions[curship][1];
+                curship.SetTargetLockRange(min, max);
             }
         }
     }

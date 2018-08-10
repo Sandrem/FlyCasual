@@ -46,6 +46,7 @@ namespace Ship
         public event EventHandlerActionBool OnTryAddDiceModificationCompareResults;
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;
+        public event EventHandlerShip OnActionDecisionSubphaseEndNoAction;
         public event EventHandlerAction BeforeFreeActionIsPerformed;
         public event EventHandlerAction OnActionIsPerformed;
 
@@ -127,6 +128,11 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnActionDecisionSubPhaseEnd, callback);
         }
 
+        public void CallOnActionDecisionSubphaseEndNoAction()
+        {
+            if (OnActionDecisionSubphaseEndNoAction != null) OnActionDecisionSubphaseEndNoAction(this);
+        }
+
         public void CallActionIsTaken(GenericAction action, Action callBack)
         {
             if (OnActionIsPerformed != null) OnActionIsPerformed(action);
@@ -199,12 +205,19 @@ namespace Ship
                                 if (phase != null && phase.ActionWasPerformed)
                                 {
                                     Actions.TakeActionFinish(
-                                        delegate { Actions.EndActionDecisionSubhase(
+                                        delegate
+                                        {
+                                            Actions.EndActionDecisionSubhase(
                                             delegate { FinishFreeActionDecision(callback); }
-                                        );}
+                                            );
+                                        }
                                     );
                                 }
-                                else FinishFreeActionDecision(callback);
+                                else
+                                {
+                                    Selection.ThisShip.CallOnActionDecisionSubphaseEndNoAction();
+                                    FinishFreeActionDecision(callback);
+                                }
                             }
                         );
                         newSubPhase.ShowSkipButton = !isForced;

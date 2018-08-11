@@ -51,7 +51,7 @@ namespace Abilities
             }
             else
             {
-                HostShip.OnSufferDamageConfirmed += RegisterStealthDeviceCleanupSe;
+                HostShip.OnDamageWasSuccessfullyDealt += RegisterStealthDeviceCleanupSe;
             }
         }
 
@@ -59,7 +59,7 @@ namespace Abilities
         {
             HostShip.ChangeAgilityBy(-1);
             HostShip.OnAttackHitAsDefender -= RegisterStealthDeviceCleanup;
-            HostShip.OnSufferDamageConfirmed -= RegisterStealthDeviceCleanupSe;
+            HostShip.OnDamageWasSuccessfullyDealt -= RegisterStealthDeviceCleanupSe;
         }
 
         private void RegisterStealthDeviceCleanup()
@@ -73,12 +73,12 @@ namespace Abilities
             });
         }
 
-        private void RegisterStealthDeviceCleanupSe(GenericShip ship, bool flag)
+        private void RegisterStealthDeviceCleanupSe(GenericShip ship)
         {
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Discard Stealth Device",
-                TriggerType = TriggerTypes.OnDamageIsDealt, //Stealth Device in SE is deactivated on damage taken
+                TriggerType = TriggerTypes.OnDamageWasSuccessfullyDealt, //Stealth Device in SE is deactivated on damage taken
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = StealthDeviceCleanup
             });

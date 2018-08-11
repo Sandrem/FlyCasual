@@ -2,10 +2,11 @@
 using Upgrade;
 using System.Collections.Generic;
 using Ship.ScurrgH6Bomber;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class Havoc : GenericUpgradeSlotUpgrade
+    public class Havoc : GenericUpgradeSlotUpgrade, ISecondEditionUpgrade
     {
         public Havoc() : base()
         {
@@ -20,6 +21,17 @@ namespace UpgradesList
             ForbiddenSlots = new List<UpgradeType>
             {
                 UpgradeType.Crew
+            };
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 4;
+            isUnique = true;
+            AddedSlots = new List<UpgradeSlot>
+            {
+                new UpgradeSlot(UpgradeType.System) {  },
+                new UpgradeSlot(UpgradeType.Astromech)
             };
         }
 

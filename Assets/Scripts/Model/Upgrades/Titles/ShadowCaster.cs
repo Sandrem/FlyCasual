@@ -1,12 +1,12 @@
-﻿using Ship;
+﻿using Arcs;
+using RuleSets;
+using Ship;
 using Ship.LancerClassPursuitCraft;
 using Upgrade;
-using BoardTools;
-using Arcs;
 
 namespace UpgradesList
 {
-    public class ShadowCaster : GenericUpgradeSlotUpgrade
+    public class ShadowCaster : GenericUpgradeSlotUpgrade, ISecondEditionUpgrade
     {
         public ShadowCaster() : base()
         {
@@ -15,6 +15,11 @@ namespace UpgradesList
             Cost = 3;
 
             UpgradeAbilities.Add(new Abilities.ShadowCasterAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 6;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -45,7 +50,14 @@ namespace Abilities
         {
             if (IsAbilityUsed) return;
 
-            if (!Combat.ShotInfo.InArcByType(ArcTypes.Mobile) || Combat.ShotInfo.Range > 2) return;
+            if (RuleSet.Instance is FirstEdition)
+            {
+                if (!Combat.ShotInfo.InArcByType(ArcTypes.Mobile) || Combat.ShotInfo.Range > 2) return;
+            }
+            else if (RuleSet.Instance is RuleSets.SecondEdition)
+            {
+                if (!(Combat.ShotInfo.InArcByType(ArcTypes.Mobile) && Combat.ShotInfo.InArcByType(ArcTypes.Primary))) return;
+            }
 
             RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AssignTractorBeamToken);
         }

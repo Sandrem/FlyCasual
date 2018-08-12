@@ -234,7 +234,7 @@ namespace Abilities.SecondEdition
             return 
                 FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) &&
                 FilterTargetsByRange(ship, 1, 2) &&
-                Board.IsShipInArcByType(HostShip, ship, ArcTypes.Mobile) &&
+                Board.IsShipInArc(HostShip, ship) &&
                 FilterTargetWithTokens(ship);
         }
     }

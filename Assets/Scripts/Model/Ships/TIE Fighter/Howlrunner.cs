@@ -47,7 +47,7 @@ namespace Abilities
             );
         }
 
-        private bool IsAvailable()
+        protected virtual bool IsAvailable()
         {
             if (Combat.AttackStep != CombatStep.Attack) return false;
 
@@ -88,6 +88,26 @@ namespace Abilities
         public override void DeactivateAbility()
         {
             RemoveDiceModification();
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class HowlrunnerAbilitySE : HowlrunnerAbility
+    {
+        protected override bool IsAvailable()
+        {
+            if (Combat.AttackStep != CombatStep.Attack) return false;
+
+            if (Combat.Attacker.Owner != HostShip.Owner) return false;
+
+            if (Combat.ChosenWeapon.GetType() != typeof(PrimaryWeaponClass)) return false;
+
+            BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(HostShip, Combat.Attacker);
+            if (positionInfo.Range > 1) return false;
+
+            return true;
         }
     }
 }

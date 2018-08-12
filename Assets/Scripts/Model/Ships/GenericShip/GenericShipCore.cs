@@ -452,7 +452,8 @@ namespace Ship
             get { return charges; }
             set
             {
-                for (int i = 0; i < Tokens.CountTokensByType(typeof(ChargeToken)); i++)
+                int currentTokens = Tokens.CountTokensByType(typeof(ChargeToken));
+                for (int i = 0; i < currentTokens; i++)
                 {
                     Tokens.RemoveCondition(typeof(ChargeToken));
                 }

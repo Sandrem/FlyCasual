@@ -301,6 +301,15 @@ namespace Ship
 
         public void InitializeShipBaseArc()
         {
+            if (ArcInfo != null)
+            {
+                List<GenericArc> oldArcs = new List<GenericArc>(ArcInfo.Arcs);
+                foreach (var arc in oldArcs)
+                {
+                    arc.RemoveArc();
+                }
+            };
+
             ArcInfo = new ArcsHolder(this);
 
             switch (ShipBaseArcsType)
@@ -443,7 +452,8 @@ namespace Ship
             get { return charges; }
             set
             {
-                for (int i = 0; i < Tokens.CountTokensByType(typeof(ChargeToken)); i++)
+                int currentTokens = Tokens.CountTokensByType(typeof(ChargeToken));
+                for (int i = 0; i < currentTokens; i++)
                 {
                     Tokens.RemoveCondition(typeof(ChargeToken));
                 }

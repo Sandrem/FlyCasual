@@ -33,7 +33,7 @@ namespace UpgradesList
             Cost = 6;
 
             UpgradeAbilities.RemoveAll(a => a is IonDamageAbility);
-            UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilitySE());
+            UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilityTurretSE());
         }
     }
 }
@@ -94,12 +94,10 @@ namespace Abilities
 
 }
 
-
 namespace Abilities.SecondEdition
 {
-    public class IonDamageAbilitySE : IonDamageAbility
+    public class IonDamageAbilityTurretSE : IonDamageAbilitySE
     {
-
         public override void ActivateAbilityForSquadBuilder()
         {
             HostShip.ActionBar.AddGrantedAction(new RotateArcAction(), HostUpgrade);
@@ -108,29 +106,6 @@ namespace Abilities.SecondEdition
         public override void DeactivateAbilityForSquadBuilder()
         {
             HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
-        }
-
-        protected override void IonTurretEffect(object sender, System.EventArgs e)
-        {
-            var ionTokens = Combat.DiceRollAttack.Successes - 1;
-            Combat.DiceRollAttack.CancelAllResults();
-            Combat.DiceRollAttack.RemoveAllFailures();
-
-            if (ionTokens > 0)
-            {
-                Combat.Defender.Tokens.AssignTokens(
-                    () => new Tokens.IonToken(Combat.Defender),
-                    ionTokens,
-                    delegate {
-                        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                        Game.Wait(2, DefenderSuffersDamage);
-                    }
-                );
-            }
-            else
-            {
-                DefenderSuffersDamage();
-            }
         }
     }
 

@@ -3,10 +3,11 @@ using Upgrade;
 using System.Collections.Generic;
 using ActionsList;
 using Abilities;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class MistHunter : GenericUpgradeSlotUpgrade
+    public class MistHunter : GenericUpgradeSlotUpgrade, ISecondEditionUpgrade
     {
         private readonly UpgradeSlot TractorBeamSlot;
 
@@ -21,6 +22,15 @@ namespace UpgradesList
             AddedSlots = new List<UpgradeSlot> { TractorBeamSlot };
 
             UpgradeAbilities.Add(new GenericActionBarAbility<BarrelRollAction>());    
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 2;
+            AddedSlots = new List<UpgradeSlot>
+            {
+                new UpgradeSlot(UpgradeType.Cannon)
+            };
         }
 
         public override void PreAttachToShip(GenericShip host)
@@ -41,9 +51,12 @@ namespace UpgradesList
 
         public override void PreDettachFromShip()
         {
-            if (Global.ActiveScene != Global.Scene.Battle)
+            if (RuleSet.Instance is FirstEdition)
             {
-                TractorBeamSlot.RemovePreInstallUpgrade();
+                if (Global.ActiveScene != Global.Scene.Battle)
+                {
+                    TractorBeamSlot.RemovePreInstallUpgrade();
+                }
             }
             base.PreDettachFromShip();
         }
@@ -51,7 +64,6 @@ namespace UpgradesList
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship is Ship.G1AStarfighter.G1AStarfighter;
-        }
-        
+        } 
     }
 }

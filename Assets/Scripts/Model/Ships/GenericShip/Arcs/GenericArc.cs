@@ -89,6 +89,11 @@ namespace Arcs
         {
             ShipBase = shipBase;
         }
+
+        public virtual void RemoveArc()
+        {
+            ShipBase.Host.ArcInfo.Arcs.Remove(this);
+        }
     }
 
     public class ArcsHolder

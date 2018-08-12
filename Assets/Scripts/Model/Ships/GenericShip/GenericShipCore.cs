@@ -301,6 +301,15 @@ namespace Ship
 
         public void InitializeShipBaseArc()
         {
+            if (ArcInfo != null)
+            {
+                List<GenericArc> oldArcs = new List<GenericArc>(ArcInfo.Arcs);
+                foreach (var arc in oldArcs)
+                {
+                    arc.RemoveArc();
+                }
+            };
+
             ArcInfo = new ArcsHolder(this);
 
             switch (ShipBaseArcsType)

@@ -25,11 +25,12 @@ public static partial class Roster {
         rosterPlayer2 = new List<GameObject>();
         AllShips = new Dictionary<string, GenericShip>();
 
+        PrepareSquadrons();
         CreatePlayers();
         SpawnAllShips();
         SetPlayerCustomization();
     }
-    
+
     public static GameObject CreateRosterInfo(GenericShip newShip)
     {
         GameObject prefab = (GameObject)Resources.Load("Prefabs/RosterPanel", typeof(GameObject));

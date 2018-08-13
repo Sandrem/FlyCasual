@@ -40,7 +40,7 @@ namespace GameModes
 
         public override void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
         {
-            (Phases.CurrentSubPhase as SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
+            SetupSubPhase.SendPlaceShipCommand(shipId, position, angles);
         }
 
         public override void ActivateShipForMovement(int shipId)
@@ -173,7 +173,7 @@ namespace GameModes
 
         public override void TakeDecision(Decision decision, GameObject button)
         {
-            decision.ExecuteDecision(button);
+            DecisionSubPhase.SendDecisionCommand(decision.Name);
         }
 
         public override void FinishMovementExecution()
@@ -257,7 +257,7 @@ namespace GameModes
 
         public override void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
         {
-            (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceObstacleClient(obstacleName, position, angles);
+            ObstaclesPlacementSubPhase.SendPlaceObstacleCommand(obstacleName, position, angles);
         }
 
         public override void SelectObstacle(string obstacleName)

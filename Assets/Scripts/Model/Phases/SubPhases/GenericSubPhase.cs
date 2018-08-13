@@ -126,7 +126,7 @@ namespace SubPhases
 
         public virtual void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed) { }
 
-        protected void HideSubphaseDescription()
+        protected static void HideSubphaseDescription()
         {
             GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
             subphaseDescriptionGO.SetActive(false);

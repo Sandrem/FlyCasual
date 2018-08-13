@@ -2,6 +2,7 @@
 using GameCommands;
 using GameModes;
 using Ship;
+using SubPhases;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Players
                 Console.Write("Replay: Saved Decision is executed", color: "aqua");
                 GameController.ConfirmCommand();
 
-                SubPhases.DecisionSubPhase.ExecuteDecision((string) command.GetParameter("Name"));
+                DecisionSubPhase.ExecuteDecision(command.GetString("name"));
             }
             else
             {
@@ -48,10 +49,10 @@ namespace Players
                 Console.Write("Replay: Obstacle Placement is executed", color: "aqua");
                 GameController.ConfirmCommand();
 
-                GameMode.CurrentGameMode.PlaceObstacle(
-                    (string) command.GetParameter("Name"),
-                    new Vector3((float) command.GetParameter("PositionX"), (float)command.GetParameter("PositionY"), (float)command.GetParameter("PositionZ")),
-                    new Vector3((float) command.GetParameter("RotationX"), (float)command.GetParameter("RotationY"), (float)command.GetParameter("RotationZ"))
+                ObstaclesPlacementSubPhase.PlaceObstacle(
+                    command.GetString("name"),
+                    new Vector3(command.GetFloat("positionX"), command.GetFloat("positionY"), command.GetFloat("positionZ")),
+                    new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
                 );
             }
             else
@@ -72,10 +73,10 @@ namespace Players
                 Console.Write("Replay: Ship Setup is executed", color: "aqua");
                 GameController.ConfirmCommand();
 
-                GameMode.CurrentGameMode.ConfirmShipSetup(
-                    (int) (float) command.GetParameter("Id"),
-                    new Vector3((float)command.GetParameter("PositionX"), (float)command.GetParameter("PositionY"), (float)command.GetParameter("PositionZ")),
-                    new Vector3((float)command.GetParameter("RotationX"), (float)command.GetParameter("RotationY"), (float)command.GetParameter("RotationZ"))
+                SetupSubPhase.PlaceShip(
+                    int.Parse(command.GetString("id")),
+                    new Vector3(command.GetFloat("positionX"), command.GetFloat("positionY"), command.GetFloat("positionZ")),
+                    new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
                 );
             }
             else

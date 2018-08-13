@@ -134,9 +134,21 @@ namespace SubPhases
             return decisions;
         }
 
+        public static void SendDecisionCommand(string decisionName)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("name", decisionName);
+            GameController.SendCommand(
+                GameCommandTypes.Decision,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
+
         public static void ExecuteDecision(string decisionName)
         {
             Decision decision = (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions().FirstOrDefault(n => n.Name == decisionName);
+
             if (decision == null)
             {
                 Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
@@ -146,9 +158,9 @@ namespace SubPhases
                 {
                     alldecisions += singleDecision.Name + " ";
                 }
-                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
                 Console.Write("Available decisions: " + alldecisions, LogTypes.Errors, true, "red");
             }
+
             decision.ExecuteDecision();
         }
 
@@ -341,7 +353,7 @@ namespace SubPhases
 
         public override void DoDefault()
         {
-            DecisionSubPhase.ExecuteDecision(DefaultDecisionName);
+            DecisionSubPhase.SendDecisionCommand(DefaultDecisionName);
         }
 
         public static void ConfirmDecision()

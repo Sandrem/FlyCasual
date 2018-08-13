@@ -128,6 +128,9 @@ public class RosterBuilderUI : MonoBehaviour {
         {
             SquadBuilder.SaveSquadConfigurations();
 
+            GameController.Initialize();
+            ReplaysManager.Initialize(ReplaysMode.Write);
+
             if (!SquadBuilder.IsNetworkGame)
             {
                 SquadBuilder.StartLocalGame();

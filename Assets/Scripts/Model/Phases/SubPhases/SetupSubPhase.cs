@@ -11,7 +11,7 @@ namespace SubPhases
 
     public class SetupSubPhase : GenericSubPhase
     {
-        private bool inReposition;
+        private static bool inReposition;
 
         private Transform StartingZone;
         private bool isInsideStartingZone;
@@ -143,7 +143,20 @@ namespace SubPhases
             return ship.PilotSkill == RequiredPilotSkill && !ship.IsSetupPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
-        public void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
+        public static void SendPlaceShipCommand(int shipId, Vector3 position, Vector3 angles)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("id", shipId.ToString());
+            parameters.AddField("positionX", position.x); parameters.AddField("positionY", position.y); parameters.AddField("positionZ", position.z);
+            parameters.AddField("rotationX", angles.x); parameters.AddField("rotationY", angles.y); parameters.AddField("rotationZ", angles.z);
+            GameController.SendCommand(
+                GameCommandTypes.ShipPlacement,
+                typeof(SetupSubPhase),
+                parameters.ToString()
+            );
+        }
+
+        public static void PlaceShip(int shipId, Vector3 position, Vector3 angles)
         {
             Roster.SetRaycastTargets(true);
             inReposition = false;

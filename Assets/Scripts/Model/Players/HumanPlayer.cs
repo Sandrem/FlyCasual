@@ -138,7 +138,7 @@ namespace Players
             }
             else
             {
-                subphase.IsLocked = false;
+                SubPhases.ObstaclesPlacementSubPhase.IsLocked = false;
                 if (!Network.IsNetworkGame) UI.ShowSkipButton("Random");
             }
         }

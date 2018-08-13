@@ -134,7 +134,6 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartReplay()
     {
-        Messages.ShowInfo("Replay is started");
         InitializeSquadBuilder("Replay");
         ReplaysManager.StartBattle();
     }

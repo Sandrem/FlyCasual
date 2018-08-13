@@ -206,7 +206,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
             Messages.ShowError("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType());
         }
 
-        DecisionSubPhase.ExecuteDecision(decisionName);
+        DecisionSubPhase.SendDecisionCommand(decisionName);
     }
 
     // SETUP
@@ -220,7 +220,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
     {
-        (Phases.CurrentSubPhase as SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
+        SetupSubPhase.SendPlaceShipCommand(shipId, position, angles);
     }
 
     // ASSIGN MANEUVER
@@ -1211,7 +1211,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcPlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
     {
-        (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceObstacleClient(obstacleName, position, angles);
+        ObstaclesPlacementSubPhase.SendPlaceObstacleCommand(obstacleName, position, angles);
     }
 
 }

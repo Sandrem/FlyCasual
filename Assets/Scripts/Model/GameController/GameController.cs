@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GameCommands;
+using SubPhases;
+using UnityEngine;
 
 public static class GameController
 {
@@ -15,7 +17,44 @@ public static class GameController
 
     public static void SendCommand(GameCommandTypes commandType, Type subPhase, string parameters = null)
     {
-        CommandsReceived.Add(new GameCommand(commandType, subPhase, parameters));
+        GameCommand command = new GameCommand(commandType, subPhase, parameters);
+        CommandsReceived.Add(command);
+
+        if (ReplaysManager.Mode == ReplaysMode.Write)
+        {
+            ReplaysManager.RecordCommand(command);
+        }
+
+        TryExecuteCommand(command);
+    }
+
+    private static void TryExecuteCommand(GameCommand command)
+    {
+        if (Phases.CurrentSubPhase !=null && Phases.CurrentSubPhase.GetType() == command.SubPhase) // & Subphase is ready
+        {
+            switch (command.Type)
+            {
+                case GameCommandTypes.Decision:
+                    DecisionSubPhase.ExecuteDecision(command.GetString("name"));
+                    break;
+                case GameCommandTypes.ObstaclePlacement:
+                    ObstaclesPlacementSubPhase.PlaceObstacle(
+                        command.GetString("name"),
+                        new Vector3(command.GetFloat("positionX"), command.GetFloat("positionY"), command.GetFloat("positionZ")),
+                        new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
+                    );
+                    break;
+                case GameCommandTypes.ShipPlacement:
+                    SetupSubPhase.PlaceShip(
+                        int.Parse(command.GetString("id")),
+                        new Vector3(command.GetFloat("positionX"), command.GetFloat("positionY"), command.GetFloat("positionZ")),
+                        new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
+                    );
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     public static GameCommand GetCommand()
@@ -46,4 +85,5 @@ public static class GameController
             }
         }
     }
+
 }

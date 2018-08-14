@@ -83,6 +83,19 @@ public static class GameController
                         Combat.UseDiceModification(diceModificationName);
                     }
                     break;
+                case GameCommandTypes.SelectShip:
+                    SelectShipSubPhase.SelectShip(int.Parse(command.GetString("id")));
+                    break;
+                case GameCommandTypes.SyncDiceResults:
+                    List<DieSide> correctSides = new List<DieSide>();
+                    JSONObject jsonHolder = (JSONObject) command.GetParameter("sides");
+                    foreach (var dieInfo in jsonHolder.list)
+                    {
+                        DieSide side = (DieSide)Enum.Parse(typeof(DieSide), dieInfo["side"].str);
+                        correctSides.Add(side);
+                    }
+                    DiceRollCombatSubPhase.SyncDiceResults(correctSides);
+                    break;
                 default:
                     break;
             }

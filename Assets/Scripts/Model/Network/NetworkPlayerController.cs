@@ -723,14 +723,14 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCalculateDiceRoll()
     {
-        if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Combat)
+        /*if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Combat)
         {
             (Phases.CurrentSubPhase as DiceRollCombatSubPhase).CalculateDice();
         }
         else if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Check)
         {
             (Phases.CurrentSubPhase as DiceRollCheckSubPhase).CalculateDice();
-        }
+        }*/
     }
 
     // DICE REROLL SYNC

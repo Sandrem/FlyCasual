@@ -14,7 +14,9 @@ public enum GameCommandTypes
     PressNext,
     ActivateAndMove,
     DeclareAttack,
-    DiceModification
+    DiceModification,
+    SelectShip,
+    SyncDiceResults
 }
 
 namespace GameCommands

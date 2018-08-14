@@ -48,7 +48,7 @@ namespace SubPhases
         {
             DiceRoll DiceRollCombat;
             DiceRollCombat = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
-            DiceRollCombat.Roll(SyncDiceResults);
+            DiceRollCombat.Roll(SendSyncDiceResultsCommand);
         }
 
         private void ShowAttackAnimationAndSound()
@@ -71,27 +71,49 @@ namespace SubPhases
             }
         }
 
-        private void SyncDiceResults(DiceRoll diceroll)
+        private static void SendSyncDiceResultsCommand(DiceRoll diceroll)
         {
-            if (!Network.IsNetworkGame)
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
+
+            /*if (!Network.IsNetworkGame)
             {
                 ImmediatelyAfterRolling(diceroll);
             }
             else
             {
                 Network.SyncDiceResults();
-            }
+            }*/
         }
 
-        public void CalculateDice()
+        public static void SyncDiceResults(List<DieSide> sides)
         {
-            ImmediatelyAfterRolling(DiceRoll.CurrentDiceRoll);
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+
+            bool wasFixed = false;
+
+            for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
+            {
+                Die die = DiceRoll.CurrentDiceRoll.DiceList[i];
+                if (die.Side != sides[i])
+                {
+                    die.SetSide(sides[i]);
+                    die.SetModelSide(sides[i]);
+
+                    wasFixed = true;
+                }
+            }
+
+            if (wasFixed) DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
+
+            (Phases.CurrentSubPhase as DiceRollCombatSubPhase).ImmediatelyAfterRolling();
         }
 
-        private void ImmediatelyAfterRolling(DiceRoll diceroll)
+        private void ImmediatelyAfterRolling()
         {
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-            Selection.ActiveShip.CallOnImmediatelyAfterRolling(diceroll, delegate { FinallyCheckResults(diceroll); });
+            Selection.ActiveShip.CallOnImmediatelyAfterRolling(DiceRoll.CurrentDiceRoll, delegate { FinallyCheckResults(DiceRoll.CurrentDiceRoll); });
         }
 
         private void FinallyCheckResults(DiceRoll diceroll)

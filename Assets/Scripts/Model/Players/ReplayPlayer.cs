@@ -204,6 +204,51 @@ namespace Players
                 Console.Write("Replay: No saved Dice Modification", color: "aqua");
             }
         }
+
+        public override void SelectShipForAbility()
+        {
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.SelectShip && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
+            {
+                Console.Write("Replay: Select ship is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                SelectShipSubPhase.SelectShip(int.Parse(command.GetString("id")));
+
+            }
+            else
+            {
+                Console.Write("Replay: No saved Select ship", color: "aqua");
+            }
+        }
+
+        public override void SyncDiceResults()
+        {
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.SyncDiceResults && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
+            {
+                Console.Write("Replay: Sync Dice Results is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                List<DieSide> correctSides = new List<DieSide>();
+                JSONObject jsonHolder = (JSONObject)command.GetParameter("sides");
+                foreach (var dieInfo in jsonHolder.list)
+                {
+                    DieSide side = (DieSide)Enum.Parse(typeof(DieSide), dieInfo["side"].str);
+                    correctSides.Add(side);
+                }
+
+                DiceRollCombatSubPhase.SyncDiceResults(correctSides);
+            }
+            else
+            {
+                Console.Write("Replay: No saved Sync Dice Results", color: "aqua");
+            }
+        }
     }
 
 }

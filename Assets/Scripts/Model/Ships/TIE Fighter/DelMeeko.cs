@@ -64,7 +64,7 @@ namespace Abilities
 
             public override bool IsDiceModificationAvailable()
             {
-                if (Combat.Attacker.Damage.IsDamaged())
+                if (!Combat.Attacker.Damage.IsDamaged())
                     return false;
                 else
                     return base.IsDiceModificationAvailable();

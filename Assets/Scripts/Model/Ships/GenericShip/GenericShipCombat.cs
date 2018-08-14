@@ -150,6 +150,7 @@ namespace Ship
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
         public event EventHandlerInt AfterGotNumberOfAttackDice;
         public event EventHandlerInt AfterGotNumberOfDefenceDice;
+        public event EventHandlerInt AfterNumberOfDefenceDiceConfirmed;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
@@ -453,7 +454,15 @@ namespace Ship
 
             if (result < 0) result = 0;
 
+            int temporary = result;
+            CallAfterNumberOfDefenceDiceConfirmed(temporary);
+
             return result;
+        }
+
+        public void CallAfterNumberOfDefenceDiceConfirmed(int numDefenceDice)
+        {
+            if (AfterNumberOfDefenceDiceConfirmed != null) AfterNumberOfDefenceDiceConfirmed(ref numDefenceDice);
         }
 
         // REGEN

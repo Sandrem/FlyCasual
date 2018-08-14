@@ -152,6 +152,13 @@ namespace Arcs
             host.OnShipIsPlaced += AskForMobileFiringArcDirection;
         }
 
+        public override void RemoveArc()
+        {
+            ShipBase.Host.OnShipIsPlaced -= AskForMobileFiringArcDirection;
+
+            base.RemoveArc();
+        }
+
         private void AskForMobileFiringArcDirection(GenericShip host)
         {
             host.OnShipIsPlaced -= AskForMobileFiringArcDirection;

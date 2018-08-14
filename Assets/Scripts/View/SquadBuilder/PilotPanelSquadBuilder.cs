@@ -67,6 +67,8 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
     private void ShowTextVersionOfCard()
     {
+        if (this == null) return;
+
         this.transform.Find("PilotInfo").GetComponent<Text>().text = Ship.PilotName;
         this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.Cost.ToString();
 

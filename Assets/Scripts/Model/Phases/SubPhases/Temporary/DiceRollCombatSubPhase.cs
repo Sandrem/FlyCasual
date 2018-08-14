@@ -48,7 +48,7 @@ namespace SubPhases
         {
             DiceRoll DiceRollCombat;
             DiceRollCombat = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
-            DiceRollCombat.Roll(SendSyncDiceResultsCommand);
+            DiceRollCombat.Roll(delegate { ImmediatelyAfterRolling(); });
         }
 
         private void ShowAttackAnimationAndSound()
@@ -69,45 +69,6 @@ namespace SubPhases
                 Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
                 Selection.ThisShip.AnimateTurretWeapon();
             }
-        }
-
-        private static void SendSyncDiceResultsCommand(DiceRoll diceroll)
-        {
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
-
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
-
-            /*if (!Network.IsNetworkGame)
-            {
-                ImmediatelyAfterRolling(diceroll);
-            }
-            else
-            {
-                Network.SyncDiceResults();
-            }*/
-        }
-
-        public static void SyncDiceResults(List<DieSide> sides)
-        {
-            Phases.CurrentSubPhase.IsReadyForCommands = false;
-
-            bool wasFixed = false;
-
-            for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
-            {
-                Die die = DiceRoll.CurrentDiceRoll.DiceList[i];
-                if (die.Side != sides[i])
-                {
-                    die.SetSide(sides[i]);
-                    die.SetModelSide(sides[i]);
-
-                    wasFixed = true;
-                }
-            }
-
-            if (wasFixed) DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
-
-            (Phases.CurrentSubPhase as DiceRollCombatSubPhase).ImmediatelyAfterRolling();
         }
 
         private void ImmediatelyAfterRolling()

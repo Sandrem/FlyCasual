@@ -602,8 +602,38 @@ public partial class DiceRoll
 
             UpdateDiceCompareHelperPrediction();
 
-            callBack(this);
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
         }
+    }
+
+    public static void SyncDiceResults(List<DieSide> sides)
+    {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
+        bool wasFixed = false;
+
+        for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
+        {
+            Die die = DiceRoll.CurrentDiceRoll.DiceList[i];
+            if (die.Side != sides[i])
+            {
+                die.SetSide(sides[i]);
+                die.SetModelSide(sides[i]);
+
+                wasFixed = true;
+            }
+        }
+
+        if (wasFixed) DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
+
+        CurrentDiceRoll.ExecuteCallback();
+    }
+
+    public void ExecuteCallback()
+    {
+        callBack(this);
     }
 
     public void RemoveDiceModels()

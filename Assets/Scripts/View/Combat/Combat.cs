@@ -204,6 +204,7 @@ public static partial class Combat
     private static void ReGenerateListOfButtons(DiceModificationTimingType timingType)
     {
         ShowDiceModificationButtons(timingType, true);
+        Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).UseDiceModifications(timingType);
     }
 
     public static void ConfirmDiceResults()

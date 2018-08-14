@@ -94,7 +94,7 @@ public static class GameController
                         DieSide side = (DieSide)Enum.Parse(typeof(DieSide), dieInfo["side"].str);
                         correctSides.Add(side);
                     }
-                    DiceRollCombatSubPhase.SyncDiceResults(correctSides);
+                    DiceRoll.SyncDiceResults(correctSides);
                     break;
                 case GameCommandTypes.SyncDiceRerollSelected:
                     List<bool> selectedDice = new List<bool>();

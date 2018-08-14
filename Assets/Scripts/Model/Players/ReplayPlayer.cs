@@ -242,7 +242,7 @@ namespace Players
                     correctSides.Add(side);
                 }
 
-                DiceRollCombatSubPhase.SyncDiceResults(correctSides);
+                DiceRoll.SyncDiceResults(correctSides);
             }
             else
             {
@@ -274,6 +274,11 @@ namespace Players
             {
                 Console.Write("Replay: No saved Sync Dice Reroll Selected", color: "aqua");
             }
+        }
+
+        public override void RerollManagerIsPrepared()
+        {
+            DiceRerollManager.CurrentDiceRerollManager.ConfirmRerollButtonIsPressed();
         }
     }
 

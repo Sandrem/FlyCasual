@@ -241,7 +241,7 @@ namespace GameModes
 
         public override void StartDiceRerollExecution()
         {
-            DiceRerollManager.CurrentDiceRerollManager.ConfirmReroll();
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
         }
 
         public override void ReturnToMainMenu()

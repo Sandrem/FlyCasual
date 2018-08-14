@@ -16,7 +16,8 @@ public enum GameCommandTypes
     DeclareAttack,
     DiceModification,
     SelectShip,
-    SyncDiceResults
+    SyncDiceResults,
+    SyncDiceRerollSelected,
 }
 
 namespace GameCommands

@@ -96,6 +96,16 @@ public static class GameController
                     }
                     DiceRollCombatSubPhase.SyncDiceResults(correctSides);
                     break;
+                case GameCommandTypes.SyncDiceRerollSelected:
+                    List<bool> selectedDice = new List<bool>();
+                    JSONObject jsonHolder1 = (JSONObject)command.GetParameter("dice");
+                    foreach (var dieInfo in jsonHolder1.list)
+                    {
+                        bool isSelected = bool.Parse(dieInfo["selected"].str);
+                        selectedDice.Add(isSelected);
+                    }
+                    DiceRerollManager.SyncDiceRerollSelected(selectedDice);
+                    break;
                 default:
                     break;
             }

@@ -187,6 +187,28 @@ namespace Players
                 parameters.ToString()
             );
         }
+
+        public virtual void SyncDiceRerollSelected()
+        {
+            JSONObject[] diceRerollSelectedArray = new JSONObject[DiceRoll.CurrentDiceRoll.DiceList.Count];
+            for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
+            {
+                bool isSelected = DiceRoll.CurrentDiceRoll.DiceList[i].IsSelected;
+                string isSelectedText = isSelected.ToString();
+                JSONObject isSelectedJson = new JSONObject();
+                isSelectedJson.AddField("selected", isSelectedText);
+                diceRerollSelectedArray[i] = isSelectedJson;
+            }
+            JSONObject diceRerollSelected = new JSONObject(diceRerollSelectedArray);
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("dice", diceRerollSelected);
+
+            GameController.SendCommand(
+                GameCommandTypes.SyncDiceRerollSelected,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
     }
 
 }

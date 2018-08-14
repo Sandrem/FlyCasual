@@ -249,6 +249,32 @@ namespace Players
                 Console.Write("Replay: No saved Sync Dice Results", color: "aqua");
             }
         }
+
+        public override void SyncDiceRerollSelected()
+        {
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.SyncDiceRerollSelected && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
+            {
+                Console.Write("Replay: Sync Dice Reroll Selected is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                List<bool> selectedDice = new List<bool>();
+                JSONObject jsonHolder = (JSONObject)command.GetParameter("dice");
+                foreach (var dieInfo in jsonHolder.list)
+                {
+                    bool isSelected = bool.Parse(dieInfo["selected"].str);
+                    selectedDice.Add(isSelected);
+                }
+
+                DiceRerollManager.SyncDiceRerollSelected(selectedDice);
+            }
+            else
+            {
+                Console.Write("Replay: No saved Sync Dice Reroll Selected", color: "aqua");
+            }
+        }
     }
 
 }

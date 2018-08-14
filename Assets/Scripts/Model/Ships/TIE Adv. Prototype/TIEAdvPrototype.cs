@@ -82,8 +82,6 @@ namespace Ship
                 ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
                 ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
                 ActionBar.AddPrintedAction(new EvadeAction());
-
-                IconicPilots[Faction.Imperial] = typeof(BaronOfTheEmpire);
             }
 
         }

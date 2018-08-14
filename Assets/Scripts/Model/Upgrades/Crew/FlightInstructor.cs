@@ -78,7 +78,7 @@ namespace ActionsList
                 bool canRerollBlank = Combat.Attacker.PilotSkill <= 2 && Combat.DiceRollDefence.BlanksNotRerolled > 0;
                 bool canRerollFocus = Combat.DiceRollDefence.FocusesNotRerolled > 0;
 
-                if (Combat.Defender.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
+                if (Combat.Defender.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0 )
                 {
                     if (canRerollBlank)
                     {

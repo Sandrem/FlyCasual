@@ -6,11 +6,12 @@ using ActionsList;
 using SubPhases;
 using Tokens;
 using RuleSets;
+using System.Collections.Generic;
 
 namespace UpgradesList
 {
 
-    public class ExpertHandling : GenericUpgrade, ISecondEditionUpgrade
+    public class ExpertHandling : GenericUpgrade, ISecondEditionUpgrade, IVariableCost
     {
         private bool isSecondEdition = false;
 
@@ -35,6 +36,18 @@ namespace UpgradesList
         {
             if (isSecondEdition) return ship.ActionBar.HasAction(typeof(BarrelRollAction), isRed:true);
             else return true;
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
+            {
+                {BaseSize.Small, 2},
+                {BaseSize.Medium, 4},
+                {BaseSize.Large, 6},
+            };
+
+            Cost = sizeToCost[ship.ShipBaseSize];
         }
     }
 }

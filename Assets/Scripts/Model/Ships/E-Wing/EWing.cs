@@ -94,7 +94,7 @@ namespace Ship
 
                 SetTargetLockRange(2, int.MaxValue);
 
-                IconicPilots[Faction.Rebel] = typeof(RogueSquadronEscort);
+                IconicPilots[Faction.Rebel] = typeof(KnaveSquadronEscort);
             }
 
         }

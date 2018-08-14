@@ -150,6 +150,7 @@ namespace Ship
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
         public event EventHandlerInt AfterGotNumberOfAttackDice;
         public event EventHandlerInt AfterGotNumberOfDefenceDice;
+        public event EventHandlerInt AfterNumberOfDefenceDiceConfirmed;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
 
@@ -268,10 +269,6 @@ namespace Ship
 
         public void CallShotStart()
         {
-            ClearAlreadyExecutedDiceModificationsCompareResults();
-            ClearAlreadyExecutedDiceModificationsOpposite();
-            ClearAlreadyExecutedDiceModifications();
-
             if (Combat.Attacker.ShipId == this.ShipId)
             {
                 if (OnShotStartAsAttacker != null) OnShotStartAsAttacker();
@@ -289,17 +286,11 @@ namespace Ship
 
         public void CallDefenceStartAsAttacker()
         {
-            ClearAlreadyExecutedDiceModificationsCompareResults();
-            ClearAlreadyExecutedDiceModificationsOpposite();
-            ClearAlreadyExecutedDiceModifications();
             if (OnDefenceStartAsAttacker != null) OnDefenceStartAsAttacker();
         }
 
         public void CallDefenceStartAsDefender()
         {
-            ClearAlreadyExecutedDiceModificationsCompareResults();
-            ClearAlreadyExecutedDiceModificationsOpposite();
-            ClearAlreadyExecutedDiceModifications();
             if (OnDefenceStartAsDefender != null) OnDefenceStartAsDefender();
         }
 
@@ -463,7 +454,15 @@ namespace Ship
 
             if (result < 0) result = 0;
 
+            int temporary = result;
+            CallAfterNumberOfDefenceDiceConfirmed(temporary);
+
             return result;
+        }
+
+        public void CallAfterNumberOfDefenceDiceConfirmed(int numDefenceDice)
+        {
+            if (AfterNumberOfDefenceDiceConfirmed != null) AfterNumberOfDefenceDiceConfirmed(ref numDefenceDice);
         }
 
         // REGEN

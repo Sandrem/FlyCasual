@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using ActionsList;
+using Ship;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,25 +27,11 @@ namespace Players
             (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowConfirmButton();
         }
 
-        public override void UseOwnDiceModifications()
+        public override void UseDiceModifications(DiceModificationTimingType type)
         {
-            base.UseOwnDiceModifications();
+            base.UseDiceModifications(type);
 
-            Combat.ShowOwnDiceResultMenu();
-        }
-
-        public override void UseOppositeDiceModifications()
-        {
-            base.UseOppositeDiceModifications();
-
-            Combat.ShowOppositeDiceResultMenu();
-        }
-
-        public override void UseCompareResultsDiceModifications()
-        {
-            base.UseCompareResultsDiceModifications();
-
-            Combat.ShowCompareResultsMenu();
+            Combat.ShowDiceModificationButtons(type);
         }
 
         public override void PerformTractorBeamReposition(GenericShip ship)

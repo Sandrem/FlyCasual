@@ -11,6 +11,7 @@ namespace Tokens
         public ChargeToken(GenericShip host) : base(host)
         {
             Name = "Charge Token";
+            PriorityUI = 90;
             Temporary = false;
         }
     }

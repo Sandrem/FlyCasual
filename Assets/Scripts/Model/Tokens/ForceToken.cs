@@ -11,6 +11,7 @@ namespace Tokens
         public ForceToken(GenericShip host) : base(host)
         {
             Name = "Force Token";
+            PriorityUI = 100;
             Temporary = false;
         }
     }

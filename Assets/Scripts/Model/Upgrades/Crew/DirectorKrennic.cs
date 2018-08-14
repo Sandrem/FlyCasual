@@ -339,7 +339,7 @@ namespace ActionsList
                 {
                     result = 90;
                 }
-                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
                     result = 90;
                 }
@@ -385,12 +385,9 @@ namespace ActionsList
                 }
                 else
                 {
-                    foreach (var token in friendlyKrennicShip.Tokens.GetAllTokens())
+                    foreach (BlueTargetLockToken token in friendlyKrennicShip.Tokens.GetTokens<BlueTargetLockToken>())
                     {
-                        if (token is BlueTargetLockToken)
-                        {
-                            if ((token as BlueTargetLockToken).OtherTokenOwner == Combat.Defender) return true;
-                        }
+                        if (token.OtherTokenOwner == Combat.Defender) return true;
                     }
                 }
                 return false;

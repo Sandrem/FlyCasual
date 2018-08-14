@@ -585,15 +585,27 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdSwitchToOwnDiceModifications()
+    public void CmdSwitchToRegularDiceModifications()
     {
-        RpcSwitchToOwnDiceModifications();
+        RpcSwitchToRegularDiceModifications();
     }
 
     [ClientRpc]
-    private void RpcSwitchToOwnDiceModifications()
+    private void RpcSwitchToRegularDiceModifications()
     {
-        Combat.SwitchToOwnDiceModificationsClient();
+        Combat.SwitchToRegularDiceModificationsClient();
+    }
+
+    [Command]
+    public void CmdSwitchToAfterRolledDiceModifications()
+    {
+        RpcSwitchToAfterRolledDiceModifications();
+    }
+
+    [ClientRpc]
+    private void RpcSwitchToAfterRolledDiceModifications()
+    {
+        Combat.SwitchToAfterRolledDiceModificationsClient();
     }
 
     [Command]

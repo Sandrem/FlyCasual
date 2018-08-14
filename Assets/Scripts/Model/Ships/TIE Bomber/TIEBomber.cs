@@ -86,7 +86,7 @@ namespace Ship
                 ActionBar.AddActionLink(typeof(BarrelRollAction), new TargetLockAction() { IsRed = true });
                 ActionBar.AddPrintedAction(new ReloadAction() { IsRed = true });
 
-                IconicPilots[Faction.Imperial] = typeof(ScimitarSquadronPilot);
+                IconicPilots[Faction.Imperial] = typeof(CaptainJonus);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.NimbleBomber());
             }

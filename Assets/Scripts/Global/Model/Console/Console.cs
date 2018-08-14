@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 using System.Reflection;
 using System;
+using UnityEngine.Analytics;
 
 public enum LogTypes
 {
@@ -101,9 +102,41 @@ public partial class Console : MonoBehaviour {
         {
             if (IsHiddenError(logString)) return;
 
+            SendReport(stackTrace);
+
             IsActive = true;
             Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");
         }
+    }
+
+    private void SendReport(string stackTrace)
+    {
+        string[] StackTraceLines = stackTrace.Split('\n');
+        string StackTraceFilesList = "";
+        foreach (var line in StackTraceLines)
+        {
+            int lastPosition = line.LastIndexOf('/');
+            if (lastPosition != -1)
+            {
+                string fileName = line.Substring(lastPosition + 1, line.Length - lastPosition - 2);
+                if (StackTraceFilesList.Length != 0) StackTraceFilesList += "\n";
+                StackTraceFilesList += fileName;
+
+                if (StackTraceFilesList.Length > 99)
+                {
+                    StackTraceFilesList = StackTraceFilesList.Substring(0, 99);
+                    break;
+                }
+            }
+        }
+
+        AnalyticsEvent.LevelFail(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+            new Dictionary<string, object>()
+            {
+                    { "T", StackTraceFilesList }
+            }
+        );
     }
 
     private bool IsHiddenError(string text)

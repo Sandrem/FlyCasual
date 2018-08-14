@@ -82,7 +82,7 @@ namespace Ship
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
 
-                IconicPilots[Faction.Rebel] = typeof(BlueSquadronPilot);
+                IconicPilots[Faction.Rebel] = typeof(BraylenStramm);
             }
 
         }

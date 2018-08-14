@@ -164,6 +164,8 @@ public class ShipMovementScript : MonoBehaviour {
 
     public static void ActivateAndMove(int shipId)
     {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
         Selection.ChangeActiveShip("ShipId:" + shipId);
 
         UI.HideContextMenu();

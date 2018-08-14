@@ -66,24 +66,38 @@ public static partial class Combat
 
     // DECLARE INTENT TO ATTACK
 
-    public static void DeclareIntentToAttack(int attackerId, int defenderID)
+    public static void SendIntentToAttackCommand(int attackerId, int defenderId)
     {
         if (!IsAttackAlreadyCalled)
         {
             IsAttackAlreadyCalled = true;
 
-            UI.HideContextMenu();
-            UI.HideSkipButton();
-
-            Selection.ChangeActiveShip("ShipId:" + attackerId);
-            Selection.ChangeAnotherShip("ShipId:" + defenderID);
-
-            SelectWeapon();
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("id", attackerId.ToString());
+            parameters.AddField("target", defenderId.ToString());
+            GameController.SendCommand(
+                GameCommandTypes.DeclareAttack,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
         }
         else
         {
             Debug.Log("Attack was called when attack is already called - ignore");
         }
+    }
+
+    public static void DeclareIntentToAttack(int attackerId, int defenderId)
+    {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
+        UI.HideContextMenu();
+        UI.HideSkipButton();
+
+        Selection.ChangeActiveShip("ShipId:" + attackerId);
+        Selection.ChangeAnotherShip("ShipId:" + defenderId);
+
+        SelectWeapon();
     }
 
     // CHECK AVAILABLE WEAPONS TO ATTACK THIS TARGET
@@ -249,6 +263,7 @@ public static partial class Combat
 
         AttackStep = CombatStep.CompareResults;
 
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);
     }
 

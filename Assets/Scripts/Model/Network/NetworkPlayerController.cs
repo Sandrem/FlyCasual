@@ -522,7 +522,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcDeclareTarget(int attackerId, int defenderId)
     {
-        Combat.DeclareIntentToAttack(attackerId, defenderId);
+        Combat.SendIntentToAttackCommand(attackerId, defenderId);
     }
 
     // SELECT TARGET SHIP
@@ -806,7 +806,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcUseDiceModification(string diceModificationName)
     {
-        Combat.UseDiceModification(diceModificationName);
+        Combat.SendUseDiceModificationCommand(diceModificationName);
     }
 
     // BARREL ROLL PLANNING

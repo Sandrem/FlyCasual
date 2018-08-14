@@ -24,7 +24,7 @@ namespace Players
             GameCommand command = GameController.GetCommand();
             if (command == null) return;
 
-            if (command.Type == GameCommandTypes.Decision && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            if (command.Type == GameCommandTypes.Decision && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
             {
                 Console.Write("Replay: Saved Decision is executed", color: "aqua");
                 GameController.ConfirmCommand();
@@ -44,7 +44,7 @@ namespace Players
             GameCommand command = GameController.GetCommand();
             if (command == null) return;
 
-            if (command.Type == GameCommandTypes.ObstaclePlacement && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            if (command.Type == GameCommandTypes.ObstaclePlacement && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
             {
                 Console.Write("Replay: Obstacle Placement is executed", color: "aqua");
                 GameController.ConfirmCommand();
@@ -68,7 +68,7 @@ namespace Players
             GameCommand command = GameController.GetCommand();
             if (command == null) return;
 
-            if (command.Type == GameCommandTypes.ShipPlacement && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            if (command.Type == GameCommandTypes.ShipPlacement && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
             {
                 Console.Write("Replay: Ship Setup is executed", color: "aqua");
                 GameController.ConfirmCommand();
@@ -93,7 +93,7 @@ namespace Players
             GameCommand command = GameController.GetCommand();
             if (command == null) return;
 
-            if (command.Type == GameCommandTypes.AssignManeuver && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            if (command.Type == GameCommandTypes.AssignManeuver && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
             {
                 Console.Write("Replay: Assign Maneuver is executed", color: "aqua");
                 GameController.ConfirmCommand();
@@ -115,7 +115,7 @@ namespace Players
             GameCommand command = GameController.GetCommand();
             if (command == null) return;
 
-            if (command.Type == GameCommandTypes.PressNext && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            if (command.Type == GameCommandTypes.PressNext && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
             {
                 Console.Write("Replay: Press Next is executed", color: "aqua");
                 GameController.ConfirmCommand();
@@ -124,7 +124,7 @@ namespace Players
 
                 //Check next commands
                 GameCommand nextCommand = GameController.GetCommand();
-                if (nextCommand != null && nextCommand.SubPhase == command.SubPhase) GameController.Next();
+                if (nextCommand != null && nextCommand.SubPhase == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands) GameController.Next();
             }
             else
             {
@@ -139,7 +139,7 @@ namespace Players
             GameCommand command = GameController.GetCommand();
             if (command == null) return;
 
-            if (command.Type == GameCommandTypes.ActivateAndMove && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            if (command.Type == GameCommandTypes.ActivateAndMove && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
             {
                 Console.Write("Replay: Activate Ship Movement is executed", color: "aqua");
                 GameController.ConfirmCommand();
@@ -160,20 +160,14 @@ namespace Players
             GameCommand command = GameController.GetCommand();
             if (command == null) return;
 
-            if (command.Type == GameCommandTypes.DeclareAttack && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            if (command.Type == GameCommandTypes.DeclareAttack && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
             {
                 Console.Write("Replay: Declare Attack is executed", color: "aqua");
                 GameController.ConfirmCommand();
 
-                Selection.ChangeActiveShip("ShipId:" + (int)(float)command.GetParameter("Id"));
-                Selection.ThisShip.CallCombatActivation(
-                    delegate {
-                        Selection.ThisShip.CallAfterAttackWindow();
-                        Selection.ThisShip.IsAttackPerformed = true;
-
-                        Selection.TryToChangeAnotherShip("ShipId:" + (int)(float)command.GetParameter("TargetId"));
-                        Combat.DeclareIntentToAttack((int)(float)command.GetParameter("Id"), (int)(float)command.GetParameter("TargetId"));
-                    }
+                Combat.DeclareIntentToAttack(
+                    int.Parse(command.GetString("id")),
+                    int.Parse(command.GetString("target"))
                 );
             }
             else
@@ -190,23 +184,19 @@ namespace Players
             GameCommand command = GameController.GetCommand();
             if (command == null) return;
 
-            if (command.Type == GameCommandTypes.DiceModification && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            if (command.Type == GameCommandTypes.DiceModification && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
             {
-                DiceModificationTimingType diceModificationType = (DiceModificationTimingType)Enum.Parse(typeof(DiceModificationTimingType), (string)command.GetParameter("Type"));
-                if (type == diceModificationType)
-                {
-                    Console.Write("Replay: Dice Modification is executed", color: "aqua");
-                    GameController.ConfirmCommand();
+                Console.Write("Replay: Dice Modification is executed", color: "aqua");
+                GameController.ConfirmCommand();
 
-                    string diceModificationName = (string)command.GetParameter("Name");
-                    if (diceModificationName == "OK")
-                    {
-                        Combat.ConfirmDiceResultsClient();
-                    }
-                    else
-                    {
-                        Combat.UseDiceModification(diceModificationName);
-                    }
+                string diceModificationName = command.GetString("name");
+                if (diceModificationName == "OK")
+                {
+                    Combat.ConfirmDiceResultsClient();
+                }
+                else
+                {
+                    Combat.UseDiceModification(diceModificationName);
                 }
             }
             else

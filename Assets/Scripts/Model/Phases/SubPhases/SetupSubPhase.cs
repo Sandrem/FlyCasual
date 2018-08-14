@@ -52,6 +52,8 @@ namespace SubPhases
             {
                 UpdateHelpInfo();
                 Roster.HighlightShipsFiltered(FilterShipsToSetup);
+
+                IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
         }
@@ -158,6 +160,8 @@ namespace SubPhases
 
         public static void PlaceShip(int shipId, Vector3 position, Vector3 angles)
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+
             Roster.SetRaycastTargets(true);
             inReposition = false;
 

@@ -37,6 +37,7 @@ namespace SubPhases
                 UI.HighlightNextButton();
             }
 
+            IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).AssignManeuver();
         }
 

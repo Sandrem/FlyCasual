@@ -23,7 +23,9 @@ namespace SubPhases
 
         public Action CallBack;
 
-        public bool IsTemporary = false;
+        public bool IsTemporary;
+
+        public bool IsReadyForCommands { get; set; }
 
         private bool canBePaused;
         public bool CanBePaused

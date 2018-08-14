@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ActionsList;
 using GameCommands;
 using SubPhases;
 using UnityEngine;
@@ -30,7 +31,7 @@ public static class GameController
 
     private static void TryExecuteCommand(GameCommand command)
     {
-        if (Phases.CurrentSubPhase !=null && Phases.CurrentSubPhase.GetType() == command.SubPhase) // & Subphase is ready
+        if (Phases.CurrentSubPhase !=null && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
         {
             switch (command.Type)
             {
@@ -38,7 +39,7 @@ public static class GameController
                     DecisionSubPhase.ExecuteDecision(command.GetString("name"));
                     break;
                 case GameCommandTypes.ObstaclePlacement:
-                    ObstaclesPlacementSubPhase.PlaceObstacle(
+                   ObstaclesPlacementSubPhase.PlaceObstacle(
                         command.GetString("name"),
                         new Vector3(command.GetFloat("positionX"), command.GetFloat("positionY"), command.GetFloat("positionZ")),
                         new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
@@ -64,6 +65,23 @@ public static class GameController
                     ShipMovementScript.ActivateAndMove(
                         int.Parse(command.GetString("id"))
                     );
+                    break;
+                case GameCommandTypes.DeclareAttack:
+                    Combat.DeclareIntentToAttack(
+                        int.Parse(command.GetString("id")),
+                        int.Parse(command.GetString("target"))
+                    );
+                    break;
+                case GameCommandTypes.DiceModification:
+                    string diceModificationName = command.GetString("name");
+                    if (diceModificationName == "OK")
+                    {
+                        Combat.ConfirmDiceResultsClient();
+                    }
+                    else
+                    {
+                        Combat.UseDiceModification(diceModificationName);
+                    }
                     break;
                 default:
                     break;

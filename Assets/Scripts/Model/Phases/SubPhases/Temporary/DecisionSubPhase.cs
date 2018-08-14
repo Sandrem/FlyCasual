@@ -99,6 +99,7 @@ namespace SubPhases
             {
                 DecisionWasPreparedAndShown = true;
 
+                IsReadyForCommands = true;
                 GameMode.CurrentGameMode.FinishSyncDecisionPreparation();
             }
         }
@@ -147,6 +148,8 @@ namespace SubPhases
 
         public static void ExecuteDecision(string decisionName)
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+
             Decision decision = (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions().FirstOrDefault(n => n.Name == decisionName);
 
             if (decision == null)

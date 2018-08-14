@@ -48,6 +48,8 @@ namespace SubPhases
             {
                 UpdateHelpInfo();
                 Roster.HighlightShipsFiltered(FilterShipsToPerformAttack);
+
+                IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).PerformManeuver();
             }
 

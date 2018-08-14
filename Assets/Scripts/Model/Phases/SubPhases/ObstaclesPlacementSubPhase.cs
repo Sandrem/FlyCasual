@@ -59,6 +59,8 @@ namespace SubPhases
 
             RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
             if (!IsRandomSetupSelected[RequiredPlayer]) ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+
+            IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).PlaceObstacle();
         }
 
@@ -370,6 +372,8 @@ namespace SubPhases
 
         public static void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+
             ChosenObstacle = ObstaclesManager.GetObstacleByName(obstacleName);
             ChosenObstacle.ObstacleGO.transform.position = position;
             ChosenObstacle.ObstacleGO.transform.eulerAngles = angles;

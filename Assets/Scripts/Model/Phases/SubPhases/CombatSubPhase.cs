@@ -70,6 +70,8 @@ namespace SubPhases
 
                 UpdateHelpInfo();
                 Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
+
+                IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();
             }
         }

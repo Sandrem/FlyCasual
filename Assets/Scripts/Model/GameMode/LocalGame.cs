@@ -25,7 +25,7 @@ namespace GameModes
 
         public override void DeclareTarget(int thisShipId, int anotherShipId)
         {
-            Combat.DeclareIntentToAttack(thisShipId, anotherShipId);
+            Combat.SendIntentToAttackCommand(thisShipId, anotherShipId);
         }
 
         public override void NextButtonEffect()
@@ -148,12 +148,12 @@ namespace GameModes
 
         public override void UseDiceModification(string effectName)
         {
-            Combat.UseDiceModification(effectName);
+            Combat.SendUseDiceModificationCommand(effectName);
         }
 
         public override void ConfirmDiceResults()
         {
-            Combat.ConfirmDiceResultsClient();
+            Combat.SendUseDiceModificationCommand("OK");
         }
 
         public override void CompareResultsAndDealDamage()

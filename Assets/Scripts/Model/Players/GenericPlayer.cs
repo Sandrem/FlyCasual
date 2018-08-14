@@ -209,6 +209,27 @@ namespace Players
                 parameters.ToString()
             );
         }
+
+        public virtual void InformAboutCrit()
+        {
+            InformCrit.ShowPanelVisible();
+        }
+
+        public virtual void ConfirmCrit()
+        {
+            GameController.SendCommand(
+                GameCommandTypes.ConfirmCrit,
+                Phases.CurrentSubPhase.GetType()
+            );
+        }
+
+        public virtual void DiceCheckConfirm()
+        {
+            GameController.SendCommand(
+                GameCommandTypes.ConfirmDiceCheck,
+                Phases.CurrentSubPhase.GetType()
+            );
+        }
     }
 
 }

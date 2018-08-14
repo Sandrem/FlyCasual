@@ -20,7 +20,7 @@ namespace GameModes
         public override void ConfirmCrit()
         {
             InformCrit.HidePanel();
-            Triggers.FinishTrigger();
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).ConfirmCrit();
         }
 
         public override void DeclareTarget(int thisShipId, int anotherShipId)
@@ -72,7 +72,9 @@ namespace GameModes
 
         public override void ShowInformCritPanel()
         {
-            InformCrit.ShowPanelVisible();
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).InformAboutCrit();
         }
 
         public override void StartBattle()

@@ -280,6 +280,42 @@ namespace Players
         {
             DiceRerollManager.CurrentDiceRerollManager.ConfirmRerollButtonIsPressed();
         }
+
+        public override void InformAboutCrit()
+        {
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.ConfirmCrit && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
+            {
+                Console.Write("Replay: Confirm Crit is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                InformCrit.ConfirmCrit();
+            }
+            else
+            {
+                Console.Write("Replay: No saved Confirm Crit", color: "aqua");
+            }
+        }
+
+        public override void ConfirmDiceCheck()
+        {
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.ConfirmDiceCheck && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
+            {
+                Console.Write("Replay: Confirm Dice Check is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
+            }
+            else
+            {
+                Console.Write("Replay: No saved Confirm Dice Check", color: "aqua");
+            }
+        }
     }
 
 }

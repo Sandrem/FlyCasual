@@ -106,6 +106,12 @@ public static class GameController
                     }
                     DiceRerollManager.SyncDiceRerollSelected(selectedDice);
                     break;
+                case GameCommandTypes.ConfirmCrit:
+                    InformCrit.ConfirmCrit();
+                    break;
+                case GameCommandTypes.ConfirmDiceCheck:
+                    (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
+                    break;
                 default:
                     break;
             }

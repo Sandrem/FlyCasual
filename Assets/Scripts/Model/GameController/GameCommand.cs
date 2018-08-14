@@ -18,6 +18,8 @@ public enum GameCommandTypes
     SelectShip,
     SyncDiceResults,
     SyncDiceRerollSelected,
+    ConfirmCrit,
+    ConfirmDiceCheck
 }
 
 namespace GameCommands

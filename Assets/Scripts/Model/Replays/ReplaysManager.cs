@@ -222,7 +222,7 @@ public static class ReplaysManager
         parameters = new JSONObject();
         parameters.AddField("Id", 2);
         GameController.SendCommand(
-            GameCommandTypes.ActiveShipMovement,
+            GameCommandTypes.ActivateAndMove,
             typeof(SubPhases.ActivationSubPhase),
             parameters.ToString()
         );
@@ -238,7 +238,7 @@ public static class ReplaysManager
         parameters = new JSONObject();
         parameters.AddField("Id", 3);
         GameController.SendCommand(
-            GameCommandTypes.ActiveShipMovement,
+            GameCommandTypes.ActivateAndMove,
             typeof(SubPhases.ActivationSubPhase),
             parameters.ToString()
         );
@@ -254,7 +254,7 @@ public static class ReplaysManager
         parameters = new JSONObject();
         parameters.AddField("Id", 1);
         GameController.SendCommand(
-            GameCommandTypes.ActiveShipMovement,
+            GameCommandTypes.ActivateAndMove,
             typeof(SubPhases.ActivationSubPhase),
             parameters.ToString()
         );
@@ -406,7 +406,7 @@ public static class ReplaysManager
         parameters = new JSONObject();
         parameters.AddField("Id", 2);
         GameController.SendCommand(
-            GameCommandTypes.ActiveShipMovement,
+            GameCommandTypes.ActivateAndMove,
             typeof(SubPhases.ActivationSubPhase),
             parameters.ToString()
         );
@@ -422,7 +422,7 @@ public static class ReplaysManager
         parameters = new JSONObject();
         parameters.AddField("Id", 3);
         GameController.SendCommand(
-            GameCommandTypes.ActiveShipMovement,
+            GameCommandTypes.ActivateAndMove,
             typeof(SubPhases.ActivationSubPhase),
             parameters.ToString()
         );
@@ -438,7 +438,7 @@ public static class ReplaysManager
         parameters = new JSONObject();
         parameters.AddField("Id", 1);
         GameController.SendCommand(
-            GameCommandTypes.ActiveShipMovement,
+            GameCommandTypes.ActivateAndMove,
             typeof(SubPhases.ActivationSubPhase),
             parameters.ToString()
         );

@@ -234,7 +234,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcAssignManeuver(int shipId, string maneuverCode)
     {
-        ShipMovementScript.AssignManeuver(shipId, maneuverCode);
+        ShipMovementScript.SendAssignManeuverCommand(shipId, maneuverCode);
     }
 
     // NEXT BUTTON
@@ -248,7 +248,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcNextButtonEffect()
     {
-        UI.NextButtonEffect();
+        UI.SendNextButtonCommand();
     }
 
     // SKIP BUTTON
@@ -289,7 +289,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcActivateForMovement(int shipId)
     {
-        ShipMovementScript.ActivateAndMove(shipId);
+        ShipMovementScript.SendActivateAndMoveCommand(shipId);
     }
 
     /*[Command]

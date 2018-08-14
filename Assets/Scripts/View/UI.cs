@@ -194,6 +194,14 @@ public class UI : MonoBehaviour {
         GameMode.CurrentGameMode.NextButtonEffect();
     }
 
+    public static void SendNextButtonCommand()
+    {
+        GameController.SendCommand(
+            GameCommandTypes.PressNext,
+            Phases.CurrentSubPhase.GetType()
+        );
+    }
+
     public static void NextButtonEffect()
     {
         Phases.CurrentSubPhase.NextButton();

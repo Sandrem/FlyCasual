@@ -30,7 +30,7 @@ namespace GameModes
 
         public override void NextButtonEffect()
         {
-            UI.NextButtonEffect();
+            UI.SendNextButtonCommand();
         }
 
         public override void SkipButtonEffect()
@@ -45,7 +45,7 @@ namespace GameModes
 
         public override void ActivateShipForMovement(int shipId)
         {
-            ShipMovementScript.ActivateAndMove(shipId);
+            ShipMovementScript.SendActivateAndMoveCommand(shipId);
         }
 
         public override void LaunchMovement(Action callback)
@@ -60,7 +60,7 @@ namespace GameModes
 
         public override void AssignManeuver(string maneuverCode)
         {
-            ShipMovementScript.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
+            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, maneuverCode);
         }
 
         public override void GiveInitiativeToRandomPlayer()

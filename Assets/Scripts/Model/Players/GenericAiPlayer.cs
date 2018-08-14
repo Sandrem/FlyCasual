@@ -94,7 +94,7 @@ namespace Players
 
         protected void PerformManeuverOfShip(GenericShip ship)
         {
-            ShipMovementScript.ActivateAndMove(ship.ShipId);
+            ShipMovementScript.SendActivateAndMoveCommand(ship.ShipId);
         }
 
         //TODOL Don't skip attack of all PS ships if one cannot attack (Biggs interaction)

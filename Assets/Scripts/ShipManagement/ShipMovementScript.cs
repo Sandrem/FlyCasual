@@ -58,6 +58,18 @@ public class ShipMovementScript : MonoBehaviour {
 
     //Assignment and launch of execution of meneuver
 
+    public static void SendAssignManeuverCommand(int shipId, string maneuverCode)
+    {
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("id", shipId.ToString());
+        parameters.AddField("maneuver", maneuverCode);
+        GameController.SendCommand(
+            GameCommandTypes.AssignManeuver,
+            Phases.CurrentSubPhase.GetType(),
+            parameters.ToString()
+        );
+    }
+
     public static void AssignManeuver(int shipId, string maneuverCode)
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
@@ -137,6 +149,17 @@ public class ShipMovementScript : MonoBehaviour {
     public void PerformStoredManeuverButtonIsPressed()
     {
         GameMode.CurrentGameMode.ActivateShipForMovement(Selection.ThisShip.ShipId);
+    }
+
+    public static void SendActivateAndMoveCommand(int shipId)
+    {
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("id", shipId.ToString());
+        GameController.SendCommand(
+            GameCommandTypes.ActivateAndMove,
+            Phases.CurrentSubPhase.GetType(),
+            parameters.ToString()
+        );
     }
 
     public static void ActivateAndMove(int shipId)

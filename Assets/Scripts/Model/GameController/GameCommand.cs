@@ -12,7 +12,7 @@ public enum GameCommandTypes
     ShipPlacement,
     AssignManeuver,
     PressNext,
-    ActiveShipMovement,
+    ActivateAndMove,
     DeclareAttack,
     DiceModification
 }

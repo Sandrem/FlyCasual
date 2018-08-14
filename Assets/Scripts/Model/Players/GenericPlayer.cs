@@ -163,7 +163,7 @@ namespace Players
 
         public virtual void PressNext()
         {
-            UI.NextButtonEffect();
+            UI.SendNextButtonCommand();
         }
     }
 

@@ -98,8 +98,7 @@ namespace Players
                 Console.Write("Replay: Assign Maneuver is executed", color: "aqua");
                 GameController.ConfirmCommand();
 
-                Selection.ChangeActiveShip("ShipId:" + (int) (float) command.GetParameter("Id"));
-                Selection.ThisShip.SetAssignedManeuver(ShipMovementScript.MovementFromString((string) command.GetParameter("ManeuverCode")));
+                ShipMovementScript.AssignManeuver(int.Parse(command.GetString("id")), command.GetString("maneuver"));
 
                 //Check next commands
                 GameCommand nextCommand = GameController.GetCommand();
@@ -121,7 +120,7 @@ namespace Players
                 Console.Write("Replay: Press Next is executed", color: "aqua");
                 GameController.ConfirmCommand();
 
-                UI.NextButtonEffect();
+                UI.SendNextButtonCommand();
 
                 //Check next commands
                 GameCommand nextCommand = GameController.GetCommand();
@@ -140,13 +139,13 @@ namespace Players
             GameCommand command = GameController.GetCommand();
             if (command == null) return;
 
-            if (command.Type == GameCommandTypes.ActiveShipMovement && Phases.CurrentSubPhase.GetType() == command.SubPhase)
+            if (command.Type == GameCommandTypes.ActivateAndMove && Phases.CurrentSubPhase.GetType() == command.SubPhase)
             {
                 Console.Write("Replay: Activate Ship Movement is executed", color: "aqua");
                 GameController.ConfirmCommand();
 
-                Selection.ChangeActiveShip("ShipId:" + (int)(float) command.GetParameter("Id"));
-                ShipMovementScript.ActivateAndMove((int)(float)command.GetParameter("Id"));
+                Selection.ChangeActiveShip("ShipId:" + int.Parse(command.GetString("id")));
+                ShipMovementScript.ActivateAndMove(int.Parse(command.GetString("id")));
             }
             else
             {

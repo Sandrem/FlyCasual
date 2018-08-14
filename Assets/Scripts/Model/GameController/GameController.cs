@@ -51,6 +51,20 @@ public static class GameController
                         new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
                     );
                     break;
+                case GameCommandTypes.AssignManeuver:
+                    ShipMovementScript.AssignManeuver(
+                        int.Parse(command.GetString("id")),
+                        command.GetString("maneuver")
+                    );
+                    break;
+                case GameCommandTypes.PressNext:
+                    UI.NextButtonEffect();
+                    break;
+                case GameCommandTypes.ActivateAndMove:
+                    ShipMovementScript.ActivateAndMove(
+                        int.Parse(command.GetString("id"))
+                    );
+                    break;
                 default:
                     break;
             }

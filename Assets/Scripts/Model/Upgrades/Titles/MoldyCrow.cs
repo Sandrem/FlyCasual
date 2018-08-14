@@ -68,10 +68,8 @@ namespace Abilities.SecondEdition
 
             HostShip.ShipBaseArcsType = Arcs.BaseArcsType.ArcMobile; //This seems to work, but still prompt the user twice at the beginning
             HostShip.InitializeShipBaseArc();
+            HostShip.SetShipInsertImage();
 
-            //HostShip.ArcInfo.Arcs.Add(new Arcs.ArcPrimary(HostShip.ShipBase)); //This code has issues with the arc pointing in the right direction
-            //HostShip.ArcInfo.RefreshArcs(); TODO: Added by Sandrem later
-            
             HostShip.AfterGotNumberOfAttackDice += CheckWeakArc;
             HostShip.BeforeRemovingTokenInEndPhase += KeepTwoFocusTokens;
             Phases.Events.OnEndPhaseStart_NoTriggers += OnEndPhaseStart_NoTriggers;

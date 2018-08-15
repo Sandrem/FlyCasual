@@ -166,6 +166,11 @@ namespace Players
             UI.SendNextButtonCommand();
         }
 
+        public virtual void PressSkip()
+        {
+            UI.SendSkipButtonCommand();
+        }
+
         public virtual void SyncDiceResults()
         {
             JSONObject[] diceResultArray = new JSONObject[DiceRoll.CurrentDiceRoll.DiceList.Count];

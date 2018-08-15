@@ -61,6 +61,9 @@ public static class GameController
                 case GameCommandTypes.PressNext:
                     UI.NextButtonEffect();
                     break;
+                case GameCommandTypes.PressSkip:
+                    UI.SkipButtonEffect();
+                    break;
                 case GameCommandTypes.ActivateAndMove:
                     ShipMovementScript.ActivateAndMove(
                         int.Parse(command.GetString("id"))
@@ -69,7 +72,8 @@ public static class GameController
                 case GameCommandTypes.DeclareAttack:
                     Combat.DeclareIntentToAttack(
                         int.Parse(command.GetString("id")),
-                        int.Parse(command.GetString("target"))
+                        int.Parse(command.GetString("target")),
+                        bool.Parse(command.GetString("weaponIsAlreadySelected"))
                     );
                     break;
                 case GameCommandTypes.DiceModification:
@@ -140,6 +144,9 @@ public static class GameController
                     break;
                 case GameCommandTypes.PressNext:
                     Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PressNext();
+                    break;
+                case GameCommandTypes.ActivateAndMove:
+                    Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformManeuver();
                     break;
                 default:
                     break;

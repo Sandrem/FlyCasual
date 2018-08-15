@@ -35,7 +35,7 @@ namespace GameModes
 
         public override void SkipButtonEffect()
         {
-            UI.SkipButtonEffect();
+            UI.SendSkipButtonCommand();
         }
 
         public override void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)

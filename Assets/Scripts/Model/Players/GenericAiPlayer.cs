@@ -39,7 +39,7 @@ namespace Players
                     Vector3 position = shipHolder.Value.GetPosition() - direction * new Vector3(0, 0, Board.BoardIntoWorld(Board.DISTANCE_1 + Board.RANGE_1));
 
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(0.5f, delegate { Board.PlaceShip(shipHolder.Value, position, shipHolder.Value.GetAngles(), Phases.Next); });
+                    Game.Wait(0.5f, delegate { SetupSubPhase.SendPlaceShipCommand(shipHolder.Value.ShipId, position, shipHolder.Value.GetAngles()); });
                     return;
                 }
             }
@@ -55,10 +55,9 @@ namespace Players
             {
                 if (RulesList.IonizationRule.IsIonized(shipHolder.Value)) continue;
 
-                Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                shipHolder.Value.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
+                ShipMovementScript.SendAssignManeuverCommand(shipHolder.Value.ShipId, "2.F.S");
             }
-            Phases.Next();
+            UI.SendNextButtonCommand();
         }
 
         public override void PerformManeuver()
@@ -121,8 +120,7 @@ namespace Players
                 {
                     Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
 
-                    Selection.TryToChangeAnotherShip("ShipId:" + targetForAttack.ShipId);
-                    Combat.TryPerformAttack(isSilent: true);
+                    Combat.SendIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true);
                 }
                 else
                 {
@@ -435,12 +433,13 @@ namespace Players
 
         public override void OnTargetNotLegalForAttack()
         {
-            Selection.ThisShip.CallAfterAttackWindow();
-            Selection.ThisShip.IsAttackPerformed = true;
+            UI.SendSkipButtonCommand();
 
+            /*Selection.ThisShip.CallAfterAttackWindow();
+            Selection.ThisShip.IsAttackPerformed = true;
             Selection.ThisShip.CallCombatDeactivation(
                 delegate { Phases.FinishSubPhase(typeof(CombatSubPhase)); }
-            );
+            );*/
         }
 
         public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)

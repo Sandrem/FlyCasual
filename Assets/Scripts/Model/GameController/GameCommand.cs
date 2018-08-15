@@ -19,7 +19,8 @@ public enum GameCommandTypes
     SyncDiceResults,
     SyncDiceRerollSelected,
     ConfirmCrit,
-    ConfirmDiceCheck
+    ConfirmDiceCheck,
+    PressSkip
 }
 
 namespace GameCommands

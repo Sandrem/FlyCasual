@@ -66,7 +66,7 @@ public static partial class Combat
 
     // DECLARE INTENT TO ATTACK
 
-    public static void SendIntentToAttackCommand(int attackerId, int defenderId)
+    public static void SendIntentToAttackCommand(int attackerId, int defenderId, bool weaponIsAlreadySelected = false)
     {
         if (!IsAttackAlreadyCalled)
         {
@@ -75,6 +75,7 @@ public static partial class Combat
             JSONObject parameters = new JSONObject();
             parameters.AddField("id", attackerId.ToString());
             parameters.AddField("target", defenderId.ToString());
+            parameters.AddField("weaponIsAlreadySelected", weaponIsAlreadySelected.ToString());
             GameController.SendCommand(
                 GameCommandTypes.DeclareAttack,
                 Phases.CurrentSubPhase.GetType(),
@@ -87,7 +88,7 @@ public static partial class Combat
         }
     }
 
-    public static void DeclareIntentToAttack(int attackerId, int defenderId)
+    public static void DeclareIntentToAttack(int attackerId, int defenderId, bool weaponIsAlreadySelected = false)
     {
         Phases.CurrentSubPhase.IsReadyForCommands = false;
 
@@ -97,7 +98,14 @@ public static partial class Combat
         Selection.ChangeActiveShip("ShipId:" + attackerId);
         Selection.ChangeAnotherShip("ShipId:" + defenderId);
 
-        SelectWeapon();
+        if (!weaponIsAlreadySelected)
+        {
+            SelectWeapon();
+        }
+        else
+        {
+            TryPerformAttack(isSilent: true);
+        }
     }
 
     // CHECK AVAILABLE WEAPONS TO ATTACK THIS TARGET

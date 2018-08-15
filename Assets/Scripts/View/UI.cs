@@ -215,6 +215,14 @@ public class UI : MonoBehaviour {
         GameMode.CurrentGameMode.SkipButtonEffect();
     }
 
+    public static void SendSkipButtonCommand()
+    {
+        GameController.SendCommand(
+            GameCommandTypes.PressSkip,
+            Phases.CurrentSubPhase.GetType()
+        );
+    }
+
     public static void SkipButtonEffect()
     {
         Phases.CurrentSubPhase.SkipButton();

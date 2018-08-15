@@ -132,6 +132,24 @@ namespace Players
             }
         }
 
+        public override void PressSkip()
+        {
+            GameCommand command = GameController.GetCommand();
+            if (command == null) return;
+
+            if (command.Type == GameCommandTypes.PressSkip && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
+            {
+                Console.Write("Replay: Press Skip is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                UI.SendSkipButtonCommand();
+            }
+            else
+            {
+                Console.Write("Replay: No saved Press Skip", color: "aqua");
+            }
+        }
+
         public override void PerformManeuver()
         {
             base.PerformManeuver();
@@ -151,6 +169,33 @@ namespace Players
             {
                 Console.Write("Replay: No saved Activate Ship Movement", color: "aqua");
             }
+
+            if (command.Type == GameCommandTypes.AssignManeuver && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
+            {
+                Console.Write("Replay: Assign Maneuver is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Assign HotAC AI maneuver",
+                    TriggerType = TriggerTypes.OnAbilityDirect,
+                    TriggerOwner = this.PlayerNo,
+                    EventHandler = delegate
+                    {
+                        ShipMovementScript.AssignManeuver(int.Parse(command.GetString("id")), command.GetString("maneuver"));
+                    }
+                });
+
+                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, delegate {
+                    //Check next commands
+                    GameCommand nextCommand = GameController.GetCommand();
+                    if (nextCommand != null && nextCommand.SubPhase == command.SubPhase) GameController.Next();
+                });
+            }
+            else
+            {
+                Console.Write("Replay: No saved Assign Maneuver", color: "aqua");
+            }
         }
 
         public override void PerformAttack()
@@ -167,12 +212,25 @@ namespace Players
 
                 Combat.DeclareIntentToAttack(
                     int.Parse(command.GetString("id")),
-                    int.Parse(command.GetString("target"))
+                    int.Parse(command.GetString("target")),
+                    bool.Parse(command.GetString("weaponIsAlreadySelected"))
                 );
             }
             else
             {
-                Console.Write("Replay: No saved Declare Attack Movement", color: "aqua");
+                Console.Write("Replay: No saved Declare Attack", color: "aqua");
+            }
+
+            if (command.Type == GameCommandTypes.PressSkip && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
+            {
+                Console.Write("Replay: Press Skip is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                UI.SendSkipButtonCommand();
+            }
+            else
+            {
+                Console.Write("Replay: No saved Press Skip", color: "aqua");
             }
         }
 

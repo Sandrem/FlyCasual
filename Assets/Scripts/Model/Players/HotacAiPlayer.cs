@@ -19,8 +19,6 @@ namespace Players
         {
             Console.Write(ship.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
 
-            bool isTargetLockPerformed = false;
-
             Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
@@ -28,32 +26,51 @@ namespace Players
 
             // TODO: remove null variant
 
-            if (!RulesList.IonizationRule.IsIonized(ship))
+            if (!RulesList.IonizationRule.IsIonized(ship) && (anotherShip != null))
             {
-                if (anotherShip != null)
+                Triggers.RegisterTrigger(new Trigger()
                 {
-                    ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
-                }
-                else
-                {
-                    ship.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
-                }
-            }
+                    Name = "Assign HotAC AI maneuver",
+                    TriggerType = TriggerTypes.OnAbilityDirect,
+                    TriggerOwner = this.PlayerNo,
+                    EventHandler = delegate
+                    {
+                        ShipMovementScript.SendAssignManeuverCommand(ship.ShipId, ship.HotacManeuverTable.GetManeuver(ship, anotherShip).ToString());
+                    }
+                });
 
-            if (anotherShip != null) foreach (var action in ship.GetAvailableActions())
-            {
-                if (action.GetType() == typeof(ActionsList.TargetLockAction))
-                {
-                    isTargetLockPerformed = true;
-                    Actions.AcquireTargetLock(
-                        ship,
-                        anotherShip,
-                        delegate { PerformManeuverOfShip(ship); },
-                        delegate { PerformManeuverOfShip(ship); }
-                    );
-                    break;
-                }
+                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, TryPerformFreeTargetLock);
             }
+            else
+            {
+                TryPerformFreeTargetLock();
+            }
+        }
+
+        private void TryPerformFreeTargetLock()
+        {
+            Ship.GenericShip ship = Selection.ThisShip;
+
+            Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
+            if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
+            if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
+            Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
+
+            bool isTargetLockPerformed = false;
+            if (anotherShip != null) foreach (var action in ship.GetAvailableActions())
+                {
+                    if (action.GetType() == typeof(ActionsList.TargetLockAction))
+                    {
+                        isTargetLockPerformed = true;
+                        Actions.AcquireTargetLock(
+                            ship,
+                            anotherShip,
+                            delegate { PerformManeuverOfShip(ship); },
+                            delegate { PerformManeuverOfShip(ship); }
+                        );
+                        break;
+                    }
+                }
 
             if (!isTargetLockPerformed)
             {
@@ -106,12 +123,20 @@ namespace Players
                     if (prioritizedActions.Value > 0)
                     {
                         isActionTaken = true;
-                        Actions.TakeActionStart(prioritizedActions.Key);
+
+                        //Actions.TakeActionStart(prioritizedActions.Key);
+                        JSONObject parameters = new JSONObject();
+                        parameters.AddField("name", prioritizedActions.Key.Name);
+                        GameController.SendCommand(
+                            GameCommandTypes.Decision,
+                            Phases.CurrentSubPhase.GetType(),
+                            parameters.ToString()
+                        );
                     }
                 }
             }
 
-            if (!isActionTaken) Phases.CurrentSubPhase.CallBack();
+            if (!isActionTaken) UI.SendSkipButtonCommand();
         }
 
         public override void AfterShipMovementPrediction()

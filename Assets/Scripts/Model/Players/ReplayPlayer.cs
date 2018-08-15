@@ -59,6 +59,22 @@ namespace Players
             {
                 Console.Write("Replay: No saved Obstacle Placement", color: "aqua");
             }
+
+            if (command.Type == GameCommandTypes.PressSkip && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
+            {
+                Console.Write("Replay: Press Skip is executed", color: "aqua");
+                GameController.ConfirmCommand();
+
+                //UI.SendSkipButtonCommand();
+
+                //Check next commands
+                GameCommand nextCommand = GameController.GetCommand();
+                if (nextCommand != null && nextCommand.SubPhase == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands) GameController.Next();
+            }
+            else
+            {
+                Console.Write("Replay: No saved Press Skip", color: "aqua");
+            }
         }
 
         public override void SetupShip()

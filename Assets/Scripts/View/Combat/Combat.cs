@@ -62,14 +62,17 @@ public static partial class Combat
         }
         else
         {
-            if (type != DiceModificationTimingType.Normal)
+            if (!(Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer) is Players.HotacAiPlayer))
             {
-                CloseButtonEffect.Invoke();
-            }
-            else
-            {
-                ShowCloseButton(CloseButtonEffect);
-                ShowDiceResultsPanel();
+                if (type != DiceModificationTimingType.Normal)
+                {
+                    CloseButtonEffect.Invoke();
+                }
+                else
+                {
+                    ShowCloseButton(CloseButtonEffect);
+                    ShowDiceResultsPanel();
+                }
             }
         }
     }

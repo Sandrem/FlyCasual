@@ -148,7 +148,15 @@ public static class GameController
                 case GameCommandTypes.ActivateAndMove:
                     Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformManeuver();
                     break;
+                case GameCommandTypes.ObstaclePlacement:
+                    ObstaclesPlacementSubPhase.PlaceObstacle(
+                         command.GetString("name"),
+                         new Vector3(command.GetFloat("positionX"), command.GetFloat("positionY"), command.GetFloat("positionZ")),
+                         new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
+                     );
+                    break;
                 default:
+                    Debug.Log("No Next command for type: " + command.Type);
                     break;
             }
         }

@@ -358,6 +358,8 @@ namespace Players
         {
             base.UseDiceModifications(type);
 
+            Combat.ShowDiceModificationButtons(type);
+
             Action FinalEffect = null;
             switch (type)
             {
@@ -404,11 +406,14 @@ namespace Players
                 {
                     isActionEffectTaken = true;
                     Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
+                    Combat.SendUseDiceModificationCommand(prioritizedActionEffect.Key.Name);
+
+                    /*GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
                         Selection.ActiveShip.AddAlreadyUsedDiceModification(prioritizedActionEffect.Key);
                         prioritizedActionEffect.Key.ActionEffect(delegate { UseDiceModifications(type); });
-                    });                    
+                    });*/
                 }
             }
 
@@ -416,8 +421,10 @@ namespace Players
             {
                 if (type == DiceModificationTimingType.Normal)
                 {
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(2, FinalEffect.Invoke);
+                    //GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    //Game.Wait(2, FinalEffect.Invoke);
+
+                    Combat.SendUseDiceModificationCommand("OK");
                 }
                 else
                 {

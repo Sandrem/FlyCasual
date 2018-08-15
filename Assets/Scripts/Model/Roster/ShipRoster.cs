@@ -73,7 +73,39 @@ public static partial class Roster
             AddShipToLists(newShip);
         }
 
+        // Setup AI formations
+        Roster.Players.Where(player => player is HotacAiPlayer).ToList().ForEach(player =>
+        {
+            SetupFormations(player);
+        });
+
         BoardTools.Board.SetShips();
+    }
+
+    private static void SetupFormations(GenericPlayer player)
+    {
+        var name = 'A';
+
+        //Group small ships of the same type together in formations. TODO: medium base formations?
+        var groups = player.Ships.Values.GroupBy(ship => ship.ShipBaseSize == BaseSize.Small ? ship.Type : ship.ShipId.ToString());
+        foreach (var group in groups)
+        {
+            if (group.Count() > 1)
+            {
+                if (group.Count() > 4)
+                {
+                    player.Formations.Add(Movement.Formation.CreateFormation(group.Take(group.Count() / 2).ToList(), name.ToString()));
+                    name++;
+                    player.Formations.Add(Movement.Formation.CreateFormation(group.Skip(group.Count() / 2).ToList(), name.ToString()));
+                }
+                else
+                {
+                    player.Formations.Add(Movement.Formation.CreateFormation(group.ToList(), name.ToString()));
+                }
+
+                name++;
+            }
+        }
     }
 
     private static void AddShipToLists(GenericShip newShip)

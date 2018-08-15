@@ -13,6 +13,8 @@ namespace Ship
 
         public Vector3 StartingPosition { get; private set; }
 
+        public Formation Formation { get; set; }
+
         public GenericMovement AssignedManeuver { get; private set; }
 
         public bool IsIgnoreObstacles;

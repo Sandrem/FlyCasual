@@ -20,34 +20,54 @@ namespace Players
             Console.Write(ship.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
 
             bool isTargetLockPerformed = false;
+            Ship.GenericShip targetShip;
 
-            Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
-            if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
-            if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
-            Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
-
-            // TODO: remove null variant
-
-            if (!RulesList.IonizationRule.IsIonized(ship))
+            if (ship.Formation != null && ship.Formation.CurrentManeuver != null)
             {
-                if (anotherShip != null)
+                ship.SetAssignedManeuver(ShipMovementScript.MovementFromString(ship.Formation.CurrentManeuver));
+                targetShip = ship.Formation.CurrentTarget;
+                Console.Write("Using maneuver and target from formation:" + targetShip.PilotName + " (" + targetShip.ShipId + ")", LogTypes.AI);
+            }
+            else
+            {
+                targetShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
+                if (targetShip == null) targetShip = FindNearestEnemyShip(ship, ignoreCollided: true);
+                if (targetShip == null) targetShip = FindNearestEnemyShip(ship);
+                Console.Write("Nearest enemy is " + targetShip.PilotName + " (" + targetShip.ShipId + ")", LogTypes.AI);
+
+                Movement.GenericMovement selectedManeuver;
+
+                // TODO: remove null variant
+
+                if (!RulesList.IonizationRule.IsIonized(ship))
                 {
-                    ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
-                }
-                else
-                {
-                    ship.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
+                    if (targetShip != null)
+                    {
+                        selectedManeuver = ship.HotacManeuverTable.GetManeuver(ship, targetShip);
+                    }
+                    else
+                    {
+                        selectedManeuver = new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal);
+                    }
+
+                    ship.SetAssignedManeuver(selectedManeuver);
+
+                    if (ship.Formation != null && ship.Formation.CurrentManeuver == null)
+                    {
+                        ship.Formation.SetManeuverAndTarget(selectedManeuver.ToString(), targetShip);
+                        Console.Write(ship.PilotName + " (" + ship.ShipId + ") is setting maneuver for formation", LogTypes.AI);
+                    }
                 }
             }
 
-            if (anotherShip != null) foreach (var action in ship.GetAvailableActions())
+            if (targetShip != null) foreach (var action in ship.GetAvailableActions())
             {
                 if (action.GetType() == typeof(ActionsList.TargetLockAction))
                 {
                     isTargetLockPerformed = true;
                     Actions.AcquireTargetLock(
                         ship,
-                        anotherShip,
+                        targetShip,
                         delegate { PerformManeuverOfShip(ship); },
                         delegate { PerformManeuverOfShip(ship); }
                     );

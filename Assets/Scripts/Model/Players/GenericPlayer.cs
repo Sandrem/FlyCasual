@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using Movement;
 
 public enum Faction
 {
@@ -51,6 +52,7 @@ namespace Players
         public GameObject PlayerInfoPanel;
 
         public Dictionary<string, GenericShip> Ships = new Dictionary<string, GenericShip>();
+        public List<Formation> Formations = new List<Formation>();
 
         public Dictionary<string, GenericShip> EnemyShips
         {

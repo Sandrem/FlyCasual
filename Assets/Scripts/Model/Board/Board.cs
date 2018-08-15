@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using Players;
+using System.Linq;
 
 namespace BoardTools
 {
@@ -15,18 +17,41 @@ namespace BoardTools
 
         public static void SetShips()
         {
-            int i = 1;
-            foreach (var ship in Roster.ShipsPlayer1)
-            {
-                SetShipPreSetup(ship.Value, i);
-                i++;
-            }
+            SetShips(Roster.Player1);
+            SetShips(Roster.Player2);
+        }
 
-            i = 1;
-            foreach (var ship in Roster.ShipsPlayer2)
+        private static void SetShips(GenericPlayer player)
+        {
+            if (player is HotacAiPlayer)
             {
-                SetShipPreSetup(ship.Value, i);
-                i++;
+                var shipGroups = player.Ships.Values.GroupBy(ship => 
+                    ship.Formation != null 
+                    ? "F:" + ship.Formation.Name
+                    : "S:" + ship.ShipId.ToString());
+
+                int i = 1;
+                foreach (var group in shipGroups)
+                {
+                    if (group.Count() == 1)
+                    {
+                        SetShipPreSetup(group.First(), i, shipGroups.Count());
+                    }
+                    else
+                    {
+                        group.First().Formation.SetFormationPreSetup(i, shipGroups.Count());
+                    }
+                    i++;
+                }
+            }
+            else
+            {
+                int i = 1;
+                foreach (var ship in player.Ships)
+                {
+                    SetShipPreSetup(ship.Value, i, ship.Value.Owner.Ships.Count);
+                    i++;
+                }
             }
         }
 

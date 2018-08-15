@@ -85,9 +85,9 @@ namespace BoardTools
             DynamicGI.UpdateEnvironment();
         }
 
-        private static void SetShipPreSetup(GenericShip ship, int count)
+        private static void SetShipPreSetup(GenericShip ship, int count, int shipCount)
         {
-            float distance = CalculateDistance(ship.Owner.Ships.Count);
+            float distance = CalculateDistance(shipCount);
             float side = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? -1 : 1;
             ship.SetPosition(
                 BoardIntoWorld(

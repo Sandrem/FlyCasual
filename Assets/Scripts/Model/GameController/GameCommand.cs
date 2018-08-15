@@ -6,6 +6,7 @@ using UnityEngine;
 
 public enum GameCommandTypes
 {
+    DamageDecksSync,
     SquadsSync,
     Decision,
     ObstaclePlacement,

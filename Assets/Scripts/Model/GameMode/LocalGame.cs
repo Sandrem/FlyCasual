@@ -5,6 +5,7 @@ using SubPhases;
 using Players;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using GameCommands;
 
 namespace GameModes
 {
@@ -192,7 +193,37 @@ namespace GameModes
 
         public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
         {
-            DamageDecks.GetDamageDeck(playerNo).ShuffleDeck(seed);
+            SyncDamageDeckSeed(playerNo, seed);
+        }
+
+        private void SyncDamageDeckSeed(PlayerNo playerNo, int seed)
+        {
+            if (ReplaysManager.Mode == ReplaysMode.Write)
+            {
+                JSONObject parameters = new JSONObject();
+                parameters.AddField("player", playerNo.ToString());
+                parameters.AddField("seed", seed.ToString());
+
+                ReplaysManager.RecordCommand(
+                    new GameCommand(
+                        GameCommandTypes.DamageDecksSync,
+                        null,
+                        parameters.ToString()
+                    )
+                );
+
+                DamageDecks.GetDamageDeck(playerNo).ShuffleDeck(seed);
+            }
+            else if (ReplaysManager.Mode == ReplaysMode.Read)
+            {
+                GameCommand command = GameController.GetCommand();
+
+                if (command.Type == GameCommandTypes.DamageDecksSync)
+                {
+                    GameController.ConfirmCommand();
+                    DamageDecks.GetDamageDeck((PlayerNo)Enum.Parse(typeof(PlayerNo), command.GetString("player"))).ShuffleDeck(int.Parse(command.GetString("seed")));
+                }
+            }
         }
 
         public override void CombatActivation(int shipId)

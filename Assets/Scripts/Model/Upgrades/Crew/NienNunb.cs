@@ -83,7 +83,7 @@ namespace Abilities.SecondEdition
             {
                 if (movement.Bearing == ManeuverBearing.Bank)
                 {
-                    movement.ColorComplexity = GenericMovement.GetDecreasedComplexity(movement.ColorComplexity);
+                    movement.ColorComplexity = GenericMovement.ReduceComplexity(movement.ColorComplexity);
                 }
             }
         }

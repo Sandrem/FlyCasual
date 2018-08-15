@@ -43,20 +43,20 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            Phases.Events.OnCombatPhaseStart_Triggers += RegisterBoostIfDamagedAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterReinforceIfDamagedAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterBoostIfDamagedAbility;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterReinforceIfDamagedAbility;
         }
 
-        private void RegisterBoostIfDamagedAbility()
+        private void RegisterReinforceIfDamagedAbility()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, BoostIfDamagedAbility);
+            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, ReinforceIfDamagedAbility);
         }
 
-        private void BoostIfDamagedAbility(object sender, System.EventArgs e)
+        private void ReinforceIfDamagedAbility(object sender, System.EventArgs e)
         {
             if (HostShip.Damage.DamageCards.Count >= 1)
             {

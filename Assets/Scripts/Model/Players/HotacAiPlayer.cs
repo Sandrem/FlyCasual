@@ -1,4 +1,5 @@
-﻿using SubPhases;
+﻿using Ship;
+using SubPhases;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,11 +16,11 @@ namespace Players
             Name = "HotAC AI";
         }
 
-        public override void ActivateShip(Ship.GenericShip ship)
+        public override void ActivateShip(GenericShip ship)
         {
             Console.Write(ship.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
 
-            Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
+            GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
             Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
@@ -28,34 +29,14 @@ namespace Players
 
             if (!RulesList.IonizationRule.IsIonized(ship) && (anotherShip != null))
             {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Assign HotAC AI maneuver",
-                    TriggerType = TriggerTypes.OnAbilityDirect,
-                    TriggerOwner = this.PlayerNo,
-                    EventHandler = delegate
-                    {
-                        ShipMovementScript.SendAssignManeuverCommand(ship.ShipId, ship.HotacManeuverTable.GetManeuver(ship, anotherShip).ToString());
-                    }
-                });
+                ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
+            }
 
-                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, TryPerformFreeTargetLock);
-            }
-            else
-            {
-                TryPerformFreeTargetLock();
-            }
+            TryPerformFreeTargetLock(ship, anotherShip);
         }
 
-        private void TryPerformFreeTargetLock()
+        private void TryPerformFreeTargetLock(GenericShip ship, GenericShip anotherShip)
         {
-            Ship.GenericShip ship = Selection.ThisShip;
-
-            Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
-            if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
-            if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
-            Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
-
             bool isTargetLockPerformed = false;
             if (anotherShip != null) foreach (var action in ship.GetAvailableActions())
                 {
@@ -164,6 +145,8 @@ namespace Players
                 if (leaveMovementAsIs)
                 {
                     Console.Write("Ship executes selected maneuver\n", LogTypes.AI, true);
+
+                    ReplaysManager.WriteHotacAiSwerve(Selection.ThisShip.ShipId, Selection.ThisShip.AssignedManeuver.ToString());
                     Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
                 }
             }

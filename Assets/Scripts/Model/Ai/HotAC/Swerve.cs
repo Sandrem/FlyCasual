@@ -49,9 +49,16 @@ namespace AI
             else
             {
                 Console.Write("Ship doesn't see alternatives to the asteroid collision", LogTypes.AI, false, "yellow");
+
                 Selection.ThisShip.SetAssignedManeuver(originalMovement);
-                Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+                LaunchMovementFinally();
             }
+        }
+
+        private void LaunchMovementFinally()
+        {
+            ReplaysManager.WriteHotacAiSwerve(Selection.ThisShip.ShipId, Selection.ThisShip.AssignedManeuver.ToString());
+            Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
         }
 
         protected virtual void CheckSwerveAlternativePrediction()
@@ -67,7 +74,7 @@ namespace AI
                 assignedManeuver.movementPrediction = movementPrediction;
 
                 Selection.ThisShip.SetAssignedManeuver(assignedManeuver);
-                Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+                LaunchMovementFinally();
             }
             else
             {

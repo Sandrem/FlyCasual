@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using Upgrade;
 using Abilities;
+using RuleSets;
+using ActionsList;
+using Arcs;
 
 namespace UpgradesList
 {
-    public class DorsalTurret : GenericSecondaryWeapon
+    public class DorsalTurret : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public DorsalTurret() : base()
         {
@@ -21,7 +24,18 @@ namespace UpgradesList
             CanShootOutsideArc = true;
 
             UpgradeAbilities.Add(new DorsalTurretAbility());
-        }        
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 4;
+            CanShootOutsideArc = false;
+
+            ArcRestrictions.Add(Arcs.ArcTypes.Mobile);
+
+            UpgradeAbilities.RemoveAll(a => a is Abilities.DorsalTurretAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.DorsalTurretAbility());
+        }
     }
 }
 
@@ -46,5 +60,23 @@ namespace Abilities
                 diceCount++;
             }
         }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class DorsalTurretAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.ArcInfo.GetArc<ArcMobile>().ShotPermissions.CanShootPrimaryWeapon = false;
+            HostShip.ActionBar.AddGrantedAction(new RotateArcAction(), HostUpgrade);
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
+        }
+
     }
 }

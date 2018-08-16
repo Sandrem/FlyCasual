@@ -89,6 +89,7 @@ namespace Abilities
                 DamageSourceEventArgs ruthlessDamage = new DamageSourceEventArgs()
                 {
                     Source = HostShip,
+                    SourceDescription = Name,
                     DamageType = DamageTypes.CardAbility
                 };
 

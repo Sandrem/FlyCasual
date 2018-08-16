@@ -48,7 +48,8 @@ namespace UpgradesList
                     EventHandler = DetonationFE,
                     EventArgs = new DamageSourceEventArgs()
                     {
-                        Source = this,
+                        Source = Host,
+                        SourceDescription = Name,
                         DamageType = DamageTypes.BombDetonation
                     }
                 });
@@ -59,7 +60,8 @@ namespace UpgradesList
             {
                 DamageSourceEventArgs protonDamage = new DamageSourceEventArgs()
                 {
-                    Source = this,
+                    Source = Host,
+                    SourceDescription = Name,
                     DamageType = DamageTypes.BombDetonation
                 };
 

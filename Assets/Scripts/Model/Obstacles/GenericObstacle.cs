@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Obstacles
 {
-    public class GenericObstacle
+    public class GenericObstacle: IDamageSource
     {
         public string Name { get; protected set; }
         public bool IsPlaced { get; set; }

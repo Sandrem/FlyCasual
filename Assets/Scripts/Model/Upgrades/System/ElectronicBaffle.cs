@@ -105,7 +105,8 @@ namespace Abilities
         {
             DamageSourceEventArgs harpoonconditionDamage = new DamageSourceEventArgs()
             {
-                Source = "Electronic Baffle",
+                Source = HostShip,
+                SourceDescription = "Electronic Baffle",
                 DamageType = DamageTypes.CardAbility
             };
 

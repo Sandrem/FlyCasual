@@ -65,7 +65,8 @@ namespace Abilities
 
             DamageSourceEventArgs chopperDamage = new DamageSourceEventArgs()
             {
-                Source = this,
+                Source = HostShip,
+                SourceDescription = this.Name,
                 DamageType = DamageTypes.CardAbility
             };
 

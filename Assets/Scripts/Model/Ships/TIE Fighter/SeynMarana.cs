@@ -77,7 +77,8 @@ namespace ActionsList.SecondEdition
 
             DamageSourceEventArgs SeynMaranaDamage = new DamageSourceEventArgs()
             {
-                Source = "Seyn Marana's Ability",
+                Source = Host,
+                SourceDescription = "Seyn Marana's Ability",
                 DamageType = DamageTypes.CardAbility
             };
 

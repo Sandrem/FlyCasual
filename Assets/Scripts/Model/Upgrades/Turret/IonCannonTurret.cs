@@ -84,7 +84,8 @@ namespace Abilities
         {
             DamageSourceEventArgs ionturretDamage = new DamageSourceEventArgs()
             {
-                Source = "Ion Cannon Turret",
+                Source = HostShip,
+                SourceDescription = "Ion Cannon Turret",
                 DamageType = DamageTypes.ShipAttack
             };
 

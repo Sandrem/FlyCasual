@@ -90,7 +90,7 @@ namespace Ship
         }
     }
 
-    public partial class GenericShip
+    public partial class GenericShip : IDamageSource
     {
         public PrimaryWeaponClass PrimaryWeapon;
 
@@ -485,7 +485,7 @@ namespace Ship
 
         public void SufferDamage(object sender, EventArgs e)
         {
-            if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).Source);
+            if (DebugManager.DebugDamage) Debug.Log("+++ Source: " + (e as DamageSourceEventArgs).SourceDescription);
             if (DebugManager.DebugDamage) Debug.Log("+++ DamageType: " + (e as DamageSourceEventArgs).DamageType);
 
             bool isCritical = (AssignedDamageDiceroll.Successes > 0 && AssignedDamageDiceroll.RegularSuccesses == 0);

@@ -8,7 +8,7 @@ public enum CriticalCardType
     Pilot
 }
 
-public class GenericDamageCard
+public class GenericDamageCard : IDamageSource
 {
     public GenericShip Host;
 

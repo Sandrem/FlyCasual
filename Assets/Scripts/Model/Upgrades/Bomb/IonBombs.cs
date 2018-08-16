@@ -36,11 +36,12 @@ namespace UpgradesList
                  TriggerType = TriggerTypes.OnTokenIsAssigned,
                  TriggerOwner = ship.Owner.PlayerNo,
                  EventHandler = SufferIonBombTokens,
-                  EventArgs = new DamageSourceEventArgs()
-                     {
-                         Source = this,
-                         DamageType = DamageTypes.BombDetonation
-                     }
+                 EventArgs = new DamageSourceEventArgs()
+                 {
+                    Source = Host,
+                    SourceDescription = Name,
+                    DamageType = DamageTypes.BombDetonation
+                  }
              });
  
              Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, Triggers.FinishTrigger);

@@ -77,6 +77,7 @@ namespace Abilities
             DamageSourceEventArgs ionCannonDamage = new DamageSourceEventArgs()
             {
                 Source = Combat.Attacker,
+                SourceDescription = Name,
                 DamageType = DamageTypes.ShipAttack
             };
 

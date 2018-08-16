@@ -109,7 +109,8 @@ namespace Abilities
 
             DamageSourceEventArgs selflessDamage = new DamageSourceEventArgs()
             {
-                Source = "Selflesness",
+                Source = HostShip,
+                SourceDescription = "Selflesness",
                 DamageType = DamageTypes.CardAbility
             };
 

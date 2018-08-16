@@ -33,7 +33,8 @@ namespace DamageDeckCardSE
 
                 DamageSourceEventArgs fuelleakDamage = new DamageSourceEventArgs()
                 {
-                    Source = "Critical hit card",
+                    Source = this,
+                    SourceDescription = "Critical hit card",
                     DamageType = DamageTypes.CriticalHitCard
                 };
 

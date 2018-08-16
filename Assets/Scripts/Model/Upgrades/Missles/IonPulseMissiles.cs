@@ -92,7 +92,8 @@ namespace Abilities
 
             DamageSourceEventArgs ionpulseDamage = new DamageSourceEventArgs()
             {
-                Source = "Ion Pulse Missiles",
+                Source = HostShip,
+                SourceDescription = "Ion Pulse Missiles",
                 DamageType = DamageTypes.ShipAttack
             };
 

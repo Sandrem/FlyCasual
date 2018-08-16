@@ -6,7 +6,7 @@ using Ship;
 
 namespace CommandsList
 {
-    public class DealDamageCommand : GenericCommand
+    public class DealDamageCommand : GenericCommand, IDamageSource
     {
         public DealDamageCommand()
         {
@@ -46,7 +46,8 @@ namespace CommandsList
             {
                 DamageSourceEventArgs consoleDamage = new DamageSourceEventArgs()
                 {
-                    Source = "Console",
+                    Source = this,
+                    SourceDescription = "Console",
                     DamageType = DamageTypes.Console
                 };
 

@@ -97,7 +97,8 @@ namespace ActionsList
                 EventHandler = Selection.ThisShip.SufferDamage,
                 EventArgs = new DamageSourceEventArgs()
                 {
-                    Source = this,
+                    Source = Host,
+                    SourceDescription = Name,
                     DamageType = DamageTypes.CardAbility
                 }
             });

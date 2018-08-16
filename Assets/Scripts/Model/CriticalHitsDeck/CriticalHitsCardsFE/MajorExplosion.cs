@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace DamageDeckCardFE
 {
@@ -32,13 +29,13 @@ namespace DamageDeckCardFE
 
         private void RollForDamage(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhaseOld(
+            var phase = Phases.StartTemporarySubPhaseNew<SubPhases.MajorExplosionCheckSubPhase>(
                 "Major Explosion",
-                typeof(SubPhases.MajorExplosionCheckSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(SubPhases.MajorExplosionCheckSubPhase));
                     Triggers.FinishTrigger();
                 });
+            phase.DamageCard = this;
         }
 
     }
@@ -50,6 +47,7 @@ namespace SubPhases
 
     public class MajorExplosionCheckSubPhase : DiceRollCheckSubPhase
     {
+        public GenericDamageCard DamageCard;
 
         public override void Prepare()
         {
@@ -79,7 +77,8 @@ namespace SubPhases
 
             DamageSourceEventArgs majorexplosionDamage = new DamageSourceEventArgs()
             {
-                Source = "Critical hit card",
+                Source = DamageCard,
+                SourceDescription = "Critical hit card",
                 DamageType = DamageTypes.CriticalHitCard
             };
 

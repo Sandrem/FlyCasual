@@ -192,7 +192,8 @@ namespace Abilities.SecondEdition
 
             DamageSourceEventArgs drawtheirfireDamage = new DamageSourceEventArgs()
             {
-                Source = "Biggs Darklighter's Ability",
+                Source = HostShip,
+                SourceDescription = "Biggs Darklighter's Ability",
                 DamageType = DamageTypes.CardAbility
             };
 

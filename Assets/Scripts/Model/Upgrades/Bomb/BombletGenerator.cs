@@ -26,11 +26,12 @@ namespace UpgradesList
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
             Selection.ActiveShip = ship;
-            var sufferBombletDamageSubphase = Phases.StartTemporarySubPhaseNew("Damage from " + Name, typeof(SubPhases.BombletCheckSubPhase), () =>
+            var sufferBombletDamageSubphase = Phases.StartTemporarySubPhaseNew<SubPhases.BombletCheckSubPhase>("Damage from " + Name, () =>
             {
                 Phases.FinishSubPhase(typeof(SubPhases.BombletCheckSubPhase));
                 callBack();
             });
+            sufferBombletDamageSubphase.HostUpgrade = this;
             sufferBombletDamageSubphase.Start();
         }
 
@@ -54,6 +55,7 @@ namespace SubPhases
 
     public class BombletCheckSubPhase : DiceRollCheckSubPhase
     {
+        public GenericUpgrade HostUpgrade;
 
         public override void Prepare()
         {
@@ -84,7 +86,8 @@ namespace SubPhases
 
             DamageSourceEventArgs bombletDamage = new DamageSourceEventArgs()
             {
-                Source = "Bomblet",
+                Source = HostUpgrade.Host,
+                SourceDescription = "Bomblet",
                 DamageType = DamageTypes.BombDetonation
             };
 

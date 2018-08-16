@@ -146,7 +146,8 @@ namespace UpgradesList
         {
             DamageSourceEventArgs seismicDamage = new DamageSourceEventArgs()
             {
-                Source = this,
+                Source = Host,
+                SourceDescription = Name,
                 DamageType = DamageTypes.BombDetonation
             };
 

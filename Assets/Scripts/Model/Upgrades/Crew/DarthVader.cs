@@ -69,8 +69,9 @@ namespace Abilities
 					TriggerOwner = Combat.Defender.Owner.PlayerNo,
 					EventHandler = Combat.Defender.SufferDamage,
 					EventArgs = new DamageSourceEventArgs()
-					{
-						Source = "Dath Vader",
+                    {
+                        Source = HostShip,
+                        SourceDescription = "Dath Vader",
 						DamageType = DamageTypes.CardAbility
 					}
 
@@ -95,7 +96,8 @@ namespace Abilities
                         EventHandler = Combat.Attacker.SufferDamage,
                         EventArgs = new DamageSourceEventArgs()
                         {
-                            Source = "Dath Vader",
+                            Source = HostShip,
+                            SourceDescription = "Dath Vader",
                             DamageType = DamageTypes.CardAbility
                         },
                         Skippable = true

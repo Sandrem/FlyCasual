@@ -67,7 +67,8 @@ namespace Abilities
         {
             DamageSourceEventArgs tltDamage = new DamageSourceEventArgs()
             {
-                Source = "Twin Laser Turret",
+                Source = HostShip,
+                SourceDescription = "Twin Laser Turret",
                 DamageType = DamageTypes.ShipAttack
             };
 

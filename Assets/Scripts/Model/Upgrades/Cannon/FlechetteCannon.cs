@@ -61,6 +61,7 @@ namespace Abilities
             var trigger = RegisterAbilityTrigger(TriggerTypes.OnDamageIsDealt, Combat.Defender.SufferDamage, new DamageSourceEventArgs()
             {
                 Source = Combat.Attacker,
+                SourceDescription = this.Name,
                 DamageType = DamageTypes.ShipAttack
             });
             trigger.Skippable = true;

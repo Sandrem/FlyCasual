@@ -27,7 +27,8 @@ namespace UpgradesList
         {
             DamageSourceEventArgs thermaldetDamage = new DamageSourceEventArgs()
             {
-                Source = this,
+                Source = Host,
+                SourceDescription = Name,
                 DamageType = DamageTypes.BombDetonation
             };
 

@@ -38,13 +38,13 @@ namespace DamageDeckCardFE
         {
             Selection.ActiveShip = Host;
             Selection.ThisShip = Host;
-            Phases.StartTemporarySubPhaseOld(
+            var phase = Phases.StartTemporarySubPhaseNew<SubPhases.ConsoleFireCheckSubPhase>(
                 "Console Fire",
-                typeof(SubPhases.ConsoleFireCheckSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(SubPhases.ConsoleFireCheckSubPhase));
                     Triggers.FinishTrigger();
                 });
+            phase.DamageCard = this;
         }
 
         public override void DiscardEffect()
@@ -66,6 +66,7 @@ namespace SubPhases
 
     public class ConsoleFireCheckSubPhase : DiceRollCheckSubPhase
     {
+        public GenericDamageCard DamageCard;
 
         public override void Prepare()
         {
@@ -99,7 +100,8 @@ namespace SubPhases
 
             DamageSourceEventArgs consolefireDamage = new DamageSourceEventArgs()
             {
-                Source = "Critical hit card",
+                Source = DamageCard, 
+                SourceDescription = "Critical hit card",
                 DamageType = DamageTypes.CriticalHitCard
             };
 

@@ -132,7 +132,8 @@ namespace Abilities
         {
             DamageSourceEventArgs sabineDamage = new DamageSourceEventArgs()
             {
-                Source = this.HostUpgrade,
+                Source = HostShip,
+                SourceDescription = Name,
                 DamageType = DamageTypes.CardAbility
             };
 

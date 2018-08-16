@@ -154,7 +154,8 @@ namespace SubPhases
                     Skippable = true,
                     EventArgs = new DamageSourceEventArgs()
                     {
-                        Source = "Saturation Salvo",
+                        Source = Combat.Attacker,
+                        SourceDescription = "Saturation Salvo",
                         DamageType = DamageTypes.CardAbility
                     }
                 });

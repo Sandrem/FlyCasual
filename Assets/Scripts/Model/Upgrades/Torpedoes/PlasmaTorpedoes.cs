@@ -87,6 +87,7 @@ namespace Abilities
                 new DamageSourceEventArgs()
                 {
                     Source = Combat.Attacker,
+                    SourceDescription = Name,
                     DamageType = DamageTypes.CardAbility
                 },
                 Triggers.FinishTrigger

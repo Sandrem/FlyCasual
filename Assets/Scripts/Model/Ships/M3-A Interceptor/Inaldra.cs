@@ -165,7 +165,8 @@ namespace ActionsList.SecondEdition
 
             DamageSourceEventArgs inaldraRerollDmg = new DamageSourceEventArgs()
             {
-                Source = "Inaldra Reroll Damage",
+                Source = Host,
+                SourceDescription = "Inaldra Reroll Damage",
                 DamageType = DamageTypes.CardAbility
             };
 

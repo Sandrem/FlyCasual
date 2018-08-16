@@ -143,8 +143,9 @@ namespace RulesList
                 delegate { DealDrawnCard(dockedShip, callback); },
                 new DamageSourceEventArgs
                 {
+                    Source = null, //what should be the source here? the host ship?
                     DamageType = DamageTypes.Rules,
-                    Source = null
+                    SourceDescription = null
                 }
             );
         }

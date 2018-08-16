@@ -315,6 +315,7 @@ namespace ActionsList
                     EventArgs = new DamageSourceEventArgs()
                     {
                         Source = Combat.Attacker,
+                        SourceDescription = "Optimized Prototype",
                         DamageType = DamageTypes.CardAbility
                     },
                     Skippable = true
@@ -483,6 +484,7 @@ namespace ActionsList
                         EventArgs = new DamageSourceEventArgs()
                         {
                             Source = Combat.Attacker,
+                            SourceDescription = "Optimized Prototype",
                             DamageType = DamageTypes.CardAbility
                         },
                         Skippable = true

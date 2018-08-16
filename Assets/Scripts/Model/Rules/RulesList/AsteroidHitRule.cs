@@ -2,6 +2,7 @@
 using UnityEngine;
 using Ship;
 using SubPhases;
+using Obstacles;
 
 namespace RulesList
 {
@@ -44,13 +45,13 @@ namespace RulesList
                         Name = "Roll for asteroid damage",
                         TriggerOwner = ship.Owner.PlayerNo,
                         TriggerType = TriggerTypes.OnMovementFinish,
-                        EventHandler = RollForDamage(ship)
+                        EventHandler = RollForDamage(ship, asteroid)
                     });
                 }
             }
         }
 
-        private System.EventHandler RollForDamage(GenericShip ship)
+        private System.EventHandler RollForDamage(GenericShip ship, GenericObstacle asteroid)
         {
             return delegate {
                 Messages.ShowErrorToHuman("Hit asteroid during movement - rolling for damage");
@@ -63,6 +64,7 @@ namespace RulesList
                         Triggers.FinishTrigger();
                     });
                 newPhase.TheShip = ship;
+                newPhase.Asteroid = asteroid;
                 newPhase.Start();
             };
         }
@@ -75,6 +77,7 @@ namespace SubPhases
     public class AsteroidHitCheckSubPhase : DiceRollCheckSubPhase
     {
         private GenericShip prevActiveShip = Selection.ActiveShip;
+        public GenericObstacle Asteroid;
 
         public override void Prepare()
         {
@@ -121,7 +124,8 @@ namespace SubPhases
         {
             DamageSourceEventArgs asteroidDamage = new DamageSourceEventArgs()
             {
-                Source = "Asteroid",
+                Source = Asteroid,
+                SourceDescription = "Asteroid",
                 DamageType = DamageTypes.ObstacleCollision
             };
 

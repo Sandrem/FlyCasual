@@ -9,7 +9,7 @@ using Players;
 
 namespace CommandsList
 {
-    public class CritCardCommand : GenericCommand
+    public class CritCardCommand : GenericCommand, IDamageSource
     {
         private Dictionary<string, Type> stringToTypeFE = new Dictionary<string, Type>()
         {
@@ -110,7 +110,8 @@ namespace CommandsList
                             true,
                             new DamageSourceEventArgs
                             {
-                                Source = "Console",
+                                Source = this,
+                                SourceDescription = "Console",
                                 DamageType = DamageTypes.Console
                             }
                         );

@@ -30,13 +30,13 @@ namespace UpgradesList
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
             Selection.ActiveShip = ship;
-            Phases.StartTemporarySubPhaseOld(
+            var phase = Phases.StartTemporarySubPhaseNew<SubPhases.ClusterMinesCheckSubPhase>(
                 "Damage from " + Name,
-                typeof(SubPhases.ClusterMinesCheckSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(SubPhases.ClusterMinesCheckSubPhase));
                     callBack();
                 });
+            phase.HostUpgrade = this;
         }
 
         public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
@@ -59,6 +59,7 @@ namespace SubPhases
 
     public class ClusterMinesCheckSubPhase : DiceRollCheckSubPhase
     {
+        public GenericUpgrade HostUpgrade;
 
         public override void Prepare()
         {
@@ -95,7 +96,8 @@ namespace SubPhases
 
             DamageSourceEventArgs clustermineDamage = new DamageSourceEventArgs()
             {
-                Source = "Cluster Mines",
+                Source = HostUpgrade.Host,
+                SourceDescription = "Cluster Mines",
                 DamageType = DamageTypes.BombDetonation
             };
 

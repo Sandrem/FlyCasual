@@ -90,7 +90,8 @@ namespace Abilities
 
                     DamageSourceEventArgs assaultsplashDamage = new DamageSourceEventArgs()
                     {
-                        Source = "Assault Missile",
+                        Source = HostShip,
+                        SourceDescription = "Assault Missile",
                         DamageType = DamageTypes.CardAbility
                     };
 

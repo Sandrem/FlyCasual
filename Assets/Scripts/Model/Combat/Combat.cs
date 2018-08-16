@@ -18,9 +18,13 @@ public enum CombatStep
 
 public class DamageSourceEventArgs : EventArgs
 {
-    public object Source { get; set; }
+    public IDamageSource Source { get; set; }
+    public string SourceDescription { get; set; }
     public DamageTypes DamageType { get; set; }
 }
+
+//marker interface for damage sources
+public interface IDamageSource { }
 
 public enum DamageTypes
 {

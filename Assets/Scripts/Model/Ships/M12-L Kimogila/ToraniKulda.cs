@@ -156,7 +156,8 @@ namespace SubPhases
         {
             DamageSourceEventArgs toranikuldaDamage = new DamageSourceEventArgs()
             {
-                Source = "Torani Kulda",
+                Source = Selection.ThisShip,
+                SourceDescription = "Torani Kulda",
                 DamageType = DamageTypes.CardAbility
             };
 
@@ -178,7 +179,8 @@ namespace SubPhases
         {
             DamageSourceEventArgs toranikuldaDamage = new DamageSourceEventArgs()
             {
-                Source = "Torani Kulda",
+                Source = Selection.ThisShip,
+                SourceDescription = "Torani Kulda",
                 DamageType = DamageTypes.CardAbility
             };
 

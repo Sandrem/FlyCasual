@@ -93,6 +93,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Host.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
+            Selection.ThisShip = Host;
 
             Phases.StartTemporarySubPhaseOld(
                 "Damage from \"Harpooned!\" condition",
@@ -190,7 +191,8 @@ namespace Conditions
                 {
                     DamageSourceEventArgs harpoonconditionDamage = new DamageSourceEventArgs()
                     {
-                        Source = "Harpoon Condition",
+                        Source = Host,
+                        SourceDescription = "Harpoon Condition",
                         DamageType = DamageTypes.CardAbility
                     };
 
@@ -208,8 +210,9 @@ namespace Conditions
                 DealDrawnCard,
                 new DamageSourceEventArgs
                 {
+                    Source = Host,
                     DamageType = DamageTypes.Rules,
-                    Source = null
+                    SourceDescription = null
                 }
             );
         }
@@ -271,7 +274,8 @@ namespace SubPhases
             {
                 DamageSourceEventArgs harpoonconditionDamage = new DamageSourceEventArgs()
                 {
-                    Source = "Harpoon Condition",
+                    Source = Selection.ThisShip,
+                    SourceDescription = "Harpoon Condition",
                     DamageType = DamageTypes.CardAbility
                 };
 

@@ -84,7 +84,8 @@ namespace Abilities
 
             DamageSourceEventArgs drawtheirfireDamage = new DamageSourceEventArgs()
             {
-                Source = "Draw Their Fire",
+                Source = HostShip,
+                SourceDescription = "Draw Their Fire",
                 DamageType = DamageTypes.CardAbility
             };
 

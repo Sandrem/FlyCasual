@@ -192,7 +192,7 @@ namespace Ship
 
         public event EventHandlerObjArgsBool OnSufferCriticalDamage;
         public event EventHandlerObjArgsBool OnSufferDamageDecidingSeverity;
-        public event EventHandlerShipBool OnSufferDamageConfirmed;
+        public event EventHandlerShipBoolArgs OnSufferDamageConfirmed;
 
         public event EventHandlerBool OnTryConfirmDiceResults;
 
@@ -510,7 +510,7 @@ namespace Ship
                 damageIsSuffered = true;
             }
 
-            if (damageIsSuffered && OnSufferDamageConfirmed != null) OnSufferDamageConfirmed(this, isCritical);
+            if (damageIsSuffered && OnSufferDamageConfirmed != null) OnSufferDamageConfirmed(this, isCritical, e);
         }
 
         private void SufferDamageByType(object sender, EventArgs e, bool isCritical)

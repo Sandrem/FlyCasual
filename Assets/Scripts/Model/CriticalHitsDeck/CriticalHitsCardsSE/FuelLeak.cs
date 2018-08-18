@@ -25,7 +25,7 @@ namespace DamageDeckCardSE
         }
                 
 
-        private void CheckToSufferAdditionalDamageAndRepair(GenericShip ship, bool isCritical)
+        private void CheckToSufferAdditionalDamageAndRepair(GenericShip ship, bool isCritical, EventArgs e)
         {
             if (isCritical)
             {

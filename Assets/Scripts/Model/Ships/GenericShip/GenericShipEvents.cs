@@ -19,6 +19,7 @@ namespace Ship
         public delegate void EventHandlerShip(GenericShip ship);
         public delegate void EventHandlerShipDamage(GenericShip ship, DamageSourceEventArgs e);
         public delegate void EventHandlerShipBool(GenericShip ship, bool flag);
+        public delegate void EventHandlerShipBoolArgs(GenericShip ship, bool flag, EventArgs e);
         public delegate void EventHandler2Ships(ref bool result, GenericShip attacker, GenericShip defender);
         public delegate void EventHandlerShipType(GenericShip ship, System.Type type);
         public delegate void EventHandlerShipTypeBool(GenericShip ship, System.Type type, ref bool data);

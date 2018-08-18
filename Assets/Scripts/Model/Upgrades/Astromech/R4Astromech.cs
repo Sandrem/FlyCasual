@@ -51,24 +51,9 @@ namespace Abilities
                 {
                     if (movement.Bearing == ManeuverBearing.Straight || movement.Bearing == ManeuverBearing.Bank || movement.Bearing == ManeuverBearing.Turn)
                     {
-                        movement.ColorComplexity = ReduceComplexity(movement.ColorComplexity);
+                        movement.ColorComplexity = GenericMovement.ReduceComplexity(movement.ColorComplexity);
                     }
                 }
-            }
-
-            private MovementComplexity ReduceComplexity(MovementComplexity complexity)
-            {
-                switch (complexity)
-                {
-                    case MovementComplexity.Normal:
-                        complexity = MovementComplexity.Easy;
-                        break;
-                    case MovementComplexity.Complex:
-                        complexity = MovementComplexity.Normal;
-                        break;
-                }
-
-                return complexity;
             }
         }
     }

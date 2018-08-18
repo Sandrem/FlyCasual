@@ -48,7 +48,7 @@ namespace Abilities
                     ImageUrl = HostUpgrade.ImageUrl,
                     Host = HostShip
                 };
-                HostShip.AddDiceModificationOpposite(newAction);
+                HostShip.AddAvailableDiceModification(newAction);
             }
         }
 

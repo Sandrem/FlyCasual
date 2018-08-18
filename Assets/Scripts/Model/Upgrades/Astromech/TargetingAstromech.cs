@@ -44,7 +44,6 @@ namespace Abilities
 
         private void AssignAstromechTargetingLock(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Targeting Astromech: Aquire a Target Lock");
             Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
             HostShip.ChooseTargetToAcquireTargetLock(

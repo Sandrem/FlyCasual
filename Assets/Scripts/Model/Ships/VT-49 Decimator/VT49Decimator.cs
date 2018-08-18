@@ -91,7 +91,7 @@ namespace Ship
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Crew);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
 
-                IconicPilots[Faction.Imperial] = typeof(PatrolLeader);
+                IconicPilots[Faction.Imperial] = typeof(CaptainOicunn);
             }
 
         }

@@ -103,7 +103,7 @@ namespace Abilities
                     int attackBlanks = Combat.DiceRollAttack.Blanks;
                     if (attackBlanks > 0)
                     {
-                        if ((attackBlanks == 1) && (Combat.Attacker.GetAvailableDiceModifications().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0))
+                        if ((attackBlanks == 1) && (Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0))
                         {
                             result = 100;
                         }

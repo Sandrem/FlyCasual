@@ -79,8 +79,6 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);
-
-                IconicPilots[Faction.Scum] = typeof(BlackSunAce);
             }
 
         }

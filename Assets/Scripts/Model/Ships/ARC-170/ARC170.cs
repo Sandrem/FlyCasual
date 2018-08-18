@@ -78,8 +78,6 @@ namespace Ship
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
-
-                IconicPilots[Faction.Rebel] = typeof(Ibtisam);
             }
 
         }

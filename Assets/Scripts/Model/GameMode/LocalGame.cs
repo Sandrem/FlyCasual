@@ -10,6 +10,8 @@ namespace GameModes
 {
     public class LocalGame : GameMode
     {
+        public override string Name { get { return "Local"; } }
+
         public override void RevertSubPhase()
         {
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
@@ -159,9 +161,14 @@ namespace GameModes
             Combat.CompareResultsAndDealDamageClient();
         }
 
-        public override void SwitchToOwnDiceModifications()
+        public override void SwitchToRegularDiceModifications()
         {
-            Combat.SwitchToOwnDiceModificationsClient();
+            Combat.SwitchToRegularDiceModificationsClient();
+        }
+
+        public override void SwitchToAfterRolledDiceModifications()
+        {
+            Combat.SwitchToAfterRolledDiceModificationsClient();
         }
 
         public override void TakeDecision(Decision decision, GameObject button)

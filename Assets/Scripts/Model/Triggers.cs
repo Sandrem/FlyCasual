@@ -66,6 +66,7 @@ public enum TriggerTypes
     OnAtLeastOneCritWasCancelledByDefender,
     OnDamageIsDealt,
     OnDamageWasSuccessfullyDealt,
+    OnDamageInstanceResolved,
     OnShieldIsLost,
     OnDamageCardIsDealt,
     OnFaceupCritCardReadyToBeDealt,

@@ -161,6 +161,7 @@ namespace Ship
 
         public event EventHandlerShip OnDamageWasSuccessfullyDealt;
         public event EventHandlerShip OnDamageCardIsDealt;
+        public static event EventHandlerShipDamage OnDamageInstanceResolvedGlobal;
 
         public event EventHandlerShip OnReadyToBeDestroyed;
         public event EventHandlerShipBool OnShipIsDestroyed;
@@ -386,6 +387,13 @@ namespace Ship
             if (OnDamageCardIsDealt != null) OnDamageCardIsDealt(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageCardIsDealt, callBack);
+        }
+
+        public void CallOnDamageInstanceResolved(DamageSourceEventArgs dsource, Action callback)
+        {
+            if (OnDamageInstanceResolvedGlobal != null) OnDamageInstanceResolvedGlobal(this, dsource);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageInstanceResolved, callback);
         }
 
         public void CallOnShieldIsLost(Action callback)

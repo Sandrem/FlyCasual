@@ -799,10 +799,12 @@ namespace SquadBuilderNS
 
         public static void SetRandomAiSquad(Action callback)
         {
-            SetPlayerSquadFromImportedJson(GetRandomAiSquad(), CurrentPlayer, callback);
+            string filename = "";
+            var json = GetRandomAiSquad(out filename);
+            SetPlayerSquadFromImportedJson(filename, json, CurrentPlayer, callback);
         }
 
-        private static JSONObject GetRandomAiSquad()
+        private static JSONObject GetRandomAiSquad(out string filename)
         {
             string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/RandomAiSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
@@ -814,6 +816,8 @@ namespace SquadBuilderNS
 
             string content = File.ReadAllText(filePaths[randomFileIndex]);
             JSONObject squadJson = new JSONObject(content);
+
+            filename = Path.GetFileName(filePaths[randomFileIndex]);
 
             return squadJson;
         }

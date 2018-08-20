@@ -692,19 +692,20 @@ namespace SquadBuilderNS
 
         // IMPORT / EXPORT
 
-        public static void CreateSquadFromImportedJson(string jsonString, PlayerNo playerNo, Action callback)
+        public static void CreateSquadFromImportedJson(string name, string jsonString, PlayerNo playerNo, Action callback)
         {
             JSONObject squadJson = new JSONObject(jsonString);
             //LogImportedSquad(squadJson);
 
             SetPlayerSquadFromImportedJson(
+                name,
                 squadJson,
                 playerNo,
                 callback
             );
         }
 
-        public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo, Action callBack)
+        public static void SetPlayerSquadFromImportedJson(string name, JSONObject squadJson, PlayerNo playerNo, Action callBack)
         {
             ClearShipsOfPlayer(playerNo);
 
@@ -805,7 +806,7 @@ namespace SquadBuilderNS
             }
             catch (Exception)
             {
-                Messages.ShowError("Error during creation of squadron");
+                Messages.ShowError("Error during creation of squadron '" + name + "'");
                 ClearShipsOfPlayer(playerNo);
                 //throw;
             }
@@ -1096,8 +1097,9 @@ namespace SquadBuilderNS
 
         public static void BrowseSavedSquads()
         {
+            string filename = "";
             // TEMPORARY
-            GetRandomAiSquad();
+            GetRandomAiSquad(out filename);
 
             ShowListOfSavedSquadrons(GetSavedSquadsJsons());
         }
@@ -1117,7 +1119,7 @@ namespace SquadBuilderNS
         private static void LoadSavedSquadAndReturn(string fileName)
         {
             JSONObject squadJson = GetSavedSquadJson(fileName);
-            SetPlayerSquadFromImportedJson(squadJson, CurrentPlayer, ReturnToSquadBuilder);
+            SetPlayerSquadFromImportedJson(fileName, squadJson, CurrentPlayer, ReturnToSquadBuilder);
         }
 
         public static void SetDefaultPlayerNames()
@@ -1166,7 +1168,7 @@ namespace SquadBuilderNS
         private static void ReGenerateSquadOfPlayer(PlayerNo playerNo, Action callback)
         {
             JSONObject playerJson = GetSquadList(playerNo).SavedConfiguration;
-            SetPlayerSquadFromImportedJson(playerJson, playerNo, callback);
+            SetPlayerSquadFromImportedJson("", playerJson, playerNo, callback);
         }
     }
 }

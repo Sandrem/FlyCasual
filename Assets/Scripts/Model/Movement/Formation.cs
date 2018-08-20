@@ -124,7 +124,7 @@ namespace Movement
             for (int i = 0; i < Ships.Count; i++) 
             {
                 var ship = Ships[Ships.Count - 1 - i]; //place the last ship in a formation first, as per the HotAC rules
-                int row = i < shipsPerRow ? 0 : 1;
+                int row = Ships.Count <= shipsPerRow ? 1 : (i < shipsPerRow ? 0 : 1);
 
                 float distance = Board.CalculateDistance(shipCount);
                 float side = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? -1 : 1;

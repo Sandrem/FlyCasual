@@ -1,5 +1,5 @@
 ﻿using Ship;
-using UnityEngine;
+using System.Linq;
 
 namespace RulesList
 {
@@ -7,12 +7,12 @@ namespace RulesList
     {
         public void RegenerateCharge(GenericShip ship)
         {
-            if (!ship.RegensCharges)
-                return;
+            if (ship.RegensCharges && ship.Charges < ship.MaxCharges) ship.RestoreCharge();
 
-            if (ship.Charges < ship.MaxCharges) ship.RestoreCharge();
-
-            // We can add regenerating charges for upgrades here.
+            ship.UpgradeBar.GetUpgradesAll().Where(u => u.RegensCharges && u.Charges < u.MaxCharges).ToList().ForEach(u =>
+            { 
+                u.RestoreCharge();
+            });
         }
     }
 }

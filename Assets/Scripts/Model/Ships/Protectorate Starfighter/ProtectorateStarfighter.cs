@@ -14,7 +14,7 @@ namespace Ship
 
             public ProtectorateStarfighter() : base()
             {
-                Type = "Protectorate Starfighter";
+                Type = FullType = "Protectorate Starfighter";
                 IconicPilots.Add(Faction.Scum, typeof(ConcordDawnAce));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/83/MS_PROTECTORATE-STARFIGHTER.png";
@@ -72,14 +72,16 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "Fang Fighter";
+
                 IconicPilots[Faction.Scum] = typeof(FennRau);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
 
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
-                ActionBar.RemovePrintedAction(typeof(BoostAction));
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
+
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
             }
 
         }

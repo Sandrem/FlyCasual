@@ -28,6 +28,8 @@ namespace UpgradesList
             MaxCharges = 1;
             UsesCharges = true;
 
+            Cost = 1;
+
             UpgradeAbilities.RemoveAll(a => a is CrackShotAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.CrackShotAbility());
         }
@@ -56,7 +58,7 @@ namespace Abilities
                 Host = host,
                 Source = this.HostUpgrade
             };
-            host.AddAvailableCompareResultsEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }
@@ -127,7 +129,7 @@ namespace Abilities.SecondEdition
                 Host = host,
                 Source = this.HostUpgrade
             };
-            host.AddAvailableCompareResultsEffect(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }

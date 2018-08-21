@@ -11,6 +11,7 @@ namespace Tokens
         public GenericReinforceToken(GenericShip host): base(host)
         {
             TokenColor = TokenColors.Green;
+            PriorityUI = 80;
         }
 
         public override void WhenAssigned()

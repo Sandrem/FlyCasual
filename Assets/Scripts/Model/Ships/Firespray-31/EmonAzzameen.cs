@@ -4,12 +4,13 @@ using UnityEngine;
 using System.Linq;
 using Ship;
 using Bombs;
+using RuleSets;
 
 namespace Ship
 {
     namespace Firespray31
     {
-        public class EmonAzzameen : Firespray31
+        public class EmonAzzameen : Firespray31, ISecondEditionPilot
         {
             public EmonAzzameen() : base()
             {
@@ -26,6 +27,16 @@ namespace Ship
                 faction = Faction.Scum;
 
                 SkinName = "Emon Azzameen";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 76;
+
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Illicit);
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

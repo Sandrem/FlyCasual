@@ -2,10 +2,12 @@
 using Ship.Firespray31;
 using Upgrade;
 using System.Collections.Generic;
+using RuleSets;
+using Abilities;
 
 namespace UpgradesList
 {
-    public class SlaveI : GenericUpgradeSlotUpgrade
+    public class SlaveI : GenericUpgradeSlotUpgrade, ISecondEditionUpgrade
     {
         public SlaveI() : base()
         {
@@ -17,6 +19,12 @@ namespace UpgradesList
             {
                 new UpgradeSlot(UpgradeType.Torpedo)
             };
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 5;
+            UpgradeAbilities.Add(new BobaFettEmpireAbility());
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

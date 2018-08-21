@@ -4,12 +4,13 @@ using UnityEngine;
 using Ship;
 using GameModes;
 using System;
+using RuleSets;
 
 namespace Ship
 {
     namespace Vcx100
     {
-        public class HeraSyndulla : Vcx100
+        public class HeraSyndulla : Vcx100, ISecondEditionPilot
         {
             public HeraSyndulla() : base()
             {
@@ -20,6 +21,12 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.HeraSyndullaAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 76;
             }
         }
     }

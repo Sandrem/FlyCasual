@@ -30,8 +30,10 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 6;
+
             UpgradeAbilities.RemoveAll(a => a is IonDamageAbility);
-            UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilitySE());
+            UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilityTurretSE());
         }
     }
 }
@@ -45,19 +47,9 @@ namespace Abilities
             HostShip.OnShotHitAsAttacker += RegisterIonTurretEffect;
         }
 
-        public override void ActivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.AddGrantedAction(new RotateArcAction(), HostUpgrade);
-        }
-
         public override void DeactivateAbility()
         {
             HostShip.OnShotHitAsAttacker -= RegisterIonTurretEffect;
-        }
-
-        public override void DeactivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
         }
 
         protected void RegisterIonTurretEffect()
@@ -90,55 +82,30 @@ namespace Abilities
 
         protected void DefenderSuffersDamage()
         {
-            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs ionturretDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Combat.Defender.Owner.PlayerNo,
-                EventHandler = Combat.Defender.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = Combat.Attacker,
-                    DamageType = DamageTypes.ShipAttack
-                },
-                Skippable = true
-            });
+                Source = "Ion Cannon Turret",
+                DamageType = DamageTypes.ShipAttack
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
+            Combat.Defender.Damage.TryResolveDamage(1, ionturretDamage, Triggers.FinishTrigger);
         }
-
     }
 
 }
 
-
 namespace Abilities.SecondEdition
 {
-    public class IonDamageAbilitySE : IonDamageAbility
+    public class IonDamageAbilityTurretSE : IonDamageAbilitySE
     {
-        protected override void IonTurretEffect(object sender, System.EventArgs e)
+        public override void ActivateAbilityForSquadBuilder()
         {
-            var ionTokens = Combat.DiceRollAttack.Successes - 1;
-            Combat.DiceRollAttack.CancelAllResults();
-            Combat.DiceRollAttack.RemoveAllFailures();
+            HostShip.ActionBar.AddGrantedAction(new RotateArcAction(), HostUpgrade);
+        }
 
-            if (ionTokens > 0)
-            {
-                Combat.Defender.Tokens.AssignTokens(
-                    () => new Tokens.IonToken(Combat.Defender),
-                    ionTokens,
-                    delegate {
-                        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                        Game.Wait(2, DefenderSuffersDamage);
-                    }
-                );
-            }
-            else
-            {
-                DefenderSuffersDamage();
-            }
+        public override void DeactivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
         }
     }
 

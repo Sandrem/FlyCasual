@@ -287,6 +287,7 @@ namespace SquadBuilderNS
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
             RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
+            if (newUpgrade is IVariableCost) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
 
             List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.Types);
             if (slots.Count != 0)
@@ -1029,6 +1030,39 @@ namespace SquadBuilderNS
             }
 
             return result;
+        }
+
+        public static JSONObject GetSquadInJsonCompact(PlayerNo playerNo)
+        {
+            JSONObject squadJson = new JSONObject();
+
+            List<SquadBuilderShip> playerShipConfigs = GetSquadList(playerNo).GetShips().ToList();
+            JSONObject[] squadPilotsArrayJson = new JSONObject[playerShipConfigs.Count];
+            for (int i = 0; i < squadPilotsArrayJson.Length; i++)
+            {
+                squadPilotsArrayJson[i] = GenerateSquadPilotCompact(playerShipConfigs[i]);
+            }
+            JSONObject squadPilotsJson = new JSONObject(squadPilotsArrayJson);
+            squadJson.AddField("pilots", squadPilotsJson);
+
+            return squadJson;
+        }
+
+        private static JSONObject GenerateSquadPilotCompact(SquadBuilderShip shipHolder)
+        {
+            JSONObject pilotJson = new JSONObject();
+            pilotJson.AddField("n", shipHolder.Instance.PilotNameCanonical);
+
+            string upgradesList = "";
+            foreach (var installedUpgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
+            {
+                upgradesList += installedUpgrade.NameCanonical + " ";
+            }
+            JSONObject upgradesDictJson = new JSONObject(upgradesList);
+
+            pilotJson.AddField("u", upgradesDictJson);
+
+            return pilotJson;
         }
 
         public static bool IsNetworkGame

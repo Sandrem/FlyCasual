@@ -27,7 +27,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 5;
-                Cost = 54; //TODO
+                Cost = 56;
                 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.OldTerochAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.OldTerochAbility());

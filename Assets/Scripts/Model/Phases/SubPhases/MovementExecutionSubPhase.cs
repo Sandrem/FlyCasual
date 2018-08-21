@@ -47,7 +47,7 @@ namespace SubPhases
                 }
             }
 
-            PerformAssignedManeuver();
+            Selection.ThisShip.CallBeforeMovementIsExecuted(PerformAssignedManeuver);
         }
 
         private void PerformAssignedManeuver()

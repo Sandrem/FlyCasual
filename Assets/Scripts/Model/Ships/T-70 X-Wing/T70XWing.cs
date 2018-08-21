@@ -13,7 +13,7 @@ namespace Ship
 
             public T70XWing() : base()
             {
-                Type = "T-70 X-Wing";
+                Type = FullType = "T-70 X-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(PoeDameronHotr));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/16/MR_T70-X-WING.png";

@@ -14,7 +14,7 @@ namespace Ship
 
             public AlphaClassStarWing() : base()
             {
-                Type = "Alpha-class Star Wing";
+                Type = FullType = "Alpha-class Star Wing";
                 IconicPilots.Add(Faction.Imperial, typeof(MajorVynder));
 
                 ManeuversImageUrl = "https://i.imgur.com/aiSqTZA.jpg";
@@ -69,9 +69,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-
-                IconicPilots[Faction.Imperial] = typeof(RhoSquadronPilot);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
             }
 
         }

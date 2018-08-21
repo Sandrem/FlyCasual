@@ -33,6 +33,9 @@ namespace Ship
         public Type ShipRuleType = typeof(FirstEdition);
         public Type PilotRuleType = typeof(FirstEdition);
 
+        public List<GenericUpgrade> TwoTargetLocksOnDifferentTargetsAreAllowed = new List<GenericUpgrade>();
+        public List<GenericShip> TwoTargetLocksOnSameTargetsAreAllowed = new List<GenericShip>();
+
         private string imageUrl;
         public string ImageUrl
         {
@@ -53,6 +56,12 @@ namespace Ship
         public List<string> SoundFlyPaths { get; protected set; }
 
         public bool IsHidden { get; protected set; }
+
+        public bool IsStressed { get { return Tokens.HasToken<Tokens.StressToken>(); } }
+
+        public bool IsAttacking { get { return Combat.AttackStep == CombatStep.Attack && Combat.Attacker == this; } }
+
+        public bool IsDefending { get { return Combat.AttackStep == CombatStep.Defence && Combat.Defender == this; } }
 
         public char ShipIconLetter { get; protected set; }
 

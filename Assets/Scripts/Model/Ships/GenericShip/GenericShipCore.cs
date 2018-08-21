@@ -24,6 +24,7 @@ namespace Ship
         public Players.GenericPlayer Owner { get; private set; }
 
         public string Type { get; protected set; }
+        public string FullType { get; protected set; }
 
         public Faction faction { get; protected set; }
         public List<Faction> factions { get; protected set; }
@@ -290,7 +291,7 @@ namespace Ship
             Shields = MaxShields;
 
             PrimaryWeapon = new PrimaryWeaponClass(this);
-            Damage = new AssignedDamageCards(this);
+            Damage = new Damage(this);
 
             CreateModel(StartingPosition);
             InitializeShipBaseArc();
@@ -300,6 +301,15 @@ namespace Ship
 
         public void InitializeShipBaseArc()
         {
+            if (ArcInfo != null)
+            {
+                List<GenericArc> oldArcs = new List<GenericArc>(ArcInfo.Arcs);
+                foreach (var arc in oldArcs)
+                {
+                    arc.RemoveArc();
+                }
+            };
+
             ArcInfo = new ArcsHolder(this);
 
             switch (ShipBaseArcsType)
@@ -315,6 +325,15 @@ namespace Ship
                     break;
                 case BaseArcsType.ArcMobile:
                     ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
+                    break;
+                case BaseArcsType.ArcMobileOnly:
+                    ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
+                    ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);
+                    break;
+                case BaseArcsType.ArcMobileDual:
+                    ArcInfo.Arcs.Add(new ArcMobileDualA(ShipBase));
+                    ArcInfo.Arcs.Add(new ArcMobileDualB(ShipBase));
+                    ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);
                     break;
                 case BaseArcsType.ArcBullseye:
                     ArcInfo.Arcs.Add(new ArcBullseye(ShipBase));
@@ -337,6 +356,7 @@ namespace Ship
         public virtual void InitializePilot()
         {
             PrepareForceInitialization();
+            PrepareChargesInitialization();
 
             SetShipInsertImage();
             SetShipSkin();
@@ -353,6 +373,17 @@ namespace Ship
         {
             OnGameStart -= InitializeForce;
             Force = MaxForce;
+        }
+
+        private void PrepareChargesInitialization()
+        {
+            OnGameStart += InitializeCharges;
+        }
+
+        private void InitializeCharges()
+        {
+            OnGameStart -= InitializeCharges;
+            SetChargesToMax();
         }
 
         private void ActivateShipAbilities()
@@ -409,6 +440,61 @@ namespace Ship
         {
             TargetLockMinRange = min;
             TargetLockMaxRange = max;
+        }
+
+        // CHARGES
+        // TODO: Change/Remove so that this functionality isn't duplicated between GenericShip and GenericUpgrade
+        public int MaxCharges { get; set; }
+
+        private int charges;
+        public int Charges
+        {
+            get { return charges; }
+            set
+            {
+                int currentTokens = Tokens.CountTokensByType(typeof(ChargeToken));
+                for (int i = 0; i < currentTokens; i++)
+                {
+                    Tokens.RemoveCondition(typeof(ChargeToken));
+                }
+
+                charges = value;
+                for (int i = 0; i < value; i++)
+                {
+                    Tokens.AssignCondition(typeof(ChargeToken));
+                }
+            }
+        }
+
+        public bool UsesCharges;
+        public bool RegensCharges = false;
+
+        public void SpendCharge(Action callBack)
+        {
+            Charges--;
+
+            if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
+
+            callBack();
+        }
+
+        public void RemoveCharge(Action callBack)
+        {
+            // for now this is just an alias of SpendCharge
+            SpendCharge(callBack);
+        }
+
+        public void RestoreCharge()
+        {
+            if (Charges < MaxCharges)
+            {
+                Charges++;
+            }
+        }
+
+        public void SetChargesToMax()
+        {
+            Charges = MaxCharges;
         }
 
     }

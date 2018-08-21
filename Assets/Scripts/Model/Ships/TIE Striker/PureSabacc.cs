@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Abilities;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEStriker
     {
-        public class PureSabacc : TIEStriker
+        public class PureSabacc : TIEStriker, ISecondEditionPilot
         {
             public PureSabacc() : base()
             {
@@ -20,6 +21,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new PureSabaccAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 44;
             }
         }
     }

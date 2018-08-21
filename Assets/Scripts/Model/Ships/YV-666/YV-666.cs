@@ -14,7 +14,7 @@ namespace Ship
 
             public YV666() : base()
             {
-                Type = "YV-666";
+                Type = FullType = "YV-666";
                 IconicPilots.Add(Faction.Scum, typeof(Bossk));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcSpecial180;
@@ -74,7 +74,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                FullType = "YV-666 Light Freighter";
 
                 MaxHull = 9;
                 MaxShields = 3;

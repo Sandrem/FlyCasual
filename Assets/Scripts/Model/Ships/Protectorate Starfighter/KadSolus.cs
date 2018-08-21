@@ -20,7 +20,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 4;
-                Cost = 50; //TODO
+                Cost = 54;
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.KadSolusAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.KadSolusAbility());

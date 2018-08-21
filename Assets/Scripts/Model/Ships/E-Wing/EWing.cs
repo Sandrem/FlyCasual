@@ -14,7 +14,7 @@ namespace Ship
 
             public EWing() : base()
             {
-                Type = "E-Wing";
+                Type = FullType = "E-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(KnaveSquadronPilot));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/a/aa/MR_E-WING.png";
@@ -52,12 +52,9 @@ namespace Ship
 
             private void AssignTemporaryManeuvers()
             {
-                Maneuvers.Add("1.L.T", MovementComplexity.None);
                 Maneuvers.Add("1.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("1.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("1.R.B", MovementComplexity.Normal);
-                Maneuvers.Add("1.R.T", MovementComplexity.None);
-                Maneuvers.Add("1.F.R", MovementComplexity.None);
                 Maneuvers.Add("2.L.T", MovementComplexity.Normal);
                 Maneuvers.Add("2.L.B", MovementComplexity.Easy);
                 Maneuvers.Add("2.F.S", MovementComplexity.Easy);
@@ -73,22 +70,31 @@ namespace Ship
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("4.F.R", MovementComplexity.Complex);
                 Maneuvers.Add("5.F.S", MovementComplexity.Normal);
-                Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
             public void AdaptShipToSecondEdition()
             {
-                // TODO: Maneuvers
-                // TODO: Ship ability
+                FullType = "E-wing";
+
+                Maneuvers.Add("1.L.T", MovementComplexity.Complex);
+                Maneuvers["1.L.B"] = MovementComplexity.Easy;
+                Maneuvers["1.R.B"] = MovementComplexity.Easy;
+                Maneuvers.Add("1.R.T", MovementComplexity.Complex);
+                Maneuvers["2.L.B"] = MovementComplexity.Normal;
+                Maneuvers["2.R.B"] = MovementComplexity.Normal;
+                Maneuvers.Add("3.L.R", MovementComplexity.Complex);
+                Maneuvers.Add("3.R.R", MovementComplexity.Complex);
+                Maneuvers["4.F.S"] = MovementComplexity.Easy;
 
                 MaxHull = 3;
 
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                ActionBar.AddPrintedAction(new BoostAction());
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
 
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                SetTargetLockRange(2, int.MaxValue);
 
-                IconicPilots[Faction.Rebel] = typeof(RogueSquadronEscort);
+                IconicPilots[Faction.Rebel] = typeof(KnaveSquadronEscort);
             }
 
         }

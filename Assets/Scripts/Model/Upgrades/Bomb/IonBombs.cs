@@ -32,7 +32,7 @@ namespace UpgradesList
              
              Triggers.RegisterTrigger(new Trigger()
              {
-                 Name = "Suffer Ion Tokens From Bomb",
+                 Name = "Assign Ion Tokens From Bomb",
                  TriggerType = TriggerTypes.OnTokenIsAssigned,
                  TriggerOwner = ship.Owner.PlayerNo,
                  EventHandler = SufferIonBombTokens,

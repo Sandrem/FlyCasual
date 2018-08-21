@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RuleSets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ namespace Ship
 {
     namespace YWing
     {
-        public class Kavil : YWing
+        public class Kavil : YWing, ISecondEditionPilot
         {
             public Kavil() : base()
             {
@@ -25,6 +26,12 @@ namespace Ship
                 SkinName = "Brown";
 
                 PilotAbilities.Add(new Abilities.KavilAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 42;
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using RuleSets;
+﻿using ActionsList;
+using RuleSets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -336,6 +337,13 @@ public partial class DiceRoll
         OrganizeDicePositions();
     }
 
+    public void ApplyCalculate()
+    {
+        ChangeOne(DieSide.Focus, DieSide.Success);
+
+        OrganizeDicePositions();
+    }
+
     public void ApplyEvade()
     {
         RuleSet.Instance.EvadeDiceModification(this);
@@ -346,7 +354,11 @@ public partial class DiceRoll
 	public int Change(DieSide oldSide, DieSide newSide, int count, bool cannotBeRerolled = false, bool cannotBeModified = false)
 	{
         var changedDiceCount = 0;
-		for (int i = 0; i < count; i++) {
+        if (count == 0) // change all
+        {
+            changedDiceCount += ChangeDice(oldSide, newSide, false, cannotBeRerolled, cannotBeModified);
+        }
+        else for (int i = 0; i < count; i++) {
             changedDiceCount += ChangeDice (oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
 		}
 
@@ -785,9 +797,7 @@ public partial class DiceRoll
         if (isActive)
         {
             Combat.ToggleConfirmDiceResultsButton(true);
-
-            // No branch for opposite dice modifications?
-            Combat.ShowDiceModificationButtons();
+            Combat.ShowDiceModificationButtons(DiceModificationTimingType.Normal);
         }
         else
         {

@@ -20,7 +20,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            Cost = 2;
+            Cost = 1;
 
             UpgradeAbilities.RemoveAll(a => a is Abilities.InertialDampenersAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.InertialDampenersAbilitySE());

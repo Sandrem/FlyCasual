@@ -31,6 +31,7 @@ public enum TriggerTypes
     OnManeuver,
     OnManeuverIsReadyToBeRevealed,
     OnManeuverIsRevealed,
+    BeforeMovementIsExecuted,
     OnMovementStart,
     OnMovementExecuted,
     OnMovementFinish,
@@ -49,6 +50,7 @@ public enum TriggerTypes
     OnTargetLockIsAcquired,
     OnRerollIsConfirmed,
     OnDieResultIsSpent,
+    OnDecloak,
 
     OnAttackStart,
     OnShotStart,
@@ -63,6 +65,7 @@ public enum TriggerTypes
 
     OnAtLeastOneCritWasCancelledByDefender,
     OnDamageIsDealt,
+    OnDamageWasSuccessfullyDealt,
     OnShieldIsLost,
     OnDamageCardIsDealt,
     OnFaceupCritCardReadyToBeDealt,

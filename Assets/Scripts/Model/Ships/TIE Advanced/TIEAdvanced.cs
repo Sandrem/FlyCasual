@@ -17,7 +17,7 @@ namespace Ship
 
             public TIEAdvanced() : base()
             {
-                Type = "TIE Advanced";
+                Type = FullType = "TIE Advanced";
                 IconicPilots.Add(Faction.Imperial, typeof(DarthVader));
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
@@ -82,6 +82,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "TIE Advanced x1";
+
                 ActionBar.RemovePrintedAction(typeof(FocusAction));
                 ActionBar.RemovePrintedAction(typeof(EvadeAction));
 
@@ -91,9 +93,9 @@ namespace Ship
                 Maneuvers["3.L.E"] = MovementComplexity.Complex;
                 Maneuvers["3.R.E"] = MovementComplexity.Complex;
 
-                UpgradeBar.AddSlot(Upgrade.UpgradeType.System);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
 
-                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(FocusAction), new BarrelRollAction() { IsRed = true });
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AdvancedTargetingComputer());
             }

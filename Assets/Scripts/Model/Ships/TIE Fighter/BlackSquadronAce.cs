@@ -13,7 +13,7 @@ namespace Ship
             {
                 PilotName = "Black Squadron Ace";
                 PilotSkill = 3;
-                Cost = 30;
+                Cost = 26;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 

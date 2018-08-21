@@ -18,7 +18,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotName = "Phoenix Squadron Pilot";
-                Cost = 34; //TODO
+                Cost = 30;
             }
         }
     }

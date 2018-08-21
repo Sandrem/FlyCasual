@@ -44,45 +44,13 @@ namespace CommandsList
 
             if (ship != null)
             {
-                for (int i = 0; i < regularDamage; i++)
+                DamageSourceEventArgs consoleDamage = new DamageSourceEventArgs()
                 {
-                    ship.AssignedDamageDiceroll.AddDice(DieSide.Success);
+                    Source = "Console",
+                    DamageType = DamageTypes.Console
+                };
 
-                    Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Suffer damage",
-                        TriggerType = TriggerTypes.OnDamageIsDealt,
-                        TriggerOwner = ship.Owner.PlayerNo,
-                        EventHandler = ship.SufferDamage,
-                        Skippable = true,
-                        EventArgs = new DamageSourceEventArgs()
-                        {
-                            Source = "Console",
-                            DamageType = DamageTypes.Console
-                        }
-                    });
-                }
-
-                for (int i = 0; i < criticalDamage; i++)
-                {
-                    ship.AssignedDamageDiceroll.AddDice(DieSide.Crit);
-
-                    Triggers.RegisterTrigger(new Trigger()
-                    {
-                        Name = "Suffer damage",
-                        TriggerType = TriggerTypes.OnDamageIsDealt,
-                        TriggerOwner = ship.Owner.PlayerNo,
-                        EventHandler = ship.SufferDamage,
-                        Skippable = true,
-                        EventArgs = new DamageSourceEventArgs()
-                        {
-                            Source = "Console",
-                            DamageType = DamageTypes.Console
-                        }
-                    });
-                }
-
-                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, ShowMessage);
+                ship.Damage.TryResolveDamage(regularDamage, criticalDamage, consoleDamage, ShowMessage);
             }
             else
             {

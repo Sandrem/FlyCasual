@@ -122,6 +122,9 @@ namespace Movement
                 case "T":
                     bearing = ManeuverBearing.Turn;
                     break;
+                case "V":
+                    bearing = ManeuverBearing.Reverse;
+                    break;
             }
 
             Speed = speed;
@@ -264,6 +267,9 @@ namespace Movement
                     break;
                 case ManeuverBearing.Stationary:
                     maneuverString += "S";
+                    break;
+                case ManeuverBearing.Reverse:
+                    maneuverString += "V";
                     break;
                 default:
                     break;
@@ -500,6 +506,9 @@ namespace Movement
                 case ManeuverBearing.Stationary:
                     maneuverString += "S";
                     break;
+                case ManeuverBearing.Reverse:
+                    maneuverString += "V";
+                    break;
                 default:
                     break;
             }
@@ -577,9 +586,30 @@ namespace Movement
             return result;
         }
 
+        public static MovementComplexity ReduceComplexity(MovementComplexity complexity)
+        {
+            switch (complexity)
+            {
+                case MovementComplexity.Normal:
+                    complexity = MovementComplexity.Easy;
+                    break;
+                case MovementComplexity.Complex:
+                    complexity = MovementComplexity.Normal;
+                    break;
+            }
+
+            return complexity;
+        }
+
         public static List<string> GetAllManeuvers()
         {
             List<string> result = new List<string>();
+
+            result.Add("2.F.V");
+
+            result.Add("1.F.V");
+            result.Add("1.L.V");
+            result.Add("1.R.V");
 
             result.Add("0.S.S");
 

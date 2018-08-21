@@ -13,7 +13,7 @@ namespace Ship
             {
                 PilotName = "Rebel Scout";
                 PilotSkill = 2;
-                Cost = 16;
+                Cost = 32;
 
                 faction = Faction.Rebel;
 

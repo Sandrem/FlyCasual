@@ -18,7 +18,7 @@ namespace Ship
 			{
 				PilotName = "Joy Rekkoff";
 				PilotSkill = 4;
-				Cost = 57;
+				Cost = 52;
 
                 IsUnique = true;
 

@@ -18,7 +18,9 @@ namespace Ship
                 PilotName = "Storm Squadron Ace";
                 PilotSkill = 3;
 
-                Cost = 46;
+                Cost = 43;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

@@ -7,6 +7,7 @@ using BoardTools;
 using GameModes;
 using Ship;
 using SubPhases;
+using ActionsList;
 
 public enum CombatStep
 {
@@ -203,6 +204,9 @@ public static partial class Combat
 
     public static void ConfirmAttackDiceResults()
     {
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
+        Attacker.CallAfterAttackDiceModification();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(AttackDiceRollCombatSubPhase));
 
@@ -237,13 +241,21 @@ public static partial class Combat
 
     public static void ConfirmDefenceDiceResults()
     {
+        HideDiceModificationButtons();
+        ToggleConfirmDiceResultsButton(false);
+
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
+
         AttackStep = CombatStep.CompareResults;
 
-        Combat.Attacker.Owner.UseCompareResultsDiceModifications();
+        Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);
     }
 
     public static void CompareResultsAndDealDamageClient()
     {
+        Attacker.ClearAlreadyUsedDiceModifications();
+        Defender.ClearAlreadyUsedDiceModifications();
         DiceCompareHelper.currentDiceCompareHelper.Close();
         HideDiceResultMenu();
         Phases.FinishSubPhase(typeof(DefenceDiceRollCombatSubPhase));
@@ -298,36 +310,18 @@ public static partial class Combat
         Attacker.CallShotHitAsAttacker();
         Defender.CallShotHitAsDefender();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnShotHit, TryDamagePrevention);
-    }
-
-    private static void TryDamagePrevention()
-    {
-        Defender.CallTryDamagePrevention(ResolveCombatDamage);
+        Triggers.ResolveTriggers(TriggerTypes.OnShotHit, ResolveCombatDamage);
     }
 
     private static void ResolveCombatDamage()
     {
-        Defender.AssignedDamageDiceroll = DiceRollAttack;
-
-        foreach (var dice in DiceRollAttack.DiceList)
+        DamageSourceEventArgs damageArgs = new DamageSourceEventArgs()
         {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Suffer damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Defender.Owner.PlayerNo,
-                EventHandler = Defender.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = Attacker,
-                    DamageType = DamageTypes.ShipAttack
-                },
-                Skippable = true
-            });
-        }
+            Source = Attacker,
+            DamageType = DamageTypes.ShipAttack
+        };
 
-        Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, AfterShotIsPerformed);
+        Defender.Damage.TryResolveDamage(DiceRollAttack.DiceList, damageArgs, AfterShotIsPerformed);
     }
 
     private static void AfterShotIsPerformed()

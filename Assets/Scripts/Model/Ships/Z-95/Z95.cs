@@ -14,7 +14,7 @@ namespace Ship
 
             public Z95() : base()
             {
-                Type = "Z-95 Headhunter";
+                Type = FullType = "Z-95 Headhunter";
                 IconicPilots.Add(Faction.Rebel, typeof(AirenCracken));
                 IconicPilots.Add(Faction.Scum, typeof(NdruSuhlak));
 
@@ -68,12 +68,15 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                FullType = "Z-95-AF4 Headhunter";
+
+                Maneuvers["3.F.S"] = MovementComplexity.Easy;
+                Maneuvers.Add("4.F.R", MovementComplexity.Complex);
 
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
-                IconicPilots[Faction.Scum] = typeof(BinayrePirate);
-                IconicPilots[Faction.Rebel] = typeof(BanditSquadronPilot);
+                IconicPilots[Faction.Scum] = typeof(NdruSuhlak);
+                IconicPilots[Faction.Rebel] = typeof(AirenCracken);
             }
 
         }

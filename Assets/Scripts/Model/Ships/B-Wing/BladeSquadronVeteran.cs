@@ -13,7 +13,9 @@ namespace Ship
             {
                 PilotName = "Blade Squadron Veteran";
                 PilotSkill = 3;
-                Cost = 24;
+                Cost = 44;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 SkinName = "Red";
 

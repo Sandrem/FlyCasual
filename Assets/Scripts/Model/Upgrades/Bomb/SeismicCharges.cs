@@ -32,7 +32,9 @@ namespace UpgradesList
         {
             IsDiscardedAfterDropped = false;
             UsesCharges = true;
+
             MaxCharges = 2;
+            Cost = 3;
         }
 
         protected override void Detonate()
@@ -142,22 +144,13 @@ namespace UpgradesList
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
-            ship.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs seismicDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer damage from bomb",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = ship.Owner.PlayerNo,
-                EventHandler = ship.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = this,
-                    DamageType = DamageTypes.BombDetonation
-                }
-            });
+                Source = this,
+                DamageType = DamageTypes.BombDetonation
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
+            ship.Damage.TryResolveDamage(1, seismicDamage, callBack);
         }
 
         public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)

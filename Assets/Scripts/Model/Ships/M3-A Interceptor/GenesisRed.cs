@@ -1,10 +1,14 @@
-﻿using System;
+﻿using RuleSets;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Tokens;
 
 namespace Ship
 {
     namespace M3AScyk
     {
-        public class GenesisRed : M3AScyk
+        public class GenesisRed : M3AScyk, ISecondEditionPilot
         {
             public GenesisRed() : base()
             {
@@ -17,6 +21,15 @@ namespace Ship
                 PilotAbilities.Add(new Abilities.GenesisRedAbility());
 
                 SkinName = "Genesis Red";
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 35;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.GenesisRedAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.GenesisRedAbilitySE());
             }
         }
     }
@@ -60,6 +73,52 @@ namespace Abilities
             {
                 callback();
             }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class GenesisRedAbilitySE : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnTargetLockIsAcquired += RegisterTrigger;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnTargetLockIsAcquired -= RegisterTrigger;
+        }
+
+        private void RegisterTrigger(Ship.GenericShip target)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnTargetLockIsAcquired, delegate { GenesisRedAbilityEffect(target); });
+        }
+
+        private void GenesisRedAbilityEffect(Ship.GenericShip target)
+        {
+            List<GenericToken> targetTokens = target.Tokens.GetAllTokens();
+            int focusTokens = targetTokens.Where(token => token is FocusToken).Count();
+            int evadeTokens = targetTokens.Where(token => token is EvadeToken).Count();
+
+            // welcome to hell
+            HostShip.Tokens.RemoveAllTokensByType(typeof(FocusToken), delegate
+            {
+                HostShip.Tokens.RemoveAllTokensByType(typeof(EvadeToken), delegate
+                {
+                    HostShip.Tokens.AssignTokens(
+                        () => new FocusToken(HostShip),
+                        focusTokens,
+                        delegate
+                        {
+                            HostShip.Tokens.AssignTokens(
+                                () => new EvadeToken(HostShip),
+                                evadeTokens,
+                                Triggers.FinishTrigger);
+                        });
+                });
+            });
         }
     }
 }

@@ -26,6 +26,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 0;
+
             Types.RemoveAll(t => t == UpgradeType.Modification);
             Types.Add(UpgradeType.Configuration);
 
@@ -53,6 +55,7 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             Name = "Servomotor S-Foils (Open)";
+            Cost = 0;
 
             Types.RemoveAll(t => t == UpgradeType.Modification);
             Types.Add(UpgradeType.Configuration);
@@ -309,7 +312,7 @@ namespace Abilities
             public override void ActivateAbilityForSquadBuilder()
             {
                 HostShip.ActionBar.AddGrantedAction(new BoostAction(), HostUpgrade);
-                HostShip.ActionBar.AddGrantedAction(new FocusAction() { LinkedRedAction = new BoostAction() { IsRed = true } }, HostUpgrade);
+                HostShip.ActionBar.AddActionLink(typeof(FocusAction), new BoostAction() { IsRed = true, Source = HostUpgrade });
             }
 
             public override void DeactivateAbility()
@@ -322,7 +325,7 @@ namespace Abilities
             public override void DeactivateAbilityForSquadBuilder()
             {
                 HostShip.ActionBar.RemoveGrantedAction(typeof(BoostAction), HostUpgrade);
-                HostShip.ActionBar.RemoveGrantedAction(typeof(FocusAction), linkedRedAction: typeof(BoostAction), source: HostUpgrade);
+                HostShip.ActionBar.RemoveActionLink(typeof(FocusAction), typeof(BoostAction), HostUpgrade);
             }
 
             private void ReduceNumberOfAttackDice(ref int value)

@@ -3,11 +3,12 @@ using Ship;
 using Abilities;
 using System;
 using Tokens;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class Juke : GenericUpgrade
+    public class Juke : GenericUpgrade, ISecondEditionUpgrade
     {
 
         public Juke() : base()
@@ -19,9 +20,17 @@ namespace UpgradesList
             UpgradeAbilities.Add(new JukeAbility());
         }
 
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 4;
+        }
+
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.ShipBaseSize == BaseSize.Small;
+            if (RuleSet.Instance is SecondEdition)
+                return ship.ShipBaseSize == BaseSize.Small || ship.ShipBaseSize == BaseSize.Medium;
+            else
+                return ship.ShipBaseSize == BaseSize.Small;
         }
     }
 }
@@ -47,7 +56,7 @@ namespace Abilities
                 ImageUrl = HostUpgrade.ImageUrl,
                 Host = host
             };
-            host.AddDiceModificationOpposite(newAction);
+            host.AddAvailableDiceModification(newAction);
         }
     }
 }

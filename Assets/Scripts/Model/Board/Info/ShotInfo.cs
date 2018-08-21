@@ -1,10 +1,9 @@
-﻿using Ship;
+﻿using Arcs;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-using Arcs;
 using Upgrade;
 
 namespace BoardTools
@@ -18,7 +17,7 @@ namespace BoardTools
 
         public RangeHolder NearestFailedDistance;
 
-        private Dictionary<ArcTypes, bool> InArcInfo { get; set; }
+        private Dictionary<GenericArc, bool> InArcInfo { get; set; }
 
         public bool IsObstructedByAsteroid { get; private set; }
         public bool IsObstructedByBombToken { get; private set; }
@@ -54,39 +53,48 @@ namespace BoardTools
 
         private void CheckRange()
         {
-            InArcInfo = new Dictionary<ArcTypes, bool>();
+            InArcInfo = new Dictionary<GenericArc, bool>();
+            List<ArcTypes> WeaponArcRestrictions = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).ArcRestrictions : null;
+            
+            if(WeaponArcRestrictions != null && WeaponArcRestrictions.Count == 0)
+            {
+                WeaponArcRestrictions = null;
+            }
+
+            WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
 
             foreach (var arc in Ship1.ArcInfo.Arcs)
             {
                 ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
-                InArcInfo.Add(arc.ArcType, shotInfoArc.InArc);
+                InArcInfo.Add(arc, shotInfoArc.InArc);
 
-                WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
+                if (!arc.ShotPermissions.CanShootByWeaponType(weaponType))
+                    continue;
 
-                if (arc.ShotPermissions.CanShootByWeaponType(weaponType))
+                if (WeaponArcRestrictions != null && !WeaponArcRestrictions.Contains(arc.ArcType))
+                    continue;
+
+                if (shotInfoArc.IsShotAvailable)
                 {
-                    if (shotInfoArc.IsShotAvailable)
+                    if (IsShotAvailable == false)
                     {
-                        if (IsShotAvailable == false)
-                        {
-                            MinDistance = shotInfoArc.MinDistance;
-                        }
-                        else
-                        {
-                            if (shotInfoArc.MinDistance.DistanceReal < MinDistance.DistanceReal) MinDistance = shotInfoArc.MinDistance;
-                        }
-
-                        IsShotAvailable = true;
+                        MinDistance = shotInfoArc.MinDistance;
+                    }
+                    else
+                    {
+                        if (shotInfoArc.MinDistance.DistanceReal < MinDistance.DistanceReal) MinDistance = shotInfoArc.MinDistance;
                     }
 
-                    if (NearestFailedDistance == null)
-                    {
-                        NearestFailedDistance = shotInfoArc.MinDistance;
-                    }
-                    else if (shotInfoArc.MinDistance.DistanceReal < NearestFailedDistance.DistanceReal)
-                    {
-                        NearestFailedDistance = shotInfoArc.MinDistance;
-                    }
+                    IsShotAvailable = true;
+                }
+
+                if (NearestFailedDistance == null)
+                {
+                    NearestFailedDistance = shotInfoArc.MinDistance;
+                }
+                else if (shotInfoArc.MinDistance.DistanceReal < NearestFailedDistance.DistanceReal)
+                {
+                    NearestFailedDistance = shotInfoArc.MinDistance;
                 }
             }
         }
@@ -98,9 +106,15 @@ namespace BoardTools
 
         public bool InArcByType(ArcTypes arcType)
         {
-            if (!InArcInfo.ContainsKey(arcType)) return false;
+            Dictionary<GenericArc, bool> filteredInfo = InArcInfo.Where(a => a.Key.ArcType == arcType).ToDictionary(a => a.Key, a => a.Value);
+            if (filteredInfo == null || filteredInfo.Count == 0) return false;
 
-            return InArcInfo[arcType];
+            foreach (var arcInfo in filteredInfo)
+            {
+                if (arcInfo.Value) return true;
+            }
+
+            return false;
         }
 
         // TODO: CHANGE

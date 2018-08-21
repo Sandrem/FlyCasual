@@ -10,7 +10,7 @@ namespace Ship
             {
                 PilotName = "Red Squadron Veteran";
                 PilotSkill = 3;
-                Cost = 46; //TODO
+                Cost = 43;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 

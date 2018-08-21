@@ -16,7 +16,7 @@ namespace Ship
 
             public XWing() : base()
             {
-                Type = "X-Wing";
+                Type = FullType = "X-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(WedgeAntilles));
 
                 ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
@@ -82,6 +82,8 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "T-65 X-wing";
+
                 MaxHull = 4;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
@@ -92,8 +94,6 @@ namespace Ship
                 Maneuvers["2.R.B"] = MovementComplexity.Easy;
                 Maneuvers["3.L.E"] = MovementComplexity.Complex;
                 Maneuvers["3.R.E"] = MovementComplexity.Complex;
-
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);
             }
         }
     }

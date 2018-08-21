@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Arcs;
 using Ship;
 using UnityEngine;
 
@@ -180,6 +181,96 @@ namespace BoardTools
         {
             DistanceInfo positionInfo = new DistanceInfo(from, to);
             return positionInfo.Range;
+        }
+
+        public static bool IsShipInFacing(GenericShip from, GenericShip to, ArcFacing facing)
+        {
+            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+
+            if (facing == ArcFacing.Front180)
+                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+            else
+                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
+
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+
+            from.ArcInfo.Arcs = savedArcs;
+            return reverseShotInfo.InArc;
+        }
+
+        public static bool IsShipInFacingOnly(GenericShip from, GenericShip to, ArcFacing facing)
+        {
+            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+
+            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            bool inForward180Arc = reverseShotInfo.InArc;
+
+            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
+            reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            bool inRear180Arc = reverseShotInfo.InArc;
+
+            from.ArcInfo.Arcs = savedArcs;
+
+            return (facing == ArcFacing.Front180) ? inForward180Arc && !inRear180Arc : !inForward180Arc && inRear180Arc;
+        }
+
+        public static bool IsShipAtRange(GenericShip from, GenericShip to, int range)
+        {
+            return IsShipBetweenRange(from, to, range, range);
+        }
+
+        public static bool IsShipBetweenRange(GenericShip from, GenericShip to, int minrange, int maxrange)
+        {
+            if(minrange == maxrange && minrange == 0)
+            {
+                if (from.ShipsBumped.Contains(to) || from == to)
+                    return true;
+
+                return false;
+            }
+
+            int range = GetRangeOfShips(from, to);
+
+            if (range >= minrange && range <= maxrange)
+                return true;
+
+            return false;
+        }
+
+        public static bool IsShipInArc(GenericShip source, GenericShip target)
+        {
+            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
+            return shotInfo.InArc;
+        }
+
+        public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcTypes arc)
+        {
+            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
+            return shotInfo.InArcByType(arc);
+        }
+
+        public static List<GenericShip> GetShipsInBullseyeArc(GenericShip ship, Team.Type team = Team.Type.Any)
+        {
+            List<GenericShip> shipsInBullseyeArc = new List<GenericShip>();
+            foreach(var kv in Roster.AllShips)
+            {
+                GenericShip otherShip = kv.Value;
+
+                if (team == Team.Type.Friendly && ship.Owner.Id != otherShip.Owner.Id)
+                    continue;
+
+                if (team == Team.Type.Enemy && ship.Owner.Id == otherShip.Owner.Id)
+                    continue;
+
+                ShotInfo shotInfo = new ShotInfo(ship, otherShip, ship.PrimaryWeapon);
+                if (!shotInfo.InArcByType(ArcTypes.Bullseye))
+                    continue;
+
+                shipsInBullseyeArc.Add(otherShip);
+            }
+
+            return shipsInBullseyeArc;
         }
 
         public static List<GenericShip> GetShipsAtRange(GenericShip ship, Vector2 fromto, Team.Type team = Team.Type.Any)

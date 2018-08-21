@@ -188,28 +188,15 @@ namespace Conditions
 
                 if (distanceInfo.Range == 1)
                 {
-                    var diceRoll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Combat);
-                    diceRoll.AddDice(DieSide.Success);
-                    var hitDie = diceRoll.DiceList[0];
-                    ship.AssignedDamageDiceroll.DiceList.Add(hitDie);
-
-                    Triggers.RegisterTrigger(new Trigger()
+                    DamageSourceEventArgs harpoonconditionDamage = new DamageSourceEventArgs()
                     {
-                        Name = "Suffer \"Harpooned!\" condition damage",
-                        TriggerType = TriggerTypes.OnDamageIsDealt,
-                        TriggerOwner = ship.Owner.PlayerNo,
-                        EventHandler = ship.SufferDamage,
-                        Skippable = true,
-                        EventArgs = new DamageSourceEventArgs()
-                        {
-                            Source = "\"Harpooned!\" condition",
-                            DamageType = DamageTypes.CardAbility
-                        }
-                    });
+                        Source = "Harpoon Condition",
+                        DamageType = DamageTypes.CardAbility
+                    };
+
+                    ship.Damage.TryResolveDamage(1, harpoonconditionDamage, callback);
                 }
             }
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callback);
         }
 
         private void AdditionalDamageOnItself()
@@ -282,22 +269,13 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success || CurrentDiceRoll.DiceList[0].Side == DieSide.Crit)
             {
-                Selection.ThisShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-                Triggers.RegisterTrigger(new Trigger()
+                DamageSourceEventArgs harpoonconditionDamage = new DamageSourceEventArgs()
                 {
-                    Name = "Suffer \"Harpooned!\" condition damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                    EventHandler = Selection.ThisShip.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = "\"Harpooned!\" condition ",
-                        DamageType = DamageTypes.CardAbility
-                    }
-                });
+                    Source = "Harpoon Condition",
+                    DamageType = DamageTypes.CardAbility
+                };
 
-                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
+                Selection.ThisShip.Damage.TryResolveDamage(1, harpoonconditionDamage, Triggers.FinishTrigger);
             }
             else
             {

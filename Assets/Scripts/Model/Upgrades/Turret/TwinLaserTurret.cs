@@ -43,46 +43,35 @@ namespace Abilities
             HostShip.OnShotHitAsAttacker -= RegisterTwinLaserTurretEffect;
         }
 
-		private void RegisterTwinLaserTurretEffect()
-		{
-			if (Combat.ChosenWeapon == HostUpgrade)
-			{
-				Triggers.RegisterTrigger(
-                    new Trigger(){
-						TriggerType = TriggerTypes.OnShotHit,
-						TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-						EventHandler = TwinLaserTurretEffect
-					}
+        private void RegisterTwinLaserTurretEffect()
+        {
+            if (Combat.ChosenWeapon == HostUpgrade)
+            {
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        TriggerType = TriggerTypes.OnShotHit,
+                        TriggerOwner = Combat.Attacker.Owner.PlayerNo,
+                        EventHandler = TwinLaserTurretEffect
+                    }
                 );
-			}
-		}
-		private void TwinLaserTurretEffect(object sender, System.EventArgs e)
-		{
+            }
+        }
+        private void TwinLaserTurretEffect(object sender, System.EventArgs e)
+        {
             Combat.DiceRollAttack.CancelAllResults();
-			Combat.DiceRollAttack.RemoveAllFailures();
-			DefenderSuffersDamage();
-		}
-		private void DefenderSuffersDamage()
-		{
-            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
+            Combat.DiceRollAttack.RemoveAllFailures();
+            DefenderSuffersDamage();
+        }
+        private void DefenderSuffersDamage()
+        {
+            DamageSourceEventArgs tltDamage = new DamageSourceEventArgs()
+            {
+                Source = "Twin Laser Turret",
+                DamageType = DamageTypes.ShipAttack
+            };
 
-			Triggers.RegisterTrigger(
-                new Trigger() {
-					Name = "Suffer damage",
-					TriggerType = TriggerTypes.OnDamageIsDealt,
-					TriggerOwner = Combat.Defender.Owner.PlayerNo,
-					EventHandler = Combat.Defender.SufferDamage,
-					EventArgs = new DamageSourceEventArgs()
-					{
-						Source = Combat.Attacker,
-						DamageType = DamageTypes.ShipAttack
-					},
-					Skippable = true
-				}
-            );
-
-			Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
-		}
+            Combat.Defender.Damage.TryResolveDamage(1, tltDamage, Triggers.FinishTrigger);
+        }
     }
-
 }

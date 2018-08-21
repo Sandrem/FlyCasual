@@ -13,7 +13,9 @@ namespace Ship
             {
                 PilotName = "Rogue Squadron Escort";
                 PilotSkill = 4;
-                Cost = 27;
+                Cost = 63;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotRuleType = typeof(SecondEdition);
             }

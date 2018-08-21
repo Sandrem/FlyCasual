@@ -29,7 +29,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 3;
-                Cost = 58;
+                Cost = 47;
 
                 PilotAbilities.RemoveAll(a => a is CaptainFerophAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.CaptainFerophAbilitySE());

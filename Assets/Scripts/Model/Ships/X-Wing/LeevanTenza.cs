@@ -6,12 +6,13 @@ using Abilities;
 using ActionsList;
 using Tokens;
 using SubPhases;
+using RuleSets;
 
 namespace Ship
 {
     namespace XWing
     {
-        public class LeevanTenza : XWing
+        public class LeevanTenza : XWing, ISecondEditionPilot
         {
             public LeevanTenza() : base()
             {
@@ -26,6 +27,12 @@ namespace Ship
                 SkinName = "Partisan";
 
                 PilotAbilities.Add(new LeevanTenzaAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 46;
             }
         }
     }
@@ -47,7 +54,7 @@ namespace Abilities
 
         private void CheckLeevanTenzaAbility(GenericAction action)
         {
-            if (action is BoostAction)
+            if (action is BoostAction || action is BarrelRollAction)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, AskToUseLeevanTenzaAbility);
             }
@@ -55,17 +62,7 @@ namespace Abilities
 
         private void AskToUseLeevanTenzaAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseLeevanTenzaAbility);
-        }
-
-        private void UseLeevanTenzaAbility(object sender, System.EventArgs e)
-        {
-            HostShip.Tokens.AssignToken(typeof(StressToken), GetEvadeTokenAndFinish);
-        }
-
-        private void GetEvadeTokenAndFinish()
-        {
-            HostShip.Tokens.AssignToken(typeof(EvadeToken), DecisionSubPhase.ConfirmDecision);
+            HostShip.AskPerformFreeAction(new EvadeAction() { IsRed = true }, Triggers.FinishTrigger);
         }
     }
 }

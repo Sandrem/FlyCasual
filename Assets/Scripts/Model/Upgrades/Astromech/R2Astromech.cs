@@ -26,6 +26,7 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             MaxCharges = 2;
+            Cost = 6;
 
             UpgradeAbilities.RemoveAll(a => a is R2AstromechAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R2AstromechAbility());
@@ -78,7 +79,7 @@ namespace Abilities.SecondEdition
 
         private void PlanRegenShield(GenericShip host)
         {
-            if (HostShip.Shields < HostShip.MaxShields)
+            if (HostShip.Shields < HostShip.MaxShields && HostUpgrade.Charges > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, AskUseAbility);
             }

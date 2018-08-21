@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using Movement;
 using ActionsList;
+using RuleSets;
 
 namespace Ship
 {
     namespace SheathipedeShuttle
     {
-        public class SheathipedeShuttle : GenericShip
+        public class SheathipedeShuttle : GenericShip, ISecondEditionShip
         {
 
             public SheathipedeShuttle() : base()
             {
-                Type = "Sheathipede-class Shuttle";
+                Type = FullType = "Sheathipede-class Shuttle";
                 IconicPilots.Add(Faction.Rebel, typeof(FennRau));
 
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcRear;
@@ -68,6 +69,14 @@ namespace Ship
                 Maneuvers.Add("4.F.S", MovementComplexity.Complex);
             }
 
+            public void AdaptShipToSecondEdition()
+            {
+                //TODO: Ability
+
+                Maneuvers.Add("1.F.V", MovementComplexity.Complex);
+
+                ActionBar.RemovePrintedAction(typeof(TargetLockAction));
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Ship
 
             public UpsilonShuttle() : base()
             {
-                Type = "Upsilon-class Shuttle";
+                Type = FullType = "Upsilon-class Shuttle";
                 IconicPilots.Add(Faction.Imperial, typeof(KyloRenUpsilon));
                 ShipBaseSize = BaseSize.Large;
 

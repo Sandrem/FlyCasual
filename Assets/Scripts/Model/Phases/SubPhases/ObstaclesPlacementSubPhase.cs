@@ -43,6 +43,12 @@ namespace SubPhases
             MinObstaclesDistance = Board.BoardIntoWorld(Board.RANGE_1);
 
             RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
+
+            foreach (GenericPlayer player in Roster.Players)
+            {
+                if (player is HotacAiPlayer) IsRandomSetupSelected[player.PlayerNo] = true;
+            }
+
             Next();
         }
 

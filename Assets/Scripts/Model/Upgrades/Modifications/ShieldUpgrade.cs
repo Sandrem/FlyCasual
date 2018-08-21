@@ -1,15 +1,35 @@
-﻿using Ship;
+﻿using RuleSets;
+using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace UpgradesList
 {
-    public class ShieldUpgrade : GenericUpgrade
+    public class ShieldUpgrade : GenericUpgrade, ISecondEditionUpgrade, IVariableCost
     {
         public ShieldUpgrade() : base()
         {
             Types.Add(UpgradeType.Modification);
             Name = "Shield Upgrade";
             Cost = 4;
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            //Nothing to do here, behavior is the same as first edition
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
+            {
+                {0, 3},
+                {1, 4},
+                {2, 6},
+                {3, 8}
+            };
+
+            Cost = agilityToCost[ship.Agility];
         }
 
         public override void PreAttachToShip(GenericShip host)
@@ -25,5 +45,6 @@ namespace UpgradesList
 
             Host.MaxShields--;
         }
+
     }
 }

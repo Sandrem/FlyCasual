@@ -5,6 +5,7 @@ using Abilities.SecondEdition;
 using Ship;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Ship
 {
@@ -15,7 +16,7 @@ namespace Ship
 
             public AWing() : base()
             {
-                Type = "A-Wing";
+                Type = FullType = "A-Wing";
 
                 IconicPilots.Add(Faction.Rebel, typeof(TychoCelchu));
 
@@ -77,9 +78,11 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
+                FullType = "RZ-1 A-wing";
+
                 ActionBar.AddPrintedAction(new BarrelRollAction());
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);
+                UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
 
                 Maneuvers.Add("3.L.R", MovementComplexity.Complex);
                 Maneuvers.Add("3.R.R", MovementComplexity.Complex);

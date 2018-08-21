@@ -70,9 +70,13 @@ namespace Ship
         public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
         public event EventHandlerShip OnManeuverIsRevealed;
         public static event EventHandlerShip OnNoManeuverWasRevealedGlobal;
+        public event EventHandlerShip BeforeMovementIsExecuted;
         public event EventHandlerShip OnMovementStart;
         public event EventHandlerShip OnMovementExecuted;
         public event EventHandlerShip OnMovementFinish;
+        public event EventHandlerShip OnMovementFinishSuccessfully;
+        public event EventHandlerShip OnMovementFinishUnsuccessfully;
+        public event EventHandlerShip OnMovementBumped;
         public static event EventHandlerShip OnMovementFinishGlobal;
 
         public event EventHandlerShip OnPositionFinish;
@@ -119,6 +123,7 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnMovementStart, callback);
         }
 
+
         public void CallExecuteMoving(Action callback)
         {
             if (OnMovementExecuted != null) OnMovementExecuted(this);
@@ -129,10 +134,40 @@ namespace Ship
             );
         }
 
+        public void CallBeforeMovementIsExecuted(Action callback)
+        {
+            if (BeforeMovementIsExecuted != null) BeforeMovementIsExecuted(this);
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.BeforeMovementIsExecuted,
+                callback
+            );
+        }
+
+        public void CallOnMovementBumped(GenericShip ship)
+        {
+            if (OnMovementBumped != null) OnMovementBumped(ship);
+        }
+
         public void CallFinishMovement(Action callback)
         {
             if (OnMovementFinish != null) OnMovementFinish(this);
             if (OnMovementFinishGlobal != null) OnMovementFinishGlobal(this);
+            
+            // If we didn't bump, hit an obstacle, or end up off the board then we have succesfully completed our manuever.
+            if(!IsBumped && !IsHitObstacles && !BoardTools.Board.IsOffTheBoard(this))
+            {
+                if (OnMovementFinishSuccessfully != null) OnMovementFinishSuccessfully(this);
+            }
+            else if(IsBumped)
+            {
+                if (OnMovementFinishUnsuccessfully != null) OnMovementFinishUnsuccessfully(this);
+
+                foreach(GenericShip ship in ShipsBumped)
+                {
+                    ship.CallOnMovementBumped(this);
+                }
+            }
 
             Triggers.ResolveTriggers(
                 TriggerTypes.OnMovementFinish,

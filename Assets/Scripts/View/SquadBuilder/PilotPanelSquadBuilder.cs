@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using SquadBuilderNS;
 using Ship;
 using Mods;
+using RuleSets;
 
 public class PilotPanelSquadBuilder : MonoBehaviour {
 
@@ -66,6 +67,8 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
     private void ShowTextVersionOfCard()
     {
+        if (this == null) return;
+
         this.transform.Find("PilotInfo").GetComponent<Text>().text = Ship.PilotName;
         this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.Cost.ToString();
 
@@ -74,11 +77,22 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
     private void SetFromModeName()
     {
-        if (Ship.RequiredMods.Count != 0)
+        Text infoText = this.transform.Find("FromModInfo").GetComponent<Text>();
+
+        if (RuleSet.Instance is FirstEdition)
         {
-            Mod mod = (Mod)Activator.CreateInstance(Ship.RequiredMods[0]);
-            string postfix = (Ship.RequiredMods.Count > 1) ? " + ..." : "";
-            this.transform.Find("FromModInfo").GetComponent<Text>().text = mod.Name + postfix;
+            if (Ship.RequiredMods.Count != 0)
+            {
+                Mod mod = (Mod)Activator.CreateInstance(Ship.RequiredMods[0]);
+                string postfix = (Ship.RequiredMods.Count > 1) ? " + ..." : "";
+                infoText.text = mod.Name + postfix;
+            }
+        }
+        else if (RuleSet.Instance is SecondEdition)
+        {
+            infoText.alignment = TextAnchor.MiddleRight;
+            infoText.fontSize = 50;
+            infoText.text = Ship.Cost.ToString();
         }
     }
 

@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Tokens;
+﻿using Tokens;
 using SubPhases;
+using RuleSets;
 
 namespace Ship
 {
     namespace AlphaClassStarWing
     {
-        public class LieutenantKarsabi : AlphaClassStarWing
+        public class LieutenantKarsabi : AlphaClassStarWing, ISecondEditionPilot
         {
             public LieutenantKarsabi() : base()
             {
@@ -21,6 +19,12 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.LieutenantKarsabiAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 39;
             }
         }
     }

@@ -13,6 +13,8 @@ namespace Arcs
         ArcSpecial180,
         Arc360,
         ArcMobile,
+        ArcMobileOnly,
+        ArcMobileDual,
         ArcBullseye,
         ArcSpecialGhost
     }
@@ -86,6 +88,11 @@ namespace Arcs
         public GenericArc(GenericShipBase shipBase)
         {
             ShipBase = shipBase;
+        }
+
+        public virtual void RemoveArc()
+        {
+            ShipBase.Host.ArcInfo.Arcs.Remove(this);
         }
     }
 

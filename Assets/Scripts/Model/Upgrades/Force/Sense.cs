@@ -13,7 +13,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Force);
             Name = "Sense";
-            Cost = 10;
+            Cost = 6;
 
             UpgradeRuleType = typeof(SecondEdition);
 

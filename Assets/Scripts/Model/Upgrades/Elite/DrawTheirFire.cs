@@ -24,6 +24,8 @@ namespace Abilities
 {
     public class DrawTheirFireAbility : GenericAbility
     {
+        private GenericShip curToDamage;
+        private DamageSourceEventArgs curDamageInfo;
 
         public override void ActivateAbility()
         {
@@ -35,31 +37,36 @@ namespace Abilities
             GenericShip.OnTryDamagePreventionGlobal -= CheckDrawTheirFireAbility;
         }
 
-        private void CheckDrawTheirFireAbility()
+        private void CheckDrawTheirFireAbility(GenericShip ship, DamageSourceEventArgs e)
         {
-            if (AbilityCanBeUsed())
-            {
+            curToDamage = ship;
+            curDamageInfo = e;
+
+            if(AbilityCanBeUsed())
                 RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, UseDrawTheirFireAbility);
-            }
         }
 
         protected virtual bool AbilityCanBeUsed()
         {
-            if (Combat.Defender.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Defender.ShipId != HostShip.ShipId)
-            {
-                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Defender, HostShip);
-                if (distanceInfo.Range == 1 && Combat.DiceRollAttack.CriticalSuccesses > 0)
-                {
-                    return true;
-                }
-            }
+            // Is the damage type a ship attack?
+            if (curDamageInfo.DamageType != DamageTypes.ShipAttack)
+                return false;
 
-            return false;
+            // Is the defender on our team and not us? If not return.
+            if (curToDamage.Owner.PlayerNo != HostShip.Owner.PlayerNo || curToDamage.ShipId == HostShip.ShipId)
+                return false;
+
+            // Is the defender at range 1 and is there a crit result?
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(curToDamage, HostShip);
+            if (distanceInfo.Range > 1 || curToDamage.AssignedDamageDiceroll.CriticalSuccesses < 1)
+                return false;
+
+            return true;
         }
 
         private void UseDrawTheirFireAbility(object sender, System.EventArgs e)
         {
-            if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+            if (curToDamage.AssignedDamageDiceroll.CriticalSuccesses > 0)
             {
                 AskToUseAbility(AlwaysUseByDefault, UseAbility, null, null, true);
             }
@@ -71,25 +78,17 @@ namespace Abilities
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            Die criticalHitDice = Combat.DiceRollAttack.DiceList.Find(n => n.Side == DieSide.Crit);
+            // Find a crit and remove it from the ship we're protecting's assigned damage.
+            Die criticalHitDice = curToDamage.AssignedDamageDiceroll.DiceList.Find(n => n.Side == DieSide.Crit);
+            curToDamage.AssignedDamageDiceroll.DiceList.Remove(criticalHitDice);
 
-            Combat.DiceRollAttack.DiceList.Remove(criticalHitDice);
-            HostShip.AssignedDamageDiceroll.DiceList.Add(criticalHitDice);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs drawtheirfireDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer damage from Draw Their Fire",
-                TriggerType = TriggerTypes.OnTryDamagePrevention,
-                TriggerOwner = HostShip.Owner.PlayerNo,
-                EventHandler = HostShip.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = "Draw Their Fire",
-                    DamageType = DamageTypes.CardAbility
-                }
-            });
+                Source = "Draw Their Fire",
+                DamageType = DamageTypes.CardAbility
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, DecisionSubPhase.ConfirmDecision);
+            HostShip.Damage.TryResolveDamage(0, 1, drawtheirfireDamage, DecisionSubPhase.ConfirmDecision);
         }
 
     }

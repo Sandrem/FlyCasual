@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ActionsList;
 using GameModes;
 using Ship;
 using UnityEngine;
@@ -25,25 +26,11 @@ namespace Players
             UI.ShowSkipButton();
         }
 
-        public override void UseOwnDiceModifications()
+        public override void UseDiceModifications(DiceModificationTimingType type)
         {
-            base.UseOwnDiceModifications();
+            base.UseDiceModifications(type);
 
-            Combat.ShowOwnDiceResultMenu();
-        }
-
-        public override void UseOppositeDiceModifications()
-        {
-            base.UseOppositeDiceModifications();
-
-            Combat.ShowOppositeDiceResultMenu();
-        }
-
-        public override void UseCompareResultsDiceModifications()
-        {
-            base.UseCompareResultsDiceModifications();
-
-            Combat.ShowCompareResultsMenu();
+            Combat.ShowDiceModificationButtons(type);
         }
 
         public override void TakeDecision()
@@ -144,8 +131,15 @@ namespace Players
             SubPhases.ObstaclesPlacementSubPhase subphase = Phases.CurrentSubPhase as SubPhases.ObstaclesPlacementSubPhase;
             if (subphase.IsRandomSetupSelected[this.PlayerNo])
             {
-                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.Wait(1, subphase.SkipButton);
+                if (subphase.IsRandomSetupSelected[Roster.AnotherPlayer(this.PlayerNo)])
+                {
+                    subphase.SkipButton();
+                }
+                else
+                {
+                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    Game.Wait(1, subphase.SkipButton);
+                }
             }
             else
             {

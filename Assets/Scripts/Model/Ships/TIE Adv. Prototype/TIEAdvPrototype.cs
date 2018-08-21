@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEAdvPrototype() : base()
             {
-                Type = "TIE Adv. Prototype";
+                Type = FullType = "TIE Adv. Prototype";
                 IconicPilots.Add(Faction.Imperial, typeof(TheInquisitor));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/b4/MI_TIE-ADV.-PROTOTYPE.png";
@@ -70,15 +70,18 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
+                FullType = "TIE Advanced v1";
 
-                ActionBar.RemovePrintedAction(typeof(BoostAction));
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
+                Maneuvers.Add("2.L.E", MovementComplexity.Complex);
+                Maneuvers.Add("2.R.E", MovementComplexity.Complex);
+                Maneuvers["4.F.S"] = MovementComplexity.Normal;
 
-                ActionBar.AddPrintedAction(new BoostAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
-                ActionBar.AddPrintedAction(new BarrelRollAction() { LinkedRedAction = new FocusAction() { IsRed = true } });
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
+                UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
 
-                IconicPilots[Faction.Imperial] = typeof(BaronOfTheEmpire);
+                ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
+                ActionBar.AddPrintedAction(new EvadeAction());
             }
 
         }

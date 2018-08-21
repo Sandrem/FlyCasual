@@ -41,22 +41,13 @@ namespace DamageDeckCardSE
         {
             Messages.ShowInfo("Stunned Pilot: Ship suffered damage");
 
-            Selection.ThisShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-            Triggers.RegisterTrigger(new Trigger()
+            DamageSourceEventArgs stunnedpilotDamage = new DamageSourceEventArgs()
             {
-                Name = "Suffer damage",
-                TriggerType = TriggerTypes.OnDamageIsDealt,
-                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                EventHandler = Selection.ThisShip.SufferDamage,
-                EventArgs = new DamageSourceEventArgs()
-                {
-                    Source = "Critical hit card",
-                    DamageType = DamageTypes.CriticalHitCard
-                }
-            });
+                Source = "Critical hit card",
+                DamageType = DamageTypes.CriticalHitCard
+            };
 
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
+            Selection.ActiveShip.Damage.TryResolveDamage(1, stunnedpilotDamage, Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect()

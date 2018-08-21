@@ -20,7 +20,7 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 PilotSkill = 6;
-                Cost = 56; //TODO
+                Cost = 68;
             }
         }
     }

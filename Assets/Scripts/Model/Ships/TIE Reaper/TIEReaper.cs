@@ -14,7 +14,7 @@ namespace Ship
 
             public TIEReaper() : base()
             {
-                Type = "TIE Reaper";
+                Type = FullType = "TIE Reaper";
                 IconicPilots.Add(Faction.Imperial, typeof(ScarifBasePilot));
 
                 ManeuversImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fe/d9/fed9939b-8331-462b-a3b8-d8359d1342bd/swx75_a3_dial.png"; // TODO
@@ -73,7 +73,7 @@ namespace Ship
                 
                 ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });
 
-                IconicPilots[Faction.Imperial] = typeof(CaptainFeroph);
+                IconicPilots[Faction.Imperial] = typeof(MajorVermeil);
 
                 ShipAbilities.Add(new Abilities.AdvancedAileronsAbility());
 

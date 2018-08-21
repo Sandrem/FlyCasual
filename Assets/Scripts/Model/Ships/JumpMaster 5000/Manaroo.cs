@@ -7,12 +7,13 @@ using SubPhases;
 using Tokens;
 using Ship;
 using System.Linq;
+using RuleSets;
 
 namespace Ship
 {
     namespace JumpMaster5000
     {
-        public class Manaroo : JumpMaster5000
+        public class Manaroo : JumpMaster5000, ISecondEditionPilot
         {
             public Manaroo() : base()
             {
@@ -25,6 +26,14 @@ namespace Ship
                 // Already have Elite icon from JumpMaster5000 class
 
                 PilotAbilities.Add(new ManarooAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 56;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

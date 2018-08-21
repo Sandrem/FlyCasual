@@ -119,26 +119,13 @@ namespace SubPhases
 
         private void SufferDamage()
         {
-            foreach (var dice in CurrentDiceRoll.DiceList)
+            DamageSourceEventArgs asteroidDamage = new DamageSourceEventArgs()
             {
-                TheShip.AssignedDamageDiceroll.DiceList.Add(dice);
+                Source = "Asteroid",
+                DamageType = DamageTypes.ObstacleCollision
+            };
 
-                Triggers.RegisterTrigger(new Trigger() {
-                    Name = "Suffer asteroid damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = TheShip.Owner.PlayerNo,
-                    EventHandler = TheShip.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = "Asteroid",
-                        DamageType = DamageTypes.ObstacleCollision
-                    }
-                });
-            }
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
+            TheShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, asteroidDamage, CallBack);
         }
-
     }
-
 }

@@ -14,7 +14,7 @@ namespace Ship
 
             public BWing() : base()
             {
-                Type = "B-Wing";
+                Type = FullType = "B-Wing";
                 IconicPilots.Add(Faction.Rebel, typeof(KeyanFarlander));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/32/MR_B-WING.png";
@@ -56,36 +56,33 @@ namespace Ship
                 Maneuvers.Add("1.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("1.R.B", MovementComplexity.Easy);
                 Maneuvers.Add("1.R.T", MovementComplexity.Complex);
-                Maneuvers.Add("1.F.R", MovementComplexity.None);
                 Maneuvers.Add("2.L.T", MovementComplexity.Normal);
                 Maneuvers.Add("2.L.B", MovementComplexity.Normal);
                 Maneuvers.Add("2.F.S", MovementComplexity.Easy);
                 Maneuvers.Add("2.R.B", MovementComplexity.Normal);
                 Maneuvers.Add("2.R.T", MovementComplexity.Normal);
                 Maneuvers.Add("2.F.R", MovementComplexity.Complex);
-                Maneuvers.Add("3.L.T", MovementComplexity.None);
                 Maneuvers.Add("3.L.B", MovementComplexity.Complex);
                 Maneuvers.Add("3.F.S", MovementComplexity.Normal);
                 Maneuvers.Add("3.R.B", MovementComplexity.Complex);
-                Maneuvers.Add("3.R.T", MovementComplexity.None);
-                Maneuvers.Add("3.F.R", MovementComplexity.None);
                 Maneuvers.Add("4.F.S", MovementComplexity.Complex);
-                Maneuvers.Add("4.F.R", MovementComplexity.None);
-                Maneuvers.Add("5.F.S", MovementComplexity.None);
-                Maneuvers.Add("5.F.R", MovementComplexity.None);
             }
 
             public void AdaptShipToSecondEdition()
             {
-                // TODO: Maneuvers
+                FullType = "A/SF-01 B-wing";
+
+                Maneuvers["3.F.S"] = MovementComplexity.Easy;
 
                 MaxHull = 4;
                 MaxShields = 4;
 
-                ActionBar.RemovePrintedAction(typeof(FocusAction));
-                ActionBar.AddPrintedAction(new FocusAction() { LinkedRedAction = new BarrelRollAction() { IsRed = true } });
+                ActionBar.AddActionLink(typeof(FocusAction), new BarrelRollAction() { IsRed = true });
 
-                IconicPilots[Faction.Rebel] = typeof(BlueSquadronPilot);
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);
+
+                IconicPilots[Faction.Rebel] = typeof(BraylenStramm);
             }
 
         }

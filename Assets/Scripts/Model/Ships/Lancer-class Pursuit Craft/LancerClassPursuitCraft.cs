@@ -14,7 +14,7 @@ namespace Ship
 
             public LancerClassPursuitCraft() : base()
             {
-                Type = "Lancer-class Pursuit Craft";
+                Type = FullType = "Lancer-class Pursuit Craft";
                 IconicPilots.Add(Faction.Scum, typeof(AsajjVentress));
                 ShipBaseSize = BaseSize.Large;
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcMobile;
@@ -73,13 +73,35 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Maneuvers
-                //TODO: Mobile arc with firepower 2
-
                 MaxHull = 8;
                 MaxShields = 2;
+
+                IconicPilots[Faction.Scum] = typeof(ShadowportHunter);
+
+                ShipAbilities.Add(new Abilities.SecondEdition.WeakNonPrimaryArc());
             }
 
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class WeakNonPrimaryArc : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice += CheckWeakArc;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice -= CheckWeakArc;
+        }
+
+        private void CheckWeakArc(ref int count)
+        {
+            if (!Combat.ShotInfo.InPrimaryArc) count--;
         }
     }
 }

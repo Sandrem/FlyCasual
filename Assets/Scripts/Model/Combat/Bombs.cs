@@ -20,6 +20,8 @@ namespace Bombs
     public enum BombDropTemplates
     {
         Straight_1,
+        Bank_1_Left,
+        Bank_1_Right,
         Straight_2,
         Straight_3,
         Turn_1_Left,

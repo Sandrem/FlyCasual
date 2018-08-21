@@ -34,6 +34,8 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            Cost = 6;
+
             SpendsTargetLockOnTargetToShoot = false;
 
             IsDiscardedForShot = false;
@@ -117,5 +119,36 @@ namespace Abilities
 			}
 		}
 	}
+}
+
+namespace Abilities.SecondEdition
+{
+    public class IonDamageAbilitySE : IonDamageAbility
+    {
+
+        protected override void IonTurretEffect(object sender, System.EventArgs e)
+        {
+            var ionTokens = Combat.DiceRollAttack.Successes - 1;
+            Combat.DiceRollAttack.CancelAllResults();
+            Combat.DiceRollAttack.RemoveAllFailures();
+
+            if (ionTokens > 0)
+            {
+                Combat.Defender.Tokens.AssignTokens(
+                    () => new Tokens.IonToken(Combat.Defender),
+                    ionTokens,
+                    delegate {
+                        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                        Game.Wait(2, DefenderSuffersDamage);
+                    }
+                );
+            }
+            else
+            {
+                DefenderSuffersDamage();
+            }
+        }
+    }
+
 }
 

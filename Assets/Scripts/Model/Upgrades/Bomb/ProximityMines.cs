@@ -84,26 +84,13 @@ namespace SubPhases
         {
             Messages.ShowError("Proximity Mines: ship suffered damage");
 
-            for (int i = 0; i < CurrentDiceRoll.DiceList.Count; i++)
+            DamageSourceEventArgs proximityDamage = new DamageSourceEventArgs()
             {
-                Selection.ActiveShip.AssignedDamageDiceroll.AddDice(CurrentDiceRoll.DiceList[i].Side);
+                Source = "Proximity Mines",
+                DamageType = DamageTypes.BombDetonation
+            };
 
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Suffer damage",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = Selection.ActiveShip.Owner.PlayerNo,
-                    EventHandler = Selection.ActiveShip.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = "Proximity Mines",
-                        DamageType = DamageTypes.BombDetonation
-                    },
-                    Skippable = true
-                });
-            }
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
+            Selection.ActiveShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, proximityDamage, CallBack);
         }
 
         private void NoDamage()

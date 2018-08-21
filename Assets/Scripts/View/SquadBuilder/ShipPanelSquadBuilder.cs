@@ -9,6 +9,7 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
 
     public string ImageUrl;
     public string ShipName;
+    public string FullType;
 
     // Use this for initialization
     void Start ()
@@ -27,7 +28,7 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
 
     private void SetName()
     {
-        transform.Find("ShipName").GetComponent<Text>().text = ShipName;
+        transform.Find("ShipName").GetComponent<Text>().text = FullType;
     }
 
     private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)

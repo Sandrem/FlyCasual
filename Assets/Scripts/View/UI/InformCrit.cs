@@ -18,7 +18,7 @@ public static class InformCrit
 
     public static void LoadAndShow(object sender, System.EventArgs e)
     {
-        if (Roster.Player1.GetType() == Roster.Player2.GetType() && Roster.Player1.UsesHotacAiRules)
+        if (Roster.Player1.UsesHotacAiRules && Roster.Player2.UsesHotacAiRules)
         {
             Triggers.FinishTrigger();
         }

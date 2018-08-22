@@ -68,11 +68,11 @@ public static partial class Roster
         foreach (var squadList in SquadBuilder.SquadLists)
         {
             Type playerType = squadList.PlayerType;
-            bool isHotacAi = false;
+
+            bool isHotacAi = (playerType == typeof(HotacAiPlayer));
 
             if (ReplaysManager.Mode == ReplaysMode.Read)
             {
-                if (playerType == typeof(HotacAiPlayer)) isHotacAi = true;
                 playerType = typeof(ReplayPlayer);
             }
 

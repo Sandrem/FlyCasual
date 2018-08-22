@@ -44,6 +44,7 @@ namespace Players
         public PlayerType Type;
         public string Name;
         public PlayerNo PlayerNo;
+        public bool UsesHotacAiRules;
         public int SquadCost;
 
         public string NickName;

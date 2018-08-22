@@ -11,7 +11,7 @@ namespace GameCommands
     {
         public ConfirmCritCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
         {
-
+            
         }
 
         public override void Execute()

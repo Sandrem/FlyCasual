@@ -67,7 +67,18 @@ public static partial class Roster
     {
         foreach (var squadList in SquadBuilder.SquadLists)
         {
-            GenericPlayer player = CreatePlayer(squadList.PlayerType, squadList.PlayerNo);
+            Type playerType = squadList.PlayerType;
+            bool isHotacAi = false;
+
+            if (ReplaysManager.Mode == ReplaysMode.Read)
+            {
+                if (playerType == typeof(HotacAiPlayer)) isHotacAi = true;
+                playerType = typeof(ReplayPlayer);
+            }
+
+            GenericPlayer player = CreatePlayer(playerType, squadList.PlayerNo);
+            player.UsesHotacAiRules = isHotacAi;
+
             Players.Add(player);
         }
     }

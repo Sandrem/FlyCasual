@@ -14,6 +14,7 @@ namespace Players
         public HotacAiPlayer() : base()
         {
             Name = "HotAC AI";
+            UsesHotacAiRules = true;
         }
 
         public override void ActivateShip(GenericShip ship)

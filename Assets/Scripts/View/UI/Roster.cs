@@ -307,7 +307,7 @@ public static partial class Roster {
     {
         bool result = true;
 
-        if (GetPlayer(AnotherPlayer(ship.Owner.PlayerNo)).GetType() == typeof(HotacAiPlayer)) return false;
+        if (GetPlayer(AnotherPlayer(ship.Owner.PlayerNo)).UsesHotacAiRules) return false;
         if (GetPlayer(AnotherPlayer(ship.Owner.PlayerNo)).GetType() == typeof(NetworkOpponentPlayer)) return false;
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) return false;
         if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.MovementExecutionSubPhase)) return false;
@@ -573,7 +573,7 @@ public static partial class Roster {
     private static bool IsNeedToShowManeuver(GenericShip ship)
     {
         bool result = true;
-        if ((ship.Owner.GetType() == typeof(HotacAiPlayer)) && Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) return false;
+        if ((ship.Owner.UsesHotacAiRules) && Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase)) return false;
         return result;
     }
 

@@ -82,6 +82,9 @@ public static class GameController
             case GameCommandTypes.PressSkip:
                 command = new PressSkipCommand(commandType, subPhase, parameters);
                 break;
+            case GameCommandTypes.AssignHotacManeuver:
+                command = new AssignHotacManeuverCommand(commandType, subPhase, parameters);
+                break;
             default:
                 break;
         }

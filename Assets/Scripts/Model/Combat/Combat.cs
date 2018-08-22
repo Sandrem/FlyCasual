@@ -590,6 +590,8 @@ namespace SubPhases
 
     public class CompareResultsSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ConfirmCrit }; } }
+
         public override void Start()
         {
             Name = "Compare results";

@@ -62,7 +62,7 @@ namespace SubPhases
 
         private void HideAssignedManeuversInHotSeatGame()
         {
-            if (Roster.GetPlayer(Roster.AnotherPlayer(RequiredPlayer)).GetType() != typeof(Players.HotacAiPlayer))
+            if (Roster.GetPlayer(Roster.AnotherPlayer(RequiredPlayer)).UsesHotacAiRules == false)
             {
                 foreach (var shipHolder in Roster.GetPlayer(RequiredPlayer).Ships)
                 {

@@ -21,7 +21,8 @@ public enum GameCommandTypes
     SyncDiceRerollSelected,
     ConfirmCrit,
     ConfirmDiceCheck,
-    PressSkip
+    PressSkip,
+    AssignHotacManeuver
 }
 
 namespace GameCommands

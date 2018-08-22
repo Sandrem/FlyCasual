@@ -177,8 +177,8 @@ namespace AI
             JSONObject parameters = new JSONObject();
             parameters.AddField("id", shipId.ToString());
             parameters.AddField("maneuver", maneuverCode);
-            GameCommand command = new AssignManeuverCommand(
-                GameCommandTypes.AssignManeuver,
+            GameCommand command = new AssignHotacManeuverCommand(
+                GameCommandTypes.AssignHotacManeuver,
                 typeof(SubPhases.ActivationSubPhase),
                 parameters.ToString()
             );

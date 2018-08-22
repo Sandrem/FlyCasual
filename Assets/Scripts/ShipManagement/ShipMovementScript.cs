@@ -93,6 +93,12 @@ public class ShipMovementScript : MonoBehaviour {
         }
     }
 
+    public static void AssignManeuverSimple(int shipId, string maneuverCode)
+    {
+        Selection.ChangeActiveShip("ShipId:" + shipId);
+        Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
+    }
+
     public static Movement.GenericMovement MovementFromStruct(Movement.MovementStruct movementStruct)
     {
         Movement.GenericMovement result = null;

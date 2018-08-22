@@ -1,4 +1,5 @@
-﻿using SubPhases;
+﻿using Ship;
+using SubPhases;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,45 +16,42 @@ namespace Players
             Name = "HotAC AI";
         }
 
-        public override void ActivateShip(Ship.GenericShip ship)
+        public override void ActivateShip(GenericShip ship)
         {
             Console.Write(ship.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
 
-            bool isTargetLockPerformed = false;
-
-            Ship.GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
+            GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
             Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
 
             // TODO: remove null variant
 
-            if (!RulesList.IonizationRule.IsIonized(ship))
+            if (!RulesList.IonizationRule.IsIonized(ship) && (anotherShip != null))
             {
-                if (anotherShip != null)
-                {
-                    ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
-                }
-                else
-                {
-                    ship.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
-                }
+                ship.SetAssignedManeuver(ship.HotacManeuverTable.GetManeuver(ship, anotherShip));
             }
 
+            TryPerformFreeTargetLock(ship, anotherShip);
+        }
+
+        private void TryPerformFreeTargetLock(GenericShip ship, GenericShip anotherShip)
+        {
+            bool isTargetLockPerformed = false;
             if (anotherShip != null) foreach (var action in ship.GetAvailableActions())
-            {
-                if (action.GetType() == typeof(ActionsList.TargetLockAction))
                 {
-                    isTargetLockPerformed = true;
-                    Actions.AcquireTargetLock(
-                        ship,
-                        anotherShip,
-                        delegate { PerformManeuverOfShip(ship); },
-                        delegate { PerformManeuverOfShip(ship); }
-                    );
-                    break;
+                    if (action.GetType() == typeof(ActionsList.TargetLockAction))
+                    {
+                        isTargetLockPerformed = true;
+                        Actions.AcquireTargetLock(
+                            ship,
+                            anotherShip,
+                            delegate { PerformManeuverOfShip(ship); },
+                            delegate { PerformManeuverOfShip(ship); }
+                        );
+                        break;
+                    }
                 }
-            }
 
             if (!isTargetLockPerformed)
             {
@@ -106,12 +104,20 @@ namespace Players
                     if (prioritizedActions.Value > 0)
                     {
                         isActionTaken = true;
-                        Actions.TakeActionStart(prioritizedActions.Key);
+
+                        //Actions.TakeActionStart(prioritizedActions.Key);
+                        JSONObject parameters = new JSONObject();
+                        parameters.AddField("name", prioritizedActions.Key.Name);
+                        GameController.SendCommand(
+                            GameCommandTypes.Decision,
+                            Phases.CurrentSubPhase.GetType(),
+                            parameters.ToString()
+                        );
                     }
                 }
             }
 
-            if (!isActionTaken) Phases.CurrentSubPhase.CallBack();
+            if (!isActionTaken) UI.SendSkipButtonCommand();
         }
 
         public override void AfterShipMovementPrediction()
@@ -139,6 +145,8 @@ namespace Players
                 if (leaveMovementAsIs)
                 {
                     Console.Write("Ship executes selected maneuver\n", LogTypes.AI, true);
+
+                    AI.Swerve.GenerateSwerveCommand(Selection.ThisShip.ShipId, Selection.ThisShip.AssignedManeuver.ToString());
                     Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
                 }
             }

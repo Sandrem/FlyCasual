@@ -426,6 +426,9 @@ namespace SquadBuilderNS
                 case "AIvsAI":
                     SetPlayerTypes(typeof(HotacAiPlayer), typeof(HotacAiPlayer));
                     break;
+                case "Replay":
+                    SetPlayerTypes(typeof(ReplayPlayer), typeof(ReplayPlayer));
+                    break;
                 default:
                     break;
             }

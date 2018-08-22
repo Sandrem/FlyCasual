@@ -80,6 +80,12 @@ public static class InformCrit
         GameMode.CurrentGameMode.ConfirmCrit();
     }
 
+    public static void ConfirmCrit()
+    {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+        Triggers.FinishTrigger();
+    }
+
     public static void HidePanel()
     {
         InformCritPanel.gameObject.SetActive(false);

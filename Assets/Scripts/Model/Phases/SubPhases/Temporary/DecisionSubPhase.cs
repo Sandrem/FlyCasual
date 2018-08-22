@@ -56,6 +56,8 @@ namespace SubPhases
 
     public class DecisionSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.Decision, GameCommandTypes.PressSkip }; } }
+
         private GameObject decisionPanel;
         private GameObject buttonsHolder;
         public string InfoText;
@@ -99,6 +101,7 @@ namespace SubPhases
             {
                 DecisionWasPreparedAndShown = true;
 
+                IsReadyForCommands = true;
                 GameMode.CurrentGameMode.FinishSyncDecisionPreparation();
             }
         }
@@ -132,6 +135,38 @@ namespace SubPhases
         public List<Decision> GetDecisions()
         {
             return decisions;
+        }
+
+        public static void SendDecisionCommand(string decisionName)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("name", decisionName);
+            GameController.SendCommand(
+                GameCommandTypes.Decision,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
+
+        public static void ExecuteDecision(string decisionName)
+        {
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+
+            Decision decision = (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions().FirstOrDefault(n => n.Name == decisionName);
+
+            if (decision == null)
+            {
+                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
+
+                string alldecisions = null;
+                foreach (var singleDecision in (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions())
+                {
+                    alldecisions += singleDecision.Name + " ";
+                }
+                Console.Write("Available decisions: " + alldecisions, LogTypes.Errors, true, "red");
+            }
+
+            decision.ExecuteDecision();
         }
 
         public override void Initialize()
@@ -321,19 +356,9 @@ namespace SubPhases
             return result;
         }
 
-        public void ExecuteDecision(string decisionName)
-        {
-            Decision decision = decisions.Find(n => n.Name == decisionName);
-            if (decision == null)
-            {
-                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
-            }
-            decision.ExecuteDecision();
-        }
-
         public override void DoDefault()
         {
-            ExecuteDecision(DefaultDecisionName);
+            DecisionSubPhase.SendDecisionCommand(DefaultDecisionName);
         }
 
         public static void ConfirmDecision()

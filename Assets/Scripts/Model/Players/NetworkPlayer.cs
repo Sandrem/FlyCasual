@@ -17,11 +17,6 @@ namespace Players
             Name = "Network";
         }
 
-        public override void AfterShipMovementPrediction()
-        {
-            Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
-        }
-
         public override void ConfirmDiceCheck()
         {
             (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowConfirmButton();
@@ -37,6 +32,11 @@ namespace Players
         public override void PerformTractorBeamReposition(GenericShip ship)
         {
             RulesList.TractorBeamRule.PerfromManualTractorBeamReposition(ship, this);
+        }
+
+        public override void SyncDiceResults()
+        {
+            // TODO: Sync by network
         }
 
     }

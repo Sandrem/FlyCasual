@@ -39,7 +39,7 @@ namespace Players
                     Vector3 position = shipHolder.Value.GetPosition() - direction * new Vector3(0, 0, Board.BoardIntoWorld(Board.DISTANCE_1 + Board.RANGE_1));
 
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(0.5f, delegate { Board.PlaceShip(shipHolder.Value, position, shipHolder.Value.GetAngles(), Phases.Next); });
+                    Game.Wait(0.5f, delegate { SetupSubPhase.SendPlaceShipCommand(shipHolder.Value.ShipId, position, shipHolder.Value.GetAngles()); });
                     return;
                 }
             }
@@ -55,10 +55,9 @@ namespace Players
             {
                 if (RulesList.IonizationRule.IsIonized(shipHolder.Value)) continue;
 
-                Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                shipHolder.Value.SetAssignedManeuver(new Movement.StraightMovement(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.Normal));
+                ShipMovementScript.SendAssignManeuverCommand(shipHolder.Value.ShipId, "2.F.S");
             }
-            Phases.Next();
+            UI.SendNextButtonCommand();
         }
 
         public override void PerformManeuver()
@@ -121,8 +120,7 @@ namespace Players
                 {
                     Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
 
-                    Selection.TryToChangeAnotherShip("ShipId:" + targetForAttack.ShipId);
-                    Combat.TryPerformAttack(isSilent: true);
+                    Combat.SendIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true);
                 }
                 else
                 {
@@ -285,7 +283,7 @@ namespace Players
             Combat.ChosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
             Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
 
-            if (Combat.IsTargetLegalForAttack(targetShip, Combat.ChosenWeapon, isSilent:true))
+            if (Combat.IsTargetLegalForAttack(targetShip, Combat.ChosenWeapon, isSilent: true))
             {
                 if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
             }
@@ -360,6 +358,8 @@ namespace Players
         {
             base.UseDiceModifications(type);
 
+            Combat.ShowDiceModificationButtons(type);
+
             Action FinalEffect = null;
             switch (type)
             {
@@ -406,11 +406,14 @@ namespace Players
                 {
                     isActionEffectTaken = true;
                     Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+
+                    Combat.SendUseDiceModificationCommand(prioritizedActionEffect.Key.Name);
+
+                    /*GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
                         Selection.ActiveShip.AddAlreadyUsedDiceModification(prioritizedActionEffect.Key);
                         prioritizedActionEffect.Key.ActionEffect(delegate { UseDiceModifications(type); });
-                    });                    
+                    });*/
                 }
             }
 
@@ -418,8 +421,10 @@ namespace Players
             {
                 if (type == DiceModificationTimingType.Normal)
                 {
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(2, FinalEffect.Invoke);
+                    //GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
+                    //Game.Wait(2, FinalEffect.Invoke);
+
+                    Combat.SendUseDiceModificationCommand("OK");
                 }
                 else
                 {
@@ -430,17 +435,18 @@ namespace Players
 
         public override void ConfirmDiceCheck()
         {
-            (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
+            DiceCheckConfirm();
         }
 
         public override void OnTargetNotLegalForAttack()
         {
-            Selection.ThisShip.CallAfterAttackWindow();
-            Selection.ThisShip.IsAttackPerformed = true;
+            UI.SendSkipButtonCommand();
 
+            /*Selection.ThisShip.CallAfterAttackWindow();
+            Selection.ThisShip.IsAttackPerformed = true;
             Selection.ThisShip.CallCombatDeactivation(
                 delegate { Phases.FinishSubPhase(typeof(CombatSubPhase)); }
-            );
+            );*/
         }
 
         public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
@@ -464,7 +470,8 @@ namespace Players
                 Phases.StartTemporarySubPhaseNew(
                     "Extra Attack",
                     typeof(ExtraAttackSubPhase),
-                    delegate {
+                    delegate
+                    {
                         Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
                         Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
                         callback();
@@ -506,7 +513,8 @@ namespace Players
             else
             {
                 GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.Wait(1, delegate {
+                Game.Wait(1, delegate
+                {
                     (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();
                     Messages.ShowInfo("AI: Obstacle was placed");
                 });
@@ -518,6 +526,6 @@ namespace Players
             base.PerformSystemsActivation();
             UI.SkipButtonEffect();
         }
-    }
 
+    }
 }

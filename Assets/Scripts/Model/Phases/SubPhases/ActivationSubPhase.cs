@@ -10,6 +10,7 @@ namespace SubPhases
 
     public class ActivationSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ActivateAndMove }; } }
 
         public override void Start()
         {
@@ -48,6 +49,8 @@ namespace SubPhases
             {
                 UpdateHelpInfo();
                 Roster.HighlightShipsFiltered(FilterShipsToPerformAttack);
+
+                IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).PerformManeuver();
             }
 

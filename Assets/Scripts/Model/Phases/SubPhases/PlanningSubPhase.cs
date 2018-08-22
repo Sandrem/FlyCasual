@@ -8,6 +8,7 @@ namespace SubPhases
 
     public class PlanningSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.AssignManeuver, GameCommandTypes.PressNext }; } }
 
         public override void Start()
         {
@@ -37,6 +38,7 @@ namespace SubPhases
                 UI.HighlightNextButton();
             }
 
+            IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).AssignManeuver();
         }
 

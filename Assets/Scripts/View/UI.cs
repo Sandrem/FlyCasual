@@ -194,6 +194,14 @@ public class UI : MonoBehaviour {
         GameMode.CurrentGameMode.NextButtonEffect();
     }
 
+    public static void SendNextButtonCommand()
+    {
+        GameController.SendCommand(
+            GameCommandTypes.PressNext,
+            Phases.CurrentSubPhase.GetType()
+        );
+    }
+
     public static void NextButtonEffect()
     {
         Phases.CurrentSubPhase.NextButton();
@@ -205,6 +213,14 @@ public class UI : MonoBehaviour {
         Roster.AllShipsHighlightOff();
 
         GameMode.CurrentGameMode.SkipButtonEffect();
+    }
+
+    public static void SendSkipButtonCommand()
+    {
+        GameController.SendCommand(
+            GameCommandTypes.PressSkip,
+            Phases.CurrentSubPhase.GetType()
+        );
     }
 
     public static void SkipButtonEffect()

@@ -130,7 +130,7 @@ public class RosterBuilderUI : MonoBehaviour {
 
             if (!SquadBuilder.IsNetworkGame)
             {
-                SquadBuilder.StartLocalGame();
+                GameController.StartBattle();
             }
             else
             {

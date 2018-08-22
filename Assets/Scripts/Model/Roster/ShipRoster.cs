@@ -44,6 +44,9 @@ public static partial class Roster
                     null,
                     parameters.ToString()
                 );
+
+                Console.Write("Command is executed: " + GameCommandTypes.SquadsSync, LogTypes.GameCommands, true, "aqua");
+                GameController.GetCommand().Execute();
             };
         }
         else if (ReplaysManager.Mode == ReplaysMode.Read)

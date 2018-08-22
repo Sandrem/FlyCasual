@@ -66,9 +66,32 @@ namespace GameModes
 
         public override void GiveInitiativeToRandomPlayer()
         {
-            int randomPlayer = UnityEngine.Random.Range(1, 3);
-            Phases.PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
-            Triggers.FinishTrigger();
+            if (ReplaysManager.Mode == ReplaysMode.Write)
+            {
+                int randomPlayer = UnityEngine.Random.Range(1, 3);
+
+                JSONObject parameters = new JSONObject();
+                parameters.AddField("player", Tools.IntToPlayer(randomPlayer).ToString());
+
+                GameController.SendCommand(
+                    GameCommandTypes.SyncPlayerWithInitiative,
+                    null,
+                    parameters.ToString()
+                );
+
+                Console.Write("Command is executed: " + GameCommandTypes.SyncPlayerWithInitiative, LogTypes.GameCommands, true, "aqua");
+                GameController.GetCommand().Execute();
+            }
+            else if (ReplaysManager.Mode == ReplaysMode.Read)
+            {
+                GameCommand command = GameController.GetCommand();
+
+                if (command.Type == GameCommandTypes.SyncPlayerWithInitiative)
+                {
+                    Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
+                    command.Execute();
+                }
+            }
         }
 
         public override void ShowInformCritPanel()
@@ -210,7 +233,8 @@ namespace GameModes
                     parameters.ToString()
                 );
 
-                DamageDecks.GetDamageDeck(playerNo).ShuffleDeck(seed);
+                Console.Write("Command is executed: " + GameCommandTypes.DamageDecksSync, LogTypes.GameCommands, true, "aqua");
+                GameController.GetCommand().Execute();
             }
             else if (ReplaysManager.Mode == ReplaysMode.Read)
             {

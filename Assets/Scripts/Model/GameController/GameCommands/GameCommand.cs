@@ -23,7 +23,8 @@ public enum GameCommandTypes
     ConfirmDiceCheck,
     PressSkip,
     HotacSwerve,
-    HotacFreeTargetLock
+    HotacFreeTargetLock,
+    SyncPlayerWithInitiative
 }
 
 namespace GameCommands

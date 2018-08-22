@@ -88,7 +88,11 @@ public static class GameController
             case GameCommandTypes.HotacFreeTargetLock:
                 command = new HotacFreeTargetLockCommand(commandType, subPhase, parameters);
                 break;
+            case GameCommandTypes.SyncPlayerWithInitiative:
+                command = new SyncPlayerWithInitiativeCommand(commandType, subPhase, parameters);
+                break;
             default:
+                Console.Write("Constructor for GameCommand is not found", LogTypes.Errors, true, "red");
                 break;
         }
 

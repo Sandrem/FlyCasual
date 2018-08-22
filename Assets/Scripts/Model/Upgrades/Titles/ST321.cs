@@ -63,20 +63,29 @@ namespace Abilities
             public override void ActivateAbility()
             {
                 HostShip.OnCoordinateTargetIsSelected += NoteDownCoordinateTarget;
+                HostShip.OnActionIsPerformed += CheckSelectTargetForFreeTL;
             }
 
             public override void DeactivateAbility()
             {
                 HostShip.OnCoordinateTargetIsSelected -= NoteDownCoordinateTarget;
+                HostShip.OnActionIsPerformed -= CheckSelectTargetForFreeTL;
             }
 
             private void NoteDownCoordinateTarget(GenericShip ship)
             {
                 coordinateTarget = ship;
-                var anyCandidate = Roster.AllShips.Values.Any(s => IsShipInRangeOfTarget(s));
-                if (anyCandidate)
+            }
+
+            private void CheckSelectTargetForFreeTL(GenericAction action)
+            {
+                if (action is CoordinateAction && coordinateTarget != null)
                 {
-                    RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, ST321Effect);
+                    var anyCandidate = Roster.AllShips.Values.Any(s => IsShipInRangeOfTarget(s));
+                    if (anyCandidate)
+                    {
+                        RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, ST321Effect);
+                    }
                 }
             }
 
@@ -88,13 +97,16 @@ namespace Abilities
                       GetAiPriority,
                       HostShip.Owner.PlayerNo,
                       true,
-                      null
+                      null,
+                      "Choose an enemy ship",
+                      "Choose an enemy ship at range 0-3 of the ship you coordinated to acquire a lock on that enemy ship, ignoring range restrictions",
+                      HostUpgrade.ImageUrl
                   );
             }
 
             private void AssignLockToken()
             {
-                TargetShip.Tokens.AssignToken(typeof(RedTargetLockToken), SelectShipSubPhase.FinishSelection);
+                Actions.AcquireTargetLock(HostShip, TargetShip, SelectShipSubPhase.FinishSelection, SelectShipSubPhase.FinishSelection, true);
             }
 
             private int HasTokenPriority(GenericShip ship)
@@ -104,6 +116,7 @@ namespace Abilities
                 if (ship.ActionBar.HasAction(typeof(TargetLockAction)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
                 return 0;
             }
+
             private int GetAiPriority(GenericShip ship)
             {
                 int result = 0;

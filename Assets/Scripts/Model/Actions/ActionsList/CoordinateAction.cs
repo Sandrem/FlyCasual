@@ -82,6 +82,7 @@ namespace SubPhases
         {
             var coordinatingShip = Selection.ThisShip;
             Selection.ThisShip = TargetShip;
+            GenericAction currentAction = Actions.CurrentAction;
 
             Triggers.RegisterTrigger(
                 new Trigger()
@@ -97,6 +98,7 @@ namespace SubPhases
 
             Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
                 Selection.ThisShip = coordinatingShip;
+                Actions.CurrentAction = currentAction;
                 Phases.FinishSubPhase(typeof(CoordinateTargetSubPhase));
                 CallBack();
             });

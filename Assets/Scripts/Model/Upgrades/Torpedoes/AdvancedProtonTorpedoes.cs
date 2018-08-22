@@ -1,5 +1,6 @@
 ﻿using Abilities;
 using ActionsList;
+using RuleSets;
 using Ship;
 using System;
 using System.Collections;
@@ -9,7 +10,7 @@ using Upgrade;
 
 namespace UpgradesList
 {
-    public class AdvancedProtonTorpedoes : GenericSecondaryWeapon
+    public class AdvancedProtonTorpedoes : GenericSecondaryWeapon, ISecondEditionUpgrade
     {
         public AdvancedProtonTorpedoes() : base()
         {
@@ -27,6 +28,19 @@ namespace UpgradesList
             IsDiscardedForShot = true;
 
             UpgradeAbilities.Add(new AdvancedProtonTorpedoesAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Name = "Adv. Proton Torpedoes";
+            MaxCharges = 1;
+
+            SpendsTargetLockOnTargetToShoot = false;
+            IsDiscardedForShot = false;
+            UsesCharges = true;
+
+            UpgradeAbilities.RemoveAll(a => a is AdvancedProtonTorpedoesAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.AdvProtonTorpedoesAbilitySE());
         }
     }
 }
@@ -53,62 +67,97 @@ namespace Abilities
         }
 
         private void AddDiceModification(GenericShip host)
-		{
-			AdvancedProtonTorpedoesAction action = new AdvancedProtonTorpedoesAction()
-			{
-				Host = host,
-				ImageUrl = HostUpgrade.ImageUrl,
-				Source = HostUpgrade
-			};
-			host.AddAvailableDiceModification(action);
-		}
-	}
+        {
+            AdvancedProtonTorpedoesAction action = new AdvancedProtonTorpedoesAction()
+            {
+                Host = host,
+                ImageUrl = HostUpgrade.ImageUrl,
+                Source = HostUpgrade
+            };
+            host.AddAvailableDiceModification(action);
+        }
+    }
+
+    namespace SecondEdition
+    {
+        //Attack(lock) : Spend 1 charge. Change 1 hit result to a crit result.
+        public class AdvProtonTorpedoesAbilitySE : GenericAbility
+        {
+            public override void ActivateAbility()
+            {
+                AddDiceModification(
+                    HostUpgrade.Name,
+                    IsDiceModificationAvailable,
+                    GetDiceModificationAiPriority,
+                    DiceModificationType.Change,
+                    1,
+                    new List<DieSide>() { DieSide.Success },
+                    DieSide.Crit
+                );
+            }
+
+            public override void DeactivateAbility()
+            {
+                RemoveDiceModification();
+            }
+
+            private bool IsDiceModificationAvailable()
+            {
+                return HostShip.IsAttacking && Combat.ChosenWeapon == HostUpgrade;
+            }
+
+            private int GetDiceModificationAiPriority()
+            {
+                return 30;
+            }
+        }
+    }
 }
 
 namespace ActionsList
-{ 
-	public class AdvancedProtonTorpedoesAction : GenericAction
-	{
-		public AdvancedProtonTorpedoesAction()
-		{
-			Name = DiceModificationName = "Advanced Proton Torpedoes";
+{
+    public class AdvancedProtonTorpedoesAction : GenericAction
+    {
+        public AdvancedProtonTorpedoesAction()
+        {
+            Name = DiceModificationName = "Advanced Proton Torpedoes";
 
-			IsTurnsOneFocusIntoSuccess = true;
-		}
+            IsTurnsOneFocusIntoSuccess = true;
+        }
 
-		private void AdvancedProtonTorpedoesAddDiceModification(Ship.GenericShip ship)
-		{
-			ship.AddAvailableDiceModification(this);
-		}
+        private void AdvancedProtonTorpedoesAddDiceModification(Ship.GenericShip ship)
+        {
+            ship.AddAvailableDiceModification(this);
+        }
 
-		public override bool IsDiceModificationAvailable()
-		{
-			bool result = true;
+        public override bool IsDiceModificationAvailable()
+        {
+            bool result = true;
 
-			if (Combat.AttackStep != CombatStep.Attack) result = false;
+            if (Combat.AttackStep != CombatStep.Attack) result = false;
 
-			if (Combat.ChosenWeapon != Source) result = false;
+            if (Combat.ChosenWeapon != Source) result = false;
 
-			return result;
-		}
+            return result;
+        }
 
-		public override int GetDiceModificationPriority()
-		{
-			int result = 0;
+        public override int GetDiceModificationPriority()
+        {
+            int result = 0;
 
-			if (Combat.AttackStep == CombatStep.Attack)
-			{
-				int blanks = Combat.DiceRollAttack.Blanks;
-				if (blanks > 0) result = 100;
-			}
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int blanks = Combat.DiceRollAttack.Blanks;
+                if (blanks > 0) result = 100;
+            }
 
-			return result;
-		}
+            return result;
+        }
 
-		public override void ActionEffect(System.Action callBack)
-		{
-			Combat.CurrentDiceRoll.Change(DieSide.Blank, DieSide.Focus, 3);
-			callBack();
-		}
-	}
+        public override void ActionEffect(System.Action callBack)
+        {
+            Combat.CurrentDiceRoll.Change(DieSide.Blank, DieSide.Focus, 3);
+            callBack();
+        }
+    }
 }

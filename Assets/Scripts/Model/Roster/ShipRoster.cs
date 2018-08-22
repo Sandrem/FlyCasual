@@ -85,7 +85,7 @@ public static partial class Roster
     {
         foreach (var squadList in SquadBuilder.SquadLists)
         {
-            SquadBuilder.SetPlayerSquadFromImportedJson(squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
+            SquadBuilder.SetPlayerSquadFromImportedJson(squadList.Name, squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
 
             if (Roster.GetPlayer(squadList.PlayerNo).GetType() != typeof(HotacAiPlayer))
             {

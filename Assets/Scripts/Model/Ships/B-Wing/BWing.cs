@@ -73,6 +73,8 @@ namespace Ship
                 FullType = "A/SF-01 B-wing";
 
                 Maneuvers["3.F.S"] = MovementComplexity.Easy;
+                Maneuvers.Add("1.L.E", MovementComplexity.Complex);
+                Maneuvers.Add("1.R.E", MovementComplexity.Complex);
 
                 MaxHull = 4;
                 MaxShields = 4;

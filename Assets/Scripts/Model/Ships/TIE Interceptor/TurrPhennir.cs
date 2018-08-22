@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Ship;
 using System;
+using RuleSets;
 
 namespace Ship
 {
     namespace TIEInterceptor
     {
-        public class TurrPhennir : TIEInterceptor
+        public class TurrPhennir : TIEInterceptor, ISecondEditionPilot
         {
             public TurrPhennir() : base()
             {
@@ -24,12 +23,22 @@ namespace Ship
 
                 PilotAbilities.Add(new Abilities.TurrPhennirAbility());
             }
-        }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 4;
+                Cost = 44;
+
+                PilotAbilities.RemoveAll(ability => ability is Abilities.TurrPhennirAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.TurrPhennirAbility());
+            }
+        }        
     }
 }
 
 namespace Abilities
 {
+    //After you perform an attack, you may perform a free boost or barrel roll action.
     public class TurrPhennirAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -47,13 +56,31 @@ namespace Abilities
             RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, TurrPhennirPilotAbility);
         }
 
-        private void TurrPhennirPilotAbility(object sender, System.EventArgs e)
+        protected virtual void TurrPhennirPilotAbility(object sender, EventArgs e)
         {
             HostShip.AskPerformFreeAction(
                 new List<ActionsList.GenericAction>()
                 {
                     new ActionsList.BoostAction(),
                     new ActionsList.BarrelRollAction()
+                },
+                Triggers.FinishTrigger);
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    //After you perform an attack, you may perform a roll or boost action, even if you are stressed.
+    public class TurrPhennirAbility : Abilities.TurrPhennirAbility
+    {
+        protected override void TurrPhennirPilotAbility(object sender, EventArgs e)
+        {
+            HostShip.AskPerformFreeAction(
+                new List<ActionsList.GenericAction>()
+                {
+                    new ActionsList.BoostAction() { CanBePerformedWhileStressed = true },
+                    new ActionsList.BarrelRollAction() { CanBePerformedWhileStressed = true }
                 },
                 Triggers.FinishTrigger);
         }

@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace GameCommands
 {
-    public class AssignHotacManeuverCommand : GameCommand
+    public class HotacSwerveCommand : GameCommand
     {
-        public AssignHotacManeuverCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public HotacSwerveCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
         {
 
         }

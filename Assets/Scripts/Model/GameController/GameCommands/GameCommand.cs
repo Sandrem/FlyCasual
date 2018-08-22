@@ -22,7 +22,8 @@ public enum GameCommandTypes
     ConfirmCrit,
     ConfirmDiceCheck,
     PressSkip,
-    AssignHotacManeuver
+    HotacSwerve,
+    HotacFreeTargetLock
 }
 
 namespace GameCommands

@@ -39,20 +39,22 @@ namespace Players
         private void TryPerformFreeTargetLock(GenericShip ship, GenericShip anotherShip)
         {
             bool isTargetLockPerformed = false;
-            if (anotherShip != null) foreach (var action in ship.GetAvailableActions())
-                {
-                    if (action.GetType() == typeof(ActionsList.TargetLockAction))
-                    {
-                        isTargetLockPerformed = true;
-                        Actions.AcquireTargetLock(
-                            ship,
-                            anotherShip,
-                            delegate { PerformManeuverOfShip(ship); },
-                            delegate { PerformManeuverOfShip(ship); }
-                        );
-                        break;
-                    }
-                }
+
+            if (anotherShip != null && ship.GetAvailableActions().Any(a => a.GetType() == typeof(ActionsList.TargetLockAction)))
+            {
+                isTargetLockPerformed = true;
+
+                JSONObject parameters = new JSONObject();
+                parameters.AddField("id", ship.ShipId.ToString());
+                parameters.AddField("target", anotherShip.ShipId.ToString());
+                GameController.SendCommand(
+                    GameCommandTypes.HotacFreeTargetLock,
+                    Phases.CurrentSubPhase.GetType(),
+                    parameters.ToString()
+                );
+
+                PerformManeuverOfShip(ship);
+            }
 
             if (!isTargetLockPerformed)
             {

@@ -65,6 +65,9 @@ namespace Players
 
         public override void UseDiceModifications(DiceModificationTimingType type)
         {
+            base.UseDiceModifications(type);
+            Combat.ShowDiceModificationButtons(type);
+
             GameController.CheckExistingCommands();
         }
 

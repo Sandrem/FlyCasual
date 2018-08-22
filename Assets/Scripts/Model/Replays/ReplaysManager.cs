@@ -45,14 +45,31 @@ public static class ReplaysManager
                     json["parameters"].ToString()
                 );
             }
-
-            //ReadTest();
         }
     }
 
     public static void RecordCommand(GameCommand command)
     {
-        File.AppendAllText(FilePath, command.ToString() + "\n");
+        if (ShouldBeRecorded(command))
+        {
+            File.AppendAllText(FilePath, command.ToString() + "\n");
+        }
+    }
+
+    public static bool ShouldBeRecorded(GameCommand command)
+    {
+        bool result = true;
+
+        switch (command.Type)
+        {
+            case GameCommandTypes.PressSkip:
+                if (command.SubPhase == typeof(SubPhases.ObstaclesPlacementSubPhase)) result = false;
+                break;
+            default:
+                break;
+        }
+
+        return result;
     }
 }
 

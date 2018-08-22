@@ -15,6 +15,8 @@ namespace SubPhases
 
     public class ObstaclesPlacementSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ObstaclePlacement, GameCommandTypes.PressSkip }; } }
+
         public static GenericObstacle ChosenObstacle;
         private float MinBoardEdgeDistance;
         private float MinObstaclesDistance;

@@ -134,11 +134,10 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartReplay()
     {
-        InitializeSquadBuilder("Replay");
-        ReplaysManager.StartBattle();
+        GameController.StartBattle(ReplaysMode.Read);
     }
 
-    private void InitializeSquadBuilder(string modeName)
+    public void InitializeSquadBuilder(string modeName)
     {
         SquadBuilder.Initialize();
         SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);

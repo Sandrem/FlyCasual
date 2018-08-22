@@ -146,7 +146,7 @@ namespace Players
                 {
                     Console.Write("Ship executes selected maneuver\n", LogTypes.AI, true);
 
-                    ReplaysManager.WriteHotacAiSwerve(Selection.ThisShip.ShipId, Selection.ThisShip.AssignedManeuver.ToString());
+                    AI.Swerve.GenerateSwerveCommand(Selection.ThisShip.ShipId, Selection.ThisShip.AssignedManeuver.ToString());
                     Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
                 }
             }

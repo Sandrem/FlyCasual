@@ -12,6 +12,8 @@ namespace SubPhases
 
     public class CombatSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
+
         private Team.Type selectionMode;
 
         public override void Start()

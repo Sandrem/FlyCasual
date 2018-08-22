@@ -204,12 +204,10 @@ namespace GameModes
                 parameters.AddField("player", playerNo.ToString());
                 parameters.AddField("seed", seed.ToString());
 
-                ReplaysManager.RecordCommand(
-                    new GameCommand(
-                        GameCommandTypes.DamageDecksSync,
-                        null,
-                        parameters.ToString()
-                    )
+                GameController.SendCommand(
+                    GameCommandTypes.DamageDecksSync,
+                    null,
+                    parameters.ToString()
                 );
 
                 DamageDecks.GetDamageDeck(playerNo).ShuffleDeck(seed);
@@ -220,8 +218,8 @@ namespace GameModes
 
                 if (command.Type == GameCommandTypes.DamageDecksSync)
                 {
-                    GameController.ConfirmCommand();
-                    DamageDecks.GetDamageDeck((PlayerNo)Enum.Parse(typeof(PlayerNo), command.GetString("player"))).ShuffleDeck(int.Parse(command.GetString("seed")));
+                    Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
+                    command.Execute();
                 }
             }
         }

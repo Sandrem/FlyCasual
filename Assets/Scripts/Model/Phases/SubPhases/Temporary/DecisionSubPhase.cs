@@ -56,6 +56,8 @@ namespace SubPhases
 
     public class DecisionSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.Decision, GameCommandTypes.PressSkip }; } }
+
         private GameObject decisionPanel;
         private GameObject buttonsHolder;
         public string InfoText;

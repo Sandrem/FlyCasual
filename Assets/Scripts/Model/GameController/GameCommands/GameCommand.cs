@@ -26,7 +26,7 @@ public enum GameCommandTypes
 
 namespace GameCommands
 {
-    public class GameCommand
+    public abstract class GameCommand
     {
         public GameCommandTypes Type { get; private set; }
         public Type SubPhase { get; private set; }
@@ -78,6 +78,24 @@ namespace GameCommands
             json.AddField("parameters", new JSONObject(RawParameters));
             return json.ToString();
         }
+
+        public void TryExecute()
+        {
+            SubPhases.GenericSubPhase subphase = Phases.CurrentSubPhase;
+            if (subphase != null && subphase.AllowedGameCommandTypes.Contains(Type) && subphase.GetType() == SubPhase && subphase.IsReadyForCommands)
+            {
+                GameController.ConfirmCommand();
+                Console.Write("Command is executed: " + Type, LogTypes.GameCommands, true, "aqua");
+                Execute();
+                GameController.CheckExistingCommands();
+            }
+            else
+            {
+                if (SubPhase != null) Console.Write("Command is skipped: " + Type, LogTypes.GameCommands, false, "aqua");
+            }
+        }
+
+        public abstract void Execute();
     }
 
 }

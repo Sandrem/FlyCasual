@@ -71,6 +71,8 @@ namespace SubPhases
 
         public virtual void FinishPhase() { }
 
+        public virtual List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>(); } }
+
         public virtual bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;

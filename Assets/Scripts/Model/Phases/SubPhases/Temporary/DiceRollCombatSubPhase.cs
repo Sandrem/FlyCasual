@@ -10,6 +10,8 @@ namespace SubPhases
 
     public class DiceRollCombatSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.DiceModification, GameCommandTypes.SyncDiceRerollSelected, GameCommandTypes.SyncDiceResults }; } }
+
         protected DiceKind diceType;
         protected int diceCount;
 

@@ -53,9 +53,8 @@ public static partial class Roster
                 GameCommand command = GameController.GetCommand();
                 if (command.Type == GameCommandTypes.SquadsSync)
                 {
-                    GameController.ConfirmCommand();
-                    SquadList playerList = SquadBuilder.SquadLists.First(n => n.PlayerNo == (PlayerNo)Enum.Parse(typeof(PlayerNo), command.GetString("player")));
-                    playerList.SavedConfiguration = (JSONObject)command.GetParameter("list");
+                    Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
+                    command.Execute();
                 }
             }
         }

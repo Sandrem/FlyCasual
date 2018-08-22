@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
+using GameCommands;
 
 namespace AI
 {
@@ -57,7 +58,7 @@ namespace AI
 
         private void LaunchMovementFinally()
         {
-            ReplaysManager.WriteHotacAiSwerve(Selection.ThisShip.ShipId, Selection.ThisShip.AssignedManeuver.ToString());
+            AI.Swerve.GenerateSwerveCommand(Selection.ThisShip.ShipId, Selection.ThisShip.AssignedManeuver.ToString());
             Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
         }
 
@@ -171,6 +172,29 @@ namespace AI
             return result;
         }
 
+        public static void GenerateSwerveCommand(int shipId, string maneuverCode)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("id", shipId.ToString());
+            parameters.AddField("maneuver", maneuverCode);
+            GameCommand command = new AssignManeuverCommand(
+                GameCommandTypes.AssignManeuver,
+                typeof(SubPhases.ActivationSubPhase),
+                parameters.ToString()
+            );
+
+            ReplaysManager.RecordCommand(command);
+
+            parameters = new JSONObject();
+            parameters.AddField("id", shipId.ToString());
+            command = new AssignManeuverCommand(
+                GameCommandTypes.ActivateAndMove,
+                typeof(SubPhases.ActivationSubPhase),
+                parameters.ToString()
+            );
+
+            ReplaysManager.RecordCommand(command);
+        }
     }
 }
 

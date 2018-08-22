@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GameCommands;
-using SubPhases;
+using SquadBuilderNS;
 using UnityEngine;
 
 public static class GameController
@@ -15,9 +15,77 @@ public static class GameController
         CommandsReceived = new List<GameCommand>();
     }
 
+    public static void StartBattle(ReplaysMode mode = ReplaysMode.Write)
+    {
+        GameController.Initialize();
+        ReplaysManager.Initialize(mode);
+
+        if (mode == ReplaysMode.Read) MainMenu.CurrentMainMenu.InitializeSquadBuilder("Replay");
+
+        Console.Write("Game is started", LogTypes.GameCommands, true, "aqua");
+        SquadBuilder.StartLocalGame();
+    }
+
     public static void SendCommand(GameCommandTypes commandType, Type subPhase, string parameters = null)
     {
-        GameCommand command = new GameCommand(commandType, subPhase, parameters);
+        Console.Write("Command is sent: " + commandType, LogTypes.GameCommands, false, "aqua");
+
+        GameCommand command = null;
+
+        switch (commandType)
+        {
+            case GameCommandTypes.DamageDecksSync:
+                command = new DamageDeckSyncCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.SquadsSync:
+                command = new SquadsSyncCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.Decision:
+                command = new DecisionCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.ObstaclePlacement:
+                command = new ObstaclePlacementCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.ShipPlacement:
+                command = new ShipPlacementCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.AssignManeuver:
+                command = new AssignManeuverCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.PressNext:
+                command = new PressNextCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.ActivateAndMove:
+                command = new ActIvateAndMoveCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.DeclareAttack:
+                command = new DeclareAttackCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.DiceModification:
+                command = new DiceModificationCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.SelectShip:
+                command = new SelectShipCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.SyncDiceResults:
+                command = new SyncDiceResultsCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.SyncDiceRerollSelected:
+                command = new SyncDiceRerollSelectedCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.ConfirmCrit:
+                command = new ConfirmCritCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.ConfirmDiceCheck:
+                command = new ConfirmDiceCheckCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.PressSkip:
+                command = new PressSkipCommand(commandType, subPhase, parameters);
+                break;
+            default:
+                break;
+        }
+
         CommandsReceived.Add(command);
 
         if (ReplaysManager.Mode == ReplaysMode.Write)
@@ -25,100 +93,13 @@ public static class GameController
             ReplaysManager.RecordCommand(command);
         }
 
-        TryExecuteCommand(command);
+        command.TryExecute();
     }
 
-    private static void TryExecuteCommand(GameCommand command)
+    public static void CheckExistingCommands()
     {
-        if (Phases.CurrentSubPhase !=null && Phases.CurrentSubPhase.GetType() == command.SubPhase && Phases.CurrentSubPhase.IsReadyForCommands)
-        {
-            switch (command.Type)
-            {
-                case GameCommandTypes.Decision:
-                    DecisionSubPhase.ExecuteDecision(command.GetString("name"));
-                    break;
-                case GameCommandTypes.ObstaclePlacement:
-                   ObstaclesPlacementSubPhase.PlaceObstacle(
-                        command.GetString("name"),
-                        new Vector3(command.GetFloat("positionX"), command.GetFloat("positionY"), command.GetFloat("positionZ")),
-                        new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
-                    );
-                    break;
-                case GameCommandTypes.ShipPlacement:
-                    SetupSubPhase.PlaceShip(
-                        int.Parse(command.GetString("id")),
-                        new Vector3(command.GetFloat("positionX"), command.GetFloat("positionY"), command.GetFloat("positionZ")),
-                        new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
-                    );
-                    break;
-                case GameCommandTypes.AssignManeuver:
-                    ShipMovementScript.AssignManeuver(
-                        int.Parse(command.GetString("id")),
-                        command.GetString("maneuver")
-                    );
-                    break;
-                case GameCommandTypes.PressNext:
-                    UI.NextButtonEffect();
-                    break;
-                case GameCommandTypes.PressSkip:
-                    UI.SkipButtonEffect();
-                    break;
-                case GameCommandTypes.ActivateAndMove:
-                    ShipMovementScript.ActivateAndMove(
-                        int.Parse(command.GetString("id"))
-                    );
-                    break;
-                case GameCommandTypes.DeclareAttack:
-                    Combat.DeclareIntentToAttack(
-                        int.Parse(command.GetString("id")),
-                        int.Parse(command.GetString("target")),
-                        bool.Parse(command.GetString("weaponIsAlreadySelected"))
-                    );
-                    break;
-                case GameCommandTypes.DiceModification:
-                    string diceModificationName = command.GetString("name");
-                    if (diceModificationName == "OK")
-                    {
-                        Combat.ConfirmDiceResultsClient();
-                    }
-                    else
-                    {
-                        Combat.UseDiceModification(diceModificationName);
-                    }
-                    break;
-                case GameCommandTypes.SelectShip:
-                    SelectShipSubPhase.SelectShip(int.Parse(command.GetString("id")));
-                    break;
-                case GameCommandTypes.SyncDiceResults:
-                    List<DieSide> correctSides = new List<DieSide>();
-                    JSONObject jsonHolder = (JSONObject) command.GetParameter("sides");
-                    foreach (var dieInfo in jsonHolder.list)
-                    {
-                        DieSide side = (DieSide)Enum.Parse(typeof(DieSide), dieInfo["side"].str);
-                        correctSides.Add(side);
-                    }
-                    DiceRoll.SyncDiceResults(correctSides);
-                    break;
-                case GameCommandTypes.SyncDiceRerollSelected:
-                    List<bool> selectedDice = new List<bool>();
-                    JSONObject jsonHolder1 = (JSONObject)command.GetParameter("dice");
-                    foreach (var dieInfo in jsonHolder1.list)
-                    {
-                        bool isSelected = bool.Parse(dieInfo["selected"].str);
-                        selectedDice.Add(isSelected);
-                    }
-                    DiceRerollManager.SyncDiceRerollSelected(selectedDice);
-                    break;
-                case GameCommandTypes.ConfirmCrit:
-                    InformCrit.ConfirmCrit();
-                    break;
-                case GameCommandTypes.ConfirmDiceCheck:
-                    (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
-                    break;
-                default:
-                    break;
-            }
-        }
+        GameCommand command = GameController.GetCommand();
+        if (command != null) command.TryExecute();
     }
 
     public static GameCommand GetCommand()
@@ -129,36 +110,6 @@ public static class GameController
     public static void ConfirmCommand()
     {
         CommandsReceived.RemoveAt(0);
-    }
-
-    public static void Next()
-    {
-        GameCommand command = CommandsReceived.FirstOrDefault();
-        if (command != null)
-        {
-            switch (command.Type)
-            {
-                case GameCommandTypes.AssignManeuver:
-                    Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).AssignManeuver();
-                    break;
-                case GameCommandTypes.PressNext:
-                    Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PressNext();
-                    break;
-                case GameCommandTypes.ActivateAndMove:
-                    Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PerformManeuver();
-                    break;
-                case GameCommandTypes.ObstaclePlacement:
-                    ObstaclesPlacementSubPhase.PlaceObstacle(
-                         command.GetString("name"),
-                         new Vector3(command.GetFloat("positionX"), command.GetFloat("positionY"), command.GetFloat("positionZ")),
-                         new Vector3(command.GetFloat("rotationX"), command.GetFloat("rotationY"), command.GetFloat("rotationZ"))
-                     );
-                    break;
-                default:
-                    Debug.Log("No Next command for type: " + command.Type);
-                    break;
-            }
-        }
     }
 
 }

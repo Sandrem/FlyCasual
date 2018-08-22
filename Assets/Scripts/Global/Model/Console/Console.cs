@@ -11,6 +11,7 @@ public enum LogTypes
 {
     Everything,
     Errors,
+    GameCommands,
     Triggers,
     AI,
     Network

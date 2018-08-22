@@ -54,38 +54,5 @@ public static class ReplaysManager
     {
         File.AppendAllText(FilePath, command.ToString() + "\n");
     }
-
-    public static void StartBattle()
-    {
-        GameController.Initialize();
-        ReplaysManager.Initialize(ReplaysMode.Read);
-
-        SquadBuilder.StartLocalGame();
-    }
-
-    public static void WriteHotacAiSwerve(int shipId, string maneuverCode)
-    {
-        JSONObject parameters = new JSONObject();
-        parameters.AddField("id", shipId.ToString());
-        parameters.AddField("maneuver", maneuverCode);
-        GameCommand command = new GameCommand(
-            GameCommandTypes.AssignManeuver,
-            typeof(SubPhases.ActivationSubPhase),
-            parameters.ToString()
-        );
-
-        RecordCommand(command);
-
-        parameters = new JSONObject();
-        parameters.AddField("id", shipId.ToString());
-        command = new GameCommand(
-            GameCommandTypes.ActivateAndMove,
-            typeof(SubPhases.ActivationSubPhase),
-            parameters.ToString()
-        );
-
-        RecordCommand(command);
-    }
-
 }
 

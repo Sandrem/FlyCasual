@@ -9,6 +9,8 @@ namespace SubPhases
 
     public class DiceRollCheckSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ConfirmDiceCheck, GameCommandTypes.SyncDiceRerollSelected, GameCommandTypes.SyncDiceResults }; } }
+
         public DiceKind DiceKind;
         public int DiceCount;
 

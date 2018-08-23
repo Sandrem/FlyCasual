@@ -8,6 +8,7 @@ using GameModes;
 using Ship;
 using SubPhases;
 using ActionsList;
+using GameCommands;
 
 public enum CombatStep
 {
@@ -66,7 +67,7 @@ public static partial class Combat
 
     // DECLARE INTENT TO ATTACK
 
-    public static void SendIntentToAttackCommand(int attackerId, int defenderId, bool weaponIsAlreadySelected = false)
+    public static GameCommand GenerateIntentToAttackCommand(int attackerId, int defenderId, bool weaponIsAlreadySelected = false)
     {
         if (!IsAttackAlreadyCalled)
         {
@@ -76,7 +77,7 @@ public static partial class Combat
             parameters.AddField("id", attackerId.ToString());
             parameters.AddField("target", defenderId.ToString());
             parameters.AddField("weaponIsAlreadySelected", weaponIsAlreadySelected.ToString());
-            GameController.SendCommand(
+            return GameController.GenerateGameCommand(
                 GameCommandTypes.DeclareAttack,
                 Phases.CurrentSubPhase.GetType(),
                 parameters.ToString()
@@ -85,6 +86,7 @@ public static partial class Combat
         else
         {
             Debug.Log("Attack was called when attack is already called - ignore");
+            return null;
         }
     }
 
@@ -276,7 +278,7 @@ public static partial class Combat
         Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);
     }
 
-    public static void CompareResultsAndDealDamageClient()
+    public static void CompareResultsAndDealDamage()
     {
         Attacker.ClearAlreadyUsedDiceModifications();
         Defender.ClearAlreadyUsedDiceModifications();

@@ -56,7 +56,7 @@ namespace ActionsList
         private void ExecuteSelectedManeuver()
         {
             Selection.ThisShip.AssignedManeuver.IsRevealDial = false;
-            GameMode.CurrentGameMode.LaunchMovement(AssignWeaponsDisabledToken);
+            ShipMovementScript.LaunchMovement(AssignWeaponsDisabledToken);
         }
 
         private void AssignWeaponsDisabledToken()

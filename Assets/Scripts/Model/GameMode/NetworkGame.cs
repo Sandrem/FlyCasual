@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using SubPhases;
 using Players;
 using UnityEngine.UI;
+using GameCommands;
 
 namespace GameModes
 { 
@@ -12,47 +13,14 @@ namespace GameModes
     {
         public override string Name { get { return "Network"; } }
 
+        public override void ExecuteCommand(GameCommand command)
+        {
+            Network.SendCommand(command);
+        }
+
         public override void RevertSubPhase()
         {
             Network.RevertSubPhase();
-        }
-
-        public override void ConfirmCrit()
-        {
-            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.FinishTask");
-            InformCrit.DisableConfirmButton();
-            Network.FinishTask();
-        }
-
-        public override void DeclareTarget(int thisShipId, int anotherShipId)
-        {
-            Network.DeclareTarget(thisShipId, anotherShipId);
-        }
-
-        public override void NextButtonEffect()
-        {
-            Network.NextButtonEffect();
-        }
-
-        public override void SkipButtonEffect()
-        {
-            Network.SkipButtonEffect();
-        }
-
-        public override void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-        {
-            Network.ConfirmShipSetup(shipId, position, angles);
-        }
-
-        public override void ActivateShipForMovement(int shipId)
-        {
-            Network.ActivateAndMove(shipId);
-        }
-
-        public override void LaunchMovement(Action callback)
-        {
-            ShipMovementScript.ExtraMovementCallback = callback;
-            Network.LaunchMovement();
         }
 
         public override void ActivateSystemsOnShip(int shipId)
@@ -79,11 +47,6 @@ namespace GameModes
         private static void StorePlayerWithInitiative(int[] randomHolder)
         {
             Phases.PlayerWithInitiative = Tools.IntToPlayer(randomHolder[0]);
-        }
-
-        public override void ShowInformCritPanel()
-        {
-            Network.CallInformCritWindow();
         }
 
         public override void StartBattle()
@@ -166,41 +129,6 @@ namespace GameModes
             Network.CancelBoost();
         }
 
-        public override void UseDiceModification(string effectName)
-        {
-            Network.UseDiceModification(effectName);
-        }
-
-        public override void ConfirmDiceResults()
-        {
-            Network.ConfirmDiceResults();
-        }
-
-        public override void CompareResultsAndDealDamage()
-        {
-            Network.CompareResultsAndDealDamage();
-        }
-
-        public override void SwitchToRegularDiceModifications()
-        {
-            Network.SwitchToRegularDiceModifications();
-        }
-
-        public override void SwitchToAfterRolledDiceModifications()
-        {
-            Network.SwitchToAfterRolledDiceModifications();
-        }
-
-        public override void TakeDecision(Decision decision, GameObject button)
-        {
-            Network.TakeDecision(decision.Name);
-        }
-
-        public override void FinishMovementExecution()
-        {
-            Network.FinishTask();
-        }
-
         // Swarm Manager
 
         public override void SetSwarmManagerManeuver(string maneuverCode)
@@ -218,46 +146,6 @@ namespace GameModes
             Network.CombatActivation(shipId);
         }
 
-        public override void StartSyncNotificationSubPhase()
-        {
-            Network.CmdSyncNotifications(); 
-        }
-
-        public override void FinishNotificationSubPhase()
-        {
-            Network.FinishTask();
-        }
-
-        public override void StartSyncDecisionPreparation()
-        {
-            Network.SyncDecisionPreparation();
-        }
-
-        public override void FinishSyncDecisionPreparation()
-        {
-            Network.FinishTask();
-        }
-
-        public override void StartSyncSelectShipPreparation()
-        {
-            Network.SyncSelectShipPreparation();
-        }
-
-        public override void FinishSyncSelectShipPreparation()
-        {
-            Network.FinishTask();
-        }
-
-        public override void StartSyncSelectObstaclePreparation()
-        {
-            Network.SyncSelectObstaclePreparation();
-        }
-
-        public override void FinishSyncSelectObstaclePreparation()
-        {
-            Network.FinishTask();
-        }
-
         public override void StartDiceRerollExecution()
         {
             Network.StartDiceRerollExecution();
@@ -271,11 +159,6 @@ namespace GameModes
         public override void QuitToDesktop()
         {
             Network.QuitToDesktop();
-        }
-
-        public override void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-        {
-            Network.PlaceObstacle(obstacleName, position, angles);
         }
 
         public override void SelectObstacle(string obstacleName)

@@ -120,7 +120,7 @@ namespace Players
                 }
             }
 
-            if (!isActionTaken) UI.SendSkipButtonCommand();
+            if (!isActionTaken) UI.GenerateSkipButtonCommand();
         }
 
         public override void AfterShipMovementPrediction()

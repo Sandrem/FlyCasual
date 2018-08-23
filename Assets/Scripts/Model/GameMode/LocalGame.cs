@@ -13,45 +13,14 @@ namespace GameModes
     {
         public override string Name { get { return "Local"; } }
 
+        public override void ExecuteCommand(GameCommand command)
+        {
+            GameController.SendCommand(command);
+        }
+
         public override void RevertSubPhase()
         {
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
-        }
-
-        public override void ConfirmCrit()
-        {
-            InformCrit.HidePanel();
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).ConfirmCrit();
-        }
-
-        public override void DeclareTarget(int thisShipId, int anotherShipId)
-        {
-            Combat.SendIntentToAttackCommand(thisShipId, anotherShipId);
-        }
-
-        public override void NextButtonEffect()
-        {
-            UI.SendNextButtonCommand();
-        }
-
-        public override void SkipButtonEffect()
-        {
-            UI.SendSkipButtonCommand();
-        }
-
-        public override void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-        {
-            SetupSubPhase.SendPlaceShipCommand(shipId, position, angles);
-        }
-
-        public override void ActivateShipForMovement(int shipId)
-        {
-            ShipMovementScript.SendActivateAndMoveCommand(shipId);
-        }
-
-        public override void LaunchMovement(Action callback)
-        {
-            ShipMovementScript.LaunchMovement(callback);
         }
 
         public override void ActivateSystemsOnShip(int shipId)
@@ -92,13 +61,6 @@ namespace GameModes
                     command.Execute();
                 }
             }
-        }
-
-        public override void ShowInformCritPanel()
-        {
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
-
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).InformAboutCrit();
         }
 
         public override void StartBattle()
@@ -172,41 +134,6 @@ namespace GameModes
             (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost();
         }
 
-        public override void UseDiceModification(string effectName)
-        {
-            Combat.SendUseDiceModificationCommand(effectName);
-        }
-
-        public override void ConfirmDiceResults()
-        {
-            Combat.SendUseDiceModificationCommand("OK");
-        }
-
-        public override void CompareResultsAndDealDamage()
-        {
-            Combat.CompareResultsAndDealDamageClient();
-        }
-
-        public override void SwitchToRegularDiceModifications()
-        {
-            Combat.SwitchToRegularDiceModificationsClient();
-        }
-
-        public override void SwitchToAfterRolledDiceModifications()
-        {
-            Combat.SwitchToAfterRolledDiceModificationsClient();
-        }
-
-        public override void TakeDecision(Decision decision, GameObject button)
-        {
-            DecisionSubPhase.SendDecisionCommand(decision.Name);
-        }
-
-        public override void FinishMovementExecution()
-        {
-            Triggers.FinishTrigger();
-        }
-
         // Swarm Manager
 
         public override void SetSwarmManagerManeuver(string maneuverCode)
@@ -254,46 +181,6 @@ namespace GameModes
             Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
         }
 
-        public override void StartSyncNotificationSubPhase()
-        {
-            (Phases.CurrentSubPhase as NotificationSubPhase).FinishAfterDelay();
-        }
-
-        public override void FinishNotificationSubPhase()
-        {
-            (Phases.CurrentSubPhase as NotificationSubPhase).Next();
-        }
-
-        public override void StartSyncDecisionPreparation()
-        {
-            (Phases.CurrentSubPhase as DecisionSubPhase).PrepareDecision((Phases.CurrentSubPhase as DecisionSubPhase).StartIsFinished);
-        }
-
-        public override void FinishSyncDecisionPreparation()
-        {
-            (Phases.CurrentSubPhase as DecisionSubPhase).DecisionOwner.TakeDecision();
-        }
-
-        public override void StartSyncSelectShipPreparation()
-        {
-            FinishSyncSelectShipPreparation();
-        }
-
-        public override void FinishSyncSelectShipPreparation()
-        {
-            (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
-        }
-
-        public override void StartSyncSelectObstaclePreparation()
-        {
-            FinishSyncSelectObstaclePreparation();
-        }
-
-        public override void FinishSyncSelectObstaclePreparation()
-        {
-            (Phases.CurrentSubPhase as SelectObstacleSubPhase).HighlightObstacleToSelect();
-        }
-
         public override void StartDiceRerollExecution()
         {
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
@@ -308,11 +195,6 @@ namespace GameModes
         public override void QuitToDesktop()
         {
             Application.Quit();
-        }
-
-        public override void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-        {
-            ObstaclesPlacementSubPhase.SendPlaceObstacleCommand(obstacleName, position, angles);
         }
 
         public override void SelectObstacle(string obstacleName)

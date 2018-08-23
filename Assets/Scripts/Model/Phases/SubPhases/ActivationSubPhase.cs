@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Ship;
 using GameModes;
+using GameCommands;
 
 namespace SubPhases
 {
@@ -171,7 +172,8 @@ namespace SubPhases
         {
             if (!ship.IsManeuverPerformed)
             {
-                GameMode.CurrentGameMode.ActivateShipForMovement(Selection.ThisShip.ShipId);
+                GameCommand command = ShipMovementScript.GenerateActivateAndMoveCommand(Selection.ThisShip.ShipId);
+                GameMode.CurrentGameMode.ExecuteCommand(command);
             }
             else
             {

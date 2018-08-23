@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
 using GameModes;
+using GameCommands;
 
 namespace SubPhases
 {
@@ -84,7 +85,7 @@ namespace SubPhases
             decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
             buttonsHolder = decisionPanel.transform.Find("Center/DecisionsPanel").gameObject;
 
-            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
+            PrepareDecision(StartIsFinished);
         }
 
         public virtual void PrepareDecision(Action callBack)
@@ -102,7 +103,7 @@ namespace SubPhases
                 DecisionWasPreparedAndShown = true;
 
                 IsReadyForCommands = true;
-                GameMode.CurrentGameMode.FinishSyncDecisionPreparation();
+                DecisionOwner.TakeDecision();
             }
         }
 
@@ -137,11 +138,11 @@ namespace SubPhases
             return decisions;
         }
 
-        public static void SendDecisionCommand(string decisionName)
+        public static GameCommand GenerateDecisionCommand(string decisionName)
         {
             JSONObject parameters = new JSONObject();
             parameters.AddField("name", decisionName);
-            GameController.SendCommand(
+            return GameController.GenerateGameCommand(
                 GameCommandTypes.Decision,
                 Phases.CurrentSubPhase.GetType(),
                 parameters.ToString()
@@ -263,7 +264,10 @@ namespace SubPhases
                             script.Initialize(
                                 decision.Name,
                                 decision.Tooltip,
-                                delegate { GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                delegate {
+                                    GameCommand command = GenerateDecisionCommand(decision.Name);
+                                    GameMode.CurrentGameMode.ExecuteCommand(command);
+                                },
                                 DecisionViewTypes.ImagesUpgrade,
                                 decision.Count
                             );
@@ -276,7 +280,10 @@ namespace SubPhases
                             script.Initialize(
                                 decision.Name,
                                 decision.Tooltip,
-                                delegate { GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                delegate {
+                                    GameCommand command = GenerateDecisionCommand(decision.Name);
+                                    GameMode.CurrentGameMode.ExecuteCommand(command);
+                                },
                                 DecisionViewTypes.ImagesDamageCard,
                                 decision.Count
                             );
@@ -301,7 +308,9 @@ namespace SubPhases
             if (!WasDecisionButtonPressed)
             {
                 WasDecisionButtonPressed = true;
-                GameMode.CurrentGameMode.TakeDecision(decision, button);
+
+                GameCommand command = GenerateDecisionCommand(decision.Name);
+                GameMode.CurrentGameMode.ExecuteCommand(command);
             }
         }
 
@@ -319,7 +328,7 @@ namespace SubPhases
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
 
-            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
+            PrepareDecision(StartIsFinished);
         }
 
         public override void Next()
@@ -358,7 +367,8 @@ namespace SubPhases
 
         public override void DoDefault()
         {
-            DecisionSubPhase.SendDecisionCommand(DefaultDecisionName);
+            GameCommand command = DecisionSubPhase.GenerateDecisionCommand(DefaultDecisionName);
+            GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
         public static void ConfirmDecision()

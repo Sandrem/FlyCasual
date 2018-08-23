@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using GameModes;
 using ActionsList;
 using UnityEngine.Events;
+using GameCommands;
 
 public static partial class Combat
 {
@@ -31,7 +32,7 @@ public static partial class Combat
                 break;
             case DiceModificationTimingType.CompareResults:
                 Selection.ActiveShip = Attacker;
-                CloseButtonEffect = CompareResultsAndDealDamageClient;
+                CloseButtonEffect = CompareResultsAndDealDamage;
                 break;
             default:
                 break;
@@ -92,22 +93,7 @@ public static partial class Combat
         Phases.CurrentSubPhase.IsReadyForCommands = true;
     }
 
-    public static void CompareResultsAndDealDamage()
-    {
-        GameMode.CurrentGameMode.CompareResultsAndDealDamage();
-    }
-
-    private static void SwitchToRegularDiceModifications()
-    {
-        GameMode.CurrentGameMode.SwitchToRegularDiceModifications();
-    }
-
-    private static void SwitchToAfterRolledDiceModifications()
-    {
-        GameMode.CurrentGameMode.SwitchToAfterRolledDiceModifications();
-    }
-
-    public static void SwitchToRegularDiceModificationsClient()
+    public static void SwitchToRegularDiceModifications()
     {
         HideDiceModificationButtons();
         ToggleConfirmDiceResultsButton(false);
@@ -122,7 +108,7 @@ public static partial class Combat
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
     }
 
-    public static void SwitchToAfterRolledDiceModificationsClient()
+    public static void SwitchToAfterRolledDiceModifications()
     {
         HideDiceModificationButtons();
         ToggleConfirmDiceResultsButton(false);
@@ -153,7 +139,10 @@ public static partial class Combat
         newButton.transform.GetComponentInChildren<Text>().text = actionEffect.DiceModificationName;
         newButton.GetComponent<RectTransform>().position = position;
         newButton.GetComponent<Button>().onClick.AddListener(
-            delegate { GameMode.CurrentGameMode.UseDiceModification(actionEffect.DiceModificationName); }
+            delegate {
+                GameCommand command = Combat.GenerateDiceModificationCommand(actionEffect.DiceModificationName);
+                GameMode.CurrentGameMode.ExecuteCommand(command);
+            }
         );
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);
         newButton.GetComponent<Button>().interactable = true;
@@ -161,11 +150,11 @@ public static partial class Combat
         newButton.SetActive(Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer));
     }
 
-    public static void SendUseDiceModificationCommand(string diceModificationName)
+    public static GameCommand GenerateDiceModificationCommand(string diceModificationName)
     {
         JSONObject parameters = new JSONObject();
         parameters.AddField("name", diceModificationName);
-        GameController.SendCommand(
+        return GameController.GenerateGameCommand(
             GameCommandTypes.DiceModification,
             Phases.CurrentSubPhase.GetType(),
             parameters.ToString()
@@ -212,7 +201,8 @@ public static partial class Combat
 
     public static void ConfirmDiceResults()
     {
-        GameMode.CurrentGameMode.ConfirmDiceResults();
+        GameCommand command = Combat.GenerateDiceModificationCommand("OK");
+        GameMode.CurrentGameMode.ExecuteCommand(command);
     }
 
     public static void ConfirmDiceResultsClient()
@@ -228,7 +218,7 @@ public static partial class Combat
                 if (Combat.Defender.CallTryConfirmDiceResults()) ConfirmDefenceDiceResults();
                 break;
             case CombatStep.CompareResults:
-                CompareResultsAndDealDamageClient();
+                CompareResultsAndDealDamage();
                 break;
         }
     }

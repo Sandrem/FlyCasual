@@ -8,6 +8,7 @@ using ActionsList;
 using BoardTools;
 using SubPhases;
 using GameModes;
+using GameCommands;
 
 namespace Players
 {
@@ -39,7 +40,13 @@ namespace Players
                     Vector3 position = shipHolder.Value.GetPosition() - direction * new Vector3(0, 0, Board.BoardIntoWorld(Board.DISTANCE_1 + Board.RANGE_1));
 
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(0.5f, delegate { SetupSubPhase.SendPlaceShipCommand(shipHolder.Value.ShipId, position, shipHolder.Value.GetAngles()); });
+                    Game.Wait(
+                        0.5f,
+                        delegate {
+                            GameCommand command = SetupSubPhase.GeneratePlaceShipCommand(shipHolder.Value.ShipId, position, shipHolder.Value.GetAngles());
+                            GameMode.CurrentGameMode.ExecuteCommand(command);
+                        }
+                    );
                     return;
                 }
             }
@@ -57,7 +64,7 @@ namespace Players
 
                 ShipMovementScript.SendAssignManeuverCommand(shipHolder.Value.ShipId, "2.F.S");
             }
-            UI.SendNextButtonCommand();
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
         }
 
         public override void PerformManeuver()
@@ -120,7 +127,8 @@ namespace Players
                 {
                     Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
 
-                    Combat.SendIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true);
+                    GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true);
+                    if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
                 }
                 else
                 {
@@ -369,11 +377,11 @@ namespace Players
                     break;
                 case DiceModificationTimingType.AfterRolled:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = GameMode.CurrentGameMode.SwitchToRegularDiceModifications;
+                    FinalEffect = Combat.SwitchToRegularDiceModifications;
                     break;
                 case DiceModificationTimingType.Opposite:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
-                    FinalEffect = GameMode.CurrentGameMode.SwitchToAfterRolledDiceModifications;
+                    FinalEffect = Combat.SwitchToAfterRolledDiceModifications;
                     break;
                 case DiceModificationTimingType.CompareResults:
                     Selection.ActiveShip = Combat.Attacker;
@@ -407,7 +415,8 @@ namespace Players
                     isActionEffectTaken = true;
                     Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
 
-                    Combat.SendUseDiceModificationCommand(prioritizedActionEffect.Key.Name);
+                    GameCommand command = Combat.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
+                    GameMode.CurrentGameMode.ExecuteCommand(command);
 
                     /*GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
@@ -424,7 +433,8 @@ namespace Players
                     //GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     //Game.Wait(2, FinalEffect.Invoke);
 
-                    Combat.SendUseDiceModificationCommand("OK");
+                    GameCommand command = Combat.GenerateDiceModificationCommand("OK");
+                    GameMode.CurrentGameMode.ExecuteCommand(command);
                 }
                 else
                 {
@@ -440,13 +450,11 @@ namespace Players
 
         public override void OnTargetNotLegalForAttack()
         {
-            UI.SendSkipButtonCommand();
-
-            /*Selection.ThisShip.CallAfterAttackWindow();
+            Selection.ThisShip.CallAfterAttackWindow();
             Selection.ThisShip.IsAttackPerformed = true;
             Selection.ThisShip.CallCombatDeactivation(
                 delegate { Phases.FinishSubPhase(typeof(CombatSubPhase)); }
-            );*/
+            );
         }
 
         public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)

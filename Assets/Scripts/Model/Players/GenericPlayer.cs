@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using ActionsList;
+using GameModes;
 
 public enum Faction
 {
@@ -164,12 +165,12 @@ namespace Players
 
         public virtual void PressNext()
         {
-            UI.SendNextButtonCommand();
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
         }
 
         public virtual void PressSkip()
         {
-            UI.SendSkipButtonCommand();
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
         }
 
         public virtual void SyncDiceResults()
@@ -219,14 +220,6 @@ namespace Players
         public virtual void InformAboutCrit()
         {
             InformCrit.ShowPanelVisible();
-        }
-
-        public virtual void ConfirmCrit()
-        {
-            GameController.SendCommand(
-                GameCommandTypes.ConfirmCrit,
-                Phases.CurrentSubPhase.GetType()
-            );
         }
 
         public virtual void DiceCheckConfirm()

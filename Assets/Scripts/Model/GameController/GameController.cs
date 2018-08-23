@@ -26,10 +26,37 @@ public static class GameController
         SquadBuilder.StartLocalGame();
     }
 
+    public static void SendCommand(GameCommand command)
+    {
+        Console.Write("Command is received: " + command.Type, LogTypes.GameCommands, false, "aqua");
+
+        CommandsReceived.Add(command);
+
+        if (ReplaysManager.Mode == ReplaysMode.Write)
+        {
+            ReplaysManager.RecordCommand(command);
+        }
+
+        command.TryExecute();
+    }
+
     public static void SendCommand(GameCommandTypes commandType, Type subPhase, string parameters = null)
     {
-        Console.Write("Command is sent: " + commandType, LogTypes.GameCommands, false, "aqua");
+        SendCommand(GenerateGameCommand(commandType, subPhase, parameters));
+    }
 
+    public static GameCommand GenerateGameCommand(string textjson)
+    {
+        JSONObject json = new JSONObject(textjson);
+        GameCommandTypes commandType = (GameCommandTypes)Enum.Parse(typeof(GameCommandTypes), json["command"].str);
+        Type subPhase = System.Type.GetType(json["subphase"].str);
+        string parameters = json["parameters"].ToString();
+
+        return GenerateGameCommand(commandType, subPhase, parameters);
+    }
+
+    public static GameCommand GenerateGameCommand(GameCommandTypes commandType, Type subPhase, string parameters = null)
+    {
         GameCommand command = null;
 
         switch (commandType)
@@ -96,14 +123,9 @@ public static class GameController
                 break;
         }
 
-        CommandsReceived.Add(command);
+        Console.Write("Command is generated: " + command.Type, LogTypes.GameCommands, false, "aqua");
 
-        if (ReplaysManager.Mode == ReplaysMode.Write)
-        {
-            ReplaysManager.RecordCommand(command);
-        }
-
-        command.TryExecute();
+        return command;
     }
 
     public static void CheckExistingCommands()

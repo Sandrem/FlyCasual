@@ -8,6 +8,7 @@ using Players;
 using SubPhases;
 using UnityEngine.SceneManagement;
 using System;
+using GameCommands;
 
 public partial class NetworkPlayerController : NetworkBehaviour {
 
@@ -31,6 +32,20 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public bool IsServer
     {
         get { return isServer; }
+    }
+
+    // COMMANDS
+
+    [Command]
+    public void CmdSendCommand(string commandline)
+    {
+        RpcSendCommand(commandline);
+    }
+
+    [ClientRpc]
+    public void RpcSendCommand(string commandline)
+    {
+        GameController.SendCommand(GameController.GenerateGameCommand(commandline));
     }
 
     // TESTS
@@ -187,42 +202,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Global.BattleIsReady();
     }
 
-    // DECISIONS
-
-    [Command]
-    public void CmdTakeDecision(string decisionName)
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdTakeDecision");
-        RpcTakeDecision(decisionName);
-    }
-
-    [ClientRpc]
-    private void RpcTakeDecision(string decisionName)
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcTakeDecision");
-        if (Phases.CurrentSubPhase as DecisionSubPhase == null)
-        {
-            Console.Write("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType(), LogTypes.Errors, true, "red");
-            Messages.ShowError("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType());
-        }
-
-        DecisionSubPhase.SendDecisionCommand(decisionName);
-    }
-
-    // SETUP
-
-    [Command]
-    public void CmdConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-    {
-        RpcConfirmShipSetup(shipId, position, angles);
-    }
-
-    [ClientRpc]
-    private void RpcConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-    {
-        SetupSubPhase.SendPlaceShipCommand(shipId, position, angles);
-    }
-
     // ASSIGN MANEUVER
 
     [Command]
@@ -235,122 +214,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcAssignManeuver(int shipId, string maneuverCode)
     {
         ShipMovementScript.SendAssignManeuverCommand(shipId, maneuverCode);
-    }
-
-    // NEXT BUTTON
-    
-    [Command]
-    public void CmdNextButtonEffect()
-    {
-        RpcNextButtonEffect();
-    }
-
-    [ClientRpc]
-    private void RpcNextButtonEffect()
-    {
-        UI.SendNextButtonCommand();
-    }
-
-    // SKIP BUTTON
-
-    [Command]
-    public void CmdSkipButtonEffect()
-    {
-        RpcSkipButtonEffect();
-    }
-
-    [ClientRpc]
-    private void RpcSkipButtonEffect()
-    {
-        UI.SkipButtonEffect();
-    }
-
-    // SHIP MOVEMENT
-
-    [Command]
-    public void CmdActivateForMovement(int shipId)
-    {
-        RpcActivateForMovement(shipId);
-
-        /*new NetworkExecuteWithCallback(
-            "Wait maneuver execution",
-            delegate { CmdActvateAndMoveStart(shipId); },
-            delegate { CmdFinishManeuver(shipId); }
-        );*/
-    }
-
-    /*[Command]
-    public void CmdActvateAndMoveStart(int shipId)
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdLaunchStoredManeuver");
-        RpcActvateAndMoveStart(shipId);
-    }*/
-
-    [ClientRpc]
-    private void RpcActivateForMovement(int shipId)
-    {
-        ShipMovementScript.SendActivateAndMoveCommand(shipId);
-    }
-
-    /*[Command]
-    public void CmdFinishManeuver(int shipId)
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdFinishManeuver");
-        RpcFinishManeuver(shipId);
-    }
-
-    [ClientRpc]
-    private void RpcFinishManeuver(int shipId)
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: RpcFinishManeuver");
-
-        Triggers.FinishTrigger();
-    }*/
-
-    // Extra Movement
-
-    [Command]
-    public void CmdLauchExtraMovement()
-    {
-        new NetworkExecuteWithCallback(
-            "Wait maneuver execution",
-            CmdExtraMovementStart,
-            CmdExtraMovementFinish
-        );
-    }
-
-    [Command]
-    public void CmdExtraMovementStart()
-    {
-        RpcExtraMovementStart();
-    }
-
-    [ClientRpc]
-    private void RpcExtraMovementStart()
-    {
-        if (ShipMovementScript.ExtraMovementCallback == null)
-        {
-            Console.Write("Waiting to sync extra movement callback...", LogTypes.Everything, true, "orange");
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, RpcExtraMovementStart);
-        }
-        else
-        {
-            ShipMovementScript.LaunchMovement(null);
-        }
-    }
-
-    [Command]
-    public void CmdExtraMovementFinish()
-    {
-        RpcExtraMovementFinish();
-    }
-
-    [ClientRpc]
-    private void RpcExtraMovementFinish()
-    {
-        Triggers.FinishTrigger();
     }
 
     // Systems
@@ -511,20 +374,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak();
     }
 
-    // DECLARE ATTACK TARGET
-
-    [Command]
-    public void CmdDeclareTarget(int attackerId, int defenderId)
-    {
-        RpcDeclareTarget(attackerId, defenderId);
-    }
-
-    [ClientRpc]
-    private void RpcDeclareTarget(int attackerId, int defenderId)
-    {
-        Combat.SendIntentToAttackCommand(attackerId, defenderId);
-    }
-
     // SELECT TARGET SHIP
 
     [Command]
@@ -570,56 +419,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         currentSubPhase.ConfirmSelectionOfObstacleClient(obstacleName);
     }
 
-    // CONFIRM DICE RESULTS MODIFICATIONS
-
-    [Command]
-    public void CmdConfirmDiceResults()
-    {
-        RpcConfirmDiceResults();
-    }
-
-    [ClientRpc]
-    private void RpcConfirmDiceResults()
-    {
-        Combat.ConfirmDiceResultsClient();
-    }
-
-    [Command]
-    public void CmdSwitchToRegularDiceModifications()
-    {
-        RpcSwitchToRegularDiceModifications();
-    }
-
-    [ClientRpc]
-    private void RpcSwitchToRegularDiceModifications()
-    {
-        Combat.SwitchToRegularDiceModificationsClient();
-    }
-
-    [Command]
-    public void CmdSwitchToAfterRolledDiceModifications()
-    {
-        RpcSwitchToAfterRolledDiceModifications();
-    }
-
-    [ClientRpc]
-    private void RpcSwitchToAfterRolledDiceModifications()
-    {
-        Combat.SwitchToAfterRolledDiceModificationsClient();
-    }
-
-    [Command]
-    public void CmdCompareResultsAndDealDamage()
-    {
-        RpcCompareResultsAndDealDamage();
-    }
-
-    [ClientRpc]
-    private void RpcCompareResultsAndDealDamage()
-    {
-        Combat.CompareResultsAndDealDamageClient();
-    }
-
     // CONFIRM DICE ROLL CHECK
 
     [Command]
@@ -650,44 +449,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcConfirmDiceRerollCheckResults()
     {
         (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
-    }
-
-    // CONFIRM INFORM CRIT WINDOW
-
-    [Command]
-    public void CmdCallInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdCallInformCritWindow");
-        new NetworkExecuteWithCallback("Wait all confirm faceup crit card results", CmdShowInformCritWindow, CmdHideInformCritWindow);
-    }
-
-    [Command]
-    private void CmdShowInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdShowInformCritWindow");
-        RpcShowInformCritWindow();
-    }
-
-    [ClientRpc]
-    private void RpcShowInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcShowInformCritWindow");
-        InformCrit.ShowPanelVisible();
-    }
-
-    [Command]
-    private void CmdHideInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdHideInformCritWindow");
-        RpcHideInformCritWindow();
-    }
-
-    [ClientRpc]
-    private void RpcHideInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcHideInformCritWindow");
-        InformCrit.HidePanel();
-        Triggers.FinishTrigger();
     }
 
     // DICE ROLL SYNC
@@ -793,20 +554,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcCalculateDiceRollIn()
     {
         DiceRoll.CurrentDiceRoll.UnblockButtons();
-    }
-
-    // DICE MODIFICATIONS
-
-    [Command]
-    public void CmdUseDiceModification(string diceModificationName)
-    {
-        RpcUseDiceModification(diceModificationName);
-    }
-
-    [ClientRpc]
-    private void RpcUseDiceModification(string diceModificationName)
-    {
-        Combat.SendUseDiceModificationCommand(diceModificationName);
     }
 
     // BARREL ROLL PLANNING
@@ -955,200 +702,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
     }
 
-    // Notification SubPhase Sync
-
-    [Command]
-    public void CmdSyncNotifications()
-    {
-        new NetworkExecuteWithCallback(
-            "Wait sync notifications",
-            CmdStartSyncNotificationSubphase,
-            CmdFinishNotificationSubphase
-        );
-    }
-
-    [Command]
-    public void CmdStartSyncNotificationSubphase()
-    {
-        RpcWaitForFinishNotificationSubphase();
-    }
-
-    [ClientRpc]
-    private void RpcWaitForFinishNotificationSubphase()
-    {
-        NotificationSubPhase notificationSubPhase = (Phases.CurrentSubPhase as NotificationSubPhase);
-
-        if (notificationSubPhase != null)
-        {
-            notificationSubPhase.FinishAfterDelay();
-        }
-        else
-        {
-            Console.Write("Waiting to sync notification subphase...", LogTypes.Everything, true, "orange");
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, RpcWaitForFinishNotificationSubphase);
-        }
-    }
-
-    [Command]
-    public void CmdFinishNotificationSubphase()
-    {
-        RpcFinishNotificationSubphase();
-    }
-
-    [ClientRpc]
-    private void RpcFinishNotificationSubphase()
-    {
-        (Phases.CurrentSubPhase as NotificationSubPhase).Next();
-    }
-
-    // Sync decision preparation
-
-    [Command]
-    public void CmdSyncDecisionPreparation()
-    {
-        new NetworkExecuteWithCallback(
-            "Wait sync decision preparation",
-            CmdStartSyncDecisionPreparation,
-            CmdFinishDecisionPreparation
-        );
-    }
-
-    [Command]
-    public void CmdStartSyncDecisionPreparation()
-    {
-        RpcStartSyncDecisionPreparation();
-    }
-
-    [ClientRpc]
-    private void RpcStartSyncDecisionPreparation()
-    {
-        DecisionSubPhase decisionSubPhase = (Phases.CurrentSubPhase as DecisionSubPhase);
-
-        if (decisionSubPhase != null)
-        {
-            decisionSubPhase.PrepareDecision(decisionSubPhase.StartIsFinished);
-        }
-        else
-        {
-            Console.Write("Waiting to sync decision subphase...", LogTypes.Everything, true, "orange");
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, RpcStartSyncDecisionPreparation);
-        }
-    }
-
-    [Command]
-    public void CmdFinishDecisionPreparation()
-    {
-        RpcFinishDecisionPreparation();
-    }
-
-    [ClientRpc]
-    private void RpcFinishDecisionPreparation()
-    {
-        (Phases.CurrentSubPhase as DecisionSubPhase).DecisionOwner.TakeDecision();
-    }
-
-    // Sync select ship preparation
-
-    [Command]
-    public void CmdSyncSelectObstaclePreparation()
-    {
-        new NetworkExecuteWithCallback(
-            "Wait sync select obstacle preparation",
-            CmdStartSyncSelectObstaclePreparation,
-            CmdFinishSelectObstaclePreparation
-        );
-    }
-
-    [Command]
-    public void CmdStartSyncSelectObstaclePreparation()
-    {
-        RpcStartSyncSelectObstaclePreparation();
-    }
-
-    [ClientRpc]
-    private void RpcStartSyncSelectObstaclePreparation()
-    {
-        SelectObstacleSubPhase selectObstacleSubPhase = (Phases.CurrentSubPhase as SelectObstacleSubPhase);
-
-        if (selectObstacleSubPhase != null)
-        {
-            GameMode.CurrentGameMode.FinishSyncSelectObstaclePreparation();
-        }
-        else
-        {
-            Console.Write("Waiting to sync select obstacle subphase...", LogTypes.Everything, true, "orange");
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, RpcStartSyncSelectObstaclePreparation);
-        }
-    }
-
-    [Command]
-    public void CmdFinishSelectObstaclePreparation()
-    {
-        RpcFinishSelectObstaclePreparation();
-    }
-
-    [ClientRpc]
-    private void RpcFinishSelectObstaclePreparation()
-    {
-        (Phases.CurrentSubPhase as SelectObstacleSubPhase).HighlightObstacleToSelect();
-    }
-
-    // Sync select obstacle
-
-    // Sync select ship preparation
-
-    [Command]
-    public void CmdSyncSelectShipPreparation()
-    {
-        new NetworkExecuteWithCallback(
-            "Wait sync select ship preparation",
-            CmdStartSyncSelectShipPreparation,
-            CmdFinishSelectShipPreparation
-        );
-    }
-
-    [Command]
-    public void CmdStartSyncSelectShipPreparation()
-    {
-        RpcStartSyncSelectShipPreparation();
-    }
-
-    [ClientRpc]
-    private void RpcStartSyncSelectShipPreparation()
-    {
-        SelectShipSubPhase selectShipSubPhase = (Phases.CurrentSubPhase as SelectShipSubPhase);
-
-        if (selectShipSubPhase != null)
-        {
-            GameMode.CurrentGameMode.FinishSyncSelectShipPreparation();
-        }
-        else
-        {
-            Console.Write("Waiting to sync select ship subphase...", LogTypes.Everything, true, "orange");
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, RpcStartSyncSelectShipPreparation);
-        }
-    }
-
-    [Command]
-    public void CmdFinishSelectShipPreparation()
-    {
-        RpcFinishSelectShipPreparation();
-    }
-
-    [ClientRpc]
-    private void RpcFinishSelectShipPreparation()
-    {
-        (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
-    }
-
     // Return To Main Menu
 
     [Command]
@@ -1200,18 +753,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
             Global.ToggelLoadingScreen(true);
             Network.Disconnect(Application.Quit);
         }
-    }
-
-    [Command]
-    public void CmdPlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-    {
-        RpcPlaceObstacle(obstacleName, position, angles);
-    }
-
-    [ClientRpc]
-    private void RpcPlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-    {
-        ObstaclesPlacementSubPhase.SendPlaceObstacleCommand(obstacleName, position, angles);
     }
 
 }

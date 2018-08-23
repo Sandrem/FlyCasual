@@ -442,8 +442,10 @@ namespace SquadBuilderNS
 
         public static void StartNetworkGame()
         {
-            //Network.Test();
-            //Network.CallBacksTest();
+            GameController.Initialize();
+            ReplaysManager.Initialize(ReplaysMode.Write);
+
+            Console.Write("Network game is started", LogTypes.GameCommands, true, "aqua");
 
             Network.StartNetworkGame();
         }

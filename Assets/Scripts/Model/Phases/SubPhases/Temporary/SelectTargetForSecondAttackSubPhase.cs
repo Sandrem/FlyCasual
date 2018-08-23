@@ -1,4 +1,6 @@
-﻿using Ship;
+﻿using GameCommands;
+using GameModes;
+using Ship;
 using System;
 using UnityEngine;
 
@@ -56,7 +58,8 @@ namespace SubPhases
                     CallBack();
                 }
             );
-            Combat.SendIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+            GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+            if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
         public override void RevertSubPhase() { }

@@ -6,6 +6,7 @@ using ActionsList;
 using GameCommands;
 using GameModes;
 using Ship;
+using SubPhases;
 using UnityEngine;
 
 namespace Players
@@ -106,12 +107,12 @@ namespace Players
 
         public override void SelectShipForAbility()
         {
-            GameMode.CurrentGameMode.StartSyncSelectShipPreparation();
+            (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
         }
 
         public override void SelectObstacleForAbility()
         {
-            GameMode.CurrentGameMode.StartSyncSelectObstaclePreparation();
+            (Phases.CurrentSubPhase as SelectObstacleSubPhase).HighlightObstacleToSelect();
         }
 
         public override void RerollManagerIsPrepared()

@@ -18,14 +18,8 @@ namespace GameModes
 
         public abstract void ConfirmCrit();
 
-        public abstract void DeclareTarget(int thisShip, int AnotherShip);
-
-        public abstract void NextButtonEffect();
-        public abstract void SkipButtonEffect();
-
         public abstract void AssignManeuver(string maneuverCode);
 
-        public abstract void ActivateShipForMovement(int shipId);
         public abstract void LaunchMovement(Action callback);
 
         public abstract void ActivateSystemsOnShip(int shipId);
@@ -69,18 +63,6 @@ namespace GameModes
         public abstract void GenerateDamageDeck(PlayerNo playerNo, int seed);
 
         public abstract void CombatActivation(int shipId);
-
-        public abstract void StartSyncNotificationSubPhase();
-        public abstract void FinishNotificationSubPhase();
-
-        public abstract void StartSyncDecisionPreparation();
-        public abstract void FinishSyncDecisionPreparation();
-
-        public abstract void StartSyncSelectShipPreparation();
-        public abstract void FinishSyncSelectShipPreparation();
-
-        public abstract void StartSyncSelectObstaclePreparation();
-        public abstract void FinishSyncSelectObstaclePreparation();
 
         public abstract void StartDiceRerollExecution();
 

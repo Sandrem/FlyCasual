@@ -164,12 +164,12 @@ namespace Players
 
         public virtual void PressNext()
         {
-            UI.SendNextButtonCommand();
+            UI.GenerateNextButtonCommand();
         }
 
         public virtual void PressSkip()
         {
-            UI.SendSkipButtonCommand();
+            UI.GenerateSkipButtonCommand();
         }
 
         public virtual void SyncDiceResults()

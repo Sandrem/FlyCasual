@@ -30,26 +30,6 @@ namespace GameModes
             Network.FinishTask();
         }
 
-        public override void DeclareTarget(int thisShipId, int anotherShipId)
-        {
-            Network.DeclareTarget(thisShipId, anotherShipId);
-        }
-
-        public override void NextButtonEffect()
-        {
-            Network.NextButtonEffect();
-        }
-
-        public override void SkipButtonEffect()
-        {
-            Network.SkipButtonEffect();
-        }
-
-        public override void ActivateShipForMovement(int shipId)
-        {
-            Network.ActivateAndMove(shipId);
-        }
-
         public override void LaunchMovement(Action callback)
         {
             ShipMovementScript.ExtraMovementCallback = callback;
@@ -212,46 +192,6 @@ namespace GameModes
         public override void CombatActivation(int shipId)
         {
             Network.CombatActivation(shipId);
-        }
-
-        public override void StartSyncNotificationSubPhase()
-        {
-            Network.CmdSyncNotifications(); 
-        }
-
-        public override void FinishNotificationSubPhase()
-        {
-            Network.FinishTask();
-        }
-
-        public override void StartSyncDecisionPreparation()
-        {
-            Network.SyncDecisionPreparation();
-        }
-
-        public override void FinishSyncDecisionPreparation()
-        {
-            Network.FinishTask();
-        }
-
-        public override void StartSyncSelectShipPreparation()
-        {
-            Network.SyncSelectShipPreparation();
-        }
-
-        public override void FinishSyncSelectShipPreparation()
-        {
-            Network.FinishTask();
-        }
-
-        public override void StartSyncSelectObstaclePreparation()
-        {
-            Network.SyncSelectObstaclePreparation();
-        }
-
-        public override void FinishSyncSelectObstaclePreparation()
-        {
-            Network.FinishTask();
         }
 
         public override void StartDiceRerollExecution()

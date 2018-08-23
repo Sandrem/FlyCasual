@@ -7,6 +7,7 @@ using GameModes;
 using UnityEngine.EventSystems;
 using SquadBuilderNS;
 using BoardTools;
+using GameCommands;
 
 //Todo: Move to different scripts by menu names
 
@@ -186,17 +187,17 @@ public class UI : MonoBehaviour {
         //end subphase
     }
 
-    public void ClickNextPhase()
+    public static void ClickNextPhase()
     {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
-        GameMode.CurrentGameMode.NextButtonEffect();
+        GameMode.CurrentGameMode.ExecuteCommand(GenerateNextButtonCommand());
     }
 
-    public static void SendNextButtonCommand()
+    public static GameCommand GenerateNextButtonCommand()
     {
-        GameController.SendCommand(
+        return GameController.GenerateGameCommand(
             GameCommandTypes.PressNext,
             Phases.CurrentSubPhase.GetType()
         );
@@ -207,17 +208,17 @@ public class UI : MonoBehaviour {
         Phases.CurrentSubPhase.NextButton();
     }
 
-    public void ClickSkipPhase()
+    public static void ClickSkipPhase()
     {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
-        GameMode.CurrentGameMode.SkipButtonEffect();
+        GameMode.CurrentGameMode.ExecuteCommand(GenerateSkipButtonCommand());
     }
 
-    public static void SendSkipButtonCommand()
+    public static GameCommand GenerateSkipButtonCommand()
     {
-        GameController.SendCommand(
+        return GameController.GenerateGameCommand(
             GameCommandTypes.PressSkip,
             Phases.CurrentSubPhase.GetType()
         );
@@ -230,7 +231,8 @@ public class UI : MonoBehaviour {
 
     public static void ClickDeclareTarget()
     {
-        GameMode.CurrentGameMode.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+        GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+        if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
     }
 
     public static void CheckFiringRangeAndShow()

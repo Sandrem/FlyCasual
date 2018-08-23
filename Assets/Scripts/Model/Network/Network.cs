@@ -169,26 +169,7 @@ public static partial class Network
         CurrentPlayer.CmdAssignManeuver(shipId, maneuverCode);
     }
 
-    // NEXT BUTTON
-
-    public static void NextButtonEffect()
-    {
-        CurrentPlayer.CmdNextButtonEffect();
-    }
-
-    // SKIP BUTTON
-
-    public static void SkipButtonEffect()
-    {
-        CurrentPlayer.CmdSkipButtonEffect();
-    }
-
     // PERFORM MANEUVER
-
-    public static void ActivateAndMove(int shipId)
-    {
-        CurrentPlayer.CmdActivateForMovement(shipId);
-    }
 
     public static void LaunchMovement()
     {
@@ -236,13 +217,6 @@ public static partial class Network
     public static void CancelBoost()
     {
         if (IsServer) CurrentPlayer.CmdCancelBoost();
-    }
-
-    // DECLARE COMBAT TARGET
-
-    public static void DeclareTarget(int attackerId, int defenderId)
-    {
-        CurrentPlayer.CmdDeclareTarget(attackerId, defenderId);
     }
 
     // SELECT TARGET SHIP
@@ -627,26 +601,6 @@ public static partial class Network
     public static void CombatActivation(int shipId)
     {
         CurrentPlayer.CmdCombatActivation(shipId);
-    }
-
-    public static void CmdSyncNotifications()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncNotifications();
-    }
-
-    public static void SyncDecisionPreparation()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncDecisionPreparation();
-    }
-
-    public static void SyncSelectShipPreparation()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncSelectShipPreparation();
-    }
-
-    public static void SyncSelectObstaclePreparation()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncSelectObstaclePreparation();
     }
 
     public static void StartDiceRerollExecution()

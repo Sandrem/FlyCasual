@@ -64,7 +64,7 @@ namespace Players
 
                 ShipMovementScript.SendAssignManeuverCommand(shipHolder.Value.ShipId, "2.F.S");
             }
-            UI.SendNextButtonCommand();
+            UI.GenerateNextButtonCommand();
         }
 
         public override void PerformManeuver()
@@ -127,7 +127,8 @@ namespace Players
                 {
                     Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
 
-                    Combat.SendIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true);
+                    GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true);
+                    if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
                 }
                 else
                 {
@@ -447,7 +448,7 @@ namespace Players
 
         public override void OnTargetNotLegalForAttack()
         {
-            UI.SendSkipButtonCommand();
+            UI.GenerateSkipButtonCommand();
 
             /*Selection.ThisShip.CallAfterAttackWindow();
             Selection.ThisShip.IsAttackPerformed = true;

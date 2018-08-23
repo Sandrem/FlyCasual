@@ -7,6 +7,7 @@ using Ship;
 using System.Linq;
 using SubPhases;
 using System;
+using GameCommands;
 
 public class ShipMovementScript : MonoBehaviour {
 
@@ -152,16 +153,11 @@ public class ShipMovementScript : MonoBehaviour {
         return MovementFromStruct(movementStruct);
     }
 
-    public void PerformStoredManeuverButtonIsPressed()
-    {
-        GameMode.CurrentGameMode.ActivateShipForMovement(Selection.ThisShip.ShipId);
-    }
-
-    public static void SendActivateAndMoveCommand(int shipId)
+    public static GameCommand GenerateActivateAndMoveCommand(int shipId)
     {
         JSONObject parameters = new JSONObject();
         parameters.AddField("id", shipId.ToString());
-        GameController.SendCommand(
+        return GameController.GenerateGameCommand(
             GameCommandTypes.ActivateAndMove,
             Phases.CurrentSubPhase.GetType(),
             parameters.ToString()

@@ -29,26 +29,6 @@ namespace GameModes
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).ConfirmCrit();
         }
 
-        public override void DeclareTarget(int thisShipId, int anotherShipId)
-        {
-            Combat.SendIntentToAttackCommand(thisShipId, anotherShipId);
-        }
-
-        public override void NextButtonEffect()
-        {
-            UI.SendNextButtonCommand();
-        }
-
-        public override void SkipButtonEffect()
-        {
-            UI.SendSkipButtonCommand();
-        }
-
-        public override void ActivateShipForMovement(int shipId)
-        {
-            ShipMovementScript.SendActivateAndMoveCommand(shipId);
-        }
-
         public override void LaunchMovement(Action callback)
         {
             ShipMovementScript.LaunchMovement(callback);
@@ -247,46 +227,6 @@ namespace GameModes
         {
             Selection.ChangeActiveShip("ShipId:" + shipId);
             Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
-        }
-
-        public override void StartSyncNotificationSubPhase()
-        {
-            (Phases.CurrentSubPhase as NotificationSubPhase).FinishAfterDelay();
-        }
-
-        public override void FinishNotificationSubPhase()
-        {
-            (Phases.CurrentSubPhase as NotificationSubPhase).Next();
-        }
-
-        public override void StartSyncDecisionPreparation()
-        {
-            (Phases.CurrentSubPhase as DecisionSubPhase).PrepareDecision((Phases.CurrentSubPhase as DecisionSubPhase).StartIsFinished);
-        }
-
-        public override void FinishSyncDecisionPreparation()
-        {
-            (Phases.CurrentSubPhase as DecisionSubPhase).DecisionOwner.TakeDecision();
-        }
-
-        public override void StartSyncSelectShipPreparation()
-        {
-            FinishSyncSelectShipPreparation();
-        }
-
-        public override void FinishSyncSelectShipPreparation()
-        {
-            (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
-        }
-
-        public override void StartSyncSelectObstaclePreparation()
-        {
-            FinishSyncSelectObstaclePreparation();
-        }
-
-        public override void FinishSyncSelectObstaclePreparation()
-        {
-            (Phases.CurrentSubPhase as SelectObstacleSubPhase).HighlightObstacleToSelect();
         }
 
         public override void StartDiceRerollExecution()

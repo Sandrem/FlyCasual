@@ -85,7 +85,7 @@ namespace SubPhases
             decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
             buttonsHolder = decisionPanel.transform.Find("Center/DecisionsPanel").gameObject;
 
-            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
+            PrepareDecision(StartIsFinished);
         }
 
         public virtual void PrepareDecision(Action callBack)
@@ -103,7 +103,7 @@ namespace SubPhases
                 DecisionWasPreparedAndShown = true;
 
                 IsReadyForCommands = true;
-                GameMode.CurrentGameMode.FinishSyncDecisionPreparation();
+                DecisionOwner.TakeDecision();
             }
         }
 
@@ -328,7 +328,7 @@ namespace SubPhases
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
 
-            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
+            PrepareDecision(StartIsFinished);
         }
 
         public override void Next()

@@ -8,6 +8,7 @@ using ActionsList;
 using BoardTools;
 using SubPhases;
 using GameModes;
+using GameCommands;
 
 namespace Players
 {
@@ -39,7 +40,13 @@ namespace Players
                     Vector3 position = shipHolder.Value.GetPosition() - direction * new Vector3(0, 0, Board.BoardIntoWorld(Board.DISTANCE_1 + Board.RANGE_1));
 
                     GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(0.5f, delegate { SetupSubPhase.SendPlaceShipCommand(shipHolder.Value.ShipId, position, shipHolder.Value.GetAngles()); });
+                    Game.Wait(
+                        0.5f,
+                        delegate {
+                            GameCommand command = SetupSubPhase.GeneratePlaceShipCommand(shipHolder.Value.ShipId, position, shipHolder.Value.GetAngles());
+                            GameMode.CurrentGameMode.ExecuteCommand(command);
+                        }
+                    );
                     return;
                 }
             }

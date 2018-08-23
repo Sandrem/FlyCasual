@@ -2,6 +2,7 @@
 using SubPhases;
 using Players;
 using System;
+using GameCommands;
 
 namespace GameModes
 { 
@@ -11,6 +12,8 @@ namespace GameModes
 
         public static GameMode CurrentGameMode;
 
+        public abstract void ExecuteCommand(GameCommand command);
+
         public abstract void RevertSubPhase();
 
         public abstract void ConfirmCrit();
@@ -19,8 +22,6 @@ namespace GameModes
 
         public abstract void NextButtonEffect();
         public abstract void SkipButtonEffect();
-
-        public abstract void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles);
 
         public abstract void AssignManeuver(string maneuverCode);
 
@@ -58,8 +59,6 @@ namespace GameModes
         public abstract void SwitchToRegularDiceModifications();
         public abstract void SwitchToAfterRolledDiceModifications();
 
-        public abstract void TakeDecision(Decision decision, GameObject button);
-
         public abstract void FinishMovementExecution();
 
         public abstract void SetSwarmManagerManeuver(string maneuverCode);
@@ -85,7 +84,6 @@ namespace GameModes
 
         public abstract void StartDiceRerollExecution();
 
-        public abstract void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles);
         public abstract void SelectObstacle(string obstacleName);
     }
 }

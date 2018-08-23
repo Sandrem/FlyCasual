@@ -8,6 +8,7 @@ using Players;
 using SubPhases;
 using UnityEngine.SceneManagement;
 using System;
+using GameCommands;
 
 public partial class NetworkPlayerController : NetworkBehaviour {
 
@@ -31,6 +32,20 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     public bool IsServer
     {
         get { return isServer; }
+    }
+
+    // COMMANDS
+
+    [Command]
+    public void CmdSendCommand(string commandline)
+    {
+        RpcSendCommand(commandline);
+    }
+
+    [ClientRpc]
+    public void RpcSendCommand(string commandline)
+    {
+        GameController.SendCommand(GameController.GenerateGameCommand(commandline));
     }
 
     // TESTS
@@ -185,42 +200,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     {
         if (isServer) Sounds.PlaySoundGlobal("Notification");
         Global.BattleIsReady();
-    }
-
-    // DECISIONS
-
-    [Command]
-    public void CmdTakeDecision(string decisionName)
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdTakeDecision");
-        RpcTakeDecision(decisionName);
-    }
-
-    [ClientRpc]
-    private void RpcTakeDecision(string decisionName)
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcTakeDecision");
-        if (Phases.CurrentSubPhase as DecisionSubPhase == null)
-        {
-            Console.Write("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType(), LogTypes.Errors, true, "red");
-            Messages.ShowError("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType());
-        }
-
-        DecisionSubPhase.SendDecisionCommand(decisionName);
-    }
-
-    // SETUP
-
-    [Command]
-    public void CmdConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-    {
-        RpcConfirmShipSetup(shipId, position, angles);
-    }
-
-    [ClientRpc]
-    private void RpcConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-    {
-        SetupSubPhase.SendPlaceShipCommand(shipId, position, angles);
     }
 
     // ASSIGN MANEUVER
@@ -1200,18 +1179,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
             Global.ToggelLoadingScreen(true);
             Network.Disconnect(Application.Quit);
         }
-    }
-
-    [Command]
-    public void CmdPlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-    {
-        RpcPlaceObstacle(obstacleName, position, angles);
-    }
-
-    [ClientRpc]
-    private void RpcPlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-    {
-        ObstaclesPlacementSubPhase.SendPlaceObstacleCommand(obstacleName, position, angles);
     }
 
 }

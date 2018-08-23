@@ -9,6 +9,7 @@ using Players;
 using UnityEngine.UI;
 using System;
 using GameModes;
+using GameCommands;
 
 namespace SubPhases
 {
@@ -351,7 +352,12 @@ namespace SubPhases
         {
             if (IsEnteredPlacementZone && !IsPlacementBlocked)
             {
-                GameMode.CurrentGameMode.PlaceObstacle(ChosenObstacle.ObstacleGO.name, ChosenObstacle.ObstacleGO.transform.position, ChosenObstacle.ObstacleGO.transform.eulerAngles);
+                GameCommand command = GeneratePlaceObstacleCommand(
+                    ChosenObstacle.ObstacleGO.name,
+                    ChosenObstacle.ObstacleGO.transform.position,
+                    ChosenObstacle.ObstacleGO.transform.eulerAngles
+                );
+                GameMode.CurrentGameMode.ExecuteCommand(command);
             }
             else
             {
@@ -359,13 +365,13 @@ namespace SubPhases
             }
         }
 
-        public static void SendPlaceObstacleCommand(string obstacleName, Vector3 position, Vector3 angles)
+        private GameCommand GeneratePlaceObstacleCommand(string obstacleName, Vector3 position, Vector3 angles)
         {
             JSONObject parameters = new JSONObject();
             parameters.AddField("name", obstacleName);
             parameters.AddField("positionX", position.x); parameters.AddField("positionY", position.y); parameters.AddField("positionZ", position.z);
             parameters.AddField("rotationX", angles.x); parameters.AddField("rotationY", angles.y); parameters.AddField("rotationZ", angles.z);
-            GameController.SendCommand(
+            return GameController.GenerateGameCommand(
                 GameCommandTypes.ObstaclePlacement,
                 typeof(ObstaclesPlacementSubPhase),
                 parameters.ToString()

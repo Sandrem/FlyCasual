@@ -44,15 +44,6 @@ namespace GameCommands
             Parameters = new JSONObject(rawParameters);
         }
 
-        public GameCommand(string textjson)
-        {
-            JSONObject json = new JSONObject(textjson);
-            Type = (GameCommandTypes) Enum.Parse(typeof(GameCommandTypes), json["command"].str);
-            SubPhase = System.Type.GetType(json["subphase"].str);
-            RawParameters = json["parameters"].str.Replace("###", "\n");
-            Parameters = new JSONObject(RawParameters);
-        }
-
         public object GetParameter(string key)
         {
             if (!Parameters.HasField(key)) Debug.Log("No field: " + key);

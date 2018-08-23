@@ -5,12 +5,18 @@ using UnityEngine.SceneManagement;
 using SubPhases;
 using Players;
 using UnityEngine.UI;
+using GameCommands;
 
 namespace GameModes
 { 
     public class NetworkGame : GameMode
     {
         public override string Name { get { return "Network"; } }
+
+        public override void ExecuteCommand(GameCommand command)
+        {
+            Network.SendCommand(command);
+        }
 
         public override void RevertSubPhase()
         {
@@ -37,11 +43,6 @@ namespace GameModes
         public override void SkipButtonEffect()
         {
             Network.SkipButtonEffect();
-        }
-
-        public override void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-        {
-            Network.ConfirmShipSetup(shipId, position, angles);
         }
 
         public override void ActivateShipForMovement(int shipId)
@@ -191,11 +192,6 @@ namespace GameModes
             Network.SwitchToAfterRolledDiceModifications();
         }
 
-        public override void TakeDecision(Decision decision, GameObject button)
-        {
-            Network.TakeDecision(decision.Name);
-        }
-
         public override void FinishMovementExecution()
         {
             Network.FinishTask();
@@ -271,11 +267,6 @@ namespace GameModes
         public override void QuitToDesktop()
         {
             Network.QuitToDesktop();
-        }
-
-        public override void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-        {
-            Network.PlaceObstacle(obstacleName, position, angles);
         }
 
         public override void SelectObstacle(string obstacleName)

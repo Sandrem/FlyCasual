@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ActionsList;
+using GameCommands;
 using GameModes;
 using Ship;
 using UnityEngine;
@@ -38,7 +39,11 @@ namespace Players
             SubPhases.DecisionSubPhase subphase = (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase);
             subphase.ShowDecisionWindowUI();
 
-            if (subphase.IsForced) GameMode.CurrentGameMode.TakeDecision(subphase.GetDecisions().First(), null);
+            if (subphase.IsForced)
+            {
+                GameCommand command = SubPhases.DecisionSubPhase.GenerateDecisionCommand(subphase.GetDecisions().First().Name);
+                GameMode.CurrentGameMode.ExecuteCommand(command);
+            }
         }
 
         public override void ConfirmDiceCheck()

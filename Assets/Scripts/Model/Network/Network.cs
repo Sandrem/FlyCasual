@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameCommands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -88,6 +89,13 @@ public static partial class Network
         }
     }
 
+    // COMMANDS
+
+    public static void SendCommand(GameCommand command)
+    {
+        CurrentPlayer.CmdSendCommand(command.ToString());
+    }
+
     // SQUAD LISTS
 
     public static void ImportSquad(string squadList, bool isServer)
@@ -152,20 +160,6 @@ public static partial class Network
     public static void StartNetworkGame()
     {
         CurrentPlayer.CmdStartNetworkGame();
-    }
-
-    // DECISIONS
-
-    public static void TakeDecision(string decisionName)
-    {
-        CurrentPlayer.CmdTakeDecision(decisionName);
-    }
-
-    // SETUP
-
-    public static void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-    {
-        CurrentPlayer.CmdConfirmShipSetup(shipId, position, angles);
     }
 
     // ASSING MANEUVER
@@ -686,8 +680,4 @@ public static partial class Network
         }
     }
 
-    public static void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-    {
-        CurrentPlayer.CmdPlaceObstacle(obstacleName, position, angles);
-    }
 }

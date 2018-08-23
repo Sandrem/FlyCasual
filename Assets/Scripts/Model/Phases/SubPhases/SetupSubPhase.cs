@@ -5,6 +5,7 @@ using System.Linq;
 using Ship;
 using BoardTools;
 using GameModes;
+using GameCommands;
 
 namespace SubPhases
 {
@@ -147,13 +148,13 @@ namespace SubPhases
             return ship.PilotSkill == RequiredPilotSkill && !ship.IsSetupPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
-        public static void SendPlaceShipCommand(int shipId, Vector3 position, Vector3 angles)
+        public static GameCommand GeneratePlaceShipCommand(int shipId, Vector3 position, Vector3 angles)
         {
             JSONObject parameters = new JSONObject();
             parameters.AddField("id", shipId.ToString());
             parameters.AddField("positionX", position.x); parameters.AddField("positionY", position.y); parameters.AddField("positionZ", position.z);
             parameters.AddField("rotationX", angles.x); parameters.AddField("rotationY", angles.y); parameters.AddField("rotationZ", angles.z);
-            GameController.SendCommand(
+            return GameController.GenerateGameCommand(
                 GameCommandTypes.ShipPlacement,
                 typeof(SetupSubPhase),
                 parameters.ToString()
@@ -404,7 +405,8 @@ namespace SubPhases
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = false;
             inReposition = false;
 
-            GameMode.CurrentGameMode.ConfirmShipSetup(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
+            GameCommand command = GeneratePlaceShipCommand(Selection.ThisShip.ShipId, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
+            GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
     }

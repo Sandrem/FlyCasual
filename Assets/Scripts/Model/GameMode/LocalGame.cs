@@ -13,6 +13,11 @@ namespace GameModes
     {
         public override string Name { get { return "Local"; } }
 
+        public override void ExecuteCommand(GameCommand command)
+        {
+            GameController.SendCommand(command);
+        }
+
         public override void RevertSubPhase()
         {
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
@@ -37,11 +42,6 @@ namespace GameModes
         public override void SkipButtonEffect()
         {
             UI.SendSkipButtonCommand();
-        }
-
-        public override void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-        {
-            SetupSubPhase.SendPlaceShipCommand(shipId, position, angles);
         }
 
         public override void ActivateShipForMovement(int shipId)
@@ -197,11 +197,6 @@ namespace GameModes
             Combat.SwitchToAfterRolledDiceModificationsClient();
         }
 
-        public override void TakeDecision(Decision decision, GameObject button)
-        {
-            DecisionSubPhase.SendDecisionCommand(decision.Name);
-        }
-
         public override void FinishMovementExecution()
         {
             Triggers.FinishTrigger();
@@ -308,11 +303,6 @@ namespace GameModes
         public override void QuitToDesktop()
         {
             Application.Quit();
-        }
-
-        public override void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-        {
-            ObstaclesPlacementSubPhase.SendPlaceObstacleCommand(obstacleName, position, angles);
         }
 
         public override void SelectObstacle(string obstacleName)

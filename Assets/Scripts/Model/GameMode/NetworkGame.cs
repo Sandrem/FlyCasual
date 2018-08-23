@@ -129,11 +129,6 @@ namespace GameModes
             Network.CancelBoost();
         }
 
-        public override void FinishMovementExecution()
-        {
-            Network.FinishTask();
-        }
-
         // Swarm Manager
 
         public override void SetSwarmManagerManeuver(string maneuverCode)

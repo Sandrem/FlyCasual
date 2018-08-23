@@ -40,8 +40,6 @@ namespace GameModes
         public abstract void CancelBoost();
         public abstract void FinishBoost();
 
-        public abstract void FinishMovementExecution();
-
         public abstract void SetSwarmManagerManeuver(string maneuverCode);
 
         public abstract void ReturnToMainMenu();

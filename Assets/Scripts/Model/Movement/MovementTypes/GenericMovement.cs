@@ -442,7 +442,7 @@ namespace Movement
         {
             MovementTemplates.HideLastMovementRuler();
 
-            Selection.ActiveShip.CallExecuteMoving(GameMode.CurrentGameMode.FinishMovementExecution);
+            Selection.ActiveShip.CallExecuteMoving(Triggers.FinishTrigger);
         }
 
         protected virtual void ManeuverEndRotation(Action callBack)

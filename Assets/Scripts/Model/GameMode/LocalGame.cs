@@ -134,11 +134,6 @@ namespace GameModes
             (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost();
         }
 
-        public override void FinishMovementExecution()
-        {
-            Triggers.FinishTrigger();
-        }
-
         // Swarm Manager
 
         public override void SetSwarmManagerManeuver(string maneuverCode)

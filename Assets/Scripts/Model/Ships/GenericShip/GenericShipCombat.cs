@@ -102,6 +102,7 @@ namespace Ship
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
         public bool AttackIsAlwaysConsideredHit { get; set; }
+        public bool CanBonusAttack { get; set; }
 
         // EVENTS
 
@@ -896,6 +897,26 @@ namespace Ship
             if (OnCombatCompareResults != null) OnCombatCompareResults(this);
         }
 
+        public void StartBonusAttack(Action callback)
+        {
+            if(!CanBonusAttack)
+            {
+                // We should never reach this but just in case.
+                Messages.ShowError(PilotName + ": You have already performed a bonus attack!");
+                return;
+            }
+
+            CanBonusAttack = false;
+
+			Combat.StartAdditionalAttack(
+				this,
+				callback,
+				null,
+				PilotName,
+				"You may perform a primary weapon attack.",
+				ImageUrl
+			);
+        }
     }
 
 }

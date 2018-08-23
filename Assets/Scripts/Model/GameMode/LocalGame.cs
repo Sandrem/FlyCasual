@@ -23,12 +23,6 @@ namespace GameModes
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
         }
 
-        public override void ConfirmCrit()
-        {
-            InformCrit.HidePanel();
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).ConfirmCrit();
-        }
-
         public override void LaunchMovement(Action callback)
         {
             ShipMovementScript.LaunchMovement(callback);
@@ -72,13 +66,6 @@ namespace GameModes
                     command.Execute();
                 }
             }
-        }
-
-        public override void ShowInformCritPanel()
-        {
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
-
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).InformAboutCrit();
         }
 
         public override void StartBattle()

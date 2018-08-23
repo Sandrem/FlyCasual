@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using GameModes;
+using GameCommands;
 
 public static class InformCrit
 {
@@ -64,7 +65,8 @@ public static class InformCrit
 
     private static void ShowPanel()
     {
-        GameMode.CurrentGameMode.ShowInformCritPanel();
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
+        Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).InformAboutCrit();
     }
 
     public static void ShowPanelVisible()
@@ -77,11 +79,18 @@ public static class InformCrit
 
     public static void ButtonConfirm()
     {
-        GameMode.CurrentGameMode.ConfirmCrit();
+        DisableConfirmButton();
+
+        GameCommand command = GameController.GenerateGameCommand(
+            GameCommandTypes.ConfirmCrit,
+            Phases.CurrentSubPhase.GetType()
+        );
+        GameMode.CurrentGameMode.ExecuteCommand(command);
     }
 
     public static void ConfirmCrit()
     {
+        HidePanel();
         Phases.CurrentSubPhase.IsReadyForCommands = false;
         Triggers.FinishTrigger();
     }

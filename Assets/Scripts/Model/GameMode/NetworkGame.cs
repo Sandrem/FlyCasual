@@ -23,13 +23,6 @@ namespace GameModes
             Network.RevertSubPhase();
         }
 
-        public override void ConfirmCrit()
-        {
-            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.FinishTask");
-            InformCrit.DisableConfirmButton();
-            Network.FinishTask();
-        }
-
         public override void LaunchMovement(Action callback)
         {
             ShipMovementScript.ExtraMovementCallback = callback;
@@ -60,11 +53,6 @@ namespace GameModes
         private static void StorePlayerWithInitiative(int[] randomHolder)
         {
             Phases.PlayerWithInitiative = Tools.IntToPlayer(randomHolder[0]);
-        }
-
-        public override void ShowInformCritPanel()
-        {
-            Network.CallInformCritWindow();
         }
 
         public override void StartBattle()

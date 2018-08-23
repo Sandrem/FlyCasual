@@ -240,13 +240,6 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdConfirmDiceRollCheckResults();
     }
 
-    // CONFIRM INFORM CRIT
-
-    public static void CallInformCritWindow()
-    {
-        if (IsServer) CurrentPlayer.CmdCallInformCritWindow();
-    }
-
     // SYNC DICE ROLL
 
     public static void SyncDiceResults()

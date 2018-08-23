@@ -16,8 +16,6 @@ namespace GameModes
 
         public abstract void RevertSubPhase();
 
-        public abstract void ConfirmCrit();
-
         public abstract void AssignManeuver(string maneuverCode);
 
         public abstract void LaunchMovement(Action callback);
@@ -25,8 +23,6 @@ namespace GameModes
         public abstract void ActivateSystemsOnShip(int shipId);
 
         public abstract void GiveInitiativeToRandomPlayer();
-
-        public abstract void ShowInformCritPanel();
 
         public abstract void StartBattle();
 

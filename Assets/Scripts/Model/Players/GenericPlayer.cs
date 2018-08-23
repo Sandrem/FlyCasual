@@ -221,14 +221,6 @@ namespace Players
             InformCrit.ShowPanelVisible();
         }
 
-        public virtual void ConfirmCrit()
-        {
-            GameController.SendCommand(
-                GameCommandTypes.ConfirmCrit,
-                Phases.CurrentSubPhase.GetType()
-            );
-        }
-
         public virtual void DiceCheckConfirm()
         {
             GameController.SendCommand(

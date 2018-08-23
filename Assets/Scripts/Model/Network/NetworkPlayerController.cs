@@ -497,44 +497,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
     }
 
-    // CONFIRM INFORM CRIT WINDOW
-
-    [Command]
-    public void CmdCallInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdCallInformCritWindow");
-        new NetworkExecuteWithCallback("Wait all confirm faceup crit card results", CmdShowInformCritWindow, CmdHideInformCritWindow);
-    }
-
-    [Command]
-    private void CmdShowInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdShowInformCritWindow");
-        RpcShowInformCritWindow();
-    }
-
-    [ClientRpc]
-    private void RpcShowInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcShowInformCritWindow");
-        InformCrit.ShowPanelVisible();
-    }
-
-    [Command]
-    private void CmdHideInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdHideInformCritWindow");
-        RpcHideInformCritWindow();
-    }
-
-    [ClientRpc]
-    private void RpcHideInformCritWindow()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcHideInformCritWindow");
-        InformCrit.HidePanel();
-        Triggers.FinishTrigger();
-    }
-
     // DICE ROLL SYNC
 
     [Command]

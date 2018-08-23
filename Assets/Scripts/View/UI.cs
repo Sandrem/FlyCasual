@@ -187,12 +187,17 @@ public class UI : MonoBehaviour {
         //end subphase
     }
 
-    public static void ClickNextPhase()
+    public static void CallClickNextPhase()
     {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
         GameMode.CurrentGameMode.ExecuteCommand(GenerateNextButtonCommand());
+    }
+
+    public void ClickNextPhase()
+    {
+        CallClickNextPhase();
     }
 
     public static GameCommand GenerateNextButtonCommand()
@@ -208,7 +213,12 @@ public class UI : MonoBehaviour {
         Phases.CurrentSubPhase.NextButton();
     }
 
-    public static void ClickSkipPhase()
+    public void ClickSkipPhase()
+    {
+        CallClickSkipPhase();
+    }
+
+    public static void CallClickSkipPhase()
     {
         HideNextButton();
         Roster.AllShipsHighlightOff();

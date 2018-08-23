@@ -139,7 +139,7 @@ public static partial class Phases
 
     public static void Skip()
     {
-        UI.ClickSkipPhase();
+        UI.CallClickSkipPhase();
     }
 
 }

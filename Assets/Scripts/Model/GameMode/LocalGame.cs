@@ -152,31 +152,6 @@ namespace GameModes
             (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost();
         }
 
-        public override void UseDiceModification(string effectName)
-        {
-            Combat.SendUseDiceModificationCommand(effectName);
-        }
-
-        public override void ConfirmDiceResults()
-        {
-            Combat.SendUseDiceModificationCommand("OK");
-        }
-
-        public override void CompareResultsAndDealDamage()
-        {
-            Combat.CompareResultsAndDealDamageClient();
-        }
-
-        public override void SwitchToRegularDiceModifications()
-        {
-            Combat.SwitchToRegularDiceModificationsClient();
-        }
-
-        public override void SwitchToAfterRolledDiceModifications()
-        {
-            Combat.SwitchToAfterRolledDiceModificationsClient();
-        }
-
         public override void FinishMovementExecution()
         {
             Triggers.FinishTrigger();

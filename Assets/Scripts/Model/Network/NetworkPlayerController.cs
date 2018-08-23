@@ -465,56 +465,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         currentSubPhase.ConfirmSelectionOfObstacleClient(obstacleName);
     }
 
-    // CONFIRM DICE RESULTS MODIFICATIONS
-
-    [Command]
-    public void CmdConfirmDiceResults()
-    {
-        RpcConfirmDiceResults();
-    }
-
-    [ClientRpc]
-    private void RpcConfirmDiceResults()
-    {
-        Combat.ConfirmDiceResultsClient();
-    }
-
-    [Command]
-    public void CmdSwitchToRegularDiceModifications()
-    {
-        RpcSwitchToRegularDiceModifications();
-    }
-
-    [ClientRpc]
-    private void RpcSwitchToRegularDiceModifications()
-    {
-        Combat.SwitchToRegularDiceModificationsClient();
-    }
-
-    [Command]
-    public void CmdSwitchToAfterRolledDiceModifications()
-    {
-        RpcSwitchToAfterRolledDiceModifications();
-    }
-
-    [ClientRpc]
-    private void RpcSwitchToAfterRolledDiceModifications()
-    {
-        Combat.SwitchToAfterRolledDiceModificationsClient();
-    }
-
-    [Command]
-    public void CmdCompareResultsAndDealDamage()
-    {
-        RpcCompareResultsAndDealDamage();
-    }
-
-    [ClientRpc]
-    private void RpcCompareResultsAndDealDamage()
-    {
-        Combat.CompareResultsAndDealDamageClient();
-    }
-
     // CONFIRM DICE ROLL CHECK
 
     [Command]
@@ -688,20 +638,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcCalculateDiceRollIn()
     {
         DiceRoll.CurrentDiceRoll.UnblockButtons();
-    }
-
-    // DICE MODIFICATIONS
-
-    [Command]
-    public void CmdUseDiceModification(string diceModificationName)
-    {
-        RpcUseDiceModification(diceModificationName);
-    }
-
-    [ClientRpc]
-    private void RpcUseDiceModification(string diceModificationName)
-    {
-        Combat.SendUseDiceModificationCommand(diceModificationName);
     }
 
     // BARREL ROLL PLANNING

@@ -278,7 +278,7 @@ public static partial class Combat
         Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);
     }
 
-    public static void CompareResultsAndDealDamageClient()
+    public static void CompareResultsAndDealDamage()
     {
         Attacker.ClearAlreadyUsedDiceModifications();
         Defender.ClearAlreadyUsedDiceModifications();

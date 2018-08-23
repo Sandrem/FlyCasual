@@ -377,11 +377,11 @@ namespace Players
                     break;
                 case DiceModificationTimingType.AfterRolled:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = GameMode.CurrentGameMode.SwitchToRegularDiceModifications;
+                    FinalEffect = Combat.SwitchToRegularDiceModifications;
                     break;
                 case DiceModificationTimingType.Opposite:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
-                    FinalEffect = GameMode.CurrentGameMode.SwitchToAfterRolledDiceModifications;
+                    FinalEffect = Combat.SwitchToAfterRolledDiceModifications;
                     break;
                 case DiceModificationTimingType.CompareResults:
                     Selection.ActiveShip = Combat.Attacker;
@@ -415,7 +415,7 @@ namespace Players
                     isActionEffectTaken = true;
                     Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
 
-                    Combat.SendUseDiceModificationCommand(prioritizedActionEffect.Key.Name);
+                    Combat.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
 
                     /*GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
@@ -432,7 +432,7 @@ namespace Players
                     //GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     //Game.Wait(2, FinalEffect.Invoke);
 
-                    Combat.SendUseDiceModificationCommand("OK");
+                    Combat.GenerateDiceModificationCommand("OK");
                 }
                 else
                 {

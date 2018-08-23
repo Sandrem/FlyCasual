@@ -46,13 +46,6 @@ namespace GameModes
         public abstract void CancelBoost();
         public abstract void FinishBoost();
 
-        public abstract void UseDiceModification(string effectName);
-
-        public abstract void ConfirmDiceResults();
-        public abstract void CompareResultsAndDealDamage();
-        public abstract void SwitchToRegularDiceModifications();
-        public abstract void SwitchToAfterRolledDiceModifications();
-
         public abstract void FinishMovementExecution();
 
         public abstract void SetSwarmManagerManeuver(string maneuverCode);

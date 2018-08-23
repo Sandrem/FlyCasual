@@ -147,31 +147,6 @@ namespace GameModes
             Network.CancelBoost();
         }
 
-        public override void UseDiceModification(string effectName)
-        {
-            Network.UseDiceModification(effectName);
-        }
-
-        public override void ConfirmDiceResults()
-        {
-            Network.ConfirmDiceResults();
-        }
-
-        public override void CompareResultsAndDealDamage()
-        {
-            Network.CompareResultsAndDealDamage();
-        }
-
-        public override void SwitchToRegularDiceModifications()
-        {
-            Network.SwitchToRegularDiceModifications();
-        }
-
-        public override void SwitchToAfterRolledDiceModifications()
-        {
-            Network.SwitchToAfterRolledDiceModifications();
-        }
-
         public override void FinishMovementExecution()
         {
             Network.FinishTask();

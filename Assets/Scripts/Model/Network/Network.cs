@@ -233,28 +233,6 @@ public static partial class Network
         CurrentPlayer.CmdSelectObstacle(obstacleName);
     }
 
-    // CONFIRM DICE RESULTS MODIFICATION
-
-    public static void ConfirmDiceResults()
-    {
-        CurrentPlayer.CmdConfirmDiceResults();
-    }
-
-    public static void SwitchToRegularDiceModifications()
-    {
-        CurrentPlayer.CmdSwitchToRegularDiceModifications();
-    }
-
-    public static void SwitchToAfterRolledDiceModifications()
-    {
-        CurrentPlayer.CmdSwitchToAfterRolledDiceModifications();
-    }
-
-    public static void CompareResultsAndDealDamage()
-    {
-        CurrentPlayer.CmdCompareResultsAndDealDamage();
-    }
-
     // CONFIRM DICE ROLL CHECK
 
     public static void ConfirmDiceRollCheckResults()
@@ -315,13 +293,6 @@ public static partial class Network
         }
 
         Network.FinishTask();
-    }
-
-    // DICE MODIFICATIONS
-
-    public static void UseDiceModification(string diceModificationName)
-    {
-        CurrentPlayer.CmdUseDiceModification(diceModificationName);
     }
 
     // BARREL ROLL PLANNING

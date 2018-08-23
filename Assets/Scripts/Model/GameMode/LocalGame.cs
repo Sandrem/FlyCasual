@@ -5,6 +5,7 @@ using SubPhases;
 using Players;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using GameCommands;
 
 namespace GameModes
 {
@@ -20,32 +21,32 @@ namespace GameModes
         public override void ConfirmCrit()
         {
             InformCrit.HidePanel();
-            Triggers.FinishTrigger();
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).ConfirmCrit();
         }
 
         public override void DeclareTarget(int thisShipId, int anotherShipId)
         {
-            Combat.DeclareIntentToAttack(thisShipId, anotherShipId);
+            Combat.SendIntentToAttackCommand(thisShipId, anotherShipId);
         }
 
         public override void NextButtonEffect()
         {
-            UI.NextButtonEffect();
+            UI.SendNextButtonCommand();
         }
 
         public override void SkipButtonEffect()
         {
-            UI.SkipButtonEffect();
+            UI.SendSkipButtonCommand();
         }
 
         public override void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
         {
-            (Phases.CurrentSubPhase as SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
+            SetupSubPhase.SendPlaceShipCommand(shipId, position, angles);
         }
 
         public override void ActivateShipForMovement(int shipId)
         {
-            ShipMovementScript.ActivateAndMove(shipId);
+            ShipMovementScript.SendActivateAndMoveCommand(shipId);
         }
 
         public override void LaunchMovement(Action callback)
@@ -60,19 +61,44 @@ namespace GameModes
 
         public override void AssignManeuver(string maneuverCode)
         {
-            ShipMovementScript.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
+            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, maneuverCode);
         }
 
         public override void GiveInitiativeToRandomPlayer()
         {
-            int randomPlayer = UnityEngine.Random.Range(1, 3);
-            Phases.PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
-            Triggers.FinishTrigger();
+            if (ReplaysManager.Mode == ReplaysMode.Write)
+            {
+                int randomPlayer = UnityEngine.Random.Range(1, 3);
+
+                JSONObject parameters = new JSONObject();
+                parameters.AddField("player", Tools.IntToPlayer(randomPlayer).ToString());
+
+                GameController.SendCommand(
+                    GameCommandTypes.SyncPlayerWithInitiative,
+                    null,
+                    parameters.ToString()
+                );
+
+                Console.Write("Command is executed: " + GameCommandTypes.SyncPlayerWithInitiative, LogTypes.GameCommands, true, "aqua");
+                GameController.GetCommand().Execute();
+            }
+            else if (ReplaysManager.Mode == ReplaysMode.Read)
+            {
+                GameCommand command = GameController.GetCommand();
+
+                if (command.Type == GameCommandTypes.SyncPlayerWithInitiative)
+                {
+                    Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
+                    command.Execute();
+                }
+            }
         }
 
         public override void ShowInformCritPanel()
         {
-            InformCrit.ShowPanelVisible();
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).InformAboutCrit();
         }
 
         public override void StartBattle()
@@ -148,12 +174,12 @@ namespace GameModes
 
         public override void UseDiceModification(string effectName)
         {
-            Combat.UseDiceModification(effectName);
+            Combat.SendUseDiceModificationCommand(effectName);
         }
 
         public override void ConfirmDiceResults()
         {
-            Combat.ConfirmDiceResultsClient();
+            Combat.SendUseDiceModificationCommand("OK");
         }
 
         public override void CompareResultsAndDealDamage()
@@ -173,7 +199,7 @@ namespace GameModes
 
         public override void TakeDecision(Decision decision, GameObject button)
         {
-            decision.ExecuteDecision(button);
+            DecisionSubPhase.SendDecisionCommand(decision.Name);
         }
 
         public override void FinishMovementExecution()
@@ -190,7 +216,36 @@ namespace GameModes
 
         public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
         {
-            DamageDecks.GetDamageDeck(playerNo).ShuffleDeck(seed);
+            SyncDamageDeckSeed(playerNo, seed);
+        }
+
+        private void SyncDamageDeckSeed(PlayerNo playerNo, int seed)
+        {
+            if (ReplaysManager.Mode == ReplaysMode.Write)
+            {
+                JSONObject parameters = new JSONObject();
+                parameters.AddField("player", playerNo.ToString());
+                parameters.AddField("seed", seed.ToString());
+
+                GameController.SendCommand(
+                    GameCommandTypes.DamageDecksSync,
+                    null,
+                    parameters.ToString()
+                );
+
+                Console.Write("Command is executed: " + GameCommandTypes.DamageDecksSync, LogTypes.GameCommands, true, "aqua");
+                GameController.GetCommand().Execute();
+            }
+            else if (ReplaysManager.Mode == ReplaysMode.Read)
+            {
+                GameCommand command = GameController.GetCommand();
+
+                if (command.Type == GameCommandTypes.DamageDecksSync)
+                {
+                    Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
+                    command.Execute();
+                }
+            }
         }
 
         public override void CombatActivation(int shipId)
@@ -241,7 +296,7 @@ namespace GameModes
 
         public override void StartDiceRerollExecution()
         {
-            DiceRerollManager.CurrentDiceRerollManager.ConfirmReroll();
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
         }
 
         public override void ReturnToMainMenu()
@@ -257,7 +312,7 @@ namespace GameModes
 
         public override void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
         {
-            (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceObstacleClient(obstacleName, position, angles);
+            ObstaclesPlacementSubPhase.SendPlaceObstacleCommand(obstacleName, position, angles);
         }
 
         public override void SelectObstacle(string obstacleName)

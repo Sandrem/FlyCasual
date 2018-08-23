@@ -92,6 +92,7 @@ namespace Upgrade
         public int MaxCharges { get; set; }
         public int Charges { get; private set; }
         public bool UsesCharges;
+        public bool RegensCharges = false;
 
         // SQUAD BUILDER ONLY
 

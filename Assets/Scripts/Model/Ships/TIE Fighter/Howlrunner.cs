@@ -26,6 +26,9 @@ namespace Ship
             {
                 PilotSkill = 5;
                 Cost = 40;
+
+                PilotAbilities.RemoveAll(a => a is Abilities.HowlrunnerAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.HowlrunnerAbilitySE());
             }
         }
     }
@@ -33,6 +36,7 @@ namespace Ship
 
 namespace Abilities
 {
+    //When another friendly ship at Range 1 is attacking with its primary weapon, it may reroll 1 attack die.
     public class HowlrunnerAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -94,6 +98,7 @@ namespace Abilities
 
 namespace Abilities.SecondEdition
 {
+    //When a friendly ship at range 0-1 performs a primary attack, that ship may reroll one attack die.
     public class HowlrunnerAbilitySE : HowlrunnerAbility
     {
         protected override bool IsAvailable()

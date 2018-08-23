@@ -57,18 +57,22 @@ public static partial class Combat
             }
 
             ShowCloseButton(CloseButtonEffect);
+
             ShowDiceResultsPanel();
         }
         else
         {
-            if (type != DiceModificationTimingType.Normal)
+            if (!(Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer) is Players.HotacAiPlayer))
             {
-                CloseButtonEffect.Invoke();
-            }
-            else
-            {
-                ShowCloseButton(CloseButtonEffect);
-                ShowDiceResultsPanel();
+                if (type != DiceModificationTimingType.Normal)
+                {
+                    CloseButtonEffect.Invoke();
+                }
+                else
+                {
+                    ShowCloseButton(CloseButtonEffect);
+                    ShowDiceResultsPanel();
+                }
             }
         }
     }
@@ -85,6 +89,7 @@ public static partial class Combat
     private static void ShowDiceResultsPanel()
     {
         GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
     }
 
     public static void CompareResultsAndDealDamage()
@@ -112,6 +117,8 @@ public static partial class Combat
 
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
+
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
     }
 
@@ -125,6 +132,8 @@ public static partial class Combat
 
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
+
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.AfterRolled);
     }
 
@@ -152,8 +161,21 @@ public static partial class Combat
         newButton.SetActive(Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer));
     }
 
+    public static void SendUseDiceModificationCommand(string diceModificationName)
+    {
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("name", diceModificationName);
+        GameController.SendCommand(
+            GameCommandTypes.DiceModification,
+            Phases.CurrentSubPhase.GetType(),
+            parameters.ToString()
+        );
+    }
+
     public static void UseDiceModification(string diceModificationName)
     {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
         Tooltips.EndTooltip();
 
         GameObject DiceModificationButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").Find("Button" + diceModificationName).gameObject;
@@ -185,6 +207,7 @@ public static partial class Combat
     private static void ReGenerateListOfButtons(DiceModificationTimingType timingType)
     {
         ShowDiceModificationButtons(timingType, true);
+        Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).UseDiceModifications(timingType);
     }
 
     public static void ConfirmDiceResults()
@@ -194,6 +217,8 @@ public static partial class Combat
 
     public static void ConfirmDiceResultsClient()
     {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
         switch (AttackStep)
         {
             case CombatStep.Attack:

@@ -56,7 +56,7 @@ namespace SubPhases
                     CallBack();
                 }
             );
-            Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+            Combat.SendIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
         }
 
         public override void RevertSubPhase() { }

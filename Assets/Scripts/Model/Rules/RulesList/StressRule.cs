@@ -22,7 +22,7 @@ namespace RulesList
                 EventHandler = CheckStress
             });
 
-            if (ship.Owner.GetType() == typeof(HotacAiPlayer))
+            if (ship.Owner.UsesHotacAiRules)
             {
                 ship.OnGenerateActions += AddRemoveStressActionForHotacAI;
             }
@@ -33,7 +33,7 @@ namespace RulesList
             switch (Selection.ThisShip.GetLastManeuverColor())
             {
                 case MovementComplexity.Complex:
-                    if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
+                    if (Selection.ThisShip.Owner.UsesHotacAiRules == false)
                     {
                         Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
                     }
@@ -44,7 +44,7 @@ namespace RulesList
                     }
                     break;
                 case MovementComplexity.Easy:
-                    if (Selection.ThisShip.Owner.GetType() != typeof(HotacAiPlayer))
+                    if (Selection.ThisShip.Owner.UsesHotacAiRules == false)
                     {
                         Selection.ThisShip.Tokens.RemoveToken(
                             typeof(StressToken),

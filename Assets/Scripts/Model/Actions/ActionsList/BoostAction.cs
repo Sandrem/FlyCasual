@@ -6,6 +6,7 @@ using GameModes;
 using System.Linq;
 using RuleSets;
 using Obstacles;
+using ActionsList;
 
 namespace ActionsList
 {
@@ -20,23 +21,58 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))
+            if (Selection.ThisShip.Owner.UsesHotacAiRules)
             {
                 Phases.CurrentSubPhase.CallBack();
             }
             else
             {
                 Phases.CurrentSubPhase.Pause();
-                Phases.StartTemporarySubPhaseOld(
+                var phase = Phases.StartTemporarySubPhaseNew<SubPhases.BoostPlanningSubPhase>(
                     "Boost",
-                    typeof(SubPhases.BoostPlanningSubPhase),
                     Phases.CurrentSubPhase.CallBack
                 );
+                phase.HostAction = this;
+                phase.Start();
             }
         }
 
     }
 
+    public class BoostMove
+    {
+        public string Name { get; private set; }
+        public Actions.BoostTemplates Template;
+        public bool IsRed;
+
+        public BoostMove(Actions.BoostTemplates template, bool isRed = false)
+        {
+            Template = template;
+            IsRed = isRed;
+
+            switch (template)
+            {
+                case Actions.BoostTemplates.Straight1:
+                    Name = "Straight 1";
+                    break;
+                case Actions.BoostTemplates.RightBank1:
+                    Name = "Bank 1 Right";
+                    break;
+                case Actions.BoostTemplates.LeftBank1:
+                    Name = "Bank 1 Left";
+                    break;
+                case Actions.BoostTemplates.RightTurn1:
+                    Name = "Turn 1 Right";
+                    break;
+                case Actions.BoostTemplates.LeftTurn1:
+                    Name = "Turn 1 Left";
+                    break;
+                default:
+                    Name = "Straight 1";
+                    break;
+            }
+        }
+    }
 }
 
 namespace SubPhases
@@ -44,6 +80,7 @@ namespace SubPhases
 
     public class BoostPlanningSubPhase : GenericSubPhase
     {
+        public GenericAction HostAction;
         public GameObject ShipStand;
         private ObstaclesStayDetectorForced obstaclesStayDetectorBase;
         private ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
@@ -52,7 +89,7 @@ namespace SubPhases
 
         private int updatesCount = 0;
 
-        List<string> AvailableBoostDirections = new List<string>();
+        List<BoostMove> AvailableBoostMoves = new List<BoostMove>();
         public string SelectedBoostHelper;
 
         public bool IsTractorBeamBoost = false;
@@ -83,30 +120,7 @@ namespace SubPhases
 
         public void StartBoostPlanning()
         {
-            foreach (Actions.BoostTemplates boostHelper in TheShip.GetAvailableBoostTemplates())
-            {
-                switch (boostHelper)
-                {
-                    case Actions.BoostTemplates.Straight1:
-                        AvailableBoostDirections.Add("Straight 1");
-                        break;
-                    case Actions.BoostTemplates.RightBank1:
-                        AvailableBoostDirections.Add("Bank 1 Right");
-                        break;
-                    case Actions.BoostTemplates.LeftBank1:
-                        AvailableBoostDirections.Add("Bank 1 Left");
-                        break;
-                    case Actions.BoostTemplates.RightTurn1:
-                        AvailableBoostDirections.Add("Turn 1 Right");
-                        break;
-                    case Actions.BoostTemplates.LeftTurn1:
-                        AvailableBoostDirections.Add("Turn 1 Left");
-                        break;
-                    default:
-                        AvailableBoostDirections.Add("Straight 1");
-                        break;
-                }
-            }
+            AvailableBoostMoves = TheShip.GetAvailableBoostTemplates();
 
             InitializeRendering();
 
@@ -134,11 +148,12 @@ namespace SubPhases
                 Triggers.FinishTrigger
             );
 
-            foreach (var boostDirection in AvailableBoostDirections)
+            foreach (var move in AvailableBoostMoves)
             {
                 selectBoostTemplateDecisionSubPhase.AddDecision(
-                    boostDirection,
-                    delegate { SelectTemplate(boostDirection); }
+                    move.Name,
+                    delegate { SelectTemplate(move); },
+                    isRed: move.IsRed
                 );
             }
 
@@ -153,10 +168,22 @@ namespace SubPhases
 
         private class SelectBoostTemplateDecisionSubPhase : DecisionSubPhase { }
 
-        private void SelectTemplate(string templateName)
+        private void SelectTemplate(BoostMove move)
         {
-            SelectedBoostHelper = templateName;
+            if (move.IsRed && !HostAction.IsRed)
+            {
+                HostAction.IsRed = true;
+                TheShip.OnActionIsPerformed += ResetActionColor;
+            }
+                
+            SelectedBoostHelper = move.Name;
             DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void ResetActionColor(GenericAction action)
+        {
+            action.Host.OnActionIsPerformed -= ResetActionColor;
+            HostAction.IsRed = false;
         }
 
         private void SelectTemplateDecisionIsTaken()

@@ -1,4 +1,5 @@
-﻿using Arcs;
+﻿using ActionsList;
+using Arcs;
 using BoardTools;
 using System;
 using System.Collections;
@@ -809,20 +810,20 @@ namespace Ship
             return availableTemplates;
         }
 
-        public List<Actions.BoostTemplates> GetAvailableBoostTemplates()
+        public List<ActionsList.BoostMove> GetAvailableBoostTemplates()
         {
-            List<Actions.BoostTemplates> availableTemplates = new List<Actions.BoostTemplates>
+            var availableMoves = new List<BoostMove>
             {
-                Actions.BoostTemplates.LeftBank1,
-                Actions.BoostTemplates.Straight1,
-                Actions.BoostTemplates.RightBank1,
+                new BoostMove(Actions.BoostTemplates.LeftBank1),
+                new BoostMove(Actions.BoostTemplates.Straight1),
+                new BoostMove(Actions.BoostTemplates.RightBank1),
             };
 
             if (OnGetAvailableBoostTemplates != null)
             {
-                OnGetAvailableBoostTemplates(availableTemplates);
+                OnGetAvailableBoostTemplates(availableMoves);
             }
-            return availableTemplates;
+            return availableMoves;
         }
 
         public bool AreWeaponsDisabled()

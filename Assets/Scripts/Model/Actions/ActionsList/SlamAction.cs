@@ -26,7 +26,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))
+            if (Selection.ThisShip.Owner.UsesHotacAiRules)
             {
                 Phases.CurrentSubPhase.CallBack();
             }

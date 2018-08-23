@@ -206,7 +206,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
             Messages.ShowError("Syncronization error, subphase is " + Phases.CurrentSubPhase.GetType());
         }
 
-        (Phases.CurrentSubPhase as DecisionSubPhase).ExecuteDecision(decisionName);
+        DecisionSubPhase.SendDecisionCommand(decisionName);
     }
 
     // SETUP
@@ -220,7 +220,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
     {
-        (Phases.CurrentSubPhase as SetupSubPhase).ConfirmShipSetup(shipId, position, angles);
+        SetupSubPhase.SendPlaceShipCommand(shipId, position, angles);
     }
 
     // ASSIGN MANEUVER
@@ -234,7 +234,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcAssignManeuver(int shipId, string maneuverCode)
     {
-        ShipMovementScript.AssignManeuver(shipId, maneuverCode);
+        ShipMovementScript.SendAssignManeuverCommand(shipId, maneuverCode);
     }
 
     // NEXT BUTTON
@@ -248,7 +248,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcNextButtonEffect()
     {
-        UI.NextButtonEffect();
+        UI.SendNextButtonCommand();
     }
 
     // SKIP BUTTON
@@ -289,7 +289,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcActivateForMovement(int shipId)
     {
-        ShipMovementScript.ActivateAndMove(shipId);
+        ShipMovementScript.SendActivateAndMoveCommand(shipId);
     }
 
     /*[Command]
@@ -522,7 +522,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcDeclareTarget(int attackerId, int defenderId)
     {
-        Combat.DeclareIntentToAttack(attackerId, defenderId);
+        Combat.SendIntentToAttackCommand(attackerId, defenderId);
     }
 
     // SELECT TARGET SHIP
@@ -723,14 +723,14 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCalculateDiceRoll()
     {
-        if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Combat)
+        /*if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Combat)
         {
             (Phases.CurrentSubPhase as DiceRollCombatSubPhase).CalculateDice();
         }
         else if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Check)
         {
             (Phases.CurrentSubPhase as DiceRollCheckSubPhase).CalculateDice();
-        }
+        }*/
     }
 
     // DICE REROLL SYNC
@@ -806,7 +806,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcUseDiceModification(string diceModificationName)
     {
-        Combat.UseDiceModification(diceModificationName);
+        Combat.SendUseDiceModificationCommand(diceModificationName);
     }
 
     // BARREL ROLL PLANNING
@@ -1211,7 +1211,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcPlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
     {
-        (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceObstacleClient(obstacleName, position, angles);
+        ObstaclesPlacementSubPhase.SendPlaceObstacleCommand(obstacleName, position, angles);
     }
 
 }

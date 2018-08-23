@@ -18,7 +18,7 @@ public static class InformCrit
 
     public static void LoadAndShow(object sender, System.EventArgs e)
     {
-        if (Roster.Player1.GetType() == Roster.Player2.GetType() && Roster.Player1.GetType() == typeof(Players.HotacAiPlayer))
+        if (Roster.Player1.UsesHotacAiRules && Roster.Player2.UsesHotacAiRules)
         {
             Triggers.FinishTrigger();
         }
@@ -78,6 +78,12 @@ public static class InformCrit
     public static void ButtonConfirm()
     {
         GameMode.CurrentGameMode.ConfirmCrit();
+    }
+
+    public static void ConfirmCrit()
+    {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+        Triggers.FinishTrigger();
     }
 
     public static void HidePanel()

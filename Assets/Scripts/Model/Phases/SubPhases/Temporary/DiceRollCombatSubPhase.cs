@@ -10,6 +10,8 @@ namespace SubPhases
 
     public class DiceRollCombatSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.DiceModification, GameCommandTypes.SyncDiceRerollSelected, GameCommandTypes.SyncDiceResults }; } }
+
         protected DiceKind diceType;
         protected int diceCount;
 
@@ -48,7 +50,7 @@ namespace SubPhases
         {
             DiceRoll DiceRollCombat;
             DiceRollCombat = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
-            DiceRollCombat.Roll(SyncDiceResults);
+            DiceRollCombat.Roll(delegate { ImmediatelyAfterRolling(); });
         }
 
         private void ShowAttackAnimationAndSound()
@@ -71,27 +73,10 @@ namespace SubPhases
             }
         }
 
-        private void SyncDiceResults(DiceRoll diceroll)
-        {
-            if (!Network.IsNetworkGame)
-            {
-                ImmediatelyAfterRolling(diceroll);
-            }
-            else
-            {
-                Network.SyncDiceResults();
-            }
-        }
-
-        public void CalculateDice()
-        {
-            ImmediatelyAfterRolling(DiceRoll.CurrentDiceRoll);
-        }
-
-        private void ImmediatelyAfterRolling(DiceRoll diceroll)
+        private void ImmediatelyAfterRolling()
         {
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-            Selection.ActiveShip.CallOnImmediatelyAfterRolling(diceroll, delegate { FinallyCheckResults(diceroll); });
+            Selection.ActiveShip.CallOnImmediatelyAfterRolling(DiceRoll.CurrentDiceRoll, delegate { FinallyCheckResults(DiceRoll.CurrentDiceRoll); });
         }
 
         private void FinallyCheckResults(DiceRoll diceroll)
@@ -108,6 +93,8 @@ namespace SubPhases
         {
             CurentDiceRoll = diceRoll;
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
+
+            IsReadyForCommands = true;
             Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Opposite);
         }
 

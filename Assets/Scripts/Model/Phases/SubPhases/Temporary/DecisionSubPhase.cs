@@ -367,7 +367,8 @@ namespace SubPhases
 
         public override void DoDefault()
         {
-            DecisionSubPhase.GenerateDecisionCommand(DefaultDecisionName);
+            GameCommand command = DecisionSubPhase.GenerateDecisionCommand(DefaultDecisionName);
+            GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
         public static void ConfirmDecision()

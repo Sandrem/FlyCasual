@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using ActionsList;
+using GameModes;
 
 public enum Faction
 {
@@ -164,12 +165,12 @@ namespace Players
 
         public virtual void PressNext()
         {
-            UI.GenerateNextButtonCommand();
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
         }
 
         public virtual void PressSkip()
         {
-            UI.GenerateSkipButtonCommand();
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
         }
 
         public virtual void SyncDiceResults()

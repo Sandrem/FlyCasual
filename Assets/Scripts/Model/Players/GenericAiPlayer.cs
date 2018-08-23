@@ -64,7 +64,7 @@ namespace Players
 
                 ShipMovementScript.SendAssignManeuverCommand(shipHolder.Value.ShipId, "2.F.S");
             }
-            UI.GenerateNextButtonCommand();
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
         }
 
         public override void PerformManeuver()
@@ -415,7 +415,8 @@ namespace Players
                     isActionEffectTaken = true;
                     Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
 
-                    Combat.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
+                    GameCommand command = Combat.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
+                    GameMode.CurrentGameMode.ExecuteCommand(command);
 
                     /*GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     Game.Wait(1, delegate {
@@ -432,7 +433,8 @@ namespace Players
                     //GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
                     //Game.Wait(2, FinalEffect.Invoke);
 
-                    Combat.GenerateDiceModificationCommand("OK");
+                    GameCommand command = Combat.GenerateDiceModificationCommand("OK");
+                    GameMode.CurrentGameMode.ExecuteCommand(command);
                 }
                 else
                 {
@@ -448,7 +450,7 @@ namespace Players
 
         public override void OnTargetNotLegalForAttack()
         {
-            UI.GenerateSkipButtonCommand();
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
 
             /*Selection.ThisShip.CallAfterAttackWindow();
             Selection.ThisShip.IsAttackPerformed = true;

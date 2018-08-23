@@ -23,12 +23,6 @@ namespace GameModes
             Network.RevertSubPhase();
         }
 
-        public override void LaunchMovement(Action callback)
-        {
-            ShipMovementScript.ExtraMovementCallback = callback;
-            Network.LaunchMovement();
-        }
-
         public override void ActivateSystemsOnShip(int shipId)
         {
             Network.ActivateSystemsOnShip(shipId);

@@ -144,7 +144,7 @@ namespace Abilities
             if (doAilerons)
             {
                 HostShip.AssignedManeuver.IsRevealDial = false;
-                GameMode.CurrentGameMode.LaunchMovement(FinishAdaptiveAileronsAbility);
+                ShipMovementScript.LaunchMovement(FinishAdaptiveAileronsAbility);
             }
             else
             {

@@ -216,52 +216,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         ShipMovementScript.SendAssignManeuverCommand(shipId, maneuverCode);
     }
 
-    // Extra Movement
-
-    [Command]
-    public void CmdLauchExtraMovement()
-    {
-        new NetworkExecuteWithCallback(
-            "Wait maneuver execution",
-            CmdExtraMovementStart,
-            CmdExtraMovementFinish
-        );
-    }
-
-    [Command]
-    public void CmdExtraMovementStart()
-    {
-        RpcExtraMovementStart();
-    }
-
-    [ClientRpc]
-    private void RpcExtraMovementStart()
-    {
-        if (ShipMovementScript.ExtraMovementCallback == null)
-        {
-            Console.Write("Waiting to sync extra movement callback...", LogTypes.Everything, true, "orange");
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, RpcExtraMovementStart);
-        }
-        else
-        {
-            ShipMovementScript.LaunchMovement(null);
-        }
-    }
-
-    [Command]
-    public void CmdExtraMovementFinish()
-    {
-        RpcExtraMovementFinish();
-    }
-
-    [ClientRpc]
-    private void RpcExtraMovementFinish()
-    {
-        Triggers.FinishTrigger();
-    }
-
     // Systems
 
     [Command]

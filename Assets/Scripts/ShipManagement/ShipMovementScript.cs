@@ -183,7 +183,7 @@ public class ShipMovementScript : MonoBehaviour {
     private static void RevealManeuver()
     {
         Selection.ThisShip.CallManeuverIsRevealed(
-            delegate { GameMode.CurrentGameMode.LaunchMovement(FinishMovementAndStartActionDecision); }
+            delegate { ShipMovementScript.LaunchMovement(FinishMovementAndStartActionDecision); }
         );
     }
 

@@ -23,11 +23,6 @@ namespace GameModes
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
         }
 
-        public override void LaunchMovement(Action callback)
-        {
-            ShipMovementScript.LaunchMovement(callback);
-        }
-
         public override void ActivateSystemsOnShip(int shipId)
         {
             (Phases.CurrentSubPhase as SystemsSubPhase).ActivateSystemsOnShipClient(Roster.GetShipById("ShipId:" + shipId));

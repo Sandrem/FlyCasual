@@ -169,13 +169,6 @@ public static partial class Network
         CurrentPlayer.CmdAssignManeuver(shipId, maneuverCode);
     }
 
-    // PERFORM MANEUVER
-
-    public static void LaunchMovement()
-    {
-        if (IsServer) CurrentPlayer.CmdLauchExtraMovement();
-    }
-
     // SYSTEMS
 
     public static void ActivateSystemsOnShip(int shipId)

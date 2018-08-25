@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using Upgrade;
 using SubPhases;
 using Ship;
 using System.Linq;
-using System;
 using Abilities;
 using Tokens;
 using ActionsList;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class SquadLeader : GenericUpgrade
+    public class SquadLeader : GenericUpgrade, ISecondEditionUpgrade
     {
 
         public SquadLeader() : base()
@@ -25,7 +23,13 @@ namespace UpgradesList
 
             UpgradeAbilities.Add(new SquadLeaderAbility());
         }
-        
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 4;
+            UpgradeAbilities.RemoveAll(a => a is SquadLeaderAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.SquadLeaderAbility());            
+        }
     }
 }
 
@@ -171,4 +175,49 @@ namespace SubPhases
 
     }
 
+}
+
+namespace Abilities.SecondEdition
+{
+    //While you coordinate, the ship you choose can perform an action only if that action is also on your action bar.
+    public class SquadLeaderAbility : GenericAbility
+    {
+        public override void ActivateAbility(){}
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.AddGrantedAction(new SquadLeaderCoordinateAction() { IsRed = true }, HostUpgrade);
+        }
+
+        public override void DeactivateAbility(){}
+
+        public override void DeactivateAbilityForSquadBuilder()
+        {
+            HostShip.ActionBar.RemoveGrantedAction(typeof(SquadLeaderCoordinateAction), HostUpgrade);
+        }
+
+        public class SquadLeaderCoordinateAction : CoordinateAction
+        {
+            public override void ActionTake()
+            {
+                var phase = Phases.StartTemporarySubPhaseNew<SquadLeaderTargetSubPhase>(
+                    "Select target for Coordinate",
+                    Phases.CurrentSubPhase.CallBack
+                );
+                phase.HostShip = Host;
+                phase.Start();
+            }
+        }
+
+        public class SquadLeaderTargetSubPhase : CoordinateTargetSubPhase
+        {
+            public GenericShip HostShip;
+
+            protected override List<GenericAction> GetPossibleActions()
+            {
+                var targetActions = Selection.ThisShip.GetAvailableActions();
+                return targetActions.Where(a => HostShip.ActionBar.HasAction(a.GetType())).ToList();
+            }
+        }
+    }
 }

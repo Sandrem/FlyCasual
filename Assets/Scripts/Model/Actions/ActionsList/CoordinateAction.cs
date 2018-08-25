@@ -20,7 +20,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.StartTemporarySubPhaseOld(
-                "Select target for Squad Leader",
+                "Select target for Coordinate",
                 typeof(SubPhases.CoordinateTargetSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
@@ -82,6 +82,7 @@ namespace SubPhases
         {
             var coordinatingShip = Selection.ThisShip;
             Selection.ThisShip = TargetShip;
+            GenericAction currentAction = Actions.CurrentAction;
 
             Triggers.RegisterTrigger(
                 new Trigger()
@@ -97,6 +98,7 @@ namespace SubPhases
 
             Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, delegate {
                 Selection.ThisShip = coordinatingShip;
+                Actions.CurrentAction = currentAction;
                 Phases.FinishSubPhase(typeof(CoordinateTargetSubPhase));
                 CallBack();
             });
@@ -104,11 +106,14 @@ namespace SubPhases
 
         public override void RevertSubPhase() { }
 
-        private void PerformFreeAction(object sender, System.EventArgs e)
+        protected virtual List<GenericAction> GetPossibleActions()
         {
-            List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
+            return Selection.ThisShip.GetAvailableActions();
+        }
 
-            TargetShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+        protected virtual void PerformFreeAction(object sender, System.EventArgs e)
+        {
+            TargetShip.AskPerformFreeAction(GetPossibleActions(), Triggers.FinishTrigger);
         }
 
         public override void SkipButton()

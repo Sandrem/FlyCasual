@@ -19,6 +19,8 @@ namespace SubPhases
 
     public class SelectShipSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip }; } }
+
         protected List<TargetTypes> targetsAllowed = new List<TargetTypes>();
         protected int minRange = 1;
         protected int maxRange = 3;
@@ -71,7 +73,11 @@ namespace SubPhases
         public override void Initialize()
         {
             // If not skipped
-            if (Phases.CurrentSubPhase == this) Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
+            if (Phases.CurrentSubPhase == this)
+            {
+                IsReadyForCommands = true;
+                Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
+            }
         }
 
         public void HighlightShipsToSelect()
@@ -142,7 +148,7 @@ namespace SubPhases
                     {
                         if (mouseKeyIsPressed == 1)
                         {
-                            SelectShip(ship);
+                            SendSelectShipCommand(ship);
                         }
                         else if (mouseKeyIsPressed == 2)
                         {
@@ -176,7 +182,7 @@ namespace SubPhases
                 {
                     if (mouseKeyIsPressed == 1)
                     {
-                        SelectShip(anotherShip);
+                        SendSelectShipCommand(anotherShip);
                     }
                     else if (mouseKeyIsPressed == 2)
                     {
@@ -201,16 +207,14 @@ namespace SubPhases
 
         private void AiSelectShipAsTarget(GenericShip ship)
         {
-            SelectShip(ship);
+            SendSelectShipCommand(ship);
         }
 
         private void TryToSelectThisShip()
         {
             if (FilterTargets(Selection.ThisShip))
             {
-                TargetShip = Selection.ThisShip;
-                UI.HideNextButton();
-                TargetShipIsSelected();
+                SendSelectShipCommand(Selection.ThisShip);
             }
             else
             {
@@ -219,12 +223,36 @@ namespace SubPhases
             }
         }
 
-        private void SelectShip(GenericShip ship)
+        public static void SendSelectShipCommand(GenericShip ship)
         {
-            TargetShip = ship;
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("id", ship.ShipId.ToString());
+            GameController.SendCommand(
+                GameCommandTypes.SelectShip,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
+
+        public static void SelectShip(int shipId)
+        {
+            GenericShip ship = Roster.GetShipById("ShipId:" + shipId);
+
+            (Phases.CurrentSubPhase as SelectShipSubPhase).IsReadyForCommands = false;
+
+            (Phases.CurrentSubPhase as SelectShipSubPhase).TargetShip = ship;
+
             UI.HideNextButton();
-            MovementTemplates.ShowRange(Selection.ThisShip, ship);
-            TargetShipIsSelected();
+            if (ship != Selection.ThisShip) MovementTemplates.ShowRange(Selection.ThisShip, ship);
+
+            if (!Network.IsNetworkGame)
+            {
+                (Phases.CurrentSubPhase as SelectShipSubPhase).InvokeFinish();
+            }
+            else
+            {
+                Network.SelectTargetShip(ship.ShipId);
+            }
         }
 
         private void CancelShipSelection()
@@ -244,18 +272,6 @@ namespace SubPhases
             HideSubphaseDescription();
             Phases.CurrentSubPhase.Resume();
             UpdateHelpInfo();
-        }
-
-        private void TargetShipIsSelected()
-        {
-            if (!Network.IsNetworkGame)
-            {
-                InvokeFinish();
-            }
-            else
-            {
-                Network.SelectTargetShip(TargetShip.ShipId);
-            }
         }
 
         public void InvokeFinish()

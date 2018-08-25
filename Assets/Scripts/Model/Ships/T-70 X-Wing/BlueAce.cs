@@ -36,10 +36,10 @@ namespace Abilities
             HostShip.OnGetAvailableBoostTemplates -= ChangeBoostTemplate;
         }
 
-        private void ChangeBoostTemplate(List<Actions.BoostTemplates> availableTemplates)
+        private void ChangeBoostTemplate(List<ActionsList.BoostMove> availableMoves)
         {
-            availableTemplates.Add(Actions.BoostTemplates.LeftTurn1);
-            availableTemplates.Add(Actions.BoostTemplates.RightTurn1);
+            availableMoves.Add(new ActionsList.BoostMove(Actions.BoostTemplates.LeftTurn1));
+            availableMoves.Add(new ActionsList.BoostMove(Actions.BoostTemplates.RightTurn1));
         }
     }
 }

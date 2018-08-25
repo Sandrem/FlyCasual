@@ -9,6 +9,8 @@ namespace SubPhases
 
     public class DiceRollCheckSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ConfirmDiceCheck, GameCommandTypes.SyncDiceRerollSelected, GameCommandTypes.SyncDiceResults }; } }
+
         public DiceKind DiceKind;
         public int DiceCount;
 
@@ -55,6 +57,8 @@ namespace SubPhases
 
         public void PrepareConfirmation()
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
             Roster.GetPlayer(Selection.ActiveShip.Owner.PlayerNo).ConfirmDiceCheck();
         }
 
@@ -129,18 +133,23 @@ namespace SubPhases
         private void PressConfirmButton()
         {
             HideConfirmDiceButton();
-            if (!Network.IsNetworkGame)
+
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).DiceCheckConfirm();
+
+            /*if (!Network.IsNetworkGame)
             {
                 Confirm();
             }
             else
             {
                 Network.FinishTask();
-            }
+            }*/
         }
 
         public void Confirm()
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+
             AfterRoll.Invoke();
         }
 

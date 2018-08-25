@@ -20,7 +20,7 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
-            GameMode.CurrentGameMode.StartSyncNotificationSubPhase();
+            FinishAfterDelay();
         }
 
         public void FinishAfterDelay()
@@ -31,7 +31,7 @@ namespace SubPhases
             notificationPanel.GetComponent<Animation>().Play();
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(1.5f, GameMode.CurrentGameMode.FinishNotificationSubPhase);
+            Game.Wait(1.5f, Next);
         }
 
         public override void Next()

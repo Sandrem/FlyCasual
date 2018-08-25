@@ -209,7 +209,21 @@ public partial class DiceRerollManager
 
     public void ConfirmRerollButtonIsPressed()
     {
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
+
         GameMode.CurrentGameMode.StartDiceRerollExecution();
+    }
+
+    public static void SyncDiceRerollSelected(List<bool> selectedDice)
+    {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
+        for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
+        {
+            DiceRoll.CurrentDiceRoll.DiceList[i].ToggleSelected(selectedDice[i]);
+        }
+
+        CurrentDiceRerollManager.ConfirmReroll();
     }
 
     public void ConfirmReroll()

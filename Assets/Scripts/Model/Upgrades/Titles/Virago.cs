@@ -107,7 +107,6 @@ namespace Abilities.SecondEdition
             Messages.ShowInfo("Virago: You may spend 1 charge to perform a red boost action. There are " + HostUpgrade.Charges + " charges remaining.");
             HostShip.BeforeFreeActionIsPerformed += RegisterSpendChargeTrigger;
             Selection.ChangeActiveShip(HostShip);
-            BoostAction action = new BoostAction();
             HostShip.AskPerformFreeAction(new BoostAction() { IsRed = true, CanBePerformedWhileStressed = false }, CleanUp);
         }
 

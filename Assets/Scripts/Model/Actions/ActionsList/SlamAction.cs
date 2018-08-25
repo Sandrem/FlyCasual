@@ -26,7 +26,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HotacAiPlayer))
+            if (Selection.ThisShip.Owner.UsesHotacAiRules)
             {
                 Phases.CurrentSubPhase.CallBack();
             }
@@ -56,7 +56,7 @@ namespace ActionsList
         private void ExecuteSelectedManeuver()
         {
             Selection.ThisShip.AssignedManeuver.IsRevealDial = false;
-            GameMode.CurrentGameMode.LaunchMovement(AssignWeaponsDisabledToken);
+            ShipMovementScript.LaunchMovement(AssignWeaponsDisabledToken);
         }
 
         private void AssignWeaponsDisabledToken()

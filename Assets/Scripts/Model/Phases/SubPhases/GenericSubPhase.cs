@@ -23,7 +23,9 @@ namespace SubPhases
 
         public Action CallBack;
 
-        public bool IsTemporary = false;
+        public bool IsTemporary;
+
+        public bool IsReadyForCommands { get; set; }
 
         private bool canBePaused;
         public bool CanBePaused
@@ -68,6 +70,8 @@ namespace SubPhases
         public virtual void Next() { }
 
         public virtual void FinishPhase() { }
+
+        public virtual List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>(); } }
 
         public virtual bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
@@ -126,7 +130,7 @@ namespace SubPhases
 
         public virtual void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed) { }
 
-        protected void HideSubphaseDescription()
+        protected static void HideSubphaseDescription()
         {
             GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
             subphaseDescriptionGO.SetActive(false);

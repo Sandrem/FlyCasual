@@ -6,6 +6,7 @@ using Players;
 using Ship;
 using SquadBuilderNS;
 using System;
+using GameCommands;
 
 public static partial class Roster
 {
@@ -23,13 +24,64 @@ public static partial class Roster
     public static Dictionary<string, GenericShip> ShipsPlayer1 { get { return Player1.Ships; } }
     public static Dictionary<string, GenericShip> ShipsPlayer2 {get { return Player2.Ships; } }
 
+    // SQUADRONS
+
+    private static void PrepareSquadrons()
+    {
+        if (ReplaysManager.Mode == ReplaysMode.Write)
+        {
+            foreach (var squad in SquadBuilder.SquadLists)
+            {
+                JSONObject parameters = new JSONObject();
+                parameters.AddField("player", squad.PlayerNo.ToString());
+                parameters.AddField("type", squad.PlayerType.ToString());
+
+                squad.SavedConfiguration["description"].str = squad.SavedConfiguration["description"].str.Replace("\n", "");
+                parameters.AddField("list", squad.SavedConfiguration);
+
+                GameController.SendCommand(
+                    GameCommandTypes.SquadsSync,
+                    null,
+                    parameters.ToString()
+                );
+
+                Console.Write("Command is executed: " + GameCommandTypes.SquadsSync, LogTypes.GameCommands, true, "aqua");
+                GameController.GetCommand().Execute();
+            };
+        }
+        else if (ReplaysManager.Mode == ReplaysMode.Read)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                GameCommand command = GameController.GetCommand();
+                if (command.Type == GameCommandTypes.SquadsSync)
+                {
+                    Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
+                    command.Execute();
+                }
+            }
+        }
+
+    }
+
     //PLAYERS CREATION
 
     private static void CreatePlayers()
     {
         foreach (var squadList in SquadBuilder.SquadLists)
         {
-            GenericPlayer player = CreatePlayer(squadList.PlayerType, squadList.PlayerNo);
+            Type playerType = squadList.PlayerType;
+
+            bool isHotacAi = (playerType == typeof(HotacAiPlayer));
+
+            if (ReplaysManager.Mode == ReplaysMode.Read)
+            {
+                playerType = typeof(ReplayPlayer);
+            }
+
+            GenericPlayer player = CreatePlayer(playerType, squadList.PlayerNo);
+            player.UsesHotacAiRules = isHotacAi;
+
             Players.Add(player);
         }
     }
@@ -47,7 +99,7 @@ public static partial class Roster
     {
         foreach (var squadList in SquadBuilder.SquadLists)
         {
-            SquadBuilder.SetPlayerSquadFromImportedJson(squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
+            SquadBuilder.SetPlayerSquadFromImportedJson(squadList.Name, squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
 
             if (Roster.GetPlayer(squadList.PlayerNo).GetType() != typeof(HotacAiPlayer))
             {

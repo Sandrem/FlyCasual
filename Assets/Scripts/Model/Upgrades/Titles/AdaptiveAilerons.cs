@@ -55,7 +55,7 @@ namespace Abilities
         private void RegisterAdaptiveAileronsAbility(GenericShip ship)
         {
             // AI doesn't know how to boost
-            if (HostShip.Owner.GetType() == typeof(Players.HotacAiPlayer)) return;
+            if (HostShip.Owner.UsesHotacAiRules) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnManeuverIsReadyToBeRevealed, CheckCanUseAbility);
         }
@@ -144,7 +144,7 @@ namespace Abilities
             if (doAilerons)
             {
                 HostShip.AssignedManeuver.IsRevealDial = false;
-                GameMode.CurrentGameMode.LaunchMovement(FinishAdaptiveAileronsAbility);
+                ShipMovementScript.LaunchMovement(FinishAdaptiveAileronsAbility);
             }
             else
             {
@@ -155,7 +155,7 @@ namespace Abilities
 
         private void FinishAdaptiveAileronsAbility()
         {
-            ShipMovementScript.AssignManeuver(Selection.ThisShip.ShipId, SavedManeuver.ToString());
+            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, SavedManeuver.ToString());
             //GameMode.CurrentGameMode.AssignManeuver(SavedManeuver.ToString());
             // It calls Triggers.FinishTrigger
         }

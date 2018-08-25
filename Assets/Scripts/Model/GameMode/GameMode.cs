@@ -2,6 +2,7 @@
 using SubPhases;
 using Players;
 using System;
+using GameCommands;
 
 namespace GameModes
 { 
@@ -11,27 +12,15 @@ namespace GameModes
 
         public static GameMode CurrentGameMode;
 
+        public abstract void ExecuteCommand(GameCommand command);
+
         public abstract void RevertSubPhase();
 
-        public abstract void ConfirmCrit();
-
-        public abstract void DeclareTarget(int thisShip, int AnotherShip);
-
-        public abstract void NextButtonEffect();
-        public abstract void SkipButtonEffect();
-
-        public abstract void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles);
-
         public abstract void AssignManeuver(string maneuverCode);
-
-        public abstract void ActivateShipForMovement(int shipId);
-        public abstract void LaunchMovement(Action callback);
 
         public abstract void ActivateSystemsOnShip(int shipId);
 
         public abstract void GiveInitiativeToRandomPlayer();
-
-        public abstract void ShowInformCritPanel();
 
         public abstract void StartBattle();
 
@@ -51,17 +40,6 @@ namespace GameModes
         public abstract void CancelBoost();
         public abstract void FinishBoost();
 
-        public abstract void UseDiceModification(string effectName);
-
-        public abstract void ConfirmDiceResults();
-        public abstract void CompareResultsAndDealDamage();
-        public abstract void SwitchToRegularDiceModifications();
-        public abstract void SwitchToAfterRolledDiceModifications();
-
-        public abstract void TakeDecision(Decision decision, GameObject button);
-
-        public abstract void FinishMovementExecution();
-
         public abstract void SetSwarmManagerManeuver(string maneuverCode);
 
         public abstract void ReturnToMainMenu();
@@ -71,21 +49,8 @@ namespace GameModes
 
         public abstract void CombatActivation(int shipId);
 
-        public abstract void StartSyncNotificationSubPhase();
-        public abstract void FinishNotificationSubPhase();
-
-        public abstract void StartSyncDecisionPreparation();
-        public abstract void FinishSyncDecisionPreparation();
-
-        public abstract void StartSyncSelectShipPreparation();
-        public abstract void FinishSyncSelectShipPreparation();
-
-        public abstract void StartSyncSelectObstaclePreparation();
-        public abstract void FinishSyncSelectObstaclePreparation();
-
         public abstract void StartDiceRerollExecution();
 
-        public abstract void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles);
         public abstract void SelectObstacle(string obstacleName);
     }
 }

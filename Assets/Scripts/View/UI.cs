@@ -7,6 +7,7 @@ using GameModes;
 using UnityEngine.EventSystems;
 using SquadBuilderNS;
 using BoardTools;
+using GameCommands;
 
 //Todo: Move to different scripts by menu names
 
@@ -186,12 +187,25 @@ public class UI : MonoBehaviour {
         //end subphase
     }
 
-    public void ClickNextPhase()
+    public static void CallClickNextPhase()
     {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
-        GameMode.CurrentGameMode.NextButtonEffect();
+        GameMode.CurrentGameMode.ExecuteCommand(GenerateNextButtonCommand());
+    }
+
+    public void ClickNextPhase()
+    {
+        CallClickNextPhase();
+    }
+
+    public static GameCommand GenerateNextButtonCommand()
+    {
+        return GameController.GenerateGameCommand(
+            GameCommandTypes.PressNext,
+            Phases.CurrentSubPhase.GetType()
+        );
     }
 
     public static void NextButtonEffect()
@@ -201,10 +215,23 @@ public class UI : MonoBehaviour {
 
     public void ClickSkipPhase()
     {
+        CallClickSkipPhase();
+    }
+
+    public static void CallClickSkipPhase()
+    {
         HideNextButton();
         Roster.AllShipsHighlightOff();
 
-        GameMode.CurrentGameMode.SkipButtonEffect();
+        GameMode.CurrentGameMode.ExecuteCommand(GenerateSkipButtonCommand());
+    }
+
+    public static GameCommand GenerateSkipButtonCommand()
+    {
+        return GameController.GenerateGameCommand(
+            GameCommandTypes.PressSkip,
+            Phases.CurrentSubPhase.GetType()
+        );
     }
 
     public static void SkipButtonEffect()
@@ -214,7 +241,8 @@ public class UI : MonoBehaviour {
 
     public static void ClickDeclareTarget()
     {
-        GameMode.CurrentGameMode.DeclareTarget(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+        GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+        if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
     }
 
     public static void CheckFiringRangeAndShow()

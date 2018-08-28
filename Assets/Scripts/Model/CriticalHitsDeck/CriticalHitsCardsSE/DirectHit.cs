@@ -31,7 +31,7 @@ namespace DamageDeckCardSE
                 DamageType = DamageTypes.CriticalHitCard
             };
 
-            Selection.ActiveShip.Damage.TryResolveDamage(1, directhitDamage, RepairDirectHit);
+            Host.Damage.TryResolveDamage(1, directhitDamage, RepairDirectHit);
         }
 
         public void RepairDirectHit()

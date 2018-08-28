@@ -47,7 +47,7 @@ namespace DamageDeckCardSE
                     DamageType = DamageTypes.CriticalHitCard
                 };
 
-                Selection.ActiveShip.Damage.TryResolveDamage(1, looseDamage, RepairLooseStabilizer);
+                Host.Damage.TryResolveDamage(1, looseDamage, RepairLooseStabilizer);
             }
         }
 

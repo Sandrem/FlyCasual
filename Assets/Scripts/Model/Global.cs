@@ -46,11 +46,14 @@ public class Global : MonoBehaviour {
 
     public static void StartBattle()
     {
-        AnalyticsEvent.GameStart(new Dictionary<string, object>()
+        if (DebugManager.ReleaseVersion)
         {
-            { "Edition", RuleSets.RuleSet.Instance.Name },
-            { "GameMode", GameModes.GameMode.CurrentGameMode.Name }
-        });
+            AnalyticsEvent.GameStart(new Dictionary<string, object>()
+            {
+                { "Edition", RuleSets.RuleSet.Instance.Name },
+                { "GameMode", GameModes.GameMode.CurrentGameMode.Name }
+            });
+        }
 
         ToggelLoadingScreen(false);
         Phases.StartPhases();

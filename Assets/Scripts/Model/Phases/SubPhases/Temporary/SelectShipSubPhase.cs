@@ -51,6 +51,13 @@ namespace SubPhases
             UpdateHelpInfo();
 
             base.Start();
+
+            // If not skipped
+            if (Phases.CurrentSubPhase == this)
+            {
+                IsReadyForCommands = true;
+                Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
+            }
         }
 
         public override void Prepare()
@@ -72,12 +79,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            // If not skipped
-            if (Phases.CurrentSubPhase == this)
-            {
-                IsReadyForCommands = true;
-                Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
-            }
+
         }
 
         public void HighlightShipsToSelect()

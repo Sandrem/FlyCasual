@@ -46,6 +46,9 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(GenericShip ship)
         {
+            //AI doesn't use ability
+            if (HostShip.Owner.UsesHotacAiRules) return;
+
             if (HostShip.AssignedManeuver.Speed >= 3 && HostShip.AssignedManeuver.Speed <= 5 && !HostShip.IsBumped && HostUpgrade.Charges > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskUseAbility);
@@ -54,7 +57,8 @@ namespace Abilities.SecondEdition
 
         private void AskUseAbility(object sender, EventArgs e)
         {
-            Messages.ShowInfo("AfterBurners: You may spend 1 charge to perform a boost action");
+            Messages.ShowInfoToHuman("AfterBurners: You may spend 1 charge to perform a boost action");
+
             HostShip.BeforeFreeActionIsPerformed += RegisterSpendChargeTrigger;
             HostShip.AskPerformFreeAction(new BoostAction() { CanBePerformedWhileStressed = true }, CleanUp);
         }

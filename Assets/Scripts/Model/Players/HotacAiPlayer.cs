@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using GameModes;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections;
@@ -120,7 +121,10 @@ namespace Players
                 }
             }
 
-            if (!isActionTaken) UI.GenerateSkipButtonCommand();
+            if (!isActionTaken)
+            {
+                GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
+            }
         }
 
         public override void AfterShipMovementPrediction()

@@ -1,4 +1,5 @@
-﻿using Arcs;
+﻿using ActionsList;
+using Arcs;
 using BoardTools;
 using System;
 using System.Collections;
@@ -102,6 +103,7 @@ namespace Ship
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
         public bool AttackIsAlwaysConsideredHit { get; set; }
+        public bool CanBonusAttack { get; set; }
 
         // EVENTS
 
@@ -161,6 +163,7 @@ namespace Ship
 
         public event EventHandlerShip OnDamageWasSuccessfullyDealt;
         public event EventHandlerShip OnDamageCardIsDealt;
+        public static event EventHandlerShipDamage OnDamageInstanceResolvedGlobal;
 
         public event EventHandlerShip OnReadyToBeDestroyed;
         public event EventHandlerShipBool OnShipIsDestroyed;
@@ -386,6 +389,13 @@ namespace Ship
             if (OnDamageCardIsDealt != null) OnDamageCardIsDealt(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageCardIsDealt, callBack);
+        }
+
+        public void CallOnDamageInstanceResolved(DamageSourceEventArgs dsource, Action callback)
+        {
+            if (OnDamageInstanceResolvedGlobal != null) OnDamageInstanceResolvedGlobal(this, dsource);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageInstanceResolved, callback);
         }
 
         public void CallOnShieldIsLost(Action callback)
@@ -809,20 +819,20 @@ namespace Ship
             return availableTemplates;
         }
 
-        public List<Actions.BoostTemplates> GetAvailableBoostTemplates()
+        public List<ActionsList.BoostMove> GetAvailableBoostTemplates()
         {
-            List<Actions.BoostTemplates> availableTemplates = new List<Actions.BoostTemplates>
+            var availableMoves = new List<BoostMove>
             {
-                Actions.BoostTemplates.LeftBank1,
-                Actions.BoostTemplates.Straight1,
-                Actions.BoostTemplates.RightBank1,
+                new BoostMove(Actions.BoostTemplates.LeftBank1),
+                new BoostMove(Actions.BoostTemplates.Straight1),
+                new BoostMove(Actions.BoostTemplates.RightBank1),
             };
 
             if (OnGetAvailableBoostTemplates != null)
             {
-                OnGetAvailableBoostTemplates(availableTemplates);
+                OnGetAvailableBoostTemplates(availableMoves);
             }
-            return availableTemplates;
+            return availableMoves;
         }
 
         public bool AreWeaponsDisabled()
@@ -888,6 +898,26 @@ namespace Ship
             if (OnCombatCompareResults != null) OnCombatCompareResults(this);
         }
 
+        public void StartBonusAttack(Action callback)
+        {
+            if(!CanBonusAttack)
+            {
+                // We should never reach this but just in case.
+                Messages.ShowError(PilotName + ": You have already performed a bonus attack!");
+                return;
+            }
+
+            CanBonusAttack = false;
+
+			Combat.StartAdditionalAttack(
+				this,
+				callback,
+				null,
+				PilotName,
+				"You may perform a primary weapon attack.",
+				ImageUrl
+			);
+        }
     }
 
 }

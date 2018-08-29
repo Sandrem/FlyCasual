@@ -73,8 +73,6 @@ namespace Ship
                 
                 ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true });
 
-                IconicPilots[Faction.Imperial] = typeof(MajorVermeil);
-
                 ShipAbilities.Add(new Abilities.AdvancedAileronsAbility());
 
                 Maneuvers["1.L.T"] = MovementComplexity.Complex;

@@ -40,7 +40,7 @@ public class CameraScript : MonoBehaviour {
         Camera = transform.Find("Main Camera");
         GameObjectTransform = transform;
 
-        SetDefaultCameraPosition();
+        ChangeMode(CameraModes.Free);
     }
 
     private static void SetDefaultCameraPosition()
@@ -72,15 +72,20 @@ public class CameraScript : MonoBehaviour {
 
     private void CheckChangeMode()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && !Console.IsActive) ChangeMode();
+        if (Input.GetKeyDown(KeyCode.Tab) && !Console.IsActive) ToggleMode();
     }
 
-    public static void ChangeMode()
+    public static void ToggleMode()
     {
-        cameraMode = (cameraMode == CameraModes.Free) ? CameraModes.TopDown : CameraModes.Free;
+        ChangeMode((cameraMode == CameraModes.Free) ? CameraModes.TopDown : CameraModes.Free);
+    }
+
+    private static void ChangeMode(CameraModes mode)
+    {
+        cameraMode = mode;
 
         Camera camera = Camera.GetComponent<Camera>();
-        camera.orthographic = !camera.orthographic;
+        camera.orthographic = (mode == CameraModes.Free) ? false : true;
 
         SetDefaultCameraPosition();
     }

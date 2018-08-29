@@ -22,6 +22,7 @@ public class RosterBuilderUI : MonoBehaviour {
     public void Import()
     {
         SquadBuilder.CreateSquadFromImportedJson(
+            "",
             GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text,
             SquadBuilder.CurrentPlayer,
             delegate { MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel"); }
@@ -130,7 +131,7 @@ public class RosterBuilderUI : MonoBehaviour {
 
             if (!SquadBuilder.IsNetworkGame)
             {
-                SquadBuilder.StartLocalGame();
+                GameController.StartBattle();
             }
             else
             {

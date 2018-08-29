@@ -7,6 +7,7 @@ using Ship;
 using Abilities;
 using Tokens;
 using RuleSets;
+using ActionsList;
 
 namespace Ship
 {
@@ -29,7 +30,10 @@ namespace Ship
 
             public void AdaptPilotToSecondEdition()
             {
-                Cost = 52;
+                Cost = 62;
+
+                ActionBar.RemovePrintedAction(typeof(FocusAction));
+                ActionBar.AddPrintedAction(new CalculateAction());
             }
         }
     }

@@ -235,19 +235,22 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
-                if ((newUpgradeContainer.Name != null) && (newUpgradeContainer.IsAllowedForSquadBuilder()))
+                if ((newUpgradeContainer.Name != null))
                 {
                     if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
                     {
                         RuleSet.Instance.AdaptUpgradeToRules(newUpgradeContainer);
 
-                        AllUpgrades.Add(new UpgradeRecord()
+                        if (newUpgradeContainer.IsAllowedForSquadBuilder())
                         {
-                            UpgradeName = newUpgradeContainer.Name,
-                            UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
-                            UpgradeTypeName = type.ToString(),
-                            Instance = newUpgradeContainer
-                        });
+                            AllUpgrades.Add(new UpgradeRecord()
+                            {
+                                UpgradeName = newUpgradeContainer.Name,
+                                UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
+                                UpgradeTypeName = type.ToString(),
+                                Instance = newUpgradeContainer
+                            });
+                        }
                     }
                 }
             }
@@ -426,6 +429,9 @@ namespace SquadBuilderNS
                 case "AIvsAI":
                     SetPlayerTypes(typeof(HotacAiPlayer), typeof(HotacAiPlayer));
                     break;
+                case "Replay":
+                    SetPlayerTypes(typeof(ReplayPlayer), typeof(ReplayPlayer));
+                    break;
                 default:
                     break;
             }
@@ -439,8 +445,10 @@ namespace SquadBuilderNS
 
         public static void StartNetworkGame()
         {
-            //Network.Test();
-            //Network.CallBacksTest();
+            GameController.Initialize();
+            ReplaysManager.Initialize(ReplaysMode.Write);
+
+            Console.Write("Network game is started", LogTypes.GameCommands, true, "aqua");
 
             Network.StartNetworkGame();
         }
@@ -692,19 +700,20 @@ namespace SquadBuilderNS
 
         // IMPORT / EXPORT
 
-        public static void CreateSquadFromImportedJson(string jsonString, PlayerNo playerNo, Action callback)
+        public static void CreateSquadFromImportedJson(string name, string jsonString, PlayerNo playerNo, Action callback)
         {
             JSONObject squadJson = new JSONObject(jsonString);
             //LogImportedSquad(squadJson);
 
             SetPlayerSquadFromImportedJson(
+                name,
                 squadJson,
                 playerNo,
                 callback
             );
         }
 
-        public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, PlayerNo playerNo, Action callBack)
+        public static void SetPlayerSquadFromImportedJson(string name, JSONObject squadJson, PlayerNo playerNo, Action callBack)
         {
             ClearShipsOfPlayer(playerNo);
 
@@ -805,7 +814,7 @@ namespace SquadBuilderNS
             }
             catch (Exception)
             {
-                Messages.ShowError("Error during creation of squadron");
+                Messages.ShowError("Error during creation of squadron '" + name + "'");
                 ClearShipsOfPlayer(playerNo);
                 //throw;
             }
@@ -1096,8 +1105,9 @@ namespace SquadBuilderNS
 
         public static void BrowseSavedSquads()
         {
+            string filename = "";
             // TEMPORARY
-            GetRandomAiSquad();
+            GetRandomAiSquad(out filename);
 
             ShowListOfSavedSquadrons(GetSavedSquadsJsons());
         }
@@ -1117,7 +1127,7 @@ namespace SquadBuilderNS
         private static void LoadSavedSquadAndReturn(string fileName)
         {
             JSONObject squadJson = GetSavedSquadJson(fileName);
-            SetPlayerSquadFromImportedJson(squadJson, CurrentPlayer, ReturnToSquadBuilder);
+            SetPlayerSquadFromImportedJson(fileName, squadJson, CurrentPlayer, ReturnToSquadBuilder);
         }
 
         public static void SetDefaultPlayerNames()
@@ -1166,7 +1176,7 @@ namespace SquadBuilderNS
         private static void ReGenerateSquadOfPlayer(PlayerNo playerNo, Action callback)
         {
             JSONObject playerJson = GetSquadList(playerNo).SavedConfiguration;
-            SetPlayerSquadFromImportedJson(playerJson, playerNo, callback);
+            SetPlayerSquadFromImportedJson("", playerJson, playerNo, callback);
         }
     }
 }

@@ -7,6 +7,7 @@ using Ship;
 using System.Linq;
 using SubPhases;
 using System;
+using GameCommands;
 
 public class ShipMovementScript : MonoBehaviour {
 
@@ -58,6 +59,18 @@ public class ShipMovementScript : MonoBehaviour {
 
     //Assignment and launch of execution of meneuver
 
+    public static void SendAssignManeuverCommand(int shipId, string maneuverCode)
+    {
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("id", shipId.ToString());
+        parameters.AddField("maneuver", maneuverCode);
+        GameController.SendCommand(
+            GameCommandTypes.AssignManeuver,
+            Phases.CurrentSubPhase.GetType(),
+            parameters.ToString()
+        );
+    }
+
     public static void AssignManeuver(int shipId, string maneuverCode)
     {
         Selection.ChangeActiveShip("ShipId:" + shipId);
@@ -79,6 +92,12 @@ public class ShipMovementScript : MonoBehaviour {
         {
             Triggers.FinishTrigger();
         }
+    }
+
+    public static void AssignManeuverSimple(int shipId, string maneuverCode)
+    {
+        Selection.ChangeActiveShip("ShipId:" + shipId);
+        Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
     }
 
     public static Movement.GenericMovement MovementFromStruct(Movement.MovementStruct movementStruct)
@@ -134,13 +153,21 @@ public class ShipMovementScript : MonoBehaviour {
         return MovementFromStruct(movementStruct);
     }
 
-    public void PerformStoredManeuverButtonIsPressed()
+    public static GameCommand GenerateActivateAndMoveCommand(int shipId)
     {
-        GameMode.CurrentGameMode.ActivateShipForMovement(Selection.ThisShip.ShipId);
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("id", shipId.ToString());
+        return GameController.GenerateGameCommand(
+            GameCommandTypes.ActivateAndMove,
+            Phases.CurrentSubPhase.GetType(),
+            parameters.ToString()
+        );
     }
 
     public static void ActivateAndMove(int shipId)
     {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
         Selection.ChangeActiveShip("ShipId:" + shipId);
 
         UI.HideContextMenu();
@@ -156,7 +183,7 @@ public class ShipMovementScript : MonoBehaviour {
     private static void RevealManeuver()
     {
         Selection.ThisShip.CallManeuverIsRevealed(
-            delegate { GameMode.CurrentGameMode.LaunchMovement(FinishMovementAndStartActionDecision); }
+            delegate { ShipMovementScript.LaunchMovement(FinishMovementAndStartActionDecision); }
         );
     }
 

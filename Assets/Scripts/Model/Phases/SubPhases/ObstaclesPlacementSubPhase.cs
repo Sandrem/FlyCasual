@@ -9,19 +9,22 @@ using Players;
 using UnityEngine.UI;
 using System;
 using GameModes;
+using GameCommands;
 
 namespace SubPhases
 {
 
     public class ObstaclesPlacementSubPhase : GenericSubPhase
     {
-        public GenericObstacle ChosenObstacle;
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ObstaclePlacement, GameCommandTypes.PressSkip }; } }
+
+        public static GenericObstacle ChosenObstacle;
         private float MinBoardEdgeDistance;
         private float MinObstaclesDistance;
-        private bool IsPlacementBlocked;
-        private bool IsEnteredPlaymat;
-        private bool IsEnteredPlacementZone;
-        public bool IsLocked;
+        private static bool IsPlacementBlocked;
+        private static bool IsEnteredPlaymat;
+        private static bool IsEnteredPlacementZone;
+        public static bool IsLocked;
 
         public Dictionary<PlayerNo, bool> IsRandomSetupSelected = new Dictionary<PlayerNo, bool>()
         {
@@ -59,10 +62,12 @@ namespace SubPhases
 
             RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
             if (!IsRandomSetupSelected[RequiredPlayer]) ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+
+            IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).PlaceObstacle();
         }
 
-        private void FinishSubPhase()
+        private static void FinishSubPhase()
         {
             HideSubphaseDescription();
 
@@ -73,7 +78,7 @@ namespace SubPhases
             subphase.Start();
         }
 
-        private void StartSetupPhase()
+        private static void StartSetupPhase()
         {
             Phases.CurrentSubPhase = new SetupStartSubPhase();
             Phases.CurrentSubPhase.Start();
@@ -347,7 +352,12 @@ namespace SubPhases
         {
             if (IsEnteredPlacementZone && !IsPlacementBlocked)
             {
-                GameMode.CurrentGameMode.PlaceObstacle(ChosenObstacle.ObstacleGO.name, ChosenObstacle.ObstacleGO.transform.position, ChosenObstacle.ObstacleGO.transform.eulerAngles);
+                GameCommand command = GeneratePlaceObstacleCommand(
+                    ChosenObstacle.ObstacleGO.name,
+                    ChosenObstacle.ObstacleGO.transform.position,
+                    ChosenObstacle.ObstacleGO.transform.eulerAngles
+                );
+                GameMode.CurrentGameMode.ExecuteCommand(command);
             }
             else
             {
@@ -355,8 +365,23 @@ namespace SubPhases
             }
         }
 
-        public void PlaceObstacleClient(string obstacleName, Vector3 position, Vector3 angles)
+        private GameCommand GeneratePlaceObstacleCommand(string obstacleName, Vector3 position, Vector3 angles)
         {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("name", obstacleName);
+            parameters.AddField("positionX", position.x); parameters.AddField("positionY", position.y); parameters.AddField("positionZ", position.z);
+            parameters.AddField("rotationX", angles.x); parameters.AddField("rotationY", angles.y); parameters.AddField("rotationZ", angles.z);
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.ObstaclePlacement,
+                typeof(ObstaclesPlacementSubPhase),
+                parameters.ToString()
+            );
+        }
+
+        public static void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
+        {
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+
             ChosenObstacle = ObstaclesManager.GetObstacleByName(obstacleName);
             ChosenObstacle.ObstacleGO.transform.position = position;
             ChosenObstacle.ObstacleGO.transform.eulerAngles = angles;
@@ -374,7 +399,7 @@ namespace SubPhases
 
             if (ObstaclesManager.GetPlacedObstaclesCount() < 6)
             {
-                Next();
+                Phases.CurrentSubPhase.Next();
             }
             else
             {

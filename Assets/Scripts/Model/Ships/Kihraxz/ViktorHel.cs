@@ -13,7 +13,7 @@ namespace Ship
             {
                 PilotName = "Viktor Hel";
                 PilotSkill = 4;
-                Cost = 43;
+                Cost = 45;
 
                 IsUnique = true;
 

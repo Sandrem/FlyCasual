@@ -1,4 +1,6 @@
-﻿using Ship;
+﻿using GameCommands;
+using GameModes;
+using Ship;
 using System;
 using UnityEngine;
 
@@ -17,7 +19,7 @@ namespace SubPhases
                 FilterAttackTargets,
                 null,
                 Selection.ThisShip.Owner.PlayerNo,
-                true,
+                ShowSkipButton,
                 AbilityName,
                 Description,
                 ImageUrl
@@ -56,7 +58,8 @@ namespace SubPhases
                     CallBack();
                 }
             );
-            Combat.DeclareIntentToAttack(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+            GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+            if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
         public override void RevertSubPhase() { }

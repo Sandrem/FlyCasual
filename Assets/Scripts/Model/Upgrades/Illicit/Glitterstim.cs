@@ -119,7 +119,7 @@ namespace SubPhases
 
             if (host.Tokens.HasToken(typeof(Conditions.Glitterstim))) return false;
 
-            if (host.Owner.GetType() == typeof(Players.HotacAiPlayer))
+            if (host.Owner.UsesHotacAiRules)
             {
                 if (!host.Tokens.HasToken(typeof(FocusToken)))
                 {

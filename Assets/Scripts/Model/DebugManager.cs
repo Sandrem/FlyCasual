@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class DebugManager
 {
+    public static bool ReleaseVersion = false;
+
     public static bool FullDebug;
 
     public static bool DebugTemporary;

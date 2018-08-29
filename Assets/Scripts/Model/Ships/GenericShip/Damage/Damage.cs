@@ -156,7 +156,7 @@ namespace Ship
             TryResolveDamage(dice, e, callback);
         }
 
-        public void ResolveDamage(DamageSourceEventArgs e, Action callback)
+        private void ResolveDamage(DamageSourceEventArgs e, Action callback)
         {
             // Register a trigger for each damage.
             foreach (var die in Host.AssignedDamageDiceroll.DiceList)
@@ -176,7 +176,7 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, delegate
             {
                 Host.AssignedDamageDiceroll.RemoveAll();
-                callback();
+                Host.CallOnDamageInstanceResolved(e, callback);
             });
         }
     }

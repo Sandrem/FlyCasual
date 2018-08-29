@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using GameModes;
 using ActionsList;
 using UnityEngine.Events;
+using GameCommands;
 
 public static partial class Combat
 {
@@ -31,7 +32,7 @@ public static partial class Combat
                 break;
             case DiceModificationTimingType.CompareResults:
                 Selection.ActiveShip = Attacker;
-                CloseButtonEffect = CompareResultsAndDealDamageClient;
+                CloseButtonEffect = CompareResultsAndDealDamage;
                 break;
             default:
                 break;
@@ -57,18 +58,22 @@ public static partial class Combat
             }
 
             ShowCloseButton(CloseButtonEffect);
+
             ShowDiceResultsPanel();
         }
         else
         {
-            if (type != DiceModificationTimingType.Normal)
+            if (!(Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer) is Players.HotacAiPlayer))
             {
-                CloseButtonEffect.Invoke();
-            }
-            else
-            {
-                ShowCloseButton(CloseButtonEffect);
-                ShowDiceResultsPanel();
+                if (type != DiceModificationTimingType.Normal)
+                {
+                    CloseButtonEffect.Invoke();
+                }
+                else
+                {
+                    ShowCloseButton(CloseButtonEffect);
+                    ShowDiceResultsPanel();
+                }
             }
         }
     }
@@ -85,24 +90,10 @@ public static partial class Combat
     private static void ShowDiceResultsPanel()
     {
         GameObject.Find("UI/CombatDiceResultsPanel").gameObject.SetActive(true);
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
     }
 
-    public static void CompareResultsAndDealDamage()
-    {
-        GameMode.CurrentGameMode.CompareResultsAndDealDamage();
-    }
-
-    private static void SwitchToRegularDiceModifications()
-    {
-        GameMode.CurrentGameMode.SwitchToRegularDiceModifications();
-    }
-
-    private static void SwitchToAfterRolledDiceModifications()
-    {
-        GameMode.CurrentGameMode.SwitchToAfterRolledDiceModifications();
-    }
-
-    public static void SwitchToRegularDiceModificationsClient()
+    public static void SwitchToRegularDiceModifications()
     {
         HideDiceModificationButtons();
         ToggleConfirmDiceResultsButton(false);
@@ -112,10 +103,12 @@ public static partial class Combat
 
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
+
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
     }
 
-    public static void SwitchToAfterRolledDiceModificationsClient()
+    public static void SwitchToAfterRolledDiceModifications()
     {
         HideDiceModificationButtons();
         ToggleConfirmDiceResultsButton(false);
@@ -125,6 +118,8 @@ public static partial class Combat
 
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
+
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.AfterRolled);
     }
 
@@ -144,7 +139,10 @@ public static partial class Combat
         newButton.transform.GetComponentInChildren<Text>().text = actionEffect.DiceModificationName;
         newButton.GetComponent<RectTransform>().position = position;
         newButton.GetComponent<Button>().onClick.AddListener(
-            delegate { GameMode.CurrentGameMode.UseDiceModification(actionEffect.DiceModificationName); }
+            delegate {
+                GameCommand command = Combat.GenerateDiceModificationCommand(actionEffect.DiceModificationName);
+                GameMode.CurrentGameMode.ExecuteCommand(command);
+            }
         );
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);
         newButton.GetComponent<Button>().interactable = true;
@@ -152,8 +150,21 @@ public static partial class Combat
         newButton.SetActive(Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer));
     }
 
+    public static GameCommand GenerateDiceModificationCommand(string diceModificationName)
+    {
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("name", diceModificationName);
+        return GameController.GenerateGameCommand(
+            GameCommandTypes.DiceModification,
+            Phases.CurrentSubPhase.GetType(),
+            parameters.ToString()
+        );
+    }
+
     public static void UseDiceModification(string diceModificationName)
     {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
         Tooltips.EndTooltip();
 
         GameObject DiceModificationButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").Find("Button" + diceModificationName).gameObject;
@@ -185,15 +196,19 @@ public static partial class Combat
     private static void ReGenerateListOfButtons(DiceModificationTimingType timingType)
     {
         ShowDiceModificationButtons(timingType, true);
+        Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).UseDiceModifications(timingType);
     }
 
     public static void ConfirmDiceResults()
     {
-        GameMode.CurrentGameMode.ConfirmDiceResults();
+        GameCommand command = Combat.GenerateDiceModificationCommand("OK");
+        GameMode.CurrentGameMode.ExecuteCommand(command);
     }
 
     public static void ConfirmDiceResultsClient()
     {
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
         switch (AttackStep)
         {
             case CombatStep.Attack:
@@ -203,7 +218,7 @@ public static partial class Combat
                 if (Combat.Defender.CallTryConfirmDiceResults()) ConfirmDefenceDiceResults();
                 break;
             case CombatStep.CompareResults:
-                CompareResultsAndDealDamageClient();
+                CompareResultsAndDealDamage();
                 break;
         }
     }

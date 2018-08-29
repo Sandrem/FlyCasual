@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Linq;
 using GameModes;
+using GameCommands;
 
 namespace SubPhases
 {
@@ -56,6 +57,8 @@ namespace SubPhases
 
     public class DecisionSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.Decision, GameCommandTypes.PressSkip }; } }
+
         private GameObject decisionPanel;
         private GameObject buttonsHolder;
         public string InfoText;
@@ -82,7 +85,7 @@ namespace SubPhases
             decisionPanel = GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject;
             buttonsHolder = decisionPanel.transform.Find("Center/DecisionsPanel").gameObject;
 
-            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
+            PrepareDecision(StartIsFinished);
         }
 
         public virtual void PrepareDecision(Action callBack)
@@ -99,7 +102,8 @@ namespace SubPhases
             {
                 DecisionWasPreparedAndShown = true;
 
-                GameMode.CurrentGameMode.FinishSyncDecisionPreparation();
+                IsReadyForCommands = true;
+                DecisionOwner.TakeDecision();
             }
         }
 
@@ -132,6 +136,38 @@ namespace SubPhases
         public List<Decision> GetDecisions()
         {
             return decisions;
+        }
+
+        public static GameCommand GenerateDecisionCommand(string decisionName)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("name", decisionName);
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.Decision,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
+
+        public static void ExecuteDecision(string decisionName)
+        {
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+
+            Decision decision = (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions().FirstOrDefault(n => n.Name == decisionName);
+
+            if (decision == null)
+            {
+                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
+
+                string alldecisions = null;
+                foreach (var singleDecision in (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions())
+                {
+                    alldecisions += singleDecision.Name + " ";
+                }
+                Console.Write("Available decisions: " + alldecisions, LogTypes.Errors, true, "red");
+            }
+
+            decision.ExecuteDecision();
         }
 
         public override void Initialize()
@@ -228,7 +264,10 @@ namespace SubPhases
                             script.Initialize(
                                 decision.Name,
                                 decision.Tooltip,
-                                delegate { GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                delegate {
+                                    GameCommand command = GenerateDecisionCommand(decision.Name);
+                                    GameMode.CurrentGameMode.ExecuteCommand(command);
+                                },
                                 DecisionViewTypes.ImagesUpgrade,
                                 decision.Count
                             );
@@ -241,7 +280,10 @@ namespace SubPhases
                             script.Initialize(
                                 decision.Name,
                                 decision.Tooltip,
-                                delegate { GameMode.CurrentGameMode.TakeDecision(decision, button); },
+                                delegate {
+                                    GameCommand command = GenerateDecisionCommand(decision.Name);
+                                    GameMode.CurrentGameMode.ExecuteCommand(command);
+                                },
                                 DecisionViewTypes.ImagesDamageCard,
                                 decision.Count
                             );
@@ -266,7 +308,9 @@ namespace SubPhases
             if (!WasDecisionButtonPressed)
             {
                 WasDecisionButtonPressed = true;
-                GameMode.CurrentGameMode.TakeDecision(decision, button);
+
+                GameCommand command = GenerateDecisionCommand(decision.Name);
+                GameMode.CurrentGameMode.ExecuteCommand(command);
             }
         }
 
@@ -284,7 +328,7 @@ namespace SubPhases
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
 
-            GameMode.CurrentGameMode.StartSyncDecisionPreparation();
+            PrepareDecision(StartIsFinished);
         }
 
         public override void Next()
@@ -321,19 +365,10 @@ namespace SubPhases
             return result;
         }
 
-        public void ExecuteDecision(string decisionName)
-        {
-            Decision decision = decisions.Find(n => n.Name == decisionName);
-            if (decision == null)
-            {
-                Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
-            }
-            decision.ExecuteDecision();
-        }
-
         public override void DoDefault()
         {
-            ExecuteDecision(DefaultDecisionName);
+            GameCommand command = DecisionSubPhase.GenerateDecisionCommand(DefaultDecisionName);
+            GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
         public static void ConfirmDecision()

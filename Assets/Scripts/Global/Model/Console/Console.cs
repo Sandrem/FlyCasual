@@ -11,6 +11,7 @@ public enum LogTypes
 {
     Everything,
     Errors,
+    GameCommands,
     Triggers,
     AI,
     Network
@@ -102,7 +103,7 @@ public partial class Console : MonoBehaviour {
         {
             if (IsHiddenError(logString)) return;
 
-            SendReport(stackTrace);
+            if (DebugManager.ReleaseVersion) SendReport(stackTrace);
 
             IsActive = true;
             Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");

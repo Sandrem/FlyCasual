@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using ActionsList;
+using GameModes;
+using SubPhases;
 
 public enum Faction
 {
@@ -35,7 +37,8 @@ namespace Players
     {
         Human,
         Ai,
-        Network
+        Network,
+        Replay
     }
 
     public partial class GenericPlayer
@@ -43,6 +46,7 @@ namespace Players
         public PlayerType Type;
         public string Name;
         public PlayerNo PlayerNo;
+        public bool UsesHotacAiRules;
         public int SquadCost;
 
         public string NickName;
@@ -103,7 +107,10 @@ namespace Players
 
         public virtual void TakeDecision() { }
 
-        public virtual void AfterShipMovementPrediction() { }
+        public virtual void AfterShipMovementPrediction()
+        {
+            Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
+        }
 
         public virtual void ConfirmDiceCheck() { }
 
@@ -111,7 +118,42 @@ namespace Players
 
         public virtual bool IsNeedToShowManeuver(GenericShip ship) { return false; }
 
-        public virtual void OnTargetNotLegalForAttack() { }
+        public virtual void OnTargetNotLegalForAttack()
+        {
+            // TODO: Better explanations
+            if (!Rules.TargetIsLegalForShot.IsLegal())
+            {
+                //automatic error messages
+            }
+            else if (!Combat.ShotInfo.IsShotAvailable)
+            {
+                Messages.ShowErrorToHuman("Target is outside your firing arc");
+            }
+            else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Range < Combat.ChosenWeapon.MinRange)
+            {
+                Messages.ShowErrorToHuman("Target is outside your firing range");
+            }
+
+            //TODO: except non-legal targets, bupmed for example, biggs?
+            Roster.HighlightShipsFiltered(FilterShipsToAttack);
+
+            UI.ShowSkipButton();
+            UI.HighlightNextButton();
+
+            if (Phases.CurrentSubPhase is ExtraAttackSubPhase)
+            {
+                (Phases.CurrentSubPhase as ExtraAttackSubPhase).RevertSubphase();
+            }
+            else
+            {
+                Phases.CurrentSubPhase.IsReadyForCommands = true;
+            }
+        }
+
+        private bool FilterShipsToAttack(GenericShip ship)
+        {
+            return ship.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer;
+        }
 
         public virtual void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null) { }
 
@@ -155,6 +197,73 @@ namespace Players
         public virtual void PerformSystemsActivation()
         {
             Roster.HighlightPlayer(PlayerNo);
+        }
+
+        public virtual void PressNext()
+        {
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
+        }
+
+        public virtual void PressSkip()
+        {
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
+        }
+
+        public virtual void SyncDiceResults()
+        {
+            JSONObject[] diceResultArray = new JSONObject[DiceRoll.CurrentDiceRoll.DiceList.Count];
+            for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
+            {
+                DieSide side = DiceRoll.CurrentDiceRoll.DiceList[i].Side;
+                string sideName = side.ToString();
+                JSONObject sideJson = new JSONObject();
+                sideJson.AddField("side", sideName);
+                diceResultArray[i] = sideJson;
+            }
+            JSONObject dieSides = new JSONObject(diceResultArray);
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("sides", dieSides);
+
+            GameController.SendCommand(
+                GameCommandTypes.SyncDiceResults,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
+
+        public virtual void SyncDiceRerollSelected()
+        {
+            JSONObject[] diceRerollSelectedArray = new JSONObject[DiceRoll.CurrentDiceRoll.DiceList.Count];
+            for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
+            {
+                bool isSelected = DiceRoll.CurrentDiceRoll.DiceList[i].IsSelected;
+                string isSelectedText = isSelected.ToString();
+                JSONObject isSelectedJson = new JSONObject();
+                isSelectedJson.AddField("selected", isSelectedText);
+                diceRerollSelectedArray[i] = isSelectedJson;
+            }
+            JSONObject diceRerollSelected = new JSONObject(diceRerollSelectedArray);
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("dice", diceRerollSelected);
+
+            GameController.SendCommand(
+                GameCommandTypes.SyncDiceRerollSelected,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
+
+        public virtual void InformAboutCrit()
+        {
+            InformCrit.ShowPanelVisible();
+        }
+
+        public virtual void DiceCheckConfirm()
+        {
+            GameController.SendCommand(
+                GameCommandTypes.ConfirmDiceCheck,
+                Phases.CurrentSubPhase.GetType()
+            );
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameCommands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -88,6 +89,13 @@ public static partial class Network
         }
     }
 
+    // COMMANDS
+
+    public static void SendCommand(GameCommand command)
+    {
+        CurrentPlayer.CmdSendCommand(command.ToString());
+    }
+
     // SQUAD LISTS
 
     public static void ImportSquad(string squadList, bool isServer)
@@ -154,51 +162,11 @@ public static partial class Network
         CurrentPlayer.CmdStartNetworkGame();
     }
 
-    // DECISIONS
-
-    public static void TakeDecision(string decisionName)
-    {
-        CurrentPlayer.CmdTakeDecision(decisionName);
-    }
-
-    // SETUP
-
-    public static void ConfirmShipSetup(int shipId, Vector3 position, Vector3 angles)
-    {
-        CurrentPlayer.CmdConfirmShipSetup(shipId, position, angles);
-    }
-
     // ASSING MANEUVER
 
     public static void AssignManeuver(int shipId, string maneuverCode)
     {
         CurrentPlayer.CmdAssignManeuver(shipId, maneuverCode);
-    }
-
-    // NEXT BUTTON
-
-    public static void NextButtonEffect()
-    {
-        CurrentPlayer.CmdNextButtonEffect();
-    }
-
-    // SKIP BUTTON
-
-    public static void SkipButtonEffect()
-    {
-        CurrentPlayer.CmdSkipButtonEffect();
-    }
-
-    // PERFORM MANEUVER
-
-    public static void ActivateAndMove(int shipId)
-    {
-        CurrentPlayer.CmdActivateForMovement(shipId);
-    }
-
-    public static void LaunchMovement()
-    {
-        if (IsServer) CurrentPlayer.CmdLauchExtraMovement();
     }
 
     // SYSTEMS
@@ -244,13 +212,6 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdCancelBoost();
     }
 
-    // DECLARE COMBAT TARGET
-
-    public static void DeclareTarget(int attackerId, int defenderId)
-    {
-        CurrentPlayer.CmdDeclareTarget(attackerId, defenderId);
-    }
-
     // SELECT TARGET SHIP
 
     public static void SelectTargetShip(int targetId)
@@ -265,40 +226,11 @@ public static partial class Network
         CurrentPlayer.CmdSelectObstacle(obstacleName);
     }
 
-    // CONFIRM DICE RESULTS MODIFICATION
-
-    public static void ConfirmDiceResults()
-    {
-        CurrentPlayer.CmdConfirmDiceResults();
-    }
-
-    public static void SwitchToRegularDiceModifications()
-    {
-        CurrentPlayer.CmdSwitchToRegularDiceModifications();
-    }
-
-    public static void SwitchToAfterRolledDiceModifications()
-    {
-        CurrentPlayer.CmdSwitchToAfterRolledDiceModifications();
-    }
-
-    public static void CompareResultsAndDealDamage()
-    {
-        CurrentPlayer.CmdCompareResultsAndDealDamage();
-    }
-
     // CONFIRM DICE ROLL CHECK
 
     public static void ConfirmDiceRollCheckResults()
     {
         if (IsServer) CurrentPlayer.CmdConfirmDiceRollCheckResults();
-    }
-
-    // CONFIRM INFORM CRIT
-
-    public static void CallInformCritWindow()
-    {
-        if (IsServer) CurrentPlayer.CmdCallInformCritWindow();
     }
 
     // SYNC DICE ROLL
@@ -347,13 +279,6 @@ public static partial class Network
         }
 
         Network.FinishTask();
-    }
-
-    // DICE MODIFICATIONS
-
-    public static void UseDiceModification(string diceModificationName)
-    {
-        CurrentPlayer.CmdUseDiceModification(diceModificationName);
     }
 
     // BARREL ROLL PLANNING
@@ -635,26 +560,6 @@ public static partial class Network
         CurrentPlayer.CmdCombatActivation(shipId);
     }
 
-    public static void CmdSyncNotifications()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncNotifications();
-    }
-
-    public static void SyncDecisionPreparation()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncDecisionPreparation();
-    }
-
-    public static void SyncSelectShipPreparation()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncSelectShipPreparation();
-    }
-
-    public static void SyncSelectObstaclePreparation()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncSelectObstaclePreparation();
-    }
-
     public static void StartDiceRerollExecution()
     {
         CurrentPlayer.CmdStartDiceRerollExecution();
@@ -686,8 +591,4 @@ public static partial class Network
         }
     }
 
-    public static void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
-    {
-        CurrentPlayer.CmdPlaceObstacle(obstacleName, position, angles);
-    }
 }

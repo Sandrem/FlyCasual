@@ -145,7 +145,7 @@ namespace Ship
             }
         }
 
-        public int MaxForce { get; protected set; }
+        public int MaxForce { get; set; }
 
         protected List<IModifyPilotSkill> PilotSkillModifiers;
 

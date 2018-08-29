@@ -15,7 +15,7 @@ namespace Ship
             public EsegeTuketu() : base()
             {
                 PilotName = "Esege Tuketu";
-                PilotSkill = 8;
+                PilotSkill = 3;
                 Cost = 50;
 
                 IsUnique = true;

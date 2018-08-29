@@ -28,6 +28,7 @@ public static class Rules
     public static TractorBeamRule TractorBeam { get; private set; }
     public static ForceRule Force { get; private set; }
     public static ChargeRule Charge { get; private set; }
+    public static BonusAttackRule BonusAttack { get; private set; }
 
 
     public static void Initialize()
@@ -54,6 +55,7 @@ public static class Rules
         TractorBeam = new TractorBeamRule();
         Force = new ForceRule();
         Charge = new ChargeRule();
+        BonusAttack = new BonusAttackRule();
     }
 
     public static void FinishGame()

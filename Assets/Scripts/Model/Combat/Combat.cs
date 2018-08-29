@@ -463,7 +463,8 @@ public static partial class Combat
 
     // Extra Attacks
 
-    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool, bool> extraAttackFilter = null, string abilityName = null, string description = null, string imageUrl = null)
+    public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool, bool> extraAttackFilter = null, 
+        string abilityName = null, string description = null, string imageUrl = null, bool showSkipButton = true)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
         Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
@@ -476,10 +477,10 @@ public static partial class Combat
             //delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
             callback
         );
-
         newAttackSubphase.AbilityName = abilityName;
         newAttackSubphase.Description = description;
         newAttackSubphase.ImageUrl = imageUrl;
+        newAttackSubphase.ShowSkipButton = showSkipButton;
 
         newAttackSubphase.Start();
     }

@@ -39,6 +39,8 @@ namespace SubPhases
         public string Description;
         public string ImageUrl;
 
+        public bool ShowSkipButton = true;
+
         public override void Start()
         {
             IsTemporary = true;
@@ -71,7 +73,14 @@ namespace SubPhases
             GetAiPriority = getAiPriority;
             finishAction = selectTargetAction;
             RequiredPlayer = subphaseOwnerPlayerNo;
-            if (showSkipButton) UI.ShowSkipButton();
+            if (showSkipButton)
+            {
+                UI.ShowSkipButton();
+            }
+            else
+            {
+                UI.HideSkipButton();
+            }
             AbilityName = abilityName;
             Description = description;
             ImageUrl = imageUrl;

@@ -19,7 +19,7 @@ namespace SubPhases
                 FilterAttackTargets,
                 null,
                 Selection.ThisShip.Owner.PlayerNo,
-                true,
+                ShowSkipButton,
                 AbilityName,
                 Description,
                 ImageUrl

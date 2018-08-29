@@ -222,19 +222,37 @@ namespace SubPhases
                         addedDecision = true;
                         string decisionName = action.Name + " > <color=red>" + linkedAction.Name + "</color>";
 
-                        AddDecision(decisionName, delegate {
-                            ActionWasPerformed = true;
-                            Actions.TakeActionStart(action);
-                        }, action.ImageUrl, -1, action.IsRed);
+                        AddDecision(
+                            decisionName,
+                            delegate {
+                                ActionWasPerformed = true;
+                                Selection.ThisShip.CallBeforeFreeActionIsPerformed(
+                                    action,
+                                    delegate { Actions.TakeActionStart(action); }
+                                );
+                            },
+                            action.ImageUrl,
+                            -1,
+                            action.IsRed
+                        );
                     }
                 }
 
                 if (!addedDecision)
                 {
-                    AddDecision(action.Name, delegate {
-                        ActionWasPerformed = true;
-                        Actions.TakeActionStart(action);
-                    }, action.ImageUrl, -1, action.IsRed);
+                    AddDecision(
+                        action.Name,
+                        delegate {
+                            ActionWasPerformed = true;
+                            Selection.ThisShip.CallBeforeFreeActionIsPerformed(
+                                action,
+                                delegate { Actions.TakeActionStart(action); }
+                            );
+                        },
+                        action.ImageUrl,
+                        -1,
+                        action.IsRed
+                    );
                 }
             }
         }

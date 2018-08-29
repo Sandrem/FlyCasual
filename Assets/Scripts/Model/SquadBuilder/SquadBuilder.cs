@@ -235,19 +235,22 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
-                if ((newUpgradeContainer.Name != null) && (newUpgradeContainer.IsAllowedForSquadBuilder()))
+                if ((newUpgradeContainer.Name != null))
                 {
                     if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
                     {
                         RuleSet.Instance.AdaptUpgradeToRules(newUpgradeContainer);
 
-                        AllUpgrades.Add(new UpgradeRecord()
+                        if (newUpgradeContainer.IsAllowedForSquadBuilder())
                         {
-                            UpgradeName = newUpgradeContainer.Name,
-                            UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
-                            UpgradeTypeName = type.ToString(),
-                            Instance = newUpgradeContainer
-                        });
+                            AllUpgrades.Add(new UpgradeRecord()
+                            {
+                                UpgradeName = newUpgradeContainer.Name,
+                                UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
+                                UpgradeTypeName = type.ToString(),
+                                Instance = newUpgradeContainer
+                            });
+                        }
                     }
                 }
             }

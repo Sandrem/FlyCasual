@@ -17,15 +17,19 @@ namespace UpgradesList
             Name = "Zuckuss";
             Cost = 1;
 
+            Types.Add(UpgradeType.Crew);
+
             isUnique = true;
+
+            IsHidden = true;
 
             AvatarOffset = new Vector2(79, 1);
         }
 
         public void AdaptUpgradeToSecondEdition()
         {
-            Types.Add(UpgradeType.Crew);
             Cost = 3;
+
             IsHidden = false;
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.ZuckussCrewAbility());

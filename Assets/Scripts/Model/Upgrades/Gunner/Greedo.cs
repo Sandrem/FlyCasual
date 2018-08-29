@@ -1,5 +1,6 @@
 ﻿using Abilities.SecondEdition;
 using RuleSets;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,11 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             //Nothing to do, already second edition upgrade
+        }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.faction == Faction.Scum;
         }
     }
 }

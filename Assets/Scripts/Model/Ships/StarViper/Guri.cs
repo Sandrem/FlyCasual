@@ -29,7 +29,7 @@ namespace Ship
 
             public void AdaptPilotToSecondEdition()
             {
-                Cost = 52;
+                Cost = 62;
             }
         }
     }

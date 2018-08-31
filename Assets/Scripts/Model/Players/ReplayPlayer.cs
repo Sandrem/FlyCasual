@@ -100,6 +100,12 @@ namespace Players
         {
             GameController.CheckExistingCommands();
         }
+
+        public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
+        {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+            GameController.CheckExistingCommands();
+        }
     }
 
 }

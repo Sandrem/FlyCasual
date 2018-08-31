@@ -11,7 +11,7 @@ namespace SubPhases
 
     public class ActivationSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ActivateAndMove, GameCommandTypes.HotacSwerve, GameCommandTypes.HotacFreeTargetLock }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ActivateAndMove, GameCommandTypes.HotacSwerve, GameCommandTypes.HotacFreeTargetLock, GameCommandTypes.AssignManeuver }; } }
 
         public override void Start()
         {

@@ -87,7 +87,7 @@ namespace GameCommands
                 Console.Write(Type + " command is skipped: subphase is " + subphase + " instead of " + SubPhase, LogTypes.GameCommands, false, "aqua");
                 return;
             }
-            else if (!subphase.AllowedGameCommandTypes.Contains(Type))
+            else if (!subphase.AllowedGameCommandTypes.Contains(Type) && Type != GameCommandTypes.ConfirmCrit)
             {
                 Console.Write(Type + " command is skipped: " + subphase + " doesn't support this type of commands", LogTypes.GameCommands, false, "aqua");
                 return;

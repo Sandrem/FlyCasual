@@ -461,6 +461,7 @@ namespace Players
 
         public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
             callback(Selection.ThisShip.AssignedManeuver.ToString());
         }
 

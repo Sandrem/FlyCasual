@@ -165,6 +165,14 @@ namespace SubPhases
                     alldecisions += singleDecision.Name + " ";
                 }
                 Console.Write("Available decisions: " + alldecisions, LogTypes.Errors, true, "red");
+
+                Decision altDecision = (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions().FirstOrDefault(n => n.Name.Contains(decisionName));
+
+                if (altDecision != null)
+                {
+                    decision = altDecision;
+                    Console.Write("Similar decision is taken: " + altDecision.Name);
+                }
             }
 
             decision.ExecuteDecision();

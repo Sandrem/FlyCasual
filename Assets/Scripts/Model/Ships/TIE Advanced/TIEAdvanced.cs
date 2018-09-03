@@ -84,7 +84,6 @@ namespace Ship
             {
                 FullType = "TIE Advanced x1";
 
-                ActionBar.RemovePrintedAction(typeof(FocusAction));
                 ActionBar.RemovePrintedAction(typeof(EvadeAction));
 
                 Maneuvers["1.F.S"] = MovementComplexity.Normal;

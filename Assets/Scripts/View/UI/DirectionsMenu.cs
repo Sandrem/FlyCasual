@@ -37,6 +37,8 @@ public static class DirectionsMenu
             DirectionsWindow.transform.gameObject,
             Input.mousePosition
         );
+
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
     }
 
     public static void ShowForAll(Action<string> callback, Func<string, bool> filter = null)

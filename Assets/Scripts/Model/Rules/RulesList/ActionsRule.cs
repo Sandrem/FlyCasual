@@ -20,7 +20,8 @@ namespace RulesList
         {
             if (action == null) return;
 
-            if (action.IsRed)
+            //HotAC AI perfroms red actions as white
+            if (action.IsRed && !Selection.ThisShip.Owner.UsesHotacAiRules)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

@@ -450,15 +450,18 @@ namespace Players
 
         public override void OnTargetNotLegalForAttack()
         {
-            Selection.ThisShip.CallAfterAttackWindow();
+            /*Selection.ThisShip.CallAfterAttackWindow();
             Selection.ThisShip.IsAttackPerformed = true;
             Selection.ThisShip.CallCombatDeactivation(
                 delegate { Phases.FinishSubPhase(typeof(CombatSubPhase)); }
-            );
+            );*/
+
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
         }
 
         public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
             callback(Selection.ThisShip.AssignedManeuver.ToString());
         }
 

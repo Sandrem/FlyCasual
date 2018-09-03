@@ -47,7 +47,7 @@ namespace DamageDeckCardSE
                 DamageType = DamageTypes.CriticalHitCard
             };
 
-            Selection.ActiveShip.Damage.TryResolveDamage(1, stunnedpilotDamage, Triggers.FinishTrigger);
+            Host.Damage.TryResolveDamage(1, stunnedpilotDamage, Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect()

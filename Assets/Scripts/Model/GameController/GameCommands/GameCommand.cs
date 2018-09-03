@@ -76,17 +76,34 @@ namespace GameCommands
         public void TryExecute()
         {
             SubPhases.GenericSubPhase subphase = Phases.CurrentSubPhase;
-            if (subphase != null && subphase.AllowedGameCommandTypes.Contains(Type) && subphase.GetType() == SubPhase && subphase.IsReadyForCommands)
+
+            if (subphase == null)
             {
-                GameController.ConfirmCommand();
-                Console.Write("Command is executed: " + Type, LogTypes.GameCommands, true, "aqua");
-                Execute();
-                GameController.CheckExistingCommands();
+                Console.Write(Type + " command is skipped (subphase is null)", LogTypes.GameCommands, false, "aqua");
+                return;
             }
-            else
+            else if (subphase.GetType() != SubPhase)
             {
-                if (SubPhase != null) Console.Write("Command is skipped: " + Type, LogTypes.GameCommands, false, "aqua");
+                Console.Write(Type + " command is skipped: subphase is " + subphase + " instead of " + SubPhase, LogTypes.GameCommands, false, "aqua");
+                return;
             }
+            else if (!subphase.AllowedGameCommandTypes.Contains(Type) && Type != GameCommandTypes.ConfirmCrit)
+            {
+                Console.Write(Type + " command is skipped: " + subphase + " doesn't support this type of commands", LogTypes.GameCommands, false, "aqua");
+                return;
+            }
+            else if (!subphase.IsReadyForCommands)
+            {
+                Console.Write(Type + " command is skipped: " + subphase + " is not ready for commands", LogTypes.GameCommands, false, "aqua");
+                return;
+            }
+
+            Console.Write("Command is executed: " + Type, LogTypes.GameCommands, true, "aqua");
+
+            GameController.ConfirmCommand();
+            Execute();
+
+            GameController.CheckExistingCommands();
         }
 
         public abstract void Execute();

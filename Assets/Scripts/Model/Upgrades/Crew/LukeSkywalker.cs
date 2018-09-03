@@ -3,10 +3,13 @@ using Ship;
 using SubPhases;
 using Abilities;
 using System;
+using RuleSets;
+using Abilities.SecondEdition;
+using ActionsList;
 
 namespace UpgradesList
 {
-    public class LukeSkywalker : GenericUpgrade
+    public class LukeSkywalker : GenericUpgrade, ISecondEditionUpgrade
     {
         public LukeSkywalker() : base()
         {
@@ -19,11 +22,61 @@ namespace UpgradesList
             UpgradeAbilities.Add(new LukeSkywalkerCrewAbility());
         }
 
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 30;
+            Types.Clear();
+            Types.Add(UpgradeType.Gunner);
+            UpgradeAbilities.Clear();
+            UpgradeAbilities.Add(new LukeSkywalkerGunnerAbility());
+        }
+
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Rebel;
         }
 
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class LukeSkywalkerGunnerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers += CheckLukeAbility;
+            HostShip.MaxForce += 1;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers -= CheckLukeAbility;
+            HostShip.MaxForce -= 1;
+        }
+
+        private void CheckLukeAbility()
+        {
+            if (HostShip.Force > 0 && HostShip.ActionBar.HasAction(typeof(RotateArcAction)))
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskToRotateArc);
+            }
+        }
+
+        private void AskToRotateArc(object sender, EventArgs e)
+        {
+            Messages.ShowInfo("Luke Skywalker: You may spend 1 force to rotate your arc.");
+            HostShip.BeforeFreeActionIsPerformed += SpendForce;
+            Selection.ChangeActiveShip(HostShip);
+            //Card states that you can rotate your arc, not perform a rotate arc action so you can do it while stressed
+            HostShip.AskPerformFreeAction(new RotateArcAction() { IsRed = false, CanBePerformedWhileStressed = true }, Triggers.FinishTrigger);
+        }
+
+        private void SpendForce(GenericAction action)
+        {
+            HostShip.Force--;
+            HostShip.BeforeFreeActionIsPerformed -= SpendForce;
+        }
     }
 }
 
@@ -121,7 +174,6 @@ namespace Abilities
             Phases.Events.OnCombatPhaseEnd_NoTriggers -= RemoveLukeSkywalkerCrewAbility;
             HostShip.OnGenerateDiceModifications -= AddLukeSkywalkerCrewAbility;
         }
-
     }
 }
 

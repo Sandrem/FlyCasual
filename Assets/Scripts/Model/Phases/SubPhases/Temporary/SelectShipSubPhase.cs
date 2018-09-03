@@ -19,7 +19,7 @@ namespace SubPhases
 
     public class SelectShipSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressSkip }; } }
 
         protected List<TargetTypes> targetsAllowed = new List<TargetTypes>();
         protected int minRange = 1;
@@ -39,6 +39,8 @@ namespace SubPhases
         public string Description;
         public string ImageUrl;
 
+        public bool ShowSkipButton = true;
+
         public override void Start()
         {
             IsTemporary = true;
@@ -51,6 +53,13 @@ namespace SubPhases
             UpdateHelpInfo();
 
             base.Start();
+
+            // If not skipped
+            if (Phases.CurrentSubPhase == this)
+            {
+                IsReadyForCommands = true;
+                Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
+            }
         }
 
         public override void Prepare()
@@ -64,7 +73,14 @@ namespace SubPhases
             GetAiPriority = getAiPriority;
             finishAction = selectTargetAction;
             RequiredPlayer = subphaseOwnerPlayerNo;
-            if (showSkipButton) UI.ShowSkipButton();
+            if (showSkipButton)
+            {
+                UI.ShowSkipButton();
+            }
+            else
+            {
+                UI.HideSkipButton();
+            }
             AbilityName = abilityName;
             Description = description;
             ImageUrl = imageUrl;
@@ -72,12 +88,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            // If not skipped
-            if (Phases.CurrentSubPhase == this)
-            {
-                IsReadyForCommands = true;
-                Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
-            }
+
         }
 
         public void HighlightShipsToSelect()

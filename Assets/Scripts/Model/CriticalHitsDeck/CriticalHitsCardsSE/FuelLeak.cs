@@ -37,7 +37,7 @@ namespace DamageDeckCardSE
                     DamageType = DamageTypes.CriticalHitCard
                 };
 
-                Selection.ActiveShip.Damage.TryResolveDamage(1, fuelleakDamage, RepairFuelLeak);
+                Host.Damage.TryResolveDamage(1, fuelleakDamage, RepairFuelLeak);
             }
         }
 

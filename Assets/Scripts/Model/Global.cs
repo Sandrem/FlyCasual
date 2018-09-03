@@ -10,8 +10,8 @@ public class Global : MonoBehaviour {
 
     private static bool isAlreadyInitialized;
 
-    public static string CurrentVersion = "0.6.0";
-    public static int CurrentVersionInt = 100060000;
+    public static string CurrentVersion = "0.6.1";
+    public static int CurrentVersionInt = 100060100;
 
     void Awake()
     {
@@ -46,11 +46,14 @@ public class Global : MonoBehaviour {
 
     public static void StartBattle()
     {
-        AnalyticsEvent.GameStart(new Dictionary<string, object>()
+        if (DebugManager.ReleaseVersion)
         {
-            { "Edition", RuleSets.RuleSet.Instance.Name },
-            { "GameMode", GameModes.GameMode.CurrentGameMode.Name }
-        });
+            AnalyticsEvent.GameStart(new Dictionary<string, object>()
+            {
+                { "Edition", RuleSets.RuleSet.Instance.Name },
+                { "GameMode", GameModes.GameMode.CurrentGameMode.Name }
+            });
+        }
 
         ToggelLoadingScreen(false);
         Phases.StartPhases();

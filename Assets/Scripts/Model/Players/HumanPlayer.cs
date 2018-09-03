@@ -62,39 +62,6 @@ namespace Players
             return true;
         }
 
-        public override void OnTargetNotLegalForAttack()
-        {
-            // TODO: Better explanations
-            if (!Rules.TargetIsLegalForShot.IsLegal())
-            {
-                //automatic error messages
-            }
-            else if (!Combat.ShotInfo.IsShotAvailable)
-            {
-                Messages.ShowErrorToHuman("Target is outside your firing arc");
-            }
-            else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Range < Combat.ChosenWeapon.MinRange)
-            {
-                Messages.ShowErrorToHuman("Target is outside your firing range");
-            }
-
-            //TODO: except non-legal targets, bupmed for example, biggs?
-            Roster.HighlightShipsFiltered(FilterShipsToAttack);
-
-            UI.ShowSkipButton();
-            UI.HighlightNextButton();
-
-            if (Phases.CurrentSubPhase is SubPhases.ExtraAttackSubPhase)
-            {
-                (Phases.CurrentSubPhase as SubPhases.ExtraAttackSubPhase).RevertSubphase();
-            }
-        }
-
-        private bool FilterShipsToAttack(GenericShip ship)
-        {
-            return ship.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer;
-        }
-
         public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
         {
             DirectionsMenu.Show(callback, filter);

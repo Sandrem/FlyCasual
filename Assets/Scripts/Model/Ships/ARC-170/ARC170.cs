@@ -75,6 +75,8 @@ namespace Ship
 
                 Firepower = 3;
 
+                ShipBaseSize = BaseSize.Medium;
+
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);

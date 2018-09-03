@@ -156,7 +156,7 @@ public class UI : MonoBehaviour {
 
     public void ToggleViewMode()
     {
-        CameraScript.ChangeMode();
+        CameraScript.ToggleMode();
     }
 
     public static void AddTestLogEntry(string text)

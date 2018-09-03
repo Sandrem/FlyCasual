@@ -235,19 +235,22 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
-                if ((newUpgradeContainer.Name != null) && (newUpgradeContainer.IsAllowedForSquadBuilder()))
+                if ((newUpgradeContainer.Name != null))
                 {
                     if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
                     {
                         RuleSet.Instance.AdaptUpgradeToRules(newUpgradeContainer);
 
-                        AllUpgrades.Add(new UpgradeRecord()
+                        if (newUpgradeContainer.IsAllowedForSquadBuilder())
                         {
-                            UpgradeName = newUpgradeContainer.Name,
-                            UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
-                            UpgradeTypeName = type.ToString(),
-                            Instance = newUpgradeContainer
-                        });
+                            AllUpgrades.Add(new UpgradeRecord()
+                            {
+                                UpgradeName = newUpgradeContainer.Name,
+                                UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
+                                UpgradeTypeName = type.ToString(),
+                                Instance = newUpgradeContainer
+                            });
+                        }
                     }
                 }
             }
@@ -287,7 +290,7 @@ namespace SquadBuilderNS
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
             RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
-            if (newUpgrade is IVariableCost) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
+            if (newUpgrade is IVariableCost && RuleSet.Instance is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
 
             List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.Types);
             if (slots.Count != 0)

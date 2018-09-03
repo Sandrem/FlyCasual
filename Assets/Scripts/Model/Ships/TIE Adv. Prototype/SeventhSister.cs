@@ -23,7 +23,8 @@ namespace Ship
 
             public void AdaptPilotToSecondEdition()
             {
-                // already SE baby
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
             }
         }
     }

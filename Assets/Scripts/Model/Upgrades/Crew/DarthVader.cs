@@ -165,6 +165,7 @@ namespace Abilities
             protected virtual bool FilterAbilityTarget(GenericShip ship)
             {
                 return
+                    ship != HostShip && 
                     new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon).InArc &&
                     FilterTargetsByRange(ship, 0, 2);
             }
@@ -187,7 +188,7 @@ namespace Abilities
                 {
                     var decisionSubPhase = Phases.StartTemporarySubPhaseNew<DecisionSubPhase>(
                         Name,
-                        Triggers.FinishTrigger
+                        SelectShipSubPhase.FinishSelection
                     );
 
                     decisionSubPhase.InfoText = "Remove token to prevent 1 damage from Darth Vader?";
@@ -207,6 +208,7 @@ namespace Abilities
                 }
                 else
                 {
+                    SelectShipSubPhase.FinishSelection();
                     AssignDamage();
                 }
             }

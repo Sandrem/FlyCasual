@@ -37,7 +37,7 @@ namespace RuleSets
         //public override bool IsSquadBuilderLocked { get { return true; } }
 
         public override int MaxPoints { get { return 200; } }
-        public override int MinShipCost { get { return 23; } }
+        public override int MinShipCost { get { return 12; } }
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Engagement"; } }

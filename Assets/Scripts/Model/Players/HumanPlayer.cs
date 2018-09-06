@@ -69,6 +69,7 @@ namespace Players
 
         public override void SelectManeuver(Action<string> callback, Func<string, bool> filter = null)
         {
+            base.SelectManeuver(callback, filter);
             DirectionsMenu.Show(callback, filter);
         }
 

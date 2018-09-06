@@ -76,7 +76,6 @@ namespace Ship
                 MaxHull = 3;
                 MaxShields = 1;
 
-                ActionBar.RemovePrintedAction(typeof(BarrelRollAction));
                 ActionBar.AddActionLink(typeof(BarrelRollAction), new EvadeAction() { IsRed = true });
 
                 IconicPilots[Faction.Rebel] = typeof(HeraSyndulla);

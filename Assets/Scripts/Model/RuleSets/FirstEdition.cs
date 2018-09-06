@@ -18,7 +18,7 @@ namespace RuleSets
         public override string Name { get { return "First Edition"; } }
 
         public override int MaxPoints { get { return 100; } }
-        public override int MinShipCost { get { return 14; } }
+        public override int MinShipCost { get { return 12; } }
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Combat"; } }

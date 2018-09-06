@@ -510,14 +510,22 @@ namespace SubPhases
         {
             bool isFinished = false;
 
-            if (updatesCount > 1)
+            updatesCount++;
+
+            if (updatesCount == 3)
             {
+                // Collision check complete
                 GetResults();
                 isFinished = true;
             }
-            else
-            {
-                updatesCount++;
+            else if (updatesCount > 3) {
+                // For some reason on mobile, when the previous case causes this to return true,
+                // ShipMovementScript.UpdateSubscribedFuncs() doesn't actually remove this function
+                // from its subscription list. It calls FuncsToUpdate.Remove(func), but after that
+                // func is still in FuncsToUpdate somehow
+
+                // So we return true again, and this time it will actually get removed
+                isFinished = true;
             }
 
             return isFinished;

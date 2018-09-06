@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Bombs;
 using BoardTools;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class TrajectorySimulator : GenericUpgrade
+    public class TrajectorySimulator : GenericUpgrade, ISecondEditionUpgrade
     {
         public TrajectorySimulator() : base()
         {
@@ -18,6 +19,11 @@ namespace UpgradesList
             Cost = 1;
 
             UpgradeAbilities.Add (new TrajectorySimulatorAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 3;
         }
     }
 }

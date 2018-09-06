@@ -153,7 +153,8 @@ public static partial class Combat
     public static GameCommand GenerateDiceModificationCommand(string diceModificationName)
     {
         JSONObject parameters = new JSONObject();
-        parameters.AddField("name", diceModificationName);
+        string diceModificationNameFixed = diceModificationName.Replace('"', '_');
+        parameters.AddField("name", diceModificationNameFixed);
         return GameController.GenerateGameCommand(
             GameCommandTypes.DiceModification,
             Phases.CurrentSubPhase.GetType(),

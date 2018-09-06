@@ -16,7 +16,8 @@ namespace GameCommands
 
         public override void Execute()
         {
-            string diceModificationName = GetString("name");
+            string diceModificationNameFixed = GetString("name");
+            string diceModificationName = diceModificationNameFixed.Replace('_', '"');
             if (diceModificationName == "OK")
             {
                 Combat.ConfirmDiceResultsClient();

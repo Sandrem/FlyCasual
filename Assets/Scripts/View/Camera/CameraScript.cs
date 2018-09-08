@@ -17,6 +17,11 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_MOVE = 0.125f;
     private const float SENSITIVITY_TURN = 5;
     private const float SENSITIVITY_ZOOM = 5;
+    private const float SENSITIVITY_TOUCH_MOVE = 0.015f; // .01
+    private const float SENSITIVITY_TOUCH_TURN = 0.125f;
+    private const float SENSITIVITY_TOUCH_ZOOM = 0.25f;//0.5f;
+    private const float THRESHOLD_TOUCH_TURN = 0.4f;
+    private const float THRESHOLD_TOUCH_ZOOM = 1.5f;//0.7f;//0.4f
     private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
     private const float MAX_HEIGHT = 6f;
@@ -61,10 +66,17 @@ public class CameraScript : MonoBehaviour {
         //TODO: Call hide context menu only once
         CheckChangeMode();
 
+        if (true) {//Input.touchSupported) {
+            CamAdjustByTouch();
+        }
+        else
+        {
+            CamMoveByMouse();
+            CamZoomByMouseScroll();
+            CamRotateByMouse();
+        }
+
         CamMoveByAxis();
-        CamMoveByMouse();
-        CamZoomByMouseScroll();
-        CamRotateByMouse();
         CamClampPosition();
     }
 
@@ -124,30 +136,34 @@ public class CameraScript : MonoBehaviour {
 		float zoom = Input.GetAxis ("Mouse ScrollWheel") * SENSITIVITY_ZOOM;
 		if (zoom != 0)
         {
-            if (cameraMode == CameraModes.Free)
-            {
-                Vector3 newPosition = transform.position + (Camera.TransformDirection(0, 0, zoom));
-                float zoomClampRate = 1;
-                if (newPosition.y <= MIN_HEIGHT)
-                {
-                    zoomClampRate = (transform.position.y - MIN_HEIGHT) / zoom;
-                }
-                if (newPosition.y >= MAX_HEIGHT)
-                {
-                    zoomClampRate = (transform.position.y - MAX_HEIGHT) / zoom;
-                }
-                transform.Translate(transform.InverseTransformDirection(Camera.TransformDirection(0, 0, zoom * zoomClampRate)));
-            }
-            else
-            {
-                Camera camera = Camera.GetComponent<Camera>();
-                camera.orthographicSize -= zoom;
-                camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, 1, 6);
-            }
-
-            WhenViewChanged();
+            ZoomByFactor(zoom);
         }	
 	}
+
+    private void ZoomByFactor(float zoom) {
+        if (cameraMode == CameraModes.Free)
+        {
+            Vector3 newPosition = transform.position + (Camera.TransformDirection(0, 0, zoom));
+            float zoomClampRate = 1;
+            if (newPosition.y <= MIN_HEIGHT)
+            {
+                zoomClampRate = (transform.position.y - MIN_HEIGHT) / zoom;
+            }
+            if (newPosition.y >= MAX_HEIGHT)
+            {
+                zoomClampRate = (transform.position.y - MAX_HEIGHT) / zoom;
+            }
+            transform.Translate(transform.InverseTransformDirection(Camera.TransformDirection(0, 0, zoom * zoomClampRate)));
+        }
+        else
+        {
+            Camera camera = Camera.GetComponent<Camera>();
+            camera.orthographicSize -= zoom;
+            camera.orthographicSize = Mathf.Clamp(camera.orthographicSize, 1, 6);
+        }
+
+        WhenViewChanged();
+    }
 
 	private void CamRotateByMouse()
     {
@@ -197,6 +213,86 @@ public class CameraScript : MonoBehaviour {
     private void WhenViewChanged()
     {
         UI.HideTemporaryMenus();
+    }
+
+    // Pinch zoom for mobile
+
+    void CamAdjustByTouch()
+    {
+        // If there are two touches on the device
+        if (Input.touchCount == 2 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(1).phase == TouchPhase.Moved)) // TODO: need to check phase too...?
+        {
+            // Store both touches
+            Touch touchZero = Input.GetTouch(0);
+            Touch touchOne = Input.GetTouch(1);
+
+            // Find the position in the previous frame of each touch.
+            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+            // Find the magnitude of the vector (the distance) between the touches in each frame.
+            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+
+            // Find the difference in the distances between each frame.
+            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+
+            float zoom = deltaMagnitudeDiff * -SENSITIVITY_TOUCH_ZOOM;
+            Console.Write("Zoom:" + zoom, LogTypes.Errors, true, "cyan");
+            if (Mathf.Abs(zoom) > THRESHOLD_TOUCH_ZOOM)
+            {
+                ZoomByFactor((Mathf.Abs(zoom) - THRESHOLD_TOUCH_ZOOM) * Mathf.Sign(zoom)); // TODO: cleaner...?
+            }
+            else {
+                // Check if it's a rotate instead
+
+                // Find the difference between the average of the positions
+                Vector2 centerPrevPos = Vector2.Lerp(touchZeroPrevPos, touchOnePrevPos, 0.5f);
+                Vector2 centerPos = Vector2.Lerp(touchZero.position, touchOne.position, 0.5f);
+                Vector2 deltaCenterPos = centerPos - centerPrevPos;
+
+                Console.Write("rot mag:" + (deltaCenterPos.magnitude * -SENSITIVITY_TOUCH_TURN), LogTypes.Errors, true, "cyan");
+
+                if (Mathf.Abs(deltaCenterPos.magnitude * SENSITIVITY_TOUCH_TURN) > THRESHOLD_TOUCH_TURN) {
+                    // Rotate!
+
+                    float turnX = deltaCenterPos.y * -SENSITIVITY_TOUCH_TURN;
+                    turnX = CamClampRotation(turnX);
+                    Camera.Rotate(turnX, 0, 0);
+
+                    float turnY = deltaCenterPos.x * -SENSITIVITY_TOUCH_TURN;
+                    transform.Rotate(0, 0, turnY);
+
+                    if ((turnX != 0) || (turnY != 0)) WhenViewChanged();
+
+                    //TODO: dedupe? not much code though
+                }
+            }
+        }
+        else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved) {
+
+            //// TODO: momentum?
+            Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
+
+            float x = deltaPosition.x * -SENSITIVITY_TOUCH_MOVE;
+            float y = deltaPosition.y * -SENSITIVITY_TOUCH_MOVE;
+
+            Console.Write("pan x:"+x+" y:"+x, LogTypes.Errors, true, "cyan");
+
+          //  if (touchPanAmountX < 1 || touchPanAmountY < 1) return; //TODO: threshold value? make constant
+
+            if ((x != 0) || (y != 0)) WhenViewChanged();
+            transform.Translate(x, y, 0);
+       
+        }
+        else if (Input.touchCount > 2 && Input.GetTouch(2).phase == TouchPhase.Ended) {
+            // TODO: move this...? to non-camera hanlding??
+            Console.IsActive = !Console.IsActive;
+        }
+        else if (Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled))
+        {
+           
+        }
     }
 
 }

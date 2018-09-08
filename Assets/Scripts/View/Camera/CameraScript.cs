@@ -21,7 +21,7 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
     private const float SENSITIVITY_TOUCH_ZOOM = 0.25f;//0.5f;
     private const float THRESHOLD_TOUCH_TURN = 0.4f;
-    private const float THRESHOLD_TOUCH_ZOOM = 1.5f;//0.7f;//0.4f
+    private const float THRESHOLD_TOUCH_ZOOM = 1f;//0.7f;//0.4f
     private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
     private const float MAX_HEIGHT = 6f;

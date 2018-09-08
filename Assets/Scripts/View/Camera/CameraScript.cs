@@ -19,9 +19,9 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_ZOOM = 5;
     private const float SENSITIVITY_TOUCH_MOVE = 0.015f; // .01
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
-    private const float SENSITIVITY_TOUCH_ZOOM = 0.25f;//0.5f;
+    private const float SENSITIVITY_TOUCH_ZOOM = 0.15f;//0.5f;
     private const float THRESHOLD_TOUCH_TURN = 0.4f;
-    private const float THRESHOLD_TOUCH_ZOOM = 1f;//0.7f;//0.4f
+    private const float THRESHOLD_TOUCH_ZOOM = 1.5f;//0.7f;//0.4f
     private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
     private const float MAX_HEIGHT = 6f;
@@ -243,7 +243,8 @@ public class CameraScript : MonoBehaviour {
             {
                 ZoomByFactor((Mathf.Abs(zoom) - THRESHOLD_TOUCH_ZOOM) * Mathf.Sign(zoom)); // TODO: cleaner...?
             }
-            else {
+            else if (cameraMode == CameraModes.Free)
+            {
                 // Check if it's a rotate instead
 
                 // Find the difference between the average of the positions

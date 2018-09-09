@@ -406,9 +406,12 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            StopDrag();
+            if (RuleSet.Instance is FirstEdition)
+            {
+                StopDrag();
 
-            if (!useMobileControls) ConfirmPosition();
+                if (!useMobileControls) ConfirmPosition();
+            }
         }
 
         private void ConfirmPosition()
@@ -510,22 +513,14 @@ namespace SubPhases
         {
             bool isFinished = false;
 
-            updatesCount++;
-
-            if (updatesCount == 3)
+            if (updatesCount > 1)
             {
-                // Collision check complete
                 GetResults();
                 isFinished = true;
             }
-            else if (updatesCount > 3) {
-                // For some reason on mobile, when the previous case causes this to return true,
-                // ShipMovementScript.UpdateSubscribedFuncs() doesn't actually remove this function
-                // from its subscription list. It calls FuncsToUpdate.Remove(func), but after that
-                // func is still in FuncsToUpdate somehow
-
-                // So we return true again, and this time it will actually get removed
-                isFinished = true;
+            else
+            {
+                updatesCount++;
             }
 
             return isFinished;

@@ -82,6 +82,7 @@ namespace Ship
                 Maneuvers.Add("1.R.T", MovementComplexity.Complex);
                 Maneuvers["2.L.B"] = MovementComplexity.Normal;
                 Maneuvers["2.R.B"] = MovementComplexity.Normal;
+                Maneuvers.Remove("3.F.R");
                 Maneuvers.Add("3.L.R", MovementComplexity.Complex);
                 Maneuvers.Add("3.R.R", MovementComplexity.Complex);
                 Maneuvers["4.F.S"] = MovementComplexity.Easy;
@@ -94,7 +95,7 @@ namespace Ship
 
                 SetTargetLockRange(2, int.MaxValue);
 
-                IconicPilots[Faction.Rebel] = typeof(KnaveSquadronEscort);
+                IconicPilots[Faction.Rebel] = typeof(GavinDarklighter);
             }
 
         }

@@ -21,7 +21,7 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
     private const float SENSITIVITY_TOUCH_ZOOM = 0.15f;//0.5f;
     private const float THRESHOLD_TOUCH_TURN = 0.4f;
-    private const float THRESHOLD_TOUCH_ZOOM = 1.5f;//0.7f;//0.4f
+    private const float THRESHOLD_TOUCH_ZOOM = 0.4f;//0.7f;//0.4f
     private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
     private const float MAX_HEIGHT = 6f;
@@ -219,6 +219,15 @@ public class CameraScript : MonoBehaviour {
 
     void CamAdjustByTouch()
     {
+        //**** always zoom, only rotate if above a modest threshold??
+            //**** reverse rotation????
+            //**** commit, then reduce zoom threshold a bit
+
+        if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height)) {
+            // Don't listen to off-screen touches
+            return;
+        }
+
         // If there are two touches on the device
         if (Input.touchCount == 2 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(1).phase == TouchPhase.Moved)) // TODO: need to check phase too...?
         {
@@ -243,10 +252,11 @@ public class CameraScript : MonoBehaviour {
             float zoom = deltaMagnitudeDiff * -SENSITIVITY_TOUCH_ZOOM;
             Console.Write("Zoom:" + zoom, LogTypes.Errors, true, "cyan");
             if (Mathf.Abs(zoom) > THRESHOLD_TOUCH_ZOOM)
-            {
+            { //**** still need - threshold??h
                 ZoomByFactor((Mathf.Abs(zoom) - THRESHOLD_TOUCH_ZOOM) * Mathf.Sign(zoom)); // TODO: cleaner...?
             }
-            else if (cameraMode == CameraModes.Free)
+            //else 
+            if (cameraMode == CameraModes.Free)
             {
                 // Check if it's a rotate instead
 
@@ -293,10 +303,6 @@ public class CameraScript : MonoBehaviour {
         else if (Input.touchCount > 2 && Input.GetTouch(2).phase == TouchPhase.Ended) {
             // TODO: move this...? to non-camera hanlding??
             Console.IsActive = !Console.IsActive;
-        }
-        else if (Input.touchCount > 0 && (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(0).phase == TouchPhase.Canceled))
-        {
-           
         }
     }
 

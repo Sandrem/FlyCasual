@@ -222,6 +222,9 @@ public class CameraScript : MonoBehaviour {
         // If there are two touches on the device
         if (Input.touchCount == 2 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(1).phase == TouchPhase.Moved)) // TODO: need to check phase too...?
         {
+            //TODO: pan vs zoom just by how far apart fingers are....? hmmmmmm
+            //TODO: or the threshold approach that I had in mind but overcompliced
+            //TODO: or find best practice!!
             // Store both touches
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
@@ -272,6 +275,7 @@ public class CameraScript : MonoBehaviour {
         }
         else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved) {
 
+            //TODO: or reverse pan back to non-direct manipulation....? it's weird that it's reversed from the others maybe??
             //// TODO: momentum?
             Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
 

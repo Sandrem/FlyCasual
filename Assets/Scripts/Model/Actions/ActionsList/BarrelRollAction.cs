@@ -45,6 +45,8 @@ namespace SubPhases
 
     public class BarrelRollPlanningSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext }; } }
+
         bool useMobileControls;
 
         List<Actions.BarrelRollTemplates> availableTemplates = new List<Actions.BarrelRollTemplates>();
@@ -190,6 +192,7 @@ namespace SubPhases
                     -0.5f * TheShip.ShipBase.SHIPSTAND_SIZE,
                     ProcessTemplatePositionSlider
                 );
+                IsReadyForCommands = true;
             }
         }
 
@@ -403,9 +406,12 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            StopDrag();
+            if (RuleSet.Instance is FirstEdition)
+            {
+                StopDrag();
 
-            if (!useMobileControls) ConfirmPosition();
+                if (!useMobileControls) ConfirmPosition();
+            }
         }
 
         private void ConfirmPosition()

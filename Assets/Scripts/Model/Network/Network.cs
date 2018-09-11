@@ -212,13 +212,6 @@ public static partial class Network
         CurrentPlayer.CmdSelectTargetShip(targetId);
     }
 
-    // SELECT OBSTACLE
-
-    public static void SelectObstacle(string obstacleName)
-    {
-        CurrentPlayer.CmdSelectObstacle(obstacleName);
-    }
-
     // CONFIRM DICE ROLL CHECK
 
     public static void ConfirmDiceRollCheckResults()

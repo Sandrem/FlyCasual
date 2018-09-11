@@ -26,7 +26,8 @@ public enum GameCommandTypes
     HotacFreeTargetLock,
     SyncPlayerWithInitiative,
     SystemActivation,
-    CombatActivation
+    CombatActivation,
+    SelectObstacle
 }
 
 namespace GameCommands

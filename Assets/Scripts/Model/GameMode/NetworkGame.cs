@@ -151,10 +151,5 @@ namespace GameModes
             Network.QuitToDesktop();
         }
 
-        public override void SelectObstacle(string obstacleName)
-        {
-            Network.SelectObstacle(obstacleName);
-        }
-
     }
 }

@@ -111,6 +111,11 @@ namespace Players
         {
             GameController.CheckExistingCommands();
         }
+
+        public override void SelectObstacleForAbility()
+        {
+            GameController.CheckExistingCommands();
+        }
     }
 
 }

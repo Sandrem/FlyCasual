@@ -390,21 +390,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
     }
 
-    // SELECT OBSTACLE
-
-    [Command]
-    public void CmdSelectObstacle(string obstacleName)
-    {
-        RpcSelectTargetOBstacle(obstacleName);
-    }
-
-    [ClientRpc]
-    private void RpcSelectTargetOBstacle(string obstacleName)
-    {
-        SelectObstacleSubPhase currentSubPhase = (Phases.CurrentSubPhase as SelectObstacleSubPhase);
-        currentSubPhase.ConfirmSelectionOfObstacleClient(obstacleName);
-    }
-
     // CONFIRM DICE ROLL CHECK
 
     [Command]

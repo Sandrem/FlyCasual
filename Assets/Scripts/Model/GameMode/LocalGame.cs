@@ -185,10 +185,5 @@ namespace GameModes
         {
             Application.Quit();
         }
-
-        public override void SelectObstacle(string obstacleName)
-        {
-            (Phases.CurrentSubPhase as SelectObstacleSubPhase).ConfirmSelectionOfObstacleClient(obstacleName);
-        }
     }
 }

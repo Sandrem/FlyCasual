@@ -259,6 +259,7 @@ namespace Players
         public virtual void InformAboutCrit()
         {
             InformCrit.ShowPanelVisible();
+            InformCrit.DisableConfirmButton();
         }
 
         public virtual void DiceCheckConfirm()

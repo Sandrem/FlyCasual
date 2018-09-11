@@ -93,6 +93,7 @@ namespace Players
 
         public override void InformAboutCrit()
         {
+            base.InformAboutCrit();
             GameController.CheckExistingCommands();
         }
 

@@ -16,7 +16,7 @@ namespace GameCommands
 
         public override void Execute()
         {
-            InformCrit.ConfirmCrit();
+            ReplaysManager.ExecuteWithDelay(InformCrit.ConfirmCrit, 3);
         }
     }
 

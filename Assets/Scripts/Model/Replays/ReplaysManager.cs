@@ -74,7 +74,7 @@ public static class ReplaysManager
         return result;
     }
 
-    public static void ExecuteWithDelay(Action callback)
+    public static void ExecuteWithDelay(Action callback, int seconds = 1)
     {
         if (Mode == ReplaysMode.Write)
         {
@@ -82,7 +82,7 @@ public static class ReplaysManager
         }
         else
         {
-            GameManagerScript.Wait(1, delegate { callback(); });
+            GameManagerScript.Wait(seconds, delegate { callback(); });
         }
     }
 }

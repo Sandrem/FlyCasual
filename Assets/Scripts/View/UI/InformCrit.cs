@@ -19,15 +19,8 @@ public static class InformCrit
 
     public static void LoadAndShow(object sender, System.EventArgs e)
     {
-        if (Roster.Player1.UsesHotacAiRules && Roster.Player2.UsesHotacAiRules)
-        {
-            Triggers.FinishTrigger();
-        }
-        else
-        {
-            if (InformCritPanel == null) Initialize();
-            Behavior.StartCoroutine(LoadTooltipImage(Combat.CurrentCriticalHitCard.ImageUrl));
-        }
+        if (InformCritPanel == null) Initialize();
+        Behavior.StartCoroutine(LoadTooltipImage(Combat.CurrentCriticalHitCard.ImageUrl));
     }
 
     private static IEnumerator LoadTooltipImage(string url)
@@ -74,6 +67,10 @@ public static class InformCrit
         Phases.CurrentSubPhase.Pause();
 
         InformCritPanel.gameObject.SetActive(true);
+    }
+
+    public static void ShowConfirmButton()
+    {
         InformCritPanel.Find("Confirm").gameObject.SetActive(true);
     }
 

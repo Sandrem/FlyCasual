@@ -538,5 +538,12 @@ namespace Players
             UI.CallClickSkipPhase();
         }
 
+        public override void InformAboutCrit()
+        {
+            base.InformAboutCrit();
+
+            GameManagerScript.Wait(3, InformCrit.ButtonConfirm);
+        }
+
     }
 }

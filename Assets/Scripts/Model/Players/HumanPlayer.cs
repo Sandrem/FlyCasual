@@ -121,6 +121,12 @@ namespace Players
             base.PerformSystemsActivation();
             UI.ShowSkipButton();
         }
+
+        public override void InformAboutCrit()
+        {
+            base.InformAboutCrit();
+            InformCrit.ShowConfirmButton();
+        }
     }
 
 }

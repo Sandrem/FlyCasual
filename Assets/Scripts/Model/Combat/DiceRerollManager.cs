@@ -261,14 +261,7 @@ public partial class DiceRerollManager
 
     private void TryUnblockButtons(DiceRoll diceRoll)
     {
-        if (!Network.IsNetworkGame)
-        {
-            UnblockButtons();
-        }
-        else
-        {
-            Network.SyncDiceRerollResults();
-        }
+        UnblockButtons();
     }
 
     public void UnblockButtons()

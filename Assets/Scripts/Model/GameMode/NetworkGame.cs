@@ -138,7 +138,7 @@ namespace GameModes
 
         public override void StartDiceRerollExecution()
         {
-            Network.StartDiceRerollExecution();
+            //Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
         }
 
         public override void ReturnToMainMenu()

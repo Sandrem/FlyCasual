@@ -367,8 +367,6 @@ namespace Players
         {
             base.UseDiceModifications(type);
 
-            Combat.ShowDiceModificationButtons(type);
-
             Action FinalEffect = null;
             switch (type)
             {
@@ -505,6 +503,8 @@ namespace Players
 
         public override void SelectShipForAbility()
         {
+            base.SelectShipForAbility();
+
             (Phases.CurrentSubPhase as SelectShipSubPhase).AiSelectPrioritizedTarget();
         }
 

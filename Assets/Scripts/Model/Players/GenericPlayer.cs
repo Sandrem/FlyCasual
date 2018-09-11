@@ -6,6 +6,7 @@ using Ship;
 using ActionsList;
 using GameModes;
 using SubPhases;
+using GameCommands;
 
 public enum Faction
 {
@@ -83,29 +84,39 @@ namespace Players
         public virtual void SetupShip()
         {
             Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
         }
 
         public virtual void AssignManeuver()
         {
             Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
         }
 
         public virtual void PerformManeuver()
         {
             Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
         }
 
         public virtual void PerformAttack()
         {
             Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
         }
 
         public virtual void UseDiceModifications(DiceModificationTimingType type)
         {
             Roster.HighlightPlayer(PlayerNo);
+            Combat.ShowDiceModificationButtons(type);
+            GameController.CheckExistingCommands();
         }
 
-        public virtual void TakeDecision() { }
+        public virtual void TakeDecision()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
+        }
 
         public virtual void AfterShipMovementPrediction()
         {
@@ -164,9 +175,17 @@ namespace Players
 
         public virtual void StartExtraAttack() { }
 
-        public virtual void SelectShipForAbility() { }
+        public virtual void SelectShipForAbility()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
+        }
 
-        public virtual void SelectObstacleForAbility() { }
+        public virtual void SelectObstacleForAbility()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
+        }
 
         public float AveragePilotSkillOfRemainingShips()
         {
@@ -195,24 +214,21 @@ namespace Players
         public virtual void PlaceObstacle()
         {
             Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
         }
 
         public virtual void PerformSystemsActivation()
         {
             Roster.HighlightPlayer(PlayerNo);
-        }
-
-        public virtual void PressNext()
-        {
-            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
-        }
-
-        public virtual void PressSkip()
-        {
-            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
+            GameController.CheckExistingCommands();
         }
 
         public virtual void SyncDiceResults()
+        {
+            GameMode.CurrentGameMode.ExecuteCommand(GenerateSyncDiceCommand());
+        }
+
+        private GameCommand GenerateSyncDiceCommand()
         {
             JSONObject[] diceResultArray = new JSONObject[DiceRoll.CurrentDiceRoll.DiceList.Count];
             for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
@@ -227,7 +243,7 @@ namespace Players
             JSONObject parameters = new JSONObject();
             parameters.AddField("sides", dieSides);
 
-            GameController.SendCommand(
+            return GameController.GenerateGameCommand(
                 GameCommandTypes.SyncDiceResults,
                 Phases.CurrentSubPhase.GetType(),
                 parameters.ToString()
@@ -260,6 +276,8 @@ namespace Players
         {
             InformCrit.ShowPanelVisible();
             InformCrit.DisableConfirmButton();
+
+            GameController.CheckExistingCommands();
         }
 
         public virtual void DiceCheckConfirm()

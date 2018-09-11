@@ -213,19 +213,11 @@ public partial class DiceRoll
 
         if (ReplaysManager.Mode == ReplaysMode.Write)
         {
-            if (!Network.IsNetworkGame)
+            foreach (Die die in DiceList)
             {
-                foreach (Die die in DiceList)
-                {
-                    die.RandomizeRotation();
-                }
-                RollPreparedDice();
+                die.RandomizeRotation();
             }
-            else
-            {
-                if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.Roll");
-                Network.GenerateRandom(new Vector2(0, 360), DiceList.Count * 3, SetDiceInitialRotation, RollPreparedDice);
-            }
+            RollPreparedDice();
         }
         else
         {
@@ -805,23 +797,9 @@ public partial class DiceRoll
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
 
         Die newDie = AddDice();
-        if (!Network.IsNetworkGame)
-        {
-            newDie.RandomizeRotation();
-            BeforeRollAdditionalPreparedDice();
-        }
-        else
-        {
-            Network.GenerateRandom(new Vector2(0, 360), 3, SetAdditionalDiceInitialRotation, BeforeRollAdditionalPreparedDice);
-        }
 
-        /*Combat.Defender.CallDiceAboutToBeRolled();
-        Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, delegate
-        {
-            Combat.CurrentDiceRoll.RollAdditionalDice(1);
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
-            callBack();
-        });*/
+        newDie.RandomizeRotation();
+        BeforeRollAdditionalPreparedDice();
     }
 
     private void BlockButtons()
@@ -836,14 +814,7 @@ public partial class DiceRoll
 
     public void TryUnblockButtons(DiceRoll diceRoll)
     {
-        if (!Network.IsNetworkGame)
-        {
-            UnblockButtons();
-        }
-        else
-        {
-            Network.SyncDiceRollInResults();
-        }
+        UnblockButtons();
     }
 
     private void ToggleDiceModificationsPanel(bool isActive)

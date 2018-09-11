@@ -673,21 +673,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         SwarmManager.SetManeuver(maneuverCode);
     }
 
-    // Combat Activation
-
-    [Command]
-    public void CmdCombatActivation(int shipId)
-    {
-        RpcCombatActivation(shipId);
-    }
-
-    [ClientRpc]
-    private void RpcCombatActivation(int shipId)
-    {
-        Selection.ChangeActiveShip("ShipId:" + shipId);
-        Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
-    }
-
     // Return To Main Menu
 
     [Command]

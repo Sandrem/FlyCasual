@@ -170,12 +170,6 @@ namespace GameModes
             }
         }
 
-        public override void CombatActivation(int shipId)
-        {
-            Selection.ChangeActiveShip("ShipId:" + shipId);
-            Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
-        }
-
         public override void StartDiceRerollExecution()
         {
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();

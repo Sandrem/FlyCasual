@@ -121,6 +121,9 @@ public static class GameController
             case GameCommandTypes.SystemActivation:
                 command = new SystemActivationCommand(commandType, subPhase, parameters);
                 break;
+            case GameCommandTypes.CombatActivation:
+                command = new CombatActivationCommand(commandType, subPhase, parameters);
+                break;
             default:
                 Console.Write("Constructor for GameCommand is not found", LogTypes.Errors, true, "red");
                 break;

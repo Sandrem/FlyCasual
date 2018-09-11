@@ -548,11 +548,6 @@ public static partial class Network
         if (IsServer) CurrentPlayer.CmdSyncDecks(playerNo, seed);
     }
 
-    public static void CombatActivation(int shipId)
-    {
-        CurrentPlayer.CmdCombatActivation(shipId);
-    }
-
     public static void StartDiceRerollExecution()
     {
         CurrentPlayer.CmdStartDiceRerollExecution();

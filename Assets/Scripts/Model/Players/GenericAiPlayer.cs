@@ -121,10 +121,11 @@ namespace Players
                 GenericShip targetForAttack = SelectTargetForAttack();
 
                 Selection.ThisShip.CallAfterAttackWindow();
-                Selection.ThisShip.IsAttackPerformed = true;
 
                 if (targetForAttack != null)
                 {
+                    Selection.ThisShip.IsAttackPerformed = true;
+
                     Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
 
                     GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true);
@@ -244,6 +245,7 @@ namespace Players
 
             if (Selection.ThisShip != null)
             {
+                ReplaysManager.RecordCommand(CombatSubPhase.GenerateCombatActicationCommand(Selection.ThisShip.ShipId));
                 Selection.ThisShip.CallCombatActivation(callback);
             }
             else

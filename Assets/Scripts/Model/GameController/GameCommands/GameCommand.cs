@@ -25,7 +25,8 @@ public enum GameCommandTypes
     HotacSwerve,
     HotacFreeTargetLock,
     SyncPlayerWithInitiative,
-    SystemActivation
+    SystemActivation,
+    CombatActivation
 }
 
 namespace GameCommands

@@ -308,21 +308,31 @@ public partial class DiceRoll
     {
         this.callBack = callBack;
 
-        if (!Network.IsNetworkGame)
+        if (ReplaysManager.Mode == ReplaysMode.Write)
         {
-            foreach (Die die in DiceList)
+            if (!Network.IsNetworkGame)
             {
-                if (die.IsSelected)
+                foreach (Die die in DiceList)
                 {
-                    die.RandomizeRotation();
+                    if (die.IsSelected)
+                    {
+                        die.RandomizeRotation();
+                    }
                 }
+                RerollPreparedDice();
             }
-            RerollPreparedDice();
+            else
+            {
+                if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.SyncSelectedDice");
+                Network.SyncSelectedDiceAndReroll();
+            }
         }
         else
         {
-            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.SyncSelectedDice");
-            Network.SyncSelectedDiceAndReroll();
+            CurrentDiceRoll.DeselectDice();
+
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
         }
     }
 

@@ -19,9 +19,20 @@ namespace AI
         protected List<string> BackManeuversInner = new List<string>();
         protected List<string> BackManeuversOuter = new List<string>();
 
+        protected List<List<string>> AllTables = new List<List<string>>();
+
         public GenericAiTable()
         {
-
+            AllTables.Add(FrontManeuversInner);
+            AllTables.Add(FrontManeuversOuter);
+            AllTables.Add(FrontSideManeuversInner);
+            AllTables.Add(FrontSideManeuversOuter);
+            AllTables.Add(SideManeuversInner);
+            AllTables.Add(SideManeuversOuter);
+            AllTables.Add(BackSideManeuversInner);
+            AllTables.Add(BackSideManeuversOuter);
+            AllTables.Add(BackManeuversInner);
+            AllTables.Add(BackManeuversOuter);
         }
 
         public Movement.GenericMovement GetManeuver(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
@@ -203,6 +214,18 @@ namespace AI
         }
 
         public virtual void AdaptToSecondEdition() { }
+
+        protected void ReplaceManeuver(string oldManeuver, string newManeuver)
+        {
+            foreach (var table in AllTables)
+            {
+                while (table.Contains(oldManeuver))
+                {
+                    table.Remove(oldManeuver);
+                    table.Add(newManeuver);
+                }
+            }
+        }
 
     }
 }

@@ -16,6 +16,7 @@ namespace GameCommands
 
         public override void Execute()
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
             ReplaysManager.ExecuteWithDelay(InformCrit.ConfirmCrit, 3);
         }
     }

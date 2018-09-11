@@ -634,12 +634,16 @@ namespace SubPhases
 
     public class ExtraAttackSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
+
         public override void Start()
         {
             Name = "Extra Attack";
             UpdateHelpInfo();
 
             UI.ShowSkipButton();
+
+            IsReadyForCommands = true;
         }
 
         public override void SkipButton()

@@ -202,5 +202,7 @@ namespace AI
 
         }
 
+        public virtual void AdaptToSecondEdition() { }
+
     }
 }

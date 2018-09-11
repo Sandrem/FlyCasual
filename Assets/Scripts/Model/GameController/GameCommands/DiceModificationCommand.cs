@@ -24,7 +24,7 @@ namespace GameCommands
             }
             else
             {
-                Messages.ShowInfo(diceModificationName);
+                if (ReplaysManager.Mode == ReplaysMode.Read) Messages.ShowInfo(diceModificationName);
                 Combat.UseDiceModification(diceModificationName);
             }
         }

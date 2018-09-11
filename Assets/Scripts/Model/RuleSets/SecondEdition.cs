@@ -143,6 +143,7 @@ namespace RuleSets
             if (ship is ISecondEditionShip)
             {
                 (ship as ISecondEditionShip).AdaptShipToSecondEdition();
+                ship.HotacManeuverTable.AdaptToSecondEdition();
                 ship.ShipRuleType = typeof(SecondEdition);
             }
         }

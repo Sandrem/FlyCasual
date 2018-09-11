@@ -13,7 +13,7 @@ namespace RuleSets
 {
     public abstract class RuleSet
     {
-        public static RuleSet Instance { get; private set; }
+        public static RuleSet Instance { get; set; }
 
         public abstract string Name { get; }
         public abstract int MaxPoints { get; }

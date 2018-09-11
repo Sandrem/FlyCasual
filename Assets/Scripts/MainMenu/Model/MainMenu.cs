@@ -9,6 +9,7 @@ using Players;
 using System.Reflection;
 using System;
 using Upgrade;
+using Migrations;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -19,6 +20,7 @@ public partial class MainMenu : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        MigrationsManager.PerformMigrations();
         InitializeMenu();
     }
 

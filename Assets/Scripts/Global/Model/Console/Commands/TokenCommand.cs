@@ -74,12 +74,7 @@ namespace CommandsList
 
             if (ship != null)
             {
-                if (tokenType != typeof(BlueTargetLockToken))
-                {
-                    GenericToken token = (GenericToken)System.Activator.CreateInstance(tokenType, ship);
-                    ship.Tokens.AssignToken(token, ShowMessage);
-                }
-                else
+                if (tokenType == typeof(BlueTargetLockToken))
                 {
                     if (targetShipId != -1)
                     {
@@ -97,6 +92,17 @@ namespace CommandsList
                     {
                         ShowHelp();
                     }
+                }
+                else if (tokenType == typeof(TractorBeamToken))
+                {
+                    GenericShip targetShip = Roster.AllShips.FirstOrDefault(n => n.Key == "ShipId:" + targetShipId).Value;
+                    TractorBeamToken token = new TractorBeamToken(ship, targetShip.Owner);
+                    ship.Tokens.AssignToken(token, ShowMessage);
+                }
+                else
+                {
+                    GenericToken token = (GenericToken)System.Activator.CreateInstance(tokenType, ship);
+                    ship.Tokens.AssignToken(token, ShowMessage);
                 }
             }
         }

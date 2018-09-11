@@ -32,6 +32,7 @@ namespace UpgradesList
             AddedSlots.Add(new UpgradeSlot(UpgradeType.Modification));
             UpgradeAbilities.Add(new ViragoAbility());
             MaxCharges = 2; //Charges for boost ability
+            UsesCharges = true;
         }
 
 

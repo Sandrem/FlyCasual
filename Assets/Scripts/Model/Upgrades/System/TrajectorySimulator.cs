@@ -68,8 +68,7 @@ namespace SubPhases
 
             ShowBombLaunchHelper();
 
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, SelectBombPosition);
+            GameManagerScript.Wait(0.5f, SelectBombPosition);
         }
 
         private void CreateBombObject(Vector3 bombPosition, Quaternion bombRotation)

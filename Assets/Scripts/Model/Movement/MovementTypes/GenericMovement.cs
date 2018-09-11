@@ -363,8 +363,7 @@ namespace Movement
 
         public virtual void LaunchShipMovement()
         {
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, delegate { TheShip.StartMoving(LaunchShipMovementContinue); });
+            GameManagerScript.Wait(0.5f, delegate { TheShip.StartMoving(LaunchShipMovementContinue); });
         }
 
         private void LaunchShipMovementContinue()

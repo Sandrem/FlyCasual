@@ -73,5 +73,17 @@ public static class ReplaysManager
 
         return result;
     }
+
+    public static void ExecuteWithDelay(Action callback)
+    {
+        if (Mode == ReplaysMode.Write)
+        {
+            callback();
+        }
+        else
+        {
+            GameManagerScript.Wait(1, delegate { callback(); });
+        }
+    }
 }
 

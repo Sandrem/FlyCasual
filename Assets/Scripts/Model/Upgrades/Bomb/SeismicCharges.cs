@@ -158,8 +158,7 @@ namespace UpgradesList
             BombsManager.CurrentBomb = this;
             bombObject.transform.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
 
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(1, delegate { PlayDefferedSound(bombObject, callBack); });
+            GameManagerScript.Wait(1, delegate { PlayDefferedSound(bombObject, callBack); });
         }
 
         private void PlayDefferedSound(GameObject bombObject, Action callBack)
@@ -167,8 +166,7 @@ namespace UpgradesList
             Sounds.PlayBombSound(bombObject, "SeismicBomb");
             bombObject.transform.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
 
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(1.4f, delegate { callBack(); });
+            GameManagerScript.Wait(1.4f, delegate { callBack(); });
         }
 
     }

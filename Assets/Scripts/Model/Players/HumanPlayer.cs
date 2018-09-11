@@ -106,8 +106,7 @@ namespace Players
                 }
                 else
                 {
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(1, subphase.SkipButton);
+                    GameManagerScript.Wait(1, subphase.SkipButton);
                 }
             }
             else

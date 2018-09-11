@@ -24,6 +24,7 @@ namespace GameCommands
             }
             else
             {
+                Messages.ShowInfo(diceModificationName);
                 Combat.UseDiceModification(diceModificationName);
             }
         }

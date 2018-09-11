@@ -23,11 +23,6 @@ namespace GameModes
             Network.RevertSubPhase();
         }
 
-        public override void ActivateSystemsOnShip(int shipId)
-        {
-            Network.ActivateSystemsOnShip(shipId);
-        }
-
         public override void AssignManeuver(string maneuverCode)
         {
             Network.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);

@@ -106,6 +106,11 @@ namespace Players
             Phases.CurrentSubPhase.IsReadyForCommands = true;
             GameController.CheckExistingCommands();
         }
+
+        public override void PerformSystemsActivation()
+        {
+            GameController.CheckExistingCommands();
+        }
     }
 
 }

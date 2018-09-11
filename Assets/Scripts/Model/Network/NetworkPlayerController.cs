@@ -216,20 +216,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         ShipMovementScript.SendAssignManeuverCommand(shipId, maneuverCode);
     }
 
-    // Systems
-
-    [Command]
-    public void CmdActivateSystemsOnShip(int shipId)
-    {
-        RpcActivateSystemsOnShip(shipId);
-    }
-
-    [ClientRpc]
-    private void RpcActivateSystemsOnShip(int shipId)
-    {
-        (Phases.CurrentSubPhase as SystemsSubPhase).ActivateSystemsOnShipClient(Roster.GetShipById("ShipId:" + shipId));
-    }
-
     // BARREL ROLL
 
     [Command]

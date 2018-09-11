@@ -24,7 +24,8 @@ public enum GameCommandTypes
     PressSkip,
     HotacSwerve,
     HotacFreeTargetLock,
-    SyncPlayerWithInitiative
+    SyncPlayerWithInitiative,
+    SystemActivation
 }
 
 namespace GameCommands

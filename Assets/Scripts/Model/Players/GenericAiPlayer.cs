@@ -535,7 +535,7 @@ namespace Players
         public override void PerformSystemsActivation()
         {
             base.PerformSystemsActivation();
-            UI.SkipButtonEffect();
+            UI.CallClickSkipPhase();
         }
 
     }

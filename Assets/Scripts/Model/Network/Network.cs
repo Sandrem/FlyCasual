@@ -169,13 +169,6 @@ public static partial class Network
         CurrentPlayer.CmdAssignManeuver(shipId, maneuverCode);
     }
 
-    // SYSTEMS
-
-    public static void ActivateSystemsOnShip(int shipId)
-    {
-        CurrentPlayer.CmdActivateSystemsOnShip(shipId);
-    }
-
     // PERFORM BARREL ROLL
 
     public static void PerformBarrelRoll()

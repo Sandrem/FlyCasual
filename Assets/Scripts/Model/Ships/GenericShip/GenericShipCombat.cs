@@ -347,6 +347,10 @@ namespace Ship
         public void CallAttackFinish()
         {
             if (OnAttackFinish != null) OnAttackFinish(this);
+        }
+
+        public void CallAttackFinishGlobal()
+        {
             if (OnAttackFinishGlobal != null) OnAttackFinishGlobal(this);
         }
 

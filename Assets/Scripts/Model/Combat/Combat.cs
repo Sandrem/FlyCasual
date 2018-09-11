@@ -412,6 +412,8 @@ public static partial class Combat
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
 
+        Attacker.CallAttackFinishGlobal(); // Only once!
+
         Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, FinishCombatActivation);
     }
 

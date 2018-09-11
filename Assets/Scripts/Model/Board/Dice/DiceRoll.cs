@@ -378,8 +378,13 @@ public partial class DiceRoll
         {
             changedDiceCount += ChangeDice(oldSide, newSide, false, cannotBeRerolled, cannotBeModified);
         }
-        else for (int i = 0; i < count; i++) {
-            changedDiceCount += ChangeDice (oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
+        else
+        {
+            count = Math.Min(count, DiceList.Count(n => n.Side == oldSide));
+            for (int i = 0; i < count; i++)
+            {
+                changedDiceCount += ChangeDice(oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
+            }
 		}
 
 		UpdateDiceCompareHelperPrediction();

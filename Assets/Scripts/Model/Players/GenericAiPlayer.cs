@@ -367,8 +367,6 @@ namespace Players
         {
             base.UseDiceModifications(type);
 
-            Combat.ShowDiceModificationButtons(type);
-
             Action FinalEffect = null;
             switch (type)
             {
@@ -505,6 +503,8 @@ namespace Players
 
         public override void SelectShipForAbility()
         {
+            base.SelectShipForAbility();
+
             (Phases.CurrentSubPhase as SelectShipSubPhase).AiSelectPrioritizedTarget();
         }
 
@@ -545,5 +545,11 @@ namespace Players
             GameManagerScript.Wait(3, InformCrit.ButtonConfirm);
         }
 
+        public override void SyncDiceResults()
+        {
+            base.SyncDiceResults();
+
+            GameMode.CurrentGameMode.ExecuteCommand(DiceRoll.GenerateSyncDiceCommand());
+        }
     }
 }

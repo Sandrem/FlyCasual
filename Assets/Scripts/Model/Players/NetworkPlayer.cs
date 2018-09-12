@@ -22,23 +22,10 @@ namespace Players
             (Phases.CurrentSubPhase as SubPhases.DiceRollCheckSubPhase).ShowConfirmButton();
         }
 
-        public override void UseDiceModifications(DiceModificationTimingType type)
-        {
-            base.UseDiceModifications(type);
-
-            Combat.ShowDiceModificationButtons(type);
-        }
-
         public override void PerformTractorBeamReposition(GenericShip ship)
         {
             RulesList.TractorBeamRule.PerfromManualTractorBeamReposition(ship, this);
         }
-
-        public override void SyncDiceResults()
-        {
-            // TODO: Sync by network
-        }
-
     }
 
 }

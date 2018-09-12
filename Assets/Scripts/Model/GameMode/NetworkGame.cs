@@ -18,6 +18,11 @@ namespace GameModes
             Network.SendCommand(command);
         }
 
+        public override void ExecuteServerCommand(GameCommand command)
+        {
+            if (Network.IsServer) Network.SendCommand(command);
+        }
+
         public override void RevertSubPhase()
         {
             Network.RevertSubPhase();
@@ -138,7 +143,7 @@ namespace GameModes
 
         public override void StartDiceRerollExecution()
         {
-            Network.StartDiceRerollExecution();
+            //Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
         }
 
         public override void ReturnToMainMenu()

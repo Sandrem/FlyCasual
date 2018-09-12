@@ -1,4 +1,4 @@
-﻿using ActionsList;
+﻿using GameCommands;
 using RuleSets;
 using System;
 using System.Collections;
@@ -211,21 +211,13 @@ public partial class DiceRoll
 
         this.callBack = callBack;
 
-        if (ReplaysManager.Mode == ReplaysMode.Write)
+        if (!ShouldSkipToSync())
         {
-            if (!Network.IsNetworkGame)
+            foreach (Die die in DiceList)
             {
-                foreach (Die die in DiceList)
-                {
-                    die.RandomizeRotation();
-                }
-                RollPreparedDice();
+                die.RandomizeRotation();
             }
-            else
-            {
-                if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.Roll");
-                Network.GenerateRandom(new Vector2(0, 360), DiceList.Count * 3, SetDiceInitialRotation, RollPreparedDice);
-            }
+            RollPreparedDice();
         }
         else
         {
@@ -234,6 +226,11 @@ public partial class DiceRoll
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
         }
         
+    }
+
+    private bool ShouldSkipToSync()
+    {
+        return (ReplaysManager.Mode == ReplaysMode.Read) || (Network.IsNetworkGame && !Network.IsServer);
     }
 
     private void SetDiceInitialRotation(int[] randomHolder)
@@ -627,7 +624,7 @@ public partial class DiceRoll
 
             Phases.CurrentSubPhase.IsReadyForCommands = true;
 
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
+            Roster.GetPlayer(Players.PlayerNo.Player1).SyncDiceResults(); // Server synchs dice
         }
     }
 
@@ -805,23 +802,9 @@ public partial class DiceRoll
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
 
         Die newDie = AddDice();
-        if (!Network.IsNetworkGame)
-        {
-            newDie.RandomizeRotation();
-            BeforeRollAdditionalPreparedDice();
-        }
-        else
-        {
-            Network.GenerateRandom(new Vector2(0, 360), 3, SetAdditionalDiceInitialRotation, BeforeRollAdditionalPreparedDice);
-        }
 
-        /*Combat.Defender.CallDiceAboutToBeRolled();
-        Triggers.ResolveTriggers(TriggerTypes.OnDiceAboutToBeRolled, delegate
-        {
-            Combat.CurrentDiceRoll.RollAdditionalDice(1);
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
-            callBack();
-        });*/
+        newDie.RandomizeRotation();
+        BeforeRollAdditionalPreparedDice();
     }
 
     private void BlockButtons()
@@ -836,14 +819,7 @@ public partial class DiceRoll
 
     public void TryUnblockButtons(DiceRoll diceRoll)
     {
-        if (!Network.IsNetworkGame)
-        {
-            UnblockButtons();
-        }
-        else
-        {
-            Network.SyncDiceRollInResults();
-        }
+        UnblockButtons();
     }
 
     private void ToggleDiceModificationsPanel(bool isActive)
@@ -898,5 +874,27 @@ public partial class DiceRoll
     public bool HasResult(DieSide side)
     {
         return DiceList.Any(n => n.Side == side);
+    }
+
+    public static GameCommand GenerateSyncDiceCommand()
+    {
+        JSONObject[] diceResultArray = new JSONObject[DiceRoll.CurrentDiceRoll.DiceList.Count];
+        for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
+        {
+            DieSide side = DiceRoll.CurrentDiceRoll.DiceList[i].Side;
+            string sideName = side.ToString();
+            JSONObject sideJson = new JSONObject();
+            sideJson.AddField("side", sideName);
+            diceResultArray[i] = sideJson;
+        }
+        JSONObject dieSides = new JSONObject(diceResultArray);
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("sides", dieSides);
+
+        return GameController.GenerateGameCommand(
+            GameCommandTypes.SyncDiceResults,
+            Phases.CurrentSubPhase.GetType(),
+            parameters.ToString()
+        );
     }
 }

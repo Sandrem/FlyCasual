@@ -18,6 +18,11 @@ namespace GameModes
             GameController.SendCommand(command);
         }
 
+        public override void ExecuteServerCommand(GameCommand command)
+        {
+            GameController.SendCommand(command);
+        }
+
         public override void RevertSubPhase()
         {
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();

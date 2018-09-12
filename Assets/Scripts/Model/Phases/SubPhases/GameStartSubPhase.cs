@@ -29,7 +29,15 @@ namespace SubPhases
 
         private void StartObstaclesPlacementpPhase()
         {
-            Phases.CurrentSubPhase = new ObstaclesPlacementSubPhase();
+            if (!DebugManager.NoAsteroidSetup)
+            {
+                Phases.CurrentSubPhase = new ObstaclesPlacementSubPhase();
+            }
+            else
+            {
+                Phases.CurrentSubPhase = new SetupStartSubPhase();
+            }
+            
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
             Phases.CurrentSubPhase.Initialize();

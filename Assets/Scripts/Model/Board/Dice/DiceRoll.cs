@@ -624,7 +624,7 @@ public partial class DiceRoll
 
             Phases.CurrentSubPhase.IsReadyForCommands = true;
 
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
+            Roster.GetPlayer(Players.PlayerNo.Player1).SyncDiceResults(); // Server synchs dice
         }
     }
 

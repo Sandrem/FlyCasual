@@ -16,6 +16,8 @@ public static class DebugManager
 
     public static bool DebugNoCombat;
 
+    public static bool NoAsteroidSetup = true;
+
     private static bool debugNetwork = true;
     public static bool DebugNetwork
     {

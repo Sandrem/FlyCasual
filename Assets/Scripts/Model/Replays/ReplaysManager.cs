@@ -60,6 +60,8 @@ public static class ReplaysManager
 
     public static bool ShouldBeRecorded(GameCommand command)
     {
+        if (DebugManager.NoReplayCreation) return false;
+
         bool result = true;
 
         switch (command.Type)

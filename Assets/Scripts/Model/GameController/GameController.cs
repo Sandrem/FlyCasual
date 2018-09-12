@@ -132,6 +132,7 @@ public static class GameController
                 break;
         }
 
+        Debug.Log("Command is generated: " + command.Type);
         Console.Write("Command is generated: " + command.Type, LogTypes.GameCommands, false, "aqua");
 
         return command;

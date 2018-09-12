@@ -14,6 +14,8 @@ namespace GameModes
 
         public abstract void ExecuteCommand(GameCommand command);
 
+        public abstract void ExecuteServerCommand(GameCommand command);
+
         public abstract void RevertSubPhase();
 
         public abstract void AssignManeuver(string maneuverCode);

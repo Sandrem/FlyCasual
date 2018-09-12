@@ -129,6 +129,13 @@ namespace Players
 
             base.InformAboutCrit();
         }
+
+        public override void SyncDiceResults()
+        {
+            base.SyncDiceResults();
+
+            GameMode.CurrentGameMode.ExecuteServerCommand(DiceRoll.GenerateSyncDiceCommand());
+        }
     }
 
 }

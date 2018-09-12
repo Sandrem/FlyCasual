@@ -33,12 +33,6 @@ namespace Players
         {
             RulesList.TractorBeamRule.PerfromManualTractorBeamReposition(ship, this);
         }
-
-        public override void SyncDiceResults()
-        {
-            // TODO: Sync by network
-        }
-
     }
 
 }

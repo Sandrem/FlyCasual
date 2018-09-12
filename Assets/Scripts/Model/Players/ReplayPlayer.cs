@@ -19,11 +19,6 @@ namespace Players
             Name = "Replay";
         }
 
-        public override void SyncDiceResults()
-        {
-            GameController.CheckExistingCommands();
-        }
-
         public override void SyncDiceRerollSelected()
         {
             GameController.CheckExistingCommands();

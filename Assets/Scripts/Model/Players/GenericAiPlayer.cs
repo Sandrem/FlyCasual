@@ -545,5 +545,11 @@ namespace Players
             GameManagerScript.Wait(3, InformCrit.ButtonConfirm);
         }
 
+        public override void SyncDiceResults()
+        {
+            base.SyncDiceResults();
+
+            GameMode.CurrentGameMode.ExecuteCommand(DiceRoll.GenerateSyncDiceCommand());
+        }
     }
 }

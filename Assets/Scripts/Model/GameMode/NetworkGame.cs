@@ -18,6 +18,11 @@ namespace GameModes
             Network.SendCommand(command);
         }
 
+        public override void ExecuteServerCommand(GameCommand command)
+        {
+            if (Network.IsServer) Network.SendCommand(command);
+        }
+
         public override void RevertSubPhase()
         {
             Network.RevertSubPhase();

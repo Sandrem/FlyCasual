@@ -45,17 +45,17 @@ public static class GameController
         SendCommand(GenerateGameCommand(commandType, subPhase, parameters));
     }
 
-    public static GameCommand GenerateGameCommand(string textjson)
+    public static GameCommand GenerateGameCommand(string textjson, bool isRpc = false)
     {
         JSONObject json = new JSONObject(textjson);
         GameCommandTypes commandType = (GameCommandTypes)Enum.Parse(typeof(GameCommandTypes), json["command"].str);
         Type subPhase = System.Type.GetType(json["subphase"].str);
         string parameters = json["parameters"].ToString();
 
-        return GenerateGameCommand(commandType, subPhase, parameters);
+        return GenerateGameCommand(commandType, subPhase, parameters, isRpc);
     }
 
-    public static GameCommand GenerateGameCommand(GameCommandTypes commandType, Type subPhase, string parameters = null)
+    public static GameCommand GenerateGameCommand(GameCommandTypes commandType, Type subPhase, string parameters = null, bool isRpc = false)
     {
         GameCommand command = null;
 
@@ -132,8 +132,9 @@ public static class GameController
                 break;
         }
 
-        Debug.Log("Command is generated: " + command.Type);
-        Console.Write("Command is generated: " + command.Type, LogTypes.GameCommands, false, "aqua");
+        string receivedString = (isRpc) ? " (rpc)": "";
+
+        Console.Write("Command is generated" + receivedString + ": " + command.Type, LogTypes.GameCommands, false, "aqua");
 
         return command;
     }

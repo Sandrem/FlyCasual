@@ -230,7 +230,7 @@ public partial class DiceRoll
 
     private bool ShouldSkipToSync()
     {
-        return (ReplaysManager.Mode == ReplaysMode.Write) || (Network.IsNetworkGame && !Network.IsServer);
+        return (ReplaysManager.Mode == ReplaysMode.Read) || (Network.IsNetworkGame && !Network.IsServer);
     }
 
     private void SetDiceInitialRotation(int[] randomHolder)

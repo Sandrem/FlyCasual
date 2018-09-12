@@ -45,7 +45,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcSendCommand(string commandline)
     {
-        GameController.SendCommand(GameController.GenerateGameCommand(commandline));
+        GameController.SendCommand(GameController.GenerateGameCommand(commandline, true));
     }
 
     // TESTS

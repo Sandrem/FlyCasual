@@ -18,6 +18,7 @@ namespace GameCommands
         {
             List<DieSide> correctSides = new List<DieSide>();
             JSONObject jsonHolder = (JSONObject)GetParameter("sides");
+            Console.Write("Sides: " + jsonHolder.ToString());
             foreach (var dieInfo in jsonHolder.list)
             {
                 DieSide side = (DieSide)Enum.Parse(typeof(DieSide), dieInfo["side"].str);

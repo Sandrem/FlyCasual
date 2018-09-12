@@ -8,7 +8,7 @@ using UnityEngine;
 
 public static class GameController
 {
-    private static List<GameCommand> CommandsReceived;
+    public static List<GameCommand> CommandsReceived { get; private set; }
 
     public static void Initialize()
     {

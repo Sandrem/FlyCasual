@@ -53,7 +53,7 @@ namespace Abilities
                     IsAbilityUsed = false;
                     Triggers.FinishTrigger();
                 },
-                "You may acquare a lock",
+                "You may acquire a lock",
                 HostUpgrade.ImageUrl
             );
         }

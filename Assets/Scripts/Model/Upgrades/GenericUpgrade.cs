@@ -79,6 +79,8 @@ namespace Upgrade
             }
         }
 
+        public int SEImageNumber;
+
         public string ImageUrlFE
         {
             get

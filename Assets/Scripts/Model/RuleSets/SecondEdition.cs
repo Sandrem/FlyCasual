@@ -45,7 +45,7 @@ namespace RuleSets
         public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Easy; } }
         public override string PathToSavedSquadrons { get { return "SavedSquadrons"; } } //RandomAiSquadrons
 
-        public override string RootUrlForImages { get { return "https://raw.githubusercontent.com/sandrem/xwing-data2-test/master/images/"; } }
+        public override string RootUrlForImages { get { return "https://sb-cdn.fantasyflightgames.com/card_images/"; } }
         public override Vector2 UpgradeCardSize { get { return new Vector2(418, 300); } }
         public override Vector2 UpgradeCardCompactOffset { get { return new Vector2(168, 2); } }
         public override Vector2 UpgradeCardCompactSize { get { return new Vector2(237, 296); } }
@@ -276,6 +276,16 @@ namespace RuleSets
         public override bool IsTokenCanBeDiscardedByJam(GenericToken token)
         {
             return token.TokenColor == TokenColors.Green || token is BlueTargetLockToken;
+        }
+
+        public override string GetPilotImageUrl(GenericShip ship)
+        {
+            return RootUrlForImages + "Card_Pilot_" + ship.SEImageNumber + ".png";
+        }
+
+        public override string GetUpgradeImageUrl(GenericUpgrade upgrade)
+        {
+            return RootUrlForImages + "Card_Upgrade_" + upgrade.SEImageNumber + ".png";
         }
 
     }

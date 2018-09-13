@@ -58,6 +58,8 @@ namespace RuleSets
         public abstract void TimedBombActivationTime(GenericShip ship);
         public abstract void SquadBuilderIsOpened();
         public abstract bool IsTokenCanBeDiscardedByJam(GenericToken token);
+        public abstract string GetPilotImageUrl(GenericShip ship);
+        public abstract string GetUpgradeImageUrl(GenericUpgrade upgrade);
 
         public virtual void AdaptShipToRules(GenericShip ship) { }
         public virtual void AdaptPilotToRules(GenericShip ship) { }

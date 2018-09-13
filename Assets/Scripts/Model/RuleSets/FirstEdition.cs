@@ -160,5 +160,15 @@ namespace RuleSets
             List<Type> tokensTypesToDiscard = new List<Type> { typeof(FocusToken), typeof(EvadeToken), typeof(BlueTargetLockToken) };
             return tokensTypesToDiscard.Contains(token.GetType());
         }
+
+        public override string GetPilotImageUrl(GenericShip ship)
+        {
+            return RootUrlForImages + "pilots/" + ImageUrls.FormatFaction(ship.SubFaction) + "/" + ImageUrls.FormatShipType(ship.Type) + "/" + ImageUrls.FormatName(ship.PilotName) + ".png";
+        }
+
+        public override string GetUpgradeImageUrl(GenericUpgrade upgrade)
+        {
+            return RootUrlForImages + "upgrades/" + ImageUrls.FormatUpgradeTypes(upgrade.Types) + "/" + ImageUrls.FormatName(ImageUrls.FormatUpgradeName(upgrade.NameOriginal ?? upgrade.Name)) + ".png";
+        }
     }
 }

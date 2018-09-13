@@ -19,8 +19,9 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_ZOOM = 5;
     private const float SENSITIVITY_TOUCH_MOVE = 0.015f; // .01
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
-    private const float SENSITIVITY_TOUCH_ZOOM = 0.15f;//0.5f;
-    private const float THRESHOLD_TOUCH_TURN = 0.4f;
+    private const float SENSITIVITY_TOUCH_ZOOM = 0.15f;//0.5f; //TODO: after next coment addresed, turn this down to ~half??? *****
+    private const float THRESHOLD_TOUCH_TURN = 0.4f; // TODO: keep current threshold values (multiply by sensitivity), but unhook them from sensitivity so can be adjusted independeantly *****
+    //TODO: **then adjust threshol up a smiiiidge for zoom to have smooth rotation -- test it, trial and eror : ) it's real close now but could be a bit better. may be somethingnot wuite linear happening...? hmm, seems to zoom a lot when rotating quickly sometimes, more thatn I expect somehow???
     private const float THRESHOLD_TOUCH_ZOOM = 0.4f;//0.7f;//0.4f
     private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
@@ -219,9 +220,8 @@ public class CameraScript : MonoBehaviour {
 
     void CamAdjustByTouch()
     {
-        //**** always zoom, only rotate if above a modest threshold??
-            //**** reverse rotation????
-            //**** commit, then reduce zoom threshold a bit
+            //**** reverse rotation???? to make it match panning -- or vice versa...?
+            //**** commit, then reduce zoom speed a bit -- see notes above
 
         if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height)) {
             // Don't listen to off-screen touches

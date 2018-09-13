@@ -17,12 +17,11 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_MOVE = 0.125f;
     private const float SENSITIVITY_TURN = 5;
     private const float SENSITIVITY_ZOOM = 5;
-    private const float SENSITIVITY_TOUCH_MOVE = 0.015f; // .01
+    private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
-    private const float SENSITIVITY_TOUCH_ZOOM = 0.15f;//0.5f; //TODO: after next coment addresed, turn this down to ~half??? *****
-    private const float THRESHOLD_TOUCH_TURN = 0.4f; // TODO: keep current threshold values (multiply by sensitivity), but unhook them from sensitivity so can be adjusted independeantly *****
-    //TODO: **then adjust threshol up a smiiiidge for zoom to have smooth rotation -- test it, trial and eror : ) it's real close now but could be a bit better. may be somethingnot wuite linear happening...? hmm, seems to zoom a lot when rotating quickly sometimes, more thatn I expect somehow???
-    private const float THRESHOLD_TOUCH_ZOOM = 0.4f;//0.7f;//0.4f
+    private const float SENSITIVITY_TOUCH_ZOOM = 0.075f;
+    private const float THRESHOLD_TOUCH_TURN = 0.05f;
+    private const float THRESHOLD_TOUCH_ZOOM = 0.06f;
     private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
     private const float MAX_HEIGHT = 6f;
@@ -221,7 +220,6 @@ public class CameraScript : MonoBehaviour {
     void CamAdjustByTouch()
     {
             //**** reverse rotation???? to make it match panning -- or vice versa...?
-            //**** commit, then reduce zoom speed a bit -- see notes above
 
         if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height)) {
             // Don't listen to off-screen touches
@@ -231,7 +229,7 @@ public class CameraScript : MonoBehaviour {
         // If there are two touches on the device
         if (Input.touchCount == 2 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(1).phase == TouchPhase.Moved)) // TODO: need to check phase too...?
         {
-            //TODO: pan vs zoom just by how far apart fingers are....? hmmmmmm
+            //TODO: pan vs zoom just by how far apart fingers are....? hmmmmmm ***
             //TODO: or the threshold approach that I had in mind but overcompliced
             //TODO: or find best practice!!
             // Store both touches
@@ -249,25 +247,27 @@ public class CameraScript : MonoBehaviour {
             // Find the difference in the distances between each frame.
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-            float zoom = deltaMagnitudeDiff * -SENSITIVITY_TOUCH_ZOOM;
-            Console.Write("Zoom:" + zoom, LogTypes.Errors, true, "cyan");
-            if (Mathf.Abs(zoom) > THRESHOLD_TOUCH_ZOOM)
+            Console.Write("Zoom:" + deltaMagnitudeDiff, LogTypes.Errors, true, "cyan");
+            // Try to pinch zoom
+            if (Mathf.Abs(deltaMagnitudeDiff) > THRESHOLD_TOUCH_ZOOM)
             { //**** still need - threshold??h
+                //****or differentiate by distance between fingers...? not delta of that????
+                float zoom = deltaMagnitudeDiff * -SENSITIVITY_TOUCH_ZOOM;
                 ZoomByFactor((Mathf.Abs(zoom) - THRESHOLD_TOUCH_ZOOM) * Mathf.Sign(zoom)); // TODO: cleaner...?
             }
-            //else 
+
+            // Try to rotate by dragging two fingers
             if (cameraMode == CameraModes.Free)
             {
-                // Check if it's a rotate instead
 
                 // Find the difference between the average of the positions
                 Vector2 centerPrevPos = Vector2.Lerp(touchZeroPrevPos, touchOnePrevPos, 0.5f);
                 Vector2 centerPos = Vector2.Lerp(touchZero.position, touchOne.position, 0.5f);
                 Vector2 deltaCenterPos = centerPos - centerPrevPos;
 
-                Console.Write("rot mag:" + (deltaCenterPos.magnitude * -SENSITIVITY_TOUCH_TURN), LogTypes.Errors, true, "cyan");
+                Console.Write("rot mag:" + (deltaCenterPos.magnitude), LogTypes.Errors, true, "cyan");
 
-                if (Mathf.Abs(deltaCenterPos.magnitude * SENSITIVITY_TOUCH_TURN) > THRESHOLD_TOUCH_TURN) {
+                if (Mathf.Abs(deltaCenterPos.magnitude) > THRESHOLD_TOUCH_TURN) {
                     // Rotate!
 
                     float turnX = deltaCenterPos.y * -SENSITIVITY_TOUCH_TURN;

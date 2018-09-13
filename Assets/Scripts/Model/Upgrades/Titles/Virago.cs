@@ -38,20 +38,20 @@ namespace UpgradesList
 
         public override void PreAttachToShip(GenericShip host)
         {
+            base.PreAttachToShip(host);
+
             if (RuleSet.Instance is SecondEdition)
             {
-                base.PreAttachToShip(host);
-
                 Host.MaxShields++;
             }
         }
 
         public override void PreDettachFromShip()
         {
+            base.PreDettachFromShip();
+
             if (RuleSet.Instance is SecondEdition)
             {
-                base.PreDettachFromShip();
-
                 Host.MaxShields--;
             }
         }

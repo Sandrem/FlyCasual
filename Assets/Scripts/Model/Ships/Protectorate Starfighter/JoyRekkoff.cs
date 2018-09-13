@@ -27,7 +27,9 @@ namespace Ship
                 PrintedUpgradeIcons.Add(UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SecondEdition.JoyRekkoffAbility());
-			}
+
+                SEImageNumber = 157;
+            }
 
             public void AdaptPilotToSecondEdition()
             {

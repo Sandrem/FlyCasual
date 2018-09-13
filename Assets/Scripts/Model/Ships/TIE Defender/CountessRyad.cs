@@ -32,6 +32,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.CountessRyadAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.CountessRyadAbility());
+
+                SEImageNumber = 124;
             }
         }
     }

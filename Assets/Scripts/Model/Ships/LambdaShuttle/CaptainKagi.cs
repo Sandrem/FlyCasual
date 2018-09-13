@@ -28,6 +28,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.CaptainKagiAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.CaptainKagiAbilitySE());
+
+                SEImageNumber = 142;
             }
         }
     }

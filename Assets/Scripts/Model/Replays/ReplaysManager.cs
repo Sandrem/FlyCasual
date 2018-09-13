@@ -24,6 +24,8 @@ public static class ReplaysManager
     {
         Mode = mode;
 
+        Phases.CurrentSubPhase = null;
+
         FilePath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/Replays";
         if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
         FilePath += "/LastReplay.replay";
@@ -58,6 +60,8 @@ public static class ReplaysManager
 
     public static bool ShouldBeRecorded(GameCommand command)
     {
+        if (DebugManager.NoReplayCreation) return false;
+
         bool result = true;
 
         switch (command.Type)
@@ -70,6 +74,18 @@ public static class ReplaysManager
         }
 
         return result;
+    }
+
+    public static void ExecuteWithDelay(Action callback, int seconds = 1)
+    {
+        if (Mode == ReplaysMode.Write)
+        {
+            callback();
+        }
+        else
+        {
+            GameManagerScript.Wait(seconds, delegate { callback(); });
+        }
     }
 }
 

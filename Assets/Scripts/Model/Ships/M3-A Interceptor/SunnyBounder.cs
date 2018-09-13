@@ -27,6 +27,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.SunnyBounderAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.SunnyBounderAbilitySE());
+
+                SEImageNumber = 188;
             }
         }
     }

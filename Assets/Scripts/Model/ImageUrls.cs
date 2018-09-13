@@ -3,6 +3,7 @@ using Upgrade;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RuleSets;
 
 public static class ImageUrls
 {
@@ -15,7 +16,7 @@ public static class ImageUrls
 
     public static string GetImageUrl(GenericUpgrade upgrade, string filename = null)
     {
-        return GetImageUrl(UpgradesPath + FormatUpgradeTypes(upgrade.Types), FormatUpgradeName(upgrade.NameOriginal ?? upgrade.Name), filename);
+        return RuleSet.Instance.GetUpgradeImageUrl(upgrade);
     }
 
     public static string GetImageUrlOld(GenericUpgrade upgrade, string filename = null)
@@ -30,7 +31,7 @@ public static class ImageUrls
 
     public static string GetImageUrl(Ship.GenericShip ship, string filename = null)
     {
-        return GetImageUrl(PilotsPath + FormatFaction(ship.SubFaction) + "/" + FormatShipType(ship.Type), ship.PilotName, filename);
+        return RuleSet.Instance.GetPilotImageUrl(ship);
     }
 
     private static string GetImageUrl(string subpath, string cardName, string filename)
@@ -43,7 +44,7 @@ public static class ImageUrls
         return RootURL + subpath + "/" + (filename ?? FormatName(cardName) + ".png");
     }
 
-    private static string FormatShipType(string type)
+    public static string FormatShipType(string type)
     {
         return type
             .Replace("-Wing", "-wing")
@@ -52,7 +53,7 @@ public static class ImageUrls
             .Replace('/', '-');
     }
 
-    private static string FormatUpgradeTypes(List<UpgradeType> types)
+    public static string FormatUpgradeTypes(List<UpgradeType> types)
     {
         string name = "";
         UpgradeType type = types [0];
@@ -68,12 +69,12 @@ public static class ImageUrls
         return name;
     }
 
-    private static string FormatUpgradeName(string upgradeName)
+    public static string FormatUpgradeName(string upgradeName)
     {
         return upgradeName.Replace('.', ' ');
     }
 
-    private static string FormatFaction(SubFaction faction)
+    public static string FormatFaction(SubFaction faction)
     {
         switch (faction)
         {
@@ -92,7 +93,7 @@ public static class ImageUrls
         }
     }
 
-    private static string FormatName(string name)
+    public static string FormatName(string name)
     {
         return name
             .ToLower()

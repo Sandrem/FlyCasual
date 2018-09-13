@@ -5,12 +5,13 @@ using Abilities;
 using System;
 using Ship;
 using BoardTools;
+using RuleSets;
 
 namespace Ship
 {
     namespace JumpMaster5000
     {
-        public class Dengar : JumpMaster5000
+        public class Dengar : JumpMaster5000, ISecondEditionPilot
         {
             public Dengar() : base()
             {
@@ -23,6 +24,13 @@ namespace Ship
                 // Already have Elite icon from JumpMaster5000 class
 
                 PilotAbilities.Add(new DengarPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                IsHidden = true;
+
+                SEImageNumber = 214;
             }
         }
     }

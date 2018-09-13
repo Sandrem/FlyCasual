@@ -19,6 +19,7 @@ namespace UpgradesList
             Cost = 3;
 
             MaxCharges = 1;
+            UsesCharges = true;
 
             UpgradeRuleType = typeof(SecondEdition);
 

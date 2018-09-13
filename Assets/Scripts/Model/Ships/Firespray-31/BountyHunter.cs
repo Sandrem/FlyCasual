@@ -27,6 +27,8 @@ namespace Ship
 
                 SkinName = "Mandalorian Mercenary";
                 faction = Faction.Scum;
+
+                SEImageNumber = 154;
             }
         }
     }

@@ -31,6 +31,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.KananJarrusPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.KananJarrusAbilitySE());
+
+                SEImageNumber = 74;
             }
         }
     }

@@ -24,7 +24,10 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
 
 				PilotAbilities.Add(new BraylenStrammPilotAbility());
-			}
+
+                SEImageNumber = 68;
+
+            }
 
             public void AdaptPilotToSecondEdition()
             {

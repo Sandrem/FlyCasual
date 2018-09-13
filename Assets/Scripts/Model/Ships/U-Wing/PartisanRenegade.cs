@@ -24,6 +24,8 @@ namespace Ship
                 PilotSkill = 1;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
+
+                SEImageNumber = 61;
             }
         }
     }

@@ -14,6 +14,8 @@ namespace Ship
                 PilotName = "Freighter Captain";
                 PilotSkill = 1;
                 Cost = 46;
+
+                SEImageNumber = 225;
             }
 
             public void AdaptPilotToSecondEdition()

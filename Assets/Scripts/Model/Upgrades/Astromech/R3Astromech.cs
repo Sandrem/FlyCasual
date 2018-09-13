@@ -55,7 +55,7 @@ namespace Abilities
             {
                 HostShip.ChooseTargetToAcquireTargetLock(
                     Triggers.FinishTrigger,
-                    "You may acquare a lock",
+                    "You may acquire a lock",
                     HostUpgrade.ImageUrl
                 );
             }

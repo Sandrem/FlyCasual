@@ -24,6 +24,8 @@ namespace Ship
                 SkinName = "Partisan";
 
                 PilotAbilities.Add(new KullbeeSperadoAbility());
+
+                SEImageNumber = 6;
             }
 
             public void AdaptPilotToSecondEdition()

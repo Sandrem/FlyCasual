@@ -37,6 +37,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.AsajjVentressPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.AsajjVentressPilotAbilitySE());
+
+                SEImageNumber = 219;
             }
         }
     }

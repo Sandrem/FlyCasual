@@ -4,12 +4,14 @@ using UnityEngine;
 using System.Linq;
 using Ship;
 using GameModes;
+using GameCommands;
 
 namespace SubPhases
 {
 
     public class SystemsSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SystemActivation, GameCommandTypes.PressSkip }; } }
 
         public override void Start()
         {
@@ -50,6 +52,8 @@ namespace SubPhases
             {
                 UpdateHelpInfo();
                 Roster.HighlightShipsFiltered(FilterShipsWithActiveDevice);
+
+                IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).PerformSystemsActivation();
             }
         }
@@ -137,7 +141,7 @@ namespace SubPhases
         {
             if (ship.IsSystemsAbilityCanBeActivated)
             {
-                GameMode.CurrentGameMode.ActivateSystemsOnShip(Selection.ThisShip.ShipId);
+                GameMode.CurrentGameMode.ExecuteCommand(GenerateSystemActivationCommand(Selection.ThisShip.ShipId));
             }
             else
             {
@@ -145,9 +149,21 @@ namespace SubPhases
             };
         }
 
-        public void ActivateSystemsOnShipClient(GenericShip ship)
+        public GameCommand GenerateSystemActivationCommand(int shipId)
         {
-            ship.CallOnSystemsPhaseActivation(Next);
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("id", shipId.ToString());
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.SystemActivation,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
+
+        public static void DoSystemActivation(int shipId)
+        {
+            GenericShip ship = Roster.GetShipById("ShipId:" + shipId);
+            ship.CallOnSystemsPhaseActivation((Phases.CurrentSubPhase as SystemsSubPhase).Next);
         }
 
         public override void SkipButton()

@@ -20,6 +20,8 @@ namespace Ship
 
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.ValenRudorAbilitySE());
+
+                SEImageNumber = 87;
             }
 
             public void AdaptPilotToSecondEdition()

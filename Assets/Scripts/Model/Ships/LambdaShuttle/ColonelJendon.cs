@@ -31,6 +31,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.ColonelJendonAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.ColonelJendonAbilitySE());
+
+                SEImageNumber = 143;
             }
         }
     }

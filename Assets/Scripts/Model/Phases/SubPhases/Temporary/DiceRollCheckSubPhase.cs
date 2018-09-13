@@ -45,14 +45,7 @@ namespace SubPhases
 
         private void SyncDiceResults(DiceRoll diceroll)
         {
-            if (!Network.IsNetworkGame)
-            {
-                checkResults(diceroll);
-            }
-            else
-            {
-                Network.SyncDiceResults();
-            }
+            checkResults(diceroll);
         }
 
         public void PrepareConfirmation()
@@ -64,14 +57,7 @@ namespace SubPhases
 
         public void ShowConfirmButton()
         {
-            if (!Network.IsNetworkGame)
-            {
-                ShowDiceRollCheckConfirmButton();
-            }
-            else
-            {
-                Network.ConfirmDiceRollCheckResults();
-            }
+            ShowDiceRollCheckConfirmButton();
         }
 
         public void ShowDiceRollCheckConfirmButton()

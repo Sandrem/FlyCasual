@@ -27,6 +27,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.UnkarPluttAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.UnkarPluttAbilitySE());
+
+                SEImageNumber = 163;
             }
         }
     }

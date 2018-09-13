@@ -32,6 +32,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.EzraBridgerPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.EzraBridgerPilotAbilitySE());
+
+                SEImageNumber = 36;
             }
         }
     }

@@ -58,6 +58,8 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
 
                 PilotAbilities.Add(new NorraWexleyPilotAbilitySE());
+
+                SEImageNumber = 13;
             }
 
             public void AdaptPilotToSecondEdition()

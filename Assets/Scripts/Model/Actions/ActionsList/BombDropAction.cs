@@ -205,9 +205,7 @@ namespace SubPhases
 
         private void WaitAndSelectBombPosition()
         {
-            //Temporary
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(1f, SelectBombPosition);
+            GameManagerScript.Wait(1f, SelectBombPosition);
         }
 
         private void SelectBombPosition()

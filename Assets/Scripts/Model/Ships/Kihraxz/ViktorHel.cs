@@ -19,6 +19,8 @@ namespace Ship
 
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.ViktorHelAbilitySE());
+
+                SEImageNumber = 193;
             }
 
             public void AdaptPilotToSecondEdition()

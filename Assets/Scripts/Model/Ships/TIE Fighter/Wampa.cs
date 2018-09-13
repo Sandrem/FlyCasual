@@ -26,6 +26,8 @@ namespace Ship
 
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.WampaAbility());
+
+                SEImageNumber = 89;
             }
 
             public void AdaptPilotToSecondEdition()

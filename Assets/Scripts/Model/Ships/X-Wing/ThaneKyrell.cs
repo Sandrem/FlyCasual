@@ -23,6 +23,8 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
                 PilotAbilities.Add(new Abilities.SecondEdition.ThaneKyrellAbilitySE());
+
+                SEImageNumber = 3;
             }
 
             public void AdaptPilotToSecondEdition()

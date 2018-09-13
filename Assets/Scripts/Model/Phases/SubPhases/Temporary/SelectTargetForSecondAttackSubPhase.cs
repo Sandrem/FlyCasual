@@ -49,7 +49,7 @@ namespace SubPhases
 
         private void ExtraAttackTargetSelected()
         {
-            Phases.StartTemporarySubPhaseNew(
+            var subphase = Phases.StartTemporarySubPhaseNew(
                 "Extra Attack",
                 typeof(ExtraAttackSubPhase),
                 delegate {
@@ -58,6 +58,8 @@ namespace SubPhases
                     CallBack();
                 }
             );
+            subphase.Start();
+
             GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
             if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
         }

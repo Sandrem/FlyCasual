@@ -33,6 +33,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.WhisperAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.WhisperAbilitySE());
+
+                SEImageNumber = 131;
             }
         }
     }

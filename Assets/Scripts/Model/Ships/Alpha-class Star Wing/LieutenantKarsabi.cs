@@ -25,6 +25,8 @@ namespace Ship
             {
                 PilotSkill = 3;
                 Cost = 39;
+
+                SEImageNumber = 136;
             }
         }
     }

@@ -21,6 +21,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SecondEdition.GavinDarklighterAbility());
+
+                SEImageNumber = 51;
             }
 
             public void AdaptPilotToSecondEdition()

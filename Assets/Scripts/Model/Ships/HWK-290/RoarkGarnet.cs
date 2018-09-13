@@ -32,6 +32,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.RoarkGarnetAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.RoarkGarnetAbilitySE());
+
+                SEImageNumber = 44;
             }
         }
     }

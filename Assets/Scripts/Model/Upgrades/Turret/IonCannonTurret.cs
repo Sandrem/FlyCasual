@@ -74,8 +74,7 @@ namespace Abilities
             Combat.Defender.Tokens.AssignToken(
                 typeof(IonToken),
                 delegate {
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(2, DefenderSuffersDamage);
+                    GameManagerScript.Wait(2, DefenderSuffersDamage);
                 }
             );
         }

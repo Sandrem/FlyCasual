@@ -22,6 +22,8 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.BiggsDarklighterAbility());
+
+                SEImageNumber = 7;
             }
 
             public void AdaptPilotToSecondEdition()
@@ -228,6 +230,7 @@ namespace Abilities.SecondEdition
             selectBiggsDarklighterSubPhase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); });
             selectBiggsDarklighterSubPhase.DefaultDecisionName = GetDefaultDecision();
             selectBiggsDarklighterSubPhase.ShowSkipButton = true;
+            selectBiggsDarklighterSubPhase.DecisionOwner = HostShip.Owner;
             selectBiggsDarklighterSubPhase.Start();
         }
 

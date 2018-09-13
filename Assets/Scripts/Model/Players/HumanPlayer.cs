@@ -23,16 +23,9 @@ namespace Players
 
         public override void PerformAttack()
         {
-            base.PerformAttack();
-
             UI.ShowSkipButton();
-        }
 
-        public override void UseDiceModifications(DiceModificationTimingType type)
-        {
-            base.UseDiceModifications(type);
-
-            Combat.ShowDiceModificationButtons(type);
+            base.PerformAttack();
         }
 
         public override void TakeDecision()
@@ -64,22 +57,30 @@ namespace Players
 
         public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
         {
+            base.ChangeManeuver(callback, filter);
+
             DirectionsMenu.Show(callback, filter);
         }
 
         public override void SelectManeuver(Action<string> callback, Func<string, bool> filter = null)
         {
             DirectionsMenu.Show(callback, filter);
+
+            base.SelectManeuver(callback, filter);
         }
 
         public override void SelectShipForAbility()
         {
             (Phases.CurrentSubPhase as SelectShipSubPhase).HighlightShipsToSelect();
+
+            base.SelectShipForAbility();
         }
 
         public override void SelectObstacleForAbility()
         {
             (Phases.CurrentSubPhase as SelectObstacleSubPhase).HighlightObstacleToSelect();
+
+            base.SelectObstacleForAbility();
         }
 
         public override void RerollManagerIsPrepared()
@@ -105,8 +106,7 @@ namespace Players
                 }
                 else
                 {
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(1, subphase.SkipButton);
+                    GameManagerScript.Wait(1, subphase.SkipButton);
                 }
             }
             else
@@ -118,8 +118,23 @@ namespace Players
 
         public override void PerformSystemsActivation()
         {
-            base.PerformSystemsActivation();
             UI.ShowSkipButton();
+
+            base.PerformSystemsActivation();
+        }
+
+        public override void InformAboutCrit()
+        {
+            base.InformAboutCrit();
+
+            InformCrit.ShowConfirmButton();
+        }
+
+        public override void SyncDiceResults()
+        {
+            base.SyncDiceResults();
+
+            GameMode.CurrentGameMode.ExecuteServerCommand(DiceRoll.GenerateSyncDiceCommand());
         }
     }
 

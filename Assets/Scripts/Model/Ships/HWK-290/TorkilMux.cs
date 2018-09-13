@@ -25,6 +25,8 @@ namespace Ship
 
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.TorkilMuxAbilitySE());
+
+                SEImageNumber = 176;
             }
 
             public void AdaptPilotToSecondEdition()

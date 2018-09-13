@@ -346,8 +346,7 @@ namespace Ship
             shipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
             shipAllParts.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
 
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(playSoundDelay, delegate { callBack(); });
+            GameManagerScript.Wait(playSoundDelay, delegate { callBack(); });
         }
 
         public void MoveUpwards(float progress)

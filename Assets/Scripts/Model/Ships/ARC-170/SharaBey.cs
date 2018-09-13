@@ -33,6 +33,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.SharaBeyPilotAbility);
                 PilotAbilities.Add(new Abilities.NorraWexleyPilotAbility());
+
+                SEImageNumber = 67;
             }
         }
     }

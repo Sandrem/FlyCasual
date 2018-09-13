@@ -32,25 +32,26 @@ namespace UpgradesList
             AddedSlots.Add(new UpgradeSlot(UpgradeType.Modification));
             UpgradeAbilities.Add(new ViragoAbility());
             MaxCharges = 2; //Charges for boost ability
+            UsesCharges = true;
         }
 
 
         public override void PreAttachToShip(GenericShip host)
         {
+            base.PreAttachToShip(host);
+
             if (RuleSet.Instance is SecondEdition)
             {
-                base.PreAttachToShip(host);
-
                 Host.MaxShields++;
             }
         }
 
         public override void PreDettachFromShip()
         {
+            base.PreDettachFromShip();
+
             if (RuleSet.Instance is SecondEdition)
             {
-                base.PreDettachFromShip();
-
                 Host.MaxShields--;
             }
         }

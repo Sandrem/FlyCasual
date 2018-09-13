@@ -35,6 +35,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.AirenCrackenAbiliity);
                 PilotAbilities.Add(new Abilities.SecondEdition.AirenCrackenAbilitySE());
+
+                SEImageNumber = 27;
             }
         }
     }

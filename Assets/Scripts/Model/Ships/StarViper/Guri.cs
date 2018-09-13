@@ -34,6 +34,8 @@ namespace Ship
 
                 ActionBar.RemovePrintedAction(typeof(FocusAction));
                 ActionBar.AddPrintedAction(new CalculateAction());
+
+                SEImageNumber = 178;
             }
         }
     }

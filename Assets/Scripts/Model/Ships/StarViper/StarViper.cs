@@ -82,7 +82,7 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);
 
-                IconicPilots[Faction.Scum] = typeof(BlackSunEnforcer);
+                IconicPilots[Faction.Scum] = typeof(Guri);
             }
 
         }

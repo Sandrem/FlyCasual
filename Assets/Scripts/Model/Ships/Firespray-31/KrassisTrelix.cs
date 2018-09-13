@@ -37,6 +37,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(a => a is Abilities.KrassisTrelixAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.KrassisTrelixAbilitySE());
+
+                SEImageNumber = 153;
             }
         }
     }

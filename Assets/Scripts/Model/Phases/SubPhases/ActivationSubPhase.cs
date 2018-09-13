@@ -172,6 +172,7 @@ namespace SubPhases
         {
             if (!ship.IsManeuverPerformed)
             {
+                ship.IsManeuverPerformed = true;
                 GameCommand command = ShipMovementScript.GenerateActivateAndMoveCommand(Selection.ThisShip.ShipId);
                 GameMode.CurrentGameMode.ExecuteCommand(command);
             }

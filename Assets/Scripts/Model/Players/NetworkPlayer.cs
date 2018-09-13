@@ -26,6 +26,13 @@ namespace Players
         {
             RulesList.TractorBeamRule.PerfromManualTractorBeamReposition(ship, this);
         }
+
+        public override void InformAboutCrit()
+        {
+            base.InformAboutCrit();
+
+            InformCrit.ShowConfirmButton();
+        }
     }
 
 }

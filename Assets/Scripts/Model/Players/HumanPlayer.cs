@@ -125,9 +125,9 @@ namespace Players
 
         public override void InformAboutCrit()
         {
-            InformCrit.ShowConfirmButton();
-
             base.InformAboutCrit();
+
+            InformCrit.ShowConfirmButton();
         }
 
         public override void SyncDiceResults()

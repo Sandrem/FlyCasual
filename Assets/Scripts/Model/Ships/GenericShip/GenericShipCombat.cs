@@ -548,6 +548,7 @@ namespace Ship
         public void ProcessDrawnDamageCard(EventArgs e)
         {
             AssignedDamageDiceroll.CancelHits(1);
+            AssignedDamageDiceroll.RemoveAllFailures();
 
             if (Combat.CurrentCriticalHitCard.IsFaceup)
             {
@@ -614,6 +615,7 @@ namespace Ship
         public void SufferShieldDamage()
         {
             AssignedDamageDiceroll.CancelHits(1);
+            AssignedDamageDiceroll.RemoveAllFailures();
 
             Shields--;
             CallAfterAssignedDamageIsChanged();

@@ -33,6 +33,8 @@ namespace Ship
 
                 UpgradeBar.AddSlot(Upgrade.UpgradeType.Elite);
                 PilotAbilities.Add(new P4LOMAbility());
+
+                SEImageNumber = 201;
             }
 
             public void AdaptPilotToSecondEdition()

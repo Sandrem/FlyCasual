@@ -30,6 +30,8 @@ namespace Ship
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.SalvagedAstromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SEImageNumber = 167;
             }
         }
     }

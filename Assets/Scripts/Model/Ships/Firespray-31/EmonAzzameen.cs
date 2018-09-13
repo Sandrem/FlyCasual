@@ -37,6 +37,8 @@ namespace Ship
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Illicit);
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SEImageNumber = 150;
             }
         }
     }

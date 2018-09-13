@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using RuleSets;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections;
@@ -10,7 +11,7 @@ namespace Ship
 {
     namespace YV666
     {
-        public class Bossk : YV666
+        public class Bossk : YV666, ISecondEditionPilot
         {
             public Bossk() : base()
             {
@@ -23,6 +24,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.BosskAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                IsHidden = true;
+
+                SEImageNumber = 210;
             }
         }
     }

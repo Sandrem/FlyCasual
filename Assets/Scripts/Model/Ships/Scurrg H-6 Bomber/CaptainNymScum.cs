@@ -6,12 +6,13 @@ using Abilities;
 using Ship;
 using ActionsList;
 using Upgrade;
+using RuleSets;
 
 namespace Ship
 {
     namespace ScurrgH6Bomber
     {
-        public class CaptainNymScum : ScurrgH6Bomber
+        public class CaptainNymScum : ScurrgH6Bomber, ISecondEditionPilot
         {
             public CaptainNymScum() : base()
             {
@@ -26,6 +27,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new CaptainNymScumAbiliity());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                IsHidden = true;
+
+                SEImageNumber = 204;
             }
         }
     }

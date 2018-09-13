@@ -96,6 +96,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Torpedo);
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Missile);
+
+                IconicPilots[Faction.Scum] = typeof(LokRevenant);
             }
 
         }

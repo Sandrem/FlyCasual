@@ -30,6 +30,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.GenesisRedAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.GenesisRedAbilitySE());
+
+                SEImageNumber = 184;
             }
         }
     }

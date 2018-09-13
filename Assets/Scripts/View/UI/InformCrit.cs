@@ -11,6 +11,8 @@ public static class InformCrit
     private static Transform InformCritPanel;
     private static MonoBehaviour Behavior;
 
+    private static bool NetworkAnyPlayerConfirmedCrit;
+
     public static void Initialize()
     {
         InformCritPanel = GameObject.Find("UI").transform.Find("InformCritPanel").transform;
@@ -20,6 +22,8 @@ public static class InformCrit
     public static void LoadAndShow(object sender, System.EventArgs e)
     {
         if (InformCritPanel == null) Initialize();
+        NetworkAnyPlayerConfirmedCrit = false;
+
         Behavior.StartCoroutine(LoadTooltipImage(Combat.CurrentCriticalHitCard.ImageUrl));
     }
 
@@ -87,9 +91,19 @@ public static class InformCrit
 
     public static void ConfirmCrit()
     {
-        HidePanel();
-        Phases.CurrentSubPhase.IsReadyForCommands = false;
-        Triggers.FinishTrigger();
+        if (Network.IsNetworkGame && !NetworkAnyPlayerConfirmedCrit)
+        {
+            NetworkAnyPlayerConfirmedCrit = true;
+
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+            GameController.CheckExistingCommands();
+        }
+        else
+        {
+            HidePanel();
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+            Triggers.FinishTrigger();
+        }
     }
 
     public static void HidePanel()

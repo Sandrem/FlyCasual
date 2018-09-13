@@ -33,6 +33,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(a => a is CaptainFerophAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.CaptainFerophAbilitySE());
+
+                SEImageNumber = 114;
             }
         }                
     }

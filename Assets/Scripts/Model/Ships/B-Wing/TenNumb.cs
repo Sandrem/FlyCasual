@@ -27,6 +27,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.TenNumbAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.TenNumbAbility());
+
+                SEImageNumber = 24;
             }
         }
     }

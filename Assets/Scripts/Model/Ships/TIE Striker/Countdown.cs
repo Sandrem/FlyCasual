@@ -23,6 +23,8 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
 
                 PilotAbilities.Add(new CountdownAbilitySE());
+
+                SEImageNumber = 118;
             }
 
             public void AdaptPilotToSecondEdition()

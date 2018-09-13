@@ -31,6 +31,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(a => a is Abilities.RedlineAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.RedlineAbility());
+
+                SEImageNumber = 139;
             }
         }
     }

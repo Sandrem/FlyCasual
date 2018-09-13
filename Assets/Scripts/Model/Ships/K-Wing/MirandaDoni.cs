@@ -31,6 +31,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.MirandaDoniAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.MirandaDoniAbilitySE());
+
+                SEImageNumber = 62;
             }
         }
     }

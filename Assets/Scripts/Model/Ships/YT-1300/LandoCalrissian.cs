@@ -40,6 +40,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.LandoCalrissianAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.LandoCalrissianAbilitySE());
+
+                SEImageNumber = 70;
             }
         }
     }

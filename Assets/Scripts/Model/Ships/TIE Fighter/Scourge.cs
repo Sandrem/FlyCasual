@@ -31,6 +31,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.ScourgeAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.ScourgeAbilitySE());
+
+                SEImageNumber = 82;
             }
         }
     }

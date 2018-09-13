@@ -30,6 +30,8 @@ namespace Ship
                 PilotSkill = 2;
 
                 Cost = 32;
+
+                SEImageNumber = 18;
             }
         }
     }

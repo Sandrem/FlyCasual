@@ -37,6 +37,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.TheInquisitorAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.GrandInquisitorAbilitySE());
+
+                SEImageNumber = 99;
             }
         }
     }

@@ -22,6 +22,8 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.BiggsDarklighterAbility());
+
+                SEImageNumber = 7;
             }
 
             public void AdaptPilotToSecondEdition()

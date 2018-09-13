@@ -20,6 +20,8 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                 Cost = 34;
+
+                SEImageNumber = 21;
             }
         }
     }

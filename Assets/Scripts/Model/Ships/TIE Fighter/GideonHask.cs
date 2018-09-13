@@ -24,6 +24,8 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
 
                 PilotAbilities.Add(new ScourgeAbility());
+
+                SEImageNumber = 84;
             }
 
             public void AdaptPilotToSecondEdition()

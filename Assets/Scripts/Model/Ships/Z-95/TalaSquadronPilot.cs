@@ -26,6 +26,8 @@ namespace Ship
                 Cost = 25;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SEImageNumber = 29;
             }
         }
     }

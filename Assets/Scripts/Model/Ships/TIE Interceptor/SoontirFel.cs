@@ -36,6 +36,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.SoontirFelAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.SoontirFelAbilitySE());
+
+                SEImageNumber = 103;
             }
         }
     }

@@ -19,6 +19,8 @@ namespace Ship
             {
                 PilotName = "Phoenix Squadron Pilot";
                 Cost = 30;
+
+                SEImageNumber = 22;
             }
         }
     }

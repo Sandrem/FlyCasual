@@ -76,7 +76,7 @@ namespace Ship
                 ActionBar.AddPrintedAction(new BarrelRollAction() { IsRed = true });
 
                 IconicPilots[Faction.Scum] = typeof(NdruSuhlak);
-                IconicPilots[Faction.Rebel] = typeof(AirenCracken);
+                IconicPilots[Faction.Rebel] = typeof(LtBlount);
             }
 
         }

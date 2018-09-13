@@ -31,6 +31,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.DashRendarAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DashRendarAbilitySE());
+
+                SEImageNumber = 77;
             }
         }
     }

@@ -84,8 +84,6 @@ namespace Ship
 
                 ActionBar.RemovePrintedAction(typeof(EvadeAction));
                 ActionBar.AddPrintedAction(new JamAction());
-
-                IconicPilots[Faction.Scum] = typeof(P4LOM);
             }
 
         }

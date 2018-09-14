@@ -9,7 +9,7 @@ namespace Migrations
 {
     namespace MigrationsList
     {
-        public class Migration_100060200 : GenericMigration
+        /*public class Migration_100060200 : GenericMigration
         {
             public Migration_100060200()
             {
@@ -24,6 +24,6 @@ namespace Migrations
                     new CardInfo(typeof(Ship.ProtectorateStarfighter.SkullSquadronPilot), typeof(SecondEdition))
                 };
             }
-        }
+        }*/
     }
 }

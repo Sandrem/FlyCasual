@@ -21,14 +21,22 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
     private const float SENSITIVITY_TOUCH_ZOOM = 0.075f;
     private const float THRESHOLD_TOUCH_TURN = 0.05f; //TODO: need to ensure thresholds are resolution-independant?
+    private const float THRESHOLD_TOUCH_TURN_SWITCH = 30f;
+    private const float THRESHOLD_TOUCH_TURN_START = 12f;
     private const float THRESHOLD_TOUCH_ZOOM = 0.06f;
-    private const float THRESHOLD_TOUCH_ZOOM_START = 0.6f;
+    private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
+    private const float THRESHOLD_TOUCH_ZOOM_START = 12f;
     private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
     private const float MAX_HEIGHT = 6f;
     private const float MIN_HEIGHT = 1.5f;
     private const float MAX_ROTATION = 89.99f;
     private const float MIN_ROTATION = 0f;
+
+    private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
+    private float lastProcessedPinchMagnitude = 0f; // Magnitude of the pinch when we last actually zoomed
+    private Vector2 initialRotateCenter = new Vector2(0.0f, 0.0f);
+    private Vector2 lastProcessedRotateCenter = new Vector2(0.0f, 0.0f);
 
     public static bool InputAxisAreDisabled = false;
     public static bool InputMouseIsDisabled = false;
@@ -233,59 +241,114 @@ public class CameraScript : MonoBehaviour {
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
 
-            // Find the position in the previous frame of each touch.
-            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-
             // Find the magnitude of the vector (the distance) between the touches in each frame.
-            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
             float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
 
-            // Find the difference in the distances between each frame.
-            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+            // Initialize values when 2 fingers are first touched to the screen
+            if (initialPinchMagnitude == 0f) {
+                initialPinchMagnitude = touchDeltaMag;
+                lastProcessedPinchMagnitude = touchDeltaMag;
+            }
 
-            Console.Write("Zoom:" + deltaMagnitudeDiff, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
-            // Try to pinch zoom
-            if (Mathf.Abs(deltaMagnitudeDiff) > THRESHOLD_TOUCH_ZOOM)
+            float startThreshold = 0;
+
+            if (initialRotateCenter != lastProcessedRotateCenter) {
+                // A pinch is in progress
+                startThreshold = THRESHOLD_TOUCH_ZOOM_SWITCH;
+            }
+            else if (initialPinchMagnitude == lastProcessedPinchMagnitude) {
+                // A zoom is not yet in progress
+                startThreshold = THRESHOLD_TOUCH_ZOOM_START;
+            }
+
+            // Try to pinch zoom if we pass a start threshold
+            if (Mathf.Abs(initialPinchMagnitude-touchDeltaMag) > startThreshold)
             {
-                // TODO: Need to add some nauance to how zoom works, make it more like standard pinch gestures
-                    // Need to track initial deltaMagnitudeDiff, use that as the basis for zooming instead of THRESHOLD_TOUCH_ZOOM
-                    // Need to use THRESHOLD_TOUCH_ZOOM_START to only start zooming when fingers are far enough apart in absolute terms, not relative ones
-                    // Check the Android gesture code for more inpiration :)
-                float zoom = deltaMagnitudeDiff * -SENSITIVITY_TOUCH_ZOOM;
-                ZoomByFactor((Mathf.Abs(zoom) - THRESHOLD_TOUCH_ZOOM) * Mathf.Sign(zoom));
+                Console.Write("Zoom:" + Mathf.Abs(initialPinchMagnitude - touchDeltaMag), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+                // Find the difference in the distances between each frame.
+                float deltaMagnitudeDiff = lastProcessedPinchMagnitude - touchDeltaMag;
+
+                if (startThreshold != 0)
+                {
+                    deltaMagnitudeDiff = (Mathf.Abs(deltaMagnitudeDiff) - startThreshold) * Mathf.Sign(deltaMagnitudeDiff);
+                }
+
+                if (Mathf.Abs(deltaMagnitudeDiff) > THRESHOLD_TOUCH_ZOOM)
+                {
+                    Console.Write("Zoom2:" + deltaMagnitudeDiff, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+                    float zoom = deltaMagnitudeDiff * -SENSITIVITY_TOUCH_ZOOM;
+                    ZoomByFactor(zoom);
+
+                    lastProcessedPinchMagnitude = touchDeltaMag;
+
+                    // Turn of pan for now
+                    initialRotateCenter = lastProcessedRotateCenter;
+                }
             }
 
             // Try to rotate by dragging two fingers
             if (cameraMode == CameraModes.Free)
             {
                 // Find the difference between the average of the positions
-                Vector2 centerPrevPos = Vector2.Lerp(touchZeroPrevPos, touchOnePrevPos, 0.5f);
                 Vector2 centerPos = Vector2.Lerp(touchZero.position, touchOne.position, 0.5f);
-                Vector2 deltaCenterPos = centerPos - centerPrevPos;
 
-                Console.Write("rot mag:" + (deltaCenterPos.magnitude), LogTypes.Errors, true, "cyan");
+                if (initialRotateCenter.magnitude == 0) {
+                    initialRotateCenter = centerPos;
+                    lastProcessedRotateCenter = centerPos;
+                }
 
-                if (Mathf.Abs(deltaCenterPos.magnitude) > THRESHOLD_TOUCH_TURN) {
-                    // Rotate!
+                startThreshold = 0f;
+                if (initialPinchMagnitude != lastProcessedPinchMagnitude)
+                {
+                    // A pinch is in progress
+                    startThreshold = THRESHOLD_TOUCH_TURN_SWITCH;
+                }
+                else if (initialRotateCenter == lastProcessedRotateCenter)
+                {
+                    // A zoom is not yet in progress
+                    startThreshold = THRESHOLD_TOUCH_TURN_START;
+                }
 
-                    float turnX = deltaCenterPos.y * -SENSITIVITY_TOUCH_TURN;
-                    turnX = CamClampRotation(turnX);
-                    Camera.Rotate(turnX, 0, 0);
+                // If we pass a start threshold, try the rotation
+                if (Mathf.Abs((initialRotateCenter - centerPos).magnitude) > startThreshold)
+                {
+                    Console.Write("rot mag:" + (Mathf.Abs((initialRotateCenter - centerPos).magnitude)), LogTypes.Errors, true, "cyan");
 
-                    float turnY = deltaCenterPos.x * -SENSITIVITY_TOUCH_TURN;
-                    transform.Rotate(0, 0, turnY);
+                    Vector2 deltaCenterPos = centerPos - lastProcessedRotateCenter;
 
-                    if ((turnX != 0) || (turnY != 0)) WhenViewChanged();
+                    if (startThreshold != 0)
+                    {
+                        deltaCenterPos = deltaCenterPos - Vector2.ClampMagnitude(deltaCenterPos, startThreshold);
+                    }
 
-                    //TODO: some of that code above is redundant code with the mouse handling code, might make sense to move to a function 
+                    if (Mathf.Abs(deltaCenterPos.magnitude) > THRESHOLD_TOUCH_TURN)
+                    {
+                        Console.Write("rot mag2:" + (deltaCenterPos.magnitude), LogTypes.Errors, true, "cyan");
+                        // Rotate!
+
+                        float turnX = deltaCenterPos.y * -SENSITIVITY_TOUCH_TURN;
+                        turnX = CamClampRotation(turnX);
+                        Camera.Rotate(turnX, 0, 0);
+
+                        float turnY = deltaCenterPos.x * -SENSITIVITY_TOUCH_TURN;
+                        transform.Rotate(0, 0, turnY);
+
+                        if ((turnX != 0) || (turnY != 0)) WhenViewChanged();
+
+                        //TODO: some of that code above is redundant code with the mouse handling code, might make sense to move to a function 
+
+                        lastProcessedRotateCenter = centerPos;
+
+                        // Turn off zooming until it passes it's start threshold again
+                        initialPinchMagnitude = lastProcessedPinchMagnitude;
+                    }
                 }
             }
         }
         else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved) {
 
-            // TODO: I think direct manipulation makes more sense on touch screens, but then it's weird how panning moves the world but rotation still rotates the camera?
-                // And if I invert rotation, rotation feels a little weird to me. Not sure which way is best.
+            // TODO: I think direct manipulation makes more sense on touch screens, but then it's a little weird how panning moves the world but rotation still rotates the camera?
+                // But inverting rotation doesn't feel right either, so this is probably best as is?
             // TODO: Add momentum for panning ?
             Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
 
@@ -301,6 +364,14 @@ public class CameraScript : MonoBehaviour {
         else if (Input.touchCount > 2 && Input.GetTouch(2).phase == TouchPhase.Ended) {
             // TODO: this is mostly for debugging, will probably remove. we do probably need a close button at least for the console on mobile though
             Console.IsActive = !Console.IsActive;
+        }
+
+        if (Input.touchCount < 2) {
+            initialPinchMagnitude = 0f;
+            lastProcessedPinchMagnitude = 0f;
+
+            initialRotateCenter = new Vector2(0f, 0f);
+            lastProcessedRotateCenter = initialRotateCenter;
         }
     }
 

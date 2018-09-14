@@ -20,8 +20,9 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
     private const float SENSITIVITY_TOUCH_ZOOM = 0.075f;
-    private const float THRESHOLD_TOUCH_TURN = 0.05f;
+    private const float THRESHOLD_TOUCH_TURN = 0.05f; //TODO: need to ensure thresholds are resolution-independant?
     private const float THRESHOLD_TOUCH_ZOOM = 0.06f;
+    private const float THRESHOLD_TOUCH_ZOOM_START = 0.6f;
     private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
     private const float MAX_HEIGHT = 6f;
@@ -219,7 +220,6 @@ public class CameraScript : MonoBehaviour {
 
     void CamAdjustByTouch()
     {
-            //**** reverse rotation???? to make it match panning -- or vice versa...?
 
         if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height)) {
             // Don't listen to off-screen touches
@@ -229,9 +229,6 @@ public class CameraScript : MonoBehaviour {
         // If there are two touches on the device
         if (Input.touchCount == 2 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(1).phase == TouchPhase.Moved)) // TODO: need to check phase too...?
         {
-            //TODO: pan vs zoom just by how far apart fingers are....? hmmmmmm ***
-            //TODO: or the threshold approach that I had in mind but overcompliced
-            //TODO: or find best practice!!
             // Store both touches
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
@@ -247,19 +244,21 @@ public class CameraScript : MonoBehaviour {
             // Find the difference in the distances between each frame.
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-            Console.Write("Zoom:" + deltaMagnitudeDiff, LogTypes.Errors, true, "cyan");
+            Console.Write("Zoom:" + deltaMagnitudeDiff, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
             // Try to pinch zoom
             if (Mathf.Abs(deltaMagnitudeDiff) > THRESHOLD_TOUCH_ZOOM)
-            { //**** still need - threshold??h
-                //****or differentiate by distance between fingers...? not delta of that????
+            {
+                // TODO: Need to add some nauance to how zoom works, make it more like standard pinch gestures
+                    // Need to track initial deltaMagnitudeDiff, use that as the basis for zooming instead of THRESHOLD_TOUCH_ZOOM
+                    // Need to use THRESHOLD_TOUCH_ZOOM_START to only start zooming when fingers are far enough apart in absolute terms, not relative ones
+                    // Check the Android gesture code for more inpiration :)
                 float zoom = deltaMagnitudeDiff * -SENSITIVITY_TOUCH_ZOOM;
-                ZoomByFactor((Mathf.Abs(zoom) - THRESHOLD_TOUCH_ZOOM) * Mathf.Sign(zoom)); // TODO: cleaner...?
+                ZoomByFactor((Mathf.Abs(zoom) - THRESHOLD_TOUCH_ZOOM) * Mathf.Sign(zoom));
             }
 
             // Try to rotate by dragging two fingers
             if (cameraMode == CameraModes.Free)
             {
-
                 // Find the difference between the average of the positions
                 Vector2 centerPrevPos = Vector2.Lerp(touchZeroPrevPos, touchOnePrevPos, 0.5f);
                 Vector2 centerPos = Vector2.Lerp(touchZero.position, touchOne.position, 0.5f);
@@ -279,14 +278,15 @@ public class CameraScript : MonoBehaviour {
 
                     if ((turnX != 0) || (turnY != 0)) WhenViewChanged();
 
-                    //TODO: dedupe? not much code though
+                    //TODO: some of that code above is redundant code with the mouse handling code, might make sense to move to a function 
                 }
             }
         }
         else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved) {
 
-            //TODO: or reverse pan back to non-direct manipulation....? it's weird that it's reversed from the others maybe??
-            //// TODO: momentum?
+            // TODO: possibly reverse pan back to non-direct manipulation....? it's weird that it's reversed from the others maybe??
+                // TODO: But direct manipulation makes the most sense on mobile, so instead consider reversing rotation?
+            // TODO: need momentum?
             Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
 
             float x = deltaPosition.x * -SENSITIVITY_TOUCH_MOVE;
@@ -294,14 +294,12 @@ public class CameraScript : MonoBehaviour {
 
             Console.Write("pan x:"+x+" y:"+x, LogTypes.Errors, true, "cyan");
 
-          //  if (touchPanAmountX < 1 || touchPanAmountY < 1) return; //TODO: threshold value? make constant
-
             if ((x != 0) || (y != 0)) WhenViewChanged();
             transform.Translate(x, y, 0);
        
         }
         else if (Input.touchCount > 2 && Input.GetTouch(2).phase == TouchPhase.Ended) {
-            // TODO: move this...? to non-camera hanlding??
+            // TODO: this is mostly for debugging, will probably remove. we do probably need a close button at least for the console on mobile though
             Console.IsActive = !Console.IsActive;
         }
     }

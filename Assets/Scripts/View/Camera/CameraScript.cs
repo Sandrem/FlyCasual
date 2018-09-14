@@ -19,11 +19,12 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_ZOOM = 5;
     private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
-    private const float SENSITIVITY_TOUCH_ZOOM = 0.075f;
-    private const float THRESHOLD_TOUCH_TURN = 0.05f; //TODO: need to ensure thresholds are resolution-independant?
+    private const float SENSITIVITY_TOUCH_ZOOM = 0.075f; //TODO: Turn down a bit? Seems a bit too fast still, especially in 2d mode
+    //TODO: need to ensure thresholds are resolution-independant?
+    private const float THRESHOLD_TOUCH_TURN = 0.05f;  //TODO: right value? seems ok, but could be lower if needed now that other values are set?
     private const float THRESHOLD_TOUCH_TURN_SWITCH = 30f;
     private const float THRESHOLD_TOUCH_TURN_START = 12f;
-    private const float THRESHOLD_TOUCH_ZOOM = 0.06f;
+    private const float THRESHOLD_TOUCH_ZOOM = 0.06f; //TODO: right value? seems ok, but could be lower if needed now that other values are set?
     private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
     private const float THRESHOLD_TOUCH_ZOOM_START = 12f;
     private const float MOUSE_MOVE_START_OFFSET = 5f;
@@ -359,6 +360,8 @@ public class CameraScript : MonoBehaviour {
 
             if ((x != 0) || (y != 0)) WhenViewChanged();
             transform.Translate(x, y, 0);
+
+            //TODO: this conflicts with asteroid placement -- don't run this panning code if the touch is over an asteroid
        
         }
         else if (Input.touchCount > 2 && Input.GetTouch(2).phase == TouchPhase.Ended) {

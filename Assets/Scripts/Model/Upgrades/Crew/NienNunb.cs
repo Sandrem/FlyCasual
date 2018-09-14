@@ -27,6 +27,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is Abilities.NienNunbCrewAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.NienNunbCrewAbility());
+
+            SEImageNumber = 90;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

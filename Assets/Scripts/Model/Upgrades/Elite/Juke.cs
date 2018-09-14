@@ -23,6 +23,8 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             Cost = 4;
+
+            SEImageNumber = 8;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

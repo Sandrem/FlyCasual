@@ -33,6 +33,8 @@ namespace UpgradesList
             IsHidden = false;
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.ZuckussCrewAbility());
+
+            SEImageNumber = 138;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

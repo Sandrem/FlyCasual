@@ -17,6 +17,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new ReconSpecialistAbility());
+
+            SEImageNumber = 46;
         }
     }
 }

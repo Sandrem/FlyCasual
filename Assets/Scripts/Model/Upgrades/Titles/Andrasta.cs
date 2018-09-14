@@ -31,6 +31,8 @@ namespace UpgradesList
                 new UpgradeSlot(UpgradeType.Bomb)
             };
             UpgradeAbilities.Add(new GenericActionBarAbility<ReloadAction>(false, null));
+
+            SEImageNumber = 146;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

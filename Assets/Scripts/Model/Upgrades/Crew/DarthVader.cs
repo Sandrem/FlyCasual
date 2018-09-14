@@ -31,6 +31,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is DarthVaderCrewAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.DarthVaderCrewAbility());
+
+            SEImageNumber = 112;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

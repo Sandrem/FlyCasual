@@ -30,6 +30,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is ST321Ability);
             UpgradeAbilities.Add(new Abilities.SecondEdition.ST321Ability());
+
+            SEImageNumber = 124;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

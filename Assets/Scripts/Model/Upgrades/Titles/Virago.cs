@@ -33,6 +33,8 @@ namespace UpgradesList
             UpgradeAbilities.Add(new ViragoAbility());
             MaxCharges = 2; //Charges for boost ability
             UsesCharges = true;
+
+            SEImageNumber = 155;
         }
 
 

@@ -29,6 +29,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Gunner);
             UpgradeAbilities.Clear();
             UpgradeAbilities.Add(new LukeSkywalkerGunnerAbility());
+
+            SEImageNumber = 98;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

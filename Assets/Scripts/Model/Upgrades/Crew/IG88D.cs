@@ -27,6 +27,8 @@ namespace UpgradesList
         {
             Cost = 4;
             UpgradeAbilities.Add(new Ig88DCrewAbility());
+
+            SEImageNumber = 132;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

@@ -24,6 +24,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.Elusive());
+
+            SEImageNumber = 4;
         }
     }
 }

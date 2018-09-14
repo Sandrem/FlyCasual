@@ -302,8 +302,9 @@ namespace SubPhases
             {
                 // If selected ship can attack - skip attack only for this ship
 
-                AfterSkippedCombatActivation(Selection.ThisShip);
-                CheckNext();
+                GenericShip skippedShip = Selection.ThisShip;
+                AfterSkippedCombatActivation(skippedShip);
+                skippedShip.CallCombatDeactivation(CheckNext);
             }
 
         }

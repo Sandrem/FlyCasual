@@ -78,7 +78,7 @@ namespace Abilities
 
             private void CheckClusterMissilesAbility(GenericShip ship)
             {
-                if (!IsAbilityUsed)
+                if (Combat.ChosenWeapon == this.HostUpgrade && !IsAbilityUsed)
                 {
                     IsAbilityUsed = true;
 

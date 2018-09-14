@@ -31,6 +31,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.TurrPhennirAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.TurrPhennirAbility());
+
+                SEImageNumber = 104;
             }
         }        
     }

@@ -35,6 +35,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.KyleKatarnAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.KyleKatarnAbilitySE());
+
+                SEImageNumber = 43;
             }
         }
     }

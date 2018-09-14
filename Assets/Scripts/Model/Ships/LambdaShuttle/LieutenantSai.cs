@@ -19,6 +19,8 @@ namespace Ship
 
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new LieutenantSaiAbility());
+
+                SEImageNumber = 144;
             }
 
             public void AdaptPilotToSecondEdition()

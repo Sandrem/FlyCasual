@@ -25,6 +25,8 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
 
                 PilotAbilities.Add(new DelMeekoAbility());
+
+                SEImageNumber = 85;
             }
 
             public void AdaptPilotToSecondEdition()

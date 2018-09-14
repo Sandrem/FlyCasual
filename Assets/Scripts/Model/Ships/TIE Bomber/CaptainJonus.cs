@@ -29,6 +29,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.CaptainJonusAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.CaptainJonusAbilitySE());
+
+                SEImageNumber = 108;
             }
         }
     }

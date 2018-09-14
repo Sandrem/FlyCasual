@@ -32,6 +32,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(n => n is PivotWingAttackAbility);
             UpgradeAbilities.Add(new PivotWingAttackAbilitySE());
+
+            SEImageNumber = 107;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -63,6 +65,9 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(n => n is PivotWingLandingAbility);
             UpgradeAbilities.Add(new PivotWingLandingAbilitySE());
+
+            SEImageNumber = 107;
+            IsSecondSide = true;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

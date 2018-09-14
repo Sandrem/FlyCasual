@@ -29,6 +29,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is PredatorAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.PredatorAbility());
+
+            SEImageNumber = 12;
         }
     }
 }

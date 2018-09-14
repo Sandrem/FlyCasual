@@ -26,6 +26,8 @@ namespace UpgradesList
             Cost = 12;
             UpgradeAbilities.Clear();
             UpgradeAbilities.Add(new MoldyCrowAbilitySe());
+
+            SEImageNumber = 104;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

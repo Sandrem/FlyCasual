@@ -33,6 +33,8 @@ namespace UpgradesList
             };
             UpgradeAbilities.Clear();
             UpgradeAbilities.Add(new PunishingOneAbilitySe());
+
+            SEImageNumber = 152;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

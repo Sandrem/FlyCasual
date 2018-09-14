@@ -22,6 +22,8 @@ namespace UpgradesList
         {
             UpgradeAbilities.RemoveAll(a => a is EngineUpgradeAbility);
             UpgradeAbilities.Add(new GenericActionBarAbility<BoostAction>());
+
+            SEImageNumber = 72;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

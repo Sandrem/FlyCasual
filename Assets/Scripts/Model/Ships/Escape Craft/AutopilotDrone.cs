@@ -20,6 +20,8 @@ namespace Ship
 
                 // TODO
                 // PilotAbilities.Add(new Abilities.ZebOrreliosPilotAbility());
+
+                SEImageNumber = 229;
             }
 
             public void AdaptPilotToSecondEdition()

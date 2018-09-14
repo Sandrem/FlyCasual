@@ -2,8 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Tokens;
-using UnityEngine;
 
 namespace SubPhases
 {
@@ -27,10 +25,7 @@ namespace SubPhases
             Phases.Events.CallBeforeActionSubPhaseTrigger();
             var ship = Selection.ThisShip;
 
-            bool canPerformAction = !(ship.IsSkipsActionSubPhase  || ship.IsDestroyed
-                                    || (ship.Tokens.HasToken(typeof(StressToken)) && !ship.CanPerformActionsWhileStressed));
-
-            if (canPerformAction)
+            if (RulesList.ActionsRule.HasPerformActionStep(ship))
             {
                 ship.GenerateAvailableActionsList();
                 Triggers.RegisterTrigger(

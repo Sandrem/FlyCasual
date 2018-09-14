@@ -20,6 +20,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.EzraBridgerPilotAbilitySE());
+
+                SEImageNumber = 46;
             }
 
             public void AdaptPilotToSecondEdition()

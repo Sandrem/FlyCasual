@@ -31,6 +31,8 @@ namespace UpgradesList
             {
                 new UpgradeSlot(UpgradeType.Cannon)
             };
+
+            SEImageNumber = 151;
         }
 
         public override void PreAttachToShip(GenericShip host)

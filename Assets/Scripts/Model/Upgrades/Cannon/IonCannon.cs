@@ -32,6 +32,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is IonCannonAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.IonCannonAbilitySE());
+
+            SEImageNumber = 28;
         }
     }
 }
@@ -66,8 +68,7 @@ namespace Abilities
 			Combat.Defender.Tokens.AssignToken(
                 typeof(IonToken),
 				delegate {
-					GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-					Game.Wait(2, DefenderSuffersDamage);
+					GameManagerScript.Wait(2, DefenderSuffersDamage);
 				}
 			);
 		}
@@ -102,8 +103,7 @@ namespace Abilities.SecondEdition
                 ionTokens,
                 delegate
                 {
-                    GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(2, DefenderSuffersDamage);
+                    GameManagerScript.Wait(2, DefenderSuffersDamage);
                 }
             );
         }

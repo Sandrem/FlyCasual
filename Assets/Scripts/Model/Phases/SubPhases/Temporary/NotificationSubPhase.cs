@@ -30,8 +30,7 @@ namespace SubPhases
             notificationPanel.SetActive(true);
             notificationPanel.GetComponent<Animation>().Play();
 
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(1.5f, Next);
+            GameManagerScript.Wait(1.5f, Next);
         }
 
         public override void Next()

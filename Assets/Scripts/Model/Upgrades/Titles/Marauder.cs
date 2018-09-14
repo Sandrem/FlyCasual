@@ -24,6 +24,8 @@ namespace UpgradesList
             };
 
             UpgradeAbilities.Add(new MarauderAbility());
+
+            SEImageNumber = 150;
         }
 
         public void AdaptUpgradeToSecondEdition()

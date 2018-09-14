@@ -15,8 +15,12 @@ public class GameManagerScript : MonoBehaviour {
     public UI UI;
     public ShipMovementScript Movement;
 
+    public static GameManagerScript Instance;
+
     void Start()
     {
+        Instance = this;
+
         SetApplicationParameters();
         InitializeScripts();
 
@@ -70,9 +74,9 @@ public class GameManagerScript : MonoBehaviour {
         Movement = this.GetComponent<ShipMovementScript>();
     }
 
-    public void Wait(float seconds, CallBackFunction callBack)
+    public static void Wait(float seconds, CallBackFunction callBack)
     {
-        StartCoroutine(WaitCoroutine(seconds, callBack));
+        Instance.StartCoroutine(Instance.WaitCoroutine(seconds, callBack));
     }
 
     IEnumerator WaitCoroutine(float seconds, CallBackFunction callBack)

@@ -32,6 +32,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.MajorVermeilAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.MajorVermeilAbilitySE());
+
+                SEImageNumber = 113;
             }
         }
     }

@@ -20,11 +20,16 @@ namespace UpgradesList
 
             isUnique = true;
 
+            UpgradeRuleType = typeof(SecondEdition);
+
+            UpgradeAbilities.Add(new Abilities.SecondEdition.MinisterTuaCrewAbility());
+
+            SEImageNumber = 119;
         }
 
         public void AdaptUpgradeToSecondEdition()
         {
-            UpgradeAbilities.Add(new Abilities.SecondEdition.MinisterTuaCrewAbility());
+            
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

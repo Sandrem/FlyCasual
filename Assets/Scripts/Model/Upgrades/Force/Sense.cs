@@ -18,6 +18,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.SenseAbility());
+
+            SEImageNumber = 21;
         }
     }
 }

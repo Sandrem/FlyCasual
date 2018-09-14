@@ -24,6 +24,8 @@ namespace Ship
                 SkinName = "Red";
 
                 PilotAbilities.Add(new IG88BAbility());
+
+                SEImageNumber = 198;
             }
 
             public void AdaptPilotToSecondEdition()

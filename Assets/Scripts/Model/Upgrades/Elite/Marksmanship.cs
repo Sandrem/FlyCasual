@@ -23,6 +23,8 @@ namespace UpgradesList
         {
             UpgradeAbilities.RemoveAll(a => a is MarksmanshipAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.MarksmanshipAbility());
+
+            SEImageNumber = 10;
         }
     }
 }

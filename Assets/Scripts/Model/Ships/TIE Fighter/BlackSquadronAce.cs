@@ -18,6 +18,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotRuleType = typeof(SecondEdition);
+
+                SEImageNumber = 90;
             }
 
             public void AdaptPilotToSecondEdition()

@@ -39,6 +39,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(a => a is Abilities.KathScarletSVAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.KathScarletSEAbility());
+
+                SEImageNumber = 151;
             }
         }
     }

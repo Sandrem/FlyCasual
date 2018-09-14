@@ -32,6 +32,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is CrackShotAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.CrackShotAbility());
+
+            SEImageNumber = 1;
         }
     }
 }

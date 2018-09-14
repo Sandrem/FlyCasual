@@ -33,6 +33,8 @@ namespace UpgradesList
 
             UpgradeAbilities.Clear();
             UpgradeAbilities.Add(new BosskGunnerSe());
+
+            SEImageNumber = 139;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

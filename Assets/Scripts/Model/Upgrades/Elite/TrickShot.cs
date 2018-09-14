@@ -27,6 +27,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(ability => ability is Abilities.TrickShotAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.TrickShotAbilitySE());
+
+            SEImageNumber = 18;
         }
     }
 }

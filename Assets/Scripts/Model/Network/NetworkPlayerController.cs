@@ -45,7 +45,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     public void RpcSendCommand(string commandline)
     {
-        GameController.SendCommand(GameController.GenerateGameCommand(commandline));
+        GameController.SendCommand(GameController.GenerateGameCommand(commandline, true));
     }
 
     // TESTS
@@ -214,20 +214,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcAssignManeuver(int shipId, string maneuverCode)
     {
         ShipMovementScript.SendAssignManeuverCommand(shipId, maneuverCode);
-    }
-
-    // Systems
-
-    [Command]
-    public void CmdActivateSystemsOnShip(int shipId)
-    {
-        RpcActivateSystemsOnShip(shipId);
-    }
-
-    [ClientRpc]
-    private void RpcActivateSystemsOnShip(int shipId)
-    {
-        (Phases.CurrentSubPhase as SystemsSubPhase).ActivateSystemsOnShipClient(Roster.GetShipById("ShipId:" + shipId));
     }
 
     // BARREL ROLL
@@ -404,158 +390,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
     }
 
-    // SELECT OBSTACLE
-
-    [Command]
-    public void CmdSelectObstacle(string obstacleName)
-    {
-        RpcSelectTargetOBstacle(obstacleName);
-    }
-
-    [ClientRpc]
-    private void RpcSelectTargetOBstacle(string obstacleName)
-    {
-        SelectObstacleSubPhase currentSubPhase = (Phases.CurrentSubPhase as SelectObstacleSubPhase);
-        currentSubPhase.ConfirmSelectionOfObstacleClient(obstacleName);
-    }
-
-    // CONFIRM DICE ROLL CHECK
-
-    [Command]
-    public void CmdConfirmDiceRollCheckResults()
-    {
-        new NetworkExecuteWithCallback("Wait all confirm dice results", CmdShowDiceRollCheckConfirmButton, CmdConfirmDiceRerollCheckResults);
-    }
-
-    [Command]
-    private void CmdShowDiceRollCheckConfirmButton()
-    {
-        RpcShowDiceRollCheckConfirmButton();
-    }
-
-    [ClientRpc]
-    private void RpcShowDiceRollCheckConfirmButton()
-    {
-        (Phases.CurrentSubPhase as DiceRollCheckSubPhase).ShowDiceRollCheckConfirmButton();
-    }
-
-    [Command]
-    private void CmdConfirmDiceRerollCheckResults()
-    {
-        RpcConfirmDiceRerollCheckResults();
-    }
-
-    [ClientRpc]
-    private void RpcConfirmDiceRerollCheckResults()
-    {
-        (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
-    }
-
-    // DICE ROLL SYNC
-
-    [Command]
-    public void CmdSyncDiceResults()
-    {
-        new NetworkExecuteWithCallback(
-            "Wait sync dice results than calculate attack results prediction",
-            CmdSendDiceRollResultsToClients,
-            CmdCalculateDiceRoll
-        );
-    }
-
-    [Command]
-    public void CmdSendDiceRollResultsToClients()
-    {
-        RpcSendDiceRollResultsToClients(DiceRoll.CurrentDiceRoll.ResultsArray);
-    }
-
-    [ClientRpc]
-    private void RpcSendDiceRollResultsToClients(DieSide[] dieSideResults)
-    {
-        Network.CompareDiceSidesAgainstServer(dieSideResults);
-    }
-
-    [Command]
-    public void CmdCalculateDiceRoll()
-    {
-        RpcCalculateDiceRoll();
-    }
-
-    [ClientRpc]
-    private void RpcCalculateDiceRoll()
-    {
-        /*if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Combat)
-        {
-            (Phases.CurrentSubPhase as DiceRollCombatSubPhase).CalculateDice();
-        }
-        else if (DiceRoll.CurrentDiceRoll.CheckType == DiceRollCheckType.Check)
-        {
-            (Phases.CurrentSubPhase as DiceRollCheckSubPhase).CalculateDice();
-        }*/
-    }
-
-    // DICE REROLL SYNC
-
-    // DICE ROLL SYNC
-
-    [Command]
-    public void CmdStartDiceRerollExecution()
-    {
-        RpcStartDiceRerollExecution();
-    }
-
-    [ClientRpc]
-    private void RpcStartDiceRerollExecution()
-    {
-        DiceRerollManager.CurrentDiceRerollManager.ConfirmReroll();
-    }
-
-    [Command]
-    public void CmdSyncDiceRerollResults()
-    {
-        new NetworkExecuteWithCallback(
-            "Wait sync dice reroll results then calculate attack results prediction",
-            CmdSendDiceRollResultsToClients,
-            CmdCalculateDiceReroll
-        );
-    }
-
-    [Command]
-    public void CmdCalculateDiceReroll()
-    {
-        RpcCalculateDiceReroll();
-    }
-
-    [ClientRpc]
-    private void RpcCalculateDiceReroll()
-    {
-        DiceRerollManager.CurrentDiceRerollManager.UnblockButtons();
-    }
-
-    // DICE ROLL IN SYNC
-
-    [Command]
-    public void CmdSyncDiceRollInResults()
-    {
-        new NetworkExecuteWithCallback(
-            "Wait sync dice roll in results then calculate attack results prediction",
-            CmdSendDiceRollResultsToClients,
-            CmdCalculateDiceRollIn
-        );
-    }
-
-    [Command]
-    public void CmdCalculateDiceRollIn()
-    {
-        RpcCalculateDiceRollIn();
-    }
-
-    [ClientRpc]
-    private void RpcCalculateDiceRollIn()
-    {
-        DiceRoll.CurrentDiceRoll.UnblockButtons();
-    }
-
     // BARREL ROLL PLANNING
 
     [Command]
@@ -685,21 +519,6 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     private void RpcSetSwarmManagerManeuver(string maneuverCode)
     {
         SwarmManager.SetManeuver(maneuverCode);
-    }
-
-    // Combat Activation
-
-    [Command]
-    public void CmdCombatActivation(int shipId)
-    {
-        RpcCombatActivation(shipId);
-    }
-
-    [ClientRpc]
-    private void RpcCombatActivation(int shipId)
-    {
-        Selection.ChangeActiveShip("ShipId:" + shipId);
-        Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
     }
 
     // Return To Main Menu

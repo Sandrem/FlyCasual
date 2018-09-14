@@ -31,6 +31,8 @@ namespace Ship
                 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.OldTerochAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.OldTerochAbility());
+
+                SEImageNumber = 156;
             }
         }
 	}

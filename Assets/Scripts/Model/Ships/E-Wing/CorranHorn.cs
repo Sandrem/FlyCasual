@@ -33,6 +33,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is CorranHornAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.CorranHornAbility());
+
+                SEImageNumber = 50;
             }
         }
     }

@@ -32,6 +32,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is DirectorKrennicAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.DirectorKrennicAbilitySE());
+
+            SEImageNumber = 114;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

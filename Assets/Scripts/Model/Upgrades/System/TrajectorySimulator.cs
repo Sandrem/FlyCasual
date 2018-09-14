@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Bombs;
 using BoardTools;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class TrajectorySimulator : GenericUpgrade
+    public class TrajectorySimulator : GenericUpgrade, ISecondEditionUpgrade
     {
         public TrajectorySimulator() : base()
         {
@@ -18,6 +19,13 @@ namespace UpgradesList
             Cost = 1;
 
             UpgradeAbilities.Add (new TrajectorySimulatorAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 3;
+
+            SEImageNumber = 26;
         }
     }
 }
@@ -62,8 +70,7 @@ namespace SubPhases
 
             ShowBombLaunchHelper();
 
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(0.5f, SelectBombPosition);
+            GameManagerScript.Wait(0.5f, SelectBombPosition);
         }
 
         private void CreateBombObject(Vector3 bombPosition, Quaternion bombRotation)

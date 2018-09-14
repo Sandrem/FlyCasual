@@ -45,7 +45,7 @@ namespace SubPhases
             MinBoardEdgeDistance = Board.BoardIntoWorld(2 * Board.RANGE_1);
             MinObstaclesDistance = Board.BoardIntoWorld(Board.RANGE_1);
 
-            RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
+            RequiredPlayer = Roster.AnotherPlayer(Phases.PlayerWithInitiative); // Will be changed in Next
 
             foreach (GenericPlayer player in Roster.Players)
             {
@@ -395,6 +395,7 @@ namespace SubPhases
             IsEnteredPlacementZone = false;
             IsEnteredPlaymat = false;
 
+            MovementTemplates.ReturnRangeRulerR1();
             MovementTemplates.ReturnRangeRulerR2();
 
             if (ObstaclesManager.GetPlacedObstaclesCount() < 6)

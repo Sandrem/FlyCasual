@@ -24,6 +24,8 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             Cost = 3;
+
+            SEImageNumber = 17;
         }
     }
 }
@@ -58,11 +60,13 @@ namespace Abilities
             Selection.ThisShip = HostShip;
             if (HostShip.Owner.Ships.Count > 1)
             {
-                Phases.StartTemporarySubPhaseOld(
+                var phase = Phases.StartTemporarySubPhaseNew<SubPhases.SelectSwarmTacticsTargetSubPhase>(
                     "Select target for Swarm Tactics",
-                    typeof(SubPhases.SelectSwarmTacticsTargetSubPhase),
                     Triggers.FinishTrigger
                 );
+
+                phase.ImageUrl = HostImageUrl;
+                phase.Start();
             }
             else
             {
@@ -88,6 +92,8 @@ namespace SubPhases
 
             FilterTargets = FilterAbilityTargets;
             GetAiPriority = GetAiAbilityPriority;
+
+            Description = "Select target for Swarm Tactics";
 
             RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 

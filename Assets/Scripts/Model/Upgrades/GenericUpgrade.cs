@@ -79,6 +79,9 @@ namespace Upgrade
             }
         }
 
+        public int SEImageNumber;
+        public bool IsSecondSide;
+
         public string ImageUrlFE
         {
             get

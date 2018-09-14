@@ -26,6 +26,8 @@ namespace Ship
                 PilotSkill = 2;
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                SEImageNumber = 40;
             }
         }
     }

@@ -347,6 +347,10 @@ namespace Ship
         public void CallAttackFinish()
         {
             if (OnAttackFinish != null) OnAttackFinish(this);
+        }
+
+        public void CallAttackFinishGlobal()
+        {
             if (OnAttackFinishGlobal != null) OnAttackFinishGlobal(this);
         }
 
@@ -544,6 +548,7 @@ namespace Ship
         public void ProcessDrawnDamageCard(EventArgs e)
         {
             AssignedDamageDiceroll.CancelHits(1);
+            AssignedDamageDiceroll.RemoveAllFailures();
 
             if (Combat.CurrentCriticalHitCard.IsFaceup)
             {
@@ -610,6 +615,7 @@ namespace Ship
         public void SufferShieldDamage()
         {
             AssignedDamageDiceroll.CancelHits(1);
+            AssignedDamageDiceroll.RemoveAllFailures();
 
             Shields--;
             CallAfterAssignedDamageIsChanged();

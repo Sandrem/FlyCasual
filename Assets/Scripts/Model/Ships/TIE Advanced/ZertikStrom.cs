@@ -21,6 +21,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.ZertikStromAbility());
+
+                SEImageNumber = 96;
             }
 
             public void AdaptPilotToSecondEdition()

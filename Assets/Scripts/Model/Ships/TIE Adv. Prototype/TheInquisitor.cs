@@ -32,8 +32,13 @@ namespace Ship
                 Cost = 58;
                 MaxForce = 2;
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
+
                 PilotAbilities.RemoveAll(ability => ability is Abilities.TheInquisitorAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.GrandInquisitorAbilitySE());
+
+                SEImageNumber = 99;
             }
         }
     }

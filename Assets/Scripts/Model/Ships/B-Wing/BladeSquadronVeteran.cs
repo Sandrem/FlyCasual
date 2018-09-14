@@ -20,6 +20,8 @@ namespace Ship
                 SkinName = "Red";
 
                 PilotRuleType = typeof(SecondEdition);
+
+                SEImageNumber = 25;
             }
 
             public void AdaptPilotToSecondEdition()

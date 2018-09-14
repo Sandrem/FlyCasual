@@ -10,7 +10,7 @@ using RuleSets;
 
 namespace UpgradesList
 {
-    public class Ghost : GenericUpgrade, ISecondEditionUpgrade
+    public class Ghost : GenericUpgrade
     {
         public Ghost() : base()
         {
@@ -21,11 +21,6 @@ namespace UpgradesList
             isUnique = true;
 
             UpgradeAbilities.Add(new GhostAbility());
-        }
-
-        public void AdaptUpgradeToSecondEdition()
-        {
-            //Nothing to do for now
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

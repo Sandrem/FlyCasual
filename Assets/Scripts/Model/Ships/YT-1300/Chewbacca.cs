@@ -40,6 +40,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.ChewbaccaAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.ChewbaccaAbilitySE());
+
+                SEImageNumber = 71;
             }
         }
     }

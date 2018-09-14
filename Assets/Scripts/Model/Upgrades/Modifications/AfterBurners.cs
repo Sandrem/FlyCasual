@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿
+using Ship;
 using Upgrade;
 using RuleSets;
 using System;
@@ -16,10 +17,13 @@ namespace UpgradesList
             Cost = 8;
 
             MaxCharges = 2;
+            UsesCharges = true;
 
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.AfterBurnersAbility());
+
+            SEImageNumber = 70;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

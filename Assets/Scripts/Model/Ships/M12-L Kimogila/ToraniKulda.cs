@@ -36,6 +36,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.ToraniKuldaAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.ToraniKuldaAbilitySE());
+
+                SEImageNumber = 207;
             }
         }
     }

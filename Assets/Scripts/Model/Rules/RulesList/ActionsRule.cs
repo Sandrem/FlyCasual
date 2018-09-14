@@ -3,6 +3,7 @@ using ActionsList;
 using Ship;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using UnityEngine;
 
@@ -76,6 +77,19 @@ namespace RulesList
         {
             Selection.ThisShip.GenerateAvailableActionsList();
             Selection.ThisShip.AskPerformFreeAction(Selection.ThisShip.PlannedLinkedActions, Triggers.FinishTrigger);
+        }
+
+        public static bool HasPerformActionStep(GenericShip ship)
+        {
+            if (ship.IsDestroyed) return false;
+            if (ship.IsSkipsActionSubPhase) return false;
+            
+            if (ship.Tokens.HasToken(typeof(StressToken)))
+            {
+                if ((!ship.CanPerformActionsWhileStressed) && (!ship.GetAvailableActions().Any(n => n.CanBePerformedWhileStressed))) return false;
+            }
+
+            return true;
         }
 
     }

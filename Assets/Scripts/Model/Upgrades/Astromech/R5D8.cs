@@ -27,9 +27,12 @@ namespace UpgradesList
         {
             Cost = 7;
             MaxCharges = 3;
+            UsesCharges = true;
 
             UpgradeAbilities.RemoveAll(a => a is R5D8Ability);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R5AstromechAbility());
+
+            SEImageNumber = 101;
         }
     }
 

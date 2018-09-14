@@ -28,6 +28,8 @@ namespace Ship
                 faction = Faction.Scum;
 
                 PilotAbilities.Add(new KaatoLeeachosAbilitySE());
+
+                SEImageNumber = 170;
             }
 
             public void AdaptPilotToSecondEdition()

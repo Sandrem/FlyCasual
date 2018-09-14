@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Bombs;
 using Abilities;
+using RuleSets;
 
 namespace Ship
 {
     namespace ScurrgH6Bomber
     {
-        public class SolSixxa : ScurrgH6Bomber
+        public class SolSixxa : ScurrgH6Bomber, ISecondEditionPilot
         {
             public SolSixxa() : base()
             {
@@ -21,6 +22,13 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SolSixxaAbiliity());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                IsHidden = true;
+
+                SEImageNumber = 205;
             }
         }
     }

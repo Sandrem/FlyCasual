@@ -27,6 +27,8 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
 
                 PilotAbilities.Add(new Abilities.JunoEclipseAbility());
+
+                SEImageNumber = 95;
             }
 
             public void AdaptPilotToSecondEdition()

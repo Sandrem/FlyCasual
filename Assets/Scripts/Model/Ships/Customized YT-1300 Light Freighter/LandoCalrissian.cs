@@ -21,6 +21,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SecondEdition.LandoCalrissianScumPilotAbilitySE());
+
+                SEImageNumber = 223;
             }
 
             public void AdaptPilotToSecondEdition()

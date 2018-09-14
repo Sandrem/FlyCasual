@@ -18,14 +18,14 @@ namespace GameModes
             Network.SendCommand(command);
         }
 
+        public override void ExecuteServerCommand(GameCommand command)
+        {
+            if (Network.IsServer) Network.SendCommand(command);
+        }
+
         public override void RevertSubPhase()
         {
             Network.RevertSubPhase();
-        }
-
-        public override void ActivateSystemsOnShip(int shipId)
-        {
-            Network.ActivateSystemsOnShip(shipId);
         }
 
         public override void AssignManeuver(string maneuverCode)
@@ -141,14 +141,9 @@ namespace GameModes
             Network.SyncDecks(Tools.PlayerToInt(playerNo), seed);
         }
 
-        public override void CombatActivation(int shipId)
-        {
-            Network.CombatActivation(shipId);
-        }
-
         public override void StartDiceRerollExecution()
         {
-            Network.StartDiceRerollExecution();
+            //Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
         }
 
         public override void ReturnToMainMenu()
@@ -159,11 +154,6 @@ namespace GameModes
         public override void QuitToDesktop()
         {
             Network.QuitToDesktop();
-        }
-
-        public override void SelectObstacle(string obstacleName)
-        {
-            Network.SelectObstacle(obstacleName);
         }
 
     }

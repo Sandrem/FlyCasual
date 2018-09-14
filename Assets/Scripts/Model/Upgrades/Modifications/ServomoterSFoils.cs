@@ -33,6 +33,9 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is ServomotorSFoilsClosedAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.ServomotorSFoilsClosedAbilitySE());
+
+            SEImageNumber = 108;
+            IsSecondSide = true;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -62,6 +65,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is ServomotorSFoilsAttackAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.ServomotorSFoilsAttackAbilitySE());
+
+            SEImageNumber = 108;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

@@ -33,6 +33,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.RearAdmiralChiraneauAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.RearAdmiralCharaneauAbilitySE());
+
+                SEImageNumber = 147;
             }
         }
     }

@@ -23,6 +23,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is FireControlSystemAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.FireControlSystemAbility());
+
+            SEImageNumber = 25;
         }
     }
 }

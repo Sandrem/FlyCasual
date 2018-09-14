@@ -22,6 +22,8 @@ namespace Ship
 
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.SeynMaranaAbilitySE());
+
+                SEImageNumber = 86;
             }
 
             public void AdaptPilotToSecondEdition()

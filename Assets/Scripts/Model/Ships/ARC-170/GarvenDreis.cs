@@ -21,6 +21,8 @@ namespace Ship
 
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.GarvenDreisAbilitySE());
+
+                SEImageNumber = 66;
             }
 
             public void AdaptPilotToSecondEdition()

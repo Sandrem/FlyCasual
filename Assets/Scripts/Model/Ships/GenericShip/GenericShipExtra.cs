@@ -49,6 +49,8 @@ namespace Ship
             }
         }
 
+        public int SEImageNumber;
+
         public string ManeuversImageUrl { get; protected set; }
 
         public string SoundShotsPath { get; protected set; }

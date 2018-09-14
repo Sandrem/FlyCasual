@@ -153,7 +153,8 @@ public static partial class Combat
     public static GameCommand GenerateDiceModificationCommand(string diceModificationName)
     {
         JSONObject parameters = new JSONObject();
-        parameters.AddField("name", diceModificationName);
+        string diceModificationNameFixed = diceModificationName.Replace('"', '_');
+        parameters.AddField("name", diceModificationNameFixed);
         return GameController.GenerateGameCommand(
             GameCommandTypes.DiceModification,
             Phases.CurrentSubPhase.GetType(),
@@ -190,7 +191,11 @@ public static partial class Combat
 
         Selection.ActiveShip.AddAlreadyUsedDiceModification(diceModification);
 
-        diceModification.ActionEffect(delegate { ReGenerateListOfButtons(diceModification.DiceModificationTiming); });
+        diceModification.ActionEffect( delegate {
+            ReplaysManager.ExecuteWithDelay(delegate {
+                ReGenerateListOfButtons(diceModification.DiceModificationTiming);
+            });
+        });
     }
 
     private static void ReGenerateListOfButtons(DiceModificationTimingType timingType)
@@ -212,13 +217,13 @@ public static partial class Combat
         switch (AttackStep)
         {
             case CombatStep.Attack:
-                if (Combat.Attacker.CallTryConfirmDiceResults()) ConfirmAttackDiceResults();
+                if (Combat.Attacker.CallTryConfirmDiceResults()) ReplaysManager.ExecuteWithDelay(ConfirmAttackDiceResults);
                 break;
             case CombatStep.Defence:
-                if (Combat.Defender.CallTryConfirmDiceResults()) ConfirmDefenceDiceResults();
+                if (Combat.Defender.CallTryConfirmDiceResults()) ReplaysManager.ExecuteWithDelay(ConfirmDefenceDiceResults);
                 break;
             case CombatStep.CompareResults:
-                CompareResultsAndDealDamage();
+                ReplaysManager.ExecuteWithDelay(CompareResultsAndDealDamage);
                 break;
         }
     }

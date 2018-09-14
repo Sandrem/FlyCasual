@@ -26,10 +26,13 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             MaxCharges = 2;
+            UsesCharges = true;
             Cost = 6;
 
             UpgradeAbilities.RemoveAll(a => a is R2AstromechAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R2AstromechAbility());
+
+            SEImageNumber = 53;
         }
     }
 

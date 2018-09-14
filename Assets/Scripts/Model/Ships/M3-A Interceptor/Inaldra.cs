@@ -32,6 +32,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.InaldraAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.InaldraAbilitySE());
+
+                SEImageNumber = 187;
             }
         }
    }

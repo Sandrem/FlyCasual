@@ -37,6 +37,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.SawGerreraPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.SawGarreraAbilitySE());
+
+                SEImageNumber = 55;
             }
         }
     }

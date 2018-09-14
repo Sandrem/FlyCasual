@@ -39,7 +39,7 @@ public static class Options
         Title = PlayerPrefs.GetString("Title", "Test Pilot");
         DontShowAiInfo = PlayerPrefs.GetInt("DontShowAiInfo", 0) == 1;
 
-        Edition = PlayerPrefs.GetString("Edition", "FirstEdition");
+        Edition = PlayerPrefs.GetString("Edition", "SecondEdition");
         MainMenu.SetEdition(Edition);
 
         ReadMods();

@@ -17,6 +17,8 @@ namespace Ship
 
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.CaptainJosteroAbilitySE());
+
+                SEImageNumber = 194;
             }
 
             public void AdaptPilotToSecondEdition()

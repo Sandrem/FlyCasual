@@ -23,6 +23,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is OutmaneuverAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.OutmaneuverAbilitySE());
+
+            SEImageNumber = 11;
         }
     }
 }

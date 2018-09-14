@@ -169,13 +169,6 @@ public static partial class Network
         CurrentPlayer.CmdAssignManeuver(shipId, maneuverCode);
     }
 
-    // SYSTEMS
-
-    public static void ActivateSystemsOnShip(int shipId)
-    {
-        CurrentPlayer.CmdActivateSystemsOnShip(shipId);
-    }
-
     // PERFORM BARREL ROLL
 
     public static void PerformBarrelRoll()
@@ -217,68 +210,6 @@ public static partial class Network
     public static void SelectTargetShip(int targetId)
     {
         CurrentPlayer.CmdSelectTargetShip(targetId);
-    }
-
-    // SELECT OBSTACLE
-
-    public static void SelectObstacle(string obstacleName)
-    {
-        CurrentPlayer.CmdSelectObstacle(obstacleName);
-    }
-
-    // CONFIRM DICE ROLL CHECK
-
-    public static void ConfirmDiceRollCheckResults()
-    {
-        if (IsServer) CurrentPlayer.CmdConfirmDiceRollCheckResults();
-    }
-
-    // SYNC DICE ROLL
-
-    public static void SyncDiceResults()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncDiceResults();
-    }
-
-    public static void SyncDiceRerollResults()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncDiceRerollResults();
-    }
-
-    public static void SyncDiceRollInResults()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncDiceRollInResults();
-    }
-
-    public static void CompareDiceSidesAgainstServer(DieSide[] dieSides)
-    {
-        if (!IsServer)
-        {
-            DiceRoll clientDiceRoll = DiceRoll.CurrentDiceRoll;
-
-            bool syncIsNeeded = false;
-            for (int i = 0; i < clientDiceRoll.DiceList.Count; i++)
-            {
-                if (clientDiceRoll.DiceList[i].GetModelFace() != dieSides[i])
-                {
-                    syncIsNeeded = true;
-                    clientDiceRoll.DiceList[i].SetSide(dieSides[i]);
-                    clientDiceRoll.DiceList[i].SetModelSide(dieSides[i]);
-                }
-            }
-
-            if (syncIsNeeded)
-            {
-                clientDiceRoll.OrganizeDicePositions();
-                Messages.ShowInfo("Dice results are synchronized with server");
-            }
-            /*else
-            {
-                Messages.ShowInfo("NO PROBLEMS");
-            }*/
-        }
-
-        Network.FinishTask();
     }
 
     // BARREL ROLL PLANNING
@@ -553,16 +484,6 @@ public static partial class Network
     public static void SyncDecks(int playerNo, int seed)
     {
         if (IsServer) CurrentPlayer.CmdSyncDecks(playerNo, seed);
-    }
-
-    public static void CombatActivation(int shipId)
-    {
-        CurrentPlayer.CmdCombatActivation(shipId);
-    }
-
-    public static void StartDiceRerollExecution()
-    {
-        CurrentPlayer.CmdStartDiceRerollExecution();
     }
 
     public static void ReturnToMainMenu()

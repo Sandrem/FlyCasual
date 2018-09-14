@@ -20,6 +20,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new RexlerBrathAbilitySE());
+
+                SEImageNumber = 122;
             }
 
             public void AdaptPilotToSecondEdition()

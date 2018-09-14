@@ -20,6 +20,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.R3AstromechAbilitySE());
+
+            SEImageNumber = 54;
         }
     }
 
@@ -55,7 +57,7 @@ namespace Abilities
             {
                 HostShip.ChooseTargetToAcquireTargetLock(
                     Triggers.FinishTrigger,
-                    "You may acquare a lock",
+                    "You may acquire a lock",
                     HostUpgrade.ImageUrl
                 );
             }

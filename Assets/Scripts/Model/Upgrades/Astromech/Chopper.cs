@@ -38,6 +38,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is ChopperAstromechAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.ChopperAstromechAbility());
+
+            SEImageNumber = 99;
         }
     }
 }

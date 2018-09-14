@@ -32,6 +32,8 @@ namespace UpgradesList
 
             MaxCharges = 2;
             Cost = 5;
+
+            SEImageNumber = 65;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)

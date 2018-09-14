@@ -24,6 +24,8 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             Cost = 3;
+
+            SEImageNumber = 26;
         }
     }
 }

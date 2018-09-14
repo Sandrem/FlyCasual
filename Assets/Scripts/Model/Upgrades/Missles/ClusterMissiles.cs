@@ -42,6 +42,8 @@ namespace UpgradesList
 
             IsTwinAttack = false;
             UpgradeAbilities.Add(new Abilities.SecondEdition.CluseterMissilesAbilitySE());
+
+            SEImageNumber = 37;
         }
     }
 

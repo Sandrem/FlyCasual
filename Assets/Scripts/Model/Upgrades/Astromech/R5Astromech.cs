@@ -28,6 +28,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is R5AstromechAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R5AstromechAbility());
+
+            SEImageNumber = 56;
         }
     }
 

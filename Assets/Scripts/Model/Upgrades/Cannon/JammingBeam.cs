@@ -31,6 +31,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is JammingBeamAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.JammingBeamAbilitySE());
+
+            SEImageNumber = 29;
         }
     }
 }

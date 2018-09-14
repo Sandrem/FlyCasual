@@ -19,6 +19,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new InstinctiveAimAbility());
+
+            SEImageNumber = 20;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

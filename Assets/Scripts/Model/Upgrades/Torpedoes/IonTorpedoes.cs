@@ -44,6 +44,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is IonTorpedoesAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilitySE());
+
+            SEImageNumber = 34;
         }
     }
 }

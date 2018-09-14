@@ -24,6 +24,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is Abilities.InertialDampenersAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.InertialDampenersAbilitySE());
+
+            SEImageNumber = 61;
         }
     }
 }

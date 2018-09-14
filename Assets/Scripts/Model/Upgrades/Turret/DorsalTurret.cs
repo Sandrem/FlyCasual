@@ -35,6 +35,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is Abilities.DorsalTurretAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.DorsalTurretAbility());
+
+            SEImageNumber = 31;
         }
     }
 }

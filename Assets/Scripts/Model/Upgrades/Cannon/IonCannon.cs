@@ -32,6 +32,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is IonCannonAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.IonCannonAbilitySE());
+
+            SEImageNumber = 28;
         }
     }
 }

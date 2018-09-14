@@ -284,9 +284,9 @@ public class CameraScript : MonoBehaviour {
         }
         else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved) {
 
-            // TODO: possibly reverse pan back to non-direct manipulation....? it's weird that it's reversed from the others maybe??
-                // TODO: But direct manipulation makes the most sense on mobile, so instead consider reversing rotation?
-            // TODO: need momentum?
+            // TODO: I think direct manipulation makes more sense on touch screens, but then it's weird how panning moves the world but rotation still rotates the camera?
+                // And if I invert rotation, rotation feels a little weird to me. Not sure which way is best.
+            // TODO: Add momentum for panning ?
             Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
 
             float x = deltaPosition.x * -SENSITIVITY_TOUCH_MOVE;

@@ -142,7 +142,9 @@ public partial class Console : MonoBehaviour {
 
     private bool IsHiddenError(string text)
     {
-        if ((text == "ClientDisconnected due to error: Timeout") || (text == "ServerDisconnected due to error: Timeout")) return true;
+        if ((text == "ClientDisconnected due to error: Timeout") ||
+            (text == "ServerDisconnected due to error: Timeout") ||
+            text.StartsWith("Screen position out of view Frustrum")) return true;
 
         return false;
     }

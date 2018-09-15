@@ -17,16 +17,6 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_MOVE = 0.125f;
     private const float SENSITIVITY_TURN = 5;
     private const float SENSITIVITY_ZOOM = 5;
-    private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
-    private const float SENSITIVITY_TOUCH_TURN = 0.125f;
-    private const float SENSITIVITY_TOUCH_ZOOM = 0.075f; //TODO: Turn down a bit? Seems a bit too fast still, especially in 2d mode
-    //TODO: need to ensure thresholds are resolution-independant?
-    private const float THRESHOLD_TOUCH_TURN = 0.05f;  //TODO: right value? seems ok, but could be lower if needed now that other values are set?
-    private const float THRESHOLD_TOUCH_TURN_SWITCH = 30f;
-    private const float THRESHOLD_TOUCH_TURN_START = 12f;
-    private const float THRESHOLD_TOUCH_ZOOM = 0.06f; //TODO: right value? seems ok, but could be lower if needed now that other values are set?
-    private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
-    private const float THRESHOLD_TOUCH_ZOOM_START = 12f;
     private const float MOUSE_MOVE_START_OFFSET = 5f;
     private const float BORDER_SQUARE = 8f;
     private const float MAX_HEIGHT = 6f;
@@ -34,13 +24,27 @@ public class CameraScript : MonoBehaviour {
     private const float MAX_ROTATION = 89.99f;
     private const float MIN_ROTATION = 0f;
 
+    private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
+    private const float SENSITIVITY_TOUCH_TURN = 0.125f;
+    private const float SENSITIVITY_TOUCH_ZOOM = 0.075f; //TODO: Turn down a bit? Seems a bit too fast still, especially in 2d mode
+    //TODO: need to ensure thresholds are resolution-independant?
+    private const float THRESHOLD_TOUCH_TURN = 0.05f;  //TODO: right value? seems ok, but could be lower if needed now that other values are set?
+    private const float THRESHOLD_TOUCH_TURN_SWITCH = 40f; // TODO: was 30 -- better on ipad??
+    private const float THRESHOLD_TOUCH_TURN_START = 20f;
+    private const float THRESHOLD_TOUCH_ZOOM = 0.06f; //TODO: right value? seems ok, but could be lower if needed now that other values are set?
+    private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
+    private const float THRESHOLD_TOUCH_ZOOM_START = 20f; // was 12 -- is that better on ipad? probably!!! needs to be higher on iphone!!
+    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.9f; //was .3
+
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
     private float lastProcessedPinchMagnitude = 0f; // Magnitude of the pinch when we last actually zoomed
     private Vector2 initialRotateCenter = new Vector2(0.0f, 0.0f);
     private Vector2 lastProcessedRotateCenter = new Vector2(0.0f, 0.0f);
+    private Vector2 panningMomentum = new Vector2(0.0f, 0.0f);
 
     public static bool InputAxisAreDisabled = false;
     public static bool InputMouseIsDisabled = false;
+    public static bool TouchMovePaused = false;
 
     private enum CameraModes
     {
@@ -76,7 +80,7 @@ public class CameraScript : MonoBehaviour {
         //TODO: Call hide context menu only once
         CheckChangeMode();
 
-        if (true) {//Input.touchSupported) {
+        if (Input.touchSupported) { // TODO: handle devices that support both touch and mouse
             CamAdjustByTouch();
         }
         else
@@ -230,8 +234,9 @@ public class CameraScript : MonoBehaviour {
     void CamAdjustByTouch()
     {
 
-        if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height)) {
-            // Don't listen to off-screen touches
+        if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height ||
+                                     TouchMovePaused)) {
+            // Don't listen to touches that are off-screen, or being handled elsewhere
             return;
         }
 
@@ -244,6 +249,9 @@ public class CameraScript : MonoBehaviour {
 
             // Find the magnitude of the vector (the distance) between the touches in each frame.
             float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+
+            // Normalize for DPI
+            touchDeltaMag = touchDeltaMag / Screen.dpi * 265;
 
             // Initialize values when 2 fingers are first touched to the screen
             if (initialPinchMagnitude == 0f) {
@@ -347,22 +355,31 @@ public class CameraScript : MonoBehaviour {
             }
         }
         else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved) {
-
+            // TODO: Needs to scale with zoom level -- hmmm
             // TODO: I think direct manipulation makes more sense on touch screens, but then it's a little weird how panning moves the world but rotation still rotates the camera?
                 // But inverting rotation doesn't feel right either, so this is probably best as is?
-            // TODO: Add momentum for panning ?
+
             Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
+            panningMomentum = deltaPosition / Time.deltaTime;
 
             float x = deltaPosition.x * -SENSITIVITY_TOUCH_MOVE;
             float y = deltaPosition.y * -SENSITIVITY_TOUCH_MOVE;
 
-            Console.Write("pan x:"+x+" y:"+x, LogTypes.Errors, true, "cyan");
+            if ((x != 0) || (y != 0)) WhenViewChanged();
+            transform.Translate(x, y, 0);
+
+        }
+        else if (Input.touchCount == 0 && panningMomentum.magnitude > .000001) {
+            // Keep panning with momentum
+
+            panningMomentum *= Mathf.Pow(FRICTION_TOUCH_MOVE_MOMENTUM, Time.deltaTime) * Time.deltaTime;
+
+            float x = panningMomentum.x * -SENSITIVITY_TOUCH_MOVE;
+            float y = panningMomentum.y * -SENSITIVITY_TOUCH_MOVE;
 
             if ((x != 0) || (y != 0)) WhenViewChanged();
             transform.Translate(x, y, 0);
 
-            //TODO: this conflicts with asteroid placement -- don't run this panning code if the touch is over an asteroid
-       
         }
         else if (Input.touchCount > 2 && Input.GetTouch(2).phase == TouchPhase.Ended) {
             // TODO: this is mostly for debugging, will probably remove. we do probably need a close button at least for the console on mobile though

@@ -98,6 +98,8 @@ namespace SubPhases
 
         public override void Update()
         {
+            CameraScript.TouchMovePaused = false;
+
             if (IsLocked) return;
             if (ChosenObstacle == null) return;
             if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(HumanPlayer)) return;
@@ -147,6 +149,19 @@ namespace SubPhases
 
             if (Physics.Raycast(ray, out hit))
             {
+                if (Input.touchSupported) {
+                    float distanceFromObstacle = (ChosenObstacle.ObstacleGO.transform.position - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
+                    Console.Write("distanceFromObstacle:" + distanceFromObstacle, LogTypes.Errors, true, "cyan");
+
+                    if (Mathf.Abs(distanceFromObstacle) > .4) {
+                        return; // On mobile, obstacles must be dragged instead of always moving with the mouse
+                    }
+                    else {
+                        CameraScript.TouchMovePaused = true;
+                    }
+
+                }
+
                 ChosenObstacle.ObstacleGO.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
             }
         }

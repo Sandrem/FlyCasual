@@ -163,17 +163,22 @@ namespace SubPhases
 
         public static void PlaceShip(int shipId, Vector3 position, Vector3 angles)
         {
-            Phases.CurrentSubPhase.IsReadyForCommands = false;
+            Phases.CurrentSubPhase.IsReadyForCommands = false; //TODO: or issometing else doing this???
 
             Roster.SetRaycastTargets(true);
             inReposition = false;
 
             Selection.ChangeActiveShip("ShipId:" + shipId);
-            Board.PlaceShip(Selection.ThisShip, position, angles, delegate { Selection.DeselectThisShip(); Phases.Next(); });
+            Board.PlaceShip(Selection.ThisShip, position, angles, delegate { 
+                Selection.DeselectThisShip();
+                Phases.Next(); 
+            });
         }
 
         public override void Update()
         {
+            CameraScript.TouchMovePaused = false;
+
             if (inReposition) PerformDrag();
             CheckPerformRotation();
         }
@@ -261,6 +266,21 @@ namespace SubPhases
 
             if (Physics.Raycast(ray, out hit))
             {
+                if (Input.touchSupported)
+                {
+                    float distanceFromShip = (Selection.ThisShip.GetCenter() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
+
+                    if (Mathf.Abs(distanceFromShip) > .4) //TODO: get actual ship size
+                    {
+                        return; // On mobile, ships must be dragged instead of always moving with the mouse
+                    }
+                    else
+                    {
+                        CameraScript.TouchMovePaused = true;
+                    }
+
+                }
+
                 Selection.ThisShip.SetCenter(new Vector3(hit.point.x, 0f, hit.point.z));
             }
 
@@ -381,7 +401,7 @@ namespace SubPhases
                 if (!ship.ShipBase.IsInside(StartingZone))
 
                 {
-                    Messages.ShowErrorToHuman("Place ship into highlighted area");
+                    Messages.ShowErrorToHuman("Place ship into highlighted area"); //TODO: on mobile, say drag
                     result = false;
                 }
 
@@ -392,10 +412,32 @@ namespace SubPhases
                 }
 
             }
-
-            if (result) StopDrag();
+            //TODO: same concept for obstacles
+            if (Input.touchSupported)
+            {
+                if (result)
+                {
+                    // With touch controls, wait for confirmation before setting the position
+                    UI.ShowNextButton();
+                    IsReadyForCommands = true;
+                }
+                else
+                {
+                    UI.HideNextButton();
+                    IsReadyForCommands = false;
+                }
+            } 
+            else 
+            {
+                if (result) StopDrag();
+            }
 
             return result;
+        }
+
+        public override void NextButton() {
+            // Only used for touch controls
+            StopDrag();
         }
 
         private void StopDrag()

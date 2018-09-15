@@ -367,7 +367,7 @@ public class CameraScript : MonoBehaviour {
             // Adjust sensitivity based on zoom level so the view always moves with your finger
             // That means the view moves more when zoomed out than when zoomed in for the same physical movement
             // TODO: may be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vecotr between them? This is probably faster though
-            float sensitivity = Mathf.Lerp(SENSITIVITY_TOUCH_MOVE / 5, SENSITIVITY_TOUCH_MOVE, (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT));
+            float sensitivity = Mathf.Max(SENSITIVITY_TOUCH_MOVE,Mathf.Lerp(SENSITIVITY_TOUCH_MOVE / 5, SENSITIVITY_TOUCH_MOVE, (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT)));
             //TODO: new constant for low end of sensitivity
             deltaPosition = deltaPosition * -sensitivity;
 
@@ -375,9 +375,9 @@ public class CameraScript : MonoBehaviour {
             totalTouchMoveDuration += Time.deltaTime;
             totalTouchMove += deltaPosition;
             // don't use momentum on time <  .5s or distance < ~10px
-            if (Console.IsActive) Console.Write("totaltouchmagnitude:" + (totalTouchMove.magnitude / Screen.dpi), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+            if (Console.IsActive) Console.Write("duration:"+totalTouchMoveDuration+" totaltouchmagnitude:" + (totalTouchMove.magnitude / Screen.dpi), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
-            if (totalTouchMoveDuration > .5 && (totalTouchMove.magnitude/Screen.dpi) > .02) //TODO: make constant?
+            if (totalTouchMoveDuration > .25 && (totalTouchMove.magnitude/Screen.dpi) > .02) //TODO: make constant?
             {
                 panningMomentum = totalTouchMove / totalTouchMoveDuration;
             }
@@ -410,13 +410,16 @@ public class CameraScript : MonoBehaviour {
             Console.IsActive = !Console.IsActive;
         }
 
+        // When gestures aren't in progress, reset values used to track them
         if (Input.touchCount < 2) {
             initialPinchMagnitude = 0f;
             lastProcessedPinchMagnitude = 0f;
 
             initialRotateCenter = Vector2.zero;
             lastProcessedRotateCenter = initialRotateCenter;
+        }
 
+        if (Input.touchCount < 1) {
             totalTouchMoveDuration = 0f;
             totalTouchMove = Vector2.zero; 
         }

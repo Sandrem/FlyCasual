@@ -252,7 +252,7 @@ namespace SubPhases
         {
             StartingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
             isInsideStartingZone = false;
-            Roster.SetRaycastTargets(true); // TODO: *** does this work...?  why was this set to false? Do I need to do 2 raycasts, one with it set to true and one fase??
+            Roster.SetRaycastTargets(true);
             Roster.AllShipsHighlightOff();
             Board.HighlightStartingZones();
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;
@@ -268,6 +268,7 @@ namespace SubPhases
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+            Selection.ThisShip.SetRaycastTarget(true);// TODO: ***does this work...? why was this set to false ? Do I need to do 2 raycasts, one with it set to true and one fase ??
             if (Physics.Raycast(ray, out hit))
             {
                 if (Console.IsActive) Console.Write("touched:" + hit.transform.tag + " goal:" + Selection.ThisShip.GetTag(), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in

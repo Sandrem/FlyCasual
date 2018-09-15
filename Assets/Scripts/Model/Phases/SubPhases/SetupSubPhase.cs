@@ -252,12 +252,16 @@ namespace SubPhases
         {
             StartingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
             isInsideStartingZone = false;
-            Roster.SetRaycastTargets(false);
+            Roster.SetRaycastTargets(true); // TODO: *** does this work...?  why was this set to false? Do I need to do 2 raycasts, one with it set to true and one fase??
             Roster.AllShipsHighlightOff();
             Board.HighlightStartingZones();
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;
             inReposition = true;
         }
+
+        private bool touchDownLastUpdate = false; // TODO: cleaner?
+        private bool mouseOverShipLastUpdate = false;
+        private Vector2 initialRotationVector = Vector2.zero;
 
         private void PerformDrag()
         {
@@ -266,17 +270,38 @@ namespace SubPhases
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (Input.touchSupported)
-                {
-                    float distanceFromShip = (Selection.ThisShip.GetCenter() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
+                if (Console.IsActive) Console.Write("touched:" + hit.transform.tag + " goal:" + Selection.ThisShip.GetTag(), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
-                    if (Mathf.Abs(distanceFromShip) > .4) //TODO: get actual ship size
+                // On mobile, ships must be dragged instead of always moving with the mouse
+                if (CameraScript.InputTouchIsEnabled)
+                {
+                  
+                    if ((touchDownLastUpdate && !mouseOverShipLastUpdate) ||   // Don't move if something other than a ship drag is in progress
+                        hit.transform.tag != Selection.ThisShip.GetTag()) // And don't move if the ship isn't under the finger
                     {
-                        return; // On mobile, ships must be dragged instead of always moving with the mouse
+                        touchDownLastUpdate = Input.touchCount > 0;
+                        mouseOverShipLastUpdate = false;
+                        return; 
                     }
                     else
                     {
+                        touchDownLastUpdate = Input.touchCount > 0;
+                        mouseOverShipLastUpdate = true;
                         CameraScript.TouchMovePaused = true;
+                    }
+
+                    // Do ship rotation on touchscreens
+                    if (Input.touchCount == 2) {
+                        Vector2 currentRotationVector = Input.GetTouch(1).position - Input.GetTouch(0).position;
+                        if (initialRotationVector == Vector2.zero) {
+                            initialRotationVector = currentRotationVector;
+                        }
+
+                        float rotationAngle = Vector2.Angle(initialRotationVector, currentRotationVector);
+
+                        Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationAngle, 0));
+                        Selection.ThisShip.ApplyRotationHelpers();
+                        Selection.ThisShip.ResetRotationHelpers();
                     }
 
                 }
@@ -401,7 +426,7 @@ namespace SubPhases
                 if (!ship.ShipBase.IsInside(StartingZone))
 
                 {
-                    Messages.ShowErrorToHuman("Place ship into highlighted area"); //TODO: on mobile, say drag
+                    Messages.ShowErrorToHuman("Place ship into highlighted area"); //TODO: better prompts / errors for mobile? say "drag"? don't react when tapping? hmm it is a useful prompt though
                     result = false;
                 }
 

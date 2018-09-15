@@ -26,24 +26,28 @@ public class CameraScript : MonoBehaviour {
 
     private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
-    private const float SENSITIVITY_TOUCH_ZOOM = 0.075f; //TODO: Turn down a bit? Seems a bit too fast still, especially in 2d mode
+    private const float SENSITIVITY_TOUCH_ZOOM = 0.0375f; // was .075//TODO: Turn down a bit? Seems a bit too fast still, especially in 2d mode
     //TODO: need to ensure thresholds are resolution-independant?
+    private const float THRESHOLD_TOUCH_MOVE_MOMENTUM = 10f;
     private const float THRESHOLD_TOUCH_TURN = 0.05f;  //TODO: right value? seems ok, but could be lower if needed now that other values are set?
     private const float THRESHOLD_TOUCH_TURN_SWITCH = 40f; // TODO: was 30 -- better on ipad??
     private const float THRESHOLD_TOUCH_TURN_START = 20f;
     private const float THRESHOLD_TOUCH_ZOOM = 0.06f; //TODO: right value? seems ok, but could be lower if needed now that other values are set?
     private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
     private const float THRESHOLD_TOUCH_ZOOM_START = 20f; // was 12 -- is that better on ipad? probably!!! needs to be higher on iphone!!
-    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.9f; //was .3
+    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.9f; //or .95?
 
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
     private float lastProcessedPinchMagnitude = 0f; // Magnitude of the pinch when we last actually zoomed
     private Vector2 initialRotateCenter = new Vector2(0.0f, 0.0f);
     private Vector2 lastProcessedRotateCenter = new Vector2(0.0f, 0.0f);
     private Vector2 panningMomentum = new Vector2(0.0f, 0.0f);
+    private float totalTouchMoveDuration = 0f;
+    private Vector2 totalTouchMove = new Vector2(0.0f, 0.0f);
 
     public static bool InputAxisAreDisabled = false;
     public static bool InputMouseIsDisabled = false;
+    public static bool InputTouchIsEnabled = false; //TODO: Key everytihng off this so it can be disabled etc. add console command prolly?
     public static bool TouchMovePaused = false;
 
     private enum CameraModes
@@ -60,6 +64,8 @@ public class CameraScript : MonoBehaviour {
         GameObjectTransform = transform;
 
         ChangeMode(CameraModes.Free);
+
+        InputTouchIsEnabled = Input.touchSupported;
     }
 
     private static void SetDefaultCameraPosition()
@@ -80,7 +86,7 @@ public class CameraScript : MonoBehaviour {
         //TODO: Call hide context menu only once
         CheckChangeMode();
 
-        if (Input.touchSupported) { // TODO: handle devices that support both touch and mouse
+        if (InputTouchIsEnabled) {
             CamAdjustByTouch();
         }
         else
@@ -273,7 +279,7 @@ public class CameraScript : MonoBehaviour {
             // Try to pinch zoom if we pass a start threshold
             if (Mathf.Abs(initialPinchMagnitude-touchDeltaMag) > startThreshold)
             {
-                Console.Write("Zoom:" + Mathf.Abs(initialPinchMagnitude - touchDeltaMag), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+                if (Console.IsActive) Console.Write("Zoom:" + Mathf.Abs(initialPinchMagnitude - touchDeltaMag), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
                 // Find the difference in the distances between each frame.
                 float deltaMagnitudeDiff = lastProcessedPinchMagnitude - touchDeltaMag;
 
@@ -284,7 +290,7 @@ public class CameraScript : MonoBehaviour {
 
                 if (Mathf.Abs(deltaMagnitudeDiff) > THRESHOLD_TOUCH_ZOOM)
                 {
-                    Console.Write("Zoom2:" + deltaMagnitudeDiff, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+                    if (Console.IsActive) Console.Write("Zoom2:" + deltaMagnitudeDiff, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
                     float zoom = deltaMagnitudeDiff * -SENSITIVITY_TOUCH_ZOOM;
                     ZoomByFactor(zoom);
 
@@ -321,7 +327,7 @@ public class CameraScript : MonoBehaviour {
                 // If we pass a start threshold, try the rotation
                 if (Mathf.Abs((initialRotateCenter - centerPos).magnitude) > startThreshold)
                 {
-                    Console.Write("rot mag:" + (Mathf.Abs((initialRotateCenter - centerPos).magnitude)), LogTypes.Errors, true, "cyan");
+                    if (Console.IsActive) Console.Write("rot mag:" + (Mathf.Abs((initialRotateCenter - centerPos).magnitude)), LogTypes.Errors, true, "cyan");
 
                     Vector2 deltaCenterPos = centerPos - lastProcessedRotateCenter;
 
@@ -332,7 +338,7 @@ public class CameraScript : MonoBehaviour {
 
                     if (Mathf.Abs(deltaCenterPos.magnitude) > THRESHOLD_TOUCH_TURN)
                     {
-                        Console.Write("rot mag2:" + (deltaCenterPos.magnitude), LogTypes.Errors, true, "cyan");
+                        if (Console.IsActive) Console.Write("rot mag2:" + (deltaCenterPos.magnitude), LogTypes.Errors, true, "cyan");
                         // Rotate!
 
                         float turnX = deltaCenterPos.y * -SENSITIVITY_TOUCH_TURN;
@@ -355,27 +361,45 @@ public class CameraScript : MonoBehaviour {
             }
         }
         else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved) {
-            // TODO: Needs to scale with zoom level -- hmmm
-            // TODO: I think direct manipulation makes more sense on touch screens, but then it's a little weird how panning moves the world but rotation still rotates the camera?
-                // But inverting rotation doesn't feel right either, so this is probably best as is?
-
+            // TODO: Needs to scale with zoom level -- hmmm. current speed is good for zoom out, too fast for zoom all the way in
+            // TODO: do we need a threshold, for moves or for momentum specifically? hmm
             Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
-            panningMomentum = deltaPosition / Time.deltaTime;
+            // Adjust sensitivity based on zoom level so the view always moves with your finger
+            // That means the view moves more when zoomed out than when zoomed in for the same physical movement
+            // TODO: may be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vecotr between them? This is probably faster though
+            float sensitivity = Mathf.Lerp(SENSITIVITY_TOUCH_MOVE / 5, SENSITIVITY_TOUCH_MOVE, (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT));
+            //TODO: new constant for low end of sensitivity
+            deltaPosition = deltaPosition * -sensitivity;
 
-            float x = deltaPosition.x * -SENSITIVITY_TOUCH_MOVE;
-            float y = deltaPosition.y * -SENSITIVITY_TOUCH_MOVE;
+
+            totalTouchMoveDuration += Time.deltaTime;
+            totalTouchMove += deltaPosition;
+            // don't use momentum on time <  .5s or distance < ~10px
+            if (Console.IsActive) Console.Write("totaltouchmagnitude:" + (totalTouchMove.magnitude / Screen.dpi), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+
+            if (totalTouchMoveDuration > .5 && (totalTouchMove.magnitude/Screen.dpi) > .02) //TODO: make constant?
+            {
+                panningMomentum = totalTouchMove / totalTouchMoveDuration;
+            }
+            else {
+                panningMomentum = Vector2.zero;
+            }
+
+            float x = deltaPosition.x;
+            float y = deltaPosition.y;
 
             if ((x != 0) || (y != 0)) WhenViewChanged();
             transform.Translate(x, y, 0);
 
         }
-        else if (Input.touchCount == 0 && panningMomentum.magnitude > .000001) {
+        else if (Input.touchCount == 0 && panningMomentum.magnitude > .5) {
             // Keep panning with momentum
 
-            panningMomentum *= Mathf.Pow(FRICTION_TOUCH_MOVE_MOMENTUM, Time.deltaTime) * Time.deltaTime;
+            panningMomentum *= Mathf.Pow(FRICTION_TOUCH_MOVE_MOMENTUM, Time.deltaTime);
+            Console.Write("momentum:" + panningMomentum.magnitude, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
-            float x = panningMomentum.x * -SENSITIVITY_TOUCH_MOVE;
-            float y = panningMomentum.y * -SENSITIVITY_TOUCH_MOVE;
+            float x = panningMomentum.x * Time.deltaTime;
+            float y = panningMomentum.y * Time.deltaTime;
 
             if ((x != 0) || (y != 0)) WhenViewChanged();
             transform.Translate(x, y, 0);
@@ -390,8 +414,11 @@ public class CameraScript : MonoBehaviour {
             initialPinchMagnitude = 0f;
             lastProcessedPinchMagnitude = 0f;
 
-            initialRotateCenter = new Vector2(0f, 0f);
+            initialRotateCenter = Vector2.zero;
             lastProcessedRotateCenter = initialRotateCenter;
+
+            totalTouchMoveDuration = 0f;
+            totalTouchMove = Vector2.zero; 
         }
     }
 

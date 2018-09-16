@@ -6,6 +6,7 @@ using Ship;
 using BoardTools;
 using GameModes;
 using GameCommands;
+using UnityEngine.EventSystems;
 
 namespace SubPhases
 {
@@ -177,7 +178,7 @@ namespace SubPhases
 
         public override void Update()
         {
-            CameraScript.TouchMovePaused = false;
+            CameraScript.TouchInputsPaused = false;
 
             if (inReposition) PerformDrag();
             CheckPerformRotation();
@@ -261,48 +262,87 @@ namespace SubPhases
 
         private bool touchDownLastUpdate = false; // TODO: cleaner?
         private bool mouseOverShipLastUpdate = false;
-        private Vector2 initialRotationVector = Vector2.zero;
+        private Vector2 lastRotationVector = Vector2.zero;
 
         private void PerformDrag()
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            Selection.ThisShip.SetRaycastTarget(true);// TODO: ***does this work...? why was this set to false ? Do I need to do 2 raycasts, one with it set to true and one fase ??
+            Vector3 pointerPosition = Vector3.zero;
+
+            if (CameraScript.InputTouchIsEnabled) {
+                if (Input.touchCount >= 1 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                {
+                    pointerPosition = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
+                }
+                else {
+                    touchDownLastUpdate = false;
+                    return;
+                }
+            }
+            else if (!CameraScript.InputTouchIsEnabled) {
+                pointerPosition = Input.mousePosition;
+            }
+
+            Ray ray = Camera.main.ScreenPointToRay(pointerPosition);
+
             if (Physics.Raycast(ray, out hit))
             {
-                if (Console.IsActive) Console.Write("touched:" + hit.transform.tag + " goal:" + Selection.ThisShip.GetTag(), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+                float distanceThreshold = .4f;
+
+                if (Selection.ThisShip.ShipBaseSize == BaseSize.Medium) distanceThreshold = .6f;
+                if (Selection.ThisShip.ShipBaseSize == BaseSize.Large) distanceThreshold = .8f;
+                // TODO: tweak thresholds? put them in an enum or something?
+                // TODO: any way to get the actual base sizes or anything? maybe this is good enough though
+                // TODO: do the threshold in physical space not world space though? hmm might not matter
+
+                float distanceFromShip = (Selection.ThisShip.GetCenter() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
+
+                if (Console.IsActive) Console.Write("distance from ship:" + distanceFromShip, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
                 // On mobile, ships must be dragged instead of always moving with the mouse
                 if (CameraScript.InputTouchIsEnabled)
                 {
-                  
-                    if ((touchDownLastUpdate && !mouseOverShipLastUpdate) ||   // Don't move if something other than a ship drag is in progress
-                        hit.transform.tag != Selection.ThisShip.GetTag()) // And don't move if the ship isn't under the finger
+                    if (touchDownLastUpdate && !mouseOverShipLastUpdate)  
                     {
-                        touchDownLastUpdate = Input.touchCount > 0;
+                        // Don't move if something other than a ship drag is in progress
+                        touchDownLastUpdate = true;
+                        return;
+                    }
+                    else if (!mouseOverShipLastUpdate && (distanceFromShip > distanceThreshold))
+                    {
+                        // Don't move if the first touch is too far from the ship
+                        touchDownLastUpdate = true;
                         mouseOverShipLastUpdate = false;
-                        return; 
+                        return;
                     }
                     else
                     {
-                        touchDownLastUpdate = Input.touchCount > 0;
+                        // Otherwise, move the ship!
+                        touchDownLastUpdate = true;
                         mouseOverShipLastUpdate = true;
-                        CameraScript.TouchMovePaused = true;
+                        CameraScript.TouchInputsPaused = true;
                     }
 
                     // Do ship rotation on touchscreens
+                    // TODO: I think it would be better to show a seperate rotation handle or something actually, hmmm
                     if (Input.touchCount == 2) {
+                 
                         Vector2 currentRotationVector = Input.GetTouch(1).position - Input.GetTouch(0).position;
-                        if (initialRotationVector == Vector2.zero) {
-                            initialRotationVector = currentRotationVector;
+
+                        if (lastRotationVector != Vector2.zero)
+                        {
+                            float rotationAngle = Vector2.SignedAngle(lastRotationVector, currentRotationVector) * -2;
+                 
+                            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationAngle, 0));
+                            Selection.ThisShip.ApplyRotationHelpers();
+                            Selection.ThisShip.ResetRotationHelpers();
                         }
-
-                        float rotationAngle = Vector2.Angle(initialRotationVector, currentRotationVector);
-
-                        Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationAngle, 0));
-                        Selection.ThisShip.ApplyRotationHelpers();
-                        Selection.ThisShip.ResetRotationHelpers();
+                        lastRotationVector = currentRotationVector;
+                 
+                    }
+                    else {
+                        lastRotationVector = Vector2.zero;
                     }
 
                 }

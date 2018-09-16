@@ -98,7 +98,7 @@ namespace SubPhases
 
         public override void Update()
         {
-            CameraScript.TouchMovePaused = false;
+            CameraScript.TouchInputsPaused = false;
 
             if (IsLocked) return;
             if (ChosenObstacle == null) return;
@@ -157,7 +157,7 @@ namespace SubPhases
                         return; // On mobile, obstacles must be dragged instead of always moving with the mouse
                     }
                     else {
-                        CameraScript.TouchMovePaused = true;
+                        CameraScript.TouchInputsPaused = true;
                     }
 
                 }

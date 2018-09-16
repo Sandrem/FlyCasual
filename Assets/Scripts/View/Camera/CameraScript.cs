@@ -35,7 +35,7 @@ public class CameraScript : MonoBehaviour {
     private const float THRESHOLD_TOUCH_ZOOM = 0.06f; //TODO: right value? seems ok, but could be lower if needed now that other values are set?
     private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
     private const float THRESHOLD_TOUCH_ZOOM_START = 20f; // was 12 -- is that better on ipad? probably!!! needs to be higher on iphone!!
-    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.9f; //or .95?
+    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.2f; //was .3
 
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
     private float lastProcessedPinchMagnitude = 0f; // Magnitude of the pinch when we last actually zoomed
@@ -48,7 +48,7 @@ public class CameraScript : MonoBehaviour {
     public static bool InputAxisAreDisabled = false;
     public static bool InputMouseIsDisabled = false;
     public static bool InputTouchIsEnabled = false; //TODO: Key everytihng off this so it can be disabled etc. add console command prolly?
-    public static bool TouchMovePaused = false;
+    public static bool TouchInputsPaused = false;
 
     private enum CameraModes
     {
@@ -241,7 +241,7 @@ public class CameraScript : MonoBehaviour {
     {
 
         if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height ||
-                                     TouchMovePaused)) {
+                                     TouchInputsPaused)) {
             // Don't listen to touches that are off-screen, or being handled elsewhere
             return;
         }
@@ -374,10 +374,10 @@ public class CameraScript : MonoBehaviour {
 
             totalTouchMoveDuration += Time.deltaTime;
             totalTouchMove += deltaPosition;
-            // don't use momentum on time <  .5s or distance < ~10px
-            if (Console.IsActive) Console.Write("duration:"+totalTouchMoveDuration+" totaltouchmagnitude:" + (totalTouchMove.magnitude / Screen.dpi), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+            // don't use momentum on time <  .5s or distance < ~10px TODO: update comment
+            if (Console.IsActive) Console.Write("totaltouchmagnitude:" + totalTouchMove.magnitude / totalTouchMoveDuration, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
-            if (totalTouchMoveDuration > .25 && (totalTouchMove.magnitude/Screen.dpi) > .02) //TODO: make constant?
+            if (totalTouchMove.magnitude/totalTouchMoveDuration > 10) //TODO: make constant? base on DPI?
             {
                 panningMomentum = totalTouchMove / totalTouchMoveDuration;
             }

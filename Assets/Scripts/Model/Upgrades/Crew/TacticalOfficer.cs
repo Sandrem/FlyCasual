@@ -24,6 +24,7 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             SEImageNumber = 48;
+            isSecondEdition = true;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

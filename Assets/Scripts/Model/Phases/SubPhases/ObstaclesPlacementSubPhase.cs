@@ -103,7 +103,7 @@ namespace SubPhases
 
         public override void Update()
         {
-            CameraScript.TouchInputsPaused = false;
+            CameraScript.TouchInputsPaused = false; // TODO: can move this to inside movechosenobstacle now, should still get called
 
             if (IsLocked) return;
             if (ChosenObstacle == null) return;
@@ -171,6 +171,7 @@ namespace SubPhases
                 else
                 {
                     touchDownLastUpdate = false;
+                    mouseOverShipLastUpdate = false;
                     return;
                 }
             }
@@ -454,8 +455,8 @@ namespace SubPhases
         public override void NextButton()
         {
             // Only used for touch controls
-            if (TryToPlaceObstacle()) {
-                UI.HideNextButton();
+            if (!TryToPlaceObstacle()) {
+                UI.ShowNextButton();
             }
         }
 

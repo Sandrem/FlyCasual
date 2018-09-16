@@ -276,6 +276,7 @@ namespace SubPhases
                 }
                 else {
                     touchDownLastUpdate = false;
+                    mouseOverShipLastUpdate = false;
                     return;
                 }
             }
@@ -295,7 +296,7 @@ namespace SubPhases
 
                     if (Selection.ThisShip.ShipBaseSize == BaseSize.Medium) distanceThreshold = .6f;
                     if (Selection.ThisShip.ShipBaseSize == BaseSize.Large) distanceThreshold = .8f;
-                    // TODO: tweak thresholds?
+                    // TODO: tweak thresholds? test them, see if they're enough. probably good if they're a smidge too big too!
                     // TODO: any way to get the actual base sizes or anything? maybe this is good enough though
                     // TODO: do the threshold in physical space not world space though? hmm might not matter
 
@@ -484,7 +485,7 @@ namespace SubPhases
                 if (result)
                 {
                     // With touch controls, wait for confirmation before setting the position
-                    UI.ShowNextButton();
+                    UI.ShowNextButton(); // TODO: ** line up UX with obstacles's UX -- always show next button, but show errors when you press it if applicable. maybe don't show errors before that? hmm, what does obstacles do?
                     IsReadyForCommands = true;
                 }
                 else

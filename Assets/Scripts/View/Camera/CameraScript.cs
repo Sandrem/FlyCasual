@@ -377,7 +377,7 @@ public class CameraScript : MonoBehaviour {
             // don't use momentum on time <  .5s or distance < ~10px TODO: update comment
             if (Console.IsActive) Console.Write("totaltouchmagnitude:" + totalTouchMove.magnitude / totalTouchMoveDuration, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
-            if (totalTouchMove.magnitude/totalTouchMoveDuration > 10) //TODO: make constant? base on DPI?
+            if (totalTouchMove.magnitude/totalTouchMoveDuration > 15) //TODO: make constant? base on DPI?
             {
                 panningMomentum = totalTouchMove / totalTouchMoveDuration;
             }

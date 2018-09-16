@@ -20,6 +20,10 @@ namespace SubPhases
         private Transform StartingZone;
         private bool isInsideStartingZone;
 
+        private bool touchDownLastUpdate = false; // TODO: cleaner?
+        private bool mouseOverShipLastUpdate = false;
+        private Vector2 lastRotationVector = Vector2.zero;
+
         public override void Start()
         {
             base.Start();
@@ -260,14 +264,9 @@ namespace SubPhases
             inReposition = true;
         }
 
-        private bool touchDownLastUpdate = false; // TODO: cleaner?
-        private bool mouseOverShipLastUpdate = false;
-        private Vector2 lastRotationVector = Vector2.zero;
-
         private void PerformDrag()
         {
             RaycastHit hit;
-
             Vector3 pointerPosition = Vector3.zero;
 
             if (CameraScript.InputTouchIsEnabled) {
@@ -288,21 +287,22 @@ namespace SubPhases
 
             if (Physics.Raycast(ray, out hit))
             {
-                float distanceThreshold = .4f;
-
-                if (Selection.ThisShip.ShipBaseSize == BaseSize.Medium) distanceThreshold = .6f;
-                if (Selection.ThisShip.ShipBaseSize == BaseSize.Large) distanceThreshold = .8f;
-                // TODO: tweak thresholds? put them in an enum or something?
-                // TODO: any way to get the actual base sizes or anything? maybe this is good enough though
-                // TODO: do the threshold in physical space not world space though? hmm might not matter
-
-                float distanceFromShip = (Selection.ThisShip.GetCenter() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
-
-                if (Console.IsActive) Console.Write("distance from ship:" + distanceFromShip, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
                 // On mobile, ships must be dragged instead of always moving with the mouse
                 if (CameraScript.InputTouchIsEnabled)
                 {
+                    float distanceThreshold = .4f;
+
+                    if (Selection.ThisShip.ShipBaseSize == BaseSize.Medium) distanceThreshold = .6f;
+                    if (Selection.ThisShip.ShipBaseSize == BaseSize.Large) distanceThreshold = .8f;
+                    // TODO: tweak thresholds?
+                    // TODO: any way to get the actual base sizes or anything? maybe this is good enough though
+                    // TODO: do the threshold in physical space not world space though? hmm might not matter
+
+                    float distanceFromShip = (Selection.ThisShip.GetCenter() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
+
+                    if (Console.IsActive) Console.Write("distance from ship:" + distanceFromShip, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+
                     if (touchDownLastUpdate && !mouseOverShipLastUpdate)  
                     {
                         // Don't move if something other than a ship drag is in progress
@@ -478,7 +478,7 @@ namespace SubPhases
                 }
 
             }
-            //TODO: same concept for obstacles
+
             if (Input.touchSupported)
             {
                 if (result)

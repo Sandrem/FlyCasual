@@ -16,7 +16,7 @@ namespace SubPhases
 
     public class ObstaclesPlacementSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ObstaclePlacement, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ObstaclePlacement, GameCommandTypes.PressSkip, GameCommandTypes.PressNext }; } }
 
         public static GenericObstacle ChosenObstacle;
         private float MinBoardEdgeDistance;
@@ -25,6 +25,11 @@ namespace SubPhases
         private static bool IsEnteredPlaymat;
         private static bool IsEnteredPlacementZone;
         public static bool IsLocked;
+
+        bool touchDownLastUpdate = false; // TODO: cleaner?
+        private bool mouseOverShipLastUpdate = false;
+        private Vector2 lastRotationVector = Vector2.zero;
+
 
         public Dictionary<PlayerNo, bool> IsRandomSetupSelected = new Dictionary<PlayerNo, bool>()
         {
@@ -145,19 +150,94 @@ namespace SubPhases
         private void MoveChosenObstacle()
         {
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 pointerPosition = Vector3.zero;
+
+            //TODO:** Use a new class for common code here and in setupsubphase I just created for touch? probably! good for encapsulation and reuse...
+                // Then hopefully code in this func can be fairly minimally touched...
+            // make a new touch method in this class, called by update, calls these funcs on new class:
+            // .Update() -- this does the raycast and everything?
+            // .GetNewPosition (vector.zero or new position)
+            // .getNewRotation (rotation or 0f);
+            // then that new method just appy the position / rotation it returns as needed!
+            // init it when obstacle is selected:
+            // .setObstacle() / setSHip()
+            // private method:getObjectLocation, returns location of obstacle/ship. rest of code should be same for both...???
+            if (CameraScript.InputTouchIsEnabled)
+            {
+                if (Input.touchCount >= 1 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                {
+                    pointerPosition = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
+                }
+                else
+                {
+                    touchDownLastUpdate = false;
+                    return;
+                }
+            }
+            else if (!CameraScript.InputTouchIsEnabled)
+            {
+                pointerPosition = Input.mousePosition;
+            }
+
+            Ray ray = Camera.main.ScreenPointToRay(pointerPosition);
 
             if (Physics.Raycast(ray, out hit))
             {
-                if (Input.touchSupported) {
-                    float distanceFromObstacle = (ChosenObstacle.ObstacleGO.transform.position - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
-                    Console.Write("distanceFromObstacle:" + distanceFromObstacle, LogTypes.Errors, true, "cyan");
+              
+                // On mobile, ships must be dragged instead of always moving with the mouse
+                if (CameraScript.InputTouchIsEnabled)
+                {
+                    float distanceThreshold = .4f;
+                    //TODO: pass the object to be selected to new class, have it pick which of these to use?
+                    //if (Selection.ThisShip.ShipBaseSize == BaseSize.Medium) distanceThreshold = .6f;
+                    //if (Selection.ThisShip.ShipBaseSize == BaseSize.Large) distanceThreshold = .8f;
+                    // TODO: tweak thresholds?
+                    // TODO: any way to get the actual base sizes or anything? maybe this is good enough though
+                    // TODO: do the threshold in physical space not world space though? hmm might not matter
 
-                    if (Mathf.Abs(distanceFromObstacle) > .4) {
-                        return; // On mobile, obstacles must be dragged instead of always moving with the mouse
+                    float distanceFromShip = (ChosenObstacle.ObstacleGO.transform.position - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
+
+                    if (Console.IsActive) Console.Write("distance from asteroid:" + distanceFromShip, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+
+                    if (touchDownLastUpdate && !mouseOverShipLastUpdate) //TODO: If I keep it here, swap the ship lingo for asteroid
+                    {
+                        // Don't move if something other than a ship drag is in progress
+                        touchDownLastUpdate = true;
+                        return;
                     }
-                    else {
+                    else if (!mouseOverShipLastUpdate && (distanceFromShip > distanceThreshold))
+                    {
+                        // Don't move if the first touch is too far from the ship
+                        touchDownLastUpdate = true;
+                        mouseOverShipLastUpdate = false;
+                        return;
+                    }
+                    else
+                    {
+                        // Otherwise, move the ship!
+                        touchDownLastUpdate = true;
+                        mouseOverShipLastUpdate = true;
                         CameraScript.TouchInputsPaused = true;
+                    }
+
+                    // Do ship rotation on touchscreens
+                    // TODO: I think it would be better to show a seperate rotation handle or something actually, hmmm
+                    if (Input.touchCount == 2)
+                    {
+
+                        Vector2 currentRotationVector = Input.GetTouch(1).position - Input.GetTouch(0).position;
+
+                        if (lastRotationVector != Vector2.zero)
+                        {
+                            float rotationAngle = Vector2.SignedAngle(lastRotationVector, currentRotationVector) * -2;
+                            ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, rotationAngle, 0);
+                        }
+                        lastRotationVector = currentRotationVector;
+
+                    }
+                    else
+                    {
+                        lastRotationVector = Vector2.zero;
                     }
 
                 }
@@ -326,7 +406,7 @@ namespace SubPhases
             {
                 TryToSelectObstacle();
             }
-            else
+            else if (!CameraScript.InputTouchIsEnabled)
             {
                 TryToPlaceObstacle();
             }
@@ -361,9 +441,25 @@ namespace SubPhases
             Board.ToggleOffTheBoardHolder(true);
             ChosenObstacle = obstacle;
             UI.HideSkipButton();
+
+            if (Input.touchSupported)
+            {
+                // With touch controls, wait for confirmation before setting the position
+                UI.ShowNextButton();
+                IsReadyForCommands = true; //**TODO: need to adjust isreadyforcommands with the placement action too?
+            }
         }
 
-        private void TryToPlaceObstacle()
+
+        public override void NextButton()
+        {
+            // Only used for touch controls
+            if (TryToPlaceObstacle()) {
+                UI.HideNextButton();
+            }
+        }
+
+        private bool TryToPlaceObstacle()
         {
             if (IsEnteredPlacementZone && !IsPlacementBlocked)
             {
@@ -373,10 +469,12 @@ namespace SubPhases
                     ChosenObstacle.ObstacleGO.transform.eulerAngles
                 );
                 GameMode.CurrentGameMode.ExecuteCommand(command);
+                return true;
             }
             else
             {
                 Messages.ShowError("Obstacle cannot be placed");
+                return false;
             }
         }
 

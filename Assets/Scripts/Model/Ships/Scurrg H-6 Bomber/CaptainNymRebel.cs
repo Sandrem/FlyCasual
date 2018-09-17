@@ -50,7 +50,7 @@ namespace Abilities
 
         private void CheckCaptainNymAbility(GenericBomb bomb, GenericShip detonatedShip)
         {
-            if (!IsAbilityUsed && bomb.Host.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+            if (CanUseAbility() && bomb.Host.Owner.PlayerNo == HostShip.Owner.PlayerNo)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCheckPermissionToDetonate, AskToUseCaptainNymAbility);
             }
@@ -58,7 +58,7 @@ namespace Abilities
 
         private void AskToUseCaptainNymAbility(object sender, System.EventArgs e)
         {
-            if (!IsAbilityUsed)
+            if (CanUseAbility())
             {
                 Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.Name));
                 AskToUseAbility(NeverUseByDefault, UseAbility);
@@ -73,9 +73,19 @@ namespace Abilities
         private void UseAbility(object sender, System.EventArgs e)
         {
             BombsManager.DetonationIsAllowed = false;
-            IsAbilityUsed = true;
+            MarkAbilityAsUsed();
 
             DecisionSubPhase.ConfirmDecision();
+        }
+
+        protected virtual bool CanUseAbility()
+        {
+            return !IsAbilityUsed;
+        }
+
+        protected virtual void MarkAbilityAsUsed()
+        {
+            IsAbilityUsed = true;
         }
     }
 }

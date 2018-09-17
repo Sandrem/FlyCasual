@@ -381,7 +381,8 @@ namespace Abilities
         protected enum DiceModificationType
         {
             Reroll,
-            Change
+            Change,
+            Cancel
         }
 
         private GenericShip.EventHandlerShip DiceModification;
@@ -493,6 +494,9 @@ namespace Abilities
                 case DiceModificationType.Change:
                     DiceModificationChange(callback, getCount, sidesCanBeSelected, newSide);
                     break;
+                case DiceModificationType.Cancel:
+                    DiceModificationCancel(callback, sidesCanBeSelected, timing);
+                    break;
                 default:
                     break;
             }
@@ -543,6 +547,19 @@ namespace Abilities
                 Messages.ShowErrorToHuman("0 dice can be rerolled");
                 callback();
             }
+        }
+
+        private void DiceModificationCancel(Action callback, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing)
+        {
+            List<Die> diceToCancel = DiceRoll.CurrentDiceRoll.DiceList.Where(d => sidesCanBeSelected.Contains(d.Side)).ToList();
+
+            foreach (Die die in diceToCancel)
+            {
+                DiceRoll.CurrentDiceRoll.DiceList.Remove(die);
+                die.RemoveModel();
+            }
+
+            //DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
         }
 
         /// <summary>

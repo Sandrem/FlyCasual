@@ -244,16 +244,17 @@ public static partial class Combat
     {
         AttackStep = CombatStep.Defence;
 
-        CallDefenceStartEvents();
         Selection.ActiveShip = Defender;
 
-        DefenceDiceRoll();
+        CallDefenceStartEvents(DefenceDiceRoll);
     }
 
-    public static void CallDefenceStartEvents()
+    public static void CallDefenceStartEvents(Action callback)
     {
         Attacker.CallDefenceStartAsAttacker();
         Defender.CallDefenceStartAsDefender();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnDefenseStart, callback);
     }
 
     private static void DefenceDiceRoll()

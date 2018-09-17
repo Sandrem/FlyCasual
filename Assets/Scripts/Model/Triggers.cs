@@ -56,6 +56,7 @@ public enum TriggerTypes
     OnShotStart,
     OnImmediatelyAfterRolling,
     OnImmediatelyAfterReRolling,
+    OnDefenseStart,
     OnShotHit,
     OnTryDamagePrevention,
     OnAttackHit,

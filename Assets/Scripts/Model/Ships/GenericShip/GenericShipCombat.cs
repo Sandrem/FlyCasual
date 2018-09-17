@@ -188,6 +188,8 @@ namespace Ship
         public event EventHandler2Ships OnCanAttackBumpedTarget;
         public static event EventHandler2Ships OnCanAttackBumpedTargetGlobal;
 
+        public static event EventHandlerShipRefBool OnCanAttackWhileLandedOnObstacleGlobal;
+
         public event EventHandlerShip OnCombatActivation;
         public static event EventHandlerShip OnCombatActivationGlobal;
         public event EventHandlerShip OnCombatDeactivation;
@@ -862,6 +864,15 @@ namespace Ship
             if (OnCanAttackBumpedTarget != null) OnCanAttackBumpedTarget(ref result, this, defender);
 
             if (OnCanAttackBumpedTargetGlobal != null) OnCanAttackBumpedTargetGlobal(ref result, this, defender);
+
+            return result;
+        }
+
+        public bool CanAttackWhileLandedOnObstacle()
+        {
+            bool result = false;
+
+            if (OnCanAttackWhileLandedOnObstacleGlobal != null) OnCanAttackWhileLandedOnObstacleGlobal(this, ref result);
 
             return result;
         }

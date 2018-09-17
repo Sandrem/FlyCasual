@@ -25,15 +25,12 @@ namespace RulesList
 
         private void InformLandedOnAsteroid(GenericShip ship)
         {
-            if (ship.IsLandedOnObstacle)
-            {
-                Messages.ShowErrorToHuman("Landed on asteroid, cannot attack");
-            }
+            if (ship.IsLandedOnObstacle) Messages.ShowErrorToHuman("Landed on asteroid");
         }
 
         public void CanPerformAttack(ref bool result, List<string> stringList)
         {
-            if (Selection.ThisShip.IsLandedOnObstacle)
+            if (Selection.ThisShip.IsLandedOnObstacle && !Selection.ThisShip.CanAttackWhileLandedOnObstacle())
             {
                 stringList.Add("Landed on asteroid - cannot attack");
                 result = false;

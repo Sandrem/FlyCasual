@@ -74,6 +74,9 @@ namespace Abilities
 
             subphase.AddDecision("Turn", delegate{ ChangeBearing(ManeuverBearing.SegnorsLoopUsingTurnTemplate); });
             subphase.AddDecision("Straight", delegate { ChangeBearing(ManeuverBearing.KoiogranTurn); });
+            subphase.AddDecision("No changes", delegate { DecisionSubPhase.ConfirmDecision(); });
+
+            subphase.DefaultDecisionName = "No changes";
 
             subphase.DecisionOwner = HostShip.Owner;
             subphase.ShowSkipButton = true;

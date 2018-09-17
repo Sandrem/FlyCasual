@@ -231,17 +231,20 @@ namespace Abilities
 
         private void Rotate180(object sender, EventArgs e)
         {
-            HostShip.Rotate180(DecisionSubPhase.ConfirmDecision);
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            HostShip.Rotate180(Triggers.FinishTrigger);
         }
 
         private void Rotate90Clockwise(object sender, EventArgs e)
         {
-            HostShip.Rotate90Clockwise(DecisionSubPhase.ConfirmDecision);
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            HostShip.Rotate90Clockwise(Triggers.FinishTrigger);
         }
 
         private void Rotate90Counterclockwise(object sender, EventArgs e)
         {
-            HostShip.Rotate90Counterclockwise(DecisionSubPhase.ConfirmDecision);
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            HostShip.Rotate90Counterclockwise(Triggers.FinishTrigger);
         }
 
         private class PivotWindDecisionSubphase : DecisionSubPhase { };

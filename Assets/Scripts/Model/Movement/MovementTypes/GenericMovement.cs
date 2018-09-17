@@ -37,7 +37,8 @@ namespace Movement
         SegnorsLoop,
         TallonRoll,
         Stationary,
-        Reverse
+        Reverse,
+        SegnorsLoopUsingTurnTemplate
     }
 
     public enum MovementComplexity
@@ -112,6 +113,9 @@ namespace Movement
                     break;
                 case "R":
                     bearing = (direction == ManeuverDirection.Forward) ? ManeuverBearing.KoiogranTurn : ManeuverBearing.SegnorsLoop;
+                    break;
+                case "r":
+                    bearing = ManeuverBearing.SegnorsLoopUsingTurnTemplate;
                     break;
                 case "E":
                     bearing = ManeuverBearing.TallonRoll;
@@ -261,6 +265,9 @@ namespace Movement
                     break;
                 case ManeuverBearing.SegnorsLoop:
                     maneuverString += "R";
+                    break;
+                case ManeuverBearing.SegnorsLoopUsingTurnTemplate:
+                    maneuverString += "r";
                     break;
                 case ManeuverBearing.TallonRoll:
                     maneuverString += "E";
@@ -499,6 +506,9 @@ namespace Movement
                 case ManeuverBearing.SegnorsLoop:
                     maneuverString += "R";
                     break;
+                case ManeuverBearing.SegnorsLoopUsingTurnTemplate:
+                    maneuverString += "r";
+                    break;
                 case ManeuverBearing.TallonRoll:
                     maneuverString += "E";
                     break;
@@ -534,6 +544,9 @@ namespace Movement
                     result = "2";
                     break;
                 case ManeuverBearing.SegnorsLoop:
+                    result = (Direction == ManeuverDirection.Left) ? "1" : "3";
+                    break;
+                case ManeuverBearing.SegnorsLoopUsingTurnTemplate:
                     result = (Direction == ManeuverDirection.Left) ? "1" : "3";
                     break;
                 case ManeuverBearing.TallonRoll:

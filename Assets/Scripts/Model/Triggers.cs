@@ -15,6 +15,7 @@ public enum TriggerTypes
     OnShipIsPlaced,
     OnRoundStart,
     OnPlanningSubPhaseStart,
+    OnSystemsPhaseStart,
     OnActionSubPhaseStart,
     OnActionDecisionSubPhaseEnd,
     OnActivationPhaseStart,

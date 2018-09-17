@@ -107,6 +107,8 @@ namespace Ship
 
         // EVENTS
 
+        public event EventHandlerShip OnSystemsPhaseStart;
+
         public event EventHandlerShip OnActivationPhaseStart;
         public event EventHandlerShip OnActionSubPhaseStart;
         public event EventHandlerShip OnRoundEnd;
@@ -211,6 +213,11 @@ namespace Ship
         public void CallOnActivationPhaseStart()
         {
             if (OnActivationPhaseStart != null) OnActivationPhaseStart(this);
+        }
+
+        public void CallOnSystemsPhaseStart()
+        {
+            if (OnSystemsPhaseStart != null) OnSystemsPhaseStart(this);
         }
 
         public void CallOnRoundEnd()

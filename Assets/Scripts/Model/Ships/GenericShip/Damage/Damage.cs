@@ -135,11 +135,14 @@ namespace Ship
             Host.CallTryDamagePrevention(e, delegate { ResolveDamage(e, callback); });
         }
 
-        public void TryResolveDamage(int damage, DamageSourceEventArgs e, Action callback)
+        public void TryResolveDamage(int damage, DamageSourceEventArgs e, Action callback, int critDamage = 0)
         {
             List<Die> dice = new List<Die>();
             for (int d = 0; d < damage; d++)
                 dice.Add(new Die(null, DiceKind.Attack, DieSide.Success));
+
+            for (int d = 0; d < critDamage; d++)
+                dice.Add(new Die(null, DiceKind.Attack, DieSide.Crit));
 
             TryResolveDamage(dice, e, callback);
         }

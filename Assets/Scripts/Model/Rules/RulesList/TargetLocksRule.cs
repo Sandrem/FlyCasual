@@ -2,12 +2,14 @@
 using Ship;
 using System.Collections.Generic;
 using System.Linq;
+using BoardTools;
 
 namespace RulesList
 {
     public class TargetLocksRule
     {
         public static event GenericShip.EventHandler2Ships OnCheckTargetLockIsAllowed;
+        public static event GenericShip.EventHandler2Ships OnCheckTargetLockIsDisallowed;
 
         public void RegisterRemoveTargetLocksOnDestruction(GenericShip ship, bool isFled)
         {
@@ -31,11 +33,16 @@ namespace RulesList
             Actions.RemoveTokens(tokensToRemove, Triggers.FinishTrigger);
         }
 
-        public bool TargetLockIsAllowed(GenericShip attacker, GenericShip target)
+        public bool TargetLockIsAllowed(GenericShip ship, GenericShip target)
         {
             bool result = true;
 
-            if (OnCheckTargetLockIsAllowed != null) OnCheckTargetLockIsAllowed(ref result, attacker, target);
+            DistanceInfo distanceInfo = new DistanceInfo(ship, target);
+            if (distanceInfo.Range > ship.TargetLockMaxRange || distanceInfo.Range < ship.TargetLockMinRange) result = false;
+
+            if (result != true) if (OnCheckTargetLockIsAllowed != null) OnCheckTargetLockIsAllowed(ref result, ship, target);
+            if (result == true) if (OnCheckTargetLockIsDisallowed != null) OnCheckTargetLockIsDisallowed(ref result, ship, target);
+
             return result;
         }
     } 

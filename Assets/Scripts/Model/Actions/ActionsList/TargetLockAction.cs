@@ -145,8 +145,7 @@ namespace SubPhases
 
         private bool FilterTargetLockTargets(GenericShip ship)
         {
-            DistanceInfo distanceInfo = new DistanceInfo(Selection.ThisShip, ship);
-            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= Selection.ThisShip.TargetLockMinRange && distanceInfo.Range <= Selection.ThisShip.TargetLockMaxRange && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
+            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
         }
 
         private int GetTargetLockAiPriority(GenericShip ship)

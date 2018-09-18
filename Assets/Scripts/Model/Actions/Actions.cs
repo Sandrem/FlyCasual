@@ -69,7 +69,7 @@ public static partial class Actions
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
         DistanceInfo distanceInfo = new DistanceInfo(thisShip, targetShip);
-        if (ignoreRange || (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange))
+        if (ignoreRange || Rules.TargetLocks.TargetLockIsAllowed(thisShip, targetShip))
         {
             List<BlueTargetLockToken> existingBlueTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>('*');
 

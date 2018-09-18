@@ -89,7 +89,10 @@ public enum TriggerTypes
     OnDiceAboutToBeRolled,
     OnAfterDiscard,
     OnAfterFlipFaceUp,
-    OnSystemsAbilityActivation
+    OnSystemsAbilityActivation,
+
+    OnBombWasDropped,
+    OnBombWasLaunched
 }
 
 public class Trigger

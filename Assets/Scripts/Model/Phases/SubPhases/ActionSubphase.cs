@@ -110,9 +110,12 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("Cannot perform any actions");
-                Actions.CurrentAction = null;
-                CallBack();
+                if (!DecisionWasPreparedAndShown)
+                {
+                    Messages.ShowErrorToHuman("Cannot perform any actions");
+                    Actions.CurrentAction = null;
+                    CallBack();
+                }
             }
         }
 

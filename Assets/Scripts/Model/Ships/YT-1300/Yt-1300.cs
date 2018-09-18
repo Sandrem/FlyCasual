@@ -97,8 +97,6 @@ namespace Ship
 
                 ActionBar.AddPrintedAction(new RotateArcAction());
                 ActionBar.AddPrintedAction(new BoostAction() { IsRed = true });
-
-                IconicPilots[Faction.Rebel] = typeof(LandoCalrissian);
             }
         }
     }

@@ -15,6 +15,7 @@ public partial class DiceRerollManager
     public List<DieSide> SidesCanBeRerolled;
     public int NumberOfDiceCanBeRerolled = int.MaxValue;
     public bool IsOpposite;
+    public bool IsTrueReroll;
 
     public System.Action CallBack;
 
@@ -41,7 +42,10 @@ public partial class DiceRerollManager
 
     private void CheckParameters()
     {
-        if (OnMaxDiceRerollAllowed != null) OnMaxDiceRerollAllowed(ref NumberOfDiceCanBeRerolled);
+        if (IsTrueReroll)
+        {
+            if (OnMaxDiceRerollAllowed != null) OnMaxDiceRerollAllowed(ref NumberOfDiceCanBeRerolled);
+        }
 
         if (SidesCanBeRerolled == null)
         {
@@ -266,12 +270,22 @@ public partial class DiceRerollManager
 
     public void UnblockButtons()
     {
+        if (!IsTrueReroll) MarkAsFakeReroll();
+
         DiceRerollManager.CurrentDiceRerollManager = null;
 
         Combat.CurrentDiceRoll.ToggleRerolledLocks(false);
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) ToggleDiceModificationsPanel(true);
 
         if (CallBack!=null) CallBack();
+    }
+
+    private void MarkAsFakeReroll()
+    {
+        foreach (var die in DiceRoll.CurrentDiceRoll.DiceList)
+        {
+            die.IsRerolled = false;
+        }
     }
 
 }

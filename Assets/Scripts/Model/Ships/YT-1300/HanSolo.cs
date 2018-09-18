@@ -4,12 +4,14 @@ using UnityEngine;
 using System.Linq;
 using Ship;
 using System;
+using RuleSets;
+using BoardTools;
 
 namespace Ship
 {
     namespace YT1300
     {
-        public class HanSolo : YT1300
+        public class HanSolo : YT1300, ISecondEditionPilot
         {
             public HanSolo() : base()
             {
@@ -27,6 +29,17 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.HanSoloAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 6;
+                Cost = 92;
+
+                PilotAbilities.RemoveAll(a => a is Abilities.HanSoloAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.HanSoloRebelPilotAbilitySE());
+
+                SEImageNumber = 69;
             }
         }
     }
@@ -154,6 +167,51 @@ namespace Abilities
                 return result;
             }
 
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class HanSoloRebelPilotAbilitySE : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            AddDiceModification(
+                HostShip.PilotName,
+                IsDiceModificationAvailable,
+                GetAiPriority,
+                DiceModificationType.Reroll,
+                int.MaxValue,
+                timing: DiceModificationTimingType.AfterRolled,
+                isTrueReroll: false
+            );
+        }
+
+        private bool IsDiceModificationAvailable()
+        {
+            foreach (var obstacle in Obstacles.ObstaclesManager.GetPlacedObstacles())
+            {
+                ShipObstacleDistance obstacleDistance = new ShipObstacleDistance(HostShip, obstacle);
+                if (obstacleDistance.Range < 2) return true;
+            }
+            
+            return false;
+        }
+
+        private int GetAiPriority()
+        {
+            return 95;
+        }
+
+        public override void DeactivateAbility()
+        {
+            RemoveDiceModification();
+        }
+
+        private void PayAbilityCost(Action<bool> callback)
+        {
+            HostShip.Tokens.AssignToken(typeof(Tokens.StressToken), () => callback(true));
         }
     }
 }

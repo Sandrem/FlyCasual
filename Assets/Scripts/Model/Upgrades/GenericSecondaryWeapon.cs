@@ -68,6 +68,10 @@ namespace Upgrade
         {
             bool result = true;
 
+            int MinRangeUpdated = MinRange;
+            int MaxRangeUpdated = MaxRange;
+            Host.CallUpdateWeaponRange(this, ref MinRangeUpdated, ref MaxRangeUpdated);
+
             if (isDiscarded) return false;
 
             if (UsesCharges && Charges == 0) return false;
@@ -86,8 +90,8 @@ namespace Upgrade
                 range = distanceInfo.Range;
             }
 
-            if (range < MinRange) return false;
-            if (range > MaxRange) return false;
+            if (range < MinRangeUpdated) return false;
+            if (range > MaxRangeUpdated) return false;
 
             if (RequiresTargetLockOnTargetToShoot)
             {

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
@@ -210,6 +211,8 @@ namespace Ship
 
         public event EventHandler OnBombWasDropped;
         public event EventHandler OnBombWasLaunched;
+
+        public event EventHandelerWeaponRange OnUpdateWeaponRange;
 
         // TRIGGERS
 
@@ -958,6 +961,11 @@ namespace Ship
             if (OnBombWasLaunched != null) OnBombWasLaunched();
 
             Triggers.ResolveTriggers(TriggerTypes.OnBombWasLaunched, callback);
+        }
+
+        public void CallUpdateWeaponRange(GenericSecondaryWeapon weapon, ref int minRange, ref int maxRange)
+        {
+            if (OnUpdateWeaponRange != null) OnUpdateWeaponRange(weapon, ref minRange, ref maxRange);
         }
     }
 

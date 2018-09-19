@@ -35,6 +35,7 @@ namespace Ship
         public delegate void EventHandlerObjArgsBool(object sender, EventArgs e, ref bool isChanged);
         public delegate void EventHandlerUpgrade(GenericUpgrade upgrade);
         public delegate void EventHandlerDualUpgrade(GenericDualUpgrade upgrade);
+        public delegate void EventHandelerWeaponRange(GenericSecondaryWeapon weapon, ref int minRange, ref int maxRange);
 
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetMaxHull;

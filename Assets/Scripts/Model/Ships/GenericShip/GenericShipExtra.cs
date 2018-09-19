@@ -28,6 +28,8 @@ namespace Ship
 
         public event EventHandlerActionInt OnAiGetDiceModificationPriority;
 
+        public event EventHandlerBool OnCanReleaseDockedShipRegular;
+
         public GenericShip Host;
 
         public Type ShipRuleType = typeof(FirstEdition);
@@ -196,6 +198,11 @@ namespace Ship
         public void CallOnAiGetDiceModificationPriority(GenericAction diceModification, ref int priority)
         {
             if (OnAiGetDiceModificationPriority != null) OnAiGetDiceModificationPriority(diceModification, ref priority);
+        }
+
+        public void CallCanReleaseDockedShipRegular(ref bool canRelease)
+        {
+            if (OnCanReleaseDockedShipRegular != null) OnCanReleaseDockedShipRegular(ref canRelease);
         }
     }
 

@@ -17,6 +17,8 @@ namespace Ship
                 PilotSkill = 3;
                 Cost = 17;
 
+                IsUnique = true;
+
                 PilotAbilities.Add (new UnkarPluttAbility());
             }
 

@@ -206,6 +206,7 @@ namespace Ship
         public event EventHandlerBool OnTryConfirmDiceResults;
 
         public event EventHandlerShip OnCombatCompareResults;
+        public event EventHandler OnAfterNeutralizeResults;
 
         public event EventHandler AfterAttackDiceModification;
 
@@ -926,6 +927,13 @@ namespace Ship
         public void CallCombatCompareResults()
         {
             if (OnCombatCompareResults != null) OnCombatCompareResults(this);
+        }
+
+        public void CallAfterNeutralizeResults(Action callback)
+        {
+            if (OnAfterNeutralizeResults != null) OnAfterNeutralizeResults();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAfterNeutralizeResults, callback);
         }
 
         public void StartBonusAttack(Action callback)

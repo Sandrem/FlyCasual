@@ -318,17 +318,28 @@ public static partial class Combat
 
         DiceRollAttack.RemoveAllFailures();
 
-        if (DiceRollAttack.Successes > 0) {
-			AttackHit ();
-		} else {
-			if (Attacker.AttackIsAlwaysConsideredHit) {
-				Messages.ShowInfo("Attack is considered a Hit");
-				AttackHit ();
-			} else {
-				AfterShotIsPerformed ();
-			}
-		}
-	}
+        Combat.Defender.CallAfterNeutralizeResults(CheckAttackHit);
+    }
+
+    private static void CheckAttackHit()
+    {
+        if (DiceRollAttack.Successes > 0)
+        {
+            AttackHit();
+        }
+        else
+        {
+            if (Attacker.AttackIsAlwaysConsideredHit)
+            {
+                Messages.ShowInfo("Attack is considered a Hit");
+                AttackHit();
+            }
+            else
+            {
+                AfterShotIsPerformed();
+            }
+        }
+    }
 
     private static void AttackHit()
     {

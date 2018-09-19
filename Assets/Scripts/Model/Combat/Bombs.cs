@@ -246,7 +246,7 @@ namespace Bombs
         {
             if (CurrentBomb != null)
             {
-                if (Selection.ThisShip.CanLaunchBombs)
+                if (Selection.ThisShip.CanLaunchBombsWithTemplate != 0)
                 {
                     AskWayToDropBomb();
                 }

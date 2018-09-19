@@ -1,4 +1,6 @@
 ﻿using Abilities;
+using ActionsList;
+using RuleSets;
 using Ship;
 using SubPhases;
 using System.Collections;
@@ -11,7 +13,7 @@ namespace Ship
 {
     namespace TIEReaper
     {
-        public class Vizier : TIEReaper
+        public class Vizier : TIEReaper, ISecondEditionPilot
         {
             public Vizier() : base()
             {
@@ -23,6 +25,71 @@ namespace Ship
 
                 PilotAbilities.Add(new VizierAbility());
             }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 2;
+                Cost = 45;
+
+                PilotAbilities.RemoveAll(ability => ability is VizierAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.VizierAbilitySE());
+
+                SEImageNumber = 115;
+            }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class VizierAbilitySE : GenericAbility
+    {
+        private bool RestrictedAbilityIsActivated;
+
+        public override void ActivateAbility()
+        {
+            HostShip.OnMovementFinishSuccessfully += CheckAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementFinishSuccessfully -= CheckAbility;
+        }
+
+        private void CheckAbility(GenericShip ship)
+        {
+            if (ship.AssignedManeuver.GrantedBy == "Ailerons")
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToPerformCoordinate);
+            }
+        }
+
+        private void AskToPerformCoordinate(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo("\"Vizier\" can perform a Coordinate action");
+
+            RestrictedAbilityIsActivated = true;
+            HostShip.OnActionIsPerformed += CheckActionRestriction;
+            HostShip.OnMovementStart += ClearRestrictedAbility;
+
+            HostShip.AskPerformFreeAction(new CoordinateAction() { Host = HostShip }, Triggers.FinishTrigger);
+        }
+
+        private void CheckActionRestriction(GenericAction action)
+        {
+            if (action is CoordinateAction)
+            {
+                Messages.ShowError("\"Vizier\" skips Perform Action step");
+                HostShip.IsSkipsActionSubPhase = true;
+            }
+        }
+
+        private void ClearRestrictedAbility(GenericShip ship)
+        {
+            HostShip.OnMovementStart -= ClearRestrictedAbility;
+            HostShip.OnActionIsPerformed -= CheckActionRestriction;
+
+            RestrictedAbilityIsActivated = false;
         }
     }
 }

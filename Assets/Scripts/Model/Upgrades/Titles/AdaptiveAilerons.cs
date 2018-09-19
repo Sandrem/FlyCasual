@@ -86,7 +86,7 @@ namespace Abilities
             Triggers.RegisterTrigger(
                 new Trigger()
                 {
-                    Name = "SLAM Planning",
+                    Name = "Ailerons Planning",
                     TriggerType = TriggerTypes.OnAbilityDirect,
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                     EventHandler = CheckForDuchess
@@ -133,6 +133,8 @@ namespace Abilities
 
         private void RestoreManuverColors(GenericShip ship)
         {
+            HostShip.OnMovementFinish -= RestoreManuverColors;
+
             foreach (var changedManeuver in ChangedManeuversCodes)
             {
                 HostShip.Maneuvers[changedManeuver] = SavedManeuverColors[changedManeuver];
@@ -144,6 +146,7 @@ namespace Abilities
             if (doAilerons)
             {
                 HostShip.AssignedManeuver.IsRevealDial = false;
+                HostShip.AssignedManeuver.GrantedBy = "Ailerons"; ;
                 ShipMovementScript.LaunchMovement(FinishAdaptiveAileronsAbility);
             }
             else

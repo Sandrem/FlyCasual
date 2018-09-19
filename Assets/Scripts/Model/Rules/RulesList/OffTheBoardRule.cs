@@ -2,22 +2,42 @@
 using Ship;
 using BoardTools;
 
+public enum Direction
+{
+    Top,
+    Bottom,
+    Left,
+    Right,
+    None
+}
+
 namespace RulesList
 {
     public class OffTheBoardRule
     {
         public void CheckOffTheBoard(GenericShip ship)
         {
-            if (BoardTools.Board.IsOffTheBoard(ship))
+            if (Board.IsOffTheBoard(ship))
             {
-                Triggers.RegisterTrigger(new Trigger()
+                Direction direction = Board.GetOffTheBoardDirection(ship);
+
+                bool shouldDestroyShip = true;
+                ship.CallOffTheBoard(ref shouldDestroyShip, direction);
+                if (shouldDestroyShip)
                 {
-                    Name = "Ship is off the board",
-                    TriggerType = TriggerTypes.OnPositionFinish,
-                    TriggerOwner = ship.Owner.PlayerNo,
-                    EventHandler = DestroyShipOffTheBoard,
-                    Sender = ship
-                });
+                    Triggers.RegisterTrigger(new Trigger()
+                    {
+                        Name = "Ship is off the board",
+                        TriggerType = TriggerTypes.OnPositionFinish,
+                        TriggerOwner = ship.Owner.PlayerNo,
+                        EventHandler = DestroyShipOffTheBoard,
+                        Sender = ship
+                    });
+                }
+                else
+                {
+                    ship.IsSkipsActionSubPhase = true;
+                }
             }
         }
 

@@ -69,6 +69,34 @@ namespace BoardTools
             return result;
         }
 
+        public static Direction GetOffTheBoardDirection(GenericShip ship)
+        {
+            foreach (var obj in ship.ShipBase.GetStandEdgePoints())
+            {
+                if (obj.Value.x > PLAYMAT_SIZE / 2)
+                {
+                    return Direction.Right;
+                }
+
+                if (obj.Value.x < -PLAYMAT_SIZE / 2)
+                {
+                    return Direction.Left;
+                }
+
+                if (obj.Value.z > PLAYMAT_SIZE / 2)
+                {
+                    return Direction.Top;
+                }
+
+                if (obj.Value.z < -PLAYMAT_SIZE / 2)
+                {
+                    return Direction.Bottom;
+                }
+            }
+
+            return Direction.None;
+        }
+
         //SCALING TOOLS
 
         public static float BoardIntoWorld(float length)

@@ -29,6 +29,7 @@ namespace Ship
         public event EventHandlerActionInt OnAiGetDiceModificationPriority;
 
         public event EventHandlerBool OnCanReleaseDockedShipRegular;
+        public event EventHandlerBoolDirection OnOffTheBoard;
 
         public GenericShip Host;
 
@@ -193,6 +194,20 @@ namespace Ship
             Roster.UpdateShipStats(this);
         }
 
+        public void SetInReserveName(bool isActive)
+        {
+            string dockedPosfix = " (In Reserve)";
+            if (isActive)
+            {
+                PilotName = PilotName + dockedPosfix;
+            }
+            else
+            {
+                PilotName = PilotName.Replace(dockedPosfix, "");
+            }
+            Roster.UpdateShipStats(this);
+        }
+
         // AI
 
         public void CallOnAiGetDiceModificationPriority(GenericAction diceModification, ref int priority)
@@ -203,6 +218,11 @@ namespace Ship
         public void CallCanReleaseDockedShipRegular(ref bool canRelease)
         {
             if (OnCanReleaseDockedShipRegular != null) OnCanReleaseDockedShipRegular(ref canRelease);
+        }
+
+        public void CallOffTheBoard(ref bool shouldDestroyShip, Direction direction)
+        {
+            if (OnOffTheBoard != null) OnOffTheBoard(ref shouldDestroyShip, direction);
         }
     }
 

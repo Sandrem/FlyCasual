@@ -44,13 +44,23 @@ namespace RulesList
         {
             List<GenericToken> tokensList = new List<GenericToken>();
 
-            foreach (var shipHolder in Roster.AllShips)
+            foreach (var shipHolder in Roster.AllShips.Values)
             {
-                ClearShipFlags(shipHolder.Value);
-                ClearAssignedManeuvers(shipHolder.Value);
-                shipHolder.Value.ClearAlreadyExecutedActions();
+                ClearShipFlags(shipHolder);
+                ClearAssignedManeuvers(shipHolder);
+                shipHolder.ClearAlreadyExecutedActions();
 
-                List<GenericToken> allShipTokens = shipHolder.Value.Tokens.GetAllTokens();
+                List<GenericToken> allShipTokens = shipHolder.Tokens.GetAllTokens();
+                if (allShipTokens != null) tokensList.AddRange(allShipTokens.Where(n => n.Host.ShouldRemoveTokenInEndPhase(n)));
+            }
+
+            foreach (var shipHolder in Roster.Reserve)
+            {
+                ClearShipFlags(shipHolder);
+                ClearAssignedManeuvers(shipHolder);
+                shipHolder.ClearAlreadyExecutedActions();
+
+                List<GenericToken> allShipTokens = shipHolder.Tokens.GetAllTokens();
                 if (allShipTokens != null) tokensList.AddRange(allShipTokens.Where(n => n.Host.ShouldRemoveTokenInEndPhase(n)));
             }
 

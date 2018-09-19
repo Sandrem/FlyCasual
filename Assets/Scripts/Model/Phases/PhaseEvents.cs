@@ -67,9 +67,11 @@ public class PhaseEvents
         Triggers.ResolveTriggers(TriggerTypes.OnInitiativeSelection, callBack);
     }
 
-    public void CallPlanningPhaseTrigger()
+    public void CallPlanningPhaseTrigger(Action callback)
     {
         if (OnPlanningPhaseStart != null) OnPlanningPhaseStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnPlanningSubPhaseStart, callback);
     }
 
     public void CallActivationPhaseStartTrigger()

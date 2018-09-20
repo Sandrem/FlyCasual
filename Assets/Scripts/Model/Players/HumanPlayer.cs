@@ -83,6 +83,13 @@ namespace Players
             base.SelectObstacleForAbility();
         }
 
+        public override void SetupShipMidgame()
+        {
+            (Phases.CurrentSubPhase as SetupShipMidgameSubPhase).ShowDescription();
+
+            base.SetupShipMidgame();
+        }
+
         public override void RerollManagerIsPrepared()
         {
             DiceRerollManager.CurrentDiceRerollManager.ShowConfirmButton();

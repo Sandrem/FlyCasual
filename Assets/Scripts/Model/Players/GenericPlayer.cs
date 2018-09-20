@@ -187,6 +187,12 @@ namespace Players
             GameController.CheckExistingCommands();
         }
 
+        public virtual void SetupShipMidgame()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
+        }
+
         public float AveragePilotSkillOfRemainingShips()
         {
             float pilotSkillValue = 0;

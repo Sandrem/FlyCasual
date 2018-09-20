@@ -6,146 +6,87 @@ using Ship;
 using BoardTools;
 using GameModes;
 using GameCommands;
+using System;
 
 namespace SubPhases
 {
 
-    public class SetupSubPhase : GenericSubPhase
+    public class SetupShipMidgameSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ShipPlacement, GameCommandTypes.PressNext }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ShipPlacement }; } }
 
         private static bool inReposition;
 
         private Transform StartingZone;
         private bool isInsideStartingZone;
 
+        public GenericShip ShipToSetup;
+        public Direction SetupSide;
+
+        public string AbilityName;
+        public string Description;
+        public string ImageUrl;
+
         public override void Start()
         {
+            IsTemporary = true;
+
+            Prepare();
+            Initialize();
+
+            UpdateHelpInfo();
+
             base.Start();
-            Name = "Setup SubPhase";
         }
 
         public override void Prepare()
         {
-            RequiredPilotSkill = PILOTSKILL_MIN - 1;
+            
         }
 
         public override void Initialize()
         {
-            Phases.FinishSubPhase(typeof(SetupSubPhase));
+            Board.ToggleOffTheBoardHolder(false);
+
+            Board.SetShipPreSetup(ShipToSetup);
+
+            Roster.HighlightShipsFiltered(FilterShipsToSetup);
+
+            IsReadyForCommands = true;
+            Roster.GetPlayer(RequiredPlayer).SetupShipMidgame();
+        }
+
+        public void ShowDescription()
+        {
+            ShowSubphaseDescription(AbilityName, Description, ImageUrl);
         }
 
         public override void Next()
         {
-            bool success = GetNextActivation(RequiredPilotSkill);
-            if (!success)
-            {
-                int nextPilotSkill = GetNextPilotSkill(RequiredPilotSkill);
-                if (nextPilotSkill != int.MinValue)
-                {
-                    success = GetNextActivation(nextPilotSkill);
-                }
-                else
-                {
-                    FinishPhase();
-                }
-            }
-
-            if (success)
-            {
-                UpdateHelpInfo();
-                Roster.HighlightShipsFiltered(FilterShipsToSetup);
-
-                IsReadyForCommands = true;
-                Roster.GetPlayer(RequiredPlayer).SetupShip();
-            }
+            FinishSubPhase();
         }
 
-        private bool GetNextActivation(int pilotSkill)
+        private void FinishSubPhase()
         {
+            HideSubphaseDescription();
 
-            bool result = false;
-
-            var pilotSkillResults =
-                from n in Roster.AllShips
-                where n.Value.PilotSkill == pilotSkill
-                where n.Value.IsSetupPerformed == false
-                select n;
-
-            if (pilotSkillResults.Count() > 0)
-            {
-                RequiredPilotSkill = pilotSkill;
-
-                var playerNoResults =
-                    from n in pilotSkillResults
-                    where n.Value.Owner.PlayerNo == Phases.PlayerWithInitiative
-                    select n;
-
-                if (playerNoResults.Count() > 0)
-                {
-                    RequiredPlayer = Phases.PlayerWithInitiative;
-                }
-                else
-                {
-                    RequiredPlayer = Roster.AnotherPlayer(Phases.PlayerWithInitiative);
-                }
-
-                result = true;
-            }
-
-            return result;
-        }
-
-        private int GetNextPilotSkill(int pilotSkillMin)
-        {
-            int result = int.MinValue;
-
-            var ascPilotSkills =
-                from n in Roster.AllShips
-                where !n.Value.IsSetupPerformed && n.Value.PilotSkill > pilotSkillMin
-                orderby n.Value.PilotSkill
-                select n;
-
-            if (ascPilotSkills.Count() > 0)
-            {
-                result = ascPilotSkills.First().Value.PilotSkill;
-            }
-
-            return result;
-        }
-
-        public override void FinishPhase()
-        {
             Board.TurnOffStartingZones();
-            Board.ToggleDiceHolders(true);
             Board.ToggleOffTheBoardHolder(true);
-            Phases.NextPhase();
+
+            Action callback = Phases.CurrentSubPhase.CallBack;
+            Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+            Phases.CurrentSubPhase.Resume();
+            callback();
         }
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
-            bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
-            {
-                if (ship.IsSetupPerformed == false)
-                {
-                    result = true;
-                }
-                else
-                {
-                    Messages.ShowErrorToHuman("Ship cannot be selected: Starting position is already set");
-                }
-            }
-            else
-            {
-                Messages.ShowErrorToHuman("Ship cannot be selected:\n Need " + Phases.CurrentSubPhase.RequiredPlayer + " and pilot skill " + Phases.CurrentSubPhase.RequiredPilotSkill);
-            }
-            return result;
+            return FilterShipsToSetup(ship) && mouseKeyIsPressed == 1;
         }
 
         private bool FilterShipsToSetup(GenericShip ship)
         {
-            return ship.PilotSkill == RequiredPilotSkill && !ship.IsSetupPerformed && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship == ShipToSetup;
         }
 
         public static GameCommand GeneratePlaceShipCommand(int shipId, Vector3 position, Vector3 angles)
@@ -156,7 +97,7 @@ namespace SubPhases
             parameters.AddField("rotationX", angles.x); parameters.AddField("rotationY", angles.y); parameters.AddField("rotationZ", angles.z);
             return GameController.GenerateGameCommand(
                 GameCommandTypes.ShipPlacement,
-                typeof(SetupSubPhase),
+                typeof(SetupShipMidgameSubPhase),
                 parameters.ToString()
             );
         }
@@ -245,11 +186,11 @@ namespace SubPhases
 
         public void StartDrag()
         {
-            StartingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
+            StartingZone = Board.GetStartingZone(SetupSide);
             isInsideStartingZone = false;
             Roster.SetRaycastTargets(false);
             Roster.AllShipsHighlightOff();
-            Board.HighlightStartingZones(Phases.CurrentSubPhase.RequiredPlayer);
+            Board.HighlightStartingZones(SetupSide);
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;
             inReposition = true;
         }

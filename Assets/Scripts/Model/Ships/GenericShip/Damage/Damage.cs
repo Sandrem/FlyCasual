@@ -181,5 +181,15 @@ namespace Ship
                 Host.CallOnDamageInstanceResolved(e, callback);
             });
         }
+
+        public void RemoveAllDamage()
+        {
+            foreach (var damageCard in DamageCards)
+            {
+                if (damageCard.IsFaceup) damageCard.DiscardEffect();
+            }
+
+            DamageCards = new List<GenericDamageCard>();
+        }
     }
 }

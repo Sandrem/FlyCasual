@@ -260,24 +260,27 @@ public class CameraScript : MonoBehaviour {
             touchDeltaMag = touchDeltaMag / Screen.dpi * 265;
 
             // Initialize values when 2 fingers are first touched to the screen
-            if (initialPinchMagnitude == 0f) {
+            if (initialPinchMagnitude == 0f)
+            {
                 initialPinchMagnitude = touchDeltaMag;
                 lastProcessedPinchMagnitude = touchDeltaMag;
             }
 
             float startThreshold = 0;
 
-            if (initialRotateCenter != lastProcessedRotateCenter) {
+            if (initialRotateCenter != lastProcessedRotateCenter)
+            {
                 // A pinch is in progress
                 startThreshold = THRESHOLD_TOUCH_ZOOM_SWITCH;
             }
-            else if (initialPinchMagnitude == lastProcessedPinchMagnitude) {
+            else if (initialPinchMagnitude == lastProcessedPinchMagnitude)
+            {
                 // A zoom is not yet in progress
                 startThreshold = THRESHOLD_TOUCH_ZOOM_START;
             }
 
             // Try to pinch zoom if we pass a start threshold
-            if (Mathf.Abs(initialPinchMagnitude-touchDeltaMag) > startThreshold)
+            if (Mathf.Abs(initialPinchMagnitude - touchDeltaMag) > startThreshold)
             {
                 if (Console.IsActive) Console.Write("Zoom:" + Mathf.Abs(initialPinchMagnitude - touchDeltaMag), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
                 // Find the difference in the distances between each frame.
@@ -307,7 +310,8 @@ public class CameraScript : MonoBehaviour {
                 // Find the difference between the average of the positions
                 Vector2 centerPos = Vector2.Lerp(touchZero.position, touchOne.position, 0.5f);
 
-                if (initialRotateCenter.magnitude == 0) {
+                if (initialRotateCenter.magnitude == 0)
+                {
                     initialRotateCenter = centerPos;
                     lastProcessedRotateCenter = centerPos;
                 }
@@ -360,14 +364,15 @@ public class CameraScript : MonoBehaviour {
                 }
             }
         }
-        else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved) {
+        else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
+        {
             // TODO: Needs to scale with zoom level -- hmmm. current speed is good for zoom out, too fast for zoom all the way in
             // TODO: do we need a threshold, for moves or for momentum specifically? hmm
             Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
             // Adjust sensitivity based on zoom level so the view always moves with your finger
             // That means the view moves more when zoomed out than when zoomed in for the same physical movement
             // TODO: may be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vecotr between them? This is probably faster though
-            float sensitivity = Mathf.Max(SENSITIVITY_TOUCH_MOVE,Mathf.Lerp(SENSITIVITY_TOUCH_MOVE / 5, SENSITIVITY_TOUCH_MOVE, (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT)));
+            float sensitivity = Mathf.Max(SENSITIVITY_TOUCH_MOVE, Mathf.Lerp(SENSITIVITY_TOUCH_MOVE / 5, SENSITIVITY_TOUCH_MOVE, (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT)));
             //TODO: new constant for low end of sensitivity
             deltaPosition = deltaPosition * -sensitivity;
 
@@ -377,11 +382,12 @@ public class CameraScript : MonoBehaviour {
             // don't use momentum on time <  .5s or distance < ~10px TODO: update comment
             if (Console.IsActive) Console.Write("totaltouchmagnitude:" + totalTouchMove.magnitude / totalTouchMoveDuration, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
-            if (totalTouchMove.magnitude/totalTouchMoveDuration > 12) //TODO: make constant? base on DPI?
+            if (totalTouchMove.magnitude / totalTouchMoveDuration > 12) //TODO: make constant? base on DPI?
             {
                 panningMomentum = totalTouchMove / totalTouchMoveDuration;
             }
-            else {
+            else
+            {
                 panningMomentum = Vector2.zero;
             }
 
@@ -391,6 +397,17 @@ public class CameraScript : MonoBehaviour {
             if ((x != 0) || (y != 0)) WhenViewChanged();
             transform.Translate(x, y, 0);
 
+        }
+        else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            // Stop momentum as soon as one finger is touched to the screen
+            // TODO: make this not a special case?
+            panningMomentum = Vector2.zero;
+        }
+        else if (Input.touchCount == 1) {
+            // Keep incrementing duration even if no movement is happening
+            totalTouchMoveDuration += Time.deltaTime;
+            // TODO: make this not a special case?
         }
         else if (Input.touchCount == 0 && panningMomentum.magnitude > .5) {
             // Keep panning with momentum
@@ -419,7 +436,7 @@ public class CameraScript : MonoBehaviour {
             lastProcessedRotateCenter = initialRotateCenter;
         }
 
-        if (Input.touchCount < 1) {
+        if (Input.touchCount != 1) {
             totalTouchMoveDuration = 0f;
             totalTouchMove = Vector2.zero; 
         }

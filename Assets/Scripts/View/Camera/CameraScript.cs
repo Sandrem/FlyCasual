@@ -407,6 +407,7 @@ public class CameraScript : MonoBehaviour {
         else if (Input.touchCount == 1) {
             // Keep incrementing duration even if no movement is happening
             totalTouchMoveDuration += Time.deltaTime;
+            panningMomentum = totalTouchMove / totalTouchMoveDuration;
             // TODO: make this not a special case?
         }
         else if (Input.touchCount == 0 && panningMomentum.magnitude > .5) {

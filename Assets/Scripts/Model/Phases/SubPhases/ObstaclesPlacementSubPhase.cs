@@ -188,7 +188,7 @@ namespace SubPhases
                 // On mobile, ships must be dragged instead of always moving with the mouse
                 if (CameraScript.InputTouchIsEnabled)
                 {
-                    float distanceThreshold = .4f;
+                    float distanceThreshold = .8f;
                     //TODO: pass the object to be selected to new class, have it pick which of these to use?
                     //if (Selection.ThisShip.ShipBaseSize == BaseSize.Medium) distanceThreshold = .6f;
                     //if (Selection.ThisShip.ShipBaseSize == BaseSize.Large) distanceThreshold = .8f;
@@ -417,7 +417,9 @@ namespace SubPhases
         {
             if (!EventSystem.current.IsPointerOverGameObject())
             {
-                if (Input.GetKeyUp(KeyCode.Mouse0))
+                // On touch devices, select on down instead of up event so drag can begin immediately
+                if (Input.GetKeyUp(KeyCode.Mouse0) ||
+                   (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began))
                 {
                     RaycastHit hitInfo = new RaycastHit();
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))

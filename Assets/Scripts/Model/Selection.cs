@@ -26,7 +26,12 @@ public static class Selection {
         {
             TryMarkShipByModel();
             int mouseKeyIsPressed = 0;
-            if (Input.GetKeyUp(KeyCode.Mouse0)) mouseKeyIsPressed = 1;
+            // On touch devices, select on down instead of up event so drag can begin immediately
+            // TODO: test everything (camera, ship, obstacle placement) to ensure it still works fine on desktop. test on android??
+            if (Input.GetKeyUp(KeyCode.Mouse0) || 
+                (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)) {
+                mouseKeyIsPressed = 1;
+            } 
             else if(Input.GetKeyUp(KeyCode.Mouse1)) mouseKeyIsPressed = 2;
 
             if (mouseKeyIsPressed > 0)

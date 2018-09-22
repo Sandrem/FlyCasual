@@ -257,7 +257,7 @@ namespace SubPhases
         {
             StartingZone = Board.GetStartingZone(Phases.CurrentSubPhase.RequiredPlayer);
             isInsideStartingZone = false;
-            Roster.SetRaycastTargets(true);
+            Roster.SetRaycastTargets(false);
             Roster.AllShipsHighlightOff();
             Board.HighlightStartingZones();
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;

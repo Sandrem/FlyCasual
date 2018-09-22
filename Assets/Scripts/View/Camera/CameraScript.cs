@@ -36,6 +36,7 @@ public class CameraScript : MonoBehaviour {
     private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
     private const float THRESHOLD_TOUCH_ZOOM_START = 20f; // was 12 -- is that better on ipad? probably!!! needs to be higher on iphone!!
     private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.2f; //was .3
+    private const float MOMENTUM_THRESHOLD = 12f; // was 12, was good but a little too sensitive
 
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
     private float lastProcessedPinchMagnitude = 0f; // Magnitude of the pinch when we last actually zoomed
@@ -382,7 +383,7 @@ public class CameraScript : MonoBehaviour {
             // don't use momentum on time <  .5s or distance < ~10px TODO: update comment
             if (Console.IsActive) Console.Write("totaltouchmagnitude:" + totalTouchMove.magnitude / totalTouchMoveDuration, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
-            if (totalTouchMove.magnitude / totalTouchMoveDuration > 12) //TODO: make constant? base on DPI?
+            if (totalTouchMove.magnitude / totalTouchMoveDuration > MOMENTUM_THRESHOLD) //TODO: make constant? base on DPI?
             {
                 panningMomentum = totalTouchMove / totalTouchMoveDuration;
             }
@@ -407,8 +408,17 @@ public class CameraScript : MonoBehaviour {
         else if (Input.touchCount == 1) {
             // Keep incrementing duration even if no movement is happening
             totalTouchMoveDuration += Time.deltaTime;
-            panningMomentum = totalTouchMove / totalTouchMoveDuration;
-            // TODO: make this not a special case?
+
+
+            if (totalTouchMove.magnitude / totalTouchMoveDuration > MOMENTUM_THRESHOLD) //TODO: make constant? base on DPI?
+            {
+                panningMomentum = totalTouchMove / totalTouchMoveDuration;
+            }
+            else
+            {
+                panningMomentum = Vector2.zero;
+            }
+            // TODO: make this not a special case? at min, dedupe code between this and main pan if case
         }
         else if (Input.touchCount == 0 && panningMomentum.magnitude > .5) {
             // Keep panning with momentum

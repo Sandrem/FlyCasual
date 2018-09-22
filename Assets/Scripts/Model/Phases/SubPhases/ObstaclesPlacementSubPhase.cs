@@ -435,6 +435,9 @@ namespace SubPhases
                             }
                         }
                     }
+                    else {
+                        // TODO: check how clise it is to the nearest asteroid, pick that if it's close enough...??
+                    }
                 }
             }
         }

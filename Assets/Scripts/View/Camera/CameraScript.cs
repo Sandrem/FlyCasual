@@ -36,7 +36,7 @@ public class CameraScript : MonoBehaviour {
     private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
     private const float THRESHOLD_TOUCH_ZOOM_START = 20f; // was 12 -- is that better on ipad? probably!!! needs to be higher on iphone!!
     private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.2f; //was .3
-    private const float MOMENTUM_THRESHOLD = 12f; // was 12, was good but a little too sensitive
+    private const float MOMENTUM_THRESHOLD = 15f; // was 12, was good but a little too sensitive
 
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
     private float lastProcessedPinchMagnitude = 0f; // Magnitude of the pinch when we last actually zoomed

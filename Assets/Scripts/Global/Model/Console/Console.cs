@@ -144,7 +144,7 @@ public partial class Console : MonoBehaviour {
     {
         if ((text == "ClientDisconnected due to error: Timeout") ||
             (text == "ServerDisconnected due to error: Timeout") ||
-            text.StartsWith("Screen position out of view Frustrum")) return true;
+            text.StartsWith("Screen position out of view frustum")) return true;
 
         return false;
     }

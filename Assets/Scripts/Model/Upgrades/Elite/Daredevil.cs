@@ -7,7 +7,6 @@ namespace UpgradesList
 {
     public class Daredevil : GenericUpgrade, ISecondEditionUpgrade
     {
-        private bool isSecondEdition = false;
         public Daredevil() : base()
         {
             Types.Add(UpgradeType.Elite);
@@ -21,7 +20,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            if (isSecondEdition)
+            if (RuleSet.Instance is SecondEdition)
             {
                 return ship.ShipBaseSize == BaseSize.Small && ship.ActionBar.HasAction(typeof(BoostAction), isRed: false);
             }

@@ -415,7 +415,7 @@ namespace SubPhases
 
         private void TryToSelectObstacle()
         {
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (!EventSystem.current.IsPointerOverGameObject()) //TODO: fix this for touch? make a helper method for that...?
             {
                 // On touch devices, select on down instead of up event so drag can begin immediately
                 if (Input.GetKeyUp(KeyCode.Mouse0) ||

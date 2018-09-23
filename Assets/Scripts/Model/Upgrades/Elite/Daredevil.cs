@@ -21,7 +21,7 @@ namespace UpgradesList
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            if (RuleSet.Instance is SecondEdition)
+            if (isSecondEdition)
             {
                 return ship.ShipBaseSize == BaseSize.Small && ship.ActionBar.HasAction(typeof(BoostAction), isRed: false);
             }

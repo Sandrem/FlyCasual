@@ -4,24 +4,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 using Ship;
-using System.Linq;
+using Bombs;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class ProximityMines : GenericContactMine
+    public class ProximityMines : GenericContactMine, ISecondEditionUpgrade
     {
 
         public ProximityMines() : base()
         {
             Types.Add(UpgradeType.Bomb);
             Name = "Proximity Mines";
-            Cost = 3;
+            Cost = 6;
 
             bombPrefabPath = "Prefabs/Bombs/ProximityMine";
 
             IsDiscardedAfterDropped = true;
         }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            IsDiscardedAfterDropped = false;
+            UsesCharges = true;
+
+            MaxCharges = 2;
+            Cost = 6;
+
+            SEImageNumber = 66;
+        }
+
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
@@ -58,7 +71,7 @@ namespace SubPhases
         public override void Prepare()
         {
             DiceKind = DiceKind.Attack;
-            DiceCount = 3;
+            DiceCount = 2;
 
             AfterRoll = FinishAction;
         }
@@ -68,6 +81,8 @@ namespace SubPhases
             HideDiceResultMenu();
 
             CurrentDiceRoll.RemoveAllFailures();
+            CurrentDiceRoll.AddDice(DieSide.Success);
+
             if (!CurrentDiceRoll.IsEmpty)
             {
                 SufferDamage();

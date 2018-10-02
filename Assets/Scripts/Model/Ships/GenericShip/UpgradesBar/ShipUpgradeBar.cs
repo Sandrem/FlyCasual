@@ -237,6 +237,7 @@ namespace Upgrade
         {
             return GetUpgradesOnlyFaceup()
                 .Where(n => n.Types.Contains(UpgradeType.Torpedo) || n.Types.Contains(UpgradeType.Missile) || n.Types.Contains(UpgradeType.Bomb))
+                .Where(n => !n.Name.Contains("Proximity Mines"))
                 .Where(n => n.UsesCharges)
                 .Where(n => n.Charges < n.MaxCharges)
                 .ToList();

@@ -36,7 +36,7 @@ public class CameraScript : MonoBehaviour {
     private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
     private const float THRESHOLD_TOUCH_ZOOM_START = 20f; // was 12 -- is that better on ipad? probably!!! needs to be higher on iphone!!
     private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.2f; //was .3
-    private const float MOMENTUM_THRESHOLD = 15f; // was 12, was good but a little too sensitive
+    private const float MOMENTUM_THRESHOLD = 15f; // TODO: test, was 12, was good but a little too sensitive
 
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
     private float lastProcessedPinchMagnitude = 0f; // Magnitude of the pinch when we last actually zoomed
@@ -373,7 +373,7 @@ public class CameraScript : MonoBehaviour {
             // Adjust sensitivity based on zoom level so the view always moves with your finger
             // That means the view moves more when zoomed out than when zoomed in for the same physical movement
             // TODO: may be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vecotr between them? This is probably faster though
-            float sensitivity = Mathf.Max(SENSITIVITY_TOUCH_MOVE, Mathf.Lerp(SENSITIVITY_TOUCH_MOVE / 5, SENSITIVITY_TOUCH_MOVE, (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT)));
+            float sensitivity = Mathf.Max(SENSITIVITY_TOUCH_MOVE, Mathf.Lerp(SENSITIVITY_TOUCH_MOVE / 7, SENSITIVITY_TOUCH_MOVE, (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT)));
             //TODO: new constant for low end of sensitivity
             deltaPosition = deltaPosition * -sensitivity;
 

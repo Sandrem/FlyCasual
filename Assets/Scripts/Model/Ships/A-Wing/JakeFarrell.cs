@@ -89,17 +89,22 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnActionIsPerformed += CheckAbility;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnActionIsPerformed -= CheckAbility;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckAbility(GenericAction action)
         {
             if (action is BoostAction || action is BarrelRollAction)
             {
+                if (IsAbilityUsed) return;
+                IsAbilityUsed = true;
+
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, SelectTargetForJakeFarrellAbility);
             }
         }

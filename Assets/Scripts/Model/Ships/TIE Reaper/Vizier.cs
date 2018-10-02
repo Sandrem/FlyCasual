@@ -77,7 +77,7 @@ namespace Abilities.SecondEdition
 
         private void CheckActionRestriction(GenericAction action)
         {
-            if (action is CoordinateAction)
+            if (action is CoordinateAction && RestrictedAbilityIsActivated)
             {
                 Messages.ShowError("\"Vizier\" skips Perform Action step");
                 HostShip.IsSkipsActionSubPhase = true;

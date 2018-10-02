@@ -108,9 +108,16 @@ namespace Abilities.SecondEdition
 
         private void AssignEvadeToken(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Stygium Array: Evade token is assigned");
-
-            HostShip.Tokens.AssignToken(typeof(EvadeToken), Triggers.FinishTrigger);
+            if (!Selection.ThisShip.Tokens.HasToken(typeof(CloakToken)))
+            {
+                Messages.ShowInfo("Stygium Array: Evade token is assigned");
+                HostShip.Tokens.AssignToken(typeof(EvadeToken), Triggers.FinishTrigger);
+            }
+            else
+            {
+                Messages.ShowError("Stygium Array: Ship already has Cloak token");
+                Triggers.FinishTrigger();
+            }
         }
 
         private void RegisterCloakAbility()

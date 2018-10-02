@@ -15,7 +15,7 @@ namespace UpgradesList
         {
             Types.Add(UpgradeType.Title);
             Name = "Marauder";
-            Cost = 2;
+            Cost = 3;
             UpgradeRuleType = typeof(SecondEdition);
             isUnique = true;
             AddedSlots = new List<UpgradeSlot>

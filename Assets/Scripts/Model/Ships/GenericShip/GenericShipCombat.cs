@@ -154,6 +154,7 @@ namespace Ship
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
         public event EventHandlerInt AfterGotNumberOfAttackDice;
+        public event EventHandlerInt AfterGotNumberOfAttackDiceCap;
         public event EventHandlerInt AfterGotNumberOfDefenceDice;
         public event EventHandlerInt AfterNumberOfDefenceDiceConfirmed;
 
@@ -461,6 +462,8 @@ namespace Ship
             result = Combat.ChosenWeapon.AttackValue;
 
             if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
+
+            if (AfterGotNumberOfAttackDiceCap != null) AfterGotNumberOfAttackDiceCap(ref result);
 
             if (result < 0) result = 0;
             return result;

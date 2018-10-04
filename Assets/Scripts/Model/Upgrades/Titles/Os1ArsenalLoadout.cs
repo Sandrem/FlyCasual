@@ -130,7 +130,7 @@ namespace Abilities.SecondEdition
             GenericSecondaryWeapon secondaryWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
             if (secondaryWeapon != null)
             {
-                if ((secondaryWeapon.HasType(UpgradeType.Torpedo) || secondaryWeapon.HasType(UpgradeType.Missile)) && Actions.HasTargetLockOn(Selection.ThisShip, Selection.AnotherShip))
+                if (secondaryWeapon.HasType(UpgradeType.Torpedo) || secondaryWeapon.HasType(UpgradeType.Missile))
                 {
                     result = true;
                 }

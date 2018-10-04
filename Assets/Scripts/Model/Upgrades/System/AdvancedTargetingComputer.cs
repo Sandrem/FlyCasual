@@ -3,6 +3,7 @@ using Upgrade;
 using Ship.TIEAdvanced;
 using Tokens;
 using Abilities;
+using System.Collections.Generic;
 
 namespace UpgradesList
 {
@@ -56,7 +57,7 @@ namespace ActionsList
 {
     public class AdvancedTargetingComputerActionEffect : GenericAction
     {
-        private char targetLockLetter;
+        private List<char> targetLockLetters = new List<char>();
 
         public AdvancedTargetingComputerActionEffect()
         {
@@ -91,8 +92,11 @@ namespace ActionsList
                 Combat.CurrentDiceRoll.AddDice(DieSide.Crit).ShowWithoutRoll();
                 Combat.CurrentDiceRoll.OrganizeDicePositions();
 
-                targetLockLetter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-                Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter).CanBeUsed = false;
+                targetLockLetters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+                foreach (char targetLockLetter in targetLockLetters)
+                {
+                    Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter).CanBeUsed = false;
+                }
 
                 Combat.Attacker.OnAttackFinish += SetTargetLockCanBeUsed;
             }
@@ -106,8 +110,11 @@ namespace ActionsList
 
         private void SetTargetLockCanBeUsed(GenericShip ship)
         {
-            BlueTargetLockToken ownTargetLockToken = (BlueTargetLockToken)Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter);
-            if (ownTargetLockToken != null) ownTargetLockToken.CanBeUsed = true;
+            foreach (char targetLockLetter in targetLockLetters)
+            {
+                BlueTargetLockToken ownTargetLockToken = (BlueTargetLockToken)Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter);
+                if (ownTargetLockToken != null) ownTargetLockToken.CanBeUsed = true;
+            }
 
             Combat.Attacker.OnAttackFinish -= SetTargetLockCanBeUsed;
         }

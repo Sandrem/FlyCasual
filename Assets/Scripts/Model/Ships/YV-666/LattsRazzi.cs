@@ -6,6 +6,7 @@ using SubPhases;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using UnityEngine;
 
@@ -95,8 +96,8 @@ namespace Abilities.SecondEdition
 
             Messages.ShowInfo("Latts Razzi: " + TargetShip.PilotName + " is selected");
 
-            char tlLetter = Actions.GetTargetLocksLetterPair(HostShip, TargetShip);
-            HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), ApplyAbility, tlLetter);
+            List<char> tlLetter = Actions.GetTargetLocksLetterPairs(HostShip, TargetShip);
+            HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), ApplyAbility, tlLetter.First());
         }
 
         private void ApplyAbility()

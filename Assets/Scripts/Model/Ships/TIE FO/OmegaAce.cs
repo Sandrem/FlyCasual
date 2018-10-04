@@ -2,7 +2,8 @@
 using Abilities;
 using ActionsList;
 using Tokens;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ship
 {
@@ -90,8 +91,8 @@ namespace ActionsList
         
         private void payTargetLock()
         {
-            char targetLockLetter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-            Combat.Attacker.Tokens.SpendToken(typeof(BlueTargetLockToken), payFocus, targetLockLetter);            
+            List<char> targetLockLetters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+            Combat.Attacker.Tokens.SpendToken(typeof(BlueTargetLockToken), payFocus, targetLockLetters.First());            
         }
 
         private void payFocus()

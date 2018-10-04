@@ -97,8 +97,8 @@ namespace Upgrade
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
-                char letter = Actions.GetTargetLocksLetterPair(Host, targetShip);
-                GenericToken targetLockToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
+                List<char> letters = Actions.GetTargetLocksLetterPairs(Host, targetShip);
+                GenericToken targetLockToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
                 if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
                 Host.CallOnGenerateAvailableAttackPaymentList(waysToPay);
@@ -146,8 +146,8 @@ namespace Upgrade
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
-                char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-                GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
+                List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+                GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
                 if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
                 Combat.Attacker.CallOnGenerateAvailableAttackPaymentList(waysToPay);
@@ -204,8 +204,8 @@ namespace SubPhases
 
             List<GenericToken> waysToPay = new List<GenericToken>();
 
-            char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-            GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
+            List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+            GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
             if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
             Combat.Attacker.CallOnGenerateAvailableAttackPaymentList(waysToPay);

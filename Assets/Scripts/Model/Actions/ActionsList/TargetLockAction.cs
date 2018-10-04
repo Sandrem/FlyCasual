@@ -24,17 +24,16 @@ namespace ActionsList
         {
             if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                char letter = ' ';
-                letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
+                List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
 
-                if (Combat.Attacker.Tokens.GetToken(typeof(Tokens.BlueTargetLockToken), letter).CanBeUsed)
+                if (Combat.Attacker.Tokens.GetToken(typeof(Tokens.BlueTargetLockToken), letters.First()).CanBeUsed)
                 {
                     DiceRerollManager diceRerollManager = new DiceRerollManager()
                     {
                         CallBack = callBack
                     };
 
-                    Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letter);
+                    Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letters.First());
                 }
                 else
                 {
@@ -54,7 +53,7 @@ namespace ActionsList
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                if (Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender) != ' ')
+                if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
                 {
                     result = true;
                 }

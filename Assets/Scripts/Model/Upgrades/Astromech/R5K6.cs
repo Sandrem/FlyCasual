@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 using Abilities;
+using Ship;
+using Tokens;
 
 namespace UpgradesList
 {
@@ -67,6 +69,7 @@ namespace SubPhases
 
     public class R5K6CheckSubPhase : DiceRollCheckSubPhase
     {
+        private List<char> targetLockLetters = new List<char>();
 
         public override void Prepare()
         {
@@ -84,19 +87,31 @@ namespace SubPhases
             {
                 Sounds.PlayShipSound("R2D2-Proud");
                 Actions.AcquireTargetLock(Combat.Attacker, Combat.Defender, CallBack, CallBack);
+                
+                targetLockLetters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+                foreach (char targetLockLetter in targetLockLetters)
+                {
+                    GenericToken newTargetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter);
+                    newTargetLockToken.CanBeUsed = false;
+                }
 
-                //TODO: Avoid code after callback
-                char newTargetLockTokenLetter = Combat.Attacker.Tokens.GetTargetLockLetterPair(Combat.Defender);
-                Tokens.GenericToken newTargetLockToken = Combat.Attacker.Tokens.GetToken(typeof(Tokens.BlueTargetLockToken), newTargetLockTokenLetter);
-                newTargetLockToken.CanBeUsed = false;
-
-                Combat.Attacker.OnAttackFinish += delegate { newTargetLockToken.CanBeUsed = true; };
+                Combat.Attacker.OnAttackFinish += SetTargetLockCanBeUsed;
             }
             else
             {
                 CallBack();
             }
-            
+        }
+
+        private void SetTargetLockCanBeUsed(GenericShip ship)
+        {
+            foreach (char targetLockLetter in targetLockLetters)
+            {
+                BlueTargetLockToken ownTargetLockToken = (BlueTargetLockToken)Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter);
+                if (ownTargetLockToken != null) ownTargetLockToken.CanBeUsed = true;
+            }
+
+            Combat.Attacker.OnAttackFinish -= SetTargetLockCanBeUsed;
         }
 
     }

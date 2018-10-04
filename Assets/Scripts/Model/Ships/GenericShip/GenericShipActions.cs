@@ -73,6 +73,8 @@ namespace Ship
 
         public event EventHandler OnDecloak;
 
+        public event EventHandlerActionRef OnCheckActionComplexity;
+
         // ACTIONS
 
         public void GenerateAvailableActionsList()
@@ -568,6 +570,11 @@ namespace Ship
             if (OnDecloak != null) OnDecloak();
 
             Triggers.ResolveTriggers(TriggerTypes.OnDecloak, callback);
+        }
+
+        public void CallOnCheckActionComplexity(ref GenericAction action)
+        {
+            if (OnCheckActionComplexity != null) OnCheckActionComplexity(ref action);
         }
 
     }

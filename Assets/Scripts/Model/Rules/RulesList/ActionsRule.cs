@@ -21,6 +21,8 @@ namespace RulesList
         {
             if (action == null) return;
 
+            Selection.ThisShip.CallOnCheckActionComplexity(ref action);
+
             //HotAC AI perfroms red actions as white
             if (action.IsRed && !Selection.ThisShip.Owner.UsesHotacAiRules)
             {

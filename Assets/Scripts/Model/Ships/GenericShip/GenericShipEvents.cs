@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ActionsList;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,10 +14,11 @@ namespace Ship
         public delegate void EventHandlerInt(ref int data);
         public delegate void EventHandlerBool(ref bool data);
         public delegate void EventHandlerBoolDirection(ref bool data, Direction direction);
-        public delegate void EventHandlerAction(ActionsList.GenericAction action);
-        public delegate void EventHandlerActionBool(ActionsList.GenericAction action, ref bool data);
-        public delegate void EventHandlerActionInt(ActionsList.GenericAction action, ref int priority);
-        public delegate void EventHandlerShipActionBool(GenericShip ship, ActionsList.GenericAction action, ref bool data);
+        public delegate void EventHandlerAction(GenericAction action);
+        public delegate void EventHandlerActionRef(ref GenericAction action);
+        public delegate void EventHandlerActionBool(GenericAction action, ref bool data);
+        public delegate void EventHandlerActionInt(GenericAction action, ref int priority);
+        public delegate void EventHandlerShipActionBool(GenericShip ship, GenericAction action, ref bool data);
         public delegate void EventHandlerShip(GenericShip ship);
         public delegate void EventHandlerShipDamage(GenericShip ship, DamageSourceEventArgs e);
         public delegate void EventHandlerShipBool(GenericShip ship, bool flag);
@@ -29,7 +31,7 @@ namespace Ship
         public delegate void EventHandlerTokenBool(Tokens.GenericToken token, ref bool data);
         public delegate void EventHandlerBombDropTemplates(List<Bombs.BombDropTemplates> availableTemplates);
         public delegate void EventHandlerBarrelRollTemplates(List<Actions.BarrelRollTemplates> availableTemplates);
-        public delegate void EventHandlerBoostTemplates(List<ActionsList.BoostMove> availableTemplates);
+        public delegate void EventHandlerBoostTemplates(List<BoostMove> availableTemplates);
         public delegate void EventHandlerDiceroll(DiceRoll diceroll);
         public delegate void EventHandlerTokensList(List<Tokens.GenericToken> tokens);
         public delegate void EventHandlerBoolStringList(ref bool result, List<string> stringList);

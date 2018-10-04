@@ -614,6 +614,21 @@ namespace Movement
             return complexity;
         }
 
+        public static MovementComplexity IncreaseComplexity(MovementComplexity complexity)
+        {
+            switch (complexity)
+            {
+                case MovementComplexity.Normal:
+                    complexity = MovementComplexity.Complex;
+                    break;
+                case MovementComplexity.Easy:
+                    complexity = MovementComplexity.Normal;
+                    break;
+            }
+
+            return complexity;
+        }
+
         public static List<string> GetAllManeuvers()
         {
             List<string> result = new List<string>();

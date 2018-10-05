@@ -38,6 +38,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(a => a is Abilities.DutchVanderAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DutchVanderAbilitySE());
+
+                SEImageNumber = 14;
             }
         }
     }

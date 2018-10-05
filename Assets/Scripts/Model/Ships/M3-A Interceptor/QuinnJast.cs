@@ -30,6 +30,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.QuinnJastAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.QuinnJastAbilitySE());
+
+                SEImageNumber = 186;
             }
         }
    }

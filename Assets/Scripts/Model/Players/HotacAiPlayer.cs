@@ -105,6 +105,7 @@ namespace Players
                 if (actionsPriority.Count > 0)
                 {
                     KeyValuePair<ActionsList.GenericAction, int> prioritizedActions = actionsPriority.First();
+
                     if (prioritizedActions.Value > 0)
                     {
                         isActionTaken = true;

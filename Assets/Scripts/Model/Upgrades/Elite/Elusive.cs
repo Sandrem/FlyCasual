@@ -19,10 +19,13 @@ namespace UpgradesList
             Cost = 3;
 
             MaxCharges = 1;
+            UsesCharges = true;
 
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.Elusive());
+
+            SEImageNumber = 4;
         }
     }
 }

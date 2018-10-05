@@ -28,6 +28,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.CaptainKagiAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.CaptainKagiAbilitySE());
+
+                SEImageNumber = 142;
             }
         }
     }
@@ -41,12 +43,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed += CanPerformTargetLock;
+            RulesList.TargetLocksRule.OnCheckTargetLockIsDisallowed += CanPerformTargetLock;
         }
 
         public override void DeactivateAbility()
         {
-            RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed -= CanPerformTargetLock;
+            RulesList.TargetLocksRule.OnCheckTargetLockIsDisallowed -= CanPerformTargetLock;
         }
 
         public void CanPerformTargetLock(ref bool result, GenericShip attacker, GenericShip defender)

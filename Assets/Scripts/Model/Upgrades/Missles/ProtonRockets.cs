@@ -44,6 +44,8 @@ namespace UpgradesList
             ArcRestrictions.Add(Arcs.ArcTypes.Bullseye);
 
             UpgradeAbilities.RemoveAll(a => a is ProtonRocketsAbility);
+
+            SEImageNumber = 41;
         }
     }
 }

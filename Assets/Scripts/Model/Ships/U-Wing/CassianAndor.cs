@@ -24,6 +24,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(UpgradeType.Elite);
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new CassianAndorSE());
+
+                SEImageNumber = 56;
             }
 
             public void AdaptPilotToSecondEdition()

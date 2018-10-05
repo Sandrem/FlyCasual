@@ -35,6 +35,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.LtBlountAbiliity);
                 PilotAbilities.Add(new Abilities.SecondEdition.LtBlountAbiliitySE());
+
+                SEImageNumber = 28;
             }
         }
 	}

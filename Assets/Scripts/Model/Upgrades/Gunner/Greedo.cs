@@ -25,6 +25,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new GreedoGunnerAbility());
+
+            SEImageNumber = 142;
         }
 
         public void AdaptUpgradeToSecondEdition()

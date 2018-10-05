@@ -45,6 +45,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is ConcussionMissilesAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.ConcussionMissilesAbilitySE());
+
+            SEImageNumber = 38;
         }
     }
 }

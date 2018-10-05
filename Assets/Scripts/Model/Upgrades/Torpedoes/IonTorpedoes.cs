@@ -44,6 +44,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is IonTorpedoesAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.IonDamageAbilitySE());
+
+            SEImageNumber = 34;
         }
     }
 }
@@ -138,8 +140,7 @@ namespace Abilities.SecondEdition
                     () => new Tokens.IonToken(Combat.Defender),
                     ionTokens,
                     delegate {
-                        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                        Game.Wait(2, DefenderSuffersDamage);
+                        GameManagerScript.Wait(2, DefenderSuffersDamage);
                     }
                 );
             }

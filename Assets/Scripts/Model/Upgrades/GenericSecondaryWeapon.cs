@@ -68,6 +68,10 @@ namespace Upgrade
         {
             bool result = true;
 
+            int MinRangeUpdated = MinRange;
+            int MaxRangeUpdated = MaxRange;
+            Host.CallUpdateWeaponRange(this, ref MinRangeUpdated, ref MaxRangeUpdated);
+
             if (isDiscarded) return false;
 
             if (UsesCharges && Charges == 0) return false;
@@ -86,15 +90,15 @@ namespace Upgrade
                 range = distanceInfo.Range;
             }
 
-            if (range < MinRange) return false;
-            if (range > MaxRange) return false;
+            if (range < MinRangeUpdated) return false;
+            if (range > MaxRangeUpdated) return false;
 
             if (RequiresTargetLockOnTargetToShoot)
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
-                char letter = Actions.GetTargetLocksLetterPair(Host, targetShip);
-                GenericToken targetLockToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
+                List<char> letters = Actions.GetTargetLocksLetterPairs(Host, targetShip);
+                GenericToken targetLockToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
                 if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
                 Host.CallOnGenerateAvailableAttackPaymentList(waysToPay);
@@ -142,8 +146,8 @@ namespace Upgrade
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
-                char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-                GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
+                List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+                GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
                 if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
                 Combat.Attacker.CallOnGenerateAvailableAttackPaymentList(waysToPay);
@@ -200,8 +204,8 @@ namespace SubPhases
 
             List<GenericToken> waysToPay = new List<GenericToken>();
 
-            char letter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-            GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letter);
+            List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+            GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
             if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
             Combat.Attacker.CallOnGenerateAvailableAttackPaymentList(waysToPay);

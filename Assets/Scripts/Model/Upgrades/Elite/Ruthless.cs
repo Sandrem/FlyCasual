@@ -22,6 +22,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.RuthlessAbility());
+
+            SEImageNumber = 13;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

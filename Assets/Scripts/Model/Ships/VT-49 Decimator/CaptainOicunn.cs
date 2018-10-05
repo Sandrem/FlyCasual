@@ -20,6 +20,8 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
 
                 PilotAbilities.Add(new ZebOrreliosCrewAbility());
+
+                SEImageNumber = 146;
             }
 
             public void AdaptPilotToSecondEdition()

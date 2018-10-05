@@ -31,6 +31,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.NorraWexleyPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.NorraWexleyPilotAbilitySE());
+
+                SEImageNumber = 65;
             }
         }
     }
@@ -97,7 +99,7 @@ namespace Abilities
                         break;
                 }
 
-                return Actions.GetTargetLocksLetterPair(Host, anotherShip);
+                return Actions.GetTargetLocksLetterPairs(Host, anotherShip).First();
             }
 
             public override bool IsDiceModificationAvailable()

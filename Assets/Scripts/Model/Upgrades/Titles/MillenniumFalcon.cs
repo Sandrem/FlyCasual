@@ -7,8 +7,6 @@ using System.Linq;
 using Tokens;
 using Upgrade;
 
-
-
 namespace UpgradesList
 {
     public class MillenniumFalcon : GenericUpgrade, ISecondEditionUpgrade
@@ -28,6 +26,8 @@ namespace UpgradesList
             Cost = 6;
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.MilleniumFalconAbility());
+
+            SEImageNumber = 103;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

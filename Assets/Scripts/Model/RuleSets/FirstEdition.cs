@@ -18,7 +18,7 @@ namespace RuleSets
         public override string Name { get { return "First Edition"; } }
 
         public override int MaxPoints { get { return 100; } }
-        public override int MinShipCost { get { return 14; } }
+        public override int MinShipCost { get { return 12; } }
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Combat"; } }
@@ -159,6 +159,16 @@ namespace RuleSets
         {
             List<Type> tokensTypesToDiscard = new List<Type> { typeof(FocusToken), typeof(EvadeToken), typeof(BlueTargetLockToken) };
             return tokensTypesToDiscard.Contains(token.GetType());
+        }
+
+        public override string GetPilotImageUrl(GenericShip ship)
+        {
+            return RootUrlForImages + "pilots/" + ImageUrls.FormatFaction(ship.SubFaction) + "/" + ImageUrls.FormatShipType(ship.Type) + "/" + ImageUrls.FormatName(ship.PilotName) + ".png";
+        }
+
+        public override string GetUpgradeImageUrl(GenericUpgrade upgrade)
+        {
+            return RootUrlForImages + "upgrades/" + ImageUrls.FormatUpgradeTypes(upgrade.Types) + "/" + ImageUrls.FormatName(ImageUrls.FormatUpgradeName(upgrade.NameOriginal ?? upgrade.Name)) + ".png";
         }
     }
 }

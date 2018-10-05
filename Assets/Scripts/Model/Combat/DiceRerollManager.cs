@@ -1,4 +1,5 @@
 ﻿using GameModes;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,12 @@ public partial class DiceRerollManager
 {
     public static DiceRerollManager CurrentDiceRerollManager;
 
+    public static event GenericShip.EventHandlerInt OnMaxDiceRerollAllowed;
+
     public List<DieSide> SidesCanBeRerolled;
-    public int NumberOfDiceCanBeRerolled;
+    public int NumberOfDiceCanBeRerolled = int.MaxValue;
     public bool IsOpposite;
+    public bool IsTrueReroll;
 
     public System.Action CallBack;
 
@@ -38,6 +42,11 @@ public partial class DiceRerollManager
 
     private void CheckParameters()
     {
+        if (IsTrueReroll)
+        {
+            if (OnMaxDiceRerollAllowed != null) OnMaxDiceRerollAllowed(ref NumberOfDiceCanBeRerolled);
+        }
+
         if (SidesCanBeRerolled == null)
         {
             SidesCanBeRerolled = new List<DieSide>
@@ -47,11 +56,6 @@ public partial class DiceRerollManager
                 DieSide.Success,
                 DieSide.Crit
             };
-        }
-
-        if (NumberOfDiceCanBeRerolled == 0)
-        {
-            NumberOfDiceCanBeRerolled = int.MaxValue;
         }
     }
 
@@ -261,24 +265,27 @@ public partial class DiceRerollManager
 
     private void TryUnblockButtons(DiceRoll diceRoll)
     {
-        if (!Network.IsNetworkGame)
-        {
-            UnblockButtons();
-        }
-        else
-        {
-            Network.SyncDiceRerollResults();
-        }
+        UnblockButtons();
     }
 
     public void UnblockButtons()
     {
+        if (!IsTrueReroll) MarkAsFakeReroll();
+
         DiceRerollManager.CurrentDiceRerollManager = null;
 
         Combat.CurrentDiceRoll.ToggleRerolledLocks(false);
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) ToggleDiceModificationsPanel(true);
 
         if (CallBack!=null) CallBack();
+    }
+
+    private void MarkAsFakeReroll()
+    {
+        foreach (var die in DiceRoll.CurrentDiceRoll.DiceList)
+        {
+            die.IsRerolled = false;
+        }
     }
 
 }

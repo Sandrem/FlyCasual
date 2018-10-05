@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 using Abilities;
+using System.Linq;
 
 namespace UpgradesList
 {
@@ -114,8 +115,8 @@ namespace ActionsList
 
         private void SpendTargetLock(System.Action callBack)
         {
-            var letter = Combat.Defender.Tokens.GetTargetLockLetterPair(Combat.Attacker);
-            Host.Tokens.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, letter);
+            List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Defender, Combat.Attacker);
+            Host.Tokens.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, letters.First());
         }
 
     }

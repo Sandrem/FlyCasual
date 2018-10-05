@@ -20,7 +20,11 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
+                PilotRuleType = typeof(SecondEdition);
+
                 PilotAbilities.Add(new CountdownAbilitySE());
+
+                SEImageNumber = 118;
             }
 
             public void AdaptPilotToSecondEdition()

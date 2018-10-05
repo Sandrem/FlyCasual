@@ -36,6 +36,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.BraylenStrammPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.BraylenStrammAbility());
+
+                SEImageNumber = 23;
             }
         }
     }

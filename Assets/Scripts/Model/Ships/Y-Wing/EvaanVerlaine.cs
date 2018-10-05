@@ -26,6 +26,8 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
                 PrintedUpgradeIcons.Add(UpgradeType.Elite);
                 PilotAbilities.Add(new EvaanVerlaineAbilitySE());
+
+                SEImageNumber = 16;
             }
 
             public void AdaptPilotToSecondEdition()

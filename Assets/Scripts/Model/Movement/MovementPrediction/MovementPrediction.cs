@@ -147,8 +147,7 @@ namespace Movement
             }
             else
             {
-                GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.Wait(2, delegate { DestroyGeneratedShipStands(); CallBack(); });
+                GameManagerScript.Wait(2, delegate { DestroyGeneratedShipStands(); CallBack(); });
             }
         }
 

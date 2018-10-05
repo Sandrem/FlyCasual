@@ -290,7 +290,7 @@ namespace SquadBuilderNS
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
             RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
-            if (newUpgrade is IVariableCost) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
+            if (newUpgrade is IVariableCost && RuleSet.Instance is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
 
             List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.Types);
             if (slots.Count != 0)

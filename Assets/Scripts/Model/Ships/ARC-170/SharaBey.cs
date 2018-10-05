@@ -33,6 +33,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.SharaBeyPilotAbility);
                 PilotAbilities.Add(new Abilities.NorraWexleyPilotAbility());
+
+                SEImageNumber = 67;
             }
         }
     }
@@ -97,7 +99,7 @@ namespace ActionsList
 {
     public class SharaBeyAction : GenericAction
     {
-        private char sharaLockLetter;
+        private List<char> sharaLockLetters;
 
         public SharaBeyAction()
         {
@@ -108,9 +110,9 @@ namespace ActionsList
         {
             ShotInfo shotInfo = new ShotInfo(Host, Combat.Attacker, Host.PrimaryWeapon);
             if (shotInfo.Range > 2) return false;
-            sharaLockLetter = Actions.GetTargetLocksLetterPair(Host, Combat.Defender);
-            if (sharaLockLetter == ' ') return false;
-            GenericToken sharaToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), sharaLockLetter);
+            sharaLockLetters = Actions.GetTargetLocksLetterPairs(Host, Combat.Defender);
+            if (sharaLockLetters.Count == 0) return false;
+            GenericToken sharaToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), sharaLockLetters.First());
             if (sharaToken == null) return false;
             return Combat.AttackStep == CombatStep.Attack;
         }
@@ -140,16 +142,17 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-
-            Host.Tokens.SpendToken(typeof(BlueTargetLockToken),
-                                   delegate {
-                                       DiceRerollManager diceRerollManager = new DiceRerollManager
-                                       {
-                                           CallBack = callBack
-                                       };
-                                       diceRerollManager.Start();
-                                   }, sharaLockLetter);
-
+           
+            Host.Tokens.SpendToken(
+                typeof(BlueTargetLockToken), 
+                delegate {
+                    DiceRerollManager diceRerollManager = new DiceRerollManager
+                    {
+                        CallBack = callBack
+                    };
+                    diceRerollManager.Start();
+                },
+                sharaLockLetters.First());
         }
 
     }

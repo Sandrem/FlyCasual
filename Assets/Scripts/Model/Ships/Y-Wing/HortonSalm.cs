@@ -36,6 +36,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.HortonSalmAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.HortonSalmAbilitySE());
+
+                SEImageNumber = 15;
             }
         }
     }

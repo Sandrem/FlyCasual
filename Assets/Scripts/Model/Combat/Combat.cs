@@ -244,16 +244,17 @@ public static partial class Combat
     {
         AttackStep = CombatStep.Defence;
 
-        CallDefenceStartEvents();
         Selection.ActiveShip = Defender;
 
-        DefenceDiceRoll();
+        CallDefenceStartEvents(DefenceDiceRoll);
     }
 
-    public static void CallDefenceStartEvents()
+    public static void CallDefenceStartEvents(Action callback)
     {
         Attacker.CallDefenceStartAsAttacker();
         Defender.CallDefenceStartAsDefender();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnDefenseStart, callback);
     }
 
     private static void DefenceDiceRoll()
@@ -317,17 +318,28 @@ public static partial class Combat
 
         DiceRollAttack.RemoveAllFailures();
 
-        if (DiceRollAttack.Successes > 0) {
-			AttackHit ();
-		} else {
-			if (Attacker.AttackIsAlwaysConsideredHit) {
-				Messages.ShowInfo("Attack is considered a Hit");
-				AttackHit ();
-			} else {
-				AfterShotIsPerformed ();
-			}
-		}
-	}
+        Combat.Defender.CallAfterNeutralizeResults(CheckAttackHit);
+    }
+
+    private static void CheckAttackHit()
+    {
+        if (DiceRollAttack.Successes > 0)
+        {
+            AttackHit();
+        }
+        else
+        {
+            if (Attacker.AttackIsAlwaysConsideredHit)
+            {
+                Messages.ShowInfo("Attack is considered a Hit");
+                AttackHit();
+            }
+            else
+            {
+                AfterShotIsPerformed();
+            }
+        }
+    }
 
     private static void AttackHit()
     {
@@ -411,6 +423,8 @@ public static partial class Combat
 
         Attacker.CallAttackFinish();
         Defender.CallAttackFinish();
+
+        Attacker.CallAttackFinishGlobal(); // Only once!
 
         Triggers.ResolveTriggers(TriggerTypes.OnAttackFinish, FinishCombatActivation);
     }
@@ -593,8 +607,6 @@ namespace SubPhases
 
     public class CompareResultsSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ConfirmCrit }; } }
-
         public override void Start()
         {
             Name = "Compare results";
@@ -636,12 +648,16 @@ namespace SubPhases
 
     public class ExtraAttackSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
+
         public override void Start()
         {
             Name = "Extra Attack";
             UpdateHelpInfo();
 
             UI.ShowSkipButton();
+
+            IsReadyForCommands = true;
         }
 
         public override void SkipButton()

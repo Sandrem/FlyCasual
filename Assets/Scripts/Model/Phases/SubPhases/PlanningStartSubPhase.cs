@@ -17,8 +17,9 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Phases.Events.CallPlanningPhaseTrigger();
-            Phases.FinishSubPhase(this.GetType());
+            Phases.Events.CallPlanningPhaseTrigger(delegate {
+                Phases.FinishSubPhase(this.GetType());
+            });
         }
 
         public override void Next()

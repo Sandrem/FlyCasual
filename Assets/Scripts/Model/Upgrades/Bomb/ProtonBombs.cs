@@ -32,6 +32,8 @@ namespace UpgradesList
 
             MaxCharges = 2;
             Cost = 5;
+
+            SEImageNumber = 65;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
@@ -75,8 +77,7 @@ namespace UpgradesList
             bombObject.transform.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
             bombObject.transform.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
 
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Wait(1.4f, delegate { callBack(); });
+            GameManagerScript.Wait(1.4f, delegate { callBack(); });
         }
 
         private void DetonationFE(object sender, EventArgs e)

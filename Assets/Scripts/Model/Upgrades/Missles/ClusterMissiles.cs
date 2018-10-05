@@ -42,6 +42,8 @@ namespace UpgradesList
 
             IsTwinAttack = false;
             UpgradeAbilities.Add(new Abilities.SecondEdition.CluseterMissilesAbilitySE());
+
+            SEImageNumber = 37;
         }
     }
 
@@ -76,7 +78,7 @@ namespace Abilities
 
             private void CheckClusterMissilesAbility(GenericShip ship)
             {
-                if (!IsAbilityUsed)
+                if (Combat.ChosenWeapon == this.HostUpgrade && !IsAbilityUsed)
                 {
                     IsAbilityUsed = true;
 

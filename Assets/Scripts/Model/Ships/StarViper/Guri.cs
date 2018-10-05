@@ -34,6 +34,14 @@ namespace Ship
 
                 ActionBar.RemovePrintedAction(typeof(FocusAction));
                 ActionBar.AddPrintedAction(new CalculateAction());
+
+                ActionBar.RemoveActionLink(typeof(BarrelRollAction), typeof(FocusAction));
+                ActionBar.AddActionLink(typeof(BarrelRollAction), new CalculateAction() { IsRed = true });
+
+                ActionBar.RemoveActionLink(typeof(BoostAction), typeof(FocusAction));
+                ActionBar.AddActionLink(typeof(BoostAction), new CalculateAction() { IsRed = true });
+
+                SEImageNumber = 178;
             }
         }
     }

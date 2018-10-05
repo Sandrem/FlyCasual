@@ -34,6 +34,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.NdruSuhlakAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.NdruSuhlakAbilitySE());
+
+                SEImageNumber = 169;
             }
         }
     }

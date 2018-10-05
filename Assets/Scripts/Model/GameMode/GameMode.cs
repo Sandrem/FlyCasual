@@ -14,11 +14,11 @@ namespace GameModes
 
         public abstract void ExecuteCommand(GameCommand command);
 
+        public abstract void ExecuteServerCommand(GameCommand command);
+
         public abstract void RevertSubPhase();
 
         public abstract void AssignManeuver(string maneuverCode);
-
-        public abstract void ActivateSystemsOnShip(int shipId);
 
         public abstract void GiveInitiativeToRandomPlayer();
 
@@ -47,10 +47,6 @@ namespace GameModes
 
         public abstract void GenerateDamageDeck(PlayerNo playerNo, int seed);
 
-        public abstract void CombatActivation(int shipId);
-
         public abstract void StartDiceRerollExecution();
-
-        public abstract void SelectObstacle(string obstacleName);
     }
 }

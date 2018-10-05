@@ -4,12 +4,14 @@ using UnityEngine;
 using Ship;
 using Tokens;
 using System;
+using RuleSets;
+using ActionsList;
 
 namespace Ship
 {
     namespace SheathipedeShuttle
     {
-        public class AP5 : SheathipedeShuttle
+        public class AP5 : SheathipedeShuttle, ISecondEditionPilot
         {
             public AP5() : base()
             {
@@ -20,6 +22,22 @@ namespace Ship
                 IsUnique = true;
 
                 PilotAbilities.Add(new Abilities.AP5PilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 1;
+                Cost = 30;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
+                ActionBar.RemovePrintedAction(typeof(FocusAction));
+                ActionBar.AddPrintedAction(new CalculateAction());
+
+                PilotAbilities.RemoveAll(a => a is Abilities.AP5PilotAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.AP5PilotAbilitySE());
+
+                SEImageNumber = 41;
             }
         }
     }
@@ -101,6 +119,41 @@ namespace Abilities
                 typeof(StressToken),
                 SubPhases.DecisionSubPhase.ConfirmDecision
             );
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class AP5PilotAbilitySE : GenericAbility
+    {
+        private GenericShip SelectedShip;
+
+        public override void ActivateAbility()
+        {
+            HostShip.OnCoordinateTargetIsSelected += CheckUseAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCoordinateTargetIsSelected -= CheckUseAbility;
+        }
+
+        private void CheckUseAbility(GenericShip ship)
+        {
+            if (ship.Tokens.CountTokensByType(typeof(StressToken)) == 1 && !ship.CanPerformActionsWhileStressed)
+            {
+                SelectedShip = ship;
+                ship.CanPerformActionsWhileStressed = true;
+                SelectedShip.OnActionIsPerformed += RemoveEffect;
+            }
+        }
+
+        private void RemoveEffect(GenericAction action)
+        {
+            SelectedShip.OnActionIsPerformed -= RemoveEffect;
+            SelectedShip.CanPerformActionsWhileStressed = false;
+            SelectedShip = null;
         }
     }
 }

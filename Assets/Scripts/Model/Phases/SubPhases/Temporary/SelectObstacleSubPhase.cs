@@ -9,12 +9,15 @@ using Players;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Obstacles;
+using GameCommands;
 
 namespace SubPhases
 {
     public class SelectObstacleSubPhase : GenericSubPhase
     {
-        private Action<GenericObstacle> SelectTargetAction;
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectObstacle, GameCommandTypes.PressSkip }; } }
+
+        private static Action<GenericObstacle> SelectTargetAction;
         private Func<GenericObstacle, bool> FilterTargets;
 
         public string AbilityName;
@@ -52,7 +55,11 @@ namespace SubPhases
         public override void Initialize()
         {
             // If not skipped
-            if (Phases.CurrentSubPhase == this) Roster.GetPlayer(RequiredPlayer).SelectObstacleForAbility();
+            if (Phases.CurrentSubPhase == this)
+            {
+                IsReadyForCommands = true;
+                Roster.GetPlayer(RequiredPlayer).SelectObstacleForAbility();
+            }
 
             // Will be called: HighlightObstacleToSelect();
         }
@@ -135,10 +142,21 @@ namespace SubPhases
 
         private void ConfirmSelectionOfObstacle(GenericObstacle obstacle)
         {
-            GameMode.CurrentGameMode.SelectObstacle(obstacle.ObstacleGO.name);
+            GameMode.CurrentGameMode.ExecuteCommand(GenerateSelectObstacleCommand(obstacle.ObstacleGO.name));
         }
 
-        public void ConfirmSelectionOfObstacleClient(string obstacleName)
+        private GameCommand GenerateSelectObstacleCommand(string obstacleName)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("name", obstacleName);
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.SelectObstacle,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
+
+        public static void ConfirmSelectionOfObstacle(string obstacleName)
         {
             GenericObstacle obstacle = ObstaclesManager.GetObstacleByName(obstacleName);
             SelectTargetAction(obstacle);

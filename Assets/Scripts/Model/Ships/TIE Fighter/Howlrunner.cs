@@ -29,6 +29,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(a => a is Abilities.HowlrunnerAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.HowlrunnerAbilitySE());
+
+                SEImageNumber = 81;
             }
         }
     }

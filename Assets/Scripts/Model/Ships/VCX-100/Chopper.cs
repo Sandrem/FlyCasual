@@ -30,6 +30,8 @@ namespace Ship
                 Cost = 72;
                 PilotAbilities.RemoveAll(ability => ability is Abilities.ChopperPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.ChopperPilotAbilitySE());
+
+                SEImageNumber = 75;
             }
         }
     }

@@ -88,6 +88,8 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AdvancedDroidBrain());
                 Maneuvers.Add("4.F.S", MovementComplexity.Normal);
+
+                IconicPilots[Faction.Scum] = typeof(IG88A);
             }
         }
     }

@@ -29,6 +29,8 @@ namespace Ship
                 faction = Faction.Scum;
 
                 SkinName = "Boba Fett";
+
+                SEImageNumber = 152;
             }
 
             public void AdaptPilotToSecondEdition()

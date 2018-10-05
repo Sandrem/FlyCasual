@@ -5,12 +5,13 @@ using Abilities;
 using System;
 using Ship;
 using BoardTools;
+using RuleSets;
 
 namespace Ship
 {
     namespace JumpMaster5000
     {
-        public class Dengar : JumpMaster5000
+        public class Dengar : JumpMaster5000, ISecondEditionPilot
         {
             public Dengar() : base()
             {
@@ -23,6 +24,21 @@ namespace Ship
                 // Already have Elite icon from JumpMaster5000 class
 
                 PilotAbilities.Add(new DengarPilotAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 6;
+                Cost = 64;
+
+                UsesCharges = true;
+                MaxCharges = 1;
+                RegensCharges = true;
+
+                PilotAbilities.RemoveAll(a => a is DengarPilotAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.DengarPilotAbilitySE());
+
+                SEImageNumber = 214;
             }
         }
     }
@@ -49,17 +65,32 @@ namespace Abilities
 
         private void CheckAbility(GenericShip ship)
         {
-            if (IsAbilityUsed) return;
+            if (!CanUseAbility()) return;
 
             if (HostShip.IsCannotAttackSecondTime) return;
 
             ShotInfo counterAttackInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
-            if (!counterAttackInfo.InArc) return;
+            if (!CanCounterattackUsingShotInfo(counterAttackInfo)) return;
 
             // Save his attacker, becuase combat data will be cleared
             shipToPunish = Combat.Attacker;
 
             Combat.Attacker.OnCombatCheckExtraAttack += RegisterAbility;
+        }
+
+        protected virtual bool CanUseAbility()
+        {
+            return !IsAbilityUsed;
+        }
+
+        protected virtual bool CanCounterattackUsingShotInfo(ShotInfo counterAttackInfo)
+        {
+            return counterAttackInfo.InArc;
+        }
+
+        protected virtual void MarkAbilityAsUsed()
+        {
+            IsAbilityUsed = true;
         }
 
         private void RegisterAbility(GenericShip ship)
@@ -84,7 +115,7 @@ namespace Abilities
                 isPerformedRegularAttack = HostShip.IsAttackPerformed;
 
                 // Plan to set IsAbilityUsed only after attack that was successfully started
-                HostShip.OnAttackFinishAsAttacker += SetIsAbilityIsUsed;
+                HostShip.OnAttackStartAsAttacker += MarkAbilityAsUsed;
 
                 Combat.StartAdditionalAttack(
                     HostShip,
@@ -108,7 +139,7 @@ namespace Abilities
             HostShip.IsAttackPerformed = isPerformedRegularAttack;
 
             // Set IsAbilityUsed only after attack that was successfully started
-            HostShip.OnAttackFinishAsAttacker -= SetIsAbilityIsUsed;
+            HostShip.OnAttackStartAsAttacker -= MarkAbilityAsUsed;
 
             Triggers.FinishTrigger();
         }
@@ -126,5 +157,27 @@ namespace Abilities
             return result;
         }
 
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class DengarPilotAbilitySE : DengarPilotAbility
+    {
+        protected override bool CanCounterattackUsingShotInfo(ShotInfo counterAttackInfo)
+        {
+            return counterAttackInfo.InArc && HostShip.ArcInfo.GetArc<Arcs.ArcMobile>().Facing == Arcs.ArcFacing.Forward;
+        }
+
+        protected override bool CanUseAbility()
+        {
+            return HostShip.Charges > 0;
+        }
+
+        protected override void MarkAbilityAsUsed()
+        {
+            //Empty delegate is safe here - Sandrem
+            HostShip.SpendCharge(delegate { });
+        }
     }
 }

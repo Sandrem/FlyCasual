@@ -44,6 +44,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is ProtonTorpedoesAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.ProtonTorpedoesAbilitySE());
+
+            SEImageNumber = 35;
         }
     }
 }

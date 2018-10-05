@@ -18,14 +18,14 @@ namespace GameModes
             GameController.SendCommand(command);
         }
 
+        public override void ExecuteServerCommand(GameCommand command)
+        {
+            GameController.SendCommand(command);
+        }
+
         public override void RevertSubPhase()
         {
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
-        }
-
-        public override void ActivateSystemsOnShip(int shipId)
-        {
-            (Phases.CurrentSubPhase as SystemsSubPhase).ActivateSystemsOnShipClient(Roster.GetShipById("ShipId:" + shipId));
         }
 
         public override void AssignManeuver(string maneuverCode)
@@ -175,12 +175,6 @@ namespace GameModes
             }
         }
 
-        public override void CombatActivation(int shipId)
-        {
-            Selection.ChangeActiveShip("ShipId:" + shipId);
-            Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
-        }
-
         public override void StartDiceRerollExecution()
         {
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
@@ -195,11 +189,6 @@ namespace GameModes
         public override void QuitToDesktop()
         {
             Application.Quit();
-        }
-
-        public override void SelectObstacle(string obstacleName)
-        {
-            (Phases.CurrentSubPhase as SelectObstacleSubPhase).ConfirmSelectionOfObstacleClient(obstacleName);
         }
     }
 }

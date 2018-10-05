@@ -104,6 +104,8 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 factions.Remove(Faction.Imperial);
+
+                IconicPilots[Faction.Scum] = typeof(KrassisTrelix);
             }
 
         }

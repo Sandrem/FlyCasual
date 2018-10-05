@@ -16,6 +16,8 @@ namespace Ship
                 Cost = 61;
 
                 PilotRuleType = typeof(SecondEdition);
+
+                SEImageNumber = 53;
             }
 
             public void AdaptPilotToSecondEdition()

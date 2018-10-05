@@ -11,6 +11,8 @@ public static class InformCrit
     private static Transform InformCritPanel;
     private static MonoBehaviour Behavior;
 
+    private static bool NetworkAnyPlayerConfirmedCrit;
+
     public static void Initialize()
     {
         InformCritPanel = GameObject.Find("UI").transform.Find("InformCritPanel").transform;
@@ -19,15 +21,10 @@ public static class InformCrit
 
     public static void LoadAndShow(object sender, System.EventArgs e)
     {
-        if (Roster.Player1.UsesHotacAiRules && Roster.Player2.UsesHotacAiRules)
-        {
-            Triggers.FinishTrigger();
-        }
-        else
-        {
-            if (InformCritPanel == null) Initialize();
-            Behavior.StartCoroutine(LoadTooltipImage(Combat.CurrentCriticalHitCard.ImageUrl));
-        }
+        if (InformCritPanel == null) Initialize();
+        NetworkAnyPlayerConfirmedCrit = false;
+
+        Behavior.StartCoroutine(LoadTooltipImage(Combat.CurrentCriticalHitCard.ImageUrl));
     }
 
     private static IEnumerator LoadTooltipImage(string url)
@@ -74,6 +71,10 @@ public static class InformCrit
         Phases.CurrentSubPhase.Pause();
 
         InformCritPanel.gameObject.SetActive(true);
+    }
+
+    public static void ShowConfirmButton()
+    {
         InformCritPanel.Find("Confirm").gameObject.SetActive(true);
     }
 
@@ -90,9 +91,19 @@ public static class InformCrit
 
     public static void ConfirmCrit()
     {
-        HidePanel();
-        Phases.CurrentSubPhase.IsReadyForCommands = false;
-        Triggers.FinishTrigger();
+        if (Network.IsNetworkGame && !NetworkAnyPlayerConfirmedCrit)
+        {
+            NetworkAnyPlayerConfirmedCrit = true;
+
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+            GameController.CheckExistingCommands();
+        }
+        else
+        {
+            HidePanel();
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+            Triggers.FinishTrigger();
+        }
     }
 
     public static void HidePanel()

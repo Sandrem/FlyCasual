@@ -8,6 +8,7 @@ using Players;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using RuleSets;
 
 namespace RulesList
 {
@@ -32,13 +33,26 @@ namespace RulesList
                 return;
             }
 
-            ship.ChangeAgilityBy(-1);
+            if (ShouldDecreaseAgility(ship)) ship.ChangeAgilityBy(-1);
 
             if (ship.Tokens.CountTokensByType (typeof(TractorBeamToken)) == 1 && ship.ShipBaseSize == BaseSize.Small) 
             {
                 TractorBeamToken token = (TractorBeamToken)ship.Tokens.GetToken(typeof(TractorBeamToken));
                 token.Assigner.PerformTractorBeamReposition(ship);
             }
+        }
+
+        private bool ShouldDecreaseAgility(GenericShip ship)
+        {
+            bool result = true;
+
+            if (RuleSet.Instance is SecondEdition)
+            {
+                int tractorBeamTokensCount = ship.Tokens.CountTokensByType(typeof(TractorBeamToken));
+                if (tractorBeamTokensCount > 1) result = false;
+            }
+
+            return result;
         }
 
         public static void PerfromManualTractorBeamReposition(GenericShip ship, GenericPlayer assinger)
@@ -68,7 +82,21 @@ namespace RulesList
             {
                 return;
             }
-            ship.ChangeAgilityBy(+1);
+
+            if (ShouldIncreaseAgility(ship)) ship.ChangeAgilityBy(+1);
+        }
+
+        private bool ShouldIncreaseAgility(GenericShip ship)
+        {
+            bool result = true;
+
+            if (RuleSet.Instance is SecondEdition)
+            {
+                int tractorBeamTokensCount = ship.Tokens.CountTokensByType(typeof(TractorBeamToken));
+                if (tractorBeamTokensCount > 0) result = false;
+            }
+
+            return result;
         }
     }
 }

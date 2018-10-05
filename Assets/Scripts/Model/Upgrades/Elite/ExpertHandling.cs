@@ -30,6 +30,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is ExpertHandlingAbility);
             UpgradeAbilities.Add(new GenericActionBarAbility<BarrelRollAction>());
+
+            SEImageNumber = 5;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

@@ -32,6 +32,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.InaldraAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.InaldraAbilitySE());
+
+                SEImageNumber = 187;
             }
         }
    }
@@ -93,7 +95,6 @@ namespace ActionsList
                 DiceRerollManager diceRerollManager = new DiceRerollManager
                 {
                     SidesCanBeRerolled = null,      // all the sides can be reroll
-                    NumberOfDiceCanBeRerolled = 0,
                     CallBack = callBack// all the dices can be reroll
                 };
                 diceRerollManager.Start();
@@ -159,7 +160,6 @@ namespace ActionsList.SecondEdition
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
                 SidesCanBeRerolled = null,      // all the sides can be reroll
-                NumberOfDiceCanBeRerolled = 0,
                 CallBack = callBack// all the dices can be reroll
             };
 

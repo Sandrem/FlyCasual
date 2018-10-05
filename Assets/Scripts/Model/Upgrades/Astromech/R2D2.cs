@@ -31,9 +31,12 @@ namespace UpgradesList
         {
             Cost = 8;
             MaxCharges = 3;
+            UsesCharges = true;
 
             UpgradeAbilities.RemoveAll(a => a is R2D2Ability);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R2AstromechAbility());
+
+            SEImageNumber = 100;
         }
     }
 

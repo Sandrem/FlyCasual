@@ -26,6 +26,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.GrazTheHunterAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.GrazAbilitySE());
+
+                SEImageNumber = 192;
             }
         }
     }

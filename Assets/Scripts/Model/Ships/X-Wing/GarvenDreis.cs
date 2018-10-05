@@ -33,6 +33,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.GarvenDreisAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.GarvenDreisAbilitySE());
+
+                SEImageNumber = 4;
             }
         }
     }

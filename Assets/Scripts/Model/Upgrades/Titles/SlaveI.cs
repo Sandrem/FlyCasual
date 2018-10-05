@@ -25,6 +25,8 @@ namespace UpgradesList
         {
             Cost = 5;
             UpgradeAbilities.Add(new BobaFettEmpireAbility());
+
+            SEImageNumber = 154;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

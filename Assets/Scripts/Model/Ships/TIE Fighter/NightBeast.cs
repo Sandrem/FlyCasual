@@ -29,6 +29,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.NightBeastAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.NightBeastAbilitySE());
+
+                SEImageNumber = 88;
             }
         }
     }

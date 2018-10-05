@@ -18,6 +18,8 @@ namespace UpgradesList
             Cost = 2;
 
             UpgradeAbilities.Add(new LoneWolfAbility());
+
+            SEImageNumber = 9;
         }
 
         public void AdaptUpgradeToSecondEdition()

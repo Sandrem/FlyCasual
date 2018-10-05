@@ -6,13 +6,14 @@ using Ship;
 using System;
 using GameModes;
 using BoardTools;
+using GameCommands;
 
 namespace SubPhases
 {
 
     public class CombatSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.CombatActivation, GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip, GameCommandTypes.AssignManeuver }; } }
 
         private Team.Type selectionMode;
 
@@ -71,7 +72,7 @@ namespace SubPhases
                 if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
 
                 UpdateHelpInfo();
-                Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
+                Roster.HighlightShipsFiltered(FilterShipsToPerfromAttack);
 
                 IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();
@@ -191,7 +192,24 @@ namespace SubPhases
         {
             Roster.HighlightShipsFiltered(FilterShipsToAttack);
 
-            GameMode.CurrentGameMode.CombatActivation(ship.ShipId);
+            GameMode.CurrentGameMode.ExecuteCommand(GenerateCombatActicationCommand(ship.ShipId));
+        }
+
+        public static GameCommand GenerateCombatActicationCommand(int shipId)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("id", shipId.ToString());
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.CombatActivation,
+                typeof(CombatSubPhase),
+                parameters.ToString()
+            );
+        }
+
+        public static void DoCombatActivation(int shipId)
+        {
+            Selection.ChangeActiveShip("ShipId:" + shipId);
+            Selection.ThisShip.CallCombatActivation(delegate { (Phases.CurrentSubPhase as CombatSubPhase).ChangeSelectionMode(Team.Type.Enemy); });
         }
 
         private bool FilterShipsToAttack(GenericShip ship)
@@ -256,7 +274,7 @@ namespace SubPhases
             return result;
         }
 
-        private bool FilterShipsToAssignManeuver(GenericShip ship)
+        private bool FilterShipsToPerfromAttack(GenericShip ship)
         {
             return ship.PilotSkill == RequiredPilotSkill && !ship.IsAttackPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
@@ -284,8 +302,9 @@ namespace SubPhases
             {
                 // If selected ship can attack - skip attack only for this ship
 
-                AfterSkippedCombatActivation(Selection.ThisShip);
-                CheckNext();
+                GenericShip skippedShip = Selection.ThisShip;
+                AfterSkippedCombatActivation(skippedShip);
+                skippedShip.CallCombatDeactivation(CheckNext);
             }
 
         }
@@ -337,7 +356,10 @@ namespace SubPhases
             }
             else
             {
-                // TODO: Highlight available ships again
+                Roster.HighlightShipsFiltered(FilterShipsToPerfromAttack);
+
+                IsReadyForCommands = true;
+                Roster.GetPlayer(RequiredPlayer).PerformAttack();
             }
         }
 

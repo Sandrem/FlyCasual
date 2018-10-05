@@ -67,4 +67,31 @@ public static class ImageManager
         }
     }
 
+    // DELETE CACHED IMAGES FOR MIGRATIONS
+
+    static public void DeleteCachedImage(string url, Type edition = null)
+    {
+        if (edition != null)
+        {
+            DeleteCachedImageByEdition(url, edition);
+        }
+        else
+        {
+            DeleteCachedImageByEdition(url, typeof(FirstEdition));
+            DeleteCachedImageByEdition(url, typeof(SecondEdition));
+        }
+    }
+
+    private static void DeleteCachedImageByEdition(string url, Type edition)
+    {
+        RuleSet ruleSet = (RuleSet)Activator.CreateInstance(edition);
+        string filePath = Application.persistentDataPath + "/" + ruleSet.Name + "/ImageCache";
+        if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
+        filePath += "/" + url.GetHashCode() + ".png";
+        if (File.Exists(filePath) && new FileInfo(filePath).Length > 100)
+        {
+            File.Delete(filePath);
+        }
+    }
+
 }

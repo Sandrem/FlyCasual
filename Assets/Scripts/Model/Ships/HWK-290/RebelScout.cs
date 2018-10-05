@@ -18,6 +18,8 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 PilotRuleType = typeof(SecondEdition);
+
+                SEImageNumber = 45;
             }
 
             public void AdaptPilotToSecondEdition()

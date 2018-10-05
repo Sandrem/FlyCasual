@@ -40,6 +40,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.PalobGodalhi);
                 PilotAbilities.Add(new Abilities.SecondEdition.PalobGodalhiSE());
+
+                SEImageNumber = 175;
             }
         }
 	}

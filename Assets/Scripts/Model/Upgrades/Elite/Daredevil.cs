@@ -15,6 +15,8 @@ namespace UpgradesList
             Cost = 3;
 
             UpgradeRuleType = typeof(SecondEdition);
+
+            IsHidden = true;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -28,9 +30,13 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
+            IsHidden = false;
+
             Cost = 3;
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.DareDevilAbility());
+
+            SEImageNumber = 2;
         }
     }
 }

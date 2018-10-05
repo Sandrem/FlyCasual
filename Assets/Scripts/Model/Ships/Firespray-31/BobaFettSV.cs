@@ -33,6 +33,8 @@ namespace Ship
                 Cost = 80;
 
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Illicit);
+
+                SEImageNumber = 149;
             }
         }
     }

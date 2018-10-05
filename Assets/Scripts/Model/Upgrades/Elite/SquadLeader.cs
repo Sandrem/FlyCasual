@@ -28,7 +28,9 @@ namespace UpgradesList
         {
             Cost = 4;
             UpgradeAbilities.RemoveAll(a => a is SquadLeaderAbility);
-            UpgradeAbilities.Add(new Abilities.SecondEdition.SquadLeaderAbility());            
+            UpgradeAbilities.Add(new Abilities.SecondEdition.SquadLeaderAbility());
+
+            SEImageNumber = 16;
         }
     }
 }

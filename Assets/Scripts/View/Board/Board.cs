@@ -16,6 +16,8 @@ namespace BoardTools
 
         public static GameObject StartingZone1;
         public static GameObject StartingZone2;
+        public static GameObject StartingZone3;
+        public static GameObject StartingZone4;
 
         public static readonly float SIZE_ANY = 91.44f;
         public static readonly float SIZE_X = 91.44f;
@@ -33,6 +35,8 @@ namespace BoardTools
             RulersHolderTransform = BoardTransform.Find("RulersHolder");
             StartingZone1 = BoardTransform.Find("Playmat/StaringZone1").gameObject;
             StartingZone2 = BoardTransform.Find("Playmat/StaringZone2").gameObject;
+            StartingZone3 = BoardTransform.Find("Playmat/StaringZone3").gameObject;
+            StartingZone4 = BoardTransform.Find("Playmat/StaringZone4").gameObject;
 
             MovementTemplates.PrepareMovementTemplates();
 
@@ -85,29 +89,48 @@ namespace BoardTools
             DynamicGI.UpdateEnvironment();
         }
 
-        private static void SetShipPreSetup(GenericShip ship, int count)
+        public static void SetShipPreSetup(GenericShip ship, int count = 1)
         {
             float distance = CalculateDistance(ship.Owner.Ships.Count);
             float side = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? -1 : 1;
+
             ship.SetPosition(
                 BoardIntoWorld(
-                    new Vector3(-SIZE_X / 2 + count * distance, 0, side * (SIZE_Y / 2 + DISTANCE_1))
+                    new Vector3(
+                        -SIZE_X / 2 + count * distance,
+                        0,
+                        side * (SIZE_Y / 2 + DISTANCE_1)
+                    )
                 )
             );
 
-            RegisterBoardObject(ship);
+            ship.SetAngles(
+                new Vector3(
+                    ship.GetAngles().x,
+                    (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? 0 : 180,
+                    ship.GetAngles().z
+                )
+            );
         }
 
-        public static void HighlightStartingZones()
+        public static void HighlightStartingZones(Players.PlayerNo playerNo)
         {
-            StartingZone1.SetActive(Phases.CurrentPhasePlayer == Players.PlayerNo.Player1);
-            StartingZone2.SetActive(Phases.CurrentPhasePlayer == Players.PlayerNo.Player2);
+            TurnOffStartingZones();
+            GetStartingZone(playerNo).gameObject.SetActive(true);
+        }
+
+        public static void HighlightStartingZones(Direction direction)
+        {
+            TurnOffStartingZones();
+            GetStartingZone(direction).gameObject.SetActive(true);
         }
 
         public static void TurnOffStartingZones()
         {
             StartingZone1.SetActive(false);
             StartingZone2.SetActive(false);
+            StartingZone3.SetActive(false);
+            StartingZone4.SetActive(false);
         }
 
         //SCALING TOOLS
@@ -137,6 +160,33 @@ namespace BoardTools
         public static Transform GetStartingZone(Players.PlayerNo playerNo)
         {
             return (playerNo == Players.PlayerNo.Player1) ? StartingZone1.transform : StartingZone2.transform;
+        }
+
+        public static Transform GetStartingZone(Direction side)
+        {
+            Transform result = null;
+
+            switch (side)
+            {
+                case Direction.Top:
+                    result = StartingZone2.transform;
+                    break;
+                case Direction.Bottom:
+                    result = StartingZone1.transform;
+                    break;
+                case Direction.Left:
+                    result = StartingZone3.transform;
+                    break;
+                case Direction.Right:
+                    result = StartingZone4.transform;
+                    break;
+                case Direction.None:
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
         }
 
         public static bool ShipStandIsInside(GameObject shipObject, Transform zone)

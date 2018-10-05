@@ -16,11 +16,11 @@ namespace UpgradesList
 			Cost = 3;
 
             UpgradeAbilities.Add(new StealthDeviceAbility());
-		}
+        }
 
         public void AdaptUpgradeToSecondEdition()
         {
-            //Nothing to do here, behavior is slightly different, see trigger below for stealth device ability
+            SEImageNumber = 77;
         }
 
         public void UpdateCost(GenericShip ship)

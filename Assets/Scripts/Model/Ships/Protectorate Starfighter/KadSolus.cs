@@ -24,6 +24,8 @@ namespace Ship
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.KadSolusAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.KadSolusAbility());
+
+                SEImageNumber = 158;
             }
         }
     }

@@ -220,7 +220,7 @@ public class UI : MonoBehaviour {
 
     public static void CallClickSkipPhase()
     {
-        HideNextButton();
+        HideSkipButton();
         Roster.AllShipsHighlightOff();
 
         GameMode.CurrentGameMode.ExecuteCommand(GenerateSkipButtonCommand());

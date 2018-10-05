@@ -29,6 +29,8 @@ namespace Ship
                 PilotName = "\"Mauler\" Mithel";
                 PilotSkill = 5;
                 Cost = 32;
+
+                SEImageNumber = 80;
             }
         }
     }

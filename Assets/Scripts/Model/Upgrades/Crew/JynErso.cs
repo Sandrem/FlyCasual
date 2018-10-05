@@ -10,10 +10,11 @@ using UnityEngine;
 using BoardTools;
 using Tokens;
 using ActionsList;
+using RuleSets;
 
 namespace UpgradesList
 {
-    public class JynErso : GenericUpgrade
+    public class JynErso : GenericUpgrade, ISecondEditionUpgrade
     {
         public JynErso() : base()
         {
@@ -26,6 +27,16 @@ namespace UpgradesList
             AvatarOffset = new Vector2(68, 0);
 
             UpgradeAbilities.Add(new JynErsoAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 3;
+
+            UpgradeAbilities.RemoveAll(a => a is JynErsoAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.JynErsoAbilitySE());
+
+            SEImageNumber = 85;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -187,6 +198,17 @@ namespace ActionsList
         {
             // Let's not lead the player to use the action if they will get no benefit out of it
             return AreThereEnemiesInArc;
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class JynErsoAbilitySE : JanOrsCrewAbility
+    {
+        protected override void MarkAbilityAsUsed()
+        {
+            // Do nothing
         }
     }
 }

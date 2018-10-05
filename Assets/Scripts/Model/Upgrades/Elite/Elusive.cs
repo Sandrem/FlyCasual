@@ -95,7 +95,8 @@ namespace ActionsList
                 CallBack = callBack
             };
 
-            Source.SpendCharge(diceRerollManager.Start);
+            Source.SpendCharge();
+            diceRerollManager.Start();
         }
 
         public override bool IsDiceModificationAvailable()

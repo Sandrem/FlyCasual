@@ -162,7 +162,8 @@ namespace ActionsList.SecondEdition
         public override void ActionEffect(Action callBack)
         {
             Combat.DiceRollDefence.ChangeOne(DieSide.Success, DieSide.Blank, false);
-            Source.SpendCharge(callBack);
+            Source.SpendCharge();
+            callBack();
         }
 
     }

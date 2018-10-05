@@ -324,7 +324,7 @@ namespace Upgrade
             Slot.TryInstallUpgrade(newUpgrade, Host);
         }
 
-        public void SpendCharge(Action callBack)
+        public void SpendCharge()
         {
             Charges--;
             if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
@@ -333,8 +333,6 @@ namespace Upgrade
 
             Name = NameOriginal + " (" + Charges + ")";
             Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
-
-            callBack();
         }
 
         public void RestoreCharge()

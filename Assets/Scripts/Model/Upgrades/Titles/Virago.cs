@@ -116,7 +116,13 @@ namespace Abilities.SecondEdition
         private void RegisterSpendChargeTrigger(GenericAction action)
         {
             HostShip.BeforeFreeActionIsPerformed -= RegisterSpendChargeTrigger;
-            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, delegate { HostUpgrade.SpendCharge(Triggers.FinishTrigger); });
+            RegisterAbilityTrigger(
+                TriggerTypes.OnFreeAction,
+                delegate {
+                    HostUpgrade.SpendCharge();
+                    Triggers.FinishTrigger();
+                }
+            );
         }
 
         private void CleanUp()

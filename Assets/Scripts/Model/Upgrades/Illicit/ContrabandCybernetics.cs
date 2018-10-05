@@ -134,7 +134,8 @@ namespace Abilities.SecondEdition
     {
         protected override void PayActivationCost(Action callback)
         {
-            HostUpgrade.SpendCharge(callback);
+            HostUpgrade.SpendCharge();
+            callback();
         }
 
         protected override bool IsAbilityCanBeUsed()

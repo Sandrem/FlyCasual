@@ -132,7 +132,8 @@ namespace Upgrade
             }
             else if (UsesCharges)
             {
-                SpendCharge(callBack);
+                SpendCharge();
+                callBack();
             }
             else
             {

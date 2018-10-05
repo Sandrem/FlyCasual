@@ -122,7 +122,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private void ShowTextVersionOfCard()
     {
         this.transform.Find("UpgradeInfo").GetComponent<Text>().text = UpgradeName;
-        this.transform.Find("CostInfo").GetComponent<Text>().text = Upgrade.Cost.ToString();
+        if (RuleSet.Instance is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Upgrade.Cost.ToString();
 
         this.gameObject.SetActive(true);
     }

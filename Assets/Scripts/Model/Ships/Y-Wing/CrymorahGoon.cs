@@ -19,6 +19,8 @@ namespace Ship
 
                 SkinName = "Brown";
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
+
                 PilotRuleType = typeof(SecondEdition);
 
                 SEImageNumber = 168;

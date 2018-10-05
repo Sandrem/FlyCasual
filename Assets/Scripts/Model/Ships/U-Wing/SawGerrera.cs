@@ -35,6 +35,8 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 52;
 
+                PrintedUpgradeIcons.Add(UpgradeType.Illicit);
+
                 PilotAbilities.RemoveAll(ability => ability is Abilities.SawGerreraPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.SawGarreraAbilitySE());
 

@@ -31,7 +31,8 @@ namespace Ship
                 ActionBar.RemovePrintedAction(typeof(FocusAction));
                 ActionBar.AddPrintedAction(new CalculateAction());
 
-                UpgradeBar.AddSlot(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotAbilities.Add(new P4LOMAbility());
 
                 SEImageNumber = 201;

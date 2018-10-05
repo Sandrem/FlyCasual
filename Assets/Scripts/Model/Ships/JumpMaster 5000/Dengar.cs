@@ -38,6 +38,8 @@ namespace Ship
                 PilotAbilities.RemoveAll(a => a is DengarPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DengarPilotAbilitySE());
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 SEImageNumber = 214;
             }
         }

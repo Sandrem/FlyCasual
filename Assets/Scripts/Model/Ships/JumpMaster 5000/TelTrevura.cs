@@ -22,10 +22,10 @@ namespace Ship
 
                 IsUnique = true;
 
-                // Already have Elite icon from JumpMaster5000 class
-
                 UsesCharges = true;
                 MaxCharges = 1;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SecondEdition.TelTrevuraAbilitySE());
 

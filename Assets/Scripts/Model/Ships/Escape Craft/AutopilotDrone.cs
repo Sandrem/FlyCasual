@@ -22,6 +22,9 @@ namespace Ship
                 UsesCharges = true;
                 MaxCharges = 3;
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Crew);
+                UpgradeBar.RemoveSlot(Upgrade.UpgradeType.Modification);
+
                 ShipAbilities.Add(new Abilities.SecondEdition.AutopilotDroneAbility());
 
                 SEImageNumber = 229;

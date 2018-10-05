@@ -21,6 +21,8 @@ namespace Ship
 
                 IsUnique = true;
 
+                PilotRuleType = typeof(SecondEdition);
+
                 PilotAbilities.Add(new Abilities.SecondEdition.DeathrainAbilitySE());
 
                 SEImageNumber = 140;

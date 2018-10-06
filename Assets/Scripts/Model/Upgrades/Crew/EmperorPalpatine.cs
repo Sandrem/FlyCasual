@@ -17,7 +17,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(68, 9);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(68, 9));
                         
             UpgradeAbilities.Add(new EmperorPalpatineCrewAbility());
         }

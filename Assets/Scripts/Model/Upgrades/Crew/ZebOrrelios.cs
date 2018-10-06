@@ -17,7 +17,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            // AvatarOffset = new Vector2(54, 1);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(54, 1));
 
             UpgradeAbilities.Add(new ZebOrreliosCrewAbility());
         }

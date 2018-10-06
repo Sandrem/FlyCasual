@@ -24,7 +24,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(68, 0);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(68, 0));
 
             UpgradeAbilities.Add(new JynErsoAbility());
         }

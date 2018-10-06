@@ -19,7 +19,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(47, 1);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(47, 1));
 
             UpgradeAbilities.Add(new BosskCrewAbility());
         }

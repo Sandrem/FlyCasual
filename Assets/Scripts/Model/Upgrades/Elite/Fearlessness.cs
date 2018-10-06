@@ -14,7 +14,7 @@ namespace UpgradesList
             Name = "Fearlessness";
             Cost = 1;
 
-            AvatarOffset = new Vector2(80, 0);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(80, 0));
 
             UpgradeAbilities.Add(new FearlessnessAbility());
         }

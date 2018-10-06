@@ -22,6 +22,8 @@ namespace UpgradesList
             isUnique = true;
 
             UpgradeAbilities.Add(new JanOrsCrewAbility());
+
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(0, 0));
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

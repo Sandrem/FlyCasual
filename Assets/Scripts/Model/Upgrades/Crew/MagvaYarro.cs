@@ -1,6 +1,7 @@
 ﻿using Abilities;
 using Ship;
 using SubPhases;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList
@@ -16,6 +17,8 @@ namespace UpgradesList
             isUnique = true;
 
             UpgradeAbilities.Add(new MagvaYarroAbility());
+
+            //Avatar = new AvatarInfo(Faction.Rebel, new Vector2(0, 0));
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

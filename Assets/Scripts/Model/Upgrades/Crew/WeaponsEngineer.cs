@@ -13,7 +13,7 @@ namespace UpgradesList
             Name = "Weapons Engineer";
             Cost = 3;
 
-            AvatarOffset = new Vector2(60, 1);
+            Avatar = new AvatarInfo(Faction.None, new Vector2(60, 1));
 
             UpgradeAbilities.Add(new Abilities.WeaponsEngineerAbility());
         }

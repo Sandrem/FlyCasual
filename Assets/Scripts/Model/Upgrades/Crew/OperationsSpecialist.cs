@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tokens;
 using ActionsList;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -20,6 +21,8 @@ namespace UpgradesList
             isLimited = true;
 
             UpgradeAbilities.Add(new OperationsSpecialistAbility());
+
+            //Avatar = new AvatarInfo(Faction.None, new Vector2(0, 0));
         }
     }
 }

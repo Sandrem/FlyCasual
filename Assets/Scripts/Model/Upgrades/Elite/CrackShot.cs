@@ -18,7 +18,7 @@ namespace UpgradesList
             Name = "Crack Shot";
             Cost = 1;
 
-            AvatarOffset = new Vector2(43, 1);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(43, 1));
 
             UpgradeAbilities.Add(new CrackShotAbility());
         }

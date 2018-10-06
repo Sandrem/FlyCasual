@@ -31,7 +31,6 @@ public class ModsUI : MonoBehaviour {
 
         foreach (var mod in ModsManager.GetAllMods())
         {
-            Transform existingModeRecord = ModsPanel.transform.Find(mod.Key.ToString());
             GameObject ModRecord;
 
             ModRecord = MonoBehaviour.Instantiate(prefab, ModsPanel.transform);

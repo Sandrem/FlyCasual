@@ -18,7 +18,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(44, 2);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(44, 2));
 
             UpgradeAbilities.Add(new Ig2000Ability());
         }

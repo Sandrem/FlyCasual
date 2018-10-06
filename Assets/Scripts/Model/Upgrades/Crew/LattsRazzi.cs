@@ -18,7 +18,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            // AvatarOffset = new Vector2(37, 0);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(37, 0));
 
             UpgradeAbilities.Add(new LattsRazziCrewAbility());
         }

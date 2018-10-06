@@ -13,7 +13,7 @@ namespace UpgradesList
             Name = "Veteran Instincts";
             Cost = 1;
 
-            AvatarOffset = new Vector2(56, 0);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(56, 0));
 
             UpgradeAbilities.Add(new VeteranInstinctsAbility());
         }

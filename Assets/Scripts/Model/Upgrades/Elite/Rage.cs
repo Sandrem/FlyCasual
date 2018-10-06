@@ -17,7 +17,7 @@ namespace UpgradesList
 
 			UpgradeAbilities.Add (new RageAbility ());
 
-            AvatarOffset = new Vector2(53, 1);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(53, 1));
         }
 	}
 }

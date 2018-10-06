@@ -77,22 +77,21 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
     private void SetFromModeName()
     {
-        Text infoText = this.transform.Find("FromModInfo").GetComponent<Text>();
+        if (Ship.RequiredMods.Count != 0)
+        {
+            Text infoText = this.transform.Find("FromModInfo").GetComponent<Text>();
 
-        if (RuleSet.Instance is FirstEdition)
-        {
-            if (Ship.RequiredMods.Count != 0)
-            {
-                Mod mod = (Mod)Activator.CreateInstance(Ship.RequiredMods[0]);
-                string postfix = (Ship.RequiredMods.Count > 1) ? " + ..." : "";
-                infoText.text = mod.Name + postfix;
-            }
+            Mod mod = (Mod)Activator.CreateInstance(Ship.RequiredMods[0]);
+            string postfix = (Ship.RequiredMods.Count > 1) ? " + ..." : "";
+            infoText.text = mod.Name + postfix;
         }
-        else if (RuleSet.Instance is SecondEdition)
+
+        if (RuleSet.Instance is SecondEdition)
         {
-            infoText.alignment = TextAnchor.MiddleRight;
-            infoText.fontSize = 50;
-            infoText.text = Ship.Cost.ToString();
+            this.transform.Find("FromModInfo").GetComponent<RectTransform>().localPosition += new Vector3(0, -30, 0);
+
+            Text SeCostText = this.transform.Find("SeCostInfo").GetComponent<Text>();
+            SeCostText.text = Ship.Cost.ToString();
 
             Text slotsText = this.transform.Find("SlotsInfo").GetComponent<Text>();
             if (Ship.PrintedUpgradeIcons.Contains(Upgrade.UpgradeType.Elite)) slotsText.text += "E";

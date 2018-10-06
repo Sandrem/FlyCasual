@@ -165,7 +165,7 @@ namespace Ship
             {
                 foreach (var modType in RequiredMods)
                 {
-                    if (!ModsManager.Mods[modType].IsOn) return false;
+                    if (!ModsManager.Mods[modType].IsAvailable()) return false;
                 }
             }
 

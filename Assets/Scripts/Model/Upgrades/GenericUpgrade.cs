@@ -147,7 +147,7 @@ namespace Upgrade
 
             if (IsHidden) return false;
 
-            if (FromMod != null && !ModsManager.Mods[FromMod].IsOn) return false;
+            if (FromMod != null && !ModsManager.Mods[FromMod].IsAvailable()) return false;
             //if (FromMod != null && FromMod.Count != 0 && !ModsManager.Mods[FromMod[1]].IsOn) return false;
             return result;
         }

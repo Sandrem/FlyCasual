@@ -146,14 +146,31 @@ public static partial class Combat
             UI.HideSkipButton();
             Roster.AllShipsHighlightOff();
 
+            SetArcAsUsedForAttack();
             DeclareAttackerAndDefender();
-
             CheckFireLineCollisions();
         }
         else
         {
             IsAttackAlreadyCalled = false;
             Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
+        }
+    }
+
+    private static void SetArcAsUsedForAttack()
+    {
+        if (Combat.ShotInfo.ShotAvailableFromArcs.Count == 1)
+        {
+            Combat.ShotInfo.ShotAvailableFromArcs.First().WasUsedForAttackThisRound = true;
+        }
+        else if (Combat.ShotInfo.ShotAvailableFromArcs.Count > 1)
+        {
+            // if few arcs are available, non-mobile arc is used
+            Combat.ShotInfo.ShotAvailableFromArcs.First(a => a.ArcType != Arcs.ArcTypes.Mobile).WasUsedForAttackThisRound = true;
+        }
+        else
+        {
+            Messages.ShowError("ERROR: No available arcs?");
         }
     }
 

@@ -25,7 +25,7 @@ namespace Ship
                 PilotSkill = 5;
                 Cost = 42;
 
-                ImageUrl = "https://i.imgur.com/HjobXeu.png";
+                ImageUrl = "https://i.imgur.com/lzgv9da.png";
 
                 RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.FirstEditionPilotsMod) };
             }

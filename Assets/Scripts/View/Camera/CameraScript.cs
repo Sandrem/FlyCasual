@@ -25,6 +25,7 @@ public class CameraScript : MonoBehaviour {
     private const float MIN_ROTATION = 0f;
 
     private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
+    private const float SENSITIVITY_TOUCH_MOVE_ZOOMED_IN = SENSITIVITY_TOUCH_MOVE / 7;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
     private const float SENSITIVITY_TOUCH_ZOOM = 0.0375f; // was .075//TODO: Turn down a bit? Seems a bit too fast still, especially in 2d mode
     //TODO: need to ensure thresholds are resolution-independant?
@@ -46,9 +47,35 @@ public class CameraScript : MonoBehaviour {
     private float totalTouchMoveDuration = 0f;
     private Vector2 totalTouchMove = new Vector2(0.0f, 0.0f);
 
-    public static bool InputAxisAreDisabled = false;
-    public static bool InputMouseIsDisabled = false;
-    public static bool InputTouchIsEnabled = false; //TODO: Key everytihng off this so it can be disabled etc. add console command prolly?
+    public static bool InputAxisAreEnabled = true;
+    bool _inputMouseIsEnabled = true;
+    public bool InputMouseIsEnabled
+    {
+        get { return _inputMouseIsEnabled; }
+        set {
+            _inputMouseIsEnabled = value;
+
+            // Mouse and touch are exclusive
+            if (_inputMouseIsEnabled) {
+                _inputTouchIsEnabled = false;
+            }
+        }
+    }
+    bool _inputTouchIsEnabled = false;
+    public bool InputTouchIsEnabled
+    {
+        get { return _inputTouchIsEnabled; }
+        set
+        {
+            _inputTouchIsEnabled = value;
+
+            // Mouse and touch are exclusive
+            if (_inputTouchIsEnabled)
+            {
+                _inputMouseIsEnabled = false;
+            }
+        }
+    }
     public static bool TouchInputsPaused = false;
 
     private enum CameraModes
@@ -87,17 +114,24 @@ public class CameraScript : MonoBehaviour {
         //TODO: Call hide context menu only once
         CheckChangeMode();
 
-        if (InputTouchIsEnabled) {
-            CamAdjustByTouch();
+        if (InputTouchIsEnabled)
+        {
+            CamRotateZoomByTouch();
+            CamMoveByTouch();
         }
-        else
+
+        if (InputMouseIsEnabled)
         {
             CamMoveByMouse();
             CamZoomByMouseScroll();
             CamRotateByMouse();
         }
 
-        CamMoveByAxis();
+        if (InputAxisAreEnabled)
+        {
+            CamMoveByAxis();
+        }
+
         CamClampPosition();
     }
 
@@ -128,7 +162,6 @@ public class CameraScript : MonoBehaviour {
     private void CamMoveByAxis()
     {
         if (Console.IsActive || Input.GetKey(KeyCode.LeftControl)) return;
-        if (InputAxisAreDisabled) return;
 
         float x = Input.GetAxis("Horizontal") * SENSITIVITY_MOVE;
         float y = Input.GetAxis("Vertical") * SENSITIVITY_MOVE;
@@ -138,8 +171,6 @@ public class CameraScript : MonoBehaviour {
 
     private void CamMoveByMouse()
     {
-        if (InputMouseIsDisabled) return;
-
         float x = 0;
         if (Input.mousePosition.x < MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x >= 0)) x = -1f * SENSITIVITY_MOVE;
         else if (Input.mousePosition.x > Screen.width - MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x <= Screen.width)) x = 1f * SENSITIVITY_MOVE;
@@ -236,13 +267,14 @@ public class CameraScript : MonoBehaviour {
         UI.HideTemporaryMenus();
     }
 
-    // Pinch zoom for mobile
+    // Pinch zoom, two finger rotate, and one finger pan for mobile
 
-    void CamAdjustByTouch()
+    void CamRotateZoomByTouch()
     {
 
         if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height ||
-                                     TouchInputsPaused)) {
+                                     TouchInputsPaused))
+        {
             // Don't listen to touches that are off-screen, or being handled elsewhere
             return;
         }
@@ -365,62 +397,81 @@ public class CameraScript : MonoBehaviour {
                 }
             }
         }
-        else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Moved)
+
+        // When gestures aren't in progress, reset values used to track them
+        if (Input.touchCount < 2)
         {
-            // TODO: Needs to scale with zoom level -- hmmm. current speed is good for zoom out, too fast for zoom all the way in
-            // TODO: do we need a threshold, for moves or for momentum specifically? hmm
-            Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
-            // Adjust sensitivity based on zoom level so the view always moves with your finger
-            // That means the view moves more when zoomed out than when zoomed in for the same physical movement
-            // TODO: may be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vecotr between them? This is probably faster though
-            float sensitivity = Mathf.Max(SENSITIVITY_TOUCH_MOVE, Mathf.Lerp(SENSITIVITY_TOUCH_MOVE / 7, SENSITIVITY_TOUCH_MOVE, (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT)));
-            //TODO: new constant for low end of sensitivity
-            deltaPosition = deltaPosition * -sensitivity;
+            initialPinchMagnitude = 0f;
+            lastProcessedPinchMagnitude = 0f;
 
+            initialRotateCenter = Vector2.zero;
+            lastProcessedRotateCenter = initialRotateCenter;
+        }
+    }
 
-            totalTouchMoveDuration += Time.deltaTime;
-            totalTouchMove += deltaPosition;
-            // don't use momentum on time <  .5s or distance < ~10px TODO: update comment
-            if (Console.IsActive) Console.Write("totaltouchmagnitude:" + totalTouchMove.magnitude / totalTouchMoveDuration, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+    void CamMoveByTouch()
+    {
+        if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height ||
+                             TouchInputsPaused))
+        {
+            // Don't listen to touches that are off-screen, or being handled elsewhere
+            return;
+        }
 
-            if (totalTouchMove.magnitude / totalTouchMoveDuration > MOMENTUM_THRESHOLD) //TODO: make constant? base on DPI?
+        if (Input.touchCount == 1)
+        {
+            // One touch -- do camera pan handling
+
+            if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
-                panningMomentum = totalTouchMove / totalTouchMoveDuration;
+                // Stop momentum as soon as one finger is touched to the screen
+                panningMomentum = Vector2.zero;
             }
             else
             {
-                panningMomentum = Vector2.zero;
+
+                if (Input.GetTouch(0).phase == TouchPhase.Moved)
+                {
+                    Vector2 deltaPosition = Input.GetTouch(0).deltaPosition;
+
+                    // Adjust sensitivity based on zoom level so the view always moves with your finger
+                    // That means the view moves more when zoomed out than when zoomed in for the same physical movement
+                    // TODO: may be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vector between them? This is probably faster though
+                    float sensitivity = Mathf.Max(SENSITIVITY_TOUCH_MOVE,
+                                                  Mathf.Lerp(SENSITIVITY_TOUCH_MOVE_ZOOMED_IN,
+                                                             SENSITIVITY_TOUCH_MOVE,
+                                                             (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT)));
+                    //TODO: new constant for low end of sensitivity
+                    deltaPosition = deltaPosition * -sensitivity;
+
+                    // Add momentum
+                    totalTouchMove += deltaPosition;
+                    if (Console.IsActive) Console.Write("totaltouchmagnitude:" + totalTouchMove.magnitude / totalTouchMoveDuration, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+
+                    // Move camera
+                    float x = deltaPosition.x;
+                    float y = deltaPosition.y;
+
+                    if ((x != 0) || (y != 0)) WhenViewChanged();
+                    transform.Translate(x, y, 0);
+                }
+
+                // Keep incrementing duration while 1 finger is down even if no movement is happening
+                totalTouchMoveDuration += Time.deltaTime;
+
+                if (totalTouchMove.magnitude / totalTouchMoveDuration > MOMENTUM_THRESHOLD) //TODO: make constant? base on DPI?
+                {
+                    panningMomentum = totalTouchMove / totalTouchMoveDuration;
+                }
+                else
+                {
+                    panningMomentum = Vector2.zero;
+                }
             }
 
-            float x = deltaPosition.x;
-            float y = deltaPosition.y;
-
-            if ((x != 0) || (y != 0)) WhenViewChanged();
-            transform.Translate(x, y, 0);
-
         }
-        else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
+        else if (Input.touchCount == 0 && panningMomentum.magnitude > .5)
         {
-            // Stop momentum as soon as one finger is touched to the screen
-            // TODO: make this not a special case?
-            panningMomentum = Vector2.zero;
-        }
-        else if (Input.touchCount == 1) {
-            // Keep incrementing duration even if no movement is happening
-            totalTouchMoveDuration += Time.deltaTime;
-
-
-            if (totalTouchMove.magnitude / totalTouchMoveDuration > MOMENTUM_THRESHOLD) //TODO: make constant? base on DPI?
-            {
-                panningMomentum = totalTouchMove / totalTouchMoveDuration;
-            }
-            else
-            {
-                panningMomentum = Vector2.zero;
-            }
-            // TODO: make this not a special case? at min, dedupe code between this and main pan if case
-        }
-        else if (Input.touchCount == 0 && panningMomentum.magnitude > .5) {
             // Keep panning with momentum
 
             panningMomentum *= Mathf.Pow(FRICTION_TOUCH_MOVE_MOMENTUM, Time.deltaTime);
@@ -433,18 +484,10 @@ public class CameraScript : MonoBehaviour {
             transform.Translate(x, y, 0);
 
         }
-        else if (Input.touchCount > 2 && Input.GetTouch(2).phase == TouchPhase.Ended) {
+        else if (Input.touchCount > 2 && Input.GetTouch(2).phase == TouchPhase.Ended)
+        {
             // TODO: this is mostly for debugging, will probably remove. we do probably need a close button at least for the console on mobile though
             Console.IsActive = !Console.IsActive;
-        }
-
-        // When gestures aren't in progress, reset values used to track them
-        if (Input.touchCount < 2) {
-            initialPinchMagnitude = 0f;
-            lastProcessedPinchMagnitude = 0f;
-
-            initialRotateCenter = Vector2.zero;
-            lastProcessedRotateCenter = initialRotateCenter;
         }
 
         if (Input.touchCount != 1) {

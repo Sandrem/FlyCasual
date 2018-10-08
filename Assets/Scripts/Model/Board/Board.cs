@@ -16,16 +16,17 @@ namespace BoardTools
         public static void SetShips()
         {
             int i = 1;
-            foreach (var ship in Roster.ShipsPlayer1)
+            foreach (var ship in Roster.ShipsPlayer1.Values)
             {
-                SetShipPreSetup(ship.Value, i);
+                SetShipPreSetup(ship, i);
+                RegisterBoardObject(ship);
                 i++;
             }
 
             i = 1;
-            foreach (var ship in Roster.ShipsPlayer2)
+            foreach (var ship in Roster.ShipsPlayer2.Values)
             {
-                SetShipPreSetup(ship.Value, i);
+                SetShipPreSetup(ship, i);
                 i++;
             }
         }
@@ -67,6 +68,34 @@ namespace BoardTools
             }
 
             return result;
+        }
+
+        public static Direction GetOffTheBoardDirection(GenericShip ship)
+        {
+            foreach (var obj in ship.ShipBase.GetStandEdgePoints())
+            {
+                if (obj.Value.x > PLAYMAT_SIZE / 2)
+                {
+                    return Direction.Right;
+                }
+
+                if (obj.Value.x < -PLAYMAT_SIZE / 2)
+                {
+                    return Direction.Left;
+                }
+
+                if (obj.Value.z > PLAYMAT_SIZE / 2)
+                {
+                    return Direction.Top;
+                }
+
+                if (obj.Value.z < -PLAYMAT_SIZE / 2)
+                {
+                    return Direction.Bottom;
+                }
+            }
+
+            return Direction.None;
         }
 
         //SCALING TOOLS

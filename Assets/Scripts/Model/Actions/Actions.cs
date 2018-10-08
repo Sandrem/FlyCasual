@@ -68,8 +68,7 @@ public static partial class Actions
     {
         if (Letters.Count == 0) InitializeTargetLockLetters();
 
-        DistanceInfo distanceInfo = new DistanceInfo(thisShip, targetShip);
-        if (ignoreRange || (distanceInfo.Range >= thisShip.TargetLockMinRange && distanceInfo.Range <= thisShip.TargetLockMaxRange))
+        if (ignoreRange || Rules.TargetLocks.TargetLockIsAllowed(thisShip, targetShip))
         {
             List<BlueTargetLockToken> existingBlueTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>('*');
 
@@ -274,9 +273,9 @@ public static partial class Actions
         return result;
     }
 
-    public static char GetTargetLocksLetterPair(GenericShip thisShip, GenericShip targetShip)
+    public static List<char> GetTargetLocksLetterPairs(GenericShip thisShip, GenericShip targetShip)
     {
-        return thisShip.Tokens.GetTargetLockLetterPair(targetShip);
+        return thisShip.Tokens.GetTargetLockLetterPairsOn(targetShip);
     }
 
     private static void TakeTargetLockLetter(char takenLetter)
@@ -398,9 +397,8 @@ public static partial class Actions
 
     public static bool HasTargetLockOn(GenericShip attacker, GenericShip defender)
     {
-        char letter = ' ';
-        letter = Actions.GetTargetLocksLetterPair(attacker, defender);
-        return letter != ' ';
+        List<char> letter = GetTargetLocksLetterPairs(attacker, defender);
+        return letter.Count > 0;
     }
 
     // TAKE ACTION TRIGGERS
@@ -472,13 +470,13 @@ public static partial class Actions
         {
             if (assignedTargetLockToken.GetType() == typeof(BlueTargetLockToken))
             {
-                char existingTlOnSameTarget = GetTargetLocksLetterPair(newOwner, assignedTargetLockToken.OtherTokenOwner);
-                if (existingTlOnSameTarget != ' ')
+                List<char> existingTlOnSameTarget = GetTargetLocksLetterPairs(newOwner, assignedTargetLockToken.OtherTokenOwner);
+                if (existingTlOnSameTarget.Count > 0)
                 {
                     newOwner.Tokens.RemoveToken(
                         typeof(BlueTargetLockToken),
                         delegate { FinishReassignToken(letter, oldOwner, newOwner, callback); },
-                        existingTlOnSameTarget
+                        existingTlOnSameTarget.First()
                     );
                 }
                 else
@@ -488,13 +486,13 @@ public static partial class Actions
             }
             else
             {
-                char existingTlOnSameTarget = GetTargetLocksLetterPair(assignedTargetLockToken.OtherTokenOwner, newOwner);
-                if (existingTlOnSameTarget != ' ')
+                List<char> existingTlOnSameTarget = GetTargetLocksLetterPairs(assignedTargetLockToken.OtherTokenOwner, newOwner);
+                if (existingTlOnSameTarget.Count > 0)
                 {
                     newOwner.Tokens.RemoveToken(
                         typeof(RedTargetLockToken),
                         delegate { FinishReassignToken(letter, oldOwner, newOwner, callback); },
-                        existingTlOnSameTarget
+                        existingTlOnSameTarget.First()
                     );
                 }
                 else

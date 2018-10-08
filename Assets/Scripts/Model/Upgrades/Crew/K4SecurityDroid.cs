@@ -14,7 +14,7 @@ namespace UpgradesList
             Name = "K4 Security Droid";
             Cost = 3;
 
-            AvatarOffset = new Vector2(65, 5);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(65, 5));
 
             UpgradeAbilities.Add(new K4SecurityDroidAbility());
         }

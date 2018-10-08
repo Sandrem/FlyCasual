@@ -81,8 +81,6 @@ namespace Ship
 
                 ActionBar.AddPrintedAction(new ReinforceForeAction());
                 ActionBar.AddPrintedAction(new ReinforceAftAction());
-
-                IconicPilots[Faction.Scum] = typeof(TrandoshanSlaver);
             }
 
         }

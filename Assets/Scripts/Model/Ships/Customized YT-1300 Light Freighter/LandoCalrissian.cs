@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using RuleSets;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,7 +47,8 @@ namespace Abilities.SecondEdition
                 DiceModificationType.Reroll,
                 2,
                 new List<DieSide>() { DieSide.Blank },
-                timing: DiceModificationTimingType.AfterRolled
+                timing: DiceModificationTimingType.AfterRolled,
+                payAbilityCost: PayAbilityCost
             );
         }
 
@@ -63,6 +65,11 @@ namespace Abilities.SecondEdition
         public override void DeactivateAbility()
         {
             RemoveDiceModification();
+        }
+
+        private void PayAbilityCost(Action<bool> callback)
+        {
+            HostShip.Tokens.AssignToken(typeof(Tokens.StressToken), () => callback(true));
         }
     }
 }

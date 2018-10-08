@@ -79,7 +79,7 @@ namespace Ship
                 FullType = "TIE/ln Fighter";
 
                 IconicPilots[Faction.Imperial] = typeof(BlackSquadronAce);
-                IconicPilots[Faction.Rebel] = typeof(SabineWren);
+                IconicPilots[Faction.Rebel] = typeof(CaptainRex);
             }
 
         }

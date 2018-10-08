@@ -259,7 +259,7 @@ namespace SubPhases
             isInsideStartingZone = false;
             Roster.SetRaycastTargets(false);
             Roster.AllShipsHighlightOff();
-            Board.HighlightStartingZones();
+            Board.HighlightStartingZones(Phases.CurrentSubPhase.RequiredPlayer);
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;
             inReposition = true;
         }

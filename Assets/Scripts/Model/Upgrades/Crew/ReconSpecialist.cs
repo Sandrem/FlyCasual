@@ -15,7 +15,7 @@ namespace UpgradesList
             Name = "Recon Specialist";
             Cost = 3;
 
-            AvatarOffset = new Vector2(42, 3);
+            Avatar = new AvatarInfo(Faction.None, new Vector2(42, 3));
 
             UpgradeAbilities.Add(new ReconSpecialistAbility());
         }

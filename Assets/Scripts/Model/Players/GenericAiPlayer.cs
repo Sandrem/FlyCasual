@@ -205,7 +205,7 @@ namespace Players
                 GenericShip targetShip = shipHolder.Key;
                 float distance = shipHolder.Value;
 
-                if (Actions.GetTargetLocksLetterPair(Selection.ThisShip, targetShip) != ' ')
+                if (Actions.HasTargetLockOn(Selection.ThisShip, targetShip))
                 {
                     return TryToDeclareTarget(targetShip, distance);
                 }

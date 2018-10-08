@@ -15,7 +15,7 @@ namespace MainPhases
         {
             Name = "Systems Phase";
 
-            Phases.CurrentSubPhase = new SystemsSubPhase();
+            Phases.CurrentSubPhase = new SystemsStartSubPhase();
             Phases.CurrentSubPhase.Start();
             Phases.CurrentSubPhase.Prepare();
             Phases.CurrentSubPhase.Initialize();

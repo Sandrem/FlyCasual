@@ -15,7 +15,7 @@ namespace UpgradesList
             Name = "Finn";
             Cost = 5;
 
-            AvatarOffset = new Vector2(53, 0);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(53, 0));
 
             isUnique = true;
 

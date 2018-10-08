@@ -20,7 +20,7 @@ namespace UpgradesList
 
             isLimited = true;
 
-            AvatarOffset = new Vector2(45, 1);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(45, 1));
 
             UpgradeAbilities.Add(new SystemsOfficerAbility());
         }

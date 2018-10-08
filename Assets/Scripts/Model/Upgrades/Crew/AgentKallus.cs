@@ -16,7 +16,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(43, 1);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(43, 1));
 
             UpgradeAbilities.Add(new AgentKallusAbility());
         }

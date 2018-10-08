@@ -36,7 +36,7 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Rules.Docking.Dock(GetHisShip, FindPhantom);
+            Rules.Docking.Dock(GetThisShip, FindPhantom);
         }
 
         public override void DeactivateAbility()
@@ -44,7 +44,7 @@ namespace Abilities
             // No effect
         }
 
-        private GenericShip GetHisShip()
+        private GenericShip GetThisShip()
         {
             return this.HostShip;
         }

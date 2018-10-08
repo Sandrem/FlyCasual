@@ -68,8 +68,7 @@ namespace Abilities
             ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
             if (!shotInfo.InArc || shotInfo.Range >= 3) return;
 
-            targetLock = HostShip.Tokens.GetTargetLockLetterPair(ship);
-            if (targetLock == ' ') return;
+            if (!Actions.HasTargetLockOn(HostShip, ship)) return;
 
             threatTrackerTarget = ship;
 

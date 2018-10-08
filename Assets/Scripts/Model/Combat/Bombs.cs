@@ -246,7 +246,7 @@ namespace Bombs
         {
             if (CurrentBomb != null)
             {
-                if (Selection.ThisShip.CanLaunchBombs)
+                if (Selection.ThisShip.CanLaunchBombsWithTemplate != 0)
                 {
                     AskWayToDropBomb();
                 }
@@ -286,25 +286,29 @@ namespace Bombs
             Phases.StartTemporarySubPhaseOld(
                 "Bomb drop planning",
                 typeof(BombDropPlanningSubPhase),
-                Triggers.FinishTrigger
+                delegate {
+                    Selection.ThisShip.CallBombWasDropped(Triggers.FinishTrigger);
+                }
             );
         }
 
         private static void DropBomb(object sender, System.EventArgs e)
         {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
             Phases.StartTemporarySubPhaseOld(
                 "Bomb drop planning",
                 typeof(BombDropPlanningSubPhase),
-                DecisionSubPhase.ConfirmDecision
+                delegate { Selection.ThisShip.CallBombWasDropped(Triggers.FinishTrigger); }
             );
         }
 
         private static void LaunchBomb(object sender, System.EventArgs e)
         {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
             Phases.StartTemporarySubPhaseOld(
                 "Bomb launch planning",
                 typeof(BombLaunchPlanningSubPhase),
-                DecisionSubPhase.ConfirmDecision
+                delegate { Selection.ThisShip.CallBombWasLaunched(Triggers.FinishTrigger); }
             );
         }
 

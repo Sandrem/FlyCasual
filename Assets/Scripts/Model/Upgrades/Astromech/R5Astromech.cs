@@ -143,7 +143,11 @@ namespace Abilities.SecondEdition
                     PayRepairCost = () =>
                     {
                         var result = false;
-                        if (HostUpgrade.Charges > 0) HostUpgrade.SpendCharge(() => result = true);
+                        if (HostUpgrade.Charges > 0)
+                        {
+                            HostUpgrade.SpendCharge();
+                            result = true;
+                        }
                         return result;
                     }
                 });

@@ -28,7 +28,11 @@ namespace Ship
 
             public void AdaptPilotToSecondEdition()
             {
-                IsHidden = true;
+                PilotSkill = 4;
+                Cost = 70;
+
+                PilotAbilities.RemoveAll(a => a is Abilities.BosskAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.BosskPilotAbilitySE());
 
                 SEImageNumber = 210;
             }
@@ -51,12 +55,11 @@ namespace Abilities
             HostShip.OnShotHitAsAttacker -= RegisterBosskPilotAbility;
         }
 
-
-        private void RegisterBosskPilotAbility()
+        protected virtual void RegisterBosskPilotAbility()
         {
-            Phases.CurrentSubPhase.Pause();
             if (Combat.DiceRollAttack.CriticalSuccesses > 0)
             {
+                Phases.CurrentSubPhase.Pause();
                 RegisterAbilityTrigger(TriggerTypes.OnShotHit, PromptToChangeCritSuccess);
             }
         }
@@ -93,6 +96,20 @@ namespace Abilities
             Messages.ShowInfoToHuman("Bossk: Changed one critical result into two success results.");
             DecisionSubPhase.ConfirmDecision();
             Phases.CurrentSubPhase.Resume();
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class BosskPilotAbilitySE : BosskAbility
+    {
+        protected override void RegisterBosskPilotAbility()
+        {
+            if (Combat.ChosenWeapon == HostShip.PrimaryWeapon)
+            {
+                base.RegisterBosskPilotAbility();
+            }
         }
     }
 }

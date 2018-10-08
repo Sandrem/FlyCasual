@@ -18,7 +18,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(9, 0);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(9, 0));
 
             UpgradeAbilities.Add(new SelflessnessAbility());
         }

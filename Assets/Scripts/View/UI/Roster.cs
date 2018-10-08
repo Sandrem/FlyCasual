@@ -24,6 +24,7 @@ public static partial class Roster {
         rosterPlayer1 = new List<GameObject>();
         rosterPlayer2 = new List<GameObject>();
         AllShips = new Dictionary<string, GenericShip>();
+        Reserve = new List<GenericShip>();
 
         PrepareSquadrons();
         CreatePlayers();

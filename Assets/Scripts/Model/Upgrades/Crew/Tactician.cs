@@ -16,7 +16,7 @@ namespace UpgradesList
 
             isLimited = true;
 
-            AvatarOffset = new Vector2(41, 1);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(41, 1));
 
             UpgradeAbilities.Add(new TacticianAbility());
         }

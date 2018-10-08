@@ -196,11 +196,9 @@ namespace Abilities.SecondEdition
 
             protected override void UpgradeSelected(GenericUpgrade upgrade, Action callback)
             {
-                upgrade.SpendCharge(() =>
-                {
-                    Host.TryRegenShields();
-                    callback();
-                });
+                upgrade.SpendCharge();
+                Host.TryRegenShields();
+                callback();
             }
         }
 

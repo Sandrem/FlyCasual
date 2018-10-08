@@ -21,7 +21,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(50, 2);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(50, 2));
 
             UpgradeAbilities.Add(new KananJarrusCrewAbility());
         }

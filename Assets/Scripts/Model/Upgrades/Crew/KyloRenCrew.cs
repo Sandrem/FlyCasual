@@ -20,7 +20,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(36, 0);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(36, 0));
 
             UpgradeAbilities.Add(new KyloRenCrewAbility());
         }

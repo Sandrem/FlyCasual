@@ -19,7 +19,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(58, 5);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(58, 5));
 
             UpgradeAbilities.Add(new JabbaTheHuttAbility());
         }

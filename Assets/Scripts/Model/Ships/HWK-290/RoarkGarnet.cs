@@ -30,6 +30,8 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 38;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotAbilities.RemoveAll(ability => ability is Abilities.RoarkGarnetAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.RoarkGarnetAbilitySE());
 

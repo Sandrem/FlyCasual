@@ -34,6 +34,8 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 38;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotAbilities.RemoveAll(ability => ability is Abilities.HortonSalmAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.HortonSalmAbilitySE());
 

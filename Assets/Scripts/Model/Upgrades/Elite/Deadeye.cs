@@ -17,7 +17,7 @@ namespace UpgradesList
             Name = "Deadeye";
             Cost = 1;
 
-            AvatarOffset = new Vector2(38, 3);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(38, 3));
 
             UpgradeAbilities.Add(new DeadeyeAbility());
         }

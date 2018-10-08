@@ -19,7 +19,7 @@ namespace UpgradesList
             Name = "Wookiee Commandos";
             Cost = 1;
 
-            AvatarOffset = new Vector2(23, 0);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(23, 0));
 
             UpgradeAbilities.Add(new WookieeCommandosCrewAbility());
         }

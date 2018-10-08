@@ -14,7 +14,7 @@ namespace UpgradesList
             Name = "Bombardier";
             Cost = 1;
 
-            AvatarOffset = new Vector2(23, 1);
+            Avatar = new AvatarInfo(Faction.None, new Vector2(23, 1));
 
             UpgradeAbilities.Add(new BombardierAbility());
         }

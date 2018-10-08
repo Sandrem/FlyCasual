@@ -20,7 +20,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(55, 4);
+            Avatar = new AvatarInfo(Faction.None, new Vector2(55, 4));
 
             UpgradeAbilities.Add(new ExperimentalInterfaceAbility());
         }

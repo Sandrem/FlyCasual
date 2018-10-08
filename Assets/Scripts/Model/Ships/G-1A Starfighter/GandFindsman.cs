@@ -23,6 +23,8 @@ namespace Ship
                 PilotSkill = 1;
                 Cost = 43;
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
+
                 SEImageNumber = 203;
             }
         }

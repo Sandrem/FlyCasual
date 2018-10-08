@@ -17,7 +17,7 @@ namespace Ship
 
                 ImageUrl = "https://i.imgur.com/aakKh9D.png";
 
-                UpgradeBar.AddSlot(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 RequiredMods.Add(typeof(EliteYWingPilotsMod));
             }

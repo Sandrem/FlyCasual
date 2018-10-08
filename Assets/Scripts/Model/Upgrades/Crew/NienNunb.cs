@@ -16,7 +16,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(50, 1);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(50, 1));
 
             UpgradeAbilities.Add(new Abilities.NienNunbCrewAbility());
         }

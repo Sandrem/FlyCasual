@@ -17,6 +17,8 @@ namespace Ship
 
                 IsUnique = true;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.ViktorHelAbilitySE());
 

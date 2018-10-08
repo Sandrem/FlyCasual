@@ -23,6 +23,8 @@ namespace Ship
 
                 IsUnique = true;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
+
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.TorkilMuxAbilitySE());
 

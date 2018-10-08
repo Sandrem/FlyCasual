@@ -95,8 +95,6 @@ namespace Ship
                 Maneuvers.Add("3.L.R", MovementComplexity.Complex);
                 Maneuvers["3.L.B"] = MovementComplexity.Easy;
                 Maneuvers["3.F.S"] = MovementComplexity.Easy;
-
-                IconicPilots[Faction.Scum] = typeof(Manaroo);
             }
 
         }

@@ -17,7 +17,7 @@ namespace UpgradesList
             Cost = 2;
             isUnique = true;
 
-            // AvatarOffset = new Vector2(84, 0);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(84, 0));
 
             UpgradeAbilities.Add(new CaptainRexAbility());
         }

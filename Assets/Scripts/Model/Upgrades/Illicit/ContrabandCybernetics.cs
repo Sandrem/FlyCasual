@@ -6,10 +6,12 @@ using SubPhases;
 using Abilities;
 using UpgradesList;
 using Tokens;
+using RuleSets;
+using System;
 
 namespace UpgradesList
 {
-    public class ContrabandCybernetics : GenericUpgrade
+    public class ContrabandCybernetics : GenericUpgrade, ISecondEditionUpgrade
     {
         public ContrabandCybernetics() : base()
         {
@@ -18,6 +20,19 @@ namespace UpgradesList
             Cost = 1;
 
             UpgradeAbilities.Add(new ContrabandCyberneticsAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 5;
+
+            UsesCharges = true;
+            MaxCharges = 1;
+
+            SEImageNumber = 58;
+
+            UpgradeAbilities.RemoveAll(a => a is ContrabandCyberneticsAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.ContrabandCyberneticsAbilitySE());
         }
     }
 }
@@ -41,18 +56,33 @@ namespace Abilities
 
         private void RegisterTrigger(GenericShip ship)
         {
-            Triggers.RegisterTrigger(new Trigger()
+            if (IsAbilityCanBeUsed())
             {
-                Name = Name,
-                TriggerType = TriggerTypes.OnMovementActivation,
-                TriggerOwner = HostShip.Owner.PlayerNo,
-                EventHandler = AskUseContrabandCybernetics
-            });
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = Name,
+                    TriggerType = TriggerTypes.OnMovementActivation,
+                    TriggerOwner = HostShip.Owner.PlayerNo,
+                    EventHandler = AskUseContrabandCybernetics
+                });
+            }
+        }
+
+        protected virtual bool IsAbilityCanBeUsed()
+        {
+            return true;
         }
 
         private void AskUseContrabandCybernetics(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, ActivateContrabandCyberneticsAbility);
+            if (IsAbilityCanBeUsed())
+            {
+                AskToUseAbility(NeverUseByDefault, ActivateContrabandCyberneticsAbility);
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         public void ActivateContrabandCyberneticsAbility(object sender, System.EventArgs e)
@@ -60,18 +90,32 @@ namespace Abilities
             HostShip.OnMovementActivation -= RegisterTrigger;
             Phases.Events.OnEndPhaseStart_NoTriggers += DeactivateContrabandCyberneticsAbility;
 
-            HostShip.Tokens.AssignToken(typeof(StressToken), RemoveRestrictions);
+            PayActivationCost(RemoveRestrictions);
+        }
+
+        protected virtual void PayActivationCost(Action callback)
+        {
+            HostShip.Tokens.AssignToken(typeof(StressToken), callback);
         }
 
         private void RemoveRestrictions()
         {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            Messages.ShowInfo(HostUpgrade.Name + ": You can perform actions and red maneuvers, even while stressed");
+
             CanPerformActionsWhileStressedOriginal = HostShip.CanPerformActionsWhileStressed;
             HostShip.CanPerformActionsWhileStressed = true;
 
             CanPerformRedManeuversWhileStressedOriginal = HostShip.CanPerformRedManeuversWhileStressed;
             HostShip.CanPerformRedManeuversWhileStressed = true;
 
-            HostUpgrade.TryDiscard(DecisionSubPhase.ConfirmDecision);
+            FinishAbility();
+        }
+
+        protected virtual void FinishAbility()
+        {
+            HostUpgrade.TryDiscard(Triggers.FinishTrigger);
         }
 
         public void DeactivateContrabandCyberneticsAbility()
@@ -80,6 +124,28 @@ namespace Abilities
 
             HostShip.CanPerformActionsWhileStressed = CanPerformActionsWhileStressedOriginal;
             HostShip.CanPerformRedManeuversWhileStressed = CanPerformRedManeuversWhileStressedOriginal;
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class ContrabandCyberneticsAbilitySE : ContrabandCyberneticsAbility
+    {
+        protected override void PayActivationCost(Action callback)
+        {
+            HostUpgrade.SpendCharge();
+            callback();
+        }
+
+        protected override bool IsAbilityCanBeUsed()
+        {
+            return HostUpgrade.Charges > 0;
+        }
+
+        protected override void FinishAbility()
+        {
+            Triggers.FinishTrigger();
         }
     }
 }

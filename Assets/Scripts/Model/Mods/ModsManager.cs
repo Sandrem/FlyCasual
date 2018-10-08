@@ -11,14 +11,25 @@ namespace Mods
     {
         public string Name;
         public string Description;
+        public Type EditionType = typeof(RuleSets.FirstEdition);
 
         public bool IsOn;
+
+        public bool IsAvailable()
+        {
+            return IsOn && EditionType == RuleSets.RuleSet.Instance.GetType();
+        }
     }
 
     public static class ModsManager
     {
         public static Dictionary<Type, Mod> Mods;
         public static ModsUI UI;
+
+        public static Dictionary<Type, Mod> GetAllMods()
+        {
+            return Mods.Where(m => m.Value.EditionType == RuleSets.RuleSet.Instance.GetType()).ToDictionary(n => n.Key, n => n.Value);
+        }
 
         public static bool IsAnyModOn
         {

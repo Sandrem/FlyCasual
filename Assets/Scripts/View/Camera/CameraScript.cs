@@ -24,6 +24,7 @@ public class CameraScript : MonoBehaviour {
     private const float MAX_ROTATION = 89.99f;
     private const float MIN_ROTATION = 0f;
 
+    // Constants for touch controls
     private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
     private const float SENSITIVITY_TOUCH_MOVE_ZOOMED_IN = SENSITIVITY_TOUCH_MOVE / 7;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
@@ -39,6 +40,7 @@ public class CameraScript : MonoBehaviour {
     private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.2f; //was .3
     private const float MOMENTUM_THRESHOLD = 15f; // TODO: test, was 12, was good but a little too sensitive
 
+    // State for touch controls
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
     private float lastProcessedPinchMagnitude = 0f; // Magnitude of the pinch when we last actually zoomed
     private Vector2 initialRotateCenter = new Vector2(0.0f, 0.0f);
@@ -236,43 +238,12 @@ public class CameraScript : MonoBehaviour {
         }
 	}
 
-    // Restrictions for movement and rotation 
-
-    private float CamClampRotation(float turnX)
-    {
-		float currentTurnX = Camera.eulerAngles.x;
-		float newTurnX = turnX + currentTurnX;
-		if (newTurnX > MAX_ROTATION) {
-			turnX = MAX_ROTATION - currentTurnX;
-		}
-		else if (newTurnX < MIN_ROTATION) {
-			turnX = MIN_ROTATION - currentTurnX;
-		}
-		return turnX;
-	}
-
-	private void CamClampPosition()
-    {
-		transform.position = new Vector3 (
-			Mathf.Clamp(transform.position.x, -BORDER_SQUARE, BORDER_SQUARE),
-			Mathf.Clamp(transform.position.y, MIN_HEIGHT, MAX_HEIGHT),
-			Mathf.Clamp(transform.position.z, -BORDER_SQUARE, BORDER_SQUARE)
-		);
-	}
-
-    // What to do when view is changed
-
-    private void WhenViewChanged()
-    {
-        UI.HideTemporaryMenus();
-    }
-
     // Pinch zoom, two finger rotate, and one finger pan for mobile
 
     void CamRotateZoomByTouch()
     {
-
-        if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height ||
+        if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width ||
+                                     Input.GetTouch(0).position.y > Screen.height ||
                                      TouchInputsPaused))
         {
             // Don't listen to touches that are off-screen, or being handled elsewhere
@@ -280,7 +251,9 @@ public class CameraScript : MonoBehaviour {
         }
 
         // If there are two touches on the device
-        if (Input.touchCount == 2 && (Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetTouch(1).phase == TouchPhase.Moved)) // TODO: need to check phase too...?
+        if (Input.touchCount == 2 && 
+            (Input.GetTouch(0).phase == TouchPhase.Moved ||
+             Input.GetTouch(1).phase == TouchPhase.Moved))
         {
             // Store both touches
             Touch touchZero = Input.GetTouch(0);
@@ -411,17 +384,17 @@ public class CameraScript : MonoBehaviour {
 
     void CamMoveByTouch()
     {
-        if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width || Input.GetTouch(0).position.y > Screen.height ||
-                             TouchInputsPaused))
+        if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width ||
+                              Input.GetTouch(0).position.y > Screen.height ||
+                              TouchInputsPaused))
         {
             // Don't listen to touches that are off-screen, or being handled elsewhere
             return;
         }
 
+
         if (Input.touchCount == 1)
         {
-            // One touch -- do camera pan handling
-
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 // Stop momentum as soon as one finger is touched to the screen
@@ -441,7 +414,6 @@ public class CameraScript : MonoBehaviour {
                                                   Mathf.Lerp(SENSITIVITY_TOUCH_MOVE_ZOOMED_IN,
                                                              SENSITIVITY_TOUCH_MOVE,
                                                              (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT)));
-                    //TODO: new constant for low end of sensitivity
                     deltaPosition = deltaPosition * -sensitivity;
 
                     // Add momentum
@@ -494,6 +466,40 @@ public class CameraScript : MonoBehaviour {
             totalTouchMoveDuration = 0f;
             totalTouchMove = Vector2.zero; 
         }
+    }
+
+
+    // Restrictions for movement and rotation 
+
+    private float CamClampRotation(float turnX)
+    {
+        float currentTurnX = Camera.eulerAngles.x;
+        float newTurnX = turnX + currentTurnX;
+        if (newTurnX > MAX_ROTATION)
+        {
+            turnX = MAX_ROTATION - currentTurnX;
+        }
+        else if (newTurnX < MIN_ROTATION)
+        {
+            turnX = MIN_ROTATION - currentTurnX;
+        }
+        return turnX;
+    }
+
+    private void CamClampPosition()
+    {
+        transform.position = new Vector3(
+            Mathf.Clamp(transform.position.x, -BORDER_SQUARE, BORDER_SQUARE),
+            Mathf.Clamp(transform.position.y, MIN_HEIGHT, MAX_HEIGHT),
+            Mathf.Clamp(transform.position.z, -BORDER_SQUARE, BORDER_SQUARE)
+        );
+    }
+
+    // What to do when view is changed
+
+    private void WhenViewChanged()
+    {
+        UI.HideTemporaryMenus();
     }
 
 }

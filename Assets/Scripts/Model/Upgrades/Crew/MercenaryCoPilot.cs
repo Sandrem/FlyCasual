@@ -15,7 +15,7 @@ namespace UpgradesList
             Name = "Mercenary Copilot";
             Cost = 2;
 
-            AvatarOffset = new Vector2(46, 2);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(46, 2));
 
             UpgradeAbilities.Add(new MercenaryCopilotAbility());
         }

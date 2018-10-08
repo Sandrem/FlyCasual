@@ -18,7 +18,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(30, 1);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(30, 1));
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

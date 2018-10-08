@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ActionsList;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -59,9 +60,9 @@ namespace Ship
             LinkedActions.Add(new KeyValuePair<Type, GenericAction>(actionType, link));
         }
 
-        public void RemoveActionLink(Type actionType, Type linkedRedAction, GenericUpgrade source)
+        public void RemoveActionLink(Type actionType, Type linkedRedAction, GenericUpgrade source = null)
         {
-            KeyValuePair<Type, GenericAction> linkToRemove = LinkedActions.First(n => n.Key == actionType && n.Value.GetType() == linkedRedAction && n.Value.Source == source);
+            KeyValuePair<Type, GenericAction> linkToRemove = LinkedActions.FirstOrDefault(n => n.Key == actionType && n.Value.GetType() == linkedRedAction && n.Value.Source == source);
             LinkedActions.Remove(linkToRemove);
         }
 

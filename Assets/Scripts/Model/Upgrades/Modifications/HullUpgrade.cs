@@ -19,7 +19,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            // No update is required
+            SEImageNumber = 73;
         }
 
         public void UpdateCost(GenericShip ship)

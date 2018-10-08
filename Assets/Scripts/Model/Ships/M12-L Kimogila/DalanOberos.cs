@@ -8,12 +8,13 @@ using Ship;
 using System.Linq;
 using BoardTools;
 using Arcs;
+using RuleSets;
 
 namespace Ship
 {
     namespace M12LKimogila
     {
-        public class DalanOberos : M12LKimogila
+        public class DalanOberos : M12LKimogila, ISecondEditionPilot
         {
             public DalanOberos() : base()
             {
@@ -26,6 +27,20 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new PilotAbilitiesNamespace.DalanOberosAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 3;
+                Cost = 48;
+
+                UsesCharges = true;
+                MaxCharges = 2;
+
+                PilotAbilities.RemoveAll(a => a is PilotAbilitiesNamespace.DalanOberosAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.DalanOberosKimogilaAbility());
+
+                SEImageNumber = 208;
             }
         }
     }
@@ -97,6 +112,83 @@ namespace PilotAbilitiesNamespace
         private void UnSuccessfullSelection()
         {
             Messages.ShowErrorToHuman("Cannot aquire Target Lock");
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class DalanOberosKimogilaAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers += CheckAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers -= CheckAbility;
+        }
+
+        private void CheckAbility()
+        {
+            if (HostShip.Charges > 0 && IsTargetAvailable())
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskToSelectDalanOberosTarget);
+            }
+        }
+
+        private bool IsTargetAvailable()
+        {
+            foreach (GenericShip ship in Roster.AllShips.Values)
+            {
+                if (ship.Shields > 0)
+                {
+                    ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+                    if (shotInfo.InArcByType(ArcTypes.Bullseye) && shotInfo.Range < 4) return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void AskToSelectDalanOberosTarget(object sender, EventArgs e)
+        {
+            SelectTargetForAbility(
+                TargetIsSelected,
+                FilterTargets,
+                GetAiPriority,
+                HostShip.Owner.PlayerNo,
+                HostShip.PilotName,
+                "Choose a shielded ship in your bullseye arc and spend a charge - that ship loses 1 shield and you recover 1 shield",
+                HostShip.ImageUrl
+            );
+        }
+
+        private void TargetIsSelected()
+        {
+            Messages.ShowInfo("Dalan Oberos: " + TargetShip.PilotName + " is selected");
+
+            HostShip.SpendCharge(delegate { }); // Empty delegate is safe - Sandrem
+            TargetShip.LoseShield();
+            HostShip.TryRegenShields();
+
+            SelectShipSubPhase.FinishSelection();
+        }
+
+        private bool FilterTargets(GenericShip ship)
+        {
+            if (ship.Shields == 0) return false;
+
+            if (!FilterTargetsByRange(ship, 0, 3)) return false;
+
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+            return shotInfo.InArcByType(ArcTypes.Bullseye);
+        }
+
+        private int GetAiPriority(GenericShip ship)
+        {
+            return ship.Cost;
         }
     }
 }

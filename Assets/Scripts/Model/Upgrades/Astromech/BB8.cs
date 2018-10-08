@@ -19,7 +19,7 @@ namespace UpgradesList
             isUnique = true;
             Cost = 2;
 
-            AvatarOffset = new Vector2(85, 1);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(85, 1));
 
             UpgradeAbilities.Add(new BB8Ability());
         }

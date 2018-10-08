@@ -19,7 +19,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                UpgradeBar.AddSlot(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new ZuckussAbility());
             }

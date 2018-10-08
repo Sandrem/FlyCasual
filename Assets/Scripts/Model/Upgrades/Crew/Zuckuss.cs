@@ -23,7 +23,7 @@ namespace UpgradesList
 
             IsHidden = true;
 
-            AvatarOffset = new Vector2(79, 1);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(79, 1));
         }
 
         public void AdaptUpgradeToSecondEdition()
@@ -33,6 +33,8 @@ namespace UpgradesList
             IsHidden = false;
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.ZuckussCrewAbility());
+
+            SEImageNumber = 138;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

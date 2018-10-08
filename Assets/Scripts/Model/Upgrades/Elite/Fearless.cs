@@ -16,6 +16,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.FearlessAbility());
+
+            SEImageNumber = 6;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

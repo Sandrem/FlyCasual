@@ -31,6 +31,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is R5D8Ability);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R5AstromechAbility());
+
+            SEImageNumber = 101;
         }
     }
 

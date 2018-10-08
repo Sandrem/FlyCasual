@@ -18,7 +18,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            // AvatarOffset = new Vector2(42, 1);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(42, 1));
 
             UpgradeAbilities.Add(new KyleKatarnCrewAbility());
         }

@@ -124,6 +124,10 @@ public class ShipMovementScript : MonoBehaviour {
         {
             result = new Movement.SegnorsLoopMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
+        else if (movementStruct.Bearing == Movement.ManeuverBearing.SegnorsLoopUsingTurnTemplate)
+        {
+            result = new Movement.SegnorsLoopUsingTurnTemplateMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+        }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.TallonRoll)
         {
             result = new Movement.TallonRollMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);

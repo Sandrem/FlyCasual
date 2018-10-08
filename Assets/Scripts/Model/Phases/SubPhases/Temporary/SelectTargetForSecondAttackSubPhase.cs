@@ -89,6 +89,9 @@ namespace SubPhases
 
             UpdateHelpInfo();
             UI.ShowSkipButton();
+
+            IsReadyForCommands = true;
+            GameController.CheckExistingCommands();
         }
 
     }

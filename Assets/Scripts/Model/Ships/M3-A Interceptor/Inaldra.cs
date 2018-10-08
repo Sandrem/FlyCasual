@@ -95,7 +95,6 @@ namespace ActionsList
                 DiceRerollManager diceRerollManager = new DiceRerollManager
                 {
                     SidesCanBeRerolled = null,      // all the sides can be reroll
-                    NumberOfDiceCanBeRerolled = 0,
                     CallBack = callBack// all the dices can be reroll
                 };
                 diceRerollManager.Start();
@@ -161,7 +160,6 @@ namespace ActionsList.SecondEdition
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
                 SidesCanBeRerolled = null,      // all the sides can be reroll
-                NumberOfDiceCanBeRerolled = 0,
                 CallBack = callBack// all the dices can be reroll
             };
 

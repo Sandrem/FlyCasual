@@ -18,7 +18,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(44, 2);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(44, 2));
 
             UpgradeAbilities.Add(new Ig2000Ability());
         }
@@ -27,6 +27,8 @@ namespace UpgradesList
         {
             Cost = 4;
             UpgradeAbilities.Add(new Ig88DCrewAbility());
+
+            SEImageNumber = 132;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

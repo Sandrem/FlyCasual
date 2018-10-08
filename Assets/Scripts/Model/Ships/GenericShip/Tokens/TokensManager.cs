@@ -100,9 +100,9 @@ namespace Ship
             return (GenericTargetLockToken)AssignedTokens.Find(n => n.GetType().BaseType == typeof(GenericTargetLockToken) && (n as GenericTargetLockToken).Letter == letter);
         }
 
-        public char GetTargetLockLetterPair(GenericShip targetShip)
+        public List<char> GetTargetLockLetterPairsOn(GenericShip targetShip)
         {
-            char result = ' ';
+            List<char> result = new List<char>();
 
             List<BlueTargetLockToken> blueTokens = GetTokens<BlueTargetLockToken>('*');
 
@@ -113,7 +113,7 @@ namespace Ship
                 GenericToken redToken = targetShip.Tokens.GetToken(typeof(RedTargetLockToken), foundLetter);
                 if (redToken != null)
                 {
-                    return foundLetter;
+                    result.Add(blueToken.Letter);
                 }
             }
 

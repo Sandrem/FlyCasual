@@ -19,8 +19,8 @@ namespace UpgradesList
 			Cost = 3;
       
             isUnique = true;
-      
-            AvatarOffset = new Vector2(53, 1);
+
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(53, 1));
 
 			UpgradeAbilities.Add(new DarthVaderCrewAbility());
 		}
@@ -31,6 +31,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is DarthVaderCrewAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.DarthVaderCrewAbility());
+
+            SEImageNumber = 112;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

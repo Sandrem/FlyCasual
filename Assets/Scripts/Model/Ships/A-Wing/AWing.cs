@@ -90,7 +90,7 @@ namespace Ship
 
                 ShipAbilities.Add(new VectoredThrusters());
 
-                IconicPilots[Faction.Rebel] = typeof(PrototypePilot);
+                IconicPilots[Faction.Rebel] = typeof(JakeFarrell);
             }
         }
     }

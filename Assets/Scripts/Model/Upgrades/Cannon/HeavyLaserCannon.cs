@@ -29,6 +29,8 @@ namespace UpgradesList
             ArcRestrictions.Add(Arcs.ArcTypes.Bullseye);
             UpgradeAbilities.RemoveAll(a => a is HeavyLaserCannonAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.HeavyLaserCannonAbilitySE());
+
+            SEImageNumber = 27;
         }
 
     }

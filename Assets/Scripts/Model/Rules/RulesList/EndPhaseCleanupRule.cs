@@ -1,4 +1,5 @@
 ﻿
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,13 +45,23 @@ namespace RulesList
         {
             List<GenericToken> tokensList = new List<GenericToken>();
 
-            foreach (var shipHolder in Roster.AllShips)
+            foreach (var shipHolder in Roster.AllShips.Values)
             {
-                ClearShipFlags(shipHolder.Value);
-                ClearAssignedManeuvers(shipHolder.Value);
-                shipHolder.Value.ClearAlreadyExecutedActions();
+                ClearShipFlags(shipHolder);
+                ClearAssignedManeuvers(shipHolder);
+                shipHolder.ClearAlreadyExecutedActions();
 
-                List<GenericToken> allShipTokens = shipHolder.Value.Tokens.GetAllTokens();
+                List<GenericToken> allShipTokens = shipHolder.Tokens.GetAllTokens();
+                if (allShipTokens != null) tokensList.AddRange(allShipTokens.Where(n => n.Host.ShouldRemoveTokenInEndPhase(n)));
+            }
+
+            foreach (var shipHolder in Roster.Reserve)
+            {
+                ClearShipFlags(shipHolder);
+                ClearAssignedManeuvers(shipHolder);
+                shipHolder.ClearAlreadyExecutedActions();
+
+                List<GenericToken> allShipTokens = shipHolder.Tokens.GetAllTokens();
                 if (allShipTokens != null) tokensList.AddRange(allShipTokens.Where(n => n.Host.ShouldRemoveTokenInEndPhase(n)));
             }
 
@@ -62,7 +73,7 @@ namespace RulesList
             Actions.RemoveTokens(tokensList, callback);
         }
 
-        private void ClearShipFlags(Ship.GenericShip ship)
+        private void ClearShipFlags(GenericShip ship)
         {
             ship.IsAttackPerformed = false;
             ship.IsManeuverPerformed = false;
@@ -72,9 +83,19 @@ namespace RulesList
             ship.IsActivatedDuringCombat = false;
             ship.IsSystemsAbilityInactive = false;
             ship.AlwaysShowAssignedManeuver = false;
+
+            ClearUsedArcs(ship);
         }
 
-        private void ClearAssignedManeuvers(Ship.GenericShip ship)
+        private void ClearUsedArcs(GenericShip ship)
+        {
+            foreach (var arc in ship.ArcInfo.Arcs)
+            {
+                arc.WasUsedForAttackThisRound = false;
+            }
+        }
+
+        private void ClearAssignedManeuvers(GenericShip ship)
         {
             ship.ClearAssignedManeuver();
         }

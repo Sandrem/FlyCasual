@@ -33,6 +33,8 @@ namespace UpgradesList
                 new UpgradeSlot(UpgradeType.System) {  },
                 new UpgradeSlot(UpgradeType.Astromech)
             };
+
+            SEImageNumber = 147;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

@@ -24,6 +24,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.Elusive());
+
+            SEImageNumber = 4;
         }
     }
 }
@@ -93,7 +95,8 @@ namespace ActionsList
                 CallBack = callBack
             };
 
-            Source.SpendCharge(diceRerollManager.Start);
+            Source.SpendCharge();
+            diceRerollManager.Start();
         }
 
         public override bool IsDiceModificationAvailable()

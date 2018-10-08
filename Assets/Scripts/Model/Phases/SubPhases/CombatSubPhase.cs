@@ -13,7 +13,7 @@ namespace SubPhases
 
     public class CombatSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.CombatActivation, GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.CombatActivation, GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip, GameCommandTypes.AssignManeuver }; } }
 
         private Team.Type selectionMode;
 
@@ -302,8 +302,9 @@ namespace SubPhases
             {
                 // If selected ship can attack - skip attack only for this ship
 
-                AfterSkippedCombatActivation(Selection.ThisShip);
-                CheckNext();
+                GenericShip skippedShip = Selection.ThisShip;
+                AfterSkippedCombatActivation(skippedShip);
+                skippedShip.CallCombatDeactivation(CheckNext);
             }
 
         }

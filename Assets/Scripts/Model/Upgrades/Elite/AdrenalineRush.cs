@@ -17,7 +17,7 @@ namespace UpgradesList
             Name = "Adrenaline Rush";
             Cost = 1;
 
-            AvatarOffset = new Vector2(37, 1);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(37, 1));
 
             UpgradeAbilities.Add(new AdrenalineRushAbility());
         }

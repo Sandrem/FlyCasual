@@ -32,6 +32,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(n => n is PivotWingAttackAbility);
             UpgradeAbilities.Add(new PivotWingAttackAbilitySE());
+
+            SEImageNumber = 107;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -63,6 +65,9 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(n => n is PivotWingLandingAbility);
             UpgradeAbilities.Add(new PivotWingLandingAbilitySE());
+
+            SEImageNumber = 107;
+            IsSecondSide = true;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -226,17 +231,20 @@ namespace Abilities
 
         private void Rotate180(object sender, EventArgs e)
         {
-            HostShip.Rotate180(DecisionSubPhase.ConfirmDecision);
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            HostShip.Rotate180(Triggers.FinishTrigger);
         }
 
         private void Rotate90Clockwise(object sender, EventArgs e)
         {
-            HostShip.Rotate90Clockwise(DecisionSubPhase.ConfirmDecision);
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            HostShip.Rotate90Clockwise(Triggers.FinishTrigger);
         }
 
         private void Rotate90Counterclockwise(object sender, EventArgs e)
         {
-            HostShip.Rotate90Counterclockwise(DecisionSubPhase.ConfirmDecision);
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            HostShip.Rotate90Counterclockwise(Triggers.FinishTrigger);
         }
 
         private class PivotWindDecisionSubphase : DecisionSubPhase { };

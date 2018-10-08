@@ -22,6 +22,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.AfterBurnersAbility());
+
+            SEImageNumber = 70;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -68,7 +70,13 @@ namespace Abilities.SecondEdition
         private void RegisterSpendChargeTrigger(GenericAction action)
         {
             HostShip.BeforeFreeActionIsPerformed -= RegisterSpendChargeTrigger;
-            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, delegate { HostUpgrade.SpendCharge(Triggers.FinishTrigger); });
+            RegisterAbilityTrigger(
+                TriggerTypes.OnFreeAction,
+                delegate {
+                    HostUpgrade.SpendCharge();
+                    Triggers.FinishTrigger();
+                }
+            );
         }
 
         private void CleanUp()

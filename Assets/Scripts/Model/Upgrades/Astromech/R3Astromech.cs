@@ -20,6 +20,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.R3AstromechAbilitySE());
+
+            SEImageNumber = 54;
         }
     }
 

@@ -15,7 +15,7 @@ namespace UpgradesList
             Name = "Gunner";
             Cost = 5;
 
-            AvatarOffset = new Vector2(61, 1);
+            Avatar = new AvatarInfo(Faction.None, new Vector2(61, 1));
 
             UpgradeAbilities.Add(new GunnerAbility());
         }

@@ -28,6 +28,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is R5AstromechAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R5AstromechAbility());
+
+            SEImageNumber = 56;
         }
     }
 
@@ -141,7 +143,11 @@ namespace Abilities.SecondEdition
                     PayRepairCost = () =>
                     {
                         var result = false;
-                        if (HostUpgrade.Charges > 0) HostUpgrade.SpendCharge(() => result = true);
+                        if (HostUpgrade.Charges > 0)
+                        {
+                            HostUpgrade.SpendCharge();
+                            result = true;
+                        }
                         return result;
                     }
                 });

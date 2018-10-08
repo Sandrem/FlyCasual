@@ -19,6 +19,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.R4AstromechAbilitySE());
+
+            SEImageNumber = 55;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

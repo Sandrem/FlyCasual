@@ -199,6 +199,8 @@ public partial class DiceRoll
         private set { }
     }
 
+    public int WasSelectedCount { get; private set; }
+
     public int SelectedCount
     {
         get { return DiceList.Count(n => (n.IsSelected)); }
@@ -293,6 +295,8 @@ public partial class DiceRoll
 
     private void RerollPreparedDice()
     {
+        WasSelectedCount = SelectedCount;
+
         foreach (Die die in DiceList.Where(n => n.IsSelected))
         {
             die.Reroll();

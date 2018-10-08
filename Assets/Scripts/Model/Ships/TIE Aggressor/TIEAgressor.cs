@@ -75,7 +75,7 @@ namespace Ship
 
                 ActionBar.AddActionLink(typeof(BarrelRollAction), new EvadeAction() { IsRed = true });
 
-                IconicPilots[Faction.Imperial] = typeof(OnyxSquadronScout);
+                IconicPilots[Faction.Imperial] = typeof(LieutenantKestal);
             }
 
         }

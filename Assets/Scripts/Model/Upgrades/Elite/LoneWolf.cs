@@ -18,6 +18,8 @@ namespace UpgradesList
             Cost = 2;
 
             UpgradeAbilities.Add(new LoneWolfAbility());
+
+            SEImageNumber = 9;
         }
 
         public void AdaptUpgradeToSecondEdition()
@@ -147,7 +149,8 @@ namespace Abilities.SecondEdition
         {
             if (HostUpgrade.Charges > 0)
             {
-                HostUpgrade.SpendCharge(() => callback(true));
+                HostUpgrade.SpendCharge();
+                callback(true);
             }
             else callback(false);
         }

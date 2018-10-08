@@ -285,7 +285,7 @@ namespace RuleSets
 
         public override string GetUpgradeImageUrl(GenericUpgrade upgrade)
         {
-            return RootUrlForImages + "Card_Upgrade_" + upgrade.SEImageNumber + ".png";
+            return RootUrlForImages + "Card_Upgrade_" + upgrade.SEImageNumber + ((upgrade.IsSecondSide)?"b":"") + ".png";
         }
 
     }

@@ -16,7 +16,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            //Nothing to do here, behavior is the same as first edition
+            SEImageNumber = 75;
         }
 
         public void UpdateCost(GenericShip ship)

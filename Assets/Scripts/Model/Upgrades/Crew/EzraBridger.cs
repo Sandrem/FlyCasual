@@ -16,7 +16,7 @@ namespace UpgradesList
             Name = "Ezra Bridger";
             Cost = 3;
 
-            AvatarOffset = new Vector2(7, 2);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(7, 2));
 
             isUnique = true;
 

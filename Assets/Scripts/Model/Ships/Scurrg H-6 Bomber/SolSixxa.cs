@@ -26,7 +26,11 @@ namespace Ship
 
             public void AdaptPilotToSecondEdition()
             {
-                IsHidden = true;
+                PilotSkill = 3;
+                Cost = 49;
+
+                PilotAbilities.RemoveAll(a => a is Abilities.SolSixxaAbiliity);
+                PilotAbilities.Add(new Abilities.SecondEdition.SolSixxaAbilitySE());
 
                 SEImageNumber = 205;
             }
@@ -48,10 +52,24 @@ namespace Abilities
             HostShip.OnGetAvailableBombDropTemplates -= SolSixxaTemplate;
         }
 
-        private void SolSixxaTemplate(List<BombDropTemplates> availableTemplates)
+        protected virtual void SolSixxaTemplate(List<BombDropTemplates> availableTemplates)
         {
             if (!availableTemplates.Contains(BombDropTemplates.Turn_1_Left)) availableTemplates.Add(BombDropTemplates.Turn_1_Left);
             if (!availableTemplates.Contains(BombDropTemplates.Turn_1_Right)) availableTemplates.Add(BombDropTemplates.Turn_1_Right);
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class SolSixxaAbilitySE : SolSixxaAbiliity
+    {
+        protected override void SolSixxaTemplate(List<BombDropTemplates> availableTemplates)
+        {
+            base.SolSixxaTemplate(availableTemplates);
+
+            if (!availableTemplates.Contains(BombDropTemplates.Bank_1_Left)) availableTemplates.Add(BombDropTemplates.Bank_1_Left);
+            if (!availableTemplates.Contains(BombDropTemplates.Bank_1_Right)) availableTemplates.Add(BombDropTemplates.Bank_1_Right);
         }
     }
 }

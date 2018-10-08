@@ -15,7 +15,7 @@ namespace UpgradesList
             Name = "Outlaw Tech";
             Cost = 2;
 
-            AvatarOffset = new Vector2(50, 4);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(50, 4));
 
             UpgradeAbilities.Add(new OutlawTechAbility());
         }

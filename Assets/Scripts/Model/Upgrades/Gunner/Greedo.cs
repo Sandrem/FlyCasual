@@ -25,6 +25,8 @@ namespace UpgradesList
             UpgradeRuleType = typeof(SecondEdition);
 
             UpgradeAbilities.Add(new GreedoGunnerAbility());
+
+            SEImageNumber = 142;
         }
 
         public void AdaptUpgradeToSecondEdition()
@@ -83,7 +85,8 @@ namespace Abilities.SecondEdition
 
         private void PayAbilityCost(Action<bool> callback)
         {
-            HostUpgrade.SpendCharge(() => callback(true));
+            HostUpgrade.SpendCharge();
+            callback(true);
         }
     }
 }

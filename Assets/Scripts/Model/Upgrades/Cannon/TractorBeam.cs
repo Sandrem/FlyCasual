@@ -28,6 +28,8 @@ namespace UpgradesList
             Cost = 3;
             UpgradeAbilities.RemoveAll(a => a is TractorBeamAbility);
             UpgradeAbilities.Add(new TractorBeamAbilitySE());
+
+            SEImageNumber = 30;
         }
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
@@ -107,6 +108,8 @@ namespace Ship
 
         // EVENTS
 
+        public event EventHandlerShip OnSystemsPhaseStart;
+
         public event EventHandlerShip OnActivationPhaseStart;
         public event EventHandlerShip OnActionSubPhaseStart;
         public event EventHandlerShip OnRoundEnd;
@@ -151,7 +154,9 @@ namespace Ship
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponAttackDice;
         public event EventHandlerInt AfterGotNumberOfPrimaryWeaponDefenceDice;
         public event EventHandlerInt AfterGotNumberOfAttackDice;
+        public event EventHandlerInt AfterGotNumberOfAttackDiceCap;
         public event EventHandlerInt AfterGotNumberOfDefenceDice;
+        public static event EventHandlerInt AfterGotNumberOfDefenceDiceGlobal;
         public event EventHandlerInt AfterNumberOfDefenceDiceConfirmed;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
@@ -188,6 +193,8 @@ namespace Ship
         public event EventHandler2Ships OnCanAttackBumpedTarget;
         public static event EventHandler2Ships OnCanAttackBumpedTargetGlobal;
 
+        public static event EventHandlerShipRefBool OnCanAttackWhileLandedOnObstacleGlobal;
+
         public event EventHandlerShip OnCombatActivation;
         public static event EventHandlerShip OnCombatActivationGlobal;
         public event EventHandlerShip OnCombatDeactivation;
@@ -201,14 +208,25 @@ namespace Ship
         public event EventHandlerBool OnTryConfirmDiceResults;
 
         public event EventHandlerShip OnCombatCompareResults;
+        public event EventHandler OnAfterNeutralizeResults;
 
         public event EventHandler AfterAttackDiceModification;
+
+        public event EventHandler OnBombWasDropped;
+        public event EventHandler OnBombWasLaunched;
+
+        public event EventHandelerWeaponRange OnUpdateWeaponRange;
 
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
         {
             if (OnActivationPhaseStart != null) OnActivationPhaseStart(this);
+        }
+
+        public void CallOnSystemsPhaseStart()
+        {
+            if (OnSystemsPhaseStart != null) OnSystemsPhaseStart(this);
         }
 
         public void CallOnRoundEnd()
@@ -446,6 +464,8 @@ namespace Ship
 
             if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
 
+            if (AfterGotNumberOfAttackDiceCap != null) AfterGotNumberOfAttackDiceCap(ref result);
+
             if (result < 0) result = 0;
             return result;
         }
@@ -460,6 +480,7 @@ namespace Ship
             int result = Agility;
 
             if (AfterGotNumberOfDefenceDice != null) AfterGotNumberOfDefenceDice(ref result);
+            if (AfterGotNumberOfDefenceDiceGlobal != null) AfterGotNumberOfDefenceDiceGlobal(ref result);
 
             if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
             {
@@ -866,6 +887,15 @@ namespace Ship
             return result;
         }
 
+        public bool CanAttackWhileLandedOnObstacle()
+        {
+            bool result = false;
+
+            if (OnCanAttackWhileLandedOnObstacleGlobal != null) OnCanAttackWhileLandedOnObstacleGlobal(this, ref result);
+
+            return result;
+        }
+
         public List<IShipWeapon> GetAllWeapons()
         {
             List<IShipWeapon> allWeapons = new List<IShipWeapon>
@@ -904,6 +934,13 @@ namespace Ship
             if (OnCombatCompareResults != null) OnCombatCompareResults(this);
         }
 
+        public void CallAfterNeutralizeResults(Action callback)
+        {
+            if (OnAfterNeutralizeResults != null) OnAfterNeutralizeResults();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAfterNeutralizeResults, callback);
+        }
+
         public void StartBonusAttack(Action callback)
         {
             if(!CanBonusAttack)
@@ -923,6 +960,25 @@ namespace Ship
 				"You may perform a primary weapon attack.",
 				ImageUrl
 			);
+        }
+
+        public void CallBombWasDropped(Action callback)
+        {
+            if (OnBombWasDropped != null) OnBombWasDropped();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnBombWasDropped, callback);
+        }
+
+        public void CallBombWasLaunched(Action callback)
+        {
+            if (OnBombWasLaunched != null) OnBombWasLaunched();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnBombWasLaunched, callback);
+        }
+
+        public void CallUpdateWeaponRange(GenericSecondaryWeapon weapon, ref int minRange, ref int maxRange)
+        {
+            if (OnUpdateWeaponRange != null) OnUpdateWeaponRange(weapon, ref minRange, ref maxRange);
         }
     }
 

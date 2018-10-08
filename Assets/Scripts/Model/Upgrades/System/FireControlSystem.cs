@@ -2,6 +2,7 @@
 using RuleSets;
 using Ship;
 using SubPhases;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -23,6 +24,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is FireControlSystemAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.FireControlSystemAbility());
+
+            SEImageNumber = 25;
         }
     }
 }
@@ -98,7 +101,7 @@ namespace ActionsList.SecondEdition
 {
     public class FireControlSystemAbilityActionEffect : GenericAction
     {
-        private char targetLockLetter;
+        private List<char> targetLockLetters = new List<char>();
 
         public FireControlSystemAbilityActionEffect()
         {
@@ -130,9 +133,11 @@ namespace ActionsList.SecondEdition
         {
             if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                targetLockLetter = Actions.GetTargetLocksLetterPair(Combat.Attacker, Combat.Defender);
-                Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter).CanBeUsed = false;
-
+                targetLockLetters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+                foreach (char targetLockLetter in targetLockLetters)
+                {
+                    Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter).CanBeUsed = false;
+                }
                 Combat.Attacker.OnAttackFinish += SetTargetLockCanBeUsed;
 
                 DiceRerollManager diceRerollManager = new DiceRerollManager
@@ -151,8 +156,11 @@ namespace ActionsList.SecondEdition
 
         private void SetTargetLockCanBeUsed(GenericShip ship)
         {
-            BlueTargetLockToken ownTargetLockToken = (BlueTargetLockToken)Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter);
-            if (ownTargetLockToken != null) ownTargetLockToken.CanBeUsed = true;
+            foreach (char targetLockLetter in targetLockLetters)
+            {
+                BlueTargetLockToken ownTargetLockToken = (BlueTargetLockToken)Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), targetLockLetter);
+                if (ownTargetLockToken != null) ownTargetLockToken.CanBeUsed = true;
+            }
 
             Combat.Attacker.OnAttackFinish -= SetTargetLockCanBeUsed;
         }

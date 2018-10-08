@@ -10,7 +10,7 @@ using RuleSets;
 
 namespace UpgradesList
 {
-    public class Ghost : GenericUpgrade, ISecondEditionUpgrade
+    public class Ghost : GenericUpgrade
     {
         public Ghost() : base()
         {
@@ -21,11 +21,6 @@ namespace UpgradesList
             isUnique = true;
 
             UpgradeAbilities.Add(new GhostAbility());
-        }
-
-        public void AdaptUpgradeToSecondEdition()
-        {
-            //Nothing to do for now
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -41,7 +36,7 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            Rules.Docking.Dock(GetHisShip, FindPhantom);
+            Rules.Docking.Dock(GetThisShip, FindPhantom);
         }
 
         public override void DeactivateAbility()
@@ -49,7 +44,7 @@ namespace Abilities
             // No effect
         }
 
-        private GenericShip GetHisShip()
+        private GenericShip GetThisShip()
         {
             return this.HostShip;
         }

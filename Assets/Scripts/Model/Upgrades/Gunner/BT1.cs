@@ -15,12 +15,13 @@ namespace UpgradesList
             Name = "BT-1";
             Cost = 2;
             isUnique = true;
-
         }
 
         public void AdaptUpgradeToSecondEdition()
         {
             UpgradeAbilities.Add(new BT1Ability());
+
+            SEImageNumber = 140;
         }
 
         public override bool IsAllowedForShip(Ship.GenericShip ship)

@@ -11,6 +11,7 @@ public class PhaseEvents
     public event EventHandler OnRoundStart;
     public event EventHandler OnInitiativeSelection;
     public event EventHandler OnPlanningPhaseStart;
+    public event EventHandler OnSystemsPhaseStart;
     public event EventHandler OnActivationPhaseStart;
     public event EventHandler BeforeActionSubPhaseStart;
     public event EventHandler OnActionSubPhaseStart;
@@ -66,9 +67,11 @@ public class PhaseEvents
         Triggers.ResolveTriggers(TriggerTypes.OnInitiativeSelection, callBack);
     }
 
-    public void CallPlanningPhaseTrigger()
+    public void CallPlanningPhaseTrigger(Action callback)
     {
         if (OnPlanningPhaseStart != null) OnPlanningPhaseStart();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnPlanningSubPhaseStart, callback);
     }
 
     public void CallActivationPhaseStartTrigger()
@@ -80,6 +83,17 @@ public class PhaseEvents
         }
 
         Triggers.ResolveTriggers(TriggerTypes.OnActivationPhaseStart, delegate () { Phases.FinishSubPhase(typeof(ActivationStartSubPhase)); });
+    }
+
+    public void CallSystemsPhaseStartTrigger()
+    {
+        if (OnSystemsPhaseStart != null) OnSystemsPhaseStart();
+        foreach (var shipHolder in Roster.AllShips)
+        {
+            shipHolder.Value.CallOnSystemsPhaseStart();
+        }
+
+        Triggers.ResolveTriggers(TriggerTypes.OnSystemsPhaseStart, delegate () { Phases.FinishSubPhase(typeof(SystemsStartSubPhase)); });
     }
 
     public void CallActivationPhaseEndTrigger()

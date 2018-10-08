@@ -20,7 +20,7 @@ namespace UpgradesList
 
             AnotherSide = typeof(IntensityExhausted);
 
-            AvatarOffset = new Vector2(49, 0);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(49, 0));
 
             UpgradeAbilities.Add(new IntensityAbility());
         }
@@ -43,7 +43,7 @@ namespace UpgradesList
 
             AnotherSide = typeof(Intensity);
 
-            AvatarOffset = new Vector2(39, 0);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(39, 0));
 
             UpgradeAbilities.Add(new IntensityExhaustedAbility());
         }

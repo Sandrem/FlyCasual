@@ -19,7 +19,7 @@ public class AvatarFromUpgrade : MonoBehaviour {
     {
         UpgradeType = upgradeType;
         Upgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-        Offset = Upgrade.AvatarOffset;
+        Offset = Upgrade.Avatar.AvatarOffset;
         OnClick = onClick;
 
         this.gameObject.SetActive(false);

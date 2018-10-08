@@ -24,6 +24,8 @@ namespace UpgradesList
         public void AdaptUpgradeToSecondEdition()
         {
             Cost = 3;
+
+            SEImageNumber = 26;
         }
     }
 }
@@ -34,12 +36,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.CanLaunchBombs = true;
+            HostShip.CanLaunchBombsWithTemplate = 5;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.CanLaunchBombs = false;
+            HostShip.CanLaunchBombsWithTemplate = 0;
         }
     }
 }
@@ -86,9 +88,9 @@ namespace SubPhases
 
         private void ShowBombLaunchHelper()
         {
-            Selection.ThisShip.GetBombLaunchHelper().Find("Straight5").gameObject.SetActive(true);
-
-            Transform newBase = Selection.ThisShip.GetBombLaunchHelper().Find("Straight5/Finisher/BasePosition");
+            string bombLaunchHelperName = "Straight" + Selection.ThisShip.CanLaunchBombsWithTemplate;
+            Selection.ThisShip.GetBombLaunchHelper().Find(bombLaunchHelperName).gameObject.SetActive(true);
+            Transform newBase = Selection.ThisShip.GetBombLaunchHelper().Find(bombLaunchHelperName + "/Finisher/BasePosition");
 
             // Cluster Mines cannot be launched - only single model is handled
             BombObjects[0].transform.position = new Vector3(
@@ -119,7 +121,8 @@ namespace SubPhases
 
         private void HidePlanningTemplates()
         {
-            Selection.ThisShip.GetBombLaunchHelper().Find("Straight5").gameObject.SetActive(false);
+            string bombLaunchHelperName = "Straight" + Selection.ThisShip.CanLaunchBombsWithTemplate;
+            Selection.ThisShip.GetBombLaunchHelper().Find(bombLaunchHelperName).gameObject.SetActive(false);
             Roster.SetRaycastTargets(true);
         }
 

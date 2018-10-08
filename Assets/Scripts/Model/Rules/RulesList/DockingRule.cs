@@ -67,13 +67,18 @@ namespace RulesList
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
-            Triggers.RegisterTrigger(new Trigger()
+            bool canUndock = true;
+            ship.CallCanReleaseDockedShipRegular(ref canUndock);
+            if (canUndock)
             {
-                Name = "Undocking decision",
-                TriggerType = TriggerTypes.OnMovementFinish,
-                TriggerOwner = ship.Owner.PlayerNo,
-                EventHandler = AskUndock
-            });
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Undocking decision",
+                    TriggerType = TriggerTypes.OnMovementFinish,
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    EventHandler = AskUndock
+                });
+            }
         }
 
         private void AskUndock(object sender, EventArgs e)

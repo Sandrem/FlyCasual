@@ -35,6 +35,8 @@ namespace UpgradesList
 
             MaxCharges = 2;
             Cost = 3;
+
+            SEImageNumber = 67;
         }
 
         protected override void Detonate()

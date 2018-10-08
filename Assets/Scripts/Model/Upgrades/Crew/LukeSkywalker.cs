@@ -6,6 +6,7 @@ using System;
 using RuleSets;
 using Abilities.SecondEdition;
 using ActionsList;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -20,6 +21,8 @@ namespace UpgradesList
             isUnique = true;
 
             UpgradeAbilities.Add(new LukeSkywalkerCrewAbility());
+
+            //Avatar = new AvatarInfo(Faction.Rebel, new Vector2(0, 0));
         }
 
         public void AdaptUpgradeToSecondEdition()
@@ -29,6 +32,8 @@ namespace UpgradesList
             Types.Add(UpgradeType.Gunner);
             UpgradeAbilities.Clear();
             UpgradeAbilities.Add(new LukeSkywalkerGunnerAbility());
+
+            SEImageNumber = 98;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

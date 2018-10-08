@@ -24,6 +24,8 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 47;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotAbilities.RemoveAll(ability => ability is Abilities.GrazTheHunterAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.GrazAbilitySE());
 

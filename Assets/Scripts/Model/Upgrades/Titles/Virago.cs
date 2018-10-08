@@ -33,6 +33,8 @@ namespace UpgradesList
             UpgradeAbilities.Add(new ViragoAbility());
             MaxCharges = 2; //Charges for boost ability
             UsesCharges = true;
+
+            SEImageNumber = 155;
         }
 
 
@@ -114,7 +116,13 @@ namespace Abilities.SecondEdition
         private void RegisterSpendChargeTrigger(GenericAction action)
         {
             HostShip.BeforeFreeActionIsPerformed -= RegisterSpendChargeTrigger;
-            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, delegate { HostUpgrade.SpendCharge(Triggers.FinishTrigger); });
+            RegisterAbilityTrigger(
+                TriggerTypes.OnFreeAction,
+                delegate {
+                    HostUpgrade.SpendCharge();
+                    Triggers.FinishTrigger();
+                }
+            );
         }
 
         private void CleanUp()

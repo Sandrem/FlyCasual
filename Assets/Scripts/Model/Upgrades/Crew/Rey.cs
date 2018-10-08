@@ -4,6 +4,7 @@ using GameModes;
 using Abilities;
 using Tokens;
 using System;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -18,6 +19,8 @@ namespace UpgradesList
             isUnique = true;
 
             UpgradeAbilities.Add(new ReyCrewAbility());
+
+            //Avatar = new AvatarInfo(Faction.Rebel, new Vector2(0, 0));
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

@@ -16,7 +16,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(50, 1);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(50, 1));
 
             UpgradeAbilities.Add(new Abilities.NienNunbCrewAbility());
         }
@@ -27,6 +27,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is Abilities.NienNunbCrewAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.NienNunbCrewAbility());
+
+            SEImageNumber = 90;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

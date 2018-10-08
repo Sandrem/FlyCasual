@@ -16,7 +16,7 @@ namespace UpgradesList
             Name = "Fleet Officer";
             Cost = 3;
 
-            AvatarOffset = new Vector2(19, 1);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(19, 1));
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

@@ -31,6 +31,8 @@ namespace UpgradesList
 
             UpgradeAbilities.RemoveAll(a => a is R2AstromechAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.R2AstromechAbility());
+
+            SEImageNumber = 53;
         }
     }
 
@@ -93,17 +95,15 @@ namespace Abilities.SecondEdition
 
         private void RegenShield(object sender, EventArgs e)
         {
-            HostUpgrade.SpendCharge(() =>
+            HostUpgrade.SpendCharge();
+            HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), () =>
             {
-                HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), () =>
+                if (HostShip.TryRegenShields())
                 {
-                    if (HostShip.TryRegenShields())
-                    {
-                        Sounds.PlayShipSound("R2D2-Proud");
-                        Messages.ShowInfo(HostName + ": Shield is restored");
-                    }
-                    Triggers.FinishTrigger();
-                });
+                    Sounds.PlayShipSound("R2D2-Proud");
+                    Messages.ShowInfo(HostName + ": Shield is restored");
+                }
+                Triggers.FinishTrigger();
             });
         }
     }

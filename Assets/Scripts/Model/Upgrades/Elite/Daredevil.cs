@@ -7,7 +7,6 @@ namespace UpgradesList
 {
     public class Daredevil : GenericUpgrade, ISecondEditionUpgrade
     {
-        private bool isSecondEdition = false;
         public Daredevil() : base()
         {
             Types.Add(UpgradeType.Elite);
@@ -15,22 +14,31 @@ namespace UpgradesList
             Cost = 3;
 
             UpgradeRuleType = typeof(SecondEdition);
+
+            IsHidden = true;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            if (isSecondEdition)
+            if (RuleSet.Instance is SecondEdition)
             {
-                return ship.ShipBase.Size == BaseSize.Small && ship.ActionBar.HasAction(typeof(BoostAction), false);
+                return ship.ShipBaseSize == BaseSize.Small && ship.ActionBar.HasAction(typeof(BoostAction), isRed: false);
             }
-            else return true;
+            else
+            {
+                return true;
+            }
         }
 
         public void AdaptUpgradeToSecondEdition()
         {
+            IsHidden = false;
+
             Cost = 3;
 
             UpgradeAbilities.Add(new Abilities.SecondEdition.DareDevilAbility());
+
+            SEImageNumber = 2;
         }
     }
 }

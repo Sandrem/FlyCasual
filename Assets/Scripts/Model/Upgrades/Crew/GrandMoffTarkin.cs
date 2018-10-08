@@ -18,7 +18,7 @@ namespace UpgradesList
 
             isUnique = true;
 
-            AvatarOffset = new Vector2(68, 1);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(68, 1));
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

@@ -29,6 +29,8 @@ namespace Ship
                 Cost = 90;
                 MaxForce = 2;
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
+
                 PilotAbilities.RemoveAll(ability => ability is Abilities.KananJarrusPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.KananJarrusAbilitySE());
 

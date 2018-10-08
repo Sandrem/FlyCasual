@@ -11,6 +11,18 @@ using RuleSets;
 
 namespace Upgrade
 {
+    public class AvatarInfo
+    {
+        public Faction AvatarFaction;
+        public Vector2 AvatarOffset;
+
+        public AvatarInfo(Faction faction, Vector3 offset)
+        {
+            AvatarFaction = faction;
+            AvatarOffset = offset;
+        }
+    }
+
     public enum UpgradeType
     {
         Force,
@@ -80,6 +92,7 @@ namespace Upgrade
         }
 
         public int SEImageNumber;
+        public bool IsSecondSide;
 
         public string ImageUrlFE
         {
@@ -96,6 +109,8 @@ namespace Upgrade
         public bool UsesCharges;
         public bool RegensCharges = false;
 
+        public AvatarInfo Avatar;
+
         // SQUAD BUILDER ONLY
 
         public bool IsHidden;
@@ -104,10 +119,6 @@ namespace Upgrade
         {
             throw new NotImplementedException();
         }
-
-        // Set to use as avatar
-
-        public Vector2 AvatarOffset;
 
         //public Type FromMod { get; set; }
         public Type FromMod { get; set; }
@@ -146,7 +157,7 @@ namespace Upgrade
 
             if (IsHidden) return false;
 
-            if (FromMod != null && !ModsManager.Mods[FromMod].IsOn) return false;
+            if (FromMod != null && !ModsManager.Mods[FromMod].IsAvailable()) return false;
             //if (FromMod != null && FromMod.Count != 0 && !ModsManager.Mods[FromMod[1]].IsOn) return false;
             return result;
         }
@@ -323,7 +334,7 @@ namespace Upgrade
             Slot.TryInstallUpgrade(newUpgrade, Host);
         }
 
-        public void SpendCharge(Action callBack)
+        public void SpendCharge()
         {
             Charges--;
             if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
@@ -332,8 +343,6 @@ namespace Upgrade
 
             Name = NameOriginal + " (" + Charges + ")";
             Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
-
-            callBack();
         }
 
         public void RestoreCharge()

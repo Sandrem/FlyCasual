@@ -24,6 +24,8 @@ public static partial class Roster
     public static Dictionary<string, GenericShip> ShipsPlayer1 { get { return Player1.Ships; } }
     public static Dictionary<string, GenericShip> ShipsPlayer2 {get { return Player2.Ships; } }
 
+    public static List<GenericShip> Reserve;
+
     // SQUADRONS
 
     private static void PrepareSquadrons()
@@ -341,6 +343,32 @@ public static partial class Roster
     {
         ship.HighlightCanBeSelectedOff();
         RosterPanelHighlightOff(ship);
+    }
+
+    // RESERVE
+
+    public static void MoveToReserve(GenericShip ship)
+    {
+        ship.SetActive(false);
+        TogglePanelActive(ship, false);
+        ship.SetInReserveName(true);
+
+        AllShips.Remove("ShipId:" + ship.ShipId);
+        ship.Owner.Ships.Remove("ShipId:" + ship.ShipId);
+
+        Reserve.Add(ship);
+    }
+
+    public static void ReturnFromReserve(GenericShip ship)
+    {
+        ship.SetActive(true);
+        TogglePanelActive(ship, true);
+        ship.SetInReserveName(false);
+
+        AllShips.Add("ShipId:" + ship.ShipId, ship);
+        ship.Owner.Ships.Add("ShipId:" + ship.ShipId, ship);
+
+        Reserve.Remove(ship);
     }
 
 }

@@ -99,7 +99,7 @@ namespace Abilities
                         break;
                 }
 
-                return Actions.GetTargetLocksLetterPair(Host, anotherShip);
+                return Actions.GetTargetLocksLetterPairs(Host, anotherShip).First();
             }
 
             public override bool IsDiceModificationAvailable()

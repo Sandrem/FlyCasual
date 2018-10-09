@@ -33,7 +33,7 @@ public static class DirectionsMenu
 
         GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
         CustomizeDirectionsMenu(filter);
-        DirectionsWindow.transform.position = FixMenuPosition(
+        DirectionsWindow.transform.localPosition = FixMenuPosition(
             DirectionsWindow.transform.gameObject,
             Input.mousePosition
         );
@@ -53,7 +53,7 @@ public static class DirectionsMenu
 
         GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
         CustomizeDirectionsMenuAll(filter);
-        DirectionsWindow.transform.position = FixMenuPosition(
+        DirectionsWindow.transform.localPosition = FixMenuPosition(
             DirectionsWindow.transform.gameObject,
             Input.mousePosition
         );
@@ -67,20 +67,11 @@ public static class DirectionsMenu
         }
     }
 
-    private static void ShowUpdated()
-    {
-        CustomizeDirectionsMenu(currentFilter);
-        DirectionsWindow.transform.position = FixMenuPosition(
-            DirectionsWindow.transform.gameObject,
-            DirectionsWindow.transform.position
-        );
-    }
-
     private static void CustomizeDirectionsMenu(Func<string, bool> filter = null)
     {
         List<char> linesExist = new List<char>();
 
-        foreach (KeyValuePair<string, Movement.MovementComplexity> maneuverData in Selection.ThisShip.GetManeuvers())
+        foreach (KeyValuePair<string, MovementComplexity> maneuverData in Selection.ThisShip.GetManeuvers())
         {
             string[] parameters = maneuverData.Key.Split('.');
             char maneuverSpeed = parameters[0].ToCharArray()[0];
@@ -100,7 +91,7 @@ public static class DirectionsMenu
             }
 
             GameObject button = DirectionsWindow.transform.Find("Directions").Find("Speed" + maneuverSpeed).Find(maneuverData.Key).gameObject;
-            if (maneuverData.Value != Movement.MovementComplexity.None)
+            if (maneuverData.Value != MovementComplexity.None)
             {
                 if (filter == null || filter(maneuverData.Key))
                 {
@@ -123,7 +114,7 @@ public static class DirectionsMenu
     {
         List<char> linesExist = new List<char>();
 
-        foreach (string maneuverCode in Movement.GenericMovement.GetAllManeuvers())
+        foreach (string maneuverCode in GenericMovement.GetAllManeuvers())
         {
             string[] parameters = maneuverCode.Split('.');
             char maneuverSpeed = parameters[0].ToCharArray()[0];
@@ -149,7 +140,7 @@ public static class DirectionsMenu
             {
                 if (!linesExist.Contains(maneuverSpeed)) linesExist.Add(maneuverSpeed);
 
-                SetManeuverColor(button, new KeyValuePair<string, Movement.MovementComplexity>(maneuverCode, Movement.MovementComplexity.Normal));
+                SetManeuverColor(button, new KeyValuePair<string, MovementComplexity>(maneuverCode, MovementComplexity.Normal));
                 button.SetActive(true);
                 button.GetComponent<Button>().onClick.AddListener(UI.AssignManeuverButtonPressed);
 
@@ -167,6 +158,8 @@ public static class DirectionsMenu
         float freeSpace = 40;
 
         // COLUMNS
+
+        float totalWidth = 480f;
 
         List<string> columns = new List<string>() { ".L.E", ".L.R", ".F.R", ".R.R", ".R.E" };
         GameObject directionsPanel = DirectionsWindow.transform.Find("Directions").gameObject;
@@ -201,16 +194,21 @@ public static class DirectionsMenu
             else
             {
                 missingColumnsCounter++;
+                totalWidth -= 40;
             }
         }
 
         // LINES
+
+        float totalHeight = 320f;
 
         for (int i = -2; i < 6; i++)
         {
             char c = (i >= 0) ? i.ToString().ToCharArray()[0] : ((i == -1) ? '-' : '=');
             if (!linesExist.Contains(c))
             {
+                totalHeight -= 40;
+
                 GameObject numbersLinePanel = DirectionsWindow.transform.Find("Numbers").gameObject;
                 numbersLinePanel.transform.Find("Speed" + c).gameObject.SetActive(false);
 
@@ -244,6 +242,8 @@ public static class DirectionsMenu
                 offset -= freeSpace;
             }
         }
+
+        DirectionsWindow.GetComponent<RectTransform>().sizeDelta = new Vector2(totalWidth + 10, totalHeight + 10);
     }
 
     private static void SetManeuverColor(GameObject button, KeyValuePair<string, MovementComplexity> maneuverData)
@@ -257,13 +257,20 @@ public static class DirectionsMenu
 
     private static Vector3 FixMenuPosition(GameObject menuPanel, Vector3 position)
     {
-        if (position.x + menuPanel.GetComponent<RectTransform>().rect.width > Screen.width)
+        float fixedWidth = 1600;
+        float fixedHeight = 900;
+        float uiScaleX = fixedWidth / Screen.width;
+        float uiScaleY = fixedHeight / Screen.height;
+        position = new Vector3(position.x * uiScaleX, -(Screen.height - position.y) * uiScaleY);
+
+        RectTransform menuRect = menuPanel.GetComponent<RectTransform>();
+        if (position.x + menuRect.sizeDelta.x * menuRect.localScale.x > fixedWidth)
         {
-            position = new Vector3(Screen.width - menuPanel.GetComponent<RectTransform>().rect.width - 5, position.y, 0);
+            position = new Vector3(fixedWidth - menuRect.sizeDelta.x * menuRect.localScale.x - 5, position.y, 0);
         }
-        if (position.y - menuPanel.GetComponent<RectTransform>().rect.height < 0)
+        if (-position.y + menuRect.sizeDelta.y * menuRect.localScale.y > fixedHeight)
         {
-            position = new Vector3(position.x, menuPanel.GetComponent<RectTransform>().rect.height + 5, 0);
+            position = new Vector3(position.x, - fixedHeight + menuRect.sizeDelta.y * menuRect.localScale.y + 5, 0);
         }
         return position;
     }

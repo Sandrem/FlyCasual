@@ -16,7 +16,7 @@ public static partial class Roster {
 
     private static int SHIP_PANEL_WIDTH = 300;
     private static int SHIP_PANEL_HEIGHT = 110;
-    private static int SPACE_BETWEEN_PANELS = 15;
+    private static int SPACE_BETWEEN_PANELS = 5;
 
     public static void Initialize()
     {
@@ -110,7 +110,7 @@ public static partial class Roster {
         for (int i = 0; i < hullAndShield; i++)
         {
             GameObject newDamageIndicator = MonoBehaviour.Instantiate(damageIndicator, damageIndicatorBar.transform);
-            newDamageIndicator.transform.position = damageIndicator.transform.position + new Vector3(i * (damageIndicatorWidth + 1), 0, 0);
+            newDamageIndicator.transform.localPosition = damageIndicator.transform.localPosition + new Vector3(i * (damageIndicatorWidth + 1), 0, 0);
             if (i < ship.MaxHull)
             {
                 newDamageIndicator.GetComponent<Image>().color = Color.yellow;
@@ -217,7 +217,7 @@ public static partial class Roster {
             }
         }
 
-        int iconsLines = (iconsCount + 7) / 8;
+        int iconsLines = Math.Max(1, (iconsCount + 7) / 8);
         currentPanelHeight += 35 * iconsLines + 3;
 
         panel.transform.Find("Mark").GetComponent<RectTransform>().sizeDelta = new Vector2(10, currentPanelHeight);
@@ -229,7 +229,7 @@ public static partial class Roster {
     {
         for (int i = 1; i < 3; i++)
         {
-            Vector3 defaultPosition = GameObject.Find("UI/RostersHolder").transform.Find("TeamPlayer" + i + "/RosterHolder").transform.position + new Vector3(5f, 0f, 0f);
+            Vector3 defaultPosition = GameObject.Find("UI/RostersHolder").transform.Find("TeamPlayer" + i + "/RosterHolder").transform.localPosition + new Vector3(5f, 0f, 0f);
 
             int rosterPanelOwner = (Network.IsNetworkGame && !Network.IsServer) ? AnotherPlayer(i) : i;
             List<GameObject> rosterPlayer = (rosterPanelOwner == 1) ? rosterPlayer1 : rosterPlayer2;
@@ -244,7 +244,8 @@ public static partial class Roster {
             {
                 if (item.activeSelf)
                 {
-                    item.transform.position = defaultPosition + new Vector3(0f, -offset, 0f);
+                    item.transform.localPosition = defaultPosition + new Vector3(0f, -offset, 0f);
+                    if (rosterPanelOwner == 2) item.transform.localPosition += new Vector3(305, 0, 0);
                     offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + SPACE_BETWEEN_PANELS;
                 }
             }

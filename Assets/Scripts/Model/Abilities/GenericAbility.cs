@@ -174,6 +174,33 @@ namespace Abilities
             pilotAbilityDecision.Start();
         }
 
+        /// <summary>
+        /// Shows "Take a decision" window for ability with Yes / No buttons to Opponent
+        /// </summary>
+        protected void AskOpponent(Func<bool> aiUseByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, string infoText = null, bool showSkipButton = true)
+        {
+            if (dontUseAbility == null) dontUseAbility = DontUseAbility;
+
+            DecisionSubPhase opponentDecision = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                Name,
+                typeof(AbilityDecisionSubphase),
+                Triggers.FinishTrigger
+            );
+
+            opponentDecision.InfoText = infoText ?? "Allow to use " + Name + "?";
+
+            opponentDecision.RequiredPlayer = Roster.AnotherPlayer(HostShip.Owner.PlayerNo);
+
+            opponentDecision.AddDecision("Yes", useAbility);
+            opponentDecision.AddDecision("No", dontUseAbility);
+
+            opponentDecision.DefaultDecisionName = (aiUseByDefault()) ? "Yes" : "No";
+
+            opponentDecision.ShowSkipButton = showSkipButton;
+
+            opponentDecision.Start();
+        }
+
         private class AbilityDecisionSubphase : DecisionSubPhase { }
 
         private void DontUseAbility(object sender, System.EventArgs e)

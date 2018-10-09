@@ -327,7 +327,7 @@ namespace SubPhases
                 if (!quiet) Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (!TheShip.IsIgnoreObstacles && !IsTractorBeamBoost
+            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBoost && !IsTractorBeamBoost
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 if (!quiet) Messages.ShowError("Cannot overlap asteroid");

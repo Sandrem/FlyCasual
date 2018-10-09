@@ -147,7 +147,7 @@ namespace Abilities
         /// <summary>
         /// Shows "Take a decision" window for ability with Yes / No / [Always] buttons
         /// </summary>
-        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string infoText = null)
+        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string infoText = null, bool showSkipButton = true)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -169,7 +169,7 @@ namespace Abilities
 
             pilotAbilityDecision.DefaultDecisionName = (useByDefault()) ? "Yes" : "No";
 
-            pilotAbilityDecision.ShowSkipButton = true;
+            pilotAbilityDecision.ShowSkipButton = showSkipButton;
 
             pilotAbilityDecision.Start();
         }

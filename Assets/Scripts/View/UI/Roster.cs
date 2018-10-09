@@ -169,19 +169,23 @@ public static partial class Roster {
     {
         OrganizeRosterPanelSizes();
         OrganizeRosterPositions();
+        ScaleBigRosters();
     }
 
     private static void OrganizeRosterPanelSizes()
     {
         foreach (GameObject panel in rosterPlayer1)
         {
-            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(SHIP_PANEL_WIDTH, CalculateRosterPanelSize(panel));
+            float height = CalculateRosterPanelSize(panel);
+            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(SHIP_PANEL_WIDTH, height);
+            panel.GetComponent<RectTransform>().sizeDelta = new Vector2(SHIP_PANEL_WIDTH, height);
         }
 
-        //same
         foreach (GameObject panel in rosterPlayer2)
         {
-            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(SHIP_PANEL_WIDTH, CalculateRosterPanelSize(panel));
+            float height = CalculateRosterPanelSize(panel);
+            panel.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta = new Vector2(SHIP_PANEL_WIDTH, height);
+            panel.GetComponent<RectTransform>().sizeDelta = new Vector2(SHIP_PANEL_WIDTH, height);
         }
 
     }
@@ -249,6 +253,22 @@ public static partial class Roster {
                     offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + SPACE_BETWEEN_PANELS;
                 }
             }
+        }
+    }
+
+    private static void ScaleBigRosters()
+    {
+        for (int i = 1; i < 3; i++)
+        {
+            float totalHeight = 0;
+            foreach (Transform transform in GameObject.Find("UI/RostersHolder").transform.Find("TeamPlayer" + i + "/RosterHolder").transform)
+            {
+                totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + 5;
+            }
+
+            float scale = 1f;
+            if (totalHeight > 795) scale = 795 / totalHeight;
+            GameObject.Find("UI/RostersHolder").transform.Find("TeamPlayer" + i).GetComponent<RectTransform>().localScale = new Vector3(scale, scale, scale);
         }
     }
 

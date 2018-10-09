@@ -8,6 +8,7 @@ public class PhaseEvents
     public delegate void EventHandler();
     public event EventHandler OnGameStart;
     public event EventHandler OnSetupStart;
+    public event EventHandler OnSetupEnd;
     public event EventHandler OnRoundStart;
     public event EventHandler OnInitiativeSelection;
     public event EventHandler OnPlanningPhaseStart;
@@ -58,6 +59,13 @@ public class PhaseEvents
         if (OnSetupStart != null) OnSetupStart();
 
         Triggers.ResolveTriggers(TriggerTypes.OnSetupStart, callBack);
+    }
+
+    public void CallSetupEnd(Action callBack)
+    {
+        if (OnSetupEnd != null) OnSetupEnd();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnSetupEnd, callBack);
     }
 
     public void CallInitialiveSelection(Action callBack)

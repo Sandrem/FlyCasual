@@ -4,10 +4,13 @@ using UnityEngine;
 using Upgrade;
 using Abilities;
 using SubPhases;
+using RuleSets;
+using Obstacles;
+using BoardTools;
 
 namespace UpgradesList
 {
-    public class BobaFett : GenericUpgrade
+    public class BobaFett : GenericUpgrade, ISecondEditionUpgrade
     {
         public BobaFett() : base()
         {
@@ -19,10 +22,94 @@ namespace UpgradesList
             UpgradeAbilities.Add(new BobaFettCrewAbility());
         }
 
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 4;
+
+            UpgradeAbilities.RemoveAll(a => a is BobaFettCrewAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.BobaFettCrewAbilitySE());
+
+            SEImageNumber = 129;
+        }
+
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.faction == Faction.Scum;
         }                       
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class BobaFettCrewAbilitySE : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Phases.Events.OnSetupStart += MoveToReserve;
+            Phases.Events.OnSetupEnd += RegisterReturn;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnSetupStart -= MoveToReserve;
+            Phases.Events.OnSetupEnd -= RegisterReturn;
+        }
+
+        private void MoveToReserve()
+        {
+            Messages.ShowInfo(HostShip.PilotName + " is moved to Reserve");
+            Roster.MoveToReserve(HostShip);
+        }
+
+        private void RegisterReturn()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnSetupEnd, SetupShip);
+        }
+
+        private void SetupShip(object sender, EventArgs e)
+        {
+            Roster.ReturnFromReserve(HostShip);
+
+            var subphase = Phases.StartTemporarySubPhaseNew<SetupShipMidgameSubPhase>(
+                "Setup",
+                delegate {
+                    Messages.ShowInfo(HostShip.PilotName + " is placed");
+                    Triggers.FinishTrigger();
+                }
+            );
+
+            subphase.ShipToSetup = HostShip;
+            subphase.SetupSide = Direction.None;
+            subphase.AbilityName = HostUpgrade.Name;
+            subphase.Description = "Place yourself at range 0 of an obstacle and beyond range 3 of any enemy ship";
+            subphase.ImageUrl = HostUpgrade.ImageUrl;
+            subphase.SetupFilter = SetupFilter;
+
+            subphase.Start();
+        }
+
+        private bool SetupFilter()
+        {
+            bool result = true;
+
+            if (HostShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedAsteroids.Count == 0)
+            {
+                Messages.ShowErrorToHuman("Cannot setup the ship:\nMust be placed on an asteroid");
+                return false;
+            }
+
+            foreach (GenericShip enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships.Values)
+            {
+                DistanceInfo distInfo = new DistanceInfo(HostShip, enemyShip);
+                if (distInfo.Range < 4)
+                {
+                    Messages.ShowErrorToHuman("Cannot setup the ship:\nRange to " + enemyShip.PilotName + " is " + distInfo.Range);
+                    return false;
+                }
+            }
+
+            return result;
+        }
     }
 }
 

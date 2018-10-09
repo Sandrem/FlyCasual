@@ -18,6 +18,7 @@ namespace BoardTools
         public static GameObject StartingZone2;
         public static GameObject StartingZone3;
         public static GameObject StartingZone4;
+        public static GameObject StartingZone5;
 
         public static readonly float SIZE_ANY = 91.44f;
         public static readonly float SIZE_X = 91.44f;
@@ -37,6 +38,7 @@ namespace BoardTools
             StartingZone2 = BoardTransform.Find("Playmat/StaringZone2").gameObject;
             StartingZone3 = BoardTransform.Find("Playmat/StaringZone3").gameObject;
             StartingZone4 = BoardTransform.Find("Playmat/StaringZone4").gameObject;
+            StartingZone5 = BoardTransform.Find("Playmat/StaringZone5").gameObject;
 
             MovementTemplates.PrepareMovementTemplates();
 
@@ -131,6 +133,7 @@ namespace BoardTools
             StartingZone2.SetActive(false);
             StartingZone3.SetActive(false);
             StartingZone4.SetActive(false);
+            StartingZone5.SetActive(false);
         }
 
         //SCALING TOOLS
@@ -181,6 +184,7 @@ namespace BoardTools
                     result = StartingZone4.transform;
                     break;
                 case Direction.None:
+                    result = StartingZone5.transform;
                     break;
                 default:
                     break;

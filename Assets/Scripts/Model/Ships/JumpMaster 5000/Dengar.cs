@@ -178,8 +178,7 @@ namespace Abilities.SecondEdition
 
         protected override void MarkAbilityAsUsed()
         {
-            //Empty delegate is safe here - Sandrem
-            HostShip.SpendCharge(delegate { });
+            HostShip.SpendCharge();
         }
     }
 }

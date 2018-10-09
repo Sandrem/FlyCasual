@@ -195,10 +195,8 @@ namespace Abilities.SecondEdition
         {
             AskToUseAbility(NeverUseByDefault, delegate(object s, EventArgs ev) 
             {
-                HostShip.SpendCharge( delegate
-                {
-                    UseColonelJendonAbility(sender, e);
-                });
+                HostShip.SpendCharge();
+                UseColonelJendonAbility(sender, e);
             });
         }
 

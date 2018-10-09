@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
             {
                 Messages.ShowInfo(HostShip.PilotName + ": Destruction is prevented");
 
-                HostShip.SpendCharge(delegate { }); // Empty delegate is safe here - Sandrem
+                HostShip.SpendCharge();
 
                 HostShip.OnReadyToBeDestroyed -= ActivateAbility;
 

@@ -169,7 +169,7 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfo("Dalan Oberos: " + TargetShip.PilotName + " is selected");
 
-            HostShip.SpendCharge(delegate { }); // Empty delegate is safe - Sandrem
+            HostShip.SpendCharge();
             TargetShip.LoseShield();
             HostShip.TryRegenShields();
 

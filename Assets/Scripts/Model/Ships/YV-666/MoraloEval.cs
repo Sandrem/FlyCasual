@@ -93,7 +93,7 @@ namespace Abilities.SecondEdition
             {
                 ShipFledSide = direction;
 
-                HostShip.SpendCharge(delegate { }); // Safe - Sandrem
+                HostShip.SpendCharge();
                 shouldBeDestroyed = false;
 
                 Messages.ShowInfo(HostShip.PilotName + " is moved to Reserve");

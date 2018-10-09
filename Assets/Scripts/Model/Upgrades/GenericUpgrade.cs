@@ -334,6 +334,14 @@ namespace Upgrade
             Slot.TryInstallUpgrade(newUpgrade, Host);
         }
 
+        public void SpendCharges(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                SpendCharge();
+            }
+        }
+
         public void SpendCharge()
         {
             Charges--;

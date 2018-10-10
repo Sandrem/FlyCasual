@@ -165,7 +165,7 @@ public partial class DiceRerollManager
                     SelectDiceByFilter(option.Value, NumberOfDiceCanBeRerolled);
                 });
                 newButton.SetActive(true);
-                offset += 40;
+                offset += 60;
             }
         }
     }

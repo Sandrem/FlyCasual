@@ -16,7 +16,6 @@ public static class DirectionsMenu
 
     public static Action<string> Callback;
 
-    private static Func<string, bool> currentFilter;
     private static GameObject DirectionsWindow;
 
     public static void Show(Action<string> callback, Func<string, bool> filter = null)
@@ -24,7 +23,6 @@ public static class DirectionsMenu
         DeleteOldDirectionsMenu();
 
         Callback = callback;
-        currentFilter = filter;
 
         IsForcedToShowRedManeuvers = (Input.GetKey(KeyCode.LeftControl));
 
@@ -46,7 +44,6 @@ public static class DirectionsMenu
         DeleteOldDirectionsMenu();
 
         Callback = callback;
-        currentFilter = filter;
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/DirectionsWindow", typeof(GameObject));
         DirectionsWindow = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/DirectionsPanel").transform);

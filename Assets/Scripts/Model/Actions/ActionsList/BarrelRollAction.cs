@@ -217,9 +217,9 @@ namespace SubPhases
                  Triggers.FinishTrigger
             );
 
-            selectBarrelRollPosition.AddDecision("Forward",     delegate { SetBarrelRollPosition(1.5f); });
-            selectBarrelRollPosition.AddDecision("Center",      delegate { SetBarrelRollPosition(1);    });
-            selectBarrelRollPosition.AddDecision("Backwards",   delegate { SetBarrelRollPosition(0.5f); });
+            selectBarrelRollPosition.AddDecision("Forward",     delegate { SetBarrelRollPosition(1.5f); }, isCentered: true);
+            selectBarrelRollPosition.AddDecision("Center",      delegate { SetBarrelRollPosition(1);    }, isCentered: true);
+            selectBarrelRollPosition.AddDecision("Backwards",   delegate { SetBarrelRollPosition(0.5f); }, isCentered: true);
 
             selectBarrelRollPosition.InfoText = "Barrel Roll: Select position";
 

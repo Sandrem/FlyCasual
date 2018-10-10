@@ -278,7 +278,7 @@ namespace RuleSets
             return token.TokenColor == TokenColors.Green || token is BlueTargetLockToken;
         }
 
-        public override string GetPilotImageUrl(GenericShip ship)
+        public override string GetPilotImageUrl(GenericShip ship, string filename)
         {
             return RootUrlForImages + "Card_Pilot_" + ship.SEImageNumber + ".png";
         }

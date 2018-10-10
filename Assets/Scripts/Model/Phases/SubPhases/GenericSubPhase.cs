@@ -147,8 +147,8 @@ namespace SubPhases
                 GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription" + ((imageUrl != null) ? "" : "NoImage")).gameObject; 
                  
                 subphaseDescriptionGO.transform.Find("AbilityName").GetComponent<Text>().text = title;
-                subphaseDescriptionGO.transform.Find("Description").GetComponent<Text>().text = description;
-                if (imageUrl != null) subphaseDescriptionGO.transform.Find("CardImage").GetComponent<SmallCardArt>().Initialize(imageUrl);
+                subphaseDescriptionGO.transform.Find("DescriptionHolder/Description").GetComponent<Text>().text = description;
+                if (imageUrl != null) subphaseDescriptionGO.transform.Find("DescriptionHolder/CardImage").GetComponent<SmallCardArt>().Initialize(imageUrl);
 
                 subphaseDescriptionGO.SetActive(true);
             }

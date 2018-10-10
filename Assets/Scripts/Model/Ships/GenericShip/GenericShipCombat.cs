@@ -850,8 +850,8 @@ namespace Ship
         {
             var availableMoves = new List<BoostMove>
             {
-                new BoostMove(Actions.BoostTemplates.LeftBank1),
                 new BoostMove(Actions.BoostTemplates.Straight1),
+                new BoostMove(Actions.BoostTemplates.LeftBank1),
                 new BoostMove(Actions.BoostTemplates.RightBank1),
             };
 

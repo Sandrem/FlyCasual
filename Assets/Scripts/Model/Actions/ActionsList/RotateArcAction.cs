@@ -126,10 +126,10 @@ namespace SubPhases
 
             if (Selection.ThisShip.ArcInfo.Arcs.Any(a => a is ArcMobile))
             {
-                AddDecision("Front", delegate { ChangeMobileArcFacing(ArcFacing.Forward); });
+                AddDecision("Front", delegate { ChangeMobileArcFacing(ArcFacing.Forward); }, isCentered: true);
                 AddDecision("Left", delegate { ChangeMobileArcFacing(ArcFacing.Left); });
                 AddDecision("Right", delegate { ChangeMobileArcFacing(ArcFacing.Right); });
-                AddDecision("Rear", delegate { ChangeMobileArcFacing(ArcFacing.Rear); });
+                AddDecision("Rear", delegate { ChangeMobileArcFacing(ArcFacing.Rear); }, isCentered: true);
             }
             else if (Selection.ThisShip.ArcInfo.Arcs.Any(a => a is ArcMobileDualA))
             {

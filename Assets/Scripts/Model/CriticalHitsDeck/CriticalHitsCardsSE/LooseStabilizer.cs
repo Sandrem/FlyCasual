@@ -29,13 +29,24 @@ namespace DamageDeckCardSE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("No damage after non-straight maneuvers");
+            Messages.ShowInfo("No more damage after non-straight maneuvers");
             Host.Tokens.RemoveCondition(typeof(Tokens.LooseStabilizerSECritToken));
             Host.OnMovementFinish -= PlanDamageAfterNonStraightManeuvers;
             Host.OnGenerateActions -= CallAddCancelCritAction;
         }
 
         private void PlanDamageAfterNonStraightManeuvers(GenericShip ship)
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Loose Stabilizer",
+                TriggerType = TriggerTypes.OnMovementFinish,
+                TriggerOwner = ship.Owner.PlayerNo,
+                EventHandler = SufferDamage
+            });
+        }
+
+        private void SufferDamage(object sender, System.EventArgs e)
         {
             if (Host.GetLastManeuverBearing() != Movement.ManeuverBearing.Straight)
             {
@@ -48,6 +59,10 @@ namespace DamageDeckCardSE
                 };
 
                 Host.Damage.TryResolveDamage(1, looseDamage, RepairLooseStabilizer);
+            }
+            else
+            {
+                Triggers.FinishTrigger();
             }
         }
 

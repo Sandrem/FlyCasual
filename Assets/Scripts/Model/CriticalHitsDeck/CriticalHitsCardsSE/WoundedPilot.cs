@@ -1,4 +1,5 @@
 ﻿using Ship;
+using SubPhases;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,9 +41,9 @@ namespace DamageDeckCardSE
         {
             Selection.ActiveShip = Host;
             Selection.ThisShip = Host;
-            var subphase = Phases.StartTemporarySubPhaseNew<SubPhases.WoundedPilotCheckSubPhase>("Wounded Pilot", () =>
+            var subphase = Phases.StartTemporarySubPhaseNew<WoundedPilotCheckSubPhase>("Wounded Pilot", () =>
             {
-                Phases.FinishSubPhase(typeof(SubPhases.WoundedPilotCheckSubPhase));
+                Phases.FinishSubPhase(typeof(WoundedPilotCheckSubPhase));
                 Triggers.FinishTrigger();
             });
             subphase.HostShip = Host;
@@ -53,7 +54,7 @@ namespace DamageDeckCardSE
         {
             base.DiscardEffect();
 
-            Host.Tokens.RemoveCondition(typeof(Tokens.WoundedPilotCritToken));
+            Host.Tokens.RemoveCondition(typeof(WoundedPilotCritToken));
 
             Host.OnGenerateActions -= CallAddCancelCritAction;
             Host.OnActionIsPerformed -= AfterPerformingActionRollForStress;
@@ -73,6 +74,8 @@ namespace SubPhases
         {
             DiceKind = DiceKind.Attack;
             DiceCount = 1;
+
+            RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
             AfterRoll = FinishAction;
 

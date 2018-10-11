@@ -158,6 +158,7 @@ namespace Abilities
 
         private void FinishAdaptiveAileronsAbility()
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
             ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, SavedManeuver.ToString());
             //GameMode.CurrentGameMode.AssignManeuver(SavedManeuver.ToString());
             // It calls Triggers.FinishTrigger

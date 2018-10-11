@@ -64,7 +64,7 @@ namespace Abilities
                 ExtraAttackFilter,
                 HostShip.PilotName,
                 Description,
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

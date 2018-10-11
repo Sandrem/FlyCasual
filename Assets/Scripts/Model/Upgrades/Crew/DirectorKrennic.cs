@@ -82,11 +82,9 @@ namespace Abilities
                   IsGalacticEmpireShipWith3OrLessShields,
                   GetAiOptimizedPrototypePriority,
                   HostShip.Owner.PlayerNo,
-                  true,
-                  null,
                   HostUpgrade.Name,
                   "Choose Galactic Empire ship with 3 or fewer Shields.\nIt gets Optimized Prototype condition.",
-                  HostUpgrade.ImageUrl
+                  HostUpgrade
               );
         }
 

@@ -82,7 +82,7 @@ namespace Abilities.SecondEdition
             subphase.SetupSide = Direction.None;
             subphase.AbilityName = HostUpgrade.Name;
             subphase.Description = "Place yourself at range 0 of an obstacle and beyond range 3 of any enemy ship";
-            subphase.ImageUrl = HostUpgrade.ImageUrl;
+            subphase.ImageSource = HostUpgrade;
             subphase.SetupFilter = SetupFilter;
 
             subphase.Start();

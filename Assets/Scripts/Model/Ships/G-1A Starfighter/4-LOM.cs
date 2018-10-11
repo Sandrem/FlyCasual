@@ -95,11 +95,9 @@ namespace Abilities.SecondEdition
                     FilterAbilityTarget,
                     GetAIAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    true,
-                    null,
                     HostShip.PilotName,
                     "Choose a target to transfer stress to.",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else

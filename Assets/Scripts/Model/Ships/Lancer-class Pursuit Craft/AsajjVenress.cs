@@ -77,11 +77,9 @@ namespace Abilities
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostShip.PilotName,
                 "Choose a ship inside your mobile firing arc to assign Stress token to it.",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 
@@ -146,11 +144,9 @@ namespace Abilities.SecondEdition
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostShip.PilotName,
                 "Choose a ship inside your mobile firing arc to assign Stress token to it.",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

@@ -958,7 +958,7 @@ namespace Ship
 				null,
 				PilotName,
 				"You may perform a primary weapon attack.",
-				ImageUrl
+				this
 			);
         }
 

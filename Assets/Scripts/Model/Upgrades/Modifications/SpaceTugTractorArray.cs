@@ -104,7 +104,7 @@ namespace SubPhases
                 true,
                 SpacetugUpgrade.Name,
                 "Choose a ship inside your firing arc to assign a tractor beam token to it.",
-                SpacetugUpgrade.ImageUrl
+                SpacetugUpgrade
             );
         }
 

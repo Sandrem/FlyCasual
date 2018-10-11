@@ -77,11 +77,9 @@ namespace Abilities
                     FilterAbilityTargets,
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    true,
-                    null,
                     HostShip.PilotName,
                     "Choose another ship.\nIt may acquire a Target Lock.",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else
@@ -118,7 +116,7 @@ namespace Abilities
             Selection.ThisShip.ChooseTargetToAcquireTargetLock(
                 Triggers.FinishTrigger,
                 HostShip.PilotName,
-                HostShip.ImageUrl
+                HostShip
             );
         }
     }
@@ -170,11 +168,9 @@ namespace Abilities
                     AnotherFriendlyShipInRange,
                     AiPriority,
                     HostShip.Owner.PlayerNo,
-                    true,
-                    null,
                     HostShip.PilotName,
                     "Choose ship. That ship will acquire a lock on the object you locked.",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
 

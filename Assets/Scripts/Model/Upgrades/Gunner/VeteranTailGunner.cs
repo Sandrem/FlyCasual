@@ -81,7 +81,7 @@ namespace Abilities.SecondEdition
                     IsRearArcShot,
                     HostUpgrade.Name,
                     "You may perform a bonus primary rear firing arc attack",
-                    HostUpgrade.ImageUrl
+                    HostUpgrade
                 );
             }
             else

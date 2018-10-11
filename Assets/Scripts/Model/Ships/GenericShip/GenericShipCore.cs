@@ -17,7 +17,7 @@ namespace Ship
 
     public interface TIE { } //marker interface for ships that counts as "TIEs", ie. Twin Ion Engine MkII
 
-    public partial class GenericShip
+    public partial class GenericShip : IImageHolder
     {
 
         public int ShipId { get; private set; }

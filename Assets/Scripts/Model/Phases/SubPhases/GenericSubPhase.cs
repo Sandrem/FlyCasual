@@ -139,16 +139,16 @@ namespace SubPhases
             subphaseDescriptionGO.SetActive(false);
         }
 
-        protected void ShowSubphaseDescription(string title, string description, string imageUrl = null)
+        protected void ShowSubphaseDescription(string title, string description, IImageHolder imageSource = null)
         {
             HideSubphaseDescription();
             if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
             {
-                GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription" + ((imageUrl != null) ? "" : "NoImage")).gameObject; 
+                GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription" + ((imageSource != null) ? "" : "NoImage")).gameObject; 
                  
                 subphaseDescriptionGO.transform.Find("AbilityName").GetComponent<Text>().text = title;
                 subphaseDescriptionGO.transform.Find("DescriptionHolder/Description").GetComponent<Text>().text = description;
-                if (imageUrl != null) subphaseDescriptionGO.transform.Find("DescriptionHolder/CardImage").GetComponent<SmallCardArt>().Initialize(imageUrl);
+                if (imageSource != null) subphaseDescriptionGO.transform.Find("DescriptionHolder/CardImage").GetComponent<SmallCardArt>().Initialize(imageSource);
 
                 subphaseDescriptionGO.SetActive(true);
             }

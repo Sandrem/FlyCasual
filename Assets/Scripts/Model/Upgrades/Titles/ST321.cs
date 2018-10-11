@@ -98,11 +98,9 @@ namespace Abilities
                       IsShipInRangeOfTarget,
                       GetAiPriority,
                       HostShip.Owner.PlayerNo,
-                      true,
-                      null,
                       "Choose an enemy ship",
                       "Choose an enemy ship at range 0-3 of the ship you coordinated to acquire a lock on that enemy ship, ignoring range restrictions",
-                      HostUpgrade.ImageUrl
+                      HostUpgrade
                   );
             }
 

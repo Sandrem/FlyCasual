@@ -125,7 +125,7 @@ namespace Abilities
                     CounterAttackFilter,
                     HostShip.PilotName,
                     "You may perform an additional attack against " + shipToPunish.PilotName + ".",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else

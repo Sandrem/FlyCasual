@@ -46,7 +46,7 @@ namespace Ship
             {
                 return imageUrl ?? ImageUrls.GetImageUrl(this);
             }
-            protected set
+            set
             {
                 imageUrl = value;
             }

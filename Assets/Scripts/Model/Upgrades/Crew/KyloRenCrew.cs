@@ -76,11 +76,9 @@ namespace Abilities
                 FilterTargets,
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostUpgrade.Name,
                 "Choose a ship to assign\n\"I'll Show You The Dark Side\" Condition",
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
 

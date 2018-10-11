@@ -65,7 +65,7 @@ namespace Abilities
                     Triggers.FinishTrigger
                 );
 
-                phase.ImageUrl = HostImageUrl;
+                phase.ImageSource = HostUpgrade;
                 phase.Start();
             }
             else

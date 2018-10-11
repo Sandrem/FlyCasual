@@ -232,32 +232,19 @@ namespace Abilities
 
         // SELECT SHIP AS TARGET OF ABILITY
 
-        /// <summary>
-        /// Ship that selected by SelectTargetForAbility
-        /// </summary>
         protected GenericShip TargetShip;
 
         /// <summary>
         /// Starts "Select ship for ability" subphase
         /// </summary>
-        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null, string name = null, string description = null, string imageUrl = null)
+        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true)
         {
-            SelectTargetForAbility(selectTargetAction, filterTargets, getAiPriority, subphaseOwnerPlayerNo, name, description, imageUrl, showSkipButton, customCallback);
-        }
-
-        /// <summary>
-        /// Starts "Select ship for ability" subphase
-        /// </summary>
-        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name, string description, string imageUrl, bool showSkipButton = true, Action customCallback = null)
-        {
-            if (customCallback == null) customCallback = Triggers.FinishTrigger;
-
             Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
 
             SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase)Phases.StartTemporarySubPhaseNew(
                 name,
                 typeof(AbilitySelectTarget),
-                customCallback
+                Triggers.FinishTrigger
             );
 
             selectTargetSubPhase.PrepareByParameters(
@@ -268,7 +255,7 @@ namespace Abilities
                 showSkipButton,
                 name,
                 description,
-                imageUrl
+                imageSource
             );
 
             selectTargetSubPhase.Start();

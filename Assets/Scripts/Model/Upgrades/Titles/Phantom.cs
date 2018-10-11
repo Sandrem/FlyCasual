@@ -89,7 +89,7 @@ namespace Abilities
                     IsTurretAttack,
                     HostUpgrade.Name,
                     "You may perform additional turret attack.",
-                    HostUpgrade.ImageUrl
+                    HostUpgrade
                 );
             }
             else

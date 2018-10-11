@@ -72,11 +72,9 @@ namespace Abilities.SecondEdition
                 FilterAbilityTarget,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostShip.PilotName,
                 GenerateAbilityMessage(),
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

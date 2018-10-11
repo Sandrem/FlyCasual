@@ -78,7 +78,7 @@ namespace Abilities
                 IsSecondaryShot,
                 HostUpgrade.Name,
                 "You can perform an addition attack with a turret againts target inside your firing arc.",
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
 

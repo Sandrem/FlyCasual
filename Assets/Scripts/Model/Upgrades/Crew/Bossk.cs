@@ -97,7 +97,7 @@ namespace Abilities.SecondEdition
                 IsPrimaryWeaponShot,
                 "Bossk",
                 "You must perform an additional primary attack.",
-                HostShip.ImageUrl,
+                HostShip,
                 false
             );
         }
@@ -151,7 +151,7 @@ namespace Abilities
             HostShip.ChooseTargetToAcquireTargetLock(
                 AssignFocusToken,
                 HostShip.PilotName,
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

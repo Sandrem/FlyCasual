@@ -107,7 +107,7 @@ namespace Abilities.SecondEdition
                     HostShip.Owner.PlayerNo,
                     HostUpgrade.Name,
                     "Gain 1 calculate token unless target ship chooses to gain 1 stress token",
-                    HostUpgrade.ImageUrl
+                    HostUpgrade
                 );
             }
             else

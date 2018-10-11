@@ -127,7 +127,7 @@ namespace Abilities.SecondEdition
             subphase.SetupSide = ShipFledSide;
             subphase.AbilityName = HostShip.PilotName;
             subphase.Description = "Place yourself within range 1 of the edge of the play area that you fled from";
-            subphase.ImageUrl = HostShip.ImageUrl;
+            subphase.ImageSource = HostShip;
 
             subphase.Start();
         }

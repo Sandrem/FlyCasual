@@ -44,7 +44,7 @@ namespace Upgrade
         Configuration        
     }
 
-    public abstract class GenericUpgrade
+    public abstract class GenericUpgrade : IImageHolder
     {
         public static GenericUpgrade CurrentUpgrade;
 

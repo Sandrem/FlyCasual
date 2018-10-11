@@ -73,11 +73,9 @@ namespace PilotAbilitiesNamespace
                 FilterTargetInBullseyeArc,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostShip.PilotName,
                 "Acqure a Target Lock on an enemy ship inside your bullseye firing arc.",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 
@@ -161,7 +159,7 @@ namespace Abilities.SecondEdition
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotName,
                 "Choose a shielded ship in your bullseye arc and spend a charge - that ship loses 1 shield and you recover 1 shield",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

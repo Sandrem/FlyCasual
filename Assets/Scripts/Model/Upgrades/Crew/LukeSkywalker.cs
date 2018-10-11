@@ -135,7 +135,7 @@ namespace Abilities
                     IsPrimaryWeaponShot,
                     HostUpgrade.Name,
                     "You may perform a primary weapon attack.",
-                    HostUpgrade.ImageUrl
+                    HostUpgrade
                 );
             }
             else

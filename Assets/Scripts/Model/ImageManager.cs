@@ -7,6 +7,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+public interface IImageHolder
+{
+    string ImageUrl { get; set; }
+}
+
 public static class ImageManager
 {
 

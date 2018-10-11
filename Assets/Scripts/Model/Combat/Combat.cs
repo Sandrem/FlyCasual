@@ -495,7 +495,7 @@ public static partial class Combat
     // Extra Attacks
 
     public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool, bool> extraAttackFilter = null, 
-        string abilityName = null, string description = null, string imageUrl = null, bool showSkipButton = true)
+        string abilityName = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
         Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
@@ -510,7 +510,7 @@ public static partial class Combat
         );
         newAttackSubphase.AbilityName = abilityName;
         newAttackSubphase.Description = description;
-        newAttackSubphase.ImageUrl = imageUrl;
+        newAttackSubphase.ImageSource = imageSource;
         newAttackSubphase.ShowSkipButton = showSkipButton;
 
         newAttackSubphase.Start();

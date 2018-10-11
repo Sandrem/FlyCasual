@@ -73,11 +73,9 @@ namespace Abilities
                 IsFriendlyShipAtRangeOne,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostUpgrade.Name,
                 "Choose another ship.\nIt may acquire a Target Lock.",
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
 
@@ -102,7 +100,7 @@ namespace Abilities
                     Triggers.FinishTrigger();
                 },
                 HostUpgrade.Name,
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
 

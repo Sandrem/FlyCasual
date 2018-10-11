@@ -27,7 +27,7 @@ namespace SubPhases
 
         public string AbilityName;
         public string Description;
-        public string ImageUrl;
+        public IImageHolder ImageSource;
 
         public override void Start()
         {
@@ -62,7 +62,7 @@ namespace SubPhases
 
         public void ShowDescription()
         {
-            ShowSubphaseDescription(AbilityName, Description, ImageUrl);
+            ShowSubphaseDescription(AbilityName, Description, ImageSource);
         }
 
         public override void Next()

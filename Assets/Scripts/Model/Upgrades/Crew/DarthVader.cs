@@ -152,11 +152,9 @@ namespace Abilities
                         FilterAbilityTarget,
                         GetAiAbilityPriority,
                         HostShip.Owner.PlayerNo,
-                        true,
-                        null,
                         HostUpgrade.Name,
                         "Choose 1 ship to suffer 1 damage",
-                        HostUpgrade.ImageUrl);
+                        HostUpgrade);
                 }
                 else
                 {

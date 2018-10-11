@@ -67,11 +67,9 @@ namespace Abilities
                 FilterTargets,
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostUpgrade.Name,
                 "Choose a ship to look at it's chosen maneuver.",
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
 

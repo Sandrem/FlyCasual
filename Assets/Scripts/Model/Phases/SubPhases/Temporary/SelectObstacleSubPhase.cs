@@ -22,7 +22,7 @@ namespace SubPhases
 
         public string AbilityName;
         public string Description;
-        public string ImageUrl;
+        public IImageHolder ImageSource;
 
         public override void Start()
         {
@@ -41,7 +41,7 @@ namespace SubPhases
 
         }
 
-        public void PrepareByParameters(Action<GenericObstacle> selectTargetAction, Func<GenericObstacle, bool> filterTargets, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, string imageUrl = null)
+        public void PrepareByParameters(Action<GenericObstacle> selectTargetAction, Func<GenericObstacle, bool> filterTargets, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, IImageHolder imageSource = null)
         {
             SelectTargetAction = selectTargetAction;
             FilterTargets = filterTargets;
@@ -49,7 +49,7 @@ namespace SubPhases
             if (showSkipButton) UI.ShowSkipButton();
             AbilityName = abilityName;
             Description = description;
-            ImageUrl = imageUrl;
+            ImageSource = imageSource;
         }
 
         public override void Initialize()
@@ -66,7 +66,7 @@ namespace SubPhases
 
         public void HighlightObstacleToSelect()
         {
-            ShowSubphaseDescription(AbilityName, Description, ImageUrl);
+            ShowSubphaseDescription(AbilityName, Description, ImageSource);
             //TODO: Highlight filtered obstacles
         }
 

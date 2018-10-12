@@ -537,7 +537,14 @@ namespace Players
         {
             base.InformAboutCrit();
 
-            GameManagerScript.Wait(3, InformCrit.ButtonConfirm);
+            if (!Roster.Players.Any(p => p is HumanPlayer))
+            {
+                GameManagerScript.Wait(3, InformCrit.ButtonConfirm);
+            }
+            else
+            {
+                InformCrit.ShowConfirmButton();
+            }
         }
 
         public override void SyncDiceResults()

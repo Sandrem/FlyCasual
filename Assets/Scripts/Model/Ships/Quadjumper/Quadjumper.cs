@@ -4,6 +4,10 @@ using UnityEngine;
 using Movement;
 using ActionsList;
 using RuleSets;
+using Ship;
+using SubPhases;
+using BoardTools;
+using Tokens;
 
 namespace Ship
 {
@@ -70,7 +74,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //TODO: Ship ability
+                //ShipAbilities.Add(new Abilities.SecondEdition.SpacetugAbilitySE());
 
                 FullType = "Quadrijet Transfer Spacetug";
 
@@ -82,6 +86,119 @@ namespace Ship
                 ActionBar.AddPrintedAction(new EvadeAction() { IsRed = true });
             }
 
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class SpacetugAbilitySE : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateActions += AddAction;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateActions -= AddAction;
+        }
+
+        private void AddAction(GenericShip ship)
+        {
+            GenericAction newAction = new SpacetugActionSE()
+            {
+                ImageUrl = HostShip.ImageUrl,
+                Host = HostShip
+            };
+            HostShip.AddAvailableAction(newAction);
+        }
+    }
+}
+
+namespace ActionsList
+{
+    public class SpacetugActionSE : SpacetugAction
+    {
+        public override void ActionTake()
+        {
+            SelectSpacetugTargetSubPhaseSE newPhase = (SelectSpacetugTargetSubPhaseSE)Phases.StartTemporarySubPhaseNew(
+                "Select target for Spacetug Tractor Array",
+                typeof(SelectSpacetugTargetSubPhaseSE),
+                Phases.CurrentSubPhase.CallBack
+            );
+
+            newPhase.SpacetugOwner = this.Host;
+            newPhase.Start();
+        }
+    }
+}
+
+namespace SubPhases
+{
+    public class SelectSpacetugTargetSubPhaseSE : SelectShipSubPhase
+    {
+        public GenericShip SpacetugOwner;
+
+        public override void Prepare()
+        {
+            PrepareByParameters(
+                SelectSpacetugTarget,
+                FilterAbilityTargets,
+                GetAiAbilityPriority,
+                Selection.ThisShip.Owner.PlayerNo,
+                true,
+                "Spacetug Tractor Array",
+                "Choose a ship inside your firing arc at range 1 to assign a tractor beam token to it.",
+                SpacetugOwner
+            );
+        }
+
+        private bool FilterAbilityTargets(GenericShip ship)
+        {
+            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, ship, SpacetugOwner.PrimaryWeapon);
+            return shotInfo.InArc && shotInfo.Range == 1;
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            // TODO, calculate inverse distance to closest rock
+            return 0;
+        }
+
+        private void SelectSpacetugTarget()
+        {
+            SelectShipSubPhase.FinishSelectionNoCallback();
+
+            MovementTemplates.ReturnRangeRuler();
+
+            Messages.ShowInfo("Spacetug Tractor Array: Tractor Beam token is assigned to " + TargetShip.PilotName);
+
+            TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
+
+            ShotInfoArc shotInfo = new ShotInfoArc(SpacetugOwner, TargetShip, SpacetugOwner.ArcInfo.GetArc<Arcs.ArcBullseye>());
+            if (shotInfo.InArc && shotInfo.Range == 1)
+            {
+                TargetShip.Tokens.AssignToken(token, AssignSecondTractorReamToken);
+            }
+            else
+            {
+                TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
+            }
+        }
+
+        private void AssignSecondTractorReamToken()
+        {
+            Messages.ShowInfo("Spacetug Tractor Array: Ship was in bullseye arc, second Tractor Beam token is assigned");
+
+            TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
+            TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
+        }
+
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(typeof(SelectSpacetugTargetSubPhaseSE));
+            CallBack();
         }
     }
 }

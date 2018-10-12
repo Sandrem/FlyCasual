@@ -107,6 +107,8 @@ public static partial class Combat
         else
         {
             ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+
             TryPerformAttack(isSilent: true);
         }
     }

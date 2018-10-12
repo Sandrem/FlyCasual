@@ -414,14 +414,10 @@ namespace Players
                     isActionEffectTaken = true;
                     Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
 
-                    GameCommand command = Combat.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
-                    GameMode.CurrentGameMode.ExecuteCommand(command);
-
-                    /*GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    Game.Wait(1, delegate {
-                        Selection.ActiveShip.AddAlreadyUsedDiceModification(prioritizedActionEffect.Key);
-                        prioritizedActionEffect.Key.ActionEffect(delegate { UseDiceModifications(type); });
-                    });*/
+                    GameManagerScript.Wait(1, delegate {
+                        GameCommand command = Combat.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
+                        GameMode.CurrentGameMode.ExecuteCommand(command);
+                    });
                 }
             }
 
@@ -429,11 +425,10 @@ namespace Players
             {
                 if (type == DiceModificationTimingType.Normal)
                 {
-                    //GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                    //Game.Wait(2, FinalEffect.Invoke);
-
-                    GameCommand command = Combat.GenerateDiceModificationCommand("OK");
-                    GameMode.CurrentGameMode.ExecuteCommand(command);
+                    GameManagerScript.Wait(1, delegate {
+                        GameCommand command = Combat.GenerateDiceModificationCommand("OK");
+                        GameMode.CurrentGameMode.ExecuteCommand(command);
+                    });
                 }
                 else
                 {

@@ -41,7 +41,7 @@ public static class Messages{
 
     private static void ShowMessage(string text, MessageType type)
     {
-        if (allMessages.Find(n => n != null && n.name == text) != null) return;
+        if (allMessages.LastOrDefault() != null && allMessages.LastOrDefault().name == text) return;
 
         Vector2 startingPosition = new Vector3(0, -75, 0);
 

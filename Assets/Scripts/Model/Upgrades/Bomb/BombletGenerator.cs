@@ -5,11 +5,13 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using System.Linq;
+using Bombs;
+using RuleSets;
 
 namespace UpgradesList
 {
 
-    public class BombletGenerator : GenericTimedBomb
+    public class BombletGenerator : GenericTimedBomb, ISecondEditionUpgrade
     {
 
         public BombletGenerator() : base()
@@ -21,6 +23,17 @@ namespace UpgradesList
             isUnique = true;
 
             bombPrefabPath = "Prefabs/Bombs/Bomblet";
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            IsDiscardedAfterDropped = false;
+            UsesCharges = true;
+
+            MaxCharges = 2;
+            Cost = 5;
+
+            SEImageNumber = 63;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
@@ -67,6 +80,8 @@ namespace SubPhases
             HideDiceResultMenu();
 
             CurrentDiceRoll.RemoveAllFailures();
+            CurrentDiceRoll.ChangeAll(DieSide.Crit,DieSide.Success)
+
             if (!CurrentDiceRoll.IsEmpty)
             {
                 SufferDamage();

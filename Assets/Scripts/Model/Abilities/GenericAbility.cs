@@ -515,7 +515,7 @@ namespace Abilities
 
         protected class CustomDiceModification : GenericAction { }
 
-        private void GenericDiceModification(Action callback, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected, DieSide newSide, DiceModificationTimingType timing, bool isTrueReroll)
+        private void GenericDiceModification(Action callback, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected, DieSide newSide, DiceModificationTimingType timing, bool isTrueReroll = true)
         {
             switch (modificationType)
             {
@@ -558,7 +558,7 @@ namespace Abilities
             }
         }
 
-        private void DiceModificationReroll(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing, bool isTrueReroll)
+        private void DiceModificationReroll(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing, bool isTrueReroll = true)
         {
             int diceCount = getCount();
 

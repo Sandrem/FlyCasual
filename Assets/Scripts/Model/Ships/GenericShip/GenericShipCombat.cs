@@ -166,7 +166,7 @@ namespace Ship
         public static event EventHandlerShipCritArgs OnFaceupCritCardReadyToBeDealtGlobal;
         public event EventHandlerShipCritArgs OnAssignCrit;
 
-        public event EventHandlerShip OnDamageWasSuccessfullyDealt;
+        public event EventHandlerShipBool OnDamageWasSuccessfullyDealt;
         public event EventHandlerShip OnDamageCardIsDealt;
         public static event EventHandlerShipDamage OnDamageInstanceResolvedGlobal;
 
@@ -203,7 +203,6 @@ namespace Ship
 
         public event EventHandlerObjArgsBool OnSufferCriticalDamage;
         public event EventHandlerObjArgsBool OnSufferDamageDecidingSeverity;
-        public event EventHandlerShipBool OnSufferDamageConfirmed;
 
         public event EventHandlerBool OnTryConfirmDiceResults;
 
@@ -526,7 +525,6 @@ namespace Ship
 
             if (OnSufferDamageDecidingSeverity != null) OnSufferDamageDecidingSeverity(sender, e, ref isCritical);
 
-            bool damageIsSuffered = false;
             if (isCritical)
             {
                 bool skipSufferDamage = false;
@@ -535,23 +533,19 @@ namespace Ship
                 if (!skipSufferDamage)
                 {
                     SufferDamageByType(sender, e, isCritical);
-                    damageIsSuffered = true;
                 }
             }
             else
             {
                 SufferDamageByType(sender, e, isCritical);
-                damageIsSuffered = true;
             }
-
-            if (damageIsSuffered && OnSufferDamageConfirmed != null) OnSufferDamageConfirmed(this, isCritical);
         }
 
         private void SufferDamageByType(object sender, EventArgs e, bool isCritical)
         {            
             if (Shields > 0)
             {
-                SufferShieldDamage();
+                SufferShieldDamage(isCritical);
             }
             else
             {
@@ -617,6 +611,7 @@ namespace Ship
             CallAfterAssignedDamageIsChanged();
 
             CallOnDamageWasSuccessfullyDealt(
+                Combat.CurrentCriticalHitCard.IsFaceup,
                 delegate { IsHullDestroyedCheck(callBack); }
             );
             
@@ -633,7 +628,7 @@ namespace Ship
             return result;
         }
 
-        public void SufferShieldDamage()
+        public void SufferShieldDamage(bool isCritical)
         {
             AssignedDamageDiceroll.CancelHits(1);
             AssignedDamageDiceroll.RemoveAllFailures();
@@ -642,13 +637,13 @@ namespace Ship
             CallAfterAssignedDamageIsChanged();
 
             CallOnShieldIsLost(
-                delegate { CallOnDamageWasSuccessfullyDealt(Triggers.FinishTrigger); }
+                delegate { CallOnDamageWasSuccessfullyDealt(isCritical, Triggers.FinishTrigger); }
             );
         }
 
-        private void CallOnDamageWasSuccessfullyDealt(Action callback)
+        private void CallOnDamageWasSuccessfullyDealt(bool isCritical, Action callback)
         {
-            if (OnDamageWasSuccessfullyDealt != null) OnDamageWasSuccessfullyDealt(this);
+            if (OnDamageWasSuccessfullyDealt != null) OnDamageWasSuccessfullyDealt(this, isCritical);
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageWasSuccessfullyDealt, callback);
         }

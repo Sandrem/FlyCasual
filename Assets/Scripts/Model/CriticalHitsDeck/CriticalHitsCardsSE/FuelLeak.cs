@@ -19,7 +19,7 @@ namespace DamageDeckCardSE
         public override void ApplyEffect(object sender, EventArgs e)
         {
             Host.OnGenerateActions += CallAddCancelCritAction;
-            Host.OnSufferDamageConfirmed += CheckToSufferAdditionalDamageAndRepair;
+            Host.OnDamageWasSuccessfullyDealt += CheckToSufferAdditionalDamageAndRepair;
             Host.Tokens.AssignCondition(typeof(Tokens.FuelLeakCritToken));
             Triggers.FinishTrigger();
         }
@@ -29,21 +29,33 @@ namespace DamageDeckCardSE
         {
             if (isCritical)
             {
-                Messages.ShowInfo("Fuel Leak: Suffer 1 additional damage");
-
-                DamageSourceEventArgs fuelleakDamage = new DamageSourceEventArgs()
+                Triggers.RegisterTrigger(new Trigger()
                 {
-                    Source = "Critical hit card",
-                    DamageType = DamageTypes.CriticalHitCard
-                };
-
-                Host.Damage.TryResolveDamage(1, fuelleakDamage, RepairFuelLeak);
+                    Name = "Fuel Leak",
+                    TriggerType = TriggerTypes.OnDamageWasSuccessfullyDealt,
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    EventHandler = SufferAdditonalDamage,
+                });
             }
         }
 
-        public void RepairFuelLeak()
+        private void SufferAdditonalDamage(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo("Fuel Leak: Suffer 1 additional damage");
+
+            DamageSourceEventArgs fuelleakDamage = new DamageSourceEventArgs()
+            {
+                Source = "Critical hit card",
+                DamageType = DamageTypes.CriticalHitCard
+            };
+
+            Host.Damage.TryResolveDamage(1, fuelleakDamage, RepairFuelLeak);
+        }
+
+        private void RepairFuelLeak()
         {
             DiscardEffect();
+            Triggers.FinishTrigger();
         }
 
         public override void DiscardEffect()
@@ -51,7 +63,7 @@ namespace DamageDeckCardSE
             base.DiscardEffect();
 
             Host.OnGenerateActions -= CallAddCancelCritAction;
-            Host.OnSufferDamageConfirmed -= CheckToSufferAdditionalDamageAndRepair;
+            Host.OnDamageWasSuccessfullyDealt -= CheckToSufferAdditionalDamageAndRepair;
             Host.Tokens.RemoveCondition(typeof(Tokens.FuelLeakCritToken));
         }
     }

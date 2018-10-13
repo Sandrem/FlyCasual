@@ -73,7 +73,7 @@ namespace Abilities
             });
         }
 
-        private void RegisterStealthDeviceCleanupSe(GenericShip ship)
+        private void RegisterStealthDeviceCleanupSe(GenericShip ship, bool isCritical)
         {
             Triggers.RegisterTrigger(new Trigger
             {

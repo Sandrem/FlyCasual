@@ -809,7 +809,7 @@ namespace SquadBuilderNS
             string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/RandomAiSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
-            if (IsGenerationOfSquadsRequired()) CreatePreGeneratedRandomAiSquads();
+            CreatePreGeneratedRandomAiSquads();
 
             string[] filePaths = Directory.GetFiles(directoryPath);
             int randomFileIndex = UnityEngine.Random.Range(0, filePaths.Length);
@@ -822,6 +822,7 @@ namespace SquadBuilderNS
             return squadJson;
         }
 
+        // NOT USED
         private static bool IsGenerationOfSquadsRequired()
         {
             string directoryPath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/RandomAiSquadrons/";
@@ -841,10 +842,7 @@ namespace SquadBuilderNS
             foreach (var squadron in RuleSet.Instance.PreGeneratedAiSquadrons)
             {
                 string filePath = directoryPath + "/" + squadron.Key + ".json";
-                if (!File.Exists(filePath))
-                {
-                    File.WriteAllText(filePath, squadron.Value);
-                }
+                File.WriteAllText(filePath, squadron.Value);
             }
         }
 

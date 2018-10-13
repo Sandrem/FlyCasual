@@ -78,11 +78,9 @@ namespace Abilities
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostShip.PilotName,
                 "Choose another ship.\nIt may perform free action shown in its action bar.",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

@@ -86,7 +86,7 @@ namespace Abilities
                     IsCannonShot,
                     "IG-88B",
                     "You may perform a cannon attack.",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else

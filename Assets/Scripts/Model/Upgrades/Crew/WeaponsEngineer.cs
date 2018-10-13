@@ -54,7 +54,7 @@ namespace Abilities
                     Triggers.FinishTrigger();
                 },
                 "You may acquire a lock",
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
     }

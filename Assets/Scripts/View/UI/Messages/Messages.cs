@@ -41,13 +41,13 @@ public static class Messages{
 
     private static void ShowMessage(string text, MessageType type)
     {
-        if (allMessages.Find(n => n != null && n.name == text) != null) return;
+        if (allMessages.LastOrDefault() != null && allMessages.LastOrDefault().name == text) return;
 
-        Vector2 startingPosition = new Vector3(0, -50, 0);
+        Vector2 startingPosition = new Vector3(0, -75, 0);
 
         if (allMessages.Count != 0 && allMessages.Last() != null)
         {
-            startingPosition = allMessages.Last().transform.localPosition + new Vector3(0, -55, 0);
+            startingPosition = allMessages.Last().transform.localPosition + new Vector3(0, -85, 0);
         }
 
         foreach (var message in allMessages)

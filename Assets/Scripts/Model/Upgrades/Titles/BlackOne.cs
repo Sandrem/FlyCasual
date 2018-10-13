@@ -72,11 +72,9 @@ namespace Abilities
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostUpgrade.Name,
                 "Choose a ship to remove enemy Target Lock from it.",
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
 

@@ -125,7 +125,7 @@ namespace Abilities
                     CounterAttackFilter,
                     HostShip.PilotName,
                     "You may perform an additional attack against " + shipToPunish.PilotName + ".",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else
@@ -178,8 +178,7 @@ namespace Abilities.SecondEdition
 
         protected override void MarkAbilityAsUsed()
         {
-            //Empty delegate is safe here - Sandrem
-            HostShip.SpendCharge(delegate { });
+            HostShip.SpendCharge();
         }
     }
 }

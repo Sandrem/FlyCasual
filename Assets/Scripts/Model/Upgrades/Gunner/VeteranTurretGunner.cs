@@ -88,7 +88,7 @@ namespace Abilities.SecondEdition
                     IsUnusedTurretArcShot,
                     HostUpgrade.Name,
                     "You may perform a bonus turret arc attack using another turret arc",
-                    HostUpgrade.ImageUrl
+                    HostUpgrade
                 );
             }
             else

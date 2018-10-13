@@ -50,6 +50,6 @@ public class MessageContainer : MonoBehaviour {
 
     public void ShiftTargetPosition()
     {
-        targetPosition = targetPosition + new Vector3(0, 55, 0);
+        targetPosition = targetPosition + new Vector3(0, 100, 0);
     }
 }

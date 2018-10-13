@@ -44,7 +44,7 @@ namespace Upgrade
         Configuration        
     }
 
-    public abstract class GenericUpgrade
+    public abstract class GenericUpgrade : IImageHolder
     {
         public static GenericUpgrade CurrentUpgrade;
 
@@ -332,6 +332,14 @@ namespace Upgrade
 
             Slot.PreInstallUpgrade(newUpgrade, Host);
             Slot.TryInstallUpgrade(newUpgrade, Host);
+        }
+
+        public void SpendCharges(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                SpendCharge();
+            }
         }
 
         public void SpendCharge()

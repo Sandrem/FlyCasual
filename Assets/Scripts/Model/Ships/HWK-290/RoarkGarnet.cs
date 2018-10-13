@@ -74,11 +74,9 @@ namespace Abilities
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    true,
-                    null,
                     HostShip.PilotName,
                     GenerateAbilityMessage(),
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else

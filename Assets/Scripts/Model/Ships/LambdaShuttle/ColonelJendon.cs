@@ -104,11 +104,9 @@ namespace Abilities
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                DecisionSubPhase.ConfirmDecision,
                 HostShip.PilotName,
                 "Choose a ship to assign to it one of your Blue Target Lock tokens if it does not have a Blue Target Lock token.",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 
@@ -195,10 +193,8 @@ namespace Abilities.SecondEdition
         {
             AskToUseAbility(NeverUseByDefault, delegate(object s, EventArgs ev) 
             {
-                HostShip.SpendCharge( delegate
-                {
-                    UseColonelJendonAbility(sender, e);
-                });
+                HostShip.SpendCharge();
+                UseColonelJendonAbility(sender, e);
             });
         }
 

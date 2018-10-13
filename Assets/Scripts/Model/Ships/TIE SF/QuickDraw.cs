@@ -102,7 +102,7 @@ namespace Abilities
                     null,
                     HostShip.PilotName,
                     "You may perform a primary weapon attack.",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else

@@ -73,11 +73,9 @@ namespace Abilities
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    true,
-                    null,
                     HostShip.PilotName,
                     "Choose a ship to transfer one of your calculate tokens to",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else

@@ -1,20 +1,21 @@
-﻿using System;
+﻿using RuleSets;
+using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using SquadBuilderNS;
 using Upgrade;
-using Mods;
 
 public class SmallCardArt : MonoBehaviour {
 
     private string ImageUrl;
+    private IImageHolder ImageSource;
 
-    public void Initialize(string imageUrl)
+    public void Initialize(IImageHolder imageSource)
     {
-        ImageUrl = imageUrl;
+        ImageSource = imageSource;
+        ImageUrl = ImageSource.ImageUrl;
 
         this.gameObject.SetActive(false);
 
@@ -49,32 +50,35 @@ public class SmallCardArt : MonoBehaviour {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
 
-        if (newTexture.width > 250)
-        {
-            AdaptToPilotArt(targetObject, newTexture);
-        }
-        else
-        {
-            AdaptToUpgradeArt(targetObject, newTexture);
-        }
+        SetAdaptedArt(newTexture, ImageSource, targetObject);
 
         this.gameObject.SetActive(true);
     }
 
-    private void AdaptToUpgradeArt(GameObject targetObject, Texture2D newTexture)
+    private void SetAdaptedArt(Texture2D newTexture, object imageSource, GameObject targetObject)
     {
-        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height - 106, newTexture.width, 106), Vector2.zero);
-        targetObject.GetComponent<RectTransform>().sizeDelta = new Vector2(188, 100);
-        Image image = targetObject.transform.GetComponent<Image>();
-        image.sprite = newSprite;
-    }
+        Rect imageRect = new Rect();
+        if (imageSource is GenericShip)
+        {
+            imageRect = (RuleSet.Instance is SecondEdition) ? new Rect(0, 0, 503, 205) : new Rect(0, 0, 298, 124);
+        }
+        else if (imageSource is GenericUpgrade)
+        {
+            imageRect = (RuleSet.Instance is SecondEdition) ? new Rect(281, 0, 394, 202) : new Rect(0, 0, 194, 106);
+        }
 
-    private void AdaptToPilotArt(GameObject targetObject, Texture2D newTexture)
-    {
-        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height - 124, newTexture.width, 124), Vector2.zero);
-        targetObject.GetComponent<RectTransform>().sizeDelta = new Vector2(188, 78);
-        Image image = targetObject.transform.GetComponent<Image>();
-        image.sprite = newSprite;
+        Sprite newSprite = Sprite.Create(
+            newTexture,
+            new Rect(
+                imageRect.x,
+                newTexture.height - imageRect.height - imageRect.y,
+                imageRect.width,
+                imageRect.height),
+            Vector2.zero
+        );
+
+        targetObject.transform.GetComponent<Image>().sprite = newSprite;
+        targetObject.GetComponent<RectTransform>().sizeDelta = new Vector2(188, 188 / imageRect.width * imageRect.height);
     }
 
     private void ShowTextVersionOfCard()

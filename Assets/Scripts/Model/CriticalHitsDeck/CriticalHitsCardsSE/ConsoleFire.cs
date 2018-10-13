@@ -39,7 +39,6 @@ namespace DamageDeckCardSE
             DiscardEffect();
         }
 
-
         protected override void PlanRollForDamage()
         {
             Triggers.RegisterTrigger(new Trigger()

@@ -102,7 +102,7 @@ namespace Abilities.SecondEdition
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotName,
                 "Select another friendly ship to redirect one damage result",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

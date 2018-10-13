@@ -90,7 +90,7 @@ namespace Abilities
                 IsPrimaryShot,
                 HostUpgrade.Name,
                 "You may perform a primary weapon attack.",
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
 

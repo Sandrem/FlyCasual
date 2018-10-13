@@ -104,7 +104,7 @@ namespace Abilities.SecondEdition
                     IsAnotherWeapon,
                     "\"Double Edge\"",
                     "You may perform a bonus attack using different weapon.",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else

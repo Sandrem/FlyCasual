@@ -39,6 +39,8 @@ namespace RulesList
             {
                 foreach (var asteroid in ship.ObstaclesHit)
                 {
+                    if (ship.IgnoreObstaclesList.Contains(asteroid)) continue;
+
                     Triggers.RegisterTrigger(new Trigger()
                     {
                         Name = "Roll for asteroid damage",

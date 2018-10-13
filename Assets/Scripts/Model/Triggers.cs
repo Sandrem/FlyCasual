@@ -11,6 +11,7 @@ public enum TriggerTypes
 
     OnGameStart,
     OnSetupStart,
+    OnSetupEnd,
     OnInitiativeSelection,
     OnShipIsPlaced,
     OnRoundStart,

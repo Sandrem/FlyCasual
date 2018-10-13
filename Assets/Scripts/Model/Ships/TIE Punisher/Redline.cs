@@ -114,7 +114,7 @@ namespace Abilities
                 HostShip.ChooseTargetToAcquireTargetLock(
                     Triggers.FinishTrigger,
                     "You may acquire a lock",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
         }

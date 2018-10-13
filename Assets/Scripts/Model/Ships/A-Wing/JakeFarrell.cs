@@ -118,8 +118,7 @@ namespace Abilities.SecondEdition
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotName,
                 "Choose a friendly ship, it may perform a free Focus action",
-                HostShip.ImageUrl,
-                true
+                HostShip
             );
         }
 

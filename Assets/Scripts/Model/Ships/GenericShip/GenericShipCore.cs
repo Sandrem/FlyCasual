@@ -17,7 +17,7 @@ namespace Ship
 
     public interface TIE { } //marker interface for ships that counts as "TIEs", ie. Twin Ion Engine MkII
 
-    public partial class GenericShip
+    public partial class GenericShip : IImageHolder
     {
 
         public int ShipId { get; private set; }
@@ -469,19 +469,26 @@ namespace Ship
         public bool UsesCharges;
         public bool RegensCharges = false;
 
-        public void SpendCharge(Action callBack)
+        public void SpendCharges(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                SpendCharge();
+            }
+        }
+
+        public void SpendCharge()
         {
             Charges--;
 
             if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
-
-            callBack();
         }
 
         public void RemoveCharge(Action callBack)
         {
             // for now this is just an alias of SpendCharge
-            SpendCharge(callBack);
+            SpendCharge();
+            callBack();
         }
 
         public void RestoreCharge()

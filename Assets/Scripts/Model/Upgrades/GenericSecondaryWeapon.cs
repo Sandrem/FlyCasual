@@ -98,7 +98,7 @@ namespace Upgrade
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
                 List<char> letters = Actions.GetTargetLocksLetterPairs(Host, targetShip);
-                GenericToken targetLockToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
+                GenericToken targetLockToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), letters.FirstOrDefault());
                 if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
                 Host.CallOnGenerateAvailableAttackPaymentList(waysToPay);

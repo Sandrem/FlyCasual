@@ -88,11 +88,9 @@ namespace Abilities
                 FilterTargets,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostUpgrade.Name,
                 "Choose a ship. Assign 1 Focus token to that ship for each enemy ship inside your firing arc.",
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
 

@@ -19,7 +19,7 @@ namespace SubPhases
         private Transform StartingZone;
         private bool isInsideStartingZone;
 
-        private TouchObjectPlacementHandler PlacementHandler = new TouchObjectPlacementHandler(); //TODO: fix this...? use full name or something else for var...?
+        private TouchObjectPlacementHandler touchObjectPlacementHandler = new TouchObjectPlacementHandler();
 
         public override void Start()
         {
@@ -275,19 +275,19 @@ namespace SubPhases
         }
 
         private void PerformTouchDragRotate() {
-            PlacementHandler.Update();
+            touchObjectPlacementHandler.Update();
 
-            if (PlacementHandler.GetNewRotation() != 0f)
+            if (touchObjectPlacementHandler.GetNewRotation() != 0f)
             {
-                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, PlacementHandler.GetNewRotation(), 0));
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, touchObjectPlacementHandler.GetNewRotation(), 0));
                 Selection.ThisShip.ApplyRotationHelpers();
                 Selection.ThisShip.ResetRotationHelpers();
             }
 
-            if (PlacementHandler.GetNewPosition() != Vector3.zero) //TODO: need to assign to a variable or is this readable / perfromant enough?
+            if (touchObjectPlacementHandler.GetNewPosition() != Vector3.zero) //TODO: need to assign to a variable or is this readable / perfromant enough?
             {
-                Selection.ThisShip.SetCenter(new Vector3(PlacementHandler.GetNewPosition().x, 0f, 
-                                                         PlacementHandler.GetNewPosition().z));
+                Selection.ThisShip.SetCenter(new Vector3(touchObjectPlacementHandler.GetNewPosition().x, 0f, 
+                                                         touchObjectPlacementHandler.GetNewPosition().z));
             }
         }
 

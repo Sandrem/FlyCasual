@@ -26,7 +26,7 @@ namespace SubPhases
         private static bool IsEnteredPlacementZone;
         public static bool IsLocked;
 
-        private TouchObjectPlacementHandler PlacementHandler = new TouchObjectPlacementHandler();
+        private TouchObjectPlacementHandler touchObjectPlacementHandler = new TouchObjectPlacementHandler();
 
         public Dictionary<PlayerNo, bool> IsRandomSetupSelected = new Dictionary<PlayerNo, bool>()
         {
@@ -155,16 +155,16 @@ namespace SubPhases
         }
 
         private void MoveChosenObstacleTouch() {
-            PlacementHandler.Update();
+            touchObjectPlacementHandler.Update();
 
-            if (PlacementHandler.GetNewRotation() != 0f) {
-                ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, PlacementHandler.GetNewRotation(), 0);
+            if (touchObjectPlacementHandler.GetNewRotation() != 0f) {
+                ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, touchObjectPlacementHandler.GetNewRotation(), 0);
             }
 
-            if (PlacementHandler.GetNewPosition() != Vector3.zero) //TODO: need to assign to a variable or is this readable / perfromant enough?
+            if (touchObjectPlacementHandler.GetNewPosition() != Vector3.zero) //TODO: need to assign to a variable or is this readable / perfromant enough?
             {
-                ChosenObstacle.ObstacleGO.transform.position = new Vector3(PlacementHandler.GetNewPosition().x, 0f, 
-                                                                           PlacementHandler.GetNewPosition().z);
+                ChosenObstacle.ObstacleGO.transform.position = new Vector3(touchObjectPlacementHandler.GetNewPosition().x, 0f, 
+                                                                           touchObjectPlacementHandler.GetNewPosition().z);
             }
         }
 

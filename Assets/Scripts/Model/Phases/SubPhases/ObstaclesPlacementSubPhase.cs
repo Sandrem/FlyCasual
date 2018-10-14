@@ -337,11 +337,12 @@ namespace SubPhases
 
         private void TryToSelectObstacle()
         {
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (!EventSystem.current.IsPointerOverGameObject() &&
+               (Input.touchCount == 0 || !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
             {
                 // On touch devices, select on down instead of up event so drag can begin immediately
                 if (Input.GetKeyUp(KeyCode.Mouse0) ||
-                    (CameraScript.InputTouchIsEnabled && Input.GetTouch(0).phase == TouchPhase.Began))
+                    (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began))
                 {
                     RaycastHit hitInfo = new RaycastHit();
                     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

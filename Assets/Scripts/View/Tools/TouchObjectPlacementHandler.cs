@@ -40,24 +40,16 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
 
         CameraScript.TouchInputsPaused = false; //TODO: verify this works fine here -- I think it should though
 
-        RaycastHit hit;
-        Vector3 pointerPosition = Vector3.zero;
-
-        if (CameraScript.InputTouchIsEnabled)
+        if (Input.touchCount == 0 || EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
         {
-            if (Input.touchCount >= 1 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-            {
-                pointerPosition = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
-            }
-            else
-            {
-                touchDownLastUpdate = false;
-                mouseOverObjectLastUpdate = false;
-                return;
-            }
+            touchDownLastUpdate = false;
+            mouseOverObjectLastUpdate = false;
+            return;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(pointerPosition); // TODO: don't need pointerposition var any more, simplify code?
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x, 
+                                                           Input.GetTouch(0).position.y));
 
         if (Physics.Raycast(ray, out hit))
         {

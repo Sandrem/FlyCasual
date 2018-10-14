@@ -23,16 +23,14 @@ public static class Selection {
     public static void UpdateSelection()
     {
         if (!EventSystem.current.IsPointerOverGameObject() && 
-            // TODO: clean up next line...? make less one giant if statmenet
-            (!CameraScript.InputTouchIsEnabled || (Input.touchCount >= 1 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))))
+            (Input.touchCount == 0 || !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
         {
             TryMarkShipByModel();
             int mouseKeyIsPressed = 0;
             // TODO: is selection used anywhere else? do my changes break anything else that uses it???
-            // On touch devices, select on down instead of up event so drag can begin immediately
-            // TODO: test everything (camera, ship, obstacle placement) to ensure it still works fine on desktop. test on android??
-            // TOFIX: I think this makes it call UIhidetemporarymenu whenever a down event on the dial happens, which hides it before the click's up event is processed by the dial
-            // to fix, etiher need better IsPointerOverGameObject or...?
+              // TODO: does it break manuver selection at all..?
+                //TODO: hmm, there are lots of things that use this, but I can't think of why this would break any of them
+            // On touch devices, select on down instead of up event so dragging in ship setup can begin immediately
             if (Input.GetKeyUp(KeyCode.Mouse0) || 
                 (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)) {
                 mouseKeyIsPressed = 1;

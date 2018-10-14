@@ -1,4 +1,5 @@
 ﻿using System;
+using Obstacles;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -16,23 +17,29 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
     private bool mouseOverObjectLastUpdate = false;
     private Vector2 lastRotationVector = Vector2.zero;
 
+    private Vector3 newPosition = Vector3.zero;
+    private float newRotation = 0f;
+
 
     public TouchObjectPlacementHandler()
     {
     }
 
-    public SetShip(Ship.GenericShip ship) { //TODO: call this from other class
+    public void SetShip(Ship.GenericShip ship) {
         this.ChosenShip = ship;
         this.ChosenObstacle = null;
     }
 
-    public SetObstacle (GenericObstacle obstacle) { //TODO: call this from other class
+    public void SetObstacle (GenericObstacle obstacle) {
         // TODO: no way to unify these, right?
         this.ChosenShip = null;
         this.ChosenObstacle = obstacle;
     }
 
-    public Update() {
+    public void Update() {
+
+        CameraScript.TouchInputsPaused = false; //TODO: verify this works fine here -- I think it should though
+
         RaycastHit hit;
         Vector3 pointerPosition = Vector3.zero;
 
@@ -55,7 +62,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
         if (Physics.Raycast(ray, out hit))
         {
 
-            // Handle drags -- on touch, ships / obstacles must be dragged instead of always moving with the mouse
+            // Handle drags -- on touch devices, ships / obstacles must be dragged instead of always moving with the mouse
             float distanceFromObject = (GetObjectLocation() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
 
             if (Console.IsActive) Console.Write("distance from object:" + distanceFromObject, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
@@ -64,6 +71,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
             {
                 // Don't move if something other than a ship drag is in progress
                 touchDownLastUpdate = true;
+                newPosition = Vector3.zero;
                 return;
             }
             else if (!mouseOverObjectLastUpdate && (distanceFromObject > GetDistanceThreshold()))
@@ -71,14 +79,23 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
                 // Don't move if the first touch is too far from the ship
                 touchDownLastUpdate = true;
                 mouseOverObjectLastUpdate = false;
+                newPosition = Vector3.zero;
                 return;
             }
             else
             {
-                // Otherwise, move the ship!
+                // Otherwise, move the ship if needed!
                 touchDownLastUpdate = true;
                 mouseOverObjectLastUpdate = true;
                 CameraScript.TouchInputsPaused = true;
+
+                if (distanceFromObject > 0f)
+                {
+                    newPosition = new Vector3(hit.point.x, 0f, hit.point.z);
+                }
+                else {
+                    newPosition = Vector3.zero;
+                }
             }
 
             // Do ship rotation on touchscreens
@@ -89,8 +106,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
 
                 if (lastRotationVector != Vector2.zero)
                 {
-                    float rotationAngle = Vector2.SignedAngle(lastRotationVector, currentRotationVector) * -2;
-                    ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, rotationAngle, 0); //TODO: store results in vars instead of doing anything with them
+                    newRotation = Vector2.SignedAngle(lastRotationVector, currentRotationVector) * -2;
                 }
                 lastRotationVector = currentRotationVector;
 
@@ -98,6 +114,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
             else
             {
                 lastRotationVector = Vector2.zero;
+                newRotation = 0f;
             }
         }
 
@@ -105,13 +122,13 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
 
     // Returns the new position, or vector.zero if no change this update
     public Vector3 GetNewPosition() {
-        // TODO: return 0 if no change / if same as last update?
+        return newPosition;
     }
 
     // Returns the new rotation, or 0f if no change this update
     public float GetNewRotation() {
         // TODO: Future work: show a nice UI handle on the screen for rotation instead of using two-fingers. Two fingers makes it really hard to see what you're doing with small ships
-        // TODO: return 0 if no change / if same as last update?
+        return newRotation;
     }
 
     private Vector3 GetObjectLocation() {
@@ -130,27 +147,21 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
     private float GetDistanceThreshold() {
         if (ChosenShip != null)
         {
-            // TODO: or a switch statement?
-            if (ChosenShip.ShipBaseSize == BaseSize.Ship.BaseSize.Small) {
-                return 0.4f;
-            }
-            else if (ChosenShip.ShipBaseSize == BaseSize.Ship.BaseSize.Medium)
+            switch (ChosenShip.ShipBaseSize)
             {
-                return 0.6f;
-
-            }
-            else if (ChosenShip.ShipBaseSize == BaseSize.Ship.BaseSize.Large)
-            {
-                return 0.8f;
+                case Ship.BaseSize.Small:
+                    return 0.4f;
+                case Ship.BaseSize.Medium:
+                    return 0.6f;
+                case Ship.BaseSize.Large:
+                    return 0.8f;
             }
             // TODO: tweak thresholds?
-            // TODO: any way to get the actual base sizes or anything? maybe this is good enough though
-            // TODO: do the threshold in physical space not world space though? hmm might not matter, but in theory would get closer to the intent
+            // TODO: any way to get the actual physical base sizes for this? this seems good enough though
+            // TODO: do the threshold in physical space not world space though? hmm might not matter, this seems good enoguh, but in theory would get closer to the intent
+        }
 
-        }
-        else
-        {
-            return 0.8f;
-        }
+        // For obstacles, anything else
+        return 0.8f;
     }
 }

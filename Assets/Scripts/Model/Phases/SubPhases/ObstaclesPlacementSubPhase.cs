@@ -100,8 +100,6 @@ namespace SubPhases
 
         public override void Update()
         {
-            CameraScript.TouchInputsPaused = false;  //TODO: move to TouchObjectPlacementHandler? should work fine in that update() call, at begining of method...?
-
             if (IsLocked) return;
             if (ChosenObstacle == null) return;
             if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(HumanPlayer)) return;
@@ -330,8 +328,9 @@ namespace SubPhases
             {
                 TryToSelectObstacle();
             }
-            else if (!CameraScript.InputTouchIsEnabled)
+            else if (CameraScript.InputMouseIsEnabled)
             {
+                // For mouse input, clicking places obstacles (not for touch input though)
                 TryToPlaceObstacle();
             }
         }
@@ -345,21 +344,28 @@ namespace SubPhases
                    (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began))
                 {
                     RaycastHit hitInfo = new RaycastHit();
-                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
-                    {
-                        if (hitInfo.transform.tag.StartsWith("Asteroid"))
-                        {
-                            GameObject obstacleGO = hitInfo.transform.parent.gameObject;
-                            GenericObstacle clickedObstacle = ObstaclesManager.GetObstacleByName(obstacleGO.name);
-                            
-                            if (!clickedObstacle.IsPlaced)
-                            {
-                                SelectObstacle(clickedObstacle);
-                            }
+                    bool castHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+
+                    // If an asteroid wasn't found and we're on touch, see if the user tapped right next to an asteroid
+                    if (CameraScript.InputTouchIsEnabled && 
+                        (!castHit || !hitInfo.transform.tag.StartsWith("Asteroid"))) {
+                       
+                        castHit = Physics.SphereCast(ray, 0.1f, out hitInfo, 10f); //TODO: constants good?
+                        if (castHit){
+                            Console.Write("spherehit!!");
                         }
                     }
-                    else {
-                        // TODO: check how clise it is to the nearest asteroid, pick that if it's close enough...??
+
+                    if (castHit && hitInfo.transform.tag.StartsWith("Asteroid"))
+                    {
+                        // Select the obstacle found
+                        GameObject obstacleGO = hitInfo.transform.parent.gameObject;
+                        GenericObstacle clickedObstacle = ObstaclesManager.GetObstacleByName(obstacleGO.name);
+
+                        if (!clickedObstacle.IsPlaced)
+                        {
+                            SelectObstacle(clickedObstacle);
+                        }
                     }
                 }
             }
@@ -371,7 +377,7 @@ namespace SubPhases
             ChosenObstacle = obstacle;
             UI.HideSkipButton();
 
-            if (Input.touchSupported)
+            if (CameraScript.InputTouchIsEnabled)
             {
                 // With touch controls, wait for confirmation before setting the position
                 UI.ShowNextButton();
@@ -382,7 +388,7 @@ namespace SubPhases
 
         public override void NextButton()
         {
-            // Only used for touch controls
+            // Only used for touch controls -- try to confirm obstacle placement
             if (!TryToPlaceObstacle()) {
                 UI.ShowNextButton();
             }

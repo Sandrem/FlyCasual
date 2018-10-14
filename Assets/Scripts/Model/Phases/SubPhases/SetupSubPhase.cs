@@ -6,7 +6,6 @@ using Ship;
 using BoardTools;
 using GameModes;
 using GameCommands;
-using UnityEngine.EventSystems;
 
 namespace SubPhases
 {
@@ -181,8 +180,6 @@ namespace SubPhases
 
         public override void Update()
         {
-            CameraScript.TouchInputsPaused = false; //TODO: move to TouchObjectPlacementHandler?
-
             if (inReposition)  {
                 if (CameraScript.InputMouseIsEnabled) PerformDrag();
                 if (CameraScript.InputTouchIsEnabled) PerformTouchDragRotate();
@@ -426,17 +423,9 @@ namespace SubPhases
 
             if (Input.touchSupported)
             {
-                if (result)
-                {
-                    // With touch controls, wait for confirmation before setting the position
-                    UI.ShowNextButton(); // TODO: ** line up UX with obstacles's UX -- always show next button, but show errors when you press it if applicable. maybe don't show errors before that? hmm, what does obstacles do?
-                    IsReadyForCommands = true;
-                }
-                else
-                {
-                    UI.HideNextButton();
-                    IsReadyForCommands = false;
-                }
+                // With touch controls, wait for confirmation before setting the position
+                UI.ShowNextButton();
+                IsReadyForCommands = true;
             } 
             else 
             {
@@ -447,8 +436,11 @@ namespace SubPhases
         }
 
         public override void NextButton() {
-            // Only used for touch controls
-            StopDrag();
+            // Only used for touch controls -- confirm ship's position
+            if (TryConfirmPosition(Selection.ThisShip))
+            {
+                StopDrag();
+            }
         }
 
         private void StopDrag()

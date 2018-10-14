@@ -50,8 +50,8 @@ public class CameraScript : MonoBehaviour {
     private Vector2 totalTouchMove = new Vector2(0.0f, 0.0f);
 
     public static bool InputAxisAreEnabled = true;
-    bool _inputMouseIsEnabled = true;
-    public bool InputMouseIsEnabled
+    static bool _inputMouseIsEnabled = true;
+    public static bool InputMouseIsEnabled
     {
         get { return _inputMouseIsEnabled; }
         set {
@@ -63,8 +63,8 @@ public class CameraScript : MonoBehaviour {
             }
         }
     }
-    bool _inputTouchIsEnabled = false;
-    public bool InputTouchIsEnabled
+    static bool _inputTouchIsEnabled = false;
+    public static bool InputTouchIsEnabled
     {
         get { return _inputTouchIsEnabled; }
         set
@@ -238,7 +238,7 @@ public class CameraScript : MonoBehaviour {
         }
 	}
 
-    // Pinch zoom, two finger rotate, and one finger pan for mobile
+    // Pinch zoom, two finger rotate for touch controls
 
     void CamRotateZoomByTouch()
     {
@@ -381,6 +381,8 @@ public class CameraScript : MonoBehaviour {
             lastProcessedRotateCenter = initialRotateCenter;
         }
     }
+
+    // One finger pan for touch controls
 
     void CamMoveByTouch()
     {

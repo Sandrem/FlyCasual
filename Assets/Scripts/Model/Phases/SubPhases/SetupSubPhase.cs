@@ -20,9 +20,7 @@ namespace SubPhases
         private Transform StartingZone;
         private bool isInsideStartingZone;
 
-        private bool touchDownLastUpdate = false; // TODO: cleaner?
-        private bool mouseOverShipLastUpdate = false;
-        private Vector2 lastRotationVector = Vector2.zero;
+        private TouchObjectPlacementHandler PlacementHandler = new TouchObjectPlacementHandler(); //TODO: fix this...? use full name or something else for var...?
 
         public override void Start()
         {
@@ -183,9 +181,12 @@ namespace SubPhases
 
         public override void Update()
         {
-            CameraScript.TouchInputsPaused = false;
+            CameraScript.TouchInputsPaused = false; //TODO: move to TouchObjectPlacementHandler?
 
-            if (inReposition) PerformDrag();
+            if (inReposition)  {
+                if (CameraScript.InputMouseIsEnabled) PerformDrag();
+                if (CameraScript.InputTouchIsEnabled) PerformTouchDragRotate();
+            }
             CheckPerformRotation();
         }
 
@@ -270,90 +271,32 @@ namespace SubPhases
             RaycastHit hit;
             Vector3 pointerPosition = Vector3.zero;
 
-            if (CameraScript.InputTouchIsEnabled) {
-                if (Input.touchCount >= 1 && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-                {
-                    pointerPosition = new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y);
-                }
-                else {
-                    touchDownLastUpdate = false;
-                    mouseOverShipLastUpdate = false;
-                    return;
-                }
-            }
-            else if (!CameraScript.InputTouchIsEnabled) {
-                pointerPosition = Input.mousePosition;
-            }
-
-            Ray ray = Camera.main.ScreenPointToRay(pointerPosition);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit))
             {
-
-                // On mobile, ships must be dragged instead of always moving with the mouse
-                if (CameraScript.InputTouchIsEnabled)
-                {
-                    float distanceThreshold = .4f;
-
-                    if (Selection.ThisShip.ShipBaseSize == BaseSize.Medium) distanceThreshold = .6f;
-                    if (Selection.ThisShip.ShipBaseSize == BaseSize.Large) distanceThreshold = .8f;
-                    // TODO: tweak thresholds? test them, see if they're enough. probably good if they're a smidge too big too!
-                    // TODO: any way to get the actual base sizes or anything? maybe this is good enough though
-                    // TODO: do the threshold in physical space not world space though? hmm might not matter
-
-                    float distanceFromShip = (Selection.ThisShip.GetCenter() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
-
-                    if (Console.IsActive) Console.Write("distance from ship:" + distanceFromShip, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
-
-                    if (touchDownLastUpdate && !mouseOverShipLastUpdate)  
-                    {
-                        // Don't move if something other than a ship drag is in progress
-                        touchDownLastUpdate = true;
-                        return;
-                    }
-                    else if (!mouseOverShipLastUpdate && (distanceFromShip > distanceThreshold))
-                    {
-                        // Don't move if the first touch is too far from the ship
-                        touchDownLastUpdate = true;
-                        mouseOverShipLastUpdate = false;
-                        return;
-                    }
-                    else
-                    {
-                        // Otherwise, move the ship!
-                        touchDownLastUpdate = true;
-                        mouseOverShipLastUpdate = true;
-                        CameraScript.TouchInputsPaused = true;
-                    }
-
-                    // Do ship rotation on touchscreens
-                    // TODO: I think it would be better to show a seperate rotation handle or something actually, hmmm
-                    if (Input.touchCount == 2) {
-                 
-                        Vector2 currentRotationVector = Input.GetTouch(1).position - Input.GetTouch(0).position;
-
-                        if (lastRotationVector != Vector2.zero)
-                        {
-                            float rotationAngle = Vector2.SignedAngle(lastRotationVector, currentRotationVector) * -2;
-                 
-                            Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, rotationAngle, 0));
-                            Selection.ThisShip.ApplyRotationHelpers();
-                            Selection.ThisShip.ResetRotationHelpers();
-                        }
-                        lastRotationVector = currentRotationVector;
-                 
-                    }
-                    else {
-                        lastRotationVector = Vector2.zero;
-                    }
-
-                }
-
                 Selection.ThisShip.SetCenter(new Vector3(hit.point.x, 0f, hit.point.z));
             }
 
             CheckControlledModeLimits();
             ApplySetupPositionLimits();
+        }
+
+        private void PerformTouchDragRotate() {
+            PlacementHandler.Update();
+
+            if (PlacementHandler.GetNewRotation() != 0f)
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, PlacementHandler.GetNewRotation(), 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+
+            if (PlacementHandler.GetNewPosition() != Vector3.zero) //TODO: need to assign to a variable or is this readable / perfromant enough?
+            {
+                Selection.ThisShip.SetCenter(new Vector3(PlacementHandler.GetNewPosition().x, 0f, 
+                                                         PlacementHandler.GetNewPosition().z));
+            }
         }
 
         private void CheckControlledModeLimits()

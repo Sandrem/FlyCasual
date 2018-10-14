@@ -172,10 +172,7 @@ namespace SubPhases
             inReposition = false;
 
             Selection.ChangeActiveShip("ShipId:" + shipId);
-            Board.PlaceShip(Selection.ThisShip, position, angles, delegate { 
-                Selection.DeselectThisShip();
-                Phases.Next(); 
-            });
+            Board.PlaceShip(Selection.ThisShip, position, angles, delegate { Selection.DeselectThisShip(); Phases.Next(); });
         }
 
         public override void Update()
@@ -266,8 +263,6 @@ namespace SubPhases
         private void PerformDrag()
         {
             RaycastHit hit;
-            Vector3 pointerPosition = Vector3.zero;
-
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit))
@@ -421,7 +416,7 @@ namespace SubPhases
 
             }
 
-            if (Input.touchSupported)
+            if (CameraScript.InputTouchIsEnabled)
             {
                 // With touch controls, wait for confirmation before setting the position
                 UI.ShowNextButton();

@@ -337,14 +337,15 @@ namespace SubPhases
 
         private void TryToSelectObstacle()
         {
-            if (!EventSystem.current.IsPointerOverGameObject()) //TODO: fix this for touch? make a helper method for that...?
-            { //TODO: oh, this is the fixed version for touch, need to use it or does it not matter here hmmm? a helper method may be good... && !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
                 // On touch devices, select on down instead of up event so drag can begin immediately
                 if (Input.GetKeyUp(KeyCode.Mouse0) ||
-                   (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began))
+                    (CameraScript.InputTouchIsEnabled && Input.GetTouch(0).phase == TouchPhase.Began))
                 {
                     RaycastHit hitInfo = new RaycastHit();
-                    bool castHit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo);
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    bool castHit = Physics.Raycast(ray, out hitInfo);
 
                     // If an asteroid wasn't found and we're on touch, see if the user tapped right next to an asteroid
                     if (CameraScript.InputTouchIsEnabled && 
@@ -352,13 +353,14 @@ namespace SubPhases
                        
                         castHit = Physics.SphereCast(ray, 0.1f, out hitInfo, 10f); //TODO: constants good?
                         if (castHit){
-                            Console.Write("spherehit!!");
+                            Console.Write("spherehit!!"); //TODO: remove this after testing
                         }
                     }
 
+
+                    // Select the obstacle found if it's valid
                     if (castHit && hitInfo.transform.tag.StartsWith("Asteroid"))
                     {
-                        // Select the obstacle found
                         GameObject obstacleGO = hitInfo.transform.parent.gameObject;
                         GenericObstacle clickedObstacle = ObstaclesManager.GetObstacleByName(obstacleGO.name);
 

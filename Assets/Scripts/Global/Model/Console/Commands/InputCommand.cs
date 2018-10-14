@@ -23,11 +23,11 @@ namespace CommandsList
         {
             if (parameters.ContainsKey("axis"))
             {
-                CameraScript.InputAxisAreDisabled = !CameraScript.InputAxisAreDisabled;
+                CameraScript.InputAxisAreEnabled = !CameraScript.InputAxisAreEnabled;
             }
             else if (parameters.ContainsKey("mouse"))
             {
-                CameraScript.InputMouseIsDisabled = !CameraScript.InputMouseIsDisabled;
+                CameraScript.InputMouseIsEnabled = !CameraScript.InputMouseIsEnabled;
             }
             else if (parameters.ContainsKey("touch")) {
                 CameraScript.InputTouchIsEnabled = !CameraScript.InputTouchIsEnabled;

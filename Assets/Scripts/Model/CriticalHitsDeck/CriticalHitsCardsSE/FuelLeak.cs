@@ -9,6 +9,8 @@ namespace DamageDeckCardSE
 
     public class FuelLeak : GenericDamageCard
     {
+        private bool IgnoredSelf;
+
         public FuelLeak()
         {
             Name = "Fuel Leak";
@@ -23,19 +25,27 @@ namespace DamageDeckCardSE
             Host.Tokens.AssignCondition(typeof(Tokens.FuelLeakCritToken));
             Triggers.FinishTrigger();
         }
-                
 
         private void CheckToSufferAdditionalDamageAndRepair(GenericShip ship, bool isCritical)
         {
             if (isCritical)
             {
-                Triggers.RegisterTrigger(new Trigger()
+                if (!IgnoredSelf)
                 {
-                    Name = "Fuel Leak",
-                    TriggerType = TriggerTypes.OnDamageWasSuccessfullyDealt,
-                    TriggerOwner = ship.Owner.PlayerNo,
-                    EventHandler = SufferAdditonalDamage,
-                });
+                    IgnoredSelf = true;
+                }
+                else
+                {
+                    DiscardEffect();
+
+                    Triggers.RegisterTrigger(new Trigger()
+                    {
+                        Name = "Fuel Leak",
+                        TriggerType = TriggerTypes.OnDamageWasSuccessfullyDealt,
+                        TriggerOwner = ship.Owner.PlayerNo,
+                        EventHandler = SufferAdditonalDamage,
+                    });
+                }
             }
         }
 
@@ -49,13 +59,7 @@ namespace DamageDeckCardSE
                 DamageType = DamageTypes.CriticalHitCard
             };
 
-            Host.Damage.TryResolveDamage(1, fuelleakDamage, RepairFuelLeak);
-        }
-
-        private void RepairFuelLeak()
-        {
-            DiscardEffect();
-            Triggers.FinishTrigger();
+            Host.Damage.TryResolveDamage(1, fuelleakDamage, Triggers.FinishTrigger);
         }
 
         public override void DiscardEffect()

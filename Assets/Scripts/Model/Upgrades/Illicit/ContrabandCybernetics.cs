@@ -46,12 +46,12 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
-            HostShip.OnMovementActivation += RegisterTrigger;
+            HostShip.OnMovementActivationStart += RegisterTrigger;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnMovementActivation -= RegisterTrigger;
+            HostShip.OnMovementActivationStart -= RegisterTrigger;
         }
 
         private void RegisterTrigger(GenericShip ship)
@@ -87,7 +87,7 @@ namespace Abilities
 
         public void ActivateContrabandCyberneticsAbility(object sender, System.EventArgs e)
         {
-            HostShip.OnMovementActivation -= RegisterTrigger;
+            HostShip.OnMovementActivationStart -= RegisterTrigger;
             Phases.Events.OnEndPhaseStart_NoTriggers += DeactivateContrabandCyberneticsAbility;
 
             PayActivationCost(RemoveRestrictions);

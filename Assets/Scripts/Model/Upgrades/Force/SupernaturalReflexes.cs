@@ -36,12 +36,12 @@ namespace Abilities
         {
             public override void ActivateAbility()
             {
-                HostShip.OnMovementActivation += RegisterTrigger;
+                HostShip.OnMovementActivationStart += RegisterTrigger;
             }
 
             public override void DeactivateAbility()
             {
-                HostShip.OnMovementActivation -= RegisterTrigger;
+                HostShip.OnMovementActivationStart -= RegisterTrigger;
             }
 
             private void RegisterTrigger(GenericShip ship)
@@ -57,7 +57,7 @@ namespace Abilities
 
                     HostShip.BeforeFreeActionIsPerformed += PayForceToken;
                     HostShip.OnActionIsPerformed += CheckSupernaturalReflexesDamage;
-                    HostShip.OnActionDecisionSubphaseEndNoAction += DeregisterSupernaturalReflexesEvents;
+                    HostShip.OnActionIsSkipped += DeregisterSupernaturalReflexesEvents;
 
                     HostShip.AskPerformFreeAction
                     (
@@ -86,7 +86,7 @@ namespace Abilities
             {
                 HostShip.BeforeFreeActionIsPerformed -= PayForceToken;
                 HostShip.OnActionIsPerformed -= CheckSupernaturalReflexesDamage;
-                HostShip.OnActionDecisionSubphaseEndNoAction -= DeregisterSupernaturalReflexesEvents;
+                HostShip.OnActionIsSkipped -= DeregisterSupernaturalReflexesEvents;
             }
 
             public void CheckSupernaturalReflexesDamage(GenericAction action)

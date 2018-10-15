@@ -51,13 +51,13 @@ namespace Abilities.SecondEdition
         {
             abilityTarget = targetShip;
             targetShip.OnActionIsPerformed += RegisterAbility;
-            targetShip.OnActionDecisionSubphaseEndNoAction += DeregisterAbilityEvents;
+            targetShip.OnActionIsSkipped += DeregisterAbilityEvents;
         }
 
         private void DeregisterAbilityEvents(GenericShip ship)
         {
             abilityTarget.OnActionIsPerformed -= RegisterAbility;
-            abilityTarget.OnActionDecisionSubphaseEndNoAction -= DeregisterAbilityEvents;
+            abilityTarget.OnActionIsSkipped -= DeregisterAbilityEvents;
             abilityTarget = null;
             abilityAction = null;
         }

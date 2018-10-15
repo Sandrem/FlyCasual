@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using RuleSets;
+using ActionsList;
 
 namespace UpgradesList
 {
@@ -26,6 +27,9 @@ namespace UpgradesList
             Cost = 8;
 
             SEImageNumber = 23;
+
+            UpgradeAbilities.RemoveAll(a => a is AdvancedSensorsAbility);
+            UpgradeAbilities.Add(new Abilities.SecondEdition.AdvancedSensorsAbilitySE());
         }
     }
 }
@@ -61,11 +65,79 @@ namespace Abilities
 
         private void UseAdvancedSensors(object sender, System.EventArgs e)
         {
-            List<ActionsList.GenericAction> actions = HostShip.GetAvailableActions();
+            List<GenericAction> actions = HostShip.GetAvailableActions();
 
             HostShip.AskPerformFreeAction(actions, SubPhases.DecisionSubPhase.ConfirmDecision);
             // if ability is used, skipped Perform Action
             HostShip.IsSkipsActionSubPhase = true;
+        }
+
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class AdvancedSensorsAbilitySE : GenericAbility
+    {
+
+        // After you reveal your dial, you may perform 1 action.
+        // If you do, you cannot perform another action during your activation.
+
+        public override void ActivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed += RegisterAdvancedSensors;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnManeuverIsRevealed -= RegisterAdvancedSensors;
+        }
+
+        private void RegisterAdvancedSensors(GenericShip ship)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, UseAdvancedSensors);
+        }
+
+        private void UseAdvancedSensors(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfoToHuman(HostUpgrade.Name + ": You can perform an action");
+
+            HostShip.OnActionIsPerformed += SkipActionsUntilEndOfActivation;
+            HostShip.OnActionIsSkipped += SkipAbility;
+
+            List<GenericAction> actions = HostShip.GetAvailableActions();
+            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+        }
+
+        private void SkipAbility(GenericShip ship)
+        {
+            Messages.ShowInfoToHuman(HostUpgrade.Name + ": Action is skipped");
+
+            HostShip.OnActionIsPerformed -= SkipActionsUntilEndOfActivation;
+            HostShip.OnActionIsSkipped -= SkipAbility;
+        }
+
+        private void SkipActionsUntilEndOfActivation(GenericAction action)
+        {
+            Messages.ShowInfoToHuman(HostUpgrade.Name + ": You cannot perform another actions during your activation");
+
+            HostShip.OnActionIsPerformed -= SkipActionsUntilEndOfActivation;
+
+            HostShip.OnTryAddAction += DisallowAction;
+            HostShip.OnMovementActivationFinish += ClearRestriction;
+        }
+
+        private void DisallowAction(GenericAction action, ref bool isAllowed)
+        {
+            isAllowed = false;
+        }
+
+        private void ClearRestriction(GenericShip ship)
+        {
+            Messages.ShowInfoToHuman(HostUpgrade.Name + ": You can perform actions as usual");
+
+            HostShip.OnMovementActivationFinish -= ClearRestriction;
+            HostShip.OnTryAddAction -= DisallowAction;
         }
 
     }

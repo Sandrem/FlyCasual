@@ -176,7 +176,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         UI.HideContextMenu();
 
-        Selection.ThisShip.CallMovementActivation(ReadyRoRevealManeuver);
+        Selection.ThisShip.CallMovementActivationStart(ReadyRoRevealManeuver);
     }
 
     private static void ReadyRoRevealManeuver()

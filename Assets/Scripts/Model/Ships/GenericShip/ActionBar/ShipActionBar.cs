@@ -93,7 +93,7 @@ namespace Ship
 
         public bool HasAction(Type type, bool isRed)
         {
-            return AllActions.Any(n => n.GetType() == type || n.GetType().IsSubclassOf(type) && n.IsRed == isRed);
+            return AllActions.Any(n => (n.GetType() == type || n.GetType().IsSubclassOf(type)) && n.IsRed == isRed);
         }
     }
 }

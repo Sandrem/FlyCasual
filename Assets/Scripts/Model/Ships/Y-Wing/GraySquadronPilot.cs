@@ -31,6 +31,8 @@ namespace Ship
 
                 Cost = 32;
 
+                PrintedUpgradeIcons.Remove(UpgradeType.Astromech);
+
                 SEImageNumber = 18;
             }
         }

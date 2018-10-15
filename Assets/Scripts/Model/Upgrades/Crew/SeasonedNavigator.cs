@@ -52,17 +52,25 @@ namespace Abilities.SecondEdition
 
         private void AskToChangeManeuver(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostUpgrade.Name + ": You can change maneuver");
-            
+            AskToUseAbility(NeverUseByDefault, ShowAvailableManeuver);
+        }
+
+        private void ShowAvailableManeuver(object sender, System.EventArgs e)
+        {
+            SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
+
             HostShip.Owner.ChangeManeuver(AssignManeuverWithIncreasedComplexity, IsSameSpeedNotRed);
         }
 
         private void AssignManeuverWithIncreasedComplexity(string maneuverCode)
         {
-            if (maneuverCode != HostShip.AssignedManeuver.ToString()) Messages.ShowInfo(HostUpgrade.Name + ": Complexity of maneuver is increased");
+            if (maneuverCode != HostShip.AssignedManeuver.ToString())
+            {
+                Messages.ShowInfo(HostUpgrade.Name + ": Complexity of maneuver is increased");
 
-            HostShip.AfterGetManeuverColorIncreaseComplexity += ChangeComplexity;
-            HostShip.OnMovementFinish += ClearAbility;
+                HostShip.AfterGetManeuverColorIncreaseComplexity += ChangeComplexity;
+                HostShip.OnMovementFinish += ClearAbility;
+            }
 
             GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
         }
@@ -70,6 +78,9 @@ namespace Abilities.SecondEdition
         private bool IsSameSpeedNotRed(string maneuverString)
         {
             bool result = false;
+
+            if (maneuverString == HostShip.AssignedManeuver.ToString()) return true;
+
             MovementStruct movementStruct = new MovementStruct(maneuverString);
             if (movementStruct.Speed == HostShip.AssignedManeuver.ManeuverSpeed && movementStruct.ColorComplexity != MovementComplexity.Complex)
             {

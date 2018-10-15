@@ -83,7 +83,7 @@ namespace Ship
                 ShipBaseArcsType = Arcs.BaseArcsType.ArcMobileDual;
 
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Cannon);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 ActionBar.RemovePrintedAction(typeof(BarrelRollAction));

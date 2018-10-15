@@ -319,6 +319,7 @@ namespace SubPhases
 
                 if (!shipToSkipCombat.IsAttackPerformed)
                 {
+                    Selection.ChangeActiveShip(shipToSkipCombat);
                     shipToSkipCombat.CallCombatActivation(
                     delegate {
                         AfterSkippedCombatActivation(shipToSkipCombat);

@@ -47,12 +47,12 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            HostShip.OnMovementActivation += CheckAbilityConditions;
+            HostShip.OnMovementActivationStart += CheckAbilityConditions;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnMovementActivation -= CheckAbilityConditions;
+            HostShip.OnMovementActivationStart -= CheckAbilityConditions;
         }
 
         private void CheckAbilityConditions(GenericShip ship)

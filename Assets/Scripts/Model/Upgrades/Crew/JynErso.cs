@@ -31,7 +31,7 @@ namespace UpgradesList
 
         public void AdaptUpgradeToSecondEdition()
         {
-            Cost = 3;
+            Cost = 2;
 
             UpgradeAbilities.RemoveAll(a => a is JynErsoAbility);
             UpgradeAbilities.Add(new Abilities.SecondEdition.JynErsoAbilitySE());

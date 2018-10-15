@@ -85,6 +85,8 @@ namespace Arcs
 
         public ArcShotPermissions ShotPermissions;
 
+        public bool WasUsedForAttackThisRound { get; set; }
+
         public GenericArc(GenericShipBase shipBase)
         {
             ShipBase = shipBase;

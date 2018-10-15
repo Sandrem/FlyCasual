@@ -17,7 +17,8 @@ namespace Ship
 
                 faction = Faction.Rebel;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
+
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.EzraBridgerPilotAbilitySE());
 

@@ -503,7 +503,7 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnTargetLockIsAcquired, callback);
         }
 
-        public void ChooseTargetToAcquireTargetLock(Action callback, string abilityName, string imageUrl)
+        public void ChooseTargetToAcquireTargetLock(Action callback, string abilityName, IImageHolder imageSource)
         {
             AcquireTargetLockSubPhase selectTargetLockSubPhase = (AcquireTargetLockSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select target for Target Lock",
@@ -516,7 +516,7 @@ namespace Ship
 
             selectTargetLockSubPhase.RequiredPlayer = Owner.PlayerNo;
             selectTargetLockSubPhase.AbilityName = abilityName;
-            selectTargetLockSubPhase.ImageUrl = imageUrl;
+            selectTargetLockSubPhase.ImageSource = imageSource;
             selectTargetLockSubPhase.Start();
         }
 

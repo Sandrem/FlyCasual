@@ -28,6 +28,9 @@ namespace Ship
                 Cost = 42;
                 MaxForce = 1;
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
+
                 PilotAbilities.RemoveAll(ability => ability is Abilities.EzraBridgerPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.EzraBridgerPilotAbilitySE());
 

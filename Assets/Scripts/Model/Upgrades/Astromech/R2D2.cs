@@ -17,7 +17,7 @@ namespace UpgradesList
             isUnique = true;
             Cost = 4;
 
-            AvatarOffset = new Vector2(19, 1);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(19, 1));
 
             UpgradeAbilities.Add(new R2D2Ability());
         }

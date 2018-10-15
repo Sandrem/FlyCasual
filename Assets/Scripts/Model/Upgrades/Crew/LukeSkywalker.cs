@@ -6,6 +6,7 @@ using System;
 using RuleSets;
 using Abilities.SecondEdition;
 using ActionsList;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -20,6 +21,8 @@ namespace UpgradesList
             isUnique = true;
 
             UpgradeAbilities.Add(new LukeSkywalkerCrewAbility());
+
+            //Avatar = new AvatarInfo(Faction.Rebel, new Vector2(0, 0));
         }
 
         public void AdaptUpgradeToSecondEdition()
@@ -132,7 +135,7 @@ namespace Abilities
                     IsPrimaryWeaponShot,
                     HostUpgrade.Name,
                     "You may perform a primary weapon attack.",
-                    HostUpgrade.ImageUrl
+                    HostUpgrade
                 );
             }
             else

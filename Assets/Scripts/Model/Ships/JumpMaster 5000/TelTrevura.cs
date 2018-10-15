@@ -22,10 +22,10 @@ namespace Ship
 
                 IsUnique = true;
 
-                // Already have Elite icon from JumpMaster5000 class
-
                 UsesCharges = true;
                 MaxCharges = 1;
+
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.SecondEdition.TelTrevuraAbilitySE());
 
@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
             {
                 Messages.ShowInfo(HostShip.PilotName + ": Destruction is prevented");
 
-                HostShip.SpendCharge(delegate { }); // Empty delegate is safe here - Sandrem
+                HostShip.SpendCharge();
 
                 HostShip.OnReadyToBeDestroyed -= ActivateAbility;
 
@@ -115,7 +115,7 @@ namespace Abilities.SecondEdition
             subphase.SetupSide = (HostShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? Direction.Bottom : Direction.Top;
             subphase.AbilityName = HostShip.PilotName;
             subphase.Description = "Place yourself within range 1 of your player edge";
-            subphase.ImageUrl = HostShip.ImageUrl;
+            subphase.ImageSource = HostShip;
 
             subphase.Start();
         }

@@ -31,7 +31,8 @@ namespace Ship
                 ActionBar.RemovePrintedAction(typeof(FocusAction));
                 ActionBar.AddPrintedAction(new CalculateAction());
 
-                UpgradeBar.AddSlot(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 PilotAbilities.Add(new P4LOMAbility());
 
                 SEImageNumber = 201;
@@ -94,11 +95,9 @@ namespace Abilities.SecondEdition
                     FilterAbilityTarget,
                     GetAIAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    true,
-                    null,
                     HostShip.PilotName,
                     "Choose a target to transfer stress to.",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else

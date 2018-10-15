@@ -17,7 +17,7 @@ namespace UpgradesList
             Name = "Flight Instructor";
             Cost = 4;
 
-            AvatarOffset = new Vector2(32, 1);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(32, 1));
 
             UpgradeAbilities.Add(new FlightInstructorAbility());
         }

@@ -35,6 +35,9 @@ namespace Ship
                 Cost = 84;
                 MaxForce = 2;
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);
+
                 PilotAbilities.RemoveAll(ability => ability is Abilities.AsajjVentressPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.AsajjVentressPilotAbilitySE());
 
@@ -74,11 +77,9 @@ namespace Abilities
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostShip.PilotName,
                 "Choose a ship inside your mobile firing arc to assign Stress token to it.",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 
@@ -143,11 +144,9 @@ namespace Abilities.SecondEdition
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostShip.PilotName,
                 "Choose a ship inside your mobile firing arc to assign Stress token to it.",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

@@ -30,7 +30,7 @@ namespace Ship
                 ActionBar.AddPrintedAction(new CoordinateAction() { IsRed = true});
 
                 AssignTemporaryManeuvers();
-                HotacManeuverTable = new AI.AttackShuttleTable();
+                HotacManeuverTable = new AI.EscapeCraftTable();
 
                 factions.Add(Faction.Scum);
                 faction = Faction.Scum;

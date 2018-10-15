@@ -39,15 +39,7 @@ namespace DamageDeckCardSE
             {
                 if (movement.Bearing == Movement.ManeuverBearing.Turn)
                 {
-                    switch(movement.ColorComplexity)
-                    {
-                        case Movement.MovementComplexity.Easy:
-                            movement.ColorComplexity = Movement.MovementComplexity.Normal;
-                            break;
-                        case Movement.MovementComplexity.Normal:
-                            movement.ColorComplexity = Movement.MovementComplexity.Complex;
-                            break;
-                    }                    
+                    movement.ColorComplexity = Movement.GenericMovement.IncreaseComplexity(movement.ColorComplexity);
                 }
             }
         }

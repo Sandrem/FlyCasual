@@ -72,10 +72,16 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.ArcInfo.GetArc<ArcMobile>().ShotPermissions.CanShootPrimaryWeapon = false;
+        }
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
             HostShip.ActionBar.AddGrantedAction(new RotateArcAction(), HostUpgrade);
         }
 
-        public override void DeactivateAbility()
+        public override void DeactivateAbility() {}
+
+        public override void DeactivateAbilityForSquadBuilder()
         {
             HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
         }

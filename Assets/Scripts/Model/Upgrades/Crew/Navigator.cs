@@ -14,7 +14,7 @@ namespace UpgradesList
             Name = "Navigator";
             Cost = 3;
 
-            // AvatarOffset = new Vector2(10, 1);
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(10, 1));
 
             UpgradeAbilities.Add(new NavigatorAbility());
         }

@@ -37,7 +37,7 @@ namespace SubPhases
 
         public string AbilityName;
         public string Description;
-        public string ImageUrl;
+        public IImageHolder ImageSource;
 
         public bool ShowSkipButton = true;
 
@@ -67,7 +67,7 @@ namespace SubPhases
 
         }
 
-        public void PrepareByParameters(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, string imageUrl = null)
+        public void PrepareByParameters(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, IImageHolder imageSource = null)
         {
             FilterTargets = filterTargets;
             GetAiPriority = getAiPriority;
@@ -83,7 +83,7 @@ namespace SubPhases
             }
             AbilityName = abilityName;
             Description = description;
-            ImageUrl = imageUrl;
+            ImageSource = imageSource;
         }
 
         public override void Initialize()
@@ -93,7 +93,7 @@ namespace SubPhases
 
         public void HighlightShipsToSelect()
         {
-            ShowSubphaseDescription(AbilityName, Description, ImageUrl);
+            ShowSubphaseDescription(AbilityName, Description, ImageSource);
             Roster.HighlightShipsFiltered(FilterTargets);
             IsInitializationFinished = true;
         }
@@ -314,7 +314,7 @@ namespace SubPhases
         {
             base.Resume();
 
-            ShowSubphaseDescription(AbilityName, Description, ImageUrl);
+            ShowSubphaseDescription(AbilityName, Description, ImageSource);
         }
 
     }

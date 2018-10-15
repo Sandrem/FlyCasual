@@ -34,6 +34,9 @@ namespace Ship
                 PilotSkill = 5;
                 Cost = 42;
 
+                PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.SalvagedAstromech);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
+
                 SEImageNumber = 165;
             }
         }

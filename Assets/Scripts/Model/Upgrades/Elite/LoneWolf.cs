@@ -149,7 +149,8 @@ namespace Abilities.SecondEdition
         {
             if (HostUpgrade.Charges > 0)
             {
-                HostUpgrade.SpendCharge(() => callback(true));
+                HostUpgrade.SpendCharge();
+                callback(true);
             }
             else callback(false);
         }

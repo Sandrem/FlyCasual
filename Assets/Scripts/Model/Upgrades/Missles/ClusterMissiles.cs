@@ -123,7 +123,7 @@ namespace Abilities
                     IsClusterMissilesShotToNeighbour,
                     HostUpgrade.Name,
                     "You may perform second Cluster Missiles attack.",
-                    HostUpgrade.ImageUrl
+                    HostUpgrade
                 );
             }
 

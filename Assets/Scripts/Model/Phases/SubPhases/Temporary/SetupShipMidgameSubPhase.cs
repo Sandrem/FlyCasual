@@ -23,9 +23,11 @@ namespace SubPhases
         public GenericShip ShipToSetup;
         public Direction SetupSide;
 
+        public Func<bool> SetupFilter;
+
         public string AbilityName;
         public string Description;
-        public string ImageUrl;
+        public IImageHolder ImageSource;
 
         public override void Start()
         {
@@ -46,6 +48,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            RequiredPlayer = ShipToSetup.Owner.PlayerNo;
+
             Board.ToggleOffTheBoardHolder(false);
 
             Board.SetShipPreSetup(ShipToSetup);
@@ -58,7 +62,7 @@ namespace SubPhases
 
         public void ShowDescription()
         {
-            ShowSubphaseDescription(AbilityName, Description, ImageUrl);
+            ShowSubphaseDescription(AbilityName, Description, ImageSource);
         }
 
         public override void Next()
@@ -115,8 +119,40 @@ namespace SubPhases
 
         public override void Update()
         {
-            if (inReposition) PerformDrag();
+            if (inReposition)
+            {
+                PerformDrag();
+                CheckLimits();
+            }
             CheckPerformRotation();
+        }
+
+        private void CheckLimits()
+        {
+            if (SetupFilter == null) return;
+
+            MovementTemplates.ReturnRangeRuler();
+
+            GenericShip nearestShip = null;
+            float nearestDistance = int.MaxValue;
+
+            foreach (GenericShip anotherShip in Roster.AllShips.Values)
+            {
+                if (anotherShip == Selection.ThisShip) continue;
+
+                DistanceInfo distInfo = new DistanceInfo(Selection.ThisShip, anotherShip);
+                if (distInfo.MinDistance.DistanceReal < nearestDistance)
+                {
+                    nearestDistance = distInfo.MinDistance.DistanceReal;
+                    nearestShip = anotherShip;
+                }
+            }
+
+            DistanceInfo distInfoFinal = new DistanceInfo(Selection.ThisShip, nearestShip);
+            if (distInfoFinal.Range < 4)
+            {
+                MovementTemplates.ShowRangeRuler(distInfoFinal.MinDistance);
+            }
         }
 
         private void CheckPerformRotation()
@@ -317,7 +353,7 @@ namespace SubPhases
         {
             bool result = true;
 
-            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
+            if (Phases.CurrentSubPhase.GetType() == typeof(SetupShipMidgameSubPhase))
             {
                 if (!ship.ShipBase.IsInside(StartingZone))
 
@@ -332,6 +368,8 @@ namespace SubPhases
                     result = false;
                 }
 
+                if (SetupFilter != null && !SetupFilter()) return false;
+
             }
 
             if (result) StopDrag();
@@ -341,8 +379,11 @@ namespace SubPhases
 
         private void StopDrag()
         {
+            MovementTemplates.ReturnRangeRuler();
+
             HideSetupHelpers();
             Roster.SetRaycastTargets(true);
+
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = false;
             inReposition = false;
 

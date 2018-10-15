@@ -119,7 +119,8 @@ namespace SubPhases
             Board.TurnOffStartingZones();
             Board.ToggleDiceHolders(true);
             Board.ToggleOffTheBoardHolder(true);
-            Phases.NextPhase();
+
+            Phases.Events.CallSetupEnd(Phases.NextPhase);
         }
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)

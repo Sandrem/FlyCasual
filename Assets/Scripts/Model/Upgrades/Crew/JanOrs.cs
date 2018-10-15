@@ -22,6 +22,8 @@ namespace UpgradesList
             isUnique = true;
 
             UpgradeAbilities.Add(new JanOrsCrewAbility());
+
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(0, 0));
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
@@ -34,7 +36,6 @@ namespace UpgradesList
 namespace Abilities
 {
 
-    // SE Jyn Erso has similar ability, but is not round limited (so don't set IsAbilityUsed to true)
     public class JanOrsCrewAbility : GenericAbility
     {
 
@@ -54,7 +55,6 @@ namespace Abilities
         {
             if (tokenType == typeof(FocusToken) && ship.Owner == HostShip.Owner && !IsAbilityUsed)
             {
-
                 BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(ship, HostShip);
                 if (positionInfo.Range <= 3)
                 {
@@ -75,9 +75,14 @@ namespace Abilities
             {
                 TargetShip.Tokens.TokenToAssign = null;
                 TargetShip = null;
-                IsAbilityUsed = true;
+                MarkAbilityAsUsed();
                 DecisionSubPhase.ConfirmDecision();
             });
+        }
+
+        protected virtual void MarkAbilityAsUsed()
+        {
+            IsAbilityUsed = true;
         }
     }
 }

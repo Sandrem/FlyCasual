@@ -18,7 +18,7 @@ namespace UpgradesList
             Name = "Crack Shot";
             Cost = 1;
 
-            AvatarOffset = new Vector2(43, 1);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(43, 1));
 
             UpgradeAbilities.Add(new CrackShotAbility());
         }
@@ -162,7 +162,8 @@ namespace ActionsList.SecondEdition
         public override void ActionEffect(Action callBack)
         {
             Combat.DiceRollDefence.ChangeOne(DieSide.Success, DieSide.Blank, false);
-            Source.SpendCharge(callBack);
+            Source.SpendCharge();
+            callBack();
         }
 
     }

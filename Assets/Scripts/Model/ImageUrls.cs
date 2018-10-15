@@ -31,12 +31,12 @@ public static class ImageUrls
 
     public static string GetImageUrl(Ship.GenericShip ship, string filename = null)
     {
-        return RuleSet.Instance.GetPilotImageUrl(ship);
+        return RuleSet.Instance.GetPilotImageUrl(ship, filename);
     }
 
     private static string GetImageUrl(string subpath, string cardName, string filename)
     {
-        return RuleSets.RuleSet.Instance.RootUrlForImages + subpath + "/" + (filename ?? FormatName(cardName) + ".png");
+        return RuleSet.Instance.RootUrlForImages + subpath + "/" + (filename ?? FormatName(cardName) + ".png");
     }
 
     private static string GetImageUrlOld(string subpath, string cardName, string filename)

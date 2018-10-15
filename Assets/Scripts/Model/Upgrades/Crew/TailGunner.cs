@@ -18,7 +18,7 @@ namespace UpgradesList
 
 			isLimited = true;
 
-            AvatarOffset = new Vector2(45, 0);
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(45, 0));
 
             UpgradeAbilities.Add(new Abilities.TailGunnerAbility());
         }

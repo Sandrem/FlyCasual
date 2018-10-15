@@ -122,7 +122,7 @@ namespace UpgradesList
                 true,
                 Name,
                 "Select obstacle to destroy",
-                ImageUrl
+                this
             );
 
             subphase.Start();

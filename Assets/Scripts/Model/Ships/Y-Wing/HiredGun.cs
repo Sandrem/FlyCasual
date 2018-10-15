@@ -28,8 +28,8 @@ namespace Ship
                 Cost = 34;
 
                 PrintedUpgradeIcons.Remove(Upgrade.UpgradeType.SalvagedAstromech);
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 SEImageNumber = 167;
             }

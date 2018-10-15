@@ -23,7 +23,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                UpgradeBar.AddSlot(UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new KyloRenPilotAbility());
             }

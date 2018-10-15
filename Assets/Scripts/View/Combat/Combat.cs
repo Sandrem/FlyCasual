@@ -46,15 +46,15 @@ public static partial class Combat
         if (Selection.ActiveShip.GetDiceModificationsGenerated().Count > 0 || isForced)
         {
             float offset = 0;
-            Vector3 defaultPosition = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").position;
 
+            Vector3 position = Vector3.zero;
             foreach (var actionEffect in Selection.ActiveShip.GetDiceModificationsGenerated())
             {
                 AvailableDecisions.Add(actionEffect.Name, actionEffect);
 
-                Vector3 position = defaultPosition + new Vector3(0, -offset, 0);
+                position += new Vector3(0, -offset, 0);
                 CreateDiceModificationsButton(actionEffect, position);
-                offset += 40;
+                offset += 65;
             }
 
             ShowCloseButton(CloseButtonEffect);
@@ -137,7 +137,7 @@ public static partial class Combat
         GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel"));
         newButton.name = "Button" + actionEffect.DiceModificationName;
         newButton.transform.GetComponentInChildren<Text>().text = actionEffect.DiceModificationName;
-        newButton.GetComponent<RectTransform>().position = position;
+        newButton.GetComponent<RectTransform>().localPosition = position;
         newButton.GetComponent<Button>().onClick.AddListener(
             delegate {
                 GameCommand command = Combat.GenerateDiceModificationCommand(actionEffect.DiceModificationName);

@@ -17,6 +17,8 @@ public partial class MainMenu : MonoBehaviour {
 
     public static MainMenu CurrentMainMenu;
 
+    private Faction CurrentAvatarsFaction = Faction.Rebel;
+
     // Use this for initialization
     void Start ()
     {
@@ -154,7 +156,7 @@ public partial class MainMenu : MonoBehaviour {
 
     public void InitializePlayerCustomization()
     {
-        InitializeAvatars();
+        InitializeAvatars("Rebel");
         InitializeNickName();
         InitializeTitle();
     }
@@ -169,8 +171,10 @@ public partial class MainMenu : MonoBehaviour {
         GameObject.Find("UI/Panels/AvatarsPanel/Title/InputField").gameObject.GetComponent<InputField>().text = Options.Title;
     }
 
-    private void InitializeAvatars()
+    public void InitializeAvatars(string factionString)
     {
+        CurrentAvatarsFaction = (Faction) Enum.Parse(typeof(Faction), factionString);
+
         ClearAvatarsPanel();
 
         int count = 0;
@@ -186,7 +190,7 @@ public partial class MainMenu : MonoBehaviour {
             GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
             if (newUpgradeContainer.Name != null)
             {
-                if (newUpgradeContainer.AvatarOffset != Vector2.zero) AddAvailableAvatar(newUpgradeContainer, count++);
+                if (newUpgradeContainer.Avatar != null && newUpgradeContainer.Avatar.AvatarFaction == CurrentAvatarsFaction) AddAvailableAvatar(newUpgradeContainer, count++);
             }
         }
     }
@@ -199,6 +203,8 @@ public partial class MainMenu : MonoBehaviour {
             GameObject.Destroy(transform.gameObject);
         }
 
+        GameObject.Find("UI/Panels/AvatarsPanel/AvatarSelector").GetComponent<Image>().enabled = false;
+
         Resources.UnloadUnusedAssets();
     }
 
@@ -207,8 +213,8 @@ public partial class MainMenu : MonoBehaviour {
         GameObject prefab = (GameObject)Resources.Load("Prefabs/MainMenu/AvatarImage", typeof(GameObject));
         GameObject avatarPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel").transform);
 
-        int row = count / 11;
-        int column = count - row * 11;
+        int row = count / 8;
+        int column = count - row * 8;
 
         avatarPanel.transform.localPosition = new Vector2(20 + column * 120, -20 - row * 110);
         avatarPanel.name = avatarUpgrade.GetType().ToString();
@@ -232,7 +238,9 @@ public partial class MainMenu : MonoBehaviour {
 
     public void SetAvatarSelected(Vector3 position)
     {
-        GameObject.Find("UI/Panels/AvatarsPanel/AvatarSelector").transform.position = position;
+        GameObject selector = GameObject.Find("UI/Panels/AvatarsPanel/AvatarSelector");
+        selector.GetComponent<Image>().enabled = true;
+        selector.transform.position = position;
     }
 
     public void ChangeNickName(Text inputText)

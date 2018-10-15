@@ -1,8 +1,11 @@
-﻿namespace Ship
+﻿using RuleSets;
+using System.Collections.Generic;
+
+namespace Ship
 {
     namespace AWing
     {
-        public class TychoCelchu : AWing
+        public class TychoCelchu : AWing, ISecondEditionPilot
         {
             public TychoCelchu() : base()
             {
@@ -15,6 +18,16 @@
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
                 PilotAbilities.Add(new Abilities.TychoCelchuAbility());
+            }
+
+            public void AdaptPilotToSecondEdition()
+            {
+                PilotSkill = 5;
+                Cost = 42;
+
+                ImageUrl = "https://i.imgur.com/lzgv9da.png";
+
+                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.FirstEditionPilotsMod) };
             }
         }
     }

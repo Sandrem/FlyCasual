@@ -15,7 +15,7 @@ public partial class DiceRerollManager
     public List<DieSide> SidesCanBeRerolled;
     public int NumberOfDiceCanBeRerolled = int.MaxValue;
     public bool IsOpposite;
-    public bool IsTrueReroll;
+    public bool IsTrueReroll = true;
 
     public System.Action CallBack;
 
@@ -165,7 +165,7 @@ public partial class DiceRerollManager
                     SelectDiceByFilter(option.Value, NumberOfDiceCanBeRerolled);
                 });
                 newButton.SetActive(true);
-                offset += 40;
+                offset += 65;
             }
         }
     }

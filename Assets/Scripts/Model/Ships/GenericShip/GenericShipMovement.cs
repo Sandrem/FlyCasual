@@ -4,6 +4,7 @@ using UnityEngine;
 using Movement;
 using System;
 using Obstacles;
+using System.Linq;
 
 namespace Ship
 {
@@ -16,17 +17,21 @@ namespace Ship
         public GenericMovement AssignedManeuver { get; private set; }
 
         public bool IsIgnoreObstacles;
+        public bool IsIgnoreObstaclesDuringBoost;
+        public bool IsIgnoreObstaclesDuringBarrelRoll;
+
+        public List<GenericObstacle> IgnoreObstaclesList = new List<GenericObstacle>();
 
         public bool IsLandedOnObstacle
         {
             get
             {
-                return LandedOnObstacles.Count > 0;
+                return LandedOnObstacles.Any(o => !IgnoreObstaclesList.Contains(o));
             }
 
             set
             {
-                if (value == false) LandedOnObstacles = new List<Obstacles.GenericObstacle>();
+                if (value == false) LandedOnObstacles = new List<GenericObstacle>();
             }
         }
 
@@ -36,7 +41,7 @@ namespace Ship
         {
             get
             {
-                return !IsIgnoreObstacles && ObstaclesHit.Count != 0;
+                return !IsIgnoreObstacles && ObstaclesHit.Any(o => !IgnoreObstaclesList.Contains(o));
             }
 
             set
@@ -68,6 +73,7 @@ namespace Ship
         public event EventHandlerShipMovement AfterGetManeuverAvailablity;
 
         public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
+        public static event EventHandlerShip OnManeuverIsReadyToBeRevealedGlobal;
         public event EventHandlerShip OnManeuverIsRevealed;
         public static event EventHandlerShip OnNoManeuverWasRevealedGlobal;
         public event EventHandlerShip BeforeMovementIsExecuted;
@@ -88,6 +94,7 @@ namespace Ship
         {
             if (Selection.ThisShip.AssignedManeuver != null && Selection.ThisShip.AssignedManeuver.IsRevealDial)
             {
+                if (OnManeuverIsReadyToBeRevealedGlobal != null) OnManeuverIsReadyToBeRevealedGlobal(this);
                 if (OnManeuverIsReadyToBeRevealed != null) OnManeuverIsReadyToBeRevealed(this);
 
                 Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsReadyToBeRevealed, callBack);

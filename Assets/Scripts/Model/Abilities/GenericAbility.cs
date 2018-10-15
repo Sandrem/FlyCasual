@@ -147,7 +147,7 @@ namespace Abilities
         /// <summary>
         /// Shows "Take a decision" window for ability with Yes / No / [Always] buttons
         /// </summary>
-        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string infoText = null)
+        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string infoText = null, bool showSkipButton = true)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -169,9 +169,36 @@ namespace Abilities
 
             pilotAbilityDecision.DefaultDecisionName = (useByDefault()) ? "Yes" : "No";
 
-            pilotAbilityDecision.ShowSkipButton = true;
+            pilotAbilityDecision.ShowSkipButton = showSkipButton;
 
             pilotAbilityDecision.Start();
+        }
+
+        /// <summary>
+        /// Shows "Take a decision" window for ability with Yes / No buttons to Opponent
+        /// </summary>
+        protected void AskOpponent(Func<bool> aiUseByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, string infoText = null, bool showSkipButton = true)
+        {
+            if (dontUseAbility == null) dontUseAbility = DontUseAbility;
+
+            DecisionSubPhase opponentDecision = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                Name,
+                typeof(AbilityDecisionSubphase),
+                Triggers.FinishTrigger
+            );
+
+            opponentDecision.InfoText = infoText ?? "Allow to use " + Name + "?";
+
+            opponentDecision.RequiredPlayer = Roster.AnotherPlayer(HostShip.Owner.PlayerNo);
+
+            opponentDecision.AddDecision("Yes", useAbility);
+            opponentDecision.AddDecision("No", dontUseAbility);
+
+            opponentDecision.DefaultDecisionName = (aiUseByDefault()) ? "Yes" : "No";
+
+            opponentDecision.ShowSkipButton = showSkipButton;
+
+            opponentDecision.Start();
         }
 
         private class AbilityDecisionSubphase : DecisionSubPhase { }
@@ -205,32 +232,19 @@ namespace Abilities
 
         // SELECT SHIP AS TARGET OF ABILITY
 
-        /// <summary>
-        /// Ship that selected by SelectTargetForAbility
-        /// </summary>
         protected GenericShip TargetShip;
 
         /// <summary>
         /// Starts "Select ship for ability" subphase
         /// </summary>
-        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton = true, Action customCallback = null, string name = null, string description = null, string imageUrl = null)
+        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true)
         {
-            SelectTargetForAbility(selectTargetAction, filterTargets, getAiPriority, subphaseOwnerPlayerNo, name, description, imageUrl, showSkipButton, customCallback);
-        }
-
-        /// <summary>
-        /// Starts "Select ship for ability" subphase
-        /// </summary>
-        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name, string description, string imageUrl, bool showSkipButton = true, Action customCallback = null)
-        {
-            if (customCallback == null) customCallback = Triggers.FinishTrigger;
-
             Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
 
             SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase)Phases.StartTemporarySubPhaseNew(
                 name,
                 typeof(AbilitySelectTarget),
-                customCallback
+                Triggers.FinishTrigger
             );
 
             selectTargetSubPhase.PrepareByParameters(
@@ -241,7 +255,7 @@ namespace Abilities
                 showSkipButton,
                 name,
                 description,
-                imageUrl
+                imageSource
             );
 
             selectTargetSubPhase.Start();
@@ -390,7 +404,7 @@ namespace Abilities
         /// <summary>
         /// Adds available dice modification
         /// </summary>
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false, Action<Action<bool>> payAbilityCost = null, bool isTrueReroll = true)
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false, Action<Action<bool>> payAbilityCost = null, Action payAbilityPostCost = null, bool isTrueReroll = true)
         {
             AddDiceModification(
                 name,
@@ -403,6 +417,7 @@ namespace Abilities
                 timing,
                 isGlobal, 
                 payAbilityCost,
+                payAbilityPostCost,
                 isTrueReroll
             );
         }
@@ -410,7 +425,7 @@ namespace Abilities
         /// <summary>
         /// Adds available dice modification
         /// </summary>
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false, Action<Action<bool>> payAbilityCost = null, bool isTrueReroll = true)
+        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false, Action<Action<bool>> payAbilityCost = null, Action payAbilityPostCost = null, bool isTrueReroll = true)
         {
             if (sidesCanBeSelected == null) sidesCanBeSelected = new List<DieSide>() { DieSide.Blank, DieSide.Focus, DieSide.Success, DieSide.Crit };
 
@@ -432,7 +447,22 @@ namespace Abilities
 
                         payAbilityCost(success =>
                         {
-                            if (success) GenericDiceModification(callback, modificationType, getCount, sidesCanBeSelected, sideCanBeChangedTo, timing, isTrueReroll);
+                            if (success)
+                            {
+                                GenericDiceModification(
+                                    delegate
+                                    {
+                                        if (payAbilityPostCost != null) payAbilityPostCost();
+                                        callback();
+                                    },
+                                    modificationType,
+                                    getCount,
+                                    sidesCanBeSelected,
+                                    sideCanBeChangedTo,
+                                    timing,
+                                    isTrueReroll
+                                );
+                            }
                             else callback();
                         });
                     },
@@ -485,7 +515,7 @@ namespace Abilities
 
         protected class CustomDiceModification : GenericAction { }
 
-        private void GenericDiceModification(Action callback, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected, DieSide newSide, DiceModificationTimingType timing, bool isTrueReroll)
+        private void GenericDiceModification(Action callback, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected, DieSide newSide, DiceModificationTimingType timing, bool isTrueReroll = true)
         {
             switch (modificationType)
             {
@@ -528,7 +558,7 @@ namespace Abilities
             }
         }
 
-        private void DiceModificationReroll(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing, bool isTrueReroll)
+        private void DiceModificationReroll(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing, bool isTrueReroll = true)
         {
             int diceCount = getCount();
 

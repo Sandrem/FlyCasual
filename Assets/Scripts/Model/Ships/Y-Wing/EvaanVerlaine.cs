@@ -70,11 +70,9 @@ namespace Abilities.SecondEdition
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostShip.PilotName,
                 "Choose a ship to increase it's agility value.",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

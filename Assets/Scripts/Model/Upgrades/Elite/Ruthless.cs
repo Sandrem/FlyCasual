@@ -78,11 +78,9 @@ namespace Abilities
                     FilterTargets,
                     GetAiPriority,
                     HostShip.Owner.PlayerNo,
-                    true,
-                    null,
                     HostUpgrade.Name,
                     "Choose another friendly ship near the defender. That ship will suffer 1 damage and you will change 1 die result to Hit.",
-                    HostUpgrade.ImageUrl
+                    HostUpgrade
                 );
             }
 

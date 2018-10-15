@@ -19,6 +19,7 @@ namespace Ship
 
                 faction = Faction.Scum;
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);
 
                 PilotRuleType = typeof(SecondEdition);
 

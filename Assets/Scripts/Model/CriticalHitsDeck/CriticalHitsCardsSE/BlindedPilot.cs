@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ActionsList;
+using Ship;
 using UnityEngine;
 
 namespace DamageDeckCardSE
@@ -25,11 +26,11 @@ namespace DamageDeckCardSE
             Triggers.FinishTrigger();
         }
 
-        private void RestrictActionEffectsToForceOnly(Ship.GenericShip ship, GenericAction action, ref bool data)
+        private void RestrictActionEffectsToForceOnly(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {            
             if (Combat.AttackStep == CombatStep.Attack && Combat.Attacker.ShipId == Host.ShipId && !(action is ForceAction))
             {
-                data = false;
+                canBeUsed = false;
             }
         }
 

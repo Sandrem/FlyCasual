@@ -73,11 +73,9 @@ namespace Abilities
                     FilterTargetsOfAbility,
                     GetAiPriorityOfTarget,
                     HostShip.Owner.PlayerNo,
-                    true,
-                    null,
                     HostShip.PilotName,
                     AbilityDescription,
-                    HostShip.ImageUrl
+                    HostShip
                 );
 			} else {
 				// no enemy in range

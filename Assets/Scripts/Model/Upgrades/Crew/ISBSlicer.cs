@@ -71,11 +71,9 @@ namespace Abilities
                   IsShipWithoutJamAtRangeOneOfTarget,
                   GetAiJamPriority,
                   HostShip.Owner.PlayerNo,
-                  true,
-                  null,
                   HostUpgrade.Name,
                   "Choose ship at range 1 of the target that isn't jammed.\nIt gets a Jam token.",
-                  HostUpgrade.ImageUrl
+                  HostUpgrade
               );
         }
 

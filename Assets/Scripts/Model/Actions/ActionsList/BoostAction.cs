@@ -153,7 +153,8 @@ namespace SubPhases
                 selectBoostTemplateDecisionSubPhase.AddDecision(
                     move.Name,
                     delegate { SelectTemplate(move); },
-                    isRed: move.IsRed
+                    isRed: move.IsRed,
+                    isCentered: move.Template == Actions.BoostTemplates.Straight1
                 );
             }
 
@@ -237,7 +238,7 @@ namespace SubPhases
             Game.Movement.CollidedWith = null;
             MovementTemplates.HideLastMovementRuler();
 
-            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.BoostAction));
+            RuleSet.Instance.ActionIsFailed(TheShip, typeof(BoostAction));
         }
 
         private void HidePlanningTemplates()
@@ -327,7 +328,7 @@ namespace SubPhases
                 if (!quiet) Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if (!TheShip.IsIgnoreObstacles && !IsTractorBeamBoost
+            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBoost && !IsTractorBeamBoost
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 if (!quiet) Messages.ShowError("Cannot overlap asteroid");

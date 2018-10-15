@@ -153,7 +153,7 @@ namespace Abilities
                     SnapShotAttackFilter,
                     HostUpgrade.Name,
                     "You may perform an additional attack against " + snapShotTarget.PilotName + ".",
-                    HostUpgrade.ImageUrl
+                    HostUpgrade
                 );
             }
             else

@@ -49,7 +49,7 @@ namespace Abilities
             HostShip.ChooseTargetToAcquireTargetLock(
                 Triggers.FinishTrigger,
                 HostUpgrade.Name,
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
     }

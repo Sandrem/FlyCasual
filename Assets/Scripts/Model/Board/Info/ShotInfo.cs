@@ -30,6 +30,8 @@ namespace BoardTools
         private int updatesCount;
         private GameObject FiringLine;
 
+        public List<GenericArc> ShotAvailableFromArcs { get; private set; }
+
         public new int Range
         {
             get
@@ -47,6 +49,9 @@ namespace BoardTools
         public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
         {
             Weapon = weapon ?? ship1.PrimaryWeapon;
+
+            ShotAvailableFromArcs = new List<GenericArc>();
+
             CheckRange();
             CheckFailed();
         }
@@ -86,6 +91,8 @@ namespace BoardTools
                     }
 
                     IsShotAvailable = true;
+
+                    if (!(arc is ArcBullseye)) ShotAvailableFromArcs.Add(arc);
                 }
 
                 if (NearestFailedDistance == null)

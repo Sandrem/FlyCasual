@@ -38,6 +38,8 @@ namespace Ship
                 PilotAbilities.RemoveAll(a => a is DengarPilotAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DengarPilotAbilitySE());
 
+                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+
                 SEImageNumber = 214;
             }
         }
@@ -123,7 +125,7 @@ namespace Abilities
                     CounterAttackFilter,
                     HostShip.PilotName,
                     "You may perform an additional attack against " + shipToPunish.PilotName + ".",
-                    HostShip.ImageUrl
+                    HostShip
                 );
             }
             else
@@ -176,8 +178,7 @@ namespace Abilities.SecondEdition
 
         protected override void MarkAbilityAsUsed()
         {
-            //Empty delegate is safe here - Sandrem
-            HostShip.SpendCharge(delegate { });
+            HostShip.SpendCharge();
         }
     }
 }

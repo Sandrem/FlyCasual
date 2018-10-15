@@ -18,7 +18,7 @@ namespace UpgradesList
 
             isLimited = true;
 
-            AvatarOffset = new Vector2(39, 1);
+            Avatar = new AvatarInfo(Faction.None, new Vector2(39, 1));
         }
     }
 }

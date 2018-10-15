@@ -25,7 +25,7 @@ namespace DamageDeckCardSE
 
         private void RegisterCheckCollisionDamage(GenericShip ship)
         {
-            if (Host.IsLandedOnObstacle)
+            if (Host.IsLandedOnObstacle || Host.IsHitObstacles)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
@@ -43,7 +43,7 @@ namespace DamageDeckCardSE
 
             DamageSourceEventArgs stunnedpilotDamage = new DamageSourceEventArgs()
             {
-                Source = "Critical hit card",
+                Source = this,
                 DamageType = DamageTypes.CriticalHitCard
             };
 
@@ -56,8 +56,6 @@ namespace DamageDeckCardSE
 
             Host.OnMovementFinish -= RegisterCheckCollisionDamage;
             Host.Tokens.RemoveCondition(typeof(Tokens.StunnedPilotSECritToken));
-
-            Host.AfterAttackWindow -= DiscardEffect;
         }
 
     }

@@ -19,8 +19,8 @@ namespace UpgradesList
 			Cost = 3;
       
             isUnique = true;
-      
-            AvatarOffset = new Vector2(53, 1);
+
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(53, 1));
 
 			UpgradeAbilities.Add(new DarthVaderCrewAbility());
 		}
@@ -152,11 +152,9 @@ namespace Abilities
                         FilterAbilityTarget,
                         GetAiAbilityPriority,
                         HostShip.Owner.PlayerNo,
-                        true,
-                        null,
                         HostUpgrade.Name,
                         "Choose 1 ship to suffer 1 damage",
-                        HostUpgrade.ImageUrl);
+                        HostUpgrade);
                 }
                 else
                 {

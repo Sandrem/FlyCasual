@@ -122,7 +122,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterCloakAbility()
         {
-            if (HostShip.Tokens.HasToken<EvadeToken>())
+            if (HostShip.Tokens.HasToken<EvadeToken>() && !(HostShip.Tokens.HasToken<CloakToken>()))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, AskToCloak);
             }

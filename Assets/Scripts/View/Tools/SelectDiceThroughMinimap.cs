@@ -25,8 +25,9 @@ public class SelectDiceThroughMinimap : MonoBehaviour {
                 {
                     RaycastHit hitInfo = new RaycastHit();
 
-                    mousePosition = new Vector3(mousePosition.x, mousePosition.y+255);
-                    if (Physics.Raycast(diceCamera.ScreenPointToRay(mousePosition), out hitInfo))
+                    mousePosition = new Vector3(mousePosition.x, mousePosition.y + 382,5f);
+                    Ray ray = diceCamera.ScreenPointToRay(mousePosition);
+                    if (Physics.Raycast(ray, out hitInfo))
                     {
                         if (!hitInfo.collider.name.StartsWith("DiceField"))
                         {

@@ -18,13 +18,18 @@ namespace DamageDeckCardSE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Host.Tokens.AssignToken(typeof(StressToken),
-                () => Host.Tokens.AssignToken(typeof(StressToken),
-                () =>
-                {
-                    Triggers.FinishTrigger();
-                    DiscardEffect();                    
-                }));
+            Host.Tokens.AssignTokens(CreateStressToken, 2, FinishAndDiscard);
+        }
+
+        private GenericToken CreateStressToken()
+        {
+            return new StressToken(Host);
+        }
+
+        private void FinishAndDiscard()
+        {
+            Triggers.FinishTrigger();
+            DiscardEffect();
         }
 
     }

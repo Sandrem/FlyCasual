@@ -86,7 +86,7 @@ namespace Abilities.SecondEdition
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotName,
                 "Choose a ship at range 1 and spend a lock you have on that ship - that ship gains 1 tractor token",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

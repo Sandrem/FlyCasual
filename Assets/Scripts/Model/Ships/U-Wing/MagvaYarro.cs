@@ -19,6 +19,7 @@ namespace Ship
                 IsUnique = true;
 
                 PrintedUpgradeIcons.Add(UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(UpgradeType.Illicit);
 
                 PilotRuleType = typeof(SecondEdition);
 

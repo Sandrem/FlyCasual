@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tokens;
 using ActionsList;
+using UnityEngine;
 
 namespace UpgradesList
 {
@@ -20,6 +21,8 @@ namespace UpgradesList
             isLimited = true;
 
             UpgradeAbilities.Add(new OperationsSpecialistAbility());
+
+            //Avatar = new AvatarInfo(Faction.None, new Vector2(0, 0));
         }
     }
 }
@@ -54,11 +57,9 @@ namespace Abilities
                 (ship) => FilterByTargetType(ship, new[] { TargetTypes.OtherFriendly, TargetTypes.This }.ToList()) && BoardTools.Board.GetRangeOfShips(attacker, ship) <= 2,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                true,
-                null,
                 HostUpgrade.Name,
                 "You may assign focus token to a ship at Range 1-3 of the attacker.",
-                HostUpgrade.ImageUrl
+                HostUpgrade
             );
         }
                 

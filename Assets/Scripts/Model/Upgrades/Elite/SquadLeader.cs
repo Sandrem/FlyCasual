@@ -107,7 +107,7 @@ namespace SubPhases
                 true,
                 SquadLeaderUpgrade.Name,
                 "Choose a ship that has lower pilot skill than you. It may perform 1 free action.",
-                SquadLeaderUpgrade.ImageUrl
+                SquadLeaderUpgrade
             );
         }
 

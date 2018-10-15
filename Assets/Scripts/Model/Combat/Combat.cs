@@ -107,6 +107,8 @@ public static partial class Combat
         else
         {
             ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+
             TryPerformAttack(isSilent: true);
         }
     }
@@ -146,14 +148,31 @@ public static partial class Combat
             UI.HideSkipButton();
             Roster.AllShipsHighlightOff();
 
+            SetArcAsUsedForAttack();
             DeclareAttackerAndDefender();
-
             CheckFireLineCollisions();
         }
         else
         {
             IsAttackAlreadyCalled = false;
             Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
+        }
+    }
+
+    private static void SetArcAsUsedForAttack()
+    {
+        if (Combat.ShotInfo.ShotAvailableFromArcs.Count == 1)
+        {
+            Combat.ShotInfo.ShotAvailableFromArcs.First().WasUsedForAttackThisRound = true;
+        }
+        else if (Combat.ShotInfo.ShotAvailableFromArcs.Count > 1)
+        {
+            // if few arcs are available, non-mobile arc is used
+            Combat.ShotInfo.ShotAvailableFromArcs.First(a => a.ArcType != Arcs.ArcTypes.Mobile).WasUsedForAttackThisRound = true;
+        }
+        else
+        {
+            Messages.ShowError("ERROR: No available arcs?");
         }
     }
 
@@ -478,7 +497,7 @@ public static partial class Combat
     // Extra Attacks
 
     public static void StartAdditionalAttack(GenericShip ship, Action callback, Func<GenericShip, IShipWeapon, bool, bool> extraAttackFilter = null, 
-        string abilityName = null, string description = null, string imageUrl = null, bool showSkipButton = true)
+        string abilityName = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true)
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
         Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
@@ -493,7 +512,7 @@ public static partial class Combat
         );
         newAttackSubphase.AbilityName = abilityName;
         newAttackSubphase.Description = description;
-        newAttackSubphase.ImageUrl = imageUrl;
+        newAttackSubphase.ImageSource = imageSource;
         newAttackSubphase.ShowSkipButton = showSkipButton;
 
         newAttackSubphase.Start();

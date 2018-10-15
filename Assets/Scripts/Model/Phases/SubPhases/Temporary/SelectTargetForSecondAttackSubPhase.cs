@@ -22,7 +22,7 @@ namespace SubPhases
                 ShowSkipButton,
                 AbilityName,
                 Description,
-                ImageUrl
+                ImageSource
             );
         }
 

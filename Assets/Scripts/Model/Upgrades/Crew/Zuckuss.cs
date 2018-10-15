@@ -23,7 +23,7 @@ namespace UpgradesList
 
             IsHidden = true;
 
-            AvatarOffset = new Vector2(79, 1);
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(79, 1));
         }
 
         public void AdaptUpgradeToSecondEdition()

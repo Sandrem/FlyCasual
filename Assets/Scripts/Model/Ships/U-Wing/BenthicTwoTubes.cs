@@ -71,7 +71,7 @@ namespace Abilities
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotName,
                 "Choose a ship to assign own Focus token to it.",
-                HostShip.ImageUrl
+                HostShip
             );
         }
 

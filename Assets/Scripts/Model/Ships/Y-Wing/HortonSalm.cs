@@ -5,6 +5,7 @@ using Ship;
 using System;
 using BoardTools;
 using RuleSets;
+using Upgrade;
 
 namespace Ship
 {
@@ -20,7 +21,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+                PrintedUpgradeIcons.Add(UpgradeType.Astromech);
 
                 faction = Faction.Rebel;
 
@@ -34,7 +35,8 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 38;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(UpgradeType.Elite);
+                PrintedUpgradeIcons.Remove(UpgradeType.Astromech);
 
                 PilotAbilities.RemoveAll(ability => ability is Abilities.HortonSalmAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.HortonSalmAbilitySE());

@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
                 if (Actions.HasTargetLockOn(HostShip, ship))
                 {
                     DistanceInfo distInfo = new DistanceInfo(HostShip, ship);
-                    if (distInfo.Range == 1 && !HostShip.ShipsBumped.Contains(ship)) return true;
+                    if (distInfo.Range == 1) return true;
                 }
             }
 

@@ -85,13 +85,13 @@ namespace BoardTools
                     {
                         if (!rayIsFound)
                         {
-                            MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
+                            MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point, Ship1, Ship2);
                             rayIsFound = true;
                         }
                         else
                         {
-                            RangeHolder secondRayResult = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
-                            if (secondRayResult.DistanceReal < MinDistance.DistanceReal) MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
+                            RangeHolder secondRayResult = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point, Ship1, Ship2);
+                            if (secondRayResult.DistanceReal < MinDistance.DistanceReal) MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point, Ship1, Ship2);
                         }
                     }
                 }

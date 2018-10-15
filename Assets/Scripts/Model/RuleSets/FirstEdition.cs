@@ -18,7 +18,6 @@ namespace RuleSets
         public override string Name { get { return "First Edition"; } }
 
         public override int MaxPoints { get { return 100; } }
-        public override int MinShipCost { get { return 12; } }
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Combat"; } }
@@ -79,6 +78,11 @@ namespace RuleSets
                     { "TripleDefenders",    "{\"name\":\"Triple Defenders\",\"faction\":\"imperial\",\"points\":99,\"version\":\"0.3.0\",\"pilots\":[{\"name\":\"glaivesquadronpilot\",\"points\":33,\"ship\":\"tiedefender\",\"upgrades\":{\"title\":[\"tiex7\"],\"ept\":[\"veteraninstincts\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Crimson\"}}},{\"name\":\"glaivesquadronpilot\",\"points\":33,\"ship\":\"tiedefender\",\"upgrades\":{\"title\":[\"tiex7\"],\"ept\":[\"veteraninstincts\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Crimson\"}}},{\"name\":\"glaivesquadronpilot\",\"points\":33,\"ship\":\"tiedefender\",\"upgrades\":{\"title\":[\"tiex7\"],\"ept\":[\"veteraninstincts\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Crimson\"}}}],\"description\":\"Glaive Squadron Pilot + TIE/x7 + Veteran Instincts\nGlaive Squadron Pilot + TIE/x7 + Veteran Instincts\nGlaive Squadron Pilot + TIE/x7 + Veteran Instincts\"}" }
                 };
             }
+        }
+
+        public override int MinShipCost(Faction faction)
+        {
+            return 12;
         }
 
         public override void EvadeDiceModification(DiceRoll diceRoll)

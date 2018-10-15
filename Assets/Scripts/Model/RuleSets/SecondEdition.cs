@@ -37,7 +37,6 @@ namespace RuleSets
         //public override bool IsSquadBuilderLocked { get { return true; } }
 
         public override int MaxPoints { get { return 200; } }
-        public override int MinShipCost { get { return 12; } }
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Engagement"; } }
@@ -101,6 +100,23 @@ namespace RuleSets
                     { "Two Tubes + Porkins + Gray Sq. Pilot", "{\"name\":\"Two Tubes + Porkins + Gray Sq. Pilot\",\"faction\":\"rebel\",\"points\":200,\"version\":\"0.3.0\",\"pilots\":[{\"name\":\"jekporkins\",\"points\":64,\"ship\":\"xwing\",\"upgrades\":{\"configuration\":[\"servomotorsfoils(open)\"],\"torpedo\":[\"protontorpedoes\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Red\"}}},{\"name\":\"benthictwotubes\",\"points\":30,\"ship\":\"uwing\",\"upgrades\":{\"configuration\":[\"pivotwing(open)\"],\"crew\":[\"perceptivecopilot\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Partisan\"}}},{\"name\":\"graysquadronbomber\",\"points\":47,\"ship\":\"ywing\",\"upgrades\":{\"turret\":[\"ioncannonturret\"],\"bomb\":[\"seismiccharges\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Gray\"}}},{\"name\":\"edriotwotubes\",\"points\":60,\"ship\":\"xwing\",\"upgrades\":{\"mod\":[\"servomotorsfoils(open)\"]},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Partisan\"}}}],\"description\":\"Jek Porkins + Servomotor S-Foils (Attack) + Proton Torpedoes\nBenthic Two Tubes + Pivot Wing (Attack) + Advanced Sensors + Perceptive Copilot\nGray Squadron Bomber + Ion Cannon Turret + Seismic Charges\nEdrio Two Tubes + Servomotor S-Foils (Attack)\"}" }
                 };
             }
+        }
+
+        public override int MinShipCost(Faction faction)
+        {
+            if (faction != Faction.Scum)
+            {
+                return 23;
+            }
+            else
+            {
+                return (HasYv666InSquad()) ? 6 : 12;
+            }
+        }
+
+        private bool HasYv666InSquad()
+        {
+            return SquadBuilder.CurrentSquadList.GetShips().Any(n => n.Instance is Ship.YV666.YV666);
         }
 
         public override void EvadeDiceModification(DiceRoll diceRoll)

@@ -58,6 +58,7 @@ namespace SubPhases
         {
             UI.HideSkipButton();
             Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
+            Selection.ThisShip.CallMovementActivationFinish();
             Triggers.FinishTrigger();
         }
 

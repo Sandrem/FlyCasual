@@ -69,7 +69,7 @@ namespace Abilities.SecondEdition
 
             // If the defender is at range one of us we register our trigger to prevent damage.
             BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(curToDamage, HostShip);
-            if (distanceInfo.Range == 1)
+            if (distanceInfo.Range <= 1)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, UseIdenVersioAbilitySE);
             }

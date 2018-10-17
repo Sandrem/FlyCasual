@@ -25,11 +25,6 @@ namespace UpgradesList
         {
             // Not required
         }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ShipBaseSize == BaseSize.Small;
-        }
     }
 
 }

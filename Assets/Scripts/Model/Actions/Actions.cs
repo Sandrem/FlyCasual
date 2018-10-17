@@ -423,6 +423,7 @@ public static partial class Actions
         }
         else
         {
+            ActionIsSkipped();
             callback();
         }
     }
@@ -430,6 +431,11 @@ public static partial class Actions
     private static void ActionIsTaken(Action callback)
     {
         Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, callback);
+    }
+
+    private static void ActionIsSkipped()
+    {
+        Selection.ThisShip.CallActionIsSkipped();
     }
 
     public static void EndActionDecisionSubhase(Action callback)

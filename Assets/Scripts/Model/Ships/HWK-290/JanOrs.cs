@@ -108,8 +108,8 @@ namespace Abilities.SecondEdition
         {
             if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId != HostShip.ShipId)
             {
-                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Attacker, HostShip);
-                if (distanceInfo.Range < 4 && Board.IsShipInArcByType(HostShip, Combat.Attacker, ArcTypes.Mobile))
+                DistanceInfo distanceInfo = new DistanceInfo(Combat.Attacker, HostShip);
+                if (distanceInfo.Range < 4 && Board.IsShipInArc(HostShip, Combat.Attacker))
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskJanOrsAbility);
                 }

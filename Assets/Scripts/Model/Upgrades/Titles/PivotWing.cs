@@ -124,12 +124,12 @@ namespace Abilities
         public override void ActivateAbility()
         {
             ChangeInitialWingsPosition();
-            HostShip.OnMovementActivation += RegisterAskToUseFlip;
+            HostShip.OnMovementActivationStart += RegisterAskToUseFlip;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnMovementActivation -= RegisterAskToUseFlip;
+            HostShip.OnMovementActivationStart -= RegisterAskToUseFlip;
         }
 
         protected override void RegisterAskToUseFlip(GenericShip ship)
@@ -203,14 +203,14 @@ namespace Abilities
         public override void ActivateAbility()
         {
             ChangeInitialWingsPosition();
-            HostShip.OnMovementActivation += RegisterAskToFlip;
+            HostShip.OnMovementActivationStart += RegisterAskToFlip;
             HostShip.OnManeuverIsRevealed += RegisterAskToRotate;
             HostShip.ChangeAgilityBy(-1);
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnMovementActivation -= RegisterAskToFlip;
+            HostShip.OnMovementActivationStart -= RegisterAskToFlip;
             HostShip.OnManeuverIsRevealed -= RegisterAskToRotate;
             HostShip.ChangeAgilityBy(+1);
         }

@@ -17,7 +17,6 @@ namespace RuleSets
 
         public abstract string Name { get; }
         public abstract int MaxPoints { get; }
-        public abstract int MinShipCost { get; }
         public abstract int MaxShipsCount { get; }
         public abstract int MinShipsCount { get; }
         public abstract string CombatPhaseName { get; }
@@ -33,6 +32,8 @@ namespace RuleSets
         public abstract Vector2 UpgradeCardCompactSize { get; }
 
         public virtual bool IsSquadBuilderLocked { get { return false; } }
+
+        public abstract int MinShipCost(Faction faction);
 
         public virtual void ActionIsFailed(GenericShip ship, Type actionType)
         {

@@ -22,7 +22,8 @@ namespace Ship
         public List<GenericAction> PlannedLinkedActions;
 
         // EVENTS
-        public event EventHandlerShip OnMovementActivation;
+        public event EventHandlerShip OnMovementActivationStart;
+        public event EventHandlerShip OnMovementActivationFinish;
 
         public event EventHandlerShip OnGenerateActions;
         public event EventHandlerActionBool OnTryAddAction;
@@ -46,7 +47,7 @@ namespace Ship
         public event EventHandlerActionBool OnTryAddDiceModificationCompareResults;
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;
-        public event EventHandlerShip OnActionDecisionSubphaseEndNoAction;
+        public event EventHandlerShip OnActionIsSkipped;
         public event EventHandlerAction BeforeFreeActionIsPerformed;
         public event EventHandlerAction OnActionIsPerformed;
 
@@ -116,11 +117,16 @@ namespace Ship
             return AvailableFreeActionsList;
         }
 
-        public void CallMovementActivation(Action callBack)
+        public void CallMovementActivationStart(Action callBack)
         {
-            if (OnMovementActivation != null) OnMovementActivation(this);
+            if (OnMovementActivationStart != null) OnMovementActivationStart(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnMovementActivation, callBack);
+        }
+
+        public void CallMovementActivationFinish()
+        {
+            if (OnMovementActivationFinish != null) OnMovementActivationFinish(this);
         }
 
         public void CallOnActionDecisionSubphaseEnd(Action callback)
@@ -130,9 +136,9 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnActionDecisionSubPhaseEnd, callback);
         }
 
-        public void CallOnActionDecisionSubphaseEndNoAction()
+        public void CallActionIsSkipped()
         {
-            if (OnActionDecisionSubphaseEndNoAction != null) OnActionDecisionSubphaseEndNoAction(this);
+            if (OnActionIsSkipped != null) OnActionIsSkipped(this);
         }
 
         public void CallActionIsTaken(GenericAction action, Action callBack)
@@ -141,7 +147,8 @@ namespace Ship
 
             Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
         }
-        
+
+
         public void CallBeforeFreeActionIsPerformed(GenericAction action, Action callBack)
         {
             if (BeforeFreeActionIsPerformed != null) BeforeFreeActionIsPerformed(action);
@@ -217,7 +224,7 @@ namespace Ship
                                 }
                                 else
                                 {
-                                    Selection.ThisShip.CallOnActionDecisionSubphaseEndNoAction();
+                                    Selection.ThisShip.CallActionIsSkipped();
                                     FinishFreeActionDecision(callback);
                                 }
                             }

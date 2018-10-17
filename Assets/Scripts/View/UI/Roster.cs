@@ -249,7 +249,7 @@ public static partial class Roster {
                 if (item.activeSelf)
                 {
                     item.transform.localPosition = defaultPosition + new Vector3(0f, -offset, 0f);
-                    if (rosterPanelOwner == 2) item.transform.localPosition += new Vector3(305, 0, 0);
+                    if (i == 2) item.transform.localPosition += new Vector3(305, 0, 0);
                     offset += item.transform.Find("ShipInfo").GetComponent<RectTransform>().sizeDelta.y + SPACE_BETWEEN_PANELS;
                 }
             }

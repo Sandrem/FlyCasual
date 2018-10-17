@@ -79,7 +79,7 @@ namespace Abilities
                             if (Host.Tokens.HasToken(typeof(ReinforceForeToken)) || Host.Tokens.HasToken(typeof(ReinforceAftToken)))
                             {
                                 BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(Host, Combat.Defender);
-                                if (positionInfo.Range == 1)
+                                if (positionInfo.Range <= 1)
                                 {
                                     result = true;
                                 }

@@ -296,12 +296,12 @@ namespace Abilities
 
             public override void ActivateAbility()
             {
-                HostShip.OnMovementActivation += RegisterAskToUseFlip;
+                HostShip.OnMovementActivationStart += RegisterAskToUseFlip;
             }
 
             public override void DeactivateAbility()
             {
-                HostShip.OnMovementActivation -= RegisterAskToUseFlip;
+                HostShip.OnMovementActivationStart -= RegisterAskToUseFlip;
             }
         }
 

@@ -1109,7 +1109,16 @@ namespace SquadBuilderNS
             // TEMPORARY
             GetRandomAiSquad(out filename);
 
-            ShowListOfSavedSquadrons(GetSavedSquadsJsons());
+            List<JSONObject> sortedSavedSquadsJsons = GetSavedSquadsJsons();
+
+            JSONObject autosaveJson = sortedSavedSquadsJsons.Find(n => n["name"].str == "Autosave");
+            if (autosaveJson != null)
+            {
+                sortedSavedSquadsJsons.Remove(autosaveJson);
+                sortedSavedSquadsJsons.Insert(0, autosaveJson);
+            }
+
+            ShowListOfSavedSquadrons(sortedSavedSquadsJsons);
         }
 
         private static void DeleteSavedSquadAndRefresh(string fileName)

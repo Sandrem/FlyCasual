@@ -7,6 +7,7 @@ using System;
 using RuleSets;
 using ActionsList;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -22,7 +23,7 @@ namespace Ship
 
                 IsUnique = true;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);
+                PrintedUpgradeIcons.Add(UpgradeType.Astromech);
 
                 faction = Faction.Rebel;
 
@@ -34,7 +35,8 @@ namespace Ship
                 PilotSkill = 4;
                 Cost = 42;
 
-                PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
+                PrintedUpgradeIcons.Add(UpgradeType.Elite);
+                PrintedUpgradeIcons.Remove(UpgradeType.Astromech);
 
                 PilotAbilities.RemoveAll(a => a is Abilities.DutchVanderAbility);
                 PilotAbilities.Add(new Abilities.SecondEdition.DutchVanderAbilitySE());

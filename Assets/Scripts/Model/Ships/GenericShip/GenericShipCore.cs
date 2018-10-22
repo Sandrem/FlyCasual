@@ -272,6 +272,8 @@ namespace Ship
             InitializePilot();
             InitializeUpgrades();
 
+            InitializeShipModel();
+
             InfoPanel = Roster.CreateRosterInfo(this);
             Roster.UpdateUpgradesPanel(this, this.InfoPanel);
         }
@@ -292,11 +294,17 @@ namespace Ship
 
             PrimaryWeapon = new PrimaryWeaponClass(this);
             Damage = new Damage(this);
+        }
 
+        public void InitializeShipModel()
+        {
             CreateModel(StartingPosition);
             InitializeShipBaseArc();
 
             SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
+
+            SetShipInsertImage();
+            SetShipSkin();
         }
 
         public void InitializeShipBaseArc()
@@ -358,8 +366,6 @@ namespace Ship
             PrepareForceInitialization();
             PrepareChargesInitialization();
 
-            SetShipInsertImage();
-            SetShipSkin();
             ActivateShipAbilities();
             ActivatePilotAbilities();
         }

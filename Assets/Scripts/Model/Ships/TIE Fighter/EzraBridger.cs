@@ -22,6 +22,9 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new Abilities.SecondEdition.EzraBridgerPilotAbilitySE());
 
+                SpecialModel = "TIE Fighter Rebel";
+                SkinName = "Rebel";
+
                 SEImageNumber = 46;
             }
 

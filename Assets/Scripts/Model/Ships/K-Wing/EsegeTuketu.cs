@@ -23,6 +23,8 @@ namespace Ship
                 PilotRuleType = typeof(SecondEdition);
                 PilotAbilities.Add(new EsegeTuketuAbilitySE());
 
+                SkinName = "Esege Tuketu";
+
                 SEImageNumber = 63;
             }
 

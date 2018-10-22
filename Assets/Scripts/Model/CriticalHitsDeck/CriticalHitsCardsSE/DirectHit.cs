@@ -13,7 +13,7 @@ namespace DamageDeckCardSE
             Name = "Direct Hit";
             Type = CriticalCardType.Ship;
             AiAvoids = true;
-            ImageUrl = "https://i.imgur.com/aOzGkNK.jpg";
+            ImageUrl = "https://i.imgur.com/snTuXL7.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

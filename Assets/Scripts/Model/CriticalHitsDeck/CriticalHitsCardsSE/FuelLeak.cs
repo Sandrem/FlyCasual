@@ -15,7 +15,7 @@ namespace DamageDeckCardSE
         {
             Name = "Fuel Leak";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://i.imgur.com/MNNWJJe.jpg";
+            ImageUrl = "https://i.imgur.com/yzrVqci.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

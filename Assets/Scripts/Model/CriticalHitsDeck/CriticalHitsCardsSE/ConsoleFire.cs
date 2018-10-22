@@ -10,7 +10,7 @@ namespace DamageDeckCardSE
     {
         public ConsoleFire()
         {
-            ImageUrl = "https://i.imgur.com/x4a6fqE.jpg";
+            ImageUrl = "https://i.imgur.com/4E167ut.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

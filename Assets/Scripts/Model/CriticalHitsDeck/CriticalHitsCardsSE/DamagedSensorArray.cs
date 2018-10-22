@@ -14,7 +14,7 @@ namespace DamageDeckCardSE
         {
             Name = "Damaged Sensor Array";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://i.imgur.com/6r6a8a7.jpg";
+            ImageUrl = "https://i.imgur.com/RObgVXh.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

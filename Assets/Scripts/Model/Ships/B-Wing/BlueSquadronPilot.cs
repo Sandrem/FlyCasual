@@ -15,7 +15,7 @@ namespace Ship
                 PilotSkill = 2;
                 Cost = 22;
 
-                SkinName = "Blue";
+                SkinName = "Teal";
             }
 
             public void AdaptPilotToSecondEdition()

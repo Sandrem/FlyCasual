@@ -17,7 +17,7 @@ namespace Ship
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
  
                 PilotAbilities.Add(new Abilities.TenNumbAbility());
-                SkinName = "Blue";
+                SkinName = "Dark Blue";
             }
 
             public void AdaptPilotToSecondEdition()

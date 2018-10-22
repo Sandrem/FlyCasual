@@ -15,6 +15,8 @@ namespace Ship
                 PilotSkill = 5;
                 Cost = 24;
 
+                SkinName = "Cartel Executioner";
+
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
             }
 

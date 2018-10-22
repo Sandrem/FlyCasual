@@ -20,6 +20,9 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
+                SpecialModel = "TIE Fighter Rebel";
+                SkinName = "Rebel";
+
                 PilotAbilities.Add(new SabineWrenPilotAbility());
             }
 

@@ -12,7 +12,7 @@ namespace DamageDeckCardSE
         {
             Name = "Damaged Engine";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://i.imgur.com/sBDC3iQ.jpg";
+            ImageUrl = "https://i.imgur.com/1sYXXBQ.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

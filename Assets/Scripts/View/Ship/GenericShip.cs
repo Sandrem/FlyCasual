@@ -27,11 +27,13 @@ namespace Ship
             }
         }
 
+        protected string SpecialModel;
+
         public void CreateModel(Vector3 position)
         {
             Model = CreateShipModel(position);
             shipAllParts = Model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts").transform;
-            modelCenter = shipAllParts.Find("ShipModels/" + FixTypeName(Type) + "/ModelCenter").transform;
+            modelCenter = shipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(Type)) + "/ModelCenter").transform;
             InitializeShipBase();
             SetRaycastTarget(true);
             SetSpotlightMask();
@@ -63,17 +65,17 @@ namespace Ship
             position = new Vector3(0, 0, (Owner.PlayerNo == Players.PlayerNo.Player1) ? -4 : 4);
 
             GameObject shipPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModel", typeof(GameObject));
-            GameObject newShip = MonoBehaviour.Instantiate(shipPrefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), BoardTools.Board.GetBoard());
+            GameObject newShip = MonoBehaviour.Instantiate(shipPrefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.GetBoard());
 
-            GameObject modelPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModels/" + FixTypeName(Type), typeof(GameObject));
+            GameObject modelPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModels/" + (SpecialModel ?? FixTypeName(Type)), typeof(GameObject));
             if (modelPrefab != null)
             {
                 GameObject newModel = MonoBehaviour.Instantiate(modelPrefab, newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels"));
-                newModel.name = FixTypeName(Type);
+                newModel.name = SpecialModel ?? FixTypeName(Type);
             }
             else
             {
-                Console.Write("<b>Missing model: " + FixTypeName(Type) + "</b>", LogTypes.Errors, true, "red");
+                Console.Write("<b>Missing model: " + (SpecialModel ?? FixTypeName(Type)) + "</b>", LogTypes.Errors, true, "red");
             }
 
             ShipId = ShipFactory.lastId;
@@ -324,7 +326,7 @@ namespace Ship
 
         public void ToggleDamaged(bool isDamaged)
         {
-            shipAllParts.Find("ShipModels/" + FixTypeName(Type) + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
+            shipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(Type)) + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
         }
 
         public void ToggleIonized(bool isIonized)
@@ -532,7 +534,7 @@ namespace Ship
 
         public Transform GetModelTransform()
         {
-            return shipAllParts.Find("ShipModels/" + FixTypeName(Type) + "/ModelCenter/Model");
+            return shipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(Type)) + "/ModelCenter/Model");
         }
 
         public string FixTypeName(string inputName)

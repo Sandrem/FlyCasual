@@ -19,6 +19,9 @@ namespace Ship
                 faction = Faction.Rebel;
 
                 PilotAbilities.Add(new ZebOrreliosPilotAbility());
+
+                SpecialModel = "TIE Fighter Rebel";
+                SkinName = "Rebel";
             }
 
             public void AdaptPilotToSecondEdition()

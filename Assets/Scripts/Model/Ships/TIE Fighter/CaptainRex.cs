@@ -28,6 +28,9 @@ namespace Ship
 
                 PilotAbilities.Add(new Abilities.SecondEdition.CaptainRexPilotAbilitySE());
 
+                SpecialModel = "TIE Fighter Rebel";
+                SkinName = "Rebel";
+
                 SEImageNumber = 48;
             }
 

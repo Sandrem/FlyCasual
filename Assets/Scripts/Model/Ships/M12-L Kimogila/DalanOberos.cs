@@ -26,6 +26,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
+                SkinName = "Dalan Oberos";
+
                 PilotAbilities.Add(new PilotAbilitiesNamespace.DalanOberosAbility());
             }
 

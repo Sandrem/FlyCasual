@@ -79,7 +79,7 @@ namespace Abilities
         {
             SelectTargetForAbility(
                   AssignOptimizedPrototype,
-                  IsGalacticEmpireShipWith3OrLessShields,
+                  CheckRequirements,
                   GetAiOptimizedPrototypePriority,
                   HostShip.Owner.PlayerNo,
                   HostUpgrade.Name,
@@ -94,7 +94,7 @@ namespace Abilities
             SelectShipSubPhase.FinishSelection();
         }
 
-        private bool IsGalacticEmpireShipWith3OrLessShields(GenericShip ship)
+        protected virtual bool CheckRequirements(GenericShip ship)
         {
             var match = ship.Owner.PlayerNo == HostShip.Owner.PlayerNo && ship.MaxShields <= 3 && ship.SubFaction == SubFaction.GalacticEmpire;
             return match;
@@ -156,6 +156,12 @@ namespace Abilities
             public override void DeactivateAbilityForSquadBuilder()
             {
                 HostShip.ActionBar.RemoveGrantedAction(typeof(TargetLockAction), this.HostUpgrade);
+            }
+
+            protected override bool CheckRequirements(GenericShip ship)
+            {
+                var match = ship.Owner.PlayerNo == HostShip.Owner.PlayerNo;
+                return match;
             }
         }
     }

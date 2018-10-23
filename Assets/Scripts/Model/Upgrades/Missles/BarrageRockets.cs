@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
 
         private bool IsAvailable()
         {
-            return Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Bullseye) && HostUpgrade.Charges > 0;
+            return Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Bullseye) && HostUpgrade.Charges > 0 && Combat.AttackStep == CombatStep.Attack;
         }
 
         private int GetAiPriority()

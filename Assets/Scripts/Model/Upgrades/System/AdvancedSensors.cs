@@ -122,6 +122,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfoToHuman(HostUpgrade.Name + ": You cannot perform another actions during your activation");
 
             HostShip.OnActionIsPerformed -= SkipActionsUntilEndOfActivation;
+            HostShip.OnActionIsSkipped -= SkipAbility;
 
             HostShip.OnTryAddAction += DisallowAction;
             HostShip.OnMovementActivationFinish += ClearRestriction;

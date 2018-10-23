@@ -81,7 +81,7 @@ namespace Abilities
             ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
 
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy, TargetTypes.OtherFriendly })
-                && FilterTargetsByRange(ship, 1, 1)
+                && FilterTargetsByRange(ship, 0, 1)
                 && shotInfo.InArcByType(ArcTypes.Mobile)
                 && shotInfo.InPrimaryArc;
         }

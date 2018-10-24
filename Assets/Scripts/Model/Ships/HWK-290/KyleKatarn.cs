@@ -121,7 +121,7 @@ namespace Abilities.SecondEdition
             return
                 FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) &&
                 FilterTargetsByRange(ship, 1, 3) &&
-                Board.IsShipInArcByType(HostShip, ship, ArcTypes.Mobile);
+                Board.IsShipInArc(HostShip, ship);
         }
     }
 }

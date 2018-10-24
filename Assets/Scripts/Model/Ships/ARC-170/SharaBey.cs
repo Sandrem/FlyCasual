@@ -142,7 +142,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            
+           
             Host.Tokens.SpendToken(
                 typeof(BlueTargetLockToken), 
                 delegate {

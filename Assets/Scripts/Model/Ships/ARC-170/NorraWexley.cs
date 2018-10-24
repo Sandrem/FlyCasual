@@ -98,13 +98,27 @@ namespace Abilities
                     default:
                         break;
                 }
-
-                return Actions.GetTargetLocksLetterPairs(Host, anotherShip).First();
+                List<char> letters = Actions.GetTargetLocksLetterPairs(Host, anotherShip);
+                if (letters.Count > 0)
+                {
+                    return letters.First();
+                } else {
+                    return ' ';
+                }
             }
 
             public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
+
+                // Second edition Shara Bey only affects Primary Weapon Attacks
+                if (Host.Owner.PlayerNo == Combat.Attacker.Owner.PlayerNo &&
+                    Host.GetType() == typeof(Ship.ARC170.SharaBey) &&
+                    Combat.ChosenWeapon.GetType() != typeof(Ship.PrimaryWeaponClass))
+                {
+                    return false;
+                }
+
                 if (GetTargetLockTokenLetterOnAnotherShip() != ' ') result = true;
                 return result;
             }

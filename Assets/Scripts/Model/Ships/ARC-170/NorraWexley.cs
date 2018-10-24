@@ -54,7 +54,11 @@ namespace Abilities
 
         private void AddNorraWexleyPilotAbility(GenericShip ship)
         {
-            NorraWexleyAction newAction = new NorraWexleyAction() { Host = this.HostShip };
+            NorraWexleyAction newAction = new NorraWexleyAction() {
+                Host = this.HostShip,
+                Name = this.HostShip.PilotName + "'s Ability",
+                DiceModificationName = this.HostShip.PilotName + "'s Ability"
+            };
             ship.AddAvailableDiceModification(newAction);
         }
 
@@ -62,8 +66,7 @@ namespace Abilities
         {
             public NorraWexleyAction()
             {
-                Name = DiceModificationName = "Norra Wexley's ability";
-
+                //Name = DiceModificationName = "Norra Wexley's ability"; // Will be overwritten
                 TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             }
 

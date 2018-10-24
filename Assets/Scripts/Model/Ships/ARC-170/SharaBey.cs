@@ -47,7 +47,6 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnGameStart += AddSharaBeyPilotAbility;
-
         }
 
         public void AddSharaBeyPilotAbility()

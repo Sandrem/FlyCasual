@@ -1,5 +1,6 @@
-﻿using Abilities;
+﻿using Abilities.SecondEdition;
 using RuleSets;
+using Ship;
 
 namespace Ship
 {
@@ -19,7 +20,7 @@ namespace Ship
 
                 PilotRuleType = typeof(SecondEdition);
 
-                PilotAbilities.Add(new ZebOrreliosCrewAbility());
+                PilotAbilities.Add(new CaptainOicunnAbilitySE());
 
                 SEImageNumber = 146;
             }
@@ -29,5 +30,30 @@ namespace Ship
                 // Not needed
             }
         }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class CaptainOicunnAbilitySE : GenericAbility
+    {
+
+        public override void ActivateAbility()
+        {
+            HostShip.OnCanAttackBumpedTarget += CanAttack;
+            HostShip.PrimaryWeapon.MinRange = 0;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCanAttackBumpedTarget -= CanAttack;
+            HostShip.PrimaryWeapon.MinRange = 1;
+        }
+
+        private void CanAttack(ref bool canAttack, GenericShip attacker, GenericShip defender)
+        {
+            canAttack = true;
+        }
+
     }
 }

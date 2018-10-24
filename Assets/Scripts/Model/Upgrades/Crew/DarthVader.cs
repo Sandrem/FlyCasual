@@ -177,6 +177,8 @@ namespace Abilities
 
             private void SelectAbilityTarget()
             {
+                SelectShipSubPhase.FinishSelectionNoCallback();
+
                 HostShip.Force--;
 
                 var tokenTypes = TargetShip.Tokens
@@ -188,12 +190,18 @@ namespace Abilities
                 {
                     var decisionSubPhase = Phases.StartTemporarySubPhaseNew<DecisionSubPhase>(
                         Name,
-                        SelectShipSubPhase.FinishSelection
+                        Triggers.FinishTrigger
                     );
 
                     decisionSubPhase.InfoText = "Remove token to prevent 1 damage from Darth Vader?";
 
-                    decisionSubPhase.AddDecision("No", delegate { AssignDamage(); });
+                    decisionSubPhase.AddDecision(
+                        "No",
+                        delegate {
+                            DecisionSubPhase.ConfirmDecisionNoCallback();
+                            AssignDamage();
+                        }
+                    );
 
                     tokenTypes.ForEach(token =>
                     {
@@ -208,14 +216,14 @@ namespace Abilities
                 }
                 else
                 {
-                    SelectShipSubPhase.FinishSelection();
                     AssignDamage();
                 }
             }
 
             private void RemoveGreenToken(Type tokenType)
             {
-                TargetShip.Tokens.RemoveToken(tokenType, DecisionSubPhase.ConfirmDecision);
+                DecisionSubPhase.ConfirmDecisionNoCallback();
+                TargetShip.Tokens.RemoveToken(tokenType, Triggers.FinishTrigger);
             }
 
             private void AssignDamage()
@@ -230,12 +238,12 @@ namespace Abilities
                     EventHandler = TargetShip.SufferDamage,
                     EventArgs = new DamageSourceEventArgs()
                     {
-                        Source = "Dath Vader",
+                        Source = HostUpgrade,
                         DamageType = DamageTypes.CardAbility
                     }
                 });
 
-                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, DecisionSubPhase.ConfirmDecision);
+                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
             }
         }
     }

@@ -111,20 +111,42 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice += CheckAbility;
+
+            AddDiceModification(
+                "Advanced Targeting Computer",
+                IsAvailable,
+                GetAiPriority,
+                DiceModificationType.Change,
+                1,
+                new List<DieSide>() { DieSide.Success },
+                DieSide.Crit
+            );
         }
 
         public override void DeactivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice -= CheckAbility;
+            RemoveDiceModification();
+        }
+
+        private int GetAiPriority()
+        {
+            return 20;
+        }
+
+        private bool IsAvailable()
+        {
+            return Combat.AttackStep == CombatStep.Attack
+                && Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender)
+                && Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass);
         }
 
         private void CheckAbility(ref int value)
         {
-            if (Combat.AttackStep == CombatStep.Attack && Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender) && Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
+            if (IsAvailable())
             {
                 Messages.ShowInfo("Advanced Targeting Computer: +1 attack die");
                 value++;
-                HostShip.OnImmediatelyAfterRolling += ModifyDice;
             }
         }
 

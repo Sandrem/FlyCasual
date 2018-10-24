@@ -6,6 +6,7 @@ using GameModes;
 using Movement;
 using Ship;
 using SquadBuilderNS;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -137,11 +138,24 @@ namespace RuleSets
 
         public override void ActionIsFailed(GenericShip ship, Type actionType)
         {
-            Messages.ShowError("Action is failed and skipped");
-
             base.ActionIsFailed(ship, actionType);
 
-            Phases.Skip();
+            // Temporary solution for off-the-board problem
+
+            if (!IsTractorBeamFailed())
+            {
+                Messages.ShowError("Action is failed and skipped");
+                Phases.Skip();
+            }
+            else
+            {
+                (Phases.CurrentSubPhase as TractorBeamPlanningSubPhase).RegisterTractorPlanning();
+            }
+        }
+
+        private bool IsTractorBeamFailed()
+        {
+            return Phases.CurrentSubPhase is TractorBeamPlanningSubPhase;
         }
 
         public override bool ShipIsAllowed(GenericShip ship)

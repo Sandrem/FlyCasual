@@ -560,18 +560,16 @@ namespace SubPhases
 
         public void CancelDecloak()
         {
-            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.CloakAction));
-            Selection.ThisShip.IsLandedOnObstacle = false;
-            inReposition = false;
-            MonoBehaviour.Destroy(ShipStand);
+            StopPlanning();
 
+            Selection.ThisShip.IsLandedOnObstacle = false;
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
 
-            MovementTemplates.HideLastMovementRuler();
-            MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
+            MonoBehaviour.Destroy(TemporaryShipBase);
+            DecloakTemplate.SetActive(false);
 
-            PreviousSubPhase.Resume();
+            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.CloakAction));
         }
 
         private void StopPlanning()

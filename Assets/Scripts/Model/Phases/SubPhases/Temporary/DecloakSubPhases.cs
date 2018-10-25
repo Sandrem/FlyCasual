@@ -429,7 +429,7 @@ namespace SubPhases
                 Messages.ShowError("Cannot overlap another ship");
                 allow = false;
             }
-            else if ((!Selection.ThisShip.IsIgnoreObstacles) && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
+            else if ((!IsObstacleCanBeIgnored()) && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 Messages.ShowError("Cannot overlap asteroid");
                 allow = false;
@@ -441,6 +441,13 @@ namespace SubPhases
             }
 
             return allow;
+        }
+
+        private bool IsObstacleCanBeIgnored()
+        {
+            if (Selection.ThisShip.IsIgnoreObstacles) return true;
+
+            return (IsBoostTemplate(selectedTemplateVariant)) ? Selection.ThisShip.IsIgnoreObstaclesDuringBoost : Selection.ThisShip.IsIgnoreObstaclesDuringBarrelRoll;
         }
 
         public override void Next()

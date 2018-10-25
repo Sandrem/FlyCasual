@@ -61,7 +61,6 @@ namespace SubPhases
         private ObstaclesStayDetectorForced obstaclesStayDetectorBase;
         private ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
 
-        Dictionary<string, Vector3> AvailableDecloakDirections = new Dictionary<string, Vector3>();
         public string SelectedDecloakHelper;
 
         public float helperDirection;

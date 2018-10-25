@@ -6,6 +6,7 @@ using Mods;
 using ActionsList;
 using Upgrade;
 using RuleSets;
+using SquadBuilderNS;
 
 namespace Ship
 {
@@ -83,6 +84,11 @@ namespace Ship
         public event EventHandlerDualUpgrade OnAfterDualCardSideSelected;
 
         public event EventHandlerShip OnSystemsAbilityActivation;
+
+        public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
+        {
+            return true;
+        }
 
         public void CallOnGameStart()
         {

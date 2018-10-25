@@ -640,6 +640,8 @@ namespace SquadBuilderNS
 
             foreach (var shipHolder in squadList.GetShips())
             {
+                if (!shipHolder.Instance.IsAllowedForSquadBuilderPostCheck(squadList)) return false;
+
                 foreach (var upgradeHolder in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
                 {
                     if (!upgradeHolder.IsAllowedForSquadBuilderPostCheck(squadList)) return false;

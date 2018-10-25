@@ -1,6 +1,6 @@
-﻿using Abilities.SecondEdition;
-using RuleSets;
+﻿using RuleSets;
 using Ship;
+using SquadBuilderNS;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,23 @@ namespace Ship
             public void AdaptPilotToSecondEdition()
             {
                // nah
+            }
+
+            public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
+            {
+                foreach (var shipHolder in squadList.GetShips())
+                {
+                    foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
+                    {
+                        if (upgrade.Name == "Hound's Tooth")
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                Messages.ShowError("You need YV-666 ship with Hound's Tooth title\nto use Nashtah Pup in squad");
+                return false;
             }
         }
     }

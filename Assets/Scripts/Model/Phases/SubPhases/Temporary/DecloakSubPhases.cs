@@ -100,15 +100,31 @@ namespace SubPhases
 
         public void PerfromTemplatePlanningSecondEdition()
         {
-            Triggers.RegisterTrigger(new Trigger()
+            if (IsBoostTemplate(selectedTemplateVariant))
             {
-                Name = "Decloak position",
-                TriggerType = TriggerTypes.OnAbilityDirect,
-                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                EventHandler = AskDecloakPosition
-            });
+                ShowBarrelRollTemplate();
+                ShowTemporaryShipBase();
+                ConfirmPosition();
+            }
+            else
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Decloak position",
+                    TriggerType = TriggerTypes.OnAbilityDirect,
+                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    EventHandler = AskDecloakPosition
+                });
 
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ConfirmPosition);
+                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ConfirmPosition);
+            }
+        }
+
+        private bool IsBoostTemplate(Actions.DecloakTemplateVariants selectedTemplateVariant)
+        {
+            return selectedTemplateVariant == Actions.DecloakTemplateVariants.Straight2Forward
+                || selectedTemplateVariant == Actions.DecloakTemplateVariants.Bank2ForwardLeft
+                || selectedTemplateVariant == Actions.DecloakTemplateVariants.Bank2ForwardRight;
         }
 
         private void ConfirmPosition()
@@ -172,7 +188,7 @@ namespace SubPhases
             ShowBarrelRollTemplate();
             ShowTemporaryShipBase();
 
-            ProcessTemplatePositionSlider(-0.5f);
+            //ProcessTemplatePositionSlider(-0.5f);
             ProcessTemporaryShipBaseSlider(position);
 
             DecisionSubPhase.ConfirmDecision();

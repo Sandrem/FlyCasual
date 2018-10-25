@@ -58,7 +58,6 @@ namespace SubPhases
     {
         private int updatesCount = 0;
 
-        public GameObject ShipStand;
         private ObstaclesStayDetectorForced obstaclesStayDetectorBase;
         private ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
 
@@ -96,6 +95,8 @@ namespace SubPhases
 
         public void PerfromTemplatePlanningFirstEdition()
         {
+            // Temporary
+            PerfromTemplatePlanningSecondEdition();
         }
 
         public void PerfromTemplatePlanningSecondEdition()
@@ -148,22 +149,15 @@ namespace SubPhases
 
         private void StartReposition()
         {
-            //if (!useMobileControls)
-            //{
-
             Roster.SetRaycastTargets(false);
             if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
             {
                 inReposition = true;
             }
-
-            //}
         }
 
         private void AskDecloakPosition(object sender, System.EventArgs e)
         {
-            // TODO: skip for boost
-
             DecloakPositionDecisionSubPhase selectBarrelRollPosition = (DecloakPositionDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                  Name,
                  typeof(DecloakPositionDecisionSubPhase),
@@ -188,7 +182,6 @@ namespace SubPhases
             ShowBarrelRollTemplate();
             ShowTemporaryShipBase();
 
-            //ProcessTemplatePositionSlider(-0.5f);
             ProcessTemporaryShipBaseSlider(position);
 
             DecisionSubPhase.ConfirmDecision();
@@ -213,9 +206,6 @@ namespace SubPhases
                 TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
                 obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
                 obstaclesStayDetectorBase.TheShip = TheShip;
-
-                // TODO: Mobile controls
-                // if (useMobileControls) ProcessTemporaryShipBaseSlider(SliderMenu.GetSliderValue());
             }
         }
 
@@ -333,213 +323,6 @@ namespace SubPhases
             return Selection.ThisShip.GetDecloakHelper().Find(selectedTemplateVariant.ToString()).gameObject;
         }
 
-        // NOT USED
-        private void PrepareDragging()
-        {
-            GameObject prefab = (GameObject)Resources.Load(Selection.ThisShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-            ShipStand = MonoBehaviour.Instantiate(prefab, Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation(), BoardTools.Board.GetBoard());
-            ShipStand.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = Selection.ThisShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
-            ShipStand.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
-            obstaclesStayDetectorBase = ShipStand.GetComponentInChildren<ObstaclesStayDetectorForced>();
-
-            MovementTemplates.CurrentTemplate = MovementTemplates.GetMovement2Ruler();
-            MovementTemplates.CurrentTemplate.position = Selection.ThisShip.TransformPoint(new Vector3(0.5f, 0, -0.25f));
-
-            foreach (Transform decloakHelper in Selection.ThisShip.GetDecloakHelper())
-            {
-                AvailableDecloakDirections.Add(decloakHelper.name, decloakHelper.Find("Finisher").position);
-            }
-
-            Roster.SetRaycastTargets(false);
-            TurnOnDragging();
-        }
-
-        private void TurnOnDragging()
-        {
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer)) inReposition = true;
-        }
-
-        public override void Update()
-        {
-            if (inReposition)
-            {
-                SelectDecloakHelper();
-            }
-        }
-
-        public override void Pause()
-        {
-            inReposition = false;
-        }
-
-        public override void Resume()
-        {
-            TurnOnDragging();
-        }
-
-        private void SelectDecloakHelper()
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                ShowNearestDecloakHelper(GetNearestDecloakHelper(new Vector3(hit.point.x, 0f, hit.point.z)));
-            }
-        }
-
-        private void ShowNearestDecloakHelper(string name)
-        {
-            if (SelectedDecloakHelper != name)
-            {
-                if (name == "Forward")
-                {
-                    MovementTemplates.CurrentTemplate.gameObject.SetActive(false);
-
-                    GetDecloakHelperByName(name).gameObject.SetActive(true);
-
-                    Transform newBase = Selection.ThisShip.GetDecloakHelper().Find(name + "/Finisher/BasePosition");
-                    ShipStand.transform.position = newBase.position;
-                    ShipStand.transform.rotation = newBase.rotation;
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(SelectedDecloakHelper))
-                    {
-                        GetDecloakHelperByName(SelectedDecloakHelper).gameObject.SetActive(false);
-                    }
-
-                    MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
-
-                    PerfromDrag();
-                }
-
-                SelectedDecloakHelper = name;
-            }
-            else
-            {
-                if (name != "Forward")
-                {
-                    PerfromDrag();
-                }
-            }
-        }
-
-        private GameObject GetDecloakHelperByName(string name)
-        {
-            GameObject result = null;
-
-            if (name == "Forward")
-            {
-                result = Selection.ThisShip.GetDecloakHelper().Find(name).gameObject;
-            }
-            else
-            {
-                result = MovementTemplates.CurrentTemplate.gameObject;
-            }
-
-            return result;
-        }
-
-        private string GetNearestDecloakHelper(Vector3 point)
-        {
-            float minDistance = float.MaxValue;
-            KeyValuePair<string, Vector3> nearestDecloakHelper = new KeyValuePair<string, Vector3>();
-
-            foreach (var decloakDirection in AvailableDecloakDirections)
-            {
-                if (string.IsNullOrEmpty(nearestDecloakHelper.Key))
-                {
-                    nearestDecloakHelper = decloakDirection;
-                    minDistance = Vector3.Distance(point, decloakDirection.Value);
-                    continue;
-                }
-                else
-                {
-                    float currentDistance = Vector3.Distance(point, decloakDirection.Value);
-                    if (currentDistance < minDistance)
-                    {
-                        nearestDecloakHelper = decloakDirection;
-                        minDistance = currentDistance;
-                    }
-                }
-            }
-
-            return nearestDecloakHelper.Key;
-        }
-
-        private void PerfromDrag()
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (ShipStand != null)
-                {
-                    ShipStand.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
-                    ApplyDecloakRepositionLimits();
-                }
-            }
-        }
-
-        private void ApplyDecloakRepositionLimits()
-        {
-            Vector3 newPosition = Selection.ThisShip.InverseTransformPoint(ShipStand.transform.position);
-            Vector3 fixedPositionRel = newPosition;
-
-            if (newPosition.z > 0.5f)
-            {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, 0.5f);
-            }
-
-            if (newPosition.z < -0.5f)
-            {
-                fixedPositionRel = new Vector3(fixedPositionRel.x, fixedPositionRel.y, -0.5f);
-            }
-
-            if (newPosition.x > 0f)
-            {
-                fixedPositionRel = new Vector3(3, fixedPositionRel.y, fixedPositionRel.z);
-
-                helperDirection = 1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles + new Vector3(0, 180, 0);
-            }
-
-            if (newPosition.x < 0f)
-            {
-                fixedPositionRel = new Vector3(-3, fixedPositionRel.y, fixedPositionRel.z);
-
-                helperDirection = -1f;
-                MovementTemplates.CurrentTemplate.eulerAngles = Selection.ThisShip.Model.transform.eulerAngles;
-            }
-
-            Vector3 helperPositionRel = Selection.ThisShip.InverseTransformPoint(MovementTemplates.CurrentTemplate.position);
-            helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, helperPositionRel.z);
-
-            if (helperPositionRel.z + 0.25f > fixedPositionRel.z)
-            {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.25f);
-            }
-
-            if (helperPositionRel.z + 0.75f < fixedPositionRel.z)
-            {
-                helperPositionRel = new Vector3(helperDirection * Mathf.Abs(helperPositionRel.x), helperPositionRel.y, fixedPositionRel.z - 0.75f);
-            }
-
-            Vector3 helperPositionAbs = Selection.ThisShip.TransformPoint(helperPositionRel);
-            MovementTemplates.CurrentTemplate.position = helperPositionAbs;
-
-            Vector3 fixedPositionAbs = Selection.ThisShip.TransformPoint(fixedPositionRel);
-            ShipStand.transform.position = fixedPositionAbs;
-        }
-
-        public override void ProcessClick()
-        {
-            StopPlanning();
-            GameMode.CurrentGameMode.TryConfirmDecloakPosition(ShipStand.transform.position, SelectedDecloakHelper, GetDecloakHelperByName(SelectedDecloakHelper).transform.position, GetDecloakHelperByName(SelectedDecloakHelper).transform.eulerAngles);
-        }
-
         public void StartDecloakExecution(GenericShip ship)
         {
             Pause();
@@ -580,17 +363,6 @@ namespace SubPhases
 
         public void TryConfirmDecloakNetwork(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
         {
-
-            ShipStand.SetActive(true);
-            StopPlanning();
-
-            ShipStand.transform.position = shipPosition;
-
-            SelectedDecloakHelper = decloakHelper;
-
-            GetDecloakHelperByName(SelectedDecloakHelper).transform.eulerAngles = movementTemplateAngles;
-            GetDecloakHelperByName(SelectedDecloakHelper).transform.position = movementTemplatePosition;
-
             TryConfirmDecloakPosition();
         }
 
@@ -648,11 +420,6 @@ namespace SubPhases
             }
         }
 
-        private void HidePlanningTemplates()
-        {
-            Selection.ThisShip.GetDecloakHelper().Find(SelectedDecloakHelper).gameObject.SetActive(false);
-        }
-
         private bool IsDecloakAllowed()
         {
             bool allow = true;
@@ -695,9 +462,7 @@ namespace SubPhases
 
         public override void SkipButton()
         {
-            StopPlanning();
             CancelDecloak();
-            HidePlanningTemplates();
         }
 
         protected class DecloakDirectionDecisionSubPhase : DecisionSubPhase { }

@@ -22,6 +22,8 @@ public static class DebugManager
 
     public static bool DebugMovement;
 
+    public static bool ErrorIsAlreadyReported { get; set; }
+
     private static bool debugNetwork = true;
     public static bool DebugNetwork
     {

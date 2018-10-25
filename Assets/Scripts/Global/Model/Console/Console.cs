@@ -103,7 +103,7 @@ public partial class Console : MonoBehaviour {
         {
             if (IsHiddenError(logString)) return;
 
-            if (DebugManager.ReleaseVersion) SendReport(stackTrace);
+            if (DebugManager.ReleaseVersion && !DebugManager.ErrorIsAlreadyReported) SendReport(stackTrace);
 
             IsActive = true;
             Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");
@@ -112,6 +112,8 @@ public partial class Console : MonoBehaviour {
 
     private void SendReport(string stackTrace)
     {
+        DebugManager.ErrorIsAlreadyReported = true;
+
         string[] StackTraceLines = stackTrace.Split('\n');
         string StackTraceFilesList = "";
         foreach (var line in StackTraceLines)

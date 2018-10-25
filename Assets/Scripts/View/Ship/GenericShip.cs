@@ -447,7 +447,7 @@ namespace Ship
 
         public Transform GetDecloakHelper()
         {
-            return Model.transform.Find("RotationHelper/RotationHelper2/DecloakHelper");
+            return shipAllParts.Find("ShipBase/DecloakHelper");
         }
 
         public void AnimatePrimaryWeapon()

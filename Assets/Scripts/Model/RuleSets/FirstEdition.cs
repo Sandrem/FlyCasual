@@ -3,6 +3,7 @@ using BoardTools;
 using Bombs;
 using Movement;
 using Ship;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,7 +113,12 @@ namespace RuleSets
 
         public override void BarrelRollTemplatePlanning()
         {
-            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).PerfromTemplatePlanningFirstEdition();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).PerfromTemplatePlanningFirstEdition();
+        }
+
+        public override void DecloakTemplatePlanning()
+        {
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).PerfromTemplatePlanningFirstEdition();
         }
 
         public override void SubScribeToGenericShipEvents(GenericShip ship)

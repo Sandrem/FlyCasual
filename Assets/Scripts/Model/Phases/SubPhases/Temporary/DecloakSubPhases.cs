@@ -303,10 +303,10 @@ namespace SubPhases
                     case Actions.DecloakTemplates.Bank2:
                         selectDecloakTemplate.AddDecision("Forward Bank 2 Left", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2ForwardLeft); DecisionSubPhase.ConfirmDecision(); });
                         selectDecloakTemplate.AddDecision("Forward Bank 2 Right", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2ForwardRight); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Left Bank 1 Forward", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2LeftForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Right Bank 1 Forward", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Left Bank 1 Backwards", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2RightForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Right Bank 1 Backwards", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2RightBackwards); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Left Bank 2 Forward", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2LeftForward); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Right Bank 2 Forward", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Left Bank 2 Backwards", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2RightForward); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Right Bank 2 Backwards", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2RightBackwards); DecisionSubPhase.ConfirmDecision(); });
                         break;
                     default:
                         break;

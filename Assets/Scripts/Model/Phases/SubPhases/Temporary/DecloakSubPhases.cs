@@ -304,8 +304,8 @@ namespace SubPhases
                         selectDecloakTemplate.AddDecision("Forward Bank 2 Left", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2ForwardLeft); DecisionSubPhase.ConfirmDecision(); });
                         selectDecloakTemplate.AddDecision("Forward Bank 2 Right", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2ForwardRight); DecisionSubPhase.ConfirmDecision(); });
                         selectDecloakTemplate.AddDecision("Left Bank 2 Forward", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2LeftForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Right Bank 2 Forward", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Left Bank 2 Backwards", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2RightForward); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Right Bank 2 Forward", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2RightForward); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Left Bank 2 Backwards", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
                         selectDecloakTemplate.AddDecision("Right Bank 2 Backwards", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2RightBackwards); DecisionSubPhase.ConfirmDecision(); });
                         break;
                     default:
@@ -600,9 +600,6 @@ namespace SubPhases
         {
             DecloakTemplate.SetActive(true);
 
-            // TEMPORARY
-            return;
-
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
 
@@ -716,6 +713,9 @@ namespace SubPhases
         private float progressCurrent;
         private float progressTarget;
 
+        private float initialRotation;
+        private float plannedRotation;
+
         private bool performingAnimation;
 
         public GameObject TemporaryShipBase;
@@ -737,6 +737,9 @@ namespace SubPhases
             progressCurrent = 0;
             progressTarget = Vector3.Distance(Selection.ThisShip.GetPosition(), TemporaryShipBase.transform.position);
 
+            initialRotation = (TheShip.GetAngles().y < 180) ? TheShip.GetAngles().y : -(360 - TheShip.GetAngles().y);
+            plannedRotation = (TemporaryShipBase.transform.eulerAngles.y - initialRotation < 180) ? TemporaryShipBase.transform.eulerAngles.y : -(360 - TemporaryShipBase.transform.eulerAngles.y);
+
             Sounds.PlayFly();
 
             performingAnimation = true;
@@ -754,8 +757,11 @@ namespace SubPhases
             progressCurrent += progressStep;
 
             Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), TemporaryShipBase.transform.position, progressStep));
+
             Selection.ThisShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, HelperDirection);
+            TheShip.SetRotationHelper2Angles(new Vector3(0, progressCurrent / progressTarget * (plannedRotation - initialRotation), 0));
             Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
+
             if (progressCurrent >= progressTarget)
             {
                 performingAnimation = false;
@@ -766,6 +772,10 @@ namespace SubPhases
         public void FinishDecloakAnimation()
         {
             performingAnimation = false;
+
+            TheShip.ApplyRotationHelpers();
+            TheShip.ResetRotationHelpers();
+            TheShip.SetAngles(TemporaryShipBase.transform.eulerAngles);
 
             MonoBehaviour.Destroy(TemporaryShipBase);
 

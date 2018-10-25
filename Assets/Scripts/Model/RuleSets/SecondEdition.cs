@@ -236,7 +236,12 @@ namespace RuleSets
 
         public override void BarrelRollTemplatePlanning()
         {
-            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).PerfromTemplatePlanningSecondEdition();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).PerfromTemplatePlanningSecondEdition();
+        }
+
+        public override void DecloakTemplatePlanning()
+        {
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).PerfromTemplatePlanningSecondEdition();
         }
 
         public override void ReloadAction()

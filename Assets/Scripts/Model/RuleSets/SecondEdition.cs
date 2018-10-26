@@ -229,8 +229,7 @@ namespace RuleSets
             {
                 (upgrade as IShipWeapon).CanShootOutsideArc = false;
 
-                upgrade.Host.ShipBaseArcsType = BaseArcsType.ArcMobile;
-                upgrade.Host.InitializeShipBaseArc();
+                upgrade.Host.ShipBaseArcsType = BaseArcsType.ArcMobileTurret;
             }
         }
 

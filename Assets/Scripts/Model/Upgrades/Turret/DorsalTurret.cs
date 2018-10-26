@@ -69,10 +69,7 @@ namespace Abilities.SecondEdition
 {
     public class DorsalTurretAbility : GenericAbility
     {
-        public override void ActivateAbility()
-        {
-            HostShip.ArcInfo.GetArc<ArcMobile>().ShotPermissions.CanShootPrimaryWeapon = false;
-        }
+        public override void ActivateAbility() {}
 
         public override void ActivateAbilityForSquadBuilder()
         {

@@ -334,6 +334,11 @@ namespace Ship
                 case BaseArcsType.ArcMobile:
                     ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
                     break;
+                case BaseArcsType.ArcMobileTurret:
+                    ArcMobile turretArc = new ArcMobile(ShipBase);
+                    turretArc.ShotPermissions.CanShootPrimaryWeapon = false;
+                    ArcInfo.Arcs.Add(turretArc);
+                    break;
                 case BaseArcsType.ArcMobileOnly:
                     ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
                     ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);

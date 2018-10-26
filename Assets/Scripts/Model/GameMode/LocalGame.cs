@@ -175,11 +175,6 @@ namespace GameModes
             }
         }
 
-        public override void StartDiceRerollExecution()
-        {
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
-        }
-
         public override void ReturnToMainMenu()
         {
             Phases.EndGame();

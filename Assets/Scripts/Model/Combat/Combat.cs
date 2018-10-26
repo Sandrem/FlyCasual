@@ -294,7 +294,6 @@ public static partial class Combat
 
         AttackStep = CombatStep.CompareResults;
 
-        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);
     }
 

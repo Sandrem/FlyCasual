@@ -223,11 +223,8 @@ public partial class DiceRoll
         }
         else
         {
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
-
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
         }
-        
     }
 
     private bool ShouldSkipToSync()
@@ -307,32 +304,25 @@ public partial class DiceRoll
 
     public void RerollSelected(DelegateDiceroll callBack)
     {
+        DiceRoll.CurrentDiceRoll = this;
+
         this.callBack = callBack;
 
-        if (ReplaysManager.Mode == ReplaysMode.Write)
+        if (!ShouldSkipToSync())
         {
-            if (!Network.IsNetworkGame)
+            foreach (Die die in DiceList)
             {
-                foreach (Die die in DiceList)
+                if (die.IsSelected)
                 {
-                    if (die.IsSelected)
-                    {
-                        die.RandomizeRotation();
-                    }
+                    die.RandomizeRotation();
                 }
-                RerollPreparedDice();
             }
-            else
-            {
-                if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.SyncSelectedDice");
-                Network.SyncSelectedDiceAndReroll();
-            }
+            RerollPreparedDice();
         }
         else
         {
             CurrentDiceRoll.DeselectDice();
 
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
         }
     }
@@ -625,8 +615,6 @@ public partial class DiceRoll
             }
 
             UpdateDiceCompareHelperPrediction();
-
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
 
             Roster.GetPlayer(Players.PlayerNo.Player1).SyncDiceResults(); // Server synchs dice
         }

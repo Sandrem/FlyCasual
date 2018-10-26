@@ -341,12 +341,12 @@ namespace Ship
                     break;
                 case BaseArcsType.ArcMobileOnly:
                     ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
-                    ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);
+                    DisablePrimaryFiringArc();
                     break;
                 case BaseArcsType.ArcMobileDual:
                     ArcInfo.Arcs.Add(new ArcMobileDualA(ShipBase));
                     ArcInfo.Arcs.Add(new ArcMobileDualB(ShipBase));
-                    ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);
+                    DisablePrimaryFiringArc();
                     break;
                 case BaseArcsType.ArcBullseye:
                     ArcInfo.Arcs.Add(new ArcBullseye(ShipBase));
@@ -359,6 +359,13 @@ namespace Ship
             }
 
             RuleSet.Instance.AdaptArcsToRules(this);
+        }
+
+        private void DisablePrimaryFiringArc()
+        {
+            ArcPrimary arcPrimary = ArcInfo.GetArc<ArcPrimary>();
+            arcPrimary.ShotPermissions.CanShootPrimaryWeapon = false;
+            arcPrimary.ShotPermissions.CanShootTurret = false;
         }
 
         public void InitializePilotForSquadBuilder()

@@ -181,7 +181,8 @@ namespace Ship
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ShipInfo").GetComponent<MeshRenderer>().enabled = true;
 
             //Forward arc
-            if (ArcInfo.Arcs.Any(a => a is ArcPrimary))
+            ArcPrimary arcPrimary = ArcInfo.GetArc<ArcPrimary>();
+            if (arcPrimary != null && arcPrimary.ShotPermissions.CanShootPrimaryWeapon)
             {
                 if (ShipBaseArcsType != BaseArcsType.ArcSpecial180)
                 {

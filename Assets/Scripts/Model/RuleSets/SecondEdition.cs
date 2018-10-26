@@ -200,7 +200,13 @@ namespace RuleSets
 
         public override void AdaptArcsToRules(GenericShip ship)
         {
-            ship.ArcInfo.Arcs.Add(new ArcBullseye(ship.ShipBase));
+            ArcBullseye arcBullseye = new ArcBullseye(ship.ShipBase);
+
+            ArcPrimary arcPrimary = ship.ArcInfo.GetArc<ArcPrimary>();
+            arcBullseye.ShotPermissions.CanShootPrimaryWeapon = arcPrimary.ShotPermissions.CanShootPrimaryWeapon;
+            arcBullseye.ShotPermissions.CanShootTurret = arcPrimary.ShotPermissions.CanShootTurret;
+
+            ship.ArcInfo.Arcs.Add(arcBullseye);
         }
 
         public override bool WeaponHasRangeBonus()

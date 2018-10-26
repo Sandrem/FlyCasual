@@ -46,7 +46,5 @@ namespace GameModes
         public abstract void QuitToDesktop();
 
         public abstract void GenerateDamageDeck(PlayerNo playerNo, int seed);
-
-        public abstract void StartDiceRerollExecution();
     }
 }

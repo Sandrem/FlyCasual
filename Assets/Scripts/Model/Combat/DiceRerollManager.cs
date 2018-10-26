@@ -213,9 +213,7 @@ public partial class DiceRerollManager
 
     public void ConfirmRerollButtonIsPressed()
     {
-        Phases.CurrentSubPhase.IsReadyForCommands = true;
-
-        GameMode.CurrentGameMode.StartDiceRerollExecution();
+        Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
     }
 
     public static void SyncDiceRerollSelected(List<bool> selectedDice)

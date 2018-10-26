@@ -18,7 +18,7 @@ public static class DebugManager
 
     public static bool NoAsteroidSetup;
 
-    public static bool NoReplayCreation;
+    public static bool NoReplayCreation; // = true;
 
     public static bool DebugMovement;
 

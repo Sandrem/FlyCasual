@@ -107,6 +107,8 @@ namespace Players
 
         public virtual void UseDiceModifications(DiceModificationTimingType type)
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
             Roster.HighlightPlayer(PlayerNo);
             Combat.ShowDiceModificationButtons(type);
             GameController.CheckExistingCommands();
@@ -213,7 +215,10 @@ namespace Players
             return Math.Max(0, pilotSkillValue / Ships.Count);
         }
 
-        public virtual void RerollManagerIsPrepared() { }
+        public virtual void RerollManagerIsPrepared()
+        {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+        }
 
         public virtual void PerformTractorBeamReposition(GenericShip ship) { }
 
@@ -231,6 +236,8 @@ namespace Players
 
         public virtual void SyncDiceResults()
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
             GameController.CheckExistingCommands();
         }
 
@@ -249,11 +256,13 @@ namespace Players
             JSONObject parameters = new JSONObject();
             parameters.AddField("dice", diceRerollSelected);
 
-            GameController.SendCommand(
+            GameCommand command = GameController.GenerateGameCommand(
                 GameCommandTypes.SyncDiceRerollSelected,
                 Phases.CurrentSubPhase.GetType(),
                 parameters.ToString()
             );
+
+            GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
         public virtual void InformAboutCrit()

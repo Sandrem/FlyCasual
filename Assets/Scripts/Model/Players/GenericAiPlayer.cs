@@ -505,6 +505,7 @@ namespace Players
 
         public override void RerollManagerIsPrepared()
         {
+            base.RerollManagerIsPrepared();
             DiceRerollManager.CurrentDiceRerollManager.ConfirmRerollButtonIsPressed();
         }
 

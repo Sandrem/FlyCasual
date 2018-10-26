@@ -26,7 +26,8 @@ namespace Players
 
         public override void RerollManagerIsPrepared()
         {
-            DiceRerollManager.CurrentDiceRerollManager.ConfirmRerollButtonIsPressed();
+            base.RerollManagerIsPrepared();
+            GameController.CheckExistingCommands();
         }
 
         public override void ConfirmDiceCheck()

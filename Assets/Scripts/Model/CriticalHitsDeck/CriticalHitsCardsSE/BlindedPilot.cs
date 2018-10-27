@@ -14,7 +14,7 @@ namespace DamageDeckCardSE
             Name = "Blinded Pilot";
             Type = CriticalCardType.Pilot;
             AiAvoids = true;
-            ImageUrl = "https://i.imgur.com/OoQBMf7.jpg";
+            ImageUrl = "https://i.imgur.com/cBMWZZh.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

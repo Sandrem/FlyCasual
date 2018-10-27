@@ -9,7 +9,7 @@ namespace RulesList
 
         public void CheckAttackDistanceBonus(ref int result)
         {
-            if (Combat.ShotInfo.Range == 1 && RuleSet.Instance.WeaponHasRangeBonus())
+            if (Combat.ShotInfo.Range <= 1 && RuleSet.Instance.WeaponHasRangeBonus())
             {
                 Messages.ShowInfo("Distance bonus: +1 attack die");
                 result++;

@@ -26,6 +26,12 @@ public static partial class Actions
         Straight2
     }
 
+    public enum DecloakTemplates
+    {
+        Straight2,
+        Bank2
+    }
+
     public enum BoostTemplates
     {
         [Description("Straight 1")]
@@ -50,6 +56,19 @@ public static partial class Actions
         Bank1RightBackwards,
         Straight2Left,
         Straight2Right
+    }
+
+    public enum DecloakTemplateVariants
+    {
+        Straight2Forward,
+        Straight2Left,
+        Straight2Right,
+        Bank2LeftForward,
+        Bank2RightForward,
+        Bank2LeftBackwards,
+        Bank2RightBackwards,
+        Bank2ForwardLeft,
+        Bank2ForwardRight
     }
 
     public static List<GenericToken> TokensToRemove;

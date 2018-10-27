@@ -272,6 +272,8 @@ namespace Ship
             InitializePilot();
             InitializeUpgrades();
 
+            InitializeShipModel();
+
             InfoPanel = Roster.CreateRosterInfo(this);
             Roster.UpdateUpgradesPanel(this, this.InfoPanel);
         }
@@ -292,11 +294,17 @@ namespace Ship
 
             PrimaryWeapon = new PrimaryWeaponClass(this);
             Damage = new Damage(this);
+        }
 
+        public void InitializeShipModel()
+        {
             CreateModel(StartingPosition);
             InitializeShipBaseArc();
 
             SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
+
+            SetShipInsertImage();
+            SetShipSkin();
         }
 
         public void InitializeShipBaseArc()
@@ -326,14 +334,19 @@ namespace Ship
                 case BaseArcsType.ArcMobile:
                     ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
                     break;
+                case BaseArcsType.ArcMobileTurret:
+                    ArcMobile turretArc = new ArcMobile(ShipBase);
+                    turretArc.ShotPermissions.CanShootPrimaryWeapon = false;
+                    ArcInfo.Arcs.Add(turretArc);
+                    break;
                 case BaseArcsType.ArcMobileOnly:
                     ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
-                    ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);
+                    DisablePrimaryFiringArc();
                     break;
                 case BaseArcsType.ArcMobileDual:
                     ArcInfo.Arcs.Add(new ArcMobileDualA(ShipBase));
                     ArcInfo.Arcs.Add(new ArcMobileDualB(ShipBase));
-                    ArcInfo.Arcs.RemoveAll(a => a is ArcPrimary);
+                    DisablePrimaryFiringArc();
                     break;
                 case BaseArcsType.ArcBullseye:
                     ArcInfo.Arcs.Add(new ArcBullseye(ShipBase));
@@ -348,6 +361,13 @@ namespace Ship
             RuleSet.Instance.AdaptArcsToRules(this);
         }
 
+        private void DisablePrimaryFiringArc()
+        {
+            ArcPrimary arcPrimary = ArcInfo.GetArc<ArcPrimary>();
+            arcPrimary.ShotPermissions.CanShootPrimaryWeapon = false;
+            arcPrimary.ShotPermissions.CanShootTurret = false;
+        }
+
         public void InitializePilotForSquadBuilder()
         {
             InitializeSlots();
@@ -358,8 +378,6 @@ namespace Ship
             PrepareForceInitialization();
             PrepareChargesInitialization();
 
-            SetShipInsertImage();
-            SetShipSkin();
             ActivateShipAbilities();
             ActivatePilotAbilities();
         }

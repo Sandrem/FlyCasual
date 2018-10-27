@@ -54,7 +54,11 @@ namespace Abilities
 
         private void AddNorraWexleyPilotAbility(GenericShip ship)
         {
-            NorraWexleyAction newAction = new NorraWexleyAction() { Host = this.HostShip };
+            NorraWexleyAction newAction = new NorraWexleyAction() {
+                Host = this.HostShip,
+                Name = this.HostShip.PilotName + "'s Ability",
+                DiceModificationName = this.HostShip.PilotName + "'s Ability"
+            };
             ship.AddAvailableDiceModification(newAction);
         }
 
@@ -62,8 +66,7 @@ namespace Abilities
         {
             public NorraWexleyAction()
             {
-                Name = DiceModificationName = "Norra Wexley's ability";
-
+                //Name = DiceModificationName = "Norra Wexley's ability"; // Will be overwritten
                 TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
             }
 
@@ -98,13 +101,27 @@ namespace Abilities
                     default:
                         break;
                 }
-
-                return Actions.GetTargetLocksLetterPairs(Host, anotherShip).First();
+                List<char> letters = Actions.GetTargetLocksLetterPairs(Host, anotherShip);
+                if (letters.Count > 0)
+                {
+                    return letters.First();
+                } else {
+                    return ' ';
+                }
             }
 
             public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
+
+                // Second edition Shara Bey only affects Primary Weapon Attacks
+                if (Host.Owner.PlayerNo == Combat.Attacker.Owner.PlayerNo &&
+                    Host.GetType() == typeof(Ship.ARC170.SharaBey) &&
+                    Combat.ChosenWeapon.GetType() != typeof(Ship.PrimaryWeaponClass))
+                {
+                    return false;
+                }
+
                 if (GetTargetLockTokenLetterOnAnotherShip() != ' ') result = true;
                 return result;
             }

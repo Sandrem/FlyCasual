@@ -55,7 +55,8 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private void SetSlotImage()
     {
         string slotTypeName = UpgradeName.Substring(5, UpgradeName.Length - 5);
-        Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/UpgradeSlots/" + slotTypeName, typeof(Sprite));
+        string editionName = (RuleSet.Instance is FirstEdition) ? "FirstEdition" : "SecondEdition";
+        Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/UpgradeSlots/" + editionName + "/" + slotTypeName, typeof(Sprite));
         this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().sprite = sprite;
 
         this.gameObject.SetActive(true);

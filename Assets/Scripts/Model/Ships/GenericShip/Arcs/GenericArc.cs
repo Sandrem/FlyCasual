@@ -15,6 +15,7 @@ namespace Arcs
         ArcMobile,
         ArcMobileOnly,
         ArcMobileDual,
+        ArcMobileTurret,
         ArcBullseye,
         ArcSpecialGhost
     }

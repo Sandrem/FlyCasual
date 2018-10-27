@@ -6,6 +6,7 @@ using GameModes;
 using Movement;
 using Ship;
 using SquadBuilderNS;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -137,11 +138,24 @@ namespace RuleSets
 
         public override void ActionIsFailed(GenericShip ship, Type actionType)
         {
-            Messages.ShowError("Action is failed and skipped");
-
             base.ActionIsFailed(ship, actionType);
 
-            Phases.Skip();
+            // Temporary solution for off-the-board problem
+
+            if (!IsTractorBeamFailed())
+            {
+                Messages.ShowError("Action is failed and skipped");
+                Phases.Skip();
+            }
+            else
+            {
+                (Phases.CurrentSubPhase as TractorBeamPlanningSubPhase).RegisterTractorPlanning();
+            }
+        }
+
+        private bool IsTractorBeamFailed()
+        {
+            return Phases.CurrentSubPhase is TractorBeamPlanningSubPhase;
         }
 
         public override bool ShipIsAllowed(GenericShip ship)
@@ -186,7 +200,13 @@ namespace RuleSets
 
         public override void AdaptArcsToRules(GenericShip ship)
         {
-            ship.ArcInfo.Arcs.Add(new ArcBullseye(ship.ShipBase));
+            ArcBullseye arcBullseye = new ArcBullseye(ship.ShipBase);
+
+            ArcPrimary arcPrimary = ship.ArcInfo.GetArc<ArcPrimary>();
+            arcBullseye.ShotPermissions.CanShootPrimaryWeapon = arcPrimary.ShotPermissions.CanShootPrimaryWeapon;
+            arcBullseye.ShotPermissions.CanShootTurret = arcPrimary.ShotPermissions.CanShootTurret;
+
+            ship.ArcInfo.Arcs.Add(arcBullseye);
         }
 
         public override bool WeaponHasRangeBonus()
@@ -215,14 +235,18 @@ namespace RuleSets
             {
                 (upgrade as IShipWeapon).CanShootOutsideArc = false;
 
-                upgrade.Host.ShipBaseArcsType = BaseArcsType.ArcMobile;
-                upgrade.Host.InitializeShipBaseArc();
+                upgrade.Host.ShipBaseArcsType = BaseArcsType.ArcMobileTurret;
             }
         }
 
         public override void BarrelRollTemplatePlanning()
         {
-            (Phases.CurrentSubPhase as SubPhases.BarrelRollPlanningSubPhase).PerfromTemplatePlanningSecondEdition();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).PerfromTemplatePlanningSecondEdition();
+        }
+
+        public override void DecloakTemplatePlanning()
+        {
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).PerfromTemplatePlanningSecondEdition();
         }
 
         public override void ReloadAction()

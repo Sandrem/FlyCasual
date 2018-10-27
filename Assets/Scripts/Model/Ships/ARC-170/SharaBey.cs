@@ -47,7 +47,6 @@ namespace Abilities
         public override void ActivateAbility()
         {
             HostShip.OnGameStart += AddSharaBeyPilotAbility;
-
         }
 
         public void AddSharaBeyPilotAbility()
@@ -142,7 +141,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            
+           
             Host.Tokens.SpendToken(
                 typeof(BlueTargetLockToken), 
                 delegate {

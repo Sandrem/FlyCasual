@@ -32,6 +32,9 @@ namespace Ship
                 Cost = 46;
 
                 SEImageNumber = 5;
+
+                PilotAbilities.RemoveAll(a => a is Abilities.JekPorkinsAbility);
+                PilotAbilities.Add(new Abilities.SecondEdition.JekPorkinsAbilitySE());
             }
         }
     }
@@ -91,19 +94,41 @@ namespace Abilities
         {
             if (DiceCheckRoll.RegularSuccesses > 0)
             {
-                HostShip.Damage.SufferFacedownDamageCard(
-                    new DamageSourceEventArgs()
-                    {
-                        Source = HostShip,
-                        DamageType = DamageTypes.CardAbility
-                    },
-                    AbilityDiceCheck.ConfirmCheck
-                );
+                SufferNegativeEffect(AbilityDiceCheck.ConfirmCheck);
             }
             else
             {
                 AbilityDiceCheck.ConfirmCheck();
             }
+        }
+
+        protected virtual void SufferNegativeEffect(Action callback)
+        {
+            HostShip.Damage.SufferFacedownDamageCard(
+                new DamageSourceEventArgs()
+                {
+                    Source = HostShip,
+                    DamageType = DamageTypes.CardAbility
+                },
+                callback
+            );
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class JekPorkinsAbilitySE : JekPorkinsAbility
+    {
+        protected override void SufferNegativeEffect(Action callback)
+        {
+            DamageSourceEventArgs damageArgs = new DamageSourceEventArgs()
+            {
+                Source = HostShip,
+                DamageType = DamageTypes.CardAbility
+            };
+
+            HostShip.Damage.TryResolveDamage(1, damageArgs, callback);
         }
     }
 }

@@ -183,6 +183,7 @@ namespace Ship
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
+        public event EventHandlerDecloakTemplates OnGetAvailableDecloakTemplates;
         public event EventHandlerBoostTemplates OnGetAvailableBoostTemplates;
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
@@ -841,7 +842,16 @@ namespace Ship
             return availableTemplates;
         }
 
-        public List<ActionsList.BoostMove> GetAvailableBoostTemplates()
+        public List<Actions.DecloakTemplates> GetAvailableDecloakTemplates()
+        {
+            List<Actions.DecloakTemplates> availableTemplates = new List<Actions.DecloakTemplates>() { Actions.DecloakTemplates.Straight2 };
+
+            if (OnGetAvailableDecloakTemplates != null) OnGetAvailableDecloakTemplates(availableTemplates);
+
+            return availableTemplates;
+        }
+
+        public List<BoostMove> GetAvailableBoostTemplates()
         {
             var availableMoves = new List<BoostMove>
             {

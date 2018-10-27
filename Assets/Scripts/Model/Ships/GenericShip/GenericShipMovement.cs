@@ -161,8 +161,8 @@ namespace Ship
             if (OnMovementFinish != null) OnMovementFinish(this);
             if (OnMovementFinishGlobal != null) OnMovementFinishGlobal(this);
             
-            // If we didn't bump, hit an obstacle, or end up off the board then we have succesfully completed our manuever.
-            if(!IsBumped && !IsHitObstacles && !BoardTools.Board.IsOffTheBoard(this))
+            // If we didn't bump, or end up off the board then we have succesfully completed our manuever.
+            if (!IsBumped && !BoardTools.Board.IsOffTheBoard(this))
             {
                 if (OnMovementFinishSuccessfully != null) OnMovementFinishSuccessfully(this);
             }

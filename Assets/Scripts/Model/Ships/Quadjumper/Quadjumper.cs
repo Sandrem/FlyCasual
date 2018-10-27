@@ -74,7 +74,7 @@ namespace Ship
 
             public void AdaptShipToSecondEdition()
             {
-                //ShipAbilities.Add(new Abilities.SecondEdition.SpacetugAbilitySE());
+                ShipAbilities.Add(new Abilities.SecondEdition.SpacetugAbilitySE());
 
                 FullType = "Quadrijet Transfer Spacetug";
 
@@ -156,8 +156,7 @@ namespace SubPhases
 
         private bool FilterAbilityTargets(GenericShip ship)
         {
-            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, ship, SpacetugOwner.PrimaryWeapon);
-            return shotInfo.InArc && shotInfo.Range == 1;
+            return true; // Check in "SelectSpacetugTarget" to handle wrong target
         }
 
         private int GetAiAbilityPriority(GenericShip ship)
@@ -168,37 +167,50 @@ namespace SubPhases
 
         private void SelectSpacetugTarget()
         {
-            SelectShipSubPhase.FinishSelectionNoCallback();
-
-            MovementTemplates.ReturnRangeRuler();
-
-            Messages.ShowInfo("Spacetug Tractor Array: Tractor Beam token is assigned to " + TargetShip.PilotName);
-
-            TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
-
-            ShotInfoArc shotInfo = new ShotInfoArc(SpacetugOwner, TargetShip, SpacetugOwner.ArcInfo.GetArc<Arcs.ArcBullseye>());
+            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, TargetShip, SpacetugOwner.PrimaryWeapon);
             if (shotInfo.InArc && shotInfo.Range == 1)
             {
-                TargetShip.Tokens.AssignToken(token, AssignSecondTractorReamToken);
+                SelectShipSubPhase.FinishSelectionNoCallback();
+
+                MovementTemplates.ReturnRangeRuler();
+
+                Messages.ShowInfo("Spacetug Tractor Array: Tractor Beam token is assigned to " + TargetShip.PilotName);
+
+                TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
+
+                ShotInfoArc shotInfoBullseye = new ShotInfoArc(SpacetugOwner, TargetShip, SpacetugOwner.ArcInfo.GetArc<Arcs.ArcBullseye>());
+                if (shotInfoBullseye.InArc && shotInfoBullseye.Range == 1)
+                {
+                    TargetShip.Tokens.AssignToken(token, AssignSecondTractorBeamToken);
+                }
+                else
+                {
+                    TargetShip.Tokens.AssignToken(token, CallBack);
+                }
             }
             else
             {
-                TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
+                RevertSubPhase();
             }
         }
 
-        private void AssignSecondTractorReamToken()
+        public override void RevertSubPhase()
+        {
+            RuleSet.Instance.ActionIsFailed(TheShip, typeof(SpacetugActionSE));
+            UpdateHelpInfo();
+        }
+
+        private void AssignSecondTractorBeamToken()
         {
             Messages.ShowInfo("Spacetug Tractor Array: Ship was in bullseye arc, second Tractor Beam token is assigned");
 
             TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
-            TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
+            TargetShip.Tokens.AssignToken(token, CallBack);
         }
 
         public override void SkipButton()
         {
-            Phases.FinishSubPhase(typeof(SelectSpacetugTargetSubPhaseSE));
-            CallBack();
+            SelectShipSubPhase.FinishSelection();
         }
     }
 }

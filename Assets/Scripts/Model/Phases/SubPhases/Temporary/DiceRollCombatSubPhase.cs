@@ -94,7 +94,6 @@ namespace SubPhases
             CurentDiceRoll = diceRoll;
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
 
-            IsReadyForCommands = true;
             Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Opposite);
         }
 

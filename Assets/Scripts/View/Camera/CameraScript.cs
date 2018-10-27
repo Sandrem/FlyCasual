@@ -17,8 +17,8 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_MOVE = 0.125f;
     private const float SENSITIVITY_TURN = 5;
     private const float SENSITIVITY_ZOOM = 5;
-    private const float MOUSE_MOVE_START_OFFSET = 5f;
-    private const float BORDER_SQUARE = 8f;
+    private const float MOUSE_MOVE_START_OFFSET = 50f;
+    private const float BORDER_SQUARE = 9f;
     private const float MAX_HEIGHT = 6f;
     private const float MIN_HEIGHT = 1.5f;
     private const float MAX_ROTATION = 89.99f;
@@ -107,7 +107,7 @@ public class CameraScript : MonoBehaviour {
 
         Camera.localEulerAngles = (cameraMode == CameraModes.Free) ? new Vector3(-50, 0, 0) : new Vector3(0, 0, 0);
         GameObjectTransform.localEulerAngles = new Vector3(90, 0, (!isSecondPlayer) ? 0 : 180);
-        GameObjectTransform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, (!isSecondPlayer) ? -8 : 8) : Vector3.zero;
+        GameObjectTransform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, (!isSecondPlayer) ? -9 : 9) : new Vector3(0, 0, (!isSecondPlayer) ? 0.85f: -0.85f);
     }
 
     // Update is called once per frame
@@ -174,12 +174,12 @@ public class CameraScript : MonoBehaviour {
     private void CamMoveByMouse()
     {
         float x = 0;
-        if (Input.mousePosition.x < MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x >= 0)) x = -1f * SENSITIVITY_MOVE;
-        else if (Input.mousePosition.x > Screen.width - MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.x <= Screen.width)) x = 1f * SENSITIVITY_MOVE;
+        if (Input.mousePosition.x < MOUSE_MOVE_START_OFFSET && Input.mousePosition.x >= 0) x = -1f * SENSITIVITY_MOVE;
+        else if (Input.mousePosition.x > Screen.width - MOUSE_MOVE_START_OFFSET && Input.mousePosition.x <= Screen.width) x = 1f * SENSITIVITY_MOVE;
 
         float y = 0;
-        if (Input.mousePosition.y < MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.y >= 0)) y = -1f * SENSITIVITY_MOVE;
-        else if (Input.mousePosition.y > Screen.height - MOUSE_MOVE_START_OFFSET && (Screen.fullScreen || Input.mousePosition.y <= Screen.height)) y = 1f * SENSITIVITY_MOVE;
+        if (Input.mousePosition.y < MOUSE_MOVE_START_OFFSET && Input.mousePosition.y >= 0) y = -1f * SENSITIVITY_MOVE;
+        else if (Input.mousePosition.y > Screen.height - MOUSE_MOVE_START_OFFSET && Input.mousePosition.y <= Screen.height) y = 1f * SENSITIVITY_MOVE;
 
         if ((x != 0) || (y != 0)) WhenViewChanged();
         transform.Translate(x, y, 0);

@@ -104,7 +104,6 @@ public static partial class Combat
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
-        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
     }
 
@@ -119,7 +118,6 @@ public static partial class Combat
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
-        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.AfterRolled);
     }
 

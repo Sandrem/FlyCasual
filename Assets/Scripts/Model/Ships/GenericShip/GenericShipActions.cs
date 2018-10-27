@@ -202,7 +202,7 @@ namespace Ship
                 new Trigger()
                 {
                     Name = "Free action",
-                    TriggerOwner = Phases.CurrentPhasePlayer,
+                    TriggerOwner = this.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnFreeAction,
                     EventHandler = delegate {
                         FreeActionDecisonSubPhase newSubPhase = (FreeActionDecisonSubPhase) Phases.StartTemporarySubPhaseNew

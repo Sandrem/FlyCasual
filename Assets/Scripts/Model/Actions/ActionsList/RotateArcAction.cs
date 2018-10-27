@@ -107,7 +107,8 @@ namespace SubPhases
         {
             {BaseArcsType.ArcMobile,        ArcFacing.Rear },
             {BaseArcsType.ArcMobileDual,    ArcFacing.Forward },
-            {BaseArcsType.ArcMobileOnly,    ArcFacing.Forward }
+            {BaseArcsType.ArcMobileOnly,    ArcFacing.Forward },
+            {BaseArcsType.ArcMobileTurret,  ArcFacing.Rear },
         };
 
         private static Dictionary<ArcFacing, string> ArcFacingToString = new Dictionary<ArcFacing, string>()

@@ -141,7 +141,7 @@ namespace SubPhases
             RegisterTractorPlanning();
         }
 
-        private void RegisterTractorPlanning()
+        public void RegisterTractorPlanning()
         {
             Triggers.RegisterTrigger(new Trigger()
             {
@@ -223,6 +223,18 @@ namespace SubPhases
                 Triggers.FinishTrigger
             );
 
+            if (canBoost)
+            {
+                selectTractorDirection.AddDecision(
+                    "Straight",
+                    delegate {
+                        selectedPlanningAction = PerfromStraightTemplatePlanning;
+                        DecisionSubPhase.ConfirmDecision();
+                    },
+                    isCentered: true
+                );
+            }
+
             selectTractorDirection.AddDecision("Left", delegate {
                 selectedPlanningAction = PerfromLeftBrTemplatePlanning;
                 DecisionSubPhase.ConfirmDecision();
@@ -232,14 +244,6 @@ namespace SubPhases
                 selectedPlanningAction = PerfromRightBrTemplatePlanning;
                 DecisionSubPhase.ConfirmDecision();
             });
-
-            if (canBoost)
-            {
-                selectTractorDirection.AddDecision("Straight", delegate {
-                    selectedPlanningAction = PerfromStraightTemplatePlanning;
-                    DecisionSubPhase.ConfirmDecision();
-                });
-            }
 
             selectTractorDirection.InfoText = "Select tractor beam direction for " + TheShip.PilotName;
             selectTractorDirection.DefaultDecisionName = selectTractorDirection.GetDecisions().First().Name;

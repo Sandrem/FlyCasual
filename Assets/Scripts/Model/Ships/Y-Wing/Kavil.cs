@@ -24,7 +24,7 @@ namespace Ship
 
                 faction = Faction.Scum;
 
-                SkinName = "Brown";
+                SkinName = "Kavil";
 
                 PilotAbilities.Add(new Abilities.KavilAbility());
             }

@@ -68,9 +68,7 @@ namespace Abilities.SecondEdition
         {
             HostShip.ChangeFirepowerBy(1);
 
-            HostShip.ShipBaseArcsType = Arcs.BaseArcsType.ArcMobile; //This seems to work, but still prompt the user twice at the beginning
-            HostShip.InitializeShipBaseArc();
-            HostShip.SetShipInsertImage();
+            HostShip.ShipBaseArcsType = Arcs.BaseArcsType.ArcMobile;
 
             HostShip.AfterGotNumberOfAttackDice += CheckWeakArc;
             HostShip.BeforeRemovingTokenInEndPhase += KeepTwoFocusTokens;

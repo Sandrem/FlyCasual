@@ -24,6 +24,8 @@ namespace Ship
 
                 PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);
 
+                SkinName = "Dark Blue";
+
                 PilotAbilities.Add(new Abilities.BraylenStrammPilotAbility());
             }
 

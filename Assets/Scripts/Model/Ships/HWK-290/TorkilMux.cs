@@ -55,9 +55,7 @@ namespace Abilities.SecondEdition
 
         protected override bool FilterAbilityTarget(GenericShip ship)
         {
-            return
-                FilterTargetsByRange(ship, 1, 3) && 
-                Board.IsShipInArc(HostShip, ship);
+            return Board.IsShipInArc(HostShip, ship);
         }
     }
 }

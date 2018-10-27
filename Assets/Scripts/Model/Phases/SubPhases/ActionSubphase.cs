@@ -37,6 +37,10 @@ namespace SubPhases
                     }
                 );                
             }
+            else
+            {
+                ship.CallMovementActivationFinish();
+            }
 
             Phases.Events.CallOnActionSubPhaseTrigger();
         }

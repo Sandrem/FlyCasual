@@ -13,7 +13,7 @@ namespace DamageDeckCardSE
         {
             Name = "Loose Stabilizer";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://i.imgur.com/PMqkGn3.png";
+            ImageUrl = "https://i.imgur.com/bgNok6v.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

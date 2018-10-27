@@ -48,6 +48,8 @@ public static partial class Phases
         GameIsEnded = false;
         CurrentPhase = new SetupPhase();
 
+        DebugManager.ErrorIsAlreadyReported = false;
+
         Events.CallGameStartTrigger(CurrentPhase.StartPhase);
     }
 

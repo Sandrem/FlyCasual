@@ -18,9 +18,11 @@ public static class DebugManager
 
     public static bool NoAsteroidSetup;
 
-    public static bool NoReplayCreation;
+    public static bool NoReplayCreation; // = true;
 
     public static bool DebugMovement;
+
+    public static bool ErrorIsAlreadyReported { get; set; }
 
     private static bool debugNetwork = true;
     public static bool DebugNetwork

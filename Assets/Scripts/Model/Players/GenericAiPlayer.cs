@@ -450,6 +450,7 @@ namespace Players
                 delegate { Phases.FinishSubPhase(typeof(CombatSubPhase)); }
             );*/
 
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
             GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
         }
 

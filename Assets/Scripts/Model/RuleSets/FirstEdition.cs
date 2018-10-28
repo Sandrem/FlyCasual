@@ -156,7 +156,7 @@ namespace RuleSets
         {
             if (upgrade.Types.Contains(UpgradeType.Turret))
             {
-                upgrade.Host.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true;
+                upgrade.Host.OnGameStart += delegate { upgrade.Host.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true; };
             }
         }
 

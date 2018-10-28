@@ -91,33 +91,25 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnDecloak += RegisterAssignEvade;
+            HostShip.OnDecloak += RegisterPerformFreeEvadeAction;
             Phases.Events.OnEndPhaseStart_Triggers += RegisterCloakAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnDecloak -= RegisterAssignEvade;
+            HostShip.OnDecloak -= RegisterPerformFreeEvadeAction;
             Phases.Events.OnEndPhaseStart_Triggers -= RegisterCloakAbility;
         }
 
-        private void RegisterAssignEvade()
+        private void RegisterPerformFreeEvadeAction()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnDecloak, AssignEvadeToken);
+            RegisterAbilityTrigger(TriggerTypes.OnDecloak, ProposeFreeEvadeAction);
         }
 
-        private void AssignEvadeToken(object sender, System.EventArgs e)
+        private void ProposeFreeEvadeAction(object sender, System.EventArgs e)
         {
-            if (!Selection.ThisShip.Tokens.HasToken(typeof(CloakToken)))
-            {
-                Messages.ShowInfo("Stygium Array: Evade token is assigned");
-                HostShip.Tokens.AssignToken(typeof(EvadeToken), Triggers.FinishTrigger);
-            }
-            else
-            {
-                Messages.ShowError("Stygium Array: Ship already has Cloak token");
-                Triggers.FinishTrigger();
-            }
+            Messages.ShowInfo("Stygium Array: You may perform an Evade action");
+            HostShip.AskPerformFreeAction(new EvadeAction() { Host = HostShip }, Triggers.FinishTrigger);
         }
 
         private void RegisterCloakAbility()

@@ -9,6 +9,7 @@ using Ship;
 using SubPhases;
 using ActionsList;
 using GameCommands;
+using Upgrade;
 
 public enum CombatStep
 {
@@ -67,7 +68,7 @@ public static partial class Combat
 
     // DECLARE INTENT TO ATTACK
 
-    public static GameCommand GenerateIntentToAttackCommand(int attackerId, int defenderId, bool weaponIsAlreadySelected = false)
+    public static GameCommand GenerateIntentToAttackCommand(int attackerId, int defenderId, bool weaponIsAlreadySelected = false, IShipWeapon chosenWeapon = null)
     {
         if (!IsAttackAlreadyCalled)
         {
@@ -77,6 +78,8 @@ public static partial class Combat
             parameters.AddField("id", attackerId.ToString());
             parameters.AddField("target", defenderId.ToString());
             parameters.AddField("weaponIsAlreadySelected", weaponIsAlreadySelected.ToString());
+            GenericSecondaryWeapon secWeapon = chosenWeapon as GenericSecondaryWeapon;
+            parameters.AddField("weapon", (secWeapon != null) ? secWeapon.NameOriginal : null);
             return GameController.GenerateGameCommand(
                 GameCommandTypes.DeclareAttack,
                 Phases.CurrentSubPhase.GetType(),
@@ -106,7 +109,7 @@ public static partial class Combat
         }
         else
         {
-            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            ChosenWeapon = ChosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
             ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
 
             TryPerformAttack(isSilent: true);

@@ -85,8 +85,10 @@ namespace Abilities
 
         protected abstract string FlipQuestion { get; }
 
-        protected void TurnSFoilsToClosedPosition(GenericShip ship)
+        protected void TurnSFoilsToClosedPosition()
         {
+            Phases.Events.OnGameStart -= TurnSFoilsToClosedPosition;
+
             HostShip.WingsClose();
         }
 
@@ -128,7 +130,7 @@ namespace Abilities
         public override void ActivateAbility()
         {
             base.ActivateAbility();
-            TurnSFoilsToClosedPosition(HostShip);
+            Phases.Events.OnGameStart += TurnSFoilsToClosedPosition;
             HostShip.ChangeFirepowerBy(-1);
             HostShip.OnManeuverIsReadyToBeRevealed += CheckChangeManeuverComplexity;
         }
@@ -141,6 +143,7 @@ namespace Abilities
         public override void DeactivateAbility()
         {
             base.DeactivateAbility();
+            Phases.Events.OnGameStart -= TurnSFoilsToClosedPosition;
             TurnSFoilsToAttackPosition(HostShip);
             HostShip.ChangeFirepowerBy(+1);
             HostShip.OnManeuverIsReadyToBeRevealed -= CheckChangeManeuverComplexity;
@@ -192,6 +195,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
+            TurnSFoilsToClosedPosition();
             base.DeactivateAbility();
             HostShip.OnManeuverIsRevealed -= RegisterAskChangeManeuver;            
         }
@@ -268,8 +272,9 @@ namespace Abilities
 
             protected abstract string FlipQuestion { get; }
 
-            protected void TurnSFoilsToClosedPosition(GenericShip ship)
+            protected void TurnSFoilsToClosedPosition()
             {
+                Phases.Events.OnGameStart -= TurnSFoilsToClosedPosition;
                 HostShip.WingsClose();
             }
 
@@ -310,7 +315,7 @@ namespace Abilities
             public override void ActivateAbility()
             {
                 base.ActivateAbility();
-                TurnSFoilsToClosedPosition(HostShip);
+                Phases.Events.OnGameStart += TurnSFoilsToClosedPosition;
                 HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ReduceNumberOfAttackDice;
             }
 
@@ -323,6 +328,7 @@ namespace Abilities
             public override void DeactivateAbility()
             {
                 base.DeactivateAbility();
+                Phases.Events.OnGameStart -= TurnSFoilsToClosedPosition;
                 TurnSFoilsToAttackPosition(HostShip);
                 HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= ReduceNumberOfAttackDice;
             }
@@ -364,7 +370,7 @@ namespace Abilities
             public override void DeactivateAbility()
             {
                 base.DeactivateAbility();
-                TurnSFoilsToClosedPosition(HostShip);
+                TurnSFoilsToClosedPosition();
             }
 
             protected override string FlipQuestion

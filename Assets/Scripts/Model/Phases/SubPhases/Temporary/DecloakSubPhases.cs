@@ -545,6 +545,7 @@ namespace SubPhases
             TheShip.ApplyRotationHelpers();
             TheShip.ResetRotationHelpers();
             TheShip.SetAngles(TemporaryShipBase.transform.eulerAngles);
+            TheShip.Model.transform.localPosition = new Vector3(TheShip.Model.transform.localPosition.x, 0, TheShip.Model.transform.localPosition.z);
 
             MonoBehaviour.Destroy(TemporaryShipBase);
 

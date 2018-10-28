@@ -54,7 +54,8 @@ public static partial class Combat
 
                 position += new Vector3(0, -offset, 0);
                 CreateDiceModificationsButton(actionEffect, position);
-                offset += 65;
+
+                offset = 65;
             }
 
             ShowCloseButton(CloseButtonEffect);

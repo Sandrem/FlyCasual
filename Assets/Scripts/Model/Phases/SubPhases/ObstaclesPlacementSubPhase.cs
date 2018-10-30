@@ -385,6 +385,9 @@ namespace SubPhases
                 // With touch controls, wait for confirmation before setting the position
                 UI.ShowNextButton();
                 IsReadyForCommands = true; //**TODO: need to adjust isreadyforcommands with the placement action too?
+
+                // Set up touch handler
+                touchObjectPlacementHandler.SetObstacle(obstacle);
             }
         }
 

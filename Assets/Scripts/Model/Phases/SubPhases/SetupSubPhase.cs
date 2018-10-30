@@ -258,6 +258,11 @@ namespace SubPhases
             Board.HighlightStartingZones(Phases.CurrentSubPhase.RequiredPlayer);
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;
             inReposition = true;
+
+            if (CameraScript.InputTouchIsEnabled)
+            {
+                touchObjectPlacementHandler.SetShip(Selection.ThisShip);
+            }
         }
 
         private void PerformDrag()

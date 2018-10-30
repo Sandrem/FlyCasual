@@ -127,7 +127,7 @@ namespace Players
 
                     Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
 
-                    GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true);
+                    GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true, Combat.ChosenWeapon);
                     if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
                 }
                 else
@@ -450,6 +450,7 @@ namespace Players
                 delegate { Phases.FinishSubPhase(typeof(CombatSubPhase)); }
             );*/
 
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
             GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
         }
 

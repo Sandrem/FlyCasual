@@ -83,13 +83,14 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            ChangeInitialWingsPosition();
+            Phases.Events.OnGameStart += ChangeInitialWingsPosition;
             HostShip.OnMovementFinish += RegisterAskToUseFlip;
             HostShip.ChangeAgilityBy(+1);
         }
 
         public override void DeactivateAbility()
         {
+            Phases.Events.OnGameStart -= ChangeInitialWingsPosition;
             HostShip.OnMovementFinish -= RegisterAskToUseFlip;
             HostShip.ChangeAgilityBy(-1);
         }
@@ -115,6 +116,8 @@ namespace Abilities
 
         protected void ChangeInitialWingsPosition()
         {
+            Phases.Events.OnGameStart -= ChangeInitialWingsPosition;
+
             HostShip.WingsOpen();
         }
     }
@@ -123,12 +126,13 @@ namespace Abilities
     {
         public override void ActivateAbility()
         {
-            ChangeInitialWingsPosition();
+            Phases.Events.OnGameStart += ChangeInitialWingsPosition;
             HostShip.OnMovementActivationStart += RegisterAskToUseFlip;
         }
 
         public override void DeactivateAbility()
         {
+            Phases.Events.OnGameStart -= ChangeInitialWingsPosition;
             HostShip.OnMovementActivationStart -= RegisterAskToUseFlip;
         }
 
@@ -151,6 +155,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
+            HostShip.WingsOpen();
             HostShip.OnMovementFinish -= RegisterAskToFlip;
             HostShip.OnManeuverIsRevealed -= RegisterAskToRotate;
         }
@@ -210,6 +215,7 @@ namespace Abilities
 
         public override void DeactivateAbility()
         {
+            HostShip.WingsOpen();
             HostShip.OnMovementActivationStart -= RegisterAskToFlip;
             HostShip.OnManeuverIsRevealed -= RegisterAskToRotate;
             HostShip.ChangeAgilityBy(+1);

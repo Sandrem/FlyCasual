@@ -35,11 +35,17 @@ namespace RulesList
 
             if (ShouldDecreaseAgility(ship)) ship.ChangeAgilityBy(-1);
 
-            if (ship.Tokens.CountTokensByType (typeof(TractorBeamToken)) == 1 && ship.ShipBaseSize == BaseSize.Small) 
+            if (IsTractorBeamReposition(ship))
             {
                 TractorBeamToken token = (TractorBeamToken)ship.Tokens.GetToken(typeof(TractorBeamToken));
                 token.Assigner.PerformTractorBeamReposition(ship);
             }
+        }
+
+        public static bool IsTractorBeamReposition(GenericShip ship)
+        {
+            int tractorBeamTokensCount = ship.Tokens.GetAllTokens().Count(n => n is TractorBeamToken);
+            return (tractorBeamTokensCount == RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipBaseSize]);
         }
 
         private bool ShouldDecreaseAgility(GenericShip ship)

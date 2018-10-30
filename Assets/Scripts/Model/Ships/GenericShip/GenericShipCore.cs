@@ -257,7 +257,7 @@ namespace Ship
             ActionBar = new ShipActionBar(this);
             ActionBar.AddPrintedAction(new ActionsList.FocusAction());
 
-            TargetLockMinRange = 1;
+            TargetLockMinRange = 0;
             TargetLockMaxRange = 3;
         }
 

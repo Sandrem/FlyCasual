@@ -27,10 +27,9 @@ public static class Selection {
         {
             TryMarkShipByModel();
             int mouseKeyIsPressed = 0;
-            // TODO: is selection used anywhere else? do my changes break anything else that uses it???
-              // TODO: does it break manuver selection at all..?
-                //TODO: hmm, there are lots of things that use this, but I can't think of why this would break any of them
             // On touch devices, select on down instead of up event so dragging in ship setup can begin immediately
+            // TODO: Could make that only apply during setup rather than for all selections. I don't think this is a big issues though.
+            // TODO: Could also enable fuzzy selection for ships, just during setup? (so you don't have to tap exactly on the ship, like for obstacles) But ships are bigger / closer so that may be less necessary.
             if (Input.GetKeyUp(KeyCode.Mouse0) || 
                 (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)) {
                 mouseKeyIsPressed = 1;

@@ -261,6 +261,7 @@ namespace SubPhases
 
             if (CameraScript.InputTouchIsEnabled)
             {
+                // Setup touch handler
                 touchObjectPlacementHandler.SetShip(Selection.ThisShip);
             }
         }
@@ -397,7 +398,7 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            if (inReposition) TryConfirmPosition(Selection.ThisShip);
+            if (inReposition && CameraScript.InputMouseIsEnabled) TryConfirmPosition(Selection.ThisShip);
         }
 
         public bool TryConfirmPosition(GenericShip ship)

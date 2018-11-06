@@ -55,20 +55,22 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
         {
 
             // Handle drags -- on touch devices, ships / obstacles must be dragged instead of always moving with the mouse
+        
             float distanceFromObject = (GetObjectLocation() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
-
+            bool didTouchShip = (distanceFromObject <= GetDistanceThreshold());
+        
             if (Console.IsActive) Console.Write("distance from object:" + distanceFromObject, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
             if (touchDownLastUpdate && !mouseOverObjectLastUpdate)
             {
-                // Don't move if something other than a ship drag is in progress
+                // Don't move if something other than an object drag is in progress
                 touchDownLastUpdate = true;
                 newPosition = Vector3.zero;
                 return;
             }
-            else if (!mouseOverObjectLastUpdate && (distanceFromObject > GetDistanceThreshold()))
+            else if (!mouseOverObjectLastUpdate && !didTouchShip)
             {
-                // Don't move if the first touch is too far from the ship
+                // Don't move if the first touch didn't hit the object
                 touchDownLastUpdate = true;
                 mouseOverObjectLastUpdate = false;
                 newPosition = Vector3.zero;
@@ -76,7 +78,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
             }
             else
             {
-                // Otherwise, move the ship if needed!
+                // Otherwise, move the object if needed!
                 touchDownLastUpdate = true;
                 mouseOverObjectLastUpdate = true;
                 CameraScript.TouchInputsPaused = true;
@@ -90,7 +92,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
                 }
             }
 
-            // Do ship rotation on touchscreens
+            // Do object rotation on touchscreens
             if (Input.touchCount == 2)
             {
 

@@ -352,7 +352,7 @@ namespace SubPhases
                     if (CameraScript.InputTouchIsEnabled && 
                         (!castHit || !hitInfo.transform.tag.StartsWith("Asteroid"))) {
                        
-                        castHit = Physics.SphereCast(ray, 0.1f, out hitInfo, 10f); //TODO: constants good?
+                        castHit = Physics.SphereCast(ray, 0.1f, out hitInfo, 10f);
                         if (castHit){
                             Console.Write("spherehit!!"); //TODO: remove this after testing
                         }

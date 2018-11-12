@@ -128,7 +128,6 @@ namespace Ship
             Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
             UpgradeBar = new Upgrade.ShipUpgradeBar(this);
             Tokens = new TokensManager(this);
-
             ActionBar = new ShipActionBar(this);
 
             TargetLockMinRange = 0;
@@ -187,6 +186,7 @@ namespace Ship
 
             PrimaryWeapon = new PrimaryWeaponClass(this);
             Damage = new Damage(this);
+            ActionBar.Initialize();
         }
 
         public void InitializeShipModel()

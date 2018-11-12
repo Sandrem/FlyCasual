@@ -5,6 +5,7 @@ using Movement;
 using ActionsList;
 using RuleSets;
 using Upgrade;
+using Actions;
 
 namespace Ship
 {
@@ -22,9 +23,10 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
 
-                // TODO: ACTION LINKS
-                ActionBar.AddActionLink(typeof(BarrelRollAction), new FocusAction() { IsRed = true });
-                ActionBar.AddActionLink(typeof(BoostAction), new FocusAction() { IsRed = true });
+                ShipInfo.ActionIcons.AddActions(
+                    new ActionInfo(typeof(BarrelRollAction), typeof(FocusAction)),
+                    new ActionInfo(typeof(BoostAction), typeof(FocusAction))
+                );
 
                 //TODO: ManeuversImageUrl
             }

@@ -15,7 +15,7 @@ namespace Ship
         public int Hull { get; set; }
         public int Shields { get; private set; }
 
-        public ShipActionsInfo ActionIcons { get; private set; }
+        public ShipActionsInfo ActionIcons { get; set; }
         public ShipUpgradesInfo UpgradeIcons { get; private set; }
 
         public SubFaction ShipSubFaction { get; private set; }

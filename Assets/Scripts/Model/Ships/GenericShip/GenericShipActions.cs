@@ -12,12 +12,12 @@ namespace Ship
 {
     public partial class GenericShip
     {
-        private     List<GenericAction> AvailableActionsList                            = new List<GenericAction>();
-        private     List<GenericAction> AvailableFreeActionsList                        = new List<GenericAction>();
-        private     List<GenericAction> AlreadyExecutedActions                          = new List<GenericAction>();
+        private     List<GenericAction> AvailableActionsList        = new List<GenericAction>();
+        private     List<GenericAction> AvailableFreeActionsList    = new List<GenericAction>();
+        private     List<GenericAction> AlreadyExecutedActions      = new List<GenericAction>();
 
-        private     List<GenericAction> AvailableDiceModifications                      = new List<GenericAction>();
-        private     List<GenericAction> AlreadUsedDiceModifications                 = new List<GenericAction>();
+        private     List<GenericAction> AvailableDiceModifications  = new List<GenericAction>();
+        private     List<GenericAction> AlreadUsedDiceModifications = new List<GenericAction>();
 
         public List<GenericAction> PlannedLinkedActions;
 

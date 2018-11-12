@@ -12,10 +12,18 @@ namespace Ship
     public class ShipActionsInfo
     {
         public List<ActionInfo> Actions { get; private set; }
+        public List<ActionInfo> LinkedActions { get; private set; }
 
         public ShipActionsInfo(params ActionInfo[] actions)
         {
-            Actions = actions.ToList();
+            Actions = actions.Where(a => a.ActionLinkedType == null).ToList();
+            LinkedActions = actions.Where(a => a.ActionLinkedType != null).ToList();
+        }
+
+        public void AddActions(params ActionInfo[] actions)
+        {
+            Actions.AddRange(actions.Where(a => a.ActionLinkedType == null).ToList());
+            LinkedActions.AddRange(actions.Where(a => a.ActionLinkedType != null).ToList());
         }
     }
 
@@ -54,19 +62,39 @@ namespace Ship
         {
             Host = host;
 
-            PrintedActions = new List<GenericAction>();
             AddedActions = new List<AddedAction>();
             LinkedActions = new List<KeyValuePair<Type, GenericAction>>();
         }
 
+        public void Initialize()
+        {
+            PrintedActions = new List<GenericAction>();
+            foreach (ActionInfo actionInfo in Host.ShipInfo.ActionIcons.Actions)
+            {
+                GenericAction action = (GenericAction)Activator.CreateInstance(actionInfo.ActionType);
+                action.Host = Host;
+                action.IsRed = actionInfo.Color == ActionColor.Red;
+
+                AddPrintedAction(action);
+            }
+
+            foreach (ActionInfo linkedActionInfo in Host.ShipInfo.ActionIcons.LinkedActions)
+            {
+                GenericAction linkedAction = (GenericAction)Activator.CreateInstance(linkedActionInfo.ActionLinkedType);
+                linkedAction.Host = Host;
+                linkedAction.IsRed = linkedActionInfo.LinkedColor == ActionColor.Red;
+
+                AddActionLink(linkedActionInfo.ActionType, linkedAction);
+            }
+        }
+
         public void AddPrintedAction(GenericAction action)
         {
-            action.Host = Host;
             action.IsInActionBar = true;
             PrintedActions.Add(action);
         }
 
-        public void AddActionLink(Type actionType, GenericAction link, GenericUpgrade source = null)
+        public void AddActionLink(Type actionType, GenericAction link)
         {
             LinkedActions.Add(new KeyValuePair<Type, GenericAction>(actionType, link));
         }

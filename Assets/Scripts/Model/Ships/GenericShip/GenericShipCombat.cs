@@ -47,7 +47,7 @@ namespace Ship
         {
             get
             {
-                int result = Host.Firepower;
+                int result = Host.State.Firepower;
                 if (attackValue == int.MaxValue) Debug.Log(attackValue);
                 Host.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
                 return result;
@@ -477,7 +477,7 @@ namespace Ship
 
         public int GetNumberOfDefenceDice(GenericShip attackerShip)
         {
-            int result = Agility;
+            int result = State.Agility;
 
             if (AfterGotNumberOfDefenceDice != null) AfterGotNumberOfDefenceDice(ref result);
             if (AfterGotNumberOfDefenceDiceGlobal != null) AfterGotNumberOfDefenceDiceGlobal(ref result);

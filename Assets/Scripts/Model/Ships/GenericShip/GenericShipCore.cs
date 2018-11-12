@@ -24,6 +24,8 @@ namespace Ship
         public ShipDialInfo DialInfo;
         public ShipModelInfo ModelInfo;
 
+        public ShipStateInfo State;
+
         public int ShipId { get; private set; }
         public Players.GenericPlayer Owner { get; private set; }
 
@@ -59,8 +61,6 @@ namespace Ship
         
         public string PilotName { get; set; }
         public string PilotNameShort { get; protected set; }
-
-        public int Firepower { get; protected set; }
 
         public int Hull
         {
@@ -181,21 +181,6 @@ namespace Ship
             Roster.UpdateShipStats(this);
         }
 
-        private int agility;
-        public int Agility
-        {
-            get
-            {
-                int result = agility;
-                result = Mathf.Max(result, 0);
-                return result;
-            }
-            protected set
-            {
-                agility = value;
-            }
-        }
-
         public GameObject Model { get; protected set; }
         public GameObject InfoPanel { get; protected set;  }
 
@@ -267,6 +252,8 @@ namespace Ship
             InitializePilot();
             InitializeUpgrades();
 
+            InitializeState();
+
             InitializeShipModel();
 
             InfoPanel = Roster.CreateRosterInfo(this);
@@ -279,6 +266,14 @@ namespace Ship
             {
                 slot.TryInstallUpgrade(slot.InstalledUpgrade, this);
             }
+        }
+
+        private void InitializeState()
+        {
+            State = new ShipStateInfo();
+
+            State.Firepower = ShipInfo.Firepower;
+            State.Agility = ShipInfo.Agility;
         }
 
         public virtual void InitializeShip()
@@ -427,13 +422,13 @@ namespace Ship
 
         public void ChangeFirepowerBy(int value)
         {
-            Firepower += value;
+            State.Firepower += value;
             if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
         }
 
         public void ChangeAgilityBy(int value)
         {
-            agility += value;
+            State.Agility += value;
             if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
         }
 

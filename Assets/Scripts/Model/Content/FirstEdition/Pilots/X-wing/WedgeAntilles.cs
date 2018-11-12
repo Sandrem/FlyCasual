@@ -66,7 +66,7 @@ namespace Conditions
 
         public override void WhenAssigned()
         {
-            if (Host.Agility != 0)
+            if (Host.State.Agility != 0)
             {
                 AgilityWasDecreased = true;
 

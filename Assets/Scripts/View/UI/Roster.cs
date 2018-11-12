@@ -43,8 +43,8 @@ public static partial class Roster {
         //Generic info
         newPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = newShip.PilotSkill.ToString();
 
-        newPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = newShip.Firepower.ToString();
-        newPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = newShip.Agility.ToString();
+        newPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = newShip.State.Firepower.ToString();
+        newPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = newShip.State.Agility.ToString();
         newPanel.transform.Find("ShipInfo/ShipHullText").GetComponent<Text>().text = newShip.MaxHull.ToString();
         newPanel.transform.Find("ShipInfo/ShipShieldsText").GetComponent<Text>().text = newShip.MaxShields.ToString();
 
@@ -399,8 +399,8 @@ public static partial class Roster {
         {
             thisShip.InfoPanel.transform.Find("ShipInfo/ShipPilotNameText").GetComponent<Text>().text = thisShip.PilotName;
             thisShip.InfoPanel.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text = thisShip.PilotSkill.ToString();
-            thisShip.InfoPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = thisShip.Firepower.ToString();
-            thisShip.InfoPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = thisShip.Agility.ToString();
+            thisShip.InfoPanel.transform.Find("ShipInfo/ShipFirepowerText").GetComponent<Text>().text = thisShip.State.Firepower.ToString();
+            thisShip.InfoPanel.transform.Find("ShipInfo/ShipAgilityText").GetComponent<Text>().text = thisShip.State.Agility.ToString();
         }
     }
 

@@ -27,6 +27,8 @@ namespace Ship
             Faction = faction;
 
             ArcInfo = arcInfo;
+            Firepower = arcInfo.Firepower;
+
             Agility = agility;
             Hull = hull;
             Shields = shields;

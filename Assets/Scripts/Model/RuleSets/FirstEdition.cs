@@ -173,7 +173,7 @@ namespace RuleSets
 
         public override string GetPilotImageUrl(GenericShip ship, string filename)
         {
-            return RootUrlForImages + "pilots/" + ImageUrls.FormatFaction(ship.ShipInfo.SubFaction) + "/" + ImageUrls.FormatShipType(ship.ShipInfo.ShipName) + "/" + (filename ?? (ImageUrls.FormatName(ship.PilotName) + ".png"));
+            return RootUrlForImages + "pilots/" + ImageUrls.FormatFaction(ship.ShipInfo.SubFaction) + "/" + ImageUrls.FormatShipType(ship.ShipInfo.ShipName) + "/" + (filename ?? (ImageUrls.FormatName(ship.PilotInfo.PilotName) + ".png"));
         }
 
         public override string GetUpgradeImageUrl(GenericUpgrade upgrade)

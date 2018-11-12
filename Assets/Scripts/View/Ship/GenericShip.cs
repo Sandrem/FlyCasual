@@ -122,7 +122,7 @@ namespace Ship
 
         public void SetShipBaseImageFirstEdition()
         {
-            string materialName = PilotName;
+            string materialName = PilotInfo.PilotName;
             materialName = materialName.Replace(' ', '_');
             materialName = materialName.Replace('"', '_');
             materialName = materialName.Replace("'", "");

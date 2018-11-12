@@ -10,7 +10,7 @@ using SquadBuilderNS;
 
 namespace Ship
 {
-    public enum WingsPositions { Opened, Closed };
+    public enum WingsPositions { Opened, Closed, None };
 
     public interface IMovableWings
     {
@@ -20,6 +20,7 @@ namespace Ship
     public partial class GenericShip
     {
         public Dictionary<Faction, Type> IconicPilots;
+        public ShipSoundInfo SoundInfo;
 
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;
@@ -34,8 +35,8 @@ namespace Ship
 
         public GenericShip Host;
 
-        public Type ShipRuleType = typeof(FirstEdition);
-        public Type PilotRuleType = typeof(FirstEdition);
+        public Type ShipRuleType = typeof(RuleSets.FirstEdition);
+        public Type PilotRuleType = typeof(RuleSets.FirstEdition);
 
         public List<GenericUpgrade> TwoTargetLocksOnDifferentTargetsAreAllowed = new List<GenericUpgrade>();
         public List<GenericShip> TwoTargetLocksOnSameTargetsAreAllowed = new List<GenericShip>();

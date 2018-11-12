@@ -30,8 +30,8 @@ namespace Ship
         public delegate void EventHandlerShipCritArgs(GenericShip ship, GenericDamageCard crit, EventArgs e = null);
         public delegate void EventHandlerTokenBool(Tokens.GenericToken token, ref bool data);
         public delegate void EventHandlerBombDropTemplates(List<Bombs.BombDropTemplates> availableTemplates);
-        public delegate void EventHandlerBarrelRollTemplates(List<Actions.BarrelRollTemplates> availableTemplates);
-        public delegate void EventHandlerDecloakTemplates(List<Actions.DecloakTemplates> availableTemplates);
+        public delegate void EventHandlerBarrelRollTemplates(List<ActionsHolder.BarrelRollTemplates> availableTemplates);
+        public delegate void EventHandlerDecloakTemplates(List<ActionsHolder.DecloakTemplates> availableTemplates);
         public delegate void EventHandlerBoostTemplates(List<BoostMove> availableTemplates);
         public delegate void EventHandlerDiceroll(DiceRoll diceroll);
         public delegate void EventHandlerTokensList(List<Tokens.GenericToken> tokens);

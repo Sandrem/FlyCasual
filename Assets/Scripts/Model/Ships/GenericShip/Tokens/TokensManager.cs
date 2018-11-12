@@ -193,7 +193,7 @@ namespace Ship
             if (tokenToRemove.GetType().BaseType == typeof(GenericTargetLockToken))
             {
                 GenericShip otherTokenOwner = (tokenToRemove as GenericTargetLockToken).OtherTokenOwner;
-                Actions.ReleaseTargetLockLetter((tokenToRemove as GenericTargetLockToken).Letter);
+                ActionsHolder.ReleaseTargetLockLetter((tokenToRemove as GenericTargetLockToken).Letter);
                 Type oppositeType = (tokenToRemove.GetType() == typeof(BlueTargetLockToken)) ? typeof(RedTargetLockToken) : typeof(BlueTargetLockToken);
 
                 char letter = (tokenToRemove as GenericTargetLockToken).Letter;

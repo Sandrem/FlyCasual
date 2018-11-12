@@ -19,15 +19,15 @@ namespace Ship
 
     public partial class GenericShip : IImageHolder
     {
+        public ShipCardInfo ShipInfo;
+        public PilotCardInfo PilotInfo;
+        public ShipDialInfo DialInfo;
+        public ShipModelInfo ModelInfo;
 
         public int ShipId { get; private set; }
         public Players.GenericPlayer Owner { get; private set; }
 
         public string Type { get; protected set; }
-        public string FullType { get; protected set; }
-
-        public Faction faction { get; protected set; }
-        public List<Faction> factions { get; protected set; }
 
         private SubFaction? subFaction { get; set; }
         public SubFaction SubFaction
@@ -40,7 +40,7 @@ namespace Ship
                 }
                 else
                 {
-                    switch (faction)
+                    switch (ShipInfo.Faction)
                     {
                         case Faction.Imperial:
                             return SubFaction.GalacticEmpire;
@@ -49,7 +49,7 @@ namespace Ship
                         case Faction.Scum:
                             return SubFaction.ScumAndVillainy;
                         default:
-                            throw new NotImplementedException("Invalid faction: " + faction.ToString());
+                            throw new NotImplementedException("Invalid faction: " + ShipInfo.Faction.ToString());
                     }
                 }
             }
@@ -207,7 +207,7 @@ namespace Ship
         public GenericShipBase ShipBase { get; protected set; }
 
         public BaseArcsType ShipBaseArcsType { get; set; }
-        public ArcsHolder ArcInfo { get; protected set; }
+        public ArcsHolder ArcsInfo { get; protected set; }
 
         public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
         public ShipActionBar ActionBar { get; protected set; }
@@ -222,7 +222,7 @@ namespace Ship
             {
                 if (!string.IsNullOrEmpty(pilotNameCanonical)) return pilotNameCanonical;
 
-                return Tools.Canonicalize(PilotName);
+                return Tools.Canonicalize(PilotInfo.PilotName);
             }
             set { pilotNameCanonical = value; }
         }
@@ -234,7 +234,7 @@ namespace Ship
             {
                 if (!string.IsNullOrEmpty(shipTypeCanonical)) return shipTypeCanonical;
 
-                return Tools.Canonicalize(Type);
+                return Tools.Canonicalize(ShipInfo.ShipName);
             }
             set { shipTypeCanonical = value; }
         }
@@ -246,7 +246,6 @@ namespace Ship
         {
             IconicPilots = new Dictionary<Faction, Type>();
             RequiredMods = new List<Type>();
-            factions = new List<Faction>();
             SoundFlyPaths = new List<string> ();
             Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
             UpgradeBar = new Upgrade.ShipUpgradeBar(this);
@@ -309,50 +308,50 @@ namespace Ship
 
         public void InitializeShipBaseArc()
         {
-            if (ArcInfo != null)
+            if (ArcsInfo != null)
             {
-                List<GenericArc> oldArcs = new List<GenericArc>(ArcInfo.Arcs);
+                List<GenericArc> oldArcs = new List<GenericArc>(ArcsInfo.Arcs);
                 foreach (var arc in oldArcs)
                 {
                     arc.RemoveArc();
                 }
             };
 
-            ArcInfo = new ArcsHolder(this);
+            ArcsInfo = new ArcsHolder(this);
 
             switch (ShipBaseArcsType)
             {
                 case BaseArcsType.ArcRear:
-                    ArcInfo.Arcs.Add(new ArcRear(ShipBase));
+                    ArcsInfo.Arcs.Add(new ArcRear(ShipBase));
                     break;
                 case BaseArcsType.ArcSpecial180:
-                    ArcInfo.Arcs.Add(new ArcSpecial180(ShipBase));
+                    ArcsInfo.Arcs.Add(new ArcSpecial180(ShipBase));
                     break;
                 case BaseArcsType.Arc360:
-                    ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = true;
+                    ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = true;
                     break;
                 case BaseArcsType.ArcMobile:
-                    ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
+                    ArcsInfo.Arcs.Add(new ArcMobile(ShipBase));
                     break;
                 case BaseArcsType.ArcMobileTurret:
                     ArcMobile turretArc = new ArcMobile(ShipBase);
                     turretArc.ShotPermissions.CanShootPrimaryWeapon = false;
-                    ArcInfo.Arcs.Add(turretArc);
+                    ArcsInfo.Arcs.Add(turretArc);
                     break;
                 case BaseArcsType.ArcMobileOnly:
-                    ArcInfo.Arcs.Add(new ArcMobile(ShipBase));
+                    ArcsInfo.Arcs.Add(new ArcMobile(ShipBase));
                     DisablePrimaryFiringArc();
                     break;
                 case BaseArcsType.ArcMobileDual:
-                    ArcInfo.Arcs.Add(new ArcMobileDualA(ShipBase));
-                    ArcInfo.Arcs.Add(new ArcMobileDualB(ShipBase));
+                    ArcsInfo.Arcs.Add(new ArcMobileDualA(ShipBase));
+                    ArcsInfo.Arcs.Add(new ArcMobileDualB(ShipBase));
                     DisablePrimaryFiringArc();
                     break;
                 case BaseArcsType.ArcBullseye:
-                    ArcInfo.Arcs.Add(new ArcBullseye(ShipBase));
+                    ArcsInfo.Arcs.Add(new ArcBullseye(ShipBase));
                     break;
                 case BaseArcsType.ArcSpecialGhost:
-                    ArcInfo.Arcs.Add(new ArcSpecialGhost(ShipBase));
+                    ArcsInfo.Arcs.Add(new ArcSpecialGhost(ShipBase));
                     break;
                 default:
                     break;
@@ -363,7 +362,7 @@ namespace Ship
 
         private void DisablePrimaryFiringArc()
         {
-            ArcPrimary arcPrimary = ArcInfo.GetArc<ArcPrimary>();
+            ArcPrimary arcPrimary = ArcsInfo.GetArc<ArcPrimary>();
             arcPrimary.ShotPermissions.CanShootPrimaryWeapon = false;
             arcPrimary.ShotPermissions.CanShootTurret = false;
         }

@@ -22,9 +22,9 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
+            if (ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+                List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
 
                 if (Combat.Attacker.Tokens.GetToken(typeof(Tokens.BlueTargetLockToken), letters.First()).CanBeUsed)
                 {
@@ -53,7 +53,7 @@ namespace ActionsList
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
+                if (ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender))
                 {
                     result = true;
                 }
@@ -171,7 +171,7 @@ namespace SubPhases
         {
             if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
             {
-                Actions.AcquireTargetLock(
+                ActionsHolder.AcquireTargetLock(
                     Selection.ThisShip,
                     TargetShip,
                     SuccessfulCallback,

@@ -95,7 +95,7 @@ namespace Arcs
 
         public virtual void RemoveArc()
         {
-            ShipBase.Host.ArcInfo.Arcs.Remove(this);
+            ShipBase.Host.ArcsInfo.Arcs.Remove(this);
         }
     }
 

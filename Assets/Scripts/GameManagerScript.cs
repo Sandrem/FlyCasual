@@ -32,7 +32,7 @@ public class GameManagerScript : MonoBehaviour {
         Roster.Initialize();
         Selection.Initialize();
         BombsManager.Initialize();
-        Actions.Initialize();
+        ActionsHolder.Initialize();
         Combat.Initialize();
         Triggers.Initialize();
         DamageDecks.Initialize();

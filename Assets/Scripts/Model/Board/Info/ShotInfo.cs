@@ -68,7 +68,7 @@ namespace BoardTools
 
             WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
 
-            foreach (var arc in Ship1.ArcInfo.Arcs)
+            foreach (var arc in Ship1.ArcsInfo.Arcs)
             {
                 ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
                 InArcInfo.Add(arc, shotInfoArc.InArc);

@@ -205,18 +205,18 @@ namespace Ship
                     TriggerOwner = this.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnFreeAction,
                     EventHandler = delegate {
-                        FreeActionDecisonSubPhase newSubPhase = (FreeActionDecisonSubPhase) Phases.StartTemporarySubPhaseNew
+                        FreeActionDecisonSubPhase newSubPhase = (FreeActionDecisonSubPhase)Phases.StartTemporarySubPhaseNew
                         (
                             "Free action decision",
                             typeof(FreeActionDecisonSubPhase),
-                            delegate {
+(Action)delegate {
                                 var phase = Phases.CurrentSubPhase as FreeActionDecisonSubPhase;
                                 if (phase != null && phase.ActionWasPerformed)
                                 {
-                                    Actions.TakeActionFinish(
+                                    ActionsHolder.TakeActionFinish(
                                         delegate
                                         {
-                                            Actions.EndActionDecisionSubhase(
+                                            ActionsHolder.EndActionDecisionSubhase(
                                             delegate { FinishFreeActionDecision(callback); }
                                             );
                                         }
@@ -224,8 +224,8 @@ namespace Ship
                                 }
                                 else
                                 {
-                                    Selection.ThisShip.CallActionIsSkipped();
-                                    FinishFreeActionDecision(callback);
+        Selection.ThisShip.CallActionIsSkipped();
+        FinishFreeActionDecision(callback);
                                 }
                             }
                         );

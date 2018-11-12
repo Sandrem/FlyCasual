@@ -30,7 +30,7 @@ namespace RulesList
             List<GenericToken> tokensToRemove = new List<GenericToken>();
             tokensToRemove.AddRange(ship.Tokens.GetAllTokens().Where(n => n is BlueTargetLockToken || n is RedTargetLockToken));
 
-            Actions.RemoveTokens(tokensToRemove, Triggers.FinishTrigger);
+            ActionsHolder.RemoveTokens(tokensToRemove, Triggers.FinishTrigger);
         }
 
         public bool TargetLockIsAllowed(GenericShip ship, GenericShip target)

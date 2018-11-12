@@ -8,6 +8,21 @@ using Obstacles;
 
 namespace Movement
 {
+    public struct DialManeuverInfo
+    {
+        public ManeuverSpeed Speed { get; private set; }
+        public ManeuverDirection Direction { get; private set; }
+        public ManeuverBearing Bearing { get; private set; }
+        public MovementComplexity Complexity { get; set; }
+
+        public DialManeuverInfo(ManeuverSpeed speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity complexity)
+        {
+            Speed = speed;
+            Direction = direction;
+            Bearing = bearing;
+            Complexity = complexity;
+        }
+    }
 
     public enum ManeuverSpeed
     {

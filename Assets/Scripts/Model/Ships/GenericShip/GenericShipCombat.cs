@@ -58,7 +58,7 @@ namespace Ship
         public bool CanShootOutsideArc
         {
             set { }
-            get { return Host.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon; }
+            get { return Host.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon; }
         }
 
         public PrimaryWeaponClass(GenericShip host)
@@ -833,18 +833,18 @@ namespace Ship
             return availableTemplates;
         }
 
-        public List<Actions.BarrelRollTemplates> GetAvailableBarrelRollTemplates()
+        public List<ActionsHolder.BarrelRollTemplates> GetAvailableBarrelRollTemplates()
         {
-            List<Actions.BarrelRollTemplates> availableTemplates = new List<Actions.BarrelRollTemplates>() { Actions.BarrelRollTemplates.Straight1 };
+            List<ActionsHolder.BarrelRollTemplates> availableTemplates = new List<ActionsHolder.BarrelRollTemplates>() { ActionsHolder.BarrelRollTemplates.Straight1 };
 
             if (OnGetAvailableBarrelRollTemplates != null) OnGetAvailableBarrelRollTemplates(availableTemplates);
 
             return availableTemplates;
         }
 
-        public List<Actions.DecloakTemplates> GetAvailableDecloakTemplates()
+        public List<ActionsHolder.DecloakTemplates> GetAvailableDecloakTemplates()
         {
-            List<Actions.DecloakTemplates> availableTemplates = new List<Actions.DecloakTemplates>() { Actions.DecloakTemplates.Straight2 };
+            List<ActionsHolder.DecloakTemplates> availableTemplates = new List<ActionsHolder.DecloakTemplates>() { ActionsHolder.DecloakTemplates.Straight2 };
 
             if (OnGetAvailableDecloakTemplates != null) OnGetAvailableDecloakTemplates(availableTemplates);
 
@@ -855,9 +855,9 @@ namespace Ship
         {
             var availableMoves = new List<BoostMove>
             {
-                new BoostMove(Actions.BoostTemplates.Straight1),
-                new BoostMove(Actions.BoostTemplates.LeftBank1),
-                new BoostMove(Actions.BoostTemplates.RightBank1),
+                new BoostMove(ActionsHolder.BoostTemplates.Straight1),
+                new BoostMove(ActionsHolder.BoostTemplates.LeftBank1),
+                new BoostMove(ActionsHolder.BoostTemplates.RightBank1),
             };
 
             if (OnGetAvailableBoostTemplates != null)

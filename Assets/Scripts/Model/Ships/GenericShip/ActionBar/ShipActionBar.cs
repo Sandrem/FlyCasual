@@ -5,9 +5,20 @@ using System.Text;
 using ActionsList;
 using UnityEngine;
 using Upgrade;
+using Actions;
 
 namespace Ship
 {
+    public class ShipActionsInfo
+    {
+        public List<ActionInfo> Actions { get; private set; }
+
+        public ShipActionsInfo(params ActionInfo[] actions)
+        {
+            Actions = actions.ToList();
+        }
+    }
+
     public class ShipActionBar
     {
         private class AddedAction

@@ -174,7 +174,7 @@ namespace SubPhases
             }
         }
 
-        private void PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants template)
+        private void PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants template)
         {
             BarrelRollPlanningSubPhase brPlanning = (BarrelRollPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select position",
@@ -197,12 +197,12 @@ namespace SubPhases
 
         private void PerfromLeftBrTemplatePlanning()
         {
-            PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants.Straight1Left);
+            PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants.Straight1Left);
         }
 
         private void PerfromRightBrTemplatePlanning()
         {
-            PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants.Straight1Right);
+            PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants.Straight1Right);
         }
 
         private void PerfromStraightTemplatePlanning()

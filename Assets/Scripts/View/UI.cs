@@ -247,7 +247,7 @@ public class UI : MonoBehaviour {
 
     public static void CheckFiringRangeAndShow()
     {
-        ShotInfo shotInfo = Actions.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
+        ShotInfo shotInfo = ActionsHolder.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
         if (shotInfo.Range < 4)
         {
             Messages.ShowInfo("Range " + shotInfo.Range);

@@ -97,7 +97,7 @@ namespace Upgrade
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
-                List<char> letters = Actions.GetTargetLocksLetterPairs(Host, targetShip);
+                List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Host, targetShip);
                 GenericToken targetLockToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), letters.FirstOrDefault());
                 if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
@@ -147,7 +147,7 @@ namespace Upgrade
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
-                List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+                List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
                 GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letters.FirstOrDefault());
                 if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
@@ -205,7 +205,7 @@ namespace SubPhases
 
             List<GenericToken> waysToPay = new List<GenericToken>();
 
-            List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+            List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
             GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
             if (targetLockToken != null) waysToPay.Add(targetLockToken);
 

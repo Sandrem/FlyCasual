@@ -49,8 +49,8 @@ namespace SubPhases
 
         bool useMobileControls;
 
-        List<Actions.BarrelRollTemplates> availableTemplates = new List<Actions.BarrelRollTemplates>();
-        Actions.BarrelRollTemplateVariants selectedTemplateVariant;
+        List<ActionsHolder.BarrelRollTemplates> availableTemplates = new List<ActionsHolder.BarrelRollTemplates>();
+        ActionsHolder.BarrelRollTemplateVariants selectedTemplateVariant;
         public GameObject TemporaryShipBase;
         public GameObject BarrelRollTemplate;
         ObstaclesStayDetectorForced obstaclesStayDetectorBase;
@@ -133,19 +133,19 @@ namespace SubPhases
             {
                 switch (template)
                 {
-                    case Actions.BarrelRollTemplates.Straight1:
-                        selectBarrelRollTemplate.AddDecision("Left Straight 1", delegate { SelectTemplate(Actions.BarrelRollTemplateVariants.Straight1Left); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Right Straight 1", delegate { SelectTemplate(Actions.BarrelRollTemplateVariants.Straight1Right); DecisionSubPhase.ConfirmDecision(); });
+                    case ActionsHolder.BarrelRollTemplates.Straight1:
+                        selectBarrelRollTemplate.AddDecision("Left Straight 1", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Straight1Left); DecisionSubPhase.ConfirmDecision(); });
+                        selectBarrelRollTemplate.AddDecision("Right Straight 1", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Straight1Right); DecisionSubPhase.ConfirmDecision(); });
                         break;
-                    case Actions.BarrelRollTemplates.Bank1:
-                        selectBarrelRollTemplate.AddDecision("Left Bank 1 Forward", delegate { SelectTemplate(Actions.BarrelRollTemplateVariants.Bank1LeftForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Right Bank 1 Forward", delegate { SelectTemplate(Actions.BarrelRollTemplateVariants.Bank1RightForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Left Bank 1 Backwards", delegate { SelectTemplate(Actions.BarrelRollTemplateVariants.Bank1LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Right Bank 1 Backwards", delegate { SelectTemplate(Actions.BarrelRollTemplateVariants.Bank1RightBackwards); DecisionSubPhase.ConfirmDecision(); });
+                    case ActionsHolder.BarrelRollTemplates.Bank1:
+                        selectBarrelRollTemplate.AddDecision("Left Bank 1 Forward", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Bank1LeftForward); DecisionSubPhase.ConfirmDecision(); });
+                        selectBarrelRollTemplate.AddDecision("Right Bank 1 Forward", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Bank1RightForward); DecisionSubPhase.ConfirmDecision(); });
+                        selectBarrelRollTemplate.AddDecision("Left Bank 1 Backwards", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Bank1LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
+                        selectBarrelRollTemplate.AddDecision("Right Bank 1 Backwards", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Bank1RightBackwards); DecisionSubPhase.ConfirmDecision(); });
                         break;
-                    case Actions.BarrelRollTemplates.Straight2:
-                        selectBarrelRollTemplate.AddDecision("Left Straight 2", delegate { SelectTemplate(Actions.BarrelRollTemplateVariants.Straight2Left); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Right Straight 2", delegate { SelectTemplate(Actions.BarrelRollTemplateVariants.Straight2Right); DecisionSubPhase.ConfirmDecision(); });
+                    case ActionsHolder.BarrelRollTemplates.Straight2:
+                        selectBarrelRollTemplate.AddDecision("Left Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Straight2Left); DecisionSubPhase.ConfirmDecision(); });
+                        selectBarrelRollTemplate.AddDecision("Right Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Straight2Right); DecisionSubPhase.ConfirmDecision(); });
                         break;
                     default:
                         break;
@@ -161,7 +161,7 @@ namespace SubPhases
             selectBarrelRollTemplate.Start();
         }
 
-        public void SelectTemplate(Actions.BarrelRollTemplateVariants templateVariant)
+        public void SelectTemplate(ActionsHolder.BarrelRollTemplateVariants templateVariant)
         {
             selectedTemplateVariant = templateVariant;
             BarrelRollTemplate = GetCurrentBarrelRollHelperTemplateGO();
@@ -399,7 +399,7 @@ namespace SubPhases
             TemporaryShipBase.transform.position = fixedPositionAbs;
         }
 
-        private float GetDirectionModifier(Actions.BarrelRollTemplateVariants templateVariant)
+        private float GetDirectionModifier(ActionsHolder.BarrelRollTemplateVariants templateVariant)
         {
             return (templateVariant.ToString().Contains("Left")) ? -1 : 1;
         }
@@ -486,7 +486,7 @@ namespace SubPhases
         {
             StopDrag();
 
-            SelectTemplate((Actions.BarrelRollTemplateVariants) Enum.Parse(typeof(Actions.BarrelRollTemplateVariants), templateName));
+            SelectTemplate((ActionsHolder.BarrelRollTemplateVariants) Enum.Parse(typeof(ActionsHolder.BarrelRollTemplateVariants), templateName));
 
             ShowBarrelRollTemplate();
             BarrelRollTemplate.transform.position = movementTemplatePosition;

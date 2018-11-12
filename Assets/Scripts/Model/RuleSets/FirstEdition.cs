@@ -16,7 +16,7 @@ namespace RuleSets
 {
     public class FirstEdition : RuleSet
     {
-        public override string Name { get { return "First Edition"; } }
+        public override string Name { get { return "FirstEdition"; } }
 
         public override int MaxPoints { get { return 100; } }
         public override int MinShipsCount { get { return 1; } }
@@ -93,12 +93,12 @@ namespace RuleSets
 
         public override bool PilotIsAllowed(GenericShip ship)
         {
-            return ship.PilotRuleType == typeof(FirstEdition);
+            return ship.GetType().ToString().Contains(Name);
         }
 
         public override bool ShipIsAllowed(GenericShip ship)
         {
-            return ship.ShipRuleType == typeof(FirstEdition);
+            return ship.GetType().ToString().Contains(Name);
         }
 
         public override bool WeaponHasRangeBonus()
@@ -156,7 +156,7 @@ namespace RuleSets
         {
             if (upgrade.Types.Contains(UpgradeType.Turret))
             {
-                upgrade.Host.OnGameStart += delegate { upgrade.Host.ArcInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true; };
+                upgrade.Host.OnGameStart += delegate { upgrade.Host.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true; };
             }
         }
 

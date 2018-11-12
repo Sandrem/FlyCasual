@@ -34,7 +34,7 @@ namespace RuleSets
 
     public class SecondEdition : RuleSet
     {
-        public override string Name { get { return "Second Edition"; } }
+        public override string Name { get { return "SecondEdition"; } }
         //public override bool IsSquadBuilderLocked { get { return true; } }
 
         public override int MaxPoints { get { return 200; } }
@@ -117,7 +117,8 @@ namespace RuleSets
 
         private bool HasYv666InSquad()
         {
-            return SquadBuilder.CurrentSquadList.GetShips().Any(n => n.Instance is Ship.YV666.YV666);
+            return false;
+            // TODOREVERT return SquadBuilder.CurrentSquadList.GetShips().Any(n => n.Instance is Ship.YV666.YV666);
         }
 
         public override void EvadeDiceModification(DiceRoll diceRoll)
@@ -160,12 +161,12 @@ namespace RuleSets
 
         public override bool ShipIsAllowed(GenericShip ship)
         {
-            return ship.ShipRuleType == typeof(SecondEdition);
+            return ship.GetType().ToString().Contains(Name);
         }
 
         public override bool PilotIsAllowed(GenericShip ship)
         {
-            return ship.PilotRuleType == typeof(SecondEdition);
+            return ship.GetType().ToString().Contains(Name);
         }
 
         public override void AdaptShipToRules(GenericShip ship)
@@ -202,11 +203,11 @@ namespace RuleSets
         {
             ArcBullseye arcBullseye = new ArcBullseye(ship.ShipBase);
 
-            ArcPrimary arcPrimary = ship.ArcInfo.GetArc<ArcPrimary>();
+            ArcPrimary arcPrimary = ship.ArcsInfo.GetArc<ArcPrimary>();
             arcBullseye.ShotPermissions.CanShootPrimaryWeapon = arcPrimary.ShotPermissions.CanShootPrimaryWeapon;
             arcBullseye.ShotPermissions.CanShootTurret = arcPrimary.ShotPermissions.CanShootTurret;
 
-            ship.ArcInfo.Arcs.Add(arcBullseye);
+            ship.ArcsInfo.Arcs.Add(arcBullseye);
         }
 
         public override bool WeaponHasRangeBonus()
@@ -291,16 +292,16 @@ namespace RuleSets
 
             bool result = false;
 
-            List<GenericArc> savedArcs = Combat.Defender.ArcInfo.Arcs;
-            Combat.Defender.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(Combat.Defender.ShipBase) };
+            List<GenericArc> savedArcs = Combat.Defender.ArcsInfo.Arcs;
+            Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(Combat.Defender.ShipBase) };
             ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
             bool inForward180Arc = reverseShotInfo.InArc;
 
-            Combat.Defender.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(Combat.Defender.ShipBase) };
+            Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(Combat.Defender.ShipBase) };
             reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
             bool inRear180Arc = reverseShotInfo.InArc;
 
-            Combat.Defender.ArcInfo.Arcs = savedArcs;
+            Combat.Defender.ArcsInfo.Arcs = savedArcs;
 
             result = (facing == ArcFacing.Front180) ? inForward180Arc && !inRear180Arc : !inForward180Arc && inRear180Arc;
 

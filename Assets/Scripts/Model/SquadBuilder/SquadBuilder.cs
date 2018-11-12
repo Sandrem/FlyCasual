@@ -146,10 +146,12 @@ namespace SquadBuilderNS
             AllShips = new List<ShipRecord>();
             AllPilots = new List<PilotRecord>();
 
+            string namespacePart = "Ship." + RuleSet.Instance.Name + ".";
+
             IEnumerable<string> namespaceIEnum =
                 from types in Assembly.GetExecutingAssembly().GetTypes()
                 where types.Namespace != null
-                where types.Namespace.StartsWith("Ship.")
+                where types.Namespace.StartsWith(namespacePart)
                 select types.Namespace;
 
             List<string> namespaceList = new List<string>();
@@ -158,14 +160,14 @@ namespace SquadBuilderNS
                 if (!namespaceList.Contains(ns))
                 {
                     namespaceList.Add(ns);
-                    GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
+                    GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(namespacePart.Length)));
                     RuleSet.Instance.AdaptShipToRules(newShipTypeContainer);
 
-                    if (AllShips.Find(n => n.ShipName == newShipTypeContainer.Type) == null)
+                    if (AllShips.Find(n => n.ShipName == newShipTypeContainer.ShipInfo.ShipName) == null)
                     {
                         AllShips.Add(new ShipRecord()
                         {
-                            ShipName = newShipTypeContainer.Type,
+                            ShipName = newShipTypeContainer.ShipInfo.ShipName,
                             ShipNameCanonical = newShipTypeContainer.ShipTypeCanonical,
                             ShipNamespace = ns,
                             Instance = newShipTypeContainer
@@ -194,22 +196,22 @@ namespace SquadBuilderNS
                 GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
                 RuleSet.Instance.AdaptPilotToRules(newShipContainer);
 
-                if ((newShipContainer.PilotName != null) && (newShipContainer.IsAllowedForSquadBuilder()))
+                if ((newShipContainer.PilotInfo != null) && (newShipContainer.IsAllowedForSquadBuilder()))
                 {
-                    if ((newShipContainer.faction == faction) || faction == Faction.None)
+                    if ((newShipContainer.ShipInfo.Faction == faction) || faction == Faction.None)
                     {
                         string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
 
-                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.Type && n.PilotFaction == newShipContainer.faction) == null)
+                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.Type && n.PilotFaction == newShipContainer.ShipInfo.Faction) == null)
                         {
                             AllPilots.Add(new PilotRecord()
                             {
-                                PilotName = newShipContainer.PilotName,
+                                PilotName = newShipContainer.PilotInfo.PilotName,
                                 PilotTypeName = type.ToString(),
                                 PilotNameCanonical = newShipContainer.PilotNameCanonical,
-                                PilotSkill = newShipContainer.PilotSkill,
-                                PilotShip = AllShips.Find(n => n.ShipName == newShipContainer.Type),
-                                PilotFaction = newShipContainer.faction,
+                                PilotSkill = newShipContainer.PilotInfo.Initiative,
+                                PilotShip = AllShips.Find(n => n.ShipName == newShipContainer.ShipInfo.ShipName),
+                                PilotFaction = newShipContainer.ShipInfo.Faction,
                                 Instance = newShipContainer
                             });
                         }

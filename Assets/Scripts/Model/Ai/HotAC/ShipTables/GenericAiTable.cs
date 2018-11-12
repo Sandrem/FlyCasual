@@ -37,8 +37,8 @@ namespace AI
 
         public Movement.GenericMovement GetManeuver(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
         {
-            float vector = Actions.GetVector(thisShip, anotherShip);
-            bool isClosing = Actions.IsClosing(thisShip, anotherShip);
+            float vector = ActionsHolder.GetVector(thisShip, anotherShip);
+            bool isClosing = ActionsHolder.IsClosing(thisShip, anotherShip);
             if (inDebug) Debug.Log("Vector: " + vector + ", Closing: " + isClosing);
             Movement.GenericMovement result = GetManeuverFromTable(vector, isClosing);
             return result;

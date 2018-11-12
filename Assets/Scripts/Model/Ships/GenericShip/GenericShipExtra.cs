@@ -149,7 +149,7 @@ namespace Ship
 
         public void ToggleDockedModel(GenericShip dockedShip, bool isVisible)
         {
-            GetModelTransform().Find("DockedShips").transform.Find(dockedShip.Type).gameObject.SetActive(isVisible);
+            GetModelTransform().Find("DockedShips").transform.Find(dockedShip.ModelInfo.ModelName).gameObject.SetActive(isVisible);
         }
 
         public void CallDocked(GenericShip host)

@@ -16,16 +16,6 @@ namespace Ship
         private Transform modelCenter;
 
         private string originalSkinName;
-        private string skinName;
-        public string SkinName
-        {
-            get { return skinName; }
-            set
-            {
-                if (originalSkinName == null) originalSkinName = value;
-                skinName = value;
-            }
-        }
 
         protected string SpecialModel;
 
@@ -33,7 +23,7 @@ namespace Ship
         {
             Model = CreateShipModel(position);
             shipAllParts = Model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts").transform;
-            modelCenter = shipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(Type)) + "/ModelCenter").transform;
+            modelCenter = shipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "/ModelCenter").transform;
             InitializeShipBase();
             SetRaycastTarget(true);
             SetSpotlightMask();
@@ -67,15 +57,15 @@ namespace Ship
             GameObject shipPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModel", typeof(GameObject));
             GameObject newShip = MonoBehaviour.Instantiate(shipPrefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.GetBoard());
 
-            GameObject modelPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModels/" + (SpecialModel ?? FixTypeName(Type)), typeof(GameObject));
+            GameObject modelPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)), typeof(GameObject));
             if (modelPrefab != null)
             {
                 GameObject newModel = MonoBehaviour.Instantiate(modelPrefab, newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels"));
-                newModel.name = SpecialModel ?? FixTypeName(Type);
+                newModel.name = SpecialModel ?? FixTypeName(ModelInfo.ModelName);
             }
             else
             {
-                Console.Write("<b>Missing model: " + (SpecialModel ?? FixTypeName(Type)) + "</b>", LogTypes.Errors, true, "red");
+                Console.Write("<b>Missing model: " + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "</b>", LogTypes.Errors, true, "red");
             }
 
             ShipId = ShipFactory.lastId;
@@ -137,7 +127,7 @@ namespace Ship
             materialName = materialName.Replace('"', '_');
             materialName = materialName.Replace("'", "");
 
-            var pathToResource = "ShipStandInsert/" + FixTypeName(Type) + "/" + materialName;
+            var pathToResource = "ShipStandInsert/" + FixTypeName(ModelInfo.ModelName) + "/" + materialName;
             var shipBaseInsert = CreateMaterial(pathToResource);
 
             if (shipBaseInsert != null)
@@ -149,7 +139,7 @@ namespace Ship
             {
                 string materialNameAlt = materialName + "_" + ShipInfo.Faction.ToString();
 
-                var pathToResourceAlt = "ShipStandInsert/" + FixTypeName(Type) + "/" + materialNameAlt;
+                var pathToResourceAlt = "ShipStandInsert/" + FixTypeName(ModelInfo.ModelName) + "/" + materialNameAlt;
                 shipBaseInsert = CreateMaterial(pathToResourceAlt);
 
                 if (shipBaseInsert != null)
@@ -244,15 +234,9 @@ namespace Ship
 
         public void SetShipSkin()
         {
-            if (!string.IsNullOrEmpty(SkinName))
+            if (!string.IsNullOrEmpty(ModelInfo.SkinName))
             {
-                Texture skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(Type) + "/" + SkinName, typeof(Texture));
-
-                if (skin == null)
-                {
-                    SkinName = originalSkinName;
-                    skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(Type) + "/" + SkinName, typeof(Texture));
-                }
+                Texture skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(ModelInfo.ModelName) + "/" + ModelInfo.SkinName, typeof(Texture));
 
                 foreach (Transform modelPart in GetModelTransform())
                 {
@@ -327,7 +311,7 @@ namespace Ship
 
         public void ToggleDamaged(bool isDamaged)
         {
-            shipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(Type)) + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
+            shipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
         }
 
         public void ToggleIonized(bool isIonized)
@@ -535,7 +519,7 @@ namespace Ship
 
         public Transform GetModelTransform()
         {
-            return shipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(Type)) + "/ModelCenter/Model");
+            return shipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "/ModelCenter/Model");
         }
 
         public string FixTypeName(string inputName)

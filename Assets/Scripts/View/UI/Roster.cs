@@ -63,7 +63,7 @@ public static partial class Roster {
         SubscribeSelectionByInfoPanel(pilotNameGO);
 
         GameObject shipTypeGO = newPanel.transform.Find("ShipInfo/ShipTypeText").gameObject;
-        shipTypeGO.GetComponent<Text>().text = newShip.Type;
+        shipTypeGO.GetComponent<Text>().text = newShip.ShipInfo.ShipName;
         Tooltips.AddTooltip(shipTypeGO, newShip.ManeuversImageUrl);
         SubscribeSelectionByInfoPanel(shipTypeGO);
 
@@ -628,7 +628,7 @@ public static partial class Roster {
             int playerInfoSlot = (Network.IsNetworkGame && !Network.IsServer) ? Roster.AnotherPlayer(i) : i;
             player.PlayerInfoPanel = GameObject.Find("UI/PlayersPanel/Player" + playerInfoSlot + "Panel");
 
-            player.PlayerInfoPanel.transform.Find("PlayerAvatarImage").GetComponent<AvatarFromUpgrade>().Initialize(Roster.GetPlayer(i).Avatar);
+            // TODOREVERT player.PlayerInfoPanel.transform.Find("PlayerAvatarImage").GetComponent<AvatarFromUpgrade>().Initialize(Roster.GetPlayer(i).Avatar);
             player.PlayerInfoPanel.transform.Find("PlayerNickName").GetComponent<Text>().text = Roster.GetPlayer(i).NickName;
             player.PlayerInfoPanel.transform.Find("PlayerTitle").GetComponent<Text>().text = Roster.GetPlayer(i).Title;
         }

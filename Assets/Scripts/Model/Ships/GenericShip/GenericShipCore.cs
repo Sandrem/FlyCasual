@@ -27,8 +27,6 @@ namespace Ship
         public int ShipId { get; private set; }
         public Players.GenericPlayer Owner { get; private set; }
 
-        public string Type { get; protected set; }
-
         private SubFaction? subFaction { get; set; }
         public SubFaction SubFaction
         {
@@ -61,7 +59,6 @@ namespace Ship
         
         public string PilotName { get; set; }
         public string PilotNameShort { get; protected set; }
-        public bool IsUnique { get; protected set; }
 
         public int Firepower { get; protected set; }
 
@@ -72,7 +69,6 @@ namespace Ship
 
 
         public int Shields { get; protected set; }
-        public int Cost { get; protected set; }
 
         public int TargetLockMinRange { get; protected set; }
         public int TargetLockMaxRange { get; protected set; }

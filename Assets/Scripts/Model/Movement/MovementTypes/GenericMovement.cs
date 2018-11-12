@@ -155,7 +155,7 @@ namespace Movement
 
             if (!ship.Maneuvers.ContainsKey(parameters))
             {
-                Console.Write("<b>Ship " + ship.Type + " doesn't have maneuver " + parameters + "</b>", LogTypes.Errors, true, "red");
+                Console.Write("<b>Ship " + ship.ShipInfo.ShipName + " doesn't have maneuver " + parameters + "</b>", LogTypes.Errors, true, "red");
             }
             ColorComplexity = ship.Maneuvers[parameters];
             ColorComplexity = ship.GetColorComplexityOfManeuver(this);
@@ -168,7 +168,7 @@ namespace Movement
             Ship.GenericShip ship = Roster.GetShipById(shipTag) ?? Selection.ThisShip;
             if (!ship.Maneuvers.ContainsKey(parameters))
             {
-                Console.Write(ship.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
+                Console.Write(ship.ShipInfo.ShipName + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
             }
             else
             {

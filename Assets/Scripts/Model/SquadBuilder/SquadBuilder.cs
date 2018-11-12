@@ -200,9 +200,9 @@ namespace SquadBuilderNS
                 {
                     if ((newShipContainer.ShipInfo.Faction == faction) || faction == Faction.None)
                     {
-                        string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
+                        string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.PilotInfo.Cost + ")";
 
-                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.Type && n.PilotFaction == newShipContainer.ShipInfo.Faction) == null)
+                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.ShipInfo.ShipName && n.PilotFaction == newShipContainer.ShipInfo.Faction) == null)
                         {
                             AllPilots.Add(new PilotRecord()
                             {
@@ -356,7 +356,7 @@ namespace SquadBuilderNS
         {
             int result = 0;
 
-            result += shipHolder.Instance.Cost;
+            result += shipHolder.Instance.PilotInfo.Cost;
 
             foreach (var upgradeSlot in shipHolder.Instance.UpgradeBar.GetUpgradeSlots())
             {
@@ -539,9 +539,9 @@ namespace SquadBuilderNS
             List<string> uniqueCards = new List<string>();
             foreach (var shipConfig in GetSquadList(playerNo).GetShips())
             {
-                if (shipConfig.Instance.IsUnique)
+                if (shipConfig.Instance.PilotInfo.Limited == 1)
                 {
-                    if (CheckDuplicate(uniqueCards, shipConfig.Instance.PilotName)) return false;
+                    if (CheckDuplicate(uniqueCards, shipConfig.Instance.PilotInfo.PilotName)) return false;
                 }
 
                 foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
@@ -625,7 +625,7 @@ namespace SquadBuilderNS
                 {
                     if (shipConfig.Instance.HotacManeuverTable == null)
                     {
-                        Messages.ShowError("AI for " + shipConfig.Instance.Type + " is not ready. It can be controlled only by human.");
+                        Messages.ShowError("AI for " + shipConfig.Instance.ShipInfo.ShipName + " is not ready. It can be controlled only by human.");
                         return false;
                     }
                 }
@@ -693,7 +693,7 @@ namespace SquadBuilderNS
         {
             List<string> result = new List<string>();
 
-            UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Instance.FixTypeName(ship.Instance.Type) + "/");
+            UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Instance.FixTypeName(ship.Instance.ModelInfo.ModelName) + "/");
             foreach (var texture in textures)
             {
                 result.Add(texture.name);
@@ -803,7 +803,7 @@ namespace SquadBuilderNS
                                 JSONObject myVendorData = vendorData["Sandrem.FlyCasual"];
                                 if (myVendorData.HasField("skin"))
                                 {
-                                    newShip.Instance.SkinName = myVendorData["skin"].str;
+                                    newShip.Instance.ModelInfo.SkinName = myVendorData["skin"].str;
                                 }
                             }
                         }
@@ -1104,7 +1104,7 @@ namespace SquadBuilderNS
 
         private static string GetSkinName(SquadBuilderShip shipHolder)
         {
-            return shipHolder.Instance.SkinName;
+            return shipHolder.Instance.ModelInfo.SkinName;
         }
 
         public static void BrowseSavedSquads()
@@ -1178,7 +1178,7 @@ namespace SquadBuilderNS
 
         private static void SetSkinForShip(SquadBuilderShip ship, string skinName)
         {
-            ship.Instance.SkinName = skinName;
+            ship.Instance.ModelInfo.SkinName = skinName;
         }
 
         public static void ReGenerateSquads(Action callback)

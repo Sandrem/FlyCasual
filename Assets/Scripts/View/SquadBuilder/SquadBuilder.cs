@@ -108,7 +108,7 @@ namespace SquadBuilderNS
             availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
-            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && RuleSet.Instance.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.PilotSkill).OrderByDescending(n => n.Instance.Cost).ToList();
+            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && RuleSet.Instance.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.PilotSkill).OrderByDescending(n => n.Instance.PilotInfo.Cost).ToList();
             int pilotsCount = AllPilotsFiltered.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
@@ -774,7 +774,7 @@ namespace SquadBuilderNS
                 GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/ShipSkinsPanel/Panel/Centered").transform);
                 newButton.transform.localPosition = new Vector2(0, -buttonHeight * counter);
 
-                newButton.GetComponentInChildren<Text>().text = (availableSkin == CurrentSquadBuilderShip.Instance.SkinName) ? "> " + availableSkin + " <" : availableSkin;
+                newButton.GetComponentInChildren<Text>().text = (availableSkin == CurrentSquadBuilderShip.Instance.ModelInfo.SkinName) ? "> " + availableSkin + " <" : availableSkin;
 
                 newButton.GetComponent<Button>().onClick.AddListener(delegate { SetSkinForShip(CurrentSquadBuilderShip, availableSkin); ShowSkinButtons(); });
 

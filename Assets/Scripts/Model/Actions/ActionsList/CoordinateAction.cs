@@ -54,7 +54,7 @@ namespace SubPhases
             int result = 0;
 
             result += NeedTokenPriority(ship);
-            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
 
             return result;
         }

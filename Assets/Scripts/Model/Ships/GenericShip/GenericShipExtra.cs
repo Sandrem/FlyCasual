@@ -58,10 +58,6 @@ namespace Ship
 
         public string ManeuversImageUrl { get; protected set; }
 
-        public string SoundShotsPath { get; protected set; }
-        public int ShotsCount { get; protected set; }
-        public List<string> SoundFlyPaths { get; protected set; }
-
         public bool IsHidden { get; protected set; }
 
         public bool IsStressed { get { return Tokens.HasToken<Tokens.StressToken>(); } }

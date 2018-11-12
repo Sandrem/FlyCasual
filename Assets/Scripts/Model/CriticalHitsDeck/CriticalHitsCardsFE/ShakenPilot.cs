@@ -40,7 +40,7 @@ namespace DamageDeckCardFE
             Host.OnMovementFinish -= CallDiscardEffect;
         }
 
-        private void CannotBeAssignedStraightManeuvers(GenericShip ship, ref Movement.MovementStruct movement)
+        private void CannotBeAssignedStraightManeuvers(GenericShip ship, ref Movement.ManeuverHolder movement)
         {
             if (movement.Bearing == Movement.ManeuverBearing.Straight)
             {

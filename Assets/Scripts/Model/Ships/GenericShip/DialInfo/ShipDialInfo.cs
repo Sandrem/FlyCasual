@@ -6,31 +6,46 @@ using Movement;
 
 namespace Ship
 {
+    public class ManeuverInfo
+    {
+        public ManeuverHolder Movement;
+        public MovementComplexity Complexity;
+
+        public ManeuverInfo(ManeuverSpeed speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity complexity)
+        {
+            Movement = new ManeuverHolder(speed, direction, bearing);
+            Complexity = complexity;
+        }
+    }
+
     public class ShipDialInfo
     {
-        public List<DialManeuverInfo> PrintedDial { get; private set; }
+        public Dictionary<ManeuverHolder, MovementComplexity> PrintedDial { get; private set; }
 
-        public ShipDialInfo(params DialManeuverInfo[] printedManeuvers)
+        public ShipDialInfo(params ManeuverInfo[] printedManeuvers)
         {
-            PrintedDial = printedManeuvers.ToList();
+            PrintedDial = new Dictionary<ManeuverHolder, MovementComplexity>();
+            foreach (ManeuverInfo maneuver in printedManeuvers)
+            {
+                PrintedDial.Add(maneuver.Movement, maneuver.Complexity);
+            }
         }
 
-        public void ChangeManeuverComplexity(DialManeuverInfo changedManeuver)
+        public void ChangeManeuverComplexity(ManeuverHolder maneuver, MovementComplexity complexity)
         {
-            DialManeuverInfo match = PrintedDial.First(m => m.Speed == changedManeuver.Speed && m.Direction == changedManeuver.Direction && m.Bearing == changedManeuver.Bearing);
-            RemoveManeuver(match);
-            AddManeuver(changedManeuver);
+            ManeuverHolder match = PrintedDial.First(m => m.Key.Speed == maneuver.Speed && m.Key.Direction == maneuver.Direction && m.Key.Bearing == maneuver.Bearing).Key;
+            PrintedDial[match] = complexity;
         }
 
-        public void RemoveManeuver(DialManeuverInfo maneuverInfo)
+        public void RemoveManeuver(ManeuverHolder maneuver)
         {
-            DialManeuverInfo match = PrintedDial.First(m => m.Speed == maneuverInfo.Speed && m.Direction == maneuverInfo.Direction && m.Bearing == maneuverInfo.Bearing && m.Complexity == maneuverInfo.Complexity);
+            ManeuverHolder match = PrintedDial.First(m => m.Key.Speed == maneuver.Speed && m.Key.Direction == maneuver.Direction && m.Key.Bearing == maneuver.Bearing).Key;
             PrintedDial.Remove(match);
         }
 
-        public void AddManeuver(DialManeuverInfo maneuverInfo)
+        public void AddManeuver(ManeuverHolder maneuver, MovementComplexity complexity)
         {
-            PrintedDial.Add(maneuverInfo);
+            PrintedDial.Add(maneuver, complexity);
         }
     }
 }

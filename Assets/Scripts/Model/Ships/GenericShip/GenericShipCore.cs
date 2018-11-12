@@ -126,7 +126,6 @@ namespace Ship
         {
             IconicPilots = new Dictionary<Faction, Type>();
             RequiredMods = new List<Type>();
-            SoundFlyPaths = new List<string> ();
             Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
             UpgradeBar = new Upgrade.ShipUpgradeBar(this);
             Tokens = new TokensManager(this);
@@ -178,6 +177,11 @@ namespace Ship
             State.HullMax = ShipInfo.Hull;
             State.ShieldsMax = ShipInfo.Shields;
             State.ShieldsCurrent = State.ShieldsMax;
+
+            foreach (var maneuver in DialInfo.PrintedDial)
+            {
+                Maneuvers.Add(maneuver.Key.ToString(), maneuver.Value);
+            }
         }
 
         public virtual void InitializeShip()

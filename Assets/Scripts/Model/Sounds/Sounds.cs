@@ -48,12 +48,12 @@ public static class Sounds {
         }
     }
 
-    public static void PlayFly(Ship.GenericShip ship)
+    public static void PlayFly(GenericShip ship)
     {
-        int soundsCount = ship.SoundFlyPaths.Count;
+        int soundsCount = ship.SoundInfo.MovementSoundNames.Count;
         int selectedIndex = Random.Range(0, soundsCount);
 
-        PlayShipSound(ship.SoundFlyPaths[selectedIndex]);
+        PlayShipSound(ship.SoundInfo.MovementSoundNames[selectedIndex]);
     }
 
     public static void PlayFly()

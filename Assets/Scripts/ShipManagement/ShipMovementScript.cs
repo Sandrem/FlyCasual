@@ -100,7 +100,7 @@ public class ShipMovementScript : MonoBehaviour {
         Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
     }
 
-    public static Movement.GenericMovement MovementFromStruct(Movement.MovementStruct movementStruct)
+    public static Movement.GenericMovement MovementFromStruct(Movement.ManeuverHolder movementStruct)
     {
         Movement.GenericMovement result = null;
 
@@ -153,7 +153,7 @@ public class ShipMovementScript : MonoBehaviour {
 
     public static Movement.GenericMovement MovementFromString(string parameters, Ship.GenericShip ship = null)
     {
-        Movement.MovementStruct movementStruct = new Movement.MovementStruct(parameters, ship);
+        Movement.ManeuverHolder movementStruct = new Movement.ManeuverHolder(parameters, ship);
         return MovementFromStruct(movementStruct);
     }
 

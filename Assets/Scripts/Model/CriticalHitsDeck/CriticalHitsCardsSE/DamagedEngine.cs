@@ -33,7 +33,7 @@ namespace DamageDeckCardSE
             Host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreHarder;
         }
 
-        private void TurnManeuversAreHarder(Ship.GenericShip ship, ref Movement.MovementStruct movement)
+        private void TurnManeuversAreHarder(Ship.GenericShip ship, ref Movement.ManeuverHolder movement)
         {
             if (movement.ColorComplexity != Movement.MovementComplexity.None)
             {

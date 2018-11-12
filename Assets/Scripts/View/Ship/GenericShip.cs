@@ -450,7 +450,7 @@ namespace Ship
 
                 shotsTransform.gameObject.SetActive(true);
                 GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-                Game.StartCoroutine(TurnOffShots(ShotsCount));
+                Game.StartCoroutine(TurnOffShots(SoundInfo.ShotsCount));
             }
         }
 
@@ -466,7 +466,7 @@ namespace Ship
             origin.gameObject.SetActive(true);
 
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.StartCoroutine(TurnOffTurretShots(ShotsCount));
+            Game.StartCoroutine(TurnOffTurretShots(SoundInfo.ShotsCount));
         }
 
         public void AnimateMunitionsShot()

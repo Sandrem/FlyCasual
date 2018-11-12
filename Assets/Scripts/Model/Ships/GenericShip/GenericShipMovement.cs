@@ -195,7 +195,7 @@ namespace Ship
         // MANEUVERS
 
         // TODO: Rewrite
-        public MovementComplexity GetColorComplexityOfManeuver(MovementStruct movement)
+        public MovementComplexity GetColorComplexityOfManeuver(ManeuverHolder movement)
         {
             if (AfterGetManeuverColorDecreaseComplexity != null) AfterGetManeuverColorDecreaseComplexity(this, ref movement);
             if (AfterGetManeuverColorIncreaseComplexity != null) AfterGetManeuverColorIncreaseComplexity(this, ref movement);
@@ -224,7 +224,7 @@ namespace Ship
 
             foreach (var maneuverHolder in Maneuvers)
             {
-                result.Add(maneuverHolder.Key, new MovementStruct(maneuverHolder.Key).ColorComplexity);
+                result.Add(maneuverHolder.Key, new ManeuverHolder(maneuverHolder.Key).ColorComplexity);
             }
 
             return result;
@@ -240,7 +240,7 @@ namespace Ship
             return result;
         }
 
-        public bool HasManeuver(MovementStruct maneuverStruct)
+        public bool HasManeuver(ManeuverHolder maneuverStruct)
         {
             string maneuverString = maneuverStruct.ToString();
             return HasManeuver(maneuverString);

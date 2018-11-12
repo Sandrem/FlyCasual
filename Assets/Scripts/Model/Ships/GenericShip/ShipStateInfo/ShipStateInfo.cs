@@ -145,6 +145,32 @@ namespace Ship
             }
         }
 
+        // TODO: Change/Remove so that this functionality isn't duplicated between GenericShip and GenericUpgrade
+
+        public int MaxCharges { get; set; }
+
+        private int charges;
+        public int Charges
+        {
+            get { return charges; }
+            set
+            {
+                int currentTokens = HostShip.Tokens.CountTokensByType(typeof(ChargeToken));
+                for (int i = 0; i < currentTokens; i++)
+                {
+                    HostShip.Tokens.RemoveCondition(typeof(ChargeToken));
+                }
+
+                charges = value;
+                for (int i = 0; i < value; i++)
+                {
+                    HostShip.Tokens.AssignCondition(typeof(ChargeToken));
+                }
+            }
+        }
+
+        public bool RegensCharges = false;
+
         public ShipStateInfo(GenericShip host)
         {
             HostShip = host;

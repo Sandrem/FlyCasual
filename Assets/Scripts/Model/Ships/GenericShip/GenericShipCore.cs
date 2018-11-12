@@ -136,6 +136,9 @@ namespace Ship
             State.MaxForce = PilotInfo.Force;
             State.MaxEnergy = PilotInfo.Energy;
 
+            State.MaxCharges = PilotInfo.Charges;
+            State.RegensCharges = PilotInfo.RegensCharges;
+
             foreach (var maneuver in DialInfo.PrintedDial)
             {
                 Maneuvers.Add(maneuver.Key.ToString(), maneuver.Value);
@@ -316,31 +319,6 @@ namespace Ship
         }
 
         // CHARGES
-        // TODO: Change/Remove so that this functionality isn't duplicated between GenericShip and GenericUpgrade
-        public int MaxCharges { get; set; }
-
-        private int charges;
-        public int Charges
-        {
-            get { return charges; }
-            set
-            {
-                int currentTokens = Tokens.CountTokensByType(typeof(ChargeToken));
-                for (int i = 0; i < currentTokens; i++)
-                {
-                    Tokens.RemoveCondition(typeof(ChargeToken));
-                }
-
-                charges = value;
-                for (int i = 0; i < value; i++)
-                {
-                    Tokens.AssignCondition(typeof(ChargeToken));
-                }
-            }
-        }
-
-        public bool UsesCharges;
-        public bool RegensCharges = false;
 
         public void SpendCharges(int count)
         {
@@ -352,9 +330,9 @@ namespace Ship
 
         public void SpendCharge()
         {
-            Charges--;
+            State.Charges--;
 
-            if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
+            if (State.Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
         }
 
         public void RemoveCharge(Action callBack)
@@ -366,15 +344,15 @@ namespace Ship
 
         public void RestoreCharge()
         {
-            if (Charges < MaxCharges)
+            if (State.Charges < State.MaxCharges)
             {
-                Charges++;
+                State.Charges++;
             }
         }
 
         public void SetChargesToMax()
         {
-            Charges = MaxCharges;
+            State.Charges = State.MaxCharges;
         }
 
     }

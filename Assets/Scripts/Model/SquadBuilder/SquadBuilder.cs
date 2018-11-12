@@ -200,7 +200,7 @@ namespace SquadBuilderNS
                 {
                     if ((newShipContainer.ShipInfo.Faction == faction) || faction == Faction.None)
                     {
-                        string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.PilotInfo.Cost + ")";
+                        string pilotKey = newShipContainer.PilotInfo.PilotName + " (" + newShipContainer.PilotInfo.Cost + ")";
 
                         if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.ShipInfo.ShipName && n.PilotFaction == newShipContainer.ShipInfo.Faction) == null)
                         {

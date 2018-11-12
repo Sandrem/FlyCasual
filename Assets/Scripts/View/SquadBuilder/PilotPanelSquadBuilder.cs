@@ -69,7 +69,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     {
         if (this == null) return;
 
-        this.transform.Find("PilotInfo").GetComponent<Text>().text = Ship.PilotName;
+        this.transform.Find("PilotInfo").GetComponent<Text>().text = Ship.PilotInfo.PilotName;
         if (RuleSet.Instance is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.PilotInfo.Cost.ToString();
 
         this.gameObject.SetActive(true);

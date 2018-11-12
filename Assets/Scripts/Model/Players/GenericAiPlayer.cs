@@ -32,7 +32,7 @@ namespace Players
 
             foreach (var shipHolder in Ships)
             {
-                if (!shipHolder.Value.IsSetupPerformed && shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                if (!shipHolder.Value.IsSetupPerformed && shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
                     Selection.ChangeActiveShip(shipHolder.Value);
 
@@ -73,7 +73,7 @@ namespace Players
             bool foundToActivate = false;
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
-                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
                     if (!shipHolder.Value.IsManeuverPerformed)
                     {
@@ -149,7 +149,7 @@ namespace Players
 
             if (targetForAttack != null)
             {
-                Console.Write("Ship has Target Lock on " + targetForAttack.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
+                Console.Write("Ship has Target Lock on " + targetForAttack.PilotInfo.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
             }
             else
             {
@@ -161,7 +161,7 @@ namespace Players
                 targetForAttack = SelectNearestTarget(enemyShips);
                 if (targetForAttack != null)
                 {
-                    Console.Write("Ship selected nearest target " + targetForAttack.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
+                    Console.Write("Ship selected nearest target " + targetForAttack.PilotInfo.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
                 }
                 else
                 {
@@ -231,12 +231,12 @@ namespace Players
         {
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
-                if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredPilotSkill)
                 {
                     if (!shipHolder.Value.IsAttackPerformed)
                     {
                         Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                        Console.Write(Selection.ThisShip.PilotName + "(" + Selection.ThisShip.ShipId + ") is selected as attacker", LogTypes.AI);
+                        Console.Write(Selection.ThisShip.PilotInfo.PilotName + "(" + Selection.ThisShip.ShipId + ") is selected as attacker", LogTypes.AI);
                         break;
                     }
                 }

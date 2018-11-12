@@ -169,7 +169,7 @@ namespace SubPhases
 
         public void PerfromTemplatePlanning()
         {
-            templateWidth = (TheShip.ShipBaseSize == Ship.BaseSize.Small) ? TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE : TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
+            templateWidth = (TheShip.ShipInfo.BaseSize == Ship.BaseSize.Small) ? TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE : TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
 
             RuleSet.Instance.BarrelRollTemplatePlanning();
         }

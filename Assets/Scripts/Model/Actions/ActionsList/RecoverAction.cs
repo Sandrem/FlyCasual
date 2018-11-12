@@ -54,7 +54,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            int recoverableShields = Mathf.Min(Selection.ThisShip.MaxShields - Selection.ThisShip.Shields, Selection.ThisShip.Energy);
+            int recoverableShields = Mathf.Min(Selection.ThisShip.State.ShieldsMax - Selection.ThisShip.State.ShieldsCurrent, Selection.ThisShip.Energy);
             result = recoverableShields * 110;
 
             return result;

@@ -37,7 +37,7 @@ namespace Migrations
                 if (pilot.RuleType == typeof(SecondEdition)) (ship as ISecondEditionPilot).AdaptPilotToSecondEdition();
 
                 ImageManager.DeleteCachedImage(ship.ImageUrl, pilot.RuleType);
-                Console.Write(ship.PilotName + "'s image is deleted from image cache");
+                Console.Write(ship.PilotInfo.PilotName + "'s image is deleted from image cache");
             }
         }
 

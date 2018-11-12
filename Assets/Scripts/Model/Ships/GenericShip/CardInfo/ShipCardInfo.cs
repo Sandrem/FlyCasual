@@ -6,6 +6,7 @@ namespace Ship
     public class ShipCardInfo
     {
         public string ShipName { get; set; }
+        public BaseSize BaseSize { get; set; }
         public Faction Faction { get; private set; }
 
         public ShipArcsInfo ArcInfo { get; private set; }
@@ -21,9 +22,41 @@ namespace Ship
         public char Icon { get; private set; }
         public List<Faction> FactionsAll { get; private set; }
 
-        public ShipCardInfo(string shipName, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', SubFaction shipSubFaction = SubFaction.None, List<Faction> factionsAll = null)
+        private SubFaction? subFaction { get; set; }
+        public SubFaction SubFaction
+        {
+            get
+            {
+                if (subFaction != null)
+                {
+                    return subFaction.Value;
+                }
+                else
+                {
+                    switch (Faction)
+                    {
+                        case Faction.Imperial:
+                            return SubFaction.GalacticEmpire;
+                        case Faction.Rebel:
+                            return SubFaction.RebelAlliance;
+                        case Faction.Scum:
+                            return SubFaction.ScumAndVillainy;
+                        default:
+                            throw new NotImplementedException("Invalid faction: " + Faction.ToString());
+                    }
+                }
+            }
+            set
+            {
+                subFaction = value;
+            }
+        }
+
+        public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', SubFaction shipSubFaction = SubFaction.None, List<Faction> factionsAll = null)
         {
             ShipName = shipName;
+            BaseSize = baseSize;
+
             Faction = faction;
 
             ArcInfo = arcInfo;

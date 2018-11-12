@@ -70,7 +70,7 @@ namespace RulesList
         public static bool IsIonized(GenericShip ship)
         {
             int ionTokensCount = ship.Tokens.GetAllTokens().Count(n => n is IonToken);
-            return (ionTokensCount >= RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipBaseSize]);
+            return (ionTokensCount >= RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
         }
 
     }

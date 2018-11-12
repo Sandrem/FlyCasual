@@ -17,6 +17,7 @@ namespace Ship.FirstEdition.XWing
             ShipInfo = new ShipCardInfo
             (
                 "X-wing",
+                BaseSize.Small,
                 Faction.Rebel,
                 new ShipArcsInfo(ArcTypes.Primary, 3), 2, 3, 2,
                 new ShipActionsInfo(

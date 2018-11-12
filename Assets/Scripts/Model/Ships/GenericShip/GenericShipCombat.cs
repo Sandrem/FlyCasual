@@ -505,10 +505,10 @@ namespace Ship
         public bool TryRegenShields()
         {
             bool result = false;
-            if (Shields < MaxShields)
+            if (State.ShieldsCurrent < State.ShieldsMax)
             {
                 result = true;
-                Shields++;
+                State.ShieldsCurrent++;
                 AnimateShields();
                 AfterAssignedDamageIsChanged(this);
             };
@@ -544,7 +544,7 @@ namespace Ship
 
         private void SufferDamageByType(object sender, EventArgs e, bool isCritical)
         {            
-            if (Shields > 0)
+            if (State.ShieldsCurrent > 0)
             {
                 SufferShieldDamage(isCritical);
             }
@@ -634,7 +634,7 @@ namespace Ship
             AssignedDamageDiceroll.CancelHits(1);
             AssignedDamageDiceroll.RemoveAllFailures();
 
-            Shields--;
+            State.ShieldsCurrent--;
             CallAfterAssignedDamageIsChanged();
 
             CallOnShieldIsLost(
@@ -651,13 +651,13 @@ namespace Ship
 
         public void LoseShield()
         {
-            Shields--;
+            State.ShieldsCurrent--;
             CallAfterAssignedDamageIsChanged();
         }
 
         public virtual void IsHullDestroyedCheck(Action callBack)
         {
-            if (Hull == 0 && !IsReadyToBeDestroyed)
+            if (State.HullCurrent == 0 && !IsReadyToBeDestroyed)
             {
                 if (OnReadyToBeDestroyed != null) OnReadyToBeDestroyed(this);
 
@@ -712,7 +712,7 @@ namespace Ship
 
             if (this.IsActivatedDuringCombat) return false;
 
-            if (Phases.CurrentSubPhase.RequiredPilotSkill != PilotSkill) return false;
+            if (Phases.CurrentSubPhase.RequiredPilotSkill != State.Initiative) return false;
 
             return result;
         }
@@ -951,7 +951,7 @@ namespace Ship
             if(!CanBonusAttack)
             {
                 // We should never reach this but just in case.
-                Messages.ShowError(PilotName + ": You have already performed a bonus attack!");
+                Messages.ShowError(PilotInfo.PilotName + ": You have already performed a bonus attack!");
                 return;
             }
 
@@ -961,7 +961,7 @@ namespace Ship
 				this,
 				callback,
 				null,
-				PilotName,
+                PilotInfo.PilotName,
 				"You may perform a primary weapon attack.",
 				this
 			);

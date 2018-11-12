@@ -27,7 +27,7 @@ namespace DamageDeckCardFE
         {
             Phases.Events.OnRoundStart -= ApplyDelayedEffect;
 
-            Host.AddPilotSkillModifier(this);
+            Host.State.AddPilotSkillModifier(this);
             Roster.UpdateShipStats(Host);
         }
 
@@ -38,7 +38,7 @@ namespace DamageDeckCardFE
             Messages.ShowInfo("Pilot Skill is restored");
 
             Host.Tokens.RemoveCondition(typeof(Tokens.DamagedCockpitCritToken));
-            Host.RemovePilotSkillModifier(this);
+            Host.State.RemovePilotSkillModifier(this);
             Roster.UpdateShipStats(Host);
         }
 

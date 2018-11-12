@@ -234,7 +234,7 @@ public static partial class Roster
         var results =
             from n in AllShips
             where n.Value.Owner.PlayerNo == playerNo
-            where n.Value.PilotSkill == pilotSkill
+            where n.Value.State.Initiative == pilotSkill
             select n;
 
         return results.ToDictionary(t => t.Key, t => t.Value);
@@ -244,7 +244,7 @@ public static partial class Roster
     {
         var results =
             from n in AllShips
-            where n.Value.PilotSkill == previousPilotSkill
+            where n.Value.State.Initiative == previousPilotSkill
             where n.Value.Owner.Id != PilotSkillSubPhasePlayer
             select n;
 

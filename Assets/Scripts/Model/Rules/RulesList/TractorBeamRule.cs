@@ -45,7 +45,7 @@ namespace RulesList
         public static bool IsTractorBeamReposition(GenericShip ship)
         {
             int tractorBeamTokensCount = ship.Tokens.GetAllTokens().Count(n => n is TractorBeamToken);
-            return (tractorBeamTokensCount == RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipBaseSize]);
+            return (tractorBeamTokensCount == RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
         }
 
         private bool ShouldDecreaseAgility(GenericShip ship)

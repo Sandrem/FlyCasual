@@ -61,7 +61,7 @@ namespace Abilities
         {
             get
             {
-                return HostUpgrade != null ? HostUpgrade.Name : HostShip.PilotName;
+                return HostUpgrade != null ? HostUpgrade.Name : HostShip.PilotInfo.PilotName;
             }
         }
 
@@ -80,7 +80,7 @@ namespace Abilities
         {
             HostReal = hostShip;
             HostShip = hostShip;
-            Name = HostShip.PilotName + "'s ability";
+            Name = HostShip.PilotInfo.PilotName + "'s ability";
 
             ActivateAbility();
         }

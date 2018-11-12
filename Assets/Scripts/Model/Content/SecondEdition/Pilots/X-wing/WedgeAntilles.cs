@@ -12,9 +12,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Wedge Antilles",
                     6,
-                    "While you perform an attack, the defender rolls 1 fewer defense die.",
                     52,
                     limited: 1,
+                    abilityText: "While you perform an attack, the defender rolls 1 fewer defense die.",
                     abilityType: typeof(Abilities.FirstEdition.WedgeAntillesAbility)
                 );
 

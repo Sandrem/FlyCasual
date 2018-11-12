@@ -17,9 +17,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Wedge Antilles",
                     9,
-                    "When attacking, reduce the defender's agility value by 1 (to a minimum of \"0\")",
                     29,
                     limited: 1,
+                    abilityText: "When attacking, reduce the defender's agility value by 1 (to a minimum of \"0\")",
                     abilityType: typeof(WedgeAntillesAbility)
                 );
 

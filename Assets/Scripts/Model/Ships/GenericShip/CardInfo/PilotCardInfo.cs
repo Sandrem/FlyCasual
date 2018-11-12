@@ -15,7 +15,7 @@ namespace Ship
 
         public int Cost { get; set; }
 
-        public PilotCardInfo(string pilotName, int initiative, string abilityText, int cost, int limited = 0, Type abilityType = null, string pilotTitle = "")
+        public PilotCardInfo(string pilotName, int initiative, int cost, int limited = 0, string abilityText = "", Type abilityType = null, string pilotTitle = "")
         {
             PilotName = pilotName;
             PilotTitle = pilotTitle;

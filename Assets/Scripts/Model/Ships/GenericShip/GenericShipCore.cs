@@ -180,6 +180,7 @@ namespace Ship
 
             foreach (var maneuver in DialInfo.PrintedDial)
             {
+                Debug.Log(maneuver.Key.ToString());
                 Maneuvers.Add(maneuver.Key.ToString(), maneuver.Value);
             }
         }

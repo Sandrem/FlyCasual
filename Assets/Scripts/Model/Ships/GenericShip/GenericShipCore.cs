@@ -91,7 +91,6 @@ namespace Ship
 
         public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
         public ShipActionBar ActionBar { get; protected set; }
-        public List<Upgrade.UpgradeType> PrintedUpgradeIcons { get; protected set; }
 
         public TokensManager Tokens { get; protected set; }
 
@@ -129,10 +128,8 @@ namespace Ship
             Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
             UpgradeBar = new Upgrade.ShipUpgradeBar(this);
             Tokens = new TokensManager(this);
-            PrintedUpgradeIcons = new List<Upgrade.UpgradeType>();
 
             ActionBar = new ShipActionBar(this);
-            ActionBar.AddPrintedAction(new ActionsList.FocusAction());
 
             TargetLockMinRange = 0;
             TargetLockMaxRange = 3;
@@ -180,7 +177,6 @@ namespace Ship
 
             foreach (var maneuver in DialInfo.PrintedDial)
             {
-                Debug.Log(maneuver.Key.ToString());
                 Maneuvers.Add(maneuver.Key.ToString(), maneuver.Value);
             }
         }
@@ -319,7 +315,7 @@ namespace Ship
 
         private void InitializeSlots()
         {
-            foreach (var slot in PrintedUpgradeIcons)
+            foreach (var slot in ShipInfo.UpgradeIcons.Upgrades)
             {
                 UpgradeBar.AddSlot(slot);
             }

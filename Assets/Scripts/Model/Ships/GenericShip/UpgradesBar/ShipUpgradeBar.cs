@@ -21,9 +21,6 @@ namespace Upgrade
             UpgradeSlots = new List<UpgradeSlot>();
             ForbiddenSlots = new List<UpgradeType>();
             CostReductionByType = new Dictionary<UpgradeType, int>();
-
-            AddSlot(UpgradeType.Title);
-            AddSlot(UpgradeType.Modification);
         }
 
         public void AddSlot(UpgradeType slotType)

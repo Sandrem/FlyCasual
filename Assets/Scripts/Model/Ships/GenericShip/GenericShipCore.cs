@@ -35,51 +35,10 @@ namespace Ship
         public int TargetLockMinRange { get; protected set; }
         public int TargetLockMaxRange { get; protected set; }
 
-        private int maxEnergy;
-        public int MaxEnergy
-        {
-            get
-            {
-                int result = maxEnergy;
-                return Mathf.Max(result, 0);
-            }
-            set
-            {
-                maxEnergy = Mathf.Max(value, 0);
-            }
-        }
-
-        public int Energy
-        {
-            get
-            {
-                return Tokens.CountTokensByType(typeof(Tokens.EnergyToken));
-            }
-        }
-
-        public int Force
-        {
-            get
-            {
-                return this.Tokens.CountTokensByType<ForceToken>();
-            }
-
-            set
-            {
-                this.Tokens.RemoveAllTokensByType(typeof(ForceToken), delegate { });
-                for (int i = 0; i < value; i++)
-                {
-                    this.Tokens.AssignCondition(typeof(ForceToken));
-                }
-            }
-        }
-
         public void CallAfterGetMaxHull(ref int result)
         {
             if (AfterGetMaxHull != null) AfterGetMaxHull(ref result);
         }
-
-        public int MaxForce { get; set; }
 
         public GameObject Model { get; protected set; }
         public GameObject InfoPanel { get; protected set;  }
@@ -173,6 +132,9 @@ namespace Ship
             State.HullMax = ShipInfo.Hull;
             State.ShieldsMax = ShipInfo.Shields;
             State.ShieldsCurrent = State.ShieldsMax;
+
+            State.MaxForce = PilotInfo.Force;
+            State.MaxEnergy = PilotInfo.Energy;
 
             foreach (var maneuver in DialInfo.PrintedDial)
             {
@@ -283,7 +245,7 @@ namespace Ship
         private void InitializeForce()
         {
             OnGameStart -= InitializeForce;
-            Force = MaxForce;
+            State.Force = State.MaxForce;
         }
 
         private void PrepareChargesInitialization()

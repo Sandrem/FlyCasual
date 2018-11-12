@@ -13,9 +13,12 @@ namespace Ship
         public string AbilityText { get; private set; }
         public Type AbilityType { get; private set; }
 
+        public int Force { get; private set; }
+        public int Energy { get; private set; }
+
         public int Cost { get; set; }
 
-        public PilotCardInfo(string pilotName, int initiative, int cost, int limited = 0, string abilityText = "", Type abilityType = null, string pilotTitle = "")
+        public PilotCardInfo(string pilotName, int initiative, int cost, int limited = 0, string abilityText = "", Type abilityType = null, string pilotTitle = "", int force = 0, int energy = 0)
         {
             PilotName = pilotName;
             PilotTitle = pilotTitle;
@@ -24,6 +27,9 @@ namespace Ship
 
             AbilityText = abilityText;
             AbilityType = abilityType;
+
+            Force = force;
+            Energy = energy;
 
             Cost = cost;
         }

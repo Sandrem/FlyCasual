@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tokens;
 using UnityEngine;
 
 namespace Ship
@@ -102,6 +103,47 @@ namespace Ship
         }
 
         public int ShieldsCurrent { get; set; }
+
+        private int maxEnergy;
+        public int MaxEnergy
+        {
+            get
+            {
+                int result = maxEnergy;
+                return Mathf.Max(result, 0);
+            }
+            set
+            {
+                maxEnergy = Mathf.Max(value, 0);
+            }
+        }
+
+        public int Energy
+        {
+            get
+            {
+                return HostShip.Tokens.CountTokensByType(typeof(EnergyToken));
+            }
+        }
+
+        public int MaxForce { get; set; }
+
+        public int Force
+        {
+            get
+            {
+                return HostShip.Tokens.CountTokensByType<ForceToken>();
+            }
+
+            set
+            {
+                HostShip.Tokens.RemoveAllTokensByType(typeof(ForceToken), delegate { });
+                for (int i = 0; i < value; i++)
+                {
+                    HostShip.Tokens.AssignCondition(typeof(ForceToken));
+                }
+            }
+        }
 
         public ShipStateInfo(GenericShip host)
         {

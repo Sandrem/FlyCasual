@@ -10,9 +10,7 @@ namespace Ship
             {
                 ShipInfo.ShipName = "TIE/ln Fighter";
 
-                IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Imperial, typeof(AcademyPilot) }
-                };
+                IconicPilots[Faction.Imperial] = typeof(BlackSquadronAce);
             }
         }
     }

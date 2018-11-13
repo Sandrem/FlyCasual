@@ -23,7 +23,7 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.TallonRoll), MovementComplexity.Complex);
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.TallonRoll), MovementComplexity.Complex);
 
-                IconicPilots[Faction.Rebel] = typeof(WedgeAntilles);
+                IconicPilots[Faction.Rebel] = typeof(LukeSkywalker);
 
                 //TODO: ManeuversImageUrl
             }

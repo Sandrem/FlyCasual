@@ -1,4 +1,4 @@
-﻿using Abilities.FirstEdition;
+﻿using Abilities.SecondEdition;
 using ActionsList;
 using Ship;
 using System.Collections.Generic;

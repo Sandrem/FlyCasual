@@ -3,9 +3,9 @@ using System;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class JekPorkins : XWing
+        public class JekPorkins : T65XWing
         {
             public JekPorkins() : base()
             {

@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class BlueSquadronEscort : XWing
+        public class BlueSquadronEscort : T65XWing
         {
             public BlueSquadronEscort() : base()
             {

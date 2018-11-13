@@ -9,9 +9,9 @@ using RuleSets;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class ThaneKyrell : XWing
+        public class ThaneKyrell : T65XWing
         {
             public ThaneKyrell() : base()
             {

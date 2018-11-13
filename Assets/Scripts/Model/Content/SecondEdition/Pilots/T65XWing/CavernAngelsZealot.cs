@@ -6,9 +6,9 @@ using Upgrade;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class CavernAngelsZealot : XWing
+        public class CavernAngelsZealot : T65XWing
         {
             public CavernAngelsZealot() : base()
             {

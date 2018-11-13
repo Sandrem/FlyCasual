@@ -2,9 +2,9 @@
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class RedSquadronVeteran : XWing
+        public class RedSquadronVeteran : T65XWing
         {
             public RedSquadronVeteran() : base()
             {

@@ -13,7 +13,7 @@ namespace Ship
         public int Firepower { get; private set; }
         public int Agility { get; private set; }
         public int Hull { get; set; }
-        public int Shields { get; private set; }
+        public int Shields { get; set; }
 
         public ShipActionsInfo ActionIcons { get; set; }
         public ShipUpgradesInfo UpgradeIcons { get; private set; }

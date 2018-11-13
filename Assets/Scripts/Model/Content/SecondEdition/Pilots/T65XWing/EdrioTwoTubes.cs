@@ -4,9 +4,9 @@ using Abilities.FirstEdition;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class EdrioTwoTubes : XWing
+        public class EdrioTwoTubes : T65XWing
         {
             public EdrioTwoTubes() : base()
             {

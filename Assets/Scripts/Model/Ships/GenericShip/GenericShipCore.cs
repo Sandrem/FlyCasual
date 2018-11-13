@@ -134,7 +134,6 @@ namespace Ship
             State.ShieldsCurrent = State.ShieldsMax;
 
             State.MaxForce = PilotInfo.Force;
-            State.MaxEnergy = PilotInfo.Energy;
 
             State.MaxCharges = PilotInfo.Charges;
             State.RegensCharges = PilotInfo.RegensCharges;

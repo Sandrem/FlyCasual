@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class WedgeAntilles : XWing
+        public class WedgeAntilles : T65XWing
         {
             public WedgeAntilles() : base()
             {

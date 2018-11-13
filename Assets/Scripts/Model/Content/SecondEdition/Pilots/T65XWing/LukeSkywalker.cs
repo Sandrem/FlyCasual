@@ -2,9 +2,9 @@
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class LukeSkywalker : XWing
+        public class LukeSkywalker : T65XWing
         {
             public LukeSkywalker() : base()
             {

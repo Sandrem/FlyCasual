@@ -10,9 +10,9 @@ using BoardTools;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class BiggsDarklighter : XWing
+        public class BiggsDarklighter : T65XWing
         {
             public BiggsDarklighter() : base()
             {

@@ -7,9 +7,9 @@ using Abilities.FirstEdition;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class GarvenDreis : XWing
+        public class GarvenDreis : T65XWing
         {
             public GarvenDreis() : base()
             {

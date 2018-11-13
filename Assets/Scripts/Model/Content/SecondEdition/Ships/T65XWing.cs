@@ -7,11 +7,11 @@ using Actions;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class XWing : FirstEdition.XWing.XWing, IMovableWings
+        public class T65XWing : FirstEdition.XWing.XWing, IMovableWings
         {
-            public XWing() : base()
+            public T65XWing() : base()
             {
                 ShipInfo.ShipName = "T-65 X-wing";
                 ShipInfo.Hull = 4;

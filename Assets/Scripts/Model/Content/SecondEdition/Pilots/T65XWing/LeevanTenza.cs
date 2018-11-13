@@ -5,9 +5,9 @@ using ActionsList;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class LeevanTenza : XWing
+        public class LeevanTenza : T65XWing
         {
             public LeevanTenza() : base()
             {

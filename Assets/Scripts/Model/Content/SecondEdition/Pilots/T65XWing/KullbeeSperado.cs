@@ -3,9 +3,9 @@ using Abilities.FirstEdition;
 
 namespace Ship
 {
-    namespace SecondEdition.XWing
+    namespace SecondEdition.T65XWing
     {
-        public class KullbeeSperado : XWing
+        public class KullbeeSperado : T65XWing
         {
             public KullbeeSperado() : base()
             {

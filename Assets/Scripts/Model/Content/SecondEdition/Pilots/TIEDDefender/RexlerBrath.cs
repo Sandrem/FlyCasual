@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Tokens;
+
+namespace Ship
 {
     namespace SecondEdition.TIEDDefender
     {

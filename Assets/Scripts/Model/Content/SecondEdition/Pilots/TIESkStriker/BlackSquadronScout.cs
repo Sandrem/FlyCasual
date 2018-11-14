@@ -2,21 +2,21 @@
 
 namespace Ship
 {
-    namespace SecondEdition.TIESaBomber
+    namespace SecondEdition.TIESkStriker
     {
-        public class GammaSquadronAce : TIESaBomber, TIE
+        public class BlackSquadronScout : TIESkStriker
         {
-            public GammaSquadronAce() : base()
+            public BlackSquadronScout() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Gamma Squadron Ace",
+                    "Black Squadron Scout",
                     3,
-                    30
+                    38
                 );
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
-                SEImageNumber = 111;
+                SEImageNumber = 120;
             }
         }
     }

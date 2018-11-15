@@ -12,7 +12,6 @@ namespace Ship.SecondEdition.ModifiedYT1300LightFreighter
         public ModifiedYT1300LightFreighter() : base()
         {
             ShipInfo.ShipName = "Modified YT-1300 Light Freighter";
-            ShipInfo.BaseSize = BaseSize.Large;
             ShipInfo.ArcInfo.Firepower = 3;
             ShipInfo.Hull = 8;
             ShipInfo.Shields = 5;

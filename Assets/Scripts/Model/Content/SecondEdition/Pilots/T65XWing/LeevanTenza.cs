@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Abilities;
 using ActionsList;
 
 namespace Ship
@@ -16,7 +15,7 @@ namespace Ship
                     3,
                     46,
                     limited: 1,
-                    abilityType: typeof(LeevanTenzaAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LeevanTenzaAbility)
                 );
 
                 ModelInfo.SkinName = "Partisan";
@@ -30,7 +29,7 @@ namespace Ship
     }
 }
 
-namespace Abilities
+namespace Abilities.SecondEdition
 {
     public class LeevanTenzaAbility : GenericAbility
     {

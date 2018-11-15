@@ -23,17 +23,6 @@ namespace Ship
 
                 IconicPilots[Faction.Rebel] = typeof(KnaveSquadronEscort);
 
-                Maneuvers.Add("1.L.T", MovementComplexity.Complex);
-                Maneuvers["1.L.B"] = MovementComplexity.Easy;
-                Maneuvers["1.R.B"] = MovementComplexity.Easy;
-                Maneuvers.Add("1.R.T", MovementComplexity.Complex);
-                Maneuvers["2.L.B"] = MovementComplexity.Normal;
-                Maneuvers["2.R.B"] = MovementComplexity.Normal;
-                Maneuvers.Remove("3.F.R");
-                Maneuvers.Add("3.L.R", MovementComplexity.Complex);
-                Maneuvers.Add("3.R.R", MovementComplexity.Complex);
-                Maneuvers["4.F.S"] = MovementComplexity.Easy;
-
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn), MovementComplexity.Complex);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Easy);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Easy);

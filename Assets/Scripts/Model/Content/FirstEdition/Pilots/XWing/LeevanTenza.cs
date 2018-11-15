@@ -16,7 +16,7 @@ namespace Ship
                     5,
                     25,
                     limited: 1,
-                    abilityType: typeof(LeevanTenzaAbility)
+                    abilityType: typeof(Abilities.FirstEdition.LeevanTenzaAbility)
                 );
 
                 ModelInfo.SkinName = "Partisan";

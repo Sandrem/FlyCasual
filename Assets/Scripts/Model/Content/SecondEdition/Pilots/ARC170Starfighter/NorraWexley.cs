@@ -7,23 +7,23 @@ using Upgrade;
 
 namespace Ship
 {
-    namespace SecondEdition.BTLA4YWing
+    namespace SecondEdition.ARC170Starfighter
     {
-        public class NorraWexley : BTLA4YWing
+        public class NorraWexley : ARC170Starfighter
         {
             public NorraWexley() : base()
             {
                 PilotInfo = new PilotCardInfo(
                     "Norra Wexley",
                     5,
-                    43,
+                    55,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.NorraWexleyYWingAbility)
+                    abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility)
                 );
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
-                SEImageNumber = 13;
+                SEImageNumber = 65;
             }
         }
     }
@@ -31,7 +31,7 @@ namespace Ship
 
 namespace Abilities.FirstEdition
 {
-    public class NorraWexleyYWingAbility : GenericAbility
+    public class NorraWexleyARC170Ability : GenericAbility
     {
         public override void ActivateAbility()
         {
@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
 
         private void AddNorraWexleyPilotAbility(GenericShip ship)
         {
-            NorraWexleyYWingAction newAction = new NorraWexleyYWingAction()
+            NorraWexleyARC170Action newAction = new NorraWexleyARC170Action()
             {
                 Host = this.HostShip,
                 Name = this.HostShip.PilotName + "'s Ability",
@@ -54,9 +54,9 @@ namespace Abilities.FirstEdition
             ship.AddAvailableDiceModification(newAction);
         }
 
-        private class NorraWexleyYWingAction : ActionsList.GenericAction
+        private class NorraWexleyARC170Action : ActionsList.GenericAction
         {
-            public NorraWexleyYWingAction()
+            public NorraWexleyARC170Action()
             {
                 //Name = DiceModificationName = "Norra Wexley's ability"; // Will be overwritten
                 TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
@@ -110,8 +110,9 @@ namespace Abilities.FirstEdition
 
                 // Second edition Shara Bey only affects Primary Weapon Attacks
                 if (Host.Owner.PlayerNo == Combat.Attacker.Owner.PlayerNo &&
-                    RuleSets.RuleSet.Instance is RuleSets.SecondEdition &&
-                    Combat.ChosenWeapon.GetType() != typeof(PrimaryWeaponClass))
+                    // TODOREVERT
+                    //Host.GetType() == typeof(Ship.ARC170.SharaBey) &&
+                    Combat.ChosenWeapon.GetType() != typeof(Ship.PrimaryWeaponClass))
                 {
                     return false;
                 }
@@ -157,7 +158,7 @@ namespace Abilities.FirstEdition
 
 namespace Abilities.SecondEdition
 {
-    public class NorraWexleyYWingAbility : Abilities.FirstEdition.NorraWexleyYWingAbility
+    public class NorraWexleyARC170Ability : Abilities.FirstEdition.NorraWexleyARC170Ability
     {
         public override void ActivateAbility()
         {

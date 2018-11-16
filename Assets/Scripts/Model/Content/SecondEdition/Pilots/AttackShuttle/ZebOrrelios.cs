@@ -1,22 +1,20 @@
 ﻿namespace Ship
 {
-    namespace FirstEdition.TIEFighter
+    namespace SecondEdition.AttackShuttle
     {
-        public class ZebOrrelios : TIEFighter
+        public class ZebOrrelios : AttackShuttle
         {
             public ZebOrrelios() : base()
             {
                 PilotInfo = new PilotCardInfo(
                     "\"Zeb\" Orrelios",
-                    3,
-                    13,
+                    2,
+                    34,
                     limited: 1,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility)
                 );
 
-                ShipInfo.Faction = Faction.Rebel;
-                ModelInfo.ModelName = "TIE Fighter Rebel";
-                ModelInfo.SkinName = "Rebel";
+                SEImageNumber = 37;
             }
         }
     }

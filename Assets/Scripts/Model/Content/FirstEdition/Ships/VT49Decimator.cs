@@ -32,7 +32,7 @@ namespace Ship.FirstEdition.VT49Decimator
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(PatrolLeader) }
+                { Faction.Imperial, typeof(PatrolLeader) }
             };
 
             ModelInfo = new ShipModelInfo(

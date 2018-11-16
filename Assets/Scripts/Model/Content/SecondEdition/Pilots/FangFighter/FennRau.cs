@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.FangFighter
     {
@@ -15,7 +17,7 @@
                     abilityType: typeof(Abilities.FirstEdition.FennRauScumAbility)
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 SEImageNumber = 155;
             }

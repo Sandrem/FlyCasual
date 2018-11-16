@@ -32,11 +32,13 @@ namespace Ship
                         UpgradeType.Title,
                         UpgradeType.Modification
                     ),
-                    icon: 'F'
+                    icon: 'F',
+                    factionsAll: new List<Faction>() { Faction.Imperial, Faction.Rebel }
                 );
 
                 IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Imperial, typeof(BlackSquadronPilot) }
+                    { Faction.Imperial, typeof(BlackSquadronPilot) },
+                    { Faction.Rebel, typeof(ZebOrrelios) }
                 };
 
                 ModelInfo = new ShipModelInfo(

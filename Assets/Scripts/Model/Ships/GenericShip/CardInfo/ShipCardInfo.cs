@@ -7,7 +7,7 @@ namespace Ship
     {
         public string ShipName { get; set; }
         public BaseSize BaseSize { get; set; }
-        public Faction Faction { get; private set; }
+        public Faction Faction { get; set; }
 
         public ShipArcsInfo ArcInfo { get; private set; }
         public int Firepower { get; private set; }

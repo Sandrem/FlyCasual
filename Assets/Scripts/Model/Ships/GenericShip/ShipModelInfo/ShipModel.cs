@@ -7,13 +7,13 @@ namespace Ship
 {
     public class ShipModelInfo
     {
-        public string ModelName { get; private set; }
+        public string ModelName { get; set; }
         public string SkinName { get; set; }
 
-        public ShipModelInfo(string modelName, string shipName, WingsPositions wingsPositions = WingsPositions.None)
+        public ShipModelInfo(string modelName, string skinName, WingsPositions wingsPositions = WingsPositions.None)
         {
             ModelName = modelName;
-            SkinName = shipName;
+            SkinName = skinName;
         }
     }
 }

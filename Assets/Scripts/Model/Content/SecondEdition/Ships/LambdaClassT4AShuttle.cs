@@ -23,7 +23,7 @@ namespace Ship
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CoordinateAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(JamAction), ActionColor.Red));
 
-                IconicPilots[Faction.Imperial] = typeof(OmicronGroupPilot);
+                IconicPilots[Faction.Imperial] = typeof(CaptainKagi);
             }
         }
     }

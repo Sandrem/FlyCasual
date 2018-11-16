@@ -23,7 +23,7 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.FirstEdition.AdaptiveAileronsAbility());
 
-                IconicPilots[Faction.Imperial] = typeof(PlanetarySentinel);
+                IconicPilots[Faction.Imperial] = typeof(Duchess);
 
                 DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn));
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn), MovementComplexity.Complex);

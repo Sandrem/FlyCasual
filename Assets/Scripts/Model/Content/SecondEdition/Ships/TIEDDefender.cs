@@ -29,7 +29,7 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.FirstEdition.TIEx7Ability());
 
-                IconicPilots[Faction.Imperial] = typeof(DeltaSquadronPilot);
+                IconicPilots[Faction.Imperial] = typeof(CountessRyad);
 
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Easy);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Easy);

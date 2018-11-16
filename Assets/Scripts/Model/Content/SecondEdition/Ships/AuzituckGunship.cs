@@ -19,7 +19,7 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary), MovementComplexity.Complex);
                 DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight));
 
-                IconicPilots[Faction.Rebel] = typeof(KashyyykDefender);
+                IconicPilots[Faction.Rebel] = typeof(Lowhhrick);
 
                 //TODO: ManeuversImageUrl
             }

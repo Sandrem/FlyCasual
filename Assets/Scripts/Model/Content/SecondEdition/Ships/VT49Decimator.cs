@@ -36,7 +36,7 @@ namespace Ship.SecondEdition.VT49Decimator
             DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);
             DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.Straight), MovementComplexity.Normal);
 
-            IconicPilots[Faction.Imperial] = typeof(PatrolLeader);
+            IconicPilots[Faction.Imperial] = typeof(CaptainOicunn);
 
             // ManeuversImageUrl
 

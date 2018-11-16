@@ -35,7 +35,7 @@ namespace Ship.SecondEdition.ModifiedYT1300LightFreighter
             DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.SegnorsLoop), MovementComplexity.Complex);
             DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.SegnorsLoop), MovementComplexity.Complex);
 
-            IconicPilots[Faction.Rebel] = typeof(OuterRimSmuggler);
+            IconicPilots[Faction.Rebel] = typeof(HanSolo);
 
             // ManeuversImageUrl
 

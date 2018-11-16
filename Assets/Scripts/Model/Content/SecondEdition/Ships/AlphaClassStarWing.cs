@@ -19,7 +19,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
 
-                IconicPilots[Faction.Imperial] = typeof(NuSquadronPilot);
+                IconicPilots[Faction.Imperial] = typeof(MajorVynder);
             }
         }
     }

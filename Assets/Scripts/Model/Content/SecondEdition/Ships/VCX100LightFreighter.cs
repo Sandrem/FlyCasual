@@ -23,7 +23,7 @@ namespace Ship.SecondEdition.VCX100LightFreighter
             DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn));
             DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn), MovementComplexity.Complex);
 
-            IconicPilots[Faction.Rebel] = typeof(LothalRebel);
+            IconicPilots[Faction.Rebel] = typeof(KananJarrus);
 
             // ManeuversImageUrl
 

@@ -27,7 +27,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
-                IconicPilots[Faction.Rebel] = typeof(WardenSquadronPilot);
+                IconicPilots[Faction.Rebel] = typeof(MirandaDoni);
 
                 //TODO: ManeuversImageUrl
             }

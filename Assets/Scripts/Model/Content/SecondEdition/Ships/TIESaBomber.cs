@@ -25,7 +25,7 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.NimbleBomber());
 
-                IconicPilots[Faction.Imperial] = typeof(ScimitarSquadronPilot);
+                IconicPilots[Faction.Imperial] = typeof(TomaxBren);
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn), MovementComplexity.Complex);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Turn), MovementComplexity.Normal);

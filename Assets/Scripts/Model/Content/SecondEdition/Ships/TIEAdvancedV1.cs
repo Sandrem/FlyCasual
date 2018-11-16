@@ -22,7 +22,7 @@ namespace Ship
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction), typeof(FocusAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), typeof(FocusAction)));
 
-                IconicPilots[Faction.Imperial] = typeof(BaronOfTheEmpire);
+                IconicPilots[Faction.Imperial] = typeof(GrandInquisitor);
 
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight), MovementComplexity.Normal);
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.TallonRoll), MovementComplexity.Complex);

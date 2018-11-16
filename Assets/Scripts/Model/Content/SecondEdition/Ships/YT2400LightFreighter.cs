@@ -26,7 +26,7 @@ namespace Ship.SecondEdition.YT2400LightFreighter
 
             ShipAbilities.Add(new Abilities.SecondEdition.SensorBlindspot());
 
-            IconicPilots[Faction.Rebel] = typeof(WildSpaceFringer);
+            IconicPilots[Faction.Rebel] = typeof(DashRendar);
 
             // ManeuversImageUrl
 

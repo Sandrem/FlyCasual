@@ -23,7 +23,7 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.StygiumArray());
 
-                IconicPilots[Faction.Imperial] = typeof(SigmaSquadronAce);
+                IconicPilots[Faction.Imperial] = typeof(Whisper);
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Normal);
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);

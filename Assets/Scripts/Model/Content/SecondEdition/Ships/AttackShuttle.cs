@@ -14,7 +14,7 @@ namespace Ship
 
                 ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BarrelRollAction), typeof(EvadeAction)));
 
-                IconicPilots[Faction.Rebel] = typeof(ZebOrrelios);
+                IconicPilots[Faction.Rebel] = typeof(HeraSyndulla);
 
                 //TODO: ManeuversImageUrl
             }

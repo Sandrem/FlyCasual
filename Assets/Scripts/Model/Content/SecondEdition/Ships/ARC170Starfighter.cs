@@ -20,7 +20,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
                 ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
 
-                IconicPilots[Faction.Rebel] = typeof(Ibtisam);
+                IconicPilots[Faction.Rebel] = typeof(NorraWexley);
 
                 //TODO: ManeuversImageUrl
             }

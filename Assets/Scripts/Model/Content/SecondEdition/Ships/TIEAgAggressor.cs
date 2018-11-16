@@ -15,7 +15,7 @@ namespace Ship
                 ShipInfo.ShipName = "TIE/ag Aggressor";
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), typeof(EvadeAction)));
-                IconicPilots[Faction.Imperial] = typeof(SienarSpecialist);
+                IconicPilots[Faction.Imperial] = typeof(LieutenantKestal);
             }
         }
     }

@@ -5,7 +5,7 @@ namespace Ship
 {
     public class PilotCardInfo
     {
-        public string PilotName { get; private set; }
+        public string PilotName { get; set; }
         public string PilotTitle { get; private set; }
         public int Initiative { get; set; }
         public int Limited { get; private set; }
@@ -14,8 +14,8 @@ namespace Ship
         public Type AbilityType { get; private set; }
 
         public int Force { get; private set; }
-        public int Charges { get; private set; }
-        public bool RegensCharges { get; private set; }
+        public int Charges { get; set; }
+        public bool RegensCharges { get; set; }
 
         public int Cost { get; set; }
 

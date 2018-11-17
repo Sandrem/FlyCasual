@@ -20,6 +20,7 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn), MovementComplexity.Complex);
 
                 IconicPilots[Faction.Rebel] = typeof(LtBlount);
+                IconicPilots[Faction.Scum] = typeof(NdruSuhlak);
 
                 //TODO: ManeuversImageUrl
             }

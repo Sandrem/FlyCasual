@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Movement;
 using ActionsList;
-using RuleSets;
 using Arcs;
 using Actions;
 using Upgrade;
@@ -42,8 +40,7 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "Protectorate Starfighter",
-                    "Protectorate Starfighter",
-                    wingsPositions: WingsPositions.Opened
+                    "Protectorate Starfighter"
                 );
 
                 DialInfo = new ShipDialInfo(

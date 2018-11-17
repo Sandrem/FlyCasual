@@ -30,8 +30,11 @@ namespace Ship.FirstEdition.Hwk290
                 )
             );
 
+            ShipInfo.FactionsAll.Add(Faction.Scum);
+
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(RebelOperative) }
+                { Faction.Rebel, typeof(RebelOperative) },
+                { Faction.Scum, typeof(SpiceRunner) }
             };
 
             ModelInfo = new ShipModelInfo(

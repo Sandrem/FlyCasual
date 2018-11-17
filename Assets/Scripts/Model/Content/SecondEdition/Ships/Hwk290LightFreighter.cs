@@ -36,6 +36,7 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.TallonRoll), MovementComplexity.Complex);
 
                 IconicPilots[Faction.Rebel] = typeof(RebelScout);
+                IconicPilots[Faction.Scum] = typeof(PalobGodalhi);
 
                 //TODO: ManeuversImageUrl
             }

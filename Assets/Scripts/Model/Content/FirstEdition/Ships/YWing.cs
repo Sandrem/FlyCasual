@@ -33,8 +33,11 @@ namespace Ship.FirstEdition.YWing
                 icon: 'y'
             );
 
+            ShipInfo.FactionsAll.Add(Faction.Scum);
+
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(GoldSquadronPilot) }
+                { Faction.Rebel, typeof(GoldSquadronPilot) },
+                { Faction.Scum, typeof(HiredGun) }
             };
 
             ModelInfo = new ShipModelInfo(

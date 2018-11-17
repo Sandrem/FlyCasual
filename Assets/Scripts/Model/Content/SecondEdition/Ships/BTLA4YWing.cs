@@ -29,6 +29,7 @@ namespace Ship
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Easy);
 
                 IconicPilots[Faction.Rebel] = typeof(NorraWexley);
+                IconicPilots[Faction.Scum] = typeof(DreaRenthal);
 
                 //TODO: ManeuversImageUrl
             }

@@ -20,7 +20,7 @@ namespace Ship
 
         public SubFaction ShipSubFaction { get; private set; }
         public char Icon { get; private set; }
-        public List<Faction> FactionsAll { get; private set; }
+        public List<Faction> FactionsAll { get; set; }
 
         private SubFaction? subFaction { get; set; }
         public SubFaction SubFaction

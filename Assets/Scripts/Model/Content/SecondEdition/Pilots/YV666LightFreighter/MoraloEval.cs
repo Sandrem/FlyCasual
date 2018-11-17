@@ -20,6 +20,8 @@ namespace Ship
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
+                ModelInfo.SkinName = "Crimson";
+
                 SEImageNumber = 211;
             }
         }

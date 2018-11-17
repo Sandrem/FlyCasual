@@ -11,7 +11,7 @@ namespace Ship
         {
             public YV666LightFreighter() : base()
             {
-                ShipInfo.ShipName = "YV666LightFreighter";
+                ShipInfo.ShipName = "YV-666 Light Freighter";
 
                 ShipInfo.Hull = 9;
                 ShipInfo.Shields = 3;

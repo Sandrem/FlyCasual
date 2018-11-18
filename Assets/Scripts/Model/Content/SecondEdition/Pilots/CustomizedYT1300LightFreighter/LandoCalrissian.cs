@@ -16,7 +16,7 @@ namespace Ship
                     4,
                     49,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumPilotAbilitySE)
+                    abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumPilotAbility)
                 );
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
@@ -29,7 +29,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class LandoCalrissianScumPilotAbilitySE : GenericAbility
+    public class LandoCalrissianScumPilotAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

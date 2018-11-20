@@ -263,6 +263,10 @@ namespace SubPhases
             {
                 // Setup touch handler
                 touchObjectPlacementHandler.SetShip(Selection.ThisShip);
+
+                // With touch controls, wait for confirmation before setting the position
+                UI.ShowNextButton();
+                IsReadyForCommands = true;
             }
         }
 
@@ -410,7 +414,15 @@ namespace SubPhases
                 if (!ship.ShipBase.IsInside(StartingZone))
 
                 {
-                    Messages.ShowErrorToHuman("Place ship into highlighted area"); //TODO: better prompts / errors for mobile? say "drag"? don't react when tapping? hmm it is a useful prompt though
+                    if (CameraScript.InputTouchIsEnabled)
+                    {
+                        // Touch-tailored error message
+                        Messages.ShowErrorToHuman("Drag ship into highlighted area");
+                    }
+                    else
+                    {
+                        Messages.ShowErrorToHuman("Place ship into highlighted area");
+                    }
                     result = false;
                 }
 
@@ -422,25 +434,22 @@ namespace SubPhases
 
             }
 
-            if (CameraScript.InputTouchIsEnabled)
-            {
-                // With touch controls, wait for confirmation before setting the position
-                UI.ShowNextButton();
-                IsReadyForCommands = true;
-            } 
-            else 
-            {
-                if (result) StopDrag();
-            }
+            if (result) StopDrag();
 
             return result;
         }
 
         public override void NextButton() {
-            // Only used for touch controls -- confirm ship's position
-            if (TryConfirmPosition(Selection.ThisShip))
+            // Only used for touch controls -- try to confirm ship's position when next is placed
+            if (Selection.ThisShip == null) {
+                Messages.ShowErrorToHuman("Tap a ship to select it");
+                UI.ShowNextButton();
+            }
+
+            if (!TryConfirmPosition(Selection.ThisShip))
             {
-                StopDrag();
+                // Wait for confirmation again if positioning failed
+                UI.ShowNextButton();
             }
         }
 

@@ -44,10 +44,11 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
 
     public void Update() {
 
-        CameraScript.TouchInputsPaused = false; //TODO: verify this works fine here -- I think it should though
+        CameraScript.TouchInputsPaused = false;
 
         if (Input.touchCount == 0 || EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
         {
+            // Reset touch tracking
             touchDownLastUpdate = false;
             mouseOverObjectLastUpdate = false;
 
@@ -161,8 +162,6 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
                 case Ship.BaseSize.Large:
                     return 0.8f;
             }
-            // TODO: tweak thresholds?
-            // TODO: any way to get the actual physical base sizes for this? this seems good enough though
             // TODO: do the threshold in physical space not world space though? hmm might not matter, this seems good enoguh, but in theory would get closer to the intent
         }
 

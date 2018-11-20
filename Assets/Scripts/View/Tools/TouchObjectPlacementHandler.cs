@@ -28,12 +28,18 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
     public void SetShip(Ship.GenericShip ship) {
         this.ChosenShip = ship;
         this.ChosenObstacle = null;
+
+        newPosition = Vector3.zero;
+        newRotation = 0f;
     }
 
     public void SetObstacle (GenericObstacle obstacle) {
         // TODO: may be better to operate on the GameObject for the ship and obtacles, since that's the commonality? Then we couldn't get things like ship base size, but the GameObject renderer / colider size is probably just as good for this purpose
         this.ChosenShip = null;
         this.ChosenObstacle = obstacle;
+
+        newPosition = Vector3.zero;
+        newRotation = 0f;
     }
 
     public void Update() {
@@ -44,6 +50,11 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
         {
             touchDownLastUpdate = false;
             mouseOverObjectLastUpdate = false;
+
+            // Stop rotation
+            lastRotationVector = Vector2.zero;
+            newRotation = 0f;
+
             return;
         }
 

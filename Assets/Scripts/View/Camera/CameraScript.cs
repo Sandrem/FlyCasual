@@ -39,6 +39,7 @@ public class CameraScript : MonoBehaviour {
     private const float THRESHOLD_TOUCH_ZOOM_START = 20f; // was 12 -- is that better on ipad? probably!!! needs to be higher on iphone!!
     private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.2f; //was .3
     private const float MOMENTUM_THRESHOLD = 15f; // TODO: test, was 12, was good but a little too sensitive
+    private const float MOMENTUM_MULTIPLIER = 0.5f; // 
 
     // State for touch controls
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
@@ -95,7 +96,7 @@ public class CameraScript : MonoBehaviour {
 
         ChangeMode(CameraModes.Free);
 
-        InputTouchIsEnabled = Input.touchSupported;
+        InputTouchIsEnabled = true;// Input.touchSupported;
     }
 
     private static void SetDefaultCameraPosition()
@@ -431,11 +432,11 @@ public class CameraScript : MonoBehaviour {
                 }
 
                 // Keep incrementing duration while 1 finger is down even if no movement is happening
-                totalTouchMoveDuration += Time.deltaTime;
-
+                totalTouchMoveDuration += Time.deltaTime; //TODO: is something more extreme (windowing...?) needed to make velocity fall off quickly when finger stops moving? hmmmm
+                    // Then can turn down threshold to make it feel more responsive too.....???
                 if (totalTouchMove.magnitude / totalTouchMoveDuration > MOMENTUM_THRESHOLD) //TODO: make constant? base on DPI?
                 {
-                    panningMomentum = totalTouchMove / totalTouchMoveDuration;
+                    panningMomentum = (totalTouchMove / totalTouchMoveDuration);
                 }
                 else
                 {

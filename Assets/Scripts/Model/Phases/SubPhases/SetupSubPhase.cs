@@ -440,13 +440,15 @@ namespace SubPhases
         }
 
         public override void NextButton() {
-            // Only used for touch controls -- try to confirm ship's position when next is placed
-            if (Selection.ThisShip == null) {
+            // Next button is only used for touch controls -- on next, try to confirm ship's position
+
+            if (Selection.ThisShip == null)
+            {
+                // No ship selected yet
                 Messages.ShowErrorToHuman("Tap a ship to select it");
                 UI.ShowNextButton();
             }
-
-            if (!TryConfirmPosition(Selection.ThisShip))
+            else if (!TryConfirmPosition(Selection.ThisShip))
             {
                 // Wait for confirmation again if positioning failed
                 UI.ShowNextButton();

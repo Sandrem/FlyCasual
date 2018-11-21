@@ -14,7 +14,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
     private Ship.GenericShip ChosenShip = null;
 
     bool touchDownLastUpdate = false; // TODO: cleaner?
-    private bool mouseOverObjectLastUpdate = false;
+    private bool touchOverObjectLastUpdate = false;
     private Vector2 lastRotationVector = Vector2.zero;
 
     private Vector3 newPosition = Vector3.zero;
@@ -50,7 +50,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
         {
             // Reset touch tracking
             touchDownLastUpdate = false;
-            mouseOverObjectLastUpdate = false;
+            touchOverObjectLastUpdate = false;
 
             // Stop rotation
             lastRotationVector = Vector2.zero;
@@ -73,18 +73,18 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
         
             if (Console.IsActive) Console.Write("distance from object:" + distanceFromObject, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
-            if (touchDownLastUpdate && !mouseOverObjectLastUpdate)
+            if (touchDownLastUpdate && !touchOverObjectLastUpdate)
             {
                 // Don't move if something other than an object drag is in progress
                 touchDownLastUpdate = true;
                 newPosition = Vector3.zero;
                 return;
             }
-            else if (!mouseOverObjectLastUpdate && !didTouchShip)
+            else if (!touchOverObjectLastUpdate && !didTouchShip)
             {
                 // Don't move if the first touch didn't hit the object
                 touchDownLastUpdate = true;
-                mouseOverObjectLastUpdate = false;
+                touchOverObjectLastUpdate = false;
                 newPosition = Vector3.zero;
                 return;
             }
@@ -92,7 +92,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
             {
                 // Otherwise, move the object if needed!
                 touchDownLastUpdate = true;
-                mouseOverObjectLastUpdate = true;
+                touchOverObjectLastUpdate = true;
                 CameraScript.TouchInputsPaused = true;
 
                 if (distanceFromObject > 0f)

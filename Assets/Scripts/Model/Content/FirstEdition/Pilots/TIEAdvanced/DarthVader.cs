@@ -1,7 +1,7 @@
-﻿using Abilities.FirstEdition;
-using ActionsList;
+﻿using ActionsList;
 using Ship;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,10 +16,10 @@ namespace Ship
                     9,
                     29,
                     limited: 1,
-                    abilityType: typeof(DarthVaderAbility)
+                    abilityType: typeof(Abilities.FirstEdition.DarthVaderAbility)
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Blue";
             }

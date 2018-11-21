@@ -32,7 +32,7 @@ namespace Ship.FirstEdition.AttackShuttle
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(ZebOrrelios) }
+                { Faction.Rebel, typeof(EzraBridger) }
             };
 
             ModelInfo = new ShipModelInfo(

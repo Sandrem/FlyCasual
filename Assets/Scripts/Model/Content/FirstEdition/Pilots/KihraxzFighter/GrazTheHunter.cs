@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BoardTools;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Ship

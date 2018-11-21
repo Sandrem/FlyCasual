@@ -1,5 +1,4 @@
-﻿using Abilities.FirstEdition;
-using Ship;
+﻿using Ship;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -17,7 +16,7 @@ namespace Ship
                     9,
                     27,
                     limited: 1,
-                    abilityType: typeof(SoontirFelAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SoontirFelAbility)
                 );
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
@@ -44,7 +43,7 @@ namespace Abilities.FirstEdition
 
         private void RegisterSoontirFelAbility(GenericShip ship, System.Type tokenType)
         {
-            if (tokenType == typeof(Tokens.StressToken))
+            if (tokenType == typeof(StressToken))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AskAssignFocus);
             }

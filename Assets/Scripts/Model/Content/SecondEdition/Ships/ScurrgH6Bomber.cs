@@ -13,6 +13,8 @@ namespace Ship
         {
             public ScurrgH6Bomber() : base()
             {
+                ShipInfo.FactionsAll.Remove(Faction.Rebel);
+
                 ShipInfo.Hull = 6;
                 ShipInfo.Shields = 4;
                 ShipInfo.BaseSize = BaseSize.Medium;

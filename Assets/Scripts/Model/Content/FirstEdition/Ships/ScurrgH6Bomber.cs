@@ -32,10 +32,12 @@ namespace Ship.FirstEdition.ScurrgH6Bomber
                     UpgradeType.Crew,
                     UpgradeType.Bomb,
                     UpgradeType.Bomb
-                )
+                ),
+                factionsAll: new List<Faction>() { Faction.Rebel, Faction.Scum }
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
+                { Faction.Rebel, typeof(CaptainNymRebel) },
                 { Faction.Scum, typeof(LokRevenant) }
             };
 

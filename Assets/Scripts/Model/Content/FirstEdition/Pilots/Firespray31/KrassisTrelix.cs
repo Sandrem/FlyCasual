@@ -5,9 +5,9 @@ namespace Ship
 {
     namespace FirstEdition.Firespray31
     {
-        public class KathScarletEmpire : Firespray31
+        public class KrassisTrelix : Firespray31
         {
-            public KathScarletEmpire() : base()
+            public KrassisTrelix() : base()
             {
                 PilotInfo = new PilotCardInfo(
                     "Krassis Trelix",

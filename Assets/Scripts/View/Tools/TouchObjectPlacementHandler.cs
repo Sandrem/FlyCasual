@@ -14,7 +14,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
     private Ship.GenericShip ChosenShip = null;
 
     bool touchDownLastUpdate = false; // TODO: cleaner?
-    private bool touchOverObjectLastUpdate = false;
+    private bool draggingObjectLastUpdate = false;
     private Vector2 lastRotationVector = Vector2.zero;
 
     private Vector3 newPosition = Vector3.zero;
@@ -50,7 +50,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
         {
             // Reset touch tracking
             touchDownLastUpdate = false;
-            touchOverObjectLastUpdate = false;
+            draggingObjectLastUpdate = false;
 
             // Stop rotation
             lastRotationVector = Vector2.zero;
@@ -69,30 +69,35 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
             // Handle drags -- on touch devices, ships / obstacles must be dragged instead of always moving with the mouse
         
             float distanceFromObject = (GetObjectLocation() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
-            bool didTouchShip = (distanceFromObject <= GetDistanceThreshold());
+            bool touchOverObject = (distanceFromObject <= GetDistanceThreshold());
         
             if (Console.IsActive) Console.Write("distance from object:" + distanceFromObject, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
-            if (touchDownLastUpdate && !touchOverObjectLastUpdate)
+            if (touchDownLastUpdate && !draggingObjectLastUpdate)
             {
-                // Don't move if something other than an object drag is in progress
+                // Don't move if touch was down last update but wasn't on the object
+                // That means something other than an object drag is in progress
                 touchDownLastUpdate = true;
                 newPosition = Vector3.zero;
+                newRotation = 0f;
                 return;
             }
-            else if (!touchOverObjectLastUpdate && !didTouchShip)
+            else if (!draggingObjectLastUpdate && !touchOverObject)
             {
-                // Don't move if the first touch didn't hit the object
+                // Don't move if it's a new touch but didn't hit the object
                 touchDownLastUpdate = true;
-                touchOverObjectLastUpdate = false;
+                draggingObjectLastUpdate = false;
                 newPosition = Vector3.zero;
+                newRotation = 0f;
                 return;
             }
-            else
+            else if ((touchDownLastUpdate && draggingObjectLastUpdate) || 
+                     (!touchDownLastUpdate && touchOverObject))
             {
-                // Otherwise, move the object if needed!
+                // Otherwise, we're continuing a drag or starting a new one
+                // Move the object if needed!
                 touchDownLastUpdate = true;
-                touchOverObjectLastUpdate = true;
+                draggingObjectLastUpdate = true;
                 CameraScript.TouchInputsPaused = true;
 
                 if (distanceFromObject > 0f)

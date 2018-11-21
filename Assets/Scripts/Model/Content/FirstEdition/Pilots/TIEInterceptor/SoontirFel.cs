@@ -2,6 +2,7 @@
 using Ship;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -19,7 +20,7 @@ namespace Ship
                     abilityType: typeof(SoontirFelAbility)
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Red Stripes";
             }

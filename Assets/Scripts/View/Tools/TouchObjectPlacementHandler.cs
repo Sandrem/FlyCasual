@@ -19,7 +19,7 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
 
     private Vector3 newPosition = Vector3.zero;
     private float newRotation = 0f;
-
+    private int firstFinger = -1;
 
     public TouchObjectPlacementHandler()
     {
@@ -46,11 +46,14 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
 
         CameraScript.TouchInputsPaused = false;
 
-        if (Input.touchCount == 0 || EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-        {
+        // No fingers are down, first finger is over the UI, or the first finger has been lifted while the second is still down
+        if (Input.touchCount == 0 || EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) ||
+           (firstFinger != -1 && Input.GetTouch(0).fingerId != firstFinger))
+        { 
             // Reset touch tracking
             touchDownLastUpdate = false;
             draggingObjectLastUpdate = false;
+            firstFinger = -1;
 
             // Stop rotation
             lastRotationVector = Vector2.zero;
@@ -65,7 +68,6 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
 
         if (Physics.Raycast(ray, out hit))
         {
-
             // Handle drags -- on touch devices, ships / obstacles must be dragged instead of always moving with the mouse
         
             float distanceFromObject = (GetObjectLocation() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
@@ -107,6 +109,9 @@ public class TouchObjectPlacementHandler //TODO: move more code in to this class
                 else {
                     newPosition = Vector3.zero;
                 }
+
+                // Record which finger is the first one 
+                firstFinger = Input.GetTouch(0).fingerId;
             }
 
             // Do object rotation on touchscreens

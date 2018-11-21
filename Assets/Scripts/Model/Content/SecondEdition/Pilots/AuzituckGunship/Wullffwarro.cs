@@ -1,7 +1,5 @@
-﻿using Ship;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Tokens;
 
 namespace Ship
 {
@@ -23,27 +21,6 @@ namespace Ship
 
                 SEImageNumber = 31;
             }
-        }
-    }
-}
-
-namespace Abilities.FirstEdition
-{
-    public class WullffwarroAbility : GenericAbility
-    {
-        public override void ActivateAbility()
-        {
-            HostShip.AfterGotNumberOfAttackDice += CheckWullffwarroAbility;
-        }
-
-        public override void DeactivateAbility()
-        {
-            HostShip.AfterGotNumberOfAttackDice -= CheckWullffwarroAbility;
-        }
-
-        private void CheckWullffwarroAbility(ref int value)
-        {
-            if ((HostShip.State.ShieldsCurrent == 0) && (HostShip.State.HullCurrent < HostShip.State.HullMax)) value++;
         }
     }
 }

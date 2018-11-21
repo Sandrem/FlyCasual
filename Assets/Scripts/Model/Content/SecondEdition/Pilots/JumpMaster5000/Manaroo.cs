@@ -20,7 +20,7 @@ namespace Ship
                     3,
                     56,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.TelTrevuraAbility),
+                    abilityType: typeof(Abilities.FirstEdition.ManarooAbility),
                     charges: 1
                 );
 
@@ -32,7 +32,7 @@ namespace Ship
     }
 }
 
-namespace Abilities
+namespace Abilities.FirstEdition
 {
     public class ManarooAbility : GenericAbility
     {

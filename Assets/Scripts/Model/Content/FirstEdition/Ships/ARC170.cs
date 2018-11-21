@@ -32,7 +32,7 @@ namespace Ship.FirstEdition.ARC170
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(BraylenStramm) }
+                { Faction.Rebel, typeof(NorraWexley) }
             };
 
             ModelInfo = new ShipModelInfo(

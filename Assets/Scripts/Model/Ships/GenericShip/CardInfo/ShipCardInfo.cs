@@ -52,12 +52,13 @@ namespace Ship
             }
         }
 
-        public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', SubFaction shipSubFaction = SubFaction.None, List<Faction> factionsAll = null)
+        public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', SubFaction shipSubFaction = SubFaction.None, List<Faction> factionsAll = null, SubFaction subFaction = SubFaction.None)
         {
             ShipName = shipName;
             BaseSize = baseSize;
 
             Faction = faction;
+            if (subFaction != SubFaction.None) SubFaction = subFaction;
 
             ArcInfo = arcInfo;
             Firepower = arcInfo.Firepower;

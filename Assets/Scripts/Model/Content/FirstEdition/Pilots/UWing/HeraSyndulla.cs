@@ -20,6 +20,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 RequiredMods.Add(typeof(PhoenixSquadronMod));
+                ImageUrl = "https://i.imgur.com/gcK261Z.png";
             }
         }
     }

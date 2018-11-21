@@ -28,27 +28,6 @@ namespace Ship
     }
 }
 
-namespace Abilities.FirstEdition
-{
-    public class NdruSuhlakAbility : GenericAbility
-    {
-        public override void ActivateAbility()
-        {
-            HostShip.AfterGotNumberOfAttackDice += CheckNdruSuhlakAbility;
-        }
-
-        public override void DeactivateAbility()
-        {
-            HostShip.AfterGotNumberOfAttackDice -= CheckNdruSuhlakAbility;
-        }
-
-        protected virtual void CheckNdruSuhlakAbility(ref int value)
-        {
-            if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 2), Team.Type.Friendly).Count == 1) value++;
-        }
-    }
-}
-
 namespace Abilities.SecondEdition
 {
     public class NdruSuhlakAbility : Abilities.FirstEdition.NdruSuhlakAbility

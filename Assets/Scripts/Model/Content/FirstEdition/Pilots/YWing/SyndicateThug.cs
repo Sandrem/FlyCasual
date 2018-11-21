@@ -6,14 +6,14 @@ namespace Ship
 {
     namespace FirstEdition.YWing
     {
-        public class HiredGun : YWing
+        public class SyndicateThug : YWing
         {
-            public HiredGun() : base()
+            public SyndicateThug() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Hired Gun",
-                    4,
-                    20
+                    "Syndicate Thug",
+                    2,
+                    18
                 );
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Astromech);
@@ -21,7 +21,7 @@ namespace Ship
 
                 ShipInfo.Faction = Faction.Scum;
 
-                ModelInfo.SkinName = "Gray";
+                ModelInfo.SkinName = "Brown";
             }
         }
     }

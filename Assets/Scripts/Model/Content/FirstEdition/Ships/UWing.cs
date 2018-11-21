@@ -6,6 +6,7 @@ using ActionsList;
 using Arcs;
 using Upgrade;
 using Mods;
+using Mods.ModsList;
 
 namespace Ship.FirstEdition.UWing
 {
@@ -18,7 +19,7 @@ namespace Ship.FirstEdition.UWing
             ShipInfo = new ShipCardInfo
             (
                 "U-wing",
-                (ModsManager.Mods[typeof(Mods.ModsList.UWingSmallBaseMod)].IsOn) ? BaseSize.Small : BaseSize.Large,
+                (ModsManager.Mods[typeof(UWingSmallBaseMod)].IsOn) ? BaseSize.Small : BaseSize.Large,
                 Faction.Rebel,
                 new ShipArcsInfo(ArcTypes.Primary, 3), 1, 4, 4,
                 new ShipActionsInfo(

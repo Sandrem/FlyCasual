@@ -1,5 +1,4 @@
-﻿using Arcs;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -25,30 +24,6 @@ namespace Ship
                 ShipInfo.Faction = Faction.Scum;
 
                 SEImageNumber = 165;
-            }
-        }
-    }
-}
-
-namespace Abilities.FirstEdition
-{
-    public class KavilAbility : GenericAbility
-    {
-        public override void ActivateAbility()
-        {
-            HostShip.AfterGotNumberOfAttackDice += KavilPilotAbility;
-        }
-
-        public override void DeactivateAbility()
-        {
-            HostShip.AfterGotNumberOfAttackDice -= KavilPilotAbility;
-        }
-
-        private void KavilPilotAbility(ref int diceCount)
-        {
-            if (!BoardTools.Board.IsShipInArcByType(HostShip, Combat.Defender, ArcTypes.Primary))
-            {
-                diceCount++;
             }
         }
     }

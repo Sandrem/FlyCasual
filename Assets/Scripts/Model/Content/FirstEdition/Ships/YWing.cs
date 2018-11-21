@@ -30,10 +30,9 @@ namespace Ship.FirstEdition.YWing
                     UpgradeType.Torpedo,
                     UpgradeType.Astromech
                 ),
-                icon: 'y'
+                icon: 'y',
+                factionsAll: new List<Faction>() { Faction.Rebel, Faction.Scum }
             );
-
-            ShipInfo.FactionsAll.Add(Faction.Scum);
 
             IconicPilots = new Dictionary<Faction, System.Type> {
                 { Faction.Rebel, typeof(GoldSquadronPilot) },

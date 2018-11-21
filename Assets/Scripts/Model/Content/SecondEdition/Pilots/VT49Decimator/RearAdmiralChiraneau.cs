@@ -29,35 +29,13 @@ namespace Ship
     }
 }
 
-namespace ActionsList.FirstEdition
+namespace Abilities.SecondEdition
 {
-    public class RearAdmiralChiraneauAction : GenericAction
+    public class RearAdmiralCharaneauAbility : Abilities.FirstEdition.RearAdmiralChiraneauAbility
     {
-        public RearAdmiralChiraneauAction()
+        protected override void AddRearAdmiralChiraneauPilotAbility(GenericShip ship)
         {
-            Name = DiceModificationName = "Rear Admiral Chiraneau's ability";
-            IsTurnsOneFocusIntoSuccess = true;
-        }
-
-        public override void ActionEffect(System.Action callBack)
-        {
-            Combat.DiceRollAttack.ChangeOne(DieSide.Focus, DieSide.Crit);
-            callBack();
-        }
-
-        public override bool IsDiceModificationAvailable()
-        {
-            bool result = false;
-            if ((Combat.AttackStep == CombatStep.Attack) && (Combat.ShotInfo.Range < 3)) result = true;
-            return result;
-        }
-
-        public override int GetDiceModificationPriority()
-        {
-            if (Combat.DiceRollAttack.Focuses > 0)
-                return 100;
-
-            return 0;
+            ship.AddAvailableDiceModification(new ActionsList.SecondEdition.RearAdmiralChiraneauAction() { Host = HostShip });
         }
     }
 }
@@ -82,38 +60,6 @@ namespace ActionsList.SecondEdition
                 return false;
 
             return true;
-        }
-    }
-}
-
-namespace Abilities.FirstEdition
-{
-    public class RearAdmiralChiraneauAbility : GenericAbility
-    {
-        public override void ActivateAbility()
-        {
-            HostShip.OnGenerateDiceModifications += AddRearAdmiralChiraneauPilotAbility;
-        }
-
-        public override void DeactivateAbility()
-        {
-            HostShip.OnGenerateDiceModifications -= AddRearAdmiralChiraneauPilotAbility;
-        }
-
-        protected virtual void AddRearAdmiralChiraneauPilotAbility(GenericShip ship)
-        {
-            ship.AddAvailableDiceModification(new ActionsList.FirstEdition.RearAdmiralChiraneauAction());
-        }
-    }
-}
-
-namespace Abilities.SecondEdition
-{
-    public class RearAdmiralCharaneauAbility : Abilities.FirstEdition.RearAdmiralChiraneauAbility
-    {
-        protected override void AddRearAdmiralChiraneauPilotAbility(GenericShip ship)
-        {
-            ship.AddAvailableDiceModification(new ActionsList.SecondEdition.RearAdmiralChiraneauAction() { Host = HostShip });
         }
     }
 }

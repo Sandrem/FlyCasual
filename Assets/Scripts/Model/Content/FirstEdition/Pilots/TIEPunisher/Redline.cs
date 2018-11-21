@@ -70,3 +70,4 @@ namespace Abilities.FirstEdition
             Triggers.FinishTrigger();
         }
     }
+}

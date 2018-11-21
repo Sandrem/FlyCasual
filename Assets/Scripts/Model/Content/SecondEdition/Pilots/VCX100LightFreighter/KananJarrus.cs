@@ -1,8 +1,6 @@
 ﻿using BoardTools;
-using Ship;
 using System.Collections;
 using System.Collections.Generic;
-using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -28,57 +26,6 @@ namespace Ship
             }
         }
     }
-}
-
-namespace Abilities.FirstEdition
-{
-    public class KananJarrusPilotAbility : GenericAbility
-    {
-        public override void ActivateAbility()
-        {
-            GenericShip.OnAttackStartAsAttackerGlobal += CheckPilotAbility;
-        }
-
-        public override void DeactivateAbility()
-        {
-            GenericShip.OnAttackStartAsAttackerGlobal -= CheckPilotAbility;
-        }
-
-        protected virtual void CheckPilotAbility()
-        {
-            bool IsDifferentPlayer = (HostShip.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo);
-            bool HasFocusTokens = HostShip.Tokens.HasToken(typeof(FocusToken));
-            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, Combat.Attacker);
-
-            if (IsDifferentPlayer && HasFocusTokens && distanceInfo.Range < 3)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskDecreaseAttack);
-            }
-        }
-
-        protected void AskDecreaseAttack(object sender, System.EventArgs e)
-        {
-            AskToUseAbility(AlwaysUseByDefault, DecreaseAttack, null, null, false);
-        }
-
-        protected virtual void DecreaseAttack(object sender, System.EventArgs e)
-        {
-            HostShip.Tokens.SpendToken(typeof(FocusToken), RegisterDecreaseNumberOfAttackDice);
-            SubPhases.DecisionSubPhase.ConfirmDecision();
-        }
-
-        protected void RegisterDecreaseNumberOfAttackDice()
-        {
-            Combat.Attacker.AfterGotNumberOfAttackDice += DecreaseNumberOfAttackDice;
-        }
-
-        private void DecreaseNumberOfAttackDice(ref int diceCount)
-        {
-            diceCount--;
-            Combat.Attacker.AfterGotNumberOfAttackDice -= DecreaseNumberOfAttackDice;
-        }
-    }
-
 }
 
 namespace Abilities.SecondEdition

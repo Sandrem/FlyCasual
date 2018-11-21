@@ -4,14 +4,14 @@ namespace Ship
 {
     namespace SecondEdition.AlphaClassStarWing
     {
-        public class LieutenantKarsabi : AlphaClassStarWing
+        public class MaarekStele : AlphaClassStarWing
         {
-            public LieutenantKarsabi() : base()
+            public MaarekStele() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Lieutenant Karsabi",
-                    3,
-                    39,
+                    "Maarek Stele",
+                    7,
+                    27,
                     limited: 1,
                     abilityType: typeof(Abilities.FirstEdition.LieutenantKarsabiAbility)
                 );

@@ -16,7 +16,7 @@ namespace Ship
                     4,
                     78,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.ChewbaccaAbility),
+                    abilityType: typeof(Abilities.SecondEdition.ChewbaccaRebelPilotAbility),
                     charges: 1,
                     regensCharges: true
                 );
@@ -31,7 +31,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class ChewbaccaAbility : GenericAbility
+    public class ChewbaccaRebelPilotAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
                 delegate
                 {
                     Selection.ActiveShip = previousShip;
-                    SubPhases.DecisionSubPhase.ConfirmDecision();
+                    DecisionSubPhase.ConfirmDecision();
                 });
         }
 

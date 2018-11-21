@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /*
  * DESCRIPTION
@@ -388,8 +389,9 @@ public class CameraScript : MonoBehaviour {
     void CamMoveByTouch()
     {
         if (Input.touchCount > 0 && (Input.GetTouch(0).position.x > Screen.width ||
-                              Input.GetTouch(0).position.y > Screen.height ||
-                              TouchInputsPaused))
+                                     Input.GetTouch(0).position.y > Screen.height ||
+                                     TouchInputsPaused ||
+                                     (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId) && totalTouchMoveDuration == 0f)))
         {
             // Don't listen to touches that are off-screen, or being handled elsewhere
             return;
@@ -402,6 +404,10 @@ public class CameraScript : MonoBehaviour {
             {
                 // Stop momentum as soon as one finger is touched to the screen
                 panningMomentum = Vector2.zero;
+
+                // Setup to start a new move
+                totalTouchMoveDuration = 0f;
+                totalTouchMove = Vector2.zero; 
             }
             else
             {
@@ -463,11 +469,6 @@ public class CameraScript : MonoBehaviour {
         {
             // TODO: this is mostly for debugging, will probably remove. we do probably need a close button at least for the console on mobile though
             Console.IsActive = !Console.IsActive;
-        }
-
-        if (Input.touchCount != 1) {
-            totalTouchMoveDuration = 0f;
-            totalTouchMove = Vector2.zero; 
         }
     }
 

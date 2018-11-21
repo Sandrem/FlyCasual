@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Abilities.FirstEdition;
 using Upgrade;
 
 namespace Ship
@@ -16,7 +15,7 @@ namespace Ship
                     8,
                     26,
                     limited: 1,
-                    abilityType: typeof(TychoCelchuAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility)
                 );
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);

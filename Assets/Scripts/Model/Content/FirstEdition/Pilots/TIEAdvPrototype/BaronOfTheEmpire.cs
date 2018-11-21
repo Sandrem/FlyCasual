@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using Upgrade;
 
 namespace Ship
 {
@@ -14,7 +14,7 @@ namespace Ship
                     19
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

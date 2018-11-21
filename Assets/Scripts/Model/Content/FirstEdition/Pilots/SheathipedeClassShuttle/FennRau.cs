@@ -6,6 +6,7 @@ using Tokens;
 using ActionsList;
 using SubPhases;
 using BoardTools;
+using Upgrade;
 
 namespace Ship
 {
@@ -23,7 +24,7 @@ namespace Ship
                     abilityType: typeof(Abilities.FirstEdition.FennRauRebelAbility)
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

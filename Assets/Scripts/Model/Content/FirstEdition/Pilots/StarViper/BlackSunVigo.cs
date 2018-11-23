@@ -9,7 +9,7 @@ namespace Ship
             public BlackSunVigo() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "BlackSunVigo",
+                    "Black Sun Vigo",
                     3,
                     27
                 );

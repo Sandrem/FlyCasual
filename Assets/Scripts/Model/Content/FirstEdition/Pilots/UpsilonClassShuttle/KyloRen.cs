@@ -11,9 +11,9 @@ namespace Ship
 {
     namespace FirstEdition.UpsilonClassShuttle
     {
-        public class KyloRenUpsilon : UpsilonClassShuttle
+        public class KyloRen : UpsilonClassShuttle
         {
-            public KyloRenUpsilon() : base()
+            public KyloRen() : base()
             {
                 PilotInfo = new PilotCardInfo(
                     "Kylo Ren",

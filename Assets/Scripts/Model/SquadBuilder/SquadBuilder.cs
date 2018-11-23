@@ -229,7 +229,7 @@ namespace SquadBuilderNS
             AllUpgrades = new List<UpgradeRecord>();
 
             List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
+                .Where(t => String.Equals(t.Namespace, "UpgradesList." + Edition.Instance.Name, StringComparison.Ordinal))
                 .ToList();
 
             foreach (var type in typelist)

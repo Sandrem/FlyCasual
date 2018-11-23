@@ -94,8 +94,6 @@ namespace Upgrade
             }
         }
 
-        public Type UpgradeRuleType = typeof(FirstEdition);
-
         public int MaxCharges { get; set; }
         public int Charges { get; private set; }
         public bool UsesCharges { get { return MaxCharges > 0; } }

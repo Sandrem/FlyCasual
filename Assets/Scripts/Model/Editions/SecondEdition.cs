@@ -190,12 +190,6 @@ namespace RuleSets
 
         public override void AdaptUpgradeToRules(GenericUpgrade upgrade)
         {
-            if (upgrade is ISecondEditionUpgrade)
-            {
-                (upgrade as ISecondEditionUpgrade).AdaptUpgradeToSecondEdition();
-                upgrade.UpgradeRuleType = typeof(SecondEdition);
-            }
-
             upgrade.SetChargesToMax();
         }
 

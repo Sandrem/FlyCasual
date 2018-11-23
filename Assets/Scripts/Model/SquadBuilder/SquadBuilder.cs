@@ -237,9 +237,9 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
-                if ((newUpgradeContainer.Name != null))
+                if ((newUpgradeContainer.UpgradeInfo.Name != null))
                 {
-                    if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
+                    if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.UpgradeInfo.Name) == null)
                     {
                         Edition.Instance.AdaptUpgradeToRules(newUpgradeContainer);
 
@@ -247,7 +247,7 @@ namespace SquadBuilderNS
                         {
                             AllUpgrades.Add(new UpgradeRecord()
                             {
-                                UpgradeName = newUpgradeContainer.Name,
+                                UpgradeName = newUpgradeContainer.UpgradeInfo.Name,
                                 UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
                                 UpgradeTypeName = type.ToString(),
                                 Instance = newUpgradeContainer
@@ -257,7 +257,7 @@ namespace SquadBuilderNS
                 }
             }
 
-            AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.Name).OrderBy(m => m.Instance.UpgradeInfo.Cost).ToList();
+            AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.UpgradeInfo.Name).OrderBy(m => m.Instance.UpgradeInfo.Cost).ToList();
 
             //Messages.ShowInfo("Upgrades: " + AllUpgrades.Count);
         }
@@ -548,7 +548,7 @@ namespace SquadBuilderNS
                 {
                     if (upgrade.UpgradeInfo.IsLimited)
                     {
-                        if (CheckDuplicate(uniqueCards, upgrade.Name)) return false;
+                        if (CheckDuplicate(uniqueCards, upgrade.UpgradeInfo.Name)) return false;
                     }
                 }
             }
@@ -598,13 +598,13 @@ namespace SquadBuilderNS
                 {
                     if (upgrade.UpgradeInfo.IsLimited)
                     {
-                        if (!limitedCards.Contains(upgrade.Name))
+                        if (!limitedCards.Contains(upgrade.UpgradeInfo.Name))
                         {
-                            limitedCards.Add(upgrade.Name);
+                            limitedCards.Add(upgrade.UpgradeInfo.Name);
                         }
                         else
                         {
-                            Messages.ShowError("A ship cannot equip multiple copies of the same limited card: " + upgrade.Name);
+                            Messages.ShowError("A ship cannot equip multiple copies of the same limited card: " + upgrade.UpgradeInfo.Name);
                             result = false;
                             break;
                         }
@@ -665,21 +665,21 @@ namespace SquadBuilderNS
                     {
                         if (upgradeSlot.MustBeDifferent)
                         {
-                            int countDuplicates = shipHolder.Instance.UpgradeBar.GetUpgradesAll().Count(n => n.Name == upgradeSlot.InstalledUpgrade.Name);
+                            int countDuplicates = shipHolder.Instance.UpgradeBar.GetUpgradesAll().Count(n => n.UpgradeInfo.Name == upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             if (countDuplicates > 1)
                             {
-                                Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.Name);
+                                Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                                 return false;
                             }
                         }
                         if (upgradeSlot.InstalledUpgrade.UpgradeInfo.Cost > upgradeSlot.MaxCost)
                         {
-                            Messages.ShowError("Upgrade must costs less than " + upgradeSlot.MaxCost + " : " + upgradeSlot.InstalledUpgrade.Name);
+                            Messages.ShowError("Upgrade must costs less than " + upgradeSlot.MaxCost + " : " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             return false;
                         }
                         if (upgradeSlot.MustBeUnique && !upgradeSlot.InstalledUpgrade.UpgradeInfo.IsLimited)
                         {
-                            Messages.ShowError("Upgrade must be unique : " + upgradeSlot.InstalledUpgrade.Name);
+                            Messages.ShowError("Upgrade must be unique : " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             return false;
                         }
                     }                

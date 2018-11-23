@@ -190,7 +190,7 @@ public partial class MainMenu : MonoBehaviour {
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
-            if (newUpgradeContainer.Name != null)
+            if (newUpgradeContainer.UpgradeInfo.Name != null)
             {
                 if (newUpgradeContainer.Avatar != null && newUpgradeContainer.Avatar.AvatarFaction == CurrentAvatarsFaction) AddAvailableAvatar(newUpgradeContainer, count++);
             }

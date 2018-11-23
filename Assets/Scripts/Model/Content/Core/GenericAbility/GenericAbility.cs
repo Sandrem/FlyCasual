@@ -61,7 +61,7 @@ namespace Abilities
         {
             get
             {
-                return HostUpgrade != null ? HostUpgrade.Name : HostShip.PilotInfo.PilotName;
+                return HostUpgrade != null ? HostUpgrade.UpgradeInfo.Name : HostShip.PilotInfo.PilotName;
             }
         }
 
@@ -90,7 +90,7 @@ namespace Abilities
             HostReal = hostUpgrade;
             HostShip = hostUpgrade.Host;
             HostUpgrade = hostUpgrade;
-            Name = hostUpgrade.Name + "'s ability";
+            Name = hostUpgrade.UpgradeInfo.Name + "'s ability";
 
             ActivateAbilityForSquadBuilder();
         }

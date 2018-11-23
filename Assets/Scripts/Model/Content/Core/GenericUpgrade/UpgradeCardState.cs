@@ -17,5 +17,10 @@ namespace Upgrade
             Charges = charges;
             MaxCharges = maxCharges;
         }
+
+        public void Flip(bool isFaceup)
+        {
+            IsFaceup = isFaceup;
+        }
     }
 }

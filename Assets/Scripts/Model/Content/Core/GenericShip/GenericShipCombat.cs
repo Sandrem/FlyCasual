@@ -22,7 +22,7 @@ namespace Ship
     public interface IShipWeapon
     {
         GenericShip Host { get; set; }
-        string Name { get; set; }
+        string Name { get; }
 
         int MinRange { get; set; }
         int MaxRange { get; set; }

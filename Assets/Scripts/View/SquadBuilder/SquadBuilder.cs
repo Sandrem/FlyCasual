@@ -223,7 +223,7 @@ namespace SquadBuilderNS
             ship.Panel.Size = contentRect.sizeDelta;
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
-            script.Initialize(upgrade.Name, null, upgrade, compact: true);
+            script.Initialize(upgrade.UpgradeInfo.Name, null, upgrade, compact: true);
 
             availableUpgradesCounter++;
         }
@@ -469,7 +469,7 @@ namespace SquadBuilderNS
                 }
                 else
                 {
-                    script.Initialize(slot.InstalledUpgrade.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked, compact: true);
+                    script.Initialize(slot.InstalledUpgrade.UpgradeInfo.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked, compact: true);
                     UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
                 }
             }

@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
             if (!IsAbilityUsed && upgrade.HasType(UpgradeType.Elite))
             {
                 IsAbilityUsed = true;
-                Messages.ShowInfo(string.Format("{0} flips {1} face up.", HostShip.PilotName, upgrade.Name));
+                Messages.ShowInfo(string.Format("{0} flips {1} face up.", HostShip.PilotName, upgrade.UpgradeInfo.Name));
                 RegisterAbilityTrigger(TriggerTypes.OnAfterDiscard, (s, e) => upgrade.TryFlipFaceUp(Triggers.FinishTrigger));
             }
         }

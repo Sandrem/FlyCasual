@@ -38,7 +38,7 @@ namespace Upgrade
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Detonation of " + Name,
+                    Name = "Detonation of " + UpgradeInfo.Name,
                     TriggerType = TriggerTypes.OnActivationPhaseEnd,
                     TriggerOwner = Host.Owner.PlayerNo,
                     EventHandler = TryDetonate,

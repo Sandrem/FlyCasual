@@ -62,7 +62,7 @@ namespace ActionsList
             else if (rechargableUpgrades.Count == 1)
             {
                 rechargableUpgrades[0].RestoreCharge();
-                Messages.ShowInfo("Reload: One charge of \"" + rechargableUpgrades[0].NameOriginal + "\" is restored");
+                Messages.ShowInfo("Reload: One charge of \"" + rechargableUpgrades[0].UpgradeInfo.Name + "\" is restored");
                 AssignTokenAndFinish();
             }
             else
@@ -82,7 +82,7 @@ namespace ActionsList
 
             foreach (GenericUpgrade upgrade in Selection.ThisShip.UpgradeBar.GetRechargableUpgrades())
             {
-                subphase.AddDecision(upgrade.Name, delegate { RechargeUpgrade(upgrade); }, upgrade.ImageUrl, upgrade.Charges);
+                subphase.AddDecision(upgrade.UpgradeInfo.Name, delegate { RechargeUpgrade(upgrade); }, upgrade.ImageUrl, upgrade.Charges);
             }
 
             subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
@@ -98,7 +98,7 @@ namespace ActionsList
         private static void RechargeUpgrade(GenericUpgrade upgrage)
         {
             upgrage.RestoreCharge();
-            Messages.ShowInfo("Reload: One charge of \"" + upgrage.NameOriginal + "\" is restored");
+            Messages.ShowInfo("Reload: One charge of \"" + upgrage.UpgradeInfo.Name + "\" is restored");
 
             DecisionSubPhase.ConfirmDecision();
         }

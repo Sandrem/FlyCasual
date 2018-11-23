@@ -215,7 +215,7 @@ namespace Bombs
             foreach (var timedBombInstalled in GetTimedBombsInstalled(Selection.ThisShip))
             {
                 selectBombToDrop.AddDecision(
-                    timedBombInstalled.Name,
+                    timedBombInstalled.UpgradeInfo.Name,
                     delegate { SelectBomb(timedBombInstalled); }
                 );
             }

@@ -79,7 +79,7 @@ public static partial class Combat
             parameters.AddField("target", defenderId.ToString());
             parameters.AddField("weaponIsAlreadySelected", weaponIsAlreadySelected.ToString());
             GenericSecondaryWeapon secWeapon = chosenWeapon as GenericSecondaryWeapon;
-            parameters.AddField("weapon", (secWeapon != null) ? secWeapon.NameOriginal : null);
+            parameters.AddField("weapon", (secWeapon != null) ? secWeapon.UpgradeInfo.Name : null);
             return GameController.GenerateGameCommand(
                 GameCommandTypes.DeclareAttack,
                 Phases.CurrentSubPhase.GetType(),

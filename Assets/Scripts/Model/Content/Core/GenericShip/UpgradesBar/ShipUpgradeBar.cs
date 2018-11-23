@@ -134,12 +134,12 @@ namespace Upgrade
 
         public List<GenericUpgrade> GetUpgradesOnlyFaceup()
         {
-            return GetUpgradesAll().Where(n => n.isDiscarded == false).ToList();
+            return GetUpgradesAll().Where(n => n.State.IsFaceup).ToList();
         }
 
         public List<GenericUpgrade> GetUpgradesOnlyDiscarded()
         {
-            return GetUpgradesAll().Where(n => n.isDiscarded == true).ToList();
+            return GetUpgradesAll().Where(n => n.State.IsFaceup == false).ToList();
         }
 
         public List<UpgradeSlot> GetUpgradeSlots()

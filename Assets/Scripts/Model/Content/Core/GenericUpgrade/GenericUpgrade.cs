@@ -54,16 +54,8 @@ namespace Upgrade
         public GenericShip Host { get; set; }
         public UpgradeSlot Slot { get; set; }
 
-        public string Name { get; set; }
-        public string NameOriginal { get; set; }
-
         public List<GenericAbility> UpgradeAbilities = new List<GenericAbility>();
 
-        public bool isUnique = false;
-        public bool isDiscarded = false;
-        /**
-         * If true, this upgrade is used as a multi-slot card and should not be used to count squad cost or used otherwise.
-         */
         public bool isPlaceholder = false;
 
         private string nameCanonical;
@@ -73,7 +65,7 @@ namespace Upgrade
             {
                 if (!string.IsNullOrEmpty(nameCanonical)) return nameCanonical;
 
-                return Tools.Canonicalize(Name);
+                return Tools.Canonicalize(UpgradeInfo.Name);
             }
             set { nameCanonical = value; }
         }
@@ -106,7 +98,7 @@ namespace Upgrade
 
         public int MaxCharges { get; set; }
         public int Charges { get; private set; }
-        public bool UsesCharges;
+        public bool UsesCharges { get { return MaxCharges > 0; } }
         public bool RegensCharges = false;
 
         public AvatarInfo Avatar;
@@ -240,7 +232,6 @@ namespace Upgrade
         {
             Host = host;
             ActivateAbility();
-            NameOriginal = Name;
             ShowCharges();
         }
 
@@ -255,7 +246,7 @@ namespace Upgrade
 
         private void ShowCharges()
         {
-            if (MaxCharges > 0) Name = NameOriginal + " (" + Charges + ")";
+            // TODOREVERT
         }
 
         private void DeactivateAbility()
@@ -288,9 +279,9 @@ namespace Upgrade
 
         public virtual void Discard(Action callBack)
         {
-            isDiscarded = true;
+            State.Flip(false);
             PreDettachFromShip();
-            Roster.ShowUpgradeAsInactive(Host, Name);
+            Roster.ShowUpgradeAsInactive(Host, UpgradeInfo.Name);
             DeactivateAbility();
 
             Host.CallAfterDiscardUpgrade(this, callBack);
@@ -318,17 +309,17 @@ namespace Upgrade
 
         public virtual void FlipFaceup(Action callback)
         {
-            isDiscarded = false;
-            Roster.ShowUpgradeAsActive(Host, Name);
+            State.Flip(true);
+            Roster.ShowUpgradeAsActive(Host, UpgradeInfo.Name);
             ActivateAbility();
 
-            Messages.ShowInfo(Name + " is flipped face up");
+            Messages.ShowInfo(UpgradeInfo.Name + " is flipped face up");
             Host.CallAfterFlipFaceUpUpgrade(this, callback);
         }
 
         public void ReplaceUpgradeBy(GenericUpgrade newUpgrade)
         {
-            Roster.ReplaceUpgrade(Host, Name, newUpgrade.Name, newUpgrade.ImageUrl);
+            Roster.ReplaceUpgrade(Host, UpgradeInfo.Name, newUpgrade.UpgradeInfo.Name, newUpgrade.ImageUrl);
 
             Slot.PreInstallUpgrade(newUpgrade, Host);
             Slot.TryInstallUpgrade(newUpgrade, Host);
@@ -347,9 +338,8 @@ namespace Upgrade
             Charges--;
             if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
 
-            if (Charges == 0) Roster.ShowUpgradeAsInactive(Host, Name);
+            if (Charges == 0) Roster.ShowUpgradeAsInactive(Host, UpgradeInfo.Name);
 
-            Name = NameOriginal + " (" + Charges + ")";
             Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
         }
 
@@ -357,11 +347,10 @@ namespace Upgrade
         {
             if (Charges < MaxCharges)
             {
-                if (Charges == 0) Roster.ShowUpgradeAsActive(Host, Name);
+                if (Charges == 0) Roster.ShowUpgradeAsActive(Host, UpgradeInfo.Name);
 
                 Charges++;
 
-                Name = NameOriginal + " (" + Charges + ")";
                 Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
             }
         }

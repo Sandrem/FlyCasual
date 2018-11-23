@@ -15,6 +15,8 @@ namespace Upgrade
 
     public class GenericSecondaryWeapon : GenericUpgrade, IShipWeapon
     {
+        public string Name { get { return UpgradeInfo.Name; } }
+
         public int MinRange { get; set; }
         public int MaxRange { get; set; }
         public int AttackValue { get; set; }
@@ -72,7 +74,7 @@ namespace Upgrade
             int MaxRangeUpdated = MaxRange;
             Host.CallUpdateWeaponRange(this, ref MinRangeUpdated, ref MaxRangeUpdated);
 
-            if (isDiscarded) return false;
+            if (!State.IsFaceup) return false;
 
             if (UsesCharges && Charges == 0) return false;
 

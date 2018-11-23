@@ -75,7 +75,7 @@ namespace Upgrade
         {
             Triggers.RegisterTrigger(new Trigger
             {
-                Name = ship.ShipId + " : Detonation of " + Name,
+                Name = ship.ShipId + " : Detonation of " + UpgradeInfo.Name,
                 TriggerType = TriggerTypes.OnBombIsDetonated,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = delegate
@@ -98,7 +98,7 @@ namespace Upgrade
             }
             else
             {
-                Messages.ShowInfo(string.Format("{0} ignored effect of detonation of {1}", ship.PilotInfo.PilotName, BombsManager.CurrentBomb.Name));
+                Messages.ShowInfo(string.Format("{0} ignored effect of detonation of {1}", ship.PilotInfo.PilotName, BombsManager.CurrentBomb.UpgradeInfo.Name));
                 callBack();
             }
         }

@@ -210,7 +210,7 @@ namespace SubPhases
                 GetAiAbilityPriority,
                 Selection.ThisShip.Owner.PlayerNo,
                 true,
-                SpacetugUpgrade.Name,
+                SpacetugUpgrade.UpgradeInfo.Name,
                 "Choose a ship inside your firing arc to assign a tractor beam token to it.",
                 SpacetugUpgrade
             );

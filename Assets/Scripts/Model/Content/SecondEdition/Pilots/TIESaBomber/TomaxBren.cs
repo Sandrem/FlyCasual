@@ -76,14 +76,14 @@ namespace Abilities.SecondEdition
             foreach (var upgrade in AvailableUpgrades)
             {
                 phase.AddDecision(
-                    upgrade.Name,
+                    upgrade.UpgradeInfo.Name,
                     delegate { RestoreCharge(upgrade); },
                     upgrade.ImageUrl,
                     upgrade.Charges
                 );
             }
 
-            phase.DefaultDecisionName = AvailableUpgrades[0].Name;
+            phase.DefaultDecisionName = AvailableUpgrades[0].UpgradeInfo.Name;
 
             phase.DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 

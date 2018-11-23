@@ -73,7 +73,7 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.Name));
+                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.UpgradeInfo.Name));
                 AskToUseAbility(AlwaysUseByDefault, IgnoreContactMineDecision, null, null, true);
             }
             else
@@ -105,7 +105,7 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                Messages.ShowInfoToHuman(string.Format("{0} token is ready for deal effect", BombsManager.CurrentBomb.Name));
+                Messages.ShowInfoToHuman(string.Format("{0} token is ready for deal effect", BombsManager.CurrentBomb.UpgradeInfo.Name));
                 AskToUseAbility(AlwaysUseByDefault, IgnoreTimedBombDecision, null, null, true);
             }
             else

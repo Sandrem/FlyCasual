@@ -18,8 +18,8 @@ namespace UpgradesList
                 this.Types.Add (types [i]);
             }*/
 
-            this.Name = Name;
-            //this.Cost = Cost;
+            // this.Name = Name;
+            // this.Cost = Cost;
             // TODOREVERT
         }
     }

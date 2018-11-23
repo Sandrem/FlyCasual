@@ -49,7 +49,7 @@ namespace Upgrade
 
         public void Flip(Action<GenericDualUpgrade> callback = null)
         {
-            Messages.ShowInfo(string.Format("{0} was flipped", Name));
+            Messages.ShowInfo(string.Format("{0} was flipped", UpgradeInfo.Name));
             Discard(() => SetAnotherSide(callback));
         }
 
@@ -92,7 +92,7 @@ namespace SubPhases
                 GenericDualUpgrade upgradeSide = (GenericDualUpgrade)Activator.CreateInstance(type);
                 Edition.Instance.AdaptUpgradeToRules(upgradeSide);
                 AddDecision(
-                    upgradeSide.Name,
+                    upgradeSide.UpgradeInfo.Name,
                     delegate { SelectSide(upgradeSide); },
                     upgradeSide.ImageUrl
                 );

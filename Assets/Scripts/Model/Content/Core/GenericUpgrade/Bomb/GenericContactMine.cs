@@ -31,7 +31,7 @@ namespace Upgrade
         {
             ActionsList.GenericAction action = new ActionsList.BombDropAction()
             {
-                Name = "Drop " + Name,
+                Name = "Drop " + UpgradeInfo.Name,
                 Source = this
             };
             Host.AddAvailableAction(action);

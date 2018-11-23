@@ -178,7 +178,7 @@ namespace RuleSets
 
         public override string GetUpgradeImageUrl(GenericUpgrade upgrade)
         {
-            return RootUrlForImages + "upgrades/" + ImageUrls.FormatUpgradeTypes(upgrade.UpgradeInfo.UpgradeTypes) + "/" + ImageUrls.FormatName(ImageUrls.FormatUpgradeName(upgrade.NameOriginal ?? upgrade.Name)) + ".png";
+            return RootUrlForImages + "upgrades/" + ImageUrls.FormatUpgradeTypes(upgrade.UpgradeInfo.UpgradeTypes) + "/" + ImageUrls.FormatName(ImageUrls.FormatUpgradeName(upgrade.UpgradeInfo.Name)) + ".png";
         }
     }
 }

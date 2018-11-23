@@ -34,7 +34,7 @@ namespace Ship
                 {
                     foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
                     {
-                        if (upgrade.Name == "Hound's Tooth")
+                        if (upgrade.UpgradeInfo.Name == "Hound's Tooth")
                         {
                             return true;
                         }

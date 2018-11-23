@@ -59,7 +59,7 @@ namespace Abilities.FirstEdition
         {
             if (CanUseAbility())
             {
-                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.Name));
+                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.UpgradeInfo.Name));
                 AskToUseAbility(NeverUseByDefault, UseAbility);
             }
             else

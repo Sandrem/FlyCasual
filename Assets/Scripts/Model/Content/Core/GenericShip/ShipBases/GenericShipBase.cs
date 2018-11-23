@@ -10,7 +10,8 @@ namespace Ship
     {
         Small,
         Medium,
-        Large
+        Large,
+        None
     }
 
     public class GenericShipBase

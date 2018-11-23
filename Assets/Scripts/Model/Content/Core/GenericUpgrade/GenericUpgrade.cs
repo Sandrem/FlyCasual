@@ -229,6 +229,7 @@ namespace Upgrade
         public virtual void AttachToShip(GenericShip host)
         {
             Host = host;
+            State = new UpgradeCardState(this);
             ActivateAbility();
             ShowCharges();
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Upgrade
         public int Charges { get; private set; }
         public bool RegensCharges { get; private set; }
 
-        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, Type abilityType = null, Faction restrictionFaction = Faction.None, int charges = 0, bool regensCharges = false)
+        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, Type abilityType = null, Faction restrictionFaction = Faction.None, BaseSize restrictionSize = BaseSize.None, int charges = 0, bool regensCharges = false)
         {
             Name = name;
             UpgradeTypes = new List<UpgradeType>() { upgradeType };

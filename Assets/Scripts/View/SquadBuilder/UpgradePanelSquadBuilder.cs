@@ -27,7 +27,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         ShowFromModInfo = showFromModInfo;
         Compact = compact;
 
-        this.gameObject.GetComponent<RectTransform>().sizeDelta = (compact) ? RuleSet.Instance.UpgradeCardCompactSize : RuleSet.Instance.UpgradeCardSize;
+        this.gameObject.GetComponent<RectTransform>().sizeDelta = (compact) ? Edition.Instance.UpgradeCardCompactSize : Edition.Instance.UpgradeCardSize;
     }
 
     void Start()
@@ -55,7 +55,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private void SetSlotImage()
     {
         string slotTypeName = UpgradeName.Substring(5, UpgradeName.Length - 5);
-        string editionName = (RuleSet.Instance is FirstEdition) ? "FirstEdition" : "SecondEdition";
+        string editionName = (Edition.Instance is FirstEdition) ? "FirstEdition" : "SecondEdition";
         Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/UpgradeSlots/" + editionName + "/" + slotTypeName, typeof(Sprite));
         this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().sprite = sprite;
 
@@ -89,7 +89,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
-        TextureScale.Bilinear(newTexture, (int)RuleSet.Instance.UpgradeCardSize.x, (int)RuleSet.Instance.UpgradeCardSize.y);
+        TextureScale.Bilinear(newTexture, (int)Edition.Instance.UpgradeCardSize.x, (int)Edition.Instance.UpgradeCardSize.y);
 
         Sprite newSprite = null;
         if (!Compact)
@@ -105,10 +105,10 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             newSprite = Sprite.Create(
                 newTexture,
                 new Rect(
-                    (!Upgrade.Types.Contains(UpgradeType.Configuration)) ? RuleSet.Instance.UpgradeCardCompactOffset.x : RuleSet.Instance.UpgradeCardCompactOffset.x - 155,
-                    RuleSet.Instance.UpgradeCardCompactOffset.y,
-                    RuleSet.Instance.UpgradeCardCompactSize.x,
-                    RuleSet.Instance.UpgradeCardCompactSize.y
+                    (!Upgrade.UpgradeInfo.HasType(UpgradeType.Configuration)) ? Edition.Instance.UpgradeCardCompactOffset.x : Edition.Instance.UpgradeCardCompactOffset.x - 155,
+                    Edition.Instance.UpgradeCardCompactOffset.y,
+                    Edition.Instance.UpgradeCardCompactSize.x,
+                    Edition.Instance.UpgradeCardCompactSize.y
                 ),
                 Vector2.zero
             );
@@ -123,7 +123,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private void ShowTextVersionOfCard()
     {
         this.transform.Find("UpgradeInfo").GetComponent<Text>().text = UpgradeName;
-        if (RuleSet.Instance is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Upgrade.Cost.ToString();
+        if (Edition.Instance is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Upgrade.UpgradeInfo.Cost.ToString();
 
         this.gameObject.SetActive(true);
     }
@@ -132,7 +132,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     {
         Text infoText = this.transform.Find("FromModInfo").GetComponent<Text>();
 
-        if (RuleSet.Instance is FirstEdition)
+        if (Edition.Instance is FirstEdition)
         {
             if (Upgrade.FromMod != null)
             {
@@ -140,13 +140,13 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
                 this.transform.Find("FromModInfo").GetComponent<Text>().text = mod.Name;
             }
         }
-        else if (RuleSet.Instance is SecondEdition)
+        else if (Edition.Instance is SecondEdition)
         {
             infoText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(418, 0);
 
             infoText.alignment = TextAnchor.MiddleRight;
             infoText.fontSize = 50;
-            infoText.text = Upgrade.Cost.ToString();
+            infoText.text = Upgrade.UpgradeInfo.Cost.ToString();
         }
     }
 

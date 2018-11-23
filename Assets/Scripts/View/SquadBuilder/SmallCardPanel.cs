@@ -74,8 +74,8 @@ public class SmallCardPanel : MonoBehaviour {
             case DecisionViewTypes.ImagesUpgrade:
                 TextureScale.Bilinear(
                     newTexture,
-                    (int)RuleSet.Instance.UpgradeCardSize.x,
-                    (int)RuleSet.Instance.UpgradeCardSize.y
+                    (int)Edition.Instance.UpgradeCardSize.x,
+                    (int)Edition.Instance.UpgradeCardSize.y
                 );
                 break;
             case DecisionViewTypes.ImagesDamageCard:

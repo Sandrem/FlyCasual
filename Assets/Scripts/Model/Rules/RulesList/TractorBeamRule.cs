@@ -45,14 +45,14 @@ namespace RulesList
         public static bool IsTractorBeamReposition(GenericShip ship)
         {
             int tractorBeamTokensCount = ship.Tokens.GetAllTokens().Count(n => n is TractorBeamToken);
-            return (tractorBeamTokensCount == RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
+            return (tractorBeamTokensCount == Edition.Instance.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
         }
 
         private bool ShouldDecreaseAgility(GenericShip ship)
         {
             bool result = true;
 
-            if (RuleSet.Instance is SecondEdition)
+            if (Edition.Instance is SecondEdition)
             {
                 int tractorBeamTokensCount = ship.Tokens.CountTokensByType(typeof(TractorBeamToken));
                 if (tractorBeamTokensCount > 1) result = false;
@@ -96,7 +96,7 @@ namespace RulesList
         {
             bool result = true;
 
-            if (RuleSet.Instance is SecondEdition)
+            if (Edition.Instance is SecondEdition)
             {
                 int tractorBeamTokensCount = ship.Tokens.CountTokensByType(typeof(TractorBeamToken));
                 if (tractorBeamTokensCount > 0) result = false;

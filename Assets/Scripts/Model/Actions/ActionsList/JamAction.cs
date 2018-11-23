@@ -55,14 +55,14 @@ namespace SubPhases
             int result = 0;
 
             result += HasTokenPriority(ship);
-            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.UpgradeInfo.Cost);
 
             return result;
         }
 
         private int HasTokenPriority(GenericShip ship)
         {
-            if (RuleSet.Instance is SecondEdition && (ship.Tokens.HasToken(typeof(ReinforceAftToken)) || ship.Tokens.HasToken(typeof(ReinforceForeToken)))) return 110;
+            if (Edition.Instance is SecondEdition && (ship.Tokens.HasToken(typeof(ReinforceAftToken)) || ship.Tokens.HasToken(typeof(ReinforceForeToken)))) return 110;
             if (ship.Tokens.HasToken(typeof(FocusToken))) return 100;
             if (ship.ActionBar.HasAction(typeof(ActionsList.EvadeAction)) || ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
             if (ship.ActionBar.HasAction(typeof(ActionsList.TargetLockAction)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;

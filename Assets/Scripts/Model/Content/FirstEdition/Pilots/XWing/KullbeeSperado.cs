@@ -75,7 +75,7 @@ namespace Abilities.FirstEdition
 
         private GenericUpgrade GetSFoils()
         {
-            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Find(n => n.Types.Contains(UpgradeType.Configuration));
+            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Find(n => n.UpgradeInfo.HasType(UpgradeType.Configuration));
         }
     }
 }

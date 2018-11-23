@@ -59,7 +59,7 @@ public static partial class Network
             RoomName = roomName;
             CurrentVersionInt = Global.CurrentVersionInt;
             IsAnyModOn = Mods.ModsManager.IsAnyModOn;
-            RuleSet = RuleSets.RuleSet.Instance.Name;
+            RuleSet = RuleSets.Edition.Instance.Name;
         }
 
         public void InitializationWithParameters(string roomName)
@@ -308,7 +308,7 @@ public static partial class Network
 
         if (success)
         {
-            if (matches.Any(n => new RoomInfo(n.name).CurrentVersionInt == Global.CurrentVersionInt && new RoomInfo(n.name).RuleSet == RuleSets.RuleSet.Instance.Name))
+            if (matches.Any(n => new RoomInfo(n.name).CurrentVersionInt == Global.CurrentVersionInt && new RoomInfo(n.name).RuleSet == RuleSets.Edition.Instance.Name))
             {
                 ToggleNoRoomsMessage(false);
                 //Messages.ShowInfo("A list of matches was returned");
@@ -368,7 +368,7 @@ public static partial class Network
             RoomInfo roomInfo = new RoomInfo(match.name);
 
             if (roomInfo.CurrentVersionInt != Global.CurrentVersionInt) continue;
-            if (roomInfo.RuleSet != RuleSets.RuleSet.Instance.Name) continue;
+            if (roomInfo.RuleSet != RuleSets.Edition.Instance.Name) continue;
 
             GameObject MatchRecord;
 

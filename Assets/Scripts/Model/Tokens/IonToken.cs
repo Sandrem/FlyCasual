@@ -31,7 +31,7 @@ namespace Tokens
         public bool IsIonized()
         {
             int ionTokensCount = Host.Tokens.GetAllTokens().Count(n => n is IonToken);
-            return (ionTokensCount >= RuleSet.Instance.NegativeTokensToAffectShip[Host.ShipInfo.BaseSize]);
+            return (ionTokensCount >= Edition.Instance.NegativeTokensToAffectShip[Host.ShipInfo.BaseSize]);
         }
 
         public override void WhenRemoved()

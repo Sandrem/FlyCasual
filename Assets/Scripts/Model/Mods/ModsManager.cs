@@ -17,7 +17,7 @@ namespace Mods
 
         public bool IsAvailable()
         {
-            return IsOn && EditionType == RuleSets.RuleSet.Instance.GetType();
+            return IsOn && EditionType == RuleSets.Edition.Instance.GetType();
         }
     }
 
@@ -28,7 +28,7 @@ namespace Mods
 
         public static Dictionary<Type, Mod> GetAllMods()
         {
-            return Mods.Where(m => m.Value.EditionType == RuleSets.RuleSet.Instance.GetType()).ToDictionary(n => n.Key, n => n.Value);
+            return Mods.Where(m => m.Value.EditionType == RuleSets.Edition.Instance.GetType()).ToDictionary(n => n.Key, n => n.Value);
         }
 
         public static bool IsAnyModOn

@@ -114,7 +114,7 @@ namespace Abilities.SecondEdition
         private int GetAIAbilityPriority(GenericShip ship)
         {
             // AI should stress the most expensive ship enemy ship in range or the least expensive friendly.
-            int cost = ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+            int cost = ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.UpgradeInfo.Cost);
 
             if (HostShip.Owner.PlayerNo == ship.Owner.PlayerNo)
             {

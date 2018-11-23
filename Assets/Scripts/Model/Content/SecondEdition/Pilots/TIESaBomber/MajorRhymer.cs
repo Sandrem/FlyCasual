@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(GenericSecondaryWeapon weapon, ref int minRange, ref int maxRange)
         {
-            if (weapon.Types.Contains(UpgradeType.Missile) || weapon.Types.Contains(UpgradeType.Torpedo))
+            if (weapon.UpgradeInfo.HasType(UpgradeType.Missile) || weapon.UpgradeInfo.HasType(UpgradeType.Torpedo))
             {
                 if (minRange > 0) minRange--;
                 if (maxRange < 3) maxRange++;

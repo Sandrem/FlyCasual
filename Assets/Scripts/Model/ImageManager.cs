@@ -17,7 +17,7 @@ public static class ImageManager
 
     static public WWW GetImage(string url)
     {
-        string filePath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/ImageCache";
+        string filePath = Application.persistentDataPath + "/" + Edition.Instance.Name + "/ImageCache";
         if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
         filePath += "/" + url.GetHashCode() + ".png";
         bool web = false;
@@ -89,7 +89,7 @@ public static class ImageManager
 
     private static void DeleteCachedImageByEdition(string url, Type edition)
     {
-        RuleSet ruleSet = (RuleSet)Activator.CreateInstance(edition);
+        Edition ruleSet = (Edition)Activator.CreateInstance(edition);
         string filePath = Application.persistentDataPath + "/" + ruleSet.Name + "/ImageCache";
         if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
         filePath += "/" + url.GetHashCode() + ".png";

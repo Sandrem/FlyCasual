@@ -31,7 +31,7 @@ namespace Migrations
 
             foreach (var pilot in PilotsToDeleteFromImageCache)
             {
-                RuleSet.Instance = (RuleSet) Activator.CreateInstance(pilot.RuleType);
+                Edition.Instance = (Edition) Activator.CreateInstance(pilot.RuleType);
 
                 GenericShip ship = (GenericShip)Activator.CreateInstance(pilot.CardType);
                 if (pilot.RuleType == typeof(SecondEdition)) (ship as ISecondEditionPilot).AdaptPilotToSecondEdition();

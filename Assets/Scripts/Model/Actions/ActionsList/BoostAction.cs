@@ -238,7 +238,7 @@ namespace SubPhases
             Game.Movement.CollidedWith = null;
             MovementTemplates.HideLastMovementRuler();
 
-            RuleSet.Instance.ActionIsFailed(TheShip, typeof(BoostAction));
+            Edition.Instance.ActionIsFailed(TheShip, typeof(BoostAction));
         }
 
         private void HidePlanningTemplates()

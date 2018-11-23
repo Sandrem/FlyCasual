@@ -80,8 +80,8 @@ namespace Abilities.FirstEdition
 
         private bool AiDecideToPassToken(GenericShip target)
         {
-            var myWorth = HostShip.PilotInfo.Cost + HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Sum(u => u.Cost);
-            var targetWorth = target.PilotInfo.Cost + target.UpgradeBar.GetUpgradesOnlyFaceup().Sum(u => u.Cost);
+            var myWorth = HostShip.PilotInfo.Cost + HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Sum(u => u.UpgradeInfo.Cost);
+            var targetWorth = target.PilotInfo.Cost + target.UpgradeBar.GetUpgradesOnlyFaceup().Sum(u => u.UpgradeInfo.Cost);
             var targetNeedsToken = !target.Tokens.HasToken<FocusToken>() || !target.Tokens.HasToken<EvadeToken>();
             return targetWorth > myWorth && targetNeedsToken;
         }

@@ -592,7 +592,7 @@ namespace Movement
                 case MovementComplexity.None:
                     break;
                 case MovementComplexity.Easy:
-                    result = RuleSet.Instance.MovementEasyColor;
+                    result = Edition.Instance.MovementEasyColor;
                     break;
                 case MovementComplexity.Normal:
                     result = Color.white;

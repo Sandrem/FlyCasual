@@ -91,7 +91,7 @@ namespace Abilities.FirstEdition
             int shipFocusTokens = ship.Tokens.CountTokensByType(typeof(FocusToken));
             int shipEvadeTokens = ship.Tokens.CountTokensByType(typeof(EvadeToken));
 
-            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.UpgradeInfo.Cost);
             if (shipFocusTokens > 0)
                 result += 50;
             if (shipFocusTokens == 1)

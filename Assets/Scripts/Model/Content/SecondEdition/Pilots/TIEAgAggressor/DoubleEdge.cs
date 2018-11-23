@@ -65,7 +65,7 @@ namespace Abilities.SecondEdition
             GenericUpgrade usedWeaponUpgrade = Combat.ChosenWeapon as GenericUpgrade;
             if (usedWeaponUpgrade == null) return false;
 
-            if (usedWeaponUpgrade.Types.Contains(UpgradeType.Turret) || usedWeaponUpgrade.Types.Contains(UpgradeType.Missile))
+            if (usedWeaponUpgrade.UpgradeInfo.HasType(UpgradeType.Turret) || usedWeaponUpgrade.UpgradeInfo.HasType(UpgradeType.Missile))
             {
                 result = true;
             }

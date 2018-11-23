@@ -29,7 +29,7 @@ public partial class MainMenu : MonoBehaviour {
 
     public void ChangePanel(string panelName)
     {
-        if (RuleSet.Instance.IsSquadBuilderLocked)
+        if (Edition.Instance.IsSquadBuilderLocked)
         {
             if (panelName == "SquadronOptionsPanel")
             {

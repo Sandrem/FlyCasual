@@ -60,11 +60,11 @@ public class SmallCardArt : MonoBehaviour {
         Rect imageRect = new Rect();
         if (imageSource is GenericShip)
         {
-            imageRect = (RuleSet.Instance is SecondEdition) ? new Rect(0, 0, 503, 205) : new Rect(0, 0, 298, 124);
+            imageRect = (Edition.Instance is SecondEdition) ? new Rect(0, 0, 503, 205) : new Rect(0, 0, 298, 124);
         }
         else if (imageSource is GenericUpgrade)
         {
-            imageRect = (RuleSet.Instance is SecondEdition) ? new Rect(281, 0, 394, 202) : new Rect(0, 0, 194, 106);
+            imageRect = (Edition.Instance is SecondEdition) ? new Rect(281, 0, 394, 202) : new Rect(0, 0, 194, 106);
         }
 
         Sprite newSprite = Sprite.Create(

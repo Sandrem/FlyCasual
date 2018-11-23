@@ -89,7 +89,7 @@ namespace SubPhases
 
         public void PerfromTemplatePlanning()
         {
-            RuleSet.Instance.DecloakTemplatePlanning();
+            Edition.Instance.DecloakTemplatePlanning();
         }
 
         public void PerfromTemplatePlanningFirstEdition()
@@ -351,7 +351,7 @@ namespace SubPhases
             MonoBehaviour.Destroy(TemporaryShipBase);
             DecloakTemplate.SetActive(false);
 
-            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.CloakAction));
+            Edition.Instance.ActionIsFailed(TheShip, typeof(ActionsList.CloakAction));
         }
 
         private void StopPlanning()

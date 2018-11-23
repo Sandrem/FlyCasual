@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
 
         private List<GenericUpgrade> GetEliteUpgradesToRecharge()
         {
-            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.Types.Contains(UpgradeType.Elite) && (n.Charges < n.MaxCharges)).ToList();
+            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.UpgradeInfo.HasType(UpgradeType.Elite) && (n.Charges < n.MaxCharges)).ToList();
         }
 
         private void ShowEliteUpgradeToRecharge(object sender, System.EventArgs e)

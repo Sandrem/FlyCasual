@@ -104,7 +104,7 @@ namespace SubPhases
     {
         public override void RevertSubPhase()
         {
-            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
+            Edition.Instance.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
             UpdateHelpInfo();
         }
 
@@ -156,7 +156,7 @@ namespace SubPhases
             if (!ship.ShipsBumped.Contains(Selection.ThisShip)) result += 500;
             if (shotInfo.Range <= 3) result += 250;
 
-            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.UpgradeInfo.Cost);
 
             return result;
         }

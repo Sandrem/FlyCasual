@@ -143,7 +143,7 @@ namespace SubPhases
 
         public override void RevertSubPhase()
         {
-            RuleSet.Instance.ActionIsFailed(TheShip, typeof(SpacetugActionSE));
+            Edition.Instance.ActionIsFailed(TheShip, typeof(SpacetugActionSE));
             UpdateHelpInfo();
         }
 

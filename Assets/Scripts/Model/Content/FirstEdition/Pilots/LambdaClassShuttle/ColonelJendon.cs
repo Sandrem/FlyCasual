@@ -2,6 +2,7 @@
 using SubPhases;
 using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -106,7 +107,7 @@ namespace Abilities.FirstEdition
 
             if (ship.Tokens.CountTokensByType(typeof(Tokens.BlueTargetLockToken)) == 0) result += 100;
             if (ActionsHolder.HasTarget(ship)) result += 50;
-            if (ship.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.Types.Contains(Upgrade.UpgradeType.Missile) || n.Types.Contains(Upgrade.UpgradeType.Torpedo))) result += 25;
+            if (ship.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.HasType(UpgradeType.Missile) || n.UpgradeInfo.HasType(UpgradeType.Torpedo))) result += 25;
 
             return result;
         }

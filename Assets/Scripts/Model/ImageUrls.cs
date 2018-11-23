@@ -16,12 +16,12 @@ public static class ImageUrls
 
     public static string GetImageUrl(GenericUpgrade upgrade, string filename = null)
     {
-        return RuleSet.Instance.GetUpgradeImageUrl(upgrade);
+        return Edition.Instance.GetUpgradeImageUrl(upgrade);
     }
 
     public static string GetImageUrlOld(GenericUpgrade upgrade, string filename = null)
     {
-        return GetImageUrlOld(UpgradesPath + FormatUpgradeTypes(upgrade.Types), FormatUpgradeName(upgrade.Name), filename);
+        return GetImageUrlOld(UpgradesPath + FormatUpgradeTypes(upgrade.UpgradeInfo.UpgradeTypes), FormatUpgradeName(upgrade.Name), filename);
     }
 
     public static string GetImageUrl(GenericDamageCard crit, string filename = null)
@@ -31,12 +31,12 @@ public static class ImageUrls
 
     public static string GetImageUrl(Ship.GenericShip ship, string filename = null)
     {
-        return RuleSet.Instance.GetPilotImageUrl(ship, filename);
+        return Edition.Instance.GetPilotImageUrl(ship, filename);
     }
 
     private static string GetImageUrl(string subpath, string cardName, string filename)
     {
-        return RuleSet.Instance.RootUrlForImages + subpath + "/" + (filename ?? FormatName(cardName) + ".png");
+        return Edition.Instance.RootUrlForImages + subpath + "/" + (filename ?? FormatName(cardName) + ".png");
     }
 
     private static string GetImageUrlOld(string subpath, string cardName, string filename)

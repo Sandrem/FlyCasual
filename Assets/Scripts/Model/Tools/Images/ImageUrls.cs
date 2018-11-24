@@ -17,7 +17,7 @@ public static class ImageUrls
 
     public static string GetImageUrl(GenericUpgrade upgrade, string filename = null)
     {
-        return Edition.Instance.GetUpgradeImageUrl(upgrade);
+        return Edition.Current.GetUpgradeImageUrl(upgrade);
     }
 
     public static string GetImageUrlOld(GenericUpgrade upgrade, string filename = null)
@@ -32,12 +32,12 @@ public static class ImageUrls
 
     public static string GetImageUrl(GenericShip ship, string filename = null)
     {
-        return Edition.Instance.GetPilotImageUrl(ship, filename);
+        return Edition.Current.GetPilotImageUrl(ship, filename);
     }
 
     private static string GetImageUrl(string subpath, string cardName, string filename)
     {
-        return Edition.Instance.RootUrlForImages + subpath + "/" + (filename ?? FormatName(cardName) + ".png");
+        return Edition.Current.RootUrlForImages + subpath + "/" + (filename ?? FormatName(cardName) + ".png");
     }
 
     private static string GetImageUrlOld(string subpath, string cardName, string filename)

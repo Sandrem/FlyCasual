@@ -171,7 +171,7 @@ namespace SubPhases
         {
             templateWidth = (TheShip.ShipInfo.BaseSize == Ship.BaseSize.Small) ? TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE : TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
 
-            Edition.Instance.BarrelRollTemplatePlanning();
+            Edition.Current.BarrelRollTemplatePlanning();
         }
 
         public void PerfromTemplatePlanningFirstEdition()
@@ -345,7 +345,7 @@ namespace SubPhases
 
         public override void Update()
         {
-            if (inReposition && Edition.Instance is FirstEdition)
+            if (inReposition && Edition.Current is FirstEdition)
             {
                 PerfromDrag();
             }
@@ -406,7 +406,7 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            if (Edition.Instance is FirstEdition)
+            if (Edition.Current is FirstEdition)
             {
                 StopDrag();
 
@@ -479,7 +479,7 @@ namespace SubPhases
             MonoBehaviour.Destroy(TemporaryShipBase);
             BarrelRollTemplate.SetActive(false);
 
-            Edition.Instance.ActionIsFailed(TheShip, typeof(ActionsList.BarrelRollAction));
+            Edition.Current.ActionIsFailed(TheShip, typeof(ActionsList.BarrelRollAction));
         }
 
         public void TryConfirmBarrelRollNetwork(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)

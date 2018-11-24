@@ -20,7 +20,7 @@ namespace Upgrade
         {
             base.AttachToShip(host);
 
-            RuleSets.Edition.Instance.TimedBombActivationTime(host);
+            RuleSets.Edition.Current.TimedBombActivationTime(host);
         }
 
         public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)

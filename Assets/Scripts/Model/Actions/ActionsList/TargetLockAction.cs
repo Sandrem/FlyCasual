@@ -104,7 +104,7 @@ namespace SubPhases
     {
         public override void RevertSubPhase()
         {
-            Edition.Instance.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
+            Edition.Current.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
             UpdateHelpInfo();
         }
 

@@ -70,7 +70,7 @@ namespace Ship.SecondEdition.EscapeCraft
 
             // ManeuversImageUrl
 
-            /* HotacManeuverTable = new AI.XWingTable(); */
+            HotacManeuverTable = new AI.EscapeCraftTable();
         }
     }
 }

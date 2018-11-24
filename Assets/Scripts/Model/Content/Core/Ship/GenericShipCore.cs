@@ -242,7 +242,7 @@ namespace Ship
                     break;
             }
 
-            Edition.Instance.AdaptArcsToRules(this);
+            Edition.Current.AdaptArcsToRules(this);
         }
 
         private void DisablePrimaryFiringArc()

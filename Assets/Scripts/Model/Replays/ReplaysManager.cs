@@ -26,7 +26,7 @@ public static class ReplaysManager
 
         Phases.CurrentSubPhase = null;
 
-        FilePath = Application.persistentDataPath + "/" + Edition.Instance.Name + "/Replays";
+        FilePath = Application.persistentDataPath + "/" + Edition.Current.Name + "/Replays";
         if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
         FilePath += "/LastReplay.replay";
 

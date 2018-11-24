@@ -84,7 +84,7 @@ namespace Ship
 
                 // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
 
-                /* HotacManeuverTable = new AI.TIEFighterTable(); */
+                HotacManeuverTable = new AI.TIESilencerTable();
             }
         }
     }

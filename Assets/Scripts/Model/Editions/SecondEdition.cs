@@ -17,21 +17,6 @@ using Upgrade;
 
 namespace RuleSets
 {
-    interface ISecondEditionShip
-    {
-        void AdaptShipToSecondEdition();
-    }
-
-    interface ISecondEditionPilot
-    {
-        void AdaptPilotToSecondEdition();
-    }
-
-    interface ISecondEditionUpgrade
-    {
-        void AdaptUpgradeToSecondEdition();
-    }
-
     public class SecondEdition : Edition
     {
         public override string Name { get { return "SecondEdition"; } }
@@ -171,26 +156,10 @@ namespace RuleSets
 
         public override void AdaptShipToRules(GenericShip ship)
         {
-            if (ship is ISecondEditionShip)
+            if (Edition.Current is SecondEdition)
             {
-                (ship as ISecondEditionShip).AdaptShipToSecondEdition();
                 ship.HotacManeuverTable.AdaptToSecondEdition();
-                ship.ShipRuleType = typeof(SecondEdition);
             }
-        }
-
-        public override void AdaptPilotToRules(GenericShip ship)
-        {
-            if (ship is ISecondEditionPilot)
-            {
-                (ship as ISecondEditionPilot).AdaptPilotToSecondEdition();
-                ship.PilotRuleType = typeof(SecondEdition);
-            }
-        }
-
-        public override void AdaptUpgradeToRules(GenericUpgrade upgrade)
-        {
-            upgrade.SetChargesToMax();
         }
 
         public override void AdaptArcsToRules(GenericShip ship)

@@ -78,7 +78,7 @@ namespace Ship.FirstEdition.UWing
 
             // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c5/MR_U-WING.png";
 
-            /* HotacManeuverTable = new AI.XWingTable(); */
+            HotacManeuverTable = new AI.UWingTable();
         }
     }
 }

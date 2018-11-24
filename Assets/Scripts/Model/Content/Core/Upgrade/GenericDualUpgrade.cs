@@ -70,7 +70,7 @@ namespace Upgrade
         private void CreateAnotherSideInstance()
         {
             AnotherSideInstance = (GenericDualUpgrade) Activator.CreateInstance(AnotherSide);
-            Edition.Instance.AdaptUpgradeToRules(AnotherSideInstance);
+            Edition.Current.AdaptUpgradeToRules(AnotherSideInstance);
         }
     }
 
@@ -90,7 +90,7 @@ namespace SubPhases
             foreach (var type in UpgradeTypes)
             {
                 GenericDualUpgrade upgradeSide = (GenericDualUpgrade)Activator.CreateInstance(type);
-                Edition.Instance.AdaptUpgradeToRules(upgradeSide);
+                Edition.Current.AdaptUpgradeToRules(upgradeSide);
                 AddDecision(
                     upgradeSide.UpgradeInfo.Name,
                     delegate { SelectSide(upgradeSide); },

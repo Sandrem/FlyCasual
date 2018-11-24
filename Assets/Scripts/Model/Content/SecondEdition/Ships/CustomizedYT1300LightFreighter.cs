@@ -40,7 +40,7 @@ namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
 
             // ManeuversImageUrl
 
-            /* HotacManeuverTable = new AI.XWingTable(); */
+            HotacManeuverTable = new AI.YT1300Table();
         }
     }
 }

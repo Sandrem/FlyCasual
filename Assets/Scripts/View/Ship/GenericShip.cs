@@ -117,7 +117,7 @@ namespace Ship
 
         public void SetShipInsertImage()
         {
-            Edition.Instance.SetShipBaseImage(this);
+            Edition.Current.SetShipBaseImage(this);
         }
 
         public void SetShipBaseImageFirstEdition()

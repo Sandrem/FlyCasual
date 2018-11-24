@@ -71,7 +71,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         if (this == null) return;
 
         this.transform.Find("PilotInfo").GetComponent<Text>().text = Ship.PilotInfo.PilotName;
-        if (Edition.Instance is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.PilotInfo.Cost.ToString();
+        if (Edition.Current is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.PilotInfo.Cost.ToString();
 
         this.gameObject.SetActive(true);
     }
@@ -87,7 +87,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             infoText.text = mod.Name + postfix;
         }
 
-        if (Edition.Instance is SecondEdition)
+        if (Edition.Current is SecondEdition)
         {
             this.transform.Find("FromModInfo").GetComponent<RectTransform>().localPosition += new Vector3(0, -30, 0);
 

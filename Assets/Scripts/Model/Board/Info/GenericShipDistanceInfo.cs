@@ -22,7 +22,7 @@ namespace BoardTools
         {
             get
             {
-                if (Edition.Instance is SecondEdition)
+                if (Edition.Current is SecondEdition)
                 {
                     if (Ship1.ShipsBumped.Contains(Ship2)) return 0;
                 }

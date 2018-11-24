@@ -146,7 +146,7 @@ namespace SquadBuilderNS
             AllShips = new List<ShipRecord>();
             AllPilots = new List<PilotRecord>();
 
-            string namespacePart = "Ship." + Edition.Instance.Name + ".";
+            string namespacePart = "Ship." + Edition.Current.Name + ".";
 
             IEnumerable<string> namespaceIEnum =
                 from types in Assembly.GetExecutingAssembly().GetTypes()
@@ -161,7 +161,7 @@ namespace SquadBuilderNS
                 {
                     namespaceList.Add(ns);
                     GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(namespacePart.Length)));
-                    Edition.Instance.AdaptShipToRules(newShipTypeContainer);
+                    Edition.Current.AdaptShipToRules(newShipTypeContainer);
 
                     if (AllShips.Find(n => n.ShipName == newShipTypeContainer.ShipInfo.ShipName) == null)
                     {
@@ -194,7 +194,7 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
-                Edition.Instance.AdaptPilotToRules(newShipContainer);
+                Edition.Current.AdaptPilotToRules(newShipContainer);
 
                 if ((newShipContainer.PilotInfo != null) && (newShipContainer.IsAllowedForSquadBuilder()))
                 {
@@ -229,7 +229,7 @@ namespace SquadBuilderNS
             AllUpgrades = new List<UpgradeRecord>();
 
             List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => String.Equals(t.Namespace, "UpgradesList." + Edition.Instance.Name, StringComparison.Ordinal))
+                .Where(t => String.Equals(t.Namespace, "UpgradesList." + Edition.Current.Name, StringComparison.Ordinal))
                 .ToList();
 
             foreach (var type in typelist)
@@ -241,7 +241,7 @@ namespace SquadBuilderNS
                 {
                     if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.UpgradeInfo.Name) == null)
                     {
-                        Edition.Instance.AdaptUpgradeToRules(newUpgradeContainer);
+                        Edition.Current.AdaptUpgradeToRules(newUpgradeContainer);
 
                         if (newUpgradeContainer.IsAllowedForSquadBuilder())
                         {
@@ -291,8 +291,8 @@ namespace SquadBuilderNS
         {
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-            Edition.Instance.AdaptUpgradeToRules(newUpgrade);
-            if (newUpgrade is IVariableCost && Edition.Instance is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
+            Edition.Current.AdaptUpgradeToRules(newUpgrade);
+            if (newUpgrade is IVariableCost && Edition.Current is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
 
             List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.UpgradeInfo.UpgradeTypes);
             if (slots.Count != 0)
@@ -381,7 +381,7 @@ namespace SquadBuilderNS
 
         private static void OpenShipInfo(GenericShip ship)
         {
-            if (Edition.Instance.IsSquadBuilderLocked)
+            if (Edition.Current.IsSquadBuilderLocked)
             {
                 Messages.ShowError("This part of squad builder is disabled");
                 return;
@@ -513,10 +513,10 @@ namespace SquadBuilderNS
         private static bool ValidateMinShipsCount(PlayerNo playerNo)
         {
             bool result = true;
-            if (GetSquadList(playerNo).GetShips().Count < Edition.Instance.MinShipsCount)
+            if (GetSquadList(playerNo).GetShips().Count < Edition.Current.MinShipsCount)
             {
                 result = false;
-                Messages.ShowError("Minimum number of pilots is required: " + Edition.Instance.MinShipsCount);
+                Messages.ShowError("Minimum number of pilots is required: " + Edition.Current.MinShipsCount);
             }
             return result;
         }
@@ -524,10 +524,10 @@ namespace SquadBuilderNS
         private static bool ValidateMaxShipsCount(PlayerNo playerNo)
         {
             bool result = true;
-            if (GetSquadList(playerNo).GetShips().Count > Edition.Instance.MaxShipsCount)
+            if (GetSquadList(playerNo).GetShips().Count > Edition.Current.MaxShipsCount)
             {
                 result = false;
-                Messages.ShowError("Maximum number of pilots is required: " + Edition.Instance.MaxShipsCount);
+                Messages.ShowError("Maximum number of pilots is required: " + Edition.Current.MaxShipsCount);
             }
             return result;
         }
@@ -576,9 +576,9 @@ namespace SquadBuilderNS
 
             if (!DebugManager.DebugNoSquadPointsLimit)
             {
-                if (GetSquadCost(playerNo) > Edition.Instance.MaxPoints)
+                if (GetSquadCost(playerNo) > Edition.Current.MaxPoints)
                 {
-                    Messages.ShowError("Cost of squadron cannot be more than " + Edition.Instance.MaxPoints);
+                    Messages.ShowError("Cost of squadron cannot be more than " + Edition.Current.MaxPoints);
                     result = false;
                 }
             }
@@ -754,8 +754,7 @@ namespace SquadBuilderNS
 
                         PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
                         GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
-                        Edition.Instance.AdaptShipToRules(newShipInstance);
-                        Edition.Instance.AdaptPilotToRules(newShipInstance);
+                        Edition.Current.AdaptShipToRules(newShipInstance);
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
 
                         List<string> upgradesThatCannotBeInstalled = new List<string>();
@@ -1127,7 +1126,7 @@ namespace SquadBuilderNS
 
         private static void DeleteSavedSquadAndRefresh(string fileName)
         {
-            if (Edition.Instance.IsSquadBuilderLocked)
+            if (Edition.Current.IsSquadBuilderLocked)
             {
                 Messages.ShowError("This part of squad builder is disabled");
                 return;

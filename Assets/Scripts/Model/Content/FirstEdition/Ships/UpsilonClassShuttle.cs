@@ -79,7 +79,7 @@ namespace Ship
 
                 // ManeuversImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fe/d9/fed9939b-8331-462b-a3b8-d8359d1342bd/swx75_a3_dial.png";
 
-                /* HotacManeuverTable = new AI.TIEFighterTable(); */
+                HotacManeuverTable = new AI.UpsilonShuttleTable();
             }
         }
     }

@@ -236,7 +236,7 @@ namespace Upgrade
 
         private void ActivateAbility()
         {
-            Edition.Instance.ActivateGenericUpgradeAbility(this);
+            Edition.Current.ActivateGenericUpgradeAbility(this);
             foreach (var ability in UpgradeAbilities)
             {
                 ability.ActivateAbility();
@@ -352,11 +352,6 @@ namespace Upgrade
 
                 Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
             }
-        }
-
-        public void SetChargesToMax()
-        {
-            Charges = MaxCharges;
         }
     }
 

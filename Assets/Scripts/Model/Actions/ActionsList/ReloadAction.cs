@@ -21,7 +21,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Edition.Instance.ReloadAction();
+            Edition.Current.ReloadAction();
         }
 
         public static void FlipFaceupRecursive()

@@ -13,7 +13,7 @@ namespace RuleSets
 {
     public abstract class Edition
     {
-        public static Edition Instance { get; set; }
+        public static Edition Current { get; set; }
 
         public abstract string Name { get; }
         public abstract int MaxPoints { get; }
@@ -44,7 +44,7 @@ namespace RuleSets
 
         public Edition()
         {
-            Instance = this;
+            Current = this;
         }
 
         public abstract void EvadeDiceModification(DiceRoll diceRoll);

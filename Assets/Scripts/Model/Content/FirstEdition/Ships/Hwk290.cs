@@ -72,7 +72,7 @@ namespace Ship.FirstEdition.Hwk290
 
             // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
 
-            /* HotacManeuverTable = new AI.XWingTable(); */
+            HotacManeuverTable = new AI.HWK290Table();
         }
     }
 }

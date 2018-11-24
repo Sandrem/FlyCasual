@@ -71,7 +71,7 @@ namespace Ship.FirstEdition.VT49Decimator
 
             // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c5/MR_U-WING.png";
 
-            /* HotacManeuverTable = new AI.XWingTable(); */
+            HotacManeuverTable = new AI.VT49DecimatorTable();
         }
     }
 }

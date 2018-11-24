@@ -17,7 +17,7 @@ public static class ImageManager
 
     static public WWW GetImage(string url)
     {
-        string filePath = Application.persistentDataPath + "/" + Edition.Instance.Name + "/ImageCache";
+        string filePath = Application.persistentDataPath + "/" + Edition.Current.Name + "/ImageCache";
         if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
         filePath += "/" + url.GetHashCode() + ".png";
         bool web = false;

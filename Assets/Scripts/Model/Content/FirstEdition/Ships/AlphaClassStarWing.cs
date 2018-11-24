@@ -75,7 +75,7 @@ namespace Ship
 
                 // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/8e/MI_TIE-INTERCEPTOR.png";
 
-                /* HotacManeuverTable = new AI.TIEFighterTable(); */
+                HotacManeuverTable = new AI.AlphaClassStarWingTable();
             }
         }
     }

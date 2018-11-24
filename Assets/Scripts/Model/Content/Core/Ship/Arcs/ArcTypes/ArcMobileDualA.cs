@@ -148,7 +148,7 @@ namespace Arcs
                     (Host.ArcsInfo.Arcs.Find(a => a is ArcMobileDualB) as ArcMobileDualB).RotateArc(ArcFacing.Right);
                     break;
             }
-            RuleSets.Edition.Instance.RotateMobileFiringArc(facing);
+            RuleSets.Edition.Current.RotateMobileFiringArc(facing);
         }
 
         public void ShowMobileArcPointer()

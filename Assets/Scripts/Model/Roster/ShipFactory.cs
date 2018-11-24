@@ -60,7 +60,7 @@ public static class ShipFactory {
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;
         newShipContainer.AfterStatsAreChanged += Roster.UpdateShipStats;
 
-        Edition.Instance.SubScribeToGenericShipEvents(newShipContainer);
+        Edition.Current.SubScribeToGenericShipEvents(newShipContainer);
 
         return newShipContainer;
 	}

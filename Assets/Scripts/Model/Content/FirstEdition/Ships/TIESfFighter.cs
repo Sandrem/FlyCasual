@@ -85,7 +85,7 @@ namespace Ship
 
                 // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
 
-                /* HotacManeuverTable = new AI.TIEFighterTable(); */
+                HotacManeuverTable = new AI.TIESFTable();
             }
         }
     }

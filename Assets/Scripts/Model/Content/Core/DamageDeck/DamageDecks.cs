@@ -61,7 +61,7 @@ public class DamageDeck
     {
         Deck = new List<GenericDamageCard>();
 
-        foreach (var cardInfo in Edition.Instance.DamageDeckContent)
+        foreach (var cardInfo in Edition.Current.DamageDeckContent)
         {
             for (int i = 0; i < cardInfo.Value; i++)
             {

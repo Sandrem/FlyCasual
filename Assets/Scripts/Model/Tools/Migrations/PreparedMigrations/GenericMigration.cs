@@ -31,10 +31,9 @@ namespace Migrations
 
             foreach (var pilot in PilotsToDeleteFromImageCache)
             {
-                Edition.Instance = (Edition) Activator.CreateInstance(pilot.RuleType);
+                Edition.Current = (Edition) Activator.CreateInstance(pilot.RuleType);
 
                 GenericShip ship = (GenericShip)Activator.CreateInstance(pilot.CardType);
-                if (pilot.RuleType == typeof(SecondEdition)) (ship as ISecondEditionPilot).AdaptPilotToSecondEdition();
 
                 ImageManager.DeleteCachedImage(ship.ImageUrl, pilot.RuleType);
                 Console.Write(ship.PilotInfo.PilotName + "'s image is deleted from image cache");

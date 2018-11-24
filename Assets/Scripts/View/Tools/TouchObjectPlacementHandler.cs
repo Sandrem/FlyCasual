@@ -3,17 +3,18 @@ using Obstacles;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-//TODO: better package for this?
 /// <summary>
-/// Given an object, handles touch inputs to 
+/// Given an object, handles touch inputs to move and rotate it, and outputs
+/// the changes that should be made to the object's location and rotation to
+/// match the touch inputs.
 /// </summary>
-public class TouchObjectPlacementHandler //TODO: move more code in to this class?
+public class TouchObjectPlacementHandler
 {
 
     private GenericObstacle ChosenObstacle = null;
     private Ship.GenericShip ChosenShip = null;
 
-    bool touchDownLastUpdate = false; // TODO: cleaner?
+    bool touchDownLastUpdate = false;
     private bool draggingObjectLastUpdate = false;
     private Vector2 lastRotationVector = Vector2.zero;
 

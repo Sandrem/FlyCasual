@@ -13,11 +13,13 @@ namespace Upgrade
         public bool IsLimited { get { return Limited != 0; } }
         public List<Type> AbilityTypes { get; private set; }
         public Faction RestrictionFaction { get; private set; }
+        public Type RestrictionShip { get; private set; }
+        public BaseSize RestrictionSize { get; private set; }
         public int Charges { get; private set; }
         public bool RegensCharges { get; private set; }
         public int SEImageNumber { get; private set; }
 
-        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, Type abilityType = null, Faction restrictionFaction = Faction.None, BaseSize restrictionSize = BaseSize.None, int charges = 0, bool regensCharges = false, int seImageNumber = 0)
+        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, Type abilityType = null, Faction restrictionFaction = Faction.None, BaseSize restrictionSize = BaseSize.None, int charges = 0, bool regensCharges = false, int seImageNumber = 0, Type restrictionShip = null)
         {
             Name = name;
             UpgradeTypes = new List<UpgradeType>() { upgradeType };
@@ -25,6 +27,8 @@ namespace Upgrade
             Limited = (isLimited) ? 1 : 0;
             AbilityTypes = new List<Type>() { abilityType };
             RestrictionFaction = restrictionFaction;
+            RestrictionShip = restrictionShip;
+            RestrictionSize = restrictionSize;
             Charges = charges;
             RegensCharges = regensCharges;
             SEImageNumber = seImageNumber;

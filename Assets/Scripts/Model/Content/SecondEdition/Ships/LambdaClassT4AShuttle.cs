@@ -24,6 +24,8 @@ namespace Ship
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(JamAction), ActionColor.Red));
 
                 IconicPilots[Faction.Imperial] = typeof(CaptainKagi);
+
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/d4/Maneuver_lambda_shuttle.png";
             }
         }
     }

@@ -10,6 +10,8 @@
                 ShipInfo.Shields = 2;
 
                 IconicPilots[Faction.Scum] = typeof(ShadowportHunter);
+
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/5/5b/Maneuver_lancer.png";
             }
         }
     }

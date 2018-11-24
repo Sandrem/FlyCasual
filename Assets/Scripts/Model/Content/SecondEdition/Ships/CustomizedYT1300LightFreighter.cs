@@ -38,9 +38,9 @@ namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
             DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Normal);
             DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);
 
-            // ManeuversImageUrl
-
             HotacManeuverTable = new AI.YT1300Table();
+
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/06/Maneuver_customized_yt1300.png";
         }
     }
 }

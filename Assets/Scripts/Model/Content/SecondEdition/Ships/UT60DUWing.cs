@@ -22,9 +22,7 @@ namespace Ship.SecondEdition.UT60DUWing
 
             IconicPilots[Faction.Rebel] = typeof(BlueSquadronScout);
 
-            // ManeuversImageUrl
-
-            /* HotacManeuverTable = new AI.XWingTable(); */
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/61/Maneuver_u-wing.png";
         }
     }
 }

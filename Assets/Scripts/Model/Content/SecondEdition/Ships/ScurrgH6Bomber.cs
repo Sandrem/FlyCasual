@@ -35,7 +35,7 @@ namespace Ship
 
                 IconicPilots[Faction.Scum] = typeof(CaptainNym);
 
-                //TODO: ManeuversImageUrl
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/0a/Maneuver_scurrg.png";
             }
         }
     }

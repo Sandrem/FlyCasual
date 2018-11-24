@@ -20,6 +20,8 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
 
                 IconicPilots[Faction.Imperial] = typeof(MajorVynder);
+
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/ce/Maneuver_alpha-class_star_wing.png";
             }
         }
     }

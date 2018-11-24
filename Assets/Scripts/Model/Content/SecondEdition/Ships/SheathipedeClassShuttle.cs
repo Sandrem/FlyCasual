@@ -17,7 +17,7 @@ namespace Ship
 
                 IconicPilots[Faction.Rebel] = typeof(FennRau);
 
-                //TODO: ManeuversImageUrl
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/03/Maneuver_sheathipede.png";
             }
         }
     }

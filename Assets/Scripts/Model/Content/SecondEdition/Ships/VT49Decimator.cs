@@ -38,9 +38,7 @@ namespace Ship.SecondEdition.VT49Decimator
 
             IconicPilots[Faction.Imperial] = typeof(CaptainOicunn);
 
-            // ManeuversImageUrl
-
-            /* HotacManeuverTable = new AI.XWingTable(); */
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/9/9e/Maneuver_vt-49_decimator.png";
         }
     }
 }

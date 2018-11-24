@@ -16,7 +16,7 @@ namespace Ship
 
                 IconicPilots[Faction.Rebel] = typeof(HeraSyndulla);
 
-                //TODO: ManeuversImageUrl
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/46/Maneuver_attack_shuttle.png";
             }
         }
     }

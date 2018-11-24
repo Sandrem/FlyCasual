@@ -30,7 +30,7 @@ namespace Ship
                 IconicPilots[Faction.Rebel] = typeof(NorraWexley);
                 IconicPilots[Faction.Scum] = typeof(DreaRenthal);
 
-                //TODO: ManeuversImageUrl
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/18/Maneuver_y-wing.png";
             }
         }
     }

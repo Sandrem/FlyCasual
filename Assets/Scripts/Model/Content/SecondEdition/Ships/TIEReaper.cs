@@ -28,6 +28,8 @@ namespace Ship
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);
 
                 IconicPilots[Faction.Imperial] = typeof(ScarifBasePilot);
+
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/ce/Maneuver_tie_reaper.png";
             }
         }
     }

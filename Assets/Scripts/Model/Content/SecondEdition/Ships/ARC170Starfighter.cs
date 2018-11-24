@@ -22,7 +22,7 @@ namespace Ship
 
                 IconicPilots[Faction.Rebel] = typeof(NorraWexley);
 
-                //TODO: ManeuversImageUrl
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/f/f5/Maneuver_arc-170.png";
             }
         }
     }

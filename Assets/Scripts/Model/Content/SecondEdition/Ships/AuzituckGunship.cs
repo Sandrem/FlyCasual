@@ -21,7 +21,7 @@ namespace Ship
 
                 IconicPilots[Faction.Rebel] = typeof(Lowhhrick);
 
-                //TODO: ManeuversImageUrl
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/db/Maneuver_auzituck.png";
             }
         }
     }

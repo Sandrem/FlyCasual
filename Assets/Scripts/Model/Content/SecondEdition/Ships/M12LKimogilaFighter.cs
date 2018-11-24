@@ -33,6 +33,8 @@ namespace Ship
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn), MovementComplexity.Normal);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.DeadToRights());
+
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/3e/Maneuver_kimogila.png";
             }
         }
     }

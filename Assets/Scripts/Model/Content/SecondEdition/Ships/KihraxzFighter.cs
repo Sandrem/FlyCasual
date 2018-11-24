@@ -27,7 +27,7 @@ namespace Ship
 
                 IconicPilots[Faction.Scum] = typeof(TalonbaneCobra);
 
-                //TODO: ManeuversImageUrl
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/7/73/Maneuver_kihraxz.png";
             }
         }
     }

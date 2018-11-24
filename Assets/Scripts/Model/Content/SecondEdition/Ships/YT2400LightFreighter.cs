@@ -28,9 +28,7 @@ namespace Ship.SecondEdition.YT2400LightFreighter
 
             IconicPilots[Faction.Rebel] = typeof(DashRendar);
 
-            // ManeuversImageUrl
-
-            /* HotacManeuverTable = new AI.XWingTable(); */
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/11/Maneuver_yt-2400.png";
         }
     }
 }

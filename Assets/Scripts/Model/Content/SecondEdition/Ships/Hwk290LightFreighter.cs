@@ -38,7 +38,7 @@ namespace Ship
                 IconicPilots[Faction.Rebel] = typeof(RebelScout);
                 IconicPilots[Faction.Scum] = typeof(PalobGodalhi);
 
-                //TODO: ManeuversImageUrl
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/8/8a/Maneuver_hwk-290.png";
             }
         }
     }

@@ -32,6 +32,8 @@ namespace Ship
                 };
 
                 ShipAbilities.Add(new Abilities.SecondEdition.SpacetugAbility());
+
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/64/Maneuver_quadrijet.png";
             }
         }
     }

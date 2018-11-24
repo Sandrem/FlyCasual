@@ -16,6 +16,8 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(EvadeAction)));
                 IconicPilots[Faction.Imperial] = typeof(LieutenantKestal);
+
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/4d/Maneuver_tie_aggressor.png";
             }
         }
     }

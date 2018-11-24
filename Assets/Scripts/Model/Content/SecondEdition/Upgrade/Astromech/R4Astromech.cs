@@ -14,10 +14,9 @@ namespace UpgradesList.SecondEdition
                 cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.R4AstromechAbility),
                 restrictionFaction: Faction.Rebel,
-                restrictionSize: BaseSize.Small
+                restrictionSize: BaseSize.Small,
+                seImageNumber: 55
             );
-
-            SEImageNumber = 55;
         }
     }
 }

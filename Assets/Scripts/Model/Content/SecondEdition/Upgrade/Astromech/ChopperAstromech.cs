@@ -18,10 +18,9 @@ namespace UpgradesList.SecondEdition
                 cost: 2,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.ChopperAstromechAbility),
-                restrictionFaction: Faction.Rebel
+                restrictionFaction: Faction.Rebel,
+                seImageNumber: 99
             );
-
-            SEImageNumber = 99;
         }
     }
 }

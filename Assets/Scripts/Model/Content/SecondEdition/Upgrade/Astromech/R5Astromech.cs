@@ -15,10 +15,9 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Astromech,
                 cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.R5AstromechAbility),
-                charges: 2
+                charges: 2,
+                seImageNumber: 56
             );
-
-            SEImageNumber = 56;
         }
     }
 }

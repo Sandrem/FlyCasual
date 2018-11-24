@@ -6,6 +6,7 @@ using Abilities;
 using System;
 using RuleSets;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -48,7 +49,7 @@ namespace Ship
         public BaseArcsType ShipBaseArcsType { get; set; }
         public ArcsHolder ArcsInfo { get; protected set; }
 
-        public Upgrade.ShipUpgradeBar UpgradeBar { get; protected set; }
+        public ShipUpgradeBar UpgradeBar { get; protected set; }
         public ShipActionBar ActionBar { get; protected set; }
 
         public TokensManager Tokens { get; protected set; }
@@ -85,7 +86,7 @@ namespace Ship
             IconicPilots = new Dictionary<Faction, Type>();
             RequiredMods = new List<Type>();
             Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
-            UpgradeBar = new Upgrade.ShipUpgradeBar(this);
+            UpgradeBar = new ShipUpgradeBar(this);
             Tokens = new TokensManager(this);
             ActionBar = new ShipActionBar(this);
 

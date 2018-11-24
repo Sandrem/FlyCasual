@@ -26,8 +26,8 @@ public class CameraScript : MonoBehaviour {
     private const float MIN_ROTATION = 0f;
 
     // Constants for touch controls
-    private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
-    private const float SENSITIVITY_TOUCH_MOVE_ZOOMED_IN = SENSITIVITY_TOUCH_MOVE / 7;
+    private const float SENSITIVITY_TOUCH_MOVE = 0.010f;
+    private const float SENSITIVITY_TOUCH_MOVE_ZOOMED_IN = SENSITIVITY_TOUCH_MOVE / 15f;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
     private const float SENSITIVITY_TOUCH_ZOOM = 0.0375f;
     //TODO: need to scale any of the thresholds by DPI? (zoom may already account for that, but the rest?)
@@ -289,7 +289,6 @@ public class CameraScript : MonoBehaviour {
             // Try to pinch zoom if we pass a start threshold
             if (Mathf.Abs(initialPinchMagnitude - touchDeltaMag) > startThreshold)
             {
-                if (Console.IsActive) Console.Write("Zoom:" + Mathf.Abs(initialPinchMagnitude - touchDeltaMag), LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
                 // Find the difference in the distances between each frame.
                 float deltaMagnitudeDiff = lastProcessedPinchMagnitude - touchDeltaMag;
 
@@ -300,7 +299,6 @@ public class CameraScript : MonoBehaviour {
 
                 if (Mathf.Abs(deltaMagnitudeDiff) > THRESHOLD_TOUCH_ZOOM)
                 {
-                    if (Console.IsActive) Console.Write("Zoom2:" + deltaMagnitudeDiff, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
                     float zoom = deltaMagnitudeDiff * -SENSITIVITY_TOUCH_ZOOM;
                     ZoomByFactor(zoom);
 
@@ -415,11 +413,33 @@ public class CameraScript : MonoBehaviour {
 
                     // Adjust sensitivity based on zoom level so the view always moves with your finger
                     // That means the view moves more when zoomed out than when zoomed in for the same physical movement
-                    // TODO: could be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vector between them? This is probably faster though
-                    float sensitivity = Mathf.Max(SENSITIVITY_TOUCH_MOVE,
-                                                  Mathf.Lerp(SENSITIVITY_TOUCH_MOVE_ZOOMED_IN,
-                                                             SENSITIVITY_TOUCH_MOVE,
-                                                             (transform.position.y - MIN_HEIGHT) / (MAX_HEIGHT - MIN_HEIGHT)));
+                    // TODO: could be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vector between them? Would probably require an invisible plane just to use for this raycast though
+                    float sensitivity = SENSITIVITY_TOUCH_MOVE;
+                    float zoomPercent = 1;
+                    if (cameraMode == CameraModes.Free) {
+                        // +1 to numerator and denominator so it never goes to 0. +1 again to denominator to make Free / TopDown match more 
+                        // (since TopDown doesn't go all the way to it's theoretical max zoom out for some reason)
+                        zoomPercent = (transform.position.y - MIN_HEIGHT + 1) / (MAX_HEIGHT - MIN_HEIGHT + 1 + 1);
+                        //sensitivity = Mathf.Min(SENSITIVITY_TOUCH_MOVE,
+                                                 //Mathf.Lerp(SENSITIVITY_TOUCH_MOVE_ZOOMED_IN,
+                                                            //SENSITIVITY_TOUCH_MOVE,
+                                                            //zoomPercent));
+                       
+                    }
+                    else if (cameraMode == CameraModes.TopDown) {
+                        // +1 to numerator and denominator so it never goes to 0
+                        zoomPercent = (Camera.GetComponent<Camera>().orthographicSize - 1 + 1) / (6 + 1);
+                        //sensitivity = Mathf.Min(SENSITIVITY_TOUCH_MOVE,
+                                                 //Mathf.Lerp(0.010f/15f,
+                                                            //0.010f, //TODO: new constants??
+                                                            //zoomPercent));
+                    }
+                    sensitivity = Mathf.Min(SENSITIVITY_TOUCH_MOVE,
+                                                Mathf.Lerp(SENSITIVITY_TOUCH_MOVE_ZOOMED_IN,
+                                                           SENSITIVITY_TOUCH_MOVE,
+                                                           zoomPercent));
+                    if (Console.IsActive) Console.Write("Zoomlevel:" + zoomPercent, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
+                    if (Console.IsActive) Console.Write("sensitivity:" + sensitivity, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
                     deltaPosition = deltaPosition * -sensitivity;
 
                     // Add momentum

@@ -2,6 +2,7 @@
 using SubPhases;
 using System;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,12 +17,10 @@ namespace Ship
                     3,
                     46,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.ColonelJendonAbility)
+                    abilityType: typeof(Abilities.SecondEdition.ColonelJendonAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 143
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 143;
             }
         }
     }

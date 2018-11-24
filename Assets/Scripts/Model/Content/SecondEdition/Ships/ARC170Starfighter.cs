@@ -18,7 +18,7 @@ namespace Ship
                 ShipInfo.BaseSize = BaseSize.Medium;
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
 
                 IconicPilots[Faction.Rebel] = typeof(NorraWexley);
 

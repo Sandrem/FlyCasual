@@ -13,10 +13,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Rebel Scout",
                     2,
-                    32
+                    32,
+                    seImageNumber: 45
                 );
-
-                SEImageNumber = 45;
             }
         }
     }

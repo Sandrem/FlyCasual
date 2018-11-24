@@ -15,14 +15,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cavern Angels Zealot",
                     1,
-                    41
+                    41,
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    seImageNumber: 12
                 );
 
                 ModelInfo.SkinName = "Partisan";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                SEImageNumber = 12;
             }
         }
     }

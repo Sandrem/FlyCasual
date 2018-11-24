@@ -17,12 +17,10 @@ namespace Ship
                     2,
                     33,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.DoubleEdgeAbility)
+                    abilityType: typeof(Abilities.SecondEdition.DoubleEdgeAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 128
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 128;
             }
         }
     }

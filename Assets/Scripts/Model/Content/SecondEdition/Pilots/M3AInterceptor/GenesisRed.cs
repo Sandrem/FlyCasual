@@ -17,12 +17,10 @@ namespace Ship
                     4,
                     35,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.GenesisRedAbility)
+                    abilityType: typeof(Abilities.SecondEdition.GenesisRedAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 184
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 184;
             }
         }
     }

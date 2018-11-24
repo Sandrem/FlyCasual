@@ -13,12 +13,9 @@ namespace Ship
                     1,
                     31,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.SunnyBounderAbility)
+                    abilityType: typeof(Abilities.SecondEdition.SunnyBounderAbility),
+                    seImageNumber: 188
                 );
-
-                ModelInfo.SkinName = "Sunny Bounder";
-
-                SEImageNumber = 188;
             }
         }
     }

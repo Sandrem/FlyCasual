@@ -2,6 +2,7 @@
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,14 +17,12 @@ namespace Ship
                     5,
                     74,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.CorranHornAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CorranHornAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 50
                 );
 
                 ModelInfo.SkinName = "Green";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 50;
             }
         }
     }

@@ -23,12 +23,10 @@ namespace Ship
                     4,
                     42,
                     limited: 1,
-                    abilityType: typeof(DutchVanderAbility)
+                    abilityType: typeof(DutchVanderAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 14
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 14;
             }
         }
     }

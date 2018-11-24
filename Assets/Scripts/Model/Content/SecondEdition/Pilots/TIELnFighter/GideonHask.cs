@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Abilities.FirstEdition;
 using BoardTools;
 using Arcs;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,12 +18,10 @@ namespace Ship
                     4,
                     30,
                     limited: 1,
-                    abilityType: typeof(ScourgeAbility)
+                    abilityType: typeof(ScourgeAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 84
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 84;
             }
         }
     }

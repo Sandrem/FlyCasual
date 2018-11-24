@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Ship;
 using ActionsList.SecondEdition;
 using System;
 using SubPhases;
-using RuleSets;
+using Upgrade;
 
 namespace Ship
 {
@@ -20,11 +19,10 @@ namespace Ship
                     5,
                     48,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.ThaneKyrellAbilitySE)
+                    abilityType: typeof(Abilities.SecondEdition.ThaneKyrellAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 3
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
                 SEImageNumber = 3;
             }
         }
@@ -32,7 +30,7 @@ namespace Ship
 }
 namespace Abilities.SecondEdition
 {
-    public class ThaneKyrellAbilitySE : GenericAbility
+    public class ThaneKyrellAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

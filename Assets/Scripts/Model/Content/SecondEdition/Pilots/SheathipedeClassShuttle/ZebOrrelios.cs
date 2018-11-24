@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,12 +15,10 @@ namespace Ship
                     2,
                     32,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 40
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 40;
             }
         }
     }

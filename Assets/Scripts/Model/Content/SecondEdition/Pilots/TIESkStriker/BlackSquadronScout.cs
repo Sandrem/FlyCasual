@@ -11,12 +11,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Black Squadron Scout",
                     3,
-                    38
+                    38,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 120
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 120;
             }
         }
     }

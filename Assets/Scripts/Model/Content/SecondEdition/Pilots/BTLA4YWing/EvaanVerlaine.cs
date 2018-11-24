@@ -20,12 +20,10 @@ namespace Ship
                     3,
                     36,
                     limited: 1,
-                    abilityType: typeof(EvaanVerlaineAbility)
+                    abilityType: typeof(EvaanVerlaineAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 16
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 16;
             }
         }
     }

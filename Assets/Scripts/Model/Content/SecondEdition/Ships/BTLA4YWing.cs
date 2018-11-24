@@ -17,11 +17,10 @@ namespace Ship
                 ShipInfo.Hull = 6;
                 ShipInfo.Shields = 2;
 
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(ReloadAction), ActionColor.Red));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction), ActionColor.Red));
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
-
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Bomb);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 

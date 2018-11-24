@@ -15,14 +15,12 @@ namespace Ship
                     72,
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.MoraloEvalAbility),
-                    charges: 2
+                    charges: 2,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 211
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Crimson";
-
-                SEImageNumber = 211;
             }
         }
     }

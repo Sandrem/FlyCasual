@@ -11,12 +11,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Gamma Squadron Ace",
                     3,
-                    30
+                    30,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 111
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 111;
             }
         }
     }

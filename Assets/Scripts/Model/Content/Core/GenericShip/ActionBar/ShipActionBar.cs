@@ -12,18 +12,39 @@ namespace Ship
     public class ShipActionsInfo
     {
         public List<ActionInfo> Actions { get; private set; }
-        public List<ActionInfo> LinkedActions { get; private set; }
+        public List<LinkedActionInfo> LinkedActions { get; private set; }
 
         public ShipActionsInfo(params ActionInfo[] actions)
         {
-            Actions = actions.Where(a => a.ActionLinkedType == null).ToList();
-            LinkedActions = actions.Where(a => a.ActionLinkedType != null).ToList();
+            Actions = actions.ToList();
         }
 
         public void AddActions(params ActionInfo[] actions)
         {
-            Actions.AddRange(actions.Where(a => a.ActionLinkedType == null).ToList());
-            LinkedActions.AddRange(actions.Where(a => a.ActionLinkedType != null).ToList());
+            Actions.AddRange(actions.ToList());
+        }
+
+        public void RemoveActions(params Type[] actionTypes)
+        {
+            Actions.RemoveAll(a => actionTypes.Contains(a.ActionType));
+        }
+
+        public void AddLinkedAction(params LinkedActionInfo[] linkedActions)
+        {
+            LinkedActions.AddRange(linkedActions.ToList());
+        }
+
+        public void RemoveLinkedAction(Type actionType, Type linkedActionType)
+        {
+            LinkedActions.RemoveAll(a => a.ActionType == actionType && a.ActionLinkedType == linkedActionType);
+        }
+
+        public void SwitchToDroidActions()
+        {
+            RemoveActions(typeof(FocusAction));
+            AddActions(new ActionInfo(typeof(CalculateAction)));
+
+            // TODO: Fix links too
         }
     }
 
@@ -78,7 +99,7 @@ namespace Ship
                 AddPrintedAction(action);
             }
 
-            foreach (ActionInfo linkedActionInfo in Host.ShipInfo.ActionIcons.LinkedActions)
+            foreach (LinkedActionInfo linkedActionInfo in Host.ShipInfo.ActionIcons.LinkedActions)
             {
                 GenericAction linkedAction = (GenericAction)Activator.CreateInstance(linkedActionInfo.ActionLinkedType);
                 linkedAction.Host = Host;

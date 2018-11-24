@@ -13,14 +13,11 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Spice Runner",
                     1,
-                    32
+                    32,
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 177
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
-
-                SEImageNumber = 177;
             }
         }
     }

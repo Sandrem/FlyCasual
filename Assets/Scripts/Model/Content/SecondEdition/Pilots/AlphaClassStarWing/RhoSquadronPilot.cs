@@ -11,12 +11,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Rho Squadron Pilot",
                     3,
-                    37
+                    37,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 137
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 137;
             }
         }
     }

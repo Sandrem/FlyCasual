@@ -11,7 +11,7 @@ namespace Ship
         {
             public SheathipedeClassShuttle() : base()
             {
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(TargetLockAction));
+                ShipInfo.ActionIcons.RemoveActions(typeof(TargetLockAction));
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Reverse), MovementComplexity.Complex);
 

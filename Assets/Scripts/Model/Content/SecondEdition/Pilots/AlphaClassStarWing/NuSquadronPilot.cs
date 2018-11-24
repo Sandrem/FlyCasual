@@ -9,10 +9,9 @@
                 PilotInfo = new PilotCardInfo(
                     "Nu Squadron Pilot",
                     2,
-                    35
+                    35,
+                    seImageNumber: 138
                 );
-
-                SEImageNumber = 138;
             }
         }
     }

@@ -19,8 +19,8 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(EvadeAction)));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction), typeof(FocusAction)));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), typeof(FocusAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)));
 
                 IconicPilots[Faction.Imperial] = typeof(GrandInquisitor);
 

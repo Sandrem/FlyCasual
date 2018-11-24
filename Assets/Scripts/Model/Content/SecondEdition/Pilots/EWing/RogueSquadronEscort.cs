@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,12 +14,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Rogue Squadron Escort",
                     4,
-                    63
+                    63,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 52
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 52;
             }
         }
     }

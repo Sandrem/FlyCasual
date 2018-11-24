@@ -11,10 +11,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Academy Pilot",
                     1,
-                    23
+                    23,
+                    seImageNumber: 92
                 );
-
-                SEImageNumber = 92;
             }
         }
     }

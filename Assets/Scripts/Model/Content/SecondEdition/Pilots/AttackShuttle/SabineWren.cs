@@ -17,12 +17,10 @@ namespace Ship
                     38,
                     limited: 1,
                     abilityType: typeof(Abilities.FirstEdition.SabineWrenPilotAbility),
-                    force: 1
+                    force: 1,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 35
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 35;
             }
         }
     }

@@ -18,12 +18,10 @@ namespace Ship
                     5,
                     88,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.RearAdmiralCharaneauAbility)
+                    abilityType: typeof(Abilities.SecondEdition.RearAdmiralCharaneauAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 147
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 147;
             }
         }
     }

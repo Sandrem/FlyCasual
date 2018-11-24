@@ -1,4 +1,5 @@
 ﻿using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,12 +14,10 @@ namespace Ship
                     5,
                     84,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.RexlerBrathAbility)
+                    abilityType: typeof(Abilities.SecondEdition.RexlerBrathAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 122
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 122;
             }
         }
     }

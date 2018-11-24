@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.TIEAdvancedX1
     {
@@ -11,12 +13,10 @@
                     5,
                     50,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.MaarekSteleAbility)
+                    abilityType: typeof(Abilities.FirstEdition.MaarekSteleAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 94
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 94;
             }
         }
     }

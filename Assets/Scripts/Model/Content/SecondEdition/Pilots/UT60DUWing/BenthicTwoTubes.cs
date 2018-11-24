@@ -13,14 +13,12 @@ namespace Ship
                     2,
                     47,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.BenthicTwoTubesAbility)
+                    abilityType: typeof(Abilities.FirstEdition.BenthicTwoTubesAbility),
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    seImageNumber: 58
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
                 ModelInfo.SkinName = "Partisan";
-
-                SEImageNumber = 58;
             }
         }
     }

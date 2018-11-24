@@ -22,15 +22,11 @@ namespace Ship
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.DaceBonearmAbility),
                     charges: 3,
-                    regensCharges: true
+                    regensCharges: true,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 174
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                ShipInfo.Faction = Faction.Scum;
-
-                SEImageNumber = 174;
             }
         }
     }

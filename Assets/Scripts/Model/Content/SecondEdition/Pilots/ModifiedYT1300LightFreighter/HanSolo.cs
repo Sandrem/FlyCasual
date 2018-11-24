@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,12 +19,10 @@ namespace Ship
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloRebelPilotAbility),
                     charges: 1,
-                    regensCharges: true
+                    regensCharges: true,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 69
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 69;
             }
         }
     }

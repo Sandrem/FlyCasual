@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Mods.ModsList;
+using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,14 +16,12 @@ namespace Ship
                     5,
                     42,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
+                
+                RequiredMods = new List<System.Type>() { typeof(FirstEditionPilotsMod) };
                 ImageUrl = "https://i.imgur.com/lzgv9da.png";
-
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.FirstEditionPilotsMod) };
             }
         }
     }

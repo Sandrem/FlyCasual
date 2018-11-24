@@ -15,12 +15,10 @@ namespace Ship
                     41,
                     limited: 1,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
-                    force: 1
+                    force: 1,
+                    extraUpgradeIcon: UpgradeType.Force,
+                    seImageNumber: 36
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Force);
-
-                SEImageNumber = 36;
             }
         }
     }

@@ -19,8 +19,8 @@ namespace Ship
                 ShipInfo.BaseSize = BaseSize.Medium;
                 ShipInfo.Hull = 7;
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(BarrelRollAction));
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
+                ShipInfo.ActionIcons.RemoveActions(typeof(BarrelRollAction));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.SalvagedAstromech);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Astromech);

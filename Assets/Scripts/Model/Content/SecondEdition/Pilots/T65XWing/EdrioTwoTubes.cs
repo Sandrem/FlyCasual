@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Abilities.FirstEdition;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,14 +16,12 @@ namespace Ship
                     2,
                     45,
                     limited: 1,
-                    abilityType: typeof(EdrioTwoTubesAbility)
+                    abilityType: typeof(EdrioTwoTubesAbility),
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    seImageNumber: 9
                 );
 
                 ModelInfo.SkinName = "Partisan";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Illicit);
-
-                SEImageNumber = 9;
             }
         }
     }

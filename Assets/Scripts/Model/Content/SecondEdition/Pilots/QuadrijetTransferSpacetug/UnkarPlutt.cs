@@ -13,10 +13,9 @@ namespace Ship
                     2,
                     30,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.UnkarPluttAbility)
+                    abilityType: typeof(Abilities.SecondEdition.UnkarPluttAbility),
+                    seImageNumber: 163
                 );
-
-                SEImageNumber = 163;
             }
         }
     }

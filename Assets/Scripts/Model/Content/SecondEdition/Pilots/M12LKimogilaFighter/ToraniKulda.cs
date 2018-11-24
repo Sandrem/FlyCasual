@@ -15,14 +15,12 @@ namespace Ship
                     4,
                     50,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.ToraniKuldaAbility)
+                    abilityType: typeof(Abilities.SecondEdition.ToraniKuldaAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 207
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Cartel Executioner";
-
-                SEImageNumber = 207;
             }
         }
     }

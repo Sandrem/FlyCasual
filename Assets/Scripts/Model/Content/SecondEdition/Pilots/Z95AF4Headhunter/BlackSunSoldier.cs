@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -11,15 +12,11 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Black Sun Soldier",
                     3,
-                    27
+                    27,
+                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Elite, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 172
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                ShipInfo.Faction = Faction.Scum;
-
-                SEImageNumber = 172;
             }
         }
     }

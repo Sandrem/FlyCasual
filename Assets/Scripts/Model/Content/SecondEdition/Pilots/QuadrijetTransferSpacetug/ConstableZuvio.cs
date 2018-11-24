@@ -15,12 +15,10 @@ namespace Ship
                     4,
                     33,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.ConstableZuvioAbility)
+                    abilityType: typeof(Abilities.SecondEdition.ConstableZuvioAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 161
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 161;
             }
         }
     }

@@ -15,10 +15,9 @@ namespace Ship
                     2,
                     31,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.SarcoPlankAbility)
+                    abilityType: typeof(Abilities.SecondEdition.SarcoPlankAbility),
+                    seImageNumber: 162
                 );
-
-                SEImageNumber = 162;
             }
         }
     }

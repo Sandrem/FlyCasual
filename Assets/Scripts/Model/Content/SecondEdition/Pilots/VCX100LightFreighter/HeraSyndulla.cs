@@ -13,12 +13,10 @@ namespace Ship
                     5,
                     76,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility)
+                    abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 73
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 73;
             }
         }
     }

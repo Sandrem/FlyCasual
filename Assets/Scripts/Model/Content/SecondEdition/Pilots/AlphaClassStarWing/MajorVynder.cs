@@ -14,12 +14,10 @@ namespace Ship
                     4,
                     41,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.MajorVynderAbility)
+                    abilityType: typeof(Abilities.FirstEdition.MajorVynderAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 135
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 135;
             }
         }
     }

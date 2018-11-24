@@ -17,12 +17,10 @@ namespace Ship
                     48,
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.SeventhSisterAbility),
-                    force: 2
+                    force: 2,
+                    extraUpgradeIcon: UpgradeType.Force,
+                    seImageNumber: 100
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Force);
-
-                SEImageNumber = 100;
             }
         }
     }

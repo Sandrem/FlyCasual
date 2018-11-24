@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -14,15 +15,11 @@ namespace Ship
                     4,
                     31,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility)
+                    abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 169
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                ShipInfo.Faction = Faction.Scum;
-
-                SEImageNumber = 169;
             }
         }
     }

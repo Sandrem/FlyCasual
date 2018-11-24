@@ -2,6 +2,7 @@
 using ActionsList;
 using Ship;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,14 +18,12 @@ namespace Ship
                     70,
                     limited: 1,
                     abilityType: typeof(DarthVaderAbility),
-                    force: 3
+                    force: 3,
+                    extraUpgradeIcon: UpgradeType.Force,
+                    seImageNumber: 93
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Force);
-
                 ModelInfo.SkinName = "Blue";
-
-                SEImageNumber = 93;
             }
         }
     }

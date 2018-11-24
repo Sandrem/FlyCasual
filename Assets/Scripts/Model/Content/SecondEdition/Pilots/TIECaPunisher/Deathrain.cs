@@ -1,4 +1,4 @@
-﻿using ActionsList;
+﻿using Upgrade;
 
 namespace Ship
 {
@@ -13,12 +13,10 @@ namespace Ship
                     4,
                     42,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.DeathrainAbility)
+                    abilityType: typeof(Abilities.SecondEdition.DeathrainAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 140
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 140;
             }
         }
     }

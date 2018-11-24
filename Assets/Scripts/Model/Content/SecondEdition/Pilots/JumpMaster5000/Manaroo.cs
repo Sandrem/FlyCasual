@@ -14,12 +14,10 @@ namespace Ship
                     56,
                     limited: 1,
                     abilityType: typeof(Abilities.FirstEdition.ManarooAbility),
-                    charges: 1
+                    charges: 1,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 215
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 215;
             }
         }
     }

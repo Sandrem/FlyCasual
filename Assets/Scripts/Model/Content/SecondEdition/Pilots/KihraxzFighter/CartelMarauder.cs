@@ -12,10 +12,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cartel Marauder",
                     2,
-                    40
+                    40,
+                    seImageNumber: 196
                 );
-
-                SEImageNumber = 196;
             }
         }
     }

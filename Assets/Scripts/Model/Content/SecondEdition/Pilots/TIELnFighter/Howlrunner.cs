@@ -1,5 +1,6 @@
 ﻿using Abilities.SecondEdition;
 using Ship;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,12 +15,10 @@ namespace Ship
                     5,
                     40,
                     limited: 1,
-                    abilityType: typeof(HowlrunnerAbility)
+                    abilityType: typeof(HowlrunnerAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 81
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 81;
             }
         }
     }

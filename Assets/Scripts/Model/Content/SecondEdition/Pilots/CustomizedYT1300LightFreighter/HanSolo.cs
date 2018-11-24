@@ -16,12 +16,10 @@ namespace Ship
                     6,
                     54,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.HanSoloScumPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.HanSoloScumPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 222
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 222;
             }
         }
     }

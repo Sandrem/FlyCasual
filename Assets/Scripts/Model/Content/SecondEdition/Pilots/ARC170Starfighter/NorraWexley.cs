@@ -16,12 +16,10 @@ namespace Ship
                     5,
                     55,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility)
+                    abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 65
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 65;
             }
         }
     }

@@ -18,12 +18,10 @@ namespace Ship
                     4,
                     49,
                     limited: 1,
-                    abilityType: typeof(MajorVermeilAbility)
+                    abilityType: typeof(MajorVermeilAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 113
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 113;
             }
         }
     }

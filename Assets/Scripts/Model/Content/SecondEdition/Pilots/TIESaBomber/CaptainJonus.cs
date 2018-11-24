@@ -1,6 +1,5 @@
 ﻿using ActionsList;
 using Ship;
-using SubPhases;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -18,12 +17,10 @@ namespace Ship
                     4,
                     36,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.CaptainJonusAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CaptainJonusAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 108
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 108;
             }
         }
     }

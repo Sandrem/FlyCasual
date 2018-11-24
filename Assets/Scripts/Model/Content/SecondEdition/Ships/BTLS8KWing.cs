@@ -18,12 +18,11 @@ namespace Ship
                 ShipInfo.Shields = 3;
                 ShipInfo.BaseSize = BaseSize.Medium;
 
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(RotateArcAction)));
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(ReloadAction)));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction)));
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Turret);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
-
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 

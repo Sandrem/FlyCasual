@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,14 +15,12 @@ namespace Ship
                     3,
                     52,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.LowhhrickAbility)
+                    abilityType: typeof(Abilities.FirstEdition.LowhhrickAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 32
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Lowhhrick";
-
-                SEImageNumber = 32;
             }
         }
     }

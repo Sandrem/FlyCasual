@@ -16,12 +16,10 @@ namespace Ship
                     2,
                     32,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SerissuAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SerissuAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 187
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 187;
             }
         }
     }

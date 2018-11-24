@@ -19,14 +19,12 @@ namespace Ship
                     48,
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.ToraniKuldaAbility),
-                    charges: 2
+                    charges: 2,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 208
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Dalan Oberos";
-
-                SEImageNumber = 208;
             }
         }
     }

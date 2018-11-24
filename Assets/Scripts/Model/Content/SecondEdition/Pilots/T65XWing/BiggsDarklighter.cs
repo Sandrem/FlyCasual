@@ -21,11 +21,9 @@ namespace Ship
                     3,
                     48,
                     limited: 1,
-                    abilityText: "While another friendly ship at range 0-1 defends, before the Neutralize Results step, if you are in the attack arc, you may suffer 1 hit or crit damage to cancel 1 matching result.",
-                    abilityType: typeof(BiggsDarklighterAbility)
+                    abilityType: typeof(BiggsDarklighterAbility),
+                    seImageNumber: 7
                 );
-
-                SEImageNumber = 7;
             }
         }
     }

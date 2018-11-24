@@ -4,6 +4,7 @@ using SubPhases;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,14 +19,12 @@ namespace Ship
                     4,
                     40,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.JakeFarrellAbility)
+                    abilityType: typeof(Abilities.SecondEdition.JakeFarrellAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 19
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Blue";
-
-                SEImageNumber = 19;
             }
         }
     }

@@ -15,12 +15,10 @@ namespace Ship
                     3,
                     49,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.SolSixxaAbility)
+                    abilityType: typeof(Abilities.SecondEdition.SolSixxaAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 205
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 205;
             }
         }
     }

@@ -17,14 +17,12 @@ namespace Ship
                     4,
                     50,
                     limited: 1,
-                    abilityType: typeof(TenNumbAbility)
+                    abilityType: typeof(TenNumbAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 24
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Dark Blue";
-
-                SEImageNumber = 24;
             }
         }
     }

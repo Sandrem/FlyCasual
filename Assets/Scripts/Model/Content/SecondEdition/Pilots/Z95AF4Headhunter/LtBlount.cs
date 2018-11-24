@@ -17,12 +17,10 @@ namespace Ship
                     4,
                     30,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.LtBlountAbiliity)
+                    abilityType: typeof(Abilities.SecondEdition.LtBlountAbiliity),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 28
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 28;
             }
         }
     }

@@ -12,12 +12,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Baron of the Empire",
                     3,
-                    34
+                    34,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 101
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 101;
             }
         }
     }

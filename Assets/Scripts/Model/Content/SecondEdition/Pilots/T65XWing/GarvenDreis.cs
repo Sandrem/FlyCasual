@@ -4,6 +4,7 @@ using Ship;
 using SubPhases;
 using Tokens;
 using Abilities.FirstEdition;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,12 +19,10 @@ namespace Ship
                     4,
                     47,
                     limited: 1,
-                    abilityType: typeof(GarvenDreisAbility)
+                    abilityType: typeof(GarvenDreisAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 4
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 4;
             }
         }
     }

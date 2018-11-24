@@ -1,5 +1,6 @@
 ﻿using Abilities.SecondEdition;
 using System;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,13 +15,10 @@ namespace Ship
                     4,
                     46,
                     limited: 1,
-                    abilityText: "When you receive a stress token, you may remove it and roll 1 attack die. On a hit result, deal 1 facedown Damage card to this ship.",
-                    abilityType: typeof(JekPorkinsAbility)
+                    abilityType: typeof(JekPorkinsAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 5
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 5;
             }
         }
     }

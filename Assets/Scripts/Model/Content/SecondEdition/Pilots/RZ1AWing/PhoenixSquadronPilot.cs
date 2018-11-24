@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -12,14 +13,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Phoenix Squadron Pilot",
                     1,
-                    30
+                    30,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 22
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
+                
                 ModelInfo.SkinName = "Blue";
-
-                SEImageNumber = 22;
             }
         }
     }

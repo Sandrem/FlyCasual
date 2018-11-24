@@ -13,10 +13,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Blue Squadron Escort",
                     2,
-                    41
+                    41,
+                    seImageNumber: 11
                 );
-
-                SEImageNumber = 11;
             }
         }
     }

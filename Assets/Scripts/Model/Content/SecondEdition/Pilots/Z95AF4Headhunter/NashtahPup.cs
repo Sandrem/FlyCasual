@@ -16,16 +16,13 @@ namespace Ship
                     0,
                     6,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility)
+                    abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility),
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 171
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
-
                 ShipAbilities.Add(new Abilities.SecondEdition.EscapeCraftSE());
-
-                SEImageNumber = 171;
             }
 
             public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)

@@ -16,12 +16,10 @@ namespace Ship
                     3,
                     84,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.CaptainOicunnAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CaptainOicunnAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 146
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 146;
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Ship
                 ShipInfo.Hull = 3;
                 ShipInfo.Shields = 1;
 
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BarrelRollAction), typeof(EvadeAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(EvadeAction)));
 
                 IconicPilots[Faction.Rebel] = typeof(HeraSyndulla);
 

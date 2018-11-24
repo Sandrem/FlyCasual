@@ -14,12 +14,10 @@ namespace Ship
                     4,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 226
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 226;
             }
         }
     }

@@ -20,12 +20,10 @@ namespace Ship
                     84,
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.AsajjVentressPilotAbility),
-                    force: 2
+                    force: 2,
+                    extraUpgradeIcon: UpgradeType.Force,
+                    seImageNumber: 219
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Force);
-
-                SEImageNumber = 219;
             }
         }
     }

@@ -15,9 +15,9 @@ namespace Ship
             {
                 ShipInfo.Hull = 3;
 
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BoostAction)));
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BoostAction), typeof(TargetLockAction)));
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(TargetLockAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)));
 
                 SetTargetLockRange(2, int.MaxValue);
 

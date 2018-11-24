@@ -16,15 +16,12 @@ namespace Ship
                     2,
                     22,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.L337Ability)
+                    abilityType: typeof(Abilities.SecondEdition.L337Ability),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 228
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(FocusAction));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CalculateAction)));
-
-                SEImageNumber = 228;
+                ShipInfo.ActionIcons.SwitchToDroidActions();
             }
         }
     }

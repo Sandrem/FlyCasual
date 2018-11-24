@@ -1,5 +1,4 @@
-﻿using RuleSets;
-using Upgrade;
+﻿using Upgrade;
 
 namespace Ship
 {
@@ -12,12 +11,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Tala Squadron Pilot",
                     2,
-                    25
+                    25,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 29
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 29;
             }
         }
     }

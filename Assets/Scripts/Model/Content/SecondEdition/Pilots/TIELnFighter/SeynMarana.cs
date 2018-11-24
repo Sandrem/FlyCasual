@@ -2,6 +2,7 @@
 using ActionsList.SecondEdition;
 using Ship;
 using System;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,12 +17,10 @@ namespace Ship
                     4,
                     30,
                     limited: 1,
-                    abilityType: typeof(SeynMaranaAbility)
+                    abilityType: typeof(SeynMaranaAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 86
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 86;
             }
         }
     }

@@ -1,8 +1,7 @@
 ﻿using BoardTools;
-using Ship;
 using System.Collections;
 using System.Collections.Generic;
-using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,12 +16,10 @@ namespace Ship
                     5,
                     42,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.JanOrsAbility)
+                    abilityType: typeof(Abilities.SecondEdition.JanOrsAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 42
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 42;
             }
         }
     }

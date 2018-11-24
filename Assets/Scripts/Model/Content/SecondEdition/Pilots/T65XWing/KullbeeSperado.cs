@@ -1,5 +1,6 @@
 ﻿using Upgrade;
 using Abilities.FirstEdition;
+using System.Collections.Generic;
 
 namespace Ship
 {
@@ -14,15 +15,12 @@ namespace Ship
                     4,
                     48,
                     limited: 1,
-                    abilityType: typeof(KullbeeSperadoAbility)
+                    abilityType: typeof(KullbeeSperadoAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    seImageNumber: 6
                 );
 
                 ModelInfo.SkinName = "Partisan";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                SEImageNumber = 6;
             }
         }
     }

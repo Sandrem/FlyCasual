@@ -21,15 +21,12 @@ namespace Ship
                     3,
                     49,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.P4LOMAbility)
+                    abilityType: typeof(Abilities.SecondEdition.P4LOMAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 201
                 );
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(FocusAction));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CalculateAction)));
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 201;
+                ShipInfo.ActionIcons.SwitchToDroidActions();
             }
         }
     }

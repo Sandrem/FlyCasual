@@ -17,10 +17,9 @@ namespace Ship
                     2,
                     72,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.ChopperPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.ChopperPilotAbility),
+                    seImageNumber: 75
                 );
-
-                SEImageNumber = 75;
             }
         }
     }

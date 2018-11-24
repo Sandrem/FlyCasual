@@ -4,6 +4,7 @@ using SubPhases;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,12 +19,10 @@ namespace Ship
                     4,
                     38,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.RoarkGarnetAbility)
+                    abilityType: typeof(Abilities.SecondEdition.RoarkGarnetAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 44
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 44;
             }
         }
     }

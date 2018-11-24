@@ -13,12 +13,10 @@ namespace Ship
                     3,
                     68,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SabineWrenLancerPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SabineWrenLancerPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 220
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 220;
             }
         }
     }

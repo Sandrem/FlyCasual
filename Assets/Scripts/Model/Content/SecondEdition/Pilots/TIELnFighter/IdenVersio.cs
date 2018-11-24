@@ -7,6 +7,7 @@ using Tokens;
 using RuleSets;
 using SubPhases;
 using Abilities.SecondEdition;
+using Upgrade;
 
 namespace Ship
 {
@@ -22,12 +23,10 @@ namespace Ship
                     40,
                     limited: 1,
                     abilityType: typeof(IdenVersioAbility),
-                    charges: 1
+                    charges: 1,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 83
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 83;
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,12 +16,10 @@ namespace Ship
                     4,
                     50,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.EchoAbility)
+                    abilityType: typeof(Abilities.SecondEdition.EchoAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 132
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 132;
             }
         }
     }

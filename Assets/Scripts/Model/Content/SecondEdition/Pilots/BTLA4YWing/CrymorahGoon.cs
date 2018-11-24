@@ -13,16 +13,13 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Crymorah Goon",
                     1,
-                    32
+                    32,
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 168
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
-
                 ModelInfo.SkinName = "Brown";
-
-                SEImageNumber = 168;
             }
         }
     }

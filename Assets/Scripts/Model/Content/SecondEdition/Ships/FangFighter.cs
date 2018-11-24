@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Movement;
 using ActionsList;
-using RuleSets;
 using Upgrade;
 using Actions;
 
@@ -23,10 +20,8 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
 
-                ShipInfo.ActionIcons.AddActions(
-                    new ActionInfo(typeof(BarrelRollAction), typeof(FocusAction)),
-                    new ActionInfo(typeof(BoostAction), typeof(FocusAction))
-                );
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction)));
 
                 //TODO: ManeuversImageUrl
             }

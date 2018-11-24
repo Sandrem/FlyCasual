@@ -14,12 +14,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Gold Squadron Veteran",
                     3,
-                    34
+                    34,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 17
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 17;
             }
         }
     }

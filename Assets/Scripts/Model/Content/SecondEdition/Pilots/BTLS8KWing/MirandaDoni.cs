@@ -15,10 +15,9 @@ namespace Ship
                     4,
                     48,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.MirandaDoniAbility)
+                    abilityType: typeof(Abilities.SecondEdition.MirandaDoniAbility),
+                    seImageNumber: 62
                 );
-
-                SEImageNumber = 62;
             }
         }
     }

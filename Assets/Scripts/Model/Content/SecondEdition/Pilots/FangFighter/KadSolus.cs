@@ -13,12 +13,10 @@ namespace Ship
                     4,
                     54,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.KadSolusAbility)
+                    abilityType: typeof(Abilities.SecondEdition.KadSolusAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 158
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 158;
             }
         }
     }

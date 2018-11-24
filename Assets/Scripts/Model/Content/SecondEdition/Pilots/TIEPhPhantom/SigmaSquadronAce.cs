@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.TIEPhPhantom
     {
@@ -9,12 +11,10 @@
                 PilotInfo = new PilotCardInfo(
                     "Sigma Squadron Ace",
                     4,
-                    46
+                    46,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 133
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 133;
             }
         }
     }

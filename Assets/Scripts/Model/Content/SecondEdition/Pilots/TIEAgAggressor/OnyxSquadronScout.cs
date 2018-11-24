@@ -11,12 +11,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Onyx Squadron Scout",
                     3,
-                    32
+                    32,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 129
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 129;
             }
         }
     }

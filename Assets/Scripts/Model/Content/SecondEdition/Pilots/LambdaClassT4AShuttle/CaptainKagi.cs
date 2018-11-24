@@ -1,9 +1,9 @@
-﻿using ActionsList;
-using Ship;
+﻿using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,12 +18,10 @@ namespace Ship
                     4,
                     48,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.CaptainKagiAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CaptainKagiAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 142
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 142;
             }
         }
     }

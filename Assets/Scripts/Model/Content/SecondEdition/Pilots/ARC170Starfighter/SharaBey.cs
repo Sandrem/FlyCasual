@@ -13,12 +13,10 @@ namespace Ship
                     4,
                     53,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SharaBeyAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SharaBeyAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 67
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 67;
             }
         }
     }

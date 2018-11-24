@@ -16,7 +16,7 @@ namespace Ship
                 ShipInfo.ShipName = "T-65 X-wing";
                 ShipInfo.Hull = 4;
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(BarrelRollAction)));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction)));
 
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Easy);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Easy);

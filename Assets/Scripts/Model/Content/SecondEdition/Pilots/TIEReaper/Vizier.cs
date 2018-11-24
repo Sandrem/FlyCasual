@@ -1,6 +1,7 @@
 ﻿using Abilities.SecondEdition;
 using ActionsList;
 using Ship;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,10 +16,10 @@ namespace Ship
                     2,
                     45,
                     limited: 1,
-                    abilityType: typeof(VizierAbility)
+                    abilityType: typeof(VizierAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 115
                 );
-
-                SEImageNumber = 115;
             }
         }
     }

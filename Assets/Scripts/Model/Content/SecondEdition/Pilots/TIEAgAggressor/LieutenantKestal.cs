@@ -16,12 +16,10 @@ namespace Ship
                     4,
                     36,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.LieutenantKestalAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LieutenantKestalAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 127
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 127;
             }
         }
     }

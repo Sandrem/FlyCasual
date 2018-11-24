@@ -15,12 +15,10 @@ namespace Ship
                     3,
                     35,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.QuinnJastAbility)
+                    abilityType: typeof(Abilities.SecondEdition.QuinnJastAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 186
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 186;
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Ship;
 using ActionsList;
 using Abilities.SecondEdition;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,17 +18,10 @@ namespace Ship
                     4,
                     30,
                     limited: 1,
-                    abilityType: typeof(DelMeekoAbility)
+                    abilityType: typeof(DelMeekoAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 85
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 85;
-            }
-
-            public void AdaptPilotToSecondEdition()
-            {
-                // Not required
             }
         }
     }

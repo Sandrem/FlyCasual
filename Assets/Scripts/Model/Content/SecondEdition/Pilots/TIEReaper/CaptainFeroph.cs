@@ -16,12 +16,10 @@ namespace Ship
                     3,
                     47,
                     limited: 1,
-                    abilityType: typeof(CaptainFerophAbility)
+                    abilityType: typeof(CaptainFerophAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 114
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 114;
             }
         }
     }

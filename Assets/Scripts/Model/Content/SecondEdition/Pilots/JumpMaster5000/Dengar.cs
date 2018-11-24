@@ -16,12 +16,10 @@ namespace Ship
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.DengarPilotAbility),
                     charges: 1,
-                    regensCharges: true
+                    regensCharges: true,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 214
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 214;
             }
         }
     }

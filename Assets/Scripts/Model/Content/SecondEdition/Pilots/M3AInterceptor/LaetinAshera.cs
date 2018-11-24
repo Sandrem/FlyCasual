@@ -14,12 +14,10 @@ namespace Ship
                     3,
                     35,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.LaetinAshera)
+                    abilityType: typeof(Abilities.SecondEdition.LaetinAshera),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 185
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 185;
             }
         }
     }

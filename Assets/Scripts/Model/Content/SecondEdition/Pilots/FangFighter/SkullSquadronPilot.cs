@@ -11,12 +11,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Skull Squadron Pilot",
                     4,
-                    50
+                    50,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 159
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 159;
             }
         }
     }

@@ -17,12 +17,10 @@ namespace Ship
                     58,
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.GrandInquisitorAbility),
-                    force: 2
+                    force: 2,
+                    extraUpgradeIcon: UpgradeType.Force,
+                    seImageNumber: 99
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Force);
-
-                SEImageNumber = 99;
             }
         }
     }

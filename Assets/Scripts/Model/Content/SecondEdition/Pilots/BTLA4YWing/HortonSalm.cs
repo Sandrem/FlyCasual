@@ -20,14 +20,12 @@ namespace Ship
                     4,
                     38,
                     limited: 1,
-                    abilityType: typeof(HortonSalmAbility)
+                    abilityType: typeof(HortonSalmAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 15
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Gray";
-
-                SEImageNumber = 15;
             }
         }
     }

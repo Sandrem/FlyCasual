@@ -18,12 +18,10 @@ namespace Ship
                     5,
                     43,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.NorraWexleyYWingAbility)
+                    abilityType: typeof(Abilities.SecondEdition.NorraWexleyYWingAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 13
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 13;
             }
         }
     }

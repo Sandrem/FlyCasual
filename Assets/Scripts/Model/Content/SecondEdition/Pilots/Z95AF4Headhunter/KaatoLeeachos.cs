@@ -18,15 +18,11 @@ namespace Ship
                     3,
                     29,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.KaatoLeeachosAbility)
+                    abilityType: typeof(Abilities.SecondEdition.KaatoLeeachosAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 170
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                ShipInfo.Faction = Faction.Scum;
-
-                SEImageNumber = 170;
             }
         }
     }

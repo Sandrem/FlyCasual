@@ -16,12 +16,10 @@ namespace Ship
                     3,
                     24,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.OuterRimPioneerAbility)
+                    abilityType: typeof(Abilities.SecondEdition.OuterRimPioneerAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 227
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 227;
             }
         }
     }

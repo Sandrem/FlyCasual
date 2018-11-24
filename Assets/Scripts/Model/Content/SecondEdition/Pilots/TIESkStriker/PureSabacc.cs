@@ -13,12 +13,10 @@ namespace Ship
                     4,
                     44,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.PureSabaccAbility)
+                    abilityType: typeof(Abilities.FirstEdition.PureSabaccAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 119
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 119;
             }
         }
     }

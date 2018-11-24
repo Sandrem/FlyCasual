@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,12 +15,10 @@ namespace Ship
                     3,
                     42,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Force,
+                    seImageNumber: 39
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Force);
-
-                SEImageNumber = 39;
             }
         }
     }

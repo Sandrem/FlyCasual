@@ -19,14 +19,12 @@ namespace Ship
                     2,
                     45,
                     limited: 1,
-                    abilityType: typeof(HeffTobberAbility)
+                    abilityType: typeof(HeffTobberAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 59
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Blue";
-
-                SEImageNumber = 59;
             }
         }
     }

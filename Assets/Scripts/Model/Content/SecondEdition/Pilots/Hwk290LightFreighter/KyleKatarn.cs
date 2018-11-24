@@ -4,7 +4,7 @@ using SubPhases;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -19,12 +19,10 @@ namespace Ship
                     3,
                     38,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.KyleKatarnAbility)
+                    abilityType: typeof(Abilities.SecondEdition.KyleKatarnAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 43
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 43;
             }
         }
     }

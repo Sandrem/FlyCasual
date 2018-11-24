@@ -1,6 +1,4 @@
-﻿using Actions;
-using ActionsList;
-using Movement;
+﻿using Movement;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,13 +16,11 @@ namespace Ship
                     2,
                     47,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.L337Ability)
+                    abilityType: typeof(Abilities.SecondEdition.L337Ability),
+                    seImageNumber: 224
                 );
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(FocusAction));
-                ShipInfo.ActionIcons.Actions.Add(new ActionInfo(typeof(CalculateAction)));
-
-                SEImageNumber = 224;
+                ShipInfo.ActionIcons.SwitchToDroidActions();
             }
         }
     }

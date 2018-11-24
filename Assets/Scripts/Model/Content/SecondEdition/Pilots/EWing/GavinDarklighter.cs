@@ -1,6 +1,7 @@
 ﻿using BoardTools;
 using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,12 +16,10 @@ namespace Ship
                     4,
                     68,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.GavinDarklighterAbility)
+                    abilityType: typeof(Abilities.SecondEdition.GavinDarklighterAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 51
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 51;
             }
         }
     }

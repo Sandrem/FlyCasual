@@ -18,12 +18,10 @@ namespace Ship
                     5,
                     56,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.OldTerochAbility)
+                    abilityType: typeof(Abilities.SecondEdition.OldTerochAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 156
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 156;
             }
         }
     }

@@ -18,12 +18,10 @@ namespace Ship
                     5,
                     36,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.AirenCrackenAbility)
+                    abilityType: typeof(Abilities.SecondEdition.AirenCrackenAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 27
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 27;
             }
         }
     }

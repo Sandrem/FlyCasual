@@ -13,14 +13,10 @@ namespace Ship
                     3,
                     71,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.KoshkaFrostAbility)
+                    abilityType: typeof(Abilities.SecondEdition.KoshkaFrostAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 152
                 );
-
-                ShipInfo.Faction = Faction.Scum;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 152;
             }
         }
     }

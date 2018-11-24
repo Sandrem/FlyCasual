@@ -22,16 +22,21 @@ namespace Actions
     {
         public Type ActionType { get; private set; }
         public ActionColor Color { get; private set; }
-        public Type ActionLinkedType { get; private set; }
-        public ActionColor LinkedColor { get; private set; }
 
         public ActionInfo(Type actionType, ActionColor color = ActionColor.White)
         {
             ActionType = actionType;
             Color = color;
         }
+    }
 
-        public ActionInfo(Type actionType, Type actionLinkedType, ActionColor linkedColor = ActionColor.Red)
+    public class LinkedActionInfo
+    {
+        public Type ActionType { get; private set; }
+        public Type ActionLinkedType { get; private set; }
+        public ActionColor LinkedColor { get; private set; }
+
+        public LinkedActionInfo(Type actionType, Type actionLinkedType, ActionColor linkedColor = ActionColor.Red)
         {
             ActionType = actionType;
             ActionLinkedType = actionLinkedType;

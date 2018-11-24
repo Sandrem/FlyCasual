@@ -11,14 +11,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cartel Executioner",
                     3,
-                    44
+                    44,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 209
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Cartel Executioner";
-
-                SEImageNumber = 209;
             }
         }
     }

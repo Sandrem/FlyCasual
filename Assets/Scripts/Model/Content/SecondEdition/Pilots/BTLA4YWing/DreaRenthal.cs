@@ -17,15 +17,11 @@ namespace Ship
                     4,
                     40,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.DreaRenthalAbility)
+                    abilityType: typeof(Abilities.SecondEdition.DreaRenthalAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 166
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
-
-                SEImageNumber = 166;
             }
         }
     }

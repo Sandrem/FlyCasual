@@ -16,12 +16,10 @@ namespace Ship
                     4,
                     47,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.GrazAbility)
+                    abilityType: typeof(Abilities.SecondEdition.GrazAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 192
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 192;
             }
         }
     }

@@ -17,12 +17,10 @@ namespace Ship
                     60,
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.TelTrevuraAbility),
-                    charges: 1
+                    charges: 1,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 216
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 216;
             }
         }
     }

@@ -11,12 +11,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Lok Revenant",
                     2,
-                    46
+                    46,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 206
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 206;
             }
         }
     }

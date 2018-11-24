@@ -19,10 +19,8 @@ namespace Ship
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
 
-                ShipInfo.ActionIcons.AddActions(
-                    new ActionInfo(typeof(BarrelRollAction), typeof(FocusAction)),
-                    new ActionInfo(typeof(BoostAction), typeof(FocusAction))
-                );
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction)));
 
                 ShipAbilities.Add(new Abilities.FirstEdition.StarViperMkIIAbility());
 

@@ -13,14 +13,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Black Sun Ace",
                     3,
-                    42
+                    42,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 195
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Black Sun (White)";
-
-                SEImageNumber = 195;
             }
         }
     }

@@ -14,15 +14,12 @@ namespace Ship
                     4,
                     74,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.KathScarletAbility)
+                    abilityType: typeof(Abilities.SecondEdition.KathScarletAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 151
                 );
 
                 ModelInfo.SkinName = "Kath Scarlet";
-                ShipInfo.Faction = Faction.Scum;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 151;
             }
         }
     }

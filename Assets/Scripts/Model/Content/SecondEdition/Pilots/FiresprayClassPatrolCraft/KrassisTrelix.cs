@@ -13,15 +13,12 @@ namespace Ship
                     3,
                     70,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.KrassisTrelixAbility)
+                    abilityType: typeof(Abilities.SecondEdition.KrassisTrelixAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 153
                 );
 
                 ModelInfo.SkinName = "Krassis Trelix";
-                ShipInfo.Faction = Faction.Scum;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 153;
             }
         }
     }

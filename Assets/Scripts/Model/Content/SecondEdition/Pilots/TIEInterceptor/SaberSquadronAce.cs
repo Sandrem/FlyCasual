@@ -1,6 +1,6 @@
-﻿using Ship;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,14 +13,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Saber Squadron Ace",
                     4,
-                    40
+                    40,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 105
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Red Stripes";
-
-                SEImageNumber = 105;
             }
         }
     }

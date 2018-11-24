@@ -14,12 +14,10 @@ namespace Ship
                     4,
                     34,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.MajorRhymerAbility)
+                    abilityType: typeof(Abilities.SecondEdition.MajorRhymerAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 109
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 109;
             }
         }
     }

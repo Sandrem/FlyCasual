@@ -15,12 +15,10 @@ namespace Ship
                     39,
                     limited: 1,
                     abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility),
-                    force: 1
+                    force: 1,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 34
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 34;
             }
         }
     }

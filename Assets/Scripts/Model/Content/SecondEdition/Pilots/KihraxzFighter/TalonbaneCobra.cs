@@ -16,12 +16,10 @@ namespace Ship
                     5,
                     50,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.TalonbaneCobraAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TalonbaneCobraAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 191
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 191;
             }
         }
     }

@@ -11,15 +11,13 @@
                     2,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
+                    factionOverride: Faction.Rebel,
+                    seImageNumber: 49
                 );
-
-                ShipInfo.Faction = Faction.Rebel;
 
                 ModelInfo.ModelName = "TIE Fighter Rebel";
                 ModelInfo.SkinName = "Rebel";
-
-                SEImageNumber = 49;
             }
         }
     }

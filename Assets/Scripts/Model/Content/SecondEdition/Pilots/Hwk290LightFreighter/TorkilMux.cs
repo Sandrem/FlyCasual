@@ -17,14 +17,11 @@ namespace Ship
                     2,
                     36,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.TorkilMuxAbility)
+                    abilityType: typeof(Abilities.SecondEdition.TorkilMuxAbility),
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 176
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
-
-                SEImageNumber = 176;
             }
         }
     }

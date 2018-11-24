@@ -21,7 +21,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction), ActionColor.Red));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)));
 
                 ShipAbilities.Add(new Abilities.SecondEdition.NimbleBomber());
 

@@ -13,12 +13,10 @@ namespace Ship
                     4,
                     47,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.JunoEclipseAbility)
+                    abilityType: typeof(Abilities.FirstEdition.JunoEclipseAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 95
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 95;
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Ship
 
                 IconicPilots[Faction.Scum] = typeof(GandFindsman);
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(EvadeAction));
+                ShipInfo.ActionIcons.RemoveActions(typeof(EvadeAction));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(JamAction)));
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary), MovementComplexity.Complex);

@@ -9,10 +9,9 @@
                 PilotInfo = new PilotCardInfo(
                     "Zealous Recruit",
                     1,
-                    44
+                    44,
+                    seImageNumber: 160
                 );
-
-                SEImageNumber = 160;
             }
         }
     }

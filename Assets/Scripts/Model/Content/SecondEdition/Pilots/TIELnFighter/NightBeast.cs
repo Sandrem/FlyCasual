@@ -15,10 +15,9 @@ namespace Ship
                     2,
                     26,
                     limited: 1,
-                    abilityType: typeof(NightBeastAbility)
+                    abilityType: typeof(NightBeastAbility),
+                    seImageNumber: 88
                 );
-
-                SEImageNumber = 88;
             }
         }
     }

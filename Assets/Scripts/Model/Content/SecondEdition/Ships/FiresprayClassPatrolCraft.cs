@@ -20,7 +20,7 @@ namespace Ship
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(EvadeAction));
+                ShipInfo.ActionIcons.RemoveActions(typeof(EvadeAction));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAftAction), ActionColor.Red));
 

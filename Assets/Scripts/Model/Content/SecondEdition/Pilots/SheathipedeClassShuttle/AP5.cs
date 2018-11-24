@@ -4,6 +4,7 @@ using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,15 +19,12 @@ namespace Ship
                     1,
                     30,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.AP5PilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.AP5PilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 41
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(FocusAction));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CalculateAction)));
-
-                SEImageNumber = 41;
+                ShipInfo.ActionIcons.SwitchToDroidActions();
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.TIEDDefender
     {
@@ -11,12 +13,10 @@
                     4,
                     88,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ColonelVesseryAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ColonelVesseryAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 123
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 123;
             }
         }
     }

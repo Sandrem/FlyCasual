@@ -13,12 +13,10 @@ namespace Ship
                     4,
                     70,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 210
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 210;
             }
         }
     }

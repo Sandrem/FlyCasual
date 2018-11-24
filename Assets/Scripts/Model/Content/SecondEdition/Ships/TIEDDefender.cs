@@ -7,7 +7,6 @@ using Upgrade;
 using Ship;
 using System;
 using SubPhases;
-using Abilities.FirstEdition;
 
 namespace Ship
 {
@@ -109,7 +108,7 @@ namespace SubPhases
 
     public class TIEx7DecisionSubPhase : DecisionSubPhase
     {
-        public TIEx7Ability TIEx7AbilityInstance;
+        public Abilities.FirstEdition.TIEx7Ability TIEx7AbilityInstance;
 
         public override void PrepareDecision(Action callBack)
         {

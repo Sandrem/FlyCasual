@@ -12,9 +12,12 @@ namespace Ship.SecondEdition.UT60DUWing
         {
             ShipInfo.ShipName = "UT-60D U-wing";
             ShipInfo.BaseSize = BaseSize.Medium;
+
             ShipInfo.Hull = 5;
             ShipInfo.Shields = 3;
+
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
+
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CoordinateAction), ActionColor.Red));
 
             IconicPilots[Faction.Rebel] = typeof(BlueSquadronScout);

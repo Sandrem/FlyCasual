@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.TIEDDefender
     {
@@ -9,12 +11,10 @@
                 PilotInfo = new PilotCardInfo(
                     "Onyx Squadron Ace",
                     4,
-                    78
+                    78,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 125
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 125;
             }
         }
     }

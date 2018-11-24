@@ -21,12 +21,10 @@ namespace Ship
                     3,
                     47,
                     limited: 1,
-                    abilityType: typeof(CassianAndorAbility)
+                    abilityType: typeof(CassianAndorAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 56
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 56;
             }
         }
     }

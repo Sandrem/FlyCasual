@@ -18,15 +18,12 @@ namespace Ship
                     3,
                     98,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.LeeboAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LeeboAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 78
                 );
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(FocusAction));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CalculateAction)));
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 78;
+                ShipInfo.ActionIcons.SwitchToDroidActions();
             }
         }
     }

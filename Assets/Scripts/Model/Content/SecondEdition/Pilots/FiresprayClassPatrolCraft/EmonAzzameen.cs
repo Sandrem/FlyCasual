@@ -15,14 +15,10 @@ namespace Ship
                     4,
                     76,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.EmonAzzameenAbility)
+                    abilityType: typeof(Abilities.FirstEdition.EmonAzzameenAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 150
                 );
-
-                ShipInfo.Faction = Faction.Scum;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 150;
             }
         }
     }

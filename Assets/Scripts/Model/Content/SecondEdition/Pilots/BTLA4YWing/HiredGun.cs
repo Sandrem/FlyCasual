@@ -13,17 +13,13 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Hired Gun",
                     2,
-                    34
+                    34,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 167
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
-
                 ModelInfo.SkinName = "Gray";
-
-                SEImageNumber = 167;
             }
         }
     }

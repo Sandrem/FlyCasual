@@ -9,10 +9,9 @@
                 PilotInfo = new PilotCardInfo(
                     "Trandoshan Slaver",
                     2,
-                    58
+                    58,
+                    seImageNumber: 213
                 );
-
-                SEImageNumber = 213;
             }
         }
     }

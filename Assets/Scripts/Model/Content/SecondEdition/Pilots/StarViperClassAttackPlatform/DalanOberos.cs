@@ -17,12 +17,10 @@ namespace Ship
                     4,
                     54,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.DalanOberosStarviperAbility)
+                    abilityType: typeof(Abilities.SecondEdition.DalanOberosStarviperAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 179
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 179;
             }
         }
     }

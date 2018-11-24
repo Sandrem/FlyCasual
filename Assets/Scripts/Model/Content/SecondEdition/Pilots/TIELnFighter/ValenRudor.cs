@@ -1,6 +1,7 @@
 ﻿using Abilities.SecondEdition;
 using BoardTools;
 using Ship;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,12 +16,10 @@ namespace Ship
                     3,
                     28,
                     limited: 1,
-                    abilityType: typeof(ValenRudorAbility)
+                    abilityType: typeof(ValenRudorAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 87
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 87;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,13 +15,10 @@ namespace Ship
                     6,
                     52,
                     limited: 1,
-                    abilityText: "While you perform an attack, the defender rolls 1 fewer defense die.",
-                    abilityType: typeof(Abilities.FirstEdition.WedgeAntillesAbility)
+                    abilityType: typeof(Abilities.FirstEdition.WedgeAntillesAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 1
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 1;
             }
         }
     }

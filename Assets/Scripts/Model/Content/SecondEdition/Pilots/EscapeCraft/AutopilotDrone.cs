@@ -18,18 +18,16 @@ namespace Ship
                     1,
                     12,
                     limited: 1,
-                    charges: 3
+                    charges: 3,
+                    seImageNumber: 229
                 );
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(FocusAction));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CalculateAction)));
+                ShipInfo.ActionIcons.SwitchToDroidActions();
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AutopilotDroneAbility());
-
-                SEImageNumber = 229;
             }
         }
     }

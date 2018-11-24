@@ -1,4 +1,5 @@
 ﻿using RuleSets;
+using Upgrade;
 
 namespace Ship
 {

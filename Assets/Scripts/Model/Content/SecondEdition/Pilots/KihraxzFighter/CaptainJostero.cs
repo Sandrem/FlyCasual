@@ -16,12 +16,10 @@ namespace Ship
                     3,
                     43,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.CaptainJosteroAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CaptainJosteroAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 194
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 194;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Abilities.SecondEdition;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,14 +14,11 @@ namespace Ship
                     5,
                     62,
                     limited: 1,
-                    abilityText: "After you become the defender (before dice are rolled), you may recover 1 force.",
                     abilityType: typeof(LukeSkywalkerAbility),
-                    force: 2
+                    force: 2,
+                    extraUpgradeIcon: UpgradeType.Force,
+                    seImageNumber: 2
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Force);
-
-                SEImageNumber = 2;
             }
         }
     }

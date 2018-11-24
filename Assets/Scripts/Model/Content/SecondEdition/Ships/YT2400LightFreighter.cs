@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.YT2400LightFreighter
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
 
-            ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(BarrelRollAction));
+            ShipInfo.ActionIcons.RemoveActions(typeof(BarrelRollAction));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
 

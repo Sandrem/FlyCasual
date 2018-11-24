@@ -15,15 +15,11 @@ namespace Ship
                     5,
                     42,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KavilAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KavilAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 165
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
-
-                SEImageNumber = 165;
             }
         }
     }

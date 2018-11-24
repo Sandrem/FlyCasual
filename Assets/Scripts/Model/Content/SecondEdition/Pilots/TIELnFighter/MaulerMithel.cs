@@ -1,4 +1,5 @@
 ﻿using Abilities.FirstEdition;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,12 +14,10 @@ namespace Ship
                     5,
                     32,
                     limited: 1,
-                    abilityType: typeof(MaulerMithelAbility)
+                    abilityType: typeof(MaulerMithelAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 80
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 80;
             }
         }
     }

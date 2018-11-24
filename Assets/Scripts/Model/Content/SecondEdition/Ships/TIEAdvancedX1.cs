@@ -19,8 +19,8 @@ namespace Ship
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.GetType() == typeof(EvadeAction));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(FocusAction), typeof(BarrelRollAction)));
+                ShipInfo.ActionIcons.RemoveActions(typeof(EvadeAction));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(FocusAction), typeof(BarrelRollAction)));
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AdvancedTargetingComputer());
 

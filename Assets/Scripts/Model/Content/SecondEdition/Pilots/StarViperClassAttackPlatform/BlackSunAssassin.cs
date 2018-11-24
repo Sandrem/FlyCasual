@@ -11,14 +11,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Black Sun Enforcer",
                     3,
-                    48
+                    48,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 181
                 );
 
                 ModelInfo.SkinName = "Black Sun Assassin";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 181;
             }
         }
     }

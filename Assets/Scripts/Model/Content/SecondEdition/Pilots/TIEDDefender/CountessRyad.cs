@@ -1,6 +1,7 @@
 ﻿using Movement;
 using Ship;
 using System;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,14 +16,12 @@ namespace Ship
                     4,
                     86,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.CountessRyadAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CountessRyadAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 124
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Crimson";
-
-                SEImageNumber = 124;
             }
         }
     }

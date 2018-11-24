@@ -13,14 +13,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Blade Squadron Veteran",
                     3,
-                    44
+                    44,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 25
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Blue";
-
-                SEImageNumber = 25;
             }
         }
     }

@@ -17,12 +17,10 @@ namespace Ship
                     90,
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.KananJarrusPilotAbility),
-                    force: 2
+                    force: 2,
+                    extraUpgradeIcon: UpgradeType.Force,
+                    seImageNumber: 74
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Force);
-
-                SEImageNumber = 74;
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Ship
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction), typeof(TargetLockAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(TargetLockAction)));
 
                 IconicPilots[Faction.Imperial] = typeof(CutlassSquadronPilot);
 

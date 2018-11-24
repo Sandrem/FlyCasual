@@ -11,10 +11,9 @@
                     2,
                     34,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
+                    seImageNumber: 37
                 );
-
-                SEImageNumber = 37;
             }
         }
     }

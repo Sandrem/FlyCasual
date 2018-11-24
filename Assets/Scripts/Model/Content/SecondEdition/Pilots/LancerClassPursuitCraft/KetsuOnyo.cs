@@ -13,12 +13,10 @@ namespace Ship
                     5,
                     74,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KetsuOnyoPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KetsuOnyoPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 218
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 218;
             }
         }
     }

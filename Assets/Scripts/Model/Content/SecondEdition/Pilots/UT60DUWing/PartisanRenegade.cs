@@ -13,14 +13,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Partisan Renegade",
                     1,
-                    43
+                    43,
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    seImageNumber: 61
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
                 ModelInfo.SkinName = "Partisan";
-
-                SEImageNumber = 61;
             }
         }
     }

@@ -13,15 +13,12 @@ namespace Ship
                     5,
                     80,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.BobaFettScumAbility)
+                    abilityType: typeof(Abilities.FirstEdition.BobaFettScumAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 149
                 );
 
                 ModelInfo.SkinName = "Boba Fett";
-                ShipInfo.Faction = Faction.Scum;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 149;
             }
         }
     }

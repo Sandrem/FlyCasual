@@ -13,12 +13,10 @@ namespace Ship
                     3,
                     47,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ZuckussAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ZuckussAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 202
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 202;
             }
         }
     }

@@ -20,12 +20,10 @@ namespace Ship
                     3,
                     66,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.LattsRazziPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LattsRazziPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 212
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 212;
             }
         }
     }

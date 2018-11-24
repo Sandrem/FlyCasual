@@ -18,12 +18,10 @@ namespace Ship
                     4,
                     49,
                     limited: 1,
-                    abilityType: typeof(BodhiRookAbility)
+                    abilityType: typeof(BodhiRookAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 54
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 54;
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using ActionsList;
 using Ship;
 using System;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,12 +16,10 @@ namespace Ship
                     3,
                     47,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.LieutenantSaiAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LieutenantSaiAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 144
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 144;
             }
         }
     }

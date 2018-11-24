@@ -9,13 +9,11 @@
                 PilotInfo = new PilotCardInfo(
                     "Bounty Hunter",
                     2,
-                    66
+                    66,
+                    seImageNumber: 154
                 );
 
                 ModelInfo.SkinName = "Mandalorian Mercenary";
-                ShipInfo.Faction = Faction.Scum;
-
-                SEImageNumber = 154;
             }
         }
     }

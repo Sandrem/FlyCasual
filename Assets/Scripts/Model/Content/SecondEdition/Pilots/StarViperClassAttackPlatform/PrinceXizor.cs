@@ -19,12 +19,10 @@ namespace Ship
                     4,
                     54,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.PrinceXizorAbility)
+                    abilityType: typeof(Abilities.SecondEdition.PrinceXizorAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 180
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 180;
             }
         }
     }

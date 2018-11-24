@@ -13,13 +13,10 @@ namespace Ship
                     6,
                     68,
                     limited: 1,
-                    abilityText: "When you defend or perform an attack, if the attack range is 1, you may roll 1 additional die.",
-                    abilityType: typeof(Abilities.FirstEdition.FennRauScumAbility)
+                    abilityType: typeof(Abilities.FirstEdition.FennRauScumAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 155
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 155;
             }
         }
     }

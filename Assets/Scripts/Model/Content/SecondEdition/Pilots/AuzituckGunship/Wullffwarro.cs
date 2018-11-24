@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,12 +15,10 @@ namespace Ship
                     4,
                     56,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.WullffwarroAbility)
+                    abilityType: typeof(Abilities.FirstEdition.WullffwarroAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 31
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 31;
             }
         }
     }

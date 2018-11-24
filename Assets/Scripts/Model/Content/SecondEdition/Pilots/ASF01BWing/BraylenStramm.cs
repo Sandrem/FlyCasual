@@ -16,14 +16,12 @@ namespace Ship
                     4,
                     50,
                     limited: 1,
-                    abilityType: typeof(BraylenStrammAbility)
+                    abilityType: typeof(BraylenStrammAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 23
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Dark Blue";
-
-                SEImageNumber = 23;
             }
         }
     }

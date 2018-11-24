@@ -17,12 +17,10 @@ namespace Ship
                     5,
                     34,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.TomaxBrenAbility)
+                    abilityType: typeof(Abilities.SecondEdition.TomaxBrenAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 107
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 107;
             }
         }
     }

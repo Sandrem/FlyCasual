@@ -2,6 +2,7 @@
 using SubPhases;
 using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,12 +19,10 @@ namespace Ship
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.ChewbaccaRebelPilotAbility),
                     charges: 1,
-                    regensCharges: true
+                    regensCharges: true,
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 71
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 71;
             }
         }
     }

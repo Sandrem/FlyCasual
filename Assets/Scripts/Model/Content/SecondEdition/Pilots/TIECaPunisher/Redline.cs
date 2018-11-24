@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using System;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,12 +15,10 @@ namespace Ship
                     5,
                     44,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.RedlineAbility)
+                    abilityType: typeof(Abilities.SecondEdition.RedlineAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 139
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 139;
             }
         }
     }

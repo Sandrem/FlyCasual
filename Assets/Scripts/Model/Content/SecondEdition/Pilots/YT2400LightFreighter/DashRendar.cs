@@ -15,12 +15,10 @@ namespace Ship
                     5,
                     100,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.DashRendarAbility)
+                    abilityType: typeof(Abilities.SecondEdition.DashRendarAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 77
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 77;
             }
         }
     }

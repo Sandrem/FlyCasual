@@ -1,5 +1,4 @@
-﻿using Abilities.SecondEdition;
-using Conditions;
+﻿using Conditions;
 using Ship;
 using Tokens;
 
@@ -16,15 +15,13 @@ namespace Ship
                     2,
                     32,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.CaptainRexPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CaptainRexPilotAbility),
+                    factionOverride: Faction.Rebel,
+                    seImageNumber: 48
                 );
-
-                ShipInfo.Faction = Faction.Rebel;
 
                 ModelInfo.ModelName = "TIE Fighter Rebel";
                 ModelInfo.SkinName = "Rebel";
-
-                SEImageNumber = 48;
             }
         }
     }

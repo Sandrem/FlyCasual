@@ -16,12 +16,10 @@ namespace Ship
                     4,
                     44,
                     limited: 1,
-                    abilityType: typeof(Abilities.SecondEdition.CountdownAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CountdownAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 118
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 118;
             }
         }
     }

@@ -9,10 +9,9 @@
                 PilotInfo = new PilotCardInfo(
                     "Planetary Sentinel",
                     1,
-                    34
+                    34,
+                    seImageNumber: 121
                 );
-
-                SEImageNumber = 121;
             }
         }
     }

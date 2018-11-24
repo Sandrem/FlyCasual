@@ -15,8 +15,7 @@ namespace Ship
                 ShipInfo.ShipName = "Aggressor Assault Fighter";
                 ShipInfo.BaseSize = BaseSize.Medium;
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(FocusAction));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CalculateAction)));
+                ShipInfo.ActionIcons.SwitchToDroidActions();
 
                 ShipInfo.Hull = 5;
                 ShipInfo.Shields = 3;

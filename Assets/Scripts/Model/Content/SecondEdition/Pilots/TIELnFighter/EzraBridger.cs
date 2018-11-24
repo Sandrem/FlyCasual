@@ -1,5 +1,4 @@
-﻿using Ship;
-using Upgrade;
+﻿using Upgrade;
 
 namespace Ship
 {
@@ -15,17 +14,14 @@ namespace Ship
                     32,
                     limited: 1,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
-                    force: 1
+                    force: 1,
+                    extraUpgradeIcon: UpgradeType.Force,
+                    factionOverride: Faction.Rebel,
+                    seImageNumber: 46
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Force);
-
-                ShipInfo.Faction = Faction.Rebel;
 
                 ModelInfo.ModelName = "TIE Fighter Rebel";
                 ModelInfo.SkinName = "Rebel";
-
-                SEImageNumber = 46;
             }
         }
     }

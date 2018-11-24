@@ -14,12 +14,10 @@ namespace Ship
                     4,
                     70,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.IG88CAbility)
+                    abilityType: typeof(Abilities.FirstEdition.IG88CAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 199
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 199;
             }
         }
     }

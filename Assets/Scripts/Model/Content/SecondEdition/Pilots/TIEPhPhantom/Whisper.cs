@@ -1,5 +1,6 @@
 ﻿using System;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,12 +15,10 @@ namespace Ship
                     5,
                     52,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.WhisperAbility)
+                    abilityType: typeof(Abilities.FirstEdition.WhisperAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 131
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 131;
             }
         }
     }

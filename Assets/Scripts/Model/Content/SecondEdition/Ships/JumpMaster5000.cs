@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Movement;
 using ActionsList;
 using Actions;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,10 +18,10 @@ namespace Ship
 
                 ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(BarrelRollAction));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(FocusAction), typeof(RotateArcAction)));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(TargetLockAction), typeof(RotateArcAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(FocusAction), typeof(RotateArcAction)));
+                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(TargetLockAction), typeof(RotateArcAction)));
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Torpedo);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Torpedo);
 
                 IconicPilots[Faction.Scum] = typeof(Dengar);
 

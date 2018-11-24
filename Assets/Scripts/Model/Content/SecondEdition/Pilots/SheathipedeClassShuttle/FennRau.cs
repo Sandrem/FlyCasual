@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,12 +15,10 @@ namespace Ship
                     6,
                     52,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.FennRauRebelAbility)
+                    abilityType: typeof(Abilities.FirstEdition.FennRauRebelAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 38
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
-
-                SEImageNumber = 38;
             }
         }
     }

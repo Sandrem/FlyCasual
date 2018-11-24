@@ -21,8 +21,9 @@ namespace Ship
 
         public List<UpgradeType> ExtraUpgrades { get; private set; }
         public Faction Faction { get; private set; }
+        public int SEImageNumber { get; private set; }
 
-        public PilotCardInfo(string pilotName, int initiative, int cost, int limited = 0, Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, bool regensCharges = false, UpgradeType extraUpgradeIcon = UpgradeType.None, List<UpgradeType> extraUpgradeIcons = null, Faction factionOverride = Faction.None)
+        public PilotCardInfo(string pilotName, int initiative, int cost, int limited = 0, Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, bool regensCharges = false, UpgradeType extraUpgradeIcon = UpgradeType.None, List<UpgradeType> extraUpgradeIcons = null, Faction factionOverride = Faction.None, int seImageNumber = 0)
         {
             PilotName = pilotName;
             PilotTitle = pilotTitle;
@@ -36,6 +37,8 @@ namespace Ship
             RegensCharges = regensCharges;
 
             Cost = cost;
+
+            SEImageNumber = seImageNumber;
 
             if (extraUpgradeIcon != UpgradeType.None) ExtraUpgrades = new List<UpgradeType>() { extraUpgradeIcon };
             if (extraUpgradeIcons != null) ExtraUpgrades = new List<UpgradeType>(extraUpgradeIcons);

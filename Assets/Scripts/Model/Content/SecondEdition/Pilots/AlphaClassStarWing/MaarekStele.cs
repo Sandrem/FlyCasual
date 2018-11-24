@@ -13,12 +13,10 @@ namespace Ship
                     7,
                     27,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.LieutenantKarsabiAbility)
+                    abilityType: typeof(Abilities.FirstEdition.LieutenantKarsabiAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    seImageNumber: 136
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                SEImageNumber = 136;
             }
         }
     }

@@ -26,7 +26,7 @@ public class CameraScript : MonoBehaviour {
     private const float MIN_ROTATION = 0f;
 
     // Constants for touch controls
-    private const float SENSITIVITY_TOUCH_MOVE = 0.010f;
+    private const float SENSITIVITY_TOUCH_MOVE = 20f;
     private const float SENSITIVITY_TOUCH_MOVE_ZOOMED_IN = SENSITIVITY_TOUCH_MOVE / 15f;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
     private const float SENSITIVITY_TOUCH_ZOOM = 0.0375f;
@@ -440,7 +440,7 @@ public class CameraScript : MonoBehaviour {
                                                            zoomPercent));
                     if (Console.IsActive) Console.Write("Zoomlevel:" + zoomPercent, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
                     if (Console.IsActive) Console.Write("sensitivity:" + sensitivity, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
-                    deltaPosition = deltaPosition * -sensitivity;
+                    deltaPosition = Camera.GetComponent<Camera>().ScreenToViewportPoint(deltaPosition) * -sensitivity;
 
                     // Add momentum
                     totalTouchMove += deltaPosition;
@@ -451,7 +451,7 @@ public class CameraScript : MonoBehaviour {
                     float y = deltaPosition.y;
 
                     if ((x != 0) || (y != 0)) WhenViewChanged();
-                    transform.Translate(x, y, 0);
+                    transform.Translate(x, y, 0); //TODO: need space.world?
                 }
 
                 // Keep incrementing duration while 1 finger is down even if no movement is happening

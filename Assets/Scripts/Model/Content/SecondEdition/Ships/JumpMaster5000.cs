@@ -16,7 +16,7 @@ namespace Ship
                 ShipInfo.Hull = 6;
                 ShipInfo.Shields = 3;
 
-                ShipInfo.ActionIcons.Actions.RemoveAll(a => a.ActionType == typeof(BarrelRollAction));
+                ShipInfo.ActionIcons.RemoveActions(typeof(BarrelRollAction));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(FocusAction), typeof(RotateArcAction)));
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(TargetLockAction), typeof(RotateArcAction)));

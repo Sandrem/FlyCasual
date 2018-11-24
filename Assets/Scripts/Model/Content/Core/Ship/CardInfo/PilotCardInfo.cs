@@ -40,8 +40,9 @@ namespace Ship
 
             SEImageNumber = seImageNumber;
 
-            if (extraUpgradeIcon != UpgradeType.None) ExtraUpgrades = new List<UpgradeType>() { extraUpgradeIcon };
-            if (extraUpgradeIcons != null) ExtraUpgrades = new List<UpgradeType>(extraUpgradeIcons);
+            ExtraUpgrades = new List<UpgradeType>();
+            if (extraUpgradeIcon != UpgradeType.None) ExtraUpgrades.Add(extraUpgradeIcon);
+            if (extraUpgradeIcons != null) ExtraUpgrades.AddRange(extraUpgradeIcons);
             if (factionOverride != Faction.None) Faction = factionOverride;
         }
     }

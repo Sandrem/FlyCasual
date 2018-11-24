@@ -310,6 +310,11 @@ namespace Ship
             {
                 UpgradeBar.AddSlot(slot);
             }
+
+            foreach (var slot in PilotInfo.ExtraUpgrades)
+            {
+                UpgradeBar.AddSlot(slot);
+            }
         }
 
         // STAT MODIFICATIONS

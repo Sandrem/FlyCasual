@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RuleSets;
+using Ship;
 
 public static class ImageUrls
 {
@@ -29,7 +30,7 @@ public static class ImageUrls
         return GetImageUrlOld(DamageDeckPath, crit.Name, filename);
     }
 
-    public static string GetImageUrl(Ship.GenericShip ship, string filename = null)
+    public static string GetImageUrl(GenericShip ship, string filename = null)
     {
         return Edition.Instance.GetPilotImageUrl(ship, filename);
     }

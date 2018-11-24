@@ -54,8 +54,6 @@ namespace Ship
             }
         }
 
-        public int SEImageNumber;
-
         public string ManeuversImageUrl { get; protected set; }
 
         public bool IsHidden { get; protected set; }

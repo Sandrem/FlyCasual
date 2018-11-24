@@ -315,12 +315,12 @@ namespace RuleSets
 
         public override string GetPilotImageUrl(GenericShip ship, string filename)
         {
-            return RootUrlForImages + "Card_Pilot_" + ship.SEImageNumber + ".png";
+            return RootUrlForImages + "Card_Pilot_" + ship.PilotInfo.SEImageNumber + ".png";
         }
 
         public override string GetUpgradeImageUrl(GenericUpgrade upgrade)
         {
-            return RootUrlForImages + "Card_Upgrade_" + upgrade.SEImageNumber + ((upgrade.IsSecondSide)?"b":"") + ".png";
+            return RootUrlForImages + "Card_Upgrade_" + upgrade.UpgradeInfo.SEImageNumber + ((upgrade.IsSecondSide)?"b":"") + ".png";
         }
 
     }

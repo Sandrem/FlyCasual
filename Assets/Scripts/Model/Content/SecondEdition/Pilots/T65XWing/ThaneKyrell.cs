@@ -23,7 +23,6 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 3
                 );
-                SEImageNumber = 3;
             }
         }
     }

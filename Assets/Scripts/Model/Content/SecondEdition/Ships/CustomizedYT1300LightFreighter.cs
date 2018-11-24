@@ -13,7 +13,7 @@ namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
         {
             ShipInfo.ShipName = "Customized YT-1300 Light Freighter";
 
-            ShipInfo.Faction = Faction.Scum;
+            ShipInfo.DefaultShipFaction = Faction.Scum;
             ShipInfo.FactionsAll = new List<Faction>() { Faction.Scum };
             ShipInfo.ArcInfo.Firepower = 2;
             ShipInfo.Hull = 8;

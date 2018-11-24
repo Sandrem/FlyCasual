@@ -7,7 +7,7 @@ namespace Ship
     {
         public string ShipName { get; set; }
         public BaseSize BaseSize { get; set; }
-        public Faction Faction { get; set; }
+        public Faction DefaultShipFaction { get; set; }
 
         public ShipArcsInfo ArcInfo { get; private set; }
         public int Firepower { get {return ArcInfo.Firepower; } }
@@ -21,42 +21,14 @@ namespace Ship
         public char Icon { get; private set; }
         public List<Faction> FactionsAll { get; set; }
 
-        private SubFaction? subFaction { get; set; }
-        public SubFaction SubFaction
-        {
-            get
-            {
-                if (subFaction != null)
-                {
-                    return subFaction.Value;
-                }
-                else
-                {
-                    switch (Faction)
-                    {
-                        case Faction.Imperial:
-                            return SubFaction.GalacticEmpire;
-                        case Faction.Rebel:
-                            return SubFaction.RebelAlliance;
-                        case Faction.Scum:
-                            return SubFaction.ScumAndVillainy;
-                        default:
-                            throw new NotImplementedException("Invalid faction: " + Faction.ToString());
-                    }
-                }
-            }
-            set
-            {
-                subFaction = value;
-            }
-        }
+        public SubFaction SubFaction { get; set; }
 
         public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', SubFaction subFaction = SubFaction.None, List<Faction> factionsAll = null)
         {
             ShipName = shipName;
             BaseSize = baseSize;
 
-            Faction = faction;
+            DefaultShipFaction = faction;
             if (subFaction != SubFaction.None) SubFaction = subFaction;
 
             ArcInfo = arcInfo;

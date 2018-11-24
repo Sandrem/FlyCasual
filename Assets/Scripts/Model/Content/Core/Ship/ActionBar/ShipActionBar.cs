@@ -17,6 +17,7 @@ namespace Ship
         public ShipActionsInfo(params ActionInfo[] actions)
         {
             Actions = actions.ToList();
+            LinkedActions = new List<LinkedActionInfo>();
         }
 
         public void AddActions(params ActionInfo[] actions)

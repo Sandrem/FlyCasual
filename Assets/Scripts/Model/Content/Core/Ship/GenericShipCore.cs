@@ -5,7 +5,6 @@ using Arcs;
 using Abilities;
 using System;
 using RuleSets;
-using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -24,6 +23,33 @@ namespace Ship
         public PilotCardInfo PilotInfo;
         public ShipDialInfo DialInfo;
         public ShipModelInfo ModelInfo;
+
+        public Faction Faction { get { return (PilotInfo.Faction != Faction.None) ? PilotInfo.Faction : ShipInfo.DefaultShipFaction; } }
+
+        public SubFaction SubFaction
+        {
+            get
+            {
+                if (ShipInfo.SubFaction != SubFaction.None)
+                {
+                    return ShipInfo.SubFaction;
+                }
+                else
+                {
+                    switch (Faction)
+                    {
+                        case Faction.Imperial:
+                            return SubFaction.GalacticEmpire;
+                        case Faction.Rebel:
+                            return SubFaction.RebelAlliance;
+                        case Faction.Scum:
+                            return SubFaction.ScumAndVillainy;
+                        default:
+                            throw new NotImplementedException("Invalid faction: " + Faction.ToString());
+                    }
+                }
+            }
+        }
 
         public ShipStateInfo State;
 

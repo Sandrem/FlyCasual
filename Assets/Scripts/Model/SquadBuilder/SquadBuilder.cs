@@ -198,11 +198,11 @@ namespace SquadBuilderNS
 
                 if ((newShipContainer.PilotInfo != null) && (newShipContainer.IsAllowedForSquadBuilder()))
                 {
-                    if ((newShipContainer.ShipInfo.Faction == faction) || faction == Faction.None)
+                    if ((newShipContainer.Faction == faction) || faction == Faction.None)
                     {
                         string pilotKey = newShipContainer.PilotInfo.PilotName + " (" + newShipContainer.PilotInfo.Cost + ")";
 
-                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.ShipInfo.ShipName && n.PilotFaction == newShipContainer.ShipInfo.Faction) == null)
+                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.ShipInfo.ShipName && n.PilotFaction == newShipContainer.Faction) == null)
                         {
                             AllPilots.Add(new PilotRecord()
                             {
@@ -211,7 +211,7 @@ namespace SquadBuilderNS
                                 PilotNameCanonical = newShipContainer.PilotNameCanonical,
                                 PilotSkill = newShipContainer.PilotInfo.Initiative,
                                 PilotShip = AllShips.Find(n => n.ShipName == newShipContainer.ShipInfo.ShipName),
-                                PilotFaction = newShipContainer.ShipInfo.Faction,
+                                PilotFaction = newShipContainer.Faction,
                                 Instance = newShipContainer
                             });
                         }

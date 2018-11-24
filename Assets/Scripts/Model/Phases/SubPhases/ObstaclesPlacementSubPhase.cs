@@ -380,7 +380,7 @@ namespace SubPhases
             ChosenObstacle = obstacle;
             UI.HideSkipButton();
 
-            if (CameraScript.InputTouchIsEnabled)
+            if (CameraScript.InputTouchIsEnabled && !IsRandomSetupSelected[RequiredPlayer])
             {
                 // With touch controls, wait for confirmation before setting the position
                 UI.ShowNextButton();

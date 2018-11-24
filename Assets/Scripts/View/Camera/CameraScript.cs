@@ -38,9 +38,9 @@ public class CameraScript : MonoBehaviour {
     private const float THRESHOLD_TOUCH_ZOOM = 0.06f;
     private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
     private const float THRESHOLD_TOUCH_ZOOM_START = 20f;
-    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.1f;
-    private const float MOMENTUM_THRESHOLD = 1500f; //was 1600
-    private const float MOMENTUM_MINIMUM = 0.25f;// was .5
+    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.05f;
+    private const float MOMENTUM_THRESHOLD = 1600f; 
+    private const float MOMENTUM_MINIMUM = 0.25f;
 
     // State for touch controls
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
@@ -437,7 +437,9 @@ public class CameraScript : MonoBehaviour {
 
                     // Add momentum
                     totalTouchMove += deltaPosition;
-                   
+                    // TODO: Adjust how momentum works to help make momentum happen more a bit more easily when expected / desired while still being unlikely to happen when not expected / desired.
+                        // This may be sufficient to do that?: Use a moving average (or a window?) to more heavily weigh the speed of movements towards the end of the gesture, or at the very end. Then lower the MOMENTUM_THRESHOLD!
+
                     // Move camera
                     float x = deltaPosition.x;
                     float y = deltaPosition.y;

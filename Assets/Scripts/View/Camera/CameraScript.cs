@@ -38,9 +38,9 @@ public class CameraScript : MonoBehaviour {
     private const float THRESHOLD_TOUCH_ZOOM = 0.06f;
     private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
     private const float THRESHOLD_TOUCH_ZOOM_START = 20f;
-    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.2f;
-    private const float MOMENTUM_THRESHOLD = 1500f;
-    private const float MOMENTUM_MINIMUM = 0.5f;
+    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.1f;
+    private const float MOMENTUM_THRESHOLD = 1500f; //was 1600
+    private const float MOMENTUM_MINIMUM = 0.25f;// was .5
 
     // State for touch controls
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen

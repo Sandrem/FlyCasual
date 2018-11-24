@@ -26,11 +26,11 @@ public class CameraScript : MonoBehaviour {
     private const float MIN_ROTATION = 0f;
 
     // Constants for touch controls
-    private const float SENSITIVITY_TOUCH_MOVE = 20f;
+    private const float SENSITIVITY_TOUCH_MOVE = 15f;
     private const float SENSITIVITY_TOUCH_MOVE_ZOOMED_IN = SENSITIVITY_TOUCH_MOVE / 15f;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
     private const float SENSITIVITY_TOUCH_ZOOM = 0.0375f;
-    //TODO: need to scale any of the thresholds by DPI? (zoom may already account for that, but the rest?)
+    //TODO: need to scale any of the thresholds by DPI? (zoom and pan may already account for that, but the rest?)
     private const float THRESHOLD_TOUCH_MOVE_MOMENTUM = 10f;
     private const float THRESHOLD_TOUCH_TURN = 0.05f;
     private const float THRESHOLD_TOUCH_TURN_SWITCH = 40f;

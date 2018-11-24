@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Ship;
 
 public static class Selection {
 
-    public static Ship.GenericShip ThisShip;
-    public static Ship.GenericShip AnotherShip;
-    public static Ship.GenericShip ActiveShip;
-    public static Ship.GenericShip HoveredShip;
+    public static GenericShip ThisShip;
+    public static GenericShip AnotherShip;
+    public static GenericShip ActiveShip;
+    public static GenericShip HoveredShip;
     	
     public static void Initialize()
     {
@@ -149,7 +149,7 @@ public static class Selection {
         ChangeActiveShipUsingThisShip ();
     }
 
-    public static void ChangeActiveShip(Ship.GenericShip genShip)
+    public static void ChangeActiveShip(GenericShip genShip)
     {
         DeselectThisShip();
         ThisShip = genShip;
@@ -203,7 +203,7 @@ public static class Selection {
         }
     }
 
-    private static void DeselectShip(Ship.GenericShip ship)
+    private static void DeselectShip(GenericShip ship)
     {
         ship.ToggleCollisionDetection(false);
         Roster.UnMarkShip(ship);

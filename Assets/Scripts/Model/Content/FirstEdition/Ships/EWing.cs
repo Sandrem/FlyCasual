@@ -75,7 +75,7 @@ namespace Ship.FirstEdition.EWing
                 "XWing-Laser", 3
             );
 
-            // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/a/aa/MR_E-WING.png";
 
             HotacManeuverTable = new AI.EWingTable();
         }

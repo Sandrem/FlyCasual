@@ -76,7 +76,7 @@ namespace Ship.FirstEdition.UWing
                 "Falcon-Fire", 3
             );
 
-            // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c5/MR_U-WING.png";
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c5/MR_U-WING.png";
 
             HotacManeuverTable = new AI.UWingTable();
         }

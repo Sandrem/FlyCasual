@@ -76,7 +76,7 @@ namespace Ship
                     "XWing-Laser", 2
                 );
 
-                // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4d/MS_QUADJUMPER.png";
 
                 HotacManeuverTable = new AI.QuadjumperTable();
             }

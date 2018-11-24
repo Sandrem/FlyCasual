@@ -74,7 +74,7 @@ namespace Ship
                     "Slave1-Fire", 2
                 );
 
-                // ManeuversImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fe/d9/fed9939b-8331-462b-a3b8-d8359d1342bd/swx75_a3_dial.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/90/MS_JUMPMASTER-5000.png";
 
                 HotacManeuverTable = new AI.Jumpmaster5000Table();
             }

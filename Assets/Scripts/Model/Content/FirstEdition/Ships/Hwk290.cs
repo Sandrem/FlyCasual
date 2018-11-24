@@ -70,7 +70,7 @@ namespace Ship.FirstEdition.Hwk290
                 "XWing-Laser", 1
             );
 
-            // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d1/MR_HWK-290.png";
 
             HotacManeuverTable = new AI.HWK290Table();
         }

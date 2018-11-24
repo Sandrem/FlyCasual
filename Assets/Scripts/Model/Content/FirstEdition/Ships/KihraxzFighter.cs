@@ -71,7 +71,7 @@ namespace Ship.FirstEdition.KihraxzFighter
                 "XWing-Laser", 3
             );
 
-            // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d8/MS_KIHRAXZ-FIGHTER.png";
 
             HotacManeuverTable = new AI.KihraxzTable();
         }

@@ -82,7 +82,7 @@ namespace Ship
                     "TIE-Fire", 3
                 );
 
-                // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/b5/Maneuver_Card_-_TIE_Silencer.png";
 
                 HotacManeuverTable = new AI.TIESilencerTable();
             }

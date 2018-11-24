@@ -77,7 +77,7 @@ namespace Ship
                     "TIE-Fire", 2
                 );
 
-                // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/b/b6/TIE_Fighter_Move.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/48/MS_M3-A-INTERCEPTOR.png";
 
                 HotacManeuverTable = new AI.M3AScykTable();
             }

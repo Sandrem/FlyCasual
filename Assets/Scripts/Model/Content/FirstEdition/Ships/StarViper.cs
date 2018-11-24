@@ -74,7 +74,7 @@ namespace Ship
                     "XWing-Laser", 3
                 );
 
-                // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/83/MS_PROTECTORATE-STARFIGHTER.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/bd/MS_STARVIPER.png";
 
                 HotacManeuverTable = new AI.StarviperTable();
             }

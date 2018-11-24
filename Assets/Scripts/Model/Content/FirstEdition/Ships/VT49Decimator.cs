@@ -69,7 +69,7 @@ namespace Ship.FirstEdition.VT49Decimator
                 "Slave1-Fire", 3
             );
 
-            // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c5/MR_U-WING.png";
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/f/fe/MI_VT-49-DECIMATOR.png";
 
             HotacManeuverTable = new AI.VT49DecimatorTable();
         }

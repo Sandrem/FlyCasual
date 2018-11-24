@@ -73,7 +73,7 @@ namespace Ship
                     "Slave1-Fire", 2
                 );
 
-                // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/8e/MI_TIE-INTERCEPTOR.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d9/20171223_151405.jpg";
 
                 HotacManeuverTable = new AI.AlphaClassStarWingTable();
             }

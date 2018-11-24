@@ -389,9 +389,14 @@ public class CameraScript : MonoBehaviour {
             return;
         }
 
-        // Note: in 2D mode we could also do this when 2 fingers are down (and thus a zoom is happening), since rotates can't also happen in 2D mode
-        if (Input.touchCount == 1)
+        if (Input.touchCount > 1) {
+            // Stop momentum as soon as a second finger is touched to the screen
+            panningMomentum = Vector2.zero;
+        }
+        if (Input.touchCount == 1) 
         {
+            // Note: in 2D mode we could also do this when 2 fingers are down (and thus a zoom is happening), since rotates can't also happen in 2D mode
+
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 // Stop momentum as soon as one finger is touched to the screen

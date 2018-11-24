@@ -350,8 +350,8 @@ public class CameraScript : MonoBehaviour {
                     if (Mathf.Abs(deltaCenterPos.magnitude) > THRESHOLD_TOUCH_TURN)
                     {
                         if (Console.IsActive) Console.Write("rot mag2:" + (deltaCenterPos.magnitude), LogTypes.Errors, true, "cyan");
-                        // Rotate!
 
+                        // Rotate!
                         float turnX = deltaCenterPos.y * -SENSITIVITY_TOUCH_TURN;
                         turnX = CamClampRotation(turnX);
                         Camera.Rotate(turnX, 0, 0);
@@ -360,8 +360,6 @@ public class CameraScript : MonoBehaviour {
                         transform.Rotate(0, 0, turnY);
 
                         if ((turnX != 0) || (turnY != 0)) WhenViewChanged();
-
-                        //TODO: some of that code above is redundant code with the mouse handling code, might make sense to move to a function 
 
                         lastProcessedRotateCenter = centerPos;
 
@@ -417,7 +415,7 @@ public class CameraScript : MonoBehaviour {
 
                     // Adjust sensitivity based on zoom level so the view always moves with your finger
                     // That means the view moves more when zoomed out than when zoomed in for the same physical movement
-                    // TODO: may be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vector between them? This is probably faster though
+                    // TODO: could be better to do this by just figuring out the coordinates in world space the current position and last position of the finger represent, using the vector between them? This is probably faster though
                     float sensitivity = Mathf.Max(SENSITIVITY_TOUCH_MOVE,
                                                   Mathf.Lerp(SENSITIVITY_TOUCH_MOVE_ZOOMED_IN,
                                                              SENSITIVITY_TOUCH_MOVE,
@@ -453,7 +451,6 @@ public class CameraScript : MonoBehaviour {
         else if (Input.touchCount == 0 && panningMomentum.magnitude > .5)
         {
             // Keep panning with momentum
-
             panningMomentum *= Mathf.Pow(FRICTION_TOUCH_MOVE_MOMENTUM, Time.deltaTime);
             Console.Write("momentum:" + panningMomentum.magnitude, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 

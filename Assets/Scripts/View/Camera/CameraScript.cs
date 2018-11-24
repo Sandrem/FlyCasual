@@ -32,14 +32,14 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_TOUCH_ZOOM = 0.0375f;
     //TODO: need to scale any of the thresholds by DPI? (zoom may already account for that, but the rest?)
     private const float THRESHOLD_TOUCH_MOVE_MOMENTUM = 10f;
-    private const float THRESHOLD_TOUCH_TURN = 0.05f;  //TODO: right value? seems ok, but could be lower if needed now that other values are set?
-    private const float THRESHOLD_TOUCH_TURN_SWITCH = 40f; // TODO: was 30 -- better on ipad??
+    private const float THRESHOLD_TOUCH_TURN = 0.05f;
+    private const float THRESHOLD_TOUCH_TURN_SWITCH = 40f;
     private const float THRESHOLD_TOUCH_TURN_START = 20f;
-    private const float THRESHOLD_TOUCH_ZOOM = 0.06f; //TODO: right value? seems ok, but could be lower if needed now that other values are set?
+    private const float THRESHOLD_TOUCH_ZOOM = 0.06f;
     private const float THRESHOLD_TOUCH_ZOOM_SWITCH = 30f;
-    private const float THRESHOLD_TOUCH_ZOOM_START = 20f; // was 12 -- is that better on ipad? probably!!! needs to be higher on iphone!!
-    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.2f; //was .3
-    private const float MOMENTUM_THRESHOLD = 15f; // TODO: test, was 12, was good but a little too sensitive
+    private const float THRESHOLD_TOUCH_ZOOM_START = 20f;
+    private const float FRICTION_TOUCH_MOVE_MOMENTUM = 0.2f;
+    private const float MOMENTUM_THRESHOLD = 15f;
 
     // State for touch controls
     private float initialPinchMagnitude = 0f; // Magnitude of the pinch when 2 fingers are first put on the screen
@@ -472,7 +472,6 @@ public class CameraScript : MonoBehaviour {
         {
             // Keep panning with momentum
             panningMomentum *= Mathf.Pow(FRICTION_TOUCH_MOVE_MOMENTUM, Time.deltaTime);
-            Console.Write("momentum:" + panningMomentum.magnitude, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
 
             float x = panningMomentum.x * Time.deltaTime;
             float y = panningMomentum.y * Time.deltaTime;

@@ -16,10 +16,9 @@ namespace Ship
                     5,
                     18,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ZetaAceAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ZetaAceAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

@@ -13,10 +13,9 @@ namespace Ship
                     6,
                     35,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ColonelVesseryAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ColonelVesseryAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

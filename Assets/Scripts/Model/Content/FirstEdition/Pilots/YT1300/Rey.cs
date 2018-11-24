@@ -17,7 +17,8 @@ namespace Ship
                     8,
                     45,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ReyPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ReyPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Missile
                 );
 
                 ShipInfo.ArcInfo.Firepower = 3;
@@ -25,8 +26,6 @@ namespace Ship
                 ShipInfo.Shields = 5;
 
                 ShipInfo.SubFaction = SubFaction.Resistance;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
             }
         }
     }

@@ -17,10 +17,9 @@ namespace Ship
                     9,
                     33,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.DengarPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.DengarPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

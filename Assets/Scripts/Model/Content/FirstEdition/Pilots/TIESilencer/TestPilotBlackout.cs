@@ -13,10 +13,9 @@ namespace Ship
                     7,
                     31,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.TestPilotBlackoutAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TestPilotBlackoutAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

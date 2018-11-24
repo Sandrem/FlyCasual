@@ -16,10 +16,9 @@ namespace Ship
                     5,
                     21,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SabineWrenPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SabineWrenPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

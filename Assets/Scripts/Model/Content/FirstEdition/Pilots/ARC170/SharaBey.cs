@@ -4,6 +4,7 @@ using System.Linq;
 using BoardTools;
 using Ship;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,10 +19,9 @@ namespace Ship
                     6,
                     28,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SharaBeyAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SharaBeyAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

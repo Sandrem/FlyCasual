@@ -13,13 +13,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Syndicate Thug",
                     2,
-                    18
+                    18,
+                    factionOverride: Faction.Scum
                 );
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Astromech);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.SalvagedAstromech);
-
-                ShipInfo.Faction = Faction.Scum;
 
                 ModelInfo.SkinName = "Brown";
             }

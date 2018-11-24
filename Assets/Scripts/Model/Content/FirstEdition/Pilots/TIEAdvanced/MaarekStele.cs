@@ -13,10 +13,9 @@ namespace Ship
                     7,
                     27,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.MaarekSteleAbility)
+                    abilityType: typeof(Abilities.FirstEdition.MaarekSteleAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

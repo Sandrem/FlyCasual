@@ -19,10 +19,9 @@ namespace Ship
                     7,
                     29,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.NienNunbAbility)
+                    abilityType: typeof(Abilities.FirstEdition.NienNunbAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

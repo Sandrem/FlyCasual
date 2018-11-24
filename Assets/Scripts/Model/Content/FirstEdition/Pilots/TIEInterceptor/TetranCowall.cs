@@ -18,10 +18,9 @@ namespace Ship
                     7,
                     24,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.TetranCowallAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TetranCowallAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Red Stripes";
             }

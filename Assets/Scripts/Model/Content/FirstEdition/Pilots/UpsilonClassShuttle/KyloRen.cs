@@ -20,10 +20,9 @@ namespace Ship
                     6,
                     34,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KyloRenPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KyloRenPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

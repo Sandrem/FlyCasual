@@ -18,10 +18,9 @@ namespace Ship
                     7,
                     30,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ElloAstyAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ElloAstyAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

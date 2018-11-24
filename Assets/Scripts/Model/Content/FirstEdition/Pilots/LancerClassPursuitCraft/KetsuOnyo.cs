@@ -18,10 +18,9 @@ namespace Ship
                     7,
                     38,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KetsuOnyoPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KetsuOnyoPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

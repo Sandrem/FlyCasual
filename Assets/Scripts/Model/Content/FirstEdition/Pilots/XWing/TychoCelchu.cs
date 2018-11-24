@@ -16,10 +16,9 @@ namespace Ship
                     8,
                     28,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 RequiredMods.Add(typeof(MyOtherRideIsMod));
                 ImageUrl = "https://i.imgur.com/imayMBg.png";

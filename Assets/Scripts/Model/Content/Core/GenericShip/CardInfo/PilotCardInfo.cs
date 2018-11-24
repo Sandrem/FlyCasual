@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -10,7 +11,6 @@ namespace Ship
         public int Initiative { get; private set; }
         public int Limited { get; private set; }
 
-        public string AbilityText { get; private set; }
         public Type AbilityType { get; private set; }
 
         public int Force { get; private set; }
@@ -19,14 +19,16 @@ namespace Ship
 
         public int Cost { get; private set; }
 
-        public PilotCardInfo(string pilotName, int initiative, int cost, int limited = 0, string abilityText = "", Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, bool regensCharges = false)
+        public List<UpgradeType> ExtraUpgrades { get; private set; }
+        public Faction Faction { get; private set; }
+
+        public PilotCardInfo(string pilotName, int initiative, int cost, int limited = 0, Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, bool regensCharges = false, UpgradeType extraUpgradeIcon = UpgradeType.None, List<UpgradeType> extraUpgradeIcons = null, Faction factionOverride = Faction.None)
         {
             PilotName = pilotName;
             PilotTitle = pilotTitle;
             Initiative = initiative;
             Limited = limited;
 
-            AbilityText = abilityText;
             AbilityType = abilityType;
 
             Force = force;
@@ -34,6 +36,10 @@ namespace Ship
             RegensCharges = regensCharges;
 
             Cost = cost;
+
+            if (extraUpgradeIcon != UpgradeType.None) ExtraUpgrades = new List<UpgradeType>() { extraUpgradeIcon };
+            if (extraUpgradeIcons != null) ExtraUpgrades = new List<UpgradeType>(extraUpgradeIcons);
+            if (factionOverride != Faction.None) Faction = factionOverride;
         }
     }
 }

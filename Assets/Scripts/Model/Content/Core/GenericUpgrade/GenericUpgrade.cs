@@ -41,7 +41,8 @@ namespace Upgrade
         Illicit,
         Modification,
         Title,
-        Configuration        
+        Configuration,
+        None
     }
 
     public abstract class GenericUpgrade : IImageHolder

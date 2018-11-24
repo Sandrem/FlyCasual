@@ -15,14 +15,12 @@ namespace Ship
                     6,
                     36,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.EmonAzzameenAbility)
+                    abilityType: typeof(Abilities.FirstEdition.EmonAzzameenAbility),
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    factionOverride: Faction.Scum
                 );
 
                 ModelInfo.SkinName = "Emon Azzameen";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
             }
         }
     }

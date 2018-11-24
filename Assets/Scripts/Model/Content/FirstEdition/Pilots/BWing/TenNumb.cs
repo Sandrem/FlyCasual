@@ -15,10 +15,9 @@ namespace Ship
                     8,
                     31,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.TenNumbAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TenNumbAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Dark Blue";
             }

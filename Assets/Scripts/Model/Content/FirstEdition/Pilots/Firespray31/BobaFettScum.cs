@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,15 +14,12 @@ namespace Ship
                     8,
                     39,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.BobaFettScumAbility)
+                    abilityType: typeof(Abilities.FirstEdition.BobaFettScumAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum
                 );
 
                 ModelInfo.SkinName = "Boba Fett";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
             }
         }
     }

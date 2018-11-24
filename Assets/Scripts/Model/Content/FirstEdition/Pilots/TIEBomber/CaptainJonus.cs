@@ -15,10 +15,9 @@ namespace Ship
                     6,
                     22,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.CaptainJonusAbility)
+                    abilityType: typeof(Abilities.FirstEdition.CaptainJonusAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

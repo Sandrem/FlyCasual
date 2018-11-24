@@ -18,10 +18,9 @@ namespace Ship
                     7,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.OldTerochAbility)
+                    abilityType: typeof(Abilities.FirstEdition.OldTerochAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

@@ -15,10 +15,9 @@ namespace Ship
                     8,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

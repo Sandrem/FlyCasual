@@ -14,10 +14,9 @@ namespace Ship
                     4,
                     24,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.CaptainFerophAbility)
+                    abilityType: typeof(Abilities.FirstEdition.CaptainFerophAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

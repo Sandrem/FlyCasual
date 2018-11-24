@@ -17,10 +17,9 @@ namespace Ship
                     7,
                     29,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KeyanFarlanderAbiliity)
+                    abilityType: typeof(Abilities.FirstEdition.KeyanFarlanderAbiliity),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Blue";
             }

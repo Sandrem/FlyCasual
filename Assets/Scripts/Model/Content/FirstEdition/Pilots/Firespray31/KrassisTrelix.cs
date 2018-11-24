@@ -14,12 +14,11 @@ namespace Ship
                     5,
                     36,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KrassisTrelixAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KrassisTrelixAbility),
+                    factionOverride: Faction.Imperial
                 );
 
                 ModelInfo.SkinName = "Krassis Trelix";
-
-                ShipInfo.Faction = Faction.Imperial;
             }
         }
     }

@@ -20,15 +20,13 @@ namespace Ship
                     7,
                     44,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.LandoCalrissianRebelPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.LandoCalrissianRebelPilotAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Missile }
                 );
 
                 ShipInfo.ArcInfo.Firepower = 3;
                 ShipInfo.Hull = 8;
                 ShipInfo.Shields = 5;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
             }
         }
     }

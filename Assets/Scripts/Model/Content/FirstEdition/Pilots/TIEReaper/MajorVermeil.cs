@@ -17,10 +17,9 @@ namespace Ship
                     6,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.MajorVermeilAbility)
+                    abilityType: typeof(Abilities.FirstEdition.MajorVermeilAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

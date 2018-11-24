@@ -16,10 +16,9 @@ namespace Ship
                     7,
                     27,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility)
+                    abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 RequiredMods.Add(typeof(PhoenixSquadronMod));
                 ImageUrl = "https://i.imgur.com/oBy5pDE.png";

@@ -1,4 +1,5 @@
 ﻿using Arcs;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -14,15 +15,12 @@ namespace Ship
                     7,
                     38,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KathScarletScumAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KathScarletScumAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum
                 );
 
                 ModelInfo.SkinName = "Kath Scarlet";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
             }
         }
     }

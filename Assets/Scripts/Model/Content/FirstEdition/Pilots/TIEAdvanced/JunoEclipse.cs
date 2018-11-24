@@ -17,10 +17,9 @@ namespace Ship
                     8,
                     28,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.JunoEclipseAbility)
+                    abilityType: typeof(Abilities.FirstEdition.JunoEclipseAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

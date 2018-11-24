@@ -20,10 +20,9 @@ namespace Ship
                     4,
                     27,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ManarooAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ManarooAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

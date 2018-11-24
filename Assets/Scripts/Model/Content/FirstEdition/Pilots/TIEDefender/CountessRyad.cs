@@ -16,10 +16,9 @@ namespace Ship
                     5,
                     34,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.CountessRyadAbility)
+                    abilityType: typeof(Abilities.FirstEdition.CountessRyadAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Crimson";
             }

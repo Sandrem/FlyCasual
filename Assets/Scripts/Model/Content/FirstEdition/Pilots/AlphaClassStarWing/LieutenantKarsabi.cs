@@ -15,10 +15,9 @@ namespace Ship
                     5,
                     24,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.LieutenantKarsabiAbility)
+                    abilityType: typeof(Abilities.FirstEdition.LieutenantKarsabiAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

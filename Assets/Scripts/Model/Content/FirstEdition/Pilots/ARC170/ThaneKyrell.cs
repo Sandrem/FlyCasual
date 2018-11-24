@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BoardTools;
 using Ship;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,10 +17,9 @@ namespace Ship
                     4,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ThaneKyrellPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ThaneKyrellPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

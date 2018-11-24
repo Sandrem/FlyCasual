@@ -18,12 +18,10 @@ namespace Ship
                     8,
                     30,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.CaptainNymRebelAbiliity)
+                    abilityType: typeof(Abilities.FirstEdition.CaptainNymRebelAbiliity),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    factionOverride: Faction.Rebel
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                ShipInfo.Faction = Faction.Rebel;
 
                 ModelInfo.SkinName = "Captain Nym (Rebel)";
             }

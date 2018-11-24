@@ -5,6 +5,7 @@ using Abilities.FirstEdition;
 using System;
 using Conditions;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -19,11 +20,9 @@ namespace Ship
                     9,
                     29,
                     limited: 1,
-                    abilityText: "When attacking, reduce the defender's agility value by 1 (to a minimum of \"0\")",
-                    abilityType: typeof(WedgeAntillesAbility)
+                    abilityType: typeof(WedgeAntillesAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

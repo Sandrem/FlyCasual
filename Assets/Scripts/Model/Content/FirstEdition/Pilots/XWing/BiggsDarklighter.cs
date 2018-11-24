@@ -19,7 +19,6 @@ namespace Ship
                     5,
                     25,
                     limited: 1,
-                    abilityText: "Once per game, at the start of the combat phase, you may choose that until the end of the round, other friendly ships at Range 1 cannot be targeted by attacks if the attacker could target you instead.",
                     abilityType: typeof(BiggsDarklighterAbility)
                 );
             }

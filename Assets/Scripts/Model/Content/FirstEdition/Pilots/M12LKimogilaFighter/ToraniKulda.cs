@@ -19,12 +19,11 @@ namespace Ship
                     8,
                     27,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ToraniKuldaAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ToraniKuldaAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
 
                 ModelInfo.SkinName = "Cartel Executioner";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

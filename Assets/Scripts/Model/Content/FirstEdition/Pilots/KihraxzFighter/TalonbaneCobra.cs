@@ -16,10 +16,9 @@ namespace Ship
                     9,
                     28,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.TalonbaneCobraAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TalonbaneCobraAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

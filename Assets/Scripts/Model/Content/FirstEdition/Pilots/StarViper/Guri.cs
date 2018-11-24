@@ -16,10 +16,9 @@ namespace Ship
                     5,
                     30,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.GuriAbility)
+                    abilityType: typeof(Abilities.FirstEdition.GuriAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

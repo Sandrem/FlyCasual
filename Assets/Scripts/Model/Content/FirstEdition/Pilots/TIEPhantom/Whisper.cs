@@ -15,10 +15,9 @@ namespace Ship
                     7,
                     32,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.WhisperAbility)
+                    abilityType: typeof(Abilities.FirstEdition.WhisperAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

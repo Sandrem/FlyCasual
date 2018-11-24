@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace FirstEdition.ProtectorateStarfighter
     {
@@ -12,10 +14,9 @@
                     28,
                     limited: 1,
                     abilityText: "When attacking or defending, if the enemy ship is at Range 1, you may roll 1 additional die.",
-                    abilityType: typeof(Abilities.FirstEdition.FennRauScumAbility)
+                    abilityType: typeof(Abilities.FirstEdition.FennRauScumAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

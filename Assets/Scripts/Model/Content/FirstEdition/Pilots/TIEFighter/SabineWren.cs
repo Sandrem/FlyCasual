@@ -13,12 +13,11 @@ namespace Ship
                     5,
                     15,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SabineWrenPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SabineWrenPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    factionOverride: Faction.Rebel
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                ShipInfo.Faction = Faction.Rebel;
                 ModelInfo.ModelName = "TIE Fighter Rebel";
                 ModelInfo.SkinName = "Rebel";
             }

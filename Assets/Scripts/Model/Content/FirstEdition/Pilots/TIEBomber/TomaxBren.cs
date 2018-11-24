@@ -13,10 +13,9 @@ namespace Ship
                     8,
                     24,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.TomaxBrenAbility)
+                    abilityType: typeof(Abilities.FirstEdition.TomaxBrenAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using ActionsList;
 using Ship;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,10 +19,9 @@ namespace Ship
                     7,
                     29,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.NorraWexleyARC170Ability)
+                    abilityType: typeof(Abilities.FirstEdition.NorraWexleyARC170Ability),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

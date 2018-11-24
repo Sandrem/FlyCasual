@@ -17,10 +17,9 @@ namespace Ship
                     6,
                     28,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SnapWexleyAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SnapWexleyAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

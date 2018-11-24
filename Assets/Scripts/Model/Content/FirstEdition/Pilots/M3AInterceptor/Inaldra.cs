@@ -16,10 +16,9 @@ namespace Ship
                     3,
                     15,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.InaldraAbility)
+                    abilityType: typeof(Abilities.FirstEdition.InaldraAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

@@ -18,12 +18,11 @@ namespace Ship
                     8,
                     30,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.CaptainNymScumAbiliity)
+                    abilityType: typeof(Abilities.FirstEdition.CaptainNymScumAbiliity),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
 
                 ModelInfo.SkinName = "Captain Nym (Scum)";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

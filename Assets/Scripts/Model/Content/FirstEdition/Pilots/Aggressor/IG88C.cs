@@ -18,10 +18,9 @@ namespace Ship
                     6,
                     36,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.IG88CAbility)
+                    abilityType: typeof(Abilities.FirstEdition.IG88CAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace FirstEdition.JumpMaster5000
     {
@@ -9,10 +11,9 @@
                 PilotInfo = new PilotCardInfo(
                     "Contracted Scout",
                     3,
-                    25
+                    25,
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

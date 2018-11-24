@@ -14,10 +14,9 @@ namespace Ship
                     7,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.MajorVynderAbility)
+                    abilityType: typeof(Abilities.FirstEdition.MajorVynderAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

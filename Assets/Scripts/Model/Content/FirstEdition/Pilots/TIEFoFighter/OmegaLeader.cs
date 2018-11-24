@@ -14,10 +14,9 @@ namespace Ship
                     8,
                     21,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.OmegaLeaderAbility)
+                    abilityType: typeof(Abilities.FirstEdition.OmegaLeaderAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

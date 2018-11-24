@@ -14,10 +14,9 @@ namespace Ship
                     9,
                     29,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.QuickDrawPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.QuickDrawPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

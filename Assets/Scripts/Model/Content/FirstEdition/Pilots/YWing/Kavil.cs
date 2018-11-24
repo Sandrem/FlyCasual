@@ -16,13 +16,12 @@ namespace Ship
                     7,
                     24,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KavilAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KavilAbility),
+                    factionOverride: Faction.Scum
                 );
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Astromech);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.SalvagedAstromech);
-
-                ShipInfo.Faction = Faction.Scum;
 
                 ModelInfo.SkinName = "Kavil";
             }

@@ -16,16 +16,14 @@ namespace Ship
                     3,
                     24,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility)
+                    abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
+                RequiredMods.Add(typeof(MyOtherRideIsMod));
                 ImageUrl = "https://i.imgur.com/V6m7JN9.png";
 
                 ModelInfo.SkinName = "Dark Blue";
-
-                RequiredMods.Add(typeof(MyOtherRideIsMod));
             }
         }
     }

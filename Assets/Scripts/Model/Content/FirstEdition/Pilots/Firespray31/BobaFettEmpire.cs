@@ -16,14 +16,12 @@ namespace Ship
                     8,
                     39,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.BobaFettEmpireAbility)
+                    abilityType: typeof(Abilities.FirstEdition.BobaFettEmpireAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    factionOverride: Faction.Imperial
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Boba Fett";
-
-                ShipInfo.Faction = Faction.Imperial;
             }
         }
     }

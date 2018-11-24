@@ -19,10 +19,9 @@ namespace Ship
                     5,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.NeraDantelsAbility)
+                    abilityType: typeof(Abilities.FirstEdition.NeraDantelsAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Red";
             }

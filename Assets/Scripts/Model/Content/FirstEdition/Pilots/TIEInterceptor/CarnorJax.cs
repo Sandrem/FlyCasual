@@ -17,10 +17,9 @@ namespace Ship
                     8,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.CarnorJaxAbility)
+                    abilityType: typeof(Abilities.FirstEdition.CarnorJaxAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Royal Guard";
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Abilities;
 using ActionsList;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,12 +17,11 @@ namespace Ship
                     5,
                     25,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.LeevanTenzaAbility)
+                    abilityType: typeof(Abilities.FirstEdition.LeevanTenzaAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
 
                 ModelInfo.SkinName = "Partisan";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

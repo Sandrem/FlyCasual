@@ -15,10 +15,9 @@ namespace Ship
                     7,
                     30,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.WullffwarroAbility)
+                    abilityType: typeof(Abilities.FirstEdition.WullffwarroAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

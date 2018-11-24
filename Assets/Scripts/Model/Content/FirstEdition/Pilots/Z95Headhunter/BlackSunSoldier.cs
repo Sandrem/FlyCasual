@@ -13,12 +13,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Black Sun Soldier",
                     3,
-                    13
+                    13,
+                    extraUpgradeIcon: UpgradeType.Illicit,
+                    factionOverride: Faction.Scum
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
             }
         }
     }

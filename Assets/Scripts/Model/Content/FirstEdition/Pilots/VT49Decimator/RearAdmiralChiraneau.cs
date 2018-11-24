@@ -16,10 +16,9 @@ namespace Ship
                     8,
                     46,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.RearAdmiralChiraneauAbility)
+                    abilityType: typeof(Abilities.FirstEdition.RearAdmiralChiraneauAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

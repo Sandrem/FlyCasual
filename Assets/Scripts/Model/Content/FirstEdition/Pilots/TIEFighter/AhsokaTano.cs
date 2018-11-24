@@ -17,12 +17,11 @@ namespace Ship
                     7,
                     17,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.AhsokaTanoPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.AhsokaTanoPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    factionOverride: Faction.Rebel
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
-                ShipInfo.Faction = Faction.Rebel;
                 ModelInfo.ModelName = "TIE Fighter Rebel";
                 ModelInfo.SkinName = "Rebel";
             }

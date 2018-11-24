@@ -16,10 +16,9 @@ namespace Ship
                     8,
                     18,
                     limited: 1,
-                    abilityType: typeof(HowlrunnerAbility)
+                    abilityType: typeof(HowlrunnerAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

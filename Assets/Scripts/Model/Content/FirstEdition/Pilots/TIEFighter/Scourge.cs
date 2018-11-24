@@ -2,6 +2,7 @@
 using Arcs;
 using BoardTools;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,10 +17,9 @@ namespace Ship
                     7,
                     17,
                     limited: 1,
-                    abilityType: typeof(ScourgeAbility)
+                    abilityType: typeof(ScourgeAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

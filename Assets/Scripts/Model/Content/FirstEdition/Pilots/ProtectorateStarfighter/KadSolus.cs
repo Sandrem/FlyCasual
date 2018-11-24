@@ -17,10 +17,9 @@ namespace Ship
                     6,
                     25,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KadSolusAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KadSolusAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

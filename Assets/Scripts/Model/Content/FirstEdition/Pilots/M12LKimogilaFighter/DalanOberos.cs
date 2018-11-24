@@ -19,12 +19,11 @@ namespace Ship
                     7,
                     25,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.DalanOberosAbility)
+                    abilityType: typeof(Abilities.FirstEdition.DalanOberosAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
 
                 ModelInfo.SkinName = "Dalan Oberos";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

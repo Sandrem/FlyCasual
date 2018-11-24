@@ -21,10 +21,9 @@ namespace Ship
                     9,
                     20,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.FennRauRebelAbility)
+                    abilityType: typeof(Abilities.FirstEdition.FennRauRebelAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

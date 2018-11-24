@@ -17,10 +17,9 @@ namespace Ship
                     6,
                     28,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SolSixxaAbiliity)
+                    abilityType: typeof(Abilities.FirstEdition.SolSixxaAbiliity),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

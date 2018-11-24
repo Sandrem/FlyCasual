@@ -18,12 +18,11 @@ namespace Ship
                     8,
                     35,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.CorranHornAbility)
+                    abilityType: typeof(Abilities.FirstEdition.CorranHornAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
 
                 ModelInfo.SkinName = "Green";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

@@ -18,10 +18,9 @@ namespace Ship
                     6,
                     26,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SawGerreraPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SawGerreraPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Partisan";
             }

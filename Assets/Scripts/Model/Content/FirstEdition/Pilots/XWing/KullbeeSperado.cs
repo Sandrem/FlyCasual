@@ -16,12 +16,11 @@ namespace Ship
                     7,
                     26,
                     limited: 1,
-                    abilityType: typeof(KullbeeSperadoAbility)
+                    abilityType: typeof(KullbeeSperadoAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
 
                 ModelInfo.SkinName = "Partisan";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

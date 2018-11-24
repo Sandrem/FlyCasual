@@ -19,10 +19,9 @@ namespace Ship
                     6,
                     37,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.AsajjVentressPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.AsajjVentressPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

@@ -19,10 +19,9 @@ namespace Ship
                     7,
                     24,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.JakeFarrellAbility)
+                    abilityType: typeof(Abilities.FirstEdition.JakeFarrellAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Blue";
             }

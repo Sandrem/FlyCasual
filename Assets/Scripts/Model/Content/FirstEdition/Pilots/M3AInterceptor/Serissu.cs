@@ -15,10 +15,9 @@ namespace Ship
                     8,
                     20,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SerissuAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SerissuAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Serissu";
             }

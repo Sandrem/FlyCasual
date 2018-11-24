@@ -17,15 +17,13 @@ namespace Ship
                     9,
                     46,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.HanSoloAbility)
+                    abilityType: typeof(Abilities.FirstEdition.HanSoloAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Missile }
                 );
 
                 ShipInfo.ArcInfo.Firepower = 3;
                 ShipInfo.Hull = 8;
                 ShipInfo.Shields = 5;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
             }
         }
     }

@@ -13,10 +13,9 @@ namespace Ship
                     5,
                     17,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.EzraBridgerPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.EzraBridgerPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

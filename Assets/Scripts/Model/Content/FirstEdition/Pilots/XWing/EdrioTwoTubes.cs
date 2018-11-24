@@ -4,6 +4,7 @@ using Ship;
 using System;
 using Tokens;
 using Abilities.FirstEdition;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,12 +19,11 @@ namespace Ship
                     4,
                     24,
                     limited: 1,
-                    abilityType: typeof(EdrioTwoTubesAbility)
+                    abilityType: typeof(EdrioTwoTubesAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
 
                 ModelInfo.SkinName = "Partisan";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

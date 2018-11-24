@@ -16,10 +16,9 @@ namespace Ship
                     9,
                     27,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.SoontirFelAbility)
+                    abilityType: typeof(Abilities.FirstEdition.SoontirFelAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Red Stripes";
             }

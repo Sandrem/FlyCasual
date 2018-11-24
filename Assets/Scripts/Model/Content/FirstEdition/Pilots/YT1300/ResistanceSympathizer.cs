@@ -13,7 +13,8 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Resistance Sympathizer",
                     3,
-                    38
+                    38,
+                    extraUpgradeIcon: UpgradeType.Missile
                 );
 
                 ShipInfo.ArcInfo.Firepower = 3;
@@ -21,8 +22,6 @@ namespace Ship
                 ShipInfo.Shields = 5;
 
                 ShipInfo.SubFaction = SubFaction.Resistance;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
             }
         }
     }

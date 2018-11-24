@@ -15,15 +15,13 @@ namespace Ship
                     5,
                     42,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.ChewbaccaRebelPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.ChewbaccaRebelPilotAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Missile }
                 );
 
                 ShipInfo.ArcInfo.Firepower = 3;
                 ShipInfo.Hull = 8;
                 ShipInfo.Shields = 5;
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
             }
         }
     }

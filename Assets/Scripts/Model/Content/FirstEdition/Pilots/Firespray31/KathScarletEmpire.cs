@@ -14,14 +14,12 @@ namespace Ship
                     7,
                     38,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KathScarletEmpireAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KathScarletEmpireAbility),
+                    extraUpgradeIcon: UpgradeType.Elite,
+                    factionOverride: Faction.Imperial
                 );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-
                 ModelInfo.SkinName = "Kath Scarlet";
-
-                ShipInfo.Faction = Faction.Imperial;
             }
         }
     }

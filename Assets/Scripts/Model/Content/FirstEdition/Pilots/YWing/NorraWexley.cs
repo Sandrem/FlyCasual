@@ -18,10 +18,9 @@ namespace Ship
                     7,
                     24,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.NorraWexleyYWingAbility)
+                    abilityType: typeof(Abilities.FirstEdition.NorraWexleyYWingAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 RequiredMods.Add(typeof(MyOtherRideIsMod));
                 ImageUrl = "https://i.imgur.com/5HBK61g.png";

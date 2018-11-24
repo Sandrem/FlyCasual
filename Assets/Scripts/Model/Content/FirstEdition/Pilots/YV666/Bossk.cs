@@ -16,10 +16,9 @@ namespace Ship
                     7,
                     35,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.BosskPilotAbility)
+                    abilityType: typeof(Abilities.FirstEdition.BosskPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

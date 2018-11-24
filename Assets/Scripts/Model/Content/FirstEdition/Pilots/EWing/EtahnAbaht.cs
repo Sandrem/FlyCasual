@@ -16,10 +16,9 @@ namespace Ship
                     5,
                     32,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.EtahnAbahtAbility)
+                    abilityType: typeof(Abilities.FirstEdition.EtahnAbahtAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

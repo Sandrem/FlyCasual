@@ -21,13 +21,10 @@ namespace Ship
                     5,
                     20,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.PalobGodalhi)
+                    abilityType: typeof(Abilities.FirstEdition.PalobGodalhi),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit},
+                    factionOverride: Faction.Scum
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
-
-                ShipInfo.Faction = Faction.Scum;
             }
         }
     }

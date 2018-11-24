@@ -9,12 +9,11 @@
                 PilotInfo = new PilotCardInfo(
                     "Bounty Hunter",
                     3,
-                    33
+                    33,
+                    factionOverride: Faction.Imperial
                 );
 
                 ModelInfo.SkinName = "Bounty Hunter";
-
-                ShipInfo.Faction = Faction.Imperial;
             }
         }
     }

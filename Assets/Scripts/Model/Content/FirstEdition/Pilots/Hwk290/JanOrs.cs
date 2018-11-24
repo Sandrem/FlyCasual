@@ -17,10 +17,9 @@ namespace Ship
                     8,
                     25,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.JanOrsAbility)
+                    abilityType: typeof(Abilities.FirstEdition.JanOrsAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

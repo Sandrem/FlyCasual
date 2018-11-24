@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace FirstEdition.G1AStarfighter
     {
@@ -9,10 +11,9 @@
                 PilotInfo = new PilotCardInfo(
                     "Gand Findsman",
                     5,
-                    25
+                    25,
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(Upgrade.UpgradeType.Elite);
             }
         }
     }

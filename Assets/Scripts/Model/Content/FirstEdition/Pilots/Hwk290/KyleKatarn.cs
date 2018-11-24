@@ -19,10 +19,9 @@ namespace Ship
                     6,
                     21,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.KyleKatarnAbility)
+                    abilityType: typeof(Abilities.FirstEdition.KyleKatarnAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

@@ -13,10 +13,9 @@ namespace Ship
                     6,
                     17,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.LieutenantBlountAbiliity)
+                    abilityType: typeof(Abilities.FirstEdition.LieutenantBlountAbiliity),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
 
                 ModelInfo.SkinName = "Red";
             }

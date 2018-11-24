@@ -17,12 +17,11 @@ namespace Ship
                     5,
                     28,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.LowhhrickAbility)
+                    abilityType: typeof(Abilities.FirstEdition.LowhhrickAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
 
                 ModelInfo.SkinName = "Lowhhrick";
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

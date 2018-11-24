@@ -17,10 +17,9 @@ namespace Ship
                     6,
                     18,
                     limited: 1,
-                    abilityType: typeof(Abilities.FirstEdition.QuinnJastAbility)
+                    abilityType: typeof(Abilities.FirstEdition.QuinnJastAbility),
+                    extraUpgradeIcon: UpgradeType.Elite
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
             }
         }
     }

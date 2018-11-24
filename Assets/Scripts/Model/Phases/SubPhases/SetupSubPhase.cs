@@ -166,7 +166,7 @@ namespace SubPhases
 
         public static void PlaceShip(int shipId, Vector3 position, Vector3 angles)
         {
-            Phases.CurrentSubPhase.IsReadyForCommands = false; //TODO: or issometing else doing this???
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
 
             Roster.SetRaycastTargets(true);
             inReposition = false;
@@ -294,7 +294,7 @@ namespace SubPhases
                 Selection.ThisShip.ResetRotationHelpers();
             }
 
-            if (touchObjectPlacementHandler.GetNewPosition() != Vector3.zero) //TODO: need to assign to a variable or is this readable / perfromant enough?
+            if (touchObjectPlacementHandler.GetNewPosition() != Vector3.zero)
             {
                 Selection.ThisShip.SetCenter(new Vector3(touchObjectPlacementHandler.GetNewPosition().x, 0f, 
                                                          touchObjectPlacementHandler.GetNewPosition().z));

@@ -91,11 +91,14 @@ namespace Abilities.SecondEdition
 
         private void OnUndocked(GenericShip dockingHost)
         {
-            HostShip.PilotInfo.PilotName = dockingHost.PilotInfo.PilotName;
-            HostShip.PilotInfo.Initiative = dockingHost.PilotInfo.Initiative;
-
-            HostShip.PilotInfo.RegensCharges = dockingHost.PilotInfo.RegensCharges;
-            HostShip.PilotInfo.Charges = dockingHost.PilotInfo.Charges;
+            HostShip.PilotInfo = new PilotCardInfo(
+                dockingHost.PilotInfo.PilotName,
+                dockingHost.PilotInfo.Initiative,
+                6,
+                limited: 1,
+                charges: dockingHost.PilotInfo.Charges,
+                regensCharges: dockingHost.PilotInfo.RegensCharges
+            );
 
             Type pilotAbilityType = dockingHost.PilotInfo.AbilityType;
             GenericAbility pilotAbility = (GenericAbility)System.Activator.CreateInstance(pilotAbilityType);

@@ -5,19 +5,19 @@ namespace Ship
 {
     public class PilotCardInfo
     {
-        public string PilotName { get; set; }
+        public string PilotName { get; private set; }
         public string PilotTitle { get; private set; }
-        public int Initiative { get; set; }
+        public int Initiative { get; private set; }
         public int Limited { get; private set; }
 
         public string AbilityText { get; private set; }
         public Type AbilityType { get; private set; }
 
         public int Force { get; private set; }
-        public int Charges { get; set; }
-        public bool RegensCharges { get; set; }
+        public int Charges { get; private set; }
+        public bool RegensCharges { get; private set; }
 
-        public int Cost { get; set; }
+        public int Cost { get; private set; }
 
         public PilotCardInfo(string pilotName, int initiative, int cost, int limited = 0, string abilityText = "", Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, bool regensCharges = false)
         {

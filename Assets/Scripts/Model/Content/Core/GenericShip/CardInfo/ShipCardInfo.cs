@@ -10,15 +10,14 @@ namespace Ship
         public Faction Faction { get; set; }
 
         public ShipArcsInfo ArcInfo { get; private set; }
-        public int Firepower { get; private set; }
+        public int Firepower { get {return ArcInfo.Firepower; } }
         public int Agility { get; private set; }
         public int Hull { get; set; }
         public int Shields { get; set; }
 
-        public ShipActionsInfo ActionIcons { get; set; }
+        public ShipActionsInfo ActionIcons { get; private set; }
         public ShipUpgradesInfo UpgradeIcons { get; private set; }
 
-        public SubFaction ShipSubFaction { get; private set; }
         public char Icon { get; private set; }
         public List<Faction> FactionsAll { get; set; }
 
@@ -52,7 +51,7 @@ namespace Ship
             }
         }
 
-        public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', SubFaction shipSubFaction = SubFaction.None, List<Faction> factionsAll = null, SubFaction subFaction = SubFaction.None)
+        public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', SubFaction subFaction = SubFaction.None, List<Faction> factionsAll = null)
         {
             ShipName = shipName;
             BaseSize = baseSize;
@@ -61,7 +60,6 @@ namespace Ship
             if (subFaction != SubFaction.None) SubFaction = subFaction;
 
             ArcInfo = arcInfo;
-            Firepower = arcInfo.Firepower;
 
             Agility = agility;
             Hull = hull;
@@ -70,7 +68,6 @@ namespace Ship
             ActionIcons = actionIcons;
             UpgradeIcons = upgradeIcons;
 
-            ShipSubFaction = shipSubFaction;
             Icon = icon;
 
             FactionsAll = (factionsAll != null) ? factionsAll : new List<Faction>() { faction };

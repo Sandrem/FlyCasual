@@ -161,7 +161,7 @@ namespace SubPhases
                 ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, touchObjectPlacementHandler.GetNewRotation(), 0);
             }
 
-            if (touchObjectPlacementHandler.GetNewPosition() != Vector3.zero) //TODO: need to assign to a variable or is this readable / perfromant enough?
+            if (touchObjectPlacementHandler.GetNewPosition() != Vector3.zero)
             {
                 ChosenObstacle.ObstacleGO.transform.position = new Vector3(touchObjectPlacementHandler.GetNewPosition().x, 0f, 
                                                                            touchObjectPlacementHandler.GetNewPosition().z);
@@ -349,13 +349,11 @@ namespace SubPhases
                     bool castHit = Physics.Raycast(ray, out hitInfo);
 
                     // If an asteroid wasn't found and we're on touch, see if the user tapped right next to an asteroid
+                    // Since the asteroid can be small, they can be hard to touch and this helps with that
                     if (CameraScript.InputTouchIsEnabled && 
                         (!castHit || !hitInfo.transform.tag.StartsWith("Asteroid"))) {
                        
                         castHit = Physics.SphereCast(ray, 0.1f, out hitInfo, 10f);
-                        if (castHit){
-                            Console.Write("spherehit!!"); //TODO: remove this after testing
-                        }
                     }
 
 
@@ -384,7 +382,7 @@ namespace SubPhases
             {
                 // With touch controls, wait for confirmation before setting the position
                 UI.ShowNextButton();
-                IsReadyForCommands = true; //**TODO: need to adjust isreadyforcommands with the placement action too?
+                IsReadyForCommands = true;
 
                 // Set up touch handler
                 touchObjectPlacementHandler.SetObstacle(obstacle);

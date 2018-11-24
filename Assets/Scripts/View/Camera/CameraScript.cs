@@ -29,8 +29,8 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_TOUCH_MOVE = 0.015f;
     private const float SENSITIVITY_TOUCH_MOVE_ZOOMED_IN = SENSITIVITY_TOUCH_MOVE / 7;
     private const float SENSITIVITY_TOUCH_TURN = 0.125f;
-    private const float SENSITIVITY_TOUCH_ZOOM = 0.0375f; // was .075//TODO: Turn down a bit? Seems a bit too fast still, especially in 2d mode
-    //TODO: need to ensure thresholds are resolution-independant?
+    private const float SENSITIVITY_TOUCH_ZOOM = 0.0375f;
+    //TODO: need to scale any of the thresholds by DPI? (zoom may already account for that, but the rest?)
     private const float THRESHOLD_TOUCH_MOVE_MOMENTUM = 10f;
     private const float THRESHOLD_TOUCH_TURN = 0.05f;  //TODO: right value? seems ok, but could be lower if needed now that other values are set?
     private const float THRESHOLD_TOUCH_TURN_SWITCH = 40f; // TODO: was 30 -- better on ipad??
@@ -439,7 +439,7 @@ public class CameraScript : MonoBehaviour {
                 // Keep incrementing duration while 1 finger is down even if no movement is happening
                 totalTouchMoveDuration += Time.deltaTime;
 
-                if (totalTouchMove.magnitude / totalTouchMoveDuration > MOMENTUM_THRESHOLD) //TODO: make constant? base on DPI?
+                if (totalTouchMove.magnitude / totalTouchMoveDuration > MOMENTUM_THRESHOLD)
                 {
                     panningMomentum = totalTouchMove / totalTouchMoveDuration;
                 }
@@ -463,11 +463,6 @@ public class CameraScript : MonoBehaviour {
             if ((x != 0) || (y != 0)) WhenViewChanged();
             transform.Translate(x, y, 0);
 
-        }
-        else if (Input.touchCount > 2 && Input.GetTouch(2).phase == TouchPhase.Ended)
-        {
-            // TODO: this is mostly for debugging, will probably remove. we do probably need a close button at least for the console on mobile though
-            Console.IsActive = !Console.IsActive;
         }
     }
 

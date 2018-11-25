@@ -156,6 +156,16 @@ namespace ActionsList
             return result;
         }
 
+        public GenericAction AsRedAction
+        {
+            get
+            {
+                var redAction = (GenericAction)MemberwiseClone();
+                redAction.IsRed = true;
+                return redAction;
+            }
+        }
+
     }
 
 }

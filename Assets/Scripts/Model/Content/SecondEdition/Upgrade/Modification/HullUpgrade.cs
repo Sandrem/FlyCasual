@@ -4,7 +4,7 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class HullUpgrade : GenericUpgrade
+    public class HullUpgrade : GenericUpgrade, IVariableCost
     {
         public HullUpgrade() : base()
         {

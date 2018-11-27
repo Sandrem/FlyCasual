@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
-    public class StealthDevice : GenericUpgrade
+    public class StealthDevice : GenericUpgrade, IVariableCost
     {
         public StealthDevice() : base()
         {

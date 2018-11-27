@@ -5,7 +5,7 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class EngineUpgrade : GenericUpgrade
+    public class EngineUpgrade : GenericUpgrade, IVariableCost
     {
         public EngineUpgrade() : base()
         {

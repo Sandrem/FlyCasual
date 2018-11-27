@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
-    public class ShieldUpgrade : GenericUpgrade
+    public class ShieldUpgrade : GenericUpgrade, IVariableCost
     {
         public ShieldUpgrade() : base()
         {

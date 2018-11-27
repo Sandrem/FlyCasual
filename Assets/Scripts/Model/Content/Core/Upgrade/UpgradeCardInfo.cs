@@ -19,18 +19,20 @@ namespace Upgrade
         public bool RegensCharges { get; private set; }
         public int SEImageNumber { get; private set; }
 
-        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, Type abilityType = null, Faction restrictionFaction = Faction.None, List<Faction> restrictionFactions = null, BaseSize restrictionSize = BaseSize.None, int charges = 0, bool regensCharges = false, int seImageNumber = 0, Type restrictionShip = null)
+        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, Faction restrictionFaction = Faction.None, List<Faction> restrictionFactions = null, BaseSize restrictionSize = BaseSize.None, int charges = 0, bool regensCharges = false, int seImageNumber = 0, Type restrictionShip = null)
         {
             Name = name;
             UpgradeTypes = new List<UpgradeType>() { upgradeType };
             Cost = cost;
-            Limited = (isLimited) ? 1 : 0;
             AbilityTypes = new List<Type>() { abilityType };
             RestrictionShip = restrictionShip;
             RestrictionSize = restrictionSize;
             Charges = charges;
             RegensCharges = regensCharges;
             SEImageNumber = seImageNumber;
+
+            Limited = (isLimited) ? 1 : 0;
+            if (limited != 0) Limited = limited;
 
             RestrictionFactions = new List<Faction>();
             if (restrictionFactions != null) RestrictionFactions.AddRange(restrictionFactions);

@@ -8,7 +8,7 @@ namespace Upgrade
     {
         public string Name { get; private set; }
         public List<UpgradeType> UpgradeTypes { get; private set; }
-        public int Cost { get; private set; }
+        public int Cost { get; set; }
         public int Limited { get; private set; }
         public bool IsLimited { get { return Limited != 0; } }
         public List<Type> AbilityTypes { get; private set; }

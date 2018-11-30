@@ -59,6 +59,8 @@ namespace Upgrade
 
         public bool isPlaceholder = false;
 
+        public string NamePostfix;
+
         private string nameCanonical;
         public string NameCanonical
         {

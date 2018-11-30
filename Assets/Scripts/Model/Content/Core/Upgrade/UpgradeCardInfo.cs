@@ -19,32 +19,35 @@ namespace Upgrade
         public UpgradeCardRestrictions Restrictions { get; private set; }
         public SpecialWeaponInfo WeaponInfo { get; private set; }
         public ActionInfo AddAction { get; private set; }
+        public bool FEIsLimited { get; private set; }
+        public List<UpgradeSlot> AddedSlots { get; private set; }
 
-        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, UpgradeCardRestriction restriction = null, UpgradeCardRestrictions restrictions = null, int charges = 0, bool regensCharges = false, int seImageNumber = 0, SpecialWeaponInfo weaponInfo = null, ActionInfo addAction = null)
+        public UpgradeCardInfo(string name, UpgradeType type = UpgradeType.None, List<UpgradeType> types = null, int cost = 0, bool isLimited = false, int limited = 0, Type abilityType = null, UpgradeCardRestriction restriction = null, UpgradeCardRestrictions restrictions = null, int charges = 0, bool regensCharges = false, int seImageNumber = 0, SpecialWeaponInfo weaponInfo = null, ActionInfo addAction = null, UpgradeSlot addSlot = null, List<UpgradeSlot> addSlots = null, bool feIsLimited = false)
         {
             Name = name;
-            UpgradeTypes = new List<UpgradeType>() { upgradeType };
             Cost = cost;
             AbilityTypes = new List<Type>() { abilityType };
             Charges = charges;
             RegensCharges = regensCharges;
             SEImageNumber = seImageNumber;
+            FEIsLimited = feIsLimited;
+            WeaponInfo = weaponInfo;
+            AddAction = addAction;
 
             Limited = (isLimited) ? 1 : 0;
             if (limited != 0) Limited = limited;
 
-            if (restrictions != null)
-            {
-                Restrictions = restrictions;
-            }
-            else
-            {
-                Restrictions = new UpgradeCardRestrictions(restriction);
-            }
+            UpgradeTypes = new List<UpgradeType>();
+            if (type != UpgradeType.None) UpgradeTypes.Add(type);
+            if (types != null) UpgradeTypes.AddRange(types);
 
-            WeaponInfo = weaponInfo;
+            Restrictions = new UpgradeCardRestrictions();
+            if (restriction != null) Restrictions = new UpgradeCardRestrictions(restriction);
+            if (restrictions != null) Restrictions = restrictions;
 
-            AddAction = addAction;
+            AddedSlots = new List<UpgradeSlot>();
+            if (addSlot != null) AddedSlots.Add(addSlot);
+            if (addSlots != null) AddedSlots.AddRange(addSlots);
         }
 
         public bool HasType(UpgradeType upgradeType)

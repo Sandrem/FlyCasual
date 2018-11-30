@@ -12,7 +12,7 @@ namespace UpgradesList.FirstEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Scavenger Crane",
                 UpgradeType.Illicit,
-                2,
+                cost: 2,
                 abilityType: typeof(Abilities.FirstEdition.ScavengerCraneAbility)
             );
         }        

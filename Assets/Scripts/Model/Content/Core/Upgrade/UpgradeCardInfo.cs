@@ -21,8 +21,9 @@ namespace Upgrade
         public ActionInfo AddAction { get; private set; }
         public bool FEIsLimited { get; private set; }
         public List<UpgradeSlot> AddedSlots { get; private set; }
+        public List<UpgradeType> ForbiddenSlots { get; private set; }
 
-        public UpgradeCardInfo(string name, UpgradeType type = UpgradeType.None, List<UpgradeType> types = null, int cost = 0, bool isLimited = false, int limited = 0, Type abilityType = null, UpgradeCardRestriction restriction = null, UpgradeCardRestrictions restrictions = null, int charges = 0, bool regensCharges = false, int seImageNumber = 0, SpecialWeaponInfo weaponInfo = null, ActionInfo addAction = null, UpgradeSlot addSlot = null, List<UpgradeSlot> addSlots = null, bool feIsLimited = false)
+        public UpgradeCardInfo(string name, UpgradeType type = UpgradeType.None, List<UpgradeType> types = null, int cost = 0, bool isLimited = false, int limited = 0, Type abilityType = null, UpgradeCardRestriction restriction = null, UpgradeCardRestrictions restrictions = null, int charges = 0, bool regensCharges = false, int seImageNumber = 0, SpecialWeaponInfo weaponInfo = null, ActionInfo addAction = null, UpgradeSlot addSlot = null, List<UpgradeSlot> addSlots = null, bool feIsLimited = false, UpgradeType forbidSlot = UpgradeType.None, List<UpgradeType> forbidSlots = null)
         {
             Name = name;
             Cost = cost;
@@ -48,6 +49,10 @@ namespace Upgrade
             AddedSlots = new List<UpgradeSlot>();
             if (addSlot != null) AddedSlots.Add(addSlot);
             if (addSlots != null) AddedSlots.AddRange(addSlots);
+
+            ForbiddenSlots = new List<UpgradeType>();
+            if (forbidSlot != UpgradeType.None) ForbiddenSlots.Add(forbidSlot);
+            if (forbidSlots != null) ForbiddenSlots.AddRange(forbidSlots);
         }
 
         public bool HasType(UpgradeType upgradeType)

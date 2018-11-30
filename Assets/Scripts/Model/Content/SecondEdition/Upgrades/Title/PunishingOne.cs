@@ -5,7 +5,7 @@ using Arcs;
 
 namespace UpgradesList.SecondEdition
 {
-    public class PunishingOne : GenericUpgradeSlotUpgrade
+    public class PunishingOne : GenericUpgrade
     {
         public PunishingOne() : base()
         {
@@ -16,14 +16,10 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.JumpMaster5000.JumpMaster5000)),
                 addSlot: new UpgradeSlot(UpgradeType.Astromech),
+                forbidSlot: UpgradeType.Crew,
                 abilityType: typeof(Abilities.SecondEdition.PunishingOneAbility),
                 seImageNumber: 152
             );
-
-            ForbiddenSlots = new List<UpgradeType>
-            {
-                UpgradeType.Crew
-            };
         }        
     }
 }

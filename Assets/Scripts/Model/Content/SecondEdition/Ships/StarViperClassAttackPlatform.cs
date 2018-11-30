@@ -32,28 +32,3 @@ namespace Ship
         }
     }
 }
-
-namespace Abilities.FirstEdition
-{
-    public class StarViperMkIIAbility : GenericAbility
-    {
-        public override void ActivateAbility()
-        {
-            HostShip.OnGetAvailableBarrelRollTemplates += ChangeBarrelRollTemplates;
-        }
-
-        public override void DeactivateAbility()
-        {
-            HostShip.OnGetAvailableBarrelRollTemplates -= ChangeBarrelRollTemplates;
-        }
-
-        private void ChangeBarrelRollTemplates(List<ActionsHolder.BarrelRollTemplates> availableTemplates)
-        {
-            if (availableTemplates.Contains(ActionsHolder.BarrelRollTemplates.Straight1))
-            {
-                availableTemplates.Remove(ActionsHolder.BarrelRollTemplates.Straight1);
-                availableTemplates.Add(ActionsHolder.BarrelRollTemplates.Bank1);
-            }
-        }
-    }
-}

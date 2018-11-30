@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
             {
                 if (ship.Value.ShipId != HostShip.ShipId)
                 {
-                    if (ship.Value.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n is UpgradesList.FirstEdition.Ig2000) > 0)
+                    if (ship.Value.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.Name == "IG-2000"))
                     {
                         Type pilotAbilityType = ship.Value.PilotAbilities[0].GetType();
                         GenericAbility pilotAbility = (GenericAbility)System.Activator.CreateInstance(pilotAbilityType);
@@ -59,7 +59,7 @@ namespace Abilities.FirstEdition
             {
                 if (ship.Value.ShipId != HostShip.ShipId)
                 {
-                    if (ship.Value.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n is UpgradesList.FirstEdition.Ig2000) > 0)
+                    if (ship.Value.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.Name == "IG-2000"))
                     {
                         List<GenericAbility> anotherPilotAbilities = new List<GenericAbility>(ship.Value.PilotAbilities);
 

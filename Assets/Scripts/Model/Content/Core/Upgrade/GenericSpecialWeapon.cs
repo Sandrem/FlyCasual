@@ -13,7 +13,7 @@ using Arcs;
 namespace Upgrade
 {
 
-    public class GenericSecondaryWeapon : GenericUpgrade, IShipWeapon
+    public class GenericSpecialWeapon : GenericUpgrade, IShipWeapon
     {
         public string Name { get { return UpgradeInfo.Name; } }
 
@@ -61,7 +61,7 @@ namespace Upgrade
             }
         }
 
-        public GenericSecondaryWeapon() : base()
+        public GenericSpecialWeapon() : base()
         {
             ArcRestrictions = new List<ArcType>();
         }
@@ -199,7 +199,7 @@ namespace SubPhases
 
     public class PayAttackCostDecisionSubPhase : DecisionSubPhase
     {
-        public GenericSecondaryWeapon Weapon;
+        public GenericSpecialWeapon Weapon;
 
         public override void PrepareDecision(System.Action callBack)
         {

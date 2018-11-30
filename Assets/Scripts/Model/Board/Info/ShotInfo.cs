@@ -59,14 +59,14 @@ namespace BoardTools
         private void CheckRange()
         {
             InArcInfo = new Dictionary<GenericArc, bool>();
-            List<ArcType> WeaponArcRestrictions = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).ArcRestrictions : null;
+            List<ArcType> WeaponArcRestrictions = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).ArcRestrictions : null;
             
             if(WeaponArcRestrictions != null && WeaponArcRestrictions.Count == 0)
             {
                 WeaponArcRestrictions = null;
             }
 
-            WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
+            WeaponTypes weaponType = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
 
             foreach (var arc in Ship1.ArcsInfo.Arcs)
             {

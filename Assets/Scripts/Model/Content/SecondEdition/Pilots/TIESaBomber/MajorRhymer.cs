@@ -37,7 +37,7 @@ namespace Abilities.SecondEdition
             HostShip.OnUpdateWeaponRange -= CheckAbility;
         }
 
-        private void CheckAbility(GenericSecondaryWeapon weapon, ref int minRange, ref int maxRange)
+        private void CheckAbility(GenericSpecialWeapon weapon, ref int minRange, ref int maxRange)
         {
             if (weapon.UpgradeInfo.HasType(UpgradeType.Missile) || weapon.UpgradeInfo.HasType(UpgradeType.Torpedo))
             {

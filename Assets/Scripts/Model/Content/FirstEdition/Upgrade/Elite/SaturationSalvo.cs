@@ -35,7 +35,7 @@ namespace Abilities.FirstEdition
 
         private void RegisterSaturationSalvoAbility()
         {
-            GenericSecondaryWeapon weapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
+            GenericSpecialWeapon weapon = Combat.ChosenWeapon as GenericSpecialWeapon;
             if (weapon != null)
             {
                 if (weapon.HasType(UpgradeType.Torpedo) || weapon.HasType(UpgradeType.Missile))

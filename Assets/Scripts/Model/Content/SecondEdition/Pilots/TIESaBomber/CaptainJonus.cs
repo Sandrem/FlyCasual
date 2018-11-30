@@ -55,9 +55,9 @@ namespace Abilities.SecondEdition
 
             protected override bool CanReRollWithWeaponClass()
             {
-                if (Combat.ChosenWeapon is GenericSecondaryWeapon)
+                if (Combat.ChosenWeapon is GenericSpecialWeapon)
                 {
-                    GenericSecondaryWeapon upgradeWeapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
+                    GenericSpecialWeapon upgradeWeapon = Combat.ChosenWeapon as GenericSpecialWeapon;
                     return upgradeWeapon.HasType(UpgradeType.Missile) || upgradeWeapon.HasType(UpgradeType.Torpedo);
                 }
 

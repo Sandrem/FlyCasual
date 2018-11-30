@@ -52,7 +52,7 @@ namespace Abilities.FirstEdition
 
             protected override bool CanReRollWithWeaponClass()
             {
-                return Combat.ChosenWeapon is GenericSecondaryWeapon;
+                return Combat.ChosenWeapon is GenericSpecialWeapon;
             }
         }
     }

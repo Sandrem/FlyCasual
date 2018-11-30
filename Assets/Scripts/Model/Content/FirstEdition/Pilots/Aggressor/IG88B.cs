@@ -98,7 +98,7 @@ namespace Abilities.FirstEdition
         {
             bool result = false;
 
-            GenericSecondaryWeapon upgradeWeapon = weapon as GenericSecondaryWeapon;
+            GenericSpecialWeapon upgradeWeapon = weapon as GenericSpecialWeapon;
             if (upgradeWeapon != null && upgradeWeapon.HasType(UpgradeType.Cannon))
             {
                 result = true;

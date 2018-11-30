@@ -64,7 +64,7 @@ namespace Abilities.FirstEdition
             public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
-                if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon) != null)
+                if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSpecialWeapon) != null)
                 {
                     result = true;
                 }
@@ -75,7 +75,7 @@ namespace Abilities.FirstEdition
             {
                 int result = 0;
 
-                if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon) != null)
+                if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSpecialWeapon) != null)
                 {
                     if (Combat.DiceRollAttack.Blanks > 0)
                     {

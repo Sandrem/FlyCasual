@@ -981,7 +981,7 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnBombWasLaunched, callback);
         }
 
-        public void CallUpdateWeaponRange(GenericSecondaryWeapon weapon, ref int minRange, ref int maxRange)
+        public void CallUpdateWeaponRange(GenericSpecialWeapon weapon, ref int minRange, ref int maxRange)
         {
             if (OnUpdateWeaponRange != null) OnUpdateWeaponRange(weapon, ref minRange, ref maxRange);
         }

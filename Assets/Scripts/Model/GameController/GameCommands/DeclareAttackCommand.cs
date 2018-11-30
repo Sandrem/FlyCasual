@@ -33,7 +33,7 @@ namespace GameCommands
 
             foreach (IShipWeapon weapon in attacker.GetAllWeapons())
             {
-                GenericSecondaryWeapon secUpgrade = weapon as GenericSecondaryWeapon;
+                GenericSpecialWeapon secUpgrade = weapon as GenericSpecialWeapon;
 
                 if (secUpgrade == null) continue;
 

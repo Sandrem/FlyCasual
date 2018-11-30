@@ -55,7 +55,7 @@ namespace SubPhases
 
         private void ShowAttackAnimationAndSound()
         {
-            Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon;
+            Upgrade.GenericSpecialWeapon chosenSecondaryWeapon = Combat.ChosenWeapon as Upgrade.GenericSpecialWeapon;
             if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Cannon) || chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Illicit))
             { // Primary Weapons, Cannons, and Illicits (HotShotBlaster)
                 Sounds.PlayShots(Selection.ActiveShip.SoundInfo.ShotsName, Selection.ActiveShip.SoundInfo.ShotsCount);

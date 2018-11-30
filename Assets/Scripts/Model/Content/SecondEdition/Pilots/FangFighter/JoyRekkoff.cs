@@ -64,7 +64,7 @@ namespace Abilities
 
             private void UseJoyRekkoffAbility(object sender, System.EventArgs e)
             {
-                GenericSecondaryWeapon torpedo = (GenericSecondaryWeapon)HostShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.Charges > 0);
+                GenericSpecialWeapon torpedo = (GenericSpecialWeapon)HostShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.Charges > 0);
                 torpedo.SpendCharge();
                 AssignConditionToDefender();
             }

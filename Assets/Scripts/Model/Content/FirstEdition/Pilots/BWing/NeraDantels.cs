@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
             HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTorpedoes = isActive;
             foreach (GenericUpgrade torpedo in HostShip.UpgradeBar.GetInstalledUpgrades(UpgradeType.Torpedo))
             {
-                GenericSecondaryWeapon torpedoWeapon = torpedo as GenericSecondaryWeapon;
+                GenericSpecialWeapon torpedoWeapon = torpedo as GenericSpecialWeapon;
                 if (torpedoWeapon != null) torpedoWeapon.CanShootOutsideArc = isActive;
             }
         }

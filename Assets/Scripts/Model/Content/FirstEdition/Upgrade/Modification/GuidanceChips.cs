@@ -76,7 +76,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Attack && !(Source.UpgradeAbilities[0] as Abilities.FirstEdition.GuidanceChipsAbility).IsGuidanceChipsAbilityUsed())
             {
-                GenericSecondaryWeapon secondaryWeapon = (Combat.ChosenWeapon as GenericSecondaryWeapon);
+                GenericSpecialWeapon secondaryWeapon = (Combat.ChosenWeapon as GenericSpecialWeapon);
                 if (secondaryWeapon != null)
                 {
                     if (secondaryWeapon.HasType(UpgradeType.Torpedo) || secondaryWeapon.HasType(UpgradeType.Missile))

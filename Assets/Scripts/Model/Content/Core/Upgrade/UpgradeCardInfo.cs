@@ -16,8 +16,9 @@ namespace Upgrade
         public bool RegensCharges { get; private set; }
         public int SEImageNumber { get; private set; }
         public UpgradeCardRestrictions Restrictions { get; private set; }
+        public SpecialWeaponInfo WeaponInfo { get; private set; }
 
-        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, UpgradeCardRestriction restriction = null, UpgradeCardRestrictions restrictions = null, int charges = 0, bool regensCharges = false, int seImageNumber = 0)
+        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, UpgradeCardRestriction restriction = null, UpgradeCardRestrictions restrictions = null, int charges = 0, bool regensCharges = false, int seImageNumber = 0, SpecialWeaponInfo weaponInfo = null)
         {
             Name = name;
             UpgradeTypes = new List<UpgradeType>() { upgradeType };
@@ -38,6 +39,8 @@ namespace Upgrade
             {
                 Restrictions = new UpgradeCardRestrictions(restriction);
             }
+
+            WeaponInfo = weaponInfo;
         }
 
         public bool HasType(UpgradeType upgradeType)

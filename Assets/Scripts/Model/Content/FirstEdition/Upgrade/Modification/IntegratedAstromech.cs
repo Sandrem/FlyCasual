@@ -14,13 +14,12 @@ namespace UpgradesList.FirstEdition
                 "Integrated Astromech",
                 UpgradeType.Modification,
                 cost: 0,
-                abilityType: typeof(Abilities.FirstEdition.IntegratedAstromechAbility)
+                abilityType: typeof(Abilities.FirstEdition.IntegratedAstromechAbility),
+                restriction: new ShipRestriction(
+                    typeof(Ship.FirstEdition.XWing.XWing),
+                    typeof(Ship.FirstEdition.T70XWing.T70XWing)
+                )
             );
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship is Ship.FirstEdition.XWing.XWing || ship is Ship.FirstEdition.T70XWing.T70XWing;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Elite,
                 cost: 1,
                 abilityType: typeof(Abilities.FirstEdition.FearlessnessAbility),
-                restrictionFaction: Faction.Scum
+                restriction: new FactionRestriction(Faction.Scum)
             );
 
             Avatar = new AvatarInfo(Faction.Scum, new Vector2(80, 0));

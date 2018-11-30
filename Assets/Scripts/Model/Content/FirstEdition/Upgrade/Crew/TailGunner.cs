@@ -46,7 +46,7 @@ namespace Abilities.FirstEdition
                 ShotInfo shotInfo = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.Attacker.PrimaryWeapon);
                 //make sure card requirements are met.
                 //can't reduce defender agility past 0 and must be aux arc
-                if (Combat.Defender.State.Agility != 0 && shotInfo.InArcByType(ArcTypes.RearAux))
+                if (Combat.Defender.State.Agility != 0 && shotInfo.InArcByType(ArcType.RearAux))
                 {
                     Messages.ShowError("Tail Gunner: Agility is decreased");
                     Combat.Defender.Tokens.AssignCondition(typeof(Conditions.TailGunnerCondition));

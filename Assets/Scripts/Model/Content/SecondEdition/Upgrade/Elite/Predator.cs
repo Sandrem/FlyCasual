@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
 
         public bool IsDiceModificationAvailable()
         {
-            return (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Bullseye));
+            return (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcType.Bullseye));
         }
 
         public int GetDiceModificationAiPriority()

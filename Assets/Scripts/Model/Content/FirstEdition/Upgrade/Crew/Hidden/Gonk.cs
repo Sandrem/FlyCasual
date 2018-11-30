@@ -14,8 +14,7 @@ namespace UpgradesList.FirstEdition
                 "Gonk",
                 UpgradeType.Crew,
                 cost: 2,
-                isLimited: true,
-                restrictionFaction: Faction.Scum
+                isLimited: true
             );
 
             Avatar = new AvatarInfo(Faction.Scum, new Vector2(20, 1));

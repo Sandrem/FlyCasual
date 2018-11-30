@@ -14,7 +14,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Crew,
                 cost: 1,
                 isLimited: true,
-                restrictionFaction: Faction.Rebel,
+                restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.NienNunbCrewAbility)
             );
 

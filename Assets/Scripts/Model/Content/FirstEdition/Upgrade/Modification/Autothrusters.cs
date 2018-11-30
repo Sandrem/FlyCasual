@@ -2,6 +2,7 @@
 using Ship;
 using SquadBuilderNS;
 using Upgrade;
+using Actions;
 
 namespace UpgradesList.FirstEdition
 {
@@ -13,17 +14,15 @@ namespace UpgradesList.FirstEdition
                 "Autothrusters",
                 UpgradeType.Modification,
                 cost: 2,
-                abilityType: typeof(Abilities.FirstEdition.AutothrustersAbility)
+                abilityType: typeof(Abilities.FirstEdition.AutothrustersAbility),
+                restriction: new ActionBarRestriction(new ActionInfo(typeof(BoostAction)))
             );
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ActionBar.HasAction(typeof(BoostAction));
         }
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
+            // TODO
+
             bool result = false;
 
             result = IsAllowedForShip(Host);

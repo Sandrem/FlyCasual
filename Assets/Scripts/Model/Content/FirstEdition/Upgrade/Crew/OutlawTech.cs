@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 "Outlaw Tech",
                 UpgradeType.Crew,
                 cost: 2,
-                restrictionFaction: Faction.Scum,
+                restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.OutlawTechAbility)
             );
 

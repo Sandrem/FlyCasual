@@ -16,7 +16,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Elite,
                 cost: 1,
                 abilityType: typeof(Abilities.FirstEdition.LightningReflexesAbility),
-                restrictionSize: BaseSize.Small
+                restriction: new BaseSizeRestriction(BaseSize.Small)
             );
         }        
     }

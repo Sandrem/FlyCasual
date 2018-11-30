@@ -14,8 +14,7 @@ namespace UpgradesList.FirstEdition
                 "Rear Admiral Chiraneau",
                 UpgradeType.Crew,
                 cost: 3,
-                isLimited: true,
-                restrictionFaction: Faction.Imperial
+                isLimited: true
             );
 
             Avatar = new AvatarInfo(Faction.Imperial, new Vector2(67, 1));

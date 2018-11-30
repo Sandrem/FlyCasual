@@ -10,7 +10,7 @@ namespace Arcs
     {
         public ArcBullseye(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcTypes.Bullseye;
+            ArcType = ArcType.Bullseye;
             Facing = ArcFacing.Bullseye;
 
             Limits = new Dictionary<Vector3, float>()

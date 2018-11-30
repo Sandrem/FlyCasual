@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Elite,
                 cost: 1,
                 abilityType: typeof(Abilities.FirstEdition.DeadeyeAbility),
-                restrictionSize: BaseSize.Small
+                restriction: new BaseSizeRestriction(BaseSize.Small)
             );
 
             Avatar = new AvatarInfo(Faction.Rebel, new Vector2(38, 3));

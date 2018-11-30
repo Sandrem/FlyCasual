@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Elite,
                 cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.RuthlessAbility),
-                restrictionFaction: Faction.Imperial,
+                restriction: new FactionRestriction(Faction.Imperial),
                 seImageNumber: 13
             );
         }        

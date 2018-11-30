@@ -18,7 +18,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Crew,
                 cost: 3,
                 isLimited: true,
-                restrictionFaction: Faction.Imperial,
+                restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.FirstEdition.KyloRenCrewAbility)
             );
 

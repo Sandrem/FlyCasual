@@ -17,7 +17,7 @@ namespace Ship.SecondEdition.EscapeCraft
                 "Escape Craft",
                 BaseSize.Small,
                 Faction.Scum,
-                new ShipArcsInfo(ArcTypes.Primary, 2), 2, 2, 2,
+                new ShipArcsInfo(ArcType.Primary, 2), 2, 2, 2,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(BarrelRollAction)),

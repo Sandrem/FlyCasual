@@ -14,8 +14,7 @@ namespace UpgradesList.FirstEdition
                 "4-LOM",
                 UpgradeType.Crew,
                 cost: 1,
-                isLimited: true,
-                restrictionFaction: Faction.Scum
+                isLimited: true
             );
 
             Avatar = new AvatarInfo(Faction.Scum, new Vector2(30, 1));

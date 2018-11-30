@@ -13,8 +13,7 @@ namespace UpgradesList.FirstEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Fleet Officer",
                 UpgradeType.Crew,
-                cost: 3,
-                restrictionFaction: Faction.Imperial
+                cost: 3
             );
 
             Avatar = new AvatarInfo(Faction.Imperial, new Vector2(19, 1));

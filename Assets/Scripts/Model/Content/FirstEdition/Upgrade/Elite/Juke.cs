@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Elite,
                 cost: 2,
                 abilityType: typeof(Abilities.FirstEdition.JukeAbility),
-                restrictionSize: BaseSize.Small
+                restriction: new BaseSizeRestriction(BaseSize.Small)
             );
         }        
     }

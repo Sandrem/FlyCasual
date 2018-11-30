@@ -19,7 +19,7 @@ namespace Ship
                     "Aggressor",
                     BaseSize.Large,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcTypes.Primary, 3), 3, 4, 4,
+                    new ShipArcsInfo(ArcType.Primary, 3), 3, 4, 4,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

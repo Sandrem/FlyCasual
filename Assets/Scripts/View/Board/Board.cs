@@ -298,7 +298,7 @@ namespace BoardTools
             return shotInfo.InArc;
         }
 
-        public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcTypes arc)
+        public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcType arc)
         {
             ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
             return shotInfo.InArcByType(arc);
@@ -318,7 +318,7 @@ namespace BoardTools
                     continue;
 
                 ShotInfo shotInfo = new ShotInfo(ship, otherShip, ship.PrimaryWeapon);
-                if (!shotInfo.InArcByType(ArcTypes.Bullseye))
+                if (!shotInfo.InArcByType(ArcType.Bullseye))
                     continue;
 
                 shipsInBullseyeArc.Add(otherShip);

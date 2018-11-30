@@ -5,6 +5,7 @@ using Ship;
 using System.Linq;
 using SubPhases;
 using Abilities;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,15 +17,11 @@ namespace UpgradesList.SecondEdition
                 "Expert Handling",
                 UpgradeType.Elite,
                 cost: 2,
+                restriction: new ActionBarRestriction(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red)),
                 seImageNumber: 5
             );
 
             UpgradeAbilities.Add(new GenericActionBarAbility<BarrelRollAction>());
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ActionBar.HasAction(typeof(BarrelRollAction), isRed: true);
         }
 
         public void UpdateCost(GenericShip ship)

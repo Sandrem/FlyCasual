@@ -3,6 +3,7 @@ using Ship;
 using Arcs;
 using System.Linq;
 using ActionsList;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,14 +16,9 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Gunner,
                 cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.VeteranTurretGunnerAbility),
+                restriction: new ActionBarRestriction(new ActionInfo(typeof(RotateArcAction))),
                 seImageNumber: 52
             );
-        }
-
-        // TODO: Move to requirements
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ActionBar.HasAction(typeof(RotateArcAction));
         }
     }
 }
@@ -48,7 +44,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ShotInfo.Weapon != HostShip.PrimaryWeapon) return;
 
-            bool availableArcsArePresent = HostShip.ArcsInfo.Arcs.Any(a => a.ArcType == ArcTypes.Mobile && !a.WasUsedForAttackThisRound);
+            bool availableArcsArePresent = HostShip.ArcsInfo.Arcs.Any(a => a.ArcType == ArcType.Mobile && !a.WasUsedForAttackThisRound);
             if (availableArcsArePresent)
             {
                 HostShip.OnCombatCheckExtraAttack += RegisterSecondAttackTrigger;
@@ -100,7 +96,7 @@ namespace Abilities.SecondEdition
         {
             bool result = false;
 
-            if (Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcTypes.Mobile && !a.WasUsedForAttackThisRound))
+            if (Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.Mobile && !a.WasUsedForAttackThisRound))
             {
                 result = true;
             }

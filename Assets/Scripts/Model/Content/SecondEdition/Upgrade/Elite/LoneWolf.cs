@@ -17,7 +17,8 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 charges: 1,
                 regensCharges: true,
-                abilityType: typeof(Abilities.SecondEdition.LoneWolfAbility)
+                abilityType: typeof(Abilities.SecondEdition.LoneWolfAbility),
+                seImageNumber: 9
             );
         }        
     }

@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Gunner,
                 cost: 30,
                 isLimited: true,
-                restrictionFaction: Faction.Rebel,
+                restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.LukeSkywalkerGunnerAbility),
                 seImageNumber: 98
             );

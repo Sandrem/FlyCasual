@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Crew,
                 cost: 5,
                 isLimited: true,
-                restrictionFaction: Faction.Rebel,
+                restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.NienNunbCrewAbility),
                 seImageNumber: 90
             );

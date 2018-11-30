@@ -11,7 +11,7 @@ namespace Arcs
 
         public OutOfArc(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcTypes.None;
+            ArcType = ArcType.None;
             Facing = ArcFacing.None;
 
             Limits = new Dictionary<Vector3, float>();

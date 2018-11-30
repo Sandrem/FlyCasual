@@ -10,7 +10,7 @@ namespace Arcs
     {
         public ArcPrimary(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcTypes.Primary;
+            ArcType = ArcType.Primary;
             Facing = ArcFacing.Forward;
 
             Limits = new Dictionary<Vector3, float>()

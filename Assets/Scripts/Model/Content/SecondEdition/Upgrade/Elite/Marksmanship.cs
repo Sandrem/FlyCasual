@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
 
         private bool IsDiceModificationAvailable()
         {
-            return (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Bullseye));
+            return (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ShotInfo.InArcByType(Arcs.ArcType.Bullseye));
         }
 
         private int GetDiceModificationAiPriority()

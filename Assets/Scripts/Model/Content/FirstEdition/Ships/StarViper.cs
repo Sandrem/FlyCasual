@@ -19,7 +19,7 @@ namespace Ship
                     "StarViper",
                     BaseSize.Small,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcTypes.Primary, 3), 3, 4, 1,
+                    new ShipArcsInfo(ArcType.Primary, 3), 3, 4, 1,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

@@ -14,7 +14,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Modification,
                 cost: 4,
                 abilityType: typeof(Abilities.FirstEdition.AdvancedCloakingDeviceAbility),
-                restrictionShip: typeof(Ship.FirstEdition.TIEPhantom.TIEPhantom)
+                restriction: new ShipRestriction(typeof(Ship.FirstEdition.TIEPhantom.TIEPhantom))
             );
         }
     }

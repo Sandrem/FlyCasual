@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Modification,
                 cost: 3,
                 abilityType: typeof(Abilities.FirstEdition.CountermeasuresAbility),
-                restrictionSize: BaseSize.Large
+                restriction: new BaseSizeRestriction(BaseSize.Large)
             );
         }
     }

@@ -32,7 +32,7 @@ namespace Upgrade
 
         public bool IsTwinAttack;
 
-        public List<ArcTypes> ArcRestrictions { get; internal set; }
+        public List<ArcType> ArcRestrictions { get; internal set; }
 
         public WeaponTypes WeaponType
         {
@@ -63,7 +63,7 @@ namespace Upgrade
 
         public GenericSecondaryWeapon() : base()
         {
-            ArcRestrictions = new List<ArcTypes>();
+            ArcRestrictions = new List<ArcType>();
         }
 
         public virtual bool IsShotAvailable(GenericShip targetShip)

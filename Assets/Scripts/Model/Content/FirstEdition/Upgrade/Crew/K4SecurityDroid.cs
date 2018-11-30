@@ -14,7 +14,7 @@ namespace UpgradesList.FirstEdition
                 "K4 Security Droid",
                 UpgradeType.Crew,
                 cost: 3,
-                restrictionFaction: Faction.Scum,
+                restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.K4SecurityDroidAbility)
             );
 

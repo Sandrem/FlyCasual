@@ -14,8 +14,7 @@ namespace UpgradesList.FirstEdition
                 "Han Solo",
                 UpgradeType.Crew,
                 cost: 2,
-                isLimited: true,
-                restrictionFaction: Faction.Rebel
+                isLimited: true
             );
 
             Avatar = new AvatarInfo(Faction.Rebel, new Vector2(88, 2));

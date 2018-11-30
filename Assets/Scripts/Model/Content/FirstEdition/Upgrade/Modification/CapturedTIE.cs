@@ -15,8 +15,10 @@ namespace UpgradesList.FirstEdition
                 cost: 1,
                 isLimited: true,
                 abilityType: typeof(Abilities.FirstEdition.CapturedTIEAbility),
-                restrictionShip: typeof(Ship.FirstEdition.TIEFighter.TIEFighter),
-                restrictionFaction: Faction.Rebel
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Rebel),
+                    new ShipRestriction(typeof(Ship.FirstEdition.TIEFighter.TIEFighter))
+                )
             );
         }
     }

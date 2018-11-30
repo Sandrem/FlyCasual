@@ -65,7 +65,7 @@ namespace Abilities.FirstEdition
         private bool FilterTargetInBullseyeArc(GenericShip ship)
         {
             ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
-            return shotInfo.InArcByType(ArcTypes.Bullseye) && FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 3);
+            return shotInfo.InArcByType(ArcType.Bullseye) && FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 3);
         }
 
         private int GetAiAbilityPriority(GenericShip ship)

@@ -16,7 +16,7 @@ namespace UpgradesList.FirstEdition
                 "ISB Slicer",
                 UpgradeType.Crew,
                 cost: 2,
-                restrictionFaction: Faction.Imperial,
+                restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.FirstEdition.ISBSlicerAbility)
             );
         }        

@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
         private bool IsBullsEyePrimary(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
-            if (weapon is PrimaryWeaponClass && new ShotInfo(HostShip, defender, weapon).InArcByType(Arcs.ArcTypes.Bullseye))
+            if (weapon is PrimaryWeaponClass && new ShotInfo(HostShip, defender, weapon).InArcByType(Arcs.ArcType.Bullseye))
             {
                 result = true;
             }

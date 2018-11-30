@@ -14,8 +14,7 @@ namespace UpgradesList.FirstEdition
                 "C-3PO",
                 UpgradeType.Crew,
                 cost: 3,
-                isLimited: true,
-                restrictionFaction: Faction.Rebel
+                isLimited: true
             );
 
             Avatar = new AvatarInfo(Faction.Rebel, new Vector2(47, 1));

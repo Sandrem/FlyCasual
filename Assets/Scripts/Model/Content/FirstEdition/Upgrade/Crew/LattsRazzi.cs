@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Crew,
                 cost: 2,
                 isLimited: true,
-                restrictionFaction: Faction.Scum,
+                restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.LattsRazziCrewAbility)
             );
 

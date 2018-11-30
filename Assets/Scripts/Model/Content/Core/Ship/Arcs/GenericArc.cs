@@ -20,7 +20,7 @@ namespace Arcs
         ArcSpecialGhost
     }
 
-    public enum ArcTypes
+    public enum ArcType
     {
         None,
         Primary,
@@ -78,7 +78,7 @@ namespace Arcs
     {
         public GenericShipBase ShipBase;
 
-        public ArcTypes ArcType;
+        public ArcType ArcType;
         public virtual ArcFacing Facing { get; set; }
 
         public virtual Dictionary<Vector3, float> Limits { get; set; }

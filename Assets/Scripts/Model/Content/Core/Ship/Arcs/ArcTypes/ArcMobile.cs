@@ -50,7 +50,7 @@ namespace Arcs
 
         public ArcMobile(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcTypes.Mobile;
+            ArcType = ArcType.Mobile;
 
             ShotPermissions = new ArcShotPermissions()
             {

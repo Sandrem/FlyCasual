@@ -18,7 +18,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Tech,
                 cost: 3,
                 abilityType: typeof(Abilities.FirstEdition.ThreatTrackerAbility),
-                restrictionSize: BaseSize.Small
+                restriction: new BaseSizeRestriction(BaseSize.Small)
             );
         }        
     }

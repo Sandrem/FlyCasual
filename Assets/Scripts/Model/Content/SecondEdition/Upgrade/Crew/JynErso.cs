@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Crew,
                 cost: 2,
                 isLimited: true,
-                restrictionFaction: Faction.Rebel,
+                restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.JynErsoAbility),
                 seImageNumber: 85
             );

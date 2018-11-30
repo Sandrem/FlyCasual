@@ -14,14 +14,9 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Gunner,
                 cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.VeteranTailGunnerAbility),
+                restriction: new ArcRestriction(ArcType.RearAux),
                 seImageNumber: 51
             );
-        }
-
-        // TODO: Move to requirements
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ShipBaseArcsType == BaseArcsType.ArcRear;
         }
     }
 }
@@ -92,7 +87,7 @@ namespace Abilities.SecondEdition
         {
             bool result = false;
 
-            if (Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcTypes.RearAux))
+            if (Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.RearAux))
             {
                 result = true;
             }

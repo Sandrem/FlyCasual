@@ -13,7 +13,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Crew,
                 cost: 2,
                 isLimited: true,
-                restrictionFaction: Faction.Rebel,
+                restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.MagvaYarroCrewAbility)
             );
         }        

@@ -19,7 +19,7 @@ namespace Ship
                     "Upsilon-class Shuttle",
                     BaseSize.Large,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcTypes.Primary, 4), 1, 6, 6,
+                    new ShipArcsInfo(ArcType.Primary, 4), 1, 6, 6,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

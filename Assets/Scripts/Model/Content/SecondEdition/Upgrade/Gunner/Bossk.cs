@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Gunner,
                 cost: 10,
                 isLimited: true,
-                restrictionFaction: Faction.Scum,
+                restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.BosskGunnerability),
                 seImageNumber: 139
             );

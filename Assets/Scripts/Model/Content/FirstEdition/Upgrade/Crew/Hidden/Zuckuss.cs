@@ -15,8 +15,7 @@ namespace UpgradesList.FirstEdition
                 "Zuckuss",
                 UpgradeType.Crew,
                 cost: 1,
-                isLimited: true,
-                restrictionFaction: Faction.Scum
+                isLimited: true
             );
 
             Avatar = new AvatarInfo(Faction.Scum, new Vector2(79, 1));

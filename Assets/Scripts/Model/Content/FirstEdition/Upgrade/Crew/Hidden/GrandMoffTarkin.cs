@@ -14,8 +14,7 @@ namespace UpgradesList.FirstEdition
                 "Grand Moff Tarkin",
                 UpgradeType.Crew,
                 cost: 6,
-                isLimited: true,
-                restrictionFaction: Faction.Imperial
+                isLimited: true
             );
 
             Avatar = new AvatarInfo(Faction.Imperial, new Vector2(68, 1));

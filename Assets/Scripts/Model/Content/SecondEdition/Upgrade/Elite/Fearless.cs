@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Elite,
                 cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.FearlessAbility),
-                restrictionFaction: Faction.Scum,
+                restriction: new FactionRestriction(Faction.Scum),
                 seImageNumber: 6
             );
         }        

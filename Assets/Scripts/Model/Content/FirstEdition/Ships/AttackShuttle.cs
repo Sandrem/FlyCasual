@@ -17,7 +17,7 @@ namespace Ship.FirstEdition.AttackShuttle
                 "Attack Shuttle",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcTypes.Primary, 3), 2, 2, 2,
+                new ShipArcsInfo(ArcType.Primary, 3), 2, 2, 2,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(BarrelRollAction)),

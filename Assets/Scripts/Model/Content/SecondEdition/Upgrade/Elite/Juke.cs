@@ -14,13 +14,9 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Elite,
                 cost: 4,
                 abilityType: typeof(Abilities.FirstEdition.JukeAbility),
+                restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
                 seImageNumber: 8
             );
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ShipInfo.BaseSize == BaseSize.Small || ship.ShipInfo.BaseSize == BaseSize.Medium;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Ship.FirstEdition.BWing
                 "B-wing",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcTypes.Primary, 3), 1, 3, 5,
+                new ShipArcsInfo(ArcType.Primary, 3), 1, 3, 5,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),

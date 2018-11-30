@@ -17,7 +17,7 @@ namespace Ship.FirstEdition.T70XWing
                 "T-70 X-wing",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcTypes.Primary, 3), 2, 3, 3,
+                new ShipArcsInfo(ArcType.Primary, 3), 2, 3, 3,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),

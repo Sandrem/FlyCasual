@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Modification,
                 cost: 2,
                 abilityType: typeof(Abilities.FirstEdition.SpacetugAbility),
-                restrictionShip: typeof(Ship.FirstEdition.Quadjumper.Quadjumper)
+                restriction: new ShipRestriction(typeof(Ship.FirstEdition.Quadjumper.Quadjumper))
             );
         }
     }

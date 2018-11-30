@@ -64,7 +64,7 @@ namespace ActionsList.SecondEdition
         {
             bool result = false;
 
-            if (Combat.DiceRollDefence.Successes > 0 && Source.Charges > 0 && Combat.Attacker == Host && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcTypes.Bullseye))
+            if (Combat.DiceRollDefence.Successes > 0 && Source.Charges > 0 && Combat.Attacker == Host && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcType.Bullseye))
             {
                 result = true;
             }

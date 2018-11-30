@@ -19,7 +19,7 @@ namespace Ship
                     "TIE Silencer",
                     BaseSize.Small,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcTypes.Primary, 3), 3, 4, 2,
+                    new ShipArcsInfo(ArcType.Primary, 3), 3, 4, 2,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

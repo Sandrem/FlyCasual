@@ -13,7 +13,7 @@ namespace UpgradesList.FirstEdition
                 "Vectored Thrusters",
                 UpgradeType.Modification,
                 cost: 2,
-                restrictionSize: BaseSize.Small
+                restriction: new BaseSizeRestriction(BaseSize.Small)
             );
 
             UpgradeAbilities.Add(new GenericActionBarAbility<BarrelRollAction>());

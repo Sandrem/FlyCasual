@@ -14,7 +14,7 @@ namespace UpgradesList.FirstEdition
                 "Tactical Officer",
                 UpgradeType.Crew,
                 cost: 2,
-                restrictionFaction: Faction.Imperial
+                restriction: new FactionRestriction(Faction.Imperial)
             );
 
             UpgradeAbilities.Add(new GenericActionBarAbility<CoordinateAction>());

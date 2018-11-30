@@ -13,7 +13,7 @@ namespace BoardTools
     {
         public bool IsShotAvailable { get; private set; }
         public bool InArc { get { return InArcInfo.Any(n => n.Value == true); } }
-        public bool InPrimaryArc { get { return InArcByType(ArcTypes.Primary); } }
+        public bool InPrimaryArc { get { return InArcByType(ArcType.Primary); } }
 
         public RangeHolder NearestFailedDistance;
 
@@ -59,7 +59,7 @@ namespace BoardTools
         private void CheckRange()
         {
             InArcInfo = new Dictionary<GenericArc, bool>();
-            List<ArcTypes> WeaponArcRestrictions = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).ArcRestrictions : null;
+            List<ArcType> WeaponArcRestrictions = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).ArcRestrictions : null;
             
             if(WeaponArcRestrictions != null && WeaponArcRestrictions.Count == 0)
             {
@@ -111,7 +111,7 @@ namespace BoardTools
             if (MinDistance == null) MinDistance = NearestFailedDistance;
         }
 
-        public bool InArcByType(ArcTypes arcType)
+        public bool InArcByType(ArcType arcType)
         {
             Dictionary<GenericArc, bool> filteredInfo = InArcInfo.Where(a => a.Key.ArcType == arcType).ToDictionary(a => a.Key, a => a.Value);
             if (filteredInfo == null || filteredInfo.Count == 0) return false;

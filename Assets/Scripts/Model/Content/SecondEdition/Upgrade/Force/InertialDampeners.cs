@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Force,
                 cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.InertialDampenersAbility),
-                restrictionSize: BaseSize.Small,
+                restriction: new BaseSizeRestriction(BaseSize.Small),
                 seImageNumber: 20
             );
         }        

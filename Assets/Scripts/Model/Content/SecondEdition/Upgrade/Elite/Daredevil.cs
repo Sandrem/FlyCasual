@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ActionsList;
 using Ship;
 using System.Linq;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,13 +16,12 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Elite,
                 cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.DareDevilAbility),
+                restrictions: new UpgradeCardRestrictions(
+                    new BaseSizeRestriction(BaseSize.Small),
+                    new ActionBarRestriction(new ActionInfo(typeof(BoostAction), ActionColor.Red))
+                ),
                 seImageNumber: 2
             );
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ShipInfo.BaseSize == BaseSize.Small && ship.ActionBar.HasAction(typeof(BoostAction), isRed: false);
         }
     }
 }

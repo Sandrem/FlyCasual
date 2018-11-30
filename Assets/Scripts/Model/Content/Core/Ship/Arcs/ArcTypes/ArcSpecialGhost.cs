@@ -10,7 +10,7 @@ namespace Arcs
     {
         public ArcSpecialGhost(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcTypes.SpecialGhost;
+            ArcType = ArcType.SpecialGhost;
             Facing = ArcFacing.Rear;
 
             Limits = new Dictionary<Vector3, float>()

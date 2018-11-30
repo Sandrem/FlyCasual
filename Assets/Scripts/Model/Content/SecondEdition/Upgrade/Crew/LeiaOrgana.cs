@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Crew,
                 cost: 6,
                 isLimited: true,
-                restrictionFaction: Faction.Rebel,
+                restriction: new FactionRestriction(Faction.Rebel),
                 charges: 3,
                 regensCharges: true,
                 abilityType: typeof(Abilities.SecondEdition.LeiaOrganaAbility),

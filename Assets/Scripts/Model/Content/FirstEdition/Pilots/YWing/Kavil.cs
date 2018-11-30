@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
 
         private void KavilPilotAbility(ref int diceCount)
         {
-            if (!BoardTools.Board.IsShipInArcByType(HostShip, Combat.Defender, ArcTypes.Primary))
+            if (!BoardTools.Board.IsShipInArcByType(HostShip, Combat.Defender, ArcType.Primary))
             {
                 diceCount++;
             }

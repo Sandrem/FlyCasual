@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 cost: 2,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.BT1Ability),
-                restrictionFactions: new List<Faction>() { Faction.Scum, Faction.Imperial },
+                restriction: new FactionRestriction(Faction.Scum, Faction.Imperial),
                 seImageNumber: 140
             );
         }

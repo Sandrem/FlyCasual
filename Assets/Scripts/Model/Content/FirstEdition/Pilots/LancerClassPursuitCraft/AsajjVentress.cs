@@ -83,20 +83,20 @@ namespace Abilities.FirstEdition
         private bool FilterTargetInMobileFiringArc(GenericShip ship)
         {
             ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
-            return shotInfo.InArcByType(ArcTypes.Mobile);
+            return shotInfo.InArcByType(ArcType.Mobile);
         }
 
         private void CheckAssignStress()
         {
             ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip, HostShip.PrimaryWeapon);
-            if (shotInfo.InArcByType(ArcTypes.Mobile) && shotInfo.Range >= 1 && shotInfo.Range <= 2)
+            if (shotInfo.InArcByType(ArcType.Mobile) && shotInfo.Range >= 1 && shotInfo.Range <= 2)
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Stress Token\nto " + TargetShip.PilotName);
                 TargetShip.Tokens.AssignToken(typeof(StressToken), SelectShipSubPhase.FinishSelection);
             }
             else
             {
-                if (!shotInfo.InArcByType(ArcTypes.Mobile)) Messages.ShowError("Target is not inside Mobile Arc");
+                if (!shotInfo.InArcByType(ArcType.Mobile)) Messages.ShowError("Target is not inside Mobile Arc");
                 else if (shotInfo.Range >= 3) Messages.ShowError("Target is outside range 2");
             }
         }

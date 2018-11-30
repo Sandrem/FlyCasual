@@ -38,7 +38,7 @@ namespace Abilities.SecondEdition
         protected override void CheckConditions()
         {
             ShotInfo shotInfo = new ShotInfo(HostShip, Combat.Defender, HostShip.PrimaryWeapon);
-            if (shotInfo.InArcByType(ArcTypes.Bullseye))
+            if (shotInfo.InArcByType(ArcType.Bullseye))
             {
                 HostShip.AfterGotNumberOfAttackDice += RollExtraDice;
             }

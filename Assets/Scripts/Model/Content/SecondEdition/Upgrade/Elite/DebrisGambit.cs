@@ -17,13 +17,9 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Elite,
                 cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.DebrisGambit),
+                restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
                 seImageNumber: 3
             );
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ShipInfo.BaseSize == BaseSize.Medium || ship.ShipInfo.BaseSize == BaseSize.Small;
         }
     }
 }

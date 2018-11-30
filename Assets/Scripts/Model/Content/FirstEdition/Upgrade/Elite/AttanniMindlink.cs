@@ -17,7 +17,7 @@ namespace UpgradesList.FirstEdition
                 cost: 1,
                 limited: 2,
                 abilityType: typeof(Abilities.FirstEdition.AttanniMindlinkAbility),
-                restrictionFaction: Faction.Scum
+                restriction: new FactionRestriction(Faction.Scum)
             );
 
             Avatar = new AvatarInfo(Faction.Scum, new Vector3(70, 1));

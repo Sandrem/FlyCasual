@@ -16,7 +16,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.System,
                 cost: 5,
                 abilityType: typeof(Abilities.FirstEdition.AdvancedTargetingComputerAbility),
-                restrictionShip: typeof(Ship.FirstEdition.TIEAdvanced.TIEAdvanced)
+                restriction: new ShipRestriction(typeof(Ship.FirstEdition.TIEAdvanced.TIEAdvanced))
             );
 
             // TODOREVERT

@@ -14,7 +14,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Crew,
                 cost: 3,
                 isLimited: true,
-                restrictionFaction: Faction.Scum,
+                restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.DengarCrewAbility)
             );
 

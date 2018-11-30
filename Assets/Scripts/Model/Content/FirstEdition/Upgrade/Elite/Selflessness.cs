@@ -16,8 +16,10 @@ namespace UpgradesList.FirstEdition
                 cost: 1,
                 isLimited: true,
                 abilityType: typeof(Abilities.FirstEdition.SelflessnessAbility),
-                restrictionFaction: Faction.Rebel,
-                restrictionSize: BaseSize.Small
+                restrictions: new UpgradeCardRestrictions(
+                    new FactionRestriction(Faction.Rebel),
+                    new BaseSizeRestriction(BaseSize.Small)
+                )
             );
 
             Avatar = new AvatarInfo(Faction.Rebel, new Vector2(9, 0));

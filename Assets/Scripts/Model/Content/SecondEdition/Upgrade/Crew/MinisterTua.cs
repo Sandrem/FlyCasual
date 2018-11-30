@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Crew,
                 cost: 7,
                 isLimited: true,
-                restrictionFaction: Faction.Imperial,
+                restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.MinisterTuaCrewAbility),
                 seImageNumber: 119
             );

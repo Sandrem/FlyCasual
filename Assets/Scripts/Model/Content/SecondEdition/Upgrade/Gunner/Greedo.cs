@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 cost: 1,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.GreedoGunnerAbility),
-                restrictionFaction: Faction.Scum,
+                restriction: new FactionRestriction(Faction.Scum),
                 charges: 1,
                 seImageNumber: 142
             );

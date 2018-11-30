@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.AfterBurnersAbility),
                 charges: 2,
-                restrictionSize: BaseSize.Small,
+                restriction: new BaseSizeRestriction(BaseSize.Small),
                 seImageNumber: 70
             );
         }

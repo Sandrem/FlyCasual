@@ -20,7 +20,7 @@ namespace Ship
                     "Alpha-class Star Wing",
                     BaseSize.Small,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcTypes.Primary, 2), 2, 4, 3,
+                    new ShipArcsInfo(ArcType.Primary, 2), 2, 4, 3,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

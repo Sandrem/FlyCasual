@@ -13,7 +13,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Illicit,
                 cost: 1,
                 abilityType: typeof(Abilities.FirstEdition.BurnoutSlamAbility),
-                restrictionSize: BaseSize.Large
+                restriction: new BaseSizeRestriction(BaseSize.Large)
             );
         }        
     }

@@ -13,13 +13,9 @@ namespace UpgradesList.FirstEdition
                 "Long Range Scanners",
                 UpgradeType.Modification,
                 cost: 0,
-                abilityType: typeof(Abilities.FirstEdition.LongRangeScannersAbility)
+                abilityType: typeof(Abilities.FirstEdition.LongRangeScannersAbility),
+                restriction: new UpgradeBarRestriction(UpgradeType.Torpedo, UpgradeType.Missile)
             );
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.UpgradeBar.HasUpgradeSlot(UpgradeType.Torpedo) && ship.UpgradeBar.HasUpgradeSlot(UpgradeType.Missile);
         }
     }
 }

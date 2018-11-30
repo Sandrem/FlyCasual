@@ -3,6 +3,7 @@ using Upgrade;
 using System.Collections.Generic;
 using Abilities;
 using ActionsList;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,15 +15,11 @@ namespace UpgradesList.SecondEdition
                 "Tactical Officer",
                 UpgradeType.Crew,
                 cost: 2,
+                restriction: new ActionBarRestriction(new ActionInfo(typeof(CoordinateAction), ActionColor.Red)),
                 seImageNumber: 48
             );
 
             UpgradeAbilities.Add(new GenericActionBarAbility<CoordinateAction>());
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ActionBar.HasAction(typeof(CoordinateAction), isRed: true);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Crew,
                 cost: 14,
                 isLimited: true,
-                restrictionFaction: Faction.Imperial,
+                restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.DarthVaderCrewAbility),
                 seImageNumber: 112
             );

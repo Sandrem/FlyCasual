@@ -14,8 +14,7 @@ namespace UpgradesList.FirstEdition
                 "Mara Jade",
                 UpgradeType.Crew,
                 cost: 3,
-                isLimited: true,
-                restrictionFaction: Faction.Imperial
+                isLimited: true
             );
 
             Avatar = new AvatarInfo(Faction.Imperial, new Vector2(39, 1));

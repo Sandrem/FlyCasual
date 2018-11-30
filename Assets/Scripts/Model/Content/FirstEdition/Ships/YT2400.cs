@@ -17,7 +17,7 @@ namespace Ship.FirstEdition.YT2400
                 "YT-2400",
                 BaseSize.Large,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcTypes.Primary, 2), 2, 5, 5,
+                new ShipArcsInfo(ArcType.Primary, 2), 2, 5, 5,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),

@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
 
         private void KathScarletSVPilotAbility(ref int diceNumber)
         {
-            if (Combat.ShotInfo.InArcByType(ArcTypes.RearAux))
+            if (Combat.ShotInfo.InArcByType(ArcType.RearAux))
             {
                 Messages.ShowInfo("Defender is within auxiliary firing arc. Roll 1 additional attack die.");
                 diceNumber++;

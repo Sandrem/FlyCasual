@@ -17,7 +17,7 @@ namespace Ship.FirstEdition.BSF17Bomber
                 "B/SF-17 Bomber",
                 BaseSize.Large,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcTypes.Primary, 2), 1, 9, 3,
+                new ShipArcsInfo(ArcType.Primary, 2), 1, 9, 3,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction))

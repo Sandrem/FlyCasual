@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
             foreach (var ship in opponent.Ships)
             {
                 ShotInfo shotInfo = new ShotInfo(HostShip, ship.Value, HostShip.PrimaryWeapon);
-                if (shotInfo.InArcByType(ArcTypes.Bullseye))
+                if (shotInfo.InArcByType(ArcType.Bullseye))
                 {
                     Triggers.RegisterTrigger(new Trigger()
                     {

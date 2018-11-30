@@ -1,4 +1,5 @@
-﻿using ActionsList;
+﻿using Actions;
+using ActionsList;
 using Ship;
 using System.Collections.Generic;
 using Upgrade;
@@ -14,13 +15,9 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Modification,
                 cost: 4,
                 abilityType: typeof(Abilities.FirstEdition.EngineUpgradeAbility),
+                restriction: new ActionBarRestriction(new ActionInfo(typeof(BoostAction), ActionColor.Red)),
                 seImageNumber: 72
             );
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.ActionBar.HasAction(typeof(BoostAction), isRed: true);
         }
 
         public void UpdateCost(GenericShip ship)

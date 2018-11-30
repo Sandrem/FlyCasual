@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 cost: 4,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.HanSoloGunnerAbilityScum),
-                restrictionFaction: Faction.Scum,
+                restriction: new FactionRestriction(Faction.Scum),
                 seImageNumber: 163
             );
         }

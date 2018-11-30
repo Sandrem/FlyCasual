@@ -25,8 +25,6 @@ namespace Abilities.FirstEdition
 {
     public class ReyCrewAbility : GenericAbility
     {
-        private string originalUpgradeName = "Rey";
-
         private int focusTokensStored;
 
         public int FocusTokensStored

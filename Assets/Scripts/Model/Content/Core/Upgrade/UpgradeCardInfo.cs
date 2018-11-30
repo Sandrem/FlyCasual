@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Actions;
+using Ship;
 using System;
 using System.Collections.Generic;
 
@@ -17,8 +18,9 @@ namespace Upgrade
         public int SEImageNumber { get; private set; }
         public UpgradeCardRestrictions Restrictions { get; private set; }
         public SpecialWeaponInfo WeaponInfo { get; private set; }
+        public ActionInfo AddAction { get; private set; }
 
-        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, UpgradeCardRestriction restriction = null, UpgradeCardRestrictions restrictions = null, int charges = 0, bool regensCharges = false, int seImageNumber = 0, SpecialWeaponInfo weaponInfo = null)
+        public UpgradeCardInfo(string name, UpgradeType upgradeType, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, UpgradeCardRestriction restriction = null, UpgradeCardRestrictions restrictions = null, int charges = 0, bool regensCharges = false, int seImageNumber = 0, SpecialWeaponInfo weaponInfo = null, ActionInfo addAction = null)
         {
             Name = name;
             UpgradeTypes = new List<UpgradeType>() { upgradeType };
@@ -41,6 +43,8 @@ namespace Upgrade
             }
 
             WeaponInfo = weaponInfo;
+
+            AddAction = addAction;
         }
 
         public bool HasType(UpgradeType upgradeType)

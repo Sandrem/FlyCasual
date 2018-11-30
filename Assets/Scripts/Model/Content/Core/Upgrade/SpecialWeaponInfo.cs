@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Arcs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Upgrade
 {
@@ -12,10 +12,12 @@ namespace Upgrade
         public int MaxRange { get; private set; }
         public Type RequiresToken { get; private set; }
         public Type SpendsToken { get; private set; }
-        public bool Discard { get; private set; }
         public int Charges { get; private set; }
+        public bool Discard { get; private set; }
+        public bool TwinAttack { get; private set; }
+        public ArcType Arc { get; private set; }
 
-        public SpecialWeaponInfo(int attackValue, int minRange, int maxRange, Type requiresToken = null, Type spendsToken = null, bool discard = false, int charges = 0)
+        public SpecialWeaponInfo(int attackValue, int minRange, int maxRange, Type requiresToken = null, Type spendsToken = null, int charges = 0, bool discard = false, bool twinAttack = false, ArcType arc = ArcType.Forward)
         {
             AttackValue = attackValue;
             MinRange = minRange;
@@ -24,6 +26,8 @@ namespace Upgrade
             SpendsToken = spendsToken;
             Discard = discard;
             Charges = charges;
+            TwinAttack = twinAttack;
+            Arc = arc;
         }
     }
 }

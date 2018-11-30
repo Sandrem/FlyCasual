@@ -24,6 +24,7 @@ namespace Arcs
     {
         None,
         Primary,
+        Forward,
         RearAux,
         Special180,
         Special180Rear,

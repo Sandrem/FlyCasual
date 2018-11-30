@@ -19,7 +19,7 @@ namespace Ship
                     "Evaan Verlaine",
                     3,
                     36,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(EvaanVerlaineAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 16

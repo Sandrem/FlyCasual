@@ -13,7 +13,7 @@ namespace Ship
                     "Dengar",
                     6,
                     64,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DengarPilotAbility),
                     charges: 1,
                     regensCharges: true,

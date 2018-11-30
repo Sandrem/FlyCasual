@@ -13,7 +13,7 @@ namespace Ship
                     "Luke Skywalker",
                     5,
                     62,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(LukeSkywalkerAbility),
                     force: 2,
                     extraUpgradeIcon: UpgradeType.Force,

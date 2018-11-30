@@ -13,7 +13,7 @@ namespace Ship
                     "Kath Scarlet",
                     4,
                     74,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KathScarletAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 151
@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ChosenWeapon != HostShip.PrimaryWeapon) return;
 
-            if (Combat.Defender.ShipsBumped.Any(s => s.Owner.PlayerNo == HostShip.Owner.PlayerNo && s.PilotInfo.Limited == 0))
+            if (Combat.Defender.ShipsBumped.Any(s => s.Owner.PlayerNo == HostShip.Owner.PlayerNo && !s.PilotInfo.IsLimited))
             {
                 Messages.ShowInfo("Kath Scarlet: +1 attack die");
                 count++;

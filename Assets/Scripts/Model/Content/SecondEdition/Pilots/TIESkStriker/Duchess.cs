@@ -15,7 +15,7 @@ namespace Ship
                     "\"Duchess\"",
                     5,
                     42,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CountdownAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 117

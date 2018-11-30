@@ -17,7 +17,7 @@ namespace Ship
                     "Autopilot Drone",
                     1,
                     12,
-                    limited: 1,
+                    isLimited: true,
                     charges: 3,
                     seImageNumber: 229
                 );

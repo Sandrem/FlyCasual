@@ -12,7 +12,7 @@ namespace Ship
                     "Kad Solus",
                     4,
                     54,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KadSolusAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 158

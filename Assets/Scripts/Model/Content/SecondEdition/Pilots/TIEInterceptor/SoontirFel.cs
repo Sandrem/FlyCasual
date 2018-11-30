@@ -16,7 +16,7 @@ namespace Ship
                     "Soontir Fel",
                     6,
                     52,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(SoontirFelAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 103

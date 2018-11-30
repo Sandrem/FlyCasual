@@ -17,7 +17,7 @@ namespace Ship
                     "Leebo",
                     3,
                     98,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeeboAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 78

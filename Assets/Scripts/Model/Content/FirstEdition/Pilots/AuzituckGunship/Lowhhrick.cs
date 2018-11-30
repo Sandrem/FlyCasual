@@ -16,7 +16,7 @@ namespace Ship
                     "Lowhhrick",
                     5,
                     28,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LowhhrickAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

@@ -13,7 +13,7 @@ namespace Ship
                     "Hera Syndulla",
                     5,
                     39,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility),
                     force: 1,
                     extraUpgradeIcon: UpgradeType.Elite,

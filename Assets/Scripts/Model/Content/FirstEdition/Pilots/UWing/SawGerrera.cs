@@ -17,7 +17,7 @@ namespace Ship
                     "Saw Gerrera",
                     6,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SawGerreraPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

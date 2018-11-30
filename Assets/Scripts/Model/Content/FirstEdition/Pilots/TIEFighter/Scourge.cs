@@ -16,7 +16,7 @@ namespace Ship
                     "\"Scourge\"",
                     7,
                     17,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(ScourgeAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

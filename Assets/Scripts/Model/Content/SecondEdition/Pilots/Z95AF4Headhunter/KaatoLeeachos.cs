@@ -17,7 +17,7 @@ namespace Ship
                     "Ka'ato Leeachos",
                     3,
                     29,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KaatoLeeachosAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     factionOverride: Faction.Scum,

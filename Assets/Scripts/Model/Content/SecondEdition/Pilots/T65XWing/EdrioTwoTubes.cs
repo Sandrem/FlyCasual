@@ -15,7 +15,7 @@ namespace Ship
                     "Edrio Two Tubes",
                     2,
                     45,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(EdrioTwoTubesAbility),
                     extraUpgradeIcon: UpgradeType.Illicit,
                     seImageNumber: 9

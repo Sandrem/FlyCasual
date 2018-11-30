@@ -12,7 +12,7 @@ namespace Ship
                     "Boba Fett",
                     5,
                     80,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BobaFettScumAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 149

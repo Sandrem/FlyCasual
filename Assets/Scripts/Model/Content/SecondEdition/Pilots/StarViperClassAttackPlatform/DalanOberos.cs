@@ -16,7 +16,7 @@ namespace Ship
                     "Dalan Oberos",
                     4,
                     54,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DalanOberosStarviperAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 179

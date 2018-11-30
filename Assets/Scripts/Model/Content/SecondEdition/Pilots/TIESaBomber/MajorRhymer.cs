@@ -13,7 +13,7 @@ namespace Ship
                     "Major Rhymer",
                     4,
                     34,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MajorRhymerAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 109

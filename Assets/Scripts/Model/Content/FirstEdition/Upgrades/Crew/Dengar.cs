@@ -96,7 +96,7 @@ namespace ActionsList
         {
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
-                NumberOfDiceCanBeRerolled = (Combat.Defender.PilotInfo.Limited != 0) ? 2 : 1,
+                NumberOfDiceCanBeRerolled = (Combat.Defender.PilotInfo.IsLimited) ? 2 : 1,
                 CallBack = callBack
             };
             diceRerollManager.Start();

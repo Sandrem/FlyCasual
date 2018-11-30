@@ -15,7 +15,7 @@ namespace Ship
                     "Talonbane Cobra",
                     5,
                     50,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TalonbaneCobraAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 191

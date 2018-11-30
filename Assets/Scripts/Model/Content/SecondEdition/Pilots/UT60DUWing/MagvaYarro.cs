@@ -17,7 +17,7 @@ namespace Ship
                     "Magva Yarro",
                     3,
                     50,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(MagvaYarroPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     seImageNumber: 57

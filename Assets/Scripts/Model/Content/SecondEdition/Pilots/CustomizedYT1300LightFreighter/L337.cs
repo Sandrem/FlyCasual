@@ -15,7 +15,7 @@ namespace Ship
                     "L3-37",
                     2,
                     47,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.L337Ability),
                     seImageNumber: 224
                 );

@@ -19,7 +19,7 @@ namespace Ship
                     "Latts Razzi",
                     3,
                     66,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LattsRazziPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 212

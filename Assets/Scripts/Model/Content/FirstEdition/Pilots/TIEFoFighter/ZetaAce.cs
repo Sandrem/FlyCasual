@@ -15,7 +15,7 @@ namespace Ship
                     "\"Zeta Ace\"",
                     5,
                     18,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZetaAceAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

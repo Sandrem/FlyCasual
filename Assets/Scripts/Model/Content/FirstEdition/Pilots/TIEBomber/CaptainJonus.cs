@@ -14,7 +14,7 @@ namespace Ship
                     "Captain Jonus",
                     6,
                     22,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CaptainJonusAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

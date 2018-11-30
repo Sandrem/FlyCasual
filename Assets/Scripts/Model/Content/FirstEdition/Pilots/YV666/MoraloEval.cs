@@ -12,7 +12,7 @@ namespace Ship
                     "MoraloEval",
                     6,
                     34,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.MoraloEvalAbility)
                 );
 

@@ -15,7 +15,7 @@ namespace Ship
                     "Rear Admiral Chiraneau",
                     8,
                     46,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.RearAdmiralChiraneauAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

@@ -15,7 +15,7 @@ namespace Ship
                     "Seventh Sister",
                     4,
                     48,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SeventhSisterAbility),
                     force: 2,
                     extraUpgradeIcon: UpgradeType.Force,

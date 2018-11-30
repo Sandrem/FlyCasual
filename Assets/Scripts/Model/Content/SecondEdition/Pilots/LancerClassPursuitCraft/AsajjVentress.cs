@@ -18,7 +18,7 @@ namespace Ship
                     "Asajj Ventress",
                     4,
                     84,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AsajjVentressPilotAbility),
                     force: 2,
                     extraUpgradeIcon: UpgradeType.Force,

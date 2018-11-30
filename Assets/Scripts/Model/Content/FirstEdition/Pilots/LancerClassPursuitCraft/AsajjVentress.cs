@@ -18,7 +18,7 @@ namespace Ship
                     "Asajj Ventress",
                     6,
                     37,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.AsajjVentressPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

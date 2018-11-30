@@ -13,7 +13,7 @@ namespace Ship
                     "Laetin A'shera",
                     3,
                     35,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LaetinAshera),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 185

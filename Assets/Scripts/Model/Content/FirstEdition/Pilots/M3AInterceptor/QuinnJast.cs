@@ -16,7 +16,7 @@ namespace Ship
                     "Quinn Jast",
                     6,
                     18,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.QuinnJastAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

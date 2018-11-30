@@ -14,7 +14,7 @@ namespace Ship
                     "\"Whisper\"",
                     7,
                     32,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.WhisperAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

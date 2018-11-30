@@ -15,7 +15,7 @@ namespace Ship
                     "Leevan Tenza",
                     3,
                     46,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeevanTenzaAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     seImageNumber: 8

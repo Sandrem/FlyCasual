@@ -12,7 +12,7 @@ namespace Ship
                     "Ezra Bridger",
                     3,
                     32,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
                     force: 1,
                     extraUpgradeIcon: UpgradeType.Force,

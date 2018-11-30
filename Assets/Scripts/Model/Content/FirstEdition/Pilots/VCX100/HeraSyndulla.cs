@@ -16,7 +16,7 @@ namespace Ship
                     "Hera Syndulla",
                     7,
                     40,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility)
                 );
             }

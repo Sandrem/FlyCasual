@@ -13,7 +13,7 @@ namespace Ship
                     "Lando Calrissian",
                     4,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 226

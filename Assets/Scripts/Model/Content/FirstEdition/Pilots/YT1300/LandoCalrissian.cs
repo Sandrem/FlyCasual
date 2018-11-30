@@ -19,7 +19,7 @@ namespace Ship
                     "Lando Calrissian",
                     7,
                     44,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LandoCalrissianRebelPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Missile }
                 );

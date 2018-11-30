@@ -10,7 +10,7 @@
                     "\"Zeb\" Orrelios",
                     2,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
                     factionOverride: Faction.Rebel,
                     seImageNumber: 49

@@ -16,7 +16,7 @@ namespace Ship
                     "Captain Nym",
                     5,
                     52,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainNymScumAbiliity),
                     charges: 1,
                     regensCharges: true,

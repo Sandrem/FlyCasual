@@ -15,7 +15,7 @@ namespace Ship
                     "\"Wampa\"",
                     1,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(WampaAbility),
                     charges: 1,
                     regensCharges: true,

@@ -16,7 +16,7 @@ namespace Ship
                     "Lieutenant Blount",
                     4,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LtBlountAbiliity),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 28

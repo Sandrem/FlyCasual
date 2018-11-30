@@ -18,7 +18,7 @@ namespace Ship
                     "Palob Godalhi",
                     3,
                     38,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PalobGodalhi),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     factionOverride: Faction.Scum,

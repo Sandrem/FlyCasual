@@ -14,7 +14,7 @@ namespace Ship
                     "\"Backdraft\"",
                     7,
                     27,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BackdraftAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

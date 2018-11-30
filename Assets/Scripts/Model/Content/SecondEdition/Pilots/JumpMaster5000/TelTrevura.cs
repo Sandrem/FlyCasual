@@ -15,7 +15,7 @@ namespace Ship
                     "Tel Trevura",
                     4,
                     60,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TelTrevuraAbility),
                     charges: 1,
                     extraUpgradeIcon: UpgradeType.Elite,

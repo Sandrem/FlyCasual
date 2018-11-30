@@ -14,7 +14,7 @@ namespace Ship
                     "Ten Numb",
                     8,
                     31,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TenNumbAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

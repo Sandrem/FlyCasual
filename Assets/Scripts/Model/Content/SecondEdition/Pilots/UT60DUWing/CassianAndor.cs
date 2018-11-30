@@ -20,7 +20,7 @@ namespace Ship
                     "Cassian Andor",
                     3,
                     47,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(CassianAndorAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 56

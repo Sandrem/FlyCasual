@@ -12,7 +12,7 @@ namespace Ship
                     "Koshka Frost",
                     3,
                     71,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KoshkaFrostAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 152

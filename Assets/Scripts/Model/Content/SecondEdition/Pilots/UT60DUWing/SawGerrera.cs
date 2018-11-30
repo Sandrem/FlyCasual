@@ -18,7 +18,7 @@ namespace Ship
                     "Saw Gerrera",
                     4,
                     52,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(SawGerreraPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     seImageNumber: 55

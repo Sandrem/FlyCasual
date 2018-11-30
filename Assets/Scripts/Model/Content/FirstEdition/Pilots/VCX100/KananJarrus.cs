@@ -16,7 +16,7 @@ namespace Ship
                     "Kanan Jarrus",
                     5,
                     38,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KananJarrusPilotAbility)
                 );
             }

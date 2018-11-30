@@ -17,7 +17,7 @@ namespace Ship
                     "Bodhi Rook",
                     4,
                     49,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(BodhiRookAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 54

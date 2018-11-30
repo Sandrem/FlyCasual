@@ -18,7 +18,7 @@ namespace Ship
                     "Thane Kyrell",
                     5,
                     48,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ThaneKyrellAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 3

@@ -15,7 +15,7 @@ namespace Ship
                     "Nashtah Pup",
                     0,
                     6,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility),
                     extraUpgradeIcon: UpgradeType.Illicit,
                     factionOverride: Faction.Scum,
@@ -92,7 +92,7 @@ namespace Abilities.SecondEdition
                 dockingHost.PilotInfo.PilotName,
                 dockingHost.PilotInfo.Initiative,
                 6,
-                limited: 1,
+                isLimited: true,
                 charges: dockingHost.PilotInfo.Charges,
                 regensCharges: dockingHost.PilotInfo.RegensCharges
             );

@@ -14,7 +14,7 @@ namespace Ship
                     "Luke Skywalker",
                     8,
                     28,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(LukeSkywalkerAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

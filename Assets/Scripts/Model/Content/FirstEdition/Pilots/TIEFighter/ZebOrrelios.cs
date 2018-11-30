@@ -10,7 +10,7 @@
                     "\"Zeb\" Orrelios",
                     3,
                     13,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
                     factionOverride: Faction.Rebel
                 );

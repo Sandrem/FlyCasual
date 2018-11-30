@@ -13,7 +13,7 @@ namespace Ship
                     "Captain Kagi",
                     8,
                     27,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CaptainKagiAbility)
                 );
             }

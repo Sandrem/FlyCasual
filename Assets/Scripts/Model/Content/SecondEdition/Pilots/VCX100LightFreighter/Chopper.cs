@@ -16,7 +16,7 @@ namespace Ship
                     "\"Chopper\"",
                     2,
                     72,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChopperPilotAbility),
                     seImageNumber: 75
                 );

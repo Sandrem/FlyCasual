@@ -13,7 +13,7 @@ namespace Ship
                     "AP-5",
                     1,
                     15,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.AP5PilotAbility)
                 );
             }

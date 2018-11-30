@@ -12,7 +12,7 @@ namespace Ship
                     "Kylo Ren",
                     9,
                     35,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KyloRenPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

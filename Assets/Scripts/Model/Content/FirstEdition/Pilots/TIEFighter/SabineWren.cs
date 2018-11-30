@@ -12,7 +12,7 @@ namespace Ship
                     "Sabine Wren",
                     5,
                     15,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SabineWrenPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     factionOverride: Faction.Rebel

@@ -15,7 +15,7 @@ namespace Ship
                     "Gavin Darklighter",
                     4,
                     68,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GavinDarklighterAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 51

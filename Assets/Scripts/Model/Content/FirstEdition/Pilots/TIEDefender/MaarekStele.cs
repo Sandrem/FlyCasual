@@ -16,7 +16,7 @@ namespace Ship
                     "Maarek Stele",
                     7,
                     35,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.MaarekSteleAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

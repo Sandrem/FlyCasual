@@ -17,7 +17,7 @@ namespace Ship
                     "Captain Nym",
                     8,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CaptainNymRebelAbiliity),
                     extraUpgradeIcon: UpgradeType.Elite,
                     factionOverride: Faction.Rebel

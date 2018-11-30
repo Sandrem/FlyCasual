@@ -16,7 +16,7 @@ namespace Ship
                     "Han Solo",
                     9,
                     46,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.HanSoloAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Missile }
                 );

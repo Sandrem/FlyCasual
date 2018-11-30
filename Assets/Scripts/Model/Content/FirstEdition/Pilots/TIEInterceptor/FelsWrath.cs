@@ -14,7 +14,7 @@ namespace Ship
                     "Fel's Wrath",
                     5,
                     23,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.FelsWrathAbility)
                 );
             }

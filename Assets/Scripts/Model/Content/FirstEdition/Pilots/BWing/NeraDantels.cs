@@ -18,7 +18,7 @@ namespace Ship
                     "Nera Dantels",
                     5,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.NeraDantelsAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

@@ -12,7 +12,7 @@ namespace Ship
                     "Serissu",
                     5,
                     43,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SerissuAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 183

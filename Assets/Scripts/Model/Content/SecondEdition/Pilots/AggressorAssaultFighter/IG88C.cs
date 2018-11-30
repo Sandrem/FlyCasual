@@ -13,7 +13,7 @@ namespace Ship
                     "IG-88C",
                     4,
                     70,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.IG88CAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 199

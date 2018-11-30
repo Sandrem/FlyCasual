@@ -17,7 +17,7 @@ namespace Ship
                     "Ibtisam",
                     6,
                     28,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.IbtisamAbiliity),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

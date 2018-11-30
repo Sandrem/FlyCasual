@@ -16,7 +16,7 @@ namespace Ship
                     "\"Deathfire\"",
                     3,
                     17,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DeathfireAbility)
                 );
             }

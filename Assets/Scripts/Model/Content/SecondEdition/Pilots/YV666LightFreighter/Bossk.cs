@@ -12,7 +12,7 @@ namespace Ship
                     "Bossk",
                     4,
                     70,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 210

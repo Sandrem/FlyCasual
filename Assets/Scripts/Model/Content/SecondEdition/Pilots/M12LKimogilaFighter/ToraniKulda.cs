@@ -14,7 +14,7 @@ namespace Ship
                     "Torani Kulda",
                     4,
                     50,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ToraniKuldaAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 207

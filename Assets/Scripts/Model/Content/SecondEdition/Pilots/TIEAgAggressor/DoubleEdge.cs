@@ -16,7 +16,7 @@ namespace Ship
                     "\"Double Edge\"",
                     2,
                     33,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DoubleEdgeAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 128

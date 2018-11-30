@@ -12,7 +12,7 @@ namespace Ship
                     "Shara Bey",
                     4,
                     53,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SharaBeyAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 67

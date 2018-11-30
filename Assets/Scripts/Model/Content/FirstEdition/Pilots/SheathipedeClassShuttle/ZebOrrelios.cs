@@ -10,7 +10,7 @@
                     "\"Zeb\" Orrelios",
                     3,
                     16,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility)
                 );
             }

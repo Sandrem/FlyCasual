@@ -15,7 +15,7 @@ namespace Ship
                     "Captain Oicunn",
                     3,
                     84,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainOicunnAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 146

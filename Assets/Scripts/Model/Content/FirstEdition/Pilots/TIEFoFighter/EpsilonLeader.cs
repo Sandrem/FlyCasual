@@ -15,7 +15,7 @@ namespace Ship
                     "\"Epsilon Leader\"",
                     6,
                     19,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.EpsilonLeader)
                 );
             }

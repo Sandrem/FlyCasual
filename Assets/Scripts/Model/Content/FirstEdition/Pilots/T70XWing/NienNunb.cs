@@ -18,7 +18,7 @@ namespace Ship
                     "Nien Nunb",
                     7,
                     29,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.NienNunbAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

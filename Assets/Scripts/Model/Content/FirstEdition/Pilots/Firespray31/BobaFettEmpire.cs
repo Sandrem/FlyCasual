@@ -15,7 +15,7 @@ namespace Ship
                     "Boba Fett",
                     8,
                     39,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BobaFettEmpireAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     factionOverride: Faction.Imperial

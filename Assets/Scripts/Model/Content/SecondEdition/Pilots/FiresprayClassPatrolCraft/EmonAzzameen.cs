@@ -14,7 +14,7 @@ namespace Ship
                     "Emon Azzameen",
                     4,
                     76,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.EmonAzzameenAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 150

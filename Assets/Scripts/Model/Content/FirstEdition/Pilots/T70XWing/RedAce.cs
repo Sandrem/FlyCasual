@@ -13,7 +13,7 @@ namespace Ship
                     "\"Red Ace\"",
                     6,
                     29,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.RedAceAbility)
                 );
 

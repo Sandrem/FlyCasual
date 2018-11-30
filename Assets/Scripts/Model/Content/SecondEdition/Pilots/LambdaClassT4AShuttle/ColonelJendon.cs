@@ -16,7 +16,7 @@ namespace Ship
                     "Colonel Jendon",
                     3,
                     46,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ColonelJendonAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 143

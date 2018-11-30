@@ -12,7 +12,7 @@ namespace Ship
                     "Benthic Two Tubes",
                     2,
                     47,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BenthicTwoTubesAbility),
                     extraUpgradeIcon: UpgradeType.Illicit,
                     seImageNumber: 58

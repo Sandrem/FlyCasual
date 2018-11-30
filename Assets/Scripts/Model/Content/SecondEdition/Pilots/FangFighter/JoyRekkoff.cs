@@ -16,7 +16,7 @@ namespace Ship
                     "Joy Rekkoff",
                     4,
                     52,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KadSolusAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 157

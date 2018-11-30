@@ -12,7 +12,7 @@ namespace Ship
                     "\"Deathrain\"",
                     4,
                     42,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DeathrainAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 140

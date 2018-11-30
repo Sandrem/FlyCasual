@@ -15,7 +15,7 @@ namespace Ship
                     "Kavil",
                     7,
                     24,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KavilAbility),
                     factionOverride: Faction.Scum
                 );

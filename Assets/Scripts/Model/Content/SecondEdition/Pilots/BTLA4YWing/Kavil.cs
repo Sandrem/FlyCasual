@@ -14,7 +14,7 @@ namespace Ship
                     "Kavil",
                     5,
                     42,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KavilAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     factionOverride: Faction.Scum,

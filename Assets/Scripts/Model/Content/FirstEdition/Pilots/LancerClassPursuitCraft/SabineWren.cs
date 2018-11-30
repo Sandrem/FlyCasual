@@ -15,7 +15,7 @@ namespace Ship
                     "Sabine Wren",
                     5,
                     35,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SabineWrenLancerPilotAbility)
                 );
             }

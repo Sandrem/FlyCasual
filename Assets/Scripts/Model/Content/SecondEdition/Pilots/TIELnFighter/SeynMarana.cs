@@ -16,7 +16,7 @@ namespace Ship
                     "Seyn Marana",
                     4,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(SeynMaranaAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 86

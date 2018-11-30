@@ -14,7 +14,7 @@ namespace Ship
                     "Miranda Doni",
                     8,
                     29,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.MirandaDoniAbility)
                 );
             }

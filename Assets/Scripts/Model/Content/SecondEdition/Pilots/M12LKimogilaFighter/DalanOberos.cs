@@ -17,7 +17,7 @@ namespace Ship
                     "Dalan Oberos",
                     3,
                     48,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ToraniKuldaAbility),
                     charges: 2,
                     extraUpgradeIcon: UpgradeType.Elite,

@@ -12,7 +12,7 @@ namespace Ship
                     "Ketsu Onyo",
                     5,
                     74,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KetsuOnyoPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 218

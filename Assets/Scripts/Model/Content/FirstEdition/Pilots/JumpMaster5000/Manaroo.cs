@@ -19,7 +19,7 @@ namespace Ship
                     "Manaroo",
                     4,
                     27,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ManarooAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

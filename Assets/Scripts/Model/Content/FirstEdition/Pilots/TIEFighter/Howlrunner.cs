@@ -15,7 +15,7 @@ namespace Ship
                     "\"Howlrunner\"",
                     8,
                     18,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(HowlrunnerAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

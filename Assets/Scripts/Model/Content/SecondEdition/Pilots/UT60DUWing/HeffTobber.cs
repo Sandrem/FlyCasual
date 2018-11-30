@@ -18,7 +18,7 @@ namespace Ship
                     "Heff Tobber",
                     2,
                     45,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(HeffTobberAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 59

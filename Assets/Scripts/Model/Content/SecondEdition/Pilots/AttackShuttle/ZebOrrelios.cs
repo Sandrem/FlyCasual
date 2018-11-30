@@ -10,7 +10,7 @@
                     "\"Zeb\" Orrelios",
                     2,
                     34,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
                     seImageNumber: 37
                 );

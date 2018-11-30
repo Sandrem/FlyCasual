@@ -12,7 +12,7 @@ namespace Ship
                     "Colonel Vessery",
                     6,
                     35,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ColonelVesseryAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

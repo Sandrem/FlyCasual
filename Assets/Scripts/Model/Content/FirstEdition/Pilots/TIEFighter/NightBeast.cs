@@ -14,7 +14,7 @@ namespace Ship
                     "Night Beast",
                     4,
                     14,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(NightBeastAbility)
                 );
             }

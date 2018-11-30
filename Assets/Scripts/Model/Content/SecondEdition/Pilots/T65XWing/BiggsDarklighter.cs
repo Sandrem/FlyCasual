@@ -20,7 +20,7 @@ namespace Ship
                     "Biggs Darklighter",
                     3,
                     48,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(BiggsDarklighterAbility),
                     seImageNumber: 7
                 );

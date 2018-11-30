@@ -17,7 +17,7 @@ namespace Ship
                     "Tetran Cowall",
                     7,
                     24,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TetranCowallAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

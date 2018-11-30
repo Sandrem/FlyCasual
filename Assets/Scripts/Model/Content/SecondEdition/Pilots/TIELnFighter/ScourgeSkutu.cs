@@ -16,7 +16,7 @@ namespace Ship
                     "\"Scourge\" Skutu",
                     5,
                     32,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(ScourgeSkutuAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 82

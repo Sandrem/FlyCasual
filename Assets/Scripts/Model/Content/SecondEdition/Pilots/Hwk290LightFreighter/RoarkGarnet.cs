@@ -18,7 +18,7 @@ namespace Ship
                     "Roark Garnet",
                     4,
                     38,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RoarkGarnetAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 44

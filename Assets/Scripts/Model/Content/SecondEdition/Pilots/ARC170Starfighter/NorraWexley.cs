@@ -15,7 +15,7 @@ namespace Ship
                     "Norra Wexley",
                     5,
                     55,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 65

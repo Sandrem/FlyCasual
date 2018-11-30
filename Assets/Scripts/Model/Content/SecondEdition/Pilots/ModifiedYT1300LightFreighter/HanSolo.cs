@@ -16,7 +16,7 @@ namespace Ship
                     "Han Solo",
                     6,
                     92,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloRebelPilotAbility),
                     charges: 1,
                     regensCharges: true,

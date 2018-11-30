@@ -12,7 +12,7 @@ namespace Ship
                     "Unkar Plutt",
                     2,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.UnkarPluttAbility),
                     seImageNumber: 163
                 );

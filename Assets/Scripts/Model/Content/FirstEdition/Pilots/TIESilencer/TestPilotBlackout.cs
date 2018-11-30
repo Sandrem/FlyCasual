@@ -12,7 +12,7 @@ namespace Ship
                     "Test Pilot \"Blackout\"",
                     7,
                     31,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TestPilotBlackoutAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

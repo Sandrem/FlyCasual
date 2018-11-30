@@ -15,7 +15,7 @@ namespace Ship
                     "Countess Ryad",
                     5,
                     34,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CountessRyadAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

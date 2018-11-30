@@ -14,7 +14,7 @@ namespace Ship
                     "\"Redline\"",
                     7,
                     27,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.RedlineAbility)
                 );
             }

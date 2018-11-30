@@ -16,7 +16,7 @@ namespace Ship
                     "Corran Horn",
                     5,
                     74,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CorranHornAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 50

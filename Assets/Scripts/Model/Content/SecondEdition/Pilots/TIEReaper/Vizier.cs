@@ -15,7 +15,7 @@ namespace Ship
                     "\"Vizier\"",
                     2,
                     45,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(VizierAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 115

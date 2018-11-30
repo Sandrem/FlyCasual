@@ -14,7 +14,7 @@ namespace Ship
                     "Tycho Celchu",
                     8,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

@@ -15,7 +15,7 @@ namespace Ship
                     "Inaldra",
                     3,
                     15,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.InaldraAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

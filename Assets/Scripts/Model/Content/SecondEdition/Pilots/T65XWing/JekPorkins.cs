@@ -14,7 +14,7 @@ namespace Ship
                     "Jek Porkins",
                     4,
                     46,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(JekPorkinsAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 5

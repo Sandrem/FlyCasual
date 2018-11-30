@@ -15,7 +15,7 @@ namespace Ship
                     "Inaldra",
                     2,
                     32,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SerissuAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 187

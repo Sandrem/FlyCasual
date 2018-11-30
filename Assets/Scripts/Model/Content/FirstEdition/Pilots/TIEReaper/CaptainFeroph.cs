@@ -13,7 +13,7 @@ namespace Ship
                     "Captain Feroph",
                     4,
                     24,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CaptainFerophAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

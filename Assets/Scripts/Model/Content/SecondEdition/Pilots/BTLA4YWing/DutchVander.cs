@@ -22,7 +22,7 @@ namespace Ship
                     "\"Dutch\" Vander",
                     4,
                     42,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(DutchVanderAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 14

@@ -18,7 +18,7 @@ namespace Ship
                     "Norra Wexley",
                     7,
                     29,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.NorraWexleyARC170Ability),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

@@ -17,7 +17,7 @@ namespace Ship
                     "\"Omega Ace\"",
                     7,
                     20,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.OmegaAceAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

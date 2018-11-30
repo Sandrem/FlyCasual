@@ -13,7 +13,7 @@ namespace Ship
                     "Rexler Brath",
                     5,
                     84,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RexlerBrathAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 122

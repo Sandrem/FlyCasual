@@ -18,7 +18,7 @@ namespace Ship
                     "Jake Farrell",
                     7,
                     24,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.JakeFarrellAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

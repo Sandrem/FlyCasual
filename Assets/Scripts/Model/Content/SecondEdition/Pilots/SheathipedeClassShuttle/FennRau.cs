@@ -14,7 +14,7 @@ namespace Ship
                     "Fenn Rau",
                     6,
                     52,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.FennRauRebelAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 38

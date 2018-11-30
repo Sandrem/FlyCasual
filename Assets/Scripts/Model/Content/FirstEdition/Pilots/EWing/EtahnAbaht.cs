@@ -15,7 +15,7 @@ namespace Ship
                     "Etahn A'baht",
                     5,
                     32,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.EtahnAbahtAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

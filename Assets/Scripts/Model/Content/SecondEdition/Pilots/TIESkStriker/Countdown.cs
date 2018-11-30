@@ -15,7 +15,7 @@ namespace Ship
                     "\"Countdown\"",
                     4,
                     44,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CountdownAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 118

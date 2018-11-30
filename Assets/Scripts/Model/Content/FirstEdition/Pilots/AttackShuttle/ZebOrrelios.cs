@@ -12,7 +12,7 @@ namespace Ship
                     "\"Zeb\" Orrelios",
                     3,
                     18,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility)
                 );
             }

@@ -17,7 +17,7 @@ namespace Ship
                     "Old Teroch",
                     5,
                     56,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OldTerochAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 156

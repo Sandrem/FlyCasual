@@ -13,7 +13,7 @@ namespace Ship
                     "\"Winged Gundark\"",
                     5,
                     15,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.WingedGundarkAbility)
                 );
             }

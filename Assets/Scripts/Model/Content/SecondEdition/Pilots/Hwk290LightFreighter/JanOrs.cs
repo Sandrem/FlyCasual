@@ -15,7 +15,7 @@ namespace Ship
                     "Jan Ors",
                     5,
                     42,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JanOrsAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 42

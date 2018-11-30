@@ -12,7 +12,7 @@ namespace Ship
                     "Lieutenant Karsabi",
                     3,
                     39,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LieutenantKarsabiAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 136

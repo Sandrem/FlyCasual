@@ -18,7 +18,7 @@ namespace Ship
                     "Kyle Katarn",
                     6,
                     21,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KyleKatarnAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

@@ -16,7 +16,7 @@ namespace Ship
                     "Carnor Jax",
                     8,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CarnorJaxAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

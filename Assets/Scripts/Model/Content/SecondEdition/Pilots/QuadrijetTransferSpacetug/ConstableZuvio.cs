@@ -14,7 +14,7 @@ namespace Ship
                     "Constable Zuvio",
                     4,
                     33,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ConstableZuvioAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 161

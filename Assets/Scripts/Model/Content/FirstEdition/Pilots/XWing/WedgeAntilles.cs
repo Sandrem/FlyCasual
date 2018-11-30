@@ -19,7 +19,7 @@ namespace Ship
                     "Wedge Antilles",
                     9,
                     29,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(WedgeAntillesAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

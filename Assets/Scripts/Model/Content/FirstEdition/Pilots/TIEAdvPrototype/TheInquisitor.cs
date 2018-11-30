@@ -14,7 +14,7 @@ namespace Ship
                     "The Inquisitor",
                     8,
                     25,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TheInquisitorAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

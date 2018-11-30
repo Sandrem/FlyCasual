@@ -15,7 +15,7 @@ namespace Ship
                     "Darth Vader",
                     9,
                     29,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DarthVaderAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

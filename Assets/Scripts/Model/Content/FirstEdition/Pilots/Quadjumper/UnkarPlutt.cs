@@ -12,6 +12,7 @@ namespace Ship
                     "Unkar Plutt",
                     3,
                     17,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.UnkarPluttAbility)
                 );
             }

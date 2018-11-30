@@ -14,7 +14,7 @@ namespace Ship
                     "Miranda Doni",
                     4,
                     48,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MirandaDoniAbility),
                     seImageNumber: 62
                 );

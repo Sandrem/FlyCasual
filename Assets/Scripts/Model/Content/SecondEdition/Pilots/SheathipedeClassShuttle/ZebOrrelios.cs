@@ -14,7 +14,7 @@ namespace Ship
                     "\"Zeb\" Orrelios",
                     2,
                     32,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 40

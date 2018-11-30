@@ -12,7 +12,7 @@ namespace Ship
                     "Lieutenant Blount",
                     6,
                     17,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LieutenantBlountAbiliity),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

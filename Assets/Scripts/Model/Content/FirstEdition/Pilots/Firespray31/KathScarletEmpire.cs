@@ -13,7 +13,7 @@ namespace Ship
                     "Kath Scarlet",
                     7,
                     38,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KathScarletEmpireAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     factionOverride: Faction.Imperial

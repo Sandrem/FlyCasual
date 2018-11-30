@@ -19,7 +19,7 @@ namespace Ship
                     "Horton Salm",
                     8,
                     25,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.HortonSalmAbility)
                 );
 

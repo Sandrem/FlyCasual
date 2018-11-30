@@ -18,7 +18,7 @@ namespace Ship
                     "Edrio Two Tubes",
                     4,
                     24,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(EdrioTwoTubesAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

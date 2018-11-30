@@ -14,7 +14,7 @@ namespace Ship
                     "Emon Azzameen",
                     6,
                     36,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.EmonAzzameenAbility),
                     extraUpgradeIcon: UpgradeType.Illicit,
                     factionOverride: Faction.Scum

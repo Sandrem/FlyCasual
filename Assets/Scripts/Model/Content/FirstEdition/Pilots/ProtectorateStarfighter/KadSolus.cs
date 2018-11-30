@@ -16,7 +16,7 @@ namespace Ship
                     "Kad Solus",
                     6,
                     25,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KadSolusAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

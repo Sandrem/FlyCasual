@@ -14,7 +14,7 @@ namespace Ship
                     "Dash Rendar",
                     5,
                     100,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DashRendarAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 77

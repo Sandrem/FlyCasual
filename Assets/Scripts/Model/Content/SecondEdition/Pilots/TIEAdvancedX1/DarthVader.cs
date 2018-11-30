@@ -16,7 +16,7 @@ namespace Ship
                     "Darth Vader",
                     6,
                     70,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(DarthVaderAbility),
                     force: 3,
                     extraUpgradeIcon: UpgradeType.Force,

@@ -12,7 +12,7 @@ namespace Ship
                     "Krassis Trelix",
                     3,
                     70,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KrassisTrelixAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 153

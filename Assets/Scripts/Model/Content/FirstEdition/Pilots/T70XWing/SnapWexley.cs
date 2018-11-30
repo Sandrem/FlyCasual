@@ -16,7 +16,7 @@ namespace Ship
                     "\"Snap\" Wexley",
                     6,
                     28,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SnapWexleyAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

@@ -14,7 +14,7 @@ namespace Ship
                     "Jakku Gunrunner",
                     2,
                     31,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SarcoPlankAbility),
                     seImageNumber: 162
                 );

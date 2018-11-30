@@ -15,7 +15,7 @@ namespace Ship
                     "Outer Rim Pioneer",
                     3,
                     24,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OuterRimPioneerAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 227

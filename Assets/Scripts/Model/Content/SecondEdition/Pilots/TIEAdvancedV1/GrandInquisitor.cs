@@ -15,7 +15,7 @@ namespace Ship
                     "Grand Inquisitor",
                     5,
                     58,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GrandInquisitorAbility),
                     force: 2,
                     extraUpgradeIcon: UpgradeType.Force,

@@ -16,7 +16,7 @@ namespace Ship
                     "Colonel Jendon",
                     6,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ColonelJendonAbility)
                 );
             }

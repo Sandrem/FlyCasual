@@ -15,7 +15,7 @@ namespace Ship
                     "L3-37",
                     2,
                     22,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.L337Ability),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 228

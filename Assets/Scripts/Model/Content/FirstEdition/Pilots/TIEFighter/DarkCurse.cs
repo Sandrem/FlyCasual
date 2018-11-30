@@ -12,7 +12,7 @@ namespace Ship
                     "Dark Curse",
                     6,
                     16,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DarkCurseAbility)
                 );
             }

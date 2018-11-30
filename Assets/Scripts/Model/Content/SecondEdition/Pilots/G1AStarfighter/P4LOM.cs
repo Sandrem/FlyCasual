@@ -20,7 +20,7 @@ namespace Ship
                     "4-LOM",
                     3,
                     49,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.P4LOMAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 201

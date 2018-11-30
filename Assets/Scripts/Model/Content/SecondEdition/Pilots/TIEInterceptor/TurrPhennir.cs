@@ -14,7 +14,7 @@ namespace Ship
                     "Turr Phennir",
                     4,
                     44,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TurrPhennirAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 104

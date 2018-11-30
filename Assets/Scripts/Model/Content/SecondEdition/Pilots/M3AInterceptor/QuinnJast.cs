@@ -14,7 +14,7 @@ namespace Ship
                     "Quinn Jast",
                     3,
                     35,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.QuinnJastAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 186

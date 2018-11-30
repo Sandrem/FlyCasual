@@ -16,7 +16,7 @@ namespace Ship
                     "Thane Kyrell",
                     4,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ThaneKyrellPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

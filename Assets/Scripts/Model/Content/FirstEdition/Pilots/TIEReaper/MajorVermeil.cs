@@ -16,7 +16,7 @@ namespace Ship
                     "Major Vermeil",
                     6,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.MajorVermeilAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

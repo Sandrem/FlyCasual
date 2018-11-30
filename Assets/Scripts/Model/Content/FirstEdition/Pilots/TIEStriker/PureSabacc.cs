@@ -12,7 +12,7 @@ namespace Ship
                     "\"Pure Sabacc\"",
                     6,
                     22,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.PureSabaccAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

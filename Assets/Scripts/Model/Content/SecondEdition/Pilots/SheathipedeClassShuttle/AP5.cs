@@ -18,7 +18,7 @@ namespace Ship
                     "AP-5",
                     1,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AP5PilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 41

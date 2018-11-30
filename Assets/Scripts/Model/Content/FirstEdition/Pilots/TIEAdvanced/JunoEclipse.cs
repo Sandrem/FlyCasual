@@ -16,7 +16,7 @@ namespace Ship
                     "Juno Eclipse",
                     8,
                     28,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.JunoEclipseAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

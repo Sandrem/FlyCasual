@@ -17,7 +17,7 @@ namespace Ship
                     "Del Meeko",
                     4,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(DelMeekoAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 85

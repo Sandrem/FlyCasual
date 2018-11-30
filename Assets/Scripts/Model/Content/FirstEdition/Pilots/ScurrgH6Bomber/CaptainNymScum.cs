@@ -17,7 +17,7 @@ namespace Ship
                     "Captain Nym",
                     8,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CaptainNymScumAbiliity),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

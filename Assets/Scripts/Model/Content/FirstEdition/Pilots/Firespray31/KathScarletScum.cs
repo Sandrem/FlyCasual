@@ -14,7 +14,7 @@ namespace Ship
                     "Kath Scarlet",
                     7,
                     38,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KathScarletScumAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     factionOverride: Faction.Scum

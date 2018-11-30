@@ -12,7 +12,7 @@ namespace Ship
                     "Poe Dameron (HotR)",
                     9,
                     33,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.PoeDameronAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

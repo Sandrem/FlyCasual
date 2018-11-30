@@ -17,7 +17,7 @@ namespace Ship
                     "Viktor Hel",
                     4,
                     45,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ViktorHelAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 193

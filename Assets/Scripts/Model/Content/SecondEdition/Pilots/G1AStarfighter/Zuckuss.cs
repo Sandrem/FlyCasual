@@ -12,7 +12,7 @@ namespace Ship
                     "Zuckuss",
                     3,
                     47,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZuckussAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 202

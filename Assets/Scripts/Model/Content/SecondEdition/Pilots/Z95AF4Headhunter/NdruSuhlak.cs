@@ -14,7 +14,7 @@ namespace Ship
                     "N'dru Suhlak",
                     4,
                     31,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     factionOverride: Faction.Scum,

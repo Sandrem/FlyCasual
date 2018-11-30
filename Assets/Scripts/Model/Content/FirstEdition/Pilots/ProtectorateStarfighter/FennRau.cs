@@ -12,7 +12,7 @@ namespace Ship
                     "Fenn Rau",
                     9,
                     28,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.FennRauScumAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

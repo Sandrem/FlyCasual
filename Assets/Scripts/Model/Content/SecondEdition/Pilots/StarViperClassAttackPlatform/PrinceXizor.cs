@@ -18,7 +18,7 @@ namespace Ship
                     "Prince Xizor",
                     4,
                     54,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PrinceXizorAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 180

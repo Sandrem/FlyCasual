@@ -16,7 +16,7 @@ namespace Ship
                     "Chewbacca",
                     4,
                     78,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChewbaccaRebelPilotAbility),
                     charges: 1,
                     regensCharges: true,

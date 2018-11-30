@@ -14,7 +14,7 @@ namespace Ship
                     "Gemmer Sojan",
                     5,
                     22,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.GemmerSojanAbility)
                 );
             }

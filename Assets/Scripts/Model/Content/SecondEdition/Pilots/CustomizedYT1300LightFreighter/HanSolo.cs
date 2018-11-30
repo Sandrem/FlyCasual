@@ -15,7 +15,7 @@ namespace Ship
                     "Han Solo",
                     6,
                     54,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloScumPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 222

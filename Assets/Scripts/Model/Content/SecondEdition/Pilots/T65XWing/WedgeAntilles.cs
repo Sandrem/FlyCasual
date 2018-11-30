@@ -14,7 +14,7 @@ namespace Ship
                     "Wedge Antilles",
                     6,
                     52,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.WedgeAntillesAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 1

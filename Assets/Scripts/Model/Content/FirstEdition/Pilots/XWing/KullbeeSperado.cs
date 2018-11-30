@@ -15,7 +15,7 @@ namespace Ship
                     "Kullbee Sperado",
                     7,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(KullbeeSperadoAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

@@ -16,7 +16,7 @@ namespace Ship
                     "Dengar",
                     9,
                     33,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DengarPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

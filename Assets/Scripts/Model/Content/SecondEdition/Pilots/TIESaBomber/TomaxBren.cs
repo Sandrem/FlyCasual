@@ -16,7 +16,7 @@ namespace Ship
                     "Tomax Bren",
                     5,
                     34,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TomaxBrenAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 107

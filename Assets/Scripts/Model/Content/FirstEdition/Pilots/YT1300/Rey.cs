@@ -16,7 +16,7 @@ namespace Ship
                     "Rey",
                     8,
                     45,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ReyPilotAbility),
                     extraUpgradeIcon: UpgradeType.Missile
                 );

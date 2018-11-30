@@ -16,7 +16,7 @@ namespace Ship
                     "Leevan Tenza",
                     5,
                     25,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LeevanTenzaAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

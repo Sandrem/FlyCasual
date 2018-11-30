@@ -16,7 +16,7 @@ namespace Ship
                     "Genesis Red",
                     4,
                     35,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GenesisRedAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 184

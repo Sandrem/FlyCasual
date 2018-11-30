@@ -14,7 +14,7 @@ namespace Ship
                     "Captain Rex",
                     2,
                     32,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainRexPilotAbility),
                     factionOverride: Faction.Rebel,
                     seImageNumber: 48

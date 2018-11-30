@@ -16,7 +16,7 @@ namespace Ship
                     "\"Chopper\"",
                     4,
                     37,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ChopperPilotAbility)
                 );
             }

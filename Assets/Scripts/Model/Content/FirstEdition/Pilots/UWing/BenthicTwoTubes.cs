@@ -17,7 +17,7 @@ namespace Ship
                     "Benthic Two Tubes",
                     4,
                     24,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BenthicTwoTubesAbility)
                 );
 

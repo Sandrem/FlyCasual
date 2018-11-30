@@ -21,7 +21,7 @@ namespace Ship
                     "Iden Versio",
                     4,
                     40,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(IdenVersioAbility),
                     charges: 1,
                     extraUpgradeIcon: UpgradeType.Elite,

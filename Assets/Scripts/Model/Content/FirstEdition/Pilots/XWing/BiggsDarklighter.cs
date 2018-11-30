@@ -18,7 +18,7 @@ namespace Ship
                     "Biggs Darklighter",
                     5,
                     25,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(BiggsDarklighterAbility)
                 );
             }

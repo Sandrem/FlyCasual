@@ -15,7 +15,7 @@ namespace Ship
                     "Thweek",
                     4,
                     28,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ThweekAbility)
                 );
             }

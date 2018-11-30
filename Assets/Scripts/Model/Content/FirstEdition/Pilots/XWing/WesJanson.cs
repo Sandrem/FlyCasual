@@ -18,7 +18,7 @@ namespace Ship
                     "Wes Janson",
                     8,
                     29,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.WesJansonAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

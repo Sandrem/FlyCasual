@@ -17,7 +17,7 @@ namespace Ship
                     "Ello Asty",
                     7,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ElloAstyAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

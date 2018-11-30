@@ -18,7 +18,7 @@ namespace Ship
                     "Kyle Katarn",
                     3,
                     38,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyleKatarnAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 43

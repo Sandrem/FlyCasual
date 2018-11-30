@@ -16,7 +16,7 @@ namespace Ship
                     "Drea Renthal",
                     4,
                     40,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DreaRenthalAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     factionOverride: Faction.Scum,
@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
             public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
-                if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo && Combat.Attacker.PilotInfo.Limited == 0 && Board.IsShipInArc(Host, Combat.Defender))
+                if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo && !Combat.Attacker.PilotInfo.IsLimited && Board.IsShipInArc(Host, Combat.Defender))
                 {
                     return true;
                 }

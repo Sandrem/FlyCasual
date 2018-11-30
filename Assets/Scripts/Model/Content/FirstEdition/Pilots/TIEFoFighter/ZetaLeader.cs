@@ -14,7 +14,7 @@ namespace Ship
                     "\"Zeta Leader\"",
                     7,
                     20,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZetaLeaderAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

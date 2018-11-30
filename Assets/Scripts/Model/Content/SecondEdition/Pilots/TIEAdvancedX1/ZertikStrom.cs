@@ -17,7 +17,7 @@ namespace Ship
                     "Zertik Strom",
                     3,
                     45,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZertikStromAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 96

@@ -16,7 +16,7 @@ namespace Ship
                     "Torkil Mux",
                     2,
                     36,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TorkilMuxAbility),
                     extraUpgradeIcon: UpgradeType.Illicit,
                     factionOverride: Faction.Scum,

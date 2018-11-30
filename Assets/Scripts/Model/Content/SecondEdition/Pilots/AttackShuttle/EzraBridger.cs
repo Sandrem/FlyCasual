@@ -13,7 +13,7 @@ namespace Ship
                     "Ezra Bridger",
                     3,
                     41,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
                     force: 1,
                     extraUpgradeIcon: UpgradeType.Force,

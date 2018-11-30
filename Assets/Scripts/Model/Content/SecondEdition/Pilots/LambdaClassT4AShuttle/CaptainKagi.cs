@@ -17,7 +17,7 @@ namespace Ship
                     "Captain Kagi",
                     4,
                     48,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainKagiAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 142

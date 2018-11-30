@@ -14,7 +14,7 @@ namespace Ship
                     "Graz The Hunter",
                     6,
                     25,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.GrazTheHunterAbility)
                 );
             }

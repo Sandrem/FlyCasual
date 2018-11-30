@@ -13,7 +13,7 @@ namespace Ship
                     "Major Vynder",
                     7,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.MajorVynderAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

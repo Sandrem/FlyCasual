@@ -13,7 +13,7 @@ namespace Ship
                     "Krassis Trelix",
                     5,
                     36,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KrassisTrelixAbility),
                     factionOverride: Faction.Imperial
                 );

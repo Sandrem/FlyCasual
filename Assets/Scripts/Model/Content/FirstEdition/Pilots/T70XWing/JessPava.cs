@@ -15,7 +15,7 @@ namespace Ship
                     "Jess Pava",
                     3,
                     25,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.JessPavaAbility)
                 );
             }

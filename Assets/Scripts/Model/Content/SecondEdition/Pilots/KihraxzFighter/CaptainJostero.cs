@@ -15,7 +15,7 @@ namespace Ship
                     "Captain Jostero",
                     3,
                     43,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainJosteroAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 194

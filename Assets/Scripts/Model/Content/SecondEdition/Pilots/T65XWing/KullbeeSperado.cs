@@ -14,7 +14,7 @@ namespace Ship
                     "Kullbee Sperado",
                     4,
                     48,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(KullbeeSperadoAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
                     seImageNumber: 6

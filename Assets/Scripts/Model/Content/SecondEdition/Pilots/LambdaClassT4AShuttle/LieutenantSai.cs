@@ -15,7 +15,7 @@ namespace Ship
                     "Lieutenant Sai",
                     3,
                     47,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantSaiAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 144

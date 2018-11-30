@@ -18,7 +18,7 @@ namespace Ship
                     "Torani Kulda",
                     8,
                     27,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ToraniKuldaAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

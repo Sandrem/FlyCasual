@@ -14,7 +14,7 @@ namespace Ship
                     "\"Redline\"",
                     5,
                     44,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RedlineAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 139

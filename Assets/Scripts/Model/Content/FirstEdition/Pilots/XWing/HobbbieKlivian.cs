@@ -17,7 +17,7 @@ namespace Ship
                     "\"Hobbbie\" Klivian",
                     5,
                     25,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.HobbieKlivianAbility)
                 );
             }

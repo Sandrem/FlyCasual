@@ -15,7 +15,7 @@ namespace Ship
                     "\"Vizier\"",
                     3,
                     23,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.VizierAbility)
                 );
             }

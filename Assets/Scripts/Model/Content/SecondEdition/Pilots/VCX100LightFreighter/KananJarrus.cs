@@ -15,7 +15,7 @@ namespace Ship
                     "Kanan Jarrus",
                     3,
                     90,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KananJarrusPilotAbility),
                     force: 2,
                     extraUpgradeIcon: UpgradeType.Force,

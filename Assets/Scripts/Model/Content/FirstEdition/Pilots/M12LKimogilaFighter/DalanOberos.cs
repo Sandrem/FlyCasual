@@ -18,7 +18,7 @@ namespace Ship
                     "Dalan Oberos",
                     7,
                     25,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DalanOberosAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

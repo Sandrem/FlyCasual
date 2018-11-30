@@ -15,7 +15,7 @@ namespace Ship
                     "Valen Rudor",
                     3,
                     28,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(ValenRudorAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 87

@@ -17,7 +17,7 @@ namespace Ship
                     "Lando Calrissian",
                     5,
                     92,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LandoCalrissianRebelPilotAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 70

@@ -14,7 +14,7 @@ namespace Ship
                     "Ibtisam",
                     3,
                     50,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 68

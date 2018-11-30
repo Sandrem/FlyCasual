@@ -15,7 +15,7 @@ namespace Ship
                     "Sunny Bounder",
                     1,
                     14,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SunnyBounderAbility)
                 );
 

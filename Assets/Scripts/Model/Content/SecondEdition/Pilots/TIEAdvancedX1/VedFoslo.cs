@@ -12,7 +12,7 @@ namespace Ship
                     "Ved Foslo",
                     4,
                     47,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.JunoEclipseAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 95

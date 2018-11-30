@@ -539,7 +539,7 @@ namespace SquadBuilderNS
             List<string> uniqueCards = new List<string>();
             foreach (var shipConfig in GetSquadList(playerNo).GetShips())
             {
-                if (shipConfig.Instance.PilotInfo.Limited == 1)
+                if (shipConfig.Instance.PilotInfo.IsLimited)
                 {
                     if (CheckDuplicate(uniqueCards, shipConfig.Instance.PilotInfo.PilotName)) return false;
                 }

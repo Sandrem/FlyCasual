@@ -14,7 +14,7 @@ namespace Ship
                     "\"Mauler Mithel\"",
                     7,
                     17,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(MaulerMithelAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

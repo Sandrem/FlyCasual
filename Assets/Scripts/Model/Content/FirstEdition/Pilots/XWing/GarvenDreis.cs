@@ -18,7 +18,7 @@ namespace Ship
                     "Garven Dreis",
                     6,
                     26,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(GarvenDreisAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

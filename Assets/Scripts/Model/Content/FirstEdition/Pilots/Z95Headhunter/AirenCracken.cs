@@ -17,7 +17,7 @@ namespace Ship
                     "Airen Cracken",
                     8,
                     19,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.AirenCrackenAbiliity),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

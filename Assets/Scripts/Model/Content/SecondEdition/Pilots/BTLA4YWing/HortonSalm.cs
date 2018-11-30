@@ -19,7 +19,7 @@ namespace Ship
                     "Horton Salm",
                     4,
                     38,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(HortonSalmAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 15

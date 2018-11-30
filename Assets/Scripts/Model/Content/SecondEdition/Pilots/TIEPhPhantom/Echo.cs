@@ -15,7 +15,7 @@ namespace Ship
                     "\"Echo\"",
                     4,
                     50,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EchoAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 132

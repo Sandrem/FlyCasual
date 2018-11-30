@@ -16,7 +16,7 @@ namespace Ship
                     "IG-88B",
                     6,
                     36,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.IG88BAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

@@ -15,7 +15,7 @@ namespace Ship
                     "Soontir Fel",
                     9,
                     27,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SoontirFelAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

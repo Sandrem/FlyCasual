@@ -15,7 +15,7 @@ namespace Ship
                     "Lieutenant Kestal",
                     4,
                     36,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantKestalAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 127

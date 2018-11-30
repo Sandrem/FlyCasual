@@ -10,7 +10,7 @@
                     "Eaden Vrill",
                     3,
                     32,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.EadenVrillAbility)
                 );
             }

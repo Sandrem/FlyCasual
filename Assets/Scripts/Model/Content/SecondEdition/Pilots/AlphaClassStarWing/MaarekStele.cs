@@ -12,7 +12,7 @@ namespace Ship
                     "Maarek Stele",
                     7,
                     27,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LieutenantKarsabiAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 136

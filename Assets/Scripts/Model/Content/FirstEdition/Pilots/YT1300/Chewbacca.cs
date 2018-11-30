@@ -14,7 +14,7 @@ namespace Ship
                     "Chewbacca",
                     5,
                     42,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ChewbaccaRebelPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Missile }
                 );

@@ -17,7 +17,7 @@ namespace Ship
                     "Major Vermeil",
                     4,
                     49,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(MajorVermeilAbility),
                     extraUpgradeIcon: UpgradeType.Elite,
                     seImageNumber: 113

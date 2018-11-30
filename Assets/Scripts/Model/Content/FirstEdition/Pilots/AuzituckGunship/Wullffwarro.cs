@@ -14,7 +14,7 @@ namespace Ship
                     "Wullffwarro",
                     7,
                     30,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.WullffwarroAbility),
                     extraUpgradeIcon: UpgradeType.Elite
                 );

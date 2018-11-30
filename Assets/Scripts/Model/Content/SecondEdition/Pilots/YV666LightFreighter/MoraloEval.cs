@@ -13,7 +13,7 @@ namespace Ship
                     "Moralo Eval",
                     4,
                     72,
-                    limited: 1,
+                    isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MoraloEvalAbility),
                     charges: 2,
                     extraUpgradeIcon: UpgradeType.Elite,

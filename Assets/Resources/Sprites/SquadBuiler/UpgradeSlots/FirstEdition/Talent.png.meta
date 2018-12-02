@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 01aa19182f3d2974ca9aaf499d8fb320
+guid: 99af52d91a39b7e42b60a9e9c3e9fe3f
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
@@ -35,7 +35,7 @@ TextureImporter:
     aniso: -1
     mipBias: -100
     wrapU: 1
-    wrapV: -1
+    wrapV: 1
     wrapW: -1
   nPOTScale: 0
   lightmap: 0
@@ -81,17 +81,6 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
-    buildTarget: iPhone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-  - serializedVersion: 2
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -103,7 +92,7 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
-    buildTarget: WebGL
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -119,7 +108,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: f01d4ed2530b73b479388da3e6358e76
+    spriteID: 
     vertices: []
     indices: 
     edges: []

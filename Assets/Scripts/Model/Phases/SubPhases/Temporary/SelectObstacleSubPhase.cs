@@ -107,7 +107,8 @@ namespace SubPhases
 
         private void TryToSelectObstacle()
         {
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (!EventSystem.current.IsPointerOverGameObject() &&
+                (Input.touchCount == 0 || !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
             {
                 if (Input.GetKeyUp(KeyCode.Mouse0))
                 {

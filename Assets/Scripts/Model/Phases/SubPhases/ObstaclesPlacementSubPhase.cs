@@ -16,7 +16,7 @@ namespace SubPhases
 
     public class ObstaclesPlacementSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ObstaclePlacement, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ObstaclePlacement, GameCommandTypes.PressSkip, GameCommandTypes.PressNext }; } }
 
         public static GenericObstacle ChosenObstacle;
         private float MinBoardEdgeDistance;
@@ -25,6 +25,8 @@ namespace SubPhases
         private static bool IsEnteredPlaymat;
         private static bool IsEnteredPlacementZone;
         public static bool IsLocked;
+
+        private TouchObjectPlacementHandler touchObjectPlacementHandler = new TouchObjectPlacementHandler();
 
         public Dictionary<PlayerNo, bool> IsRandomSetupSelected = new Dictionary<PlayerNo, bool>()
         {
@@ -102,7 +104,8 @@ namespace SubPhases
             if (ChosenObstacle == null) return;
             if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(HumanPlayer)) return;
 
-            MoveChosenObstacle();
+            if (CameraScript.InputTouchIsEnabled) MoveChosenObstacleTouch();
+            if (CameraScript.InputMouseIsEnabled) MoveChosenObstacle();
             CheckPerformRotation();
 
             CheckEntered();
@@ -148,6 +151,20 @@ namespace SubPhases
             if (Physics.Raycast(ray, out hit))
             {
                 ChosenObstacle.ObstacleGO.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
+            }
+        }
+
+        private void MoveChosenObstacleTouch() {
+            touchObjectPlacementHandler.Update();
+
+            if (touchObjectPlacementHandler.GetNewRotation() != 0f) {
+                ChosenObstacle.ObstacleGO.transform.localEulerAngles += new Vector3(0, touchObjectPlacementHandler.GetNewRotation(), 0);
+            }
+
+            if (touchObjectPlacementHandler.GetNewPosition() != Vector3.zero)
+            {
+                ChosenObstacle.ObstacleGO.transform.position = new Vector3(touchObjectPlacementHandler.GetNewPosition().x, 0f, 
+                                                                           touchObjectPlacementHandler.GetNewPosition().z);
             }
         }
 
@@ -311,30 +328,44 @@ namespace SubPhases
             {
                 TryToSelectObstacle();
             }
-            else
+            else if (CameraScript.InputMouseIsEnabled)
             {
+                // For mouse input, clicking places obstacles (not for touch input though)
                 TryToPlaceObstacle();
             }
         }
 
         private void TryToSelectObstacle()
         {
-            if (!EventSystem.current.IsPointerOverGameObject())
+            if (!EventSystem.current.IsPointerOverGameObject() &&
+               (Input.touchCount == 0 || !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
             {
-                if (Input.GetKeyUp(KeyCode.Mouse0))
+                // On touch devices, select on down instead of up event so drag can begin immediately
+                if (Input.GetKeyUp(KeyCode.Mouse0) ||
+                    (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began))
                 {
                     RaycastHit hitInfo = new RaycastHit();
-                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    bool castHit = Physics.Raycast(ray, out hitInfo);
+
+                    // If an asteroid wasn't found and we're on touch, see if the user tapped right next to an asteroid
+                    // Since the asteroid can be small, they can be hard to touch and this helps with that
+                    if (CameraScript.InputTouchIsEnabled && 
+                        (!castHit || !hitInfo.transform.tag.StartsWith("Asteroid"))) {
+                       
+                        castHit = Physics.SphereCast(ray, 0.1f, out hitInfo, 10f);
+                    }
+
+
+                    // Select the obstacle found if it's valid
+                    if (castHit && hitInfo.transform.tag.StartsWith("Asteroid"))
                     {
-                        if (hitInfo.transform.tag.StartsWith("Asteroid"))
+                        GameObject obstacleGO = hitInfo.transform.parent.gameObject;
+                        GenericObstacle clickedObstacle = ObstaclesManager.GetObstacleByName(obstacleGO.name);
+
+                        if (!clickedObstacle.IsPlaced)
                         {
-                            GameObject obstacleGO = hitInfo.transform.parent.gameObject;
-                            GenericObstacle clickedObstacle = ObstaclesManager.GetObstacleByName(obstacleGO.name);
-                            
-                            if (!clickedObstacle.IsPlaced)
-                            {
-                                SelectObstacle(clickedObstacle);
-                            }
+                            SelectObstacle(clickedObstacle);
                         }
                     }
                 }
@@ -346,9 +377,28 @@ namespace SubPhases
             Board.ToggleOffTheBoardHolder(true);
             ChosenObstacle = obstacle;
             UI.HideSkipButton();
+
+            if (CameraScript.InputTouchIsEnabled && !IsRandomSetupSelected[RequiredPlayer])
+            {
+                // With touch controls, wait for confirmation before setting the position
+                UI.ShowNextButton();
+                IsReadyForCommands = true;
+
+                // Set up touch handler
+                touchObjectPlacementHandler.SetObstacle(obstacle);
+            }
         }
 
-        private void TryToPlaceObstacle()
+
+        public override void NextButton()
+        {
+            // Only used for touch controls -- try to confirm obstacle placement
+            if (!TryToPlaceObstacle()) {
+                UI.ShowNextButton();
+            }
+        }
+
+        private bool TryToPlaceObstacle()
         {
             if (IsEnteredPlacementZone && !IsPlacementBlocked)
             {
@@ -358,10 +408,12 @@ namespace SubPhases
                     ChosenObstacle.ObstacleGO.transform.eulerAngles
                 );
                 GameMode.CurrentGameMode.ExecuteCommand(command);
+                return true;
             }
             else
             {
                 Messages.ShowError("Obstacle cannot be placed");
+                return false;
             }
         }
 

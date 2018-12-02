@@ -23,7 +23,7 @@ namespace Players
 
             NickName = "A.I.";
             Title = "Protocol Droid";
-            Avatar = "UpgradesList.C3PO";
+            Avatar = "UpgradesList.FirstEdition.C3PO";
         }
 
         public override void SetupShip()

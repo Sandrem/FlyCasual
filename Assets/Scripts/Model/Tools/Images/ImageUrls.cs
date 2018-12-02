@@ -63,6 +63,9 @@ public static class ImageUrls
             case UpgradeType.SalvagedAstromech:
                 name += "Salvaged Astromech";
                 break;
+            case UpgradeType.Talent:
+                name += "Elite";
+                break;
             default:
                 name += type.ToString ();
                 break;

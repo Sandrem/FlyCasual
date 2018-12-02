@@ -60,12 +60,10 @@ public partial class MainMenu : MonoBehaviour {
 
     private void UpdatePlayerInfo()
     {
-        // TODOREVERT
-
-        /*AvatarFromUpgrade script = GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/AvatarImage").GetComponent<AvatarFromUpgrade>();
+        AvatarFromUpgrade script = GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/AvatarImage").GetComponent<AvatarFromUpgrade>();
         script.Initialize(Options.Avatar);
 
-        GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/NicknameAndTitleText").GetComponent<Text>().text = Options.NickName + "\n" + Options.Title;*/
+        GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/NicknameAndTitleText").GetComponent<Text>().text = Options.NickName + "\n" + Options.Title;
     }
 
     private void SetBackground()
@@ -182,7 +180,7 @@ public partial class MainMenu : MonoBehaviour {
         int count = 0;
 
         List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
-            .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
+            .Where(t => String.Equals(t.Namespace, "UpgradesList.FirstEdition", StringComparison.Ordinal))
             .ToList();
 
         foreach (var type in typelist)

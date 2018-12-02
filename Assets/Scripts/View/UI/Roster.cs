@@ -630,7 +630,7 @@ public static partial class Roster {
             int playerInfoSlot = (Network.IsNetworkGame && !Network.IsServer) ? Roster.AnotherPlayer(i) : i;
             player.PlayerInfoPanel = GameObject.Find("UI/PlayersPanel/Player" + playerInfoSlot + "Panel");
 
-            // TODOREVERT player.PlayerInfoPanel.transform.Find("PlayerAvatarImage").GetComponent<AvatarFromUpgrade>().Initialize(Roster.GetPlayer(i).Avatar);
+            player.PlayerInfoPanel.transform.Find("PlayerAvatarImage").GetComponent<AvatarFromUpgrade>().Initialize(Roster.GetPlayer(i).Avatar);
             player.PlayerInfoPanel.transform.Find("PlayerNickName").GetComponent<Text>().text = Roster.GetPlayer(i).NickName;
             player.PlayerInfoPanel.transform.Find("PlayerTitle").GetComponent<Text>().text = Roster.GetPlayer(i).Title;
         }

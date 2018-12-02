@@ -18,12 +18,21 @@ public class AvatarFromUpgrade : MonoBehaviour {
     public void Initialize(string upgradeType, Action<string> onClick = null)
     {
         UpgradeType = upgradeType;
+
+        if (Type.GetType(upgradeType) == null)
+        {
+            Options.Avatar = Options.DefaultAvatar;
+            Options.ChangeParameterValue("Avatar", Options.DefaultAvatar);
+            upgradeType = Options.DefaultAvatar;
+        }
+
         Upgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
         Offset = Upgrade.Avatar.AvatarOffset;
         OnClick = onClick;
 
         this.gameObject.SetActive(false);
         LoadImage();
+
         SetOnClickHandler();
     }
 
@@ -63,7 +72,11 @@ public class AvatarFromUpgrade : MonoBehaviour {
 
     private void ShowTextVersionOfCard()
     {
-        this.gameObject.SetActive(true);
+        try
+        {
+            this.gameObject.SetActive(true);
+        }
+        catch {}
     }
 
     private void SetOnClickHandler()

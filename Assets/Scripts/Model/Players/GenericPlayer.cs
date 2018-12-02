@@ -13,17 +13,9 @@ public enum Faction
     None,
     Rebel,
     Imperial,
-    Scum
-}
-
-public enum SubFaction
-{
-    None,
-    RebelAlliance,
+    Scum,
     Resistance,
-    GalacticEmpire,
-    FirstOrder,
-    ScumAndVillainy
+    FirstOrder
 }
 
 namespace Players

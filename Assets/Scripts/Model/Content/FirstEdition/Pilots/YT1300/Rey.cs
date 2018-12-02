@@ -25,7 +25,7 @@ namespace Ship
                 ShipInfo.Hull = 8;
                 ShipInfo.Shields = 5;
 
-                ShipInfo.SubFaction = SubFaction.Resistance;
+                ShipInfo.SubFaction = Faction.Resistance;
             }
         }
     }

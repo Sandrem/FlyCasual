@@ -26,27 +26,17 @@ namespace Ship
 
         public Faction Faction { get { return (PilotInfo.Faction != Faction.None) ? PilotInfo.Faction : ShipInfo.DefaultShipFaction; } }
 
-        public SubFaction SubFaction
+        public Faction SubFaction
         {
             get
             {
-                if (ShipInfo.SubFaction != SubFaction.None)
+                if (ShipInfo.SubFaction != Faction.None)
                 {
                     return ShipInfo.SubFaction;
                 }
                 else
                 {
-                    switch (Faction)
-                    {
-                        case Faction.Imperial:
-                            return SubFaction.GalacticEmpire;
-                        case Faction.Rebel:
-                            return SubFaction.RebelAlliance;
-                        case Faction.Scum:
-                            return SubFaction.ScumAndVillainy;
-                        default:
-                            throw new NotImplementedException("Invalid faction: " + Faction.ToString());
-                    }
+                    return Faction;
                 }
             }
         }

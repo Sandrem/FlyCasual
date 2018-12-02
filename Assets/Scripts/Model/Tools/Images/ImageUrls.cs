@@ -78,19 +78,19 @@ public static class ImageUrls
         return upgradeName.Replace('.', ' ');
     }
 
-    public static string FormatFaction(SubFaction faction)
+    public static string FormatFaction(Faction faction)
     {
         switch (faction)
         {
-            case SubFaction.RebelAlliance:
+            case Faction.Rebel:
                 return "Rebel Alliance";
-            case SubFaction.Resistance:
+            case Faction.Resistance:
                 return "Resistance";
-            case SubFaction.GalacticEmpire:
+            case Faction.Imperial:
                 return "Galactic Empire";
-            case SubFaction.FirstOrder:
+            case Faction.FirstOrder:
                 return "First Order";
-            case SubFaction.ScumAndVillainy:
+            case Faction.Scum:
                 return "Scum and Villainy";
             default:
                 throw new NotImplementedException();

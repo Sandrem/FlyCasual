@@ -21,15 +21,15 @@ namespace Ship
         public char Icon { get; private set; }
         public List<Faction> FactionsAll { get; set; }
 
-        public SubFaction SubFaction { get; set; }
+        public Faction SubFaction { get; set; }
 
-        public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', SubFaction subFaction = SubFaction.None, List<Faction> factionsAll = null)
+        public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', Faction subFaction = Faction.None, List<Faction> factionsAll = null)
         {
             ShipName = shipName;
             BaseSize = baseSize;
 
             DefaultShipFaction = faction;
-            if (subFaction != SubFaction.None) SubFaction = subFaction;
+            if (subFaction != Faction.None) SubFaction = subFaction;
 
             ArcInfo = arcInfo;
 

@@ -30,7 +30,7 @@ namespace Ship.FirstEdition.T70XWing
                     UpgradeType.Astromech,
                     UpgradeType.Tech
                 ),
-                subFaction: SubFaction.Resistance
+                subFaction: Faction.Resistance
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {

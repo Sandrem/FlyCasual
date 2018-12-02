@@ -30,7 +30,7 @@ namespace Ship.FirstEdition.BSF17Bomber
                     UpgradeType.Bomb,
                     UpgradeType.Bomb
                 ),
-                subFaction: SubFaction.Resistance
+                subFaction: Faction.Resistance
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {

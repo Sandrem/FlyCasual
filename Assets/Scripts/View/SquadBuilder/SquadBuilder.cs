@@ -239,7 +239,7 @@ namespace SquadBuilderNS
                 prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/AddShipButton", typeof(GameObject));
                 GameObject addShipButton = MonoBehaviour.Instantiate(prefab, addShipButtonPanel.transform);
 
-                Sprite factionSprite = GameObject.Find("UI/Panels").transform.Find("SelectFactionPanel").Find("Panel").Find("FactionPanels").Find(CurrentSquadList.SquadFaction.ToString()).GetComponent<Image>().sprite;
+                Sprite factionSprite = GameObject.Find("UI/Panels").transform.Find("SelectFactionPanel").Find("Panel").Find("FactionPanels" + Edition.Current.Name).Find(CurrentSquadList.SquadFaction.ToString()).GetComponent<Image>().sprite;
                 addShipButton.GetComponent<Image>().sprite = factionSprite;
 
                 EventTrigger trigger = addShipButton.AddComponent<EventTrigger>();
@@ -848,7 +848,10 @@ namespace SquadBuilderNS
 
         public static void ShowFactionsImages()
         {
-            foreach (Transform imagePanel in GameObject.Find("UI/Panels/SelectFactionPanel/Panel/FactionPanels").transform)
+            GameObject panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanels" + Edition.Current.Name).gameObject;
+            panelGO.SetActive(true);
+
+            foreach (Transform imagePanel in panelGO.transform)
             {
                 string editionName = (Edition.Current is FirstEdition) ? "FirstEdition" : "SecondEdition";
                 Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/Factions/" + editionName + "/" + imagePanel.name, typeof(Sprite));

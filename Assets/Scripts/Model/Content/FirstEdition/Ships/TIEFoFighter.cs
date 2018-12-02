@@ -32,7 +32,7 @@ namespace Ship
                         UpgradeType.Modification,
                         UpgradeType.Tech
                     ),
-                    subFaction: SubFaction.FirstOrder
+                    subFaction: Faction.FirstOrder
                 );
 
                 IconicPilots = new Dictionary<Faction, System.Type> {

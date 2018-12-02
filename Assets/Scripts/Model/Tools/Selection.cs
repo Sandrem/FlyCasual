@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Ship;
 
-public static class Selection {
+public static class Selection
+{
 
     public static GenericShip ThisShip;
     public static GenericShip AnotherShip;
     public static GenericShip ActiveShip;
     public static GenericShip HoveredShip;
-    	
+
     public static void Initialize()
     {
         ThisShip = null;
@@ -22,12 +24,22 @@ public static class Selection {
     //TODO: BUG - enemy ship can be selected
     public static void UpdateSelection()
     {
-        if (!EventSystem.current.IsPointerOverGameObject())
+        if (!EventSystem.current.IsPointerOverGameObject() &&
+            (Input.touchCount == 0 || !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
         {
             TryMarkShipByModel();
             int mouseKeyIsPressed = 0;
-            if (Input.GetKeyUp(KeyCode.Mouse0)) mouseKeyIsPressed = 1;
-            else if(Input.GetKeyUp(KeyCode.Mouse1)) mouseKeyIsPressed = 2;
+            // On touch devices, select on down instead of up event so dragging in ship setup can begin immediately
+            // TODO: Could make that only apply during setup rather than for all selections. I don't think this is a big issues though?
+            if ((CameraScript.InputMouseIsEnabled && Input.GetKeyUp(KeyCode.Mouse0)) ||
+                (CameraScript.InputTouchIsEnabled && Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began))
+            {
+                mouseKeyIsPressed = 1;
+            }
+            else if (CameraScript.InputMouseIsEnabled && Input.GetKeyUp(KeyCode.Mouse1))
+            {
+                mouseKeyIsPressed = 2;
+            }
 
             if (mouseKeyIsPressed > 0)
             {
@@ -93,7 +105,7 @@ public static class Selection {
     {
         bool result = false;
 
-        Ship.GenericShip ship = Roster.GetShipById(shipId);
+        GenericShip ship = Roster.GetShipById(shipId);
         if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
         {
             result = TryToChangeThisShip(shipId, mouseKeyIsPressed);
@@ -114,7 +126,7 @@ public static class Selection {
     public static bool TryToChangeAnotherShip(string shipId, int mouseKeyIsPressed = 1)
     {
         bool result = false;
-        Ship.GenericShip targetShip = Roster.GetShipById(shipId);
+        GenericShip targetShip = Roster.GetShipById(shipId);
         result = Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip, mouseKeyIsPressed);
 
         if (result == true)
@@ -129,7 +141,7 @@ public static class Selection {
     {
         bool result = false;
 
-        Ship.GenericShip ship = Roster.GetShipById(shipId);
+        GenericShip ship = Roster.GetShipById(shipId);
 
         result = Phases.CurrentSubPhase.ThisShipCanBeSelected(ship, mouseKeyIsPressed);
 
@@ -146,14 +158,14 @@ public static class Selection {
     {
         DeselectThisShip();
         ThisShip = Roster.GetShipById(shipId);
-        ChangeActiveShipUsingThisShip ();
+        ChangeActiveShipUsingThisShip();
     }
 
-    public static void ChangeActiveShip(GenericShip genShip)
+    public static void ChangeActiveShip(Ship.GenericShip genShip)
     {
         DeselectThisShip();
         ThisShip = genShip;
-        ChangeActiveShipUsingThisShip ();
+        ChangeActiveShipUsingThisShip();
     }
 
     private static void ChangeActiveShipUsingThisShip()

@@ -17,6 +17,7 @@ namespace Ship
                 ShipInfo.BaseSize = BaseSize.Medium;
 
                 ShipInfo.FactionsAll.Remove(Faction.Imperial);
+                ShipInfo.DefaultShipFaction = Faction.Scum;
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
 

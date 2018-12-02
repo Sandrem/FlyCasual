@@ -2,10 +2,12 @@
 using Ship;
 using System.Linq;
 using Abilities;
+using RuleSets;
+using ActionsList;
 
 namespace UpgradesList
 {
-    public class SaturationSalvo : GenericUpgrade
+    public class SaturationSalvo : GenericUpgrade, ISecondEditionUpgrade
     {
         public SaturationSalvo() : base()
         {
@@ -14,6 +16,26 @@ namespace UpgradesList
             Cost = 1;
 
             UpgradeAbilities.Add(new SaturationSalvoAbility());
+        }
+
+        public void AdaptUpgradeToSecondEdition()
+        {
+            Cost = 6;
+            SEImageNumber = 14;
+            UpgradeAbilities.Clear();
+            UpgradeAbilities.Add(new Abilities.SecondEdition.SaturationSalvoAbility());
+        }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            if (RuleSet.Instance is SecondEdition)
+            {
+                return ship.ActionBar.HasAction(typeof(ReloadAction));
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
@@ -161,6 +183,85 @@ namespace SubPhases
             }
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, CallBack);
+        }
+
+    }
+}
+
+
+namespace Abilities.SecondEdition
+{
+    public class SaturationSalvoAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModificationsOpposite += RegisterSaturationSalvoAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModificationsOpposite -= RegisterSaturationSalvoAbility;
+        }
+
+        private void RegisterSaturationSalvoAbility(GenericShip host)
+        {
+            GenericSecondaryWeapon weapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
+            if (weapon != null)
+            {
+                if (weapon.HasType(UpgradeType.Torpedo) || weapon.HasType(UpgradeType.Missile))
+                {
+                    ActionsList.GenericAction newAction = new ActionsList.SaturationSalvoActionEffect()
+                    {
+                        ImageUrl = HostUpgrade.ImageUrl,
+                        Host = host
+                    };
+                    host.AddAvailableDiceModification(newAction);
+                }
+            }
+        }
+    }
+}
+
+namespace ActionsList
+{
+    public class SaturationSalvoActionEffect : GenericAction
+    {
+
+        public SaturationSalvoActionEffect()
+        {
+            Name = DiceModificationName = "Saturation Salvo";
+            DiceModificationTiming = DiceModificationTimingType.Opposite;
+        }
+
+        public override int GetDiceModificationPriority()
+        {
+            return 80;
+        }
+
+        public override bool IsDiceModificationAvailable()
+        {
+            bool result = false;
+            GenericSecondaryWeapon weapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
+            
+            if (Combat.AttackStep == CombatStep.Defence && weapon.UsesCharges && weapon.Charges > 0)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
+        {
+            GenericSecondaryWeapon weapon = Combat.ChosenWeapon as GenericSecondaryWeapon;
+            weapon.SpendCharge();
+            DiceRerollManager diceRerollManager = new DiceRerollManager
+            {
+                NumberOfDiceCanBeRerolled = 2,
+                IsOpposite = true,
+                CallBack = callBack
+            };
+            diceRerollManager.Start();
         }
 
     }

@@ -239,32 +239,32 @@ namespace BoardTools
 
         public static bool IsShipInFacing(GenericShip from, GenericShip to, ArcFacing facing)
         {
-            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+            List<GenericArc> savedArcs = from.ArcsInfo.Arcs;
 
             if (facing == ArcFacing.Front180)
-                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+                from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
             else
-                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
+                from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
 
             ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
 
-            from.ArcInfo.Arcs = savedArcs;
+            from.ArcsInfo.Arcs = savedArcs;
             return reverseShotInfo.InArc;
         }
 
         public static bool IsShipInFacingOnly(GenericShip from, GenericShip to, ArcFacing facing)
         {
-            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+            List<GenericArc> savedArcs = from.ArcsInfo.Arcs;
 
-            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+            from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
             ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
             bool inForward180Arc = reverseShotInfo.InArc;
 
-            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
+            from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
             reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
             bool inRear180Arc = reverseShotInfo.InArc;
 
-            from.ArcInfo.Arcs = savedArcs;
+            from.ArcsInfo.Arcs = savedArcs;
 
             return (facing == ArcFacing.Front180) ? inForward180Arc && !inRear180Arc : !inForward180Arc && inRear180Arc;
         }
@@ -298,7 +298,7 @@ namespace BoardTools
             return shotInfo.InArc;
         }
 
-        public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcTypes arc)
+        public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcType arc)
         {
             ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
             return shotInfo.InArcByType(arc);
@@ -318,7 +318,7 @@ namespace BoardTools
                     continue;
 
                 ShotInfo shotInfo = new ShotInfo(ship, otherShip, ship.PrimaryWeapon);
-                if (!shotInfo.InArcByType(ArcTypes.Bullseye))
+                if (!shotInfo.InArcByType(ArcType.Bullseye))
                     continue;
 
                 shipsInBullseyeArc.Add(otherShip);

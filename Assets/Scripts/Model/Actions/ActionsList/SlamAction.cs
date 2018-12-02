@@ -72,7 +72,7 @@ namespace ActionsList
         private bool IsSameSpeed(string maneuverString)
         {
             bool result = false;
-            Movement.MovementStruct movementStruct = new Movement.MovementStruct(maneuverString);
+            Movement.ManeuverHolder movementStruct = new Movement.ManeuverHolder(maneuverString);
             if (movementStruct.Speed == Selection.ThisShip.AssignedManeuver.ManeuverSpeed)
             {
                 result = true;

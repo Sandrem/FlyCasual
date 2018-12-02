@@ -146,10 +146,12 @@ namespace SquadBuilderNS
             AllShips = new List<ShipRecord>();
             AllPilots = new List<PilotRecord>();
 
+            string namespacePart = "Ship." + Edition.Current.Name + ".";
+
             IEnumerable<string> namespaceIEnum =
                 from types in Assembly.GetExecutingAssembly().GetTypes()
                 where types.Namespace != null
-                where types.Namespace.StartsWith("Ship.")
+                where types.Namespace.StartsWith(namespacePart)
                 select types.Namespace;
 
             List<string> namespaceList = new List<string>();
@@ -158,14 +160,14 @@ namespace SquadBuilderNS
                 if (!namespaceList.Contains(ns))
                 {
                     namespaceList.Add(ns);
-                    GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(5)));
-                    RuleSet.Instance.AdaptShipToRules(newShipTypeContainer);
+                    GenericShip newShipTypeContainer = (GenericShip)System.Activator.CreateInstance(System.Type.GetType(ns + "." + ns.Substring(namespacePart.Length)));
+                    Edition.Current.AdaptShipToRules(newShipTypeContainer);
 
-                    if (AllShips.Find(n => n.ShipName == newShipTypeContainer.Type) == null)
+                    if (AllShips.Find(n => n.ShipName == newShipTypeContainer.ShipInfo.ShipName) == null)
                     {
                         AllShips.Add(new ShipRecord()
                         {
-                            ShipName = newShipTypeContainer.Type,
+                            ShipName = newShipTypeContainer.ShipInfo.ShipName,
                             ShipNameCanonical = newShipTypeContainer.ShipTypeCanonical,
                             ShipNamespace = ns,
                             Instance = newShipTypeContainer
@@ -192,24 +194,24 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericShip newShipContainer = (GenericShip)System.Activator.CreateInstance(type);
-                RuleSet.Instance.AdaptPilotToRules(newShipContainer);
+                Edition.Current.AdaptPilotToRules(newShipContainer);
 
-                if ((newShipContainer.PilotName != null) && (newShipContainer.IsAllowedForSquadBuilder()))
+                if ((newShipContainer.PilotInfo != null) && (newShipContainer.IsAllowedForSquadBuilder()))
                 {
-                    if ((newShipContainer.faction == faction) || faction == Faction.None)
+                    if ((newShipContainer.Faction == faction) || faction == Faction.None)
                     {
-                        string pilotKey = newShipContainer.PilotName + " (" + newShipContainer.Cost + ")";
+                        string pilotKey = newShipContainer.PilotInfo.PilotName + " (" + newShipContainer.PilotInfo.Cost + ")";
 
-                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.Type && n.PilotFaction == newShipContainer.faction) == null)
+                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.ShipInfo.ShipName && n.PilotFaction == newShipContainer.Faction) == null)
                         {
                             AllPilots.Add(new PilotRecord()
                             {
-                                PilotName = newShipContainer.PilotName,
+                                PilotName = newShipContainer.PilotInfo.PilotName,
                                 PilotTypeName = type.ToString(),
                                 PilotNameCanonical = newShipContainer.PilotNameCanonical,
-                                PilotSkill = newShipContainer.PilotSkill,
-                                PilotShip = AllShips.Find(n => n.ShipName == newShipContainer.Type),
-                                PilotFaction = newShipContainer.faction,
+                                PilotSkill = newShipContainer.PilotInfo.Initiative,
+                                PilotShip = AllShips.Find(n => n.ShipName == newShipContainer.ShipInfo.ShipName),
+                                PilotFaction = newShipContainer.Faction,
                                 Instance = newShipContainer
                             });
                         }
@@ -227,7 +229,7 @@ namespace SquadBuilderNS
             AllUpgrades = new List<UpgradeRecord>();
 
             List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => String.Equals(t.Namespace, "UpgradesList", StringComparison.Ordinal))
+                .Where(t => String.Equals(t.Namespace, "UpgradesList." + Edition.Current.Name, StringComparison.Ordinal))
                 .ToList();
 
             foreach (var type in typelist)
@@ -235,17 +237,17 @@ namespace SquadBuilderNS
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
-                if ((newUpgradeContainer.Name != null))
+                if ((newUpgradeContainer.UpgradeInfo.Name != null))
                 {
-                    if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.Name) == null)
+                    if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.UpgradeInfo.Name) == null)
                     {
-                        RuleSet.Instance.AdaptUpgradeToRules(newUpgradeContainer);
+                        Edition.Current.AdaptUpgradeToRules(newUpgradeContainer);
 
                         if (newUpgradeContainer.IsAllowedForSquadBuilder())
                         {
                             AllUpgrades.Add(new UpgradeRecord()
                             {
-                                UpgradeName = newUpgradeContainer.Name,
+                                UpgradeName = newUpgradeContainer.UpgradeInfo.Name,
                                 UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
                                 UpgradeTypeName = type.ToString(),
                                 Instance = newUpgradeContainer
@@ -255,7 +257,7 @@ namespace SquadBuilderNS
                 }
             }
 
-            AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.Name).OrderBy(m => m.Instance.Cost).ToList();
+            AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.UpgradeInfo.Name).OrderBy(m => m.Instance.UpgradeInfo.Cost).ToList();
 
             //Messages.ShowInfo("Upgrades: " + AllUpgrades.Count);
         }
@@ -289,10 +291,10 @@ namespace SquadBuilderNS
         {
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-            RuleSet.Instance.AdaptUpgradeToRules(newUpgrade);
-            if (newUpgrade is IVariableCost && RuleSet.Instance is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
+            Edition.Current.AdaptUpgradeToRules(newUpgrade);
+            if (newUpgrade is IVariableCost && Edition.Current is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
 
-            List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.Types);
+            List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.UpgradeInfo.UpgradeTypes);
             if (slots.Count != 0)
             {
                 slots[0].PreInstallUpgrade(newUpgrade, ship.Instance);
@@ -354,13 +356,13 @@ namespace SquadBuilderNS
         {
             int result = 0;
 
-            result += shipHolder.Instance.Cost;
+            result += shipHolder.Instance.PilotInfo.Cost;
 
             foreach (var upgradeSlot in shipHolder.Instance.UpgradeBar.GetUpgradeSlots())
             {
                 if (!upgradeSlot.IsEmpty)
                 {
-                    result += ReduceUpgradeCost(upgradeSlot.InstalledUpgrade.Cost, upgradeSlot.CostDecrease);
+                    result += ReduceUpgradeCost(upgradeSlot.InstalledUpgrade.UpgradeInfo.Cost, upgradeSlot.CostDecrease);
                 }
             }
 
@@ -379,7 +381,7 @@ namespace SquadBuilderNS
 
         private static void OpenShipInfo(GenericShip ship)
         {
-            if (RuleSet.Instance.IsSquadBuilderLocked)
+            if (Edition.Current.IsSquadBuilderLocked)
             {
                 Messages.ShowError("This part of squad builder is disabled");
                 return;
@@ -511,10 +513,10 @@ namespace SquadBuilderNS
         private static bool ValidateMinShipsCount(PlayerNo playerNo)
         {
             bool result = true;
-            if (GetSquadList(playerNo).GetShips().Count < RuleSet.Instance.MinShipsCount)
+            if (GetSquadList(playerNo).GetShips().Count < Edition.Current.MinShipsCount)
             {
                 result = false;
-                Messages.ShowError("Minimum number of pilots is required: " + RuleSet.Instance.MinShipsCount);
+                Messages.ShowError("Minimum number of pilots is required: " + Edition.Current.MinShipsCount);
             }
             return result;
         }
@@ -522,10 +524,10 @@ namespace SquadBuilderNS
         private static bool ValidateMaxShipsCount(PlayerNo playerNo)
         {
             bool result = true;
-            if (GetSquadList(playerNo).GetShips().Count > RuleSet.Instance.MaxShipsCount)
+            if (GetSquadList(playerNo).GetShips().Count > Edition.Current.MaxShipsCount)
             {
                 result = false;
-                Messages.ShowError("Maximum number of pilots is required: " + RuleSet.Instance.MaxShipsCount);
+                Messages.ShowError("Maximum number of pilots is required: " + Edition.Current.MaxShipsCount);
             }
             return result;
         }
@@ -537,16 +539,16 @@ namespace SquadBuilderNS
             List<string> uniqueCards = new List<string>();
             foreach (var shipConfig in GetSquadList(playerNo).GetShips())
             {
-                if (shipConfig.Instance.IsUnique)
+                if (shipConfig.Instance.PilotInfo.IsLimited)
                 {
-                    if (CheckDuplicate(uniqueCards, shipConfig.Instance.PilotName)) return false;
+                    if (CheckDuplicate(uniqueCards, shipConfig.Instance.PilotInfo.PilotName)) return false;
                 }
 
                 foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
                 {
-                    if (upgrade.isUnique)
+                    if (upgrade.UpgradeInfo.IsLimited)
                     {
-                        if (CheckDuplicate(uniqueCards, upgrade.Name)) return false;
+                        if (CheckDuplicate(uniqueCards, upgrade.UpgradeInfo.Name)) return false;
                     }
                 }
             }
@@ -574,9 +576,9 @@ namespace SquadBuilderNS
 
             if (!DebugManager.DebugNoSquadPointsLimit)
             {
-                if (GetSquadCost(playerNo) > RuleSet.Instance.MaxPoints)
+                if (GetSquadCost(playerNo) > Edition.Current.MaxPoints)
                 {
-                    Messages.ShowError("Cost of squadron cannot be more than " + RuleSet.Instance.MaxPoints);
+                    Messages.ShowError("Cost of squadron cannot be more than " + Edition.Current.MaxPoints);
                     result = false;
                 }
             }
@@ -594,15 +596,15 @@ namespace SquadBuilderNS
 
                 foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
                 {
-                    if (upgrade.isLimited)
+                    if (upgrade.UpgradeInfo.IsLimited)
                     {
-                        if (!limitedCards.Contains(upgrade.Name))
+                        if (!limitedCards.Contains(upgrade.UpgradeInfo.Name))
                         {
-                            limitedCards.Add(upgrade.Name);
+                            limitedCards.Add(upgrade.UpgradeInfo.Name);
                         }
                         else
                         {
-                            Messages.ShowError("A ship cannot equip multiple copies of the same limited card: " + upgrade.Name);
+                            Messages.ShowError("A ship cannot equip multiple copies of the same limited card: " + upgrade.UpgradeInfo.Name);
                             result = false;
                             break;
                         }
@@ -623,7 +625,7 @@ namespace SquadBuilderNS
                 {
                     if (shipConfig.Instance.HotacManeuverTable == null)
                     {
-                        Messages.ShowError("AI for " + shipConfig.Instance.Type + " is not ready. It can be controlled only by human.");
+                        Messages.ShowError("AI for " + shipConfig.Instance.ShipInfo.ShipName + " is not ready. It can be controlled only by human.");
                         return false;
                     }
                 }
@@ -663,21 +665,21 @@ namespace SquadBuilderNS
                     {
                         if (upgradeSlot.MustBeDifferent)
                         {
-                            int countDuplicates = shipHolder.Instance.UpgradeBar.GetUpgradesAll().Count(n => n.Name == upgradeSlot.InstalledUpgrade.Name);
+                            int countDuplicates = shipHolder.Instance.UpgradeBar.GetUpgradesAll().Count(n => n.UpgradeInfo.Name == upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             if (countDuplicates > 1)
                             {
-                                Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.Name);
+                                Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                                 return false;
                             }
                         }
-                        if (upgradeSlot.InstalledUpgrade.Cost > upgradeSlot.MaxCost)
+                        if (upgradeSlot.InstalledUpgrade.UpgradeInfo.Cost > upgradeSlot.MaxCost)
                         {
-                            Messages.ShowError("Upgrade must costs less than " + upgradeSlot.MaxCost + " : " + upgradeSlot.InstalledUpgrade.Name);
+                            Messages.ShowError("Upgrade must costs less than " + upgradeSlot.MaxCost + " : " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             return false;
                         }
-                        if (upgradeSlot.MustBeUnique && !upgradeSlot.InstalledUpgrade.isUnique)
+                        if (upgradeSlot.MustBeUnique && !upgradeSlot.InstalledUpgrade.UpgradeInfo.IsLimited)
                         {
-                            Messages.ShowError("Upgrade must be unique : " + upgradeSlot.InstalledUpgrade.Name);
+                            Messages.ShowError("Upgrade must be unique : " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             return false;
                         }
                     }                
@@ -691,7 +693,7 @@ namespace SquadBuilderNS
         {
             List<string> result = new List<string>();
 
-            UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Instance.FixTypeName(ship.Instance.Type) + "/");
+            UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Instance.FixTypeName(ship.Instance.ModelInfo.ModelName) + "/");
             foreach (var texture in textures)
             {
                 result.Add(texture.name);
@@ -752,8 +754,7 @@ namespace SquadBuilderNS
 
                         PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
                         GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
-                        RuleSet.Instance.AdaptShipToRules(newShipInstance);
-                        RuleSet.Instance.AdaptPilotToRules(newShipInstance);
+                        Edition.Current.AdaptShipToRules(newShipInstance);
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
 
                         List<string> upgradesThatCannotBeInstalled = new List<string>();
@@ -801,7 +802,7 @@ namespace SquadBuilderNS
                                 JSONObject myVendorData = vendorData["Sandrem.FlyCasual"];
                                 if (myVendorData.HasField("skin"))
                                 {
-                                    newShip.Instance.SkinName = myVendorData["skin"].str;
+                                    newShip.Instance.ModelInfo.SkinName = myVendorData["skin"].str;
                                 }
                             }
                         }
@@ -920,7 +921,7 @@ namespace SquadBuilderNS
             Dictionary<string, JSONObject> upgradesDict = new Dictionary<string, JSONObject>();
             foreach (var installedUpgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
             {
-                string slotName = UpgradeTypeToXWS(installedUpgrade.Types[0]);
+                string slotName = UpgradeTypeToXWS(installedUpgrade.UpgradeInfo.UpgradeTypes[0]);
                 if (!upgradesDict.ContainsKey(slotName))
                 {
                     JSONObject upgrade = new JSONObject();
@@ -996,7 +997,7 @@ namespace SquadBuilderNS
 
             switch (upgradeType)
             {
-                case UpgradeType.Elite:
+                case UpgradeType.Talent:
                     result = "ept";
                     break;
                 case UpgradeType.Astromech:
@@ -1023,7 +1024,7 @@ namespace SquadBuilderNS
             switch (upgradeXws)
             {
                 case "ept":
-                    result = UpgradeType.Elite;
+                    result = UpgradeType.Talent;
                     break;
                 case "amd":
                     result = UpgradeType.Astromech;
@@ -1102,7 +1103,7 @@ namespace SquadBuilderNS
 
         private static string GetSkinName(SquadBuilderShip shipHolder)
         {
-            return shipHolder.Instance.SkinName;
+            return shipHolder.Instance.ModelInfo.SkinName;
         }
 
         public static void BrowseSavedSquads()
@@ -1125,7 +1126,7 @@ namespace SquadBuilderNS
 
         private static void DeleteSavedSquadAndRefresh(string fileName)
         {
-            if (RuleSet.Instance.IsSquadBuilderLocked)
+            if (Edition.Current.IsSquadBuilderLocked)
             {
                 Messages.ShowError("This part of squad builder is disabled");
                 return;
@@ -1176,7 +1177,7 @@ namespace SquadBuilderNS
 
         private static void SetSkinForShip(SquadBuilderShip ship, string skinName)
         {
-            ship.Instance.SkinName = skinName;
+            ship.Instance.ModelInfo.SkinName = skinName;
         }
 
         public static void ReGenerateSquads(Action callback)

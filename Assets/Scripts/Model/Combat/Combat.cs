@@ -78,8 +78,8 @@ public static partial class Combat
             parameters.AddField("id", attackerId.ToString());
             parameters.AddField("target", defenderId.ToString());
             parameters.AddField("weaponIsAlreadySelected", weaponIsAlreadySelected.ToString());
-            GenericSecondaryWeapon secWeapon = chosenWeapon as GenericSecondaryWeapon;
-            parameters.AddField("weapon", (secWeapon != null) ? secWeapon.NameOriginal : null);
+            GenericSpecialWeapon secWeapon = chosenWeapon as GenericSpecialWeapon;
+            parameters.AddField("weapon", (secWeapon != null) ? secWeapon.UpgradeInfo.Name : null);
             return GameController.GenerateGameCommand(
                 GameCommandTypes.DeclareAttack,
                 Phases.CurrentSubPhase.GetType(),
@@ -172,7 +172,7 @@ public static partial class Combat
         else if (Combat.ShotInfo.ShotAvailableFromArcs.Count > 1)
         {
             // if few arcs are available, non-mobile arc is used
-            Combat.ShotInfo.ShotAvailableFromArcs.First(a => a.ArcType != Arcs.ArcTypes.Mobile).WasUsedForAttackThisRound = true;
+            Combat.ShotInfo.ShotAvailableFromArcs.First(a => a.ArcType != Arcs.ArcType.Mobile).WasUsedForAttackThisRound = true;
         }
         else
         {
@@ -394,7 +394,7 @@ public static partial class Combat
 
     private static void CheckTwinAttack()
     {
-        Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
+        Upgrade.GenericSpecialWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSpecialWeapon;
         if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.IsTwinAttack && !(Defender.IsDestroyed || Defender.IsReadyToBeDestroyed))
         {
             if (attacksCounter == 0)
@@ -540,7 +540,7 @@ namespace SubPhases
                 if (weapon.IsShotAvailable(Selection.AnotherShip))
                 {
                     AddDecision(weapon.Name, delegate { PerformAttackWithWeapon(weapon); });
-                    AddTooltip(weapon.Name, (weapon as Upgrade.GenericSecondaryWeapon != null) ? (weapon as Upgrade.GenericSecondaryWeapon).ImageUrl : null );
+                    AddTooltip(weapon.Name, (weapon as Upgrade.GenericSpecialWeapon != null) ? (weapon as Upgrade.GenericSpecialWeapon).ImageUrl : null );
                 }
             }
 

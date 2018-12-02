@@ -13,7 +13,7 @@ namespace BoardTools
     {
         public bool IsShotAvailable { get; private set; }
         public bool InArc { get { return InArcInfo.Any(n => n.Value == true); } }
-        public bool InPrimaryArc { get { return InArcByType(ArcTypes.Primary); } }
+        public bool InPrimaryArc { get { return InArcByType(ArcType.Primary); } }
 
         public RangeHolder NearestFailedDistance;
 
@@ -44,6 +44,12 @@ namespace BoardTools
 
         //EVENTS
         public delegate void EventHandlerShipShipWeaponInt(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range);
+
+        internal bool InArcByType(object bullseye)
+        {
+            throw new NotImplementedException();
+        }
+
         public static event EventHandlerShipShipWeaponInt OnRangeIsMeasured;
 
         public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
@@ -59,16 +65,16 @@ namespace BoardTools
         private void CheckRange()
         {
             InArcInfo = new Dictionary<GenericArc, bool>();
-            List<ArcTypes> WeaponArcRestrictions = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).ArcRestrictions : null;
+            List<ArcType> WeaponArcRestrictions = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).ArcRestrictions : null;
             
             if(WeaponArcRestrictions != null && WeaponArcRestrictions.Count == 0)
             {
                 WeaponArcRestrictions = null;
             }
 
-            WeaponTypes weaponType = (Weapon is GenericSecondaryWeapon) ? (Weapon as GenericSecondaryWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
+            WeaponTypes weaponType = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
 
-            foreach (var arc in Ship1.ArcInfo.Arcs)
+            foreach (var arc in Ship1.ArcsInfo.Arcs)
             {
                 ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
                 InArcInfo.Add(arc, shotInfoArc.InArc);
@@ -111,7 +117,7 @@ namespace BoardTools
             if (MinDistance == null) MinDistance = NearestFailedDistance;
         }
 
-        public bool InArcByType(ArcTypes arcType)
+        public bool InArcByType(ArcType arcType)
         {
             Dictionary<GenericArc, bool> filteredInfo = InArcInfo.Where(a => a.Key.ArcType == arcType).ToDictionary(a => a.Key, a => a.Value);
             if (filteredInfo == null || filteredInfo.Count == 0) return false;

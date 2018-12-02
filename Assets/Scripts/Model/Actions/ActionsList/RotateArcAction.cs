@@ -37,7 +37,7 @@ namespace ActionsList
 
         public override int GetActionPriority()
         {
-            if (Actions.HasTarget(Selection.ThisShip)) return 0;
+            if (ActionsHolder.HasTarget(Selection.ThisShip)) return 0;
 
             GetShipsInAllArcDirections();
             foreach (var arcInfo in EnemiesInArcHolder)
@@ -51,7 +51,7 @@ namespace ActionsList
         private void GetShipsInAllArcDirections()
         {
             ArcMobile temporaryArc = new ArcMobile(Selection.ThisShip.ShipBase);
-            Selection.ThisShip.ArcInfo.Arcs.Add(temporaryArc);
+            Selection.ThisShip.ArcsInfo.Arcs.Add(temporaryArc);
 
             EnemiesInArcHolder = new Dictionary<ArcFacing, List<GenericShip>>();
 
@@ -73,7 +73,7 @@ namespace ActionsList
                     }
                     else if (Selection.ThisShip.ShipBaseArcsType == BaseArcsType.ArcMobile) // With primary firing arc
                     {
-                        ShotInfoArc arcPrimaryShotInfo = new ShotInfoArc(Selection.ThisShip, enemyShip, Selection.ThisShip.ArcInfo.GetArc<ArcPrimary>());
+                        ShotInfoArc arcPrimaryShotInfo = new ShotInfoArc(Selection.ThisShip, enemyShip, Selection.ThisShip.ArcsInfo.GetArc<ArcPrimary>());
                         if (arcPrimaryShotInfo.InArc && arcPrimaryShotInfo.Range < 4)
                         {
                             EnemiesInArcHolder[arc].Add(enemyShip);
@@ -91,7 +91,7 @@ namespace ActionsList
                 }
             }
 
-            Selection.ThisShip.ArcInfo.Arcs.Remove(temporaryArc);
+            Selection.ThisShip.ArcsInfo.Arcs.Remove(temporaryArc);
         }
 
     }
@@ -125,14 +125,14 @@ namespace SubPhases
         {
             InfoText = "Rotate Arc";
 
-            if (Selection.ThisShip.ArcInfo.Arcs.Any(a => a is ArcMobile))
+            if (Selection.ThisShip.ArcsInfo.Arcs.Any(a => a is ArcMobile))
             {
                 AddDecision("Front", delegate { ChangeMobileArcFacing(ArcFacing.Forward); }, isCentered: true);
                 AddDecision("Left", delegate { ChangeMobileArcFacing(ArcFacing.Left); });
                 AddDecision("Right", delegate { ChangeMobileArcFacing(ArcFacing.Right); });
                 AddDecision("Rear", delegate { ChangeMobileArcFacing(ArcFacing.Rear); }, isCentered: true);
             }
-            else if (Selection.ThisShip.ArcInfo.Arcs.Any(a => a is ArcMobileDualA))
+            else if (Selection.ThisShip.ArcsInfo.Arcs.Any(a => a is ArcMobileDualA))
             {
                 AddDecision("Front-Rear", delegate { ChangeMobileDualArcFacing(ArcFacing.Forward); });
                 AddDecision("Left-Right", delegate { ChangeMobileDualArcFacing(ArcFacing.Left); });
@@ -168,13 +168,13 @@ namespace SubPhases
 
         private void ChangeMobileArcFacing(ArcFacing facing)
         {
-            Selection.ThisShip.ArcInfo.GetArc<ArcMobile>().RotateArc(facing);
+            Selection.ThisShip.ArcsInfo.GetArc<ArcMobile>().RotateArc(facing);
             ConfirmDecision();
         }
 
         private void ChangeMobileDualArcFacing(ArcFacing facing)
         {
-            Selection.ThisShip.ArcInfo.GetArc<ArcMobileDualA>().RotateArc(facing);
+            Selection.ThisShip.ArcsInfo.GetArc<ArcMobileDualA>().RotateArc(facing);
             ConfirmDecision();
         }
 

@@ -70,7 +70,7 @@ namespace RulesList
 
         private void ClearShipTokens(List<GenericToken> tokensList, Action callback)
         {
-            Actions.RemoveTokens(tokensList, callback);
+            ActionsHolder.RemoveTokens(tokensList, callback);
         }
 
         private void ClearShipFlags(GenericShip ship)
@@ -89,7 +89,7 @@ namespace RulesList
 
         private void ClearUsedArcs(GenericShip ship)
         {
-            foreach (var arc in ship.ArcInfo.Arcs)
+            foreach (var arc in ship.ArcsInfo.Arcs)
             {
                 arc.WasUsedForAttackThisRound = false;
             }

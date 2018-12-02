@@ -200,7 +200,7 @@ namespace Players
             float pilotSkillValue = 0;
             foreach (GenericShip s in Ships.Values)
             {
-                pilotSkillValue += s.PilotSkill;
+                pilotSkillValue += s.State.Initiative;
             }
             return Math.Max(0, pilotSkillValue / Ships.Count);
         }
@@ -210,7 +210,7 @@ namespace Players
             float pilotSkillValue = 0;
             foreach (GenericShip s in EnemyShips.Values)
             {
-                pilotSkillValue += s.PilotSkill;
+                pilotSkillValue += s.State.Initiative;
             }
             return Math.Max(0, pilotSkillValue / Ships.Count);
         }

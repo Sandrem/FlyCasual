@@ -86,7 +86,7 @@ namespace SubPhases
 
             var pilotSkillResults =
                 from n in Roster.AllShips
-                where n.Value.PilotSkill == pilotSkill
+                where n.Value.State.Initiative == pilotSkill
                 where n.Value.IsAttackPerformed == false
                 select n;
 
@@ -120,13 +120,13 @@ namespace SubPhases
 
             var ascPilotSkills =
                 from n in Roster.AllShips
-                where n.Value.PilotSkill < pilotSkillMax
-                orderby n.Value.PilotSkill
+                where n.Value.State.Initiative < pilotSkillMax
+                orderby n.Value.State.Initiative
                 select n;
 
             if (ascPilotSkills.Count() > 0)
             {
-                result = ascPilotSkills.Last().Value.PilotSkill;
+                result = ascPilotSkills.Last().Value.State.Initiative;
             }
 
             return result;
@@ -158,7 +158,7 @@ namespace SubPhases
         {
             bool result = false;
 
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 if (ship.IsAttackPerformed)
                 {
@@ -276,7 +276,7 @@ namespace SubPhases
 
         private bool FilterShipsToPerfromAttack(GenericShip ship)
         {
-            return ship.PilotSkill == RequiredPilotSkill && !ship.IsAttackPerformed && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.State.Initiative == RequiredPilotSkill && !ship.IsAttackPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void SkipButton()
@@ -290,7 +290,7 @@ namespace SubPhases
 
                 foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
                 {
-                    if (shipHolder.Value.PilotSkill == Phases.CurrentSubPhase.RequiredPilotSkill)
+                    if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredPilotSkill)
                     {
                         shipsToSkipCombat.Add(shipHolder.Value);
                     }
@@ -351,7 +351,7 @@ namespace SubPhases
 
         private void CheckNext()
         {
-            if (Roster.GetPlayer(RequiredPlayer).Ships.Count(n => n.Value.PilotSkill == RequiredPilotSkill && !n.Value.IsAttackPerformed) == 0)
+            if (Roster.GetPlayer(RequiredPlayer).Ships.Count(n => n.Value.State.Initiative == RequiredPilotSkill && !n.Value.IsAttackPerformed) == 0)
             {
                 Next();
             }

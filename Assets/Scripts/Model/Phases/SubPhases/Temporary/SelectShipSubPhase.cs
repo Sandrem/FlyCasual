@@ -165,7 +165,7 @@ namespace SubPhases
                         {
                             if (CanMeasureRangeBeforeSelection)
                             {
-                                Actions.GetRangeAndShow(Selection.ThisShip, ship);
+                                ActionsHolder.GetRangeAndShow(Selection.ThisShip, ship);
                             }
                             else
                             {
@@ -199,7 +199,7 @@ namespace SubPhases
                     {
                         if (CanMeasureRangeBeforeSelection)
                         {
-                            Actions.GetRangeAndShow(Selection.ThisShip, anotherShip);
+                            ActionsHolder.GetRangeAndShow(Selection.ThisShip, anotherShip);
                         }
                         else
                         {

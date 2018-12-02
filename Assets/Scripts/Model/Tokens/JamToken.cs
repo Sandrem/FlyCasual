@@ -12,7 +12,7 @@ namespace Tokens
         public JamToken(GenericShip host) : base(host)
         {
             Name = "Jam Token";
-            Temporary = RuleSet.Instance is SecondEdition;
+            Temporary = Edition.Current is SecondEdition;
             TokenColor = TokenColors.Yellow;
             PriorityUI = 40;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/ReloadActionAndJamTokens.png";

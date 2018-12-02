@@ -23,7 +23,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            result = 25 + 30*Actions.CountEnemiesTargeting(Host, -1);
+            result = 25 + 30*ActionsHolder.CountEnemiesTargeting(Host, -1);
 
             return result;
         }

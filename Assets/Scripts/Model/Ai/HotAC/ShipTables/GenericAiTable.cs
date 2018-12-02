@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Movement;
+using Ship;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +23,8 @@ namespace AI
 
         protected List<List<string>> AllTables = new List<List<string>>();
 
+        public virtual void AdaptToSecondEdition() { }
+
         public GenericAiTable()
         {
             AllTables.Add(FrontManeuversInner);
@@ -35,16 +39,16 @@ namespace AI
             AllTables.Add(BackManeuversOuter);
         }
 
-        public Movement.GenericMovement GetManeuver(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+        public GenericMovement GetManeuver(GenericShip thisShip, GenericShip anotherShip)
         {
-            float vector = Actions.GetVector(thisShip, anotherShip);
-            bool isClosing = Actions.IsClosing(thisShip, anotherShip);
+            float vector = ActionsHolder.GetVector(thisShip, anotherShip);
+            bool isClosing = ActionsHolder.IsClosing(thisShip, anotherShip);
             if (inDebug) Debug.Log("Vector: " + vector + ", Closing: " + isClosing);
-            Movement.GenericMovement result = GetManeuverFromTable(vector, isClosing);
+            GenericMovement result = GetManeuverFromTable(vector, isClosing);
             return result;
         }
 
-        public Movement.GenericMovement GetManeuverFromTable(float vector, bool isClosing)
+        public GenericMovement GetManeuverFromTable(float vector, bool isClosing)
         {
             List<string> table = null;
             bool adjustDirection = false;
@@ -112,7 +116,7 @@ namespace AI
                 }
             }
 
-            Movement.GenericMovement result = RandomManeuverFromTable(table);
+            GenericMovement result = RandomManeuverFromTable(table);
             if (adjustDirection)
             {
                 if (inDebug) Debug.Log("Adjust direction according to vector: " + vector);
@@ -123,21 +127,21 @@ namespace AI
             return result;
         }
 
-        private Movement.GenericMovement AdjustDirection(Movement.GenericMovement movement, float vector)
+        private GenericMovement AdjustDirection(Movement.GenericMovement movement, float vector)
         {
-            Movement.GenericMovement result = movement;
-            if (movement.Direction != Movement.ManeuverDirection.Forward)
+            GenericMovement result = movement;
+            if (movement.Direction != ManeuverDirection.Forward)
             {
                 if (vector < 0)
                 {
-                    if (movement.Direction == Movement.ManeuverDirection.Left) movement.Direction = Movement.ManeuverDirection.Right;
-                    else if (movement.Direction == Movement.ManeuverDirection.Right) movement.Direction = Movement.ManeuverDirection.Left;
+                    if (movement.Direction == ManeuverDirection.Left) movement.Direction = ManeuverDirection.Right;
+                    else if (movement.Direction == ManeuverDirection.Right) movement.Direction = ManeuverDirection.Left;
                 }
             }
             return result;
         }
 
-        public Movement.GenericMovement RandomManeuverFromTable(List<string> table)
+        public GenericMovement RandomManeuverFromTable(List<string> table)
         {
             string result = "";
             int random = Random.Range(0, 6);
@@ -149,7 +153,7 @@ namespace AI
             return ShipMovementScript.MovementFromString(result);
         }
 
-        public static bool IsClosing(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+        public static bool IsClosing(GenericShip thisShip, GenericShip anotherShip)
         {
             bool result = false;
             float distanceToFront = Vector3.Distance(thisShip.GetPosition(), anotherShip.ShipBase.GetCentralFrontPoint());
@@ -158,7 +162,7 @@ namespace AI
             return result;
         }
 
-        public void Check(Dictionary<string, Movement.MovementComplexity> maneuvers)
+        public void Check(Dictionary<string, MovementComplexity> maneuvers)
         {
 
             foreach (var maneuver in FrontManeuversInner)
@@ -212,8 +216,6 @@ namespace AI
             }
 
         }
-
-        public virtual void AdaptToSecondEdition() { }
 
         protected void ReplaceManeuver(string oldManeuver, string newManeuver)
         {

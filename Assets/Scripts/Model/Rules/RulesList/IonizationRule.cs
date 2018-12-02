@@ -26,13 +26,13 @@ namespace RulesList
             {
                 AssignIonizationManeuver(ship);
                 ship.OnMovementExecuted += RegisterRemoveIonization;
-                RuleSet.Instance.WhenIonized(ship);
+                Edition.Current.WhenIonized(ship);
             }
         }
 
         private static void AssignIonizationManeuver(GenericShip ship)
         {
-            GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, RuleSet.Instance.IonManeuverComplexity) {
+            GenericMovement ionizedMovement = new StraightMovement(1, ManeuverDirection.Forward, ManeuverBearing.Straight, Edition.Current.IonManeuverComplexity) {
                 IsRevealDial = false, IsIonManeuver = true
             };
             ship.SetAssignedManeuver(ionizedMovement);
@@ -70,7 +70,7 @@ namespace RulesList
         public static bool IsIonized(GenericShip ship)
         {
             int ionTokensCount = ship.Tokens.GetAllTokens().Count(n => n is IonToken);
-            return (ionTokensCount >= RuleSet.Instance.NegativeTokensToAffectShip[ship.ShipBaseSize]);
+            return (ionTokensCount >= Edition.Current.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
         }
 
     }

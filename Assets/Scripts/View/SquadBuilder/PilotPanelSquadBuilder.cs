@@ -8,6 +8,7 @@ using SquadBuilderNS;
 using Ship;
 using Mods;
 using RuleSets;
+using Upgrade;
 
 public class PilotPanelSquadBuilder : MonoBehaviour {
 
@@ -69,8 +70,8 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     {
         if (this == null) return;
 
-        this.transform.Find("PilotInfo").GetComponent<Text>().text = Ship.PilotName;
-        if (RuleSet.Instance is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.Cost.ToString();
+        this.transform.Find("PilotInfo").GetComponent<Text>().text = Ship.PilotInfo.PilotName;
+        if (Edition.Current is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.PilotInfo.Cost.ToString();
 
         this.gameObject.SetActive(true);
     }
@@ -86,18 +87,23 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             infoText.text = mod.Name + postfix;
         }
 
-        if (RuleSet.Instance is SecondEdition)
+        if (Edition.Current is SecondEdition)
         {
             this.transform.Find("FromModInfo").GetComponent<RectTransform>().localPosition += new Vector3(0, -30, 0);
 
             Text SeCostText = this.transform.Find("SeCostInfo").GetComponent<Text>();
-            SeCostText.text = Ship.Cost.ToString();
+            SeCostText.text = Ship.PilotInfo.Cost.ToString();
 
             Text slotsText = this.transform.Find("SlotsInfo").GetComponent<Text>();
-            if (Ship.PrintedUpgradeIcons.Contains(Upgrade.UpgradeType.Elite)) slotsText.text += "E";
-            if (Ship.PrintedUpgradeIcons.Contains(Upgrade.UpgradeType.Force)) slotsText.text += "F";
-            if (Ship.faction != Faction.Scum && Ship.PrintedUpgradeIcons.Contains(Upgrade.UpgradeType.Illicit)) slotsText.text += "I";
+            if (ShipHasUpgradeIcon(UpgradeType.Talent)) slotsText.text += "E";
+            if (ShipHasUpgradeIcon(UpgradeType.Force)) slotsText.text += "F";
+            if (Ship.Faction != Faction.Scum && ShipHasUpgradeIcon(UpgradeType.Illicit)) slotsText.text += "I";
         }
+    }
+
+    private bool ShipHasUpgradeIcon(UpgradeType upgradeType)
+    {
+        return (Ship.ShipInfo.UpgradeIcons.Upgrades.Contains(upgradeType) || Ship.PilotInfo.ExtraUpgrades.Contains(upgradeType));
     }
 
     private void SetOnClickHandler()

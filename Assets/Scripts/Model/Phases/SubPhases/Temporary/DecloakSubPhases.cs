@@ -66,8 +66,8 @@ namespace SubPhases
         public float helperDirection;
         public bool inReposition;
 
-        List<Actions.DecloakTemplates> availableTemplates = new List<Actions.DecloakTemplates>();
-        Actions.DecloakTemplateVariants selectedTemplateVariant;
+        List<ActionsHolder.DecloakTemplates> availableTemplates = new List<ActionsHolder.DecloakTemplates>();
+        ActionsHolder.DecloakTemplateVariants selectedTemplateVariant;
         public GameObject DecloakTemplate;
         public float HelperDirection;
         public GameObject TemporaryShipBase;
@@ -89,7 +89,7 @@ namespace SubPhases
 
         public void PerfromTemplatePlanning()
         {
-            RuleSet.Instance.DecloakTemplatePlanning();
+            Edition.Current.DecloakTemplatePlanning();
         }
 
         public void PerfromTemplatePlanningFirstEdition()
@@ -120,11 +120,11 @@ namespace SubPhases
             }
         }
 
-        private bool IsBoostTemplate(Actions.DecloakTemplateVariants selectedTemplateVariant)
+        private bool IsBoostTemplate(ActionsHolder.DecloakTemplateVariants selectedTemplateVariant)
         {
-            return selectedTemplateVariant == Actions.DecloakTemplateVariants.Straight2Forward
-                || selectedTemplateVariant == Actions.DecloakTemplateVariants.Bank2ForwardLeft
-                || selectedTemplateVariant == Actions.DecloakTemplateVariants.Bank2ForwardRight;
+            return selectedTemplateVariant == ActionsHolder.DecloakTemplateVariants.Straight2Forward
+                || selectedTemplateVariant == ActionsHolder.DecloakTemplateVariants.Bank2ForwardLeft
+                || selectedTemplateVariant == ActionsHolder.DecloakTemplateVariants.Bank2ForwardRight;
         }
 
         private void ConfirmPosition()
@@ -237,7 +237,7 @@ namespace SubPhases
             return GetCurrentDecloakHelperTemplateGO().transform.Find("Finisher").gameObject;
         }
 
-        private float GetDirectionModifier(Actions.DecloakTemplateVariants templateVariant)
+        private float GetDirectionModifier(ActionsHolder.DecloakTemplateVariants templateVariant)
         {
             return (templateVariant.ToString().Contains("Left")) ? -1 : 1;
         }
@@ -284,18 +284,18 @@ namespace SubPhases
             {
                 switch (template)
                 {
-                    case Actions.DecloakTemplates.Straight2:
-                        selectDecloakTemplate.AddDecision("Forward Straight 2", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Straight2Forward); DecisionSubPhase.ConfirmDecision();}, isCentered: true);
-                        selectDecloakTemplate.AddDecision("Left Straight 2", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Straight2Left); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Right Straight 2", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Straight2Right); DecisionSubPhase.ConfirmDecision(); });
+                    case ActionsHolder.DecloakTemplates.Straight2:
+                        selectDecloakTemplate.AddDecision("Forward Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Straight2Forward); DecisionSubPhase.ConfirmDecision();}, isCentered: true);
+                        selectDecloakTemplate.AddDecision("Left Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Straight2Left); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Right Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Straight2Right); DecisionSubPhase.ConfirmDecision(); });
                         break;
-                    case Actions.DecloakTemplates.Bank2:
-                        selectDecloakTemplate.AddDecision("Forward Bank 2 Left", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2ForwardLeft); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Forward Bank 2 Right", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2ForwardRight); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Left Bank 2 Forward", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2LeftForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Right Bank 2 Forward", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2RightForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Left Bank 2 Backwards", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Right Bank 2 Backwards", delegate { SelectTemplate(Actions.DecloakTemplateVariants.Bank2RightBackwards); DecisionSubPhase.ConfirmDecision(); });
+                    case ActionsHolder.DecloakTemplates.Bank2:
+                        selectDecloakTemplate.AddDecision("Forward Bank 2 Left", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2ForwardLeft); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Forward Bank 2 Right", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2ForwardRight); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Left Bank 2 Forward", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2LeftForward); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Right Bank 2 Forward", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2RightForward); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Left Bank 2 Backwards", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
+                        selectDecloakTemplate.AddDecision("Right Bank 2 Backwards", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2RightBackwards); DecisionSubPhase.ConfirmDecision(); });
                         break;
                     default:
                         break;
@@ -311,7 +311,7 @@ namespace SubPhases
             selectDecloakTemplate.Start();
         }
 
-        public void SelectTemplate(Actions.DecloakTemplateVariants templateVariant)
+        public void SelectTemplate(ActionsHolder.DecloakTemplateVariants templateVariant)
         {
             selectedTemplateVariant = templateVariant;
             DecloakTemplate = GetCurrentDecloakHelperTemplateGO();
@@ -351,7 +351,7 @@ namespace SubPhases
             MonoBehaviour.Destroy(TemporaryShipBase);
             DecloakTemplate.SetActive(false);
 
-            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.CloakAction));
+            Edition.Current.ActionIsFailed(TheShip, typeof(ActionsList.CloakAction));
         }
 
         private void StopPlanning()

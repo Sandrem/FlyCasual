@@ -65,7 +65,7 @@ namespace SubPhases
 
             var pilotSkillResults =
                 from n in Roster.AllShips
-                where n.Value.PilotSkill == pilotSkill
+                where n.Value.State.Initiative == pilotSkill
                 where n.Value.IsSystemsAbilityCanBeActivated == true
                 select n;
 
@@ -99,14 +99,14 @@ namespace SubPhases
 
             var ascPilotSkills =
                 from n in Roster.AllShips
-                where n.Value.PilotSkill > pilotSkillMin
+                where n.Value.State.Initiative > pilotSkillMin
                 where n.Value.IsSystemsAbilityCanBeActivated == true
-                orderby n.Value.PilotSkill
+                orderby n.Value.State.Initiative
                 select n;
 
             if (ascPilotSkills.Count() > 0)
             {
-                result = ascPilotSkills.First().Value.PilotSkill;
+                result = ascPilotSkills.First().Value.State.Initiative;
             }
 
             return result;
@@ -121,7 +121,7 @@ namespace SubPhases
         {
             bool result = false;
 
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }
@@ -134,7 +134,7 @@ namespace SubPhases
 
         private bool FilterShipsWithActiveDevice(GenericShip ship)
         {
-            return ship.PilotSkill == RequiredPilotSkill && ship.IsSystemsAbilityCanBeActivated && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.State.Initiative == RequiredPilotSkill && ship.IsSystemsAbilityCanBeActivated && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
@@ -170,7 +170,7 @@ namespace SubPhases
         {
             foreach (GenericShip ship in Roster.GetPlayer(RequiredPlayer).Ships.Values)
             {
-                if (ship.PilotSkill == RequiredPilotSkill) ship.IsSystemsAbilityInactive = true;
+                if (ship.State.Initiative == RequiredPilotSkill) ship.IsSystemsAbilityInactive = true;
             }
 
             Next();

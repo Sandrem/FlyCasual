@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using GameModes;
 using RuleSets;
 using Obstacles;
 
 namespace Movement
 {
-
     public enum ManeuverSpeed
     {
         AdditionalMovement,
@@ -49,7 +47,7 @@ namespace Movement
         Complex
     }
 
-    public struct MovementStruct
+    public class ManeuverHolder
     {
         public ManeuverSpeed Speed;
         public ManeuverDirection Direction;
@@ -58,7 +56,15 @@ namespace Movement
 
         private string shipTag;
 
-        public MovementStruct(string parameters, Ship.GenericShip ship = null)
+        public ManeuverHolder(ManeuverSpeed speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity complexity = MovementComplexity.None)
+        {
+            Speed = speed;
+            Direction = direction;
+            Bearing = bearing;
+            ColorComplexity = complexity;
+        }
+
+        public ManeuverHolder(string parameters, Ship.GenericShip ship = null)
         {
             string[] arrParameters = parameters.Split('.');
 
@@ -140,7 +146,7 @@ namespace Movement
 
             if (!ship.Maneuvers.ContainsKey(parameters))
             {
-                Console.Write("<b>Ship " + ship.Type + " doesn't have maneuver " + parameters + "</b>", LogTypes.Errors, true, "red");
+                Console.Write("<b>Ship " + ship.ShipInfo.ShipName + " doesn't have maneuver " + parameters + "</b>", LogTypes.Errors, true, "red");
             }
             ColorComplexity = ship.Maneuvers[parameters];
             ColorComplexity = ship.GetColorComplexityOfManeuver(this);
@@ -153,7 +159,7 @@ namespace Movement
             Ship.GenericShip ship = Roster.GetShipById(shipTag) ?? Selection.ThisShip;
             if (!ship.Maneuvers.ContainsKey(parameters))
             {
-                Console.Write(ship.Type + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
+                Console.Write(ship.ShipInfo.ShipName + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
             }
             else
             {
@@ -585,7 +591,7 @@ namespace Movement
                 case MovementComplexity.None:
                     break;
                 case MovementComplexity.Easy:
-                    result = RuleSet.Instance.MovementEasyColor;
+                    result = Edition.Current.MovementEasyColor;
                     break;
                 case MovementComplexity.Normal:
                     result = Color.white;

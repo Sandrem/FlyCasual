@@ -60,10 +60,12 @@ public partial class MainMenu : MonoBehaviour {
 
     private void UpdatePlayerInfo()
     {
-        AvatarFromUpgrade script = GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/AvatarImage").GetComponent<AvatarFromUpgrade>();
+        // TODOREVERT
+
+        /*AvatarFromUpgrade script = GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/AvatarImage").GetComponent<AvatarFromUpgrade>();
         script.Initialize(Options.Avatar);
 
-        GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/NicknameAndTitleText").GetComponent<Text>().text = Options.NickName + "\n" + Options.Title;
+        GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/NicknameAndTitleText").GetComponent<Text>().text = Options.NickName + "\n" + Options.Title;*/
     }
 
     private void SetBackground()
@@ -188,7 +190,7 @@ public partial class MainMenu : MonoBehaviour {
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
-            if (newUpgradeContainer.Name != null)
+            if (newUpgradeContainer.UpgradeInfo.Name != null)
             {
                 if (newUpgradeContainer.Avatar != null && newUpgradeContainer.Avatar.AvatarFaction == CurrentAvatarsFaction) AddAvailableAvatar(newUpgradeContainer, count++);
             }

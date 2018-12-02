@@ -10,8 +10,8 @@ namespace AI
     {
         protected MovementPrediction movementPrediction;
         protected GenericMovement originalMovement;
-        protected List<MovementStruct> alternativeManeuvers = new List<MovementStruct>();
-        protected List<MovementStruct> failedManeuvers = new List<MovementStruct>();
+        protected List<ManeuverHolder> alternativeManeuvers = new List<ManeuverHolder>();
+        protected List<ManeuverHolder> failedManeuvers = new List<ManeuverHolder>();
 
         private bool IsForced;
 
@@ -28,7 +28,7 @@ namespace AI
         {
             if (alternativeManeuvers.Count > 0)
             {
-                MovementStruct maneuver = alternativeManeuvers[0];
+                ManeuverHolder maneuver = alternativeManeuvers[0];
                 maneuver.UpdateColorComplexity();
                 alternativeManeuvers.Remove(alternativeManeuvers[0]);
 
@@ -69,7 +69,7 @@ namespace AI
                 if (DebugManager.DebugAI) Debug.Log("And it works!");
                 Console.Write("Ship found maneuver to avoid asteroid collision\n", LogTypes.AI, true, "yellow");
 
-                alternativeManeuvers = new List<MovementStruct>();
+                alternativeManeuvers = new List<ManeuverHolder>();
 
                 GenericMovement assignedManeuver = movementPrediction.CurrentMovement;
                 assignedManeuver.movementPrediction = movementPrediction;
@@ -89,22 +89,22 @@ namespace AI
             }
         }
 
-        protected virtual List<MovementStruct> GetAlternativeManeuvers(GenericMovement maneuver)
+        protected virtual List<ManeuverHolder> GetAlternativeManeuvers(GenericMovement maneuver)
         {
-            MovementStruct movementStruct = new MovementStruct
-            {
-                Speed = maneuver.ManeuverSpeed,
-                Bearing = maneuver.Bearing,
-                Direction = maneuver.Direction,
-                ColorComplexity = maneuver.ColorComplexity
-            };
+            ManeuverHolder movementStruct = new ManeuverHolder
+            (
+                maneuver.ManeuverSpeed,
+                maneuver.Direction,
+                maneuver.Bearing,
+                maneuver.ColorComplexity
+            );
 
             if (IsForced)
             {
                 if (!failedManeuvers.Contains(movementStruct)) failedManeuvers.Add(movementStruct);
             }
 
-            MovementStruct alternativeMovementStruct = movementStruct;
+            ManeuverHolder alternativeMovementStruct = movementStruct;
 
             switch (maneuver.Bearing)
             {
@@ -145,9 +145,9 @@ namespace AI
             return alternativeManeuvers;
         }
 
-        protected MovementStruct GetSimilarManeuverByStruct(MovementStruct alternativeManeuverStruct)
+        protected ManeuverHolder GetSimilarManeuverByStruct(ManeuverHolder alternativeManeuverStruct)
         {
-            MovementStruct result = alternativeManeuverStruct;
+            ManeuverHolder result = alternativeManeuverStruct;
 
             if (!Selection.ThisShip.HasManeuver(result) || (failedManeuvers.Contains(result)))
             {

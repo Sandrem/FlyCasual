@@ -962,6 +962,12 @@ namespace SquadBuilderNS
                 case Faction.Scum:
                     result = "scum";
                     break;
+                case Faction.Resistance:
+                    result = "resistance";
+                    break;
+                case Faction.FirstOrder:
+                    result = "firstorder";
+                    break;
                 default:
                     break;
             }
@@ -983,6 +989,12 @@ namespace SquadBuilderNS
                     break;
                 case "scum":
                     result = Faction.Scum;
+                    break;
+                case "resistance":
+                    result = Faction.Resistance;
+                    break;
+                case "firstorder":
+                    result = Faction.FirstOrder;
                     break;
                 default:
                     break;

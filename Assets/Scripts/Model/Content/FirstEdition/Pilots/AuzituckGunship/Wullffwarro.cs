@@ -16,7 +16,7 @@ namespace Ship
                     30,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.WullffwarroAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

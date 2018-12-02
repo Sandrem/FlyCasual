@@ -12,7 +12,7 @@ namespace Ship
                     "Black Sun Enforcer",
                     3,
                     48,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 181
                 );
 

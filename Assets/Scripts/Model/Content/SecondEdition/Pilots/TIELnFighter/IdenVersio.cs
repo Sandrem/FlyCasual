@@ -24,7 +24,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(IdenVersioAbility),
                     charges: 1,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 83
                 );
             }

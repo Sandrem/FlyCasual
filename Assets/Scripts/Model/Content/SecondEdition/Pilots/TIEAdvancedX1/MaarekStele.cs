@@ -14,7 +14,7 @@ namespace Ship
                     50,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.MaarekSteleAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 94
                 );
             }

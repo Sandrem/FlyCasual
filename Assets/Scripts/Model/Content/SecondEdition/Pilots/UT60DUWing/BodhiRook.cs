@@ -19,7 +19,7 @@ namespace Ship
                     49,
                     isLimited: true,
                     abilityType: typeof(BodhiRookAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 54
                 );
             }

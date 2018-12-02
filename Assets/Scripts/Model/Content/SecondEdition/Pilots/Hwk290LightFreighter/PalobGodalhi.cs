@@ -20,7 +20,7 @@ namespace Ship
                     38,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PalobGodalhi),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
                     factionOverride: Faction.Scum,
                     seImageNumber: 175
                 );

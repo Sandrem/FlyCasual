@@ -21,7 +21,7 @@ namespace Ship
                     26,
                     isLimited: true,
                     abilityType: typeof(JekPorkinsAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

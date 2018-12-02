@@ -17,7 +17,7 @@ namespace Ship
                     32,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.EtahnAbahtAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

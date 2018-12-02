@@ -12,7 +12,7 @@ namespace Ship
                     "Onyx Squadron Scout",
                     3,
                     32,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 129
                 );
             }

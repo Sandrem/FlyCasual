@@ -15,7 +15,7 @@ namespace Ship
                     "Gold Squadron Veteran",
                     3,
                     34,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 17
                 );
             }

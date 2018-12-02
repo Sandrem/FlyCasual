@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Title,
                 cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.AWing.AWing)),
-                addSlot: new UpgradeSlot(UpgradeType.Elite) { MustBeDifferent = true }
+                addSlot: new UpgradeSlot(UpgradeType.Talent) { MustBeDifferent = true }
             );
         }
 

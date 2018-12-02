@@ -12,7 +12,7 @@ namespace Ship
                     "First Order Test Pilot",
                     6,
                     29,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

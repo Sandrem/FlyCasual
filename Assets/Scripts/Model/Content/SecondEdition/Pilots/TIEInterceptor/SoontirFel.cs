@@ -18,7 +18,7 @@ namespace Ship
                     52,
                     isLimited: true,
                     abilityType: typeof(SoontirFelAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 103
                 );
 

@@ -12,7 +12,7 @@ namespace Ship
                     "Royal Guard Pilot",
                     6,
                     22,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Royal Guard";

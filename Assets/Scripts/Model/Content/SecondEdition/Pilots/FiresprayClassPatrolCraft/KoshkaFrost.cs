@@ -14,7 +14,7 @@ namespace Ship
                     71,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KoshkaFrostAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 152
                 );
             }

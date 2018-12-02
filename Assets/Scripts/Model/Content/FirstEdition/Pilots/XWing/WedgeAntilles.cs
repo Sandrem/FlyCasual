@@ -21,7 +21,7 @@ namespace Ship
                     29,
                     isLimited: true,
                     abilityType: typeof(WedgeAntillesAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

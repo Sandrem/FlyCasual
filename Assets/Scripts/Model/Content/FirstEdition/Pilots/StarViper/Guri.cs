@@ -17,7 +17,7 @@ namespace Ship
                     30,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.GuriAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

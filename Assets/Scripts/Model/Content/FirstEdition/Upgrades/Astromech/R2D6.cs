@@ -12,7 +12,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Astromech,
                 cost: 1,
                 isLimited: true,
-                addSlot: new UpgradeSlot(UpgradeType.Elite)
+                addSlot: new UpgradeSlot(UpgradeType.Talent)
             );
         }
 
@@ -23,7 +23,7 @@ namespace UpgradesList.FirstEdition
                 return false;
             }
 
-            if (ship.PilotInfo.ExtraUpgrades.Contains(UpgradeType.Elite))
+            if (ship.PilotInfo.ExtraUpgrades.Contains(UpgradeType.Talent))
             {
                 return false;
             }

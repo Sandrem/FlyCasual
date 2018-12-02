@@ -12,7 +12,7 @@ namespace Ship
                     "Tala Squadron Pilot",
                     2,
                     25,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 29
                 );
             }

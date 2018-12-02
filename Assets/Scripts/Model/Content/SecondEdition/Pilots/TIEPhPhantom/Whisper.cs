@@ -16,7 +16,7 @@ namespace Ship
                     52,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.WhisperAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 131
                 );
             }

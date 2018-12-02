@@ -16,7 +16,7 @@ namespace Ship
                     44,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TurrPhennirAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 104
                 );
 

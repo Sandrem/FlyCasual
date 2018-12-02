@@ -15,7 +15,7 @@ namespace Ship
                     27,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.MaarekSteleAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Red";

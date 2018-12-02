@@ -17,7 +17,7 @@ namespace Ship
                     22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.L337Ability),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 228
                 );
 

@@ -16,7 +16,7 @@ namespace Ship
                     49,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SolSixxaAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 205
                 );
             }

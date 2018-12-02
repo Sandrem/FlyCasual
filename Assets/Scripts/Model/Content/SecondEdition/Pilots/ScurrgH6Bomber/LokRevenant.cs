@@ -12,7 +12,7 @@ namespace Ship
                     "Lok Revenant",
                     2,
                     46,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 206
                 );
             }

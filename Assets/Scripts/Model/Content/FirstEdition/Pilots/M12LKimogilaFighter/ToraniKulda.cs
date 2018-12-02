@@ -20,7 +20,7 @@ namespace Ship
                     27,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ToraniKuldaAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Cartel Executioner";

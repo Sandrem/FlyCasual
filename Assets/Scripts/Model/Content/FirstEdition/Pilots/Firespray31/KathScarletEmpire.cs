@@ -15,7 +15,7 @@ namespace Ship
                     38,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KathScarletEmpireAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     factionOverride: Faction.Imperial
                 );
 

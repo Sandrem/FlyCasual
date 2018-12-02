@@ -15,7 +15,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ManarooAbility),
                     charges: 1,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 215
                 );
             }

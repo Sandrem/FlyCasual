@@ -18,7 +18,7 @@ namespace Ship
                     34,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TomaxBrenAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 107
                 );
             }
@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
 
         private List<GenericUpgrade> GetEliteUpgradesToRecharge()
         {
-            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.UpgradeInfo.HasType(UpgradeType.Elite) && (n.Charges < n.MaxCharges)).ToList();
+            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.UpgradeInfo.HasType(UpgradeType.Talent) && (n.Charges < n.MaxCharges)).ToList();
         }
 
         private void ShowEliteUpgradeToRecharge(object sender, System.EventArgs e)

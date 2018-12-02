@@ -21,7 +21,7 @@ namespace Ship
                     34,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KyloRenPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

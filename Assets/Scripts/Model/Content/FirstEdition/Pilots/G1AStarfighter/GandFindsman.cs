@@ -12,7 +12,7 @@ namespace Ship
                     "Gand Findsman",
                     5,
                     25,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

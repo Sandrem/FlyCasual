@@ -18,7 +18,7 @@ namespace Ship
                     25,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LeevanTenzaAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Partisan";

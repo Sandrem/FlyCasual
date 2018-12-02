@@ -26,7 +26,7 @@ namespace Upgrade
     public enum UpgradeType
     {
         Force,
-        Elite,
+        Talent,
         System,
         Tech,
         Turret,

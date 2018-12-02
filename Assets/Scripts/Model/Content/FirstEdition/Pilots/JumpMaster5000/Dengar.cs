@@ -18,7 +18,7 @@ namespace Ship
                     33,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DengarPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

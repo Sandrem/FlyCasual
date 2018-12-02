@@ -14,7 +14,7 @@ namespace Ship
                     "Black Sun Ace",
                     3,
                     42,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 195
                 );
 

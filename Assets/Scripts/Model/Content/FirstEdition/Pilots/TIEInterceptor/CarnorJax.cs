@@ -18,7 +18,7 @@ namespace Ship
                     26,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CarnorJaxAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Royal Guard";

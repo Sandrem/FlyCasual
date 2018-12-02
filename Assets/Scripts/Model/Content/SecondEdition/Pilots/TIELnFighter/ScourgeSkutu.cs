@@ -18,7 +18,7 @@ namespace Ship
                     32,
                     isLimited: true,
                     abilityType: typeof(ScourgeSkutuAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 82
                 );
             }

@@ -20,7 +20,7 @@ namespace Ship
                     47,
                     isLimited: true,
                     abilityType: typeof(GarvenDreisAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 4
                 );
             }

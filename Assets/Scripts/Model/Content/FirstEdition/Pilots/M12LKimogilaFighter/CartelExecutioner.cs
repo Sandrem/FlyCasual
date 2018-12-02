@@ -12,7 +12,7 @@ namespace Ship
                     "Cartel Executioner",
                     5,
                     24,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Cartel Executioner";

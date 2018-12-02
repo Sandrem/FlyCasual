@@ -19,7 +19,7 @@ namespace Ship
                     50,
                     isLimited: true,
                     abilityType: typeof(MagvaYarroPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Illicit },
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
                     seImageNumber: 57
                 );
 

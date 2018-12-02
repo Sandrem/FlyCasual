@@ -13,7 +13,7 @@ namespace Ship
                     "Black Sun Soldier",
                     3,
                     27,
-                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Elite, UpgradeType.Illicit },
+                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Illicit },
                     factionOverride: Faction.Scum,
                     seImageNumber: 172
                 );

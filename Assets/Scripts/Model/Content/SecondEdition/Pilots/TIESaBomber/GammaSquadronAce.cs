@@ -12,7 +12,7 @@ namespace Ship
                     "Gamma Squadron Ace",
                     3,
                     30,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 111
                 );
             }

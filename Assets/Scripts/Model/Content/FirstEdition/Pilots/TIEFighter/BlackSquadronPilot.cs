@@ -13,7 +13,7 @@ namespace Ship
                     "Black Squadron Pilot",
                     4,
                     14,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

@@ -19,7 +19,7 @@ namespace Ship
                     26,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.OldTerochAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

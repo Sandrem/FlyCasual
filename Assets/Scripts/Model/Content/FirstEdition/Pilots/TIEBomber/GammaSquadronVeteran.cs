@@ -12,7 +12,7 @@ namespace Ship
                     "Gamma Squadron Veteran",
                     5,
                     19,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

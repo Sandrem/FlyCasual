@@ -17,7 +17,7 @@ namespace Ship
                     46,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.RearAdmiralChiraneauAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

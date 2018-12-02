@@ -19,7 +19,7 @@ namespace Ship
                     30,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CaptainNymScumAbiliity),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Captain Nym (Scum)";

@@ -12,7 +12,7 @@ namespace Ship
                     "Concord Dawn Ace",
                     5,
                     23,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

@@ -14,7 +14,7 @@ namespace Ship
                     "Green Squadron Pilot",
                     3,
                     34,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 21
                 );
                 

@@ -12,7 +12,7 @@ namespace Ship
                     "Omega Specialist",
                     5,
                     25,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

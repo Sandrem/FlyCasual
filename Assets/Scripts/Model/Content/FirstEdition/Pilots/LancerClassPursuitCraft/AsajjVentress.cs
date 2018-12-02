@@ -20,7 +20,7 @@ namespace Ship
                     37,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.AsajjVentressPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

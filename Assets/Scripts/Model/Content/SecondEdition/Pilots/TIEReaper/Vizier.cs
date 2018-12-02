@@ -17,7 +17,7 @@ namespace Ship
                     45,
                     isLimited: true,
                     abilityType: typeof(VizierAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 115
                 );
             }

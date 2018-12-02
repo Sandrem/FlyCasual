@@ -14,7 +14,7 @@ namespace Ship
                     17,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LieutenantBlountAbiliity),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Red";

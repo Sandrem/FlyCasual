@@ -17,7 +17,7 @@ namespace Ship
                     15,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.InaldraAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

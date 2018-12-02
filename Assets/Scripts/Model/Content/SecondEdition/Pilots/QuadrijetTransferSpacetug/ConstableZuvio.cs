@@ -16,7 +16,7 @@ namespace Ship
                     33,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ConstableZuvioAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 161
                 );
             }

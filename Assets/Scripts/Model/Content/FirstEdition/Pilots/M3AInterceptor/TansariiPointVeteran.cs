@@ -12,7 +12,7 @@ namespace Ship
                     "Tansarii Point Veteran",
                     5,
                     17,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Serissu";

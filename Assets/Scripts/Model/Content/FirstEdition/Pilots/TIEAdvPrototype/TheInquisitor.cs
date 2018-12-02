@@ -16,7 +16,7 @@ namespace Ship
                     25,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TheInquisitorAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

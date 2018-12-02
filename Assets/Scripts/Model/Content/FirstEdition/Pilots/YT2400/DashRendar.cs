@@ -16,7 +16,7 @@ namespace Ship
                     36,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DashRendarAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

@@ -17,7 +17,7 @@ namespace Ship
                     50,
                     isLimited: true,
                     abilityType: typeof(BraylenStrammAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 23
                 );
 

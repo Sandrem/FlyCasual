@@ -17,7 +17,7 @@ namespace Ship
                     39,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BobaFettEmpireAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     factionOverride: Faction.Imperial
                 );
 

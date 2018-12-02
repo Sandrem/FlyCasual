@@ -15,7 +15,7 @@ namespace Ship
                     35,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LaetinAshera),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 185
                 );
             }

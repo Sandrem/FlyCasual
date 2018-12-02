@@ -19,7 +19,7 @@ namespace Ship
                     24,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.NorraWexleyYWingAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 RequiredMods.Add(typeof(MyOtherRideIsMod));

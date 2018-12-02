@@ -24,7 +24,7 @@ namespace Ship
                     42,
                     isLimited: true,
                     abilityType: typeof(DutchVanderAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 14
                 );
             }

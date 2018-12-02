@@ -17,7 +17,7 @@ namespace Ship
                     23,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 RequiredMods.Add(typeof(PhoenixSquadronMod));

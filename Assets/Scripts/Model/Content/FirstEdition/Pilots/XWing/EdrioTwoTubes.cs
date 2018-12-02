@@ -20,7 +20,7 @@ namespace Ship
                     24,
                     isLimited: true,
                     abilityType: typeof(EdrioTwoTubesAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Partisan";

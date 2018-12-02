@@ -14,7 +14,7 @@ namespace Ship
                     "Saber Squadron Ace",
                     4,
                     40,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 105
                 );
 

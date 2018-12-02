@@ -12,7 +12,7 @@ namespace Ship
                     "Omega Squadron Pilot",
                     4,
                     17,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

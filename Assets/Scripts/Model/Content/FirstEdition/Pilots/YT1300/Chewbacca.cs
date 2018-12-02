@@ -16,7 +16,7 @@ namespace Ship
                     42,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ChewbaccaRebelPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Missile }
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Missile }
                 );
 
                 ShipInfo.ArcInfo.Firepower = 3;

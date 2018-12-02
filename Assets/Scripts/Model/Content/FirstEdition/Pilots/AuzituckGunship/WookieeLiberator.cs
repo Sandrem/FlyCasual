@@ -14,7 +14,7 @@ namespace Ship
                     "Wookiee Liberator",
                     3,
                     26,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

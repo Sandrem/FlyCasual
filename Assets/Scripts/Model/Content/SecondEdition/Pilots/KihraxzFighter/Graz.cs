@@ -17,7 +17,7 @@ namespace Ship
                     47,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GrazAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 192
                 );
             }

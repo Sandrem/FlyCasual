@@ -12,7 +12,7 @@ namespace Ship
                     "Contracted Scout",
                     3,
                     25,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

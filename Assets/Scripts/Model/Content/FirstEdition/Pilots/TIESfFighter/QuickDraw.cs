@@ -15,7 +15,7 @@ namespace Ship
                     29,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.QuickDrawPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

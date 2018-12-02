@@ -16,7 +16,7 @@ namespace Ship
                     22,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.CaptainJonusAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

@@ -21,7 +21,7 @@ namespace Ship
                     44,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LandoCalrissianRebelPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Missile }
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Missile }
                 );
 
                 ShipInfo.ArcInfo.Firepower = 3;

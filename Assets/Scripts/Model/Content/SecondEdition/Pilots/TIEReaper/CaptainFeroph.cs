@@ -17,7 +17,7 @@ namespace Ship
                     47,
                     isLimited: true,
                     abilityType: typeof(CaptainFerophAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 114
                 );
             }

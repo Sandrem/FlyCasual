@@ -18,7 +18,7 @@ namespace Ship
                     33,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DoubleEdgeAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 128
                 );
             }

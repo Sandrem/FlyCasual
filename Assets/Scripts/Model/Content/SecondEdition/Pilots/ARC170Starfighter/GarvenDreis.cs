@@ -18,7 +18,7 @@ namespace Ship
                     51,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GarvenDreisAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 66
                 );
             }

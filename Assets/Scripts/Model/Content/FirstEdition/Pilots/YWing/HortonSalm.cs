@@ -23,7 +23,7 @@ namespace Ship
                     abilityType: typeof(Abilities.FirstEdition.HortonSalmAbility)
                 );
 
-                if ((ModsManager.Mods[typeof(EliteYWingPilotsMod)].IsOn)) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Elite);
+                if ((ModsManager.Mods[typeof(EliteYWingPilotsMod)].IsOn)) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Talent);
 
                 ModelInfo.SkinName = "Gray";
             }

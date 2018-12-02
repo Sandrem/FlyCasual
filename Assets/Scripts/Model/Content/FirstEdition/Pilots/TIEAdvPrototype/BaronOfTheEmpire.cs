@@ -12,7 +12,7 @@ namespace Ship
                     "Baron of the Empire",
                     4,
                     19,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

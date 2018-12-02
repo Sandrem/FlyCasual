@@ -17,7 +17,7 @@ namespace Ship
                     18,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZetaAceAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

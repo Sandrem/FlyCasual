@@ -14,7 +14,7 @@ namespace Ship
                     24,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TomaxBrenAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }
@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
 
         private void CheckTomaxBrenAbility(GenericUpgrade upgrade)
         {
-            if (!IsAbilityUsed && upgrade.HasType(UpgradeType.Elite))
+            if (!IsAbilityUsed && upgrade.HasType(UpgradeType.Talent))
             {
                 IsAbilityUsed = true;
                 Messages.ShowInfo(string.Format("{0} flips {1} face up.", HostShip.PilotName, upgrade.UpgradeInfo.Name));

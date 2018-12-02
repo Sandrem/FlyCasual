@@ -17,7 +17,7 @@ namespace Ship
                     50,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EchoAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 132
                 );
             }

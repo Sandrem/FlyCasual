@@ -12,7 +12,7 @@ namespace Ship
                     "Red Squadron Veteran",
                     4,
                     26,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Red";

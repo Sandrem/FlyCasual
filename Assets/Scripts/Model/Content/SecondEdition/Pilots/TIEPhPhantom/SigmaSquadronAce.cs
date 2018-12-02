@@ -12,7 +12,7 @@ namespace Ship
                     "Sigma Squadron Ace",
                     4,
                     46,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 133
                 );
             }

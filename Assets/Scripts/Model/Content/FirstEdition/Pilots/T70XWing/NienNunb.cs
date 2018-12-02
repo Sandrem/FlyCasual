@@ -20,7 +20,7 @@ namespace Ship
                     29,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.NienNunbAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

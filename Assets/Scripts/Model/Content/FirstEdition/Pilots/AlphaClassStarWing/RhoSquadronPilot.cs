@@ -12,7 +12,7 @@ namespace Ship
                     "Rho Squadron Pilot",
                     4,
                     21,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

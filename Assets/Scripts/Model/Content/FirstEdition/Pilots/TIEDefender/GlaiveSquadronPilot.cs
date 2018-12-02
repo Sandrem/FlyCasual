@@ -12,7 +12,7 @@ namespace Ship
                     "Glaive Squadron Pilot",
                     6,
                     34,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Crimson";

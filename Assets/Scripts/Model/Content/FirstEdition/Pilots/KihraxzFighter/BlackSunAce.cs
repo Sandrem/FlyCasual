@@ -14,7 +14,7 @@ namespace Ship
                     "Black Sun Ace",
                     5,
                     23,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Black Sun (White)";

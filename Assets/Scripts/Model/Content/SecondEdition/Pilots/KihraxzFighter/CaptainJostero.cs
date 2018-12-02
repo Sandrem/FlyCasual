@@ -17,7 +17,7 @@ namespace Ship
                     43,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainJosteroAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 194
                 );
             }

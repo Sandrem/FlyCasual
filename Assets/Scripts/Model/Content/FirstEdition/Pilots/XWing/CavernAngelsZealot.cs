@@ -16,7 +16,7 @@ namespace Ship
                     "Cavern Angels Zealot",
                     1,
                     22,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Partisan";

@@ -18,7 +18,7 @@ namespace Ship
                     50,
                     isLimited: true,
                     abilityType: typeof(TenNumbAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 24
                 );
 

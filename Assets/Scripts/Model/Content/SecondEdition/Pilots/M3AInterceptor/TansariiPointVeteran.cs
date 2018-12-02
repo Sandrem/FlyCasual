@@ -12,7 +12,7 @@ namespace Ship
                     "Tansarii Point Veteran",
                     3,
                     33,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 189
                 );
             }

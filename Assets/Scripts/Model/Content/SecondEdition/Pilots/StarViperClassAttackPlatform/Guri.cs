@@ -16,7 +16,7 @@ namespace Ship
                     62,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.GuriAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 178
                 );
 

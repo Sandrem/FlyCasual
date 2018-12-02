@@ -95,7 +95,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             SeCostText.text = Ship.PilotInfo.Cost.ToString();
 
             Text slotsText = this.transform.Find("SlotsInfo").GetComponent<Text>();
-            if (ShipHasUpgradeIcon(UpgradeType.Elite)) slotsText.text += "E";
+            if (ShipHasUpgradeIcon(UpgradeType.Talent)) slotsText.text += "E";
             if (ShipHasUpgradeIcon(UpgradeType.Force)) slotsText.text += "F";
             if (Ship.Faction != Faction.Scum && ShipHasUpgradeIcon(UpgradeType.Illicit)) slotsText.text += "I";
         }

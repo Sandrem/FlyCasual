@@ -15,7 +15,7 @@ namespace Ship
                     31,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.PoeDameronAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Black One";

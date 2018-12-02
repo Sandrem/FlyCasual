@@ -14,7 +14,7 @@ namespace Ship
                     "Blade Squadron Veteran",
                     3,
                     44,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 25
                 );
 

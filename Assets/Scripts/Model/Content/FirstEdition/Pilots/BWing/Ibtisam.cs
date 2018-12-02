@@ -19,7 +19,7 @@ namespace Ship
                     28,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.IbtisamAbiliity),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Blue";

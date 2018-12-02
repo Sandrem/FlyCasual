@@ -19,7 +19,7 @@ namespace Ship
                     49,
                     isLimited: true,
                     abilityType: typeof(MajorVermeilAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 113
                 );
             }

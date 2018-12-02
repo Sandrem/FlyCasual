@@ -16,7 +16,7 @@ namespace Ship
                     19,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.GenesisRedAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Genesis Red";

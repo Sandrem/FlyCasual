@@ -12,7 +12,7 @@ namespace Ship
                     "Skull Squadron Pilot",
                     4,
                     50,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 159
                 );
             }

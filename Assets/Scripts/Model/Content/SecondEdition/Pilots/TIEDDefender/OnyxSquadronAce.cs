@@ -12,7 +12,7 @@ namespace Ship
                     "Onyx Squadron Ace",
                     4,
                     78,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 125
                 );
             }

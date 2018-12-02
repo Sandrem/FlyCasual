@@ -18,7 +18,7 @@ namespace Ship
                     46,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.HanSoloAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Elite, UpgradeType.Missile }
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Missile }
                 );
 
                 ShipInfo.ArcInfo.Firepower = 3;

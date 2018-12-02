@@ -997,7 +997,7 @@ namespace SquadBuilderNS
 
             switch (upgradeType)
             {
-                case UpgradeType.Elite:
+                case UpgradeType.Talent:
                     result = "ept";
                     break;
                 case UpgradeType.Astromech:
@@ -1024,7 +1024,7 @@ namespace SquadBuilderNS
             switch (upgradeXws)
             {
                 case "ept":
-                    result = UpgradeType.Elite;
+                    result = UpgradeType.Talent;
                     break;
                 case "amd":
                     result = UpgradeType.Astromech;

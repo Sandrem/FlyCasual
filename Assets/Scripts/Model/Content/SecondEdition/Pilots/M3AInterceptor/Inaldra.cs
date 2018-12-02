@@ -17,7 +17,7 @@ namespace Ship
                     32,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SerissuAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 187
                 );
             }

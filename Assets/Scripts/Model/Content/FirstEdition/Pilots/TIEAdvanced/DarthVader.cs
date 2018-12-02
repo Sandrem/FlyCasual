@@ -17,7 +17,7 @@ namespace Ship
                     29,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DarthVaderAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Blue";

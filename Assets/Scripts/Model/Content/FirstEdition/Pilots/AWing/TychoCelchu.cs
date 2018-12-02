@@ -16,7 +16,7 @@ namespace Ship
                     26,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

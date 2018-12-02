@@ -19,7 +19,7 @@ namespace Ship
                     19,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.AirenCrackenAbiliity),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Red";

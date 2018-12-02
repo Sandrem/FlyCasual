@@ -20,7 +20,7 @@ namespace Ship
                     40,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JakeFarrellAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 19
                 );
 

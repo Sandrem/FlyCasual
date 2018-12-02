@@ -12,7 +12,7 @@ namespace Ship
                     "Cartel Executioner",
                     3,
                     44,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 209
                 );
 

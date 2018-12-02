@@ -17,7 +17,7 @@ namespace Ship
                     26,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.IbtisamAbiliity),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 RequiredMods.Add(typeof(MyOtherRideIsMod));

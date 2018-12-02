@@ -19,7 +19,7 @@ namespace Ship
                     43,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NorraWexleyYWingAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 13
                 );
             }

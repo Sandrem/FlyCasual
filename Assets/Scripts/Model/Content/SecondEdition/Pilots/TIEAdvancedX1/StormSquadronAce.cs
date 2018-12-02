@@ -13,7 +13,7 @@ namespace Ship
                     "Storm Squadron Ace",
                     3,
                     43,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 97
                 );
             }

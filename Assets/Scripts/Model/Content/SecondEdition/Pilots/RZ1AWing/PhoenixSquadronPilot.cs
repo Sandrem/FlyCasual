@@ -14,7 +14,7 @@ namespace Ship
                     "Phoenix Squadron Pilot",
                     1,
                     30,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 22
                 );
                 

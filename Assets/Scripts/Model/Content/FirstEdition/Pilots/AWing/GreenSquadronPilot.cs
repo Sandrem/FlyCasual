@@ -14,7 +14,7 @@ namespace Ship
                     "Green Squadron Pilot",
                     3,
                     19,
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Green";

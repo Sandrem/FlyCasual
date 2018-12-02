@@ -15,7 +15,7 @@ namespace Ship
                     74,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KathScarletAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 151
                 );
 

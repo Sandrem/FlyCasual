@@ -18,7 +18,7 @@ namespace Ship
                     17,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.AhsokaTanoPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     factionOverride: Faction.Rebel
                 );
 

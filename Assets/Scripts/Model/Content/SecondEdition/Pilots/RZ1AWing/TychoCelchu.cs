@@ -17,7 +17,7 @@ namespace Ship
                     42,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
                 
                 RequiredMods = new List<System.Type>() { typeof(FirstEditionPilotsMod) };

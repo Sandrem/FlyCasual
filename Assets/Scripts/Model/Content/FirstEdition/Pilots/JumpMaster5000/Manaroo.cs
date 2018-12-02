@@ -21,7 +21,7 @@ namespace Ship
                     27,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ManarooAbility),
-                    extraUpgradeIcon: UpgradeType.Elite
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

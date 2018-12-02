@@ -19,7 +19,7 @@ namespace Ship
                     30,
                     isLimited: true,
                     abilityType: typeof(DelMeekoAbility),
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 85
                 );
             }

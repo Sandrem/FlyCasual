@@ -12,7 +12,7 @@ namespace Ship
                     "Black Squadron Scout",
                     3,
                     38,
-                    extraUpgradeIcon: UpgradeType.Elite,
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 120
                 );
             }

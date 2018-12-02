@@ -11,9 +11,10 @@ namespace CommandsList
         {
             Keyword = "input";
             Description =   "Turns on/off input in UI\n" +
-                            "Available commands:\n" +
+                "Available commands (mouse and touch controls are exclusive):\n" +
                             "input axis\n" +
-                            "input mouse\n";
+                            "input mouse\n" +
+                            "input touch\n";
 
             Console.AddAvailableCommand(this);
         }
@@ -22,11 +23,14 @@ namespace CommandsList
         {
             if (parameters.ContainsKey("axis"))
             {
-                CameraScript.InputAxisAreDisabled = !CameraScript.InputAxisAreDisabled;
+                CameraScript.InputAxisAreEnabled = !CameraScript.InputAxisAreEnabled;
             }
             else if (parameters.ContainsKey("mouse"))
             {
-                CameraScript.InputMouseIsDisabled = !CameraScript.InputMouseIsDisabled;
+                CameraScript.InputMouseIsEnabled = !CameraScript.InputMouseIsEnabled;
+            }
+            else if (parameters.ContainsKey("touch")) {
+                CameraScript.InputTouchIsEnabled = !CameraScript.InputTouchIsEnabled;
             }
         }
     }

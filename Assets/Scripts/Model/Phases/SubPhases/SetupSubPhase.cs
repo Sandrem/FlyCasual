@@ -19,6 +19,8 @@ namespace SubPhases
         private Transform StartingZone;
         private bool isInsideStartingZone;
 
+        private TouchObjectPlacementHandler touchObjectPlacementHandler = new TouchObjectPlacementHandler();
+
         public override void Start()
         {
             base.Start();
@@ -175,7 +177,10 @@ namespace SubPhases
 
         public override void Update()
         {
-            if (inReposition) PerformDrag();
+            if (inReposition)  {
+                if (CameraScript.InputMouseIsEnabled) PerformDrag();
+                if (CameraScript.InputTouchIsEnabled) PerformTouchDragRotate();
+            }
             CheckPerformRotation();
         }
 
@@ -253,6 +258,16 @@ namespace SubPhases
             Board.HighlightStartingZones(Phases.CurrentSubPhase.RequiredPlayer);
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = true;
             inReposition = true;
+
+            if (CameraScript.InputTouchIsEnabled)
+            {
+                // Setup touch handler
+                touchObjectPlacementHandler.SetShip(Selection.ThisShip);
+
+                // With touch controls, wait for confirmation before setting the position
+                UI.ShowNextButton();
+                IsReadyForCommands = true;
+            }
         }
 
         private void PerformDrag()
@@ -267,6 +282,23 @@ namespace SubPhases
 
             CheckControlledModeLimits();
             ApplySetupPositionLimits();
+        }
+
+        private void PerformTouchDragRotate() {
+            touchObjectPlacementHandler.Update();
+
+            if (touchObjectPlacementHandler.GetNewRotation() != 0f)
+            {
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, touchObjectPlacementHandler.GetNewRotation(), 0));
+                Selection.ThisShip.ApplyRotationHelpers();
+                Selection.ThisShip.ResetRotationHelpers();
+            }
+
+            if (touchObjectPlacementHandler.GetNewPosition() != Vector3.zero)
+            {
+                Selection.ThisShip.SetCenter(new Vector3(touchObjectPlacementHandler.GetNewPosition().x, 0f, 
+                                                         touchObjectPlacementHandler.GetNewPosition().z));
+            }
         }
 
         private void CheckControlledModeLimits()
@@ -370,7 +402,7 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            if (inReposition) TryConfirmPosition(Selection.ThisShip);
+            if (inReposition && CameraScript.InputMouseIsEnabled) TryConfirmPosition(Selection.ThisShip);
         }
 
         public bool TryConfirmPosition(GenericShip ship)
@@ -382,7 +414,15 @@ namespace SubPhases
                 if (!ship.ShipBase.IsInside(StartingZone))
 
                 {
-                    Messages.ShowErrorToHuman("Place ship into highlighted area");
+                    if (CameraScript.InputTouchIsEnabled)
+                    {
+                        // Touch-tailored error message
+                        Messages.ShowErrorToHuman("Drag ship into highlighted area");
+                    }
+                    else
+                    {
+                        Messages.ShowErrorToHuman("Place ship into highlighted area");
+                    }
                     result = false;
                 }
 
@@ -397,6 +437,17 @@ namespace SubPhases
             if (result) StopDrag();
 
             return result;
+        }
+
+        public override void NextButton() {
+            // Next button is only used for touch controls -- on next, try to confirm ship's position
+            if (!TryConfirmPosition(Selection.ThisShip))
+            {
+                Console.Write("ship:" + Selection.ThisShip);
+                Console.Write("shipbase:" + Selection.ThisShip.ShipBase);
+                // Wait for confirmation again if positioning failed
+                UI.ShowNextButton();
+            }
         }
 
         private void StopDrag()

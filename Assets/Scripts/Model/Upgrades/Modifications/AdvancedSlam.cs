@@ -4,12 +4,10 @@ using ActionsList;
 using Abilities;
 using System.Collections.Generic;
 using System.Linq;
-using RuleSets;
-using System;
 
 namespace UpgradesList
 {
-    public class AdvancedSlam : GenericUpgrade, ISecondEditionUpgrade
+    public class AdvancedSlam : GenericUpgrade
     {
         public AdvancedSlam() : base()
         {
@@ -18,26 +16,6 @@ namespace UpgradesList
             Cost = 2;
 
             UpgradeAbilities.Add(new AdvancedSlamAbility());
-        }
-
-        public void AdaptUpgradeToSecondEdition()
-        {
-            Cost = 3;
-            UpgradeAbilities.Clear();
-            UpgradeAbilities.Add(new Abilities.SecondEdition.AdvancedSlamAbility());
-            SEImageNumber = 69;            
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            if (RuleSet.Instance is SecondEdition)
-            {
-                return ship.ActionBar.HasAction(typeof(SlamAction));
-            }
-            else
-            {
-                return true;
-            }
         }
     }
 }
@@ -86,30 +64,12 @@ namespace Abilities
             });
         }
 
-        protected virtual void PerfromFreeActionFromUpgradeBar(object sender, System.EventArgs e)
+        private void PerfromFreeActionFromUpgradeBar(object sender, System.EventArgs e)
         {
             List<GenericAction> actions = HostShip.GetAvailableActions();
             List<GenericAction> actionBarActions = actions.Where(n => n.IsInActionBar).ToList();
 
             Selection.ThisShip.AskPerformFreeAction(actionBarActions, Triggers.FinishTrigger);
-        }
-
-    }
-}
-
-namespace Abilities.SecondEdition
-{
-    public class AdvancedSlamAbility : Abilities.AdvancedSlamAbility
-    {
-        protected override void PerfromFreeActionFromUpgradeBar(object sender, EventArgs e)
-        {
-            List<GenericAction> actions = HostShip.GetAvailableActions();
-            List<GenericAction> whiteActionBarActionsAsRed = actions
-                .Where(n => n.IsInActionBar && !n.IsRed)                
-                .Select(n => n.AsRedAction)
-                .ToList();            
-
-            Selection.ThisShip.AskPerformFreeAction(whiteActionBarActionsAsRed, Triggers.FinishTrigger);
         }
     }
 }

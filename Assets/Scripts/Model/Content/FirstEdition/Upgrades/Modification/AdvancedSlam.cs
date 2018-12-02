@@ -63,7 +63,7 @@ namespace Abilities.FirstEdition
             });
         }
 
-        private void PerfromFreeActionFromUpgradeBar(object sender, System.EventArgs e)
+        protected virtual void PerfromFreeActionFromUpgradeBar(object sender, System.EventArgs e)
         {
             List<GenericAction> actions = HostShip.GetAvailableActions();
             List<GenericAction> actionBarActions = actions.Where(n => n.IsInActionBar).ToList();

@@ -15,6 +15,9 @@ namespace Ship
             {
                 ShipInfo.ShipName = "MG-100 Star Fortress";
 
+                ShipInfo.DefaultShipFaction = Faction.Resistance;
+                ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
+
                 ShipInfo.ArcInfo.Firepower = 3;
                 // Arcs
 
@@ -25,8 +28,8 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
-                ShipInfo.DefaultShipFaction = Faction.Resistance;
-                ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
+                DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Complex);
+                DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Complex);
 
                 IconicPilots[Faction.Resistance] = typeof(CobaltSquadronBomber);
 

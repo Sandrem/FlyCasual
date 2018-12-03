@@ -288,6 +288,8 @@ namespace Ship
 
         private void ActivatePilotAbilities()
         {
+            if (PilotInfo.AbilityType != null) PilotAbilities.Add((GenericAbility)Activator.CreateInstance(PilotInfo.AbilityType));
+
             foreach (var pilotAbility in PilotAbilities)
             {
                 pilotAbility.Initialize(this);

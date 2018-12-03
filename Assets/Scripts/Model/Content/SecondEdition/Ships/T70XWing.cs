@@ -15,7 +15,10 @@ namespace Ship
             {
                 ShipInfo.ShipName = "T-70 X-wing";
                 ShipInfo.Hull = 4;
+
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
+                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
+
                 ShipInfo.DefaultShipFaction = Faction.Resistance;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
 

@@ -36,9 +36,9 @@ namespace Upgrade
             {
                 TryDiscard(callBack);
             }
-            else if (UsesCharges)
+            else if (State.UsesCharges)
             {
-                SpendCharge();
+                State.SpendCharge();
                 callBack();
             }
             else

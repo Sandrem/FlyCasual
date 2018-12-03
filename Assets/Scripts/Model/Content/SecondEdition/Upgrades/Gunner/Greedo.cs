@@ -51,12 +51,12 @@ namespace Abilities.SecondEdition
 
         private void RestoreCharge()
         {
-            HostUpgrade.RestoreCharge();
+            HostUpgrade.State.RestoreCharge();
         }
 
         private bool IsDiceModificationAvailable()
         {
-            return (HostUpgrade.Charges > 0 && Combat.AttackStep == CombatStep.Attack && (Combat.Attacker == HostShip || Combat.Defender == HostShip));
+            return (HostUpgrade.State.Charges > 0 && Combat.AttackStep == CombatStep.Attack && (Combat.Attacker == HostShip || Combat.Defender == HostShip));
         }
 
         private int GetDiceModificationAiPriority()
@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
 
         private void PayAbilityCost(Action<bool> callback)
         {
-            HostUpgrade.SpendCharge();
+            HostUpgrade.State.SpendCharge();
             callback(true);
         }
     }

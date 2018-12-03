@@ -234,8 +234,8 @@ namespace Upgrade
         {
             return GetUpgradesOnlyFaceup()
                 .Where(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) || n.UpgradeInfo.HasType(UpgradeType.Missile) || n.UpgradeInfo.HasType(UpgradeType.Bomb))
-                .Where(n => n.UsesCharges)
-                .Where(n => n.Charges < n.MaxCharges)
+                .Where(n => n.State.UsesCharges)
+                .Where(n => n.State.Charges < n.State.MaxCharges)
                 .ToList();
         }
     }

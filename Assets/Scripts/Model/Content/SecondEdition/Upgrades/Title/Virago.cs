@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility()
         {
-            if (HostUpgrade.Charges > 0 && !HostShip.IsStressed)
+            if (HostUpgrade.State.Charges > 0 && !HostShip.IsStressed)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, AskUseAbility);
             }
@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
 
         private void AskUseAbility(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Virago: You may spend 1 charge to perform a red boost action. There are " + HostUpgrade.Charges + " charges remaining.");
+            Messages.ShowInfo("Virago: You may spend 1 charge to perform a red boost action. There are " + HostUpgrade.State.Charges + " charges remaining.");
             HostShip.BeforeFreeActionIsPerformed += RegisterSpendChargeTrigger;
             Selection.ChangeActiveShip(HostShip);
             HostShip.AskPerformFreeAction(new BoostAction() { IsRed = true, CanBePerformedWhileStressed = false }, CleanUp);
@@ -76,7 +76,7 @@ namespace Abilities.SecondEdition
             RegisterAbilityTrigger(
                 TriggerTypes.OnFreeAction,
                 delegate {
-                    HostUpgrade.SpendCharge();
+                    HostUpgrade.State.SpendCharge();
                     Triggers.FinishTrigger();
                 }
             );

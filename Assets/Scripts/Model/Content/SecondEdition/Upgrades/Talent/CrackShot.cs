@@ -64,7 +64,7 @@ namespace ActionsList.SecondEdition
         {
             bool result = false;
 
-            if (Combat.DiceRollDefence.Successes > 0 && Source.Charges > 0 && Combat.Attacker == Host && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcType.Bullseye))
+            if (Combat.DiceRollDefence.Successes > 0 && Source.State.Charges > 0 && Combat.Attacker == Host && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcType.Bullseye))
             {
                 result = true;
             }
@@ -75,7 +75,7 @@ namespace ActionsList.SecondEdition
         public override void ActionEffect(Action callBack)
         {
             Combat.DiceRollDefence.ChangeOne(DieSide.Success, DieSide.Blank, false);
-            Source.SpendCharge();
+            Source.State.SpendCharge();
             callBack();
         }
 

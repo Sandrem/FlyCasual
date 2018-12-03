@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
         {
             return Combat.ChosenWeapon == this
                 && Combat.ShotInfo.InArcByType(ArcType.Bullseye)
-                && HostUpgrade.Charges > 0
+                && HostUpgrade.State.Charges > 0
                 && Combat.AttackStep == CombatStep.Attack;
         }
 
@@ -63,14 +63,14 @@ namespace Abilities.SecondEdition
 
         private int GetRerollCount()
         {
-            return HostUpgrade.Charges;
+            return HostUpgrade.State.Charges;
         }
 
         private void PayAbilityCost()
         {
             for (int i = 0; i < DiceRoll.CurrentDiceRoll.WasSelectedCount; i++)
             {
-                HostUpgrade.SpendCharge();
+                HostUpgrade.State.SpendCharge();
             }
         }
 

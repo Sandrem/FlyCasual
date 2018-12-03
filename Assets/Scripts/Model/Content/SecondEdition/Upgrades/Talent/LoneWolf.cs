@@ -43,9 +43,9 @@ namespace Abilities.SecondEdition
 
         private void PayAbilityCost(Action<bool> callback)
         {
-            if (HostUpgrade.Charges > 0)
+            if (HostUpgrade.State.Charges > 0)
             {
-                HostUpgrade.SpendCharge();
+                HostUpgrade.State.SpendCharge();
                 callback(true);
             }
             else callback(false);
@@ -73,7 +73,7 @@ namespace Abilities.SecondEdition
                 }
             }
 
-            return ((HostShip.IsAttacking || HostShip.IsDefending) && noFriendlyShipsInRange0to2 && HostUpgrade.Charges > 0);
+            return ((HostShip.IsAttacking || HostShip.IsDefending) && noFriendlyShipsInRange0to2 && HostUpgrade.State.Charges > 0);
         }
 
         public int GetDiceModificationAiPriority()

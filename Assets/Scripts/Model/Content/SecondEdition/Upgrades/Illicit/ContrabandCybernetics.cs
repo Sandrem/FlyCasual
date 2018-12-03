@@ -25,13 +25,13 @@ namespace Abilities.SecondEdition
     {
         protected override void PayActivationCost(Action callback)
         {
-            HostUpgrade.SpendCharge();
+            HostUpgrade.State.SpendCharge();
             callback();
         }
 
         protected override bool IsAbilityCanBeUsed()
         {
-            return HostUpgrade.Charges > 0;
+            return HostUpgrade.State.Charges > 0;
         }
 
         protected override void FinishAbility()

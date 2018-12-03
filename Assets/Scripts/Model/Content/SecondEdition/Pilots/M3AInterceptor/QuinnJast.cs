@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
                     upgrade.HasType(UpgradeType.Torpedo)
                 )
                 {
-                    if (upgrade.UsesCharges && upgrade.Charges < upgrade.MaxCharges)
+                    if (upgrade.State.UsesCharges && upgrade.State.Charges < upgrade.State.MaxCharges)
                     {
                         return upgrade;
                     }
@@ -79,7 +79,7 @@ namespace Abilities.SecondEdition
             if (spentUpgrade != null)
             {
                 HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), () => {
-                    spentUpgrade.RestoreCharge();
+                    spentUpgrade.State.RestoreCharge();
                     DecisionSubPhase.ConfirmDecision();
                 });
             }

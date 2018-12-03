@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
 
         private List<GenericUpgrade> GetEliteUpgradesToRecharge()
         {
-            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.UpgradeInfo.HasType(UpgradeType.Talent) && (n.Charges < n.MaxCharges)).ToList();
+            return HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.UpgradeInfo.HasType(UpgradeType.Talent) && (n.State.Charges < n.State.MaxCharges)).ToList();
         }
 
         private void ShowEliteUpgradeToRecharge(object sender, System.EventArgs e)
@@ -77,7 +77,7 @@ namespace Abilities.SecondEdition
                     upgrade.UpgradeInfo.Name,
                     delegate { RestoreCharge(upgrade); },
                     upgrade.ImageUrl,
-                    upgrade.Charges
+                    upgrade.State.Charges
                 );
             }
 
@@ -90,7 +90,7 @@ namespace Abilities.SecondEdition
 
         protected void RestoreCharge(GenericUpgrade upgrade)
         {
-            upgrade.RestoreCharge();
+            upgrade.State.RestoreCharge();
             DecisionSubPhase.ConfirmDecision();
         }
 

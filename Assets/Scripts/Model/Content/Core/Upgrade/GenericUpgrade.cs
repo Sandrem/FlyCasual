@@ -96,11 +96,6 @@ namespace Upgrade
             }
         }
 
-        public int MaxCharges { get; set; }
-        public int Charges { get; private set; }
-        public bool UsesCharges { get { return MaxCharges > 0; } }
-        public bool RegensCharges = false;
-
         public AvatarInfo Avatar;
 
         // SQUAD BUILDER ONLY
@@ -163,6 +158,11 @@ namespace Upgrade
         {
             Host = host;
 
+            foreach (Type abilityType in UpgradeInfo.AbilityTypes)
+            {
+                UpgradeAbilities.Add((GenericAbility)Activator.CreateInstance(abilityType));
+            }
+            
             foreach (GenericAbility ability in UpgradeAbilities)
             {
                 ability.InitializeForSquadBuilder(this);
@@ -175,6 +175,7 @@ namespace Upgrade
             {
                 ability.DeactivateAbilityForSquadBuilder();
             }
+            UpgradeAbilities.Clear();
         }
 
         /**
@@ -324,36 +325,6 @@ namespace Upgrade
 
             Slot.PreInstallUpgrade(newUpgrade, Host);
             Slot.TryInstallUpgrade(newUpgrade, Host);
-        }
-
-        public void SpendCharges(int count)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                SpendCharge();
-            }
-        }
-
-        public void SpendCharge()
-        {
-            Charges--;
-            if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
-
-            if (Charges == 0) Roster.ShowUpgradeAsInactive(Host, UpgradeInfo.Name);
-
-            Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
-        }
-
-        public void RestoreCharge()
-        {
-            if (Charges < MaxCharges)
-            {
-                if (Charges == 0) Roster.ShowUpgradeAsActive(Host, UpgradeInfo.Name);
-
-                Charges++;
-
-                Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
-            }
         }
     }
 

@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
 
         private void CheckRegisterAbility(GenericShip ship)
         {
-            if (HostUpgrade.Charges >= 3)
+            if (HostUpgrade.State.Charges >= 3)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActivationPhaseStart, AskLeiaAbility);
             }
@@ -49,7 +49,7 @@ namespace Abilities.SecondEdition
 
         private void AskLeiaAbility(object sender, System.EventArgs e)
         {
-            if (HostUpgrade.Charges >= 3)
+            if (HostUpgrade.State.Charges >= 3)
             {
                 AskToUseAbility(NeverUseByDefault, UseLeiaAbility);
             }
@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
 
         private void UseLeiaAbility(object sender, System.EventArgs e)
         {
-            HostUpgrade.SpendCharges(3);
+            HostUpgrade.State.SpendCharges(3);
 
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Ability was activated");
 

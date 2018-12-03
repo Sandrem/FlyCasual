@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
 
         private void PlanRegenShield(GenericShip host)
         {
-            if (HostShip.State.ShieldsCurrent < HostShip.State.ShieldsMax && HostUpgrade.Charges > 0)
+            if (HostShip.State.ShieldsCurrent < HostShip.State.ShieldsMax && HostUpgrade.State.Charges > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, AskUseAbility);
             }
@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
 
         private void RegenShield(object sender, EventArgs e)
         {
-            HostUpgrade.SpendCharge();
+            HostUpgrade.State.SpendCharge();
             HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), () =>
             {
                 if (HostShip.TryRegenShields())

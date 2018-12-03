@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
 
         private void AddAction(Ship.GenericShip ship)
         {
-            if (ship.Damage.GetFacedownCards().Any() && HostUpgrade.Charges > 0)
+            if (ship.Damage.GetFacedownCards().Any() && HostUpgrade.State.Charges > 0)
             {
                 ship.AddAvailableAction(new RepairAction(RepairAction.CardFace.FaceDown)
                 {
@@ -49,9 +49,9 @@ namespace Abilities.SecondEdition
                     PayRepairCost = () =>
                     {
                         var result = false;
-                        if (HostUpgrade.Charges > 0)
+                        if (HostUpgrade.State.Charges > 0)
                         {
-                            HostUpgrade.SpendCharge();
+                            HostUpgrade.State.SpendCharge();
                             result = true;
                         }
                         return result;

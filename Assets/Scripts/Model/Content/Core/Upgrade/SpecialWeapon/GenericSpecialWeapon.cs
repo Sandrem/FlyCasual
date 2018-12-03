@@ -76,7 +76,7 @@ namespace Upgrade
 
             if (!State.IsFaceup) return false;
 
-            if (UsesCharges && Charges == 0) return false;
+            if (State.UsesCharges && State.Charges == 0) return false;
 
             int range;
             if (!CanShootOutsideArc)
@@ -132,9 +132,9 @@ namespace Upgrade
             {
                 TryDiscard(callBack);
             }
-            else if (UsesCharges)
+            else if (State.UsesCharges)
             {
-                SpendCharge();
+                State.SpendCharge();
                 callBack();
             }
             else

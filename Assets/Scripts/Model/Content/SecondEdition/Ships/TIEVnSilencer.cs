@@ -21,7 +21,13 @@ namespace Ship
                 ShipInfo.DefaultShipFaction = Faction.FirstOrder;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.FirstOrder };
 
+                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.System);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Torpedo);
+
                 IconicPilots[Faction.FirstOrder] = typeof(FirstOrderTestPilot);
+
+                ShipAbilities.Add(new Abilities.SecondEdition.AutoThrustersAbility());
 
                 // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/44/Maneuver_tie_phantom.png";
             }

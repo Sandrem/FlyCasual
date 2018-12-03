@@ -13,7 +13,7 @@ namespace Ship
 {
     namespace SecondEdition.UpsilonClassCommandShuttle
     {
-        public class UpsilonClassCommandShuttle : FirstEdition.LambdaClassShuttle.LambdaClassShuttle
+        public class UpsilonClassCommandShuttle : FirstEdition.UpsilonClassShuttle.UpsilonClassShuttle
         {
             public UpsilonClassCommandShuttle() : base()
             {
@@ -21,6 +21,12 @@ namespace Ship
 
                 ShipInfo.DefaultShipFaction = Faction.FirstOrder;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.FirstOrder };
+
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceForeAction)));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(JamAction)));
+
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Cannon);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Crew);
 
                 IconicPilots[Faction.FirstOrder] = typeof(LieutenantDormitz);
 

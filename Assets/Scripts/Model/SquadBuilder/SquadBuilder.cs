@@ -592,15 +592,15 @@ namespace SquadBuilderNS
 
             foreach (var shipConfig in GetSquadList(playerNo).GetShips())
             {
-                List<string> limitedCards = new List<string>();
+                List<string> feLmitedPerShipCards = new List<string>();
 
                 foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
                 {
-                    if (upgrade.UpgradeInfo.IsLimited)
+                    if (upgrade.UpgradeInfo.FeIsLimitedPerShip)
                     {
-                        if (!limitedCards.Contains(upgrade.UpgradeInfo.Name))
+                        if (!feLmitedPerShipCards.Contains(upgrade.UpgradeInfo.Name))
                         {
-                            limitedCards.Add(upgrade.UpgradeInfo.Name);
+                            feLmitedPerShipCards.Add(upgrade.UpgradeInfo.Name);
                         }
                         else
                         {

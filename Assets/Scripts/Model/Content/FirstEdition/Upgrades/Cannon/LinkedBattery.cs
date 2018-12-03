@@ -12,7 +12,7 @@ namespace UpgradesList.FirstEdition
                 "Linked Battery",
                 UpgradeType.Cannon,
                 cost: 2,
-                feIsLimited: true,
+                feIsLimitedPerShip: true,
                 restriction: new BaseSizeRestriction(BaseSize.Small),
                 abilityType: typeof(Abilities.FirstEdition.LinkedBatteryAbility)
             );

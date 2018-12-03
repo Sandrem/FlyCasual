@@ -114,5 +114,17 @@ namespace Upgrade
         {
             Restrictions = restrictions.ToList();
         }
+
+        public bool IsAllowedForShip(GenericShip ship)
+        {
+            bool result = true;
+
+            foreach (UpgradeCardRestriction restriction in Restrictions)
+            {
+                if (!restriction.IsAllowedForShip(ship)) return false;
+            }
+
+            return result;
+        }
     }
 }

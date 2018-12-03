@@ -18,7 +18,7 @@ namespace Ship
             {
                 ShipInfo.ShipName = "TIE/ph Phantom";
 
-                ShipInfo.ArcInfo.Firepower = 3;
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.Front, 3);
                 ShipInfo.Hull = 3;
 
                 ShipAbilities.Add(new Abilities.SecondEdition.StygiumArray());

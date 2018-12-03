@@ -19,7 +19,7 @@ namespace Ship
                     "Protectorate Starfighter",
                     BaseSize.Small,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcType.Primary, 3), 3, 4, 0,
+                    new ShipArcsInfo(ArcType.Front, 3), 3, 4, 0,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

@@ -20,7 +20,7 @@ namespace Ship
                     "TIE Adv. Prototype",
                     BaseSize.Small,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcType.Primary, 2), 3, 2, 2,
+                    new ShipArcsInfo(ArcType.Front, 2), 3, 2, 2,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

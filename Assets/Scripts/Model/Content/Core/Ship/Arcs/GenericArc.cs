@@ -23,13 +23,14 @@ namespace Arcs
     public enum ArcType
     {
         None,
-        Primary,
-        Forward,
-        RearAux,
-        Special180,
-        Special180Rear,
-        Mobile,
+        Front,
+        Rear,
+        FullFront,
+        FullRear,
+        SingleTurret,
+        DoubleTurret,
         Bullseye,
+        TurretPrimaryWeapon,
         SpecialGhost
     }
 

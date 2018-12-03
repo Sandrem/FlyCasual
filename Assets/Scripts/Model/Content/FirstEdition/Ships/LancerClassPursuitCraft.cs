@@ -19,7 +19,11 @@ namespace Ship
                     "Lancer-class Pursuit Craft",
                     BaseSize.Large,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcType.Primary, 3), 2, 7, 3,
+                    new ShipArcsInfo(
+                        new ShipArcInfo(ArcType.Front, 3),
+                        new ShipArcInfo(ArcType.SingleTurret, 3)
+                    ),
+                    2, 7, 3,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

@@ -17,7 +17,7 @@ namespace Ship.FirstEdition.KihraxzFighter
                 "Kihraxz Fighter",
                 BaseSize.Small,
                 Faction.Scum,
-                new ShipArcsInfo(ArcType.Primary, 3), 2, 4, 1,
+                new ShipArcsInfo(ArcType.Front, 3), 2, 4, 1,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction))

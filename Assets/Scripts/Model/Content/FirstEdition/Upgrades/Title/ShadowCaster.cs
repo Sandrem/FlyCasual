@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
         {
             if (IsAbilityUsed) return;
 
-            if (!Combat.ShotInfo.InArcByType(ArcType.Mobile) || Combat.ShotInfo.Range > 2) return;
+            if (!Combat.ShotInfo.InArcByType(ArcType.SingleTurret) || Combat.ShotInfo.Range > 2) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AssignTractorBeamToken);
         }

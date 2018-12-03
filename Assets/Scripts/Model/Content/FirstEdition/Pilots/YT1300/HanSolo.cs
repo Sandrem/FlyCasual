@@ -21,7 +21,7 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Missile }
                 );
 
-                ShipInfo.ArcInfo.Firepower = 3;
+                ShipInfo.ArcInfo.Arcs.ForEach(a => a.Firepower = 3);
                 ShipInfo.Hull = 8;
                 ShipInfo.Shields = 5;
             }

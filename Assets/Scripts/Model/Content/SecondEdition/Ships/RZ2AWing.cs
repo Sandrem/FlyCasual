@@ -6,6 +6,8 @@ using Upgrade;
 using Actions;
 using Ship;
 using Abilities.SecondEdition;
+using System.Linq;
+using Arcs;
 
 namespace Ship
 {
@@ -16,8 +18,13 @@ namespace Ship
             public RZ2AWing() : base()
             {
                 ShipInfo.ShipName = "RZ-2 A-wing";
+
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.SingleTurret, 2);
+
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
+
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction)));
+
                 ShipInfo.DefaultShipFaction = Faction.Resistance;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
 

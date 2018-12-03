@@ -19,7 +19,7 @@ namespace Ship
                     "TIE Reaper",
                     BaseSize.Small,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcType.Primary, 3), 1, 6, 2,
+                    new ShipArcsInfo(ArcType.Front, 3), 1, 6, 2,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(EvadeAction)),

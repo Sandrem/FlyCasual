@@ -17,7 +17,11 @@ namespace Ship.FirstEdition.ARC170
                 "ARC-170",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcType.Primary, 2), 1, 6, 3,
+                new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 2),
+                    new ShipArcInfo(ArcType.Rear, 2)
+                ),
+                1, 6, 3,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction))

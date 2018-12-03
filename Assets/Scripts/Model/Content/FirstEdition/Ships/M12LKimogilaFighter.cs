@@ -19,7 +19,11 @@ namespace Ship
                     "M12-L Kimogila Fighter",
                     BaseSize.Small,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcType.Primary, 3), 1, 6, 2,
+                    new ShipArcsInfo(
+                        new ShipArcInfo(ArcType.Front, 3),
+                        new ShipArcInfo(ArcType.Bullseye, 3)
+                    ),
+                    1, 6, 2,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

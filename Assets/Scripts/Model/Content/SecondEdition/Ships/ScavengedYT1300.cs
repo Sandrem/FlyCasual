@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
+using Arcs;
 using Movement;
 using Upgrade;
 
@@ -12,7 +13,8 @@ namespace Ship.SecondEdition.ScavengedYT1300
         public ScavengedYT1300() : base()
         {
             ShipInfo.ShipName = "Scavenged YT-1300";
-            ShipInfo.ArcInfo.Firepower = 3;
+
+            ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.DoubleTurret, 3);
             ShipInfo.Hull = 8;
             ShipInfo.Shields = 3;
 

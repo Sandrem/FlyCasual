@@ -4,6 +4,7 @@ using Movement;
 using ActionsList;
 using Upgrade;
 using Actions;
+using Arcs;
 
 namespace Ship
 {
@@ -14,6 +15,8 @@ namespace Ship
             public BTLS8KWing() : base()
             {
                 ShipInfo.ShipName = "BTL-S8 K-wing";
+
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.DoubleTurret, 2);
                 ShipInfo.Hull = 6;
                 ShipInfo.Shields = 3;
                 ShipInfo.BaseSize = BaseSize.Medium;

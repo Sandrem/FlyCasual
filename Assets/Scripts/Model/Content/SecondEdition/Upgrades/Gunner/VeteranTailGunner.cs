@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Gunner,
                 cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.VeteranTailGunnerAbility),
-                restriction: new ArcRestriction(ArcType.RearAux),
+                restriction: new ArcRestriction(ArcType.Rear),
                 seImageNumber: 51
             );
         }
@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
         {
             bool result = false;
 
-            if (Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.RearAux))
+            if (Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.Rear))
             {
                 result = true;
             }

@@ -19,7 +19,11 @@ namespace Ship
                     "JumpMaster 5000",
                     BaseSize.Large,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcType.Primary, 2), 2, 5, 4,
+                    new ShipArcsInfo(
+                        new ShipArcInfo(ArcType.Front, 2),
+                        new ShipArcInfo(ArcType.TurretPrimaryWeapon, 2)
+                    ),
+                    2, 5, 4,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

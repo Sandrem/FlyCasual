@@ -31,7 +31,7 @@ namespace Abilities.SecondEdition
         {
             if (IsAbilityUsed) return;
 
-            if (!(Combat.ShotInfo.InArcByType(ArcType.Mobile) && Combat.ShotInfo.InArcByType(ArcType.Primary))) return;
+            if (!(Combat.ShotInfo.InArcByType(ArcType.SingleTurret) && Combat.ShotInfo.InArcByType(ArcType.Front))) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AssignTractorBeamToken);
         }

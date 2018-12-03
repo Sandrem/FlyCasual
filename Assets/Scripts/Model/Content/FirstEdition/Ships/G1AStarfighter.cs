@@ -19,7 +19,7 @@ namespace Ship
                     "G-1A Starfighter",
                     BaseSize.Small,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcType.Primary, 3), 1, 4, 4,
+                    new ShipArcsInfo(ArcType.Front, 3), 1, 4, 4,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

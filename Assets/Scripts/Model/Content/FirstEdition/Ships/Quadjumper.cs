@@ -20,7 +20,7 @@ namespace Ship
                     "Quadjumper",
                     BaseSize.Small,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcType.Primary, 2), 2, 5, 0,
+                    new ShipArcsInfo(ArcType.Front, 2), 2, 5, 0,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(BarrelRollAction))

@@ -19,7 +19,7 @@ namespace Ship.FirstEdition.XWing
                 "X-wing",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcType.Primary, 3), 2, 3, 2,
+                new ShipArcsInfo(ArcType.Front, 3), 2, 3, 2,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction))

@@ -4,6 +4,7 @@ using Movement;
 using ActionsList;
 using Upgrade;
 using Actions;
+using Arcs;
 
 namespace Ship
 {
@@ -15,7 +16,7 @@ namespace Ship
             {
                 ShipInfo.ShipName = "HWK-290 Light Freighter";
 
-                ShipInfo.ArcInfo.Firepower = 2;
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.SingleTurret, 2);
                 ShipInfo.Hull = 3;
                 ShipInfo.Shields = 2;
 

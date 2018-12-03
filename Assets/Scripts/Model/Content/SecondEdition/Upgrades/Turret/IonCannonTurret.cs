@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
                     attackValue: 3,
                     minRange: 1,
                     maxRange: 2,
-                    arc: ArcType.Mobile
+                    arc: ArcType.SingleTurret
                 ),
                 abilityType: typeof(Abilities.FirstEdition.IonDamageAbility),
                 seImageNumber: 32

@@ -64,7 +64,7 @@ namespace Abilities.FirstEdition
                 if (Combat.AttackStep == CombatStep.Defence)
                 {
                     ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
-                    if (shotInfo.InArcByType(ArcType.Mobile)) result = true;
+                    if (shotInfo.InArcByType(ArcType.SingleTurret)) result = true;
                 }
                 return result;
             }

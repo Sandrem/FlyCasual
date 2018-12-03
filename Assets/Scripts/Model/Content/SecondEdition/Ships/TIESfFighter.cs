@@ -7,6 +7,7 @@ using Arcs;
 using Upgrade;
 using Ship;
 using Tokens;
+using System.Linq;
 
 namespace Ship
 {
@@ -17,6 +18,11 @@ namespace Ship
             public TIESfFighter() : base()
             {
                 ShipInfo.ShipName = "TIE/sf Fighter";
+
+                ShipInfo.ArcInfo = new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 2),
+                    new ShipArcInfo(ArcType.SingleTurret, 2)
+                );
 
                 ShipInfo.DefaultShipFaction = Faction.FirstOrder;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.FirstOrder };

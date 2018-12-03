@@ -19,7 +19,7 @@ namespace Ship
                     "M3-A Interceptor",
                     BaseSize.Small,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcType.Primary, 2), 3, 2, 1,
+                    new ShipArcsInfo(ArcType.Front, 2), 3, 2, 1,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

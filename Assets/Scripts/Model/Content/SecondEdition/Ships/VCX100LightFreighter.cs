@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
+using Arcs;
 using Movement;
 using Upgrade;
 
@@ -12,6 +13,8 @@ namespace Ship.SecondEdition.VCX100LightFreighter
         public VCX100LightFreighter() : base()
         {
             ShipInfo.ShipName = "VCX-100 Light Freighter";
+
+            ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.Front, 4);
 
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.System);
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);

@@ -13,7 +13,7 @@ namespace BoardTools
     {
         public bool IsShotAvailable { get; private set; }
         public bool InArc { get { return InArcInfo.Any(n => n.Value == true); } }
-        public bool InPrimaryArc { get { return InArcByType(ArcType.Primary); } }
+        public bool InPrimaryArc { get { return InArcByType(ArcType.Front); } }
 
         public RangeHolder NearestFailedDistance;
 

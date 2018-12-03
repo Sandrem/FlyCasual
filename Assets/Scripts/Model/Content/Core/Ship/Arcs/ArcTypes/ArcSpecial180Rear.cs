@@ -10,7 +10,7 @@ namespace Arcs
     {
         public ArcSpecial180Rear(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcType.Special180Rear;
+            ArcType = ArcType.FullRear;
             Facing = ArcFacing.Rear180;
 
             Limits = new Dictionary<Vector3, float>()

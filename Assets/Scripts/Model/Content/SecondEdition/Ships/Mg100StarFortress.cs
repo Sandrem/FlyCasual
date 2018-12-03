@@ -4,6 +4,7 @@ using Movement;
 using ActionsList;
 using Upgrade;
 using Actions;
+using Arcs;
 
 namespace Ship
 {
@@ -18,8 +19,10 @@ namespace Ship
                 ShipInfo.DefaultShipFaction = Faction.Resistance;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
 
-                ShipInfo.ArcInfo.Firepower = 3;
-                // Arcs
+                ShipInfo.ArcInfo = new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 3),
+                    new ShipArcInfo(ArcType.SingleTurret, 2)
+                );
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction)));

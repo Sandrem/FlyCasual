@@ -19,7 +19,11 @@ namespace Ship
                     "Firespray-31",
                     BaseSize.Large,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcType.Primary, 3), 2, 6, 4,
+                    new ShipArcsInfo(
+                        new ShipArcInfo(ArcType.Front, 3),
+                        new ShipArcInfo(ArcType.Rear, 3)
+                    ),
+                    2, 6, 4,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

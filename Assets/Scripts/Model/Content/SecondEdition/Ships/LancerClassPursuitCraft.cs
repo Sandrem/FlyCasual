@@ -1,4 +1,7 @@
-﻿namespace Ship
+﻿using Arcs;
+using System.Linq;
+
+namespace Ship
 {
     namespace SecondEdition.LancerClassPursuitCraft
     {
@@ -6,6 +9,8 @@
         {
             public LancerClassPursuitCraft() : base()
             {
+                ShipInfo.ArcInfo.Arcs.First(a => a.ArcType == ArcType.SingleTurret).Firepower = 2;
+
                 ShipInfo.Hull = 8;
                 ShipInfo.Shields = 2;
 

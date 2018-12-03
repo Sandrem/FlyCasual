@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
+using Arcs;
 using Movement;
 using Upgrade;
 
@@ -13,9 +14,11 @@ namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
         {
             ShipInfo.ShipName = "Customized YT-1300 Light Freighter";
 
+            ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.DoubleTurret, 2);
+
             ShipInfo.DefaultShipFaction = Faction.Scum;
             ShipInfo.FactionsAll = new List<Faction>() { Faction.Scum };
-            ShipInfo.ArcInfo.Firepower = 2;
+
             ShipInfo.Hull = 8;
             ShipInfo.Shields = 3;
 

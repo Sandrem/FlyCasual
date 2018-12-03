@@ -17,7 +17,11 @@ namespace Ship.FirstEdition.Hwk290
                 "HWK-290",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcType.Primary, 1), 2, 4, 1,
+                new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 1),
+                    new ShipArcInfo(ArcType.TurretPrimaryWeapon, 1)
+                ),
+                2, 4, 1,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction))

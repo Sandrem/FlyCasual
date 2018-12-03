@@ -18,7 +18,7 @@ namespace Upgrade
         public bool CanShootOutsideArc { get; private set; }
         public ArcType Arc { get; private set; }
 
-        public SpecialWeaponInfo(int attackValue, int minRange, int maxRange, Type requiresToken = null, Type spendsToken = null, int charges = 0, bool discard = false, bool twinAttack = false, bool canShootOutsideArc = false, ArcType arc = ArcType.Forward)
+        public SpecialWeaponInfo(int attackValue, int minRange, int maxRange, Type requiresToken = null, Type spendsToken = null, int charges = 0, bool discard = false, bool twinAttack = false, bool canShootOutsideArc = false, ArcType arc = ArcType.Front)
         {
             AttackValue = attackValue;
             MinRange = minRange;

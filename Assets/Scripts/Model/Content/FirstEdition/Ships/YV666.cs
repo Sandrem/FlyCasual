@@ -19,7 +19,11 @@ namespace Ship
                     "YV-666",
                     BaseSize.Large,
                     Faction.Scum,
-                    new ShipArcsInfo(ArcType.Primary, 3), 1, 6, 6,
+                    new ShipArcsInfo(
+                        new ShipArcInfo(ArcType.Front, 3),
+                        new ShipArcInfo(ArcType.FullFront, 3)
+                    ),
+                    1, 6, 6,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction))

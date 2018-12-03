@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
+using Arcs;
 using Upgrade;
 
 namespace Ship.SecondEdition.YT2400LightFreighter
@@ -12,7 +13,8 @@ namespace Ship.SecondEdition.YT2400LightFreighter
         {
             ShipInfo.ShipName = "YT-2400 Light Freighter";
 
-            ShipInfo.ArcInfo.Firepower = 4;
+            ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.DoubleTurret, 4);
+
             ShipInfo.Hull = 6;
             ShipInfo.Shields = 4;
 

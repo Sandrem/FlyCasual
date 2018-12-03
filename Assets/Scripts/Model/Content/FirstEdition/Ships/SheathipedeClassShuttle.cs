@@ -17,7 +17,11 @@ namespace Ship.FirstEdition.SheathipedeClassShuttle
                 "Sheathipede-class Shuttle",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcType.Primary, 2), 2, 4, 1,
+                new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 2),
+                    new ShipArcInfo(ArcType.Rear, 2)
+                ),
+                2, 4, 1,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),

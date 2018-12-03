@@ -19,7 +19,7 @@ namespace Ship
                     "TIE Punisher",
                     BaseSize.Small,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcType.Primary, 2), 1, 6, 3,
+                    new ShipArcsInfo(ArcType.Front, 2), 1, 6, 3,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

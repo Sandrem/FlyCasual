@@ -20,7 +20,7 @@ namespace Ship
                     "TIE Aggressor",
                     BaseSize.Small,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcType.Primary, 2), 2, 4, 1,
+                    new ShipArcsInfo(ArcType.Front, 2), 2, 4, 1,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

@@ -17,7 +17,11 @@ namespace Ship.FirstEdition.AuzituckGunship
                 "Auzituck Gunship",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcType.Primary, 3), 1, 6, 3,
+                new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 3),
+                    new ShipArcInfo(ArcType.FullFront, 3)
+                ),
+                1, 6, 3,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(ReinforceAftAction))

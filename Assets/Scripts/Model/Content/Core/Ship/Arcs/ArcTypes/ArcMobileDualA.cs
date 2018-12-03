@@ -50,7 +50,7 @@ namespace Arcs
 
         public ArcMobileDualA(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcType.Mobile;
+            ArcType = ArcType.SingleTurret;
 
             ShotPermissions = new ArcShotPermissions()
             {

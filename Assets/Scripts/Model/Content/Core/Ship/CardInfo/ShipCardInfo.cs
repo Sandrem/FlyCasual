@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ship
 {
@@ -9,8 +10,8 @@ namespace Ship
         public BaseSize BaseSize { get; set; }
         public Faction DefaultShipFaction { get; set; }
 
-        public ShipArcsInfo ArcInfo { get; private set; }
-        public int Firepower { get {return ArcInfo.Firepower; } }
+        public ShipArcsInfo ArcInfo { get; set; }
+        public int Firepower { get {return ArcInfo.Arcs.First().Firepower; } }
         public int Agility { get; private set; }
         public int Hull { get; set; }
         public int Shields { get; set; }

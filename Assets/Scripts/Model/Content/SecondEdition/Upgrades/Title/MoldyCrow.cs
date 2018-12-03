@@ -69,7 +69,7 @@ namespace Abilities.SecondEdition
 
         private void CheckWeakArc(ref int count)
         {
-            if (!Combat.ShotInfo.InArcByType(ArcType.Primary)) count--;
+            if (!Combat.ShotInfo.InArcByType(ArcType.Front)) count--;
         }
     }
 }

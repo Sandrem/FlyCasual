@@ -1,13 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Movement;
 using ActionsList;
 using Actions;
 using Upgrade;
 using Ship;
-using System;
-using SubPhases;
-using Abilities.FirstEdition;
+using Arcs;
 
 namespace Ship
 {
@@ -18,6 +15,8 @@ namespace Ship
             public LambdaClassT4AShuttle() : base()
             {
                 ShipInfo.ShipName = "Lambda-class T-4a Shuttle";
+
+                ShipInfo.ArcInfo.Arcs.Add(new ShipArcInfo(ArcType.Rear, 2));
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAftAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CoordinateAction)));

@@ -22,6 +22,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 85
                 );
+
+                ModelInfo.SkinName = "Inferno";
             }
         }
     }

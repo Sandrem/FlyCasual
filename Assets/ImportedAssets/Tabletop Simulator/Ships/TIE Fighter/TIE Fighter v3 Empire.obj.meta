@@ -1,16 +1,28 @@
 fileFormatVersion: 2
-guid: 22f6a22d059141e45a315865eba192f4
+guid: fa45e72e2cc3a004f93b176ba595689e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: default
+    100000: ship_tie_fighter_mesh
     100002: //RootNode
-    400000: default
+    100004: vfx_engine_flame1
+    100006: vfx_engine_flame2
+    400000: ship_tie_fighter_mesh
     400002: //RootNode
-    2100000: defaultMat
-    2300000: default
-    3300000: default
-    4300000: default
+    400004: vfx_engine_flame1
+    400006: vfx_engine_flame2
+    2100000: ship_tie_fighter_meshMat
+    2100002: vfx_engine_flame1Mat
+    2100004: vfx_engine_flame2Mat
+    2300000: ship_tie_fighter_mesh
+    2300002: vfx_engine_flame1
+    2300004: vfx_engine_flame2
+    3300000: ship_tie_fighter_mesh
+    3300002: vfx_engine_flame1
+    3300004: vfx_engine_flame2
+    4300000: ship_tie_fighter_mesh
+    4300002: vfx_engine_flame1
+    4300004: vfx_engine_flame2
   externalObjects: {}
   materials:
     importMaterials: 1

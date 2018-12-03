@@ -10,6 +10,8 @@ namespace Upgrade
     public class UpgradeCardInfo
     {
         private GenericUpgrade HostUpgrade;
+        private GenericShip HostShip;
+
         public string Name { get; private set; }
         public List<UpgradeType> UpgradeTypes { get; private set; }
         public int Cost { get; set; }
@@ -27,6 +29,9 @@ namespace Upgrade
         public List<UpgradeSlot> AddedSlots { get; private set; }
         public List<UpgradeType> ForbiddenSlots { get; private set; }
         public Dictionary<UpgradeType, int> CostReductionByType { get; private set; }
+        public int AddHull { get; private set; }
+        public int AddShields { get; private set; }
+        public int AddForce { get; private set; }
 
         public UpgradeCardInfo(
             string name,
@@ -90,6 +95,10 @@ namespace Upgrade
 
             CostReductionByType = new Dictionary<UpgradeType, int>();
             if (costReductionByType != null) CostReductionByType = costReductionByType;
+
+            AddHull = addHull;
+            AddShields = addShields;
+            AddForce = addForce;
         }
 
         public bool HasType(UpgradeType upgradeType)
@@ -100,7 +109,9 @@ namespace Upgrade
         public void InstallToShip(GenericUpgrade hostUpgrade)
         {
             HostUpgrade = hostUpgrade;
+            HostShip = hostUpgrade.HostShip;
 
+            AddStats();
             AddSlots();
             AddActions();
             AddAbilities();
@@ -108,9 +119,17 @@ namespace Upgrade
 
         public void RemoveFromShip()
         {
+            RemoveStats();
             RemoveSlots();
             RemoveActions();
             RemoveAbilities();
+        }
+
+        private void AddStats()
+        {
+            HostShip.ShipInfo.Hull += AddHull;
+            HostShip.ShipInfo.Shields += AddShields;
+            HostShip.PilotInfo.Force += AddForce;
         }
 
         private void AddSlots()
@@ -163,6 +182,13 @@ namespace Upgrade
             {
                 ability.InitializeForSquadBuilder(HostUpgrade);
             }
+        }
+
+        private void RemoveStats()
+        {
+            HostShip.ShipInfo.Hull -= AddHull;
+            HostShip.ShipInfo.Shields -= AddShields;
+            HostShip.PilotInfo.Force -= AddForce;
         }
 
         private void RemoveSlots()

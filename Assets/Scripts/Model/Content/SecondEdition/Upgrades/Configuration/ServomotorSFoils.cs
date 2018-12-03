@@ -101,24 +101,12 @@ namespace Abilities.SecondEdition
             HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ReduceNumberOfAttackDice;
         }
 
-        public override void ActivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.AddGrantedAction(new BoostAction(), HostUpgrade);
-            HostShip.ActionBar.AddActionLink(typeof(FocusAction), new BoostAction() { IsRed = true, Source = HostUpgrade });
-        }
-
         public override void DeactivateAbility()
         {
             base.DeactivateAbility();
             Phases.Events.OnGameStart -= TurnSFoilsToClosedPosition;
             TurnSFoilsToAttackPosition(HostShip);
             HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= ReduceNumberOfAttackDice;
-        }
-
-        public override void DeactivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(BoostAction), HostUpgrade);
-            HostShip.ActionBar.RemoveActionLink(typeof(FocusAction), typeof(BoostAction), HostUpgrade);
         }
 
         private void ReduceNumberOfAttackDice(ref int value)

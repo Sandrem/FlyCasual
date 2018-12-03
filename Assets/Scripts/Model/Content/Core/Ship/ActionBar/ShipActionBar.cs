@@ -121,9 +121,9 @@ namespace Ship
             LinkedActions.Add(new KeyValuePair<Type, GenericAction>(actionType, link));
         }
 
-        public void RemoveActionLink(Type actionType, Type linkedRedAction, GenericUpgrade source = null)
+        public void RemoveActionLink(Type actionType, Type linkedRedAction)
         {
-            KeyValuePair<Type, GenericAction> linkToRemove = LinkedActions.FirstOrDefault(n => n.Key == actionType && n.Value.GetType() == linkedRedAction && n.Value.Source == source);
+            KeyValuePair<Type, GenericAction> linkToRemove = LinkedActions.FirstOrDefault(n => n.Key == actionType && n.Value.GetType() == linkedRedAction);
             LinkedActions.Remove(linkToRemove);
         }
 

@@ -114,6 +114,15 @@ namespace Upgrade
 
                 HostUpgrade.HostShip.ActionBar.AddGrantedAction(addedAction, HostUpgrade);
             }
+
+            if (AddActionLink != null)
+            {
+                GenericAction linkedAction = (GenericAction)Activator.CreateInstance(AddActionLink.ActionLinkedType);
+                linkedAction.IsRed = (AddActionLink.LinkedColor == ActionColor.Red);
+                linkedAction.Host = HostUpgrade.HostShip;
+
+                HostUpgrade.HostShip.ActionBar.AddActionLink(AddActionLink.ActionType, linkedAction);
+            }
         }
 
         private void AddAbilities()
@@ -134,6 +143,11 @@ namespace Upgrade
             if (AddAction != null)
             {
                 HostUpgrade.HostShip.ActionBar.RemoveGrantedAction(AddAction.ActionType, HostUpgrade);
+            }
+
+            if (AddActionLink != null)
+            {
+                HostUpgrade.HostShip.ActionBar.RemoveActionLink(AddActionLink.ActionType, AddActionLink.ActionLinkedType);
             }
         }
 

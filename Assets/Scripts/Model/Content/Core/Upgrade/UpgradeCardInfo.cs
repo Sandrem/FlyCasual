@@ -26,6 +26,7 @@ namespace Upgrade
         public LinkedActionInfo AddActionLink { get; private set; }
         public List<UpgradeSlot> AddedSlots { get; private set; }
         public List<UpgradeType> ForbiddenSlots { get; private set; }
+        public Dictionary<UpgradeType, int> CostReductionByType { get; private set; }
 
         public UpgradeCardInfo(
             string name,
@@ -48,6 +49,7 @@ namespace Upgrade
             bool feIsLimitedPerShip = false,
             UpgradeType forbidSlot = UpgradeType.None,
             List<UpgradeType> forbidSlots = null,
+            Dictionary<UpgradeType, int> costReductionByType = null,
             int addShields = 0,
             int addHull = 0,
             int addForce = 0
@@ -55,13 +57,15 @@ namespace Upgrade
         {
             Name = name;
             Cost = cost;
-            AbilityTypes = new List<Type>() { abilityType };
             Charges = charges;
             RegensCharges = regensCharges;
             SEImageNumber = seImageNumber;
             WeaponInfo = weaponInfo;
             AddAction = addAction;
             AddActionLink = addActionLink;
+
+            AbilityTypes = new List<Type>();
+            if (abilityType != null) AbilityTypes.Add(abilityType);
 
             Limited = (isLimited) ? 1 : 0;
             if (limited != 0) Limited = limited;
@@ -83,6 +87,9 @@ namespace Upgrade
             ForbiddenSlots = new List<UpgradeType>();
             if (forbidSlot != UpgradeType.None) ForbiddenSlots.Add(forbidSlot);
             if (forbidSlots != null) ForbiddenSlots.AddRange(forbidSlots);
+
+            CostReductionByType = new Dictionary<UpgradeType, int>();
+            if (costReductionByType != null) CostReductionByType = costReductionByType;
         }
 
         public bool HasType(UpgradeType upgradeType)
@@ -94,14 +101,34 @@ namespace Upgrade
         {
             HostUpgrade = hostUpgrade;
 
+            AddSlots();
             AddActions();
             AddAbilities();
         }
 
         public void RemoveFromShip()
         {
+            RemoveSlots();
             RemoveActions();
             RemoveAbilities();
+        }
+
+        private void AddSlots()
+        {
+            AddedSlots.ForEach(slot => {
+                slot.GrantedBy = this;
+                HostUpgrade.HostShip.UpgradeBar.AddSlot(slot);
+            });
+
+            ForbiddenSlots.ForEach(type =>
+            {
+                HostUpgrade.HostShip.UpgradeBar.ForbidSlots(type);
+            });
+
+            foreach (var item in CostReductionByType)
+            {
+                HostUpgrade.HostShip.UpgradeBar.CostReduceByType(item.Key, item.Value);
+            }
         }
 
         private void AddActions()
@@ -135,6 +162,18 @@ namespace Upgrade
             foreach (GenericAbility ability in HostUpgrade.UpgradeAbilities)
             {
                 ability.InitializeForSquadBuilder(HostUpgrade);
+            }
+        }
+
+        private void RemoveSlots()
+        {
+            AddedSlots.ForEach(slot => HostUpgrade.HostShip.UpgradeBar.RemoveSlot(slot.Type, this));
+
+            ForbiddenSlots.ForEach(type => HostUpgrade.HostShip.UpgradeBar.AllowSlots(type));
+
+            foreach (var item in CostReductionByType)
+            {
+                HostUpgrade.HostShip.UpgradeBar.CostReduceByType(item.Key, -item.Value);
             }
         }
 

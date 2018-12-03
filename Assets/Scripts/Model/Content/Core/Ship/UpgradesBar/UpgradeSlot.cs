@@ -92,7 +92,7 @@ namespace Upgrade
         private void InstallUpgrade()
         {
             //TODO: Remove host paramater
-            InstalledUpgrade.AttachToShip(InstalledUpgrade.Host);
+            InstalledUpgrade.AttachToShip(InstalledUpgrade.HostShip);
         }
 
         //No more used ?

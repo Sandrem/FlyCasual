@@ -15,11 +15,10 @@ namespace UpgradesList.SecondEdition
                 "Tactical Officer",
                 UpgradeType.Crew,
                 cost: 2,
+                addAction: new ActionInfo(typeof(CoordinateAction)),
                 restriction: new ActionBarRestriction(new ActionInfo(typeof(CoordinateAction), ActionColor.Red)),
                 seImageNumber: 48
             );
-
-            UpgradeAbilities.Add(new GenericActionBarAbility<CoordinateAction>());
         }
     }
 }

@@ -73,7 +73,7 @@ namespace SubPhases
             AddDecision("Evade Token", AddEvade);
 
             ShowSkipButton = true;
-            RequiredPlayer = upgrade.Host.Owner.PlayerNo;
+            RequiredPlayer = upgrade.HostShip.Owner.PlayerNo;
 
             //Default AI behavior.
             DefaultDecisionName = GetDecisions().First().Name;
@@ -81,12 +81,12 @@ namespace SubPhases
 
         private void AddFocus(object sender, System.EventArgs e)
         {
-            HostUpgrade.Host.Tokens.AssignToken(typeof(FocusToken), DiscardUpgrade);
+            HostUpgrade.HostShip.Tokens.AssignToken(typeof(FocusToken), DiscardUpgrade);
         }
 
         private void AddEvade(object sender, System.EventArgs e)
         {
-            HostUpgrade.Host.Tokens.AssignToken(typeof(EvadeToken), DiscardUpgrade);
+            HostUpgrade.HostShip.Tokens.AssignToken(typeof(EvadeToken), DiscardUpgrade);
         }
 
         private void DiscardUpgrade()

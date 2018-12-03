@@ -21,7 +21,7 @@ namespace Ship
 
     public interface IShipWeapon
     {
-        GenericShip Host { get; set; }
+        GenericShip HostShip { get; set; }
         string Name { get; }
 
         int MinRange { get; set; }
@@ -36,7 +36,7 @@ namespace Ship
 
     public class PrimaryWeaponClass : IShipWeapon
     {
-        public GenericShip Host { get; set; }
+        public GenericShip HostShip { get; set; }
         public string Name { get; set; }
 
         public int MinRange { get; set; }
@@ -47,9 +47,9 @@ namespace Ship
         {
             get
             {
-                int result = Host.State.Firepower;
+                int result = HostShip.State.Firepower;
                 if (attackValue == int.MaxValue) Debug.Log(attackValue);
-                Host.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
+                HostShip.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
                 return result;
             }
             set { attackValue = value; }
@@ -58,12 +58,12 @@ namespace Ship
         public bool CanShootOutsideArc
         {
             set { }
-            get { return Host.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon; }
+            get { return HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon; }
         }
 
         public PrimaryWeaponClass(GenericShip host)
         {
-            Host = host;
+            HostShip = host;
             Name = "Primary Weapon";
 
             MinRange = 1;
@@ -74,7 +74,7 @@ namespace Ship
         {
             bool result = true;
 
-            ShotInfo shotInfo = new ShotInfo(Host, targetShip, this);
+            ShotInfo shotInfo = new ShotInfo(HostShip, targetShip, this);
             if (!CanShootOutsideArc)
             {
                 if (!shotInfo.IsShotAvailable) return false;

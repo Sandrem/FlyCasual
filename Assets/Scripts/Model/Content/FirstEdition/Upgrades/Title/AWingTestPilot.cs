@@ -26,7 +26,7 @@ namespace UpgradesList.FirstEdition
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
-            bool result = Host.PilotInfo.Initiative > 1;
+            bool result = HostShip.PilotInfo.Initiative > 1;
             if (!result) Messages.ShowError("You cannot equip \"A-Wing Test Pilot\" if pilot's skill is \"1\" or lower");
             return result;
         }

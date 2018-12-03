@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
                 "Hull Upgrade",
                 UpgradeType.Modification,
                 cost: 3,
-                abilityType: typeof(Abilities.FirstEdition.HullUpgradeAbility),
+                addHull: 1,
                 seImageNumber: 73
             );
         }

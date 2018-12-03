@@ -33,12 +33,12 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             AddDiceModification(
-            HostName,
-            IsDiceModificationAvailable,
-            GetDiceModificationPriority,
-            DiceModificationType.Reroll,
-            1
-        );
+                HostName,
+                IsDiceModificationAvailable,
+                GetDiceModificationPriority,
+                DiceModificationType.Reroll,
+                1
+            );
         }
 
         public override void DeactivateAbility()

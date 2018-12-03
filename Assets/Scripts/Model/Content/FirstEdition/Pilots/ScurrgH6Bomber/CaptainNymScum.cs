@@ -94,7 +94,7 @@ namespace Abilities.FirstEdition
 
         private void CheckIgnoreTimedBombs(GenericShip detonatedShip)
         {
-            if (BombsManager.CurrentBomb.Host.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+            if (BombsManager.CurrentBomb.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCheckSufferBombDetonation, AskToIgnoreTimedBomb);
             }

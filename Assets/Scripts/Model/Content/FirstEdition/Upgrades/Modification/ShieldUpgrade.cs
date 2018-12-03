@@ -10,22 +10,9 @@ namespace UpgradesList.FirstEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Shield Upgrade",
                 UpgradeType.Modification,
-                cost: 4
+                cost: 4,
+                addShields: 1
             );
-        }
-
-        public override void PreAttachToShip(GenericShip host)
-        {
-            base.PreAttachToShip(host);
-
-            Host.ShipInfo.Shields++;
-        }
-
-        public override void PreDettachFromShip()
-        {
-            base.PreDettachFromShip();
-
-            Host.ShipInfo.Shields--;
         }
     }
 }

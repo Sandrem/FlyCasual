@@ -12,6 +12,7 @@ namespace UpgradesList.SecondEdition
                 "Shield Upgrade",
                 UpgradeType.Modification,
                 cost: 4,
+                addShields: 1,
                 seImageNumber: 75
             );
         }
@@ -27,20 +28,6 @@ namespace UpgradesList.SecondEdition
             };
 
             UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];
-        }
-
-        public override void PreAttachToShip(GenericShip host)
-        {
-            base.PreAttachToShip(host);
-
-            Host.ShipInfo.Shields++;
-        }
-
-        public override void PreDettachFromShip()
-        {
-            base.PreDettachFromShip();
-
-            Host.ShipInfo.Shields--;
         }
     }
 }

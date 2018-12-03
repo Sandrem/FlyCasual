@@ -30,7 +30,7 @@ namespace UpgradesList.FirstEdition
         {
             base.PreDettachFromShip();
 
-            Host.State.RemovePilotSkillModifier(this);
+            HostShip.State.RemovePilotSkillModifier(this);
         }
 
         public void ModifyPilotSkill(ref int pilotSkill)

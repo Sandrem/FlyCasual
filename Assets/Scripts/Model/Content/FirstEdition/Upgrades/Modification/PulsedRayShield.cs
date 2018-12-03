@@ -27,7 +27,7 @@ namespace UpgradesList.FirstEdition
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
-            bool result = Host.ShipInfo.Shields == 1;
+            bool result = HostShip.ShipInfo.Shields == 1;
 
             if (!result) Messages.ShowError("Pulsed Ray Shield cannot be installed on ships where shield value is not 1!");
 

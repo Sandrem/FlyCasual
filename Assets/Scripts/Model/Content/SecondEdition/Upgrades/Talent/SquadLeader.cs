@@ -4,6 +4,7 @@ using Ship;
 using System.Linq;
 using SubPhases;
 using ActionsList;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,14 +17,17 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Talent,
                 cost: 4,
                 isLimited: true,
-                abilityType: typeof(Abilities.SecondEdition.SquadLeaderAbility),
+                addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Red),
+                //abilityType: typeof(Abilities.SecondEdition.SquadLeaderAbility),
                 seImageNumber: 16
             );
         }        
     }
 }
 
-namespace Abilities.SecondEdition
+// TODO: Change ability
+
+/*namespace Abilities.SecondEdition
 {
     //While you coordinate, the ship you choose can perform an action only if that action is also on your action bar.
     public class SquadLeaderAbility : GenericAbility
@@ -66,4 +70,4 @@ namespace Abilities.SecondEdition
             }
         }
     }
-}
+}*/

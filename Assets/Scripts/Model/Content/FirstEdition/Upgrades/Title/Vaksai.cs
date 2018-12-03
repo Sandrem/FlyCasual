@@ -36,7 +36,7 @@ namespace UpgradesList.FirstEdition
         {
             base.PreDettachFromShip();
 
-            foreach (var slot in Host.UpgradeBar.GetUpgradeSlots())
+            foreach (var slot in HostShip.UpgradeBar.GetUpgradeSlots())
             {
                 slot.CostDecrease--;
             }

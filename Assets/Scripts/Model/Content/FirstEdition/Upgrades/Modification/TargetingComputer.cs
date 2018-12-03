@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Abilities;
 using ActionsList;
+using Actions;
 
 namespace UpgradesList.FirstEdition
 {
@@ -11,10 +12,9 @@ namespace UpgradesList.FirstEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Targeting Computer",
                 UpgradeType.Modification,
-                cost: 2
+                cost: 2,
+                addAction: new ActionInfo(typeof(TargetLockAction))
             );
-
-            UpgradeAbilities.Add(new GenericActionBarAbility<TargetLockAction>());
         }
     }
 }

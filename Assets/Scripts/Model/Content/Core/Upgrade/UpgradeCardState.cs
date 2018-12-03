@@ -20,7 +20,7 @@ namespace Upgrade
         public UpgradeCardState(GenericUpgrade upgrade)
         {
             HostUpgrade = upgrade;
-            HostShip = upgrade.Host;
+            HostShip = upgrade.HostShip;
 
             IsFaceup = true;
             Charges = upgrade.UpgradeInfo.Charges;

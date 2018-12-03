@@ -22,10 +22,8 @@ namespace UpgradesList.FirstEdition
                 cost: 2,
                 addSlots: SlotTypes.Select(CreateSlot).ToList(),
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.M3AInterceptor.M3AInterceptor)),
-                abilityType: typeof(Abilities.FirstEdition.LightScykInterceptorAbility)
+                addHull: 1
             );
-
-            // TODO: +1 Hull
         }
 
         private UpgradeSlot CreateSlot(UpgradeType slotType)
@@ -42,7 +40,7 @@ namespace UpgradesList.FirstEdition
             SlotTypes
                 .Where(slot => slot != slotType)
                 .ToList()
-                .ForEach(slot => Host.UpgradeBar.RemoveSlot(slot, this));
+                .ForEach(slot => HostShip.UpgradeBar.RemoveSlot(slot, this));
         }
 
         private void UpgradeRemoved(UpgradeType slotType)
@@ -50,7 +48,7 @@ namespace UpgradesList.FirstEdition
             SlotTypes
                 .Where(slot => slot != slotType)
                 .ToList()
-                .ForEach(slot => Host.UpgradeBar.AddSlot(CreateSlot(slot)));
+                .ForEach(slot => HostShip.UpgradeBar.AddSlot(CreateSlot(slot)));
         }
     }
 }

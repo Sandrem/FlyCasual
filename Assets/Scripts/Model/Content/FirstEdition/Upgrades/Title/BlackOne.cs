@@ -30,7 +30,7 @@ namespace UpgradesList.FirstEdition
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
-            bool result = Host.PilotInfo.Initiative > 6;
+            bool result = HostShip.PilotInfo.Initiative > 6;
             if (!result) Messages.ShowError("You cannot equip \"Black One\" if pilot's skill is \"6\" or lower");
             return result;
         }

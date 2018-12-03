@@ -33,13 +33,13 @@ namespace Upgrade
         {
             base.PreDettachFromShip();
 
-            AddedSlots.ForEach(slot => Host.UpgradeBar.RemoveSlot(slot.Type, this));
+            AddedSlots.ForEach(slot => HostShip.UpgradeBar.RemoveSlot(slot.Type, this));
 
-            ForbiddenSlots.ForEach(type => Host.UpgradeBar.AllowSlots(type));
+            ForbiddenSlots.ForEach(type => HostShip.UpgradeBar.AllowSlots(type));
 
             foreach (var item in CostReductionByType)
             {
-                Host.UpgradeBar.CostReduceByType(item.Key, -item.Value);
+                HostShip.UpgradeBar.CostReduceByType(item.Key, -item.Value);
             }
         }
     }

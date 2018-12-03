@@ -54,7 +54,7 @@ namespace Abilities.FirstEdition
                 {
                     if (upgrade.GetType() == typeof(UpgradesList.FirstEdition.PhantomII))
                     {
-                        result = upgrade.Host;
+                        result = upgrade.HostShip;
                         break;
                     }
                 }

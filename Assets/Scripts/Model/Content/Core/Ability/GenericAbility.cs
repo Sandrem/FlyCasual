@@ -88,7 +88,7 @@ namespace Abilities
         public virtual void InitializeForSquadBuilder(GenericUpgrade hostUpgrade)
         {
             HostReal = hostUpgrade;
-            HostShip = hostUpgrade.Host;
+            HostShip = hostUpgrade.HostShip;
             HostUpgrade = hostUpgrade;
             Name = hostUpgrade.UpgradeInfo.Name + "'s ability";
 

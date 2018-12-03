@@ -118,7 +118,7 @@ namespace SubPhases
         {
             DiceKind = DiceKind.Attack;
             DiceCount = 1;
-            Selection.ActiveShip = scanvengerCraneUpgrade.Host;
+            Selection.ActiveShip = scanvengerCraneUpgrade.HostShip;
             AfterRoll = FinishAction;
         }
 
@@ -128,7 +128,7 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DieSide.Blank)
             {
-                Messages.ShowInfoToHuman(string.Format("{0} has to discard Scavenger Crane", scanvengerCraneUpgrade.Host.PilotName));
+                Messages.ShowInfoToHuman(string.Format("{0} has to discard Scavenger Crane", scanvengerCraneUpgrade.HostShip.PilotName));
                 scanvengerCraneUpgrade.TryDiscard(CallBack);
             }
             else

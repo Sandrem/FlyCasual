@@ -18,24 +18,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.StarViper.StarViper)),
                 addSlot: new UpgradeSlot(UpgradeType.Modification),
+                addShields: 1,
                 charges: 2,
                 abilityType: typeof(Abilities.SecondEdition.ViragoAbility),
                 seImageNumber: 155
             );
-        }
-
-        public override void PreAttachToShip(GenericShip host)
-        {
-            base.PreAttachToShip(host);
-
-            Host.ShipInfo.Shields++;
-        }
-
-        public override void PreDettachFromShip()
-        {
-            base.PreDettachFromShip();
-
-            Host.ShipInfo.Shields--;
         }
     }
 }

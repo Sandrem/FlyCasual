@@ -47,7 +47,7 @@ namespace Abilities.FirstEdition
 
         private void CheckCaptainNymAbility(GenericBomb bomb, GenericShip detonatedShip)
         {
-            if (CanUseAbility() && bomb.Host.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+            if (CanUseAbility() && bomb.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCheckPermissionToDetonate, AskToUseCaptainNymAbility);
             }

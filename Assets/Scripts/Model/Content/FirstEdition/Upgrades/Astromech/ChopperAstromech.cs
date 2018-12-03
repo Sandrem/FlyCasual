@@ -60,9 +60,9 @@ namespace Abilities.FirstEdition
             public override void PrepareDecision(System.Action callBack)
             {
                 InfoText = "Select upgrade to discard:";
-                RequiredPlayer = chopperUpgrade.Host.Owner.PlayerNo;
+                RequiredPlayer = chopperUpgrade.HostShip.Owner.PlayerNo;
 
-                var upgrades = chopperUpgrade.Host.UpgradeBar.GetUpgradesOnlyFaceup();
+                var upgrades = chopperUpgrade.HostShip.UpgradeBar.GetUpgradesOnlyFaceup();
                 foreach (var upgrade in upgrades)
                 {
                     if (upgrade != chopperUpgrade) AddDecision(upgrade.UpgradeInfo.Name, (s, e) => DiscardUpgrade(upgrade), upgrade.ImageUrl);
@@ -83,7 +83,7 @@ namespace Abilities.FirstEdition
 
             private void RestoreShield()
             {
-                chopperUpgrade.Host.TryRegenShields();
+                chopperUpgrade.HostShip.TryRegenShields();
                 ConfirmDecision();
             }
         }

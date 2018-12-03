@@ -74,7 +74,7 @@ namespace Abilities.FirstEdition
             UpgradesWithIllicitTokens.Add(upgrade);
             upgrade.NamePostfix += IllicitTokenMarker;
 
-            Roster.UpdateUpgradesPanel(upgrade.Host, upgrade.Host.InfoPanel);
+            Roster.UpdateUpgradesPanel(upgrade.HostShip, upgrade.HostShip.InfoPanel);
         }
 
         public void RemoveIllicitToken(GenericUpgrade upgrade)
@@ -82,7 +82,7 @@ namespace Abilities.FirstEdition
             UpgradesWithIllicitTokens.Remove(GenericUpgrade.CurrentUpgrade);
 
             GenericUpgrade.CurrentUpgrade.NamePostfix.Replace(IllicitTokenMarker, "");
-            Roster.UpdateUpgradesPanel(GenericUpgrade.CurrentUpgrade.Host, GenericUpgrade.CurrentUpgrade.Host.InfoPanel);
+            Roster.UpdateUpgradesPanel(GenericUpgrade.CurrentUpgrade.HostShip, GenericUpgrade.CurrentUpgrade.HostShip.InfoPanel);
         }
 
         private void CheckIllicitTokens()

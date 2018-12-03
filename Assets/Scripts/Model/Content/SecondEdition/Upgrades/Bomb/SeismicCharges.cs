@@ -35,7 +35,7 @@ namespace UpgradesList.SecondEdition
             {
                 Name = "Detonation of Seismic Charges",
                 TriggerType = TriggerTypes.OnAbilityDirect,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = StartSelectObstacle
             });
 
@@ -87,7 +87,7 @@ namespace UpgradesList.SecondEdition
             subphase.PrepareByParameters(
                 SelectObstacle,
                 TrySelectObstacle,
-                Host.Owner.PlayerNo,
+                HostShip.Owner.PlayerNo,
                 true,
                 UpgradeInfo.Name,
                 "Select obstacle to destroy",

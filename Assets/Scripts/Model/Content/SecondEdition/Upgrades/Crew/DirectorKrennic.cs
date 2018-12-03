@@ -6,6 +6,7 @@ using System.Linq;
 using Tokens;
 using ActionsList;
 using System;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Crew,
                 cost: 5,
                 isLimited: true,
+                addAction: new ActionInfo(typeof(TargetLockAction)),
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.DirectorKrennicAbility),
                 seImageNumber: 114
@@ -37,16 +39,6 @@ namespace Abilities.SecondEdition
         }
 
         protected override void SecondAbility() { }
-
-        public override void ActivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.AddGrantedAction(new TargetLockAction(), this.HostUpgrade);
-        }
-
-        public override void DeactivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(TargetLockAction), this.HostUpgrade);
-        }
 
         protected override bool CheckRequirements(GenericShip ship)
         {

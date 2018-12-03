@@ -72,7 +72,7 @@ namespace Upgrade
 
             int MinRangeUpdated = MinRange;
             int MaxRangeUpdated = MaxRange;
-            Host.CallUpdateWeaponRange(this, ref MinRangeUpdated, ref MaxRangeUpdated);
+            HostShip.CallUpdateWeaponRange(this, ref MinRangeUpdated, ref MaxRangeUpdated);
 
             if (!State.IsFaceup) return false;
 
@@ -81,14 +81,14 @@ namespace Upgrade
             int range;
             if (!CanShootOutsideArc)
             {
-                ShotInfo shotInfo = new ShotInfo(Host, targetShip, this);
+                ShotInfo shotInfo = new ShotInfo(HostShip, targetShip, this);
                 range = shotInfo.Range;
 
                 if (!shotInfo.IsShotAvailable) return false;
             }
             else
             {
-                DistanceInfo distanceInfo = new DistanceInfo(Host, targetShip);
+                DistanceInfo distanceInfo = new DistanceInfo(HostShip, targetShip);
                 range = distanceInfo.Range;
             }
 
@@ -99,18 +99,18 @@ namespace Upgrade
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
-                List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Host, targetShip);
-                GenericToken targetLockToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), letters.FirstOrDefault());
+                List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(HostShip, targetShip);
+                GenericToken targetLockToken = HostShip.Tokens.GetToken(typeof(BlueTargetLockToken), letters.FirstOrDefault());
                 if (targetLockToken != null) waysToPay.Add(targetLockToken);
 
-                Host.CallOnGenerateAvailableAttackPaymentList(waysToPay);
+                HostShip.CallOnGenerateAvailableAttackPaymentList(waysToPay);
 
                 if (waysToPay.Count == 0) return false;
             }
 
             if (RequiresFocusToShoot)
             {
-                if (!Host.Tokens.HasToken(typeof(FocusToken))) return false;
+                if (!HostShip.Tokens.HasToken(typeof(FocusToken))) return false;
             }
 
             return result;

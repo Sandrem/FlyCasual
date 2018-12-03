@@ -10,40 +10,8 @@ namespace UpgradesList.FirstEdition
                 "Hull Upgrade",
                 UpgradeType.Modification,
                 cost: 3,
-                abilityType: typeof(Abilities.FirstEdition.HullUpgradeAbility)
+                addHull: 1
             );
-        }
-    }
-}
-
-namespace Abilities.FirstEdition
-{
-    public class HullUpgradeAbility : GenericAbility
-    {
-        protected int HullIncrease = 1;
-
-        public HullUpgradeAbility()
-        {
-        }
-
-        public HullUpgradeAbility(int hullIncrease)
-        {
-            HullIncrease = hullIncrease;
-        }
-
-        public override void ActivateAbility()
-        {
-            HostShip.AfterGetMaxHull += IncreaseMaxHull;
-        }
-
-        public override void DeactivateAbility()
-        {
-            HostShip.AfterGetMaxHull -= IncreaseMaxHull;
-        }
-
-        private void IncreaseMaxHull(ref int maxHull)
-        {
-            maxHull += HullIncrease;
         }
     }
 }

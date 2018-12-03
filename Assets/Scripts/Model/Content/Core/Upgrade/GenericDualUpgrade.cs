@@ -19,7 +19,7 @@ namespace Upgrade
         {
             base.AttachToShip(host);
 
-            Host.OnShipIsPlaced += AskToSelectSide;
+            HostShip.OnShipIsPlaced += AskToSelectSide;
         }
 
         private void AskToSelectSide(GenericShip host)
@@ -102,7 +102,7 @@ namespace SubPhases
 
             DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 
-            DecisionOwner = Upgrade.Host.Owner;
+            DecisionOwner = Upgrade.HostShip.Owner;
 
             callBack();
         }
@@ -111,11 +111,11 @@ namespace SubPhases
         {
             if (Upgrade.GetType() != newUpgradeSide.GetType())
             {
-                Upgrade.Flip((otherSide) => otherSide.Host.CallOnAfterDualUpgradeSideSelected(otherSide));
+                Upgrade.Flip((otherSide) => otherSide.HostShip.CallOnAfterDualUpgradeSideSelected(otherSide));
             }
             else
             {
-                Upgrade.Host.CallOnAfterDualUpgradeSideSelected(Upgrade);
+                Upgrade.HostShip.CallOnAfterDualUpgradeSideSelected(Upgrade);
             }
             
             DecisionSubPhase.ConfirmDecision();

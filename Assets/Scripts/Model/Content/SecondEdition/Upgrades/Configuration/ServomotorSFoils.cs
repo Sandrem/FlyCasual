@@ -4,6 +4,7 @@ using ActionsList;
 using System;
 using SubPhases;
 using System.Collections.Generic;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,6 +16,8 @@ namespace UpgradesList.SecondEdition
                 "Servomotor S-Foils (Closed)",
                 UpgradeType.Configuration,
                 cost: 0,
+                addAction: new ActionInfo(typeof(BoostAction)),
+                addActionLink: new LinkedActionInfo(typeof(FocusAction), typeof(BoostAction)),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.T65XWing.T65XWing)),
                 abilityType: typeof(Abilities.SecondEdition.ServomotorSFoilsClosedAbility),
                 seImageNumber: 108

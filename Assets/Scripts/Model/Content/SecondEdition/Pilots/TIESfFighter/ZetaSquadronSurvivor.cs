@@ -10,10 +10,12 @@ namespace Ship
             {
                 PilotInfo = new PilotCardInfo(
                     "Zeta Squadron Survivor",
-                    1,
-                    1 //,
+                    2,
+                    34 //,
                       //seImageNumber: 120
-                );              
+                );
+
+                ImageUrl = "http://www.infinitearenas.com/xw2browse/images/first-order/zeta-squadron-survivor.jpg";
             }
         }
     }

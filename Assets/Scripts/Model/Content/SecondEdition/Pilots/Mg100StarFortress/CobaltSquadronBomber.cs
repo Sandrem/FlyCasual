@@ -1,10 +1,6 @@
-﻿using ActionsList;
-using Ship;
-using SubPhases;
-using System;
+﻿using Ship;
 using System.Collections;
 using System.Collections.Generic;
-using Upgrade;
 
 namespace Ship
 {
@@ -17,9 +13,13 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cobalt Squadron Bomber",
                     1,
-                    1 //,
+                    63 //,
                     //seImageNumber: 19
                 );
+
+                ModelInfo.SkinName = "Cobalt";
+
+                ImageUrl = "http://www.infinitearenas.com/xw2browse/images/resistance/cobalt-squadron-bomber.jpg";
             }
         }
     }

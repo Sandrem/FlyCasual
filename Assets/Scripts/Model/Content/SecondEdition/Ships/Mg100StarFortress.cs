@@ -14,11 +14,14 @@ namespace Ship
             public Mg100StarFortress() : base()
             {
                 ShipInfo.ShipName = "MG-100 Star Fortress";
+
+                ShipInfo.ArcInfo.Firepower = 3;
                 // Arcs
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction)));
 
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Crew);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 

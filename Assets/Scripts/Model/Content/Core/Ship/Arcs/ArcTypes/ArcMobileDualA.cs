@@ -8,7 +8,7 @@ using ActionsList;
 namespace Arcs
 {
 
-    public class ArcMobileDualA : GenericArc
+    public class ArcDualTurretA : GenericArc
     {
         private Transform MobileArcPointer;
 
@@ -48,7 +48,7 @@ namespace Arcs
         public override List<Vector3> Edges { get { return ActiveMobileSubArc.Edges; } }
         public override Dictionary<Vector3, float> Limits { get { return ActiveMobileSubArc.Limits; } }
 
-        public ArcMobileDualA(GenericShipBase shipBase) : base(shipBase)
+        public ArcDualTurretA(GenericShipBase shipBase) : base(shipBase)
         {
             ArcType = ArcType.SingleTurret;
 
@@ -141,11 +141,11 @@ namespace Arcs
             {
                 case ArcFacing.Forward:
                     MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[ArcFacing.Forward], 0f);
-                    (Host.ArcsInfo.Arcs.Find(a => a is ArcMobileDualB) as ArcMobileDualB).RotateArc(ArcFacing.Rear);
+                    (Host.ArcsInfo.Arcs.Find(a => a is ArcDualTurretB) as ArcDualTurretB).RotateArc(ArcFacing.Rear);
                     break;
                 case ArcFacing.Left:
                     MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[ArcFacing.Left], 0f);
-                    (Host.ArcsInfo.Arcs.Find(a => a is ArcMobileDualB) as ArcMobileDualB).RotateArc(ArcFacing.Right);
+                    (Host.ArcsInfo.Arcs.Find(a => a is ArcDualTurretB) as ArcDualTurretB).RotateArc(ArcFacing.Right);
                     break;
             }
             RuleSets.Edition.Current.RotateMobileFiringArc(facing);

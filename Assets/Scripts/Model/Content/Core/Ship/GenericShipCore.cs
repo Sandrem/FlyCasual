@@ -62,7 +62,6 @@ namespace Ship
 
         public GenericShipBase ShipBase { get; protected set; }
 
-        public BaseArcsType ShipBaseArcsType { get; set; }
         public ArcsHolder ArcsInfo { get; protected set; }
 
         public ShipUpgradeBar UpgradeBar { get; protected set; }
@@ -183,53 +182,39 @@ namespace Ship
 
         public void InitializeShipBaseArc()
         {
-            if (ArcsInfo != null)
-            {
-                List<GenericArc> oldArcs = new List<GenericArc>(ArcsInfo.Arcs);
-                foreach (var arc in oldArcs)
-                {
-                    arc.RemoveArc();
-                }
-            };
-
             ArcsInfo = new ArcsHolder(this);
-
-            switch (ShipBaseArcsType)
+            foreach (ShipArcInfo arc in ShipInfo.ArcInfo.Arcs)
             {
-                case BaseArcsType.ArcRear:
-                    ArcsInfo.Arcs.Add(new ArcRear(ShipBase));
-                    break;
-                case BaseArcsType.ArcSpecial180:
-                    ArcsInfo.Arcs.Add(new ArcSpecial180(ShipBase));
-                    break;
-                case BaseArcsType.Arc360:
-                    ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = true;
-                    break;
-                case BaseArcsType.ArcMobile:
-                    ArcsInfo.Arcs.Add(new ArcMobile(ShipBase));
-                    break;
-                case BaseArcsType.ArcMobileTurret:
-                    ArcMobile turretArc = new ArcMobile(ShipBase);
-                    turretArc.ShotPermissions.CanShootPrimaryWeapon = false;
-                    ArcsInfo.Arcs.Add(turretArc);
-                    break;
-                case BaseArcsType.ArcMobileOnly:
-                    ArcsInfo.Arcs.Add(new ArcMobile(ShipBase));
-                    DisablePrimaryFiringArc();
-                    break;
-                case BaseArcsType.ArcMobileDual:
-                    ArcsInfo.Arcs.Add(new ArcMobileDualA(ShipBase));
-                    ArcsInfo.Arcs.Add(new ArcMobileDualB(ShipBase));
-                    DisablePrimaryFiringArc();
-                    break;
-                case BaseArcsType.ArcBullseye:
-                    ArcsInfo.Arcs.Add(new ArcBullseye(ShipBase));
-                    break;
-                case BaseArcsType.ArcSpecialGhost:
-                    ArcsInfo.Arcs.Add(new ArcSpecialGhost(ShipBase));
-                    break;
-                default:
-                    break;
+                switch (arc.ArcType)
+                {
+                    case ArcType.Front:
+                        ArcsInfo.Arcs.Add(new ArcPrimary(ShipBase));
+                        break;
+                    case ArcType.Rear:
+                        ArcsInfo.Arcs.Add(new ArcRear(ShipBase));
+                        break;
+                    case ArcType.FullFront:
+                        ArcsInfo.Arcs.Add(new ArcFullFront(ShipBase));
+                        break;
+                    case ArcType.SingleTurret:
+                        ArcsInfo.Arcs.Add(new ArcSingleTurret(ShipBase));
+                        break;
+                    case ArcType.DoubleTurret:
+                        ArcsInfo.Arcs.Add(new ArcDualTurretA(ShipBase));
+                        ArcsInfo.Arcs.Add(new ArcDualTurretB(ShipBase));
+                        break;
+                    case ArcType.Bullseye:
+                        ArcsInfo.Arcs.Add(new ArcBullseye(ShipBase));
+                        break;
+                    case ArcType.TurretPrimaryWeapon:
+                        ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = true;
+                        break;
+                    case ArcType.SpecialGhost:
+                        ArcsInfo.Arcs.Add(new ArcSpecialGhost(ShipBase));
+                        break;
+                    default:
+                        break;
+                }
             }
 
             Edition.Current.AdaptArcsToRules(this);

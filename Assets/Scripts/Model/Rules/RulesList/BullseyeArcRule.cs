@@ -19,7 +19,7 @@ namespace RulesList
             {
                 if (Combat.AttackStep == CombatStep.Defence && Combat.Defender.ShipId == ship.ShipId)
                 {
-                    if (Combat.Attacker.ShipBaseArcsType == BaseArcsType.ArcBullseye)
+                    if (Combat.Attacker.ArcsInfo.HasArc(ArcType.Bullseye))
                     {
                         if (Combat.ShotInfo.InArcByType(ArcType.Bullseye))
                         {

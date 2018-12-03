@@ -29,13 +29,13 @@ namespace Abilities.SecondEdition
     {
         private int tokenCount = 0;
 
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            HostShip.ShipInfo.ArcInfo.Arcs.Add(new ShipArcInfo(ArcType.Front, 3));
+        }
+
         public override void ActivateAbility()
         {
-            HostShip.ChangeFirepowerBy(1);
-
-            HostShip.ShipBaseArcsType = BaseArcsType.ArcMobile;
-
-            HostShip.AfterGotNumberOfAttackDice += CheckWeakArc;
             HostShip.BeforeRemovingTokenInEndPhase += KeepTwoFocusTokens;
             Phases.Events.OnEndPhaseStart_NoTriggers += OnEndPhaseStart_NoTriggers;
         }
@@ -45,11 +45,14 @@ namespace Abilities.SecondEdition
             tokenCount = 0;
         }
 
+        public override void DeactivateAbilityForSquadBuilder()
+        {
+            HostShip.ShipInfo.ArcInfo.Arcs.RemoveAll(a => a.ArcType == ArcType.Front);
+        }
+
+
         public override void DeactivateAbility()
         {
-            HostShip.ChangeFirepowerBy(-1);
-            HostShip.ArcsInfo.Arcs.RemoveAll(arc => arc is ArcPrimary);
-            HostShip.AfterGotNumberOfAttackDice -= CheckWeakArc;
             HostShip.BeforeRemovingTokenInEndPhase -= KeepTwoFocusTokens;
             Phases.Events.OnEndPhaseStart_NoTriggers -= OnEndPhaseStart_NoTriggers;
         }
@@ -65,11 +68,6 @@ namespace Abilities.SecondEdition
             {
                 if (token is FocusToken) remove = true;
             }
-        }
-
-        private void CheckWeakArc(ref int count)
-        {
-            if (!Combat.ShotInfo.InArcByType(ArcType.Front)) count--;
         }
     }
 }

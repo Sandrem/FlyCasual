@@ -166,9 +166,10 @@ namespace RuleSets
         {
             ArcBullseye arcBullseye = new ArcBullseye(ship.ShipBase);
 
-            ArcPrimary arcPrimary = ship.ArcsInfo.GetArc<ArcPrimary>();
+            // TODOREVERT
+            /*ArcPrimary arcPrimary = ship.ArcsInfo.GetArc<ArcPrimary>();
             arcBullseye.ShotPermissions.CanShootPrimaryWeapon = arcPrimary.ShotPermissions.CanShootPrimaryWeapon;
-            arcBullseye.ShotPermissions.CanShootTurret = arcPrimary.ShotPermissions.CanShootTurret;
+            arcBullseye.ShotPermissions.CanShootTurret = arcPrimary.ShotPermissions.CanShootTurret;*/
 
             ship.ArcsInfo.Arcs.Add(arcBullseye);
         }
@@ -199,7 +200,8 @@ namespace RuleSets
             {
                 (upgrade as IShipWeapon).CanShootOutsideArc = false;
 
-                upgrade.HostShip.ShipBaseArcsType = BaseArcsType.ArcMobileTurret;
+                // TODOREVERT
+                //upgrade.HostShip.ShipBaseArcsType = BaseArcsType.ArcMobileTurret;
             }
         }
 
@@ -256,7 +258,7 @@ namespace RuleSets
             bool result = false;
 
             List<GenericArc> savedArcs = Combat.Defender.ArcsInfo.Arcs;
-            Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(Combat.Defender.ShipBase) };
+            Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullFront(Combat.Defender.ShipBase) };
             ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
             bool inForward180Arc = reverseShotInfo.InArc;
 

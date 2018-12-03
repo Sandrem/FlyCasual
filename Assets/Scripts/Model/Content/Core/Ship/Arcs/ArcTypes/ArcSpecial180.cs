@@ -6,9 +6,9 @@ using Ship;
 
 namespace Arcs
 {
-    public class ArcSpecial180 : GenericArc
+    public class ArcFullFront : GenericArc
     {
-        public ArcSpecial180(GenericShipBase shipBase) : base(shipBase)
+        public ArcFullFront(GenericShipBase shipBase) : base(shipBase)
         {
             ArcType = ArcType.SpecialGhost;
             Facing = ArcFacing.Front180;

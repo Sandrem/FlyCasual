@@ -6,20 +6,6 @@ using Ship;
 
 namespace Arcs
 {
-    public enum BaseArcsType
-    {
-        ArcDefault,
-        ArcRear,
-        ArcSpecial180,
-        Arc360,
-        ArcMobile,
-        ArcMobileOnly,
-        ArcMobileDual,
-        ArcMobileTurret,
-        ArcBullseye,
-        ArcSpecialGhost
-    }
-
     public enum ArcType
     {
         None,
@@ -103,20 +89,26 @@ namespace Arcs
 
     public class ArcsHolder
     {
+        private readonly GenericShip HostShip;
         public List<GenericArc> Arcs { get; set; }
 
-        public ArcsHolder(GenericShip host)
+        public ArcsHolder(GenericShip hostShip)
         {
+            HostShip = hostShip;
             Arcs = new List<GenericArc>
             {
-                new ArcPrimary(host.ShipBase),
-                new OutOfArc(host.ShipBase)
+                new OutOfArc(hostShip.ShipBase)
             };
         }
 
         public T GetArc<T>() where T : GenericArc
         {
             return (T)Arcs.FirstOrDefault(n => n.GetType() == typeof(T));
+        }
+
+        public bool HasArc(ArcType arcType)
+        {
+            return HostShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == arcType);
         }
 
     }

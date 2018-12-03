@@ -8,7 +8,7 @@ using ActionsList;
 namespace Arcs
 {
 
-    public class ArcMobile : GenericArc
+    public class ArcSingleTurret : GenericArc
     {
         private Transform MobileArcPointer;
 
@@ -48,7 +48,7 @@ namespace Arcs
         public override List<Vector3> Edges { get { return ActiveMobileSubArc.Edges; } }
         public override Dictionary<Vector3, float> Limits { get { return ActiveMobileSubArc.Limits; } }
 
-        public ArcMobile(GenericShipBase shipBase) : base(shipBase)
+        public ArcSingleTurret(GenericShipBase shipBase) : base(shipBase)
         {
             ArcType = ArcType.SingleTurret;
 

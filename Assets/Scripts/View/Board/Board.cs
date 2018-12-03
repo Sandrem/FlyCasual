@@ -242,7 +242,7 @@ namespace BoardTools
             List<GenericArc> savedArcs = from.ArcsInfo.Arcs;
 
             if (facing == ArcFacing.Front180)
-                from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+                from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullFront(from.ShipBase) };
             else
                 from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
 
@@ -256,7 +256,7 @@ namespace BoardTools
         {
             List<GenericArc> savedArcs = from.ArcsInfo.Arcs;
 
-            from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+            from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullFront(from.ShipBase) };
             ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
             bool inForward180Arc = reverseShotInfo.InArc;
 

@@ -70,8 +70,7 @@ namespace Upgrade
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            // TODO
-            return true;
+            return ship.ShipInfo.ActionIcons.Actions.Any(a => a.ActionType == Action.ActionType && (Action.Color == ActionColor.White || a.Color == Action.Color));
         }
     }
 

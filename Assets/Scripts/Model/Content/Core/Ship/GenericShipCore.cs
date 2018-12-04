@@ -110,6 +110,52 @@ namespace Ship
             TargetLockMaxRange = 3;
         }
 
+        public GenericShip(JSONObject ship, JSONObject pilot)        {            IconicPilots = new Dictionary<Faction, Type>();
+            RequiredMods = new List<Type>();
+            Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
+            UpgradeBar = new ShipUpgradeBar(this);
+            Tokens = new TokensManager(this);
+            ActionBar = new ShipActionBar(this);
+
+            TargetLockMinRange = 0;
+            TargetLockMaxRange = 3;
+
+            //Set values from JSON data here
+            //Console.Write(ship.ToString());            if (ship.HasField("ManeuversImageUrl")) { ManeuversImageUrl = ship["ManeuversImageUrl"].str; }            else { ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/8e/MI_TIE-INTERCEPTOR.png"; }            ShipInfo = new ShipCardInfo(ship);
+
+            //Console.Write("Loading Manuevers");
+            foreach (string key in ship["manuevers"].keys)            {                switch (ship["manuevers"][key].str)                {                    case "Complex":                        Maneuvers.Add(key, Movement.MovementComplexity.Complex);                        break;                    case "Easy":                        Maneuvers.Add(key, Movement.MovementComplexity.Easy);                        break;                    default:                        Maneuvers.Add(key, Movement.MovementComplexity.Normal);                        break;                }            }            HotacManeuverTable = new AI.TIEInterceptorTable(); //Need to build a mapping or better option for this.
+
+            //Console.Write("Loading Graphic Information");
+            if (ship.HasField("SkinName")) { SkinName = ship["SkinName"].str; }            else { SkinName = "Gray"; }
+
+            if (ship.HasField("SoundShotsPath")) { SoundShotsPath = ship["SoundShotsPath"].str; }            else { SoundShotsPath = "TIE-Fire"; }            if (ship.HasField("ShotsCount")) { ShotsCount = (int)ship["ShotsCount"].i; }            else { ShotsCount = 2; }
+
+            if (ship.HasField("SoundFlyPathsNum") && ship.HasField("SoundFlyPaths"))            {                for (int i = 1; i < (int)ship["SoundFlyPathsNum"].i; i++)                {                    SoundFlyPaths.Add(ship["SoundFlyPaths"].str + i);                }            }
+            else
+            {
+                for (int i = 1; i < 8; i++)                {                    SoundFlyPaths.Add("TIE-Fly" + i);                }            }
+            //IconicPilots.Add(Faction.Imperial, typeof(TIEFighter.BlackSquadronPilot)); //need a better solution for this
+
+            if (pilot != null)            {
+                //Console.Write(pilot.ToString());
+                switch (pilot["faction"].str)                {                    case "Galactic Empire":                        faction = Faction.Imperial;                        break;                    case "Rebel Alliance":                        faction = Faction.Rebel;                        break;                    case "Scum and Villainy":                        faction = Faction.Scum;                        break;                    default:                        Console.Write("Faction type unknown: " + pilot["faction"].str);                        break;                }                PilotName = pilot["name"].str;                PilotSkill = (int)pilot["initiative"].i;                Cost = (int)pilot["cost"].i;                if (pilot["limited"].i == 1) { IsUnique = true; }
+
+                foreach (JSONObject slot in pilot["slots"].list)                {                    switch (slot.str)                    {                        case "Talent":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Elite);                            break;                        case "Force Power":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Force);                            break;                        case "Modification":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Modification);                            break;
+                        case "Sensor":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.System);                            break;                        case "Cannon":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Cannon);                            break;                        case "Missile":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Missile);                            break;
+                        case "Device":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Bomb);                            break;                        case "Torpedo":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Torpedo);                            break;
+                        case "Crew":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Crew);                            break;                        case "Gunner":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Gunner);                            break;
+                        case "Astromech":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Astromech);                            break;
+                        case "Illicit":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Illicit);                            break;                        case "Title":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Title);                            break;
+                        case "Configuration":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Configuration);                            break;
+                        case "Turret":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Turret);                            break;
+                        case "Tech":                            PrintedUpgradeIcons.Add(Upgrade.UpgradeType.Tech);                            break;                        default:                            Console.Write("Upgrade type unknown: " + slot.str);                            break;                    } //Need to add the rest
+                }
+
+                //PilotAbilities.Add(new Abilities.SecondEdition.SoontirFelAbilitySE()); //Need a linking system for Pilot special abilities
+
+                if (pilot.HasField("SkinName")) { SkinName = pilot["SkinName"].str; }                SEImageNumber = (int)pilot["ffg"].i;            }        }
+
         public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
         {
             Owner = Roster.GetPlayer(playerNo);

@@ -100,8 +100,7 @@ namespace Upgrade
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            // TODO
-            return true;
+            return ship.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType);
         }
     }
 

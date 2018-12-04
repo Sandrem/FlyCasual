@@ -54,7 +54,11 @@ namespace Upgrade
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            // TODO
+            foreach (UpgradeType upgrade in UpgradeSlots)
+            {
+                if (!ship.ShipInfo.UpgradeIcons.Upgrades.Contains(upgrade)) return false;
+            }
+
             return true;
         }
     }

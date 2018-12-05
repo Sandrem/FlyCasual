@@ -1,0 +1,87 @@
+{
+   "FlyCasualModel" : "M12-L Kimogila Fighter",
+   "FlyCasualType" : "M12-L Kimogila Fighter",
+   "HotacManeuverTable" : "M12LKimogilaTable",
+   "IconicPilots" : {
+      "Scum" : "CartelExecutioner"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/3e/Maneuver_kimogila.png",
+   "ModelName" : "M12-L Kimogila Fighter",
+   "MovementSoundNames" : [
+      "XWing-Fly1",
+      "XWing-Fly2",
+      "XWing-Fly3"
+   ],
+   "ShipAbilities" : [
+      "Abilities.SecondEdition.DeadToRights"
+   ],
+   "ShotsCount" : "3",
+   "ShotsName" : "XWing-Laser",
+   "SkinName" : "Hutt Cartel",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "Red",
+         "type" : "Barrel Roll"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Reload"
+      }
+   ],
+   "factions" : {
+      "Scum and Villainy" : "TRUE"
+   },
+   "ffg" : 39,
+   "manuevers" : {
+      "1.F.S" : "Easy",
+      "1.L.B" : "Normal",
+      "1.L.T" : "Complex",
+      "1.R.B" : "Normal",
+      "1.R.T" : "Complex",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Normal",
+      "3.L.T" : "Normal",
+      "3.R.B" : "Normal",
+      "3.R.T" : "Normal",
+      "4.F.R" : "Complex"
+   },
+   "name" : "M12-L Kimogila Fighter",
+   "shipAbility" : {
+      "name" : "Dead to Rights",
+      "text" : "While you perform an attack, if the defender is in your [Bullseye Arc], defense dice cannot be modified using green tokens."
+   },
+   "size" : "Medium",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 3
+      },
+      {
+         "type" : "agility",
+         "value" : 1
+      },
+      {
+         "type" : "hull",
+         "value" : 7
+      },
+      {
+         "type" : "shields",
+         "value" : 2
+      }
+   ],
+   "xws" : "m12lkimogilafighter"
+}

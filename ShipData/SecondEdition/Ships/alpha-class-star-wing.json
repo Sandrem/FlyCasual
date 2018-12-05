@@ -1,0 +1,78 @@
+{
+   "FlyCasualModel" : "Alpha-class Star Wing",
+   "FlyCasualType" : "Alpha-class Star Wing",
+   "HotacManeuverTable" : "AlphaClassStarWingTable",
+   "IconicPilots" : {
+      "Imperial" : "MajorVynder"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/ce/Maneuver_alpha-class_star_wing.png",
+   "ModelName" : "Alpha-class Star Wing",
+   "MovementSoundNames" : [
+      "Slave1-Fly1",
+      "Slave1-Fly2"
+   ],
+   "ShotsCount" : "2",
+   "ShotsName" : "Slave1-Fire",
+   "SkinName" : "Gray",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "SLAM"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Reload"
+      }
+   ],
+   "factions" : {
+      "Galactic Empire" : "TRUE"
+   },
+   "ffg" : 14,
+   "manuevers" : {
+      "1.F.S" : "Easy",
+      "1.L.B" : "Normal",
+      "1.R.B" : "Normal",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Normal",
+      "3.L.B" : "Normal",
+      "3.L.T" : "Normal",
+      "3.R.B" : "Normal",
+      "3.R.T" : "Normal",
+      "4.F.S" : "Complex"
+   },
+   "name" : "Alpha-class Star Wing",
+   "shipAbility" : null,
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 2
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 4
+      },
+      {
+         "type" : "shields",
+         "value" : 3
+      }
+   ],
+   "xws" : "alphaclassstarwing"
+}

@@ -1,0 +1,400 @@
+{
+   "\"Howlrunner\"" : {
+      "AbilityType" : "HowlrunnerAbility",
+      "ability" : "While a friendly ship at range 0-1 performs a primary attack, that ship may reroll 1 attack die.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_81.jpg",
+      "caption" : "Obsidian Leader",
+      "charges" : null,
+      "cost" : 40,
+      "faction" : "Galactic Empire",
+      "ffg" : 81,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_81.png",
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "\"Howlrunner\"",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "howlrunner"
+   },
+   "\"Mauler\" Mithel" : {
+      "AbilityType" : "MaulerMithelAbility",
+      "ability" : "While you perform an attack at attack range 1, roll 1 additional attack die.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_80.jpg",
+      "caption" : "Black Two",
+      "charges" : null,
+      "cost" : 32,
+      "faction" : "Galactic Empire",
+      "ffg" : 80,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_80.png",
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "\"Mauler\" Mithel",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "maulermithel"
+   },
+   "\"Night Beast\"" : {
+      "ability" : "After you fully execute a blue maneuver, you may perform a [Focus] action.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_88.jpg",
+      "caption" : "Obsidian Two",
+      "charges" : null,
+      "cost" : 26,
+      "faction" : "Galactic Empire",
+      "ffg" : 88,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_88.png",
+      "initiative" : 2,
+      "limited" : 1,
+      "name" : "\"Night Beast\"",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Modification"
+      ],
+      "xws" : "nightbeast"
+   },
+   "\"Scourge\" Skutu" : {
+      "AbilityType" : "ScourgeSkutuAbility",
+      "ability" : "While you perform an attack against a defender in your [Bullseye Arc], roll 1 additional attack die.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_82.jpg",
+      "caption" : "Seasoned Veteran",
+      "charges" : null,
+      "cost" : 32,
+      "faction" : "Galactic Empire",
+      "ffg" : 82,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_82.png",
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "\"Scourge\" Skutu",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "scourgeskutu"
+   },
+   "\"Wampa\"" : {
+      "AbilityType" : "WampaAbility",
+      "ability" : "While you perform an attack, you may spend 1 [Charge] to roll 1 additional attack die. After defending, lose 1 [Charge].",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_89.jpg",
+      "caption" : "Black Eleven",
+      "charges" : {
+         "recovers" : 1,
+         "value" : 1
+      },
+      "cost" : 30,
+      "faction" : "Galactic Empire",
+      "ffg" : 89,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_89.png",
+      "initiative" : 1,
+      "limited" : 1,
+      "name" : "\"Wampa\"",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Modification"
+      ],
+      "xws" : "wampa"
+   },
+   "\"Zeb\" Orrelios" : {
+      "AbilityType" : "Abilities.FirstEdition.ZebOrreliosPilotAbility",
+      "SkinName" : "Rebel",
+      "ability" : "While you defend, [Critical Hit] results are neutralized before [Hit] results.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_49.jpg",
+      "caption" : "Spectre-4",
+      "charges" : null,
+      "cost" : 26,
+      "faction" : "Rebel Alliance",
+      "ffg" : 49,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_49.png",
+      "initiative" : 2,
+      "limited" : 1,
+      "name" : "\"Zeb\" Orrelios",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Modification"
+      ],
+      "xws" : "zeborrelios-tielnfighter"
+   },
+   "Academy Pilot" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_92.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 23,
+      "faction" : "Galactic Empire",
+      "ffg" : 92,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_92.png",
+      "initiative" : 1,
+      "limited" : 0,
+      "name" : "Academy Pilot",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Modification"
+      ],
+      "xws" : "academypilot"
+   },
+   "Black Squadron Ace" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_90.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 26,
+      "faction" : "Galactic Empire",
+      "ffg" : 90,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_90.png",
+      "initiative" : 3,
+      "limited" : 0,
+      "name" : "Black Squadron Ace",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "blacksquadronace"
+   },
+   "Captain Rex" : {
+      "AbilityType" : "Abilities.SecondEdition.CaptainRexPilotAbility",
+      "SkinName" : "Rebel",
+      "ability" : "After you perform an attack, assign the Suppressive Fire condition to the defender.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_48.jpg",
+      "caption" : "Clone Wars Veteran",
+      "charges" : null,
+      "cost" : 32,
+      "faction" : "Rebel Alliance",
+      "ffg" : 48,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_48.png",
+      "initiative" : 2,
+      "limited" : 1,
+      "name" : "Captain Rex",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Modification"
+      ],
+      "xws" : "captainrex"
+   },
+   "Del Meeko" : {
+      "AbilityType" : "DelMeekoAbility",
+      "ability" : "While a friendly ship at range 0-2 defends against a damaged attacker, the defender may reroll 1 defense die.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_85.jpg",
+      "caption" : "Inferno Three",
+      "charges" : null,
+      "cost" : 30,
+      "faction" : "Galactic Empire",
+      "ffg" : 85,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_85.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Del Meeko",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "delmeeko"
+   },
+   "Ezra Bridger" : {
+      "AbilityType" : "Abilities.SecondEdition.EzraBridgerPilotAbility",
+      "SkinName" : "Rebel",
+      "ability" : "While you defend or perform an attack, if you are stressed, you may spend 1 [Force] to change up to 2 of your [Focus] results to [Evade] or [Hit] results.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_46.jpg",
+      "caption" : "Spectre-6",
+      "charges" : null,
+      "cost" : 32,
+      "faction" : "Rebel Alliance",
+      "ffg" : 46,
+      "force" : {
+         "recovers" : 1,
+         "side" : "light",
+         "value" : 1
+      },
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_46.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Ezra Bridger",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Force Power",
+         "Modification"
+      ],
+      "xws" : "ezrabridger-tielnfighter"
+   },
+   "Gideon Hask" : {
+      "AbilityType" : "ScourgeAbility",
+      "ability" : "While you perform an attack against a damaged defender, roll 1 additional attack die.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_84.jpg",
+      "caption" : "Inferno Two",
+      "charges" : null,
+      "cost" : 30,
+      "faction" : "Galactic Empire",
+      "ffg" : 84,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_84.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Gideon Hask",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "gideonhask"
+   },
+   "Iden Versio" : {
+      "AbilityType" : "IdenVersioAbility",
+      "ability" : "Before a friendly TIE/ln fighter at range 0-1 would suffer 1 or more damage, you may spend 1 [Charge]. If you do, prevent that damage.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_83.jpg",
+      "caption" : "Inferno Leader",
+      "charges" : {
+         "recovers" : 0,
+         "value" : 1
+      },
+      "cost" : 40,
+      "faction" : "Galactic Empire",
+      "ffg" : 83,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_83.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Iden Versio",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "idenversio"
+   },
+   "Obsidian Squadron Pilot" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_91.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 24,
+      "faction" : "Galactic Empire",
+      "ffg" : 91,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_91.png",
+      "initiative" : 2,
+      "limited" : 0,
+      "name" : "Obsidian Squadron Pilot",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Modification"
+      ],
+      "xws" : "obsidiansquadronpilot"
+   },
+   "Sabine Wren" : {
+      "AbilityType" : "Abilities.FirstEdition.SabineWrenPilotAbility",
+      "SkinName" : "Rebel",
+      "ability" : "Before you activate, you may perform a [Barrel Roll] or [Boost] action.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_47.jpg",
+      "caption" : "Spectre-5",
+      "charges" : null,
+      "cost" : 28,
+      "faction" : "Rebel Alliance",
+      "ffg" : 47,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_47.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Sabine Wren",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "sabinewren-tielnfighter"
+   },
+   "Seyn Marana" : {
+      "AbilityType" : "SeynMaranaAbility",
+      "ability" : "While you perform an attack, you may spend 1 [Critical Hit] result. If you do, deal 1 facedown damage card to the defender, then cancel you remaining results.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_86.jpg",
+      "caption" : "Inferno Four",
+      "charges" : {
+         "recovers" : 0,
+         "value" : 1
+      },
+      "cost" : 30,
+      "faction" : "Galactic Empire",
+      "ffg" : 86,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_86.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Seyn Marana",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "seynmarana"
+   },
+   "Valen Rudor" : {
+      "AbilityType" : "ValenRudorAbility",
+      "ability" : "After a friendly ship at range 0-1 defends (after damage is resolved, if any), you may perform an action.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_87.jpg",
+      "caption" : "Braggadocious Baron",
+      "charges" : null,
+      "cost" : 28,
+      "faction" : "Galactic Empire",
+      "ffg" : 87,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_87.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Valen Rudor",
+      "ship" : "TIE/ln Fighter",
+      "ship_ffg" : 11,
+      "ship_xws" : "tielnfighter",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "valenrudor"
+   }
+}

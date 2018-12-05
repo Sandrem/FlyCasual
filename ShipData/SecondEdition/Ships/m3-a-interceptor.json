@@ -1,0 +1,88 @@
+{
+   "FlyCasualModel" : "M3-A Interceptor",
+   "FlyCasualType" : "M3-A Interceptor",
+   "HotacManeuverTable" : "M3AScykTable",
+   "IconicPilots" : {
+      "Scum" : "Inaldra"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/2a/Maneuver_m3a.png",
+   "ModelName" : "M3-A Interceptor",
+   "MovementSoundNames" : [
+      "TIE-Fly1",
+      "TIE-Fly2",
+      "TIE-Fly3",
+      "TIE-Fly4",
+      "TIE-Fly5",
+      "TIE-Fly6",
+      "TIE-Fly7"
+   ],
+   "ShotsCount" : "2",
+   "ShotsName" : "TIE-Fire",
+   "SkinName" : "Inaldra",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Evade"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Barrel Roll"
+      }
+   ],
+   "factions" : {
+      "Scum and Villainy" : "TRUE"
+   },
+   "ffg" : 44,
+   "manuevers" : {
+      "1.L.B" : "Easy",
+      "1.L.T" : "Normal",
+      "1.R.B" : "Easy",
+      "1.R.T" : "Normal",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Normal",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Normal",
+      "2.R.T" : "Normal",
+      "3.F.R" : "Complex",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Normal",
+      "3.R.B" : "Normal",
+      "4.F.S" : "Normal",
+      "5.F.R" : "Complex",
+      "5.F.S" : "Normal"
+   },
+   "name" : "M3-A Interceptor",
+   "shipAbility" : {
+      "name" : "Weapon Hardpoint",
+      "text" : "You can equip 1 [Cannon], [Torpedo], or [Missile] upgrade."
+   },
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 2
+      },
+      {
+         "type" : "agility",
+         "value" : 3
+      },
+      {
+         "type" : "hull",
+         "value" : 3
+      },
+      {
+         "type" : "shields",
+         "value" : 1
+      }
+   ],
+   "xws" : "m3ainterceptor"
+}

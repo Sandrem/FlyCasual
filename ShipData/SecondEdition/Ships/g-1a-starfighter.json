@@ -1,0 +1,78 @@
+{
+   "FlyCasualModel" : "G-1A Starfighter",
+   "FlyCasualType" : "G-1A Starfighter",
+   "HotacManeuverTable" : "G1AStarfighterTable",
+   "IconicPilots" : {
+      "Scum" : "GandFindsman"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/35/Maneuver_g1a_starfighter.png",
+   "ModelName" : "G-1A Starfighter",
+   "MovementSoundNames" : [
+      "XWing-Fly1",
+      "XWing-Fly2",
+      "XWing-Fly3"
+   ],
+   "ShotsCount" : "3",
+   "ShotsName" : "XWing-Laser",
+   "SkinName" : "G-1A Starfighter",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Jam"
+      }
+   ],
+   "factions" : {
+      "Scum and Villainy" : "TRUE"
+   },
+   "ffg" : 22,
+   "manuevers" : {
+      "0.S.S" : "Complex",
+      "1.F.S" : "Easy",
+      "1.L.B" : "Easy",
+      "1.L.T" : "Complex",
+      "1.R.B" : "Easy",
+      "1.R.T" : "Complex",
+      "2.F.R" : "Complex",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Normal",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Normal",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Normal",
+      "3.L.B" : "Complex",
+      "3.R.B" : "Complex",
+      "4.F.R" : "Complex",
+      "4.F.S" : "Complex"
+   },
+   "name" : "G-1A Starfighter",
+   "shipAbility" : null,
+   "size" : "Medium",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 3
+      },
+      {
+         "type" : "agility",
+         "value" : 1
+      },
+      {
+         "type" : "hull",
+         "value" : 5
+      },
+      {
+         "type" : "shields",
+         "value" : 4
+      }
+   ],
+   "xws" : "g1astarfighter"
+}

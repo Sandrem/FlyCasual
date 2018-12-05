@@ -1,0 +1,82 @@
+{
+   "\"Leebo\"" : {
+      "ability" : "After you defend or perform an attack, if you spent a calculate token, gain 1 calculate token.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_78.jpg",
+      "caption" : "Dry-Witted Droid",
+      "charges" : null,
+      "cost" : 98,
+      "faction" : "Rebel Alliance",
+      "ffg" : 78,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_78.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "\"Leebo\"",
+      "ship" : "YT-2400 Light Freighter",
+      "ship_ffg" : 5,
+      "ship_xws" : "yt2400lightfreighter",
+      "slots" : [
+         "Missile",
+         "Crew",
+         "Gunner",
+         "Illicit",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "leebo"
+   },
+   "Dash Rendar" : {
+      "AbilityType" : "Abilities.SecondEdition.DashRendarAbility",
+      "ability" : "While you move, you ignore obstacles.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_77.jpg",
+      "caption" : "Hotshot Mercenary",
+      "charges" : null,
+      "cost" : 100,
+      "faction" : "Rebel Alliance",
+      "ffg" : 77,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_77.png",
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "Dash Rendar",
+      "ship" : "YT-2400 Light Freighter",
+      "ship_ffg" : 5,
+      "ship_xws" : "yt2400lightfreighter",
+      "slots" : [
+         "Talent",
+         "Missile",
+         "Crew",
+         "Gunner",
+         "Illicit",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "dashrendar"
+   },
+   "Wild Space Fringer" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_79.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 88,
+      "faction" : "Rebel Alliance",
+      "ffg" : 79,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_79.png",
+      "initiative" : 1,
+      "limited" : 0,
+      "name" : "Wild Space Fringer",
+      "ship" : "YT-2400 Light Freighter",
+      "ship_ffg" : 5,
+      "ship_xws" : "yt2400lightfreighter",
+      "slots" : [
+         "Missile",
+         "Crew",
+         "Gunner",
+         "Illicit",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "wildspacefringer"
+   }
+}

@@ -1,0 +1,78 @@
+{
+   "FlyCasualModel" : "X-Wing",
+   "FlyCasualType" : "T-65 X-wing",
+   "HotacManeuverTable" : "XWingTable",
+   "IconicPilots" : {
+      "Rebel" : "LukeSkywalker"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/cf/Maneuver_t-65_x-wing.png",
+   "ModelName" : "X-wing",
+   "MovementSoundNames" : [
+      "XWing-Fly1",
+      "XWing-Fly2",
+      "XWing-Fly3"
+   ],
+   "ShotsCount" : "3",
+   "ShotsName" : "XWing-Laser",
+   "SkinName" : "Red",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Barrel Roll"
+      }
+   ],
+   "factions" : {
+      "Rebel Alliance" : "TRUE"
+   },
+   "ffg" : 33,
+   "manuevers" : {
+      "1.F.S" : "Easy",
+      "1.L.B" : "Easy",
+      "1.R.B" : "Easy",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Normal",
+      "3.L.B" : "Normal",
+      "3.L.E" : "Complex",
+      "3.L.T" : "Normal",
+      "3.R.B" : "Normal",
+      "3.R.E" : "Complex",
+      "3.R.T" : "Normal",
+      "4.F.R" : "Complex",
+      "4.F.S" : "Normal"
+   },
+   "name" : "T-65 X-wing",
+   "shipAbility" : null,
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 3
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 4
+      },
+      {
+         "type" : "shields",
+         "value" : 2
+      }
+   ],
+   "xws" : "t65xwing"
+}

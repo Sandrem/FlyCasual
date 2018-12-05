@@ -1,0 +1,38 @@
+{
+   "\"Blackout\"" : {
+      "ability" : "???",
+      "artwork" : null,
+      "caption" : "??? Test Pilot",
+      "cost" : 200,
+      "faction" : "First Order",
+      "ffg" : null,
+      "force" : null,
+      "image" : null,
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "\"Blackout\"",
+      "ship" : "TIE Silencer",
+      "ship_ffg" : null,
+      "ship_xws" : "tiesilencer",
+      "slots" : null,
+      "xws" : "blackout"
+   },
+   "Kylo Ren" : {
+      "ability" : "After you defed, you may spend 1 [Force]...",
+      "artwork" : null,
+      "caption" : "???",
+      "cost" : 200,
+      "faction" : "First Order",
+      "ffg" : null,
+      "force" : null,
+      "image" : null,
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "Kylo Ren",
+      "ship" : "TIE Silencer",
+      "ship_ffg" : null,
+      "ship_xws" : "tiesilencer",
+      "slots" : null,
+      "xws" : "kyloren"
+   }
+}

@@ -1,0 +1,81 @@
+{
+   "FlyCasualModel" : "VCX-100",
+   "FlyCasualType" : "VCX-100 Light Freighter",
+   "HotacManeuverTable" : "VCX100Table",
+   "IconicPilots" : {
+      "Rebel" : "KananJarrus"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/61/Maneuver_vcx-100.png",
+   "ModelName" : "VCX-100",
+   "MovementSoundNames" : [
+      "Falcon-Fly1",
+      "Falcon-Fly2",
+      "Falcon-Fly3"
+   ],
+   "ShotsCount" : "4",
+   "ShotsName" : "Falcon-Fire",
+   "SkinName" : "VCX-100",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Reinforce"
+      }
+   ],
+   "factions" : {
+      "Rebel Alliance" : "TRUE"
+   },
+   "ffg" : 23,
+   "manuevers" : {
+      "1.F.S" : "Easy",
+      "1.L.B" : "Normal",
+      "1.L.T" : "Complex",
+      "1.R.B" : "Normal",
+      "1.R.T" : "Complex",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Normal",
+      "3.L.B" : "Normal",
+      "3.L.T" : "Complex",
+      "3.R.B" : "Normal",
+      "3.R.T" : "Complex",
+      "4.F.R" : "Complex",
+      "4.F.S" : "Normal"
+   },
+   "name" : "VCX-100 Light Freighter",
+   "shipAbility" : {
+      "name" : "Tail Gun",
+      "text" : "While you have a docked ship, you have a primary [Rear Arc] weapon with an attack value equal to your docked ship's primary [Front Arc] value."
+   },
+   "size" : "Large",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 4
+      },
+      {
+         "type" : "agility",
+         "value" : 0
+      },
+      {
+         "type" : "hull",
+         "value" : 10
+      },
+      {
+         "type" : "shields",
+         "value" : 4
+      }
+   ],
+   "xws" : "vcx100lightfreighter"
+}

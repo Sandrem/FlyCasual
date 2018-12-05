@@ -1,0 +1,91 @@
+{
+   "FlyCasualModel" : "TIE Bomber",
+   "FlyCasualType" : "TIE/sa Bomber",
+   "HotacManeuverTable" : "TIEBomberTable",
+   "IconicPilots" : {
+      "Imperial" : "TomaxBren"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/0e/Maneuver_tie_bomber.png",
+   "ModelName" : "TIE Bomber",
+   "MovementSoundNames" : [
+      "TIE-Fly1",
+      "TIE-Fly2",
+      "TIE-Fly3",
+      "TIE-Fly4",
+      "TIE-Fly5",
+      "TIE-Fly6",
+      "TIE-Fly7"
+   ],
+   "ShipAbilities" : [
+      "Abilities.SecondEdition.NimbleBomber"
+   ],
+   "ShotsCount" : "2",
+   "ShotsName" : "TIE-Fire",
+   "SkinName" : "Gray",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "White",
+         "linked" : {
+            "difficulty" : "Red",
+            "type" : "Lock"
+         },
+         "type" : "Barrel Roll"
+      },
+      {
+         "difficulty" : "Red",
+         "type" : "Reload"
+      }
+   ],
+   "factions" : {
+      "Galactic Empire" : "TRUE"
+   },
+   "ffg" : 19,
+   "manuevers" : {
+      "1.F.S" : "Easy",
+      "1.L.B" : "Normal",
+      "1.R.B" : "Normal",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.T" : "Normal",
+      "3.F.R" : "Complex",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Normal",
+      "3.L.T" : "Normal",
+      "3.R.B" : "Normal",
+      "3.R.T" : "Normal",
+      "4.F.S" : "Normal",
+      "5.F.R" : "Complex"
+   },
+   "name" : "TIE/sa Bomber",
+   "shipAbility" : {
+      "name" : "Nimble Bomber",
+      "text" : "If you would drop a device using a [Straight] template, you may use a [Bank Left] or [Bank Right] template of the same speed instead."
+   },
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 2
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 6
+      }
+   ],
+   "xws" : "tiesabomber"
+}

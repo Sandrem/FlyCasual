@@ -1,0 +1,81 @@
+{
+   "4-LOM" : {
+      "AbilityType" : "Abilities.SecondEdition.P4LOMAbility",
+      "ability" : "After you fully execute a red maneuver, gain 1 calculate token. At the start of the End Phase, you may choose 1 ship at range 0-1. If you do, transfer 1 of your stress tokens to that ship.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_201.jpg",
+      "caption" : "Reprogrammed Protocol Droid",
+      "charges" : null,
+      "cost" : 49,
+      "faction" : "Scum and Villainy",
+      "ffg" : 201,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_201.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "4-LOM",
+      "ship" : "G-1A Starfighter",
+      "ship_ffg" : 22,
+      "ship_xws" : "g1astarfighter",
+      "slots" : [
+         "Talent",
+         "Sensor",
+         "Crew",
+         "Illicit",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "4lom"
+   },
+   "Gand Findsman" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_203.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 43,
+      "faction" : "Scum and Villainy",
+      "ffg" : 203,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_203.png",
+      "initiative" : 1,
+      "limited" : 0,
+      "name" : "Gand Findsman",
+      "ship" : "G-1A Starfighter",
+      "ship_ffg" : 22,
+      "ship_xws" : "g1astarfighter",
+      "slots" : [
+         "Sensor",
+         "Crew",
+         "Illicit",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "gandfindsman"
+   },
+   "Zuckuss" : {
+      "AbilityType" : "Abilities.FirstEdition.ZuckussAbility",
+      "ability" : "While you perform a primary attack, you may roll 1 additional attack die. If you do, the defender rolls 1 additional defense die.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_202.jpg",
+      "caption" : "Meditative Gand",
+      "charges" : null,
+      "cost" : 47,
+      "faction" : "Scum and Villainy",
+      "ffg" : 202,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_202.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Zuckuss",
+      "ship" : "G-1A Starfighter",
+      "ship_ffg" : 22,
+      "ship_xws" : "g1astarfighter",
+      "slots" : [
+         "Talent",
+         "Sensor",
+         "Crew",
+         "Illicit",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "zuckuss"
+   }
+}

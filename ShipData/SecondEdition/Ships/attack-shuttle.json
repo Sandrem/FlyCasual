@@ -1,0 +1,85 @@
+{
+   "FlyCasualModel" : "Attack Shuttle",
+   "FlyCasualType" : "Attack Shuttle",
+   "HotacManeuverTable" : "AttackShuttleTable",
+   "IconicPilots" : {
+      "Rebel" : "HeraSyndulla"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/46/Maneuver_attack_shuttle.png",
+   "ModelName" : "Attack Shuttle",
+   "MovementSoundNames" : [
+      "XWing-Fly1",
+      "XWing-Fly2",
+      "XWing-Fly3"
+   ],
+   "ShotsCount" : "3",
+   "ShotsName" : "XWing-Laser",
+   "SkinName" : "Attack Shuttle",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Evade"
+      },
+      {
+         "difficulty" : "White",
+         "linked" : {
+            "difficulty" : "Red",
+            "type" : "Evade"
+         },
+         "type" : "Barrel Roll"
+      }
+   ],
+   "factions" : {
+      "Rebel Alliance" : "TRUE"
+   },
+   "ffg" : 32,
+   "manuevers" : {
+      "1.F.S" : "Easy",
+      "1.L.B" : "Easy",
+      "1.L.T" : "Complex",
+      "1.R.B" : "Easy",
+      "1.R.T" : "Complex",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Normal",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Normal",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Normal",
+      "3.L.B" : "Normal",
+      "3.L.T" : "Complex",
+      "3.R.B" : "Normal",
+      "3.R.T" : "Complex",
+      "4.F.R" : "Complex",
+      "4.F.S" : "Normal"
+   },
+   "name" : "Attack Shuttle",
+   "shipAbility" : {
+      "name" : "Locked and Loaded",
+      "text" : "While you are docked, after your carrier ship performs a primary [Front Arc] or [Turret] attack, it may perform a bonus primary [Rear Arc] attack."
+   },
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 3
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 3
+      },
+      {
+         "type" : "shields",
+         "value" : 1
+      }
+   ],
+   "xws" : "attackshuttle"
+}

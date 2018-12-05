@@ -1,0 +1,83 @@
+{
+   "FlyCasualModel" : "TIE Striker",
+   "FlyCasualType" : "TIE/sk Striker",
+   "HotacManeuverTable" : "TIEStrikerTable",
+   "IconicPilots" : {
+      "Imperial" : "Duchess"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/43/Maneuver_tie_striker.png",
+   "ModelName" : "TIE Striker",
+   "MovementSoundNames" : [
+      "TIE-Fly1",
+      "TIE-Fly2",
+      "TIE-Fly3",
+      "TIE-Fly4",
+      "TIE-Fly5",
+      "TIE-Fly6",
+      "TIE-Fly7"
+   ],
+   "ShipAbilities" : [
+      "Abilities.FirstEdition.AdaptiveAileronsAbility"
+   ],
+   "ShotsCount" : "3",
+   "ShotsName" : "TIE-Fire",
+   "SkinName" : "Gray",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Evade"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Barrel Roll"
+      }
+   ],
+   "factions" : {
+      "Galactic Empire" : "TRUE"
+   },
+   "ffg" : 16,
+   "manuevers" : {
+      "1.F.R" : "Complex",
+      "1.F.S" : "Easy",
+      "1.L.B" : "Easy",
+      "1.L.T" : "Normal",
+      "1.R.B" : "Easy",
+      "1.R.T" : "Normal",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.R" : "Complex",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.R" : "Complex",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Normal",
+      "3.R.B" : "Normal"
+   },
+   "name" : "TIE/sk Striker",
+   "shipAbility" : {
+      "name" : "Adaptive Ailerons",
+      "text" : "Before you reveal your dial, if you are not stressed, you must execute a white (1 [Bank Left]), (1 [Straight]), or (1 [Bank Right]) maneuver."
+   },
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 3
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 4
+      }
+   ],
+   "xws" : "tieskstriker"
+}

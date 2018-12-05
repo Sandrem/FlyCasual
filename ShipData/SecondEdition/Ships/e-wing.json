@@ -1,0 +1,100 @@
+{
+   "FlyCasualModel" : "E-Wing",
+   "FlyCasualType" : "E-wing",
+   "HotacManeuverTable" : "EWingTable",
+   "IconicPilots" : {
+      "Rebel" : "KnaveSquadronEscort"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/38/Maneuver_e-wing.png",
+   "ModelName" : "E-wing",
+   "MovementSoundNames" : [
+      "XWing-Fly1",
+      "XWing-Fly2",
+      "XWing-Fly3"
+   ],
+   "ShotsCount" : "3",
+   "ShotsName" : "XWing-Laser",
+   "SkinName" : "Red",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Evade"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "White",
+         "linked" : {
+            "difficulty" : "Red",
+            "type" : "Lock"
+         },
+         "type" : "Barrel Roll"
+      },
+      {
+         "difficulty" : "White",
+         "linked" : {
+            "difficulty" : "Red",
+            "type" : "Lock"
+         },
+         "type" : "Boost"
+      }
+   ],
+   "factions" : {
+      "Rebel Alliance" : "TRUE"
+   },
+   "ffg" : 40,
+   "manuevers" : {
+      "1.F.S" : "Easy",
+      "1.L.B" : "Easy",
+      "1.L.T" : "Complex",
+      "1.R.B" : "Easy",
+      "1.R.T" : "Complex",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Normal",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Normal",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Normal",
+      "3.L.R" : "Complex",
+      "3.L.T" : "Normal",
+      "3.R.B" : "Normal",
+      "3.R.R" : "Complex",
+      "3.R.T" : "Normal",
+      "4.F.R" : "Complex",
+      "4.F.S" : "Easy",
+      "5.F.S" : "Normal"
+   },
+   "name" : "E-wing",
+   "shipAbility" : {
+      "name" : "Experimental Scanners",
+      "text" : "You can acquire locks beyond range 3. You cannot acquire locks at range 1."
+   },
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 3
+      },
+      {
+         "type" : "agility",
+         "value" : 3
+      },
+      {
+         "type" : "hull",
+         "value" : 3
+      },
+      {
+         "type" : "shields",
+         "value" : 3
+      }
+   ],
+   "xws" : "ewing"
+}

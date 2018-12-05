@@ -1,0 +1,110 @@
+{
+   "\"Zeb\" Orrelios" : {
+      "AbilityType" : "Abilities.FirstEdition.ZebOrreliosPilotAbility",
+      "ability" : "While you defend, [Critical Hit] results are neutralized before [Hit] results.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_40.jpg",
+      "caption" : "Spectre-4",
+      "charges" : null,
+      "cost" : 32,
+      "faction" : "Rebel Alliance",
+      "ffg" : 40,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_40.png",
+      "initiative" : 2,
+      "limited" : 1,
+      "name" : "\"Zeb\" Orrelios",
+      "ship" : "Sheathipede-class Shuttle",
+      "ship_ffg" : 8,
+      "ship_xws" : "sheathipedeclassshuttle",
+      "slots" : [
+         "Talent",
+         "Crew",
+         "Astromech",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "zeborrelios-sheathipedeclassshuttle"
+   },
+   "AP-5" : {
+      "AbilityType" : "Abilities.SecondEdition.AP5PilotAbility",
+      "ability" : "While you coordinate, if you chose a ship with exactly 1 stress token, it can perform actions.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_41.jpg",
+      "caption" : "Escaped Analyst Droid",
+      "charges" : null,
+      "cost" : 30,
+      "faction" : "Rebel Alliance",
+      "ffg" : 41,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_41.png",
+      "initiative" : 1,
+      "limited" : 1,
+      "name" : "AP-5",
+      "ship" : "Sheathipede-class Shuttle",
+      "ship_ffg" : 8,
+      "ship_xws" : "sheathipedeclassshuttle",
+      "slots" : [
+         "Talent",
+         "Crew",
+         "Astromech",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "ap5"
+   },
+   "Ezra Bridger" : {
+      "AbilityType" : "Abilities.SecondEdition.EzraBridgerPilotAbility",
+      "ability" : "While you defend or perform an attack, if you are stressed, you may spend 1 [Force] to change up to 2 of your [Focus] results to [Evade]/[Hit] results.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_39.jpg",
+      "caption" : "Spectre-6",
+      "charges" : null,
+      "cost" : 42,
+      "faction" : "Rebel Alliance",
+      "ffg" : 39,
+      "force" : {
+         "recovers" : 1,
+         "side" : "light",
+         "value" : 1
+      },
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_39.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Ezra Bridger",
+      "ship" : "Sheathipede-class Shuttle",
+      "ship_ffg" : 8,
+      "ship_xws" : "sheathipedeclassshuttle",
+      "slots" : [
+         "Force Power",
+         "Crew",
+         "Astromech",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "ezrabridger-sheathipedeclassshuttle"
+   },
+   "Fenn Rau" : {
+      "AbilityType" : "Abilities.FirstEdition.FennRauRebelAbility",
+      "ability" : "After an enemy ship in your firing arc engages, if you are not stressed, you may gain 1 stress token. If you do, that ship cannot spend tokens to modify dice while it performs an attack during this phase.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_38.jpg",
+      "caption" : "Reluctant Rebel",
+      "charges" : null,
+      "cost" : 52,
+      "faction" : "Rebel Alliance",
+      "ffg" : 38,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_38.png",
+      "initiative" : 6,
+      "limited" : 1,
+      "name" : "Fenn Rau",
+      "ship" : "Sheathipede-class Shuttle",
+      "ship_ffg" : 8,
+      "ship_xws" : "sheathipedeclassshuttle",
+      "slots" : [
+         "Talent",
+         "Crew",
+         "Astromech",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "fennrau-sheathipedeclassshuttle"
+   }
+}

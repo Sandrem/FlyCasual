@@ -1,0 +1,74 @@
+{
+   "FlyCasualModel" : "U-Wing",
+   "FlyCasualType" : "UT-60D U-wing",
+   "HotacManeuverTable" : "UWingTable",
+   "IconicPilots" : {
+      "Rebel" : "BlueSquadronScout"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/61/Maneuver_u-wing.png",
+   "ModelName" : "U-wing",
+   "MovementSoundNames" : [
+      "Falcon-Fly1",
+      "Falcon-Fly2",
+      "Falcon-Fly3"
+   ],
+   "ShotsCount" : "3",
+   "ShotsName" : "Falcon-Fire",
+   "SkinName" : "Blue Squadron",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "Red",
+         "type" : "Coordinate"
+      }
+   ],
+   "factions" : {
+      "Rebel Alliance" : "TRUE"
+   },
+   "ffg" : 15,
+   "manuevers" : {
+      "0.S.S" : "Complex",
+      "1.F.S" : "Easy",
+      "1.L.B" : "Easy",
+      "1.R.B" : "Easy",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Normal",
+      "3.L.B" : "Normal",
+      "3.R.B" : "Normal",
+      "4.F.S" : "Normal"
+   },
+   "name" : "UT-60D U-wing",
+   "shipAbility" : null,
+   "size" : "Medium",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 3
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 5
+      },
+      {
+         "type" : "shields",
+         "value" : 3
+      }
+   ],
+   "xws" : "ut60duwing"
+}

@@ -1,0 +1,59 @@
+{
+   "Chewbacca" : {
+      "ability" : null,
+      "artwork" : null,
+      "caption" : "Loyal Companion",
+      "cost" : 200,
+      "faction" : "Resistance",
+      "ffg" : null,
+      "force" : null,
+      "image" : null,
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Chewbacca",
+      "ship" : "Scavenged YT-1300",
+      "ship_ffg" : null,
+      "ship_xws" : null,
+      "slots" : null,
+      "xws" : "chewbacca-scavengedyt1300"
+   },
+   "Han Solo" : {
+      "ability" : null,
+      "artwork" : null,
+      "caption" : "Jaded Smuggler",
+      "cost" : 200,
+      "faction" : "Resistance",
+      "ffg" : null,
+      "force" : null,
+      "image" : null,
+      "initiative" : 6,
+      "limited" : 1,
+      "name" : "Han Solo",
+      "ship" : "Scavenged YT-1300",
+      "ship_ffg" : null,
+      "ship_xws" : null,
+      "slots" : null,
+      "xws" : "hansolo-scavengedyt1300"
+   },
+   "Rey" : {
+      "ability" : "While you defend or perform an attack, if the enemy ship is in your [Front Arc], you may spend 1 [Force] to change 1 of your blank results to an [Evade] or [Hit] result.",
+      "artwork" : null,
+      "caption" : "Resourceful Scavenger",
+      "cost" : 200,
+      "faction" : "Resistance",
+      "ffg" : null,
+      "force" : {
+         "recovers" : 1,
+         "value" : 2
+      },
+      "image" : "https://images-cdn.fantasyflightgames.com/filer_public/f9/27/f9276fd7-52fd-4b05-8599-05039fa479e6/swz19_a2_reys-pilot.png",
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "Rey",
+      "ship" : "Scavenged YT-1300",
+      "ship_ffg" : null,
+      "ship_xws" : null,
+      "slots" : null,
+      "xws" : "rey"
+   }
+}

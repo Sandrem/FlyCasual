@@ -9,6 +9,7 @@ using Upgrade;
 using GameModes;
 using UnityEngine.SceneManagement;
 using RuleSets;
+using System.IO;
 
 namespace SquadBuilderNS
 {
@@ -113,6 +114,9 @@ namespace SquadBuilderNS
         public static List<ShipRecord> AllShips;
         public static List<PilotRecord> AllPilots;
         public static List<UpgradeRecord> AllUpgrades;
+        public static JSONObject JsonShipData;
+        public static JSONObject JsonPilotData;
+        public static bool UseJSONData;
 
         public static string CurrentShip;
         public static SquadBuilderShip CurrentSquadBuilderShip;
@@ -120,8 +124,47 @@ namespace SquadBuilderNS
 
         public static void Initialize()
         {
-            GenerateListOfShips();
+            UseJSONData = Mods.ModsManager.Mods[typeof(Mods.ModsList.UseJSONShipPilotData)].IsAvailable();
+            if (UseJSONData)
+            {
+                JsonShipData = new JSONObject();
+                JsonPilotData = new JSONObject();
+                string JsonDataRaw = File.ReadAllText(@".\ShipData\SecondEdition\shipFileList.json");
+                JSONObject JsonShipList = new JSONObject(JsonDataRaw);
+                foreach (var ship in JsonShipList["ships"].list)
+                {
+                    JsonDataRaw = File.ReadAllText(@".\ShipData\SecondEdition\Ships\" + ship.str + ".json");
+                    JSONObject JsonShip = new JSONObject(JsonDataRaw);
+                    JsonShipData.AddField(JsonShip["name"].str, JsonShip);
+                }
+                //Console.Write(JsonShipData.ToString());
+                JsonDataRaw = File.ReadAllText(@".\ShipData\SecondEdition\pilotFileList.json");
+                JSONObject JsonPilotList = new JSONObject(JsonDataRaw);
+                foreach (var pilotGroup in JsonPilotList["pilots"].list)
+                {
+                    JsonDataRaw = File.ReadAllText(@".\ShipData\SecondEdition\Pilots\" + pilotGroup.str + ".json");
+                    JSONObject JsonPilotGroup = new JSONObject(JsonDataRaw);
+                    foreach (var pilot in JsonPilotGroup.keys)
+                    {
+                        if (!JsonPilotData.HasField(JsonPilotGroup[pilot]["ship"].str)) { JsonPilotData.AddField(JsonPilotGroup[pilot]["ship"].str, new JSONObject()); }
+                        JsonPilotData[JsonPilotGroup[pilot]["ship"].str].AddField(JsonPilotGroup[pilot]["name"].str, JsonPilotGroup[pilot]);
+                    }
+                }
+                LoadJSONShipsPilots();
+            }
+            else
+            {
+                GenerateListOfShips();
+            }
             GenerateUpgradesList();
+            foreach (var ship in AllShips)
+            {
+                //Console.Write(ship.ShipName);
+            }
+            foreach (var pilot in AllPilots)
+            {
+                //Console.Write(pilot.PilotName + " - " + pilot.Instance.PilotInfo.Cost.ToString());
+            }
             SquadLists = new List<SquadList>()
             {
                 new SquadList(PlayerNo.Player1),
@@ -139,6 +182,57 @@ namespace SquadBuilderNS
             SquadList squadList = GetSquadList(playerNo);
             squadList.ClearShips();
             squadList.Name = GetDefaultNameForSquad(playerNo);
+        }
+
+        private static void LoadJSONShipsPilots()
+        {
+            AllShips = new List<ShipRecord>();
+            AllPilots = new List<PilotRecord>();
+
+            foreach (var key in JsonShipData.keys)
+            {
+                Console.Write("Adding Ship: " + key);
+                GenericShip newShipTypeContainer = new GenericShip(JsonShipData[key], null);
+                newShipTypeContainer.ShipRuleType = typeof(SecondEdition);
+                //RuleSet.Instance.AdaptShipToRules(newShipTypeContainer);
+
+                if (AllShips.Find(n => n.ShipName == newShipTypeContainer.ShipInfo.ShipName) == null)
+                {
+                    AllShips.Add(new ShipRecord()
+                    {
+                        ShipName = key,
+                        ShipNameCanonical = newShipTypeContainer.ShipTypeCanonical,
+                        ShipNamespace = null,
+                        Instance = newShipTypeContainer
+                    });
+
+                    foreach (var pilotKey in JsonPilotData[key].keys)
+                    {
+                        Console.Write("Adding Pilot: " + pilotKey);
+                        GenericShip newShipContainer = new GenericShip(JsonShipData[key], JsonPilotData[key][pilotKey]);
+                        newShipContainer.ShipRuleType = typeof(SecondEdition);
+                        newShipContainer.PilotRuleType = typeof(SecondEdition);
+                        //RuleSet.Instance.AdaptPilotToRules(newShipContainer);
+
+                        if ((newShipContainer.PilotInfo != null) && (newShipContainer.IsAllowedForSquadBuilder()))
+                        {
+                            if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.ShipInfo.ShipName && n.PilotFaction == newShipContainer.Faction) == null)
+                            {
+                                AllPilots.Add(new PilotRecord()
+                                {
+                                    PilotName = newShipContainer.PilotInfo.PilotName,
+                                    PilotTypeName = "JSONPilot",
+                                    PilotNameCanonical = newShipContainer.PilotNameCanonical,
+                                    PilotSkill = newShipContainer.PilotInfo.Initiative,
+                                    PilotShip = AllShips.Find(n => n.ShipName == newShipContainer.ShipInfo.ShipName),
+                                    PilotFaction = newShipContainer.Faction,
+                                    Instance = newShipContainer
+                                });
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private static void GenerateListOfShips()
@@ -753,8 +847,21 @@ namespace SquadBuilderNS
                         string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
 
                         PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
-                        GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
-                        Edition.Current.AdaptShipToRules(newShipInstance);
+
+                        GenericShip newShipInstance;
+                        if (UseJSONData)
+                        {
+                            newShipInstance = new GenericShip(JsonShipData[pilotRecord.PilotShip.ShipName], JsonPilotData[pilotRecord.PilotShip.ShipName][pilotRecord.PilotName]);
+                            if (Edition.Current is SecondEdition)
+                            {
+                                newShipInstance.HotacManeuverTable.AdaptToSecondEdition();
+                            }
+                        }
+                        else
+                        {
+                            newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+                            Edition.Current.AdaptShipToRules(newShipInstance);
+                        }
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
 
                         List<string> upgradesThatCannotBeInstalled = new List<string>();

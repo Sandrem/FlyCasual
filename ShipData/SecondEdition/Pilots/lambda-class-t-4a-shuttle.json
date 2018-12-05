@@ -1,0 +1,112 @@
+{
+   "Captain Kagi" : {
+      "AbilityType" : "Abilities.SecondEdition.CaptainKagiAbility",
+      "ability" : "At the start of the Engagement Phase, you may choose 1 or more friendly ships at range 0-3. If you do, transfer all enemy lock tokens from the chosen ships to you.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_142.jpg",
+      "caption" : "The Emperor's Shuttle Pilot",
+      "charges" : null,
+      "cost" : 48,
+      "faction" : "Galactic Empire",
+      "ffg" : 142,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_142.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Captain Kagi",
+      "ship" : "Lambda-class T-4a Shuttle",
+      "ship_ffg" : 26,
+      "ship_xws" : "lambdaclasst4ashuttle",
+      "slots" : [
+         "Sensor",
+         "Cannon",
+         "Crew",
+         "Crew",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "captainkagi"
+   },
+   "Colonel Jendon" : {
+      "AbilityType" : "Abilities.SecondEdition.ColonelJendonAbility",
+      "ability" : "At the start of the Activation Phase, you may spend 1 [Charge]. If you do, while friendly ships acquire lock this round, they must acquire locks beyond range 3 instead of at range 0-3.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_143.jpg",
+      "caption" : "Darth Vader's Shuttle Pilot",
+      "charges" : {
+         "recovers" : 0,
+         "value" : 2
+      },
+      "cost" : 46,
+      "faction" : "Galactic Empire",
+      "ffg" : 143,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_143.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Colonel Jendon",
+      "ship" : "Lambda-class T-4a Shuttle",
+      "ship_ffg" : 26,
+      "ship_xws" : "lambdaclasst4ashuttle",
+      "slots" : [
+         "Sensor",
+         "Cannon",
+         "Crew",
+         "Crew",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "coloneljendon"
+   },
+   "Lieutenant Sai" : {
+      "AbilityType" : "Abilities.SecondEdition.LieutenantSaiAbility",
+      "ability" : "After you a perform a [Coordinate] action, if the ship you chose performed an action on your action bar, you may perform that action.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_144.jpg",
+      "caption" : "Death Squadron Veteran",
+      "charges" : null,
+      "cost" : 47,
+      "faction" : "Galactic Empire",
+      "ffg" : 144,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_144.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Lieutenant Sai",
+      "ship" : "Lambda-class T-4a Shuttle",
+      "ship_ffg" : 26,
+      "ship_xws" : "lambdaclasst4ashuttle",
+      "slots" : [
+         "Sensor",
+         "Cannon",
+         "Crew",
+         "Crew",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "lieutenantsai"
+   },
+   "Omicron Group Pilot" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_145.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 43,
+      "faction" : "Galactic Empire",
+      "ffg" : 145,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_145.png",
+      "initiative" : 1,
+      "limited" : 0,
+      "name" : "Omicron Group Pilot",
+      "ship" : "Lambda-class T-4a Shuttle",
+      "ship_ffg" : 26,
+      "ship_xws" : "lambdaclasst4ashuttle",
+      "slots" : [
+         "Sensor",
+         "Cannon",
+         "Crew",
+         "Crew",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "omicrongrouppilot"
+   }
+}

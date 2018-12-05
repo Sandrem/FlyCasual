@@ -1,0 +1,38 @@
+{
+   "Lieutenant Dormitz" : {
+      "ability" : "Setup: After you are placed, other friendly ships can be placed anywhere in the play area at range 0-2 of you.",
+      "artwork" : null,
+      "caption" : "Hypercomms Specialist",
+      "cost" : 200,
+      "faction" : "First Order",
+      "ffg" : null,
+      "force" : null,
+      "image" : null,
+      "initiative" : 2,
+      "limited" : 1,
+      "name" : "Lieutenant Dormitz",
+      "ship" : "Upsilon-class Shuttle",
+      "ship_ffg" : null,
+      "ship_xws" : "upsilonclassshuttle",
+      "slots" : null,
+      "xws" : "lieutenantdormitz"
+   },
+   "Major Stridan" : {
+      "ability" : "While you coordinate or resolve the effect of one of your upgrades, you may treat friendly ships at range 2-3 as being at range 0 or range1.",
+      "artwork" : null,
+      "caption" : "Stentorian Commander",
+      "cost" : 200,
+      "faction" : "First Order",
+      "ffg" : null,
+      "force" : null,
+      "image" : "https://images-cdn.fantasyflightgames.com/filer_public/1b/2c/1b2cbc1c-7e49-4f9d-b25a-b72d7319b90b/swz18_major-stridan_a2.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Major Stridan",
+      "ship" : "Upsilon-class Shuttle",
+      "ship_ffg" : null,
+      "ship_xws" : "upsilonclassshuttle",
+      "slots" : null,
+      "xws" : "majorstridan"
+   }
+}

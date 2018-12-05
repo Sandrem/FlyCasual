@@ -1,0 +1,84 @@
+{
+   "FlyCasualModel" : "JumpMaster 5000",
+   "FlyCasualType" : "JumpMaster 5000",
+   "HotacManeuverTable" : "Jumpmaster5000Table",
+   "IconicPilots" : {
+      "Scum" : "Dengar"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/9/9f/Maneuver_jumpmaster.png",
+   "ModelName" : "JumpMaster 5000",
+   "MovementSoundNames" : [
+      "Slave1-Fly1",
+      "Slave1-Fly2"
+   ],
+   "ShotsCount" : "2",
+   "ShotsName" : "Slave1-Fire",
+   "SkinName" : "JumpMaster 5000",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "linked" : {
+            "difficulty" : "Red",
+            "type" : "Rotate Arc"
+         },
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "linked" : {
+            "difficulty" : "Red",
+            "type" : "Rotate Arc"
+         },
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "Red",
+         "type" : "Barrel Roll"
+      }
+   ],
+   "factions" : {
+      "Scum and Villainy" : "TRUE"
+   },
+   "ffg" : 45,
+   "manuevers" : {
+      "1.F.S" : "Easy",
+      "1.L.B" : "Easy",
+      "1.L.T" : "Normal",
+      "1.R.B" : "Normal",
+      "1.R.T" : "Complex",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Normal",
+      "2.R.T" : "Complex",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Easy",
+      "3.L.R" : "Complex",
+      "3.R.B" : "Normal",
+      "4.F.R" : "Complex",
+      "4.F.S" : "Normal"
+   },
+   "name" : "JumpMaster 5000",
+   "shipAbility" : null,
+   "size" : "Large",
+   "stats" : [
+      {
+         "arc" : "Single Turret Arc",
+         "type" : "attack",
+         "value" : 2
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 6
+      },
+      {
+         "type" : "shields",
+         "value" : 3
+      }
+   ],
+   "xws" : "jumpmaster5000"
+}

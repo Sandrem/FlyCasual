@@ -1,0 +1,61 @@
+{
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Evade"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      }
+   ],
+   "factions" : {
+      "Resistance" : "TRUE"
+   },
+   "ffg" : null,
+   "manuevers" : {
+      "1.L.T" : "Normal",
+      "1.R.T" : "Normal",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Easy",
+      "2.R.B" : "Easy",
+      "2.R.T" : "Easy",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Easy",
+      "3.L.R" : "Complex",
+      "3.L.T" : "Normal",
+      "3.R.B" : "Easy",
+      "3.R.R" : "Complex",
+      "3.R.T" : "Normal",
+      "4.F.S" : "Easy",
+      "5.F.R" : "Complex",
+      "5.F.S" : "Easy"
+   },
+   "name" : "rz2awing",
+   "shipAbility" : {
+      "name" : "Refined Gyrostabilizers",
+      "text" : "You can rotate you [Single Turret Arc] indicator only to your [Front Arc] or [Rear Arc]. After you perform an action, you may perform a red [Boost] or red [Rotate Arc] action."
+   },
+   "size" : null,
+   "stats" : [
+      {
+         "arc" : "Single Turret Arc",
+         "type" : "attack",
+         "value" : 2
+      },
+      {
+         "type" : "agility",
+         "value" : 3
+      },
+      {
+         "type" : "hull",
+         "value" : 0
+      }
+   ],
+   "xws" : null
+}

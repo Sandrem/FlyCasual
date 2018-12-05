@@ -1,0 +1,93 @@
+{
+   "FlyCasualModel" : "TIE Advanced",
+   "FlyCasualType" : "TIE Advanced x1",
+   "HotacManeuverTable" : "TIEAdvancedTable",
+   "IconicPilots" : {
+      "Imperial" : "DarthVader"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/08/Maneuver_tie_advanced_x1.png",
+   "ModelName" : "TIE Advanced",
+   "MovementSoundNames" : [
+      "TIE-Fly1",
+      "TIE-Fly2",
+      "TIE-Fly3",
+      "TIE-Fly4",
+      "TIE-Fly5",
+      "TIE-Fly6",
+      "TIE-Fly7"
+   ],
+   "ShipAbilities" : [
+      "Abilities.SecondEdition.AdvancedTargetingComputer"
+   ],
+   "ShotsCount" : "2",
+   "ShotsName" : "TIE-Fire",
+   "SkinName" : "Gray",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "linked" : {
+            "difficulty" : "Red",
+            "type" : "Barrel Roll"
+         },
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Barrel Roll"
+      }
+   ],
+   "factions" : {
+      "Galactic Empire" : "TRUE"
+   },
+   "ffg" : 13,
+   "manuevers" : {
+      "1.F.S" : "Normal",
+      "1.L.B" : "Easy",
+      "1.R.B" : "Easy",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Normal",
+      "3.L.E" : "Complex",
+      "3.L.T" : "Normal",
+      "3.R.B" : "Normal",
+      "3.R.E" : "Complex",
+      "3.R.T" : "Normal",
+      "4.F.R" : "Complex",
+      "4.F.S" : "Normal",
+      "5.F.S" : "Normal"
+   },
+   "name" : "TIE Advanced x1",
+   "shipAbility" : {
+      "name" : "Advanced Targeting Computer",
+      "text" : "While you perform a primary attack against a defender you have locked, roll 1 additional attack die and change 1 [Hit] result to a [Critical Hit] result."
+   },
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 2
+      },
+      {
+         "type" : "agility",
+         "value" : 3
+      },
+      {
+         "type" : "hull",
+         "value" : 3
+      },
+      {
+         "type" : "shields",
+         "value" : 2
+      }
+   ],
+   "xws" : "tieadvancedx1"
+}

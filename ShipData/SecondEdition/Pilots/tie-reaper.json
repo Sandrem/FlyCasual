@@ -1,0 +1,99 @@
+{
+   "\"Vizier\"" : {
+      "AbilityType" : "VizierAbility",
+      "ability" : "After you fully execute a speed 1 maneuver using your Adaptive Ailerons ship ability, you may perform a [Coordinate] action. If you do, skip your Perform Action step.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_115.jpg",
+      "caption" : "Ruthless Tactician",
+      "charges" : null,
+      "cost" : 45,
+      "faction" : "Galactic Empire",
+      "ffg" : 115,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_115.png",
+      "initiative" : 2,
+      "limited" : 1,
+      "name" : "\"Vizier\"",
+      "ship" : "TIE Reaper",
+      "ship_ffg" : 43,
+      "ship_xws" : "tiereaper",
+      "slots" : [
+         "Crew",
+         "Crew",
+         "Modification"
+      ],
+      "xws" : "vizier"
+   },
+   "Captain Feroph" : {
+      "AbilityType" : "CaptainFerophAbility",
+      "ability" : "While you defend, if the attacker does not have any green tokens, you may change 1 of your [Focus]/blank results to an [Evade] result.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_114.jpg",
+      "caption" : "Imperial Courier",
+      "charges" : null,
+      "cost" : 47,
+      "faction" : "Galactic Empire",
+      "ffg" : 114,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_114.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Captain Feroph",
+      "ship" : "TIE Reaper",
+      "ship_ffg" : 43,
+      "ship_xws" : "tiereaper",
+      "slots" : [
+         "Talent",
+         "Crew",
+         "Crew",
+         "Modification"
+      ],
+      "xws" : "captainferoph"
+   },
+   "Major Vermeil" : {
+      "AbilityType" : "MajorVermeilAbility",
+      "ability" : "While you perform an attack, if the defender does not have any green tokens, you may change 1 of your [Focus]/blank results to a [Hit] result.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_113.jpg",
+      "caption" : "Veteran of Scarif",
+      "charges" : null,
+      "cost" : 49,
+      "faction" : "Galactic Empire",
+      "ffg" : 113,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_113.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Major Vermeil",
+      "ship" : "TIE Reaper",
+      "ship_ffg" : 43,
+      "ship_xws" : "tiereaper",
+      "slots" : [
+         "Talent",
+         "Crew",
+         "Crew",
+         "Modification"
+      ],
+      "xws" : "majorvermeil"
+   },
+   "Scarif Base Pilot" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_116.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 41,
+      "faction" : "Galactic Empire",
+      "ffg" : 116,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_116.png",
+      "initiative" : 1,
+      "limited" : 0,
+      "name" : "Scarif Base Pilot",
+      "ship" : "TIE Reaper",
+      "ship_ffg" : 43,
+      "ship_xws" : "tiereaper",
+      "slots" : [
+         "Crew",
+         "Crew",
+         "Modification"
+      ],
+      "xws" : "scarifbasepilot"
+   }
+}

@@ -1,0 +1,137 @@
+{
+   "Fenn Rau" : {
+      "AbilityType" : "Abilities.FirstEdition.FennRauScumAbility",
+      "ability" : "While you defend or perform an attack, if the attack range is 1, you may roll 1 additional die.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_155.jpg",
+      "caption" : "Skull Leader",
+      "charges" : null,
+      "cost" : 68,
+      "faction" : "Scum and Villainy",
+      "ffg" : 155,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_155.png",
+      "initiative" : 6,
+      "limited" : 1,
+      "name" : "Fenn Rau",
+      "ship" : "Fang Fighter",
+      "ship_ffg" : 36,
+      "ship_xws" : "fangfighter",
+      "slots" : [
+         "Talent",
+         "Torpedo"
+      ],
+      "xws" : "fennrau"
+   },
+   "Joy Rekkoff" : {
+      "AbilityType" : "Abilities.SecondEdition.KadSolusAbility",
+      "ability" : "While you perform an attack, you may spend 1 [Charge] from an equipped [Torpedo] upgrade. If you do, the defender rolls 1 fewer defense die.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_157.jpg",
+      "caption" : "Skull Squadron Ace",
+      "charges" : null,
+      "cost" : 52,
+      "faction" : "Scum and Villainy",
+      "ffg" : 157,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_157.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Joy Rekkoff",
+      "ship" : "Fang Fighter",
+      "ship_ffg" : 36,
+      "ship_xws" : "fangfighter",
+      "slots" : [
+         "Talent",
+         "Torpedo"
+      ],
+      "xws" : "joyrekkoff"
+   },
+   "Kad Solus" : {
+      "AbilityType" : "Abilities.SecondEdition.KadSolusAbility",
+      "ability" : "After you fully execute a red maneuver, gain 2 focus tokens.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_158.jpg",
+      "caption" : "Skilled Commando",
+      "charges" : null,
+      "cost" : 54,
+      "faction" : "Scum and Villainy",
+      "ffg" : 158,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_158.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Kad Solus",
+      "ship" : "Fang Fighter",
+      "ship_ffg" : 36,
+      "ship_xws" : "fangfighter",
+      "slots" : [
+         "Talent",
+         "Torpedo"
+      ],
+      "xws" : "kadsolus"
+   },
+   "Old Teroch" : {
+      "AbilityType" : "Abilities.SecondEdition.OldTerochAbility",
+      "ability" : "At the start of the Engagement Phase, you may choose 1 enemy ship at range 1. If you do and you are in its [Front Arc], it removes all of its green tokens.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_156.jpg",
+      "caption" : "Mandalorian Mentor",
+      "charges" : null,
+      "cost" : 56,
+      "faction" : "Scum and Villainy",
+      "ffg" : 156,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_156.png",
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "Old Teroch",
+      "ship" : "Fang Fighter",
+      "ship_ffg" : 36,
+      "ship_xws" : "fangfighter",
+      "slots" : [
+         "Talent",
+         "Torpedo"
+      ],
+      "xws" : "oldteroch"
+   },
+   "Skull Squadron Pilot" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_159.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 50,
+      "faction" : "Scum and Villainy",
+      "ffg" : 159,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_159.png",
+      "initiative" : 4,
+      "limited" : 0,
+      "name" : "Skull Squadron Pilot",
+      "ship" : "Fang Fighter",
+      "ship_ffg" : 36,
+      "ship_xws" : "fangfighter",
+      "slots" : [
+         "Talent",
+         "Torpedo"
+      ],
+      "xws" : "skullsquadronpilot"
+   },
+   "Zealous Recruit" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_160.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 44,
+      "faction" : "Scum and Villainy",
+      "ffg" : 160,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_160.png",
+      "initiative" : 1,
+      "limited" : 0,
+      "name" : "Zealous Recruit",
+      "ship" : "Fang Fighter",
+      "ship_ffg" : 36,
+      "ship_xws" : "fangfighter",
+      "slots" : [
+         "Torpedo"
+      ],
+      "xws" : "zealousrecruit"
+   }
+}

@@ -1,0 +1,81 @@
+{
+   "FlyCasualModel" : "Quadjumper",
+   "FlyCasualType" : "Quadrijet Transfer Spacetug",
+   "HotacManeuverTable" : "QuadjumperTable",
+   "IconicPilots" : {
+      "Scum" : "JakkuGunrunner"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/64/Maneuver_quadrijet.png",
+   "ModelName" : "Quadjumper",
+   "MovementSoundNames" : [
+      "XWing-Fly1",
+      "XWing-Fly2",
+      "XWing-Fly3"
+   ],
+   "ShipAbilities" : [
+      "Abilities.SecondEdition.SpacetugAbility"
+   ],
+   "ShotsCount" : "2",
+   "ShotsName" : "XWing-Laser",
+   "SkinName" : "Quadjumper",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "Red",
+         "type" : "Evade"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Barrel Roll"
+      }
+   ],
+   "factions" : {
+      "Scum and Villainy" : "TRUE"
+   },
+   "ffg" : 9,
+   "manuevers" : {
+      "1.F.S" : "Normal",
+      "1.L.B" : "Normal",
+      "1.L.T" : "Normal",
+      "1.L.V" : "Complex",
+      "1.R.B" : "Normal",
+      "1.R.T" : "Normal",
+      "1.R.V" : "Complex",
+      "2.F.S" : "Easy",
+      "2.F.V" : "Complex",
+      "2.L.B" : "Easy",
+      "2.L.R" : "Complex",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.R" : "Complex",
+      "2.R.T" : "Normal",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Normal",
+      "3.R.B" : "Normal"
+   },
+   "name" : "Quadrijet Transfer Spacetug",
+   "shipAbility" : {
+      "name" : "Spacetug Tractor Array",
+      "text" : "Action: Choose a ship in your [Front Arc] at range 1. That ship gains 1 tractor token, or 2 tractor tokens if it is in you [Bullseye Arc] at range 1."
+   },
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 2
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 5
+      }
+   ],
+   "xws" : "quadrijettransferspacetug"
+}

@@ -1,0 +1,87 @@
+{
+   "Captain Nym" : {
+      "AbilityType" : "Abilities.SecondEdition.CaptainNymScumAbiliity",
+      "ability" : "Before a friendly bomb or mine would detonate, you may spend 1 [Charge] to prevent it from detonating. While you defend against an attack obstructed by a bomb or mine, roll 1 additional defense die.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_204.jpg",
+      "caption" : "Captain of the Lok Revenants",
+      "charges" : {
+         "recovers" : 1,
+         "value" : 1
+      },
+      "cost" : 52,
+      "faction" : "Scum and Villainy",
+      "ffg" : 204,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_204.png",
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "Captain Nym",
+      "ship" : "Scurrg H-6 Bomber",
+      "ship_ffg" : 4,
+      "ship_xws" : "scurrgh6bomber",
+      "slots" : [
+         "Talent",
+         "Turret",
+         "Crew",
+         "Device",
+         "Device",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "captainnym"
+   },
+   "Lok Revenant" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_206.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 46,
+      "faction" : "Scum and Villainy",
+      "ffg" : 206,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_206.png",
+      "initiative" : 2,
+      "limited" : 0,
+      "name" : "Lok Revenant",
+      "ship" : "Scurrg H-6 Bomber",
+      "ship_ffg" : 4,
+      "ship_xws" : "scurrgh6bomber",
+      "slots" : [
+         "Turret",
+         "Crew",
+         "Device",
+         "Device",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "lokrevenant"
+   },
+   "Sol Sixxa" : {
+      "AbilityType" : "Abilities.SecondEdition.SolSixxaAbility",
+      "ability" : "If you would drop a device using a [1 [Straight]] template, you may drop it using any other speed 1 template instead.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_205.jpg",
+      "caption" : "Cunning Commander",
+      "charges" : null,
+      "cost" : 49,
+      "faction" : "Scum and Villainy",
+      "ffg" : 205,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_205.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Sol Sixxa",
+      "ship" : "Scurrg H-6 Bomber",
+      "ship_ffg" : 4,
+      "ship_xws" : "scurrgh6bomber",
+      "slots" : [
+         "Talent",
+         "Turret",
+         "Crew",
+         "Device",
+         "Device",
+         "Modification",
+         "Title"
+      ],
+      "xws" : "solsixxa"
+   }
+}

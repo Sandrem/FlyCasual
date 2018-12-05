@@ -1,0 +1,93 @@
+{
+   "Arvel Crynyd" : {
+      "ability" : "You can perform primary attacks at range 0. If you would fail a [Boost] action by overlapping another ship, resolve it as though you were partially executing a maneuver instead.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_20.jpg",
+      "caption" : "Green Leader",
+      "charges" : null,
+      "cost" : 36,
+      "faction" : "Rebel Alliance",
+      "ffg" : 20,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_20.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Arvel Crynyd",
+      "ship" : "RZ-1 A-wing",
+      "ship_ffg" : 35,
+      "ship_xws" : "rz1awing",
+      "slots" : [
+         "Talent",
+         "Missile"
+      ],
+      "xws" : "arvelcrynyd"
+   },
+   "Green Squadron Pilot" : {
+      "SkinName" : "Green",
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_21.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 34,
+      "faction" : "Rebel Alliance",
+      "ffg" : 21,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_21.png",
+      "initiative" : 3,
+      "limited" : 0,
+      "name" : "Green Squadron Pilot",
+      "ship" : "RZ-1 A-wing",
+      "ship_ffg" : 35,
+      "ship_xws" : "rz1awing",
+      "slots" : [
+         "Talent",
+         "Missile"
+      ],
+      "xws" : "greensquadronpilot"
+   },
+   "Jake Farrell" : {
+      "AbilityType" : "Abilities.SecondEdition.JakeFarrellAbility",
+      "SkinName" : "Blue",
+      "ability" : "After you perform a [Barrel Roll] or [Boost] action, you may choose a friendly ship at range 0-1. That ship may perform a [Focus] action.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_19.jpg",
+      "caption" : "Sage Instructor",
+      "charges" : null,
+      "cost" : 40,
+      "faction" : "Rebel Alliance",
+      "ffg" : 19,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_19.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Jake Farrell",
+      "ship" : "RZ-1 A-wing",
+      "ship_ffg" : 35,
+      "ship_xws" : "rz1awing",
+      "slots" : [
+         "Talent",
+         "Missile"
+      ],
+      "xws" : "jakefarrell"
+   },
+   "Phoenix Squadron Pilot" : {
+      "SkinName" : "Blue",
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_22.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 30,
+      "faction" : "Rebel Alliance",
+      "ffg" : 22,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_22.png",
+      "initiative" : 1,
+      "limited" : 0,
+      "name" : "Phoenix Squadron Pilot",
+      "ship" : "RZ-1 A-wing",
+      "ship_ffg" : 35,
+      "ship_xws" : "rz1awing",
+      "slots" : [
+         "Missile"
+      ],
+      "xws" : "phoenixsquadronpilot"
+   }
+}

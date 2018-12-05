@@ -1,0 +1,98 @@
+{
+   "Alpha Squadron Pilot" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_106.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 34,
+      "faction" : "Galactic Empire",
+      "ffg" : 106,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_106.png",
+      "initiative" : 1,
+      "limited" : 0,
+      "name" : "Alpha Squadron Pilot",
+      "ship" : "TIE Interceptor",
+      "ship_ffg" : 41,
+      "ship_xws" : "tieininterceptor",
+      "slots" : [
+         "Modification",
+         "Modification"
+      ],
+      "xws" : "alphasquadronpilot"
+   },
+   "Saber Squadron Ace" : {
+      "SkinName" : "Red Stripes",
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_105.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 40,
+      "faction" : "Galactic Empire",
+      "ffg" : 105,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_105.png",
+      "initiative" : 4,
+      "limited" : 0,
+      "name" : "Saber Squadron Ace",
+      "ship" : "TIE Interceptor",
+      "ship_ffg" : 41,
+      "ship_xws" : "tieininterceptor",
+      "slots" : [
+         "Talent",
+         "Modification",
+         "Modification"
+      ],
+      "xws" : "sabersquadronace"
+   },
+   "Soontir Fel" : {
+      "AbilityType" : "SoontirFelAbility",
+      "SkinName" : "Red Stripes",
+      "ability" : "At the start of the Engagement Phase, if there is an enemy ship in your [Bullseye Arc], gain 1 focus token.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_103.jpg",
+      "caption" : "Ace of Legend",
+      "charges" : null,
+      "cost" : 52,
+      "faction" : "Galactic Empire",
+      "ffg" : 103,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_103.png",
+      "initiative" : 6,
+      "limited" : 1,
+      "name" : "Soontir Fel",
+      "ship" : "TIE Interceptor",
+      "ship_ffg" : 41,
+      "ship_xws" : "tieininterceptor",
+      "slots" : [
+         "Talent",
+         "Modification",
+         "Modification"
+      ],
+      "xws" : "soontirfel"
+   },
+   "Turr Phennir" : {
+      "AbilityType" : "Abilities.SecondEdition.TurrPhennirAbility",
+      "SkinName" : "Red Stripes",
+      "ability" : "After you perform an attack, you may perform a [Barrel Roll] or [Boost] action, even if you are stressed.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_104.jpg",
+      "caption" : "Ambitious Ace",
+      "charges" : null,
+      "cost" : 44,
+      "faction" : "Galactic Empire",
+      "ffg" : 104,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_104.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Turr Phennir",
+      "ship" : "TIE Interceptor",
+      "ship_ffg" : 41,
+      "ship_xws" : "tieininterceptor",
+      "slots" : [
+         "Talent",
+         "Modification",
+         "Modification"
+      ],
+      "xws" : "turrphennir"
+   }
+}

@@ -1,0 +1,82 @@
+{
+   "FlyCasualModel" : "Z-95 Headhunter",
+   "FlyCasualType" : "Z-95-AF4 Headhunter",
+   "HotacManeuverTable" : "Z95Table",
+   "IconicPilots" : {
+      "Rebel" : "LtBlount",
+      "Scum" : "NdruSuhlak"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/34/Maneuver_z-95.png",
+   "ModelName" : "Z-95 Headhunter",
+   "MovementSoundNames" : [
+      "XWing-Fly1",
+      "XWing-Fly2",
+      "XWing-Fly3"
+   ],
+   "ShotsCount" : "2",
+   "ShotsName" : "XWing-Laser",
+   "SkinName" : "Blue",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Lock"
+      },
+      {
+         "difficulty" : "Red",
+         "type" : "Barrel Roll"
+      }
+   ],
+   "factions" : {
+      "Rebel Alliance" : "TRUE",
+      "Scum and Villainy" : "TRUE"
+   },
+   "ffg" : 38,
+   "manuevers" : {
+      "1.F.S" : "Easy",
+      "1.L.B" : "Normal",
+      "1.R.B" : "Normal",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Easy",
+      "2.L.T" : "Normal",
+      "2.R.B" : "Easy",
+      "2.R.T" : "Normal",
+      "3.F.R" : "Complex",
+      "3.F.S" : "Easy",
+      "3.L.B" : "Normal",
+      "3.L.T" : "Normal",
+      "3.R.B" : "Normal",
+      "3.R.T" : "Normal",
+      "4.F.R" : "Complex",
+      "4.F.S" : "Normal"
+   },
+   "name" : "Z-95-AF4 Headhunter",
+   "shipAbility" : {
+      "name" : "Escape Craft",
+      "text" : "Setup: Requires the Hound's Tooth. You must begin the game docked with the Hound's Tooth."
+   },
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 2
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 2
+      },
+      {
+         "type" : "shields",
+         "value" : 2
+      }
+   ],
+   "xws" : "z95af4headhunter"
+}

@@ -109,6 +109,80 @@ namespace Ship
             TargetLockMaxRange = 3;
         }
 
+        public GenericShip(JSONObject ship, JSONObject pilot)        {            IconicPilots = new Dictionary<Faction, Type>();
+            RequiredMods = new List<Type>();
+            Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
+            UpgradeBar = new ShipUpgradeBar(this);
+            Tokens = new TokensManager(this);
+            ActionBar = new ShipActionBar(this);
+
+            TargetLockMinRange = 0;
+            TargetLockMaxRange = 3;
+
+            //Set values from JSON data here
+            //Console.Write(ship.ToString());
+
+            if (ship.HasField("ManeuversImageUrl")) { ManeuversImageUrl = ship["ManeuversImageUrl"].str; }            else { ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/8e/MI_TIE-INTERCEPTOR.png"; }
+
+            //Console.Write("Loading Ship Data");            ShipInfo = new ShipCardInfo(ship);
+            if (ship.HasField("ShipAbilities"))
+            {
+                //Console.Write("Loading Ship Abilities");   
+                foreach (JSONObject ability in ship["ShipAbilities"].list)
+                {
+                    //Console.Write("Loading Ship Ability: " + ability.str);
+                    Type type = Type.GetType(ability.str);
+                    if (type != null) { ShipAbilities.Add((GenericAbility)Activator.CreateInstance(type)); }
+                    else { Console.Write("Unable to add Ship Ability: " + ability.str); }
+                }
+            }
+
+            //Console.Write("Loading Manuevers");
+            DialInfo = new ShipDialInfo(ship["manuevers"]);
+            if (ship.HasField("HotacManeuverTable"))
+            {
+                Type type = Type.GetType("AI."+ ship["HotacManeuverTable"].str);
+                if (type != null) { HotacManeuverTable = (AI.GenericAiTable)Activator.CreateInstance(type); }
+                else { Console.Write("Unable to add HotAC AI Table: " + ship["HotacManeuverTable"].str); }
+            }
+
+            //Console.Write("Loading Model Data");
+            ModelInfo = new ShipModelInfo(ship["ModelName"].str, ship["SkinName"].str);
+
+            //Console.Write("Loading Sound Data");
+            List<string> sounds = new List<string>();
+            foreach (JSONObject sound in ship["MovementSoundNames"].list)
+            {
+                sounds.Add(sound.str);
+            }
+            SoundInfo = new ShipSoundInfo(sounds, ship["ShotsName"].str, (int)ship["ShotsCount"].i);
+            IconicPilots[Faction.Imperial] = Type.GetType("SoontirFel");
+            //foreach (string key in ship["IconicPilots"].keys)
+            //{
+            //    switch (key)
+            //    {
+            //        case "Imperial":
+            //            IconicPilots[Faction.Imperial] = Type.GetType(ship["IconicPilots"][key].str);
+            //            break;
+            //        case "Rebel":
+            //            IconicPilots[Faction.Rebel] = Type.GetType(ship["IconicPilots"][key].str);
+            //            break;
+            //        case "Scum":
+            //            IconicPilots[Faction.Scum] = Type.GetType(ship["IconicPilots"][key].str);
+            //            break;
+            //        default:
+            //            Console.Write("Iconic Pilot Faction type unknown: " + key);
+            //            break;
+            //    }
+            //}
+
+            if (pilot != null)            {
+                //Console.Write(pilot.ToString());
+                //Console.Write("Loading Pilot Data");
+                PilotInfo = new PilotCardInfo(pilot);
+
+                if (pilot.HasField("SkinName")) { ModelInfo.SkinName = pilot["SkinName"].str; }            }        }
+
         public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
         {
             Owner = Roster.GetPlayer(playerNo);

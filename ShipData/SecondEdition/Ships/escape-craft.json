@@ -1,0 +1,77 @@
+{
+   "FlyCasualModel" : "Escape Craft",
+   "FlyCasualType" : "Escape Craft",
+   "HotacManeuverTable" : "EscapeCraftTable",
+   "IconicPilots" : {
+      "Scum" : "AutopilotDrone"
+   },
+   "ManeuversImageUrl" : "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/20/Maneuver_escape_craft.png",
+   "ModelName" : "Escape Craft",
+   "MovementSoundNames" : [
+      "XWing-Fly1",
+      "XWing-Fly2",
+      "XWing-Fly3"
+   ],
+   "ShotsCount" : "2",
+   "ShotsName" : "XWing-Laser",
+   "SkinName" : "Default",
+   "actions" : [
+      {
+         "difficulty" : "White",
+         "type" : "Focus"
+      },
+      {
+         "difficulty" : "White",
+         "type" : "Barrel Roll"
+      },
+      {
+         "difficulty" : "Red",
+         "type" : "Coordinate"
+      }
+   ],
+   "factions" : {
+      "Scum and Villainy" : "TRUE"
+   },
+   "ffg" : 48,
+   "manuevers" : {
+      "0.S.S" : "Complex",
+      "1.F.S" : "Easy",
+      "1.L.B" : "Easy",
+      "1.R.B" : "Easy",
+      "2.F.S" : "Easy",
+      "2.L.B" : "Normal",
+      "2.L.T" : "Complex",
+      "2.R.B" : "Normal",
+      "2.R.T" : "Complex",
+      "3.F.R" : "Complex",
+      "3.F.S" : "Normal",
+      "3.L.B" : "Normal",
+      "3.R.B" : "Normal"
+   },
+   "name" : "Escape Craft",
+   "shipAbility" : {
+      "name" : "Rigged Energy Cells",
+      "text" : "During the System Phase, if you are not docked, lose 1 [Charge]. At the end of the Activation Phase, if you have 0 [Charge], you are destroyed. Before you are removed, each ship at range 0-1 suffers 1 [Critical Hit] damage."
+   },
+   "size" : "Small",
+   "stats" : [
+      {
+         "arc" : "Front Arc",
+         "type" : "attack",
+         "value" : 2
+      },
+      {
+         "type" : "agility",
+         "value" : 2
+      },
+      {
+         "type" : "hull",
+         "value" : 2
+      },
+      {
+         "type" : "shields",
+         "value" : 2
+      }
+   ],
+   "xws" : "escapecraft"
+}

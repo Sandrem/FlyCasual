@@ -1,0 +1,181 @@
+{
+   "Cartel Spacer" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_190.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 29,
+      "faction" : "Scum and Villainy",
+      "ffg" : 190,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_190.png",
+      "initiative" : 1,
+      "limited" : 0,
+      "name" : "Cartel Spacer",
+      "ship" : "M3-A Interceptor",
+      "ship_ffg" : 44,
+      "ship_xws" : "m3ainterceptor",
+      "slots" : [
+         "Modification"
+      ],
+      "xws" : "cartelspacer"
+   },
+   "Genesis Red" : {
+      "AbilityType" : "Abilities.SecondEdition.GenesisRedAbility",
+      "ability" : "After you acquire a lock, you must remove all of your focus and evade tokens. Then gain the same number of focus and evade tokens that the locked ship has.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_184.jpg",
+      "caption" : "Tansarii Point Crime Lord",
+      "charges" : null,
+      "cost" : 35,
+      "faction" : "Scum and Villainy",
+      "ffg" : 184,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_184.png",
+      "initiative" : 4,
+      "limited" : 1,
+      "name" : "Genesis Red",
+      "ship" : "M3-A Interceptor",
+      "ship_ffg" : 44,
+      "ship_xws" : "m3ainterceptor",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "genesisred"
+   },
+   "Inaldra" : {
+      "AbilityType" : "Abilities.FirstEdition.SerissuAbility",
+      "ability" : "While you defend or perform an attack, you may suffer 1 [Hit] damage to reroll any number of your dice.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_187.jpg",
+      "caption" : "Tansarii Point Boss",
+      "charges" : null,
+      "cost" : 32,
+      "faction" : "Scum and Villainy",
+      "ffg" : 187,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_187.png",
+      "initiative" : 2,
+      "limited" : 1,
+      "name" : "Inaldra",
+      "ship" : "M3-A Interceptor",
+      "ship_ffg" : 44,
+      "ship_xws" : "m3ainterceptor",
+      "slots" : [
+         "Modification"
+      ],
+      "xws" : "inaldra"
+   },
+   "Laetin A'shera" : {
+      "AbilityType" : "Abilities.SecondEdition.LaetinAshera",
+      "ability" : "After you defend or perform an attack, if the attack missed, gain 1 evade token.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_185.jpg",
+      "caption" : "Car'das Enforcer",
+      "charges" : null,
+      "cost" : 35,
+      "faction" : "Scum and Villainy",
+      "ffg" : 185,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_185.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Laetin A'shera",
+      "ship" : "M3-A Interceptor",
+      "ship_ffg" : 44,
+      "ship_xws" : "m3ainterceptor",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "laetinashera"
+   },
+   "Quinn Jast" : {
+      "AbilityType" : "Abilities.SecondEdition.QuinnJastAbility",
+      "ability" : "At the start of the Engagement Phase, you may gain 1 disarm token to recover 1 [Charge] on 1 of your equipped upgrades.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_186.jpg",
+      "caption" : "Fortune Seeker",
+      "charges" : null,
+      "cost" : 35,
+      "faction" : "Scum and Villainy",
+      "ffg" : 186,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_186.png",
+      "initiative" : 3,
+      "limited" : 1,
+      "name" : "Quinn Jast",
+      "ship" : "M3-A Interceptor",
+      "ship_ffg" : 44,
+      "ship_xws" : "m3ainterceptor",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "quinnjast"
+   },
+   "Serissu" : {
+      "AbilityType" : "Abilities.FirstEdition.SerissuAbility",
+      "ability" : "While a friendly ship at range 0-1 defends, it may reroll 1 of its dice.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_183.jpg",
+      "caption" : "Flight Instructor",
+      "charges" : null,
+      "cost" : 43,
+      "faction" : "Scum and Villainy",
+      "ffg" : 183,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_183.png",
+      "initiative" : 5,
+      "limited" : 1,
+      "name" : "Serissu",
+      "ship" : "M3-A Interceptor",
+      "ship_ffg" : 44,
+      "ship_xws" : "m3ainterceptor",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "serissu"
+   },
+   "Sunny Bounder" : {
+      "AbilityType" : "Abilities.SecondEdition.SunnyBounderAbility",
+      "ability" : "While you defend or perform an attack, after you roll or reroll your dice, if you have the same result on each of your dice, you may add 1 matching result.",
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_188.jpg",
+      "caption" : "Incurable Optimist",
+      "charges" : null,
+      "cost" : 31,
+      "faction" : "Scum and Villainy",
+      "ffg" : 188,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_188.png",
+      "initiative" : 1,
+      "limited" : 1,
+      "name" : "Sunny Bounder",
+      "ship" : "M3-A Interceptor",
+      "ship_ffg" : 44,
+      "ship_xws" : "m3ainterceptor",
+      "slots" : [
+         "Modification"
+      ],
+      "xws" : "sunnybounder"
+   },
+   "Tansarii Point Veteran" : {
+      "ability" : null,
+      "artwork" : "https://sb-cdn.fantasyflightgames.com/card_art/Card_art_XW_P_189.jpg",
+      "caption" : null,
+      "charges" : null,
+      "cost" : 33,
+      "faction" : "Scum and Villainy",
+      "ffg" : 189,
+      "force" : null,
+      "image" : "https://sb-cdn.fantasyflightgames.com/card_images/Card_Pilot_189.png",
+      "initiative" : 3,
+      "limited" : 0,
+      "name" : "Tansarii Point Veteran",
+      "ship" : "M3-A Interceptor",
+      "ship_ffg" : 44,
+      "ship_xws" : "m3ainterceptor",
+      "slots" : [
+         "Talent",
+         "Modification"
+      ],
+      "xws" : "tansariipointveteran"
+   }
+}

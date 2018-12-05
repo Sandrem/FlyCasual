@@ -54,7 +54,11 @@ namespace Upgrade
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            // TODO
+            foreach (UpgradeType upgrade in UpgradeSlots)
+            {
+                if (!ship.ShipInfo.UpgradeIcons.Upgrades.Contains(upgrade)) return false;
+            }
+
             return true;
         }
     }
@@ -70,8 +74,7 @@ namespace Upgrade
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            // TODO
-            return true;
+            return ship.ShipInfo.ActionIcons.Actions.Any(a => a.ActionType == Action.ActionType && (Action.Color == ActionColor.White || a.Color == Action.Color));
         }
     }
 
@@ -101,8 +104,7 @@ namespace Upgrade
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            // TODO
-            return true;
+            return ship.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType);
         }
     }
 

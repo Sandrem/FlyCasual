@@ -27,8 +27,10 @@ namespace Ship.FirstEdition.YT1300
                     new ActionInfo(typeof(TargetLockAction))
                 ),
                 new ShipUpgradesInfo(
+                    UpgradeType.Title,
                     UpgradeType.Crew,
-                    UpgradeType.Crew
+                    UpgradeType.Crew,
+                    UpgradeType.Modification
                 )
             );
 

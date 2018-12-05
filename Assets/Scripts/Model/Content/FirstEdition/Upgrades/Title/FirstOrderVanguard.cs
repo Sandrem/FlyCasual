@@ -42,14 +42,14 @@ namespace Abilities.FirstEdition
             GenericAction attackDiceModification = new FirstOrderVanguardAttackActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             host.AddAvailableDiceModification(attackDiceModification);
 
             GenericAction defenceDiceModification = new FirstOrderVanguardDefenceActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip,
+                HostShip = HostShip,
                 Source = HostUpgrade
             };
             host.AddAvailableDiceModification(defenceDiceModification);
@@ -83,9 +83,9 @@ namespace ActionsList
 
             foreach (var shipHolder in Roster.AllShips)
             {
-                if (shipHolder.Value.ShipId != Host.ShipId && shipHolder.Value.ShipId != Combat.Defender.ShipId)
+                if (shipHolder.Value.ShipId != HostShip.ShipId && shipHolder.Value.ShipId != Combat.Defender.ShipId)
                 {
-                    ShotInfo shotInfo = new ShotInfo(Host, shipHolder.Value, Host.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(HostShip, shipHolder.Value, HostShip.PrimaryWeapon);
                     if (shotInfo.InArc && shotInfo.Range <= 3)
                     {
                         return false;

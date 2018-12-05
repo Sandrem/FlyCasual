@@ -37,7 +37,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction action = new ActionsList.R2F2Action()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             host.AddAvailableAction(action);
         }
@@ -58,9 +58,9 @@ namespace ActionsList
         {
             Sounds.PlayShipSound("Astromech-Beeping-and-whistling");
 
-            Host.ChangeAgilityBy(+1);
+            HostShip.ChangeAgilityBy(+1);
             Phases.Events.OnEndPhaseStart_NoTriggers += R2F2DecreaseAgility;
-            Host.Tokens.AssignCondition(typeof(Conditions.R2F2Condition));
+            HostShip.Tokens.AssignCondition(typeof(Conditions.R2F2Condition));
             Phases.CurrentSubPhase.CallBack();
         }
 
@@ -73,8 +73,8 @@ namespace ActionsList
 
         private void R2F2DecreaseAgility()
         {
-            Host.ChangeAgilityBy(-1);
-            Host.Tokens.RemoveCondition(typeof(Conditions.R2F2Condition));
+            HostShip.ChangeAgilityBy(-1);
+            HostShip.Tokens.RemoveCondition(typeof(Conditions.R2F2Condition));
             Phases.Events.OnEndPhaseStart_NoTriggers -= R2F2DecreaseAgility;
         }
 

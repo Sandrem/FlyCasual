@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             ship.AddAvailableDiceModification(new ActionsList.LinkedBatteryAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             });
         }
     }

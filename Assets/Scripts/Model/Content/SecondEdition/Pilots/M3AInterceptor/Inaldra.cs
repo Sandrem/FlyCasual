@@ -31,7 +31,7 @@ namespace Abilities.SecondEdition
     {
         protected override void AddInaldraAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new InaldraActionSE() { Host = HostShip });
+            ship.AddAvailableDiceModification(new InaldraActionSE() { HostShip = HostShip });
         }
     }
 }
@@ -62,7 +62,7 @@ namespace ActionsList.SecondEdition
                 DamageType = DamageTypes.CardAbility
             };
 
-            Host.Damage.TryResolveDamage(1, inaldraRerollDmg, diceRerollManager.Start);
+            HostShip.Damage.TryResolveDamage(1, inaldraRerollDmg, diceRerollManager.Start);
 
         }
 

@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
 
         private void AddPoeDameronPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new PoeDameronAction() { Host = HostShip });
+            ship.AddAvailableDiceModification(new PoeDameronAction() { HostShip = HostShip });
         }
 
         private class PoeDameronAction : ActionsList.GenericAction
@@ -54,7 +54,7 @@ namespace Abilities.FirstEdition
 
             public override void ActionEffect(System.Action callBack)
             {
-                if (Host.Tokens.HasToken(typeof(Tokens.FocusToken)))
+                if (HostShip.Tokens.HasToken(typeof(Tokens.FocusToken)))
                 {
                     Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
                 }
@@ -69,7 +69,7 @@ namespace Abilities.FirstEdition
             public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
-                if ((Host.Tokens.HasToken(typeof(Tokens.FocusToken))) && (Combat.CurrentDiceRoll.Focuses > 0)) result = true;
+                if ((HostShip.Tokens.HasToken(typeof(Tokens.FocusToken))) && (Combat.CurrentDiceRoll.Focuses > 0)) result = true;
                 return result;
             }
 
@@ -77,7 +77,7 @@ namespace Abilities.FirstEdition
             {
                 int result = 0;
 
-                if (Host.Tokens.HasToken(typeof(Tokens.FocusToken)))
+                if (HostShip.Tokens.HasToken(typeof(Tokens.FocusToken)))
                 {
                     if (Combat.CurrentDiceRoll.Focuses > 0) result = 100;
                 }

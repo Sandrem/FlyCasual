@@ -33,7 +33,7 @@ namespace Abilities.SecondEdition
     {
         protected override void AddRearAdmiralChiraneauPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.SecondEdition.RearAdmiralChiraneauAction() { Host = HostShip });
+            ship.AddAvailableDiceModification(new ActionsList.SecondEdition.RearAdmiralChiraneauAction() { HostShip = HostShip });
         }
     }
 }

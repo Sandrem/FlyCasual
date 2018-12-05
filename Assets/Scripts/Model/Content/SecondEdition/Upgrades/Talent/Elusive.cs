@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
             GenericAction newAction = new ElusiveDiceModification
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host,
+                HostShip = host,
                 Source = HostUpgrade
             };
             host.AddAvailableDiceModification(newAction);

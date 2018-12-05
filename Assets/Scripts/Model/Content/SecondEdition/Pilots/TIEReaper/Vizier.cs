@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             HostShip.OnActionIsPerformed += CheckActionRestriction;
             HostShip.OnMovementStart += ClearRestrictedAbility;
 
-            HostShip.AskPerformFreeAction(new CoordinateAction() { Host = HostShip }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(new CoordinateAction() { HostShip = HostShip }, Triggers.FinishTrigger);
         }
 
         private void CheckActionRestriction(GenericAction action)

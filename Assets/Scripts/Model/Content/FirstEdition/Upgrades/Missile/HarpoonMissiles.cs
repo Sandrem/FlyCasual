@@ -88,7 +88,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
+            HostShip.Tokens.RemoveCondition(typeof(Conditions.Harpooned));
 
             Phases.StartTemporarySubPhaseOld(
                 "Damage from \"Harpooned!\" condition",
@@ -239,7 +239,7 @@ namespace Conditions
             ActionsList.GenericAction action = new ActionsList.HarpoonedRepairAction()
             {
                 ImageUrl = (new Harpooned(harpoonedShip)).Tooltip,
-                Host = harpoonedShip
+                HostShip = harpoonedShip
             };
             harpoonedShip.AddAvailableAction(action);
         }

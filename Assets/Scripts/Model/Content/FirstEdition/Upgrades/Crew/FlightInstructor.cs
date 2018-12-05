@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
         {
             GenericAction newAction = new FlightInstructorActionEffect
             {
-                Host = host,
+                HostShip = host,
                 ImageUrl = HostUpgrade.ImageUrl
             };
             host.AddAvailableDiceModification(newAction);

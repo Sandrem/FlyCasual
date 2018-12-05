@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
 
         private void AddEzraBridgerPilotAbilitySE(GenericShip ship)
         {
-            EzraBridgerActionSE newAction = new EzraBridgerActionSE() { Host = this.HostShip };
+            EzraBridgerActionSE newAction = new EzraBridgerActionSE() { HostShip = this.HostShip };
             ship.AddAvailableDiceModification(newAction);
         }
 
@@ -63,7 +63,7 @@ namespace Abilities.SecondEdition
 
             public override bool IsDiceModificationAvailable()
             {
-                if (Host.Tokens.HasToken(typeof(Tokens.StressToken)) && Host.Tokens.HasToken(typeof(Tokens.ForceToken)))
+                if (HostShip.Tokens.HasToken(typeof(Tokens.StressToken)) && HostShip.Tokens.HasToken(typeof(Tokens.ForceToken)))
                     return true;
 
                 return false;

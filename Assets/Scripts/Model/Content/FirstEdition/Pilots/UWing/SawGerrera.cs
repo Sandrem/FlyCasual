@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
 
             if (Combat.Attacker.Tokens.HasToken(typeof(StressToken)) || Combat.Attacker.State.HullCurrent < Combat.Attacker.State.HullMax)
             {
-                Combat.Attacker.AddAvailableDiceModification(new SawGerreraPilotAction() { Host = HostShip, ImageUrl = HostShip.ImageUrl });
+                Combat.Attacker.AddAvailableDiceModification(new SawGerreraPilotAction() { HostShip = HostShip, ImageUrl = HostShip.ImageUrl });
             }
         }
 

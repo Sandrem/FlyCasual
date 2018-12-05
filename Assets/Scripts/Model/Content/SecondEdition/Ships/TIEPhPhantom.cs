@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
         private void ProposeFreeEvadeAction(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Stygium Array: You may perform an Evade action");
-            HostShip.AskPerformFreeAction(new EvadeAction() { Host = HostShip }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(new EvadeAction() { HostShip = HostShip }, Triggers.FinishTrigger);
         }
 
         private void RegisterCloakAbility()

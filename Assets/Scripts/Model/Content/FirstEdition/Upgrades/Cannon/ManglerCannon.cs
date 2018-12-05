@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
             ship.AddAvailableDiceModification(new ManglerCannonAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip,
+                HostShip = HostShip,
                 Source = HostUpgrade
             });
         }

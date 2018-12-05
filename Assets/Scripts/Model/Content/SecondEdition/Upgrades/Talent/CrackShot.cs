@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
             ActionsList.GenericAction newAction = new ActionsList.SecondEdition.CrackShotDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host,
+                HostShip = host,
                 Source = this.HostUpgrade
             };
             host.AddAvailableDiceModification(newAction);
@@ -64,7 +64,7 @@ namespace ActionsList.SecondEdition
         {
             bool result = false;
 
-            if (Combat.DiceRollDefence.Successes > 0 && Source.State.Charges > 0 && Combat.Attacker == Host && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcType.Bullseye))
+            if (Combat.DiceRollDefence.Successes > 0 && Source.State.Charges > 0 && Combat.Attacker == HostShip && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcType.Bullseye))
             {
                 result = true;
             }

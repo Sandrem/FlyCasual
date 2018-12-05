@@ -52,7 +52,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new AutothrustersDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }

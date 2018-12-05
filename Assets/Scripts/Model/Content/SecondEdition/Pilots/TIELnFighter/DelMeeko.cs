@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
 
         private void AddDelMeekoAbility(GenericShip ship)
         {
-            Combat.Defender.AddAvailableDiceModification(new DelMeekoAction() { Host = this.HostShip });
+            Combat.Defender.AddAvailableDiceModification(new DelMeekoAction() { HostShip = this.HostShip });
         }
 
         private class DelMeekoAction : FriendlyRerollAction

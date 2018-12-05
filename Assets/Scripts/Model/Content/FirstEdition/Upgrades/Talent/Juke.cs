@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.JukeActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }
@@ -73,7 +73,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence &&
                 Combat.DiceRollDefence.RegularSuccesses > 0 &&
-                Host.Tokens.HasToken(typeof(EvadeToken)))
+                HostShip.Tokens.HasToken(typeof(EvadeToken)))
             {
                 result = true;
             }

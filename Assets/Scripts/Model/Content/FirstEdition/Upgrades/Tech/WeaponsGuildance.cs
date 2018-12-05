@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new WeaponsGuildanceDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             host.AddAvailableDiceModification(newAction);
         }
@@ -71,7 +71,7 @@ namespace ActionsList
             Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
             Combat.CurrentDiceRoll.OrganizeDicePositions();
 
-            Host.Tokens.SpendToken(
+            HostShip.Tokens.SpendToken(
                 typeof(FocusToken),
                 callBack
             );
@@ -80,7 +80,7 @@ namespace ActionsList
         public override bool IsDiceModificationAvailable()
         {
             if (Combat.AttackStep == CombatStep.Attack
-                && Host.Tokens.HasToken(typeof(FocusToken)))
+                && HostShip.Tokens.HasToken(typeof(FocusToken)))
             {
                 return true;
             }

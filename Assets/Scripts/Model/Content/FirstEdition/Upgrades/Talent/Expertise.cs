@@ -38,7 +38,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new ExpertiseDiceModification
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }
@@ -71,7 +71,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                if (!Host.Tokens.HasToken(typeof(Tokens.StressToken)))
+                if (!HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {
                     int attackFocuses = Combat.DiceRollAttack.Focuses;
                     if (attackFocuses > 0) result = 55;
@@ -83,7 +83,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            if (!Host.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (!HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Success);
             }

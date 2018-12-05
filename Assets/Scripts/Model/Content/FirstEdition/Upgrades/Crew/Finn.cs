@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
         {
             GenericAction newAction = new FinnDiceModification()
             {
-                Host = host,
+                HostShip = host,
                 ImageUrl = HostUpgrade.ImageUrl
             };
             host.AddAvailableDiceModification(newAction);

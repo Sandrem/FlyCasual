@@ -15,7 +15,7 @@
         public override void ActionEffect(System.Action callBack)
         {
             Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
-            Host.State.Force--;
+            HostShip.State.Force--;
             callBack();
         }
 
@@ -51,7 +51,7 @@
 
         public override bool IsDiceModificationAvailable()
         {
-            return Host.State.Force > 0;
+            return HostShip.State.Force > 0;
         }
 
     }

@@ -37,7 +37,7 @@ namespace Abilities
             {
                 ProtonTorpedoesDiceModificationSE action = new ProtonTorpedoesDiceModificationSE()
                 {
-                    Host = host,
+                    HostShip = host,
                     ImageUrl = HostUpgrade.ImageUrl,
                     Source = HostUpgrade
                 };

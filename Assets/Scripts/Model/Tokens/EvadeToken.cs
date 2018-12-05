@@ -13,7 +13,7 @@ namespace Tokens
             Name = "Evade Token";
             TokenColor = TokenColors.Green;
             PriorityUI = 60;
-            Action = new ActionsList.EvadeAction() { Host = host };
+            Action = new ActionsList.EvadeAction() { HostShip = host };
         }
 
     }

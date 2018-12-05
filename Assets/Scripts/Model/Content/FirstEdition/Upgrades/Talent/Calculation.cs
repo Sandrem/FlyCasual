@@ -37,7 +37,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.CalculationEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
 
@@ -85,7 +85,7 @@ namespace ActionsList
                 /*You can activate it if you rolled one focus at least,
                  * and you dispose of focus tokens
                  */
-                result = Host.Tokens.HasToken(typeof(FocusToken)) &&
+                result = HostShip.Tokens.HasToken(typeof(FocusToken)) &&
                          Combat.DiceRollAttack.Focuses > 0;
             }
             return result;
@@ -94,7 +94,7 @@ namespace ActionsList
         public override void ActionEffect(System.Action callBack)
         {
             Combat.DiceRollAttack.ChangeOne(DieSide.Focus, DieSide.Crit, false);
-            Host.Tokens.SpendToken(typeof(FocusToken), callBack);
+            HostShip.Tokens.SpendToken(typeof(FocusToken), callBack);
         }
 
     }

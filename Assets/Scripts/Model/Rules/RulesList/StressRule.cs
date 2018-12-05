@@ -83,7 +83,7 @@ namespace RulesList
 
         private void AddRemoveStressActionForHotacAI(GenericShip host)
         {
-            host.AddAvailableAction(new HotacRemoveStressAction() { Host = host });
+            host.AddAvailableAction(new HotacRemoveStressAction() { HostShip = host });
         }
 
     }
@@ -104,7 +104,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host.Tokens.RemoveToken(
+            HostShip.Tokens.RemoveToken(
                 typeof(StressToken),
                 Phases.CurrentSubPhase.CallBack
             );
@@ -113,7 +113,7 @@ namespace ActionsList
         public override int GetActionPriority()
         {
             int result = 0;
-            if (Host.Tokens.HasToken(typeof(StressToken))) result = int.MaxValue;
+            if (HostShip.Tokens.HasToken(typeof(StressToken))) result = int.MaxValue;
             return result;
         }
 

@@ -437,7 +437,7 @@ namespace Abilities
                     DiceModificationName = name,
                     ImageUrl = HostImageUrl,
                     DiceModificationTiming = timing,
-                    Host = HostShip,
+                    HostShip = HostShip,
                     Source = HostUpgrade,
                     CheckDiceModificationAvailable = isAvailable,
                     GenerateDiceModificationAiPriority = aiPriority,

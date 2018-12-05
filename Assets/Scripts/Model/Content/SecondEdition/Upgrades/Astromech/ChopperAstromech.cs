@@ -50,7 +50,7 @@ namespace Abilities.SecondEdition
                 ship.AddAvailableAction(new RecoverShieldAction()
                 {
                     ImageUrl = HostUpgrade.ImageUrl,
-                    Host = HostShip,
+                    HostShip = HostShip,
                     Source = this.HostUpgrade,
                     GetAvailableUpgrades = GetNonRecurringChargeUpgrades
                 });
@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
                 ship.AddAvailableAction(new RecoverChargeAction()
                 {
                     ImageUrl = HostUpgrade.ImageUrl,
-                    Host = HostShip,
+                    HostShip = HostShip,
                     Source = this.HostUpgrade,
                     GetAvailableUpgrades = GetNonRecurringChargeUpgrades
                 });
@@ -98,7 +98,7 @@ namespace Abilities.SecondEdition
             protected override void UpgradeSelected(GenericUpgrade upgrade, Action callback)
             {
                 upgrade.State.SpendCharge();
-                Host.TryRegenShields();
+                HostShip.TryRegenShields();
                 callback();
             }
         }
@@ -124,8 +124,8 @@ namespace Abilities.SecondEdition
 
             protected override void UpgradeSelected(GenericUpgrade upgrade, Action callback)
             {
-                Host.LoseShield();
-                Host.LoseShield();
+                HostShip.LoseShield();
+                HostShip.LoseShield();
                 upgrade.State.RestoreCharge();
                 callback();
             }

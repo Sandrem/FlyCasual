@@ -47,7 +47,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new WookieeCommandosDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             HostShip.AddAvailableDiceModification(newAction);
         }

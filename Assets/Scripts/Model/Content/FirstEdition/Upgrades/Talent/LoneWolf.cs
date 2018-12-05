@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new LoneWolfActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }
@@ -63,11 +63,11 @@ namespace ActionsList
         {
             bool result = true;
 
-            foreach (var friendlyShip in Host.Owner.Ships)
+            foreach (var friendlyShip in HostShip.Owner.Ships)
             {
-                if (friendlyShip.Value.ShipId != Host.ShipId)
+                if (friendlyShip.Value.ShipId != HostShip.ShipId)
                 {
-                    BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Host, friendlyShip.Value);
+                    BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, friendlyShip.Value);
                     if (distanceInfo.Range < 3)
                     {
                         result = false;

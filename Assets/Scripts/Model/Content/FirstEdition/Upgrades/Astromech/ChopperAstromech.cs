@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
             GenericAction action = new ChopperAstromechAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip,
+                HostShip = HostShip,
                 DoAction = AskToDiscardAnotherUpgrade
             };
             host.AddAvailableAction(action);

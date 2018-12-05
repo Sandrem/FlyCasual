@@ -23,12 +23,12 @@ namespace Arcs
     public enum ArcFacing
     {
         None,
-        Forward,
+        Front,
         Left,
         Right,
         Rear,
-        Front180,
-        Rear180,
+        FullFront,
+        FullRear,
         Bullseye
     }
 
@@ -85,31 +85,5 @@ namespace Arcs
         {
             ShipBase.Host.ArcsInfo.Arcs.Remove(this);
         }
-    }
-
-    public class ArcsHolder
-    {
-        private readonly GenericShip HostShip;
-        public List<GenericArc> Arcs { get; set; }
-
-        public ArcsHolder(GenericShip hostShip)
-        {
-            HostShip = hostShip;
-            Arcs = new List<GenericArc>
-            {
-                new OutOfArc(hostShip.ShipBase)
-            };
-        }
-
-        public T GetArc<T>() where T : GenericArc
-        {
-            return (T)Arcs.FirstOrDefault(n => n.GetType() == typeof(T));
-        }
-
-        public bool HasArc(ArcType arcType)
-        {
-            return HostShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == arcType);
-        }
-
     }
 }

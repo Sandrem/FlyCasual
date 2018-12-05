@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.CrackShotDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host,
+                HostShip = host,
                 Source = this.HostUpgrade
             };
             host.AddAvailableDiceModification(newAction);

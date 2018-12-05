@@ -36,7 +36,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.SensorJammerActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }

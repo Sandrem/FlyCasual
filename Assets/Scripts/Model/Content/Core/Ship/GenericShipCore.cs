@@ -63,6 +63,7 @@ namespace Ship
         public GenericShipBase ShipBase { get; protected set; }
 
         public ArcsHolder ArcsInfo { get; protected set; }
+        public SectorsHolder SectorsInfo { get; set; }
 
         public ShipUpgradeBar UpgradeBar { get; protected set; }
         public ShipActionBar ActionBar { get; protected set; }
@@ -172,12 +173,18 @@ namespace Ship
         public void InitializeShipModel()
         {
             CreateModel(StartingPosition);
+            InitializeSectors();
             InitializeShipBaseArc();
 
             SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
 
             SetShipInsertImage();
             SetShipSkin();
+        }
+
+        public void InitializeSectors()
+        {
+            SectorsInfo = new SectorsHolder(this);
         }
 
         public void InitializeShipBaseArc()

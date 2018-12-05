@@ -20,7 +20,7 @@ namespace ActionsList
         public override bool IsActionAvailable()
         {
             bool result = true;
-            if (Host.IsAlreadyExecutedAction<ReinforceForeAction>() || Host.IsAlreadyExecutedAction<ReinforceAftAction>())
+            if (HostShip.IsAlreadyExecutedAction<ReinforceForeAction>() || HostShip.IsAlreadyExecutedAction<ReinforceAftAction>())
             {
                 result = false;
             }

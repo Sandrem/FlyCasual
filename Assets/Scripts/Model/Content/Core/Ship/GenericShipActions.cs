@@ -193,9 +193,15 @@ namespace Ship
         {
             AskPerformFreeAction(new List<GenericAction> { freeAction }, callback, isForced);
         }
+
         // TODO: move actions list into subphase
         public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback, bool isForced = false)
         {
+            foreach (GenericAction freeAction in freeActions)
+            {
+                if (freeAction.HostShip == null) freeAction.HostShip = Selection.ThisShip;
+            }
+
             GenerateAvailableFreeActionsList(freeActions);
 
             Triggers.RegisterTrigger(
@@ -209,7 +215,7 @@ namespace Ship
                         (
                             "Free action decision",
                             typeof(FreeActionDecisonSubPhase),
-(Action)delegate {
+                            (Action)delegate {
                                 var phase = Phases.CurrentSubPhase as FreeActionDecisonSubPhase;
                                 if (phase != null && phase.ActionWasPerformed)
                                 {
@@ -224,8 +230,8 @@ namespace Ship
                                 }
                                 else
                                 {
-        Selection.ThisShip.CallActionIsSkipped();
-        FinishFreeActionDecision(callback);
+                                    Selection.ThisShip.CallActionIsSkipped();
+                                    FinishFreeActionDecision(callback);
                                 }
                             }
                         );

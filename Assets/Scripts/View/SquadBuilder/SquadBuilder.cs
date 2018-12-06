@@ -70,7 +70,6 @@ namespace SquadBuilderNS
                 if (ship.Instance.ShipInfo.FactionsAll.Contains(faction) && !ship.Instance.IsHidden)
                 {
                     if (Edition.Current.ShipIsAllowed(ship.Instance)) ShowAvailableShip(ship, faction);
-                    if (UseJSONData) ShowAvailableShip(ship, faction);
                 }
             }
         }
@@ -113,15 +112,7 @@ namespace SquadBuilderNS
 
             if (ship.Instance.IconicPilots != null)
             {
-                if (UseJSONData)
-                {
-                    Console.Write("Loading Iconic Pilot Image: " + ship.ShipName);
-                    image = JsonPilotData[ship.ShipName][JsonShipData[ship.ShipName]["IconicPilots"][CurrentSquadList.SquadFaction.ToString()].str]["image"].str;
-                }
-                else
-                {
-                    image = AllPilots.Find(n => n.PilotTypeName == ship.Instance.IconicPilots[CurrentSquadList.SquadFaction].ToString()).Instance.ImageUrl;
-                }
+                image = AllPilots.Find(n => n.PilotTypeName == ship.Instance.IconicPilots[CurrentSquadList.SquadFaction].ToString()).Instance.ImageUrl;
             }
 
             return image;
@@ -132,15 +123,7 @@ namespace SquadBuilderNS
             availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
-            List<PilotRecord> AllPilotsFiltered;
-            if (UseJSONData)
-            {
-                AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction).OrderByDescending(n => n.PilotSkill).OrderByDescending(n => n.Instance.PilotInfo.Cost).ToList();
-            }
-            else
-            {
-                AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && Edition.Current.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.PilotSkill).OrderByDescending(n => n.Instance.PilotInfo.Cost).ToList();
-            }
+            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && Edition.Current.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.PilotSkill).OrderByDescending(n => n.Instance.PilotInfo.Cost).ToList();
             int pilotsCount = AllPilotsFiltered.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
@@ -171,21 +154,9 @@ namespace SquadBuilderNS
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
-            GenericShip newShip = null;
-            if (UseJSONData)
-            {
-                newShip = new GenericShip(JsonShipData[pilotRecord.PilotShip.ShipName], JsonPilotData[pilotRecord.PilotShip.ShipName][pilotRecord.PilotName]);
-                if (Edition.Current is SecondEdition)
-                {
-                    newShip.HotacManeuverTable.AdaptToSecondEdition();
-                }
-            }
-            else
-            {
-                newShip = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
-                Edition.Current.AdaptShipToRules(newShip);
-                Edition.Current.AdaptPilotToRules(newShip);
-            }
+            GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
+            Edition.Current.AdaptShipToRules(newShip);
+            Edition.Current.AdaptPilotToRules(newShip);
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
             script.Initialize(newShip, PilotSelectedIsClicked, true);

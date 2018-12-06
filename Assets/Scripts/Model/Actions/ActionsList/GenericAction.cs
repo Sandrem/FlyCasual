@@ -67,6 +67,16 @@ namespace ActionsList
             set { source = value; }
         }
 
+        public GenericAction AsRedAction
+        {
+            get
+            {
+                var redAction = (GenericAction)MemberwiseClone();
+                redAction.IsRed = true;
+                return redAction;
+            }
+        }
+
         public bool IsInActionBar;
 
         public Action DoAction = delegate { };
@@ -154,16 +164,6 @@ namespace ActionsList
             */
 
             return result;
-        }
-
-        public GenericAction AsRedAction
-        {
-            get
-            {
-                var redAction = (GenericAction)MemberwiseClone();
-                redAction.IsRed = true;
-                return redAction;
-            }
         }
 
     }

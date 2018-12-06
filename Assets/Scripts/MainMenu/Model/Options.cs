@@ -21,6 +21,8 @@ public static class Options
     public static string Edition;
     public static bool DontShowAiInfo;
 
+    public static readonly string DefaultAvatar = "UpgradesList.FirstEdition.VeteranInstincts";
+
     static Options()
     {
         ReadOptions();
@@ -34,7 +36,7 @@ public static class Options
         SfxVolume = PlayerPrefs.GetFloat("SFX Volume", 0.25f);
         AnimationSpeed = PlayerPrefs.GetFloat("Animation Speed", 0.25f);
         ManeuverSpeed = PlayerPrefs.GetFloat("Maneuver Speed", 0.25f);
-        Avatar = PlayerPrefs.GetString("Avatar", "UpgradesList.VeteranInstincts");
+        Avatar = PlayerPrefs.GetString("Avatar", Options.DefaultAvatar);
         NickName = PlayerPrefs.GetString("NickName", "Unknown Pilot");
         Title = PlayerPrefs.GetString("Title", "Test Pilot");
         DontShowAiInfo = PlayerPrefs.GetInt("DontShowAiInfo", 0) == 1;

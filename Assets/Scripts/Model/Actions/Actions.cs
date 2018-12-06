@@ -10,9 +10,43 @@ using Tokens;
 using System.Linq;
 using SubPhases;
 
-public static partial class Actions
+namespace Actions
 {
+    public enum ActionColor
+    {
+        White,
+        Red
+    }
 
+    public class ActionInfo
+    {
+        public Type ActionType { get; private set; }
+        public ActionColor Color { get; private set; }
+
+        public ActionInfo(Type actionType, ActionColor color = ActionColor.White)
+        {
+            ActionType = actionType;
+            Color = color;
+        }
+    }
+
+    public class LinkedActionInfo
+    {
+        public Type ActionType { get; private set; }
+        public Type ActionLinkedType { get; private set; }
+        public ActionColor LinkedColor { get; private set; }
+
+        public LinkedActionInfo(Type actionType, Type actionLinkedType, ActionColor linkedColor = ActionColor.Red)
+        {
+            ActionType = actionType;
+            ActionLinkedType = actionLinkedType;
+            LinkedColor = linkedColor;
+        }
+    }
+}
+
+public static partial class ActionsHolder
+{
     private static Dictionary<char, bool> Letters;
 
     public static GenericDamageCard SelectedCriticalHitCard;
@@ -434,7 +468,7 @@ public static partial class Actions
 
     public static void TakeActionFinish(Action callback)
     {
-        bool isActionSkipped = (Actions.CurrentAction == null);
+        bool isActionSkipped = (ActionsHolder.CurrentAction == null);
 
         if (!isActionSkipped)
         {
@@ -449,7 +483,7 @@ public static partial class Actions
 
     private static void ActionIsTaken(Action callback)
     {
-        Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, callback);
+        Selection.ThisShip.CallActionIsTaken(ActionsHolder.CurrentAction, callback);
     }
 
     private static void ActionIsSkipped()

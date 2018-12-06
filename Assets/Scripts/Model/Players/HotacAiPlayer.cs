@@ -20,12 +20,12 @@ namespace Players
 
         public override void ActivateShip(GenericShip ship)
         {
-            Console.Write(ship.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
+            Console.Write(ship.PilotInfo.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
 
             GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
-            Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
+            Console.Write("Nearest enemy is " + ship.PilotInfo.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
 
             // TODO: remove null variant
 

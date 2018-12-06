@@ -21,7 +21,7 @@ namespace RulesList
                 {
                     if (Combat.Attacker.ShipBaseArcsType == BaseArcsType.ArcBullseye)
                     {
-                        if (Combat.ShotInfo.InArcByType(ArcTypes.Bullseye))
+                        if (Combat.ShotInfo.InArcByType(ArcType.Bullseye))
                         {
                             Messages.ShowError("Bullseye: " + action.DiceModificationName + " cannot be used");
                             canBeUsed = false;

@@ -64,7 +64,7 @@ namespace SubPhases
 
             var pilotSkillResults =
                 from n in Roster.AllShips
-                where n.Value.PilotSkill == pilotSkill
+                where n.Value.State.Initiative == pilotSkill
                 where n.Value.IsManeuverPerformed == false
                 select n;
 
@@ -98,13 +98,13 @@ namespace SubPhases
 
             var ascPilotSkills =
                 from n in Roster.AllShips
-                where n.Value.PilotSkill > pilotSkillMin
-                orderby n.Value.PilotSkill
+                where n.Value.State.Initiative > pilotSkillMin
+                orderby n.Value.State.Initiative
                 select n;
 
             if (ascPilotSkills.Count() > 0)
             {
-                result = ascPilotSkills.First().Value.PilotSkill;
+                result = ascPilotSkills.First().Value.State.Initiative;
             }
 
             return result;
@@ -136,7 +136,7 @@ namespace SubPhases
         {
             bool result = false;
 
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }
@@ -165,7 +165,7 @@ namespace SubPhases
 
         private bool FilterShipsToPerformAttack(GenericShip ship)
         {
-            return ship.PilotSkill == RequiredPilotSkill && !ship.IsManeuverPerformed && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.State.Initiative == RequiredPilotSkill && !ship.IsManeuverPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)

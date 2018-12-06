@@ -26,7 +26,7 @@ namespace ActionsList
         private void SpendEnergyForShields()
         {
             var ship = Selection.ThisShip;
-            var energyTokenCount = ship.Energy;
+            var energyTokenCount = ship.State.Energy;
             //var maxRecoverableShields = ship.MaxShields - ship.Shields;            
 
             SpendEnergy(energyTokenCount, Selection.ThisShip);
@@ -54,7 +54,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            int recoverableShields = Mathf.Min(Selection.ThisShip.MaxShields - Selection.ThisShip.Shields, Selection.ThisShip.Energy);
+            int recoverableShields = Mathf.Min(Selection.ThisShip.State.ShieldsMax - Selection.ThisShip.State.ShieldsCurrent, Selection.ThisShip.State.Energy);
             result = recoverableShields * 110;
 
             return result;

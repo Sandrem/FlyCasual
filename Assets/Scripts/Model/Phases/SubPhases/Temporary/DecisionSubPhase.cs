@@ -255,7 +255,7 @@ namespace SubPhases
 
                             break;
                         case DecisionViewTypes.ImagesUpgrade:
-                            button.transform.localPosition = new Vector3(15*(i+1) + i* RuleSets.RuleSet.Instance.UpgradeCardSize.x, 0, 0);
+                            button.transform.localPosition = new Vector3(15*(i+1) + i* RuleSets.Edition.Current.UpgradeCardSize.x, 0, 0);
 
                             script = button.GetComponent<SmallCardPanel>();
                             script.Initialize(
@@ -309,12 +309,12 @@ namespace SubPhases
                         break;
                     case DecisionViewTypes.ImagesUpgrade:
                         decisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            Mathf.Max(395 * 1.5f, decisions.Count * RuleSets.RuleSet.Instance.UpgradeCardSize.x + (decisions.Count + 1) * 15),
-                            defaultWindowHeight + RuleSets.RuleSet.Instance.UpgradeCardSize.y + 15
+                            Mathf.Max(395 * 1.5f, decisions.Count * RuleSets.Edition.Current.UpgradeCardSize.x + (decisions.Count + 1) * 15),
+                            defaultWindowHeight + RuleSets.Edition.Current.UpgradeCardSize.y + 15
                         );
                         buttonsHolder.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            decisions.Count * RuleSets.RuleSet.Instance.UpgradeCardSize.x + (decisions.Count + 1) * 15,
-                            defaultWindowHeight + RuleSets.RuleSet.Instance.UpgradeCardSize.y + 15
+                            decisions.Count * RuleSets.Edition.Current.UpgradeCardSize.x + (decisions.Count + 1) * 15,
+                            defaultWindowHeight + RuleSets.Edition.Current.UpgradeCardSize.y + 15
                         );
                         break;
                     case DecisionViewTypes.ImagesDamageCard:

@@ -50,9 +50,9 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                delegate {
-                    Actions.TakeActionFinish(
-                        delegate { Actions.EndActionDecisionSubhase(Finish); }
+(Action)delegate {
+                    ActionsHolder.TakeActionFinish(
+                        delegate { ActionsHolder.EndActionDecisionSubhase(Finish); }
                     ); 
                 }
             );
@@ -118,7 +118,7 @@ namespace SubPhases
                 if (!DecisionWasPreparedAndShown)
                 {
                     Messages.ShowErrorToHuman("Cannot perform any actions");
-                    Actions.CurrentAction = null;
+                    ActionsHolder.CurrentAction = null;
                     CallBack();
                 }
             }
@@ -146,7 +146,7 @@ namespace SubPhases
 
                         AddDecision(decisionName, delegate {
                             ActionWasPerformed = true;
-                            Actions.TakeActionStart(action);
+                            ActionsHolder.TakeActionStart(action);
                         }, action.ImageUrl, -1, action.IsRed);
                     }
                 }
@@ -155,7 +155,7 @@ namespace SubPhases
                 {
                     AddDecision(action.Name, delegate {
                         ActionWasPerformed = true;
-                        Actions.TakeActionStart(action);
+                        ActionsHolder.TakeActionStart(action);
                     }, action.ImageUrl, -1, action.IsRed);
                 }
             }
@@ -170,7 +170,7 @@ namespace SubPhases
 
         public override void SkipButton()
         {
-            Actions.CurrentAction = null;
+            ActionsHolder.CurrentAction = null;
             CallBack();
         }
 
@@ -201,7 +201,7 @@ namespace SubPhases
             {
                 Messages.ShowErrorToHuman("Cannot perform any free actions");
                 Selection.ThisShip.IsFreeActionSkipped = true;
-                Actions.CurrentAction = null;
+                ActionsHolder.CurrentAction = null;
                 CallBack();
             }
         }
@@ -230,8 +230,8 @@ namespace SubPhases
                             delegate {
                                 ActionWasPerformed = true;
                                 Selection.ThisShip.CallBeforeFreeActionIsPerformed(
-                                    action,
-                                    delegate { Actions.TakeActionStart(action); }
+(GenericAction)action,
+(Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
                                 );
                             },
                             action.ImageUrl,
@@ -248,8 +248,8 @@ namespace SubPhases
                         delegate {
                             ActionWasPerformed = true;
                             Selection.ThisShip.CallBeforeFreeActionIsPerformed(
-                                action,
-                                delegate { Actions.TakeActionStart(action); }
+(GenericAction)action,
+(Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
                             );
                         },
                         action.ImageUrl,
@@ -270,7 +270,7 @@ namespace SubPhases
         public override void SkipButton()
         {
             UI.HideSkipButton();
-            Actions.CurrentAction = null;
+            ActionsHolder.CurrentAction = null;
             Selection.ThisShip.IsFreeActionSkipped = true;
             CallBack();
         }

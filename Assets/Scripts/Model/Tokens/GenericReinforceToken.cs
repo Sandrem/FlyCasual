@@ -30,7 +30,7 @@ namespace Tokens
         {
             if (diceroll.Type == DiceKind.Defence && diceroll.CheckType == DiceRollCheckType.Combat)
             {
-                if (RuleSets.RuleSet.Instance.ReinforceEffectCanBeUsed(Facing))
+                if (RuleSets.Edition.Current.ReinforceEffectCanBeUsed(Facing))
                 {
                     Messages.ShowInfo("Reinforce: Evade result is added");
                     diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
@@ -41,7 +41,7 @@ namespace Tokens
 
         protected virtual void ApplyPostCombatReinforceEffect(GenericShip ship)
         {
-            if (RuleSets.RuleSet.Instance.ReinforcePostCombatEffectCanBeUsed(Facing))
+            if (RuleSets.Edition.Current.ReinforcePostCombatEffectCanBeUsed(Facing))
             {
                 DieSide dieSideToChange = DieSide.Unknown;
                 if (Combat.DiceRollAttack.RegularSuccesses > 0)

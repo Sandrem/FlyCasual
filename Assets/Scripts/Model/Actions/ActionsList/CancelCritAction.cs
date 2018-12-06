@@ -37,7 +37,7 @@ namespace ActionsList
             }
             else
             {
-                Actions.SelectedCriticalHitCard = CritCard;
+                ActionsHolder.SelectedCriticalHitCard = CritCard;
                 Selection.ActiveShip = Selection.ThisShip;
                 Phases.StartTemporarySubPhaseOld(
                     "Trying to flip critical card",
@@ -79,7 +79,7 @@ namespace SubPhases
             HideDiceResultMenu();
 
             Selection.ActiveShip = Selection.ThisShip;
-            if (Actions.SelectedCriticalHitCard.CancelDiceResults.Contains(CurrentDiceRoll.DiceList[0].Side)) Actions.SelectedCriticalHitCard.DiscardEffect();
+            if (ActionsHolder.SelectedCriticalHitCard.CancelDiceResults.Contains(CurrentDiceRoll.DiceList[0].Side)) ActionsHolder.SelectedCriticalHitCard.DiscardEffect();
 
             CallBack();
         }

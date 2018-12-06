@@ -357,7 +357,7 @@ public partial class DiceRoll
 
     public void ApplyEvade()
     {
-        RuleSet.Instance.EvadeDiceModification(this);
+        Edition.Current.EvadeDiceModification(this);
 
         OrganizeDicePositions();
     }

@@ -18,7 +18,7 @@ namespace GameCommands
         {
             Selection.ChangeActiveShip("ShipId:" + int.Parse(GetString("id")));
 
-            Actions.AcquireTargetLock(
+            ActionsHolder.AcquireTargetLock(
                 Roster.GetShipById("ShipId:" + int.Parse(GetString("id"))),
                 Roster.GetShipById("ShipId:" + int.Parse(GetString("target"))),
                 delegate {},

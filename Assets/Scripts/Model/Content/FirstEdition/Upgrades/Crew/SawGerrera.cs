@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
         {
             ActionsList.GenericAction newAction = new ActionsList.SawGerreraCrewDiceModification();
             newAction.ImageUrl = HostShip.ImageUrl;
-            newAction.Host = HostShip;
+            newAction.HostShip = HostShip;
             host.AddAvailableDiceModification(newAction);
         }
     }
@@ -62,7 +62,7 @@ namespace ActionsList
         public override bool IsDiceModificationAvailable()
         {
             bool result = false;
-            if (Combat.AttackStep == CombatStep.Attack && Host.State.HullCurrent > 1) result = true;
+            if (Combat.AttackStep == CombatStep.Attack && HostShip.State.HullCurrent > 1) result = true;
             return result;
         }
 
@@ -81,7 +81,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Host.AssignedDamageDiceroll.AddDice(DieSide.Success);
+            HostShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
 
             Triggers.RegisterTrigger(new Trigger()
             {

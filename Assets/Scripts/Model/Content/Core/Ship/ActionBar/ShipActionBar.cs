@@ -94,7 +94,7 @@ namespace Ship
             foreach (ActionInfo actionInfo in Host.ShipInfo.ActionIcons.Actions)
             {
                 GenericAction action = (GenericAction)Activator.CreateInstance(actionInfo.ActionType);
-                action.Host = Host;
+                action.HostShip = Host;
                 action.IsRed = actionInfo.Color == ActionColor.Red;
 
                 AddPrintedAction(action);
@@ -103,7 +103,7 @@ namespace Ship
             foreach (LinkedActionInfo linkedActionInfo in Host.ShipInfo.ActionIcons.LinkedActions)
             {
                 GenericAction linkedAction = (GenericAction)Activator.CreateInstance(linkedActionInfo.ActionLinkedType);
-                linkedAction.Host = Host;
+                linkedAction.HostShip = Host;
                 linkedAction.IsRed = linkedActionInfo.LinkedColor == ActionColor.Red;
 
                 AddActionLink(linkedActionInfo.ActionType, linkedAction);
@@ -129,7 +129,7 @@ namespace Ship
 
         public void AddGrantedAction(GenericAction action, GenericUpgrade source)
         {
-            action.Host = Host;
+            action.HostShip = Host;
             action.Source = source;
             action.IsInActionBar = true;
             AddedActions.Add(new AddedAction(action, source));

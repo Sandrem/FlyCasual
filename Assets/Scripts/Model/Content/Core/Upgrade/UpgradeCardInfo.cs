@@ -156,7 +156,7 @@ namespace Upgrade
             {
                 GenericAction addedAction = (GenericAction)Activator.CreateInstance(AddAction.ActionType);
                 addedAction.IsRed = (AddAction.Color == ActionColor.Red);
-                addedAction.Host = HostUpgrade.HostShip;
+                addedAction.HostShip = HostUpgrade.HostShip;
 
                 HostUpgrade.HostShip.ActionBar.AddGrantedAction(addedAction, HostUpgrade);
             }
@@ -165,7 +165,7 @@ namespace Upgrade
             {
                 GenericAction linkedAction = (GenericAction)Activator.CreateInstance(AddActionLink.ActionLinkedType);
                 linkedAction.IsRed = (AddActionLink.LinkedColor == ActionColor.Red);
-                linkedAction.Host = HostUpgrade.HostShip;
+                linkedAction.HostShip = HostUpgrade.HostShip;
 
                 HostUpgrade.HostShip.ActionBar.AddActionLink(AddActionLink.ActionType, linkedAction);
             }

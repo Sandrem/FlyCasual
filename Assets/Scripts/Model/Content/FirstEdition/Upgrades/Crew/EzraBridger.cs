@@ -44,7 +44,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new EzraBridgerAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }
@@ -63,7 +63,7 @@ namespace ActionsList
 
         public override void ActionEffect(Action callBack)
         {
-            if (Host.Tokens.HasToken(typeof(StressToken)))
+            if (HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Crit);
             }
@@ -90,7 +90,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Attack && Host.Tokens.HasToken(typeof(StressToken)))
+            if (Combat.AttackStep == CombatStep.Attack && HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 if (Combat.DiceRollAttack.RegularSuccesses > 0) result = 100;
             }

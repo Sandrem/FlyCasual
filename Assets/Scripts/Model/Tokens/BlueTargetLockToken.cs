@@ -14,7 +14,7 @@ namespace Tokens
             Name = "Blue Target Lock Token";
             TokenColor = TokenColors.Blue;
             PriorityUI = 55;
-            Action = new ActionsList.TargetLockAction() { Host = host };
+            Action = new ActionsList.TargetLockAction() { HostShip = host };
         }
 
     }

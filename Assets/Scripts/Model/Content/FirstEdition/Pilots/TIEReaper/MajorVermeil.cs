@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
                 ship.AddAvailableDiceModification(new MajorVermeilAction
                 {
                     ImageUrl = HostShip.ImageUrl,
-                    Host = HostShip
+                    HostShip = HostShip
                 });
             }
         }

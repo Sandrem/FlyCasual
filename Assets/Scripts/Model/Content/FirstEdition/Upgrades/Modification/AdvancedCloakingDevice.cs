@@ -47,9 +47,7 @@ namespace Abilities.FirstEdition
 
         private void PerformFreeCloakAction(object sender, System.EventArgs e)
         {
-            List<GenericAction> actions = new List<GenericAction>() { new CloakAction() };
-
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(new CloakAction(), Triggers.FinishTrigger);
         }
     }
 }

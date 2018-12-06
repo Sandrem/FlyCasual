@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
         {
             ActionsList.GenericAction action = new ActionsList.LeeboAction()
             {
-                Host = this.HostShip
+                HostShip = this.HostShip
             };
             ship.AddAvailableAction(action);
         }
@@ -64,7 +64,7 @@ namespace ActionsList
         {
             bool result = true;
             // can perform only one boost action per turn
-            if (Host.IsAlreadyExecutedAction(typeof(BoostAction)))
+            if (HostShip.IsAlreadyExecutedAction(typeof(BoostAction)))
             {
                 result = false;
             }
@@ -104,10 +104,10 @@ namespace ActionsList
             // check if the free boost action has been performed
             // this may raise an issue where the Leebo free boost action is not recognized as a boost action. Therefore
             // a ship may be able to perform two boost actions per turn :/
-            if (Host.IsAlreadyExecutedAction(typeof(LeeboAction)))
+            if (HostShip.IsAlreadyExecutedAction(typeof(LeeboAction)))
             {
                 Messages.ShowInfoToHuman(Name + ": free boost performed, ion token received.");
-                Host.Tokens.AssignToken(typeof(IonToken), Finish);
+                HostShip.Tokens.AssignToken(typeof(IonToken), Finish);
             }
             else
             {

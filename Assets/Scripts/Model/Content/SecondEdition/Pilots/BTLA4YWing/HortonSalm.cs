@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
 
         public void HortonSalmPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new HortonSalmActionSE() { Host = HostShip });
+            ship.AddAvailableDiceModification(new HortonSalmActionSE() { HostShip = HostShip });
         }
 
         private class HortonSalmActionSE : ActionsList.GenericAction
@@ -82,7 +82,7 @@ namespace Abilities.SecondEdition
 
                 foreach (GenericShip friendlyShip in friendlyShipsAtRange)
                 {
-                    if (friendlyShip != Host)
+                    if (friendlyShip != HostShip)
                     {
                         numFriendlyShips++;
                     }

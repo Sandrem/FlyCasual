@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
 
         private void AddCaptainJonusAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableDiceModification(new CaptainJonusAction() { Host = this.HostShip });
+            Combat.Attacker.AddAvailableDiceModification(new CaptainJonusAction() { HostShip = this.HostShip });
         }
 
         private class CaptainJonusAction : FriendlyRerollAction

@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.ElusivenessActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }
@@ -62,11 +62,11 @@ namespace ActionsList
             int result = 0;
 
             int potentialEvades = 0;
-            if (Host.Tokens.HasToken(typeof(Tokens.EvadeToken))) potentialEvades++;
-            int potentialDiceEvadeResults = (Host.Tokens.HasToken(typeof(Tokens.FocusToken))) ? 5 : 3;
-            float averageDefenceDiceResult = Host.State.Agility * (potentialDiceEvadeResults / 8);
+            if (HostShip.Tokens.HasToken(typeof(Tokens.EvadeToken))) potentialEvades++;
+            int potentialDiceEvadeResults = (HostShip.Tokens.HasToken(typeof(Tokens.FocusToken))) ? 5 : 3;
+            float averageDefenceDiceResult = HostShip.State.Agility * (potentialDiceEvadeResults / 8);
             potentialEvades += Mathf.RoundToInt(averageDefenceDiceResult);
-            if (Host.State.HullCurrent <= Host.State.HullMax / 2) potentialEvades--;
+            if (HostShip.State.HullCurrent <= HostShip.State.HullMax / 2) potentialEvades--;
 
             if (Combat.DiceRollAttack.Successes > potentialEvades)
             {
@@ -80,7 +80,7 @@ namespace ActionsList
         {
             bool result = false;
 
-            if (Combat.AttackStep == CombatStep.Attack && !Host.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (Combat.AttackStep == CombatStep.Attack && !HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 result = true;
             }
@@ -103,7 +103,7 @@ namespace ActionsList
 
         private void AssignStress(System.Action callBack)
         {
-            Host.Tokens.AssignToken(typeof(StressToken), callBack);
+            HostShip.Tokens.AssignToken(typeof(StressToken), callBack);
         }
 
     }

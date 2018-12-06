@@ -10,20 +10,20 @@ namespace ActionsList
         public ReinforceAftAction()
         {
             Name = DiceModificationName = "Reinforce (Aft)";
-            Facing = Arcs.ArcFacing.Rear180;
+            Facing = Arcs.ArcFacing.FullRear;
         }
 
         public override void ActionTake()
         {
             base.ActionTake();
-            Host.Tokens.AssignToken(typeof(ReinforceAftToken), Phases.CurrentSubPhase.CallBack);
+            HostShip.Tokens.AssignToken(typeof(ReinforceAftToken), Phases.CurrentSubPhase.CallBack);
         }
 
         public override int GetActionPriority()
         {
             int result = 0;
 
-            result = 25 + 30*ActionsHolder.CountEnemiesTargeting(Host, -1);
+            result = 25 + 30*ActionsHolder.CountEnemiesTargeting(HostShip, -1);
 
             return result;
         }

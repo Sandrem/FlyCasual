@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
                     ActionsList.GenericAction newAction = new ActionsList.SaturationSalvoActionEffect()
                     {
                         ImageUrl = HostUpgrade.ImageUrl,
-                        Host = host
+                        HostShip = host
                     };
                     host.AddAvailableDiceModification(newAction);
                 }

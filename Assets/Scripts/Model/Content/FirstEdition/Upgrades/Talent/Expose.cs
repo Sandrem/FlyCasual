@@ -38,7 +38,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new ExposeAction
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableAction(newAction);
         }
@@ -58,25 +58,25 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host = Selection.ThisShip;
+            HostShip = Selection.ThisShip;
             ApplyExposeEffect();
         }
 
         private void ApplyExposeEffect()
         {
-            Host.ChangeFirepowerBy(+1);
-            Host.ChangeAgilityBy(-1);
+            HostShip.ChangeFirepowerBy(+1);
+            HostShip.ChangeAgilityBy(-1);
 
             Phases.Events.OnEndPhaseStart_NoTriggers += RemoveExposeEffect;
 
-            Host.Tokens.AssignCondition(typeof(Conditions.ExposeCondition));
+            HostShip.Tokens.AssignCondition(typeof(Conditions.ExposeCondition));
             Phases.CurrentSubPhase.CallBack();
         }
 
         private void RemoveExposeEffect()
         {
-            Host.ChangeFirepowerBy(-1);
-            Host.ChangeAgilityBy(+1);
+            HostShip.ChangeFirepowerBy(-1);
+            HostShip.ChangeAgilityBy(+1);
 
             Phases.Events.OnEndPhaseStart_NoTriggers -= RemoveExposeEffect;
         }

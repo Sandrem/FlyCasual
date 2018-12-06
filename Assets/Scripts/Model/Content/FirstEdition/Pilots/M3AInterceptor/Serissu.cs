@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
 
         private void AddSerissuAbility(GenericShip ship)
         {
-            Combat.Defender.AddAvailableDiceModification(new SerissuAction() { Host = this.HostShip });
+            Combat.Defender.AddAvailableDiceModification(new SerissuAction() { HostShip = this.HostShip });
         }
 
         private class SerissuAction : FriendlyRerollAction

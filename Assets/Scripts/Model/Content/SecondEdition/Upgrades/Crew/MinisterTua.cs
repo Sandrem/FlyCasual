@@ -49,7 +49,7 @@ namespace Abilities.SecondEdition
             if (HostShip.Damage.DamageCards.Count >= 1)
             {
                 Selection.ThisShip = HostShip;
-                HostShip.AskPerformFreeAction(new List<GenericAction> { new ReinforceAftAction() { Host = HostShip, IsRed = true }, new ReinforceForeAction() { Host = HostShip, IsRed = true } }, Triggers.FinishTrigger);
+                HostShip.AskPerformFreeAction(new List<GenericAction> { new ReinforceAftAction() { HostShip = HostShip, IsRed = true }, new ReinforceForeAction() { HostShip = HostShip, IsRed = true } }, Triggers.FinishTrigger);
             }
             else
             {

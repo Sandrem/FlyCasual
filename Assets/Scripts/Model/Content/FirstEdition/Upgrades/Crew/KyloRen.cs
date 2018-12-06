@@ -49,7 +49,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction action = new ActionsList.KyloRenCrewAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip,
+                HostShip = HostShip,
                 DoAction = DoKyloRenAction
             };
             host.AddAvailableAction(action);

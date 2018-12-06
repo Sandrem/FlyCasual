@@ -37,7 +37,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.SensorClusterActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }
@@ -67,7 +67,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence &&
                 Combat.DiceRollDefence.Blanks > 0 &&
-                Host.Tokens.HasToken(typeof(FocusToken)))
+                HostShip.Tokens.HasToken(typeof(FocusToken)))
             {
                 result = true;
             }
@@ -77,7 +77,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Host.Tokens.RemoveToken(typeof(FocusToken), delegate
+            HostShip.Tokens.RemoveToken(typeof(FocusToken), delegate
             {
                 Combat.DiceRollDefence.ChangeOne(DieSide.Blank, DieSide.Success, false);
                 callBack();

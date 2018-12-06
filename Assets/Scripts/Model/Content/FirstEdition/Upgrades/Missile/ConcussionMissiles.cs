@@ -53,7 +53,7 @@ namespace Abilities.FirstEdition
         {
             ConcussionMissilesAction action = new ConcussionMissilesAction()
             {
-                Host = host,
+                HostShip = host,
                 ImageUrl = HostUpgrade.ImageUrl,
                 Source = HostUpgrade
             };
@@ -76,7 +76,7 @@ namespace ActionsList
 
         public void AddDiceModification()
         {
-            Host.OnGenerateDiceModifications += ConcussionMissilesAddDiceModification;
+            HostShip.OnGenerateDiceModifications += ConcussionMissilesAddDiceModification;
         }
 
         private void ConcussionMissilesAddDiceModification(GenericShip ship)

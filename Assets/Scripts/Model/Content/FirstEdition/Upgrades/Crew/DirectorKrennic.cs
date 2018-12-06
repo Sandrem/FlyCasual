@@ -162,7 +162,7 @@ namespace Conditions
         {
             OptimizedPrototypeAction action = new OptimizedPrototypeAction()
             {
-                Host = Host
+                HostShip = Host
             };
 
             Host.AddAvailableDiceModification(action);
@@ -197,7 +197,7 @@ namespace ActionsList
         {
             var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, callBack);
 
-            newSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
+            newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
             newSubPhase.InfoText = "Spend die result to make defender lose a shield?";
             newSubPhase.ShowSkipButton = true;
             newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;

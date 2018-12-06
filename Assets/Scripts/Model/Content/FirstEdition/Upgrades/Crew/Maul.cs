@@ -83,7 +83,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.MaulDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             HostShip.AddAvailableDiceModification(newAction);
         }
@@ -155,7 +155,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Host.OnRerollIsConfirmed += AssignStressForEachRerolled;
+            HostShip.OnRerollIsConfirmed += AssignStressForEachRerolled;
 
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
@@ -172,11 +172,11 @@ namespace ActionsList
             {
                 Name = "Maul: Assign stress for each rerolled dice",
                 TriggerType = TriggerTypes.OnRerollIsConfirmed,
-                TriggerOwner = Host.Owner.PlayerNo,
+                TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = delegate { StartAssignStess(diceRerolledCount); }
             });
 
-            Host.OnRerollIsConfirmed -= AssignStressForEachRerolled;
+            HostShip.OnRerollIsConfirmed -= AssignStressForEachRerolled;
         }
 
         private void StartAssignStess(int diceRerolledCount)
@@ -190,7 +190,7 @@ namespace ActionsList
             if (count > 0)
             {
                 count--;
-                Host.Tokens.AssignToken(typeof(StressToken), delegate { AssignStressRecursive(count); });
+                HostShip.Tokens.AssignToken(typeof(StressToken), delegate { AssignStressRecursive(count); });
             }
             else
             {

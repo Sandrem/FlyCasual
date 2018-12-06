@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
 
         private void AddDreaRenthalAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableDiceModification(new DiceModificationAction() { Host = this.HostShip });
+            Combat.Attacker.AddAvailableDiceModification(new DiceModificationAction() { HostShip = this.HostShip });
         }
 
         private class DiceModificationAction : ActionsList.GenericAction
@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
             public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
-                if (Combat.Attacker.Owner.PlayerNo == Host.Owner.PlayerNo && !Combat.Attacker.PilotInfo.IsLimited && Board.IsShipInArc(Host, Combat.Defender))
+                if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && !Combat.Attacker.PilotInfo.IsLimited && Board.IsShipInArc(HostShip, Combat.Defender))
                 {
                     return true;
                 }

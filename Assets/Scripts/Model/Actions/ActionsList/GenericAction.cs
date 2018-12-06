@@ -46,7 +46,7 @@ namespace ActionsList
         }
 
         private GenericShip host;
-        public GenericShip Host
+        public GenericShip HostShip
         {
             get
             {

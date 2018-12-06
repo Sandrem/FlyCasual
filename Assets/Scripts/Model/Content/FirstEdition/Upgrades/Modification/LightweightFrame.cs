@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new LightweightFrameDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host,
+                HostShip = host,
             };
             host.AddAvailableDiceModification(newAction);
         }

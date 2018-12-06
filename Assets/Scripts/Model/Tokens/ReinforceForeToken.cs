@@ -8,7 +8,7 @@ namespace Tokens
         public ReinforceForeToken(GenericShip host) : base(host)
         {
             Name = "Reinforce Fore Token";
-            Facing = Arcs.ArcFacing.Front180;
+            Facing = Arcs.ArcFacing.FullFront;
         }
     }
 

@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
                 ActionsList.GenericAction newAction = new ActionsList.R7AstromechActionEffect(this)
                 {
                     ImageUrl = HostUpgrade.ImageUrl,
-                    Host = HostShip
+                    HostShip = HostShip
                 };
                 HostShip.AddAvailableDiceModification(newAction);
             }
@@ -74,11 +74,11 @@ namespace ActionsList
             int result = 0;
 
             int potentialEvades = 0;
-            if (Host.Tokens.HasToken(typeof(Tokens.EvadeToken))) potentialEvades++;
-            int potentialDiceEvadeResults = (Host.Tokens.HasToken(typeof(Tokens.FocusToken))) ? 5 : 3;
-            float averageDefenceDiceResult = Host.State.Agility * (potentialDiceEvadeResults / 8);
+            if (HostShip.Tokens.HasToken(typeof(Tokens.EvadeToken))) potentialEvades++;
+            int potentialDiceEvadeResults = (HostShip.Tokens.HasToken(typeof(Tokens.FocusToken))) ? 5 : 3;
+            float averageDefenceDiceResult = HostShip.State.Agility * (potentialDiceEvadeResults / 8);
             potentialEvades += UnityEngine.Mathf.RoundToInt(averageDefenceDiceResult);
-            if (Host.State.HullCurrent <= Host.State.HullMax / 2) potentialEvades--;
+            if (HostShip.State.HullCurrent <= HostShip.State.HullMax / 2) potentialEvades--;
 
             if (Combat.DiceRollAttack.Successes > potentialEvades)
             {
@@ -111,7 +111,7 @@ namespace ActionsList
         private void SpendTargetLock(System.Action callBack)
         {
             List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Combat.Defender, Combat.Attacker);
-            Host.Tokens.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, letters.First());
+            HostShip.Tokens.SpendToken(typeof(Tokens.BlueTargetLockToken), callBack, letters.First());
         }
 
     }

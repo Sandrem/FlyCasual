@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
         {
             NorraWexleyARC170Action newAction = new NorraWexleyARC170Action()
             {
-                Host = this.HostShip,
+                HostShip = this.HostShip,
                 Name = this.HostShip.PilotName + "'s Ability",
                 DiceModificationName = this.HostShip.PilotName + "'s Ability"
             };
@@ -68,7 +68,7 @@ namespace Abilities.FirstEdition
                     Combat.CurrentDiceRoll.AddDice(DieSide.Focus).ShowWithoutRoll();
                     Combat.CurrentDiceRoll.OrganizeDicePositions();
 
-                    Host.Tokens.SpendToken(typeof(BlueTargetLockToken), callBack, targetLockPair);
+                    HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), callBack, targetLockPair);
                 }
                 else
                 {
@@ -91,7 +91,7 @@ namespace Abilities.FirstEdition
                     default:
                         break;
                 }
-                List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Host, anotherShip);
+                List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(HostShip, anotherShip);
                 if (letters.Count > 0)
                 {
                     return letters.First();
@@ -107,7 +107,7 @@ namespace Abilities.FirstEdition
                 bool result = false;
 
                 // Second edition Shara Bey only affects Primary Weapon Attacks
-                if (Host.Owner.PlayerNo == Combat.Attacker.Owner.PlayerNo &&
+                if (HostShip.Owner.PlayerNo == Combat.Attacker.Owner.PlayerNo &&
                     // TODOREVERT
                     //Host.GetType() == typeof(Ship.ARC170.SharaBey) &&
                     Combat.ChosenWeapon.GetType() != typeof(PrimaryWeaponClass))
@@ -125,12 +125,12 @@ namespace Abilities.FirstEdition
 
                 if (GetTargetLockTokenLetterOnAnotherShip() != ' ')
                 {
-                    if (Host.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                    if (HostShip.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                     {
                         switch (Combat.AttackStep)
                         {
                             case CombatStep.Attack:
-                                if (Host.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                                if (HostShip.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
                                 {
                                     result = 110;
                                 }

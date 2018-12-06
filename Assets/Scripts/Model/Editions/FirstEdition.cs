@@ -136,7 +136,7 @@ namespace RuleSets
             bool result = false;
 
             ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
-            result = (facing == ArcFacing.Front180) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
+            result = (facing == ArcFacing.FullFront) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
 
             return result;
         }
@@ -156,7 +156,7 @@ namespace RuleSets
         {
             if (upgrade.UpgradeInfo.HasType(UpgradeType.Turret))
             {
-                upgrade.Host.OnGameStart += delegate { upgrade.Host.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true; };
+                upgrade.HostShip.OnGameStart += delegate { upgrade.HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true; };
             }
         }
 

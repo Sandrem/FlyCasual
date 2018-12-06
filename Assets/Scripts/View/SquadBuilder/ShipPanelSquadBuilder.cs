@@ -51,9 +51,9 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
         www.LoadImageIntoTexture(newTexture);
 
-        TextureScale.Bilinear(newTexture, 300, 418);
+        TextureScale.Bilinear(newTexture, 600, 836);
 
-        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height-124, newTexture.width, 124), Vector2.zero);
+        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height-248, newTexture.width, 248), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
 
         this.gameObject.SetActive(true);

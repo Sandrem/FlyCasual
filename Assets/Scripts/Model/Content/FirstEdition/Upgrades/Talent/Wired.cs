@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new WiredActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }
@@ -77,7 +77,7 @@ namespace ActionsList
 
         public override bool IsDiceModificationAvailable()
         {
-            return Host.Tokens.HasToken(typeof(Tokens.StressToken));
+            return HostShip.Tokens.HasToken(typeof(Tokens.StressToken));
         }
 
         public override void ActionEffect(System.Action callBack)

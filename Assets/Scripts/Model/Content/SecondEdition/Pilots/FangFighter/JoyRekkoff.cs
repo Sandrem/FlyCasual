@@ -44,7 +44,7 @@ namespace Abilities
 
             private void CheckAbility()
             {
-                if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.Charges > 0))
+                if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.State.Charges > 0))
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskYoUseJoyRekkoffAbility);
                 }
@@ -52,7 +52,7 @@ namespace Abilities
 
             private void AskYoUseJoyRekkoffAbility(object sender, System.EventArgs e)
             {
-                if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.Charges > 0))
+                if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.State.Charges > 0))
                 {
                     AskToUseAbility(AlwaysUseByDefault, UseJoyRekkoffAbility);
                 }
@@ -64,8 +64,8 @@ namespace Abilities
 
             private void UseJoyRekkoffAbility(object sender, System.EventArgs e)
             {
-                GenericSpecialWeapon torpedo = (GenericSpecialWeapon)HostShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.Charges > 0);
-                torpedo.SpendCharge();
+                GenericSpecialWeapon torpedo = (GenericSpecialWeapon)HostShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.State.Charges > 0);
+                torpedo.State.SpendCharge();
                 AssignConditionToDefender();
             }
 

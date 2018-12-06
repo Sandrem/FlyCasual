@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using ActionsList;
 using Ship;
-using System.Linq;
-using SubPhases;
-using Abilities;
 using Actions;
 
 namespace UpgradesList.SecondEdition
@@ -18,10 +15,9 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Talent,
                 cost: 2,
                 restriction: new ActionBarRestriction(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red)),
+                addAction: new ActionInfo(typeof(BarrelRollAction)),
                 seImageNumber: 5
             );
-
-            UpgradeAbilities.Add(new GenericActionBarAbility<BarrelRollAction>());
         }
 
         public void UpdateCost(GenericShip ship)

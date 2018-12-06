@@ -172,7 +172,7 @@ public static partial class Combat
         else if (Combat.ShotInfo.ShotAvailableFromArcs.Count > 1)
         {
             // if few arcs are available, non-mobile arc is used
-            Combat.ShotInfo.ShotAvailableFromArcs.First(a => a.ArcType != Arcs.ArcType.Mobile).WasUsedForAttackThisRound = true;
+            Combat.ShotInfo.ShotAvailableFromArcs.First(a => a.ArcType != Arcs.ArcType.SingleTurret).WasUsedForAttackThisRound = true;
         }
         else
         {

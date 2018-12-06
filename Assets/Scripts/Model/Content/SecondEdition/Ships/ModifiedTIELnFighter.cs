@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Movement;
+using System.Collections.Generic;
 
 namespace Ship
 {
@@ -13,7 +14,15 @@ namespace Ship
                 ShipInfo.DefaultShipFaction = Faction.Scum;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.Scum };
 
-                IconicPilots[Faction.Scum] = typeof(MiningGuildSentry);
+                DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn));
+                DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight), MovementComplexity.Complex);
+
+                IconicPilots[Faction.Scum] = typeof(MiningGuildSurveyor);
+
+                ModelInfo = new ShipModelInfo(
+                    "Modified TIE Fighter",
+                    "Mining Guild"
+                );
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/62/Maneuver_tie_ln_fighter.png";
             }

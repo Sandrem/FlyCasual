@@ -46,7 +46,7 @@ namespace Abilities.FirstEdition
 
         private void AddIbtisamAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new IbtisamAction() { Host = HostShip });
+            ship.AddAvailableDiceModification(new IbtisamAction() { HostShip = HostShip });
         }
 
         private class IbtisamAction : ActionsList.GenericAction
@@ -69,12 +69,12 @@ namespace Abilities.FirstEdition
 
             public override bool IsDiceModificationAvailable()
             {
-                return Host.Tokens.HasToken(typeof(StressToken)) && (Combat.AttackStep == CombatStep.Attack || Combat.AttackStep == CombatStep.Defence);
+                return HostShip.Tokens.HasToken(typeof(StressToken)) && (Combat.AttackStep == CombatStep.Attack || Combat.AttackStep == CombatStep.Defence);
             }
 
             public override int GetDiceModificationPriority()
             {
-                if (Host.Tokens.HasToken(typeof(StressToken)))
+                if (HostShip.Tokens.HasToken(typeof(StressToken)))
                 {
                     return 90;
                 }

@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
             //AI doesn't use ability
             if (HostShip.Owner.UsesHotacAiRules) return;
 
-            if (HostShip.AssignedManeuver.Speed >= 3 && HostShip.AssignedManeuver.Speed <= 5 && !HostShip.IsBumped && HostUpgrade.Charges > 0)
+            if (HostShip.AssignedManeuver.Speed >= 3 && HostShip.AssignedManeuver.Speed <= 5 && !HostShip.IsBumped && HostUpgrade.State.Charges > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskUseAbility);
             }
@@ -63,7 +63,7 @@ namespace Abilities.SecondEdition
             RegisterAbilityTrigger(
                 TriggerTypes.OnFreeAction,
                 delegate {
-                    HostUpgrade.SpendCharge();
+                    HostUpgrade.State.SpendCharge();
                     Triggers.FinishTrigger();
                 }
             );

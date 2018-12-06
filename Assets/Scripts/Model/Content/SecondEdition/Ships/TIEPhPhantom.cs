@@ -18,7 +18,7 @@ namespace Ship
             {
                 ShipInfo.ShipName = "TIE/ph Phantom";
 
-                ShipInfo.ArcInfo.Firepower = 3;
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.Front, 3);
                 ShipInfo.Hull = 3;
 
                 ShipAbilities.Add(new Abilities.SecondEdition.StygiumArray());
@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
         private void ProposeFreeEvadeAction(object sender, System.EventArgs e)
         {
             Messages.ShowInfo("Stygium Array: You may perform an Evade action");
-            HostShip.AskPerformFreeAction(new EvadeAction() { Host = HostShip }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(new EvadeAction() { HostShip = HostShip }, Triggers.FinishTrigger);
         }
 
         private void RegisterCloakAbility()

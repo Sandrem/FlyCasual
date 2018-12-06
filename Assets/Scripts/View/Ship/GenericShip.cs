@@ -172,9 +172,9 @@ namespace Ship
 
             //Forward arc
             ArcPrimary arcPrimary = ArcsInfo.GetArc<ArcPrimary>();
-            if (arcPrimary != null && arcPrimary.ShotPermissions.CanShootPrimaryWeapon)
+            if (arcPrimary != null)
             {
-                if (ShipBaseArcsType != BaseArcsType.ArcSpecial180)
+                if (!ArcsInfo.HasArc(ArcType.FullFront))
                 {
                     newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipInfo.BaseSize.ToString() + "/" + this.Faction.ToString() + "/Forward";
                     newMaterial = CreateMaterial(newTexture);

@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new ExpertHandlingAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableAction(newAction);
         }
@@ -80,7 +80,7 @@ namespace ActionsList
         {
             Selection.ThisShip.AddAlreadyExecutedAction(new BarrelRollAction());
 
-            bool hasBarrelRollAction = Host.ActionBar.HasAction(typeof(BarrelRollAction));
+            bool hasBarrelRollAction = HostShip.ActionBar.HasAction(typeof(BarrelRollAction));
 
             if (hasBarrelRollAction)
             {
@@ -88,14 +88,14 @@ namespace ActionsList
             }
             else
             {
-                Host.Tokens.AssignToken(typeof(StressToken), RemoveTargetLock);
+                HostShip.Tokens.AssignToken(typeof(StressToken), RemoveTargetLock);
             }
 
         }
 
         private void RemoveTargetLock()
         {
-            if (Host.Tokens.HasToken(typeof(RedTargetLockToken), '*'))
+            if (HostShip.Tokens.HasToken(typeof(RedTargetLockToken), '*'))
             {
                 Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Select target lock to remove",

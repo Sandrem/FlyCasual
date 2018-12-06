@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
             public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
-                if (Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.InArcByType(ArcType.RearAux) && Combat.ChosenWeapon is PrimaryWeaponClass)
+                if (Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.InArcByType(ArcType.Rear) && Combat.ChosenWeapon is PrimaryWeaponClass)
                 {
                     result = true;
                 }

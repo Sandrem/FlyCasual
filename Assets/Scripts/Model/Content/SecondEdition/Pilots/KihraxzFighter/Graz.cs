@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
 
         private void CheckConditionsDefense()
         {
-            if (Board.IsShipInFacingOnly(Combat.Attacker, HostShip, Arcs.ArcFacing.Rear180))
+            if (Board.IsShipInFacingOnly(Combat.Attacker, HostShip, Arcs.ArcFacing.FullRear))
             {
                 HostShip.AfterGotNumberOfDefenceDice += RollExtraDefenseDice;
             }
@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
 
         private void CheckConditionsOffense()
         {
-            if (Board.IsShipInFacingOnly(Combat.Defender, HostShip, Arcs.ArcFacing.Rear180))
+            if (Board.IsShipInFacingOnly(Combat.Defender, HostShip, Arcs.ArcFacing.FullRear))
             {
                 HostShip.AfterGotNumberOfAttackDice += RollExtraAttackDice;
             }

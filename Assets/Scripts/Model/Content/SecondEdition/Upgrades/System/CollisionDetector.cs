@@ -49,7 +49,7 @@ namespace Abilities.SecondEdition
 
         private void TryRegisterAbility(GenericShip ship)
         {
-            if (HostShip.IsHitObstacles && HostUpgrade.Charges > 0)
+            if (HostShip.IsHitObstacles && HostUpgrade.State.Charges > 0)
             {
                 foreach (GenericObstacle obstacle in HostShip.ObstaclesHit)
                 {
@@ -61,7 +61,7 @@ namespace Abilities.SecondEdition
 
         private void ActivateCollisionDetectorAbility(object sender, EventArgs e)
         {
-            if (HostUpgrade.Charges > 0)
+            if (HostUpgrade.State.Charges > 0)
             {
                 AskToUseAbility(
                     AlwaysUseByDefault,
@@ -85,7 +85,7 @@ namespace Abilities.SecondEdition
 
         private void TurnOnIgnoreObstacle(object sender, EventArgs e)
         {
-            HostUpgrade.SpendCharge();
+            HostUpgrade.State.SpendCharge();
 
             HostShip.IgnoreObstaclesList.Add(ObstaclesHit.First());
             IgnoredObstacles.Add(ObstaclesHit.First());

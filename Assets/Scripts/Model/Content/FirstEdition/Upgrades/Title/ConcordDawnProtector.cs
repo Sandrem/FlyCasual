@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new ConcordDawnProtectorDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }

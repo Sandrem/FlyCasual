@@ -28,7 +28,7 @@ namespace ActionsList
         {
             Selection.ActiveShip = Selection.ThisShip;
 
-            Host = Selection.ThisShip;
+            HostShip = Selection.ThisShip;
             if (CritCard.CancelDiceResults.Count == 0)
             {
                 CritCard.DiscardEffect();

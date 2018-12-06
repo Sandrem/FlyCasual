@@ -15,7 +15,7 @@ namespace Ship
             {
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
 
-                ShipAbilities.Add(new Abilities.SecondEdition.AutoThrusters());
+                ShipAbilities.Add(new Abilities.SecondEdition.AutoThrustersAbility());
 
                 IconicPilots[Faction.Imperial] = typeof(SoontirFel);
 
@@ -34,7 +34,7 @@ namespace Ship
 namespace Abilities.SecondEdition
 {
     //After you perform an action, you may perform a red boost / red barrel roll action.
-    public class AutoThrusters : GenericAbility
+    public class AutoThrustersAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

@@ -4,6 +4,7 @@ using Movement;
 using ActionsList;
 using Upgrade;
 using Actions;
+using Arcs;
 
 namespace Ship
 {
@@ -14,16 +15,24 @@ namespace Ship
             public Mg100StarFortress() : base()
             {
                 ShipInfo.ShipName = "MG-100 Star Fortress";
-                // Arcs
+
+                ShipInfo.DefaultShipFaction = Faction.Resistance;
+                ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
+
+                ShipInfo.ArcInfo = new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 3),
+                    new ShipArcInfo(ArcType.SingleTurret, 2)
+                );
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction)));
 
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Crew);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
-                ShipInfo.DefaultShipFaction = Faction.Resistance;
-                ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
+                DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Complex);
+                DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Complex);
 
                 IconicPilots[Faction.Resistance] = typeof(CobaltSquadronBomber);
 

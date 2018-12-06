@@ -17,7 +17,11 @@ namespace Ship.FirstEdition.VCX100
                 "VCX-100",
                 BaseSize.Large,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcType.Primary, 4), 0, 10, 6,
+                new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 4),
+                    new ShipArcInfo(ArcType.SpecialGhost, 4)
+                ),
+                0, 10, 6,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),

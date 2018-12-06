@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             GenericAction newAction = new SpacetugActionSE()
             {
                 ImageUrl = HostShip.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             HostShip.AddAvailableAction(newAction);
         }
@@ -76,7 +76,7 @@ namespace ActionsList
                 Phases.CurrentSubPhase.CallBack
             );
 
-            newPhase.SpacetugOwner = this.Host;
+            newPhase.SpacetugOwner = this.HostShip;
             newPhase.Start();
         }
     }

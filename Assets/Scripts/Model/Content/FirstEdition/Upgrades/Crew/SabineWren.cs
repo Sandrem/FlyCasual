@@ -60,7 +60,7 @@ namespace Abilities.FirstEdition
 
         private bool IsBombFriendly(GenericBomb bomb)
         {
-            return bomb.Host.Owner.PlayerNo == HostShip.Owner.PlayerNo;
+            return bomb.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo;
         }
 
         private bool IsAtLeastOneEnemyInRange(GenericBomb bomb, GameObject bombObject)
@@ -68,7 +68,7 @@ namespace Abilities.FirstEdition
             List<GenericShip> shipsInRange = BombsManager.GetShipsInRange(bombObject);
 
             // Count only enemies
-            shipsInRange = shipsInRange.Where(n => n.Owner.PlayerNo != bomb.Host.Owner.PlayerNo).ToList();
+            shipsInRange = shipsInRange.Where(n => n.Owner.PlayerNo != bomb.HostShip.Owner.PlayerNo).ToList();
 
             return shipsInRange.Count > 0;
         }

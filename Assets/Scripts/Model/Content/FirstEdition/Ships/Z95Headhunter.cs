@@ -17,7 +17,7 @@ namespace Ship.FirstEdition.Z95Headhunter
                 "Z-95 Headhunter",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcType.Primary, 2), 2, 2, 2,
+                new ShipArcsInfo(ArcType.Front, 2), 2, 2, 2,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction))

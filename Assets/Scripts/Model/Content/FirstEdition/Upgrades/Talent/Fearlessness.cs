@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.FearlessnessAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             HostShip.AddAvailableDiceModification(newAction);
         }

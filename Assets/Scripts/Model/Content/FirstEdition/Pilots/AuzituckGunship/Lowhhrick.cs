@@ -44,7 +44,7 @@ namespace Abilities.FirstEdition
 
         private void AddLowhhrickAbility(GenericShip ship)
         {
-            Combat.Defender.AddAvailableDiceModification(new DiceModificationAction() { Host = this.HostShip });
+            Combat.Defender.AddAvailableDiceModification(new DiceModificationAction() { HostShip = this.HostShip });
         }
 
         private class DiceModificationAction : ActionsList.GenericAction
@@ -62,13 +62,13 @@ namespace Abilities.FirstEdition
                 bool result = false;
                 if (Combat.AttackStep == CombatStep.Defence)
                 {
-                    if (Combat.Defender.ShipId != Host.ShipId)
+                    if (Combat.Defender.ShipId != HostShip.ShipId)
                     {
-                        if (Combat.Defender.Owner.PlayerNo == Host.Owner.PlayerNo)
+                        if (Combat.Defender.Owner.PlayerNo == HostShip.Owner.PlayerNo)
                         {
-                            if (Host.Tokens.HasToken(typeof(ReinforceForeToken)) || Host.Tokens.HasToken(typeof(ReinforceAftToken)))
+                            if (HostShip.Tokens.HasToken(typeof(ReinforceForeToken)) || HostShip.Tokens.HasToken(typeof(ReinforceAftToken)))
                             {
-                                BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(Host, Combat.Defender);
+                                BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(HostShip, Combat.Defender);
                                 if (positionInfo.Range <= 1)
                                 {
                                     result = true;
@@ -110,8 +110,8 @@ namespace Abilities.FirstEdition
             {
                 Combat.CurrentDiceRoll.ApplyEvade();
 
-                GenericToken reinforceToken = (Host.Tokens.HasToken(typeof(ReinforceForeToken))) ? Host.Tokens.GetToken(typeof(ReinforceForeToken)) : Host.Tokens.GetToken(typeof(ReinforceAftToken));
-                Host.Tokens.SpendToken(reinforceToken.GetType(), callBack);
+                GenericToken reinforceToken = (HostShip.Tokens.HasToken(typeof(ReinforceForeToken))) ? HostShip.Tokens.GetToken(typeof(ReinforceForeToken)) : HostShip.Tokens.GetToken(typeof(ReinforceAftToken));
+                HostShip.Tokens.SpendToken(reinforceToken.GetType(), callBack);
             }
         }
 

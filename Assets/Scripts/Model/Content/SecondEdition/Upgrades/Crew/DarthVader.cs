@@ -17,6 +17,7 @@ namespace UpgradesList.SecondEdition
                 cost: 14,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Imperial),
+                addForce: 1,
                 abilityType: typeof(Abilities.SecondEdition.DarthVaderCrewAbility),
                 seImageNumber: 112
             );
@@ -33,13 +34,11 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             Phases.Events.OnCombatPhaseStart_Triggers += RegisterVaderAbility;
-            HostShip.State.MaxForce += 1;
         }
 
         public override void DeactivateAbility()
         {
             Phases.Events.OnCombatPhaseStart_Triggers -= RegisterVaderAbility;
-            HostShip.State.MaxForce -= 1;
         }
 
         private void RegisterVaderAbility()

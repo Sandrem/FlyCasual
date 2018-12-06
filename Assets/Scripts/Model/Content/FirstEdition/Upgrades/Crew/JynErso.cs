@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction action = new ActionsList.JynErsoAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip,
+                HostShip = HostShip,
                 DoAction = DoJynErsoAction
             };
             host.AddAvailableAction(action);
@@ -159,10 +159,10 @@ namespace ActionsList
             get
             {
                 return Roster.AllShips.Values
-                    .Where(s => s.Owner.Id != Host.Owner.Id)
+                    .Where(s => s.Owner.Id != HostShip.Owner.Id)
                     .Where(s =>
                     {
-                        ShotInfo arcInfo = new ShotInfo(Host, s, Host.PrimaryWeapon);
+                        ShotInfo arcInfo = new ShotInfo(HostShip, s, HostShip.PrimaryWeapon);
                         return arcInfo.InArc && arcInfo.Range <= 3;
                     })
                     .Any();

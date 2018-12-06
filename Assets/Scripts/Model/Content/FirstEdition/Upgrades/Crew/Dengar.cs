@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
         {
             ActionsList.GenericAction newAction = new ActionsList.DengarDiceModification
             {
-                Host = host,
+                HostShip = host,
                 ImageUrl = HostUpgrade.ImageUrl
             };
             host.AddAvailableDiceModification(newAction);

@@ -42,7 +42,7 @@ namespace Abilities.SecondEdition
 
         private void CheckWeakArc(ref int count)
         {
-            if (HostShip.ArcsInfo.GetArc<Arcs.ArcMobile>().Facing != ArcFacing.Forward) count--;
+            if (HostShip.ArcsInfo.GetArc<Arcs.ArcSingleTurret>().Facing != ArcFacing.Front) count--;
         }
     }
 }

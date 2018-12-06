@@ -17,7 +17,11 @@ namespace Ship.FirstEdition.KWing
                 "K-wing",
                 BaseSize.Small,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcType.Primary, 2), 1, 5, 4,
+                new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 2),
+                    new ShipArcInfo(ArcType.TurretPrimaryWeapon, 2)
+                ),
+                1, 5, 4,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),

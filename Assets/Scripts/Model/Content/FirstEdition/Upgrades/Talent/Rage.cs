@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
             GenericAction action = new RageAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             host.AddAvailableAction(action);
         }
@@ -62,18 +62,18 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host = Selection.ThisShip;
+            HostShip = Selection.ThisShip;
             //Adding Rage reroll effect
-            Host.OnGenerateDiceModifications += AddRageCondition;
+            HostShip.OnGenerateDiceModifications += AddRageCondition;
             Phases.Events.OnEndPhaseStart_NoTriggers += RemoveRageCondition;
 
             //Rage Condition for reroll dices on each attach during this round
             Messages.ShowInfo("Rage: Condition assigned");
-            Host.Tokens.AssignCondition(typeof(Conditions.RageCondition));
+            HostShip.Tokens.AssignCondition(typeof(Conditions.RageCondition));
 
             //Assigns one focus and two stress tokens
             Messages.ShowInfo("Rage: Focus assigned");
-            Host.Tokens.AssignToken(typeof(FocusToken), delegate { assignStressTokensRecursively(2); });
+            HostShip.Tokens.AssignToken(typeof(FocusToken), delegate { assignStressTokensRecursively(2); });
         }
 
 
@@ -86,7 +86,7 @@ namespace ActionsList
                 tokens--;
                 string message = (tokens == 0) ? "Rage: Second Stress assigned" : "Rage: First Stress assigned";
                 Messages.ShowInfo(message);
-                Host.Tokens.AssignToken(typeof(StressToken), delegate { assignStressTokensRecursively(tokens); });
+                HostShip.Tokens.AssignToken(typeof(StressToken), delegate { assignStressTokensRecursively(tokens); });
             }
             else
             {
@@ -103,8 +103,8 @@ namespace ActionsList
 
         private void RemoveRageCondition()
         {
-            Host.Tokens.RemoveCondition(typeof(Conditions.RageCondition));
-            Host.OnGenerateDiceModifications -= AddRageCondition;
+            HostShip.Tokens.RemoveCondition(typeof(Conditions.RageCondition));
+            HostShip.OnGenerateDiceModifications -= AddRageCondition;
 
             Phases.Events.OnEndPhaseStart_NoTriggers -= RemoveRageCondition;
         }

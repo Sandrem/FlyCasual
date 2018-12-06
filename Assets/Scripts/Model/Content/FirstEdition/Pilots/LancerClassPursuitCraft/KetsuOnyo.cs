@@ -68,7 +68,7 @@ namespace Abilities.FirstEdition
 
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy, TargetTypes.OtherFriendly })
                 && FilterTargetsByRange(ship, 0, 1)
-                && shotInfo.InArcByType(ArcType.Mobile)
+                && shotInfo.InArcByType(ArcType.SingleTurret)
                 && shotInfo.InPrimaryArc;
         }
 
@@ -82,7 +82,7 @@ namespace Abilities.FirstEdition
             SelectShipSubPhase.FinishSelectionNoCallback();
 
             ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip, HostShip.PrimaryWeapon);
-            if (shotInfo.InArcByType(ArcType.Mobile) && shotInfo.InPrimaryArc && shotInfo.Range == 1)
+            if (shotInfo.InArcByType(ArcType.SingleTurret) && shotInfo.InPrimaryArc && shotInfo.Range == 1)
             {
                 Messages.ShowError(HostShip.PilotName + " assigns Tractor Beam Token\nto " + TargetShip.PilotName);
                 Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, HostShip.Owner);
@@ -90,7 +90,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                if (!shotInfo.InArcByType(ArcType.Mobile) || !shotInfo.InPrimaryArc)
+                if (!shotInfo.InArcByType(ArcType.SingleTurret) || !shotInfo.InPrimaryArc)
                 {
                     Messages.ShowError("Target is not inside Mobile Arc and Primary Arc");
                 }

@@ -75,7 +75,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.GlitterstimDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             host.AddAvailableDiceModification(newAction);
         }

@@ -17,7 +17,11 @@ namespace Ship.FirstEdition.VT49Decimator
                 "VT-49 Decimator",
                 BaseSize.Large,
                 Faction.Imperial,
-                new ShipArcsInfo(ArcType.Primary, 3), 0, 12, 4,
+                new ShipArcsInfo(
+                    new ShipArcInfo(ArcType.Front, 3),
+                    new ShipArcInfo(ArcType.TurretPrimaryWeapon, 3)
+                ),
+                0, 12, 4,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction))

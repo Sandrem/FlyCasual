@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
         {
             GenericAction action = new BistanAction()
             {
-                Host = this.HostShip,
+                HostShip = this.HostShip,
                 ImageUrl = HostUpgrade.ImageUrl
             };
             ship.AddAvailableDiceModification(action);

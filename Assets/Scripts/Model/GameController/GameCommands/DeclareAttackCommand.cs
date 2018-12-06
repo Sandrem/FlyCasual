@@ -38,7 +38,7 @@ namespace GameCommands
                 if (secUpgrade == null) continue;
 
                 if (!secUpgrade.State.IsFaceup) continue;
-                if (secUpgrade.UsesCharges && secUpgrade.Charges == 0) continue;
+                if (secUpgrade.State.UsesCharges && secUpgrade.State.Charges == 0) continue;
 
                 if (secUpgrade.UpgradeInfo.Name == weaponName) return weapon;
             }

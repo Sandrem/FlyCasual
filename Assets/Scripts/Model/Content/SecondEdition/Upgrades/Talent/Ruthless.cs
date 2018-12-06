@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
             GenericAction newAction = new RuthlessDiceModification
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host,
+                HostShip = host,
                 Source = HostUpgrade
             };
             host.AddAvailableDiceModification(newAction);
@@ -124,7 +124,7 @@ namespace ActionsList
             if (Combat.AttackStep != CombatStep.Attack) return false;
 
             List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Friendly);
-            return friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != Host.ShipId);
+            return friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != HostShip.ShipId);
         }
 
         public override int GetDiceModificationPriority()
@@ -134,7 +134,7 @@ namespace ActionsList
             if ((Combat.DiceRollAttack.Blanks > 0) || (Combat.DiceRollAttack.Focuses > 0))
             {
                 List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Friendly);
-                if (friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != Host.ShipId && n.State.HullCurrent > 0)) result = 33;
+                if (friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != HostShip.ShipId && n.State.HullCurrent > 0)) result = 33;
             }
 
             return result;

@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
             GenericAction newAction = new ActionsList.SecondEdition.SeventhSisterDiceModification()
             {
                 ImageUrl = HostShip.ImageUrl,
-                Host = host,
+                HostShip = host,
             };
             host.AddAvailableDiceModification(newAction);
         }

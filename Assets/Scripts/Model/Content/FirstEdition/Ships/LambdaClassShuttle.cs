@@ -19,7 +19,7 @@ namespace Ship
                     "Lambda-class Shuttle",
                     BaseSize.Large,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcType.Primary, 3), 1, 5, 5,
+                    new ShipArcsInfo(ArcType.Front, 3), 1, 5, 5,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction))

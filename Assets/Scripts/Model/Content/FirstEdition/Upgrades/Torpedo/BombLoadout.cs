@@ -12,7 +12,7 @@ namespace UpgradesList.FirstEdition
                 "Bomb Loadout",
                 UpgradeType.Torpedo,
                 cost: 0,
-                feIsLimited: true,
+                feIsLimitedPerShip: true,
                 addSlot: new UpgradeSlot(UpgradeType.Bomb),
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.YWing.YWing))
             );

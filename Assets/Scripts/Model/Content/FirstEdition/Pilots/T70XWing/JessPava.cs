@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
         private void AddJessPavaActionEffect(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.JessPavaActionEffect();
-            newAction.Host = host;
+            newAction.HostShip = host;
             newAction.ImageUrl = host.ImageUrl;
             host.AddAvailableDiceModification(newAction);
         }
@@ -86,9 +86,9 @@ namespace ActionsList
         private bool FilterTargets(GenericShip ship)
         {
             //Filter other friendly ships range 1
-            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Host, ship);
-            return ship.Owner.PlayerNo == Host.Owner.PlayerNo &&
-                    ship != Host &&
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, ship);
+            return ship.Owner.PlayerNo == HostShip.Owner.PlayerNo &&
+                    ship != HostShip &&
                     distanceInfo.Range == 1;
         }
 

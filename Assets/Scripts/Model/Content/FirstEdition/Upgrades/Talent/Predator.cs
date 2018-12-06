@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new PredatorActionEffect
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }

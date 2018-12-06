@@ -225,6 +225,11 @@ namespace Ship
         {
             if (OnOffTheBoard != null) OnOffTheBoard(ref shouldDestroyShip, direction);
         }
+
+        // Squadbuilder
+
+        public virtual void OnPreInstallUpgrade(GenericUpgrade upgrade) {}
+        public virtual void OnRemovePreInstallUpgrade(GenericUpgrade upgrade) { }
     }
 
 }

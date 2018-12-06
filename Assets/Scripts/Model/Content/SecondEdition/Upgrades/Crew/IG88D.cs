@@ -1,6 +1,7 @@
 ﻿using Ship;
 using Upgrade;
 using ActionsList;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,6 +15,7 @@ namespace UpgradesList.SecondEdition
                 cost: 4,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
+                addAction: new ActionInfo(typeof(CalculateAction)),
                 abilityType: typeof(Abilities.SecondEdition.Ig88DCrewAbility),
                 seImageNumber: 132
             );
@@ -26,17 +28,11 @@ namespace Abilities.SecondEdition
 {
     public class Ig88DCrewAbility : GenericAbility
     {
-        bool addedAction = false;
         bool addedAbility = false;
 
         public override void ActivateAbility() { }
         public override void ActivateAbilityForSquadBuilder()
         {
-            if (!HostShip.ActionBar.HasAction(typeof(CalculateAction)))
-            {
-                HostShip.ActionBar.AddGrantedAction(new CalculateAction(), HostUpgrade);
-                addedAction = true;
-            }
             if (HostShip.PilotAbilities.Find(ability => ability is AdvancedDroidBrain) == null)
             {
                 HostShip.PilotAbilities.Add(new AdvancedDroidBrain());
@@ -47,10 +43,6 @@ namespace Abilities.SecondEdition
         public override void DeactivateAbility() { }
         public override void DeactivateAbilityForSquadBuilder()
         {
-            if (addedAction)
-            {
-                HostShip.ActionBar.RemoveGrantedAction(typeof(CalculateAction), HostUpgrade);
-            }
             if (addedAbility)
             {
                 HostShip.PilotAbilities.RemoveAll(ability => ability is AdvancedDroidBrain);

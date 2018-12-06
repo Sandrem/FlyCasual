@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
+using Arcs;
 using Movement;
 using Upgrade;
 
@@ -11,6 +12,8 @@ namespace Ship.SecondEdition.VT49Decimator
     {
         public VT49Decimator() : base()
         {
+            ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.DoubleTurret, 3);
+
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 

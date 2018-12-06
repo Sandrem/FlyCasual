@@ -21,7 +21,7 @@ namespace Ship.FirstEdition.UWing
                 "U-wing",
                 (ModsManager.Mods[typeof(UWingSmallBaseMod)].IsOn) ? BaseSize.Small : BaseSize.Large,
                 Faction.Rebel,
-                new ShipArcsInfo(ArcType.Primary, 3), 1, 4, 4,
+                new ShipArcsInfo(ArcType.Front, 3), 1, 4, 4,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction))

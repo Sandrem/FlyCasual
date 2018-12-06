@@ -5,6 +5,7 @@ using Ship;
 using ActionsList;
 using Obstacles;
 using BoardTools;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,7 @@ namespace UpgradesList.SecondEdition
                 cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.DebrisGambit),
                 restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
+                addAction: new ActionInfo(typeof(EvadeAction), ActionColor.Red),
                 seImageNumber: 3
             );
         }
@@ -30,19 +32,12 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnGenerateActions += AddDebrisGambitAction;
             HostShip.OnCheckActionComplexity += CheckDecreaseComplexity;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGenerateActions -= AddDebrisGambitAction;
             HostShip.OnCheckActionComplexity -= CheckDecreaseComplexity;
-        }
-
-        private void AddDebrisGambitAction(GenericShip host)
-        {
-            host.AddAvailableAction(new EvadeAction() { IsRed = true });
         }
 
         private void CheckDecreaseComplexity(ref GenericAction action)

@@ -17,6 +17,8 @@ namespace Ship
             public M12LKimogilaFighter() : base()
             {
                 ShipInfo.BaseSize = BaseSize.Medium;
+
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.Front, 3);
                 ShipInfo.Hull = 7;
 
                 ShipInfo.ActionIcons.RemoveActions(typeof(BarrelRollAction));

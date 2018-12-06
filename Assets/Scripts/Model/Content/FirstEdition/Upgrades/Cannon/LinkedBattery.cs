@@ -12,7 +12,7 @@ namespace UpgradesList.FirstEdition
                 "Linked Battery",
                 UpgradeType.Cannon,
                 cost: 2,
-                feIsLimited: true,
+                feIsLimitedPerShip: true,
                 restriction: new BaseSizeRestriction(BaseSize.Small),
                 abilityType: typeof(Abilities.FirstEdition.LinkedBatteryAbility)
             );
@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             ship.AddAvailableDiceModification(new ActionsList.LinkedBatteryAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             });
         }
     }

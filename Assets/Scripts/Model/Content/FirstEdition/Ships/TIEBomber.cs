@@ -20,7 +20,7 @@ namespace Ship
                     "TIE Bomber",
                     BaseSize.Small,
                     Faction.Imperial,
-                    new ShipArcsInfo(ArcType.Primary, 2), 2, 6, 0,
+                    new ShipArcsInfo(ArcType.Front, 2), 2, 6, 0,
                     new ShipActionsInfo(
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),

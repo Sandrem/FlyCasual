@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,15 @@ namespace Upgrade
 {
     public class ShipUpgradeBar
     {
-        private Ship.GenericShip Host;
+        private GenericShip HostShip;
 
         private List<UpgradeSlot> UpgradeSlots;
         private List<UpgradeType> ForbiddenSlots;
         private Dictionary<UpgradeType, int> CostReductionByType;
 
-        public ShipUpgradeBar(Ship.GenericShip host)
+        public ShipUpgradeBar(GenericShip hostShip)
         {
-            Host = host;
+            HostShip = hostShip;
 
             UpgradeSlots = new List<UpgradeSlot>();
             ForbiddenSlots = new List<UpgradeType>();
@@ -25,7 +26,10 @@ namespace Upgrade
 
         public void AddSlot(UpgradeType slotType)
         {
-            AddSlot(new UpgradeSlot(slotType));
+            UpgradeSlot slot = new UpgradeSlot(slotType);
+            slot.OnPreInstallUpgrade += HostShip.OnPreInstallUpgrade;
+            slot.OnRemovePreInstallUpgrade += HostShip.OnRemovePreInstallUpgrade;
+            AddSlot(slot);
         }
 
         public void AddSlot(UpgradeSlot slot)
@@ -57,7 +61,7 @@ namespace Upgrade
                     for (int j = 0; j < upgrade.UpgradeInfo.UpgradeTypes.Count; j++) {
                         UpgradeType type = upgrade.UpgradeInfo.UpgradeTypes[j];
                         if (type == freeSlot.Type) {
-                            freeSlot.TryInstallUpgrade (upgrade, Host);
+                            freeSlot.TryInstallUpgrade (upgrade, HostShip);
                             break;
                         } 
                     }
@@ -234,8 +238,8 @@ namespace Upgrade
         {
             return GetUpgradesOnlyFaceup()
                 .Where(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) || n.UpgradeInfo.HasType(UpgradeType.Missile) || n.UpgradeInfo.HasType(UpgradeType.Bomb))
-                .Where(n => n.UsesCharges)
-                .Where(n => n.Charges < n.MaxCharges)
+                .Where(n => n.State.UsesCharges)
+                .Where(n => n.State.Charges < n.State.MaxCharges)
                 .ToList();
         }
     }

@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new GuidanceChipsEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host,
+                HostShip = host,
                 Source = HostUpgrade
             };
             host.AddAvailableDiceModification(newAction);
@@ -103,7 +103,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            DieSide newResult = (Host.State.Firepower >= 3) ? DieSide.Crit : DieSide.Success;
+            DieSide newResult = (HostShip.State.Firepower >= 3) ? DieSide.Crit : DieSide.Success;
 
             DieSide oldResult = DieSide.Crit;
             if (Combat.CurrentDiceRoll.Blanks > 0) oldResult = DieSide.Blank;

@@ -13,7 +13,7 @@ namespace Ship
 
         public Type AbilityType { get; private set; }
 
-        public int Force { get; private set; }
+        public int Force { get; set; }
         public int Charges { get; private set; }
         public bool RegensCharges { get; private set; }
 

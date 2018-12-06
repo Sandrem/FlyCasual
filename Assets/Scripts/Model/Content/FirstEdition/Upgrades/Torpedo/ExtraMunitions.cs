@@ -14,7 +14,7 @@ namespace UpgradesList.FirstEdition
                 "Extra Munitions",
                 UpgradeType.Torpedo,
                 cost: 2,
-                feIsLimited: true,
+                feIsLimitedPerShip: true,
                 abilityType: typeof(Abilities.FirstEdition.ExtraMunitionsAbility)
             );
         }        

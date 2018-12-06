@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new MarksmanshipAction
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableAction(newAction);
         }
@@ -61,10 +61,10 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host = Selection.ThisShip;
-            Host.OnGenerateDiceModifications += MarksmanshipAddDiceModification;
+            HostShip = Selection.ThisShip;
+            HostShip.OnGenerateDiceModifications += MarksmanshipAddDiceModification;
             Phases.Events.OnEndPhaseStart_NoTriggers += MarksmanshipUnSubscribeToFiceModification;
-            Host.Tokens.AssignCondition(typeof(Conditions.MarksmanshipCondition));
+            HostShip.Tokens.AssignCondition(typeof(Conditions.MarksmanshipCondition));
             Phases.CurrentSubPhase.CallBack();
         }
 
@@ -82,8 +82,8 @@ namespace ActionsList
 
         private void MarksmanshipUnSubscribeToFiceModification()
         {
-            Host.Tokens.RemoveCondition(typeof(Conditions.MarksmanshipCondition));
-            Host.OnGenerateDiceModifications -= MarksmanshipAddDiceModification;
+            HostShip.Tokens.RemoveCondition(typeof(Conditions.MarksmanshipCondition));
+            HostShip.OnGenerateDiceModifications -= MarksmanshipAddDiceModification;
             Phases.Events.OnEndPhaseStart_NoTriggers -= MarksmanshipUnSubscribeToFiceModification;
         }
 

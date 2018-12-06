@@ -40,7 +40,7 @@ namespace Upgrade
                 {
                     Name = "Detonation of " + UpgradeInfo.Name,
                     TriggerType = TriggerTypes.OnActivationPhaseEnd,
-                    TriggerOwner = Host.Owner.PlayerNo,
+                    TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = TryDetonate,
                     EventArgs = new BombDetonationEventArgs()
                     {

@@ -31,7 +31,7 @@ namespace UpgradesList.FirstEdition
 
             if (Global.ActiveScene != Global.Scene.Battle)
             {
-                TractorBeamSlot.PreInstallUpgrade(new TractorBeam() { Host = host }, host);
+                TractorBeamSlot.PreInstallUpgrade(new TractorBeam() { HostShip = host }, host);
                 TractorBeamSlot.OnRemovePreInstallUpgrade += TractorBeamRemoved;
             }
         }

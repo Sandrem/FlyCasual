@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
             GenericAction newAction = new ElusiveDiceModification
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host,
+                HostShip = host,
                 Source = HostUpgrade
             };
             host.AddAvailableDiceModification(newAction);
@@ -56,9 +56,9 @@ namespace Abilities.SecondEdition
 
             if (HostShip.AssignedManeuver.ColorComplexity != Movement.MovementComplexity.Complex) return;
 
-            if (HostUpgrade.Charges < HostUpgrade.MaxCharges)
+            if (HostUpgrade.State.Charges < HostUpgrade.State.MaxCharges)
             {
-                HostUpgrade.RestoreCharge();
+                HostUpgrade.State.RestoreCharge();
                 Messages.ShowInfo("Elusive: Charge is restored");
             }
         }
@@ -85,14 +85,14 @@ namespace ActionsList
                 CallBack = callBack
             };
 
-            Source.SpendCharge();
+            Source.State.SpendCharge();
             diceRerollManager.Start();
         }
 
         public override bool IsDiceModificationAvailable()
         {
             if (Combat.AttackStep != CombatStep.Defence) return false;
-            if (Source.Charges == 0) return false;
+            if (Source.State.Charges == 0) return false;
 
             return true;
         }

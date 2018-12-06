@@ -51,7 +51,7 @@ namespace Abilities.FirstEdition
             Sounds.PlayShipSound("BB-8-Sound");
 
             HostShip.AskPerformFreeAction(
-                new List<GenericAction>() { new BarrelRollAction() },
+                new BarrelRollAction(),
                 Triggers.FinishTrigger
             );
         }

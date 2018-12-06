@@ -1,4 +1,5 @@
-﻿using ActionsList;
+﻿using Actions;
+using ActionsList;
 using Upgrade;
 
 namespace UpgradesList.FirstEdition
@@ -11,26 +12,8 @@ namespace UpgradesList.FirstEdition
                 "Engine Upgrade",
                 UpgradeType.Modification,
                 cost: 4,
-                abilityType: typeof(Abilities.FirstEdition.EngineUpgradeAbility)
+                addAction: new ActionInfo(typeof(BoostAction))
             );
-        }
-    }
-}
-
-namespace Abilities.FirstEdition
-{
-    public class EngineUpgradeAbility : GenericAbility
-    {
-        public override void ActivateAbility() { }
-        public override void ActivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.AddGrantedAction(new BoostAction(), HostUpgrade);
-        }
-
-        public override void DeactivateAbility() { }
-        public override void DeactivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(BoostAction), HostUpgrade);
         }
     }
 }

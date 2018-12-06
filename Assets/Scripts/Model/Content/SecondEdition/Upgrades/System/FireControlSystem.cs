@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
             var newAction = new ActionsList.SecondEdition.FireControlSystemAbilityActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }

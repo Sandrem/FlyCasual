@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void AddInaldraAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.FirstEdition.InaldraAction() { Host = HostShip });
+            ship.AddAvailableDiceModification(new ActionsList.FirstEdition.InaldraAction() { HostShip = HostShip });
         }
     }
 }
@@ -60,10 +60,10 @@ namespace ActionsList.FirstEdition
             // remove one shield
             // It should not be possible to get there without having at least one shield (IsActionEffectAvailable),
             //   but just in case ...
-            if (Host.State.ShieldsCurrent > 0)
+            if (HostShip.State.ShieldsCurrent > 0)
             {
                 Messages.ShowInfoToHuman(Name + ": losing one shield to reroll any number of dice");
-                Host.LoseShield();
+                HostShip.LoseShield();
                 // reroll dice
                 DiceRerollManager diceRerollManager = new DiceRerollManager
                 {
@@ -83,7 +83,7 @@ namespace ActionsList.FirstEdition
         public override bool IsDiceModificationAvailable()
         {
             // check if ship has shield to activate ability
-            return Host.State.ShieldsCurrent > 0;
+            return HostShip.State.ShieldsCurrent > 0;
         }
 
         public override int GetDiceModificationPriority()

@@ -36,9 +36,9 @@ namespace Upgrade
             {
                 TryDiscard(callBack);
             }
-            else if (UsesCharges)
+            else if (State.UsesCharges)
             {
-                SpendCharge();
+                State.SpendCharge();
                 callBack();
             }
             else
@@ -49,7 +49,7 @@ namespace Upgrade
 
         public virtual void ActivateBombs(List<GameObject> bombObjects, Action callBack)
         {
-            Host.IsBombAlreadyDropped = true;
+            HostShip.IsBombAlreadyDropped = true;
             BombsManager.RegisterBombs(bombObjects, this);
             PayDropCost(callBack);
         }

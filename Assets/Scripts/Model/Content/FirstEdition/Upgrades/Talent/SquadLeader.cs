@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new SquadLeaderAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip,
+                HostShip = HostShip,
                 Source = HostUpgrade
             };
             host.AddAvailableAction(newAction);
@@ -68,7 +68,7 @@ namespace ActionsList
                 typeof(SelectSquadLeaderTargetSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
-            newPhase.SquadLeaderOwner = this.Host;
+            newPhase.SquadLeaderOwner = this.HostShip;
             newPhase.SquadLeaderUpgrade = this.Source;
             newPhase.Start();
         }

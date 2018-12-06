@@ -88,7 +88,7 @@ namespace Abilities
         public virtual void InitializeForSquadBuilder(GenericUpgrade hostUpgrade)
         {
             HostReal = hostUpgrade;
-            HostShip = hostUpgrade.Host;
+            HostShip = hostUpgrade.HostShip;
             HostUpgrade = hostUpgrade;
             Name = hostUpgrade.UpgradeInfo.Name + "'s ability";
 
@@ -437,7 +437,7 @@ namespace Abilities
                     DiceModificationName = name,
                     ImageUrl = HostImageUrl,
                     DiceModificationTiming = timing,
-                    Host = HostShip,
+                    HostShip = HostShip,
                     Source = HostUpgrade,
                     CheckDiceModificationAvailable = isAvailable,
                     GenerateDiceModificationAiPriority = aiPriority,

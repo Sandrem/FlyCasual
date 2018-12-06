@@ -183,7 +183,7 @@ namespace SubPhases
 
         private void ResetActionColor(GenericAction action)
         {
-            action.Host.OnActionIsPerformed -= ResetActionColor;
+            action.HostShip.OnActionIsPerformed -= ResetActionColor;
             HostAction.IsRed = false;
         }
 

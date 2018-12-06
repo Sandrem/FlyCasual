@@ -17,7 +17,7 @@ namespace Ship.FirstEdition.ScurrgH6Bomber
                 "Scurrg H-6 Bomber",
                 BaseSize.Small,
                 Faction.Scum,
-                new ShipArcsInfo(ArcType.Primary, 3), 1, 5, 5,
+                new ShipArcsInfo(ArcType.Front, 3), 1, 5, 5,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),

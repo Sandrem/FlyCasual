@@ -6,42 +6,29 @@ using Ship;
 
 namespace Arcs
 {
-    public enum BaseArcsType
-    {
-        ArcDefault,
-        ArcRear,
-        ArcSpecial180,
-        Arc360,
-        ArcMobile,
-        ArcMobileOnly,
-        ArcMobileDual,
-        ArcMobileTurret,
-        ArcBullseye,
-        ArcSpecialGhost
-    }
-
     public enum ArcType
     {
         None,
-        Primary,
-        Forward,
-        RearAux,
-        Special180,
-        Special180Rear,
-        Mobile,
+        Front,
+        Rear,
+        FullFront,
+        FullRear,
+        SingleTurret,
+        DoubleTurret,
         Bullseye,
+        TurretPrimaryWeapon,
         SpecialGhost
     }
 
     public enum ArcFacing
     {
         None,
-        Forward,
+        Front,
         Left,
         Right,
         Rear,
-        Front180,
-        Rear180,
+        FullFront,
+        FullRear,
         Bullseye
     }
 
@@ -98,25 +85,5 @@ namespace Arcs
         {
             ShipBase.Host.ArcsInfo.Arcs.Remove(this);
         }
-    }
-
-    public class ArcsHolder
-    {
-        public List<GenericArc> Arcs { get; set; }
-
-        public ArcsHolder(GenericShip host)
-        {
-            Arcs = new List<GenericArc>
-            {
-                new ArcPrimary(host.ShipBase),
-                new OutOfArc(host.ShipBase)
-            };
-        }
-
-        public T GetArc<T>() where T : GenericArc
-        {
-            return (T)Arcs.FirstOrDefault(n => n.GetType() == typeof(T));
-        }
-
     }
 }

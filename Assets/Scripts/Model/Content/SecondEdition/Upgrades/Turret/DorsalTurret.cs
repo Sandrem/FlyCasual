@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
                     attackValue: 2,
                     minRange: 1,
                     maxRange: 2,
-                    arc: ArcType.Mobile
+                    arc: ArcType.SingleTurret
                 ),
                 addAction: new ActionInfo(typeof(RotateArcAction)),
                 abilityType: typeof(Abilities.SecondEdition.DorsalTurretAbility),

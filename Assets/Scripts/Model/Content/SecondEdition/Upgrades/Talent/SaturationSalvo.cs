@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
                     ActionsList.GenericAction newAction = new ActionsList.SaturationSalvoActionEffect()
                     {
                         ImageUrl = HostUpgrade.ImageUrl,
-                        Host = host
+                        HostShip = host
                     };
                     host.AddAvailableDiceModification(newAction);
                 }
@@ -77,7 +77,7 @@ namespace ActionsList
             bool result = false;
             GenericSpecialWeapon weapon = Combat.ChosenWeapon as GenericSpecialWeapon;
 
-            if (Combat.AttackStep == CombatStep.Defence && weapon.UsesCharges && weapon.Charges > 0)
+            if (Combat.AttackStep == CombatStep.Defence && weapon.State.UsesCharges && weapon.State.Charges > 0)
             {
                 result = true;
             }
@@ -88,7 +88,7 @@ namespace ActionsList
         public override void ActionEffect(System.Action callBack)
         {
             GenericSpecialWeapon weapon = Combat.ChosenWeapon as GenericSpecialWeapon;
-            weapon.SpendCharge();
+            weapon.State.SpendCharge();
             DiceRerollManager diceRerollManager = new DiceRerollManager
             {
                 NumberOfDiceCanBeRerolled = 2,

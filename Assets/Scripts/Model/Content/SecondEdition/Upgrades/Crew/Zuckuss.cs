@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
             ActionsList.GenericAction newAction = new ActionsList.ZuckussActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }
@@ -72,7 +72,7 @@ namespace ActionsList
         {
             bool result = false;
 
-            if (Combat.AttackStep == CombatStep.Defence && !Host.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (Combat.AttackStep == CombatStep.Defence && !HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
                 result = true;
             }
@@ -95,7 +95,7 @@ namespace ActionsList
 
         private void AssignStress(System.Action callBack)
         {
-            Host.Tokens.AssignToken(typeof(StressToken), callBack);
+            HostShip.Tokens.AssignToken(typeof(StressToken), callBack);
         }
     }
 }

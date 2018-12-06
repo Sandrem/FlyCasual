@@ -52,7 +52,7 @@ namespace Abilities.FirstEdition
         {
             AdvancedProtonTorpedoesAction action = new AdvancedProtonTorpedoesAction()
             {
-                Host = host,
+                HostShip = host,
                 ImageUrl = HostUpgrade.ImageUrl,
                 Source = HostUpgrade
             };

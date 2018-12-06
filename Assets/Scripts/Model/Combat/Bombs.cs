@@ -318,7 +318,7 @@ namespace Bombs
 
         public static List<GenericUpgrade> GetTimedBombsInstalled(GenericShip ship)
         {
-            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.GetType().BaseType == typeof(GenericTimedBomb)).Where(n => n.UsesCharges == false || (n.UsesCharges == true && n.Charges > 0)).ToList();
+            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.GetType().BaseType == typeof(GenericTimedBomb)).Where(n => n.State.UsesCharges == false || (n.State.UsesCharges == true && n.State.Charges > 0)).ToList();
         }
 
         public static bool HasTimedBombs(GenericShip ship)

@@ -42,11 +42,11 @@ namespace ActionsList
 
                 if (CanReRollWithWeaponClass())
                 {
-                    if (CanUseOwnAbility || friendlyShip != Host)
+                    if (CanUseOwnAbility || friendlyShip != HostShip)
                     {
-                        if (friendlyShip.Owner == Host.Owner)
+                        if (friendlyShip.Owner == HostShip.Owner)
                         {
-                            BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(Host, friendlyShip);
+                            BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(HostShip, friendlyShip);
                             if (positionInfo.Range <= MaxFriendlyShipRange)
                             {
                                 result = true;

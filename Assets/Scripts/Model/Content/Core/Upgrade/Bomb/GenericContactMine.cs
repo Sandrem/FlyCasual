@@ -34,7 +34,7 @@ namespace Upgrade
                 Name = "Drop " + UpgradeInfo.Name,
                 Source = this
             };
-            Host.AddAvailableAction(action);
+            HostShip.AddAvailableAction(action);
         }
 
         public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
@@ -122,7 +122,7 @@ namespace Upgrade
 
         public override void Discard(Action callBack)
         {
-            Host.OnGenerateActions -= PerformDropBombAction;
+            HostShip.OnGenerateActions -= PerformDropBombAction;
 
             base.Discard(callBack);
         }

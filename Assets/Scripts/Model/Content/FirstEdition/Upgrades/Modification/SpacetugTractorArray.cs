@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.SpacetugAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip,
+                HostShip = HostShip,
                 Source = HostUpgrade
             };
             HostShip.AddAvailableAction(newAction);
@@ -67,7 +67,7 @@ namespace ActionsList
                 FinishAction
             );
 
-            newPhase.SpacetugOwner = this.Host;
+            newPhase.SpacetugOwner = this.HostShip;
             newPhase.SpacetugUpgrade = this.Source;
             newPhase.Start();
         }

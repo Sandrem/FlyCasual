@@ -45,22 +45,22 @@ namespace Abilities.SecondEdition
         {
             var upgrades = GetNonRecurringChargeUpgrades();
 
-            if (upgrades.Any(u => u.Charges > 0) && HostShip.State.ShieldsCurrent < HostShip.State.ShieldsMax)
+            if (upgrades.Any(u => u.State.Charges > 0) && HostShip.State.ShieldsCurrent < HostShip.State.ShieldsMax)
             {
                 ship.AddAvailableAction(new RecoverShieldAction()
                 {
                     ImageUrl = HostUpgrade.ImageUrl,
-                    Host = HostShip,
+                    HostShip = HostShip,
                     Source = this.HostUpgrade,
                     GetAvailableUpgrades = GetNonRecurringChargeUpgrades
                 });
             }
-            if (upgrades.Any(u => u.Charges < u.MaxCharges) && HostShip.State.ShieldsCurrent >= 2)
+            if (upgrades.Any(u => u.State.Charges < u.State.MaxCharges) && HostShip.State.ShieldsCurrent >= 2)
             {
                 ship.AddAvailableAction(new RecoverChargeAction()
                 {
                     ImageUrl = HostUpgrade.ImageUrl,
-                    Host = HostShip,
+                    HostShip = HostShip,
                     Source = this.HostUpgrade,
                     GetAvailableUpgrades = GetNonRecurringChargeUpgrades
                 });
@@ -72,7 +72,7 @@ namespace Abilities.SecondEdition
             return HostShip
                 .UpgradeBar
                 .GetUpgradesAll()
-                .Where(u => u.UsesCharges && !u.RegensCharges)
+                .Where(u => u.State.UsesCharges && !u.UpgradeInfo.RegensCharges)
                 .ToList();
         }
 
@@ -86,19 +86,19 @@ namespace Abilities.SecondEdition
 
             protected override bool IsUsable(GenericUpgrade upgrade)
             {
-                return upgrade.Charges > 0;
+                return upgrade.State.Charges > 0;
             }
 
             protected override GenericUpgrade SelectUpgradeForAI()
             {
                 //prioritize upgrades with more remaining charges
-                return GetAvailableUpgrades().OrderByDescending(u => u.Charges).First();
+                return GetAvailableUpgrades().OrderByDescending(u => u.State.Charges).First();
             }
 
             protected override void UpgradeSelected(GenericUpgrade upgrade, Action callback)
             {
-                upgrade.SpendCharge();
-                Host.TryRegenShields();
+                upgrade.State.SpendCharge();
+                HostShip.TryRegenShields();
                 callback();
             }
         }
@@ -113,20 +113,20 @@ namespace Abilities.SecondEdition
 
             protected override bool IsUsable(GenericUpgrade upgrade)
             {
-                return upgrade.Charges < upgrade.MaxCharges;
+                return upgrade.State.Charges < upgrade.State.MaxCharges;
             }
 
             protected override GenericUpgrade SelectUpgradeForAI()
             {
                 //prioritize upgrades with few remaining charges
-                return GetAvailableUpgrades().OrderBy(u => u.Charges).First();
+                return GetAvailableUpgrades().OrderBy(u => u.State.Charges).First();
             }
 
             protected override void UpgradeSelected(GenericUpgrade upgrade, Action callback)
             {
-                Host.LoseShield();
-                Host.LoseShield();
-                upgrade.RestoreCharge();
+                HostShip.LoseShield();
+                HostShip.LoseShield();
+                upgrade.State.RestoreCharge();
                 callback();
             }
         }

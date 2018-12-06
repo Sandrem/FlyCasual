@@ -40,18 +40,18 @@ namespace Abilities.SecondEdition
 
         private void AddAction(Ship.GenericShip ship)
         {
-            if (ship.Damage.GetFacedownCards().Any() && HostUpgrade.Charges > 0)
+            if (ship.Damage.GetFacedownCards().Any() && HostUpgrade.State.Charges > 0)
             {
                 ship.AddAvailableAction(new RepairAction(RepairAction.CardFace.FaceDown)
                 {
                     ImageUrl = HostUpgrade.ImageUrl,
-                    Host = HostShip,
+                    HostShip = HostShip,
                     PayRepairCost = () =>
                     {
                         var result = false;
-                        if (HostUpgrade.Charges > 0)
+                        if (HostUpgrade.State.Charges > 0)
                         {
-                            HostUpgrade.SpendCharge();
+                            HostUpgrade.State.SpendCharge();
                             result = true;
                         }
                         return result;
@@ -63,7 +63,7 @@ namespace Abilities.SecondEdition
                 ship.AddAvailableAction(new RepairAction(RepairAction.CardFace.FaceUp, CriticalCardType.Ship)
                 {
                     ImageUrl = HostUpgrade.ImageUrl,
-                    Host = HostShip,
+                    HostShip = HostShip,
                     Source = this.HostUpgrade
                 });
             }
@@ -100,7 +100,7 @@ namespace ActionsList
             {
                 if (damageCardFace == CardFace.FaceDown)
                 {
-                    if (Host.Damage.DiscardRandomFacedownCard())
+                    if (HostShip.Damage.DiscardRandomFacedownCard())
                     {
                         Sounds.PlayShipSound("R2D2-Proud");
                         Messages.ShowInfoToHuman("Facedown Damage card is discarded");
@@ -109,11 +109,11 @@ namespace ActionsList
                 }
                 else if (damageCardFace == CardFace.FaceUp)
                 {
-                    List<GenericDamageCard> shipCritsList = Host.Damage.GetFaceupCrits(criticalCardType);
+                    List<GenericDamageCard> shipCritsList = HostShip.Damage.GetFaceupCrits(criticalCardType);
 
                     if (shipCritsList.Count == 1)
                     {
-                        Host.Damage.FlipFaceupCritFacedown(shipCritsList.First());
+                        HostShip.Damage.FlipFaceupCritFacedown(shipCritsList.First());
                         Sounds.PlayShipSound("R2D2-Proud");
                         Phases.CurrentSubPhase.CallBack();
                     }

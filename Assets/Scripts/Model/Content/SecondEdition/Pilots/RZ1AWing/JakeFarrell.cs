@@ -73,7 +73,7 @@ namespace Abilities.SecondEdition
         private void GrantFreeFocusAction()
         {
             TargetShip.AskPerformFreeAction(
-                new FocusAction() { Host = TargetShip },
+                new FocusAction() { HostShip = TargetShip },
                 SelectShipSubPhase.FinishSelection
             );
         }

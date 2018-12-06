@@ -4,6 +4,7 @@ using ActionsList;
 using System;
 using SubPhases;
 using System.Collections.Generic;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,6 +16,8 @@ namespace UpgradesList.SecondEdition
                 "Servomotor S-Foils (Closed)",
                 UpgradeType.Configuration,
                 cost: 0,
+                addAction: new ActionInfo(typeof(BoostAction)),
+                addActionLink: new LinkedActionInfo(typeof(FocusAction), typeof(BoostAction)),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.T65XWing.T65XWing)),
                 abilityType: typeof(Abilities.SecondEdition.ServomotorSFoilsClosedAbility),
                 seImageNumber: 108
@@ -98,24 +101,12 @@ namespace Abilities.SecondEdition
             HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += ReduceNumberOfAttackDice;
         }
 
-        public override void ActivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.AddGrantedAction(new BoostAction(), HostUpgrade);
-            HostShip.ActionBar.AddActionLink(typeof(FocusAction), new BoostAction() { IsRed = true, Source = HostUpgrade });
-        }
-
         public override void DeactivateAbility()
         {
             base.DeactivateAbility();
             Phases.Events.OnGameStart -= TurnSFoilsToClosedPosition;
             TurnSFoilsToAttackPosition(HostShip);
             HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= ReduceNumberOfAttackDice;
-        }
-
-        public override void DeactivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(BoostAction), HostUpgrade);
-            HostShip.ActionBar.RemoveActionLink(typeof(FocusAction), typeof(BoostAction), HostUpgrade);
         }
 
         private void ReduceNumberOfAttackDice(ref int value)

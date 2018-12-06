@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ShotInfo.Weapon != HostShip.PrimaryWeapon) return;
 
-            bool availableArcsArePresent = HostShip.ArcsInfo.Arcs.Any(a => a.ArcType == ArcType.Mobile && !a.WasUsedForAttackThisRound);
+            bool availableArcsArePresent = HostShip.ArcsInfo.Arcs.Any(a => a.ArcType == ArcType.SingleTurret && !a.WasUsedForAttackThisRound);
             if (availableArcsArePresent)
             {
                 HostShip.OnCombatCheckExtraAttack += RegisterSecondAttackTrigger;
@@ -96,7 +96,7 @@ namespace Abilities.SecondEdition
         {
             bool result = false;
 
-            if (Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.Mobile && !a.WasUsedForAttackThisRound))
+            if (Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.SingleTurret && !a.WasUsedForAttackThisRound))
             {
                 result = true;
             }

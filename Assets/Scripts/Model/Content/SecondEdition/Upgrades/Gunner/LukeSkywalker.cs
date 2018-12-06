@@ -14,6 +14,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Gunner,
                 cost: 30,
                 isLimited: true,
+                addForce: 1,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.LukeSkywalkerGunnerAbility),
                 seImageNumber: 98
@@ -29,13 +30,11 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             Phases.Events.OnCombatPhaseStart_Triggers += CheckLukeAbility;
-            HostShip.State.MaxForce += 1;
         }
 
         public override void DeactivateAbility()
         {
             Phases.Events.OnCombatPhaseStart_Triggers -= CheckLukeAbility;
-            HostShip.State.MaxForce -= 1;
         }
 
         private void CheckLukeAbility()

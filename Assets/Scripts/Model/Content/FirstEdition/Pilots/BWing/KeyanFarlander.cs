@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
 
         private void AddKeyanFarlanderAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new KeyanFarlanderAction() { Host = HostShip });
+            ship.AddAvailableDiceModification(new KeyanFarlanderAction() { HostShip = HostShip });
         }
 
         private class KeyanFarlanderAction : ActionsList.GenericAction
@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
             public override void ActionEffect(Action callBack)
             {
                 Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Success);
-                Host.Tokens.RemoveToken(
+                HostShip.Tokens.RemoveToken(
                     typeof(Tokens.StressToken),
                     callBack
                 );
@@ -65,12 +65,12 @@ namespace Abilities.FirstEdition
 
             public override bool IsDiceModificationAvailable()
             {
-                return Host.Tokens.HasToken(typeof(Tokens.StressToken)) && Combat.AttackStep == CombatStep.Attack;
+                return HostShip.Tokens.HasToken(typeof(Tokens.StressToken)) && Combat.AttackStep == CombatStep.Attack;
             }
 
             public override int GetDiceModificationPriority()
             {
-                if (Host.Tokens.HasToken(typeof(Tokens.StressToken)))
+                if (HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
                 {
                     return 51;
                 }

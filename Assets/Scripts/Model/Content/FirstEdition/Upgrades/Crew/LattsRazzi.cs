@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.LattsRazziDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = HostShip
+                HostShip = HostShip
             };
             host.AddAvailableDiceModification(newAction);
         }

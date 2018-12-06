@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
 
         protected virtual void AddThaneKyrellAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ThaneKyrellDiceModificationSE() { Host = HostShip });
+            ship.AddAvailableDiceModification(new ThaneKyrellDiceModificationSE() { HostShip = HostShip });
         }
     }
 }
@@ -72,7 +72,7 @@ namespace ActionsList.SecondEdition
                 new Trigger()
                 {
                     Name = "Thane Kyrell's ability",
-                    TriggerOwner = Host.Owner.PlayerNo,
+                    TriggerOwner = HostShip.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnAbilityDirect,
                     EventHandler = StartSubphase
                 }

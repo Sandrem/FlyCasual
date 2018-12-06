@@ -13,7 +13,7 @@ namespace UpgradesList.FirstEdition
                 "Smuggling Compartment",
                 UpgradeType.Modification,
                 cost: 0,
-                feIsLimited: true,
+                feIsLimitedPerShip: true,
                 addSlots: new List<UpgradeSlot>
                 {
                     new UpgradeSlot(UpgradeType.Crew),

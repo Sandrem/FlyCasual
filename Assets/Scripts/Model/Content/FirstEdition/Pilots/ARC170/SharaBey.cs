@@ -75,7 +75,7 @@ namespace Abilities.FirstEdition
         {
             ship.AddAvailableDiceModification(new ActionsList.SharaBeyAction()
             {
-                Host = HostShip
+                HostShip = HostShip
             });
         }
     }
@@ -94,11 +94,11 @@ namespace ActionsList
 
         public override bool IsDiceModificationAvailable()
         {
-            ShotInfo shotInfo = new ShotInfo(Host, Combat.Attacker, Host.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(HostShip, Combat.Attacker, HostShip.PrimaryWeapon);
             if (shotInfo.Range > 2) return false;
-            sharaLockLetters = ActionsHolder.GetTargetLocksLetterPairs(Host, Combat.Defender);
+            sharaLockLetters = ActionsHolder.GetTargetLocksLetterPairs(HostShip, Combat.Defender);
             if (sharaLockLetters.Count == 0) return false;
-            GenericToken sharaToken = Host.Tokens.GetToken(typeof(BlueTargetLockToken), sharaLockLetters.First());
+            GenericToken sharaToken = HostShip.Tokens.GetToken(typeof(BlueTargetLockToken), sharaLockLetters.First());
             if (sharaToken == null) return false;
             return Combat.AttackStep == CombatStep.Attack;
         }
@@ -129,7 +129,7 @@ namespace ActionsList
         public override void ActionEffect(System.Action callBack)
         {
 
-            Host.Tokens.SpendToken(
+            HostShip.Tokens.SpendToken(
                 typeof(BlueTargetLockToken),
                 delegate {
                     DiceRerollManager diceRerollManager = new DiceRerollManager

@@ -52,7 +52,7 @@ namespace Upgrade
         public UpgradeCardInfo UpgradeInfo;
         public UpgradeCardState State;
 
-        public GenericShip Host { get; set; }
+        public GenericShip HostShip { get; set; }
         public UpgradeSlot Slot { get; set; }
 
         public List<GenericAbility> UpgradeAbilities = new List<GenericAbility>();
@@ -95,11 +95,6 @@ namespace Upgrade
                 return imageUrl ?? ImageUrls.GetImageUrlOld(this);
             }
         }
-
-        public int MaxCharges { get; set; }
-        public int Charges { get; private set; }
-        public bool UsesCharges { get { return MaxCharges > 0; } }
-        public bool RegensCharges = false;
 
         public AvatarInfo Avatar;
 
@@ -161,20 +156,13 @@ namespace Upgrade
 
         public virtual void PreAttachToShip(GenericShip host)
         {
-            Host = host;
-
-            foreach (GenericAbility ability in UpgradeAbilities)
-            {
-                ability.InitializeForSquadBuilder(this);
-            }
+            HostShip = host;
+            UpgradeInfo.InstallToShip(this);
         }
 
         public virtual void PreDettachFromShip()
         {
-            foreach (GenericAbility ability in UpgradeAbilities)
-            {
-                ability.DeactivateAbilityForSquadBuilder();
-            }
+            UpgradeInfo.RemoveFromShip();
         }
 
         /**
@@ -230,7 +218,7 @@ namespace Upgrade
 
         public virtual void AttachToShip(GenericShip host)
         {
-            Host = host;
+            HostShip = host;
             State = new UpgradeCardState(this);
             ActivateAbility();
             ShowCharges();
@@ -263,7 +251,7 @@ namespace Upgrade
         public void TryDiscard(Action callBack)
         {
             CurrentUpgrade = this;
-            Host.CallDiscardUpgrade(delegate { AfterTriedDiscard(callBack); });
+            HostShip.CallDiscardUpgrade(delegate { AfterTriedDiscard(callBack); });
         }
 
         private void AfterTriedDiscard(Action callBack)
@@ -282,10 +270,10 @@ namespace Upgrade
         {
             State.Flip(false);
             PreDettachFromShip();
-            Roster.ShowUpgradeAsInactive(Host, UpgradeInfo.Name);
+            Roster.ShowUpgradeAsInactive(HostShip, UpgradeInfo.Name);
             DeactivateAbility();
 
-            Host.CallAfterDiscardUpgrade(this, callBack);
+            HostShip.CallAfterDiscardUpgrade(this, callBack);
         }
 
         // FLIP FACEUP
@@ -293,7 +281,7 @@ namespace Upgrade
         public void TryFlipFaceUp(Action callBack)
         {
             CurrentUpgrade = this;
-            Host.CallFlipFaceUpUpgrade(() => AfterTriedFlipFaceUp(callBack));
+            HostShip.CallFlipFaceUpUpgrade(() => AfterTriedFlipFaceUp(callBack));
         }
 
         private void AfterTriedFlipFaceUp(Action callBack)
@@ -311,49 +299,19 @@ namespace Upgrade
         public virtual void FlipFaceup(Action callback)
         {
             State.Flip(true);
-            Roster.ShowUpgradeAsActive(Host, UpgradeInfo.Name);
+            Roster.ShowUpgradeAsActive(HostShip, UpgradeInfo.Name);
             ActivateAbility();
 
             Messages.ShowInfo(UpgradeInfo.Name + " is flipped face up");
-            Host.CallAfterFlipFaceUpUpgrade(this, callback);
+            HostShip.CallAfterFlipFaceUpUpgrade(this, callback);
         }
 
         public void ReplaceUpgradeBy(GenericUpgrade newUpgrade)
         {
-            Roster.ReplaceUpgrade(Host, UpgradeInfo.Name, newUpgrade.UpgradeInfo.Name, newUpgrade.ImageUrl);
+            Roster.ReplaceUpgrade(HostShip, UpgradeInfo.Name, newUpgrade.UpgradeInfo.Name, newUpgrade.ImageUrl);
 
-            Slot.PreInstallUpgrade(newUpgrade, Host);
-            Slot.TryInstallUpgrade(newUpgrade, Host);
-        }
-
-        public void SpendCharges(int count)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                SpendCharge();
-            }
-        }
-
-        public void SpendCharge()
-        {
-            Charges--;
-            if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
-
-            if (Charges == 0) Roster.ShowUpgradeAsInactive(Host, UpgradeInfo.Name);
-
-            Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
-        }
-
-        public void RestoreCharge()
-        {
-            if (Charges < MaxCharges)
-            {
-                if (Charges == 0) Roster.ShowUpgradeAsActive(Host, UpgradeInfo.Name);
-
-                Charges++;
-
-                Roster.UpdateUpgradesPanel(Host, Host.InfoPanel);
-            }
+            Slot.PreInstallUpgrade(newUpgrade, HostShip);
+            Slot.TryInstallUpgrade(newUpgrade, HostShip);
         }
     }
 

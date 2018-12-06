@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new MercenaryCopilotAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                Host = host
+                HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
         }

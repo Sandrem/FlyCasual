@@ -16,6 +16,7 @@ namespace SquadBuilderNS
     public static partial class SquadBuilder
     {
         private const int SHIP_COLUMN_COUNT = 5;
+        private const int SHIP_COLUMN_COUNT_SMALLFACTION = 2;
         private const float PILOT_CARD_WIDTH = 300;
         private const float PILOT_CARD_HEIGHT = 418;
         private const float DISTANCE_LARGE = 40;
@@ -68,14 +69,15 @@ namespace SquadBuilderNS
             {
                 if (ship.Instance.ShipInfo.FactionsAll.Contains(faction) && !ship.Instance.IsHidden)
                 {
-                    if (Edition.Current.ShipIsAllowed(ship.Instance)) ShowAvailableShip(ship);
+                    if (Edition.Current.ShipIsAllowed(ship.Instance)) ShowAvailableShip(ship, faction);
                 }
             }
         }
 
-        private static void ShowAvailableShip(ShipRecord ship)
+        private static void ShowAvailableShip(ShipRecord ship, Faction faction)
         {
-            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipPanel", typeof(GameObject));
+            string prefabPath = (IsSmallFaction(faction)) ? "Prefabs/SquadBuilder/ShipPanelBig" : "Prefabs/SquadBuilder/ShipPanel";
+            GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
             GameObject newShipPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SelectShipPanel/Panel").transform);
 
             ShipPanelSquadBuilder script = newShipPanel.GetComponent<ShipPanelSquadBuilder>();
@@ -83,12 +85,25 @@ namespace SquadBuilderNS
             script.ShipName = ship.Instance.ShipInfo.ShipName;
             script.FullType = ship.Instance.ShipInfo.ShipName;
 
-            int row = availableShipsCounter / SHIP_COLUMN_COUNT;
-            int column = availableShipsCounter - (row * SHIP_COLUMN_COUNT);
+            int rowsCount = (IsSmallFaction(faction)) ? SHIP_COLUMN_COUNT_SMALLFACTION : SHIP_COLUMN_COUNT;
+            int row = availableShipsCounter / rowsCount;
+            int column = availableShipsCounter - (row * rowsCount);
 
-            newShipPanel.transform.localPosition = new Vector3(25 + column * PILOT_CARD_WIDTH + 25 * (column), - (DISTANCE_MEDIUM + row * 184 + DISTANCE_MEDIUM * (row)), 0);
+            if (IsSmallFaction(faction))
+            {
+                newShipPanel.transform.localPosition = new Vector3(210 + column * PILOT_CARD_WIDTH * 2 + 50 * (column), -(DISTANCE_MEDIUM + row * 368 + DISTANCE_MEDIUM * 2 * (row)), 0);
+            }
+            else
+            {
+                newShipPanel.transform.localPosition = new Vector3(25 + column * PILOT_CARD_WIDTH + 25 * (column), - (DISTANCE_MEDIUM + row * 184 + DISTANCE_MEDIUM * (row)), 0);                
+            }
 
             availableShipsCounter++;
+        }
+
+        private static bool IsSmallFaction(Faction faction)
+        {
+            return faction == Faction.Resistance || faction == Faction.FirstOrder;
         }
 
         private static string GetImageOfIconicPilot(ShipRecord ship)
@@ -511,7 +526,12 @@ namespace SquadBuilderNS
         {
             availableUpgradesCounter = 0;
 
-            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => n.Instance.HasType(slot.Type) && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance) && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)).ToList();
+            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => 
+                    n.Instance.HasType(slot.Type)
+                    && n.Instance.UpgradeInfo.Restrictions.IsAllowedForShip(CurrentSquadBuilderShip.Instance)
+                    && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)
+                    && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)
+                ).ToList();
             int filteredUpgradesCount = filteredUpgrades.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;

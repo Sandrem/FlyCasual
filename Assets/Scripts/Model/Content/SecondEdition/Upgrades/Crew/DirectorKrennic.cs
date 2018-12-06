@@ -6,6 +6,7 @@ using System.Linq;
 using Tokens;
 using ActionsList;
 using System;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Crew,
                 cost: 5,
                 isLimited: true,
+                addAction: new ActionInfo(typeof(TargetLockAction)),
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.DirectorKrennicAbility),
                 seImageNumber: 114
@@ -37,16 +39,6 @@ namespace Abilities.SecondEdition
         }
 
         protected override void SecondAbility() { }
-
-        public override void ActivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.AddGrantedAction(new TargetLockAction(), this.HostUpgrade);
-        }
-
-        public override void DeactivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(TargetLockAction), this.HostUpgrade);
-        }
 
         protected override bool CheckRequirements(GenericShip ship)
         {
@@ -82,7 +74,7 @@ namespace Conditions
         {
             GenericAction action = new ActionsList.SecondEdition.OptimizedPrototypeDiceModificationSE()
             {
-                Host = Host,
+                HostShip = Host,
                 ImageUrl = Tooltip
             };
 
@@ -115,7 +107,7 @@ namespace ActionsList
 
             private bool IsLockedByFriendlyKrennicShip()
             {
-                GenericShip friendlyKrennicShip = Host.Owner.Ships.Values.FirstOrDefault(n => n.UpgradeBar.GetUpgradesOnlyFaceup().Any(u => u is UpgradesList.SecondEdition.DirectorKrennic));
+                GenericShip friendlyKrennicShip = HostShip.Owner.Ships.Values.FirstOrDefault(n => n.UpgradeBar.GetUpgradesOnlyFaceup().Any(u => u is UpgradesList.SecondEdition.DirectorKrennic));
                 if (friendlyKrennicShip == null)
                 {
                     return false;
@@ -143,7 +135,7 @@ namespace ActionsList
                     new Trigger()
                     {
                         Name = "Optimized Prototype Decision",
-                        TriggerOwner = Host.Owner.PlayerNo,
+                        TriggerOwner = HostShip.Owner.PlayerNo,
                         TriggerType = TriggerTypes.OnAbilityDirect,
                         EventHandler = StartSubphase
                     }
@@ -156,7 +148,7 @@ namespace ActionsList
             {
                 var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, Triggers.FinishTrigger);
 
-                newSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
+                newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
                 newSubPhase.InfoText = "Choose what effect to apply to the defender:";
                 newSubPhase.ShowSkipButton = true;
                 newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;

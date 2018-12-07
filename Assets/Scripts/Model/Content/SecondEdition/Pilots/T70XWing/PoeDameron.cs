@@ -1,5 +1,4 @@
-﻿using Abilities.SecondEdition;
-using ActionsList;
+﻿using ActionsList;
 using Ship;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +17,7 @@ namespace Ship
                     6,
                     68,
                     isLimited: true,
-                    abilityType: typeof(PoeDameronAbility),
+                    abilityType: typeof(Abilities.SecondEdition.PoeDameronAbility),
                     charges: 1,
                     regensCharges: true,
                     extraUpgradeIcon: UpgradeType.Talent

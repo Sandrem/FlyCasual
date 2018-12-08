@@ -102,7 +102,7 @@ namespace Abilities.FirstEdition
 
         private class GeniusBombDecisionSubPhase : DecisionSubPhase { }
 
-        private void StartDropBombSubphase()
+        protected virtual void StartDropBombSubphase()
         {
             Phases.StartTemporarySubPhaseOld(
                 "Bomb drop planning",

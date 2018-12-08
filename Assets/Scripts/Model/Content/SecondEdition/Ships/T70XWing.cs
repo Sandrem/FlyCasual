@@ -12,13 +12,6 @@ namespace Ship
     {
         public class T70XWing : FirstEdition.T70XWing.T70XWing
         {
-            private readonly List<UpgradeType> HardpointSlotTypes = new List<UpgradeType>
-            {
-                UpgradeType.Cannon,
-                UpgradeType.Torpedo,
-                UpgradeType.Missile
-            };
-
             public T70XWing() : base()
             {
                 ShipInfo.ShipName = "T-70 X-wing";
@@ -35,33 +28,9 @@ namespace Ship
 
                 IconicPilots[Faction.Resistance] = typeof(BlueSquadronRookie);
 
-                CreateHardpointSlots();
+                ShipAbilities.Add(new Abilities.FirstEdition.HardPointAbility());
 
                 // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/cf/Maneuver_t-65_x-wing.png";
-            }
-
-            private void CreateHardpointSlots()
-            {
-                foreach (UpgradeType upgradeType in HardpointSlotTypes)
-                {
-                    ShipInfo.UpgradeIcons.Upgrades.Add(upgradeType);
-                };
-            }
-
-            public override void OnPreInstallUpgrade(GenericUpgrade upgrade)
-            {
-                HardpointSlotTypes
-                    .Where(slot => slot != upgrade.UpgradeInfo.UpgradeTypes.First())
-                    .ToList()
-                    .ForEach(slot => UpgradeBar.RemoveSlot(slot));
-            }
-
-            public override void OnRemovePreInstallUpgrade(GenericUpgrade upgrade)
-            {
-                HardpointSlotTypes
-                    .Where(slot => slot != upgrade.UpgradeInfo.UpgradeTypes.First())
-                    .ToList()
-                    .ForEach(slot => UpgradeBar.AddSlot(slot));
             }
         }
     }

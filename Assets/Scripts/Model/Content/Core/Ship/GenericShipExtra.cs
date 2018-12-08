@@ -76,6 +76,9 @@ namespace Ship
         public event EventHandler OnFlipFaceUpUpgrade;
         public event EventHandlerUpgrade OnAfterFlipFaceUpUpgrade;
 
+        public event EventHandlerUpgrade OnPreInstallUpgrade;
+        public event EventHandlerUpgrade OnRemovePreInstallUpgrade;
+
         public event EventHandlerDualUpgrade OnAfterDualCardSideSelected;
 
         public event EventHandlerShip OnSystemsAbilityActivation;
@@ -228,8 +231,15 @@ namespace Ship
 
         // Squadbuilder
 
-        public virtual void OnPreInstallUpgrade(GenericUpgrade upgrade) {}
-        public virtual void OnRemovePreInstallUpgrade(GenericUpgrade upgrade) { }
+        public void CallOnPreInstallUpgrade(GenericUpgrade upgrade)
+        {
+            if (OnPreInstallUpgrade != null) OnPreInstallUpgrade(upgrade);
+        }
+
+        public void CallOnRemovePreInstallUpgrade(GenericUpgrade upgrade)
+        {
+            if (OnRemovePreInstallUpgrade != null) OnRemovePreInstallUpgrade(upgrade);
+        }
     }
 
 }

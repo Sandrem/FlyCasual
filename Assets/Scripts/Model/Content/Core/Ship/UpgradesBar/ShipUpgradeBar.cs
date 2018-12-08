@@ -27,8 +27,8 @@ namespace Upgrade
         public void AddSlot(UpgradeType slotType)
         {
             UpgradeSlot slot = new UpgradeSlot(slotType);
-            slot.OnPreInstallUpgrade += HostShip.OnPreInstallUpgrade;
-            slot.OnRemovePreInstallUpgrade += HostShip.OnRemovePreInstallUpgrade;
+            slot.OnPreInstallUpgrade += HostShip.CallOnPreInstallUpgrade;
+            slot.OnRemovePreInstallUpgrade += HostShip.CallOnRemovePreInstallUpgrade;
             AddSlot(slot);
         }
 

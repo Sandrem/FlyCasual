@@ -7,48 +7,73 @@ namespace UpgradesList.FirstEdition
 {
     public class HeavyScykInterceptor : GenericUpgrade
     {
-        private readonly List<UpgradeType> SlotTypes = new List<UpgradeType>
-        {
-            UpgradeType.Cannon,
-            UpgradeType.Torpedo,
-            UpgradeType.Missile
-        };
-
         public HeavyScykInterceptor() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "\"Heavy Scyk\" Interceptor",
                 UpgradeType.Title,
                 cost: 2,
-                addSlots: SlotTypes.Select(CreateSlot).ToList(),
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.M3AInterceptor.M3AInterceptor)),
-                addHull: 1
+                addHull: 1,
+                abilityType: typeof(Abilities.FirstEdition.HardPointAbility)
             );
         }
+    }
+}
 
-        private UpgradeSlot CreateSlot(UpgradeType slotType)
+
+namespace Abilities.FirstEdition
+{
+    public class HardPointAbility : GenericAbility
+    {
+        private readonly List<UpgradeType> HardpointSlotTypes = new List<UpgradeType>
         {
-            var slot = new UpgradeSlot(slotType);
-            slot.OnPreInstallUpgrade += delegate { UpgradeInstalled(slotType); };
-            slot.OnRemovePreInstallUpgrade += delegate { UpgradeRemoved(slotType); };
-            slot.GrantedBy = this;
-            return slot;
+            UpgradeType.Cannon,
+            UpgradeType.Torpedo,
+            UpgradeType.Missile
+        };
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            foreach (UpgradeType upgradeType in HardpointSlotTypes)
+            {
+                //HostShip.ShipInfo.UpgradeIcons.Upgrades.Add(upgradeType);
+                HostShip.UpgradeBar.AddSlot(upgradeType);
+            };
+
+            HostShip.OnPreInstallUpgrade += OnPreInstallUpgrade;
+            HostShip.OnRemovePreInstallUpgrade += OnRemovePreInstallUpgrade;
         }
 
-        private void UpgradeInstalled(UpgradeType slotType)
+        public override void ActivateAbility() { }
+
+        public override void DeactivateAbility()
         {
-            SlotTypes
-                .Where(slot => slot != slotType)
-                .ToList()
-                .ForEach(slot => HostShip.UpgradeBar.RemoveSlot(slot, this));
+            // Not required
         }
 
-        private void UpgradeRemoved(UpgradeType slotType)
+        public override void DeactivateAbilityForSquadBuilder() { }
+
+        private void OnPreInstallUpgrade(GenericUpgrade upgrade)
         {
-            SlotTypes
-                .Where(slot => slot != slotType)
-                .ToList()
-                .ForEach(slot => HostShip.UpgradeBar.AddSlot(CreateSlot(slot)));
+            if (HardpointSlotTypes.Contains(upgrade.UpgradeInfo.UpgradeTypes.First()))
+            {
+                HardpointSlotTypes
+                    .Where(slot => slot != upgrade.UpgradeInfo.UpgradeTypes.First())
+                    .ToList()
+                    .ForEach(slot => HostShip.UpgradeBar.RemoveSlot(slot));
+            }
+        }
+
+        private void OnRemovePreInstallUpgrade(GenericUpgrade upgrade)
+        {
+            if (HardpointSlotTypes.Contains(upgrade.UpgradeInfo.UpgradeTypes.First()))
+            {
+                HardpointSlotTypes
+                    .Where(slot => slot != upgrade.UpgradeInfo.UpgradeTypes.First())
+                    .ToList()
+                    .ForEach(slot => HostShip.UpgradeBar.AddSlot(slot));
+            }
         }
     }
 }

@@ -76,26 +76,10 @@ namespace Abilities.SecondEdition
 
             var jammingShip = HostShip;
 
-            Triggers.RegisterTrigger(
-                new Trigger()
-                {
-                    Name = "Jam",
-                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnTokenIsAssigned,
-                    EventHandler = (s, f) => AssignJamToken(targetShip)
-                }
+            targetShip.Tokens.AssignToken(
+                new Tokens.JamToken(targetShip),
+                DecisionSubPhase.ConfirmDecision
             );
-
-            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, delegate {
-                Selection.ThisShip = jammingShip;
-                Phases.FinishSubPhase(typeof(JamTargetSubPhase));
-                Phases.CurrentSubPhase.CallBack();
-            });
-        }
-
-        private void AssignJamToken(GenericShip targetShip)
-        {
-            targetShip.Tokens.AssignToken(typeof(Tokens.JamToken), Triggers.FinishTrigger);
         }
     }
 }

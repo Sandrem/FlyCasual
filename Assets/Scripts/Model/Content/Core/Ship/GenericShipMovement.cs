@@ -21,6 +21,7 @@ namespace Ship
         public bool IsIgnoreObstaclesDuringBarrelRoll;
 
         public List<GenericObstacle> IgnoreObstaclesList = new List<GenericObstacle>();
+        public List<Type> IgnoreObstacleTypes = new List<Type>();
 
         public bool IsLandedOnObstacle
         {
@@ -41,7 +42,7 @@ namespace Ship
         {
             get
             {
-                return !IsIgnoreObstacles && ObstaclesHit.Any(o => !IgnoreObstaclesList.Contains(o));
+                return !IsIgnoreObstacles && ObstaclesHit.Any(o => !IgnoreObstacleTypes.Contains(o.GetType())) && ObstaclesHit.Any(o => !IgnoreObstaclesList.Contains(o));
             }
 
             set

@@ -19,6 +19,8 @@ namespace Ship
 
                 IconicPilots[Faction.Scum] = typeof(MiningGuildSurveyor);
 
+                ShipAbilities.Add(new Abilities.SecondEdition.ModifiedTIELnFighterAbility());
+
                 ModelInfo = new ShipModelInfo(
                     "Modified TIE Fighter",
                     "Mining Guild"
@@ -26,6 +28,22 @@ namespace Ship
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/62/Maneuver_tie_ln_fighter.png";
             }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class ModifiedTIELnFighterAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.IgnoreObstacleTypes.Add(typeof(Obstacles.Asteroid));
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.IgnoreObstacleTypes.Remove(typeof(Obstacles.Asteroid));
         }
     }
 }

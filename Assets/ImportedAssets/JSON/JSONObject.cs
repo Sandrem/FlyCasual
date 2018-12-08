@@ -312,8 +312,8 @@ public class JSONObject {
 #endif
 				} else if(str[0] == '"') {
 					type = Type.STRING;
-					this.str = str.Substring(1, str.Length - 2);
-				} else {
+                    this.str = str.Substring(1, str.Length - 2).Replace("\\\"", "\"");
+                } else {
 					int tokenTmp = 1;
 					/*
 					 * Checking for the following formatting (www.json.org)

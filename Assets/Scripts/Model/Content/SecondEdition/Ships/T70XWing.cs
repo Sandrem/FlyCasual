@@ -26,7 +26,7 @@ namespace Ship
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Easy);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Easy);
 
-                IconicPilots[Faction.Resistance] = typeof(BlueSquadronRookie);
+                IconicPilots[Faction.Resistance] = typeof(PoeDameron);
 
                 ShipAbilities.Add(new Abilities.FirstEdition.HardPointAbility());
 

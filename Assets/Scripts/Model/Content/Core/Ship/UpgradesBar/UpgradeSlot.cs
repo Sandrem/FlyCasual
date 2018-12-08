@@ -65,7 +65,7 @@ namespace Upgrade
                 // clone upgrade
                 //GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(upgrade.Types[0]);
                 UpgradesList.EmptyUpgrade emptyUpgrade = new UpgradesList.EmptyUpgrade();
-                emptyUpgrade.set(upgrade.UpgradeInfo.UpgradeTypes, upgrade.UpgradeInfo.Name, 0);
+                emptyUpgrade.SetUpgradeInfo(upgrade.UpgradeInfo.UpgradeTypes, upgrade.UpgradeInfo.Name, 0);
 
                 int emptySlotsFilled = 0; // Fixes bug #708. TODO: Will need to revisit to support multi-type upgrades.
                 // find another slot

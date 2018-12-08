@@ -19,5 +19,10 @@ namespace Arcs
         {
             
         }
+
+        public override void ShowMobileArcPointer()
+        {
+
+        }
     }
 }

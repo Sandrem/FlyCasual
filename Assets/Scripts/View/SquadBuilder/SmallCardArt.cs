@@ -60,7 +60,16 @@ public class SmallCardArt : MonoBehaviour {
         Rect imageRect = new Rect();
         if (imageSource is GenericShip)
         {
-            imageRect = (Edition.Current is SecondEdition) ? new Rect(0, 0, 503, 205) : new Rect(0, 0, 298, 124);
+            if (Edition.Current is SecondEdition)
+            {
+                TextureScale.Bilinear(newTexture, 503, 700);
+                imageRect = new Rect(0, 0, 503, 205);
+            }
+            else if (Edition.Current is FirstEdition)
+            {
+                TextureScale.Bilinear(newTexture, 300, 418);
+                imageRect = new Rect(0, 0, 298, 124);
+            }
         }
         else if (imageSource is GenericUpgrade)
         {

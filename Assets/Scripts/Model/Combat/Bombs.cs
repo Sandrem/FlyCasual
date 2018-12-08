@@ -304,14 +304,12 @@ namespace Bombs
 
         private static void LaunchBomb(object sender, System.EventArgs e)
         {
-            // TODOREVERT 
-
-            /*DecisionSubPhase.ConfirmDecisionNoCallback();
+            DecisionSubPhase.ConfirmDecisionNoCallback();
             Phases.StartTemporarySubPhaseOld(
                 "Bomb launch planning",
                 typeof(BombLaunchPlanningSubPhase),
                 delegate { Selection.ThisShip.CallBombWasLaunched(Triggers.FinishTrigger); }
-            );*/
+            );
         }
 
         private class WayToDropDecisionSubPhase : DecisionSubPhase { }

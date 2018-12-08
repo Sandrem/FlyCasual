@@ -78,11 +78,17 @@ namespace Abilities
 
         public virtual void Initialize(GenericShip hostShip)
         {
+            InitializeForSquadBuilder(hostShip);
+            ActivateAbility();
+        }
+
+        public virtual void InitializeForSquadBuilder(GenericShip hostShip)
+        {
             HostReal = hostShip;
             HostShip = hostShip;
             Name = HostShip.PilotInfo.PilotName + "'s ability";
 
-            ActivateAbility();
+            ActivateAbilityForSquadBuilder();
         }
 
         public virtual void InitializeForSquadBuilder(GenericUpgrade hostUpgrade)

@@ -17,7 +17,9 @@ namespace Ship
                 DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn));
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight), MovementComplexity.Complex);
 
-                IconicPilots[Faction.Scum] = typeof(MiningGuildSurveyor);
+                IconicPilots[Faction.Scum] = typeof(CaptainSeevor);
+
+                ShipAbilities.Add(new Abilities.SecondEdition.ModifiedTIELnFighterAbility());
 
                 ShipAbilities.Add(new Abilities.SecondEdition.ModifiedTIELnFighterAbility());
 

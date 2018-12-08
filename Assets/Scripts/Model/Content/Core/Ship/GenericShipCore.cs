@@ -236,7 +236,16 @@ namespace Ship
 
         public void InitializePilotForSquadBuilder()
         {
+            InitializeSquadBuilderAbilities();
             InitializeSlots();
+        }
+
+        private void InitializeSquadBuilderAbilities()
+        {
+            foreach (GenericAbility shipAbility in ShipAbilities)
+            {
+                shipAbility.InitializeForSquadBuilder(this);
+            }
         }
 
         public virtual void InitializePilot()

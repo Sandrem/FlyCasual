@@ -21,6 +21,8 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.ModifiedTIELnFighterAbility());
 
+                ShipAbilities.Add(new Abilities.SecondEdition.ModifiedTIELnFighterAbility());
+
                 ModelInfo = new ShipModelInfo(
                     "Modified TIE Fighter",
                     "Mining Guild"

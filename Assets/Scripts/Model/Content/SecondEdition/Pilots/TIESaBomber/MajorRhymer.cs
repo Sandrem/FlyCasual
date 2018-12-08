@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -37,12 +38,16 @@ namespace Abilities.SecondEdition
             HostShip.OnUpdateWeaponRange -= CheckAbility;
         }
 
-        private void CheckAbility(GenericSpecialWeapon weapon, ref int minRange, ref int maxRange)
+        private void CheckAbility(IShipWeapon weapon, ref int minRange, ref int maxRange, GenericShip target)
         {
-            if (weapon.UpgradeInfo.HasType(UpgradeType.Missile) || weapon.UpgradeInfo.HasType(UpgradeType.Torpedo))
+            if (weapon is GenericSpecialWeapon)
             {
-                if (minRange > 0) minRange--;
-                if (maxRange < 3) maxRange++;
+                var specialWeapon = weapon as GenericSpecialWeapon;
+                if (specialWeapon.UpgradeInfo.HasType(UpgradeType.Missile) || specialWeapon.UpgradeInfo.HasType(UpgradeType.Torpedo))
+                {
+                    if (minRange > 0) minRange--;
+                    if (maxRange < 3) maxRange++;
+                }
             }
         }
     }

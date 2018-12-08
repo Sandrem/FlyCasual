@@ -141,7 +141,7 @@ namespace Arcs
             RuleSets.Edition.Current.RotateMobileFiringArc(facing);
         }
 
-        public void ShowMobileArcPointer()
+        public virtual void ShowMobileArcPointer()
         {
             MobileArcPointer = Host.GetShipAllPartsTransform().Find("ShipBase").Find("MobileArcPointer");
             MobileArcPointer.gameObject.SetActive(true);

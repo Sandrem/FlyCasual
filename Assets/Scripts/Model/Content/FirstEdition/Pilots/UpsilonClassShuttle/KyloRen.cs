@@ -47,7 +47,7 @@ namespace Abilities.FirstEdition
             Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
-        private void CheckKyloRenAbility()
+        protected virtual void CheckKyloRenAbility()
         {
             if (!IsAbilityUsed)
             {
@@ -56,7 +56,7 @@ namespace Abilities.FirstEdition
             }
         }
 
-        private void AssignConditionToAttacker(object sender, EventArgs e)
+        protected virtual void AssignConditionToAttacker(object sender, EventArgs e)
         {
             Sounds.PlayShipSound("Ill-Show-You-The-Dark-Side");
 
@@ -74,7 +74,7 @@ namespace Abilities.FirstEdition
             }
         }
 
-        private void ShowPilotCrits()
+        protected virtual void ShowPilotCrits()
         {
             SelectPilotCritDecision selectPilotCritSubphase = (SelectPilotCritDecision)Phases.StartTemporarySubPhaseNew(
                 "Select Damage Card",
@@ -107,7 +107,7 @@ namespace Abilities.FirstEdition
             selectPilotCritSubphase.Start();
         }
 
-        private void SelectDamageCard(GenericDamageCard damageCard)
+        protected void SelectDamageCard(GenericDamageCard damageCard)
         {
             Messages.ShowInfo("Card is selected: " + damageCard.Name);
 
@@ -121,7 +121,7 @@ namespace Abilities.FirstEdition
             DecisionSubPhase.ConfirmDecision();
         }
 
-        private void AssignConditions(GenericShip ship)
+        protected void AssignConditions(GenericShip ship)
         {
             ShipWithCondition = ship;
 
@@ -132,7 +132,7 @@ namespace Abilities.FirstEdition
             ship.OnShipIsDestroyed += RemoveConditionsOnDestroyed;
         }
 
-        private void RemoveConditions(GenericShip ship)
+        protected void RemoveConditions(GenericShip ship)
         {
             ShipWithCondition = null;
             ship.Tokens.RemoveCondition(typeof(IllShowYouTheDarkSide));
@@ -142,7 +142,7 @@ namespace Abilities.FirstEdition
             ship.OnShipIsDestroyed -= RemoveConditionsOnDestroyed;
         }
 
-        private void SufferAssignedCardInstead(object sender, EventArgs e, ref bool isSkipSufferDamage)
+        protected void SufferAssignedCardInstead(object sender, EventArgs e, ref bool isSkipSufferDamage)
         {
             if ((e as DamageSourceEventArgs).DamageType == DamageTypes.ShipAttack)
             {
@@ -160,13 +160,13 @@ namespace Abilities.FirstEdition
             }
         }
 
-        private void RemoveConditionsOnDestroyed(GenericShip ship, bool isFled)
+        protected void RemoveConditionsOnDestroyed(GenericShip ship, bool isFled)
         {
             AssignedDamageCard = null;
             RemoveConditions(ship);
         }
 
-        private class SelectPilotCritDecision : DecisionSubPhase { };
+        protected class SelectPilotCritDecision : DecisionSubPhase { };
     }
 }
 

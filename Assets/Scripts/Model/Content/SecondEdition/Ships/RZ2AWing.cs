@@ -32,12 +32,48 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.SegnorsLoop), MovementComplexity.Complex);
                 DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn));
 
-                // ShipAbilities.Add(new VectoredThrusters());
+                ShipAbilities.Add(new VectoredThrustersRZ2());
 
                 IconicPilots[Faction.Resistance] = typeof(TallissanLintra);
 
                 // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b4/Maneuver_a-wing.png";
             }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    //After you perform an action, you may perform a red boost action.
+    public class VectoredThrustersRZ2 : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionIsPerformed += PerformVectoredThrusters;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionIsPerformed -= PerformVectoredThrusters;
+        }
+
+        private void PerformVectoredThrusters(GenericAction ship)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, AskPerformVectoredThrusters);
+        }
+
+        private void AskPerformVectoredThrusters(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfoToHuman("Vectored Thrusters: you may perform a red boost or a red rotate arc action");
+
+            HostShip.AskPerformFreeAction(
+                new List<GenericAction>()
+                    {
+                        new BoostAction() { IsRed = true },
+                        new RotateArcAction() { IsRed = true }
+                    },
+                Triggers.FinishTrigger
+            );
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Abilities.FirstEdition;
-using Upgrade;
+﻿using Upgrade;
 
 namespace Ship
 {
@@ -14,7 +13,7 @@ namespace Ship
                     5,
                     32,
                     isLimited: true,
-                    abilityType: typeof(MaulerMithelAbility),
+                    abilityType: typeof(Abilities.FirstEdition.MaulerMithelAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 80
                 );

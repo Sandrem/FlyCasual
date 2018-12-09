@@ -4,6 +4,7 @@ using UnityEngine;
 using Tokens;
 using System.Linq;
 using Conditions;
+using System;
 
 namespace UpgradesList.SecondEdition
 {
@@ -26,60 +27,13 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class AgentKallusAbility : GenericAbility
-    {
-        public override void ActivateAbility()
+    public class AgentKallusAbility : FirstEdition.AgentKallusAbility
+    {        
+        protected override void SelectTarget(GenericShip targetShip)
         {
-            Phases.Events.OnSetupStart += RegisterAgentKallusAbility;
-        }
+            Messages.ShowInfo("Agent Kallus: " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ") is selected");
 
-        public override void DeactivateAbility()
-        {
-            Phases.Events.OnSetupStart -= RegisterAgentKallusAbility;
-        }
-
-        private void RegisterAgentKallusAbility()
-        {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Agent Kallus decision",
-                TriggerType = TriggerTypes.OnGameStart,
-                TriggerOwner = HostShip.Owner.PlayerNo,
-                EventHandler = SelectAgentKallusTarget,
-                Skippable = true
-            });
-        }
-
-        private void SelectAgentKallusTarget(object Sender, System.EventArgs e)
-        {
-            AgentKallusDecisionSubPhase selectAgentKallusTargetDecisionSubPhase = (AgentKallusDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                Name,
-                typeof(AgentKallusDecisionSubPhase),
-                Triggers.FinishTrigger
-            );
-
-            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
-            {
-                selectAgentKallusTargetDecisionSubPhase.AddDecision(
-                    enemyShip.Value.ShipId + ": " + enemyShip.Value.PilotName,
-                    delegate { SelectTarget(enemyShip.Value); }
-                );
-            }
-
-            selectAgentKallusTargetDecisionSubPhase.InfoText = "Agent Kallus: Select enemy ship";
-
-            GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
-            selectAgentKallusTargetDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
-
-            selectAgentKallusTargetDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
-
-            selectAgentKallusTargetDecisionSubPhase.Start();
-        }
-
-        private void SelectTarget(GenericShip targetShip)
-        {
-            Messages.ShowInfo("Agent Kallus: " + targetShip.PilotName + " (" + targetShip.ShipId + ") is selected");
-
+            // The difference with First Edition is that we keep track of the target with a condition token
             targetShip.Tokens.AssignCondition(typeof(Conditions.HuntedCondition));
 
             HostShip.OnGenerateDiceModifications += AddAgentKallusDiceModification;
@@ -87,7 +41,7 @@ namespace Abilities.SecondEdition
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
-        private void AddAgentKallusDiceModification(GenericShip host)
+        protected override void AddAgentKallusDiceModification(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.SecondEdition.AgentKallusDiceModification()
             {
@@ -96,81 +50,36 @@ namespace Abilities.SecondEdition
             };
             host.AddAvailableDiceModification(newAction);
         }
-
-        private GenericShip GetEnemyPilotWithHighestSkill()
-        {
-            GenericShip bestAce = null;
-            int maxPilotSkill = 0;
-            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
-            {
-                if (enemyShip.Value.State.Initiative > maxPilotSkill)
-                {
-                    bestAce = enemyShip.Value;
-                    maxPilotSkill = enemyShip.Value.State.Initiative;
-                }
-            }
-            return bestAce;
-        }
-
-        private class AgentKallusDecisionSubPhase : SubPhases.DecisionSubPhase { }
     }
 }
 
 namespace ActionsList.SecondEdition
 {
 
-    public class AgentKallusDiceModification : GenericAction
+    public class AgentKallusDiceModification : ActionsList.AgentKallusDiceModification
     {
-        public AgentKallusDiceModification()
-        {
-            Name = DiceModificationName = "Agent Kallus";
-
-            IsTurnsOneFocusIntoSuccess = true;
-        }
-
         public override bool IsDiceModificationAvailable()
         {
             bool result = false;
 
-            if (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.Defender.Tokens.HasToken<HuntedCondition>())
+            // The difference with First Edition is that we check for the Hunted condition to be present on the defender
+            if (Combat.AttackStep == CombatStep.Attack && Combat.Attacker.ShipId == HostShip.ShipId && Combat.Defender.Tokens.HasToken<HuntedCondition>())
             {
                 result = true;
             }
 
             return result;
         }
-
-        public override int GetDiceModificationPriority()
-        {
-            int result = 0;
-
-            if (Combat.CurrentDiceRoll.Focuses > 0)
-            {
-                result = 100;
-            }
-
-            return result;
-        }
-
-        public override void ActionEffect(System.Action callBack)
-        {
-            if (Combat.CurrentDiceRoll.Focuses > 0)
-            {
-                Combat.CurrentDiceRoll.Change(DieSide.Focus, DieSide.Success, 1);
-            }
-            else
-            {
-                Messages.ShowError("No Focus results to change");
-            }
-            callBack();
-        }
-
     }
 
 }
 
 namespace Conditions
 {
+    /// <summary>
+    /// The Hunted condition passes to another friendly ship when the one carrying it is destroyed. 
+    /// This is a big difference with First Edition Agent Kallus, where he would become useless once his chosen target was destroyed.
+    /// </summary>
     public class HuntedCondition : GenericToken
     {
         public HuntedCondition(GenericShip host) : base(host)
@@ -183,75 +92,80 @@ namespace Conditions
 
         public override void WhenAssigned()
         {
-            Host.OnShipIsDestroyed += AssignToAnotherFriendly;            
+            Host.OnShipIsDestroyed += RegisterTrigger;            
         }
                 
         public override void WhenRemoved()
         {
-            Host.OnShipIsDestroyed -= AssignToAnotherFriendly;
+            Host.OnShipIsDestroyed -= RegisterTrigger;
         }
 
-        private void AssignToAnotherFriendly(GenericShip ship, bool flag)
+        private void RegisterTrigger(GenericShip ship, bool flag)
         {
+            var otherFriendliesCount = Roster.GetPlayer(Host.Owner.PlayerNo).Ships.Values
+                .Where(s => s != null && !s.IsDestroyed && s.ShipId != Host.ShipId)
+                .Count();
+
+            // Do nothing if there aren't any friendlies left
+            if (otherFriendliesCount == 0)
+            {
+                return;
+            }
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Hunted",
+                TriggerType = TriggerTypes.OnShipIsDestroyed,
+                TriggerOwner = Host.Owner.PlayerNo,
+                EventHandler = AssignConditionToAnotherFriendly
+            });
+        }
+
+        private void AssignConditionToAnotherFriendly(object sender, EventArgs e)
+        {            
             var otherFriendlies = Roster.GetPlayer(Host.Owner.PlayerNo).Ships.Values
-                .Where(s => s != Host)
+                .Where(s => s != null && !s.IsDestroyed && s.ShipId != Host.ShipId)
                 .ToArray();
 
+            // Do nothing if there aren't any friendlies left
             if (otherFriendlies.Length == 0)
             {
                 return;
             }
-                
-            HuntedDecisionSubPhase selectNewHuntedTargetDecisionSubPhase = Phases.StartTemporarySubPhaseNew<HuntedDecisionSubPhase>(Name, Triggers.FinishTrigger);
+
+            HuntedDecisionSubPhase selectAllyDecisionSubPhase = Phases.StartTemporarySubPhaseNew<HuntedDecisionSubPhase>(Name, Triggers.FinishTrigger);
 
             foreach (var friendlyShip in otherFriendlies)
             {
                 var friendly = friendlyShip;
-                selectNewHuntedTargetDecisionSubPhase.AddDecision(
-                    friendlyShip.ShipId + ": " + friendlyShip.PilotName,
+                selectAllyDecisionSubPhase.AddDecision(
+                    friendlyShip.ShipId + ": " + friendlyShip.PilotInfo.PilotName,
                     delegate 
                     {
                         SelectTarget(friendly);
-                        Triggers.FinishTrigger();
                     }
                 );
             }
 
-            selectNewHuntedTargetDecisionSubPhase.InfoText = "Hunted: Select another friendly ship";
+            selectAllyDecisionSubPhase.InfoText = "Hunted: Select another friendly ship";
 
-            GenericShip lowliestFriendlyPilot = GetFriendlyPilotWithLowestSkill();
-            selectNewHuntedTargetDecisionSubPhase.DefaultDecisionName = lowliestFriendlyPilot.ShipId + ": " + lowliestFriendlyPilot.PilotName;
-
-            selectNewHuntedTargetDecisionSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
-
-            selectNewHuntedTargetDecisionSubPhase.Start();            
+            GenericShip leastWorthAlly = otherFriendlies                
+                .OrderBy(ally => ally.State.Initiative)
+                .FirstOrDefault();
+            selectAllyDecisionSubPhase.DefaultDecisionName = leastWorthAlly.ShipId + ": " + leastWorthAlly.PilotInfo.PilotName;
+            selectAllyDecisionSubPhase.RequiredPlayer = Host.Owner.PlayerNo;
+            selectAllyDecisionSubPhase.Start();            
         }
 
         private class HuntedDecisionSubPhase : SubPhases.DecisionSubPhase { }
                 
         private void SelectTarget(GenericShip targetShip)
         {
-            Messages.ShowInfo("Hunted: " + targetShip.PilotName + " (" + targetShip.ShipId + ") is selected");
+            Messages.ShowInfo("Hunted: " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ") is selected");
 
             targetShip.Tokens.AssignCondition(typeof(HuntedCondition));
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
-
-        private GenericShip GetFriendlyPilotWithLowestSkill()
-        {
-            GenericShip lowliestPilot = null;
-            int minPilotSkill = 100;
-            foreach (var allyShip in Roster.GetPlayer(Host.Owner.PlayerNo).Ships)
-            {
-                if (allyShip.Value.State.Initiative < minPilotSkill)
-                {
-                    lowliestPilot = allyShip.Value;
-                    minPilotSkill = allyShip.Value.State.Initiative;
-                }
-            }
-            return lowliestPilot;
-        }
-
     }
 }

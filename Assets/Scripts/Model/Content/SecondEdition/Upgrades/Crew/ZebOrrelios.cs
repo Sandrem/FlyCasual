@@ -33,6 +33,12 @@ namespace Abilities.SecondEdition
             GenericShip.OnUpdateWeaponRangeGlobal += AllowRange0Primaries;
         }
 
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnCanAttackBumpedTargetGlobal -= CanAttack;
+            GenericShip.OnUpdateWeaponRangeGlobal -= AllowRange0Primaries;
+        }
+
         private void AllowRange0Primaries(IShipWeapon weapon, ref int minRange, ref int maxRange, GenericShip target)
         {
             if (weapon is PrimaryWeaponClass && (weapon.HostShip == HostShip || target == HostShip))
@@ -40,13 +46,6 @@ namespace Abilities.SecondEdition
                 minRange = 0;
             }
         }
-
-        public override void DeactivateAbility()
-        {
-            GenericShip.OnCanAttackBumpedTargetGlobal -= CanAttack;
-            GenericShip.OnUpdateWeaponRangeGlobal -= AllowRange0Primaries;
-        }
-
 
         private void CanAttack(ref bool canAttack, GenericShip attacker, GenericShip defender)
         {

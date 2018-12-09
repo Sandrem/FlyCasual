@@ -13,11 +13,12 @@ namespace Ship
             public ColonelJendon() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Colonel Jendon",
-                    3,
-                    46,
+                    pilotName: "Colonel Jendon",
+                    initiative: 3,
+                    cost: 46,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ColonelJendonAbility),
+                    charges: 2,                    
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 143
                 );

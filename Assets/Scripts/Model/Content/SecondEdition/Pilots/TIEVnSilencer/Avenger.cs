@@ -16,7 +16,7 @@ namespace Ship
                     3,
                     62,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.TestPilotBlackoutAbility),
+                    abilityType: typeof(Abilities.SecondEdition.AvengerAbility),
                     extraUpgradeIcon: UpgradeType.Talent //,
                                                          //seImageNumber: 120
                 );
@@ -43,10 +43,8 @@ namespace Abilities.SecondEdition
 
         protected void RegisterOnDestroyedFriendly(GenericShip ship, bool isFled)
         {
-            Console.Write("Checking if Destroyed Ship was friendly");
             if (ship.Owner == HostShip.Owner)
             {
-                Console.Write("Registering Perform Action");
                 RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, PerformAction);
             }
         }
@@ -55,9 +53,14 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfoToHuman("\"Avenger\": a friendly ship was destroyed you may to perform an action");
 
+            var ship = Selection.ThisShip;
+            Selection.ChangeActiveShip(HostShip);
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
             foreach (GenericAction action in actions) { action.CanBePerformedWhileStressed = true; }
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(actions, delegate {
+                Selection.ChangeActiveShip(ship);
+                Triggers.FinishTrigger();
+                });
         }
     }
 }

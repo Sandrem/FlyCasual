@@ -73,13 +73,11 @@ namespace Abilities.SecondEdition
             {
                 foreach (var upgrade in shipHolder.Value.UpgradeBar.GetUpgradesOnlyFaceup())
                 {
-                    // TODOREVERT
-
-                    /*if (upgrade.GetType() == typeof(UpgradesList.HoundsTooth))
+                    if (upgrade.GetType() == typeof(UpgradesList.SecondEdition.HoundsTooth))
                     {
-                        result = upgrade.Host;
+                        result = upgrade.HostShip;
                         break;
-                    }*/
+                    }
                 }
             }
 

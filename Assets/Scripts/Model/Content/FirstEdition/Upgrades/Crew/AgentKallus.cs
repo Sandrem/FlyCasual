@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             Phases.Events.OnSetupStart -= RegisterAgentKallusAbility;
         }
 
-        private void RegisterAgentKallusAbility()
+        protected void RegisterAgentKallusAbility()
         {
             Triggers.RegisterTrigger(new Trigger()
             {
@@ -51,7 +51,7 @@ namespace Abilities.FirstEdition
             });
         }
 
-        private void SelectAgentKallusTarget(object Sender, System.EventArgs e)
+        protected void SelectAgentKallusTarget(object Sender, System.EventArgs e)
         {
             AgentKallusDecisionSubPhase selectAgentKallusTargetDecisionSubPhase = (AgentKallusDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
@@ -62,7 +62,7 @@ namespace Abilities.FirstEdition
             foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
             {
                 selectAgentKallusTargetDecisionSubPhase.AddDecision(
-                    enemyShip.Value.ShipId + ": " + enemyShip.Value.PilotName,
+                    enemyShip.Value.ShipId + ": " + enemyShip.Value.PilotInfo.PilotName,
                     delegate { SelectTarget(enemyShip.Value); }
                 );
             }
@@ -70,16 +70,16 @@ namespace Abilities.FirstEdition
             selectAgentKallusTargetDecisionSubPhase.InfoText = "Agent Kallus: Select enemy ship";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
-            selectAgentKallusTargetDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
+            selectAgentKallusTargetDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotInfo.PilotName;
 
             selectAgentKallusTargetDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             selectAgentKallusTargetDecisionSubPhase.Start();
         }
 
-        private void SelectTarget(GenericShip targetShip)
+        protected virtual void SelectTarget(GenericShip targetShip)
         {
-            Messages.ShowInfo("Agent Kallus: " + targetShip.PilotName + " (" + targetShip.ShipId + ") is selected");
+            Messages.ShowInfo("Agent Kallus: " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ") is selected");
 
             AgentKallusSelectedTarget = targetShip;
 
@@ -88,7 +88,7 @@ namespace Abilities.FirstEdition
             SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
-        private void AddAgentKallusDiceModification(GenericShip host)
+        protected virtual void AddAgentKallusDiceModification(GenericShip host)
         {
             ActionsList.GenericAction newAction = new ActionsList.AgentKallusDiceModification()
             {
@@ -114,7 +114,7 @@ namespace Abilities.FirstEdition
             return bestAce;
         }
 
-        private class AgentKallusDecisionSubPhase : SubPhases.DecisionSubPhase { }
+        protected class AgentKallusDecisionSubPhase : SubPhases.DecisionSubPhase { }
     }
 }
 

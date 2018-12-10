@@ -74,14 +74,18 @@ namespace Ship
         {
             bool result = true;
 
+            int minRange = MinRange;
+            int maxRange = MaxRange;
+            HostShip.CallUpdateWeaponRange(this, ref minRange, ref maxRange, targetShip);
+
             ShotInfo shotInfo = new ShotInfo(HostShip, targetShip, this);
             if (!CanShootOutsideArc)
             {
                 if (!shotInfo.IsShotAvailable) return false;
             }
 
-            if (shotInfo.Range < MinRange) return false;
-            if (shotInfo.Range > MaxRange) return false;
+            if (shotInfo.Range < minRange) return false;
+            if (shotInfo.Range > maxRange) return false;
 
             return result;
         }
@@ -216,6 +220,7 @@ namespace Ship
         public event EventHandler OnBombWasLaunched;
 
         public event EventHandelerWeaponRange OnUpdateWeaponRange;
+        public static event EventHandelerWeaponRange OnUpdateWeaponRangeGlobal;
 
         // TRIGGERS
 
@@ -981,9 +986,11 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnBombWasLaunched, callback);
         }
 
-        public void CallUpdateWeaponRange(GenericSpecialWeapon weapon, ref int minRange, ref int maxRange)
+        public void CallUpdateWeaponRange(IShipWeapon weapon, ref int minRange, ref int maxRange, GenericShip target=null)
         {
-            if (OnUpdateWeaponRange != null) OnUpdateWeaponRange(weapon, ref minRange, ref maxRange);
+            if (OnUpdateWeaponRange != null) OnUpdateWeaponRange(weapon, ref minRange, ref maxRange, target);
+
+            if (OnUpdateWeaponRangeGlobal != null) OnUpdateWeaponRangeGlobal(weapon, ref minRange, ref maxRange, target);
         }
     }
 

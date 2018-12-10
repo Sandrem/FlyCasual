@@ -20,6 +20,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
+    //When you are touching an enemy ship, reduce that ship's agility value by 1.
     public class IntimidationAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -34,7 +35,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(ref int count)
         {
-            if (HostShip.ShipsBumped.Contains(Combat.Defender))
+            if (HostShip.Owner != Combat.Defender.Owner && HostShip.ShipsBumped.Contains(Combat.Defender))
             {
                 Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Defender rolls 1 fewer defense die");
                 count--;

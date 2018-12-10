@@ -152,14 +152,6 @@ namespace RuleSets
             ship.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailability;
         }
 
-        public override void ActivateGenericUpgradeAbility(GenericUpgrade upgrade)
-        {
-            if (upgrade.UpgradeInfo.HasType(UpgradeType.Turret))
-            {
-                upgrade.HostShip.OnGameStart += delegate { upgrade.HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true; };
-            }
-        }
-
         public override void SquadBuilderIsOpened()
         {
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");

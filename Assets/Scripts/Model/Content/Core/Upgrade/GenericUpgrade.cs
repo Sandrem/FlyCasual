@@ -221,21 +221,14 @@ namespace Upgrade
             HostShip = host;
             State = new UpgradeCardState(this);
             ActivateAbility();
-            ShowCharges();
         }
 
         private void ActivateAbility()
         {
-            Edition.Current.ActivateGenericUpgradeAbility(this);
             foreach (var ability in UpgradeAbilities)
             {
                 ability.ActivateAbility();
             }
-        }
-
-        private void ShowCharges()
-        {
-            // TODOREVERT
         }
 
         private void DeactivateAbility()

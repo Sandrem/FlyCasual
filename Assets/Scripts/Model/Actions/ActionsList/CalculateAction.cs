@@ -62,7 +62,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            // TODOREVERT if (Selection.ThisShip.UpgradeBar.HasUpgradeInstalled(typeof(UpgradesList.Expertise))) return 10;
+            if (Selection.ThisShip.UpgradeBar.HasUpgradeInstalled(typeof(UpgradesList.FirstEdition.Expertise))) return 10;
 
             result = (ActionsHolder.HasTarget(Selection.ThisShip)) ? 50 : 20;
             return result;

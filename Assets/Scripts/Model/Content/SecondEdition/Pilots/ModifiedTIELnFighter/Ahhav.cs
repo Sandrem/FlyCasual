@@ -43,7 +43,6 @@ namespace Abilities.SecondEdition
 
         private void RegisterAhhavAbility(ref int result)
         {
-            ShotInfo shotInformation = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
             if (Combat.Defender.ShipInfo.BaseSize > Combat.Attacker.ShipInfo.BaseSize)
             {
                 Messages.ShowInfo("Ahhav: +1 attack die");

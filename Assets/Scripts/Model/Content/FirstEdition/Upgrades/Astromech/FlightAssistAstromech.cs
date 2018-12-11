@@ -35,24 +35,26 @@ namespace Abilities.FirstEdition
 
         public override void DeactivateAbility()
         {
-            foreach (var weapon in turnedOffOutOfArcWeapons)
+            // TODOREVERT
+
+            /*foreach (var weapon in turnedOffOutOfArcWeapons)
             {
                 weapon.CanShootOutsideArc = true;
-            }
+            }*/
 
             HostShip.OnMovementFinish -= RegisterFlightAssistAstromechAbility;
         }
 
         private void SetCannotAttackOutsideArc()
         {
-            foreach (IShipWeapon weapon in HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n is IShipWeapon))
+            /*foreach (IShipWeapon weapon in HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n is IShipWeapon))
             {
                 if (weapon.CanShootOutsideArc)
                 {
                     turnedOffOutOfArcWeapons.Add(weapon);
                     weapon.CanShootOutsideArc = false;
                 }
-            }
+            }*/
         }
 
         private void RegisterFlightAssistAstromechAbility(GenericShip host)

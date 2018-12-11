@@ -44,7 +44,8 @@ namespace Abilities.FirstEdition
             if (turret != null)
             {
                 HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = isActive;
-                turret.CanShootOutsideArc = isActive;
+                // TODOREVERT
+                //turret.CanShootOutsideArc = isActive;
             }
         }
 

@@ -65,9 +65,12 @@ namespace BoardTools
         private void CheckRange()
         {
             InArcInfo = new Dictionary<GenericArc, bool>();
-            List<ArcType> WeaponArcRestrictions = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).ArcRestrictions : null;
-            
-            if(WeaponArcRestrictions != null && WeaponArcRestrictions.Count == 0)
+
+            // TODOREVERT
+            List<ArcType> WeaponArcRestrictions = null;
+            // List<ArcType> WeaponArcRestrictions = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).ArcRestrictions : null;
+
+            if (WeaponArcRestrictions != null && WeaponArcRestrictions.Count == 0)
             {
                 WeaponArcRestrictions = null;
             }

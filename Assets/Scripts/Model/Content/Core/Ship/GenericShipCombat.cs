@@ -19,83 +19,6 @@ namespace Ship
         Illicit
     }
 
-    public interface IShipWeapon
-    {
-        GenericShip HostShip { get; set; }
-        string Name { get; }
-
-        int MinRange { get; set; }
-        int MaxRange { get; set; }
-        int AttackValue { get; set; }
-
-        bool CanShootOutsideArc { get; set; }
-
-        bool IsShotAvailable(GenericShip targetShip);
-        void PayAttackCost(Action callBack);
-    }
-
-    public class PrimaryWeaponClass : IShipWeapon
-    {
-        public GenericShip HostShip { get; set; }
-        public string Name { get; set; }
-
-        public int MinRange { get; set; }
-        public int MaxRange { get; set; }
-
-        private int attackValue;
-        public int AttackValue
-        {
-            get
-            {
-                int result = HostShip.State.Firepower;
-                if (attackValue == int.MaxValue) Debug.Log(attackValue);
-                HostShip.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
-                return result;
-            }
-            set { attackValue = value; }
-        }
-
-        public bool CanShootOutsideArc
-        {
-            set { }
-            get { return HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon; }
-        }
-
-        public PrimaryWeaponClass(GenericShip host)
-        {
-            HostShip = host;
-            Name = "Primary Weapon";
-
-            MinRange = 1;
-            MaxRange = 3;
-        }
-
-        public bool IsShotAvailable(GenericShip targetShip)
-        {
-            bool result = true;
-
-            int minRange = MinRange;
-            int maxRange = MaxRange;
-            HostShip.CallUpdateWeaponRange(this, ref minRange, ref maxRange, targetShip);
-
-            ShotInfo shotInfo = new ShotInfo(HostShip, targetShip, this);
-            if (!CanShootOutsideArc)
-            {
-                if (!shotInfo.IsShotAvailable) return false;
-            }
-
-            if (shotInfo.Range < minRange) return false;
-            if (shotInfo.Range > maxRange) return false;
-
-            return result;
-        }
-
-        public void PayAttackCost(Action callBack)
-        {
-            callBack();
-        }
-    }
-
     public partial class GenericShip
     {
         public PrimaryWeaponClass PrimaryWeapon;
@@ -465,7 +388,9 @@ namespace Ship
         {
             int result = 0;
 
-            result = Combat.ChosenWeapon.AttackValue;
+            // TODOREVERT
+            result = Combat.ChosenWeapon.WeaponInfo.AttackValue;
+            //result = Combat.ChosenWeapon.AttackValue;
 
             if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
 

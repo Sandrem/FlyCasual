@@ -45,12 +45,13 @@ namespace Abilities.FirstEdition
 
         private void ToggleAbility(bool isActive)
         {
-            HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTorpedoes = isActive;
+            // TODOREVERT
+            /*HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTorpedoes = isActive;
             foreach (GenericUpgrade torpedo in HostShip.UpgradeBar.GetInstalledUpgrades(UpgradeType.Torpedo))
             {
                 GenericSpecialWeapon torpedoWeapon = torpedo as GenericSpecialWeapon;
                 if (torpedoWeapon != null) torpedoWeapon.CanShootOutsideArc = isActive;
-            }
+            }*/
         }
     }
 }

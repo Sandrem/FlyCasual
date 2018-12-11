@@ -134,10 +134,11 @@ namespace Players
             {
                 Messages.ShowErrorToHuman("Target is outside your firing arc");
             }
-            else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Range < Combat.ChosenWeapon.MinRange)
+            // TODOREVERT
+            /*else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Range < Combat.ChosenWeapon.MinRange)
             {
                 Messages.ShowErrorToHuman("Target is outside your firing range");
-            }
+            }*/
 
             //TODO: except non-legal targets, bupmed for example, biggs?
             Roster.HighlightShipsFiltered(FilterShipsToAttack);

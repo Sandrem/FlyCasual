@@ -375,9 +375,11 @@ public static partial class ActionsHolder
 
     public static ShotInfo GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        IShipWeapon outOfArcWeapon = (IShipWeapon) thisShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n is IShipWeapon && (n as IShipWeapon).CanShootOutsideArc == true);
+        // TODOREVERT
+        //IShipWeapon outOfArcWeapon = (IShipWeapon) thisShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n is IShipWeapon && (n as IShipWeapon).CanShootOutsideArc == true);
 
-        IShipWeapon checkedWeapon = outOfArcWeapon ?? thisShip.PrimaryWeapon;
+        IShipWeapon checkedWeapon = thisShip.PrimaryWeapon;
+        //IShipWeapon checkedWeapon = outOfArcWeapon ?? thisShip.PrimaryWeapon;
 
         ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, checkedWeapon);
         MovementTemplates.ShowFiringArcRange(shotInfo);

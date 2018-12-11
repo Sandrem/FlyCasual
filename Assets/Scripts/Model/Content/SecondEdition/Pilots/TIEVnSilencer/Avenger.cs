@@ -55,7 +55,11 @@ namespace Abilities.SecondEdition
 
             var ship = Selection.ThisShip;
             Selection.ChangeActiveShip(HostShip);
+            bool oldValue = HostShip.CanPerformActionsWhileStressed;
+            HostShip.CanPerformActionsWhileStressed = true;
+            //List<GenericAction> actions = Selection.ThisShip.ActionBar.AllActions;
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
+            HostShip.CanPerformActionsWhileStressed = oldValue;
             foreach (GenericAction action in actions) { action.CanBePerformedWhileStressed = true; }
             HostShip.AskPerformFreeAction(actions, delegate {
                 Selection.ChangeActiveShip(ship);

@@ -12,7 +12,7 @@ namespace Ship
         GenericShip HostShip { get; set; }
         string Name { get; }
 
-        SpecialWeaponInfo WeaponInfo { get; set; }
+        SpecialWeaponInfo WeaponInfo { get; }
 
         bool IsShotAvailable(GenericShip targetShip);
         void PayAttackCost(Action callBack);

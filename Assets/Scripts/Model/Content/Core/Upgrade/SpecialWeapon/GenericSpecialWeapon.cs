@@ -15,7 +15,7 @@ namespace Upgrade
     {
         public string Name { get { return UpgradeInfo.Name; } }
 
-        public SpecialWeaponInfo WeaponInfo { get; set; }
+        public SpecialWeaponInfo WeaponInfo { get {return UpgradeInfo.WeaponInfo ; } }
 
         public WeaponTypes WeaponType
         {
@@ -61,21 +61,10 @@ namespace Upgrade
 
             if (State.UsesCharges && State.Charges == 0) return false;
 
-            int range;
+            ShotInfo shotInfo = new ShotInfo(HostShip, targetShip, this);
+            int range = shotInfo.Range;
 
-            // TODOREVERT
-            /*if (!CanShootOutsideArc)
-            {*/
-                ShotInfo shotInfo = new ShotInfo(HostShip, targetShip, this);
-                range = shotInfo.Range;
-
-                if (!shotInfo.IsShotAvailable) return false;
-            /*}
-            else
-            {
-                DistanceInfo distanceInfo = new DistanceInfo(HostShip, targetShip);
-                range = distanceInfo.Range;
-            }*/
+            if (!shotInfo.IsShotAvailable) return false;
 
             if (range < MinRangeUpdated) return false;
             if (range > MaxRangeUpdated) return false;

@@ -111,10 +111,10 @@ public static partial class Combat
         {
             // TODOREVERT
 
-            ChosenWeapon = ChosenWeapon ?? Selection.ThisShip.PrimaryWeapons.First();
+            /*ChosenWeapon = ChosenWeapon ?? Selection.ThisShip.PrimaryWeapons.First();
             ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
 
-            TryPerformAttack(isSilent: true);
+            TryPerformAttack(isSilent: true);*/
         }
     }
 
@@ -122,9 +122,9 @@ public static partial class Combat
 
     private static void SelectWeapon()
     {
-        int anotherAttacksTypesCount = GetAnotherAttackTypesCount(Selection.ThisShip, Selection.AnotherShip);
+        int attackTypesCount = GetAttackTypesCount(Selection.ThisShip, Selection.AnotherShip);
 
-        if (anotherAttacksTypesCount > 0)
+        if (attackTypesCount > 0)
         {
             Phases.StartTemporarySubPhaseOld(
                 "Choose weapon for attack",
@@ -146,13 +146,15 @@ public static partial class Combat
 
     // COUNT ATTACK TYPES
 
-    private static int GetAnotherAttackTypesCount(GenericShip thisShip, GenericShip anotherShip)
+    private static int GetAttackTypesCount(GenericShip thisShip, GenericShip anotherShip)
     {
         int result = 0;
 
-        foreach (var upgrade in thisShip.UpgradeBar.GetSpecialWeaponsActive())
+        List<IShipWeapon> allWeapons = thisShip.GetAllWeapons();
+
+        foreach (IShipWeapon IShipWeapon in allWeapons)
         {
-            if ((upgrade as GenericSpecialWeapon).IsShotAvailable(anotherShip)) result++;
+            if (IShipWeapon.IsShotAvailable(anotherShip)) result++;
         }
 
         return result;

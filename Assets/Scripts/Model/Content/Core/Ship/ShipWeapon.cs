@@ -31,7 +31,7 @@ namespace Ship
         public PrimaryWeaponClass(GenericShip hostShip, ShipArcInfo arcInfo)
         {
             HostShip = hostShip;
-            Name = "Primary Weapon";
+            Name = "Primary Weapon \n(" + arcInfo.Name + ")";
 
             // Firepower is temporary
             WeaponInfo = new SpecialWeaponInfo(

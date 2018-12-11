@@ -21,7 +21,7 @@ namespace Ship
 
     public partial class GenericShip
     {
-        public List<PrimaryWeaponClass> PrimaryWeapons;
+        public List<PrimaryWeaponClass> PrimaryWeapons = new List<PrimaryWeaponClass>();
 
         public Damage Damage { get; private set; }
 
@@ -815,20 +815,17 @@ namespace Ship
 
         public List<IShipWeapon> GetAllWeapons()
         {
-            // TODOREVERT
-
             List<IShipWeapon> allWeapons = new List<IShipWeapon>();
 
-            /*List<IShipWeapon> allWeapons = new List<IShipWeapon>
+            foreach (PrimaryWeaponClass primaryWeapon in PrimaryWeapons)
             {
-                PrimaryWeapons
-            };
+                allWeapons.Add(primaryWeapon as IShipWeapon);
+            }
 
-            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
+            foreach (GenericUpgrade upgrade in UpgradeBar.GetSpecialWeaponsActive())
             {
-                IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
-                if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
-            }*/
+                allWeapons.Add(upgrade as IShipWeapon);
+            }
 
             return allWeapons;
         }

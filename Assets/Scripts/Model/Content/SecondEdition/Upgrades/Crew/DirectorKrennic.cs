@@ -32,6 +32,14 @@ namespace Abilities.SecondEdition
 {
     public class DirectorKrennicAbility : Abilities.FirstEdition.DirectorKrennicAbility
     {
+        protected override string Prompt
+        {
+            get
+            {
+                return "Choose a friendly ship.\nIt gets the Optimized Prototype condition.";
+            }
+        }
+
         protected override void AssignOptimizedPrototype()
         {
             TargetShip.Tokens.AssignCondition(typeof(OptimizedPrototypeSE));

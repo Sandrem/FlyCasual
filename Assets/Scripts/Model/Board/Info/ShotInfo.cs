@@ -77,14 +77,7 @@ namespace BoardTools
         {
             InArcInfo = new Dictionary<GenericArc, bool>();
 
-            // TODOREVERT
-            List<ArcType> WeaponArcRestrictions = null;
-            // List<ArcType> WeaponArcRestrictions = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).ArcRestrictions : null;
-
-            if (WeaponArcRestrictions != null && WeaponArcRestrictions.Count == 0)
-            {
-                WeaponArcRestrictions = null;
-            }
+            List<ArcType> WeaponArcRestrictions = new List<ArcType>() { Weapon.WeaponInfo.Arc };
 
             WeaponTypes weaponType = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
 
@@ -96,7 +89,7 @@ namespace BoardTools
                 if (!arc.ShotPermissions.CanShootByWeaponType(weaponType))
                     continue;
 
-                if (WeaponArcRestrictions != null && !WeaponArcRestrictions.Contains(arc.ArcType))
+                if (WeaponArcRestrictions.Count > 0 && !WeaponArcRestrictions.Contains(arc.ArcType))
                     continue;
 
                 if (shotInfoArc.IsShotAvailable)

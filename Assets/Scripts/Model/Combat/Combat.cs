@@ -547,7 +547,7 @@ namespace SubPhases
                 if (weapon.IsShotAvailable(Selection.AnotherShip))
                 {
                     AddDecision(weapon.Name, delegate { PerformAttackWithWeapon(weapon); });
-                    AddTooltip(weapon.Name, (weapon as Upgrade.GenericSpecialWeapon != null) ? (weapon as Upgrade.GenericSpecialWeapon).ImageUrl : null );
+                    AddTooltip(weapon.Name, (weapon as GenericSpecialWeapon != null) ? (weapon as GenericSpecialWeapon).ImageUrl : null );
                 }
             }
 

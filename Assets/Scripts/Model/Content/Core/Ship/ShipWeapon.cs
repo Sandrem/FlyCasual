@@ -31,7 +31,7 @@ namespace Ship
         public PrimaryWeaponClass(GenericShip hostShip, ShipArcInfo arcInfo)
         {
             HostShip = hostShip;
-            Name = "Primary Weapon \n(" + arcInfo.Name + ")";
+            Name = "Primary Weapon (" + arcInfo.Name + ")";
 
             // Firepower is temporary
             WeaponInfo = new SpecialWeaponInfo(
@@ -50,11 +50,7 @@ namespace Ship
             HostShip.CallUpdateWeaponRange(this, ref minRange, ref maxRange, targetShip);
 
             ShotInfo shotInfo = new ShotInfo(HostShip, targetShip, this);
-            // TODOREVERT
-            /*if (!CanShootOutsideArc)
-            {
-                if (!shotInfo.IsShotAvailable) return false;
-            }*/
+            if (!shotInfo.IsShotAvailable) return false;
 
             if (shotInfo.Range < minRange) return false;
             if (shotInfo.Range > maxRange) return false;

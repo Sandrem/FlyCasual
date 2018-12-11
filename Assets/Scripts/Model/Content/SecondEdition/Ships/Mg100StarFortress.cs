@@ -21,7 +21,7 @@ namespace Ship
 
                 ShipInfo.ArcInfo = new ShipArcsInfo(
                     new ShipArcInfo(ArcType.Front, 3),
-                    new ShipArcInfo(ArcType.SingleTurret, 2)
+                    new ShipArcInfo(ArcType.DoubleTurret, 2)
                 );
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));

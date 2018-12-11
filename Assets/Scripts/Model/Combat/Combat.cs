@@ -551,9 +551,19 @@ namespace SubPhases
                 }
             }
 
+            RemoveExtraDecisions();
+
             DefaultDecisionName = GetDecisions().Last().Name;
 
             callBack();
+        }
+
+        private void RemoveExtraDecisions()
+        {
+            if (decisions.Any(a => a.Name == "Primary Weapon (Front)") && decisions.Any(a => a.Name == "Primary Weapon (Full Front)"))
+            {
+                decisions.Remove(decisions.First(a => a.Name == "Primary Weapon (Front)"));
+            }
         }
 
         public void PerformAttackWithWeapon(IShipWeapon weapon)

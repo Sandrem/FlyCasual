@@ -10,7 +10,7 @@ namespace Arcs
     {
         public ArcFullFront(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcType.SpecialGhost;
+            ArcType = ArcType.FullFront;
             Facing = ArcFacing.FullFront;
 
             Limits = new Dictionary<Vector3, float>()

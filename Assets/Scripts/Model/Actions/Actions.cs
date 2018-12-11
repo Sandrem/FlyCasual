@@ -378,7 +378,7 @@ public static partial class ActionsHolder
         // TODOREVERT
         //IShipWeapon outOfArcWeapon = (IShipWeapon) thisShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n is IShipWeapon && (n as IShipWeapon).CanShootOutsideArc == true);
 
-        IShipWeapon checkedWeapon = thisShip.PrimaryWeapon;
+        IShipWeapon checkedWeapon = thisShip.PrimaryWeapons.First();
         //IShipWeapon checkedWeapon = outOfArcWeapon ?? thisShip.PrimaryWeapon;
 
         ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, checkedWeapon);
@@ -408,7 +408,7 @@ public static partial class ActionsHolder
     {
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapons);
             if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 return true;
@@ -424,7 +424,7 @@ public static partial class ActionsHolder
 
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShotInfo shotInfo = new ShotInfo(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapons);
             if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 if (direction == 0)
@@ -433,7 +433,7 @@ public static partial class ActionsHolder
                 }
                 else
                 {
-                    ShotInfo reverseShotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+                    ShotInfo reverseShotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapons);
                     if (direction == 1)
                     {
                         if (reverseShotInfo.InArc) result++;

@@ -21,7 +21,7 @@ namespace Ship
 
     public partial class GenericShip
     {
-        public PrimaryWeaponClass PrimaryWeapon;
+        public List<PrimaryWeaponClass> PrimaryWeapons;
 
         public Damage Damage { get; private set; }
 
@@ -720,28 +720,10 @@ namespace Ship
             }
         }
 
-        // ATTACK TYPES
-
-        public int GetAnotherAttackTypesCount()
-        {
-            int result = 0;
-
-            foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
-            {
-                IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
-                if (secondaryWeapon != null)
-                {
-                    if (secondaryWeapon.IsShotAvailable(Selection.AnotherShip)) result++;
-                }
-            }
-
-            return result;
-        }
-
         public bool InPrimaryWeaponFireZone(GenericShip anotherShip)
         {
             bool result = true;
-            ShotInfo shotInfo = new ShotInfo(this, anotherShip, PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(this, anotherShip, PrimaryWeapons);
             result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InPrimaryArc);
             return result;
         }
@@ -833,16 +815,20 @@ namespace Ship
 
         public List<IShipWeapon> GetAllWeapons()
         {
-            List<IShipWeapon> allWeapons = new List<IShipWeapon>
+            // TODOREVERT
+
+            List<IShipWeapon> allWeapons = new List<IShipWeapon>();
+
+            /*List<IShipWeapon> allWeapons = new List<IShipWeapon>
             {
-                PrimaryWeapon
+                PrimaryWeapons
             };
 
             foreach (var upgrade in UpgradeBar.GetUpgradesOnlyFaceup())
             {
                 IShipWeapon secondaryWeapon = upgrade as IShipWeapon;
                 if (secondaryWeapon != null) allWeapons.Add(secondaryWeapon);
-            }
+            }*/
 
             return allWeapons;
         }

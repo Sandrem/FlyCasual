@@ -31,7 +31,7 @@ namespace Abilities.SecondEdition
     {
         protected override void CheckNdruSuhlakAbility(ref int value)
         {
-            if (Combat.ChosenWeapon.GetType() != HostShip.PrimaryWeapon.GetType())
+            if (Combat.ChosenWeapon.GetType() != HostShip.PrimaryWeapons.GetType())
                 return;
 
             if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 2), Team.Type.Friendly).Count == 1)

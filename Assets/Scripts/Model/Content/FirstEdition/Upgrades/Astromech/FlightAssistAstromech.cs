@@ -73,7 +73,7 @@ namespace Abilities.FirstEdition
 
             foreach (var enemyShip in HostShip.Owner.EnemyShips)
             {
-                ShotInfo shotInfo = new ShotInfo(HostShip, enemyShip.Value, HostShip.PrimaryWeapon);
+                ShotInfo shotInfo = new ShotInfo(HostShip, enemyShip.Value, HostShip.PrimaryWeapons);
                 if (shotInfo.InArc && shotInfo.Range >= 1 && shotInfo.Range <= 3)
                 {
                     return false;

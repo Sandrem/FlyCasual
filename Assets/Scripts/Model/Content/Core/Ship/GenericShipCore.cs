@@ -165,7 +165,11 @@ namespace Ship
         {
             InitializePilotForSquadBuilder();
 
-            PrimaryWeapon = new PrimaryWeaponClass(this);
+            foreach (ShipArcInfo arcInfo in ShipInfo.ArcInfo.Arcs)
+            {
+                PrimaryWeapons.Add(new PrimaryWeaponClass(this, arcInfo));
+            }
+
             Damage = new Damage(this);
             ActionBar.Initialize();
         }

@@ -370,7 +370,8 @@ namespace SubPhases
             {
                 if (Selection.ThisShip.IsAttackPerformed != true)
                 {
-                    UI.CheckFiringRangeAndShow();
+                    // TODOREVERT
+                    // UI.CheckFiringRangeAndShow();
                     UI.ClickDeclareTarget();
                 }
                 else
@@ -380,7 +381,8 @@ namespace SubPhases
             }
             else if (mouseKeyIsPressed == 2)
             {
-                UI.CheckFiringRangeAndShow();
+                // TODOREVERT
+                // UI.CheckFiringRangeAndShow();
             }
         }
 

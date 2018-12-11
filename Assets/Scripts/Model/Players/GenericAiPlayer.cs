@@ -257,7 +257,9 @@ namespace Players
         {
             GenericShip selectedTargetShip = targetShip;
 
-            if (DebugManager.DebugAI) Debug.Log("AI checks target for attack: " + targetShip);
+            // TODOREVERT
+
+            /*if (DebugManager.DebugAI) Debug.Log("AI checks target for attack: " + targetShip);
 
             if (targetShip.IsReadyToBeDestroyed)
             {
@@ -302,7 +304,7 @@ namespace Players
                 selectedTargetShip = null;
             }
 
-            if (DebugManager.DebugAI) Debug.Log("AI decision about " + targetShip + " : " + selectedTargetShip);
+            if (DebugManager.DebugAI) Debug.Log("AI decision about " + targetShip + " : " + selectedTargetShip);*/
 
             return selectedTargetShip;
         }

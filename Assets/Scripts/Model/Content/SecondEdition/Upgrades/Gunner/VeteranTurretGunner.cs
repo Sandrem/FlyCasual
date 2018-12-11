@@ -42,7 +42,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(GenericShip ship)
         {
-            if (Combat.ShotInfo.Weapon != HostShip.PrimaryWeapon) return;
+            if (Combat.ShotInfo.Weapon != HostShip.PrimaryWeapons) return;
 
             bool availableArcsArePresent = HostShip.ArcsInfo.Arcs.Any(a => a.ArcType == ArcType.SingleTurret && !a.WasUsedForAttackThisRound);
             if (availableArcsArePresent)

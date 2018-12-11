@@ -54,7 +54,18 @@ namespace BoardTools
 
         public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
         {
-            Weapon = weapon ?? ship1.PrimaryWeapon;
+            Weapon = weapon ?? ship1.PrimaryWeapons.First();
+
+            ShotAvailableFromArcs = new List<GenericArc>();
+
+            CheckRange();
+            CheckFailed();
+        }
+
+        // TODO: Temporary, Remove later
+        public ShotInfo(GenericShip ship1, GenericShip ship2, List<PrimaryWeaponClass> weapons) : base(ship1, ship2)
+        {
+            Weapon = (weapons != null) ? weapons.First() : ship1.PrimaryWeapons.First();
 
             ShotAvailableFromArcs = new List<GenericArc>();
 

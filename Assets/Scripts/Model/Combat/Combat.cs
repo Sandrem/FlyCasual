@@ -109,7 +109,9 @@ public static partial class Combat
         }
         else
         {
-            ChosenWeapon = ChosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
+            // TODOREVERT
+
+            ChosenWeapon = ChosenWeapon ?? Selection.ThisShip.PrimaryWeapons.First();
             ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
 
             TryPerformAttack(isSilent: true);
@@ -120,7 +122,7 @@ public static partial class Combat
 
     private static void SelectWeapon()
     {
-        int anotherAttacksTypesCount = Selection.ThisShip.GetAnotherAttackTypesCount();
+        int anotherAttacksTypesCount = GetAnotherAttackTypesCount(Selection.ThisShip, Selection.AnotherShip);
 
         if (anotherAttacksTypesCount > 0)
         {
@@ -132,11 +134,28 @@ public static partial class Combat
         }
         else
         {
-            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            // TODOREVERT
+            ChosenWeapon = Selection.ThisShip.PrimaryWeapons.First();
             ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+
+            //TODO: Show range ruler
 
             TryPerformAttack(isSilent: false);
         }
+    }
+
+    // COUNT ATTACK TYPES
+
+    private static int GetAnotherAttackTypesCount(GenericShip thisShip, GenericShip anotherShip)
+    {
+        int result = 0;
+
+        foreach (var upgrade in thisShip.UpgradeBar.GetSpecialWeaponsActive())
+        {
+            if ((upgrade as GenericSpecialWeapon).IsShotAvailable(anotherShip)) result++;
+        }
+
+        return result;
     }
 
     // CHECK LEGALITY OF ATTACK
@@ -144,9 +163,10 @@ public static partial class Combat
     public static void TryPerformAttack(bool isSilent)
     {
         UI.HideContextMenu();
-        MovementTemplates.ReturnRangeRuler();
 
-        if (IsTargetLegalForAttack(Selection.AnotherShip, ChosenWeapon, isSilent))
+        // MovementTemplates.ReturnRangeRuler();
+
+        if (Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent))
         {
             UI.HideSkipButton();
             Roster.AllShipsHighlightOff();
@@ -178,21 +198,6 @@ public static partial class Combat
         {
             Messages.ShowError("ERROR: No available arcs?");
         }
-    }
-
-    public static bool IsTargetLegalForAttack(GenericShip targetShip, IShipWeapon weapon, bool isSilent)
-    {
-        bool result = false;
-
-        if (Rules.TargetIsLegalForShot.IsLegal(true) && weapon.IsShotAvailable(targetShip))
-        {
-            if (ExtraAttackFilter == null || ExtraAttackFilter(targetShip, weapon, isSilent))
-            {
-                result = true;
-            }
-        }
-
-        return result;
     }
 
     private static void CheckFireLineCollisions()

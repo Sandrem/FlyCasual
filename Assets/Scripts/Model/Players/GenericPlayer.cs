@@ -125,7 +125,10 @@ namespace Players
 
         public virtual void OnTargetNotLegalForAttack()
         {
-            // TODO: Better explanations
+            // TODOREVERT
+            Messages.ShowErrorToHuman("OnTargetNotLegalForAttack");
+
+            /*// TODO: Better explanations
             if (!Rules.TargetIsLegalForShot.IsLegal())
             {
                 //automatic error messages
@@ -133,7 +136,7 @@ namespace Players
             else if (!Combat.ShotInfo.IsShotAvailable)
             {
                 Messages.ShowErrorToHuman("Target is outside your firing arc");
-            }
+            }*/
             // TODOREVERT
             /*else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Range < Combat.ChosenWeapon.MinRange)
             {

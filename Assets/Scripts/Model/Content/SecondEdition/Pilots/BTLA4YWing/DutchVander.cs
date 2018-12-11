@@ -112,7 +112,7 @@ namespace Abilities.SecondEdition
 
             if (!ship.Tokens.HasToken(typeof(BlueTargetLockToken))) priority += 50;
 
-            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(ship, LockedShip, ship.PrimaryWeapon);
+            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(ship, LockedShip, ship.PrimaryWeapons);
             if (shotInfo.IsShotAvailable) priority += 40;
 
             priority += ship.State.Firepower * 5;

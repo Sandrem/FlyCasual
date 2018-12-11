@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
 
         private bool IsDiceModificationAvailable()
         {
-            return Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon != HostShip.PrimaryWeapon;
+            return Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon != HostShip.PrimaryWeapons;
         }
 
         private int GetAiPriority()

@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(ref int count)
         {
-            if (Combat.ChosenWeapon != HostShip.PrimaryWeapon) return;
+            if (Combat.ChosenWeapon != HostShip.PrimaryWeapons) return;
 
             if (Combat.Defender.ShipsBumped.Any(s => s.Owner.PlayerNo == HostShip.Owner.PlayerNo && !s.PilotInfo.IsLimited))
             {

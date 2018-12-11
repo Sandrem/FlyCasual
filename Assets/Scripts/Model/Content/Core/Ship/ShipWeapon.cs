@@ -28,13 +28,17 @@ namespace Ship
         // TODOREVERT
         // HostShip.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);
 
-        public PrimaryWeaponClass(GenericShip hostShip)
+        public PrimaryWeaponClass(GenericShip hostShip, ShipArcInfo arcInfo)
         {
             HostShip = hostShip;
             Name = "Primary Weapon";
 
             // Firepower is temporary
-            WeaponInfo = new SpecialWeaponInfo(HostShip.ShipInfo.ArcInfo.Arcs.First().Firepower, 1, 3);
+            WeaponInfo = new SpecialWeaponInfo(
+                arcInfo.Firepower,
+                1, 3,
+                arc: arcInfo.ArcType
+            );
         }
 
         public bool IsShotAvailable(GenericShip targetShip)

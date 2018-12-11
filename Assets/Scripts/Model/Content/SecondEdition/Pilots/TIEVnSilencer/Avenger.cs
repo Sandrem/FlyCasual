@@ -54,6 +54,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfoToHuman("\"Avenger\": a friendly ship was destroyed you may to perform an action");
 
             var ship = Selection.ThisShip;
+            Roster.HighlightPlayer(HostShip.Owner.PlayerNo);
             Selection.ChangeActiveShip(HostShip);
             bool oldValue = HostShip.CanPerformActionsWhileStressed;
             HostShip.CanPerformActionsWhileStressed = true;
@@ -62,6 +63,7 @@ namespace Abilities.SecondEdition
             HostShip.CanPerformActionsWhileStressed = oldValue;
             foreach (GenericAction action in actions) { action.CanBePerformedWhileStressed = true; }
             HostShip.AskPerformFreeAction(actions, delegate {
+                Roster.HighlightPlayer(ship.Owner.PlayerNo);
                 Selection.ChangeActiveShip(ship);
                 Triggers.FinishTrigger();
                 });

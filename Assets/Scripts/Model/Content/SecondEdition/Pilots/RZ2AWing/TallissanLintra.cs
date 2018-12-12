@@ -20,7 +20,7 @@ namespace Ship
                     35,
                     isLimited: true,
                     // abilityType: typeof(Abilities.SecondEdition.JakeFarrellAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,
                     //seImageNumber: 19
                 );
 

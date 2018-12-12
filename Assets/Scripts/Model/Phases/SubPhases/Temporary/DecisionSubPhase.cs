@@ -64,7 +64,7 @@ namespace SubPhases
         private GameObject decisionPanel;
         private GameObject buttonsHolder;
         public string InfoText;
-        private List<Decision> decisions = new List<Decision>();
+        protected List<Decision> decisions = new List<Decision>();
         public string DefaultDecisionName;
         public Players.GenericPlayer DecisionOwner;
         public bool ShowSkipButton;

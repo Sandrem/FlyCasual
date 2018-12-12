@@ -64,7 +64,7 @@ namespace Abilities.FirstEdition
 
         private bool FilterTargetInBullseyeArc(GenericShip ship)
         {
-            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapons);
             return shotInfo.InArcByType(ArcType.Bullseye) && FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 3);
         }
 
@@ -72,7 +72,7 @@ namespace Abilities.FirstEdition
         {
             int result = 0;
 
-            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapons);
             result += (3 - shotInfo.Range) * 100;
 
             result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.UpgradeInfo.Cost);

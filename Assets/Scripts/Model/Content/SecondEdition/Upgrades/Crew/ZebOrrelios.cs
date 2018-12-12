@@ -53,12 +53,12 @@ namespace Abilities.SecondEdition
             {
                 if (attacker.ShipId == HostShip.ShipId)
                 {
-                    ShotInfo shotInfo = new ShotInfo(attacker, defender, attacker.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(attacker, defender, attacker.PrimaryWeapons);
                     if (shotInfo.InArc) canAttack = true;
                 }
                 else if (defender.ShipId == HostShip.ShipId)
                 {
-                    ShotInfo shotInfo = new ShotInfo(defender, attacker, defender.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(defender, attacker, defender.PrimaryWeapons);
                     if (shotInfo.InArc) canAttack = true;
                 }
             }

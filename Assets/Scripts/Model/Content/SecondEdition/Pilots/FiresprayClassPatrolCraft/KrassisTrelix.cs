@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using Arcs;
+using Ship;
+using Upgrade;
 
 namespace Ship
 {
@@ -30,7 +32,7 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            ToggleArcAbility(true);
+            HostShip.OnGameStart += ChangeSpecialWeaponsRestrictions;
 
             AddDiceModification(
                 "Krassis Trelix",
@@ -43,26 +45,38 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
-            ToggleArcAbility(false);
-
+            RestoreSpecialWeaponsRestrictions();
             RemoveDiceModification();
-        }
-
-        private void ToggleArcAbility(bool isActive)
-        {
-            HostShip.ArcsInfo.GetArc<Arcs.ArcRear>().ShotPermissions.CanShootTorpedoes = isActive;
-            HostShip.ArcsInfo.GetArc<Arcs.ArcRear>().ShotPermissions.CanShootMissiles = isActive;
-            HostShip.ArcsInfo.GetArc<Arcs.ArcRear>().ShotPermissions.CanShootCannon = isActive;
         }
 
         private bool IsDiceModificationAvailable()
         {
-            return Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon != HostShip.PrimaryWeapon;
+            return Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon;
         }
 
         private int GetAiPriority()
         {
             return 90;
+        }
+
+        private void ChangeSpecialWeaponsRestrictions()
+        {
+            HostShip.OnGameStart -= ChangeSpecialWeaponsRestrictions;
+
+            foreach (GenericUpgrade upgrade in HostShip.UpgradeBar.GetSpecialWeaponsAll())
+            {
+                GenericSpecialWeapon weapon = upgrade as GenericSpecialWeapon;
+                weapon.WeaponInfo.ArcRestrictions.Add(ArcType.Rear);
+            }
+        }
+
+        private void RestoreSpecialWeaponsRestrictions()
+        {
+            foreach (GenericUpgrade upgrade in HostShip.UpgradeBar.GetSpecialWeaponsAll())
+            {
+                GenericSpecialWeapon weapon = upgrade as GenericSpecialWeapon;
+                weapon.WeaponInfo.ArcRestrictions.Remove(ArcType.Rear);
+            }
         }
     }
 }

@@ -9,6 +9,9 @@ namespace UpgradesList.FirstEdition
     {
         public ASF01BWing() : base()
         {
+            IsHidden = true;
+            // FromMod = typeof(RecoveringBWing);
+
             UpgradeInfo = new UpgradeCardInfo(
                 "A/SF-01 B-wing",
                 UpgradeType.Title,
@@ -17,7 +20,6 @@ namespace UpgradesList.FirstEdition
                 //abilityType: typeof(Abilities.FirstEdition.AdaptiveAileronsAbility)
             );
 
-            FromMod = typeof(RecoveringBWing);
             ImageUrl = "https://azrapse.es/asf01bwing.png";
         }
 

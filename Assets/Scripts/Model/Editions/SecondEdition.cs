@@ -102,8 +102,7 @@ namespace RuleSets
 
         private bool HasYv666InSquad()
         {
-            return false;
-            // TODOREVERT return SquadBuilder.CurrentSquadList.GetShips().Any(n => n.Instance is Ship.YV666.YV666);
+            return SquadBuilder.CurrentSquadList.GetShips().Any(n => n.Instance is Ship.SecondEdition.YV666LightFreighter.YV666LightFreighter);
         }
 
         public override void EvadeDiceModification(DiceRoll diceRoll)
@@ -162,18 +161,6 @@ namespace RuleSets
             }
         }
 
-        public override void AdaptArcsToRules(GenericShip ship)
-        {
-            ArcBullseye arcBullseye = new ArcBullseye(ship.ShipBase);
-
-            // TODOREVERT
-            /*ArcPrimary arcPrimary = ship.ArcsInfo.GetArc<ArcPrimary>();
-            arcBullseye.ShotPermissions.CanShootPrimaryWeapon = arcPrimary.ShotPermissions.CanShootPrimaryWeapon;
-            arcBullseye.ShotPermissions.CanShootTurret = arcPrimary.ShotPermissions.CanShootTurret;*/
-
-            ship.ArcsInfo.Arcs.Add(arcBullseye);
-        }
-
         public override bool WeaponHasRangeBonus()
         {
             return Combat.ChosenWeapon is PrimaryWeaponClass || (Combat.ChosenWeapon as GenericUpgrade).UpgradeInfo.HasType(UpgradeType.Cannon) || (Combat.ChosenWeapon as GenericUpgrade).UpgradeInfo.HasType(UpgradeType.Turret);
@@ -192,17 +179,6 @@ namespace RuleSets
         public override void RotateMobileFiringArcAlt(ArcFacing facing)
         {
             Selection.ThisShip.ShowMobileFiringArcAltHighlight(facing);
-        }
-
-        public override void ActivateGenericUpgradeAbility(GenericUpgrade upgrade)
-        {
-            if (upgrade.UpgradeInfo.HasType(UpgradeType.Turret))
-            {
-                (upgrade as IShipWeapon).CanShootOutsideArc = false;
-
-                // TODOREVERT
-                //upgrade.HostShip.ShipBaseArcsType = BaseArcsType.ArcMobileTurret;
-            }
         }
 
         public override void BarrelRollTemplatePlanning()
@@ -259,11 +235,11 @@ namespace RuleSets
 
             List<GenericArc> savedArcs = Combat.Defender.ArcsInfo.Arcs;
             Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullFront(Combat.Defender.ShipBase) };
-            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             bool inForward180Arc = reverseShotInfo.InArc;
 
             Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullRear(Combat.Defender.ShipBase) };
-            reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             bool inRear180Arc = reverseShotInfo.InArc;
 
             Combat.Defender.ArcsInfo.Arcs = savedArcs;

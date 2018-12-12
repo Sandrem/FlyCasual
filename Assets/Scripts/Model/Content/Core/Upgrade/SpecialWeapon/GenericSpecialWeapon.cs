@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Ship;
 using System.Linq;
 using Tokens;
 using BoardTools;
 using Upgrade;
 using SubPhases;
-using Arcs;
 
 namespace Upgrade
 {
@@ -17,22 +15,7 @@ namespace Upgrade
     {
         public string Name { get { return UpgradeInfo.Name; } }
 
-        public int MinRange { get; set; }
-        public int MaxRange { get; set; }
-        public int AttackValue { get; set; }
-        public bool CanShootOutsideArc { get; set; }
-        public bool IsBullseyeArcOnly { get; set; }
-
-        public bool RequiresFocusToShoot;
-        public bool RequiresTargetLockOnTargetToShoot;
-        public bool SpendsFocusToShoot;
-        public bool SpendsTargetLockOnTargetToShoot;
-
-        public bool IsDiscardedForShot;
-
-        public bool IsTwinAttack;
-
-        public List<ArcType> ArcRestrictions { get; internal set; }
+        public SpecialWeaponInfo WeaponInfo { get {return UpgradeInfo.WeaponInfo ; } }
 
         public WeaponTypes WeaponType
         {
@@ -63,39 +46,30 @@ namespace Upgrade
 
         public GenericSpecialWeapon() : base()
         {
-            ArcRestrictions = new List<ArcType>();
+
         }
 
         public virtual bool IsShotAvailable(GenericShip targetShip)
         {
             bool result = true;
 
-            int MinRangeUpdated = MinRange;
-            int MaxRangeUpdated = MaxRange;
+            int MinRangeUpdated = WeaponInfo.MinRange;
+            int MaxRangeUpdated = WeaponInfo.MaxRange;
             HostShip.CallUpdateWeaponRange(this, ref MinRangeUpdated, ref MaxRangeUpdated);
 
             if (!State.IsFaceup) return false;
 
             if (State.UsesCharges && State.Charges == 0) return false;
 
-            int range;
-            if (!CanShootOutsideArc)
-            {
-                ShotInfo shotInfo = new ShotInfo(HostShip, targetShip, this);
-                range = shotInfo.Range;
+            ShotInfo shotInfo = new ShotInfo(HostShip, targetShip, this);
+            int range = shotInfo.Range;
 
-                if (!shotInfo.IsShotAvailable) return false;
-            }
-            else
-            {
-                DistanceInfo distanceInfo = new DistanceInfo(HostShip, targetShip);
-                range = distanceInfo.Range;
-            }
+            if (!shotInfo.IsShotAvailable) return false;
 
             if (range < MinRangeUpdated) return false;
             if (range > MaxRangeUpdated) return false;
 
-            if (RequiresTargetLockOnTargetToShoot)
+            if (WeaponInfo.RequiresToken == typeof(BlueTargetLockToken))
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
@@ -108,17 +82,12 @@ namespace Upgrade
                 if (waysToPay.Count == 0) return false;
             }
 
-            if (RequiresFocusToShoot)
+            if (WeaponInfo.RequiresToken == typeof(FocusToken))
             {
                 if (!HostShip.Tokens.HasToken(typeof(FocusToken))) return false;
             }
 
             return result;
-        }
-
-        public virtual int GetAttackValue()
-        {
-            return AttackValue;
         }
 
         public virtual void PayAttackCost(Action callBack)
@@ -128,11 +97,11 @@ namespace Upgrade
 
         private void PayDiscardCost(Action callBack)
         {
-            if (IsDiscardedForShot)
+            if (WeaponInfo.Discard)
             {
                 TryDiscard(callBack);
             }
-            else if (State.UsesCharges)
+            else if (WeaponInfo.Charges > 0)
             {
                 State.SpendCharge();
                 callBack();
@@ -145,7 +114,7 @@ namespace Upgrade
 
         private void PayTokenCost(Action callBack)
         {
-            if (RequiresTargetLockOnTargetToShoot)
+            if (WeaponInfo.RequiresToken == typeof(BlueTargetLockToken))
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
@@ -157,7 +126,7 @@ namespace Upgrade
 
                 if (waysToPay.Count == 1)
                 {
-                    if (SpendsTargetLockOnTargetToShoot || waysToPay.First() is ForceToken)
+                    if (WeaponInfo.SpendsToken == typeof(BlueTargetLockToken) || waysToPay.First() is ForceToken)
                     {
                         Combat.Attacker.Tokens.SpendToken(
                             waysToPay.First().GetType(),
@@ -180,7 +149,7 @@ namespace Upgrade
                     subphase.Start();
                 }
             }
-            else if (RequiresFocusToShoot && SpendsFocusToShoot)
+            else if (WeaponInfo.RequiresToken == typeof(FocusToken) && WeaponInfo.SpendsToken == typeof(FocusToken))
             {
                 Combat.Attacker.Tokens.SpendToken(typeof(FocusToken), callBack);
             }
@@ -247,7 +216,7 @@ namespace SubPhases
 
         private void PayCost(GenericToken token)
         {
-            if (Weapon.SpendsTargetLockOnTargetToShoot || token is ForceToken)
+            if (Weapon.WeaponInfo.SpendsToken == typeof(BlueTargetLockToken) || token is ForceToken)
             {
                 Combat.Attacker.Tokens.SpendToken(
                     token.GetType(),

@@ -22,8 +22,6 @@ namespace Arcs
                 new Vector3(-shipBase.HALF_OF_SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE),
                 new Vector3( shipBase.HALF_OF_SHIPSTAND_SIZE, 0, -shipBase.SHIPSTAND_SIZE)
             };
-
-            ShotPermissions = new ArcShotPermissions(); //Cannot shoot out of arc by default
         }
     }
 }

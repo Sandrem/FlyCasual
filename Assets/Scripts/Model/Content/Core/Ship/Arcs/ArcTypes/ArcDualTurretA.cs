@@ -52,12 +52,6 @@ namespace Arcs
         {
             ArcType = ArcType.SingleTurret;
 
-            ShotPermissions = new ArcShotPermissions()
-            {
-                CanShootPrimaryWeapon = true,
-                CanShootTurret = true
-            };
-
             // Arcs
 
             MobileArcParameters = new List<MobileSubArc>

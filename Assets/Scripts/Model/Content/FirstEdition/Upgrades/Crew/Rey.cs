@@ -39,11 +39,9 @@ namespace Abilities.FirstEdition
 
         private void UpdateNameOfUpgrade(int value)
         {
-            // TODOREVERT
-
-            /*string postfix = (focusTokensStored == 0) ? "" : " (" + focusTokensStored + ")";
-            HostUpgrade.Name = originalUpgradeName + postfix;
-            Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);*/
+            string postfix = (focusTokensStored == 0) ? "" : " (" + focusTokensStored + ")";
+            HostUpgrade.NamePostfix = postfix;
+            Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
         }
 
         public override void ActivateAbility()

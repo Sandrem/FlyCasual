@@ -1,4 +1,5 @@
-﻿using ActionsList;
+﻿using Actions;
+using ActionsList;
 using Arcs;
 using Ship;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace UpgradesList.SecondEdition
                     maxRange: 2,
                     arc: ArcType.SingleTurret
                 ),
+                addArc: new ShipArcInfo(ArcType.SingleTurret),
+                addAction: new ActionInfo(typeof(RotateArcAction)),
                 abilityType: typeof(Abilities.FirstEdition.IonDamageAbility),
                 seImageNumber: 32
             );

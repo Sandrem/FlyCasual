@@ -85,27 +85,29 @@ namespace Abilities.FirstEdition
 
         private bool HasTurret()
         {
+            // TODOREVERT
+
             bool result = false;
 
-            if (HostShip.PrimaryWeapon.CanShootOutsideArc)
+            /*if (HostShip.PrimaryWeapon.CanShootOutsideArc)
             {
                 result = true;
             }
             else
-            {
+            {*/
                 foreach (GenericUpgrade upgrade in HostShip.UpgradeBar.GetUpgradesOnlyFaceup())
                 {
                     IShipWeapon weapon = upgrade as IShipWeapon;
                     if (weapon != null)
                     {
-                        if (weapon.CanShootOutsideArc)
+                        /*if (weapon.CanShootOutsideArc)
                         {
                             result = true;
                             break;
-                        }
+                        }*/
                     }
                 }
-            }
+            //}
 
             return result;
         }

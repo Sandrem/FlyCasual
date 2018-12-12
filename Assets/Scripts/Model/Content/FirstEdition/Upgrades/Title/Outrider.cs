@@ -44,12 +44,13 @@ namespace Abilities.FirstEdition
 
             if (cannon != null)
             {
-                HostShip.ArcsInfo.GetArc<ArcPrimary>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
+                /*HostShip.ArcsInfo.GetArc<ArcPrimary>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
 
                 HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = !isActive;
-                HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootCannon = isActive;
+                HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootCannon = isActive;*/
 
-                cannon.CanShootOutsideArc = isActive;
+                // TODOREVERT
+                //cannon.CanShootOutsideArc = isActive;
             }
         }
 

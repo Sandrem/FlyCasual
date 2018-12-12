@@ -56,11 +56,13 @@ namespace Abilities.FirstEdition
 
             public override void ActionEffect(System.Action callBack)
             {
+                // TODOREVERT
+
                 // reroll dice
                 DiceRerollManager diceRerollManager = new DiceRerollManager
                 {
                     SidesCanBeRerolled = null,      // all the sides can be reroll
-                    NumberOfDiceCanBeRerolled = Combat.Attacker.PrimaryWeapon.AttackValue,
+                    NumberOfDiceCanBeRerolled = Combat.Attacker.PrimaryWeapons.First().WeaponInfo.AttackValue,
                     CallBack = callBack// all the dices can be reroll
                 };
                 diceRerollManager.Start();

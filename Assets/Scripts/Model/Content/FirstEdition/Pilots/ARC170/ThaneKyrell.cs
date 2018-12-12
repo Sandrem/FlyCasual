@@ -44,7 +44,7 @@ namespace Abilities.FirstEdition
         {
             if (Combat.Attacker == ship && ship.Owner != HostShip.Owner && Combat.Defender != HostShip && Combat.Defender.Owner == HostShip.Owner)
             {
-                ShotInfo arcInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+                ShotInfo arcInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapons);
                 if (arcInfo.InArc && arcInfo.Range <= 3)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, PerformFreeAction);

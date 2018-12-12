@@ -50,7 +50,7 @@ namespace Abilities.FirstEdition
 
             if (HostShip.IsCannotAttackSecondTime) return;
 
-            ShotInfo counterAttackInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            ShotInfo counterAttackInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             if (!CanCounterattackUsingShotInfo(counterAttackInfo)) return;
 
             // Save his attacker, becuase combat data will be cleared

@@ -135,7 +135,7 @@ namespace RuleSets
         {
             bool result = false;
 
-            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             result = (facing == ArcFacing.FullFront) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
 
             return result;
@@ -150,14 +150,6 @@ namespace RuleSets
         {
             ship.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailability;
             ship.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailability;
-        }
-
-        public override void ActivateGenericUpgradeAbility(GenericUpgrade upgrade)
-        {
-            if (upgrade.UpgradeInfo.HasType(UpgradeType.Turret))
-            {
-                upgrade.HostShip.OnGameStart += delegate { upgrade.HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = true; };
-            }
         }
 
         public override void SquadBuilderIsOpened()

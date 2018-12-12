@@ -12,7 +12,7 @@ namespace Ship
         public int Firepower { get; set; }
         public string Name { get; private set; }
 
-        public ShipArcInfo(ArcType arcType, int firepower)
+        public ShipArcInfo(ArcType arcType, int firepower = -1)
         {
             ArcType = arcType;
             Firepower = firepower;

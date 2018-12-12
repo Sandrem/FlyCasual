@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
                     maxRange: 2,
                     arc: ArcType.SingleTurret
                 ),
-                addArc: new ShipArcInfo(ArcType.SingleTurret, -1),
+                addArc: new ShipArcInfo(ArcType.SingleTurret),
                 addAction: new ActionInfo(typeof(RotateArcAction)),
                 abilityType: typeof(Abilities.FirstEdition.IonDamageAbility),
                 seImageNumber: 32

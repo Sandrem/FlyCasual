@@ -60,7 +60,8 @@ namespace Abilities.FirstEdition
 
         private void ToggleRearArc(bool isActive)
         {
-            HostShip.Host.ArcsInfo.GetArc<ArcSpecialGhost>().ShotPermissions.CanShootPrimaryWeapon = isActive;
+            // TODOREVERT
+            //HostShip.Host.ArcsInfo.GetArc<ArcSpecialGhost>().ShotPermissions.CanShootPrimaryWeapon = isActive;
         }
 
         private void RegisterFreeCoordinateAbility()

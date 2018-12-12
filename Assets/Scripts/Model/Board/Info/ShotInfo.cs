@@ -86,8 +86,6 @@ namespace BoardTools
                 WeaponArcRestrictions.Add(ArcType.SingleTurret);
             }
 
-            WeaponTypes weaponType = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
-
             foreach (var arc in Ship1.ArcsInfo.Arcs)
             {
                 ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);

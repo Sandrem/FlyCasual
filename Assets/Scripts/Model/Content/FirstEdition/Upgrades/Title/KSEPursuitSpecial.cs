@@ -31,21 +31,32 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            ToggleAbility(true);
+            HostShip.OnGameStart += ChangeSpecialWeaponsRestrictions;
         }
 
         public override void DeactivateAbility()
         {
-            ToggleAbility(false);
+            RestoreSpecialWeaponsRestrictions();
         }
 
-        private void ToggleAbility(bool isActive)
+        private void ChangeSpecialWeaponsRestrictions()
         {
-            GenericArc rearArc = HostShip.ArcsInfo.GetArc<ArcRear>();
+            HostShip.OnGameStart -= ChangeSpecialWeaponsRestrictions;
 
-            rearArc.ShotPermissions.CanShootCannon = isActive;
-            rearArc.ShotPermissions.CanShootTorpedoes = isActive;
-            rearArc.ShotPermissions.CanShootMissiles = isActive;
+            foreach (GenericUpgrade upgrade in HostShip.UpgradeBar.GetSpecialWeaponsAll())
+            {
+                GenericSpecialWeapon weapon = upgrade as GenericSpecialWeapon;
+                weapon.WeaponInfo.ArcRestrictions.Add(ArcType.Rear);
+            }
+        }
+
+        private void RestoreSpecialWeaponsRestrictions()
+        {
+            foreach (GenericUpgrade upgrade in HostShip.UpgradeBar.GetSpecialWeaponsAll())
+            {
+                GenericSpecialWeapon weapon = upgrade as GenericSpecialWeapon;
+                weapon.WeaponInfo.ArcRestrictions.Remove(ArcType.Rear);
+            }
         }
     }
 }

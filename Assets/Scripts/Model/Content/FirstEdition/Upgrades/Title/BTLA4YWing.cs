@@ -43,8 +43,8 @@ namespace Abilities.FirstEdition
             GenericSpecialWeapon turret = (GenericSpecialWeapon) HostShip.UpgradeBar.GetUpgradesAll().Find(n => n.HasType(UpgradeType.Turret));
             if (turret != null)
             {
-                HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = isActive;
                 // TODOREVERT
+                //HostShip.ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootTurret = isActive;
                 //turret.CanShootOutsideArc = isActive;
             }
         }

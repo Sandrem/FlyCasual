@@ -16,10 +16,10 @@ namespace Ship
             Arcs = new List<GenericArc>()
             {
                 new ArcBullseye(hostShip.ShipBase),
-                new ArcSector(hostShip.ShipBase) { Facing = ArcFacing.Front },
-                new ArcSector(hostShip.ShipBase) { Facing = ArcFacing.Left },
-                new ArcSector(hostShip.ShipBase) { Facing = ArcFacing.Right },
-                new ArcSector(hostShip.ShipBase) { Facing = ArcFacing.Rear },
+                new ArcPrimary(hostShip.ShipBase),
+                new ArcRear(hostShip.ShipBase),
+                new ArcLeft(hostShip.ShipBase),
+                new ArcRight(hostShip.ShipBase),
                 new ArcFullFront(hostShip.ShipBase),
                 new ArcFullRear(hostShip.ShipBase)
             };

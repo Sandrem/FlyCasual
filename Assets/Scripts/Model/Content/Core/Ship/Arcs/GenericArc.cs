@@ -11,6 +11,8 @@ namespace Arcs
         None,
         Front,
         Rear,
+        Left,
+        Right,
         FullFront,
         FullRear,
         SingleTurret,

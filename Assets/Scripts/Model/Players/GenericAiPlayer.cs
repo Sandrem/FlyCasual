@@ -257,9 +257,7 @@ namespace Players
         {
             GenericShip selectedTargetShip = targetShip;
 
-            // TODOREVERT
-
-            /*if (DebugManager.DebugAI) Debug.Log("AI checks target for attack: " + targetShip);
+            if (DebugManager.DebugAI) Debug.Log("AI checks target for attack: " + targetShip);
 
             if (targetShip.IsReadyToBeDestroyed)
             {
@@ -283,7 +281,7 @@ namespace Players
                 IShipWeapon secondaryWeapon = (upgrade as IShipWeapon);
                 if (secondaryWeapon != null)
                 {
-                    if (Combat.IsTargetLegalForAttack(targetShip, secondaryWeapon, isSilent: true))
+                    if (Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, targetShip, secondaryWeapon, isSilent: true))
                     {
                         chosenWeapon = secondaryWeapon;
                         break;
@@ -291,20 +289,28 @@ namespace Players
                 }
             }
 
-            Combat.ChosenWeapon = chosenWeapon ?? Selection.ThisShip.PrimaryWeapon;
-            Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
-
-            if (Combat.IsTargetLegalForAttack(targetShip, Combat.ChosenWeapon, isSilent: true))
+            if (chosenWeapon == null)
             {
-                if (DebugManager.DebugAI) Debug.Log("AI target legal: " + Selection.AnotherShip);
+                foreach (var primaryWeapon in Selection.ThisShip.PrimaryWeapons)
+                {
+                    if (Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, targetShip, primaryWeapon, isSilent: true))
+                    {
+                        chosenWeapon = primaryWeapon;
+                        break;
+                    }
+                }
+
+            }
+
+            if (chosenWeapon != null)
+            {
+                Combat.ChosenWeapon = chosenWeapon;
+                Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
             }
             else
             {
-                if (DebugManager.DebugAI) Debug.Log("But validation is not passed: " + selectedTargetShip);
                 selectedTargetShip = null;
             }
-
-            if (DebugManager.DebugAI) Debug.Log("AI decision about " + targetShip + " : " + selectedTargetShip);*/
 
             return selectedTargetShip;
         }

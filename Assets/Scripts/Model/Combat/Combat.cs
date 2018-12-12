@@ -79,8 +79,8 @@ public static partial class Combat
             parameters.AddField("id", attackerId.ToString());
             parameters.AddField("target", defenderId.ToString());
             parameters.AddField("weaponIsAlreadySelected", weaponIsAlreadySelected.ToString());
-            GenericSpecialWeapon secWeapon = chosenWeapon as GenericSpecialWeapon;
-            parameters.AddField("weapon", (secWeapon != null) ? secWeapon.UpgradeInfo.Name : null);
+            parameters.AddField("weapon", chosenWeapon.Name);
+
             return GameController.GenerateGameCommand(
                 GameCommandTypes.DeclareAttack,
                 Phases.CurrentSubPhase.GetType(),
@@ -110,12 +110,8 @@ public static partial class Combat
         }
         else
         {
-            // TODOREVERT
-
-            /*ChosenWeapon = ChosenWeapon ?? Selection.ThisShip.PrimaryWeapons.First();
             ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-
-            TryPerformAttack(isSilent: true);*/
+            TryPerformAttack(isSilent: true);
         }
     }
 
@@ -188,6 +184,7 @@ public static partial class Combat
 
     private static void SetArcAsUsedForAttack()
     {
+        Combat.ArcForShot = Combat.ShotInfo.ShotAvailableFromArcs.First();
         ArcForShot.WasUsedForAttackThisRound = true;
     }
 
@@ -552,7 +549,6 @@ namespace SubPhases
 
             Combat.ChosenWeapon = weapon;
             Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
-            Combat.ArcForShot = Combat.ShotInfo.ShotAvailableFromArcs.First();
 
             Combat.ShotInfo.CheckObstruction(delegate{
                 Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));

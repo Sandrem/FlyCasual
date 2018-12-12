@@ -13,6 +13,7 @@ namespace Ship
         string Name { get; }
 
         SpecialWeaponInfo WeaponInfo { get; }
+        WeaponTypes WeaponType { get; }
 
         bool IsShotAvailable(GenericShip targetShip);
         void PayAttackCost(Action callBack);
@@ -24,6 +25,7 @@ namespace Ship
         public string Name { get; set; }
 
         public SpecialWeaponInfo WeaponInfo { get; set; }
+        public WeaponTypes WeaponType { get { return WeaponTypes.PrimaryWeapon; } }
 
         // TODOREVERT
         // HostShip.CallAfterGotNumberOfPrimaryWeaponAttackDice(ref result);

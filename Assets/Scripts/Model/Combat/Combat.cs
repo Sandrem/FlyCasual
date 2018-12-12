@@ -10,6 +10,7 @@ using SubPhases;
 using ActionsList;
 using GameCommands;
 using Upgrade;
+using Arcs;
 
 public enum CombatStep
 {
@@ -60,6 +61,8 @@ public static partial class Combat
     public static Func<GenericShip, IShipWeapon, bool, bool> ExtraAttackFilter;
 
     public static bool IsAttackAlreadyCalled;
+
+    public static GenericArc ArcForShot;
 
     public static void Initialize()
     {
@@ -187,19 +190,7 @@ public static partial class Combat
 
     private static void SetArcAsUsedForAttack()
     {
-        if (Combat.ShotInfo.ShotAvailableFromArcs.Count == 1)
-        {
-            Combat.ShotInfo.ShotAvailableFromArcs.First().WasUsedForAttackThisRound = true;
-        }
-        else if (Combat.ShotInfo.ShotAvailableFromArcs.Count > 1)
-        {
-            // if few arcs are available, non-mobile arc is used
-            Combat.ShotInfo.ShotAvailableFromArcs.First(a => a.ArcType != Arcs.ArcType.SingleTurret).WasUsedForAttackThisRound = true;
-        }
-        else
-        {
-            Messages.ShowError("ERROR: No available arcs?");
-        }
+        ArcForShot.WasUsedForAttackThisRound = true;
     }
 
     private static void CheckFireLineCollisions()
@@ -494,6 +485,7 @@ public static partial class Combat
         Defender = null;
         ChosenWeapon = null;
         ShotInfo = null;
+        ArcForShot = null;
         hitsCounter = 0;
         ExtraAttackFilter = null;
         IsAttackAlreadyCalled = false;
@@ -551,19 +543,9 @@ namespace SubPhases
                 }
             }
 
-            RemoveExtraDecisions();
-
             DefaultDecisionName = GetDecisions().Last().Name;
 
             callBack();
-        }
-
-        private void RemoveExtraDecisions()
-        {
-            if (decisions.Any(a => a.Name == "Primary Weapon (Front)") && decisions.Any(a => a.Name == "Primary Weapon (Full Front)"))
-            {
-                decisions.Remove(decisions.First(a => a.Name == "Primary Weapon (Front)"));
-            }
         }
 
         public void PerformAttackWithWeapon(IShipWeapon weapon)
@@ -573,6 +555,7 @@ namespace SubPhases
 
             Combat.ChosenWeapon = weapon;
             Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
+            Combat.ArcForShot = Combat.ShotInfo.ShotAvailableFromArcs.First();
 
             Combat.ShotInfo.CheckObstruction(delegate{
                 Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));

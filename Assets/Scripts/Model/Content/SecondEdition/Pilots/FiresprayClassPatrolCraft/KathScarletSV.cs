@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Ship;
+using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -41,7 +42,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(ref int count)
         {
-            if (Combat.ChosenWeapon != HostShip.PrimaryWeapons) return;
+            if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) return;
 
             if (Combat.Defender.ShipsBumped.Any(s => s.Owner.PlayerNo == HostShip.Owner.PlayerNo && !s.PilotInfo.IsLimited))
             {

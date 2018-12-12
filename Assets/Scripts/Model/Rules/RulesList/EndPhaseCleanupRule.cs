@@ -93,6 +93,11 @@ namespace RulesList
             {
                 arc.WasUsedForAttackThisRound = false;
             }
+
+            foreach (var arc in ship.SectorsInfo.Arcs)
+            {
+                arc.WasUsedForAttackThisRound = false;
+            }
         }
 
         private void ClearAssignedManeuvers(GenericShip ship)

@@ -1,4 +1,5 @@
 ﻿using Arcs;
+using Ship;
 using Upgrade;
 
 namespace Ship
@@ -50,7 +51,7 @@ namespace Abilities.SecondEdition
 
         private bool IsDiceModificationAvailable()
         {
-            return Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon != HostShip.PrimaryWeapons;
+            return Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon;
         }
 
         private int GetAiPriority()

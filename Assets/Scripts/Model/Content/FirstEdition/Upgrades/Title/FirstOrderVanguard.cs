@@ -85,7 +85,7 @@ namespace ActionsList
             {
                 if (shipHolder.Value.ShipId != HostShip.ShipId && shipHolder.Value.ShipId != Combat.Defender.ShipId)
                 {
-                    ShotInfo shotInfo = new ShotInfo(HostShip, shipHolder.Value, HostShip.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(HostShip, shipHolder.Value, HostShip.PrimaryWeapons);
                     if (shotInfo.InArc && shotInfo.Range <= 3)
                     {
                         return false;

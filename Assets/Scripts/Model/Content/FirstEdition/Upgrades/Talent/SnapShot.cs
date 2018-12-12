@@ -80,8 +80,10 @@ namespace Abilities.FirstEdition
             snapShotTarget = null;
             HostShip.IsAttackPerformed = false;
             HostShip.IsCannotAttackSecondTime = false;
-            ((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MaxRange = 0;
-            ((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MinRange = 0;
+
+            // TODOREVERT
+            /*((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MaxRange = 0;
+            ((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MinRange = 0;*/
         }
 
         public void AfterSnapShotAttackSubPhase()
@@ -106,8 +108,8 @@ namespace Abilities.FirstEdition
 
         private void AskSnapShotAbility(object sender, System.EventArgs e)
         {
-            ((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MaxRange = 1;
-            ((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MinRange = 1;
+            /*((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MaxRange = 1;
+            ((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MinRange = 1;*/
             ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, ((UpgradesList.FirstEdition.SnapShot)HostUpgrade));
 
             if (shotInfo.InArc && shotInfo.Range <= 1)

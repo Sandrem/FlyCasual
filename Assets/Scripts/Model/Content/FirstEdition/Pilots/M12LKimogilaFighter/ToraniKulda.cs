@@ -56,7 +56,7 @@ namespace Abilities.FirstEdition
             Players.GenericPlayer opponent = Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo));
             foreach (var ship in opponent.Ships)
             {
-                ShotInfo shotInfo = new ShotInfo(HostShip, ship.Value, HostShip.PrimaryWeapon);
+                ShotInfo shotInfo = new ShotInfo(HostShip, ship.Value, HostShip.PrimaryWeapons);
                 if (shotInfo.InArcByType(ArcType.Bullseye))
                 {
                     Triggers.RegisterTrigger(new Trigger()

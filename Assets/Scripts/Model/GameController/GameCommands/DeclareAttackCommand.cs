@@ -33,14 +33,21 @@ namespace GameCommands
 
             foreach (IShipWeapon weapon in attacker.GetAllWeapons())
             {
-                GenericSpecialWeapon secUpgrade = weapon as GenericSpecialWeapon;
+                if (weapon.WeaponType == WeaponTypes.PrimaryWeapon)
+                {
+                    return weapon;
+                }
+                else
+                {
+                    GenericSpecialWeapon secUpgrade = weapon as GenericSpecialWeapon;
 
-                if (secUpgrade == null) continue;
+                    if (secUpgrade == null) continue;
 
-                if (!secUpgrade.State.IsFaceup) continue;
-                if (secUpgrade.State.UsesCharges && secUpgrade.State.Charges == 0) continue;
+                    if (!secUpgrade.State.IsFaceup) continue;
+                    if (secUpgrade.State.UsesCharges && secUpgrade.State.Charges == 0) continue;
 
-                if (secUpgrade.UpgradeInfo.Name == weaponName) return weapon;
+                    if (secUpgrade.UpgradeInfo.Name == weaponName) return weapon;
+                }
             }
 
             return null;

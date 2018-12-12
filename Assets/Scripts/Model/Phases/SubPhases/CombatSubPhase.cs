@@ -44,7 +44,7 @@ namespace SubPhases
             if (DebugManager.DebugPhases) Debug.Log("Combat SubPhase - Next");
 
             UI.HideSkipButton();
-
+            MovementTemplates.ReturnRangeRuler();
             Selection.DeselectAllShips();
 
             bool success = GetNextActivation(RequiredPilotSkill);

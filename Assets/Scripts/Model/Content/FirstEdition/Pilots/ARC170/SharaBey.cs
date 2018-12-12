@@ -63,7 +63,7 @@ namespace Abilities.FirstEdition
         {
             //char targetLockLetter = Actions.GetTargetLocksLetterPair(HostShip, Combat.Defender);
             if (!HostShip.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return;
-            ShotInfo shotInfo = new ShotInfo(Selection.ActiveShip, HostShip, HostShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(Selection.ActiveShip, HostShip, HostShip.PrimaryWeapons);
             if (shotInfo.Range <= 2)
             {
                 GenericToken sharaToken = HostShip.Tokens.GetToken(typeof(BlueTargetLockToken), '*');
@@ -94,7 +94,7 @@ namespace ActionsList
 
         public override bool IsDiceModificationAvailable()
         {
-            ShotInfo shotInfo = new ShotInfo(HostShip, Combat.Attacker, HostShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(HostShip, Combat.Attacker, HostShip.PrimaryWeapons);
             if (shotInfo.Range > 2) return false;
             sharaLockLetters = ActionsHolder.GetTargetLocksLetterPairs(HostShip, Combat.Defender);
             if (sharaLockLetters.Count == 0) return false;

@@ -74,7 +74,7 @@ namespace ActionsList
                 DistanceInfo shipDistance = new DistanceInfo(Combat.Attacker, Combat.Defender);
                 if (shipDistance.Range == 1)
                 {
-                    ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
                     if (shotInfo.InArc)
                     {
                         result = true;

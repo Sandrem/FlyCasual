@@ -135,7 +135,7 @@ namespace RuleSets
         {
             bool result = false;
 
-            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             result = (facing == ArcFacing.FullFront) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
 
             return result;

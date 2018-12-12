@@ -235,11 +235,11 @@ namespace RuleSets
 
             List<GenericArc> savedArcs = Combat.Defender.ArcsInfo.Arcs;
             Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullFront(Combat.Defender.ShipBase) };
-            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             bool inForward180Arc = reverseShotInfo.InArc;
 
             Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullRear(Combat.Defender.ShipBase) };
-            reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             bool inRear180Arc = reverseShotInfo.InArc;
 
             Combat.Defender.ArcsInfo.Arcs = savedArcs;

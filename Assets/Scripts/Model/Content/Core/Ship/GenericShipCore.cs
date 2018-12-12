@@ -165,7 +165,11 @@ namespace Ship
         {
             InitializePilotForSquadBuilder();
 
-            PrimaryWeapon = new PrimaryWeaponClass(this);
+            foreach (ShipArcInfo arcInfo in ShipInfo.ArcInfo.Arcs)
+            {
+                if (arcInfo.Firepower != -1) PrimaryWeapons.Add(new PrimaryWeaponClass(this, arcInfo));
+            }
+
             Damage = new Damage(this);
             ActionBar.Initialize();
         }
@@ -214,7 +218,8 @@ namespace Ship
                         ArcsInfo.Arcs.Add(new ArcBullseye(ShipBase));
                         break;
                     case ArcType.TurretPrimaryWeapon:
-                        ArcsInfo.GetArc<OutOfArc>().ShotPermissions.CanShootPrimaryWeapon = true;
+                        //TODOREVERT
+                        // Primary weapon can be used from outside the arc
                         break;
                     case ArcType.SpecialGhost:
                         ArcsInfo.Arcs.Add(new ArcSpecialGhost(ShipBase));
@@ -223,13 +228,6 @@ namespace Ship
                         break;
                 }
             }
-        }
-
-        private void DisablePrimaryFiringArc()
-        {
-            ArcPrimary arcPrimary = ArcsInfo.GetArc<ArcPrimary>();
-            arcPrimary.ShotPermissions.CanShootPrimaryWeapon = false;
-            arcPrimary.ShotPermissions.CanShootTurret = false;
         }
 
         public void InitializePilotForSquadBuilder()

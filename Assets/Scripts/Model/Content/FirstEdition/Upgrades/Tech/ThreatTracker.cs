@@ -56,7 +56,7 @@ namespace Abilities.FirstEdition
         {
             if (ship.Owner.PlayerNo == HostShip.Owner.PlayerNo) return;
 
-            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapons);
             if (!shotInfo.InArc || shotInfo.Range >= 3) return;
 
             if (!ActionsHolder.HasTargetLockOn(HostShip, ship)) return;

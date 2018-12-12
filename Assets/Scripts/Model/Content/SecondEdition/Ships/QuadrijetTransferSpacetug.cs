@@ -115,7 +115,7 @@ namespace SubPhases
 
         private void SelectSpacetugTarget()
         {
-            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, TargetShip, SpacetugOwner.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, TargetShip, SpacetugOwner.PrimaryWeapons);
             if (shotInfo.InArc && shotInfo.Range == 1)
             {
                 SelectShipSubPhase.FinishSelectionNoCallback();

@@ -4,6 +4,7 @@ using Movement;
 using ActionsList;
 using Actions;
 using Upgrade;
+using Arcs;
 
 namespace Ship
 {
@@ -13,6 +14,7 @@ namespace Ship
         {
             public JumpMaster5000() : base()
             {
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.SingleTurret, 2);
                 ShipInfo.Hull = 6;
                 ShipInfo.Shields = 3;
 

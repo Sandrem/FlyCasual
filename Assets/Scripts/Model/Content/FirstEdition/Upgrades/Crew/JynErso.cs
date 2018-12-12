@@ -83,7 +83,7 @@ namespace Abilities.FirstEdition
                 .Where(s => s.Owner.Id != HostShip.Owner.Id)
                 .Where(s =>
                 {
-                    ShotInfo arcInfo = new ShotInfo(HostShip, s, HostShip.PrimaryWeapon);
+                    ShotInfo arcInfo = new ShotInfo(HostShip, s, HostShip.PrimaryWeapons);
                     return arcInfo.InArc && arcInfo.Range <= 3;
                 })
                 .Count();
@@ -162,7 +162,7 @@ namespace ActionsList
                     .Where(s => s.Owner.Id != HostShip.Owner.Id)
                     .Where(s =>
                     {
-                        ShotInfo arcInfo = new ShotInfo(HostShip, s, HostShip.PrimaryWeapon);
+                        ShotInfo arcInfo = new ShotInfo(HostShip, s, HostShip.PrimaryWeapons);
                         return arcInfo.InArc && arcInfo.Range <= 3;
                     })
                     .Any();

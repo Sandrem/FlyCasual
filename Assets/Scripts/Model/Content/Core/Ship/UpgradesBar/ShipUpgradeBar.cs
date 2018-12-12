@@ -141,6 +141,23 @@ namespace Upgrade
             return GetUpgradesAll().Where(n => n.State.IsFaceup).ToList();
         }
 
+        public List<GenericUpgrade> GetSpecialWeaponsAll()
+        {
+            return GetUpgradesAll().Where(n => n is GenericSpecialWeapon).ToList();
+        }
+
+        public List<GenericUpgrade> GetSpecialWeaponsActive()
+        {
+            return GetUpgradesAll().Where(n => 
+                n is GenericSpecialWeapon 
+                && n.State.IsFaceup
+                && (
+                    ((n as GenericSpecialWeapon).WeaponInfo.UsesCharges == false)
+                    || ((n as GenericSpecialWeapon).WeaponInfo.UsesCharges && n.State.Charges > 0)
+                )
+            ).ToList();
+        }
+
         public List<GenericUpgrade> GetUpgradesOnlyDiscarded()
         {
             return GetUpgradesAll().Where(n => n.State.IsFaceup == false).ToList();

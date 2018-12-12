@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ActionsList;
 using Actions;
+using Arcs;
 
 namespace Ship
 {
@@ -12,7 +13,7 @@ namespace Ship
             public YV666LightFreighter() : base()
             {
                 ShipInfo.ShipName = "YV-666 Light Freighter";
-
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.FullFront, 3);
                 ShipInfo.Hull = 9;
                 ShipInfo.Shields = 3;
 

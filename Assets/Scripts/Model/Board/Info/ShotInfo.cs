@@ -18,6 +18,7 @@ namespace BoardTools
         public RangeHolder NearestFailedDistance;
 
         private Dictionary<GenericArc, bool> InArcInfo { get; set; }
+        private Dictionary<GenericArc, bool> InSectorInfo { get; set; }
 
         public bool IsObstructedByAsteroid { get; private set; }
         public bool IsObstructedByBombToken { get; private set; }
@@ -54,7 +55,18 @@ namespace BoardTools
 
         public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
         {
-            Weapon = weapon ?? ship1.PrimaryWeapon;
+            Weapon = weapon ?? ship1.PrimaryWeapons.First();
+
+            ShotAvailableFromArcs = new List<GenericArc>();
+
+            CheckRange();
+            CheckFailed();
+        }
+
+        // TODO: Temporary, Remove later
+        public ShotInfo(GenericShip ship1, GenericShip ship2, List<PrimaryWeaponClass> weapons) : base(ship1, ship2)
+        {
+            Weapon = (weapons != null) ? weapons.First() : ship1.PrimaryWeapons.First();
 
             ShotAvailableFromArcs = new List<GenericArc>();
 
@@ -65,24 +77,30 @@ namespace BoardTools
         private void CheckRange()
         {
             InArcInfo = new Dictionary<GenericArc, bool>();
-            List<ArcType> WeaponArcRestrictions = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).ArcRestrictions : null;
-            
-            if(WeaponArcRestrictions != null && WeaponArcRestrictions.Count == 0)
-            {
-                WeaponArcRestrictions = null;
-            }
+            InSectorInfo = new Dictionary<GenericArc, bool>();
 
-            WeaponTypes weaponType = (Weapon is GenericSpecialWeapon) ? (Weapon as GenericSpecialWeapon).WeaponType : WeaponTypes.PrimaryWeapon;
+            List<ArcType> WeaponArcRestrictions = new List<ArcType>(Weapon.WeaponInfo.ArcRestrictions);
+            if (WeaponArcRestrictions.Contains(ArcType.DoubleTurret))
+            {
+                WeaponArcRestrictions.RemoveAll(a => a == ArcType.DoubleTurret);
+                WeaponArcRestrictions.Add(ArcType.SingleTurret);
+            }
 
             foreach (var arc in Ship1.ArcsInfo.Arcs)
             {
                 ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
                 InArcInfo.Add(arc, shotInfoArc.InArc);
+            }
 
-                if (!arc.ShotPermissions.CanShootByWeaponType(weaponType))
-                    continue;
+            List<GenericArc> sectorsAndTurrets = new List<GenericArc>();
+            sectorsAndTurrets.AddRange(Ship1.SectorsInfo.Arcs);
+            sectorsAndTurrets.AddRange(Ship1.ArcsInfo.Arcs.Where(a => a.ArcType == ArcType.SingleTurret));
+            foreach (var arc in sectorsAndTurrets)
+            {
+                ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
+                InSectorInfo.Add(arc, shotInfoArc.InArc);
 
-                if (WeaponArcRestrictions != null && !WeaponArcRestrictions.Contains(arc.ArcType))
+                if (WeaponArcRestrictions.Count > 0 && !WeaponArcRestrictions.Contains(arc.ArcType))
                     continue;
 
                 if (shotInfoArc.IsShotAvailable)

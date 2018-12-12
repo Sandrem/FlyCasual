@@ -246,7 +246,7 @@ namespace BoardTools
             else
                 from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullRear(from.ShipBase) };
 
-            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapons);
 
             from.ArcsInfo.Arcs = savedArcs;
             return reverseShotInfo.InArc;
@@ -257,11 +257,11 @@ namespace BoardTools
             List<GenericArc> savedArcs = from.ArcsInfo.Arcs;
 
             from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullFront(from.ShipBase) };
-            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapons);
             bool inForward180Arc = reverseShotInfo.InArc;
 
             from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullRear(from.ShipBase) };
-            reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapons);
             bool inRear180Arc = reverseShotInfo.InArc;
 
             from.ArcsInfo.Arcs = savedArcs;
@@ -294,13 +294,13 @@ namespace BoardTools
 
         public static bool IsShipInArc(GenericShip source, GenericShip target)
         {
-            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapons);
             return shotInfo.InArc;
         }
 
         public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcType arc)
         {
-            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapons);
             return shotInfo.InArcByType(arc);
         }
 
@@ -317,7 +317,7 @@ namespace BoardTools
                 if (team == Team.Type.Enemy && ship.Owner.Id == otherShip.Owner.Id)
                     continue;
 
-                ShotInfo shotInfo = new ShotInfo(ship, otherShip, ship.PrimaryWeapon);
+                ShotInfo shotInfo = new ShotInfo(ship, otherShip, ship.PrimaryWeapons);
                 if (!shotInfo.InArcByType(ArcType.Bullseye))
                     continue;
 

@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(GenericShip ship)
         {
-            if (Combat.ShotInfo.Weapon != HostShip.PrimaryWeapon) return;
+            if (Combat.ShotInfo.Weapon != HostShip.PrimaryWeapons) return;
             if (!Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.Facing == ArcFacing.Front)) return;
 
             HostShip.OnCombatCheckExtraAttack += RegisterSecondAttackTrigger;

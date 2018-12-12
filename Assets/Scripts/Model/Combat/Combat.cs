@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using BoardTools;
-using GameModes;
 using Ship;
 using SubPhases;
-using ActionsList;
 using GameCommands;
 using Upgrade;
 using Arcs;
@@ -169,7 +167,7 @@ public static partial class Combat
     {
         UI.HideContextMenu();
 
-        // MovementTemplates.ReturnRangeRuler();
+        MovementTemplates.ReturnRangeRuler();
 
         if (Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent))
         {
@@ -531,7 +529,6 @@ namespace SubPhases
         {
             List<IShipWeapon> allWeapons = Selection.ThisShip.GetAllWeapons();
 
-            //TODO: Range?
             InfoText = "Choose weapon for attack";
 
             foreach (var weapon in allWeapons)

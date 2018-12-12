@@ -44,7 +44,7 @@ namespace SubPhases
             if (DebugManager.DebugPhases) Debug.Log("Combat SubPhase - Next");
 
             UI.HideSkipButton();
-
+            MovementTemplates.ReturnRangeRuler();
             Selection.DeselectAllShips();
 
             bool success = GetNextActivation(RequiredPilotSkill);
@@ -370,8 +370,7 @@ namespace SubPhases
             {
                 if (Selection.ThisShip.IsAttackPerformed != true)
                 {
-                    // TODOREVERT
-                    // UI.CheckFiringRangeAndShow();
+                    UI.CheckFiringRangeAndShow();
                     UI.ClickDeclareTarget();
                 }
                 else
@@ -381,8 +380,7 @@ namespace SubPhases
             }
             else if (mouseKeyIsPressed == 2)
             {
-                // TODOREVERT
-                // UI.CheckFiringRangeAndShow();
+                UI.CheckFiringRangeAndShow();
             }
         }
 

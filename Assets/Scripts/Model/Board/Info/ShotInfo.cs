@@ -79,7 +79,7 @@ namespace BoardTools
             InArcInfo = new Dictionary<GenericArc, bool>();
             InSectorInfo = new Dictionary<GenericArc, bool>();
 
-            List<ArcType> WeaponArcRestrictions = new List<ArcType>() { Weapon.WeaponInfo.Arc };
+            List<ArcType> WeaponArcRestrictions = new List<ArcType>(Weapon.WeaponInfo.ArcRestrictions);
             if (WeaponArcRestrictions.Contains(ArcType.DoubleTurret))
             {
                 WeaponArcRestrictions.RemoveAll(a => a == ArcType.DoubleTurret);

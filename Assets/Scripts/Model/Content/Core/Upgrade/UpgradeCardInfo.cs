@@ -142,7 +142,7 @@ namespace Upgrade
 
         private void AddArcs()
         {
-            HostShip.ShipInfo.ArcInfo.Arcs.Add(AddArc);
+            if (AddArc != null) HostShip.ShipInfo.ArcInfo.Arcs.Add(AddArc);
         }
 
         private void AddSlots()
@@ -186,7 +186,7 @@ namespace Upgrade
 
         private void RemoveArcs()
         {
-            HostShip.ShipInfo.ArcInfo.Arcs.Remove(AddArc);
+            if (AddArc != null) HostShip.ShipInfo.ArcInfo.Arcs.Remove(AddArc);
         }
 
         private void AddAbilities()

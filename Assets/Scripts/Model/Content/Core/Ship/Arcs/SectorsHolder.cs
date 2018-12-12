@@ -44,5 +44,12 @@ namespace Ship
 
             return EnemiesInAllSectors;
         }
+
+        public bool IsShipInSector(GenericShip anotherShip, ArcType arcType)
+        {
+            GenericArc arc = Arcs.First(n => n.ArcType == arcType);
+            ShotInfoArc arcInfo = new ShotInfoArc(HostShip, anotherShip, arc);
+            return arcInfo.IsShotAvailable;
+        }
     }
 }

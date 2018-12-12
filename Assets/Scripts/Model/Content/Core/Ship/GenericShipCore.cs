@@ -167,7 +167,7 @@ namespace Ship
 
             foreach (ShipArcInfo arcInfo in ShipInfo.ArcInfo.Arcs)
             {
-                PrimaryWeapons.Add(new PrimaryWeaponClass(this, arcInfo));
+                if (arcInfo.Firepower != -1) PrimaryWeapons.Add(new PrimaryWeaponClass(this, arcInfo));
             }
 
             Damage = new Damage(this);

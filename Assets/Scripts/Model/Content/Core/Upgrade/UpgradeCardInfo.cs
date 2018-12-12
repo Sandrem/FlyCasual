@@ -1,9 +1,11 @@
 ﻿using Abilities;
 using Actions;
 using ActionsList;
+using Arcs;
 using Ship;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Upgrade
 {
@@ -32,6 +34,7 @@ namespace Upgrade
         public int AddHull { get; private set; }
         public int AddShields { get; private set; }
         public int AddForce { get; private set; }
+        public ShipArcInfo AddArc { get; private set; }
 
         public UpgradeCardInfo(
             string name,
@@ -47,6 +50,7 @@ namespace Upgrade
             bool regensCharges = false,
             int seImageNumber = 0,
             SpecialWeaponInfo weaponInfo = null,
+            ShipArcInfo addArc = null,
             ActionInfo addAction = null,
             LinkedActionInfo addActionLink = null,
             UpgradeSlot addSlot = null,
@@ -99,6 +103,8 @@ namespace Upgrade
             AddHull = addHull;
             AddShields = addShields;
             AddForce = addForce;
+
+            AddArc = addArc;
         }
 
         public bool HasType(UpgradeType upgradeType)
@@ -112,6 +118,7 @@ namespace Upgrade
             HostShip = hostUpgrade.HostShip;
 
             AddStats();
+            AddArcs();
             AddSlots();
             AddActions();
             AddAbilities();
@@ -120,6 +127,7 @@ namespace Upgrade
         public void RemoveFromShip()
         {
             RemoveStats();
+            RemoveArcs();
             RemoveSlots();
             RemoveActions();
             RemoveAbilities();
@@ -130,6 +138,11 @@ namespace Upgrade
             HostShip.ShipInfo.Hull += AddHull;
             HostShip.ShipInfo.Shields += AddShields;
             HostShip.PilotInfo.Force += AddForce;
+        }
+
+        private void AddArcs()
+        {
+            HostShip.ShipInfo.ArcInfo.Arcs.Add(AddArc);
         }
 
         private void AddSlots()
@@ -169,6 +182,11 @@ namespace Upgrade
 
                 HostUpgrade.HostShip.ActionBar.AddActionLink(AddActionLink.ActionType, linkedAction);
             }
+        }
+
+        private void RemoveArcs()
+        {
+            HostShip.ShipInfo.ArcInfo.Arcs.Remove(AddArc);
         }
 
         private void AddAbilities()

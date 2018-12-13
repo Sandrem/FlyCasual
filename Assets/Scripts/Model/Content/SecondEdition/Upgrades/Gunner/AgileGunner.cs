@@ -45,7 +45,9 @@ namespace Abilities.SecondEdition
             Selection.ChangeActiveShip(HostShip);
 
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You can rotate your arc");
-            HostShip.AskPerformFreeAction(new RotateArcAction() { IsRed = false, CanBePerformedWhileStressed = true }, Triggers.FinishTrigger);
+
+            /*HostShip.AskPerformFreeAction(new RotateArcAction() { IsRed = false, CanBePerformedWhileStressed = true }, Triggers.FinishTrigger);*/
+            new RotateArcAction().DoOnlyEffect(Triggers.FinishTrigger);
         }
     }
 }

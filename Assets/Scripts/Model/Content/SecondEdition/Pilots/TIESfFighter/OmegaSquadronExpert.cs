@@ -16,7 +16,7 @@ namespace Ship
                       //seImageNumber: 120
                 );
 
-                ImageUrl = "http://www.infinitearenas.com/xw2browse/images/first-order/omega-squadron-expert.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/784d00f653ff7cd58cb634c7a59e47c1.png";
             }
         }
     }

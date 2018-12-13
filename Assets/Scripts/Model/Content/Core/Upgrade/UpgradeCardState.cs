@@ -23,8 +23,16 @@ namespace Upgrade
             HostShip = upgrade.HostShip;
 
             IsFaceup = true;
-            Charges = upgrade.UpgradeInfo.Charges;
-            MaxCharges = upgrade.UpgradeInfo.Charges;
+            if (upgrade.UpgradeInfo.WeaponInfo == null)
+            {
+                Charges = upgrade.UpgradeInfo.Charges;
+                MaxCharges = upgrade.UpgradeInfo.Charges;
+            }
+            else
+            {
+                Charges = upgrade.UpgradeInfo.WeaponInfo.Charges;
+                MaxCharges = upgrade.UpgradeInfo.WeaponInfo.Charges;
+            };
         }
 
         public void Flip(bool isFaceup)

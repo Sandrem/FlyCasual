@@ -247,17 +247,7 @@ public class UI : MonoBehaviour {
 
     public static void CheckFiringRangeAndShow()
     {
-        ShotInfo shotInfo = ActionsHolder.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
-        if (shotInfo.Range < 4)
-        {
-            Messages.ShowInfo("Range " + shotInfo.Range);
-            if (!shotInfo.InArc) Messages.ShowInfoToHuman("Out of arc");
-        }
-        else
-        {
-            Messages.ShowError("Out of range");
-        }
-        
+        ActionsHolder.GetRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
     }
 
     public static void ShowNextButton()

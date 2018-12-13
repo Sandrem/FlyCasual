@@ -28,7 +28,7 @@ namespace Abilities.SecondEdition
     {
         protected override void RegisterBosskPilotAbility()
         {
-            if (Combat.ChosenWeapon == HostShip.PrimaryWeapon)
+            if (Combat.ChosenWeapon == HostShip.PrimaryWeapons)
             {
                 base.RegisterBosskPilotAbility();
             }

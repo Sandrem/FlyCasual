@@ -52,7 +52,7 @@ namespace Abilities.FirstEdition
 
             if (HostShip.Tokens.HasToken(typeof(StressToken))) return;
 
-            ShotInfo shotInfo = new ShotInfo(HostShip, activatedShip, HostShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(HostShip, activatedShip, HostShip.PrimaryWeapons);
             if (!shotInfo.InArc || shotInfo.Range > 3) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatActivation, AskAbility);

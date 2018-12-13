@@ -1,4 +1,5 @@
 ﻿using Arcs;
+using Upgrade;
 
 namespace Ship
 {
@@ -28,21 +29,31 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            ToggleAbility(true);
+            HostShip.OnGameStart += ChangeSpecialWeaponsRestrictions;
         }
 
         public override void DeactivateAbility()
         {
-            ToggleAbility(false);
+            RestoreSpecialWeaponsRestrictions();
         }
 
-        private void ToggleAbility(bool isActive)
+        private void ChangeSpecialWeaponsRestrictions()
         {
-            foreach (GenericArc arc in HostShip.ArcsInfo.Arcs)
-            {
-                if (arc is OutOfArc) continue;
+            HostShip.OnGameStart -= ChangeSpecialWeaponsRestrictions;
 
-                arc.ShotPermissions.CanShootCannon = isActive;
+            foreach (GenericUpgrade upgrade in HostShip.UpgradeBar.GetSpecialWeaponsAll())
+            {
+                GenericSpecialWeapon weapon = upgrade as GenericSpecialWeapon;
+                if (weapon.HasType(UpgradeType.Cannon)) weapon.WeaponInfo.ArcRestrictions.Add(ArcType.FullFront);
+            }
+        }
+
+        private void RestoreSpecialWeaponsRestrictions()
+        {
+            foreach (GenericUpgrade upgrade in HostShip.UpgradeBar.GetSpecialWeaponsAll())
+            {
+                GenericSpecialWeapon weapon = upgrade as GenericSpecialWeapon;
+                if (weapon.HasType(UpgradeType.Cannon)) weapon.WeaponInfo.ArcRestrictions.Remove(ArcType.FullFront);
             }
         }
 

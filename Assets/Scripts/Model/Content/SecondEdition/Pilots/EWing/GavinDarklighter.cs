@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
         {
             return Combat.AttackStep == CombatStep.Attack
                 && Combat.Attacker.Owner == HostShip.Owner
-                && new ShotInfo(HostShip, Combat.Defender, HostShip.PrimaryWeapon).InPrimaryArc;
+                && new ShotInfo(HostShip, Combat.Defender, HostShip.PrimaryWeapons).InPrimaryArc;
         }
     }
 }

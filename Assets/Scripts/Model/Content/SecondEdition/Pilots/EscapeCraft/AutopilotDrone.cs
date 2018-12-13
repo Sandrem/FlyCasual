@@ -78,37 +78,7 @@ namespace Abilities.SecondEdition
             }
 
             Messages.ShowInfo("Autopilot Drone is destroyed");
-            HostShip.DestroyShipForced(delegate { DealCritDamageToShips(sufferedShips); });
-        }
-
-        private class ShipEventArgs : System.EventArgs
-        {
-            public GenericShip Ship;
-        }
-
-        private void DealCritDamageToShips(List<GenericShip> ships)
-        {
-            foreach (var ship in ships)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnAbilityDirect, DealDamageToShip, new ShipEventArgs() { Ship = ship });
-            }
-
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, Triggers.FinishTrigger);
-        }
-
-        private void DealDamageToShip(object sender, System.EventArgs e)
-        {
-            GenericShip ship = (e as ShipEventArgs).Ship;
-
-            Messages.ShowInfo(ship.PilotName + " is dealt Critical Hit by destruction of Autopilot Drone");
-
-            DamageSourceEventArgs damageArgs = new DamageSourceEventArgs()
-            {
-                DamageType = DamageTypes.CardAbility,
-                Source = HostShip
-            };
-
-            ship.Damage.TryResolveDamage(0, damageArgs, Triggers.FinishTrigger, critDamage: 1);
-        }
+            HostShip.DestroyShipForced(delegate { DealDamageToShips(sufferedShips, 1, true, Triggers.FinishTrigger); });
+        }        
     }
 }

@@ -38,7 +38,7 @@ namespace Abilities.FirstEdition
 
         private void CheckConditions()
         {
-            ShotInfo shotInformation = new ShotInfo(HostShip, Combat.Attacker, HostShip.PrimaryWeapon);
+            ShotInfo shotInformation = new ShotInfo(HostShip, Combat.Attacker, HostShip.PrimaryWeapons);
             if (shotInformation.InArc)
             {
                 HostShip.AfterGotNumberOfDefenceDice += RollExtraDice;

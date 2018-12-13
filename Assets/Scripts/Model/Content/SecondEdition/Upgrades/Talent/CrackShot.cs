@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Ship;
 using System.Linq;
 using System;
+using Arcs;
 
 namespace UpgradesList.SecondEdition
 {
@@ -64,7 +65,12 @@ namespace ActionsList.SecondEdition
         {
             bool result = false;
 
-            if (Combat.DiceRollDefence.Successes > 0 && Source.State.Charges > 0 && Combat.Attacker == HostShip && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcType.Bullseye))
+            if (Combat.DiceRollDefence.Successes > 0
+                && Source.State.Charges > 0 
+                && Combat.Attacker == HostShip
+                && Combat.ChosenWeapon is PrimaryWeaponClass
+                && HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye)
+            )
             {
                 result = true;
             }

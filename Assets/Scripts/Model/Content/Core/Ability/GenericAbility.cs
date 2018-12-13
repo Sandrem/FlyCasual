@@ -614,5 +614,41 @@ namespace Abilities
             HostShip.OnGenerateDiceModificationsCompareResults -= DiceModification;
             GenericShip.OnGenerateDiceModificationsCompareResultsGlobal -= DiceModification;
         }
+
+        private class ShipDamageEventArgs : EventArgs
+        {
+            public GenericShip Ship;
+            public int Damage;
+            public bool IsCritical;
+        }
+
+        protected void DealDamageToShips(List<GenericShip> ships, int damage, bool isCritical, Action callback)
+        {
+            foreach (var ship in ships)
+            {
+                var trigger = RegisterAbilityTrigger(TriggerTypes.OnAbilityDirect, DealDamageToShip, new ShipDamageEventArgs() { Ship = ship, Damage = damage, IsCritical = isCritical });
+                trigger.Name = "Damage to " + ship.PilotInfo.PilotName + " #" + ship.ShipId;
+            }
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callback);
+        }
+
+        private void DealDamageToShip(object sender, EventArgs e)
+        {
+            var args = (e as ShipDamageEventArgs);
+            GenericShip ship = args.Ship;
+            var damage = args.IsCritical ? 0 : args.Damage;
+            var critDamage = args.IsCritical ? args.Damage : 0;
+
+            Messages.ShowInfo(ship.PilotInfo.PilotName + " is dealt Critical Hit by " + HostName);
+
+            DamageSourceEventArgs damageArgs = new DamageSourceEventArgs()
+            {
+                DamageType = DamageTypes.CardAbility,
+                Source = HostShip
+            };
+
+            ship.Damage.TryResolveDamage(damage, damageArgs, Triggers.FinishTrigger, critDamage: critDamage);
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace Arcs
         None,
         Front,
         Rear,
+        Left,
+        Right,
         FullFront,
         FullRear,
         SingleTurret,
@@ -31,37 +33,7 @@ namespace Arcs
         FullRear,
         Bullseye
     }
-
-    public class ArcShotPermissions
-    {
-        public bool CanShootPrimaryWeapon;
-        public bool CanShootTurret;
-        public bool CanShootTorpedoes;
-        public bool CanShootMissiles;
-        public bool CanShootCannon;
-
-        public bool CanShootByWeaponType(WeaponTypes weaponType)
-        {
-            switch (weaponType)
-            {
-                case WeaponTypes.PrimaryWeapon:
-                    return CanShootPrimaryWeapon;
-                case WeaponTypes.Torpedo:
-                    return CanShootTorpedoes;
-                case WeaponTypes.Missile:
-                    return CanShootMissiles;
-                case WeaponTypes.Cannon:
-                    return CanShootCannon;
-                case WeaponTypes.Turret:
-                    return CanShootTurret;
-                default:
-                    break;
-            }
-
-            return false;
-        }
-    }
-
+    
     public class GenericArc
     {
         public GenericShipBase ShipBase;
@@ -71,8 +43,6 @@ namespace Arcs
 
         public virtual Dictionary<Vector3, float> Limits { get; set; }
         public virtual List<Vector3> Edges { get; set; }
-
-        public ArcShotPermissions ShotPermissions;
 
         public bool WasUsedForAttackThisRound { get; set; }
 

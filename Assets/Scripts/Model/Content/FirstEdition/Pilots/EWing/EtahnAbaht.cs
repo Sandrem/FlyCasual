@@ -50,7 +50,7 @@ namespace Abilities.FirstEdition
 
         private bool IsAvailable()
         {
-            var shotInfo = new ShotInfo(HostShip, Combat.Defender, HostShip.PrimaryWeapon);
+            var shotInfo = new ShotInfo(HostShip, Combat.Defender, HostShip.PrimaryWeapons);
 
             return Combat.AttackStep == CombatStep.Attack
                 && Combat.Defender.Owner != HostShip.Owner

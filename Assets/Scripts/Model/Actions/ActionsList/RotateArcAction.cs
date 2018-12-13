@@ -108,17 +108,39 @@ namespace SubPhases
             {
                 if (EnemiesInArcHolder.Any(n => n.Value.Count > 0))
                 {
-                    int enemiesInFrontRearArc = EnemiesInArcHolder
-                        .Where(a => a.Key == ArcFacing.Front || a.Key == ArcFacing.Rear)
-                        .Sum(a => a.Value.Count);
-                    int enemiesInLeftRearArc = EnemiesInArcHolder
-                        .Where(a => a.Key == ArcFacing.Left || a.Key == ArcFacing.Right)
-                        .Sum(a => a.Value.Count);
+                    int enemiesInFrontRearArc = 0;
+                    int enemiesInLeftRearArc = 0;
+                    if (Selection.ThisShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType.Front))
+                    {
+                        enemiesInFrontRearArc = EnemiesInArcHolder
+                            .Where(a => a.Key == ArcFacing.Front || a.Key == ArcFacing.Rear)
+                            .Sum(a => a.Value.Count);
+                        enemiesInLeftRearArc = EnemiesInArcHolder
+                            .Where(a => a.Key == ArcFacing.Front || a.Key == ArcFacing.Left || a.Key == ArcFacing.Right)
+                            .Sum(a => a.Value.Count);
+                    }
+                    else
+                    {
+                        enemiesInFrontRearArc = EnemiesInArcHolder
+                            .Where(a => a.Key == ArcFacing.Front || a.Key == ArcFacing.Rear)
+                            .Sum(a => a.Value.Count);
+                        enemiesInLeftRearArc = EnemiesInArcHolder
+                            .Where(a => a.Key == ArcFacing.Left || a.Key == ArcFacing.Right)
+                            .Sum(a => a.Value.Count);
+                    }
+
                     facing = (enemiesInFrontRearArc >= enemiesInLeftRearArc) ? "Front-Rear" : "Left-Right";
                 }
                 else
                 {
-                    facing = "Front-Rear";
+                    if (Selection.ThisShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType.Front))
+                    {
+                        facing = "Left-Right";
+                    }
+                    else
+                    {
+                        facing = "Front-Rear";
+                    }
                 }
             }
 

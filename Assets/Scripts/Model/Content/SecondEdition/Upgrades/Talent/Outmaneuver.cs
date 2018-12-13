@@ -27,7 +27,7 @@ namespace Abilities.SecondEdition
         {
             if (!Combat.ShotInfo.InPrimaryArc) return false;
 
-            BoardTools.ShotInfo reverseShotInfo = new BoardTools.ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            BoardTools.ShotInfo reverseShotInfo = new BoardTools.ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             if (reverseShotInfo.InArc) return false;
 
             return true;

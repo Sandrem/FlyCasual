@@ -31,7 +31,7 @@ namespace Abilities.SecondEdition
 
             if (result)
             {
-                ShotInfo shotInfo = new ShotInfo(Combat.Attacker, HostShip, Combat.Attacker.PrimaryWeapon);
+                ShotInfo shotInfo = new ShotInfo(Combat.Attacker, HostShip, Combat.Attacker.PrimaryWeapons);
                 if (!shotInfo.InArc) result = false;
             }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Movement;
 using ActionsList;
 using Actions;
+using Arcs;
 
 namespace Ship
 {
@@ -12,6 +13,7 @@ namespace Ship
         {
             public AuzituckGunship() : base()
             {
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.FullFront, 3);
                 ShipInfo.Shields = 2;
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));

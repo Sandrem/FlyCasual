@@ -168,13 +168,15 @@ namespace Arcs
 
         private void PerformFreeRotateActionForced(object sender, EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(
+            /*Selection.ThisShip.AskPerformFreeAction(
                 new RotateArcAction(),
                 delegate{
                     Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(RotateArcAction));
                     Triggers.FinishTrigger();
                 },
-                true);
+                true);*/
+
+            new RotateArcAction().DoOnlyEffect(Triggers.FinishTrigger);
         }
     }
 }

@@ -269,6 +269,9 @@ namespace SquadBuilderNS
 
         public static void ShowShipsFilteredByFaction()
         {
+            GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel").transform.Find("LoadingText").gameObject;
+            loadingText.SetActive(true);
+
             ShowAvailableShips(CurrentSquadList.SquadFaction);
         }
 

@@ -56,12 +56,12 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height-248, newTexture.width, 248), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
 
-        this.gameObject.SetActive(true);
+        FinallyShow();
     }
 
     private void ShowTextVersionOfCard()
     {
-        this.gameObject.SetActive(true);
+        FinallyShow();
     }
 
     private void SetOnClickHandler()
@@ -77,5 +77,13 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
     {
         SquadBuilder.CurrentShip = shipName;
         MainMenu.CurrentMainMenu.ChangePanel("SelectPilotPanel");
+    }
+    
+    private void FinallyShow()
+    {
+        GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel/LoadingText");
+        if (loadingText != null) loadingText.SetActive(false);
+
+        this.gameObject.SetActive(true);
     }
 }

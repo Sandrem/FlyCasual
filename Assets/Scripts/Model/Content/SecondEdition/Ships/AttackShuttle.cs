@@ -10,7 +10,6 @@ namespace Ship
         {
             public AttackShuttle() : base()
             {
-                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.FullFront, 3);
                 ShipInfo.Hull = 3;
                 ShipInfo.Shields = 1;
 

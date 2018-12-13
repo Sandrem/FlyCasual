@@ -12,6 +12,7 @@ namespace Ship
         {
             public AuzituckGunship() : base()
             {
+                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.FullFront, 3);
                 ShipInfo.Shields = 2;
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));

@@ -10,7 +10,7 @@ namespace Arcs
     {
         public ArcFullFront(GenericShipBase shipBase) : base(shipBase)
         {
-            ArcType = ArcType.SpecialGhost;
+            ArcType = ArcType.FullFront;
             Facing = ArcFacing.FullFront;
 
             Limits = new Dictionary<Vector3, float>()
@@ -25,11 +25,6 @@ namespace Arcs
                 new Vector3( shipBase.HALF_OF_SHIPSTAND_SIZE, 0, 0),
                 new Vector3(-shipBase.HALF_OF_SHIPSTAND_SIZE, 0, -shipBase.HALF_OF_SHIPSTAND_SIZE),
                 new Vector3( shipBase.HALF_OF_SHIPSTAND_SIZE, 0, -shipBase.HALF_OF_SHIPSTAND_SIZE)
-            };
-
-            ShotPermissions = new ArcShotPermissions()
-            {
-                CanShootPrimaryWeapon = true,
             };
         }
     }

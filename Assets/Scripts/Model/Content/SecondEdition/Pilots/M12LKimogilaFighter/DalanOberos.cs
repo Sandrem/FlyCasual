@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
             {
                 if (ship.State.ShieldsCurrent > 0)
                 {
-                    ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+                    ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapons);
                     if (shotInfo.InArcByType(ArcType.Bullseye) && shotInfo.Range < 4) return true;
                 }
             }
@@ -96,7 +96,7 @@ namespace Abilities.SecondEdition
 
             if (!FilterTargetsByRange(ship, 0, 3)) return false;
 
-            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(HostShip, ship, HostShip.PrimaryWeapons);
             return shotInfo.InArcByType(ArcType.Bullseye);
         }
 

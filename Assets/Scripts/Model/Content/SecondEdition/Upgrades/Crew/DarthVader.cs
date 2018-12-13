@@ -69,7 +69,7 @@ namespace Abilities.SecondEdition
         {
             return
                 ship != HostShip &&
-                new ShotInfo(HostShip, ship, HostShip.PrimaryWeapon).InArc &&
+                new ShotInfo(HostShip, ship, HostShip.PrimaryWeapons).InArc &&
                 FilterTargetsByRange(ship, 0, 2);
         }
 

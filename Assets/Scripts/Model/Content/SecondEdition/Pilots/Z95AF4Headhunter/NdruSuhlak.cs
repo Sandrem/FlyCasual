@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Ship;
+using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
 
@@ -31,7 +32,7 @@ namespace Abilities.SecondEdition
     {
         protected override void CheckNdruSuhlakAbility(ref int value)
         {
-            if (Combat.ChosenWeapon.GetType() != HostShip.PrimaryWeapon.GetType())
+            if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon)
                 return;
 
             if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 2), Team.Type.Friendly).Count == 1)

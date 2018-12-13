@@ -2,6 +2,7 @@
 using GameModes;
 using Ship;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace SubPhases
@@ -41,7 +42,8 @@ namespace SubPhases
         private void FinishActon()
         {
             Selection.AnotherShip = TargetShip;
-            Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
+            // TODO CHECK
+            Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapons.First();
             Combat.ShotInfo = new BoardTools.ShotInfo(Selection.ThisShip, TargetShip, Combat.ChosenWeapon);
             MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
             ExtraAttackTargetSelected();

@@ -10,11 +10,53 @@ namespace Ship
     {
         public ArcType ArcType { get; private set; }
         public int Firepower { get; set; }
+        public string Name { get; private set; }
 
-        public ShipArcInfo(ArcType arcType, int firepower)
+        public ShipArcInfo(ArcType arcType, int firepower = -1)
         {
             ArcType = arcType;
             Firepower = firepower;
+            Name = GetArcName(arcType);
+        }
+
+        private string GetArcName(ArcType arcType)
+        {
+            string result = "";
+
+            switch (arcType)
+            {
+                case ArcType.Front:
+                    result = "Front";
+                    break;
+                case ArcType.Rear:
+                    result = "Rear";
+                    break;
+                case ArcType.FullFront:
+                    result = "Full Front";
+                    break;
+                case ArcType.FullRear:
+                    result = "Full Rear";
+                    break;
+                case ArcType.SingleTurret:
+                    result = "Turret";
+                    break;
+                case ArcType.DoubleTurret:
+                    result = "Turret";
+                    break;
+                case ArcType.Bullseye:
+                    result = "Bullseye";
+                    break;
+                case ArcType.TurretPrimaryWeapon:
+                    result = "Out of Arc";
+                    break;
+                case ArcType.SpecialGhost:
+                    result = "Special";
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
         }
     }
 

@@ -130,7 +130,8 @@ namespace Abilities.FirstEdition
         //Arc toggle
         private void ToggleFrontArc(bool isActive)
         {
-            HostShip.ArcsInfo.GetArc<ArcPrimary>().ShotPermissions.CanShootPrimaryWeapon = isActive;
+            // TODOREVERT
+            //HostShip.ArcsInfo.GetArc<ArcPrimary>().ShotPermissions.CanShootPrimaryWeapon = isActive;
         }
 
         // IsAbilityUsed to avoid asking question during second attack

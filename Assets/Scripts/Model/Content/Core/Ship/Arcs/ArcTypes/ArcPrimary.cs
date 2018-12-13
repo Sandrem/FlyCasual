@@ -24,15 +24,6 @@ namespace Arcs
                 new Vector3(-shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
                 new Vector3( shipBase.HALF_OF_FIRINGARC_SIZE, 0, 0),
             };
-
-            ShotPermissions = new ArcShotPermissions()
-            {
-                CanShootPrimaryWeapon = true,
-                CanShootCannon = true,
-                CanShootMissiles = true,
-                CanShootTorpedoes = true,
-                CanShootTurret = true
-            };
         }
     }
 }

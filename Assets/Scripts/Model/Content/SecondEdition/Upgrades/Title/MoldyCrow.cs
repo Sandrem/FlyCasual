@@ -16,6 +16,7 @@ namespace UpgradesList.SecondEdition
                 cost: 12, 
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.Hwk290LightFreighter.Hwk290LightFreighter)),
+                addArc: new ShipArcInfo(ArcType.Front, 3),
                 abilityType: typeof(Abilities.SecondEdition.MoldyCrowAbility),
                 seImageNumber: 104
             );
@@ -29,11 +30,6 @@ namespace Abilities.SecondEdition
     {
         private int tokenCount = 0;
 
-        public override void ActivateAbilityForSquadBuilder()
-        {
-            HostShip.ShipInfo.ArcInfo.Arcs.Add(new ShipArcInfo(ArcType.Front, 3));
-        }
-
         public override void ActivateAbility()
         {
             HostShip.BeforeRemovingTokenInEndPhase += KeepTwoFocusTokens;
@@ -44,12 +40,6 @@ namespace Abilities.SecondEdition
         {
             tokenCount = 0;
         }
-
-        public override void DeactivateAbilityForSquadBuilder()
-        {
-            HostShip.ShipInfo.ArcInfo.Arcs.RemoveAll(a => a.ArcType == ArcType.Front);
-        }
-
 
         public override void DeactivateAbility()
         {

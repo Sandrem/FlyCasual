@@ -143,7 +143,7 @@ namespace Abilities.SecondEdition
             int shipThreatLevel = 0;
             foreach (GenericShip enemyShip in enemiesAtRangeOne)
             {
-                ShotInfo shotInfo = new ShotInfo(enemyShip, HostShip, enemyShip.PrimaryWeapon);
+                ShotInfo shotInfo = new ShotInfo(enemyShip, HostShip, enemyShip.PrimaryWeapons);
                 if (shotInfo.IsShotAvailable)
                 {
                     shipThreatLevel += (enemyShip.State.Firepower + 1) * 10;
@@ -152,7 +152,7 @@ namespace Abilities.SecondEdition
 
             foreach (GenericShip enemyShip in enemiesAtRangeTwo)
             {
-                ShotInfo shotInfo = new ShotInfo(enemyShip, HostShip, enemyShip.PrimaryWeapon);
+                ShotInfo shotInfo = new ShotInfo(enemyShip, HostShip, enemyShip.PrimaryWeapons);
                 if (shotInfo.IsShotAvailable)
                 {
                     shipThreatLevel += enemyShip.State.Firepower * 10;
@@ -161,7 +161,7 @@ namespace Abilities.SecondEdition
 
             foreach (GenericShip enemyShip in enemiesAtRangeThree)
             {
-                ShotInfo shotInfo = new ShotInfo(enemyShip, HostShip, enemyShip.PrimaryWeapon);
+                ShotInfo shotInfo = new ShotInfo(enemyShip, HostShip, enemyShip.PrimaryWeapons);
                 if (shotInfo.IsShotAvailable)
                 {
                     shipThreatLevel += enemyShip.State.Firepower * 7;

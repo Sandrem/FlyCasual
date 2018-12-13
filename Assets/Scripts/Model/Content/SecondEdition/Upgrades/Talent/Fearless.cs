@@ -58,7 +58,7 @@ namespace ActionsList
 
             if (Combat.ShotInfo.Range != 1) return false;
 
-            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             if (!reverseShotInfo.InPrimaryArc) return false;
 
             return result;

@@ -77,7 +77,7 @@ namespace SubPhases
             BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
             if (distanceInfo.Range <= 1) return true;
 
-            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapon);
+            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapons);
             if (shotInfo.Range <= 2 && shotInfo.InPrimaryArc) return true;
 
             return false;

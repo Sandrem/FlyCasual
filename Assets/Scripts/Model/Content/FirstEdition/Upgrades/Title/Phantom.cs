@@ -88,7 +88,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.Host.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.Host.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }

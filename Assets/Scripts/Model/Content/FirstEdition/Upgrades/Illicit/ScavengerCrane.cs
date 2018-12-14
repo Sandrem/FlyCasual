@@ -128,7 +128,7 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DieSide.Blank)
             {
-                Messages.ShowInfoToHuman(string.Format("{0} has to discard Scavenger Crane", scanvengerCraneUpgrade.HostShip.PilotName));
+                Messages.ShowInfoToHuman(string.Format("{0} has to discard Scavenger Crane", scanvengerCraneUpgrade.HostShip.PilotInfo.PilotName));
                 scanvengerCraneUpgrade.TryDiscard(CallBack);
             }
             else

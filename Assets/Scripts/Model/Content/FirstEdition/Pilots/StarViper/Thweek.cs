@@ -60,7 +60,7 @@ namespace Abilities.FirstEdition
             foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
             {
                 selectTargetForThweekDecisionSubPhase.AddDecision(
-                    enemyShip.Value.ShipId + ": " + enemyShip.Value.PilotName,
+                    enemyShip.Value.ShipId + ": " + enemyShip.Value.PilotInfo.PilotName,
                     delegate { SelectAbility(enemyShip.Value); }
                 );
             }
@@ -68,7 +68,7 @@ namespace Abilities.FirstEdition
             selectTargetForThweekDecisionSubPhase.InfoText = "Thweek: Select enemy ship";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
-            selectTargetForThweekDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotName;
+            selectTargetForThweekDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotInfo.PilotName;
 
             selectTargetForThweekDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
@@ -120,7 +120,7 @@ namespace Abilities.FirstEdition
             {
                 if (!ability.IsAppliesConditionCard)
                 {
-                    Messages.ShowInfo("Ability of " + targetShip.PilotName + " is mimicked");
+                    Messages.ShowInfo("Ability of " + targetShip.PilotInfo.PilotName + " is mimicked");
 
                     HostShip.PilotAbilities.Add((GenericAbility)Activator.CreateInstance(ability.GetType()));
                     HostShip.PilotAbilities[1].Initialize(HostShip);
@@ -133,7 +133,7 @@ namespace Abilities.FirstEdition
 
             if (!abilityIsFound)
             {
-                Messages.ShowError(targetShip.PilotName + " doesn't have abilities to be mimicked");
+                Messages.ShowError(targetShip.PilotInfo.PilotName + " doesn't have abilities to be mimicked");
             }
             targetShip.Tokens.AssignCondition(typeof(Conditions.Mimicked));
             DecisionSubPhase.ConfirmDecision();
@@ -141,7 +141,7 @@ namespace Abilities.FirstEdition
 
         private void Shadowed(GenericShip targetShip)
         {
-            Messages.ShowInfo("Pilot skill of " + targetShip.PilotName + " is shadowed");
+            Messages.ShowInfo("Pilot skill of " + targetShip.PilotInfo.PilotName + " is shadowed");
             new ThweekPilotSkillModifier(HostShip, targetShip.State.Initiative);
             targetShip.Tokens.AssignCondition(typeof(Conditions.Shadowed));
             DecisionSubPhase.ConfirmDecision();

@@ -15,7 +15,7 @@ namespace Ship
                       //seImageNumber: 120
                 );
 
-                ImageUrl = "http://www.infinitearenas.com/xw2browse/images/first-order/zeta-squadron-survivor.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/848db1993150bda19217e2c14b3c3df6.png";
             }
         }
     }

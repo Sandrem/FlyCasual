@@ -26,7 +26,7 @@ namespace Ship
 
                 ModelInfo.SkinName = "Black One";
 
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/ea/60/ea60fada-8e09-4d9e-9dee-c47492e65124/swz25_poe_a1.png";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/14c504c0815213a66010c4013d9296ee.png";
             }
         }
     }

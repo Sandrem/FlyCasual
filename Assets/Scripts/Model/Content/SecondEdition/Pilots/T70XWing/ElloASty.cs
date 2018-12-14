@@ -7,9 +7,9 @@ namespace Ship
 {
     namespace SecondEdition.T70XWing
     {
-        public class ElloASty : T70XWing
+        public class ElloAsty : T70XWing
         {
-            public ElloASty() : base()
+            public ElloAsty() : base()
             {
                 PilotInfo = new PilotCardInfo(
                     "Ello Asty",
@@ -21,9 +21,7 @@ namespace Ship
                 //seImageNumber: 93
                 );
 
-                //ModelInfo.SkinName = "Black One";
-
-                ImageUrl = "http://infinitearenas.com/xw2browse/images/resistance/ello-asty.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/f77180ae05fd919a0dff2225380246a6.png";
             }
         }
     }

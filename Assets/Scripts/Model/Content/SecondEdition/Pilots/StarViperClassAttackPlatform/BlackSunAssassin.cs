@@ -9,7 +9,7 @@ namespace Ship
             public BlackSunAssassin() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Black Sun Enforcer",
+                    "Black Sun Assassin",
                     3,
                     48,
                     extraUpgradeIcon: UpgradeType.Talent,

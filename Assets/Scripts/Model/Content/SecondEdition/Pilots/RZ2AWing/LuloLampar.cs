@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,13 +15,13 @@ namespace Ship
                     38,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LuloLamparAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 19
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,
+                                                                                                        //seImageNumber: 19
                 );
 
                 //ModelInfo.SkinName = "Blue";
 
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/87/ef/87efde7e-148e-44e9-85ee-a1153de4b86b/swz22_lulo_lampar.png";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/e15d3e2a2fc082b95a64a83df0c96f7f.png";
             }
         }
     }

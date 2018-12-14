@@ -20,13 +20,13 @@ namespace Ship
                     35,
                     isLimited: true,
                     // abilityType: typeof(Abilities.SecondEdition.JakeFarrellAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,
                     //seImageNumber: 19
                 );
 
                 ModelInfo.SkinName = "Blue";
 
-                ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/e/ef/Swz22_tallissan_lintra.png";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/72cb6c4e50b0ad24af0bb84ce0aa53f0.png";
             }
         }
     }

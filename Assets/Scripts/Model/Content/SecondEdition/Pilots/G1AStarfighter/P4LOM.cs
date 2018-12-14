@@ -81,7 +81,7 @@ namespace Abilities.SecondEdition
                     FilterAbilityTarget,
                     GetAIAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    HostShip.PilotName,
+                    HostShip.PilotInfo.PilotName,
                     "Choose a target to transfer stress to.",
                     HostShip
                 );

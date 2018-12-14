@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -12,13 +13,13 @@ namespace Ship
                     "Green Squadron Expert",
                     3,
                     34,
-                    extraUpgradeIcon: UpgradeType.Talent //,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,
                                                          //seImageNumber: 19
                 );
 
                 ModelInfo.SkinName = "Green";
 
-                ImageUrl = "http://infinitearenas.com/xw2browse/images/resistance/green-squadron-expert.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/3f7ad9efb4c5af8b4d1f5c07a3c7538b.png";
             }
         }
     }

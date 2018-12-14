@@ -79,7 +79,7 @@ public static partial class Combat
             parameters.AddField("id", attackerId.ToString());
             parameters.AddField("target", defenderId.ToString());
             parameters.AddField("weaponIsAlreadySelected", weaponIsAlreadySelected.ToString());
-            parameters.AddField("weapon", chosenWeapon.Name);
+            parameters.AddField("weapon", (chosenWeapon != null) ? chosenWeapon.Name : null);
 
             return GameController.GenerateGameCommand(
                 GameCommandTypes.DeclareAttack,

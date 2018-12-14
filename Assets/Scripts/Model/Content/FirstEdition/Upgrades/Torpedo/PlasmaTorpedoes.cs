@@ -71,7 +71,7 @@ namespace Abilities.FirstEdition
 
         private void ShieldRemove(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman(string.Format("{0} had a Shield removed by Plasma Torpedo", Combat.Defender.PilotName));
+            Messages.ShowInfoToHuman(string.Format("{0} had a Shield removed by Plasma Torpedo", Combat.Defender.PilotInfo.PilotName));
 
             Combat.Defender.Damage.SufferRegularDamage(
                 new DamageSourceEventArgs()

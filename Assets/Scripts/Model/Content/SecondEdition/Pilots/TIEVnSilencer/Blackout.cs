@@ -18,7 +18,7 @@ namespace Ship
                                                          //seImageNumber: 120
                 );
 
-                ImageUrl = "http://infinitearenas.com/xw2browse/images/first-order/blackout.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/c5659b210e13b4e11fdd5f1396f2847c.png";
             }
         }
     }

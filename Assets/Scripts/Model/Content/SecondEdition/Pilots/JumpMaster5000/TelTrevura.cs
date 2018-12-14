@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Charges > 0)
             {
-                Messages.ShowInfo(HostShip.PilotName + ": Destruction is prevented");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Destruction is prevented");
 
                 HostShip.SpendCharge();
 
@@ -92,14 +92,14 @@ namespace Abilities.SecondEdition
             var subphase = Phases.StartTemporarySubPhaseNew<SetupShipMidgameSubPhase>(
                 "Setup",
                 delegate {
-                    Messages.ShowInfo(HostShip.PilotName + " returned to the play area");
+                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " returned to the play area");
                     Triggers.FinishTrigger();
                 }
             );
 
             subphase.ShipToSetup = HostShip;
             subphase.SetupSide = (HostShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? Direction.Bottom : Direction.Top;
-            subphase.AbilityName = HostShip.PilotName;
+            subphase.AbilityName = HostShip.PilotInfo.PilotName;
             subphase.Description = "Place yourself within range 1 of your player edge";
             subphase.ImageSource = HostShip;
 

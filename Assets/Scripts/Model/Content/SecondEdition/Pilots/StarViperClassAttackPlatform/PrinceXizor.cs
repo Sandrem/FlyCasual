@@ -91,7 +91,7 @@ namespace Abilities.SecondEdition
                 IsPossibleRedirectTarget,
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Select another friendly ship to redirect one damage result",
                 HostShip
             );

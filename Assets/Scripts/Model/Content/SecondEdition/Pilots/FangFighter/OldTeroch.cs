@@ -39,7 +39,7 @@ namespace Abilities.SecondEdition
 
         protected override void DiscardTokens()
         {
-            Messages.ShowInfo(string.Format("{0} removed all green tokens from {1}", HostShip.PilotName, TargetShip.PilotName));
+            Messages.ShowInfo(string.Format("{0} removed all green tokens from {1}", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
             TargetShip.Tokens.RemoveAllTokensByColor(TokenColors.Green, SelectShipSubPhase.FinishSelection);
         }
     }

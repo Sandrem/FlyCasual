@@ -122,7 +122,7 @@ namespace SubPhases
 
                 MovementTemplates.ReturnRangeRuler();
 
-                Messages.ShowInfo("Spacetug Tractor Array: Tractor Beam token is assigned to " + TargetShip.PilotName);
+                Messages.ShowInfo("Spacetug Tractor Array: Tractor Beam token is assigned to " + TargetShip.PilotInfo.PilotName);
 
                 TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
 

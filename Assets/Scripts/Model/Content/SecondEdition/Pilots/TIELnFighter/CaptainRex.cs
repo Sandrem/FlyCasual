@@ -68,7 +68,7 @@ namespace Abilities.SecondEdition
         {
             if (SufferedShip != null)
             {
-                Messages.ShowInfo("Suppressive Fire is removed from " + SufferedShip.PilotName);
+                Messages.ShowInfo("Suppressive Fire is removed from " + SufferedShip.PilotInfo.PilotName);
 
                 SufferedShip.Tokens.RemoveCondition(AssignedCondition);
                 SufferedShip = null;

@@ -72,7 +72,7 @@ namespace Abilities.FirstEdition
                 newSubPhase.AddDecision("Focus token", (s, e) => PassToken(new FocusToken(target)));
             }
             newSubPhase.ShowSkipButton = false;
-            newSubPhase.InfoText = string.Format("{0} may pass a token to {1}", HostShip.PilotName, target.PilotName);
+            newSubPhase.InfoText = string.Format("{0} may pass a token to {1}", HostShip.PilotInfo.PilotName, target.PilotInfo.PilotName);
             var aiDecisionIndex = AiDecideToPassToken(target) ? 1 : 0;
             newSubPhase.DefaultDecisionName = newSubPhase.GetDecisions()[aiDecisionIndex].Name;
             newSubPhase.Start();

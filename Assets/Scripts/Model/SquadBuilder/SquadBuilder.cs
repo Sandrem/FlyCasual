@@ -202,7 +202,7 @@ namespace SquadBuilderNS
                     {
                         string pilotKey = newShipContainer.PilotInfo.PilotName + " (" + newShipContainer.PilotInfo.Cost + ")";
 
-                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotName && n.PilotShip.ShipName == newShipContainer.ShipInfo.ShipName && n.PilotFaction == newShipContainer.Faction) == null)
+                        if (AllPilots.Find(n => n.PilotName == newShipContainer.PilotInfo.PilotName && n.PilotShip.ShipName == newShipContainer.ShipInfo.ShipName && n.PilotFaction == newShipContainer.Faction) == null)
                         {
                             AllPilots.Add(new PilotRecord()
                             {

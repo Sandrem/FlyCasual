@@ -68,7 +68,7 @@ namespace Abilities.FirstEdition
 
             HostShip.SetAssignedManeuver(movement);
 
-            Messages.ShowInfoToHuman(string.Format("{0} changed maneuver, Adrenaline Rush is disabled on {0}", HostShip.PilotName));
+            Messages.ShowInfoToHuman(string.Format("{0} changed maneuver, Adrenaline Rush is disabled on {0}", HostShip.PilotInfo.PilotName));
             HostUpgrade.TryDiscard(callback);
         }
     }

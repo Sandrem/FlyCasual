@@ -23,8 +23,7 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Force //,
                                                         //seImageNumber: 69
                 );
-
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f9/27/f9276fd7-52fd-4b05-8599-05039fa479e6/swz19_a2_reys-pilot.png";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/0ee7006e6cc51d8c08b784c9b770f1b0.png";
             }
         }
     }

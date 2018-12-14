@@ -50,7 +50,7 @@ namespace Abilities.FirstEdition
         {
             RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, (s, e) =>
             {
-                Messages.ShowInfoToHuman(string.Format("{0} discarding Captured TIE due to attacking", HostShip.PilotName));
+                Messages.ShowInfoToHuman(string.Format("{0} discarding Captured TIE due to attacking", HostShip.PilotInfo.PilotName));
                 HostUpgrade.TryDiscard(Triggers.FinishTrigger);
             });
         }
@@ -75,12 +75,12 @@ namespace Abilities.FirstEdition
 
         protected void RegisterDiscardOnLastFriendlyDestroyedTrigger(GenericShip ship, bool isFled)
         {
-            RegisterTriggerSingleFriendlyCheckCommon(string.Format("{0} discarding Captured TIE after last friendly ship was destroyed", HostShip.PilotName), TriggerTypes.OnShipIsDestroyed);
+            RegisterTriggerSingleFriendlyCheckCommon(string.Format("{0} discarding Captured TIE after last friendly ship was destroyed", HostShip.PilotInfo.PilotName), TriggerTypes.OnShipIsDestroyed);
         }
 
         protected void RegisterDiscardOnGameStartBeingSingleFriendlyTrigger()
         {
-            RegisterTriggerSingleFriendlyCheckCommon(string.Format("{0} discarding Captured TIE due to being the only ship in team", HostShip.PilotName), TriggerTypes.OnPlanningSubPhaseStart);
+            RegisterTriggerSingleFriendlyCheckCommon(string.Format("{0} discarding Captured TIE due to being the only ship in team", HostShip.PilotInfo.PilotName), TriggerTypes.OnPlanningSubPhaseStart);
         }
 
         protected void RegisterDiscardOnFlipFaceUpBeingSingleFriendlyTrigger()

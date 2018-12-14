@@ -251,7 +251,7 @@ namespace SubPhases
                 DecisionSubPhase.ConfirmDecision();
             });
 
-            selectTractorDirection.InfoText = "Select tractor beam direction for " + TheShip.PilotName;
+            selectTractorDirection.InfoText = "Select tractor beam direction for " + TheShip.PilotInfo.PilotName;
             selectTractorDirection.DefaultDecisionName = selectTractorDirection.GetDecisions().First().Name;
             selectTractorDirection.RequiredPlayer = Assigner.PlayerNo;
             selectTractorDirection.ShowSkipButton = true;

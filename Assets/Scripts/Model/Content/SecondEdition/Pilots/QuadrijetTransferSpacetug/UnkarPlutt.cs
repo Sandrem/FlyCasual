@@ -31,7 +31,7 @@ namespace Abilities.SecondEdition
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Assign tractor beam to " + ship.PilotName,
+                    Name = "Assign tractor beam to " + ship.PilotInfo.PilotName,
                     TriggerType = TriggerTypes.OnCombatPhaseStart,
                     TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = delegate { AssignTractorBeamToken(ship); }
@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
 
             Triggers.RegisterTrigger(new Trigger()
             {
-                Name = "Assign tractor beam to " + HostShip.PilotName,
+                Name = "Assign tractor beam to " + HostShip.PilotInfo.PilotName,
                 TriggerType = TriggerTypes.OnCombatPhaseStart,
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = delegate { AssignTractorBeamToken(HostShip); }

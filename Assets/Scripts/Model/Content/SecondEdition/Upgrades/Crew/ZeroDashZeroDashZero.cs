@@ -35,7 +35,7 @@ namespace UpgradesList.SecondEdition
             {
                 foreach (var shipHolder in squadList.GetShips())
                 {
-                    if (shipHolder.Instance.PilotName == "Darth Vader")
+                    if (shipHolder.Instance.PilotInfo.PilotName == "Darth Vader")
                     {
                         return true;
                     }

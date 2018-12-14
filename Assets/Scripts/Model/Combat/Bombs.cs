@@ -325,6 +325,11 @@ namespace Bombs
             return timedBombsInstalledCount > 0;
         }
 
+        public static Dictionary<GameObject, GenericBomb> GetBombsOnBoard()
+        {
+            return bombsList;
+        }
+
     }
 }
 

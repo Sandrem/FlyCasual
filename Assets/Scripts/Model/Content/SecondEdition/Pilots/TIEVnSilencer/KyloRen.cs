@@ -23,7 +23,7 @@ namespace Ship
                                                         //seImageNumber: 120
                 );
 
-                ImageUrl = "http://infinitearenas.com/xw2browse/images/first-order/kylo-ren.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/71dbde337b9ff5aab897781d40d8f653.png";
             }
         }
     }

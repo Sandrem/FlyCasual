@@ -50,8 +50,8 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-(Action)delegate {
-                    ActionsHolder.TakeActionFinish(
+                    (Action)delegate {
+                        ActionsHolder.TakeActionFinish(
                         delegate { ActionsHolder.EndActionDecisionSubhase(Finish); }
                     ); 
                 }
@@ -106,7 +106,7 @@ namespace SubPhases
             ShowSkipButton = true;
             DefaultDecisionName = "Focus";
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
+            List<GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
 
             if (availableActions.Count > 0)
             {
@@ -129,7 +129,7 @@ namespace SubPhases
             //TODO: Use more global way of fix
             HideDecisionWindowUI();
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
+            List<GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
             foreach (var action in availableActions)
             {
                 bool addedDecision = false;
@@ -142,7 +142,9 @@ namespace SubPhases
                     if (action.GetType() == actionType)
                     {
                         addedDecision = true;
-                        string decisionName = action.Name + " > <color=red>" + linkedAction.Name + "</color>";
+                        string linkedActionName = linkedAction.Name;
+                        if (linkedAction.IsRed) linkedActionName = "<color=red>" + linkedActionName + "</color>";
+                        string decisionName = action.Name + " > " + linkedActionName;
 
                         AddDecision(decisionName, delegate {
                             ActionWasPerformed = true;
@@ -190,7 +192,7 @@ namespace SubPhases
             InfoText = "Select free action";
             DefaultDecisionName = "Focus";
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
+            List<GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
 
             if (availableActions.Count > 0)
             {
@@ -209,7 +211,7 @@ namespace SubPhases
         public void GenerateFreeActionButtons()
 		{
 			Selection.ThisShip.IsFreeActionSkipped = false;
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
+            List<GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
 
             foreach (var action in availableActions)
             {
@@ -223,15 +225,17 @@ namespace SubPhases
                     if (action.GetType() == actionType)
                     {
                         addedDecision = true;
-                        string decisionName = action.Name + " > <color=red>" + linkedAction.Name + "</color>";
+                        string linkedActionName = linkedAction.Name;
+                        if (linkedAction.IsRed) linkedActionName = "<color=red>" + linkedActionName + "</color>";
+                        string decisionName = action.Name + " > " + linkedActionName;
 
                         AddDecision(
                             decisionName,
                             delegate {
                                 ActionWasPerformed = true;
                                 Selection.ThisShip.CallBeforeFreeActionIsPerformed(
-(GenericAction)action,
-(Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
+                                    (GenericAction)action,
+                                    (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
                                 );
                             },
                             action.ImageUrl,
@@ -248,8 +252,8 @@ namespace SubPhases
                         delegate {
                             ActionWasPerformed = true;
                             Selection.ThisShip.CallBeforeFreeActionIsPerformed(
-(GenericAction)action,
-(Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
+                                (GenericAction)action,
+                                (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
                             );
                         },
                         action.ImageUrl,

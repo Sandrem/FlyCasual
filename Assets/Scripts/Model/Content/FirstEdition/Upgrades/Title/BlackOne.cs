@@ -133,7 +133,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0}'s ship does not have an enemy Target Lock.", TargetShip.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0}'s ship does not have an enemy Target Lock.", TargetShip.PilotInfo.PilotName));
             }
         }
 
@@ -166,7 +166,7 @@ namespace Abilities.FirstEdition
 
         private void RemoveRedTargetLock(char targetLockTokenLetter, Action callback)
         {
-            Messages.ShowInfoToHuman(string.Format("Target Lock has been removed from {0}.", TargetShip.PilotName));
+            Messages.ShowInfoToHuman(string.Format("Target Lock has been removed from {0}.", TargetShip.PilotInfo.PilotName));
             TargetShip.Tokens.RemoveToken(
                 typeof(Tokens.RedTargetLockToken),
                 callback,

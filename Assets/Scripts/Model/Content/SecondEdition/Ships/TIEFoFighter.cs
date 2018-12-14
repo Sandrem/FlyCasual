@@ -21,7 +21,7 @@ namespace Ship
                 ShipInfo.DefaultShipFaction = Faction.FirstOrder;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.FirstOrder };
 
-                IconicPilots[Faction.FirstOrder] = typeof(ZetaSquadronPilot);
+                IconicPilots[Faction.FirstOrder] = typeof(Midnight);
 
                 // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/44/Maneuver_tie_phantom.png";
             }

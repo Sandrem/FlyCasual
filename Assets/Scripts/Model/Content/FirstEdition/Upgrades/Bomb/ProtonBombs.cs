@@ -60,7 +60,7 @@ namespace UpgradesList.FirstEdition
 
         private void Detonation(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman(string.Format("{0}: Dealt faceup card to {1}", UpgradeInfo.Name, _ship.PilotName));
+            Messages.ShowInfoToHuman(string.Format("{0}: Dealt faceup card to {1}", UpgradeInfo.Name, _ship.PilotInfo.PilotName));
             _ship.SufferHullDamage(true, e);
         }
     }

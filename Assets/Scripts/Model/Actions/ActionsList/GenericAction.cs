@@ -4,6 +4,7 @@ using UnityEngine;
 using Ship;
 using Upgrade;
 using System;
+using SubPhases;
 
 public enum DiceModificationTimingType
 {
@@ -166,6 +167,31 @@ namespace ActionsList
             return result;
         }
 
+        public void DoOnlyEffect(Action callback)
+        {
+            HostShip = Selection.ThisShip;
+            Phases.StartTemporarySubPhaseNew<ActionEffectSubPhase>(
+                "Action effect",
+                delegate
+                {
+                    Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                    callback();
+                }
+            );
+            ActionTake();
+        }
+
     }
 
+}
+
+namespace SubPhases
+{
+    public class ActionEffectSubPhase : GenericSubPhase
+    {
+        public override void Next()
+        {
+            Phases.CurrentSubPhase = PreviousSubPhase;
+        }
+    }
 }

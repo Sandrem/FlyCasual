@@ -118,7 +118,7 @@ namespace Abilities.SecondEdition
         {
             get
             {
-                return string.Format("{0}: Open the S-Foils?", HostShip.PilotName);
+                return string.Format("{0}: Open the S-Foils?", HostShip.PilotInfo.PilotName);
             }
         }
 
@@ -147,7 +147,7 @@ namespace Abilities.SecondEdition
         {
             get
             {
-                return string.Format("{0}: Close the S-Foils?", HostShip.PilotName);
+                return string.Format("{0}: Close the S-Foils?", HostShip.PilotInfo.PilotName);
             }
         }
 

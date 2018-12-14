@@ -71,7 +71,7 @@ namespace Abilities.FirstEdition
 
         private void UseTIEDAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.PilotName + " can perform second attack from primary weapon");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform second attack from primary weapon");
 
             Combat.StartAdditionalAttack(
                 HostShip,

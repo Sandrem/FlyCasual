@@ -128,7 +128,7 @@ namespace Abilities.FirstEdition
             if (defender != snapShotTarget || !(weapon.GetType() == HostUpgrade.GetType()))
             {
                 if (!isSilent) Messages.ShowErrorToHuman(
-                    string.Format("Snap Shot target must be {0}, using Snap Shot weapon", snapShotTarget.PilotName));
+                    string.Format("Snap Shot target must be {0}, using Snap Shot weapon", snapShotTarget.PilotInfo.PilotName));
                 result = false;
             }
 
@@ -151,7 +151,7 @@ namespace Abilities.FirstEdition
                     AfterSnapShotAttackSubPhase,
                     SnapShotAttackFilter,
                     HostUpgrade.UpgradeInfo.Name,
-                    "You may perform an additional attack against " + snapShotTarget.PilotName + ".",
+                    "You may perform an additional attack against " + snapShotTarget.PilotInfo.PilotName + ".",
                     HostUpgrade
                 );
             }

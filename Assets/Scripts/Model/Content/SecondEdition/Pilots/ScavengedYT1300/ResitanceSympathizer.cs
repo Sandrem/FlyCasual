@@ -17,7 +17,7 @@ namespace Ship
                     //seImageNumber: 69
                 );
 
-                ImageUrl = "http://www.infinitearenas.com/xw2browse/images/resistance/resistance-sympathizer.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/28411b84c1b15f0bfa9928f2206e44f5.png";
             }
         }
     }

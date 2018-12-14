@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
 
         private void MoveToReserve()
         {
-            Messages.ShowInfo(HostShip.PilotName + " is moved to Reserve");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is moved to Reserve");
             Roster.MoveToReserve(HostShip);
         }
 
@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             var subphase = Phases.StartTemporarySubPhaseNew<SetupShipMidgameSubPhase>(
                 "Setup",
                 delegate {
-                    Messages.ShowInfo(HostShip.PilotName + " is placed");
+                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is placed");
                     Triggers.FinishTrigger();
                 }
             );
@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
                 DistanceInfo distInfo = new DistanceInfo(HostShip, enemyShip);
                 if (distInfo.Range < 4)
                 {
-                    Messages.ShowErrorToHuman("Cannot setup the ship:\nRange to " + enemyShip.PilotName + " is " + distInfo.Range);
+                    Messages.ShowErrorToHuman("Cannot setup the ship:\nRange to " + enemyShip.PilotInfo.PilotName + " is " + distInfo.Range);
                     return false;
                 }
             }

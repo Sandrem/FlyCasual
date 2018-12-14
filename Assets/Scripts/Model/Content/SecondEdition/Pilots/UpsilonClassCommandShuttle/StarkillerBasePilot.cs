@@ -15,7 +15,7 @@ namespace Ship
                     //seImageNumber: 120
                 );
 
-                ImageUrl = "http://www.infinitearenas.com/xw2browse/images/first-order/starkiller-base-pilot.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/41f6d936f14a058ed1c5e6ac12de37c2.png";
             }
         }
     }

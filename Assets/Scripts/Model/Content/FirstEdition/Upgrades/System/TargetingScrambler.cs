@@ -66,7 +66,7 @@ namespace Abilities.FirstEdition
 
         private void AssignScrambledCondition()
         {
-            Messages.ShowInfo(string.Format("\"Scrambled\" condition is assigned to {0}", TargetShip.PilotName));
+            Messages.ShowInfo(string.Format("\"Scrambled\" condition is assigned to {0}", TargetShip.PilotInfo.PilotName));
 
             TargetShip.Tokens.AssignCondition(typeof(ScrambledCondition));
             TargetShip.OnTryAddAvailableDiceModification += UseDiceModificationRestriction;

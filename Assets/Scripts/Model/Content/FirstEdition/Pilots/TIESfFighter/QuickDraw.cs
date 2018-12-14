@@ -92,14 +92,14 @@ namespace Abilities.FirstEdition
                     HostShip,
                     AfterExtraAttackSubPhase,
                     null,
-                    HostShip.PilotName,
+                    HostShip.PilotInfo.PilotName,
                     "You may perform a primary weapon attack.",
                     HostShip
                 );
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }

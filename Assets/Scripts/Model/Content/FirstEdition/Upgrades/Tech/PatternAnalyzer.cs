@@ -55,7 +55,7 @@ namespace Abilities.FirstEdition
             HostShip.OnActionDecisionSubphaseEnd -= PlanCheckStress;
             Triggers.RegisterTrigger(new Trigger()
             {
-                Name = "Check stress ( " + ship.PilotName + " )",
+                Name = "Check stress ( " + ship.PilotInfo.PilotName + " )",
                 Skippable = true,
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 TriggerType = TriggerTypes.OnActionDecisionSubPhaseEnd,

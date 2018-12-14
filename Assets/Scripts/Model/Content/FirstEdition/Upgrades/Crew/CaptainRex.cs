@@ -53,14 +53,14 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowInfoToHuman(HostShip.PilotName + " gained focus from Captain Rex (auto)");
+                Messages.ShowInfoToHuman(HostShip.PilotInfo.PilotName + " gained focus from Captain Rex (auto)");
                 HostShip.Tokens.AssignToken(typeof(FocusToken), Triggers.FinishTrigger);
             }
         }
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman(HostShip.PilotName + " gained focus from Captain Rex");
+            Messages.ShowInfoToHuman(HostShip.PilotInfo.PilotName + " gained focus from Captain Rex");
             HostShip.Tokens.AssignToken(typeof(FocusToken), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }

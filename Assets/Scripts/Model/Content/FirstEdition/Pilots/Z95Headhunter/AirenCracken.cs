@@ -59,7 +59,7 @@ namespace Abilities.FirstEdition
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Choose another ship.\nThat ship may perform free action.",
                 HostShip
             );

@@ -19,7 +19,7 @@ namespace Ship
 
                 ModelInfo.SkinName = "Cobalt";
 
-                ImageUrl = "http://www.infinitearenas.com/xw2browse/images/resistance/cobalt-squadron-bomber.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/6b6a3bb8049699e2d66fe09531e8bc00.png";
             }
         }
     }

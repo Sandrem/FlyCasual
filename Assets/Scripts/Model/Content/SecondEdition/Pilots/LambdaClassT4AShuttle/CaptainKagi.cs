@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    HostShip.PilotName,
+                    HostShip.PilotInfo.PilotName,
                     "Choose a ship to transfer red target lock tokens from.",
                     HostShip
                 );

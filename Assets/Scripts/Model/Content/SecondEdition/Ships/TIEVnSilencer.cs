@@ -28,7 +28,7 @@ namespace Ship
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Normal);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);
 
-                IconicPilots[Faction.FirstOrder] = typeof(FirstOrderTestPilot);
+                IconicPilots[Faction.FirstOrder] = typeof(KyloRen);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AutoThrustersAbility());
 

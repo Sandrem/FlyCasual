@@ -20,7 +20,7 @@ namespace Ship
 
                 //ModelInfo.SkinName = "Black One";
 
-                ImageUrl = "http://infinitearenas.com/xw2browse/images/resistance/temmin-wexley.jpg";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/bb98b7ea3a580542b586a9999fd352c9.png";
             }
         }
     }

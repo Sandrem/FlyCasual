@@ -46,8 +46,8 @@ namespace Abilities.FirstEdition
             NorraWexleyARC170Action newAction = new NorraWexleyARC170Action()
             {
                 HostShip = this.HostShip,
-                Name = this.HostShip.PilotName + "'s Ability",
-                DiceModificationName = this.HostShip.PilotName + "'s Ability"
+                Name = this.HostShip.PilotInfo.PilotName + "'s Ability",
+                DiceModificationName = this.HostShip.PilotInfo.PilotName + "'s Ability"
             };
             ship.AddAvailableDiceModification(newAction);
         }

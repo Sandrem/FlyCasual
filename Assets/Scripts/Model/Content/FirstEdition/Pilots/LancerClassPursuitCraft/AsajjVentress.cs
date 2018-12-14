@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Choose a ship inside your mobile firing arc to assign Stress token to it.",
                 HostShip
             );
@@ -91,7 +91,7 @@ namespace Abilities.FirstEdition
             ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip, HostShip.PrimaryWeapons);
             if (shotInfo.InArcByType(ArcType.SingleTurret) && shotInfo.Range >= 1 && shotInfo.Range <= 2)
             {
-                Messages.ShowError(HostShip.PilotName + " assigns Stress Token\nto " + TargetShip.PilotName);
+                Messages.ShowError(HostShip.PilotInfo.PilotName + " assigns Stress Token\nto " + TargetShip.PilotInfo.PilotName);
                 TargetShip.Tokens.AssignToken(typeof(StressToken), SelectShipSubPhase.FinishSelection);
             }
             else

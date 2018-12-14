@@ -50,7 +50,7 @@ namespace Abilities.FirstEdition
         {
             HostShip.ChooseTargetToAcquireTargetLock(
                 AssignFocusToken,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 HostShip
             );
         }

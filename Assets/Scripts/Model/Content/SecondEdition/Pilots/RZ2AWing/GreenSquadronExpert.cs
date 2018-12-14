@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -12,7 +13,7 @@ namespace Ship
                     "Green Squadron Expert",
                     3,
                     34,
-                    extraUpgradeIcon: UpgradeType.Talent //,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,
                                                          //seImageNumber: 19
                 );
 

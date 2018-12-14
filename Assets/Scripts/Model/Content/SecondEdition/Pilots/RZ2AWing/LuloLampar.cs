@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,8 +15,8 @@ namespace Ship
                     38,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LuloLamparAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 19
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,
+                                                                                                        //seImageNumber: 19
                 );
 
                 //ModelInfo.SkinName = "Blue";

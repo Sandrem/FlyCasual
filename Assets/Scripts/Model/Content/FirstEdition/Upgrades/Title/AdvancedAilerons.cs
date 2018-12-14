@@ -29,16 +29,16 @@ namespace Abilities.FirstEdition
         {
             base.ActivateAbility();
 
-            HostShip.Maneuvers["3.L.B"] = MovementComplexity.Normal;
-            HostShip.Maneuvers["3.R.B"] = MovementComplexity.Normal;
+            HostShip.DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Normal);
+            HostShip.DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);
         }
 
         public override void DeactivateAbility()
         {
             base.ActivateAbility();
 
-            HostShip.Maneuvers["3.L.B"] = MovementComplexity.Complex;
-            HostShip.Maneuvers["3.R.B"] = MovementComplexity.Complex;
+            HostShip.DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Complex);
+            HostShip.DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Complex);
         }
     }
 }

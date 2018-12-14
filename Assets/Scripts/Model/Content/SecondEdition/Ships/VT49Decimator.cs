@@ -17,7 +17,7 @@ namespace Ship.SecondEdition.VT49Decimator
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
-            ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAftAction)));
+            ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CoordinateAction), ActionColor.Red));
 

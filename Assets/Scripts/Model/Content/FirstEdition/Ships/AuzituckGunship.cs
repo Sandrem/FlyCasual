@@ -24,7 +24,7 @@ namespace Ship.FirstEdition.AuzituckGunship
                 1, 6, 3,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
-                    new ActionInfo(typeof(ReinforceAftAction))
+                    new ActionInfo(typeof(ReinforceAction))
                 ),
                 new ShipUpgradesInfo(
                     UpgradeType.Title,

@@ -17,7 +17,7 @@ namespace Ship
                 ShipInfo.Hull = 9;
                 ShipInfo.Shields = 3;
 
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAftAction)));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));
 
                 IconicPilots[Faction.Scum] = typeof(Bossk);
 

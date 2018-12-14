@@ -18,7 +18,7 @@ namespace Ship
                 ShipInfo.DefaultShipFaction = Faction.FirstOrder;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.FirstOrder };
 
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceForeAction)));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(JamAction)));
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Cannon);

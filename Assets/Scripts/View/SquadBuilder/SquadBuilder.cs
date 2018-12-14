@@ -112,6 +112,7 @@ namespace SquadBuilderNS
 
             if (ship.Instance.IconicPilots != null)
             {
+                Debug.Log(ship.Instance.IconicPilots[CurrentSquadList.SquadFaction].ToString());
                 image = AllPilots.Find(n => n.PilotTypeName == ship.Instance.IconicPilots[CurrentSquadList.SquadFaction].ToString()).Instance.ImageUrl;
             }
 

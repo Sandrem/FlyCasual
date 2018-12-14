@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
                 //seImageNumber: 69
             );
 
-            ImageUrl = "http://infinitearenas.com/xw2browse/images/upgrades/pattern-analyzer.jpg";
+            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/ace963fc4fe9d97f64ab8564dc4beae7.png";
         }
     }
 }

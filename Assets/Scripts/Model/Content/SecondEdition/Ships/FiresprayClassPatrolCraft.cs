@@ -23,7 +23,7 @@ namespace Ship
 
                 ShipInfo.ActionIcons.RemoveActions(typeof(EvadeAction));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction)));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAftAction), ActionColor.Red));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction), ActionColor.Red));
 
                 IconicPilots[Faction.Scum] = typeof(KrassisTrelix);
 

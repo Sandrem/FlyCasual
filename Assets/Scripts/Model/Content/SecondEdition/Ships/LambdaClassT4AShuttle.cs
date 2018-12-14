@@ -18,7 +18,8 @@ namespace Ship
 
                 ShipInfo.ArcInfo.Arcs.Add(new ShipArcInfo(ArcType.Rear, 2));
 
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAftAction)));
+                ShipInfo.ActionIcons.RemoveActions(typeof(TargetLockAction));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CoordinateAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(JamAction), ActionColor.Red));
 

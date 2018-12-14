@@ -21,7 +21,7 @@ namespace Ship
                                                          //seImageNumber: 120
                 );
 
-                ImageUrl = "http://infinitearenas.com/xw2browse/images/first-order/avenger.png";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/d90d3057ead18b5df5f6de55a199a4cd.png";
             }
         }
     }

@@ -17,18 +17,9 @@ namespace Ship.SecondEdition.VT49Decimator
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
-            ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAftAction)));
+            ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CoordinateAction), ActionColor.Red));
-
-            Maneuvers.Add("1.L.T", MovementComplexity.Complex);
-            Maneuvers["1.L.B"] = MovementComplexity.Easy;
-            Maneuvers["1.F.S"] = MovementComplexity.Easy;
-            Maneuvers["1.R.B"] = MovementComplexity.Easy;
-            Maneuvers.Add("1.R.T", MovementComplexity.Complex);
-            Maneuvers["2.L.B"] = MovementComplexity.Normal;
-            Maneuvers["2.R.B"] = MovementComplexity.Normal;
-            Maneuvers["3.F.S"] = MovementComplexity.Normal;
 
             DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn), MovementComplexity.Complex);
             DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Easy);

@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
                                                                                //seImageNumber: 69
             );
 
-            ImageUrl = "http://infinitearenas.com/xw2browse/images/upgrades/advanced-optics.jpg";
+            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/e77e204e6b7164f6a1d945b20a0c4359.png";
         }
     }
 }

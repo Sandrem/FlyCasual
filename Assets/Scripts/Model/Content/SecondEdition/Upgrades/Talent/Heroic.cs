@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
                                                                        //seImageNumber: 12
             );
 
-            ImageUrl = "http://infinitearenas.com/xw2browse/images/upgrades/heroic.jpg";
+            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/9f8baf4893cd90288df44b69b50fa788.png";
         }
     }
 }

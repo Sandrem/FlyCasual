@@ -78,7 +78,7 @@ namespace Abilities.SecondEdition
                         if (Combat.ShotInfo.InArc && HostShip.State.Force > 0 && Combat.CurrentDiceRoll.Blanks > 0) result = true;
                         break;
                     case CombatStep.Defence:
-                        ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapon);
+                        ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
                         if (shotInfo.InArc && HostShip.State.Force > 0 && Combat.CurrentDiceRoll.Blanks > 0) result = true;
                         break;
                     default:

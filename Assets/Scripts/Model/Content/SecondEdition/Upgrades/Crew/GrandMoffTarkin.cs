@@ -70,25 +70,40 @@ namespace Abilities.SecondEdition
                 .Where(t => t.OtherTokenOwner is GenericShip)
                 .Select(t => t.OtherTokenOwner)
                 .ToArray();
-            var friendlies = HostShip.Owner.Ships.Values;
-            foreach (var friendly in friendlies)
+            // Limit the list of friendlies down to those that can actually lock these targets.
+            var friendlies = HostShip.Owner.Ships.Values
+                .Where(f => targets.Any(t =>
+                {
+                    var range = BoardTools.Board.GetRangeOfShips(f, t);
+                    return f.TargetLockMinRange <= range && f.TargetLockMaxRange >= range;
+                }))
+                .ToArray();
+            if (friendlies.Length == 0)
             {
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = friendly.PilotInfo.PilotName + " (" + friendly.ShipId + ") can acquire " + HostShip.PilotInfo.PilotName + "'s lock",
-                        TriggerOwner = HostShip.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnAbilityDirect,
-                        EventHandler = AskToAcquireTarkinsLock,
-                        Sender = HostShip,
-                        EventArgs = new TarkinAbilityEventArgs
+                Messages.ShowInfo(string.Format("No friendly ship is at lock range of any of {0}'s targets", HostShip.PilotInfo.PilotName));
+
+            }
+            else
+            {
+                foreach (var friendly in friendlies)
+                {
+                    Triggers.RegisterTrigger(
+                        new Trigger()
                         {
-                            tarkinsShip = HostShip,
-                            tarkinsFriend = friendly,
-                            tarkinsLocks = targets
+                            Name = friendly.PilotInfo.PilotName + " (" + friendly.ShipId + ") can acquire " + HostShip.PilotInfo.PilotName + "'s lock",
+                            TriggerOwner = HostShip.Owner.PlayerNo,
+                            TriggerType = TriggerTypes.OnAbilityDirect,
+                            EventHandler = AskToAcquireTarkinsLock,
+                            Sender = HostShip,
+                            EventArgs = new TarkinAbilityEventArgs
+                            {
+                                tarkinsShip = HostShip,
+                                tarkinsFriend = friendly,
+                                tarkinsLocks = targets
+                            }
                         }
-                    }
-                );
+                    );
+                }
             }
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, DecisionSubPhase.ConfirmDecision);
         }
@@ -124,7 +139,7 @@ namespace Abilities.SecondEdition
 
         protected void LockTarget(GenericShip ship, GenericShip target)
         {
-            ActionsHolder.AcquireTargetLock(ship, target, SelectShipSubPhase.FinishSelection, SelectShipSubPhase.FinishSelection, true);
+            ActionsHolder.AcquireTargetLock(ship, target, SelectShipSubPhase.FinishSelection, SelectShipSubPhase.FinishSelection, false);
         }
 
         protected int GetAiTargetPriority(GenericShip subject, GenericShip target)

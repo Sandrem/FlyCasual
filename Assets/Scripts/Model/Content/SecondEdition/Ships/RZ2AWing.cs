@@ -18,6 +18,7 @@ namespace Ship
             public RZ2AWing() : base()
             {
                 ShipInfo.ShipName = "RZ-2 A-wing";
+                ModelInfo = new ShipModelInfo("RZ-2 A-wing", "Blue");
 
                 ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.SingleTurret, 2);
 

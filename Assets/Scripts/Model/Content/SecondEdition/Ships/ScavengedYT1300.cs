@@ -18,6 +18,8 @@ namespace Ship.SecondEdition.ScavengedYT1300
             ShipInfo.Hull = 8;
             ShipInfo.Shields = 3;
 
+            ModelInfo = new ShipModelInfo("Scavenged YT-1300", "YT-1300");
+
             ShipInfo.DefaultShipFaction = Faction.Resistance;
             ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
 

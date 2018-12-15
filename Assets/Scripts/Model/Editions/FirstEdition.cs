@@ -135,8 +135,8 @@ namespace RuleSets
         {
             bool result = false;
 
-            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
-            result = (facing == ArcFacing.FullFront) ? reverseShotInfo.InArc : !reverseShotInfo.InArc;
+            ArcType arcType = (facing == ArcFacing.FullFront) ? ArcType.FullFront : ArcType.FullRear;
+            result = Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, arcType);
 
             return result;
         }

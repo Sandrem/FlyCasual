@@ -233,18 +233,12 @@ namespace RuleSets
 
             bool result = false;
 
-            List<GenericArc> savedArcs = Combat.Defender.ArcsInfo.Arcs;
-            Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullFront(Combat.Defender.ShipBase) };
-            ShotInfo reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
-            bool inForward180Arc = reverseShotInfo.InArc;
+            ArcType arcType = (facing == ArcFacing.FullFront) ? ArcType.FullFront : ArcType.FullRear;
 
-            Combat.Defender.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullRear(Combat.Defender.ShipBase) };
-            reverseShotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
-            bool inRear180Arc = reverseShotInfo.InArc;
+            bool inFullFrontArc = Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, ArcType.FullFront);
+            bool inFullRearArc = Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, ArcType.FullRear);
 
-            Combat.Defender.ArcsInfo.Arcs = savedArcs;
-
-            result = (facing == ArcFacing.FullFront) ? inForward180Arc && !inRear180Arc : !inForward180Arc && inRear180Arc;
+            result = (facing == ArcFacing.FullFront) ? inFullFrontArc && !inFullRearArc : !inFullFrontArc && inFullRearArc;
 
             return result;
         }

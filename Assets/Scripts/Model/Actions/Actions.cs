@@ -422,9 +422,9 @@ public static partial class ActionsHolder
     {
         int result = 0;
 
-        foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
+        foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships.Values)
         {
-            ShotInfo shotInfo = new ShotInfo(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapons);
+            ShotInfo shotInfo = new ShotInfo(anotherShip, thisShip, anotherShip.PrimaryWeapons);
             if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 if (direction == 0)
@@ -433,14 +433,13 @@ public static partial class ActionsHolder
                 }
                 else
                 {
-                    ShotInfo reverseShotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapons);
                     if (direction == 1)
                     {
-                        if (reverseShotInfo.InArc) result++;
+                        if (thisShip.SectorsInfo.IsShipInSector(anotherShip, Arcs.ArcType.FullFront)) result++;
                     }
                     else if (direction == -1)
                     {
-                        if (!reverseShotInfo.InArc) result++;
+                        if (thisShip.SectorsInfo.IsShipInSector(anotherShip, Arcs.ArcType.FullRear)) result++;
                     }
                 }
                 

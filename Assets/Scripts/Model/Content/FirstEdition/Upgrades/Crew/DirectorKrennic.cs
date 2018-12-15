@@ -31,6 +31,14 @@ namespace Abilities.FirstEdition
 {
     public class DirectorKrennicAbility : GenericAbility
     {
+        protected virtual string Prompt
+        {
+            get
+            {
+                return "Choose Galactic Empire ship with 3 or fewer Shields.\nIt gets Optimized Prototype condition.";
+            }
+        }
+
         public override void ActivateAbility()
         {
             Phases.Events.OnSetupStart += RegisterDirectorKrennicAbility;
@@ -67,7 +75,7 @@ namespace Abilities.FirstEdition
                   GetAiOptimizedPrototypePriority,
                   HostShip.Owner.PlayerNo,
                   HostUpgrade.UpgradeInfo.Name,
-                  "Choose Galactic Empire ship with 3 or fewer Shields.\nIt gets Optimized Prototype condition.",
+                  Prompt,
                   HostUpgrade
               );
         }

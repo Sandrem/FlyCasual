@@ -23,6 +23,8 @@ namespace Ship
                 ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.SingleTurret, 2);
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
+                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Tech);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction)));
 
@@ -50,20 +52,27 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnActionIsPerformed += PerformVectoredThrusters;
+            HostShip.OnActionIsPerformed += CheckConditions;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnActionIsPerformed -= PerformVectoredThrusters;
+            HostShip.OnActionIsPerformed -= CheckConditions;
         }
 
-        private void PerformVectoredThrusters(GenericAction ship)
+        private void CheckConditions(GenericAction action)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, AskPerformVectoredThrusters);
+            HostShip.OnActionDecisionSubphaseEnd += PerformRepositionAction;
         }
 
-        private void AskPerformVectoredThrusters(object sender, System.EventArgs e)
+        private void PerformRepositionAction(GenericShip ship)
+        {
+            HostShip.OnActionDecisionSubphaseEnd -= PerformRepositionAction;
+
+            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, AskPerformPerositionAction);
+        }
+
+        private void AskPerformPerositionAction(object sender, System.EventArgs e)
         {
             Messages.ShowInfoToHuman("Vectored Thrusters: you may perform a red boost or a red rotate arc action");
 

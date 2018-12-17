@@ -177,7 +177,6 @@ public static partial class Combat
         else
         {
             IsAttackAlreadyCalled = false;
-            Messages.ShowError("AI: Target is not legal for attack");
             Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
         }
     }

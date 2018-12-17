@@ -183,8 +183,8 @@ public static partial class Combat
 
     private static void SetArcAsUsedForAttack()
     {
-        Combat.ArcForShot = Combat.ShotInfo.ShotAvailableFromArcs.First();
-        ArcForShot.WasUsedForAttackThisRound = true;
+        Combat.ArcForShot = Combat.ShotInfo.ShotAvailableFromArcs.FirstOrDefault();
+        if (ArcForShot != null) ArcForShot.WasUsedForAttackThisRound = true;
     }
 
     private static void CheckFireLineCollisions()

@@ -26,6 +26,8 @@ namespace Ship
                 IconicPilots[Faction.Imperial] = typeof(CaptainKagi);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/d4/Maneuver_lambda_shuttle.png";
+
+                OldShipTypeName = "Lambda-class Shuttle";
             }
         }
     }

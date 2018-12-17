@@ -22,6 +22,8 @@ namespace Ship
                 IconicPilots[Faction.Scum] = typeof(Bossk);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/2f/Maneuver_yv-666.png";
+
+                OldShipTypeName = "YV-666";
             }
         }
     }

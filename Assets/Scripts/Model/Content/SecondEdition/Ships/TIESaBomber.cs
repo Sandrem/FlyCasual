@@ -32,6 +32,8 @@ namespace Ship
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn), MovementComplexity.Normal);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/0e/Maneuver_tie_bomber.png";
+
+                OldShipTypeName = "TIE Bomber";
             }
         }
     }

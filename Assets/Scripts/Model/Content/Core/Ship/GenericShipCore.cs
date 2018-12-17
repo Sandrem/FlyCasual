@@ -89,7 +89,14 @@ namespace Ship
             {
                 if (!string.IsNullOrEmpty(shipTypeCanonical)) return shipTypeCanonical;
 
-                return Tools.Canonicalize(ShipInfo.ShipName);
+                if (string.IsNullOrEmpty(OldShipTypeName))
+                {
+                    return Tools.Canonicalize(ShipInfo.ShipName);
+                }
+                else
+                {
+                    return Tools.Canonicalize(OldShipTypeName);
+                }
             }
             set { shipTypeCanonical = value; }
         }

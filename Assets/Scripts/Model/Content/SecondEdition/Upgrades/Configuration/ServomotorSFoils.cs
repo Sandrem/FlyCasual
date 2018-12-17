@@ -33,7 +33,7 @@ namespace UpgradesList.SecondEdition
         public ServomotorSFoilsAttack() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Servomotor S-Foils (Attack)",
+                "Servomotor S-Foils (Open)",
                 UpgradeType.Configuration,
                 cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.T65XWing.T65XWing)),

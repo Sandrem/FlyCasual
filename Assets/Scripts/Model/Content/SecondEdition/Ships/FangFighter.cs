@@ -24,6 +24,8 @@ namespace Ship
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction)));
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b4/Maneuver_fang_fighter.png";
+
+                OldShipTypeName = "Protectorate Starfighter";
             }
         }
     }

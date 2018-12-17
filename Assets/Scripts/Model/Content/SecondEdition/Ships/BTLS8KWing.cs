@@ -32,6 +32,8 @@ namespace Ship
                 IconicPilots[Faction.Rebel] = typeof(MirandaDoni);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/5/58/Maneuver_k-wing.png";
+
+                OldShipTypeName = "K-wing";
             }
         }
     }

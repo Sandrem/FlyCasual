@@ -13,10 +13,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Astromech,
                 cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.R4AstromechAbility),
-                restrictions: new UpgradeCardRestrictions(
-                    new FactionRestriction(Faction.Rebel),
-                    new BaseSizeRestriction(BaseSize.Small)
-                ),
+                restriction: new BaseSizeRestriction(BaseSize.Small),
                 seImageNumber: 55
             );
         }

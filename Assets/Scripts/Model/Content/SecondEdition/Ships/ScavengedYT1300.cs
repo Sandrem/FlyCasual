@@ -23,6 +23,7 @@ namespace Ship.SecondEdition.ScavengedYT1300
             ShipInfo.DefaultShipFaction = Faction.Resistance;
             ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
 
+            ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
 

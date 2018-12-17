@@ -69,7 +69,7 @@ namespace SquadBuilderNS
             {
                 if (ship.Instance.ShipInfo.FactionsAll.Contains(faction) && !ship.Instance.IsHidden)
                 {
-                    if (Edition.Current.ShipIsAllowed(ship.Instance)) ShowAvailableShip(ship, faction);
+                    if (ship.Instance.GetType().ToString().Contains(Edition.Current.NameShort)) ShowAvailableShip(ship, faction);
                 }
             }
         }
@@ -123,7 +123,15 @@ namespace SquadBuilderNS
             availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
-            List<PilotRecord> AllPilotsFiltered = AllPilots.Where(n => n.PilotShip == shipRecord && n.PilotFaction == faction && Edition.Current.PilotIsAllowed(n.Instance)).OrderByDescending(n => n.PilotSkill).OrderByDescending(n => n.Instance.PilotInfo.Cost).ToList();
+            List<PilotRecord> AllPilotsFiltered = AllPilots
+                .Where(n => 
+                    n.PilotShip == shipRecord
+                    && n.PilotFaction == faction
+                    && n.GetType().ToString().Contains(Edition.Current.NameShort)
+                )
+                .OrderByDescending(n => n.PilotSkill).
+                OrderByDescending(n => n.Instance.PilotInfo.Cost).
+                ToList();
             int pilotsCount = AllPilotsFiltered.Count();
 
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
@@ -254,7 +262,7 @@ namespace SquadBuilderNS
                 prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/AddShipButton", typeof(GameObject));
                 GameObject addShipButton = MonoBehaviour.Instantiate(prefab, addShipButtonPanel.transform);
 
-                Sprite factionSprite = GameObject.Find("UI/Panels").transform.Find("SelectFactionPanel").Find("Panel").Find("FactionPanels" + Edition.Current.Name).Find(CurrentSquadList.SquadFaction.ToString()).GetComponent<Image>().sprite;
+                Sprite factionSprite = GameObject.Find("UI/Panels").transform.Find("SelectFactionPanel").Find("Panel").Find("FactionPanels" + Edition.Current.NameShort).Find(CurrentSquadList.SquadFaction.ToString()).GetComponent<Image>().sprite;
                 addShipButton.GetComponent<Image>().sprite = factionSprite;
 
                 EventTrigger trigger = addShipButton.AddComponent<EventTrigger>();
@@ -868,7 +876,7 @@ namespace SquadBuilderNS
 
         public static void ShowFactionsImages()
         {
-            GameObject panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanels" + Edition.Current.Name).gameObject;
+            GameObject panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanels" + Edition.Current.NameShort).gameObject;
             panelGO.SetActive(true);
 
             foreach (Transform imagePanel in panelGO.transform)

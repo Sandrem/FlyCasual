@@ -16,7 +16,8 @@ namespace RuleSets
 {
     public class FirstEdition : Edition
     {
-        public override string Name { get { return "FirstEdition"; } }
+        public override string Name { get { return "First Edition"; } }
+        public override string NameShort { get { return "FirstEdition"; } }
 
         public override int MaxPoints { get { return 100; } }
         public override int MinShipsCount { get { return 1; } }
@@ -89,16 +90,6 @@ namespace RuleSets
         public override void EvadeDiceModification(DiceRoll diceRoll)
         {
             diceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
-        }
-
-        public override bool PilotIsAllowed(GenericShip ship)
-        {
-            return ship.GetType().ToString().Contains(Name);
-        }
-
-        public override bool ShipIsAllowed(GenericShip ship)
-        {
-            return ship.GetType().ToString().Contains(Name);
         }
 
         public override bool WeaponHasRangeBonus()

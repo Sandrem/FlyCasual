@@ -146,7 +146,7 @@ namespace SquadBuilderNS
             AllShips = new List<ShipRecord>();
             AllPilots = new List<PilotRecord>();
 
-            string namespacePart = "Ship." + Edition.Current.Name + ".";
+            string namespacePart = "Ship." + Edition.Current.NameShort + ".";
 
             IEnumerable<string> namespaceIEnum =
                 from types in Assembly.GetExecutingAssembly().GetTypes()
@@ -229,7 +229,7 @@ namespace SquadBuilderNS
             AllUpgrades = new List<UpgradeRecord>();
 
             List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(t => String.Equals(t.Namespace, "UpgradesList." + Edition.Current.Name, StringComparison.Ordinal))
+                .Where(t => String.Equals(t.Namespace, "UpgradesList." + Edition.Current.NameShort, StringComparison.Ordinal))
                 .ToList();
 
             foreach (var type in typelist)

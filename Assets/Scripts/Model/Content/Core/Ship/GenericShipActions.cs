@@ -7,6 +7,7 @@ using SubPhases;
 using Tokens;
 using ActionsList;
 using GameModes;
+using Arcs;
 
 namespace Ship
 {
@@ -75,6 +76,8 @@ namespace Ship
         public event EventHandler OnDecloak;
 
         public event EventHandlerActionRef OnCheckActionComplexity;
+
+        public event EventHandlerArcFacingList OnGetAvailableArcFacings;
 
         // ACTIONS
 
@@ -588,6 +591,22 @@ namespace Ship
         public void CallOnCheckActionComplexity(ref GenericAction action)
         {
             if (OnCheckActionComplexity != null) OnCheckActionComplexity(ref action);
+        }
+
+        // ArcFacing
+
+        public List<ArcFacing> GetAvailableArcFacings()
+        {
+            List<ArcFacing> availableArcFacings = new List<ArcFacing>()
+            {
+                        ArcFacing.Front,
+                ArcFacing.Left, ArcFacing.Right,
+                        ArcFacing.Rear
+            };
+
+            if (OnGetAvailableArcFacings != null) OnGetAvailableArcFacings(availableArcFacings);
+
+            return availableArcFacings;
         }
 
     }

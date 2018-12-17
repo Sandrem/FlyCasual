@@ -53,11 +53,19 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnActionIsPerformed += CheckConditions;
+            HostShip.OnGetAvailableArcFacings += RestrictArcFacings;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnActionIsPerformed -= CheckConditions;
+            HostShip.OnGetAvailableArcFacings -= RestrictArcFacings;
+        }
+
+        private void RestrictArcFacings(List<ArcFacing> facings)
+        {
+            facings.Remove(ArcFacing.Left);
+            facings.Remove(ArcFacing.Right);
         }
 
         private void CheckConditions(GenericAction action)

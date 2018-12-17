@@ -44,7 +44,49 @@ namespace Ship
 
                 IconicPilots[Faction.FirstOrder] = typeof(OmegaSquadronExpert);
 
+                ShipAbilities.Add(new Abilities.SecondEdition.HeavyWeaponTurret());
+
                 // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/44/Maneuver_tie_phantom.png";
+            }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    //After you perform an action, you may perform a red boost action.
+    public class HeavyWeaponTurret : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGameStart += RestrictMissileArcRequirements;
+            HostShip.OnGetAvailableArcFacings += RestrictArcFacings;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGameStart -= RestrictMissileArcRequirements;
+            HostShip.OnGetAvailableArcFacings -= RestrictArcFacings;
+        }
+
+        private void RestrictArcFacings(List<ArcFacing> facings)
+        {
+            facings.Remove(ArcFacing.Left);
+            facings.Remove(ArcFacing.Right);
+        }
+
+        private void RestrictMissileArcRequirements()
+        {
+            foreach (GenericUpgrade weaponUpgrade in HostShip.UpgradeBar.GetSpecialWeaponsAll())
+            {
+                IShipWeapon specialWeapon = weaponUpgrade as IShipWeapon;
+                if (specialWeapon.WeaponType == WeaponTypes.Missile) {
+                    if (specialWeapon.WeaponInfo.ArcRestrictions.Contains(ArcType.Front))
+                    {
+                        specialWeapon.WeaponInfo.ArcRestrictions.Remove(ArcType.Front);
+                        specialWeapon.WeaponInfo.ArcRestrictions.Add(ArcType.SingleTurret);
+                    }
+                }
             }
         }
     }

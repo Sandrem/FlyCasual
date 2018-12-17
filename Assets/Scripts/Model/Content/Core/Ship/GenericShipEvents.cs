@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Arcs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace Ship
         public delegate void EventHandlerUpgrade(GenericUpgrade upgrade);
         public delegate void EventHandlerDualUpgrade(GenericDualUpgrade upgrade);
         public delegate void EventHandelerWeaponRange(IShipWeapon weapon, ref int minRange, ref int maxRange, GenericShip target);
+        public delegate void EventHandlerArcFacingList(List<ArcFacing> facings);
 
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetMaxHull;

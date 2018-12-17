@@ -123,11 +123,12 @@ namespace SquadBuilderNS
             availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
+
             List<PilotRecord> AllPilotsFiltered = AllPilots
                 .Where(n => 
                     n.PilotShip == shipRecord
                     && n.PilotFaction == faction
-                    && n.GetType().ToString().Contains(Edition.Current.NameShort)
+                    && n.Instance.GetType().ToString().Contains(Edition.Current.NameShort)
                 )
                 .OrderByDescending(n => n.PilotSkill).
                 OrderByDescending(n => n.Instance.PilotInfo.Cost).
@@ -876,7 +877,13 @@ namespace SquadBuilderNS
 
         public static void ShowFactionsImages()
         {
-            GameObject panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanels" + Edition.Current.NameShort).gameObject;
+            // TODO: change panel struture and use foreach
+            GameObject panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanelsFirstEdition").gameObject;
+            panelGO.SetActive(false);
+            panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanelsSecondEdition").gameObject;
+            panelGO.SetActive(false);
+
+            panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanels" + Edition.Current.NameShort).gameObject;
             panelGO.SetActive(true);
 
             foreach (Transform imagePanel in panelGO.transform)

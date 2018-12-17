@@ -8,6 +8,8 @@ namespace Ship
         {
             public LieutenantDormitz() : base()
             {
+                IsHidden = true;
+
                 PilotInfo = new PilotCardInfo(
                     "Lieutenant Dormitz",
                     2,

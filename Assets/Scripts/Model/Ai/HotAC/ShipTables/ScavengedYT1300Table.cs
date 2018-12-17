@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace AI
 {
-    public class YT1300Table : GenericAiTable
+    public class ScavengedYT1300Table : GenericAiTable
     {
 
-        public YT1300Table() : base()
+        public ScavengedYT1300Table() : base()
         {
-            FrontManeuversInner.Add("2.R.T");
-            FrontManeuversInner.Add("2.L.T");
+            FrontManeuversInner.Add("3.R.T");
+            FrontManeuversInner.Add("3.L.T");
             FrontManeuversInner.Add("3.R.B");
             FrontManeuversInner.Add("3.L.B");
             FrontManeuversInner.Add("4.F.S");
@@ -25,14 +25,14 @@ namespace AI
 
             FrontSideManeuversInner.Add("3.R.B");
             FrontSideManeuversInner.Add("3.L.B");
-            FrontSideManeuversInner.Add("2.L.B");
+            FrontSideManeuversInner.Add("2.L.T");
             FrontSideManeuversInner.Add("2.L.T");
             FrontSideManeuversInner.Add("4.F.S");
             FrontSideManeuversInner.Add("4.F.S");
 
             FrontSideManeuversOuter.Add("4.F.S");
-            FrontSideManeuversOuter.Add("3.R.B");
-            FrontSideManeuversOuter.Add("3.R.B");
+            FrontSideManeuversOuter.Add("3.R.T");
+            FrontSideManeuversOuter.Add("3.R.T");
             FrontSideManeuversOuter.Add("3.R.B");
             FrontSideManeuversOuter.Add("2.R.B");
             FrontSideManeuversOuter.Add("2.R.T");
@@ -45,64 +45,39 @@ namespace AI
             SideManeuversInner.Add("4.F.S");
 
             SideManeuversOuter.Add("4.F.S");
-            SideManeuversOuter.Add("3.R.B");
-            SideManeuversOuter.Add("3.R.B");
+            SideManeuversOuter.Add("3.R.T");
+            SideManeuversOuter.Add("3.R.T");
             SideManeuversOuter.Add("3.R.B");
             SideManeuversOuter.Add("2.R.B");
             SideManeuversOuter.Add("2.R.T");
 
-            BackSideManeuversInner.Add("4.F.R");
-            BackSideManeuversInner.Add("3.F.R");
+            BackSideManeuversInner.Add("3.L.R");
+            BackSideManeuversInner.Add("3.L.R");
             BackSideManeuversInner.Add("1.R.T");
             BackSideManeuversInner.Add("1.R.T");
             BackSideManeuversInner.Add("1.R.B");
             BackSideManeuversInner.Add("1.R.B");
 
-            BackSideManeuversOuter.Add("4.F.R");
-            BackSideManeuversOuter.Add("3.F.R");
+            BackSideManeuversOuter.Add("4.L.R");
+            BackSideManeuversOuter.Add("3.L.R");
             BackSideManeuversOuter.Add("2.R.T");
             BackSideManeuversOuter.Add("2.R.T");
             BackSideManeuversOuter.Add("2.R.T");
             BackSideManeuversOuter.Add("1.R.T");
 
-            BackManeuversInner.Add("4.F.R");
-            BackManeuversInner.Add("4.F.R");
-            BackManeuversInner.Add("4.F.R");
+            BackManeuversInner.Add("3.L.R");
+            BackManeuversInner.Add("3.L.R");
+            BackManeuversInner.Add("3.L.R");
             BackManeuversInner.Add("1.F.S");
             BackManeuversInner.Add("1.L.B");
             BackManeuversInner.Add("1.R.B");
 
-            BackManeuversOuter.Add("4.F.R");
-            BackManeuversOuter.Add("3.F.R");
-            BackManeuversOuter.Add("3.F.R");
-            BackManeuversOuter.Add("3.F.R");
-            BackManeuversOuter.Add("1.L.T");
-            BackManeuversOuter.Add("1.R.T");
-        }
-
-        public override void AdaptToSecondEdition()
-        {
-            ReplaceManeuver("3.F.R", "3.L.R");
-            ReplaceManeuver("1.L.T", "1.L.B");
-            ReplaceManeuver("1.R.T", "1.R.B");
-
-            FrontManeuversInner.Remove("2.R.T");
-            FrontManeuversInner.Remove("2.L.T");
-            FrontManeuversInner.Add("3.R.T");
-            FrontManeuversInner.Add("3.L.T");
-
-            FrontSideManeuversInner.Remove("2.L.B");
-            FrontSideManeuversInner.Add("2.L.T");
-
-            FrontSideManeuversOuter.Remove("3.R.B");
-            FrontSideManeuversOuter.Remove("3.R.B");
-            FrontSideManeuversOuter.Add("3.R.T");
-            FrontSideManeuversOuter.Add("3.R.T");
-
-            SideManeuversOuter.Remove("3.R.B");
-            SideManeuversOuter.Remove("3.R.B");
-            SideManeuversOuter.Add("3.R.T");
-            SideManeuversOuter.Add("3.R.T");
+            BackManeuversOuter.Add("3.L.R");
+            BackManeuversOuter.Add("3.L.R");
+            BackManeuversOuter.Add("3.L.R");
+            BackManeuversOuter.Add("2.R.T");
+            BackManeuversOuter.Add("2.R.B");
+            BackManeuversOuter.Add("1.R.B");
         }
     }
 }

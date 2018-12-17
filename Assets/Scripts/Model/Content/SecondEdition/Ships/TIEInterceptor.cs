@@ -60,8 +60,8 @@ namespace Abilities.SecondEdition
 
         private void AskPerformPerositionAction(object sender, System.EventArgs e)
         {
-            if (!HostShip.IsStressed)
-            {
+            //if (!HostShip.IsStressed)
+            //{
                 Messages.ShowInfoToHuman("AutoThrusters: you may perform a red action");
 
                 HostShip.AskPerformFreeAction(
@@ -72,11 +72,11 @@ namespace Abilities.SecondEdition
                     },
                     Triggers.FinishTrigger
                 );
-            }
-            else
-            {
-                Triggers.FinishTrigger();
-            }
+            //}
+            //else
+            //{
+            //    Triggers.FinishTrigger();
+            //}
         }
     }
 }

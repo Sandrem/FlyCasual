@@ -42,8 +42,8 @@ namespace Abilities.FirstEdition
             if (Combat.Defender.State.Agility != 0)
             {
                 Messages.ShowError("Outmaneuver: Agility is decreased");
-                Conditions.OutmaneuverCondition condition = new Conditions.OutmaneuverCondition(HostShip);
-                condition.Upgrade = HostUpgrade;
+                Conditions.OutmaneuverCondition condition = new Conditions.OutmaneuverCondition(HostShip, HostUpgrade);
+                //condition.Upgrade = HostUpgrade;
                 Combat.Defender.Tokens.AssignCondition(condition);
                 Combat.Defender.ChangeAgilityBy(-1);
                 Combat.Defender.OnAttackFinish += RemoveOutmaneuverAbility;
@@ -76,8 +76,9 @@ namespace Conditions
     {
         public GenericUpgrade Upgrade;
 
-        public OutmaneuverCondition(GenericShip host) : base(host)
+        public OutmaneuverCondition(GenericShip host, GenericUpgrade upgrade) : base(host)
         {
+            Upgrade = upgrade;
             Name = "Debuff Token";
             Temporary = false;
             Tooltip = Upgrade.ImageUrl;

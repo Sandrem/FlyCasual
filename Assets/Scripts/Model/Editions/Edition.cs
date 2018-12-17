@@ -16,6 +16,7 @@ namespace RuleSets
         public static Edition Current { get; set; }
 
         public abstract string Name { get; }
+        public abstract string NameShort { get; }
         public abstract int MaxPoints { get; }
         public abstract int MaxShipsCount { get; }
         public abstract int MinShipsCount { get; }
@@ -48,8 +49,6 @@ namespace RuleSets
         }
 
         public abstract void EvadeDiceModification(DiceRoll diceRoll);
-        public abstract bool PilotIsAllowed(GenericShip ship);
-        public abstract bool ShipIsAllowed(GenericShip ship);
         public abstract bool WeaponHasRangeBonus();
         public abstract void SetShipBaseImage(GenericShip ship);
         public abstract void BarrelRollTemplatePlanning();

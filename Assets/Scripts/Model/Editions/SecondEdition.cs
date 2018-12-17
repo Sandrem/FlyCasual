@@ -19,7 +19,8 @@ namespace RuleSets
 {
     public class SecondEdition : Edition
     {
-        public override string Name { get { return "SecondEdition"; } }
+        public override string Name { get { return "Second Edition"; } }
+        public override string NameShort { get { return "SecondEdition"; } }
         //public override bool IsSquadBuilderLocked { get { return true; } }
 
         public override int MaxPoints { get { return 200; } }
@@ -143,16 +144,6 @@ namespace RuleSets
             return Phases.CurrentSubPhase is TractorBeamPlanningSubPhase;
         }
 
-        public override bool ShipIsAllowed(GenericShip ship)
-        {
-            return ship.GetType().ToString().Contains(Name);
-        }
-
-        public override bool PilotIsAllowed(GenericShip ship)
-        {
-            return ship.GetType().ToString().Contains(Name);
-        }
-
         public override void AdaptShipToRules(GenericShip ship)
         {
             if (Edition.Current is SecondEdition)
@@ -232,8 +223,6 @@ namespace RuleSets
             if (Combat.DiceRollAttack.Successes <= 1) return false;
 
             bool result = false;
-
-            ArcType arcType = (facing == ArcFacing.FullFront) ? ArcType.FullFront : ArcType.FullRear;
 
             bool inFullFrontArc = Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, ArcType.FullFront);
             bool inFullRearArc = Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, ArcType.FullRear);

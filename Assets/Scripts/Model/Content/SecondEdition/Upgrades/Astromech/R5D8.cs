@@ -12,6 +12,7 @@ namespace UpgradesList.SecondEdition
                 cost: 7,
                 isLimited: true,
                 abilityType: typeof(Abilities.FirstEdition.R5AstromechAbility),
+                restriction: new FactionRestriction(Faction.Rebel),
                 charges: 3,
                 seImageNumber: 101
             );

@@ -88,7 +88,7 @@ namespace RulesList
             
             if (ship.Tokens.HasToken(typeof(StressToken)))
             {
-                if ((!ship.CanPerformActionsWhileStressed) && (!ship.GetAvailableActions().Any(n => n.CanBePerformedWhileStressed))) return false;
+                if ((!ship.CanPerformActionsWhileStressed) && (!ship.GetAvailableActions().Any(n => n.CanBePerformedWhileStressed)) && (ship.ActionBar.ActionsThatCanbePreformedwhileStressed.Count == 0)) return false;
             }
 
             return true;

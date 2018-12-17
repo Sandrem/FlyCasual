@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
                 "Outmaneuver",
                 UpgradeType.Talent,
                 cost: 6,
-                abilityType: typeof(Abilities.FirstEdition.OutmaneuverAbility),
+                abilityType: typeof(Abilities.SecondEdition.OutmaneuverAbilitySE),
                 seImageNumber: 11
             );
         }        
@@ -25,7 +25,7 @@ namespace Abilities.SecondEdition
     {
         protected override bool AbilityCanBeUsed()
         {
-            if (!Combat.ShotInfo.InPrimaryArc) return false;
+            if (!Combat.ShotInfo.InArcByType(Arcs.ArcType.Front)) return false;
 
             BoardTools.ShotInfo reverseShotInfo = new BoardTools.ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             if (reverseShotInfo.InArc) return false;

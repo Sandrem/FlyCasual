@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
-namespace UpgradesList.FirstEdition
+namespace UpgradesList.SecondEdition
 {
     public class AdvProtonTorpedoes : GenericSpecialWeapon
     {

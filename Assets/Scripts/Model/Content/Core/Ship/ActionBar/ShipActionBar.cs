@@ -78,6 +78,7 @@ namespace Ship
 
         public List<GenericAction> PrintedActions;
         public List<KeyValuePair<Type, GenericAction>> LinkedActions;
+        public List<Type> ActionsThatCanbePreformedwhileStressed;
         private List<AddedAction> AddedActions;
 
         public ShipActionBar(GenericShip host)
@@ -91,6 +92,7 @@ namespace Ship
         public void Initialize()
         {
             PrintedActions = new List<GenericAction>();
+            ActionsThatCanbePreformedwhileStressed = new List<Type>();
             foreach (ActionInfo actionInfo in Host.ShipInfo.ActionIcons.Actions)
             {
                 GenericAction action = (GenericAction)Activator.CreateInstance(actionInfo.ActionType);

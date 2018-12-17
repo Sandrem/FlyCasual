@@ -73,6 +73,7 @@ namespace Abilities.SecondEdition
         {
             HostUpgrade.State.SpendCharge();
             HostShip.IsIgnoreObstacles = true;
+            HostShip.IsIgnoreObstacleObstructionWhenAttacking = true;
             Phases.Events.OnActivationPhaseEnd_NoTriggers += TurnOffIgnoreObstaclesActivationPhase;
             DecisionSubPhase.ConfirmDecision();
         }
@@ -81,6 +82,7 @@ namespace Abilities.SecondEdition
         {
             HostUpgrade.State.SpendCharge();
             HostShip.IsIgnoreObstacles = true;
+            HostShip.IsIgnoreObstacleObstructionWhenAttacking = true;
             GenericShip.OnCanAttackWhileLandedOnObstacleGlobal += CanAttack;
             Phases.Events.OnCombatPhaseEnd_NoTriggers += TurnOffIgnoreObstaclesCombatPhase;
             DecisionSubPhase.ConfirmDecision();
@@ -89,12 +91,14 @@ namespace Abilities.SecondEdition
         private void TurnOffIgnoreObstaclesActivationPhase()
         {
             HostShip.IsIgnoreObstacles = false;
+            HostShip.IsIgnoreObstacleObstructionWhenAttacking = false;
             Phases.Events.OnActivationPhaseEnd_NoTriggers -= TurnOffIgnoreObstaclesActivationPhase;
         }
 
         private void TurnOffIgnoreObstaclesCombatPhase()
         {
             HostShip.IsIgnoreObstacles = false;
+            HostShip.IsIgnoreObstacleObstructionWhenAttacking = false;
             GenericShip.OnCanAttackWhileLandedOnObstacleGlobal -= CanAttack;
             Phases.Events.OnCombatPhaseEnd_NoTriggers -= TurnOffIgnoreObstaclesCombatPhase;
         }

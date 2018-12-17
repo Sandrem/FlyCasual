@@ -19,6 +19,7 @@ namespace Ship
         public bool IsIgnoreObstacles;
         public bool IsIgnoreObstaclesDuringBoost;
         public bool IsIgnoreObstaclesDuringBarrelRoll;
+        public bool IsIgnoreObstacleObstructionWhenAttacking;
 
         public List<GenericObstacle> IgnoreObstaclesList = new List<GenericObstacle>();
         public List<Type> IgnoreObstacleTypes = new List<Type>();

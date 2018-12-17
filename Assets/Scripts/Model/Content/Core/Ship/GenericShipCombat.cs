@@ -84,6 +84,7 @@ namespace Ship
         public event EventHandlerInt AfterGotNumberOfAttackDiceCap;
         public event EventHandlerInt AfterGotNumberOfDefenceDice;
         public static event EventHandlerInt AfterGotNumberOfDefenceDiceGlobal;
+        public event EventHandlerInt AfterGotNumberOfDefenceDiceCap;
         public event EventHandlerInt AfterNumberOfDefenceDiceConfirmed;
 
         public event EventHandlerShip AfterAssignedDamageIsChanged;
@@ -416,6 +417,8 @@ namespace Ship
             {
                 if (AfterGotNumberOfPrimaryWeaponDefenceDice != null) AfterGotNumberOfPrimaryWeaponDefenceDice(ref result);
             }
+
+            if (AfterGotNumberOfDefenceDiceCap != null) AfterGotNumberOfDefenceDiceCap(ref result);
 
             if (result < 0) result = 0;
 

@@ -25,7 +25,7 @@ namespace Ship
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(BarrelRollAction)),
-                        new ActionInfo(typeof(TargetLockAction))
+                        new ActionInfo(typeof(BoostAction))
                     ),
                     new ShipUpgradesInfo(
                         UpgradeType.Title,

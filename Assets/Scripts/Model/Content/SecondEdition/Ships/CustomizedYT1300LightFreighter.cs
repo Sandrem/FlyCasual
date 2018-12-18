@@ -13,6 +13,7 @@ namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
         public CustomizedYT1300LightFreighter() : base()
         {
             ShipInfo.ShipName = "Customized YT-1300 Light Freighter";
+            OldShipTypeName = "";
 
             ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.DoubleTurret, 2);
 

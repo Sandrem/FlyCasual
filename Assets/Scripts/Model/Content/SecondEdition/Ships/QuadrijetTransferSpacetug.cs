@@ -128,8 +128,7 @@ namespace SubPhases
 
                 TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
 
-                ShotInfoArc shotInfoBullseye = new ShotInfoArc(SpacetugOwner, TargetShip, SpacetugOwner.ArcsInfo.GetArc<Arcs.ArcBullseye>());
-                if (shotInfoBullseye.InArc && shotInfoBullseye.Range == 1)
+                if (SpacetugOwner.SectorsInfo.IsShipInSector(TargetShip, Arcs.ArcType.Bullseye) && SpacetugOwner.SectorsInfo.RangeToShipBySector(TargetShip, Arcs.ArcType.Bullseye) == 1)
                 {
                     TargetShip.Tokens.AssignToken(token, AssignSecondTractorBeamToken);
                 }

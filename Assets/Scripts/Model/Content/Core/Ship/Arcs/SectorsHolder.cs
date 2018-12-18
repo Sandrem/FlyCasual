@@ -51,5 +51,12 @@ namespace Ship
             ShotInfoArc arcInfo = new ShotInfoArc(HostShip, anotherShip, arc);
             return arcInfo.IsShotAvailable;
         }
+
+        public int RangeToShipBySector(GenericShip anotherShip, ArcType arcType)
+        {
+            GenericArc arc = Arcs.First(n => n.ArcType == arcType);
+            ShotInfoArc arcInfo = new ShotInfoArc(HostShip, anotherShip, arc);
+            return arcInfo.Range;
+        }
     }
 }

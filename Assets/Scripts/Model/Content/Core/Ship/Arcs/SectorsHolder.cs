@@ -9,7 +9,7 @@ namespace Ship
 {
     public class SectorsHolder : ArcsHolder
     {
-        public List<GenericArc> Sectors { get { return Arcs.Where(a => a is ArcSector).ToList(); } }
+        public List<GenericArc> Sectors { get { return Arcs.Where(a => a is ArcPrimary || a is ArcLeft || a is ArcRight || a is ArcRear).ToList(); } }
 
         public SectorsHolder(GenericShip hostShip) : base(hostShip)
         {

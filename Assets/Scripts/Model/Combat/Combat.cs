@@ -119,9 +119,9 @@ public static partial class Combat
 
     private static void SelectWeapon()
     {
-        int attackTypesCount = GetAttackTypesCount(Selection.ThisShip, Selection.AnotherShip);
+        List<IShipWeapon> weapons = GetAvailbleAttackTypes(Selection.ThisShip, Selection.AnotherShip);
 
-        if (attackTypesCount > 0)
+        if (weapons.Count > 1)
         {
             Phases.StartTemporarySubPhaseOld(
                 "Choose weapon for attack",
@@ -129,32 +129,36 @@ public static partial class Combat
                 delegate { TryPerformAttack(isSilent: false); }
             );
         }
+        else if (weapons.Count == 1)
+        {
+            Combat.ChosenWeapon = weapons.First();
+            Messages.ShowInfo("Attack with " + Combat.ChosenWeapon.Name);
+
+            Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
+
+            Combat.ShotInfo.CheckObstruction(delegate {
+                TryPerformAttack(isSilent: false);
+            });
+        }
         else
         {
-            // TODOREVERT
-            ChosenWeapon = Selection.ThisShip.PrimaryWeapons.First();
-            ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-
-            //TODO: Show range ruler
-
+            // Messages.ShowError("Error: No weapon to use");
             TryPerformAttack(isSilent: false);
         }
     }
 
     // COUNT ATTACK TYPES
 
-    private static int GetAttackTypesCount(GenericShip thisShip, GenericShip anotherShip)
+    private static List<IShipWeapon> GetAvailbleAttackTypes(GenericShip thisShip, GenericShip anotherShip)
     {
-        int result = 0;
+        List<IShipWeapon> availableWeapons = new List<IShipWeapon>();
 
-        List<IShipWeapon> allWeapons = thisShip.GetAllWeapons();
-
-        foreach (IShipWeapon IShipWeapon in allWeapons)
+        foreach (IShipWeapon shipWeapon in thisShip.GetAllWeapons())
         {
-            if (IShipWeapon.IsShotAvailable(anotherShip)) result++;
+            if (shipWeapon.IsShotAvailable(anotherShip)) availableWeapons.Add(shipWeapon);
         }
 
-        return result;
+        return availableWeapons;
     }
 
     // CHECK LEGALITY OF ATTACK
@@ -177,15 +181,14 @@ public static partial class Combat
         else
         {
             IsAttackAlreadyCalled = false;
-            Messages.ShowError("AI: Target is not legal for attack");
             Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
         }
     }
 
     private static void SetArcAsUsedForAttack()
     {
-        Combat.ArcForShot = Combat.ShotInfo.ShotAvailableFromArcs.First();
-        ArcForShot.WasUsedForAttackThisRound = true;
+        Combat.ArcForShot = Combat.ShotInfo.ShotAvailableFromArcs.FirstOrDefault();
+        if (ArcForShot != null) ArcForShot.WasUsedForAttackThisRound = true;
     }
 
     private static void CheckFireLineCollisions()

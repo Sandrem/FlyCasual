@@ -56,10 +56,10 @@ namespace SubPhases
 
             if (Selection.ThisShip.ArcsInfo.Arcs.Any(a => a is ArcSingleTurret))
             {
-                AddDecision("Front", delegate { ChangeMobileArcFacing(ArcFacing.Front); }, isCentered: true);
-                AddDecision("Left", delegate { ChangeMobileArcFacing(ArcFacing.Left); });
-                AddDecision("Right", delegate { ChangeMobileArcFacing(ArcFacing.Right); });
-                AddDecision("Rear", delegate { ChangeMobileArcFacing(ArcFacing.Rear); }, isCentered: true);
+                foreach (ArcFacing facing in Selection.ThisShip.GetAvailableArcFacings())
+                {
+                    AddSingleTurretRotationDecision(facing);
+                }
             }
             else if (Selection.ThisShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType.DoubleTurret))
             {
@@ -72,6 +72,17 @@ namespace SubPhases
             callBack();
         }
 
+        private void AddSingleTurretRotationDecision(ArcFacing facing)
+        {
+            AddDecision(
+                facing.ToString(), 
+                delegate {
+                    ChangeMobileArcFacing(facing);
+                },
+                isCentered: (facing == ArcFacing.Front || facing == ArcFacing.Rear)
+            );
+        }
+
         private string GetDefaultDecision()
         {
             string facing = "";
@@ -82,9 +93,11 @@ namespace SubPhases
                 {
                     int maxCount = 0;
                     ArcFacing maxFacing = ArcFacing.None;
+
+                    List<ArcFacing> availableArcFacings = Selection.ThisShip.GetAvailableArcFacings();
                     foreach (var sectorInfo in EnemiesInArcHolder)
                     {
-                        if (sectorInfo.Value.Count > maxCount)
+                        if (sectorInfo.Value.Count > maxCount && availableArcFacings.Contains(sectorInfo.Key))
                         {
                             maxCount = sectorInfo.Value.Count;
                             maxFacing = sectorInfo.Key;

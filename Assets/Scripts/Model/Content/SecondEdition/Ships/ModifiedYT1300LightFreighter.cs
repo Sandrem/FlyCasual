@@ -40,6 +40,8 @@ namespace Ship.SecondEdition.ModifiedYT1300LightFreighter
             IconicPilots[Faction.Rebel] = typeof(HanSolo);
 
             ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/3f/Maneuver_modified_yt-1300.png";
+
+            OldShipTypeName = "YT-1300";
         }
     }
 }

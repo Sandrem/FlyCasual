@@ -37,9 +37,10 @@ namespace Ship
 
                 ShipAbilities.Add(new VectoredThrustersRZ2());
 
-                IconicPilots[Faction.Resistance] = typeof(TallissanLintra);
+                IconicPilots[Faction.Resistance] = typeof(GreerSonnel);
 
                 // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b4/Maneuver_a-wing.png";
+                HotacManeuverTable = new AI.RZ2AWingTable();
             }
         }
     }
@@ -53,11 +54,19 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnActionIsPerformed += CheckConditions;
+            HostShip.OnGetAvailableArcFacings += RestrictArcFacings;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnActionIsPerformed -= CheckConditions;
+            HostShip.OnGetAvailableArcFacings -= RestrictArcFacings;
+        }
+
+        private void RestrictArcFacings(List<ArcFacing> facings)
+        {
+            facings.Remove(ArcFacing.Left);
+            facings.Remove(ArcFacing.Right);
         }
 
         private void CheckConditions(GenericAction action)

@@ -31,6 +31,8 @@ namespace Ship.SecondEdition.YT2400LightFreighter
             IconicPilots[Faction.Rebel] = typeof(DashRendar);
 
             ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/11/Maneuver_yt-2400.png";
+
+            OldShipTypeName = "YT-2400";
         }
     }
 }

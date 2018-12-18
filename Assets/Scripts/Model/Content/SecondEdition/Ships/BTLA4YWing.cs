@@ -31,6 +31,8 @@ namespace Ship
                 IconicPilots[Faction.Scum] = typeof(DreaRenthal);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/18/Maneuver_y-wing.png";
+
+                OldShipTypeName = "Y-wing";
             }
         }
     }

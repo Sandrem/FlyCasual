@@ -23,6 +23,8 @@ namespace Ship
                 IconicPilots[Faction.Scum] = typeof(NdruSuhlak);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/34/Maneuver_z-95.png";
+
+                OldShipTypeName = "Z-95";
             }
         }
     }

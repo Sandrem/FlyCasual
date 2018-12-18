@@ -23,6 +23,7 @@ namespace Ship.SecondEdition.ScavengedYT1300
             ShipInfo.DefaultShipFaction = Faction.Resistance;
             ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
 
+            ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
 
@@ -50,6 +51,7 @@ namespace Ship.SecondEdition.ScavengedYT1300
             IconicPilots[Faction.Resistance] = typeof(Rey);
 
             // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/3f/Maneuver_modified_yt-1300.png";
+            HotacManeuverTable = new AI.ScavengedYT1300Table();
         }
     }
 }

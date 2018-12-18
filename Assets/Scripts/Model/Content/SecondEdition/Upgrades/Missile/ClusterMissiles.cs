@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
         public ClusterMissiles() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Assault Missiles",
+                "Cluster Missiles",
                 UpgradeType.Missile,
                 cost: 5,
                 weaponInfo: new SpecialWeaponInfo(

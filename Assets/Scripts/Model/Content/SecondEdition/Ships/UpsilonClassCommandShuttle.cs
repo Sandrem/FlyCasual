@@ -24,7 +24,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Cannon);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Crew);
 
-                IconicPilots[Faction.FirstOrder] = typeof(LieutenantDormitz);
+                IconicPilots[Faction.FirstOrder] = typeof(StarkillerBasePilot);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.LinkedBattery());
 

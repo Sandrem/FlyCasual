@@ -40,6 +40,8 @@ namespace Ship
                 IconicPilots[Faction.Scum] = typeof(PalobGodalhi);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/8/8a/Maneuver_hwk-290.png";
+
+                OldShipTypeName = "HWK-290";
             }
         }
     }

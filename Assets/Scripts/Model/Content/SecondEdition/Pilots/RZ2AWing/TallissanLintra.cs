@@ -14,6 +14,8 @@ namespace Ship
         {
             public TallissanLintra() : base()
             {
+                IsHidden = true;
+
                 PilotInfo = new PilotCardInfo(
                     "Tallissan Lintra",
                     5,

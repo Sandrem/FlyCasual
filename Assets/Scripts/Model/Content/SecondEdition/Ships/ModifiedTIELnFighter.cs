@@ -28,7 +28,9 @@ namespace Ship
                     "Mining Guild"
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/62/Maneuver_tie_ln_fighter.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/7/7a/Maneuver_modified_tie_ln_fighter.png";
+
+                HotacManeuverTable = new AI.ModifiedTIELnFighterTable();
             }
         }
     }

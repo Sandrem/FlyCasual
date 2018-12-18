@@ -20,7 +20,7 @@ namespace UpgradesList.SecondEdition
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.YT1300.YT1300)),
                 addAction: new ActionInfo(typeof(EvadeAction)),
                 abilityType: typeof(Abilities.SecondEdition.MilleniumFalconAbility),
-                seImageNumber: 143
+                seImageNumber: 103
             );
         }        
     }

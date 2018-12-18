@@ -142,7 +142,7 @@ namespace Arcs
                     (Host.ArcsInfo.Arcs.Find(a => a is ArcDualTurretB) as ArcDualTurretB).RotateArc(ArcFacing.Right);
                     break;
             }
-            RuleSets.Edition.Current.RotateMobileFiringArc(facing);
+            Editions.Edition.Current.RotateMobileFiringArc(facing);
         }
 
         public void ShowMobileArcPointer()

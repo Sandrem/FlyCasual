@@ -5,7 +5,7 @@ using UnityEngine;
 using Mods;
 using ActionsList;
 using Upgrade;
-using RuleSets;
+using Editions;
 using SquadBuilderNS;
 
 namespace Ship
@@ -35,8 +35,8 @@ namespace Ship
 
         public GenericShip Host;
 
-        public Type ShipRuleType = typeof(RuleSets.FirstEdition);
-        public Type PilotRuleType = typeof(RuleSets.FirstEdition);
+        public Type ShipRuleType = typeof(Editions.FirstEdition);
+        public Type PilotRuleType = typeof(Editions.FirstEdition);
 
         public List<GenericUpgrade> TwoTargetLocksOnDifferentTargetsAreAllowed = new List<GenericUpgrade>();
         public List<GenericShip> TwoTargetLocksOnSameTargetsAreAllowed = new List<GenericShip>();

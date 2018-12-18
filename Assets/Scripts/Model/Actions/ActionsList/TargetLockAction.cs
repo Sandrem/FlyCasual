@@ -1,5 +1,5 @@
 ﻿using BoardTools;
-using RuleSets;
+using Editions;
 using RulesList;
 using Ship;
 using System.Collections;

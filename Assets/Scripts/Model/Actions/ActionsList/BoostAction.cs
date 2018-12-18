@@ -4,7 +4,7 @@ using UnityEngine;
 using BoardTools;
 using GameModes;
 using System.Linq;
-using RuleSets;
+using Editions;
 using Obstacles;
 using ActionsList;
 

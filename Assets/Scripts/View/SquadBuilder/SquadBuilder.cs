@@ -9,7 +9,7 @@ using UnityEngine.UI;
 using Upgrade;
 using System.IO;
 using Ship;
-using RuleSets;
+using Editions;
 
 namespace SquadBuilderNS
 {

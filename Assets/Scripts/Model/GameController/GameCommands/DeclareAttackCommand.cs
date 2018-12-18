@@ -31,7 +31,7 @@ namespace GameCommands
         {
             GenericShip attacker = Roster.GetShipById("ShipId:" + int.Parse(GetString("id")));
 
-            foreach (IShipWeapon weapon in attacker.GetAllWeapons())
+            foreach (IShipWeapon weapon in attacker.GetAllWeapons().Where(n => n.Name == weaponName))
             {
                 if (weapon.WeaponType == WeaponTypes.PrimaryWeapon)
                 {

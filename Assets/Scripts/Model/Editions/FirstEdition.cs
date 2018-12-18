@@ -12,7 +12,7 @@ using Tokens;
 using UnityEngine;
 using Upgrade;
 
-namespace RuleSets
+namespace Editions
 {
     public class FirstEdition : Edition
     {
@@ -92,9 +92,9 @@ namespace RuleSets
             diceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
         }
 
-        public override bool WeaponHasRangeBonus()
+        public override bool IsWeaponHaveRangeBonus(IShipWeapon weapon)
         {
-            return Combat.ChosenWeapon is PrimaryWeaponClass;
+            return weapon.WeaponType == WeaponTypes.PrimaryWeapon;
         }
 
         public override void SetShipBaseImage(GenericShip ship)

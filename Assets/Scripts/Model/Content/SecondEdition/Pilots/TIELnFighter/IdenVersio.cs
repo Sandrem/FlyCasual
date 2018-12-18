@@ -4,7 +4,7 @@ using UnityEngine;
 using Ship;
 using System;
 using Tokens;
-using RuleSets;
+using Editions;
 using SubPhases;
 using Abilities.SecondEdition;
 using Upgrade;

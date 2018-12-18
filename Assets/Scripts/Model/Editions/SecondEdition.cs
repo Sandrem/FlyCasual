@@ -15,7 +15,7 @@ using Tokens;
 using UnityEngine;
 using Upgrade;
 
-namespace RuleSets
+namespace Editions
 {
     public class SecondEdition : Edition
     {
@@ -152,9 +152,16 @@ namespace RuleSets
             }
         }
 
-        public override bool WeaponHasRangeBonus()
+        public override bool IsWeaponHaveRangeBonus(IShipWeapon weapon)
         {
-            return Combat.ChosenWeapon is PrimaryWeaponClass || (Combat.ChosenWeapon as GenericUpgrade).UpgradeInfo.HasType(UpgradeType.Cannon) || (Combat.ChosenWeapon as GenericUpgrade).UpgradeInfo.HasType(UpgradeType.Turret);
+            List<WeaponTypes> rangeEffectedWeaponTypes = new List<WeaponTypes>()
+            {
+                WeaponTypes.Cannon,
+                WeaponTypes.PrimaryWeapon,
+                WeaponTypes.Turret
+            };
+
+            return rangeEffectedWeaponTypes.Contains(weapon.WeaponType);
         }
 
         public override void SetShipBaseImage(GenericShip ship)

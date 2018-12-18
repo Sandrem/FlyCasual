@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Tokens;
-using RuleSets;
+using Editions;
 
 namespace ActionsList
 {

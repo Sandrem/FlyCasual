@@ -3,7 +3,7 @@ using Ship;
 using Tokens;
 using Movement;
 using System.Linq;
-using RuleSets;
+using Editions;
 
 namespace RulesList
 {

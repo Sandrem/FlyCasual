@@ -8,7 +8,7 @@
             {
                 Name = "First Edition Pilots";
                 Description = "Tycho Celchu as Second Edition pilot";
-                EditionType = typeof(RuleSets.SecondEdition);
+                EditionType = typeof(Editions.SecondEdition);
             }
         }
     }

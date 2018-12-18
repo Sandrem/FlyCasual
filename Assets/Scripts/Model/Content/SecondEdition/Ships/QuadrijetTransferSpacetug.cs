@@ -2,7 +2,7 @@
 using ActionsList;
 using BoardTools;
 using Movement;
-using RuleSets;
+using Editions;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;

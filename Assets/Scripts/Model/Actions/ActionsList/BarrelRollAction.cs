@@ -5,7 +5,7 @@ using BoardTools;
 using GameModes;
 using System;
 using System.Linq;
-using RuleSets;
+using Editions;
 using Obstacles;
 
 namespace ActionsList

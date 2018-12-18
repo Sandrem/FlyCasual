@@ -142,89 +142,7 @@ namespace Players
         {
             if (DebugManager.DebugNoCombat) return null;
 
-            GenericShip targetForAttack = null;
-            Dictionary<GenericShip, float> enemyShips = GetEnemyShipsAndDistance(Selection.ThisShip, ignoreCollided: true, inArcAndRange: true);
-
-            targetForAttack = GetTargetWithAssignedTargetLock(enemyShips);
-
-            if (targetForAttack != null)
-            {
-                Console.Write("Ship has Target Lock on " + targetForAttack.PilotInfo.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
-            }
-            else
-            {
-                Console.Write("Ship doesn't have Target Lock on enemy", LogTypes.AI);
-            }
-
-            if (targetForAttack == null)
-            {
-                targetForAttack = SelectNearestTarget(enemyShips);
-                if (targetForAttack != null)
-                {
-                    Console.Write("Ship selected nearest target " + targetForAttack.PilotInfo.PilotName + "(" + targetForAttack.ShipId + ")", LogTypes.AI);
-                }
-                else
-                {
-                    Console.Write("Ship cannot find valid enemy for attack", LogTypes.AI);
-                }
-            }
-
-            return targetForAttack;
-        }
-
-        private GenericShip SelectNearestTarget(Dictionary<GenericShip, float> enemyShips)
-        {
-            GenericShip targetForAttack = null;
-
-            foreach (var shipHolder in enemyShips)
-            {
-                GenericShip newTarget = null;
-                newTarget = TryToDeclareTarget(shipHolder.Key, shipHolder.Value);
-
-                if (newTarget != null)
-                {
-                    if (DebugManager.DebugAI) Debug.Log("Previous target for attack: " + targetForAttack);
-                    if (DebugManager.DebugAI) if (targetForAttack != null) Debug.Log("Previous target has higher distance: " + (enemyShips[targetForAttack] > enemyShips[newTarget]));
-                    if ((targetForAttack == null) || (enemyShips[targetForAttack] > enemyShips[newTarget]))
-                    {
-                        targetForAttack = newTarget;
-                        if (DebugManager.DebugAI) Debug.Log("AI has target for attack with primary weapon: " + targetForAttack);
-                    }
-                }
-            }
-
-            return targetForAttack;
-        }
-
-        private GenericShip GetTargetWithAssignedTargetLock(Dictionary<GenericShip, float> enemyShips)
-        {
-            GenericShip targetForAttack = null;
-
-            foreach (var shipHolder in enemyShips)
-            {
-                GenericShip targetShip = shipHolder.Key;
-                float distance = shipHolder.Value;
-
-                if (ActionsHolder.HasTargetLockOn(Selection.ThisShip, targetShip))
-                {
-                    return TryToDeclareTarget(targetShip, distance);
-                }
-            }
-
-            return targetForAttack;
-        }
-
-        private bool IsTargetValidForAdditionalAttack(GenericShip targetShip)
-        {
-            bool result = true;
-
-            SelectTargetForSecondAttackSubPhase secondAttackSubphase = Phases.CurrentSubPhase as SelectTargetForSecondAttackSubPhase;
-            if (secondAttackSubphase != null)
-            {
-                if (!secondAttackSubphase.FilterTargets(targetShip)) result = false;
-            }
-
-            return result;
+            return AI.TargetForAttackSelector.SelectTargetAndWeapon(Selection.ThisShip);
         }
 
         private static void SelectShipThatCanAttack(Action callback)
@@ -253,68 +171,6 @@ namespace Players
             }
         }
 
-        private GenericShip TryToDeclareTarget(GenericShip targetShip, float distance)
-        {
-            GenericShip selectedTargetShip = targetShip;
-
-            if (DebugManager.DebugAI) Debug.Log("AI checks target for attack: " + targetShip);
-
-            if (targetShip.IsReadyToBeDestroyed)
-            {
-                if (DebugManager.DebugAI) Debug.Log("But this target is already destroyed");
-                return null;
-            }
-
-            if (!IsTargetValidForAdditionalAttack(targetShip))
-            {
-                if (DebugManager.DebugAI) Debug.Log("But this target didn't pass filter of additional attack opportunity");
-                return null;
-            }
-
-            if (DebugManager.DebugAI) Debug.Log("Ship is selected before validation: " + selectedTargetShip);
-            Selection.AnotherShip = selectedTargetShip;
-
-            IShipWeapon chosenWeapon = null;
-
-            foreach (var upgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
-            {
-                IShipWeapon secondaryWeapon = (upgrade as IShipWeapon);
-                if (secondaryWeapon != null)
-                {
-                    if (Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, targetShip, secondaryWeapon, isSilent: true))
-                    {
-                        chosenWeapon = secondaryWeapon;
-                        break;
-                    }
-                }
-            }
-
-            if (chosenWeapon == null)
-            {
-                foreach (var primaryWeapon in Selection.ThisShip.PrimaryWeapons)
-                {
-                    if (Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, targetShip, primaryWeapon, isSilent: true))
-                    {
-                        chosenWeapon = primaryWeapon;
-                        break;
-                    }
-                }
-
-            }
-
-            if (chosenWeapon != null)
-            {
-                Combat.ChosenWeapon = chosenWeapon;
-                Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
-            }
-            else
-            {
-                selectedTargetShip = null;
-            }
-
-            return selectedTargetShip;
-        }
-
         public GenericShip FindNearestEnemyShip(GenericShip thisShip, bool ignoreCollided = false, bool inArcAndRange = false)
         {
             Dictionary<GenericShip, float> results = GetEnemyShipsAndDistance(thisShip, ignoreCollided, inArcAndRange);
@@ -326,6 +182,8 @@ namespace Players
             return result;
         }
 
+
+        // TODO: Remove, used in AI/HotAC/TargetForAttackSelector
         public Dictionary<GenericShip, float> GetEnemyShipsAndDistance(GenericShip thisShip, bool ignoreCollided = false, bool inArcAndRange = false)
         {
             Dictionary<GenericShip, float> results = new Dictionary<GenericShip, float>();

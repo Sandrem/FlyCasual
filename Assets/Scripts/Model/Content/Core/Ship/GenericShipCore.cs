@@ -4,7 +4,7 @@ using UnityEngine;
 using Arcs;
 using Abilities;
 using System;
-using RuleSets;
+using Editions;
 using Upgrade;
 
 namespace Ship

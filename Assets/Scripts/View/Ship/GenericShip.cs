@@ -1,6 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
-using RuleSets;
+using Editions;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;

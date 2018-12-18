@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
         private void CheckTIEx7Ability(GenericShip ship)
         {
             string abilityName = "";
-            if (RuleSets.Edition.Current is RuleSets.FirstEdition)
+            if (Editions.Edition.Current is Editions.FirstEdition)
             {
                 if (ship.IsHitObstacles) return;
                 abilityName = "TIE/x7";

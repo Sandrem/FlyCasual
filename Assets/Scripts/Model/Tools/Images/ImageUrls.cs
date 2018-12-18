@@ -3,7 +3,7 @@ using Upgrade;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RuleSets;
+using Editions;
 using Ship;
 
 public static class ImageUrls

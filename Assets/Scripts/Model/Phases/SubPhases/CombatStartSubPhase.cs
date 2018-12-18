@@ -25,7 +25,7 @@ namespace SubPhases
         public override void Next()
         {
             GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartCombatSubPhase);
-            (subphase as NotificationSubPhase).TextToShow = RuleSets.Edition.Current.CombatPhaseName;
+            (subphase as NotificationSubPhase).TextToShow = Editions.Edition.Current.CombatPhaseName;
             subphase.Start();
         }
 

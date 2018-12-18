@@ -1,4 +1,4 @@
-﻿using RuleSets;
+﻿using Editions;
 using Upgrade;
 
 namespace Ship

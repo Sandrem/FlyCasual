@@ -22,13 +22,17 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
+            HostShip.ShipInfo.Agility++;
             HostShip.ChangeAgilityBy(1);
+
             HostShip.OnAttackHitAsDefender += RegisterStealthDeviceCleanup;
         }
 
         public override void DeactivateAbility()
         {
+            HostShip.ShipInfo.Agility--;
             HostShip.ChangeAgilityBy(-1);
+
             HostShip.OnAttackHitAsDefender -= RegisterStealthDeviceCleanup;
         }
 

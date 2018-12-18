@@ -38,13 +38,17 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
+            HostShip.ShipInfo.Agility++;
             HostShip.ChangeAgilityBy(1);
+
             HostShip.OnDamageWasSuccessfullyDealt += RegisterStealthDeviceCleanupSe;
         }
 
         public override void DeactivateAbility()
         {
+            HostShip.ShipInfo.Agility--;
             HostShip.ChangeAgilityBy(-1);
+
             HostShip.OnDamageWasSuccessfullyDealt -= RegisterStealthDeviceCleanupSe;
         }
 

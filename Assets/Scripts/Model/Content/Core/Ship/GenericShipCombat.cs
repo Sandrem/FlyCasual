@@ -389,21 +389,19 @@ namespace Ship
         {
             int result = 0;
 
-            // TODOREVERT
             result = Combat.ChosenWeapon.WeaponInfo.AttackValue;
-            //result = Combat.ChosenWeapon.AttackValue;
 
             if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
+            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
+            {
+                if (AfterGotNumberOfPrimaryWeaponAttackDice != null) AfterGotNumberOfPrimaryWeaponAttackDice(ref result);
+            }
+
 
             if (AfterGotNumberOfAttackDiceCap != null) AfterGotNumberOfAttackDiceCap(ref result);
 
             if (result < 0) result = 0;
             return result;
-        }
-
-        public void CallAfterGotNumberOfPrimaryWeaponAttackDice(ref int result)
-        {
-            if (AfterGotNumberOfPrimaryWeaponAttackDice != null) AfterGotNumberOfPrimaryWeaponAttackDice(ref result);
         }
 
         public int GetNumberOfDefenceDice(GenericShip attackerShip)
@@ -413,7 +411,7 @@ namespace Ship
             if (AfterGotNumberOfDefenceDice != null) AfterGotNumberOfDefenceDice(ref result);
             if (AfterGotNumberOfDefenceDiceGlobal != null) AfterGotNumberOfDefenceDiceGlobal(ref result);
 
-            if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
+            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 if (AfterGotNumberOfPrimaryWeaponDefenceDice != null) AfterGotNumberOfPrimaryWeaponDefenceDice(ref result);
             }

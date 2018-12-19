@@ -33,6 +33,11 @@ namespace Ship
         public event EventHandlerBool OnCanReleaseDockedShipRegular;
         public event EventHandlerBoolDirection OnOffTheBoard;
 
+        public event EventHandlerShip OnSetupSelected;
+        public event EventHandlerShip OnSetupSelectedGlobal;
+        public event EventHandlerShip OnSetupPlaced;
+        public event EventHandlerShip OnSetupPlacedGlobal;
+
         public GenericShip Host;
 
         public Type ShipRuleType = typeof(Editions.FirstEdition);
@@ -241,6 +246,20 @@ namespace Ship
         public void CallOnRemovePreInstallUpgrade(GenericUpgrade upgrade)
         {
             if (OnRemovePreInstallUpgrade != null) OnRemovePreInstallUpgrade(upgrade);
+        }
+
+        // Setup filters
+
+        public void CallOnSetupSelected()
+        {
+            if (OnSetupSelected != null) OnSetupSelected(this);
+            if (OnSetupSelectedGlobal != null) OnSetupSelectedGlobal(this);
+        }
+
+        public void CallOnSetupPlaced()
+        {
+            if (OnSetupPlaced != null) OnSetupPlaced(this);
+            if (OnSetupPlacedGlobal != null) OnSetupPlacedGlobal(this);
         }
     }
 

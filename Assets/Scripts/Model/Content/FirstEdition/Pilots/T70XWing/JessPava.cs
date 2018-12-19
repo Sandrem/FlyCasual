@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using BoardTools;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace Abilities.FirstEdition
 
         private void AddJessPavaActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.JessPavaActionEffect();
+            ActionsList.GenericAction newAction = new ActionsList.FirstEdition.JessPavaActionEffect();
             newAction.HostShip = host;
             newAction.ImageUrl = host.ImageUrl;
             host.AddAvailableDiceModification(newAction);
@@ -48,7 +49,7 @@ namespace Abilities.FirstEdition
     }
 }
 
-namespace ActionsList
+namespace ActionsList.FirstEdition
 {
 
     public class JessPavaActionEffect : GenericAction
@@ -86,10 +87,15 @@ namespace ActionsList
         private bool FilterTargets(GenericShip ship)
         {
             //Filter other friendly ships range 1
-            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, ship);
+            DistanceInfo distanceInfo = new DistanceInfo(HostShip, ship);
             return ship.Owner.PlayerNo == HostShip.Owner.PlayerNo &&
                     ship != HostShip &&
-                    distanceInfo.Range == 1;
+                    InRange(distanceInfo);
+        }
+
+        protected virtual bool InRange(DistanceInfo distanceInfo)
+        {
+            return distanceInfo.Range == 1;
         }
 
         public override void ActionEffect(System.Action callBack)

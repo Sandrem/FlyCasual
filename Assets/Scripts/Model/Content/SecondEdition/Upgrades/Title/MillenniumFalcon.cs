@@ -17,7 +17,10 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Title,
                 cost: 6,
                 isLimited: true,
-                restriction: new ShipRestriction(typeof(Ship.FirstEdition.YT1300.YT1300)),
+                restrictions: new UpgradeCardRestrictions(
+                    new ShipRestriction(typeof(Ship.SecondEdition.ModifiedYT1300LightFreighter.ModifiedYT1300LightFreighter)),
+                    new FactionRestriction(Faction.Rebel)
+                ),
                 addAction: new ActionInfo(typeof(EvadeAction)),
                 abilityType: typeof(Abilities.SecondEdition.MilleniumFalconAbility),
                 seImageNumber: 103

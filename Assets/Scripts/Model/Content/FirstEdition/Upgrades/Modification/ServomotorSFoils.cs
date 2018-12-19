@@ -6,6 +6,7 @@ using SubPhases;
 using Movement;
 using System.Collections.Generic;
 using GameModes;
+using Actions;
 
 namespace UpgradesList.FirstEdition
 {
@@ -18,7 +19,8 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Modification,
                 cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.XWing.XWing)),
-                abilityType: typeof(Abilities.FirstEdition.ServomotorSFoilsClosedAbility)
+                abilityType: typeof(Abilities.FirstEdition.ServomotorSFoilsClosedAbility),
+                addAction: new ActionInfo(typeof(BoostAction))
             );
 
             AnotherSide = typeof(ServomotorSFoilsAttack);
@@ -34,7 +36,8 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Modification,
                 cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.XWing.XWing)),
-                abilityType: typeof(Abilities.FirstEdition.ServomotorSFoilsAttackAbility)
+                abilityType: typeof(Abilities.FirstEdition.ServomotorSFoilsAttackAbility),
+                addAction: new ActionInfo(typeof(BarrelRollAction))
             );
 
             AnotherSide = typeof(ServomotorSFoilsClosed);
@@ -100,11 +103,6 @@ namespace Abilities.FirstEdition
             HostShip.OnManeuverIsReadyToBeRevealed += CheckChangeManeuverComplexity;
         }
 
-        public override void ActivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.AddGrantedAction(new BoostAction(), HostUpgrade);
-        }
-
         public override void DeactivateAbility()
         {
             base.DeactivateAbility();
@@ -112,11 +110,6 @@ namespace Abilities.FirstEdition
             TurnSFoilsToAttackPosition(HostShip);
             HostShip.ChangeFirepowerBy(+1);
             HostShip.OnManeuverIsReadyToBeRevealed -= CheckChangeManeuverComplexity;
-        }
-
-        public override void DeactivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(BoostAction), HostUpgrade);
         }
 
         private void CheckChangeManeuverComplexity(GenericShip ship)
@@ -153,21 +146,11 @@ namespace Abilities.FirstEdition
             HostShip.OnManeuverIsRevealed += RegisterAskChangeManeuver;
         }
 
-        public override void ActivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.AddGrantedAction(new BarrelRollAction(), HostUpgrade);
-        }
-
         public override void DeactivateAbility()
         {
             TurnSFoilsToClosedPosition();
             base.DeactivateAbility();
             HostShip.OnManeuverIsRevealed -= RegisterAskChangeManeuver;
-        }
-
-        public override void DeactivateAbilityForSquadBuilder()
-        {
-            HostShip.ActionBar.RemoveGrantedAction(typeof(BarrelRollAction), HostUpgrade);
         }
 
         private void RegisterAskChangeManeuver(GenericShip ship)

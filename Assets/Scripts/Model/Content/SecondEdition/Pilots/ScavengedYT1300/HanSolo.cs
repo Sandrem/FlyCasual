@@ -4,6 +4,7 @@ using SubPhases;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -48,6 +49,7 @@ namespace Abilities.SecondEdition
         {
             SetupSubPhase setupSubPhase = Phases.CurrentSubPhase as SetupSubPhase;
             setupSubPhase.SetupFilter = HanSoloSetupRestrictions;
+            setupSubPhase.SetupRangeHelper = HanSoloSetupRangeHelper;
 
             setupSubPhase.ShowSubphaseDescription(
                 HostShip.PilotInfo.PilotName,
@@ -56,16 +58,34 @@ namespace Abilities.SecondEdition
             );
         }
 
-        private bool HanSoloSetupRestrictions()
+        private void HanSoloSetupRangeHelper()
         {
+            List<DistanceInfo> distancesToShips = new List<DistanceInfo>();
+
+            foreach (GenericShip placedEnemyShip in HostShip.Owner.AnotherPlayer.Ships.Values.Where(n => n.IsSetupPerformed))
+            {
+                distancesToShips.Add(new DistanceInfo(HostShip, placedEnemyShip));
+            }
+
             MovementTemplates.ReturnRangeRuler();
 
+            if (distancesToShips.Count > 0)
+            {
+                DistanceInfo minDistance = distancesToShips.OrderBy(n => n.MinDistance.DistanceReal).First();
+                if (minDistance.Range <= 3)
+                {
+                    MovementTemplates.ShowRangeRuler(minDistance.MinDistance);
+                }
+            }
+        }
+
+        private bool HanSoloSetupRestrictions()
+        {
             foreach (GenericShip placedEnemyShip in HostShip.Owner.AnotherPlayer.Ships.Values.Where(n => n.IsSetupPerformed))
             {
                 DistanceInfo distInfo = new DistanceInfo(HostShip, placedEnemyShip);
                 if (distInfo.Range <= 3)
                 {
-                    MovementTemplates.ShowRangeRuler(distInfo.MinDistance);
                     Messages.ShowError("Range to " + placedEnemyShip.PilotInfo.PilotName + " is " + distInfo.Range);
                     return false;
                 }
@@ -78,6 +98,7 @@ namespace Abilities.SecondEdition
         {
             SetupSubPhase setupSubPhase = Phases.CurrentSubPhase as SetupSubPhase;
             setupSubPhase.SetupFilter = null;
+            setupSubPhase.SetupRangeHelper = null;
             GenericSubPhase.HideSubphaseDescription();
         }
     }

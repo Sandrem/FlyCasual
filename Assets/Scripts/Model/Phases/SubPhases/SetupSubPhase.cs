@@ -16,10 +16,11 @@ namespace SubPhases
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ShipPlacement, GameCommandTypes.PressNext }; } }
 
         public Func<bool> SetupFilter;
+        public Action SetupRangeHelper;
 
         private static bool inReposition;
 
-        private Transform StartingZone;
+        public Transform StartingZone { get; protected set; }
         private bool isInsideStartingZone;
 
         private TouchObjectPlacementHandler touchObjectPlacementHandler = new TouchObjectPlacementHandler();
@@ -282,11 +283,20 @@ namespace SubPhases
 
             if (Physics.Raycast(ray, out hit))
             {
-                Selection.ThisShip.SetCenter(new Vector3(hit.point.x, 0f, hit.point.z));
+                if (Selection.ThisShip != null)
+                {
+                    Selection.ThisShip.SetCenter(new Vector3(hit.point.x, 0f, hit.point.z));
+                }
+                else
+                {
+                    Debug.Log("Warning: No ship is select to drag");
+                }
+                
             }
 
             CheckControlledModeLimits();
             ApplySetupPositionLimits();
+            if (SetupRangeHelper != null) SetupRangeHelper();
         }
 
         private void PerformTouchDragRotate() {
@@ -430,7 +440,7 @@ namespace SubPhases
                     result = false;
                 }
 
-                if (SetupFilter == null && !ship.ShipBase.IsInside(StartingZone))
+                if (SetupFilter == null && !IsShipInStartingZone(ship))
                 {
                     if (CameraScript.InputTouchIsEnabled)
                     {
@@ -443,7 +453,7 @@ namespace SubPhases
                     }
                     result = false;
                 }
-                else if (SetupFilter != null && !SetupFilter())
+                else if (SetupFilter != null && (!SetupFilter() && !ship.ShipBase.IsInside(StartingZone)))
                 {
                     Messages.ShowErrorToHuman("Position is not valid");
                     result = false;
@@ -453,6 +463,13 @@ namespace SubPhases
             if (result) StopDrag();
 
             return result;
+        }
+
+        public static bool IsShipInStartingZone(GenericShip ship)
+        {
+            SetupSubPhase setupSubPhase = Phases.CurrentSubPhase as SetupSubPhase;
+
+            return ship.ShipBase.IsInside(setupSubPhase.StartingZone);
         }
 
         public override void NextButton() {
@@ -469,6 +486,8 @@ namespace SubPhases
         private void StopDrag()
         {
             HideSetupHelpers();
+            MovementTemplates.ReturnRangeRulers();
+
             Roster.SetRaycastTargets(true);
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = false;
             inReposition = false;

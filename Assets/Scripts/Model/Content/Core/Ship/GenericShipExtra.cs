@@ -34,9 +34,9 @@ namespace Ship
         public event EventHandlerBoolDirection OnOffTheBoard;
 
         public event EventHandlerShip OnSetupSelected;
-        public event EventHandlerShip OnSetupSelectedGlobal;
+        public static event EventHandlerShip OnSetupSelectedGlobal;
         public event EventHandlerShip OnSetupPlaced;
-        public event EventHandlerShip OnSetupPlacedGlobal;
+        public static event EventHandlerShip OnSetupPlacedGlobal;
 
         public GenericShip Host;
 

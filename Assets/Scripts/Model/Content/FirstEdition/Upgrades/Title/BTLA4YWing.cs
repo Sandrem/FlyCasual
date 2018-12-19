@@ -52,7 +52,7 @@ namespace Abilities.FirstEdition
         private void CheckConditions()
         {
             if (IsAbilityUsed) return;
-            if (Combat.ChosenWeapon.GetType() != typeof(PrimaryWeaponClass)) return;
+            if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) return;
             if (!Combat.ShotInfo.InPrimaryArc) return;
 
             IsAbilityUsed = true;
@@ -83,7 +83,7 @@ namespace Abilities.FirstEdition
         private bool IsSecondaryShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
-            if (weapon.GetType() != typeof(PrimaryWeaponClass))
+            if (weapon.WeaponType != WeaponTypes.PrimaryWeapon)
             {
                 result = true;
             }

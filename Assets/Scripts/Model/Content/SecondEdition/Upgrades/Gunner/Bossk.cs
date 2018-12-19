@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
 
         private void CheckForPrimaryArc()
         {
-            if (Combat.ShotInfo.Weapon is PrimaryWeaponClass)
+            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 attackIsPrimaryWeapon = true;
             }
@@ -91,7 +91,7 @@ namespace Abilities.SecondEdition
 
         private bool IsPrimaryWeaponShot(GenericShip ship, IShipWeapon weapon, bool isSilent)
         {
-            if (weapon is PrimaryWeaponClass && ship == theShipAttacked)
+            if (weapon.WeaponType == WeaponTypes.PrimaryWeapon && ship == theShipAttacked)
             {
                 return true;
             }

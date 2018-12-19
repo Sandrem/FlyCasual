@@ -169,7 +169,7 @@ public static partial class Combat
 
         MovementTemplates.ReturnRangeRuler();
 
-        if (Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent))
+        if (ChosenWeapon != null && Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent))
         {
             UI.HideSkipButton();
             Roster.AllShipsHighlightOff();

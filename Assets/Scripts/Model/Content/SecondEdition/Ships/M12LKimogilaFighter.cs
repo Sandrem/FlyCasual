@@ -73,7 +73,7 @@ namespace Abilities.SecondEdition
                 {
                     if (Combat.Attacker.ShipId == HostShip.ShipId)
                     {
-                        if (Combat.ShotInfo.InArcByType(ArcType.Bullseye))
+                        if (Combat.Attacker.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye))
                         {
                             Messages.ShowError("Bullseye: " + action.DiceModificationName + " cannot be used");
                             canBeUsed = false;

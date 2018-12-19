@@ -52,7 +52,7 @@ namespace ActionsList
 
             if (Combat.AttackStep != CombatStep.Attack) return false;
 
-            if (!(Combat.ChosenWeapon is PrimaryWeaponClass)) return false;
+            if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) return false;
 
             if (!Combat.ShotInfo.InPrimaryArc) return false;
 

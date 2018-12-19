@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Ship;
 using System.Linq;
+using Arcs;
 
 namespace UpgradesList.SecondEdition
 {
@@ -43,7 +44,10 @@ namespace Abilities.SecondEdition
 
         public bool IsDiceModificationAvailable()
         {
-            return (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ChosenWeapon is PrimaryWeaponClass && Combat.ShotInfo.InArcByType(Arcs.ArcType.Bullseye));
+            return (Combat.AttackStep == CombatStep.Attack
+                && Combat.Attacker == HostShip
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
+                && Combat.Attacker.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye));
         }
 
         public int GetDiceModificationAiPriority()

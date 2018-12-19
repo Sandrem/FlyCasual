@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
         private bool IsAvailable()
         {
             return Combat.ChosenWeapon == this
-                && Combat.ShotInfo.InArcByType(ArcType.Bullseye)
+                && HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye)
                 && HostUpgrade.State.Charges > 0
                 && Combat.AttackStep == CombatStep.Attack;
         }

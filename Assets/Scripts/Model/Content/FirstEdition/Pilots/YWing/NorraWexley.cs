@@ -111,7 +111,7 @@ namespace Abilities.FirstEdition
                 // Second edition Shara Bey only affects Primary Weapon Attacks
                 if (HostShip.Owner.PlayerNo == Combat.Attacker.Owner.PlayerNo &&
                     Editions.Edition.Current is Editions.SecondEdition &&
-                    Combat.ChosenWeapon.GetType() != typeof(PrimaryWeaponClass))
+                    Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon)
                 {
                     return false;
                 }

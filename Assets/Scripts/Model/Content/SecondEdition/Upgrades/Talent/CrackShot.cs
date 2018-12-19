@@ -68,7 +68,7 @@ namespace ActionsList.SecondEdition
             if (Combat.DiceRollDefence.Successes > 0
                 && Source.State.Charges > 0 
                 && Combat.Attacker == HostShip
-                && Combat.ChosenWeapon is PrimaryWeaponClass
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
                 && HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye)
             )
             {

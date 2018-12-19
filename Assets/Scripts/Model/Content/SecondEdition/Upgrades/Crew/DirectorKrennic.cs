@@ -105,7 +105,7 @@ namespace ActionsList
             public override bool IsDiceModificationAvailable()
             {
                 if (Combat.AttackStep != CombatStep.Attack) return false;
-                if (!(Combat.ChosenWeapon is PrimaryWeaponClass)) return false;
+                if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) return false;
                 if (!Combat.ShotInfo.InPrimaryArc) return false;
                 if (Combat.DiceRollAttack.Focuses == 0 && Combat.DiceRollAttack.Successes == 0) return false;
                 if (!IsLockedByFriendlyKrennicShip()) return false;

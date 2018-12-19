@@ -75,7 +75,9 @@ namespace ActionsList
         {
             bool result = false;
 
-            if (Combat.AttackStep == CombatStep.Attack && ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender) && Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
+            if (Combat.AttackStep == CombatStep.Attack
+                && ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender)
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 result = true;
             }

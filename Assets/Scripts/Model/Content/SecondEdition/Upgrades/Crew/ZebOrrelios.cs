@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
 
         private void AllowRange0Primaries(IShipWeapon weapon, ref int minRange, ref int maxRange, GenericShip target)
         {
-            if (weapon is PrimaryWeaponClass && (weapon.HostShip == HostShip || target == HostShip))
+            if (weapon.WeaponType == WeaponTypes.PrimaryWeapon && (weapon.HostShip == HostShip || target == HostShip))
             {
                 minRange = 0;
             }

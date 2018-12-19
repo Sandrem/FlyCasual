@@ -75,7 +75,7 @@ namespace ActionsList
             switch (Combat.AttackStep)
             {
                 case CombatStep.Attack:
-                    if ((Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass)) && (Combat.ShotInfo.InArc)) result = true;
+                    if ((Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon) && (Combat.ShotInfo.InArc)) result = true;
                     break;
                 case CombatStep.Defence:
                     ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);

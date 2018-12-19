@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
         {
             if (thisShip.ShipId == HostShip.ShipId)
             {
-                if ((range <= 3) && (chosenWeapon.GetType() == typeof(PrimaryWeaponClass)))
+                if ((range <= 3) && (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon))
                 {
                     range = 1;
                 }

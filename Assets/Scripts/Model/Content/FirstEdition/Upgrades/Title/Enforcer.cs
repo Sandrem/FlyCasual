@@ -39,8 +39,7 @@ namespace Abilities.FirstEdition
 
         private void TryRegisterStressEffect(GenericShip ship)
         {
-            ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
-            if (shotInfo.InArcByType(ArcType.Bullseye))
+            if (Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, ArcType.Bullseye))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

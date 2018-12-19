@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    HostShip.PilotName,
+                    HostShip.PilotInfo.PilotName,
                     "Select a ship to gain 1 tractor token and gain 1 disarm token.",
                     HostShip
                 );

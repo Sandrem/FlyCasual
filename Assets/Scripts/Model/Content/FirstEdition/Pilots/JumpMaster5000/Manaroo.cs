@@ -68,7 +68,7 @@ namespace Abilities.FirstEdition
                 FilterAbilityTargets,
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Choose another friendly ship to assign all your focus, evade and target lock tokens to it.",
                 HostShip
             );
@@ -98,7 +98,7 @@ namespace Abilities.FirstEdition
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            Messages.ShowInfo(string.Format("{0} : all Focus, Evade and Target Lock tokens reassigned to {1}", HostShip.PilotName, TargetShip.PilotName));
+            Messages.ShowInfo(string.Format("{0} : all Focus, Evade and Target Lock tokens reassigned to {1}", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
 
             ManarooTokens = new List<GenericToken>(HostShip.Tokens.GetAllTokens());
             ReassignTokensRecursive();

@@ -56,7 +56,7 @@ namespace Abilities.FirstEdition
                         // ...assign a stress token to the attacker
                         RegisterAbilityTrigger(TriggerTypes.OnAttackStart, (s, e) =>
                         {
-                            Messages.ShowInfo(string.Format("{0}'s Death Troopers assign stress to {1}!", HostShip.PilotName, Combat.Attacker.PilotName));
+                            Messages.ShowInfo(string.Format("{0}'s Death Troopers assign stress to {1}!", HostShip.PilotInfo.PilotName, Combat.Attacker.PilotInfo.PilotName));
                             Sounds.PlayShipSound("DeathTrooper");
                             Combat.Attacker.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
                         });

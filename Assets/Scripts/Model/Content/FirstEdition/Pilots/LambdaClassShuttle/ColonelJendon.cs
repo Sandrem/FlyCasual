@@ -90,7 +90,7 @@ namespace Abilities.FirstEdition
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Choose a ship to assign to it one of your Blue Target Lock tokens if it does not have a Blue Target Lock token.",
                 HostShip
             );

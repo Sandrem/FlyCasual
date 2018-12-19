@@ -64,7 +64,7 @@ namespace Abilities.FirstEdition
         {
             if (!AbilityIsActive)
             {
-                Messages.ShowInfo(HostShip.PilotName + ": +1 Agility");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 Agility");
                 HostShip.ChangeAgilityBy(+1);
                 HostShip.Tokens.AssignCondition(typeof(Conditions.GemmerSojanCondition));
                 AbilityIsActive = true;
@@ -75,7 +75,7 @@ namespace Abilities.FirstEdition
         {
             if (AbilityIsActive)
             {
-                Messages.ShowError(HostShip.PilotName + ": -1 Agility");
+                Messages.ShowError(HostShip.PilotInfo.PilotName + ": -1 Agility");
                 HostShip.ChangeAgilityBy(-1);
                 HostShip.Tokens.RemoveCondition(typeof(Conditions.GemmerSojanCondition));
                 AbilityIsActive = false;

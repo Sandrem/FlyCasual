@@ -50,7 +50,7 @@ namespace Abilities
                 HostShip,
                 AfterExtraAttackSubPhase,
                 ExtraAttackFilter,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 Description,
                 HostShip
             );

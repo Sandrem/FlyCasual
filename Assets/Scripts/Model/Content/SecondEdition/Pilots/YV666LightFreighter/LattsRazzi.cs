@@ -72,7 +72,7 @@ namespace Abilities.SecondEdition
                 FilterTargets,
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Choose a ship at range 1 and spend a lock you have on that ship - that ship gains 1 tractor token",
                 HostShip
             );
@@ -82,7 +82,7 @@ namespace Abilities.SecondEdition
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            Messages.ShowInfo("Latts Razzi: " + TargetShip.PilotName + " is selected");
+            Messages.ShowInfo("Latts Razzi: " + TargetShip.PilotInfo.PilotName + " is selected");
 
             List<char> tlLetter = ActionsHolder.GetTargetLocksLetterPairs(HostShip, TargetShip);
             HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), ApplyAbility, tlLetter.First());

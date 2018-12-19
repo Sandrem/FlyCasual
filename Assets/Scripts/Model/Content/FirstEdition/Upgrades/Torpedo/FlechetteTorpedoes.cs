@@ -83,7 +83,7 @@ namespace Abilities.FirstEdition
         {
             if (Combat.Defender.State.HullMax <= 4 && Combat.ChosenWeapon is UpgradesList.FirstEdition.FlechetteTorpedoes)
             {
-                Messages.ShowInfoToHuman(string.Format("{0} received a Stress token from Flechette Torpedo", Combat.Defender.PilotName));
+                Messages.ShowInfoToHuman(string.Format("{0} received a Stress token from Flechette Torpedo", Combat.Defender.PilotInfo.PilotName));
                 Combat.Defender.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
             }
             else

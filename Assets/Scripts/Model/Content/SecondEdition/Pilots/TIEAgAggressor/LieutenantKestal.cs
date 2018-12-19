@@ -32,7 +32,7 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             AddDiceModification(
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 IsAvailable,
                 GetAiPriority,
                 DiceModificationType.Cancel,

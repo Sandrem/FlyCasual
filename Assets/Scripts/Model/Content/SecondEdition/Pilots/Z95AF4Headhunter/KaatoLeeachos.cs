@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
                 FilterAbilityTarget,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 GenerateAbilityMessage(),
                 HostShip
             );
@@ -102,7 +102,7 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = Selection.AnotherShip.PilotName + ": " + "Select token to transfer to Kaato.";
+                InfoText = Selection.AnotherShip.PilotInfo.PilotName + ": " + "Select token to transfer to Kaato.";
                 DecisionOwner = Selection.AnotherShip.Owner;
 
                 if (Selection.AnotherShip.Tokens.HasToken(typeof(FocusToken)))

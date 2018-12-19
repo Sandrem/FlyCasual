@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using SquadBuilderNS;
 using Upgrade;
 using Mods;
-using RuleSets;
+using Editions;
 
 public class UpgradePanelSquadBuilder : MonoBehaviour {
 

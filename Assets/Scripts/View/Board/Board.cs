@@ -300,8 +300,15 @@ namespace BoardTools
 
         public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcType arc)
         {
-            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapons);
-            return shotInfo.InArcByType(arc);
+            if (arc != ArcType.Bullseye)
+            {
+                ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapons);
+                return shotInfo.InArcByType(arc);
+            }
+            else
+            {
+                return source.SectorsInfo.IsShipInSector(target, ArcType.Bullseye);
+            }
         }
 
         public static List<GenericShip> GetShipsInBullseyeArc(GenericShip ship, Team.Type team = Team.Type.Any)
@@ -318,7 +325,7 @@ namespace BoardTools
                     continue;
 
                 ShotInfo shotInfo = new ShotInfo(ship, otherShip, ship.PrimaryWeapons);
-                if (!shotInfo.InArcByType(ArcType.Bullseye))
+                if (!ship.SectorsInfo.IsShipInSector(otherShip, ArcType.Bullseye))
                     continue;
 
                 shipsInBullseyeArc.Add(otherShip);

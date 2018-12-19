@@ -38,13 +38,13 @@ namespace Tokens
                 if (tooltipHolder is GenericShip)
                 {
                     GenericShip pilot = tooltipHolder as GenericShip;
-                    RuleSets.Edition.Current.AdaptPilotToRules(pilot);
+                    Editions.Edition.Current.AdaptPilotToRules(pilot);
                     Tooltip = pilot.ImageUrl;
                 }
                 else if (tooltipHolder is GenericUpgrade)
                 {
                     GenericUpgrade upgrade = tooltipHolder as GenericUpgrade;
-                    RuleSets.Edition.Current.AdaptUpgradeToRules(upgrade);
+                    Editions.Edition.Current.AdaptUpgradeToRules(upgrade);
                     Tooltip = upgrade.ImageUrl;
                 }
             }

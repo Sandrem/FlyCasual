@@ -8,7 +8,7 @@ using UnityEngine;
 using Upgrade;
 using GameModes;
 using UnityEngine.SceneManagement;
-using RuleSets;
+using Editions;
 
 namespace SquadBuilderNS
 {

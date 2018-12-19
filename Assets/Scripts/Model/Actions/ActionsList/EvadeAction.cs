@@ -43,7 +43,7 @@ namespace ActionsList
                 }
             }
 
-            if (RuleSets.Edition.Current is RuleSets.SecondEdition && Combat.DiceRollDefence.Failures == 0) return 0;
+            if (Editions.Edition.Current is Editions.SecondEdition && Combat.DiceRollDefence.Failures == 0) return 0;
 
             return result;
         }

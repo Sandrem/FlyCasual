@@ -38,7 +38,7 @@ namespace Abilities.FirstEdition
 
         private void CheckAddDiceForPrimaryArc(ref int diceCount)
         {
-            if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
+            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 if (Combat.ShotInfo.InPrimaryArc) diceCount++;
             }

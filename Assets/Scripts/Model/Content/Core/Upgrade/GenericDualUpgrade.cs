@@ -6,7 +6,7 @@ using ActionsList;
 using SubPhases;
 using System.Collections.Generic;
 using Upgrade;
-using RuleSets;
+using Editions;
 
 namespace Upgrade
 {

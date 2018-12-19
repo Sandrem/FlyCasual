@@ -107,7 +107,7 @@ namespace Abilities.FirstEdition
             {
                 var onRangePrototypeAttacked = Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo
                     && Combat.Attacker.Tokens.HasToken<OptimizedPrototype>()
-                    && Combat.ChosenWeapon is PrimaryWeaponClass
+                    && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
                     && BoardTools.Board.GetRangeOfShips(Combat.Attacker, HostShip) <= 2;
                 if (onRangePrototypeAttacked)
                 {
@@ -192,7 +192,7 @@ namespace ActionsList
             bool result = true;
 
             if (Combat.AttackStep != CombatStep.Attack) result = false;
-            if (!(Combat.ChosenWeapon is PrimaryWeaponClass)) result = false;
+            if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) result = false;
             if (!Combat.DiceRollAttack.ResultsArray.Any()) result = false;
             if (Combat.Defender.State.ShieldsCurrent == 0) result = false;
 

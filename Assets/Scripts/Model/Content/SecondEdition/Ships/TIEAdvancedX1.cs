@@ -75,7 +75,7 @@ namespace Abilities.SecondEdition
         {
             return Combat.AttackStep == CombatStep.Attack
                 && ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender)
-                && Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass);
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon;
         }
 
         private void CheckAbility(ref int value)

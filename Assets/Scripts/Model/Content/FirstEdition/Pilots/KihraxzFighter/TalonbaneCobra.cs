@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
 
         private void TalonbaneCobraDiceCheck(ref int diceCount)
         {
-            if (Combat.ChosenWeapon.GetType() == typeof(PrimaryWeaponClass))
+            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 if (Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.Range == 1)
                 {

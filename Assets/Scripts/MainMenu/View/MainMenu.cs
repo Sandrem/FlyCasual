@@ -8,7 +8,7 @@ using System.Linq;
 using Players;
 using Mods;
 using SquadBuilderNS;
-using RuleSets;
+using Editions;
 
 public partial class MainMenu : MonoBehaviour {
 

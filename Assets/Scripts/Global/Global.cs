@@ -50,7 +50,7 @@ public class Global : MonoBehaviour {
         {
             AnalyticsEvent.GameStart(new Dictionary<string, object>()
             {
-                { "Edition", RuleSets.Edition.Current.Name },
+                { "Edition", Editions.Edition.Current.Name },
                 { "GameMode", GameModes.GameMode.CurrentGameMode.Name }
             });
         }

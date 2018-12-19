@@ -5,7 +5,7 @@ using System.Text;
 using SquadBuilderNS;
 using Players;
 using UnityEngine;
-using RuleSets;
+using Editions;
 using System.IO;
 using GameCommands;
 

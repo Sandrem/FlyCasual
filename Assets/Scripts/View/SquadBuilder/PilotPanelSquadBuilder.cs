@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using SquadBuilderNS;
 using Ship;
 using Mods;
-using RuleSets;
+using Editions;
 using Upgrade;
 
 public class PilotPanelSquadBuilder : MonoBehaviour {

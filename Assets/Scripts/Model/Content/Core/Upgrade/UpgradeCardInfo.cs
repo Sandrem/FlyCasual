@@ -245,7 +245,6 @@ namespace Upgrade
             {
                 ability.DeactivateAbilityForSquadBuilder();
             }
-            HostUpgrade.UpgradeAbilities.Clear();
         }
     }
 }

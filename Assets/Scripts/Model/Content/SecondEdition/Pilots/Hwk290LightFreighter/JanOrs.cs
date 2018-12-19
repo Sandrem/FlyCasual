@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
@@ -32,7 +33,7 @@ namespace Abilities.SecondEdition
         protected override void RegisterJanOrsAbility()
         {
             if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId != HostShip.ShipId
-                && Combat.ChosenWeapon.GetType() == typeof(Ship.PrimaryWeaponClass))
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 DistanceInfo distanceInfo = new DistanceInfo(Combat.Attacker, HostShip);
                 if (distanceInfo.Range < 4 && Board.IsShipInArc(HostShip, Combat.Attacker))

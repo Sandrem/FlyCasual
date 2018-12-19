@@ -2,7 +2,7 @@
 using Tokens;
 using System.Collections.Generic;
 using System.Linq;
-using RuleSets;
+using Editions;
 
 namespace RulesList
 {

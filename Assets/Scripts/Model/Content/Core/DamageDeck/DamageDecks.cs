@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using GameModes;
 using Players;
-using RuleSets;
+using Editions;
 
 public static class DamageDecks
 {

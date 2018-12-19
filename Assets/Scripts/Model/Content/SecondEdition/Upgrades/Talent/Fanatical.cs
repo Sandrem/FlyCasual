@@ -48,7 +48,10 @@ namespace Abilities.SecondEdition
 
         public bool IsDiceModificationAvailable()
         {
-            return (HostShip.State.ShieldsCurrent == 0 && Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ChosenWeapon is PrimaryWeaponClass);
+            return (HostShip.State.ShieldsCurrent == 0
+                && Combat.AttackStep == CombatStep.Attack
+                && Combat.Attacker == HostShip
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon);
         }
 
         public int GetDiceModificationAiPriority()

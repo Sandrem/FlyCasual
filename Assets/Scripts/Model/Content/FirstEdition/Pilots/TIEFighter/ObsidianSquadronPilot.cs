@@ -1,4 +1,4 @@
-﻿using RuleSets;
+﻿using Editions;
 
 namespace Ship
 {

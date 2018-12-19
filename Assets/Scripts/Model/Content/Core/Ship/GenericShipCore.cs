@@ -4,7 +4,7 @@ using UnityEngine;
 using Arcs;
 using Abilities;
 using System;
-using RuleSets;
+using Editions;
 using Upgrade;
 
 namespace Ship
@@ -323,7 +323,7 @@ namespace Ship
 
         public void ChangeAgilityBy(int value)
         {
-            State.Agility += value;
+            if (State != null) State.Agility += value;
             if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
         }
 

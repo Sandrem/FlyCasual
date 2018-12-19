@@ -132,7 +132,7 @@ namespace Arcs
         {
             Facing = facing;
             MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[facing], 0f);
-            RuleSets.Edition.Current.RotateMobileFiringArc(facing);
+            Editions.Edition.Current.RotateMobileFiringArc(facing);
         }
 
         public virtual void ShowMobileArcPointer()

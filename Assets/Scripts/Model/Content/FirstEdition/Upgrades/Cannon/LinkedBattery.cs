@@ -80,12 +80,12 @@ namespace ActionsList
 
         private bool IsPrimaryWeapon()
         {
-            return Combat.ChosenWeapon is PrimaryWeaponClass;
+            return Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon;
         }
 
         private bool IsCannon()
         {
-            return Combat.ChosenWeapon is GenericSpecialWeapon && (Combat.ChosenWeapon as GenericSpecialWeapon).HasType(UpgradeType.Cannon);
+            return Combat.ChosenWeapon.WeaponType == WeaponTypes.Cannon;
         }
 
         public override int GetDiceModificationPriority()

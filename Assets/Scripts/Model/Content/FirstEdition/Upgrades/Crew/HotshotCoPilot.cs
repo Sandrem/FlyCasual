@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
 
         private void CheckAttackAbility()
         {
-            if (Combat.ChosenWeapon is PrimaryWeaponClass) AssignCondition(Combat.Defender);
+            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon) AssignCondition(Combat.Defender);
         }
 
         private void DefenceAbility()

@@ -9,7 +9,7 @@ namespace Ship
 {
     public class SectorsHolder : ArcsHolder
     {
-        public List<GenericArc> Sectors { get { return Arcs.Where(a => a is ArcSector).ToList(); } }
+        public List<GenericArc> Sectors { get { return Arcs.Where(a => a is ArcPrimary || a is ArcLeft || a is ArcRight || a is ArcRear).ToList(); } }
 
         public SectorsHolder(GenericShip hostShip) : base(hostShip)
         {
@@ -50,6 +50,13 @@ namespace Ship
             GenericArc arc = Arcs.First(n => n.ArcType == arcType);
             ShotInfoArc arcInfo = new ShotInfoArc(HostShip, anotherShip, arc);
             return arcInfo.IsShotAvailable;
+        }
+
+        public int RangeToShipBySector(GenericShip anotherShip, ArcType arcType)
+        {
+            GenericArc arc = Arcs.First(n => n.ArcType == arcType);
+            ShotInfoArc arcInfo = new ShotInfoArc(HostShip, anotherShip, arc);
+            return arcInfo.Range;
         }
     }
 }

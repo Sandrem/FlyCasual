@@ -1,4 +1,5 @@
-﻿using BoardTools;
+﻿using Arcs;
+using BoardTools;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ namespace Abilities.SecondEdition
         private bool IsBullsEyePrimary(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
-            if (weapon is PrimaryWeaponClass && new ShotInfo(HostShip, defender, weapon).InArcByType(Arcs.ArcType.Bullseye))
+            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon && HostShip.SectorsInfo.IsShipInSector(defender, ArcType.Bullseye))
             {
                 result = true;
             }

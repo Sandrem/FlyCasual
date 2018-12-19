@@ -9,7 +9,7 @@ using Tokens;
 using UnityEngine;
 using Upgrade;
 
-namespace RuleSets
+namespace Editions
 {
     public abstract class Edition
     {
@@ -49,7 +49,7 @@ namespace RuleSets
         }
 
         public abstract void EvadeDiceModification(DiceRoll diceRoll);
-        public abstract bool WeaponHasRangeBonus();
+        public abstract bool IsWeaponHaveRangeBonus(IShipWeapon weapon);
         public abstract void SetShipBaseImage(GenericShip ship);
         public abstract void BarrelRollTemplatePlanning();
         public abstract void DecloakTemplatePlanning();

@@ -4,7 +4,7 @@ using UnityEngine;
 using Upgrade;
 using Tokens;
 using System.Linq;
-using RuleSets;
+using Editions;
 using SubPhases;
 
 namespace ActionsList

@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
             if (Combat.Attacker == HostShip) return false;
             if (Combat.Attacker.Owner != HostShip.Owner) return false;
 
-            if (Combat.ChosenWeapon.GetType() != typeof(PrimaryWeaponClass)) return false;
+            if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) return false;
 
             BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(HostShip, Combat.Attacker);
             if (positionInfo.Range > 1) return false;

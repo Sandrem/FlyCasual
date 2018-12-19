@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using RuleSets;
+using Editions;
 using Obstacles;
 
 namespace Movement

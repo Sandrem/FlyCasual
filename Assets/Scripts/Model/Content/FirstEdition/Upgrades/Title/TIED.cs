@@ -95,7 +95,7 @@ namespace Abilities.FirstEdition
         {
             bool result = false;
 
-            if (weapon.GetType() == typeof(PrimaryWeaponClass))
+            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 result = true;
             }

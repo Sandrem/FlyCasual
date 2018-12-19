@@ -54,18 +54,17 @@ namespace Abilities.FirstEdition
         private void TryRegisterAbility(object sender, System.EventArgs e)
         {
             Players.GenericPlayer opponent = Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo));
-            foreach (var ship in opponent.Ships)
+            foreach (GenericShip ship in opponent.Ships.Values)
             {
-                ShotInfo shotInfo = new ShotInfo(HostShip, ship.Value, HostShip.PrimaryWeapons);
-                if (shotInfo.InArcByType(ArcType.Bullseye))
+                if (HostShip.SectorsInfo.IsShipInSector(ship, ArcType.Bullseye))
                 {
                     Triggers.RegisterTrigger(new Trigger()
                     {
-                        Name = ship.Value.ShipId + ": " + Name,
+                        Name = ship.ShipId + ": " + Name,
                         TriggerType = TriggerTypes.OnAbilityDirect,
                         TriggerOwner = opponent.PlayerNo,
                         EventHandler = ShowChooseEffect,
-                        Sender = ship.Value
+                        Sender = ship
                     });
                 }
             }

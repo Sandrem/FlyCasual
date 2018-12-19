@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.LancerClassPursuitCraft.LancerClassPursuitCraft)),
                 abilityType: typeof(Abilities.SecondEdition.ShadowCasterAbility),
-                seImageNumber: 152
+                seImageNumber: 153
             );
         }        
     }

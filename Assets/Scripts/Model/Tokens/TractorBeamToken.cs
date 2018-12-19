@@ -13,7 +13,7 @@ namespace Tokens
         {
             Name = "Tractor Beam Token";
             Temporary = true;
-            TokenColor = TokenColors.Yellow;
+            TokenColor = TokenColors.Orange;
             PriorityUI = 40;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/TractorBeamToken.png";
             Assigner = assigner;

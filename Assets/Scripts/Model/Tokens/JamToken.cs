@@ -13,7 +13,7 @@ namespace Tokens
         {
             Name = "Jam Token";
             Temporary = Edition.Current is SecondEdition;
-            TokenColor = TokenColors.Yellow;
+            TokenColor = TokenColors.Orange;
             PriorityUI = 40;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/ReloadActionAndJamTokens.png";
         }

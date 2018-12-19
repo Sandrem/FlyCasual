@@ -293,5 +293,19 @@ namespace Ship
             AssignCondition(token);
         }
 
+        public static TokenColors GetTokenColorByType(Type tokenType)
+        {
+            GenericToken token = null;
+            if (tokenType != typeof(TractorBeamToken))
+            {
+                token = (GenericToken)Activator.CreateInstance(tokenType, Roster.AllShips.First().Value);
+            }
+            else
+            {
+                token = (GenericToken)Activator.CreateInstance(tokenType, Roster.AllShips.First().Value, Roster.Player1);
+            }
+            return token.TokenColor;
+        }
+
     }
 }

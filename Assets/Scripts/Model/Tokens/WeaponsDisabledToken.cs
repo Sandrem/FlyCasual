@@ -13,7 +13,7 @@ namespace Tokens
             Name = "Weapons Disabled Token";
             Temporary = true;
             PriorityUI = 45;
-            TokenColor = TokenColors.Yellow;
+            TokenColor = TokenColors.Orange;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/SlamAction.png";
         }
 

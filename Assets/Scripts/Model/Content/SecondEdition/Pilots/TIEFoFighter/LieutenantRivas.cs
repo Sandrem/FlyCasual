@@ -66,10 +66,15 @@ namespace Abilities.SecondEdition
         private void AskAcquireTargetLock(object sender, System.EventArgs e)
         {
             AskToUseAbility(
-                AlwaysUseByDefault,
+                ShouldAbilityBeUsed,
                 AcquireTargetLock,
                 infoText: HostShip.PilotInfo.PilotName + ": Acquire a Lock on " + ShipWithAssignedToken.PilotInfo.PilotName + "?"
             );
+        }
+
+        private bool ShouldAbilityBeUsed()
+        {
+            return (!HostShip.Tokens.HasToken<BlueTargetLockToken>(letter: '*'));
         }
 
         private void AcquireTargetLock(object sender, System.EventArgs e)

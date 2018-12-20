@@ -7,7 +7,7 @@ namespace Tokens
     public enum TokenColors
     {
         Green,
-        Yellow,
+        Orange,
         Red,
         Blue,
         Empty

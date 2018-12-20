@@ -76,7 +76,7 @@ namespace Abilities.SecondEdition
                 AnotherFriendlyShipInRange,
                 AiPriority,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Choose ship. That ship will acquire a lock on the object you locked.",
                 HostShip
             );
@@ -97,7 +97,7 @@ namespace Abilities.SecondEdition
 
         private void GetTargetLockOnSameTarget()
         {
-            Messages.ShowInfo(TargetShip.PilotName + " acquired Target Lock on " + LockedShip.PilotName);
+            Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " acquired Target Lock on " + LockedShip.PilotInfo.PilotName);
             ActionsHolder.AcquireTargetLock(TargetShip, LockedShip, SelectShipSubPhase.FinishSelection, SelectShipSubPhase.FinishSelection, ignoreRange: true);
         }
 

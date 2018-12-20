@@ -56,7 +56,7 @@ namespace Abilities.FirstEdition
                 FilterTargetsOfAbility,
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Choose a ship inside your primary and mobile firing arcs to assign 1 Tractor Beam token to it.",
                 HostShip
             );
@@ -84,7 +84,7 @@ namespace Abilities.FirstEdition
             ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip, HostShip.PrimaryWeapons);
             if (shotInfo.InArcByType(ArcType.SingleTurret) && shotInfo.InPrimaryArc && shotInfo.Range == 1)
             {
-                Messages.ShowError(HostShip.PilotName + " assigns Tractor Beam Token\nto " + TargetShip.PilotName);
+                Messages.ShowError(HostShip.PilotInfo.PilotName + " assigns Tractor Beam Token\nto " + TargetShip.PilotInfo.PilotName);
                 Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, HostShip.Owner);
                 TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
             }

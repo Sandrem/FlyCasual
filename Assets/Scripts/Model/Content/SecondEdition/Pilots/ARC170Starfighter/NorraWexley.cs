@@ -16,7 +16,7 @@ namespace Ship
                     5,
                     55,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility),
+                    abilityType: typeof(Abilities.SecondEdition.NorraWexleyARC170Ability),
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 65
                 );

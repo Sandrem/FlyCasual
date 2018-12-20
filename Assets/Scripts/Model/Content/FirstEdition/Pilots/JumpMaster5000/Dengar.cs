@@ -102,14 +102,14 @@ namespace Abilities.FirstEdition
                     HostShip,
                     FinishExtraAttack,
                     CounterAttackFilter,
-                    HostShip.PilotName,
-                    "You may perform an additional attack against " + shipToPunish.PilotName + ".",
+                    HostShip.PilotInfo.PilotName,
+                    "You may perform an additional attack against " + shipToPunish.PilotInfo.PilotName + ".",
                     HostShip
                 );
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }
@@ -131,7 +131,7 @@ namespace Abilities.FirstEdition
 
             if (targetShip != shipToPunish)
             {
-                if (!isSilent) Messages.ShowErrorToHuman(string.Format("{0} can attack only {1}", HostShip.PilotName, shipToPunish.PilotName));
+                if (!isSilent) Messages.ShowErrorToHuman(string.Format("{0} can attack only {1}", HostShip.PilotInfo.PilotName, shipToPunish.PilotInfo.PilotName));
                 result = false;
             }
 

@@ -6,6 +6,7 @@ using Ship;
 using BoardTools;
 using GameModes;
 using GameCommands;
+using System;
 
 namespace SubPhases
 {
@@ -14,9 +15,12 @@ namespace SubPhases
     {
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ShipPlacement, GameCommandTypes.PressNext }; } }
 
+        public Func<bool> SetupFilter;
+        public Action SetupRangeHelper;
+
         private static bool inReposition;
 
-        private Transform StartingZone;
+        public Transform StartingZone { get; protected set; }
         private bool isInsideStartingZone;
 
         private TouchObjectPlacementHandler touchObjectPlacementHandler = new TouchObjectPlacementHandler();
@@ -172,6 +176,7 @@ namespace SubPhases
             inReposition = false;
 
             Selection.ChangeActiveShip("ShipId:" + shipId);
+            Selection.ThisShip.CallOnSetupPlaced();
             Board.PlaceShip(Selection.ThisShip, position, angles, delegate { Selection.DeselectThisShip(); Phases.Next(); });
         }
 
@@ -246,6 +251,7 @@ namespace SubPhases
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
+            Selection.ThisShip.CallOnSetupSelected();
             StartDrag();
         }
 
@@ -277,11 +283,20 @@ namespace SubPhases
 
             if (Physics.Raycast(ray, out hit))
             {
-                Selection.ThisShip.SetCenter(new Vector3(hit.point.x, 0f, hit.point.z));
+                if (Selection.ThisShip != null)
+                {
+                    Selection.ThisShip.SetCenter(new Vector3(hit.point.x, 0f, hit.point.z));
+                }
+                else
+                {
+                    Debug.Log("Warning: No ship is select to drag");
+                }
+                
             }
 
             CheckControlledModeLimits();
             ApplySetupPositionLimits();
+            if (SetupRangeHelper != null) SetupRangeHelper();
         }
 
         private void PerformTouchDragRotate() {
@@ -390,8 +405,16 @@ namespace SubPhases
 
             if (isInsideStartingZone)
             {
-                if (newBounds["maxZ"] > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) newPosition.z = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - (newBounds["maxZ"] - newPosition.z + 0.01f);
-                if (newBounds["minZ"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z) newPosition.z = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + (newPosition.z - newBounds["minZ"] + 0.01f);
+                if (SetupFilter == null)
+                {
+                    if (newBounds["maxZ"] > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) newPosition.z = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z - (newBounds["maxZ"] - newPosition.z + 0.01f);
+                    if (newBounds["minZ"] < StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z) newPosition.z = StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z + (newPosition.z - newBounds["minZ"] + 0.01f);
+                }
+                else
+                {
+                    if (newBounds["maxZ"] > Board.GetBoard().TransformPoint(45.72f, 45.72f, 45.72f).z) newPosition.z = Board.GetBoard().TransformPoint(45.72f, 45.72f, 45.72f).z - (newBounds["maxZ"] - newPosition.z + 0.01f);
+                    if (newBounds["minZ"] < Board.GetBoard().TransformPoint(-45.72f, -45.72f, -45.72f).z) newPosition.z = Board.GetBoard().TransformPoint(-45.72f, -45.72f, -45.72f).z + (newPosition.z - newBounds["minZ"] + 0.01f);
+                }
             }
 
             if (newBounds["maxX"] > StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).x) newPosition.x = StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).x - (newBounds["maxX"] - newPosition.x + 0.01f);
@@ -409,10 +432,15 @@ namespace SubPhases
         {
             bool result = true;
 
-            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.SetupSubPhase))
+            if (Phases.CurrentSubPhase.GetType() == typeof(SetupSubPhase))
             {
-                if (!ship.ShipBase.IsInside(StartingZone))
+                if (Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedShips.Count > 0)
+                {
+                    Messages.ShowErrorToHuman("This ship shouldn't collide with another ships");
+                    result = false;
+                }
 
+                if (SetupFilter == null && !IsShipInStartingZone(ship))
                 {
                     if (CameraScript.InputTouchIsEnabled)
                     {
@@ -425,18 +453,23 @@ namespace SubPhases
                     }
                     result = false;
                 }
-
-                if (Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedShips.Count > 0)
+                else if (SetupFilter != null && (!SetupFilter() && !ship.ShipBase.IsInside(StartingZone)))
                 {
-                    Messages.ShowErrorToHuman("This ship shouldn't collide with another ships");
+                    Messages.ShowErrorToHuman("Position is not valid");
                     result = false;
                 }
-
             }
 
             if (result) StopDrag();
 
             return result;
+        }
+
+        public static bool IsShipInStartingZone(GenericShip ship)
+        {
+            SetupSubPhase setupSubPhase = Phases.CurrentSubPhase as SetupSubPhase;
+
+            return ship.ShipBase.IsInside(setupSubPhase.StartingZone);
         }
 
         public override void NextButton() {
@@ -453,6 +486,8 @@ namespace SubPhases
         private void StopDrag()
         {
             HideSetupHelpers();
+            MovementTemplates.ReturnRangeRulers();
+
             Roster.SetRaycastTargets(true);
             Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().checkCollisions = false;
             inReposition = false;

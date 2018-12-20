@@ -39,7 +39,7 @@ namespace Ship
 
                 ShipAbilities.Add(new VectoredThrustersRZ2());
 
-                IconicPilots[Faction.Resistance] = typeof(GreerSonnel);
+                IconicPilots[Faction.Resistance] = typeof(TallissanLintra);
 
                 // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b4/Maneuver_a-wing.png";
                 HotacManeuverTable = new AI.RZ2AWingTable();

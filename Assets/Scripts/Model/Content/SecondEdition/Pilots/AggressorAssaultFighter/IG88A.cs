@@ -65,7 +65,7 @@ namespace Abilities.SecondEdition
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    HostShip.PilotName,
+                    HostShip.PilotInfo.PilotName,
                     "Choose a ship to transfer one of your calculate tokens to",
                     HostShip
                 );

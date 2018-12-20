@@ -56,7 +56,7 @@ namespace Abilities.FirstEdition
                 FilterTargetInBullseyeArc,
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Acqure a Target Lock on an enemy ship inside your bullseye firing arc.",
                 HostShip
             );

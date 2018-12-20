@@ -324,7 +324,6 @@ namespace BoardTools
                 if (team == Team.Type.Enemy && ship.Owner.Id == otherShip.Owner.Id)
                     continue;
 
-                ShotInfo shotInfo = new ShotInfo(ship, otherShip, ship.PrimaryWeapons);
                 if (!ship.SectorsInfo.IsShipInSector(otherShip, ArcType.Bullseye))
                     continue;
 

@@ -61,7 +61,14 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, DecideRemoveStress, DecideDontRemoveStress, null, true, string.Format("Should {0} remove 1 stress token?", HostShip.PilotName));
+                AskToUseAbility(
+                    AlwaysUseByDefault,
+                    DecideRemoveStress,
+                    DecideDontRemoveStress,
+                    null,
+                    true,
+                    string.Format("Should {0} remove 1 stress token?", HostShip.PilotInfo.PilotName)
+                );
             }
             else
             {

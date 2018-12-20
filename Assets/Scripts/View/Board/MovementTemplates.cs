@@ -164,6 +164,13 @@ public static class MovementTemplates {
         ReturnRangeRuler();
     }
 
+    public static void ReturnRangeRulers()
+    {
+        ReturnRangeRulerR1();
+        ReturnRangeRulerR2();
+        ReturnRangeRuler();
+    }
+
     public static void ReturnRangeRuler()
     {
         Templates.Find("RangeRuler").transform.localPosition = new Vector3(10.4f, 0f, -7.5f);

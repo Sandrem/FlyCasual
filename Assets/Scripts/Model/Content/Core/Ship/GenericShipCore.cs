@@ -362,6 +362,11 @@ namespace Ship
             if (State.Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
         }
 
+        public void LoseCharge()
+        {
+            State.Charges--;
+        }
+
         public void RemoveCharge(Action callBack)
         {
             // for now this is just an alias of SpendCharge

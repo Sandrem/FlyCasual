@@ -36,7 +36,7 @@ namespace UpgradesList.FirstEdition
             {
                 foreach (var shipHolder in squadList.GetShips())
                 {
-                    if (shipHolder.Instance.PilotName == "Ezra Bridger")
+                    if (shipHolder.Instance.PilotInfo.PilotName == "Ezra Bridger")
                     {
                         return true;
                     }

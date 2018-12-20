@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
                 FilterTargets,
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
-                HostShip.PilotName,
+                HostShip.PilotInfo.PilotName,
                 "Choose a friendly ship, it may perform a free Focus action",
                 HostShip
             );

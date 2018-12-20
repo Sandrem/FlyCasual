@@ -55,7 +55,7 @@ namespace UpgradesList.FirstEdition
 
         private void SufferSecondIonBombToken()
         {
-            Messages.ShowInfoToHuman(string.Format("{0}: Dealt second ion token to {1}", UpgradeInfo.Name, _ship.PilotName));
+            Messages.ShowInfoToHuman(string.Format("{0}: Dealt second ion token to {1}", UpgradeInfo.Name, _ship.PilotInfo.PilotName));
             _ship.Tokens.AssignToken(typeof(IonToken), Triggers.FinishTrigger);
         }
 

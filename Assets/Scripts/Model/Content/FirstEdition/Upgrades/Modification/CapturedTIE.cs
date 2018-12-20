@@ -85,7 +85,7 @@ namespace Abilities.FirstEdition
 
         protected void RegisterDiscardOnFlipFaceUpBeingSingleFriendlyTrigger()
         {
-            RegisterTriggerSingleFriendlyCheckCommon(string.Format("{0} immediately discarding Captured TIE again, due to being the only friendly ship left", HostShip.PilotName), TriggerTypes.OnFlipFaceUp);
+            RegisterTriggerSingleFriendlyCheckCommon(string.Format("{0} immediately discarding Captured TIE again, due to being the only friendly ship left", HostShip.PilotInfo.PilotName), TriggerTypes.OnFlipFaceUp);
         }
 
         public void CanPerformAttack(ref bool result, List<string> stringList)

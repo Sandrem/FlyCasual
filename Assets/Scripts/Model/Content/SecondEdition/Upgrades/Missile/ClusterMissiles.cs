@@ -93,7 +93,7 @@ namespace Abilities.SecondEdition
             // TODOREVERT
             // (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).RequiresTargetLockOnTargetToShoot = false;
 
-            Messages.ShowInfo(HostShip.PilotName + " can perform second Cluster Missiles attack");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform second Cluster Missiles attack");
 
             Combat.StartAdditionalAttack(
                 HostShip,

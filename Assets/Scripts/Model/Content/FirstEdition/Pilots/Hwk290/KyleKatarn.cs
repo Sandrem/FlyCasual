@@ -60,7 +60,7 @@ namespace Abilities.FirstEdition
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    HostShip.PilotName,
+                    HostShip.PilotInfo.PilotName,
                     GenerateAbilityString(),
                     HostShip
                 );

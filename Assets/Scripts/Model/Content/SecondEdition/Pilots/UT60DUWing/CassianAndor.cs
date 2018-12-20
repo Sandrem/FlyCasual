@@ -74,7 +74,7 @@ namespace Abilities.SecondEdition
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
-                    HostShip.PilotName,
+                    HostShip.PilotInfo.PilotName,
                     GenerateAbilityMessage(),
                     HostShip
                 );

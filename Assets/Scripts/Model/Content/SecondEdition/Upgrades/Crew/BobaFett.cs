@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 cost: 4,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
-                abilityType: typeof(Abilities.FirstEdition.BobaFettCrewAbility),
+                abilityType: typeof(Abilities.SecondEdition.BobaFettCrewAbility),
                 seImageNumber: 129
             );
         }        

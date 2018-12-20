@@ -390,20 +390,8 @@ public partial class DiceRoll
 
     public void ChangeWorstResultTo(DieSide newSide)
     {
-        ChangeDice(GetWorstSide(), newSide, true);
+        ChangeDice(WorstResult, newSide, true);
         UpdateDiceCompareHelperPrediction();
-    }
-
-    public DieSide GetWorstSide()
-    {
-        DieSide worstSide = DieSide.Unknown;
-
-        if (Blanks > 0) worstSide = DieSide.Blank;
-        else if (Focuses > 0) worstSide = DieSide.Focus;
-        else if (RegularSuccesses > 0) worstSide = DieSide.Success;
-        else worstSide = DieSide.Crit;
-
-        return worstSide;
     }
 
     public void ChangeAll(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)

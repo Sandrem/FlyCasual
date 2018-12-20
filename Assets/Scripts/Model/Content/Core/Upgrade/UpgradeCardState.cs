@@ -48,6 +48,12 @@ namespace Upgrade
             }
         }
 
+        public void LoseCharge()
+        {
+            Charges--;
+            Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
+        }
+
         public void SpendCharge()
         {
             Charges--;

@@ -167,7 +167,7 @@ namespace Upgrade
         {
             if (AddAction != null)
             {
-                HostShip.ShipInfo.ActionIcons.AddActions(new ActionInfo(AddAction.ActionType, AddAction.Color));
+                HostShip.ShipInfo.ActionIcons.AddActions(new ActionInfo(AddAction.ActionType, AddAction.Color, HostUpgrade));
                 if (HostShip.State != null)
                 {
                    GenericAction addedAction = (GenericAction)Activator.CreateInstance(AddAction.ActionType);
@@ -229,7 +229,11 @@ namespace Upgrade
         {
             if (AddAction != null)
             {
-                ActionInfo addedAction = HostShip.ShipInfo.ActionIcons.Actions.First(a => a.ActionType == AddAction.ActionType && a.Color == AddAction.Color);
+                ActionInfo addedAction = HostShip.ShipInfo.ActionIcons.Actions.First(a => 
+                    a.ActionType == AddAction.ActionType
+                    && a.Color == AddAction.Color
+                    && a.Source == HostUpgrade
+                );
                 HostShip.ShipInfo.ActionIcons.Actions.Remove(addedAction);
 
                 if (HostShip.State != null) HostUpgrade.HostShip.ActionBar.RemoveGrantedAction(AddAction.ActionType, HostUpgrade);

@@ -9,6 +9,7 @@ using System.ComponentModel;
 using Tokens;
 using System.Linq;
 using SubPhases;
+using Upgrade;
 
 namespace Actions
 {
@@ -22,11 +23,13 @@ namespace Actions
     {
         public Type ActionType { get; private set; }
         public ActionColor Color { get; private set; }
+        public GenericUpgrade Source { get; private set; }
 
-        public ActionInfo(Type actionType, ActionColor color = ActionColor.White)
+        public ActionInfo(Type actionType, ActionColor color = ActionColor.White, GenericUpgrade source = null)
         {
             ActionType = actionType;
             Color = color;
+            Source = source;
         }
     }
 

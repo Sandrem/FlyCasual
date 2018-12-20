@@ -109,7 +109,15 @@ namespace Ship
                 action.HostShip = Host;
                 action.IsRed = actionInfo.Color == ActionColor.Red;
 
-                AddPrintedAction(action);
+                if (actionInfo.Source == null)
+                {
+                    AddPrintedAction(action);
+                }
+                else
+                {
+                    AddGrantedAction(action, actionInfo.Source);
+                }
+                
             }
 
             foreach (LinkedActionInfo linkedActionInfo in Host.ShipInfo.ActionIcons.LinkedActions)

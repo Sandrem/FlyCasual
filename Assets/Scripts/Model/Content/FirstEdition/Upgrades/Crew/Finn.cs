@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
 
         private void FinnActionEffect(GenericShip host)
         {
-            GenericAction newAction = new FinnDiceModification()
+            GenericAction newAction = new ActionsList.FirstEdition.FinnDiceModification()
             {
                 HostShip = host,
                 ImageUrl = HostUpgrade.ImageUrl
@@ -50,7 +50,7 @@ namespace Abilities.FirstEdition
     }
 }
 
-namespace ActionsList
+namespace ActionsList.FirstEdition
 {
     public class FinnDiceModification : GenericAction
     {
@@ -75,17 +75,22 @@ namespace ActionsList
             switch (Combat.AttackStep)
             {
                 case CombatStep.Attack:
-                    if ((Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon) && (Combat.ShotInfo.InArc)) result = true;
+                    if ((Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon) && CheckArcRequirements(Combat.Attacker, Combat.Defender)) result = true;
                     break;
                 case CombatStep.Defence:
-                    ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
-                    if (shotInfo.InArc) result = true;
+                    result = CheckArcRequirements(Combat.Defender, Combat.Attacker);
                     break;
                 default:
                     break;
             }
 
             return result;
+        }
+
+        protected virtual bool CheckArcRequirements(GenericShip thisShip, GenericShip anotherShip)
+        {
+            ShotInfo shotInfo = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
+            return (shotInfo.InArc);
         }
 
         public override int GetDiceModificationPriority()

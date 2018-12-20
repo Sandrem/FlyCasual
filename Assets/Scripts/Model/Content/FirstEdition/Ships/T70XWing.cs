@@ -8,8 +8,10 @@ using Upgrade;
 
 namespace Ship.FirstEdition.T70XWing
 {
-    public class T70XWing : GenericShip
+    public class T70XWing : GenericShip, IMovableWings
     {
+        public WingsPositions CurrentWingsPosition { get; set; }
+
         public T70XWing() : base()
         {
             ShipInfo = new ShipCardInfo

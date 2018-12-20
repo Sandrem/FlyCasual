@@ -71,7 +71,8 @@ namespace Abilities.SecondEdition
                 HostShip.Owner.PlayerNo,
                 HostUpgrade.UpgradeInfo.Name,
                 "Choose another friendly ship near the defender. That ship will suffer 1 damage and you will change 1 die result to Hit.",
-                HostUpgrade
+                HostUpgrade,
+                showSkipButton: false
             );
         }
 
@@ -123,7 +124,7 @@ namespace ActionsList
         {
             if (Combat.AttackStep != CombatStep.Attack) return false;
 
-            List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Friendly);
+            List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Enemy);
             return friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != HostShip.ShipId);
         }
 

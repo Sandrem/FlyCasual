@@ -31,7 +31,9 @@ namespace Ship.FirstEdition.VT49Decimator
                     UpgradeType.Crew,
                     UpgradeType.Crew,
                     UpgradeType.Crew,
-                    UpgradeType.Bomb
+                    UpgradeType.Bomb,
+                    UpgradeType.Title,
+                    UpgradeType.Modification
                 )
             );
 

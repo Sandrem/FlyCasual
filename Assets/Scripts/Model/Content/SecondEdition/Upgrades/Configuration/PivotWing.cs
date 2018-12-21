@@ -91,10 +91,10 @@ namespace Abilities.SecondEdition
 
             subphase.InfoText = "Rotate the ship?";
 
+            subphase.AddDecision("180", Rotate180, isCentered: true);
             subphase.AddDecision("90 Counterclockwise", Rotate90Counterclockwise);
             subphase.AddDecision("90 Clockwise", Rotate90Clockwise);
-            subphase.AddDecision("180", Rotate180);
-            subphase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); });
+            subphase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); }, isCentered: true);
 
             subphase.Start();
         }

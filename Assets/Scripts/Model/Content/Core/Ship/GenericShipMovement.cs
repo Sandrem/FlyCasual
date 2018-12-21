@@ -77,6 +77,7 @@ namespace Ship
         public event EventHandlerShip OnManeuverIsReadyToBeRevealed;
         public static event EventHandlerShip OnManeuverIsReadyToBeRevealedGlobal;
         public event EventHandlerShip OnManeuverIsRevealed;
+        public static event EventHandlerShip OnManeuverIsRevealedGlobal;
         public static event EventHandlerShip OnNoManeuverWasRevealedGlobal;
         public event EventHandlerShip BeforeMovementIsExecuted;
         public event EventHandlerShip OnMovementStart;
@@ -114,6 +115,7 @@ namespace Ship
             if (Selection.ThisShip.AssignedManeuver != null && Selection.ThisShip.AssignedManeuver.IsRevealDial)
             {
                 if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
+                if (OnManeuverIsRevealedGlobal != null) OnManeuverIsRevealedGlobal(this);
 
                 Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsRevealed, callBack);
             }

@@ -60,7 +60,10 @@ namespace Abilities.SecondEdition
 
             HostShip.BeforeFreeActionIsPerformed += SpendForce;
             HostShip.OnActionIsPerformed += RemoveSpendForce;
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableWhiteActionsAsRed(), FinishAbility);
+            HostShip.AskPerformFreeAction(
+                HostShip.GetAvailableWhiteActionsAsRed().Where(a => HostShip.ActionBar.HasAction(a.GetType())).ToList(),
+                FinishAbility
+            );
         }
 
         private void SpendForce(GenericAction action)

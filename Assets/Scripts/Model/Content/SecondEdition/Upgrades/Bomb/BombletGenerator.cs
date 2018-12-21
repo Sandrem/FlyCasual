@@ -7,7 +7,7 @@ using Ship;
 using System.Linq;
 using SubPhases;
 
-namespace UpgradesList.FirstEdition
+namespace UpgradesList.SecondEdition
 {
     public class BombletGenerator : GenericTimedBomb
     {
@@ -20,8 +20,10 @@ namespace UpgradesList.FirstEdition
                     UpgradeType.Bomb,
                     UpgradeType.Bomb
                 },
-                cost: 3,
-                isLimited: true
+                cost: 5,
+                charges: 2,
+                abilityType: typeof(Abilities.SecondEdition.BombletGeneratorAbility),
+                seImageNumber: 63
             );
 
             bombPrefabPath = "Prefabs/Bombs/Bomblet";
@@ -30,9 +32,9 @@ namespace UpgradesList.FirstEdition
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
             Selection.ActiveShip = ship;
-            var sufferBombletDamageSubphase = Phases.StartTemporarySubPhaseNew("Damage from " + UpgradeInfo.Name, typeof(SubPhases.FirstEdition.BombletCheckSubPhase), () =>
+            var sufferBombletDamageSubphase = Phases.StartTemporarySubPhaseNew("Damage from " + UpgradeInfo.Name, typeof(SubPhases.SecondEdition.BombletCheckSubPhase), () =>
             {
-                Phases.FinishSubPhase(typeof(SubPhases.FirstEdition.BombletCheckSubPhase));
+                Phases.FinishSubPhase(typeof(SubPhases.SecondEdition.BombletCheckSubPhase));
                 callBack();
             });
             sufferBombletDamageSubphase.Start();
@@ -52,7 +54,7 @@ namespace UpgradesList.FirstEdition
 
 }
 
-namespace SubPhases.FirstEdition
+namespace SubPhases.SecondEdition
 {
     public class BombletCheckSubPhase : DiceRollCheckSubPhase
     {
@@ -90,7 +92,7 @@ namespace SubPhases.FirstEdition
                 DamageType = DamageTypes.BombDetonation
             };
 
-            Selection.ActiveShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, bombletDamage, CallBack);
+            Selection.ActiveShip.Damage.TryResolveDamage(CurrentDiceRoll.Successes, bombletDamage, CallBack);
         }
 
         private void NoDamage()
@@ -100,4 +102,50 @@ namespace SubPhases.FirstEdition
         }
     }
 
+}
+
+namespace Abilities.SecondEdition
+{
+    public class BombletGeneratorAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            Phases.Events.OnActivationPhaseStart += AskAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnActivationPhaseStart -= AskAbility;
+        }
+
+        private void AskAbility()
+        {
+            if (HostUpgrade.State.Charges < HostUpgrade.UpgradeInfo.Charges
+                && HostShip.State.ShieldsCurrent > 0)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnActivationPhaseStart, AskToRechargeBombletGenerator);
+            }
+        }
+
+        private void AskToRechargeBombletGenerator(object sender, System.EventArgs e)
+        {
+            AskToUseAbility(
+                NeverUseByDefault,
+                RechargeBombletGenerator,
+                infoText: "Do you want to spend 1 shield to recover 2 charges of " + HostUpgrade.UpgradeInfo.Name + "?"
+            );
+        }
+
+        private void RechargeBombletGenerator(object sender, System.EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            HostShip.LoseShield();
+            for (int i = 0; i < 2; i++)
+            {
+                if (HostUpgrade.State.Charges < HostUpgrade.UpgradeInfo.Charges) HostUpgrade.State.RestoreCharge();
+            }
+            Triggers.FinishTrigger();
+        }
+    }
 }

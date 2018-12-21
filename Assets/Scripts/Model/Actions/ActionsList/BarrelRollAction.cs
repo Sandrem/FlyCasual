@@ -345,7 +345,7 @@ namespace SubPhases
 
         public override void Update()
         {
-            if (inReposition && Edition.Current is FirstEdition)
+            if (inReposition && Edition.Current is Editions.FirstEdition)
             {
                 PerfromDrag();
             }
@@ -406,7 +406,7 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            if (Edition.Current is FirstEdition)
+            if (Edition.Current is Editions.FirstEdition)
             {
                 StopDrag();
 

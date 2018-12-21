@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
         {
             if (HostShip.IsBumped) return;
             if (HostShip.IsBombAlreadyDropped) return;
-            if (!BombsManager.HasTimedBombs(ship)) return;
+            if (!BombsManager.HasBombsToDrop(ship)) return;
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskUseGeniusAbility);
@@ -55,7 +55,7 @@ namespace Abilities.FirstEdition
 
         private void UseGeniusAbility(object sender, EventArgs e)
         {
-            List<GenericUpgrade> timedBombsInstalled = BombsManager.GetTimedBombsInstalled(HostShip);
+            List<GenericUpgrade> timedBombsInstalled = BombsManager.GetBombsToDrop(HostShip);
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
             if (timedBombsInstalled.Count == 1)
@@ -77,7 +77,7 @@ namespace Abilities.FirstEdition
                 callback
             );
 
-            foreach (var timedBombInstalled in BombsManager.GetTimedBombsInstalled(HostShip))
+            foreach (var timedBombInstalled in BombsManager.GetBombsToDrop(HostShip))
             {
                 selectBombToDrop.AddDecision(
                     timedBombInstalled.UpgradeInfo.Name,
@@ -87,7 +87,7 @@ namespace Abilities.FirstEdition
 
             selectBombToDrop.InfoText = "Select bomb to drop";
 
-            selectBombToDrop.DefaultDecisionName = BombsManager.GetTimedBombsInstalled(HostShip).First().UpgradeInfo.Name;
+            selectBombToDrop.DefaultDecisionName = BombsManager.GetBombsToDrop(HostShip).First().UpgradeInfo.Name;
 
             selectBombToDrop.RequiredPlayer = HostShip.Owner.PlayerNo;
 

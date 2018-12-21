@@ -7,25 +7,22 @@ using Ship;
 using System.Linq;
 using SubPhases;
 
-namespace UpgradesList.FirstEdition
+namespace UpgradesList.SecondEdition
 {
-    public class ClusterMines : GenericContactMineFE
+    public class ProximityMines : GenericContactMineSE
     {
-        public ClusterMines() : base()
+        public ProximityMines() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Cluster Mines",
+                "Proximity Mines",
                 UpgradeType.Bomb,
-                cost: 4
+                cost: 6,
+                charges: 2,
+                cannotBeRecharged: true,
+                seImageNumber: 66
             );
 
-            bombPrefabPath = "Prefabs/Bombs/ClusterMinesCentral";
-
-            bombSidePrefabPath = "Prefabs/Bombs/ClusterMinesSide";
-            bombSideDistanceX = 2.362f;
-            bombSideDistanceZ = 0.0764f;
-
-            IsDiscardedAfterDropped = true;
+            bombPrefabPath = "Prefabs/Bombs/ProximityMine";
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
@@ -33,9 +30,9 @@ namespace UpgradesList.FirstEdition
             Selection.ActiveShip = ship;
             Phases.StartTemporarySubPhaseOld(
                 "Damage from " + UpgradeInfo.Name,
-                typeof(ClusterMinesCheckSubPhase),
+                typeof(SubPhases.SecondEdition.ProximityMinesCheckSubPhase),
                 delegate {
-                    Phases.FinishSubPhase(typeof(ClusterMinesCheckSubPhase));
+                    Phases.FinishSubPhase(typeof(SubPhases.SecondEdition.ProximityMinesCheckSubPhase));
                     callBack();
                 });
         }
@@ -49,17 +46,13 @@ namespace UpgradesList.FirstEdition
 
             GameManagerScript.Wait(1, delegate { callBack(); });
         }
-
     }
-
 }
 
-namespace SubPhases
+namespace SubPhases.SecondEdition
 {
-
-    public class ClusterMinesCheckSubPhase : DiceRollCheckSubPhase
+    public class ProximityMinesCheckSubPhase : DiceRollCheckSubPhase
     {
-
         public override void Prepare()
         {
             DiceKind = DiceKind.Attack;
@@ -73,13 +66,9 @@ namespace SubPhases
             HideDiceResultMenu();
 
             CurrentDiceRoll.RemoveAllFailures();
+            CurrentDiceRoll.AddDice(DieSide.Success);
             if (!CurrentDiceRoll.IsEmpty)
             {
-                foreach (Die die in CurrentDiceRoll.DiceList)
-                {
-                    if (die.Side == DieSide.Crit) die.SetSide(DieSide.Success);
-                }
-
                 SufferDamage();
             }
             else
@@ -91,15 +80,15 @@ namespace SubPhases
 
         private void SufferDamage()
         {
-            Messages.ShowError("Cluster Mines: ship suffered damage");
+            Messages.ShowError("Proximity Mines: ship suffered damage");
 
-            DamageSourceEventArgs clustermineDamage = new DamageSourceEventArgs()
+            DamageSourceEventArgs proximityDamage = new DamageSourceEventArgs()
             {
-                Source = "Cluster Mines",
+                Source = "Proximity Mines",
                 DamageType = DamageTypes.BombDetonation
             };
 
-            Selection.ActiveShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, clustermineDamage, CallBack);
+            Selection.ActiveShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, proximityDamage, CallBack);
         }
 
         private void NoDamage()
@@ -108,5 +97,4 @@ namespace SubPhases
             CallBack();
         }
     }
-
 }

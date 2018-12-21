@@ -189,7 +189,7 @@ namespace Bombs
 
         public static void CheckBombDropAvailability(GenericShip ship)
         {
-            if (!ship.IsBombAlreadyDropped && HasTimedBombs(ship))
+            if (!ship.IsBombAlreadyDropped && HasBombsToDrop(ship))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
@@ -212,7 +212,7 @@ namespace Bombs
                 CheckSelectedBomb
             );
 
-            foreach (var timedBombInstalled in GetTimedBombsInstalled(Selection.ThisShip))
+            foreach (var timedBombInstalled in GetBombsToDrop(Selection.ThisShip))
             {
                 selectBombToDrop.AddDecision(
                     timedBombInstalled.UpgradeInfo.Name,
@@ -236,7 +236,7 @@ namespace Bombs
 
         private static void SelectBomb(GenericUpgrade timedBombUpgrade)
         {
-            CurrentBomb = timedBombUpgrade as GenericTimedBomb;
+            CurrentBomb = timedBombUpgrade as GenericBomb;
             DecisionSubPhase.ConfirmDecision();
         }
 
@@ -314,15 +314,17 @@ namespace Bombs
 
         private class WayToDropDecisionSubPhase : DecisionSubPhase { }
 
-        public static List<GenericUpgrade> GetTimedBombsInstalled(GenericShip ship)
+        public static List<GenericUpgrade> GetBombsToDrop(GenericShip ship)
         {
-            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.GetType().BaseType == typeof(GenericTimedBomb)).Where(n => n.State.UsesCharges == false || (n.State.UsesCharges == true && n.State.Charges > 0)).ToList();
+            return ship.UpgradeBar.GetUpgradesOnlyFaceup()
+                .Where(n => n.GetType().BaseType == typeof(GenericTimedBomb) || n.GetType().BaseType == typeof(GenericContactMineSE))
+                .Where(n => n.State.UsesCharges == false || (n.State.UsesCharges == true && n.State.Charges > 0))
+                .ToList();
         }
 
-        public static bool HasTimedBombs(GenericShip ship)
+        public static bool HasBombsToDrop(GenericShip ship)
         {
-            int timedBombsInstalledCount = GetTimedBombsInstalled(ship).Count;
-            return timedBombsInstalledCount > 0;
+            return GetBombsToDrop(ship).Any();
         }
 
         public static Dictionary<GameObject, GenericBomb> GetBombsOnBoard()

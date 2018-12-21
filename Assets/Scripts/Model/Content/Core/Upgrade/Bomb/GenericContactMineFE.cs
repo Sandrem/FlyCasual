@@ -8,14 +8,14 @@ using Bombs;
 namespace Upgrade
 {
 
-    abstract public class GenericContactMine : GenericBomb
+    abstract public class GenericContactMineFE : GenericBomb
     {
         private int updatesCount;
         private Action CallBack;
 
         private int immediateDetonationsCheckedCount;
 
-        public GenericContactMine() : base()
+        public GenericContactMineFE() : base()
         {
 
         }
@@ -27,7 +27,7 @@ namespace Upgrade
             host.OnGenerateActions += PerformDropBombAction;
         }
 
-        private void PerformDropBombAction(GenericShip ship)
+        protected virtual void PerformDropBombAction(GenericShip ship)
         {
             ActionsList.GenericAction action = new ActionsList.BombDropAction()
             {

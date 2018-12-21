@@ -66,7 +66,7 @@ namespace Upgrade
 
         public void RestoreCharge()
         {
-            if (Charges < MaxCharges)
+            if (Charges < MaxCharges && !HostUpgrade.UpgradeInfo.CannotBeRecharged)
             {
                 if (Charges == 0) Roster.ShowUpgradeAsActive(HostShip, HostUpgrade.UpgradeInfo.Name);
 

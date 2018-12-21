@@ -9,7 +9,7 @@ using SubPhases;
 
 namespace UpgradesList.FirstEdition
 {
-    public class ProximityMines : GenericContactMine
+    public class ProximityMines : GenericContactMineFE
     {
         public ProximityMines() : base()
         {
@@ -29,9 +29,9 @@ namespace UpgradesList.FirstEdition
             Selection.ActiveShip = ship;
             Phases.StartTemporarySubPhaseOld(
                 "Damage from " + UpgradeInfo.Name,
-                typeof(ProximityMinesCheckSubPhase),
+                typeof(SubPhases.FirstEdition.ProximityMinesCheckSubPhase),
                 delegate {
-                    Phases.FinishSubPhase(typeof(ProximityMinesCheckSubPhase));
+                    Phases.FinishSubPhase(typeof(SubPhases.FirstEdition.ProximityMinesCheckSubPhase));
                     callBack();
                 });
         }
@@ -48,7 +48,7 @@ namespace UpgradesList.FirstEdition
     }
 }
 
-namespace SubPhases
+namespace SubPhases.FirstEdition
 {
     public class ProximityMinesCheckSubPhase : DiceRollCheckSubPhase
     {

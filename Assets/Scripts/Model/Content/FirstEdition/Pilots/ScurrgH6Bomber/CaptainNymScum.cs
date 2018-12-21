@@ -62,7 +62,7 @@ namespace Abilities.FirstEdition
         {
             if (ship == null || ship.ShipId != HostShip.ShipId) return;
 
-            if (bomb.GetType().BaseType == typeof(GenericContactMine))
+            if (bomb.GetType().BaseType == typeof(GenericContactMineFE))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCheckPermissionToDetonate, AskToIgnoreContactMine);
             }

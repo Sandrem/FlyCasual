@@ -33,9 +33,9 @@ namespace ActionsList
             if (ActionsHolder.HasTarget(Selection.ThisShip)) return 0;
 
             EnemiesInArcHolder = HostShip.SectorsInfo.GetEnemiesInAllSectors();
-            foreach (var arcInfo in EnemiesInArcHolder)
+            foreach (ArcFacing arcFacing in HostShip.GetAvailableArcFacings())
             {
-                if (arcInfo.Value.Count > 0) return 100;
+                if (EnemiesInArcHolder[arcFacing].Count > 0) return 100;
             }
 
             return 1;
@@ -92,7 +92,7 @@ namespace SubPhases
                 if (EnemiesInArcHolder.Any(n => n.Value.Count > 0))
                 {
                     int maxCount = 0;
-                    ArcFacing maxFacing = ArcFacing.None;
+                    ArcFacing maxFacing = Selection.ThisShip.ArcsInfo.GetArc<ArcSingleTurret>().Facing;
 
                     List<ArcFacing> availableArcFacings = Selection.ThisShip.GetAvailableArcFacings();
                     foreach (var sectorInfo in EnemiesInArcHolder)

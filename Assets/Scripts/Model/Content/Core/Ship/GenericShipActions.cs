@@ -99,6 +99,11 @@ namespace Ship
             return AvailableActionsList;
         }
 
+        public List<GenericAction> GetAvailableActionsWhiteOnly()
+        {
+            return GetAvailableActions().Where(a => !a.IsRed).ToList();
+        }
+
         public List<GenericAction> GetAvailableActionsAsRed()
         {
             List<GenericAction> redActions = new List<GenericAction>();
@@ -115,7 +120,7 @@ namespace Ship
             return redActions;
         }
 
-        public List<GenericAction> GetAvailableWhiteActionsAsRed()
+        public List<GenericAction> GetAvailableActionsWhiteOnlyAsRed()
         {
             List<GenericAction> redActions = new List<GenericAction>();
 

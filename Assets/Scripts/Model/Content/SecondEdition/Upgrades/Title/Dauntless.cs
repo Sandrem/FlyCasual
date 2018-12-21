@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfoToHuman(HostUpgrade.UpgradeInfo.Name + ": You may perform an action");
 
             HostShip.AskPerformFreeAction(
-                HostShip.GetAvailableWhiteActionsAsRed(),
+                HostShip.GetAvailableActionsWhiteOnlyAsRed(),
                 Triggers.FinishTrigger
             );
         }

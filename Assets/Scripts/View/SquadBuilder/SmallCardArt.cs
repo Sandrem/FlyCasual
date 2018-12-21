@@ -73,7 +73,15 @@ public class SmallCardArt : MonoBehaviour {
         }
         else if (imageSource is GenericUpgrade)
         {
-            imageRect = (Edition.Current is SecondEdition) ? new Rect(281, 0, 394, 202) : new Rect(0, 0, 194, 106);
+            if (Edition.Current is SecondEdition)
+            {
+                TextureScale.Bilinear(newTexture, 700, 503);
+                imageRect = new Rect(281, 0, 394, 202);
+            }
+            else
+            {
+                new Rect(0, 0, 194, 106);
+            }
         }
 
         Sprite newSprite = Sprite.Create(

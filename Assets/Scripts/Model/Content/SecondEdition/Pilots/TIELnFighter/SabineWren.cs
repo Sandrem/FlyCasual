@@ -19,7 +19,7 @@ namespace Ship
                     abilityType: typeof(Abilities.FirstEdition.SabineWrenPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
                     factionOverride: Faction.Rebel,
-                    seImageNumber: 22
+                    seImageNumber: 47
                 );
 
                 ModelInfo.ModelName = "TIE Fighter Rebel";

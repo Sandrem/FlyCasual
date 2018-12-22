@@ -51,9 +51,14 @@ namespace ActionsList
             return result;
         }
 
+        private static List<GenericUpgrade> GetReloadableUpgrades()
+        {
+            return Selection.ThisShip.UpgradeBar.GetRechargableUpgrades(new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb });
+        }
+
         public static void RestoreOneCharge()
         {
-            List<GenericUpgrade> rechargableUpgrades = Selection.ThisShip.UpgradeBar.GetRechargableUpgrades();
+            List<GenericUpgrade> rechargableUpgrades = GetReloadableUpgrades();
 
             if (rechargableUpgrades.Count > 1)
             {
@@ -80,7 +85,7 @@ namespace ActionsList
             subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
             subphase.DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 
-            foreach (GenericUpgrade upgrade in Selection.ThisShip.UpgradeBar.GetRechargableUpgrades())
+            foreach (GenericUpgrade upgrade in GetReloadableUpgrades())
             {
                 subphase.AddDecision(upgrade.UpgradeInfo.Name, delegate { RechargeUpgrade(upgrade); }, upgrade.ImageUrl, upgrade.State.Charges);
             }

@@ -251,10 +251,16 @@ namespace Upgrade
             }
         }
 
-        public List<GenericUpgrade> GetRechargableUpgrades()
+
+        public List<GenericUpgrade> GetRechargableUpgrades(UpgradeType type)
+        {
+            return GetRechargableUpgrades(new List<UpgradeType> { type });
+        }
+
+        public List<GenericUpgrade> GetRechargableUpgrades(List<UpgradeType> types)
         {
             return GetUpgradesOnlyFaceup()
-                .Where(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) || n.UpgradeInfo.HasType(UpgradeType.Missile) || n.UpgradeInfo.HasType(UpgradeType.Bomb))
+                .Where(n => types.Any(type => n.UpgradeInfo.HasType(type)))
                 .Where(n => n.State.UsesCharges)
                 .Where(n => n.State.Charges < n.State.MaxCharges)
                 .Where(n => !n.UpgradeInfo.CannotBeRecharged)

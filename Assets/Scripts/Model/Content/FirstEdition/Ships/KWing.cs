@@ -41,7 +41,7 @@ namespace Ship.FirstEdition.KWing
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(WardenSquadronPilot) }
+                { Faction.Rebel, typeof(MirandaDoni) }
             };
 
             ModelInfo = new ShipModelInfo(

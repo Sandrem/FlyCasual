@@ -39,7 +39,8 @@ namespace Ship
             WeaponInfo = new SpecialWeaponInfo(
                 arcInfo.Firepower,
                 1, 3,
-                arc: arcInfo.ArcType
+                arc: arcInfo.ArcType,
+                canShootOutsideArc: arcInfo.ArcType == ArcType.TurretPrimaryWeapon
             );
         }
 

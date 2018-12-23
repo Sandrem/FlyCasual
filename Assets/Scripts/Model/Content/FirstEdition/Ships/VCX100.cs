@@ -38,7 +38,7 @@ namespace Ship.FirstEdition.VCX100
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(LothalRebel) }
+                { Faction.Rebel, typeof(KananJarrus) }
             };
 
             ModelInfo = new ShipModelInfo(

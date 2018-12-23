@@ -35,7 +35,7 @@ namespace Ship.FirstEdition.YT1300
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(OuterRimSmuggler) }
+                { Faction.Rebel, typeof(HanSolo) }
             };
 
             ModelInfo = new ShipModelInfo(

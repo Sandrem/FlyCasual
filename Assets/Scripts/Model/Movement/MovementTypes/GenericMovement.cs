@@ -47,7 +47,7 @@ namespace Movement
         Complex
     }
 
-    public class ManeuverHolder
+    public struct ManeuverHolder
     {
         public ManeuverSpeed Speed;
         public ManeuverDirection Direction;
@@ -62,6 +62,8 @@ namespace Movement
             Direction = direction;
             Bearing = bearing;
             ColorComplexity = complexity;
+
+            shipTag = null;
         }
 
         public ManeuverHolder(string parameters, Ship.GenericShip ship = null)

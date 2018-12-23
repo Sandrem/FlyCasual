@@ -31,7 +31,7 @@ namespace Ship.FirstEdition.KihraxzFighter
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Scum, typeof(CartelMarauder) }
+                { Faction.Scum, typeof(TalonbaneCobra) }
             };
 
             ModelInfo = new ShipModelInfo(

@@ -540,9 +540,24 @@ namespace SubPhases
                 }
             }
 
+            RemoveExtraDecisions();
+
             DefaultDecisionName = GetDecisions().Last().Name;
 
             callBack();
+        }
+
+        private void RemoveExtraDecisions()
+        {
+            if (decisions.Any(n => n.Name == "Primary Weapon (Front)") && decisions.Any(n => n.Name == "Primary Weapon (360)"))
+            {
+                decisions.RemoveAll(n => n.Name == "Primary Weapon (Front)");
+            }
+
+            if (decisions.Any(n => n.Name == "Primary Weapon (Front)") && decisions.Any(n => n.Name == "Primary Weapon (Full Front)"))
+            {
+                decisions.RemoveAll(n => n.Name == "Primary Weapon (Front)");
+            }
         }
 
         public void PerformAttackWithWeapon(IShipWeapon weapon)

@@ -35,7 +35,7 @@ namespace Ship
                 );
 
                 IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Imperial, typeof(SigmaSquadronPilot) }
+                    { Faction.Imperial, typeof(Whisper) }
                 };
 
                 ModelInfo = new ShipModelInfo(

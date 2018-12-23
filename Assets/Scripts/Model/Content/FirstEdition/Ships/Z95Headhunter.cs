@@ -32,8 +32,8 @@ namespace Ship.FirstEdition.Z95Headhunter
             ShipInfo.FactionsAll.Add(Faction.Scum);
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(BanditSquadronPilot) },
-                { Faction.Scum, typeof(BinayrePirate) }
+                { Faction.Rebel, typeof(LieutenantBlount) },
+                { Faction.Scum, typeof(NdruSuhlak) }
             };
 
             ModelInfo = new ShipModelInfo(

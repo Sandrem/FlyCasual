@@ -122,7 +122,7 @@ namespace ActionsList
                 }
                 else
                 {
-                    foreach (BlueTargetLockToken token in friendlyKrennicShip.Tokens.GetTokens<BlueTargetLockToken>())
+                    foreach (BlueTargetLockToken token in friendlyKrennicShip.Tokens.GetTokens<BlueTargetLockToken>('*'))
                     {
                         if (token.OtherTokenOwner == Combat.Defender) return true;
                     }

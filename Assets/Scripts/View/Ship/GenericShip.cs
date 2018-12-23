@@ -235,6 +235,13 @@ namespace Ship
             {
                 Texture skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(ModelInfo.ModelName) + "/" + ModelInfo.SkinName, typeof(Texture));
 
+                if (skin == null)
+                {
+                    Debug.Log("Warning: Skin \"" + ModelInfo.SkinName + "\" not found, default skin is used ");
+                    string defaultSkinName = GetDefaultSkinName();
+                    skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(ModelInfo.ModelName) + "/" + defaultSkinName, typeof(Texture));
+                }
+
                 foreach (Transform modelPart in GetModelTransform())
                 {
                     Renderer renderer = modelPart.GetComponent<Renderer>();
@@ -258,6 +265,11 @@ namespace Ship
             }
         }
 
+        private string GetDefaultSkinName()
+        {
+            GenericShip parentShip = (GenericShip) System.Activator.CreateInstance(this.GetType().BaseType);
+            return parentShip.ModelInfo.SkinName;
+        }
 
         public void ToggleCollisionDetection(bool value)
         {

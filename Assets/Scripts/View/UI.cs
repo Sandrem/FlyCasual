@@ -148,6 +148,24 @@ public class UI : MonoBehaviour {
         GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.SetActive(!GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.activeSelf);
     }
 
+    public void ToggleControls()
+    {
+        if (CameraScript.InputTouchIsEnabled)
+        {
+            CameraScript.InputMouseIsEnabled = true;
+        }
+        else
+        {
+            CameraScript.InputTouchIsEnabled = true;
+        }
+        UpdateControlsButtonName();
+    }
+
+    public static void UpdateControlsButtonName()
+    {
+        GameObject.Find("UI/ToolsPanel/ControlsButton").GetComponentInChildren<Text>().text = "Controls: " + ((CameraScript.InputTouchIsEnabled) ? "Touch" : "Mouse");
+    }
+
     public void ToggleGameLog()
     {
         GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.SetActive(false);

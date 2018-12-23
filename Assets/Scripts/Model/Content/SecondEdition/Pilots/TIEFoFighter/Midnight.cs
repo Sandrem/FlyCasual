@@ -29,6 +29,8 @@ namespace Abilities.SecondEdition
 {
     public class MidnightAbility : GenericAbility
     {
+        GenericShip LockedShip;
+
         public override void ActivateAbility()
         {
             HostShip.OnDefenceStartAsAttacker += AddOmegaLeaderPilotAbility;
@@ -39,25 +41,26 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnDefenceStartAsAttacker -= AddOmegaLeaderPilotAbility;
             HostShip.OnAttackStartAsDefender -= AddOmegaLeaderPilotAbility;
+
+            if (LockedShip != null) RemoveOmegaLeaderPilotAbility(LockedShip);
         }
 
         private void AddOmegaLeaderPilotAbility()
         {
-            GenericShip enemyship;
             if (Combat.Defender.ShipId == HostShip.ShipId)
             {
-                enemyship = Combat.Attacker;
+                LockedShip = Combat.Attacker;
             }
             else
             {
-                enemyship = Combat.Defender;
+                LockedShip = Combat.Defender;
             }
 
-            if (ActionsHolder.HasTargetLockOn(HostShip, enemyship))
+            if (ActionsHolder.HasTargetLockOn(HostShip, LockedShip))
             {
-                enemyship.OnTryAddAvailableDiceModification += UseOmegaLeaderRestriction;
-                enemyship.OnTryAddDiceModificationOpposite += UseOmegaLeaderRestriction;
-                enemyship.OnAttackFinish += RemoveOmegaLeaderPilotAbility;
+                LockedShip.OnTryAddAvailableDiceModification += UseOmegaLeaderRestriction;
+                LockedShip.OnTryAddDiceModificationOpposite += UseOmegaLeaderRestriction;
+                LockedShip.OnAttackFinish += RemoveOmegaLeaderPilotAbility;
             }
         }
 
@@ -70,6 +73,7 @@ namespace Abilities.SecondEdition
         private void RemoveOmegaLeaderPilotAbility(GenericShip ship)
         {
             ship.OnTryAddAvailableDiceModification -= UseOmegaLeaderRestriction;
+            ship.OnTryAddDiceModificationOpposite -= UseOmegaLeaderRestriction;
             ship.OnAttackFinish -= RemoveOmegaLeaderPilotAbility;
         }
     }

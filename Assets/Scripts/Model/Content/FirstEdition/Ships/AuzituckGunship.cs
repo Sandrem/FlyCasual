@@ -35,7 +35,7 @@ namespace Ship.FirstEdition.AuzituckGunship
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(KashyyykDefender) }
+                { Faction.Rebel, typeof(Lowhhrick) }
             };
 
             ModelInfo = new ShipModelInfo(

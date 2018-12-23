@@ -42,8 +42,8 @@ namespace Ship
                 ShipInfo.FactionsAll.Add(Faction.Scum);
 
                 IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Imperial, typeof(BountyHunter) },
-                    { Faction.Scum, typeof(MandalorianMercenary) }
+                    { Faction.Imperial, typeof(BobaFettEmpire) },
+                    { Faction.Scum, typeof(KathScarletScum) }
                 };
 
                 ModelInfo = new ShipModelInfo(

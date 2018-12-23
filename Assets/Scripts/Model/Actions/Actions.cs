@@ -177,7 +177,7 @@ public static partial class ActionsHolder
                 else //If target is the same
                 {
                     //If already >1 of tokens, then remove all except one
-                    int alreadyAssignedSameTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>().Count(t => t.OtherTokenOwner == targetShip);
+                    int alreadyAssignedSameTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>('*').Count(t => t.OtherTokenOwner == targetShip);
                     if (alreadyAssignedSameTokens > 1 && TokensToRemove.Count < alreadyAssignedSameTokens -1)
                     {
                         tokenMustBeRemoved = true;

@@ -15,7 +15,6 @@ namespace Ship
                     39,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility),
-                    force: 1,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 34
                 );

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
@@ -49,7 +50,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAttackAbility()
         {
-            if (Combat.ShotInfo.IsObstructedByAsteroid && Combat.ShotInfo.Weapon == HostShip.PrimaryWeapons)
+            if (Combat.ShotInfo.IsObstructedByAsteroid && Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 if (alwaysUseAbility)
                 {
@@ -104,7 +105,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAttackObstructionBonus(ref int count)
         {
-            if (UseAbility && Combat.ShotInfo.IsObstructedByAsteroid && Combat.ShotInfo.Weapon == HostShip.PrimaryWeapons)
+            if (UseAbility && Combat.ShotInfo.IsObstructedByAsteroid && Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 count++;
                 Messages.ShowInfo("Han Solo: +1 attack die");

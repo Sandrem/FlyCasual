@@ -140,4 +140,9 @@ public class RosterBuilderUI : MonoBehaviour {
         }
     }
 
+    public void LoadSquadDirectly()
+    {
+        MainMenu.CurrentMainMenu.ChangePanel("BrowseSavedSquadsPanel");
+    }
+
 }

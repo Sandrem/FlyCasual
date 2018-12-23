@@ -16,6 +16,7 @@ public partial class MainMenu : MonoBehaviour {
     public GameObject UpgradeLinePrefab;
 
     public GameObject CurrentPanel;
+    public string PreviousPanelName;
 
     private void SetCurrentPanel()
     {
@@ -29,6 +30,8 @@ public partial class MainMenu : MonoBehaviour {
 
     public void ChangePanel(string panelName)
     {
+        PreviousPanelName = CurrentPanel.name;
+
         if (Edition.Current.IsSquadBuilderLocked)
         {
             if (panelName == "SquadronOptionsPanel")
@@ -70,6 +73,7 @@ public partial class MainMenu : MonoBehaviour {
                 Network.BrowseMatches();
                 break;
             case "SelectFactionPanel":
+                SquadBuilder.SetCurrentPlayerFaction(Faction.None);
                 SquadBuilder.ClearShipsOfPlayer(SquadBuilder.CurrentPlayer);
                 SquadBuilder.ShowFactionsImages();
                 break;
@@ -158,6 +162,11 @@ public partial class MainMenu : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    public void PreviousPanel()
+    {
+        CurrentMainMenu.ChangePanel(CurrentMainMenu.PreviousPanelName);
     }
 
 }

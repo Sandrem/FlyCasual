@@ -2,12 +2,12 @@
 {
     namespace FirstEdition.TIEAggressor
     {
-        public class OnyxSquadronScout : TIEAggressor
+        public class OnyxSquadronEscort : TIEAggressor
         {
-            public OnyxSquadronScout() : base()
+            public OnyxSquadronEscort() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Onyx Squadron Scout",
+                    "Onyx Squadron Escort",
                     3,
                     19
                 );

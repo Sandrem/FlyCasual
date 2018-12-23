@@ -10,7 +10,7 @@ namespace Ship
             public MoraloEval() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "MoraloEval",
+                    "Moralo Eval",
                     6,
                     34,
                     isLimited: true,

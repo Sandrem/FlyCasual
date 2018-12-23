@@ -14,7 +14,7 @@ namespace Ship
             public HobbbieKlivian() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "\"Hobbbie\" Klivian",
+                    "\"Hobbie\" Klivian",
                     5,
                     25,
                     isLimited: true,

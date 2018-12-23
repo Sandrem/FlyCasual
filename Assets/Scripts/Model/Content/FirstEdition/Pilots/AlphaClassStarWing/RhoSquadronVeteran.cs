@@ -4,12 +4,12 @@ namespace Ship
 {
     namespace FirstEdition.AlphaClassStarWing
     {
-        public class RhoSquadronPilot : AlphaClassStarWing
+        public class RhoSquadronVeteran : AlphaClassStarWing
         {
-            public RhoSquadronPilot() : base()
+            public RhoSquadronVeteran() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Rho Squadron Pilot",
+                    "Rho Squadron Veteran",
                     4,
                     21,
                     extraUpgradeIcon: UpgradeType.Talent

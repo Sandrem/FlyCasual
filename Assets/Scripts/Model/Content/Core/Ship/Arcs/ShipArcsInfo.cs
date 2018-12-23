@@ -47,7 +47,7 @@ namespace Ship
                     result = "Bullseye";
                     break;
                 case ArcType.TurretPrimaryWeapon:
-                    result = "Out of Arc";
+                    result = "360";
                     break;
                 case ArcType.SpecialGhost:
                     result = "Special";

@@ -127,6 +127,8 @@ namespace Players
 
                     Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
 
+                    Messages.ShowInfo("Attack with " + Combat.ChosenWeapon.Name);
+
                     GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true, Combat.ChosenWeapon);
                     if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
                 }

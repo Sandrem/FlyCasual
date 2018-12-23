@@ -128,6 +128,22 @@ namespace BoardTools
                     NearestFailedDistance = shotInfoArc.MinDistance;
                 }
             }
+
+            // For 360 arcs
+            if (Weapon.WeaponInfo.CanShootOutsideArc)
+            {
+                DistanceInfo distInfo = new DistanceInfo(Ship1, Ship2);
+                
+                if (distInfo.Range < 4)
+                {
+                    MinDistance = distInfo.MinDistance;
+                    IsShotAvailable = true;
+                }
+                else
+                {
+                    NearestFailedDistance = distInfo.MinDistance;
+                }
+            }
         }
 
         private void CheckFailed()

@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 3,
                     minRange: 1,
-                    maxRange: 2
+                    maxRange: 3
                 ),
                 abilityType: typeof(Abilities.SecondEdition.TractorBeamAbility),
                 seImageNumber: 30

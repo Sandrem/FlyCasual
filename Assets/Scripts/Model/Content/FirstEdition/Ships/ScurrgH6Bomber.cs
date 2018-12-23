@@ -38,7 +38,7 @@ namespace Ship.FirstEdition.ScurrgH6Bomber
 
             IconicPilots = new Dictionary<Faction, System.Type> {
                 { Faction.Rebel, typeof(CaptainNymRebel) },
-                { Faction.Scum, typeof(LokRevenant) }
+                { Faction.Scum, typeof(CaptainNymScum) }
             };
 
             ModelInfo = new ShipModelInfo(

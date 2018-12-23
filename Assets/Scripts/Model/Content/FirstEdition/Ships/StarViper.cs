@@ -34,7 +34,7 @@ namespace Ship
                 );
 
                 IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Scum, typeof(BlackSunEnforcer) }
+                    { Faction.Scum, typeof(Thweek) }
                 };
 
                 ModelInfo = new ShipModelInfo(

@@ -35,7 +35,7 @@ namespace Ship.FirstEdition.YT2400
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(WildSpaceFringer) }
+                { Faction.Rebel, typeof(DashRendar) }
             };
 
             ModelInfo = new ShipModelInfo(

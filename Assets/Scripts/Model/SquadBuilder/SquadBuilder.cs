@@ -470,22 +470,23 @@ namespace SquadBuilderNS
             LoadBattleScene();
         }
 
-        public static void SaveSquadConfigurations()
+        public static void SaveAutosaveSquadConfigurations()
         {
-            SaveSquadron(GetSquadList(PlayerNo.Player1), "Autosave", delegate{
-                foreach (var squad in SquadLists)
-                {
-                    squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+            for (int i = 0; i < 2; i++)
+            {
+                SaveSquadron(GetSquadList(Tools.IntToPlayer(i+1)), "Autosave (Player " + (i+1) + ")", delegate {
+                    foreach (var squad in SquadLists)
+                    {
+                        squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
 
-                    JSONObject playerInfoJson = new JSONObject();
-                    playerInfoJson.AddField("NickName", Options.NickName);
-                    playerInfoJson.AddField("Title", Options.Title);
-                    playerInfoJson.AddField("Avatar", Options.Avatar);
-                    squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
-
-                    ClearShipsOfPlayer(squad.PlayerNo);
-                }
-            });
+                        JSONObject playerInfoJson = new JSONObject();
+                        playerInfoJson.AddField("NickName", Options.NickName);
+                        playerInfoJson.AddField("Title", Options.Title);
+                        playerInfoJson.AddField("Avatar", Options.Avatar);
+                        squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
+                    }
+                });
+            }
         }
 
         public static void LoadBattleScene()
@@ -1128,15 +1129,22 @@ namespace SquadBuilderNS
             GetRandomAiSquad(out filename);
 
             List<JSONObject> sortedSavedSquadsJsons = GetSavedSquadsJsons();
-
-            JSONObject autosaveJson = sortedSavedSquadsJsons.Find(n => n["name"].str == "Autosave");
-            if (autosaveJson != null)
+            foreach (string autosaveName in new List<string>() { "Autosave", "Autosave (Player 2)", "Autosave (Player 1)" })
             {
-                sortedSavedSquadsJsons.Remove(autosaveJson);
-                sortedSavedSquadsJsons.Insert(0, autosaveJson);
+                SetAutosavesOnTop(sortedSavedSquadsJsons, autosaveName);
             }
 
             ShowListOfSavedSquadrons(sortedSavedSquadsJsons);
+        }
+
+        private static void SetAutosavesOnTop(List<JSONObject> jsonList, string autosaveName)
+        {
+            JSONObject autosaveJson = jsonList.Find(n => n["name"].str == autosaveName);
+            if (autosaveJson != null)
+            {
+                jsonList.Remove(autosaveJson);
+                jsonList.Insert(0, autosaveJson);
+            }
         }
 
         private static void DeleteSavedSquadAndRefresh(string fileName)

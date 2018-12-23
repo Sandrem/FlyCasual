@@ -127,7 +127,7 @@ public class RosterBuilderUI : MonoBehaviour {
     {
         if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
-            SquadBuilder.SaveSquadConfigurations();
+            SquadBuilder.SaveAutosaveSquadConfigurations();
 
             if (!SquadBuilder.IsNetworkGame)
             {

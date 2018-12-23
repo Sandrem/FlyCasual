@@ -97,9 +97,8 @@ public class CameraScript : MonoBehaviour {
 
         ChangeMode(CameraModes.Free);
 
-        InputTouchIsEnabled = false;
-        // TODO: Return touch controls in 0.7.1
-        // = Input.touchSupported;;
+        InputTouchIsEnabled = Input.touchSupported && !Input.mousePresent;
+        UI.UpdateControlsButtonName();
     }
 
     private static void SetDefaultCameraPosition()

@@ -16,6 +16,7 @@ namespace Ship
                 ShipInfo.Hull = 3;
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction)));
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction)));
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(TargetLockAction)));
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)));
 

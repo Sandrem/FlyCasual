@@ -28,6 +28,8 @@ namespace Ship.FirstEdition.YT2400
                     new ActionInfo(typeof(BarrelRollAction))
                 ),
                 new ShipUpgradesInfo(
+                    UpgradeType.Title,
+                    UpgradeType.Modification,
                     UpgradeType.Cannon,
                     UpgradeType.Missile,
                     UpgradeType.Crew

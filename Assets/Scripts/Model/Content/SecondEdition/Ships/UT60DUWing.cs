@@ -13,6 +13,7 @@ namespace Ship.SecondEdition.UT60DUWing
             ShipInfo.ShipName = "UT-60D U-wing";
             ShipInfo.BaseSize = BaseSize.Medium;
 
+            ShipInfo.Agility = 2;
             ShipInfo.Hull = 5;
             ShipInfo.Shields = 3;
 

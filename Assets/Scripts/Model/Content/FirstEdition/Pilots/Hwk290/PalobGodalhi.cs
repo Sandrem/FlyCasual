@@ -196,7 +196,7 @@ namespace Abilities.FirstEdition
             if (callback == null)
                 callback = Triggers.FinishTrigger;
 
-            if (HostShip.Owner.Type == PlayerType.Ai)
+            if (HostShip.Owner.PlayerType == PlayerType.Ai)
             {
                 TakeFocus();
             }

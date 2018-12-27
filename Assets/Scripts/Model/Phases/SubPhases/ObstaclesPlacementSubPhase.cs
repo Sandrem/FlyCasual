@@ -51,7 +51,7 @@ namespace SubPhases
 
             foreach (GenericPlayer player in Roster.Players)
             {
-                if (player is HotacAiPlayer) IsRandomSetupSelected[player.PlayerNo] = true;
+                if (player.PlayerType == PlayerType.Ai) IsRandomSetupSelected[player.PlayerNo] = true;
             }
 
             Next();

@@ -18,12 +18,8 @@ namespace Players
 
         public GenericAiPlayer() : base()
         {
-            Type = PlayerType.Ai;
+            PlayerType = PlayerType.Ai;
             Name = "AI";
-
-            NickName = "A.I.";
-            Title = "Protocol Droid";
-            Avatar = "UpgradesList.FirstEdition.C3PO";
         }
 
         public override void SetupShip()
@@ -51,19 +47,6 @@ namespace Players
             }
 
             Phases.Next();
-        }
-
-        public override void AssignManeuver()
-        {
-            base.AssignManeuver();
-
-            foreach (var shipHolder in Ships)
-            {
-                if (RulesList.IonizationRule.IsIonized(shipHolder.Value)) continue;
-
-                ShipMovementScript.SendAssignManeuverCommand(shipHolder.Value.ShipId, "2.F.S");
-            }
-            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
         }
 
         public override void PerformManeuver()
@@ -422,6 +405,71 @@ namespace Players
             base.SyncDiceResults();
 
             GameMode.CurrentGameMode.ExecuteCommand(DiceRoll.GenerateSyncDiceCommand());
+        }
+
+        public override void TakeDecision()
+        {
+            if (Phases.CurrentSubPhase is ActionDecisonSubPhase)
+            {
+                PerformActionFromList(Selection.ThisShip.GetAvailableActions());
+            }
+            else if (Phases.CurrentSubPhase is FreeActionDecisonSubPhase)
+            {
+                PerformActionFromList(Selection.ThisShip.GetAvailableFreeActions());
+            }
+            else (Phases.CurrentSubPhase as DecisionSubPhase).DoDefault();
+        }
+
+        private void PerformActionFromList(List<ActionsList.GenericAction> actionsList)
+        {
+            bool isActionTaken = false;
+
+            if (Selection.ThisShip.Tokens.GetToken(typeof(Tokens.StressToken)) != null)
+            {
+                isActionTaken = true;
+                Selection.ThisShip.Tokens.RemoveToken(
+                    typeof(Tokens.StressToken),
+                    Phases.CurrentSubPhase.CallBack
+                );
+            }
+            else
+            {
+                List<ActionsList.GenericAction> availableActionsList = actionsList;
+
+                Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
+
+                foreach (var action in availableActionsList)
+                {
+                    int priority = action.GetActionPriority();
+                    actionsPriority.Add(action, priority);
+                }
+
+                actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
+
+                if (actionsPriority.Count > 0)
+                {
+                    KeyValuePair<ActionsList.GenericAction, int> prioritizedActions = actionsPriority.First();
+
+                    if (prioritizedActions.Value > 0)
+                    {
+                        isActionTaken = true;
+
+                        //Actions.TakeActionStart(prioritizedActions.Key);
+                        JSONObject parameters = new JSONObject();
+                        parameters.AddField("name", prioritizedActions.Key.Name);
+                        GameController.SendCommand(
+                            GameCommandTypes.Decision,
+                            Phases.CurrentSubPhase.GetType(),
+                            parameters.ToString()
+                        );
+                    }
+                }
+            }
+
+            if (!isActionTaken)
+            {
+                GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
+            }
         }
     }
 }

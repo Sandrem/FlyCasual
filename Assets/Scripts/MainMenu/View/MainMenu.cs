@@ -78,6 +78,7 @@ public partial class MainMenu : MonoBehaviour {
                 SquadBuilder.ShowFactionsImages();
                 break;
             case "SquadBuilderPanel":
+                SquadBuilder.CheckAiButtonVisibility();
                 SquadBuilder.UpdateSquadName("SquadBuilderPanel");
                 SquadBuilder.ShowShipsAndUpgrades();
                 SquadBuilder.UpdateNextButton();

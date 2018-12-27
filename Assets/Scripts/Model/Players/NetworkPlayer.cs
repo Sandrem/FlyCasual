@@ -13,7 +13,7 @@ namespace Players
 
         public NetworkOpponentPlayer() : base()
         {
-            Type = PlayerType.Network;
+            PlayerType = PlayerType.Network;
             Name = "Network";
         }
 

@@ -28,6 +28,9 @@ namespace Movement
         public float SuccessfullMovementProgress { get; private set; }
         public bool IsOffTheBoard;
 
+        public Vector3 FinalPosition { get; private set; }
+        public Vector3 FinalAngles { get; private set; }
+
         public MovementPrediction(GenericMovement movement, Action callBack)
         {
             CurrentMovement = movement;
@@ -114,6 +117,10 @@ namespace Movement
                         }
 
                         finalPositionFound = true;
+
+                        FinalPosition = generatedShipStands[i].transform.position;
+                        FinalAngles = generatedShipStands[i].transform.eulerAngles;
+
                         //break;
                     }
                 }

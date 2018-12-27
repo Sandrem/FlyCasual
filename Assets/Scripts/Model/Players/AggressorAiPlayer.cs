@@ -4,6 +4,7 @@ using SubPhases;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Players
 {
@@ -28,16 +29,22 @@ namespace Players
 
             foreach (var ship in Ships.Values)
             {
-                if (RulesList.IonizationRule.IsIonized(ship)) continue;
-
                 Selection.ChangeActiveShip(ship);
-                var maneuvers = ship.GetManeuvers();
-                string maneuverString = maneuvers.Keys.ToList()[rnd.Next(maneuvers.Count)];
-
-                ShipMovementScript.SendAssignManeuverCommand(ship.ShipId, maneuverString);
+                AI.Aggressor.NavigationSubSystem.CalculateNavigation(FinishAssignManeuver);
             }
-            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
+
         }
 
+        private void FinishAssignManeuver()
+        {
+            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, AI.Aggressor.NavigationSubSystem.BestManeuver);
+
+            foreach (GenericShip ship in Selection.ThisShip.Owner.Ships.Values)
+            {
+                if (ship.AssignedManeuver == null) return;
+            }
+
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
+        }
     }
 }

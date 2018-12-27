@@ -46,6 +46,7 @@ namespace AI.Aggressor
                 GenericMovement movement = ShipMovementScript.MovementFromString(firstManeuver.Key);
                 Selection.ThisShip.SetAssignedManeuver(movement);
                 movement.Initialize();
+                movement.IsSimple = true;
                 CurrentMovementPrediction = new MovementPrediction(movement, ProcessMovementPredicition);
             }
             else

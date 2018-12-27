@@ -25,26 +25,31 @@ namespace Players
         {
             base.AssignManeuver();
 
+            AssignManeuverRecursive();
+        }
+
+        private void AssignManeuverRecursive()
+        {
             System.Random rnd = new System.Random();
 
-            foreach (var ship in Ships.Values)
+            GenericShip shipWithoutManeuver = Ships.Values.FirstOrDefault(n => n.AssignedManeuver == null);
+
+            if (shipWithoutManeuver != null)
             {
-                Selection.ChangeActiveShip(ship);
+                Selection.ChangeActiveShip(shipWithoutManeuver);
                 AI.Aggressor.NavigationSubSystem.CalculateNavigation(FinishAssignManeuver);
             }
-
+            else
+            {
+                GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
+            }
         }
 
         private void FinishAssignManeuver()
         {
             ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, AI.Aggressor.NavigationSubSystem.BestManeuver);
 
-            foreach (GenericShip ship in Selection.ThisShip.Owner.Ships.Values)
-            {
-                if (ship.AssignedManeuver == null) return;
-            }
-
-            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
+            AssignManeuverRecursive();
         }
     }
 }

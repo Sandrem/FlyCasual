@@ -154,7 +154,8 @@ namespace Movement
             }
             else
             {
-                GameManagerScript.Wait(2, delegate { DestroyGeneratedShipStands(); CallBack(); });
+                DestroyGeneratedShipStands(); CallBack();
+                //GameManagerScript.Wait(2, delegate { DestroyGeneratedShipStands(); CallBack(); });
             }
         }
 

@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Leia Organa",
                 UpgradeType.Crew,
-                cost: 6,
+                cost: 8,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 charges: 3,

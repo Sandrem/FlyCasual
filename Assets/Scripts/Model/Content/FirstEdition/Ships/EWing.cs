@@ -21,6 +21,7 @@ namespace Ship.FirstEdition.EWing
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),
+                    new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(EvadeAction))
                 ),
                 new ShipUpgradesInfo(

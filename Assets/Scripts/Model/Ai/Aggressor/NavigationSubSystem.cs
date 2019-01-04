@@ -57,6 +57,22 @@ namespace AI.Aggressor
 
         private static void ProcessMovementPredicition()
         {
+            var badMoveAdjustmentFactor = 1f;
+            if (CurrentMovementPrediction.IsOffTheBoard) 
+            {
+                badMoveAdjustmentFactor = 100f;
+            }
+
+            if (CurrentMovementPrediction.IsLandedOnAsteroid)
+            {
+                badMoveAdjustmentFactor = 10f;
+            }
+
+            if (CurrentMovementPrediction.LandedOnObstacles.Any())
+            {
+                badMoveAdjustmentFactor = CurrentMovementPrediction.LandedOnObstacles.Count() + 1f;
+            }
+
             Vector3 realPosition = Selection.ThisShip.GetPosition();
             Vector3 realAngles = Selection.ThisShip.GetAngles();
 
@@ -77,7 +93,7 @@ namespace AI.Aggressor
                 CurrentMovementPrediction.CurrentMovement.ToString(),
                 new NavigationResult()
                 {
-                    distanceToNearestEnemy = minDistanceToEnenmyShip
+                    distanceToNearestEnemy = minDistanceToEnenmyShip * badMoveAdjustmentFactor
                 }
             );
 

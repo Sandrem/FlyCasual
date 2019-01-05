@@ -27,19 +27,19 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            GenericShip.OnGenerateDiceModificationsGlobal += AddMunitionsFailsafeAbility;
+            HostShip.OnGenerateDiceModifications += AddMunitionsFailsafeAbility;
 
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnGenerateDiceModificationsGlobal -= AddMunitionsFailsafeAbility;
+            HostShip.OnGenerateDiceModifications -= AddMunitionsFailsafeAbility;
 
         }
 
         private void AddMunitionsFailsafeAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableDiceModification(new MunitionsFailsafeAction() { HostShip = this.HostShip });
+            HostShip.AddAvailableDiceModification(new MunitionsFailsafeAction() { HostShip = this.HostShip });
         }
 
         private class MunitionsFailsafeAction : GenericAction
@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
             {
                 if (Combat.ChosenWeapon.WeaponType == Ship.WeaponTypes.Missile || Combat.ChosenWeapon.WeaponType == Ship.WeaponTypes.Torpedo)
                 {
-                    return true;
+                    return Combat.AttackStep == CombatStep.Attack;
                 }
 
                 return false;
@@ -61,6 +61,7 @@ namespace Abilities.SecondEdition
             public override void ActionEffect(Action callBack)
             {
                 Combat.DiceRollAttack.CancelAllResults();
+                Combat.DiceRollAttack.RemoveAll();
                 var weapon = Combat.ChosenWeapon as GenericSpecialWeapon;
                 if (weapon != null) {
                     weapon.State.RestoreCharge();

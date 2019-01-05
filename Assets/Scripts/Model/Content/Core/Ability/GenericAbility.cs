@@ -402,7 +402,8 @@ namespace Abilities
         {
             Reroll,
             Change,
-            Cancel
+            Cancel,
+            Add
         }
 
         private GenericShip.EventHandlerShip DiceModification;
@@ -534,6 +535,9 @@ namespace Abilities
                 case DiceModificationType.Cancel:
                     DiceModificationCancel(callback, sidesCanBeSelected, timing);
                     break;
+                case DiceModificationType.Add:
+                    DiceModificationAdd(callback, getCount, newSide);
+                    break;
                 default:
                     break;
             }
@@ -598,6 +602,16 @@ namespace Abilities
             }
 
             //DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
+        }
+
+        public void DiceModificationAdd(Action callBack, Func<int> getCount, DieSide side)
+        {
+            for (int i = 0; i < getCount(); i++)
+                Combat.CurrentDiceRoll.AddDice(side).ShowWithoutRoll();
+
+            Combat.CurrentDiceRoll.OrganizeDicePositions();
+
+            callBack();
         }
 
         /// <summary>

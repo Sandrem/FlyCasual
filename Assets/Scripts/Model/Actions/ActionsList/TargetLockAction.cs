@@ -55,7 +55,7 @@ namespace ActionsList
             {
                 if (ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender))
                 {
-                    result = true;
+                    result = !Combat.DiceRollAttack.IsEmpty;
                 }
             }
             return result;

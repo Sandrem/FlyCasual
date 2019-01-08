@@ -15,6 +15,7 @@ namespace Ship.SecondEdition.VCX100LightFreighter
             ShipInfo.ShipName = "VCX-100 Light Freighter";
 
             ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.Front, 4);
+            ShipInfo.Shields = 4;
 
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.System);
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);

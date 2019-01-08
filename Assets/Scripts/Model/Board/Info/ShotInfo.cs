@@ -53,6 +53,12 @@ namespace BoardTools
 
         public static event EventHandlerShipShipWeaponInt OnRangeIsMeasured;
 
+        /// <summary>
+        /// Creates a new ShotInfo from ship1 (attacker) to ship2 (defender)
+        /// </summary>
+        /// <param name="ship1">The attacker.</param>
+        /// <param name="ship2">The defender.</param>
+        /// <param name="weapon">The weapon. If null, ship1's primary weapon will be used.</param>
         public ShotInfo(GenericShip ship1, GenericShip ship2, IShipWeapon weapon) : base(ship1, ship2)
         {
             Weapon = weapon ?? ship1.PrimaryWeapons.First();

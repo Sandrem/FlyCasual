@@ -20,13 +20,22 @@ namespace BoardTools
         public ShotInfoArc(GenericShip ship1, GenericShip ship2, GenericArc arc) : base(ship1, ship2)
         {
             Arc = arc;
-
             CheckRange();
         }
 
         private void CheckRange()
         {
-            FindNearestDistances(Ship1.ShipBase.GetGlobalPoints(Arc.Edges));
+            if (Ship1 == null || Ship1.ShipBase == null) {
+                // Debug.LogError("Ship1 or Ship1.ShipBase is null");
+                return;
+            }
+            List<Vector3> globalPoints = Ship1.ShipBase.GetGlobalPoints(Arc.Edges);
+            if (globalPoints.Count > 0) {
+                FindNearestDistances(Ship1.ShipBase.GetGlobalPoints(Arc.Edges));
+            } else {
+                // Debug.LogError("No ship global points");
+                return;
+            }
             TryFindPerpendicularDistanceA();
             TryFindPerpendicularDistanceB();
             SetFinalMinDistance();

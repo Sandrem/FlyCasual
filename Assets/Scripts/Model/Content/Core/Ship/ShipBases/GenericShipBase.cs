@@ -201,7 +201,12 @@ namespace Ship
             List<Vector3> globalPoints = new List<Vector3>();
             foreach (var localPoint in localPoints)
             {
-                globalPoints.Add(GetGlobalPoint(localPoint));
+                try {
+                    globalPoints.Add(GetGlobalPoint(localPoint));
+                } catch (NullReferenceException e) {
+                    // Debug.LogError("Null Reference Error");
+                    // Debug.LogError(e.Message);
+                }
             }
             return globalPoints;
         }

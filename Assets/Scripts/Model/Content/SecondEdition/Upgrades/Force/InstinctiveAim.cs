@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
                 "Instinctive Aim",
                 UpgradeType.Force,
                 cost: 2,
-                abilityType: typeof(Abilities.SecondEdition.InertialDampenersAbility),
+                abilityType: typeof(Abilities.SecondEdition.InstinctiveAimAbility),
                 restriction: new BaseSizeRestriction(BaseSize.Small),
                 seImageNumber: 20
             );

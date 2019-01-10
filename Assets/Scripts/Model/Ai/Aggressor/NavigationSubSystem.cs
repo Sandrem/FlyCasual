@@ -21,7 +21,10 @@ namespace AI.Aggressor
 
         public float distanceToNearestEnemy;
         public float distanceToNearestEnemyInShotRange;
-        
+
+        public bool isOffTheBoardNextTurn;
+        public bool isHitAsteroidNextTurn;
+
         public bool isBumped;
         
         public MovementComplexity movementComplexity;
@@ -37,11 +40,15 @@ namespace AI.Aggressor
 
             if (isLandedOnObstacle) Priority -= 10000;
 
+            if (isOffTheBoardNextTurn) Priority -= 20000;
+
             // TODO: Koigogran Turn ignores rotation
             Priority += enemiesInShotRange * 1000;
 
             Priority -= obstaclesHit * 2000;
             Priority -= minesHit * 2000;
+
+            if (isHitAsteroidNextTurn) Priority -= 1000;
 
             if (isBumped) Priority -= 1000;
 
@@ -64,7 +71,8 @@ namespace AI.Aggressor
                     break;
             }
 
-            Priority += (10 - (int)distanceToNearestEnemy) * 10;
+            //0..10 * 10, prefers big distance
+            Priority += ((int)distanceToNearestEnemy) * 10;
         }
     }
 
@@ -82,12 +90,16 @@ namespace AI.Aggressor
 
     public static class NavigationSubSystem
     {
+        private static ShipPosition RealPosition;
         private static GenericShip CurrentShip;
         private static Action Callback;
 
         private static Dictionary<string, MovementComplexity> AllManeuvers;
         private static Dictionary<string, NavigationResult> NavigationResults;
         private static MovementPrediction CurrentMovementPrediction;
+
+        private static List<NavigationResult> NextTurnNavigationResults;
+        private static MovementPrediction CurrentTurnMovementPrediction;
 
         private static Dictionary<GenericShip, ShipPosition> SavedShipPositions;
 
@@ -154,7 +166,7 @@ namespace AI.Aggressor
                 CurrentShip.SetAssignedManeuver(movement);
                 movement.Initialize();
                 movement.IsSimple = true;
-                CurrentMovementPrediction = new MovementPrediction(movement, ProcessMovementPredicition);
+                CurrentMovementPrediction = new MovementPrediction(movement, StartCheckNextTurn);
             }
             else
             {
@@ -162,14 +174,77 @@ namespace AI.Aggressor
             }
         }
 
+        private static void StartCheckNextTurn()
+        {
+            RealPosition = new ShipPosition(
+                Selection.ThisShip.GetPosition(),
+                Selection.ThisShip.GetAngles()
+            );
+
+            Selection.ThisShip.SetPosition(CurrentMovementPrediction.FinalPosition);
+            Selection.ThisShip.SetAngles(CurrentMovementPrediction.FinalAngles);
+
+            NextTurnNavigationResults = new List<NavigationResult>();
+            CheckNextTurnRecursive(GetTurnManeuvers());
+        }
+
+        private static void CheckNextTurnRecursive(List<string> turnManeuvers)
+        {
+            if (turnManeuvers.Count == 0)
+            {
+                ProcessMovementPredicition();
+            }
+            else
+            {
+                string maneuverToTest = turnManeuvers.First();
+                turnManeuvers.Remove(maneuverToTest);
+
+                GenericMovement movement = ShipMovementScript.MovementFromString(maneuverToTest);
+                CurrentShip.SetAssignedManeuver(movement);
+                movement.Initialize();
+                movement.IsSimple = true;
+                CurrentTurnMovementPrediction = new MovementPrediction(movement, delegate { ProcessCheckNextTurnRecursive(turnManeuvers); });
+            }
+        }
+
+        private static void ProcessCheckNextTurnRecursive(List<string> turnManeuvers)
+        {
+            NextTurnNavigationResults.Add(new NavigationResult()
+            {
+                isOffTheBoard = CurrentTurnMovementPrediction.IsOffTheBoard,
+                obstaclesHit = CurrentMovementPrediction.AsteroidsHit.Count
+            });
+
+            CheckNextTurnRecursive(turnManeuvers);
+        }
+
+        private static List<string> GetTurnManeuvers()
+        {
+            List<string> bestTurnManeuvers = new List<string>();
+
+            ManeuverHolder bestTurnManeuver = Selection.ThisShip.GetManeuverHolders()
+                .Where(n =>
+                    n.Bearing == ManeuverBearing.Turn
+                    && n.Direction == ManeuverDirection.Left
+                )
+                .OrderBy(n => n.SpeedInt)
+                .FirstOrDefault();
+            bestTurnManeuvers.Add(bestTurnManeuver.ToString());
+
+            bestTurnManeuver = Selection.ThisShip.GetManeuverHolders()
+                .Where(n =>
+                    n.Bearing == ManeuverBearing.Turn
+                    && n.Direction == ManeuverDirection.Right
+                )
+                .OrderBy(n => n.SpeedInt)
+                .FirstOrDefault();
+            bestTurnManeuvers.Add(bestTurnManeuver.ToString());
+
+            return bestTurnManeuvers;
+        }
+
         private static void ProcessMovementPredicition()
         {
-            Vector3 realPosition = CurrentShip.GetPosition();
-            Vector3 realAngles = CurrentShip.GetAngles();
-
-            CurrentShip.SetPosition(CurrentMovementPrediction.FinalPosition);
-            CurrentShip.SetAngles(CurrentMovementPrediction.FinalAngles);
-
             //Distance
             float minDistanceToEnenmyShip = float.MaxValue;
             foreach (GenericShip enemyShip in CurrentShip.Owner.EnemyShips.Values)
@@ -192,8 +267,8 @@ namespace AI.Aggressor
             }
 
             // Restore
-            CurrentShip.SetPosition(realPosition);
-            CurrentShip.SetAngles(realAngles);
+            CurrentShip.SetPosition(RealPosition.Position);
+            CurrentShip.SetAngles(RealPosition.Angles);
 
             NavigationResult result = new NavigationResult()
             {
@@ -205,7 +280,9 @@ namespace AI.Aggressor
                 isLandedOnObstacle = CurrentMovementPrediction.IsLandedOnAsteroid,
                 obstaclesHit = CurrentMovementPrediction.AsteroidsHit.Count,
                 isOffTheBoard = CurrentMovementPrediction.IsOffTheBoard,
-                minesHit = CurrentMovementPrediction.MinesHit.Count
+                minesHit = CurrentMovementPrediction.MinesHit.Count,
+                isOffTheBoardNextTurn = !NextTurnNavigationResults.Any(n => !n.isOffTheBoard),
+                isHitAsteroidNextTurn = !NextTurnNavigationResults.Any(n => n.obstaclesHit == 0)
             };
             result.CalculatePriority();
 

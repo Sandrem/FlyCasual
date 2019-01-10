@@ -1,10 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Ship;
-using Abilities.FirstEdition;
-using System;
-using Conditions;
-using Tokens;
 using SubPhases;
 using BoardTools;
 
@@ -21,7 +17,7 @@ namespace Ship
                     3,
                     48,
                     isLimited: true,
-                    abilityType: typeof(BiggsDarklighterAbility),
+                    abilityType: typeof(Abilities.SecondEdition.BiggsDarklighterAbility),
                     seImageNumber: 7
                 );
             }
@@ -31,7 +27,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class BiggsDarklighterAbilitySE : GenericAbility
+    public class BiggsDarklighterAbility : GenericAbility
     {
         private GenericShip curToDamage;
         private DamageSourceEventArgs curDamageInfo;

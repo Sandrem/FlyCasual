@@ -26,11 +26,10 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class Ig88DCrewAbility : GenericAbility
+    public class Ig88DCrewAbility : Abilities.FirstEdition.Ig2000Ability
     {
         bool addedAbility = false;
 
-        public override void ActivateAbility() { }
         public override void ActivateAbilityForSquadBuilder()
         {
             if (HostShip.PilotAbilities.Find(ability => ability is AdvancedDroidBrain) == null)
@@ -40,7 +39,6 @@ namespace Abilities.SecondEdition
             }
         }
 
-        public override void DeactivateAbility() { }
         public override void DeactivateAbilityForSquadBuilder()
         {
             if (addedAbility)

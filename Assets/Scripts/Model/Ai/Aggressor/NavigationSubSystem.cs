@@ -71,8 +71,8 @@ namespace AI.Aggressor
                     break;
             }
 
-            //0..10 * 10, prefers big distance
-            Priority += ((int)distanceToNearestEnemy) * 10;
+            //distance is 0..10
+            Priority += (10 - (int)distanceToNearestEnemy) * 10;
         }
     }
 

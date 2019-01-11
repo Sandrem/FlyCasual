@@ -81,6 +81,8 @@ namespace Ship
 
         public bool HasFacedownCards { get { return DamageCards.Any(n => !n.IsFaceup); } }
 
+        public bool HasFaceupCards { get { return DamageCards.Any(n => n.IsFaceup); } }
+
         public void ExposeRandomFacedownCard(Action callback)
         {
             int randomIndex = UnityEngine.Random.Range(0, DamageCards.Count);

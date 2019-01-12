@@ -200,7 +200,7 @@ namespace SubPhases
             }
             else
             {
-                RotateBy45();
+                RotateBy22_5();
             }
         }
 
@@ -215,18 +215,18 @@ namespace SubPhases
             }
         }
 
-        private void RotateBy45()
+        private void RotateBy22_5()
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -45, 0));
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, -22.5f, 0));
                 Selection.ThisShip.ApplyRotationHelpers();
                 Selection.ThisShip.ResetRotationHelpers();
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 45, 0));
+                Selection.ThisShip.SetRotationHelper2Angles(new Vector3(0, 22.5f, 0));
                 Selection.ThisShip.ApplyRotationHelpers();
                 Selection.ThisShip.ResetRotationHelpers();
             }

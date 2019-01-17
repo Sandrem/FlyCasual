@@ -51,7 +51,7 @@ namespace Abilities.FirstEdition
 
             Triggers.RegisterTrigger(new Trigger()
             {
-                Name = "Recon Specialist's ability",
+                Name = HostName + "'s ability",
                 TriggerType = TriggerTypes.OnActionDecisionSubPhaseEnd,
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = DoReconSpecialistAbility

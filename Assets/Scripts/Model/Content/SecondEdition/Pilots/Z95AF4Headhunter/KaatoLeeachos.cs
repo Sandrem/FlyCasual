@@ -69,8 +69,8 @@ namespace Abilities.SecondEdition
         protected virtual bool FilterAbilityTarget(GenericShip ship)
         {
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly, TargetTypes.This })
-                && FilterTargetsByRange(ship, 1, 2)
-                && ship.Tokens.HasToken(typeof(FocusToken));
+                && FilterTargetsByRange(ship, 0, 2)
+                && (ship.Tokens.HasToken<FocusToken>() || ship.Tokens.HasToken<EvadeToken>());
         }
 
         private int GetAiAbilityPriority(GenericShip ship)
@@ -89,7 +89,8 @@ namespace Abilities.SecondEdition
                 typeof(KaatoLeeachosDecisionSubPhaseSE),
                 Triggers.FinishTrigger
             );
-
+            subphase.TargetShip = TargetShip;
+            subphase.HostShip = HostShip;
             subphase.Start();
 
         }
@@ -97,26 +98,27 @@ namespace Abilities.SecondEdition
 
         public class KaatoLeeachosDecisionSubPhaseSE : DecisionSubPhase
         {
-            public GenericShip target;
+            public GenericShip HostShip;
+            public GenericShip TargetShip;
             Type tokenType = null;
 
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = Selection.AnotherShip.PilotInfo.PilotName + ": " + "Select token to transfer to Kaato.";
-                DecisionOwner = Selection.AnotherShip.Owner;
+                InfoText = TargetShip.PilotInfo.PilotName + ": " + "Select token to transfer to Kaato.";
+                DecisionOwner = TargetShip.Owner;
 
-                if (Selection.AnotherShip.Tokens.HasToken(typeof(FocusToken)))
-                    AddDecision("Transfer focus token.", delegate { tokenType = typeof(FocusToken); Selection.AnotherShip.Tokens.RemoveToken(tokenType, AddTokenToKaato); });
+                if (TargetShip.Tokens.HasToken(typeof(FocusToken)))
+                    AddDecision("Transfer focus token.", delegate { tokenType = typeof(FocusToken); TargetShip.Tokens.RemoveToken(tokenType, AddTokenToKaato); });
 
-                if (Selection.AnotherShip.Tokens.HasToken(typeof(EvadeToken)))
-                    AddDecision("Transfer evade token.", delegate { tokenType = typeof(EvadeToken); Selection.AnotherShip.Tokens.RemoveToken(tokenType, AddTokenToKaato); });
+                if (TargetShip.Tokens.HasToken(typeof(EvadeToken)))
+                    AddDecision("Transfer evade token.", delegate { tokenType = typeof(EvadeToken); TargetShip.Tokens.RemoveToken(tokenType, AddTokenToKaato); });
 
                 callBack();
             }
 
             private void AddTokenToKaato()
             {
-                Selection.ThisShip.Tokens.AssignToken(tokenType, DecisionSubPhase.ConfirmDecision);
+                HostShip.Tokens.AssignToken(tokenType, DecisionSubPhase.ConfirmDecision);
             }
         }
     }

@@ -259,6 +259,7 @@ namespace Ship
                                 }
                             }
                         );
+                        newSubPhase.DecisionOwner = this.Owner;
                         newSubPhase.ShowSkipButton = !isForced;
                         newSubPhase.IsForced = isForced;
                         newSubPhase.Start();

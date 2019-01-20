@@ -41,8 +41,8 @@ namespace Abilities.SecondEdition
 
         private void RegisterValenRudorAbility(GenericShip ship)
         {
-            ShotInfo shotInformation = new ShotInfo(Combat.Defender, HostShip, Combat.ChosenWeapon);
-            if (shotInformation.Range <= 1 && ship == Combat.Defender && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+            var distanceInfo = new DistanceInfo(HostShip, Combat.Defender);
+            if (distanceInfo.Range <= 1 && Combat.Defender.Owner == HostShip.Owner)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, PerformFreeAction);
             }

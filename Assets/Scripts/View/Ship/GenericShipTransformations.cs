@@ -131,10 +131,10 @@ namespace Ship
             Model.transform.RotateAround(Model.transform.TransformPoint(new Vector3(0, 0, -ShipBase.HALF_OF_SHIPSTAND_SIZE)), Vector3.up, 180);
         }
 
-        public void RotateModelDuringTurn(float progress)
+        public void RotateModelDuringTurn(float progress, Movement.ManeuverDirection direction)
         {
             float turningDirection = 0;
-            turningDirection = (Selection.ThisShip.AssignedManeuver.Direction == Movement.ManeuverDirection.Right) ? 1 : -1;
+            turningDirection = (direction == Movement.ManeuverDirection.Right) ? 1 : -1;
 
             if (progress > 0.5f)
             {

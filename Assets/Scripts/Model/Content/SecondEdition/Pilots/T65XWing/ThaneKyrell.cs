@@ -86,6 +86,7 @@ namespace ActionsList.SecondEdition
             var spendDiceSubPhase = Phases.StartTemporarySubPhaseNew<ThaneKyrellDecisionSubPhase>(Name, Triggers.FinishTrigger);
             spendDiceSubPhase.ShowSkipButton = true;
             spendDiceSubPhase.OnSkipButtonIsPressed = DecisionSubPhase.ConfirmDecision;
+            spendDiceSubPhase.DecisionOwner = HostShip.Owner;
             spendDiceSubPhase.Start();
         }
     }
@@ -98,7 +99,6 @@ namespace SubPhases
         protected override void PrepareDiceResultEffects()
         {
             InfoText = Selection.ActiveShip.PilotInfo.PilotName + ": " + "Select a result to spend.";
-            DecisionOwner = Selection.ActiveShip.Owner;
 
             AddSpendDiceResultEffect(DieSide.Crit, "Spend a critical result to flip a damage card.", delegate { SpendResultToFlip(DieSide.Crit); });
             AddSpendDiceResultEffect(DieSide.Success, "Spend a hit result to flip a damage card.", delegate { SpendResultToFlip(DieSide.Success); });

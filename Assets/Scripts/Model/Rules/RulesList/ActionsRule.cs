@@ -19,7 +19,8 @@ namespace RulesList
 
         public void RedActionCheck(GenericAction action)
         {
-            if (action == null) return;
+            // Selection.ThisShip is null during tractor beam
+            if (action == null || Selection.ThisShip == null) return;
 
             Selection.ThisShip.CallOnCheckActionComplexity(ref action);
 
@@ -43,7 +44,8 @@ namespace RulesList
 
         public void CheckLinkedAction(GenericAction action)
         {
-            if (action == null) return;
+            // Selection.ThisShip is null during tractor beam
+            if (action == null || Selection.ThisShip == null) return;
 
             List<GenericAction> possibleLinkedActions = new List<GenericAction>();
 

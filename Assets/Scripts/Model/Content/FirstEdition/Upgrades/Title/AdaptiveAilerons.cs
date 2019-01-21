@@ -6,6 +6,8 @@ using SubPhases;
 using Movement;
 using GameModes;
 using Tokens;
+using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.FirstEdition
 {
@@ -48,7 +50,7 @@ namespace Abilities.FirstEdition
         private void RegisterAdaptiveAileronsAbility(GenericShip ship)
         {
             // AI doesn't know how to boost
-            if (HostShip.Owner.UsesHotacAiRules) return;
+            if (HostShip.Owner.GetType().IsSubclassOf(typeof(Players.GenericAiPlayer))) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnManeuverIsReadyToBeRevealed, CheckCanUseAbility);
         }
@@ -72,7 +74,7 @@ namespace Abilities.FirstEdition
             SavedManeuverColors = new Dictionary<string, MovementComplexity>();
             foreach (var changedManeuver in ChangedManeuversCodes)
             {
-                SavedManeuverColors.Add(changedManeuver, HostShip.Maneuvers[changedManeuver]);
+                SavedManeuverColors.Add(changedManeuver, HostShip.DialInfo.PrintedDial.First(n => n.Key.ToString() == changedManeuver).Value);
                 HostShip.Maneuvers[changedManeuver] = MovementComplexity.Normal;
             }
 
@@ -118,7 +120,6 @@ namespace Abilities.FirstEdition
             HostShip.Owner.ChangeManeuver(
                 (maneuverCode) => {
                     GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                    HostShip.OnMovementFinish += RestoreManuverColors;
                 },
                 AdaptiveAileronsFilter
             );
@@ -126,8 +127,6 @@ namespace Abilities.FirstEdition
 
         private void RestoreManuverColors(GenericShip ship)
         {
-            HostShip.OnMovementFinish -= RestoreManuverColors;
-
             foreach (var changedManeuver in ChangedManeuversCodes)
             {
                 HostShip.Maneuvers[changedManeuver] = SavedManeuverColors[changedManeuver];
@@ -151,6 +150,8 @@ namespace Abilities.FirstEdition
 
         private void FinishAdaptiveAileronsAbility()
         {
+            RestoreManuverColors(HostShip);
+
             Phases.CurrentSubPhase.IsReadyForCommands = true;
             ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, SavedManeuver.ToString());
             //GameMode.CurrentGameMode.AssignManeuver(SavedManeuver.ToString());

@@ -17,7 +17,7 @@ namespace Ship
                     4,
                     52,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.KadSolusAbility),
+                    abilityType: typeof(Abilities.SecondEdition.JoyRekkoffAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 157
                 );

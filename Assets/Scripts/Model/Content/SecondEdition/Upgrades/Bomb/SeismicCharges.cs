@@ -12,7 +12,7 @@ using SubPhases;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SeismicCharges : GenericTimedBomb
+    public class SeismicCharges : GenericTimedBombSE
     {
         private GenericObstacle ChosenObstacle;
 

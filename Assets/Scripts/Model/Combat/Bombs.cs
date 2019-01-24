@@ -196,15 +196,15 @@ namespace Bombs
                     Name = "Ask what bomb to drop",
                     TriggerType = TriggerTypes.OnMovementActivation,
                     TriggerOwner = ship.Owner.PlayerNo,
-                    EventHandler = AskWhatBombToDrop,
+                    EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip)),
                     Sender = ship
                 });
             }
         }
 
-        private static void AskWhatBombToDrop(object sender, EventArgs e)
+        public static void CreateAskBombDropSubPhase(GenericShip ship)
         {
-            Selection.ChangeActiveShip("ShipId:" + (sender as GenericShip).ShipId);
+            Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
 
             BombDecisionSubPhase selectBombToDrop = (BombDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select bomb to drop",
@@ -317,7 +317,8 @@ namespace Bombs
         public static List<GenericUpgrade> GetBombsToDrop(GenericShip ship)
         {
             return ship.UpgradeBar.GetUpgradesOnlyFaceup()
-                .Where(n => n.GetType().BaseType == typeof(GenericTimedBomb) || n.GetType().BaseType == typeof(GenericContactMineSE))
+                .Where(n => n.GetType().BaseType == typeof(GenericTimedBomb) || 
+                    n.GetType().BaseType == typeof(GenericTimedBombSE) || n.GetType().BaseType == typeof(GenericContactMineSE))
                 .Where(n => n.State.UsesCharges == false || (n.State.UsesCharges == true && n.State.Charges > 0))
                 .ToList();
         }

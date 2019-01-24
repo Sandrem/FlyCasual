@@ -15,6 +15,7 @@ namespace Upgrade
             base.AttachToShip(host);
 
             Editions.Edition.Current.TimedBombActivationTime(host);
+            IsDiscardedAfterDropped = false;
         }
 
         protected override void PerformDropBombAction(GenericShip ship) {}

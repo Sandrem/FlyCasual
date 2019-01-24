@@ -47,16 +47,12 @@ namespace Abilities.SecondEdition
 
         private void CheckEdonKappehlAbility(GenericShip ship)
         {
-            if(HostShip.IsBombAlreadyDropped)
-            {
-                return;
-            }
-            if(!BombsManager.HasBombsToDrop(ship))
-            {
-                return;
-            }
             if(ship.AssignedManeuver.ColorComplexity != Movement.MovementComplexity.Easy &&
                 ship.AssignedManeuver.ColorComplexity != Movement.MovementComplexity.Normal)
+            {
+                return;
+            }
+            if (ship.IsBombAlreadyDropped || !BombsManager.HasBombsToDrop(ship))
             {
                 return;
             }
@@ -72,54 +68,7 @@ namespace Abilities.SecondEdition
         private void UseEdonKappehlAbility(object sender, EventArgs e)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            var selectBombToDrop = (EdonKappehlBombDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                "Select device to drop",
-                typeof(EdonKappehlBombDecisionSubPhase),
-                StartDropBombSubphase
-            );
-
-            foreach (var device in BombsManager.GetBombsToDrop(HostShip))
-            {
-                selectBombToDrop.AddDecision(
-                    device.UpgradeInfo.Name,
-                    delegate { SelectDevice(device); }
-                );
-            }
-
-            selectBombToDrop.InfoText = "Select device to drop";
-
-            selectBombToDrop.DefaultDecisionName = BombsManager.GetBombsToDrop(HostShip).First().UpgradeInfo.Name;
-
-            selectBombToDrop.RequiredPlayer = HostShip.Owner.PlayerNo;
-
-            selectBombToDrop.Start();
+            BombsManager.CreateAskBombDropSubPhase(HostShip);
         }
-
-        protected virtual void StartDropBombSubphase()
-        {
-            Phases.StartTemporarySubPhaseOld(
-                "Bomb drop planning",
-                typeof(BombDropPlanningSubPhase),
-                SpendBombCharge
-            );
-        }
-
-        private void SelectDevice(GenericUpgrade deviceUpgrade)
-        {
-            BombsManager.CurrentBomb = deviceUpgrade as GenericTimedBomb;
-            DecisionSubPhase.ConfirmDecision();
-        }
-
-        private void SpendBombCharge()
-        {
-            if(BombsManager.CurrentBomb != null)
-            {
-                BombsManager.CurrentBomb.State.SpendCharge();
-            }
-            Triggers.FinishTrigger();
-        }
-
-        protected class EdonKappehlBombDecisionSubPhase : DecisionSubPhase { }
     }
 }

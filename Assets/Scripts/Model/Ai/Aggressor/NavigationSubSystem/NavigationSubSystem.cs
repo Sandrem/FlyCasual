@@ -11,9 +11,7 @@ namespace AI.Aggressor
 {
     public static class NavigationSubSystem
     {
-        private static ShipPositionInfo RealPosition;
         private static GenericShip CurrentShip;
-        private static Action Callback;
 
         private static Dictionary<string, MovementComplexity> AllManeuvers;
         private static Dictionary<string, NavigationResult> NavigationResults;
@@ -29,7 +27,6 @@ namespace AI.Aggressor
         public static void CalculateNavigation(GenericShip ship, Action callback)
         {
             CurrentShip = ship;
-            Callback = callback;
 
             // TODO: for each player
             VirtualBoard = new VirtualBoard();
@@ -37,18 +34,16 @@ namespace AI.Aggressor
             AllManeuvers = CurrentShip.GetManeuvers();
             NavigationResults = new Dictionary<string, NavigationResult>();
 
-            GameManagerScript.Instance.StartCoroutine(StartCalculations(FinishCalculations));
+            GameManagerScript.Instance.StartCoroutine(StartCalculations(callback));
         }
 
         private static IEnumerator StartCalculations(Action callback)
         {
             yield return PredictManeuversOfEnemyShips();
-            callback();
-        }
+            yield return PredictManeuversOfThisShip();
+            FinishManeuverPredicition();
 
-        private static void FinishCalculations()
-        {
-            Debug.Log("Done");
+            callback();
         }
 
         private static IEnumerator PredictManeuversOfEnemyShips()
@@ -65,79 +60,62 @@ namespace AI.Aggressor
         {
             Selection.ChangeActiveShip(enemyShip);
 
+            GenericMovement savedMovement = enemyShip.AssignedManeuver;
+
             GenericMovement movement = ShipMovementScript.MovementFromString("2.F.S");
             enemyShip.SetAssignedManeuver(movement);
 
             CurrentMovementPrediction = new MovementPrediction(movement);
-            yield return CurrentMovementPrediction.CalculateMovmentPredicition();
+            yield return CurrentMovementPrediction.CalculateMovementPredicition();
+
+            enemyShip.SetAssignedManeuver(savedMovement);
         }
 
-        /*private static void PredictManeuversRecusive()
+        private static IEnumerator PredictManeuversOfThisShip()
         {
             Selection.ChangeActiveShip(CurrentShip);
 
-            if (AllManeuvers.Count > 0)
+            foreach (var maneuver in AllManeuvers)
             {
-                var firstManeuver = AllManeuvers.First();
-                AllManeuvers.Remove(firstManeuver.Key);
-
-                GenericMovement movement = ShipMovementScript.MovementFromString(firstManeuver.Key);
+                GenericMovement movement = ShipMovementScript.MovementFromString(maneuver.Key);
                 CurrentShip.SetAssignedManeuver(movement);
                 movement.Initialize();
                 movement.IsSimple = true;
-                CurrentMovementPrediction = new MovementPrediction(movement, StartCheckNextTurn);
-            }
-            else
-            {
-                FinishManeuverPredicition();
-            }
-        }
 
-        private static void StartCheckNextTurn()
-        {
-            RealPosition = new ShipPositionInfo(
-                Selection.ThisShip.GetPosition(),
-                Selection.ThisShip.GetAngles()
-            );
+                CurrentMovementPrediction = new MovementPrediction(movement);
+                yield return CurrentMovementPrediction.CalculateMovementPredicition();
 
-            Selection.ThisShip.SetPosition(CurrentMovementPrediction.FinalPosition);
-            Selection.ThisShip.SetAngles(CurrentMovementPrediction.FinalAngles);
+                VirtualBoard.SetVirtualPositionInfo(CurrentShip, new ShipPositionInfo(CurrentMovementPrediction.FinalPosition, CurrentMovementPrediction.FinalAngles));
+                yield return CheckNextTurnRecursive(GetShortestTurnManeuvers());
 
-            NextTurnNavigationResults = new List<NavigationResult>();
-            CheckNextTurnRecursive(GetTurnManeuvers());
-        }
-
-        private static void CheckNextTurnRecursive(List<string> turnManeuvers)
-        {
-            if (turnManeuvers.Count == 0)
-            {
                 ProcessMovementPredicition();
-            }
-            else
-            {
-                string maneuverToTest = turnManeuvers.First();
-                turnManeuvers.Remove(maneuverToTest);
 
-                GenericMovement movement = ShipMovementScript.MovementFromString(maneuverToTest);
+                VirtualBoard.RestorePositionInfo(CurrentShip);
+            }
+        }
+
+        private static IEnumerator CheckNextTurnRecursive(List<string> turnManeuvers)
+        {
+            NextTurnNavigationResults = new List<NavigationResult>();
+
+            foreach (string turnManeuver in turnManeuvers)
+            {
+                GenericMovement movement = ShipMovementScript.MovementFromString(turnManeuver);
                 CurrentShip.SetAssignedManeuver(movement);
                 movement.Initialize();
                 movement.IsSimple = true;
-                CurrentTurnMovementPrediction = new MovementPrediction(movement, delegate { ProcessCheckNextTurnRecursive(turnManeuvers); });
+                CurrentTurnMovementPrediction = new MovementPrediction(movement);
+                yield return CurrentTurnMovementPrediction.CalculateMovementPredicition();
+
+                NextTurnNavigationResults.Add(new NavigationResult()
+                {
+                    isOffTheBoard = CurrentTurnMovementPrediction.IsOffTheBoard,
+                    obstaclesHit = CurrentMovementPrediction.AsteroidsHit.Count
+                });
             }
         }
 
-        private static void ProcessCheckNextTurnRecursive(List<string> turnManeuvers)
-        {
-            NextTurnNavigationResults.Add(new NavigationResult()
-            {
-                isOffTheBoard = CurrentTurnMovementPrediction.IsOffTheBoard,
-                obstaclesHit = CurrentMovementPrediction.AsteroidsHit.Count
-            });
-
-            CheckNextTurnRecursive(turnManeuvers);
-        }
-
-        private static List<string> GetTurnManeuvers()
+        private static List<string> GetShortestTurnManeuvers()
         {
             List<string> bestTurnManeuvers = new List<string>();
 
@@ -185,10 +163,6 @@ namespace AI.Aggressor
                 }
             }
 
-            // Restore
-            CurrentShip.SetPosition(RealPosition.Position);
-            CurrentShip.SetAngles(RealPosition.Angles);
-
             NavigationResult result = new NavigationResult()
             {
                 movementComplexity = CurrentMovementPrediction.CurrentMovement.ColorComplexity,
@@ -209,13 +183,11 @@ namespace AI.Aggressor
                 CurrentMovementPrediction.CurrentMovement.ToString(),
                 result
             );
-
-            PredictManeuversRecusive();
         }
 
         private static void FinishManeuverPredicition()
         {
-            RestorePositionsOfEnemyShips();
+            VirtualBoard.RestoreBoard();
 
             Debug.Log("ALL RESULTS:");
             foreach (var result in NavigationResults)
@@ -225,17 +197,6 @@ namespace AI.Aggressor
 
             BestManeuver = NavigationResults.OrderByDescending(n => n.Value.Priority).First().Key;
             Debug.Log("PREFERED RESULT: " + BestManeuver);
-
-            Callback();
         }
-
-        private static void RestorePositionsOfEnemyShips()
-        {
-            foreach (var record in SavedShipPositions)
-            {
-                record.Key.SetPosition(record.Value.Position);
-                record.Key.SetAngles(record.Value.Angles);
-            }
-        }*/
     }
 }

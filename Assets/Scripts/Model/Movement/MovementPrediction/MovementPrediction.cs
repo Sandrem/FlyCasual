@@ -39,7 +39,7 @@ namespace Movement
             GenerateShipStands();
         }
 
-        public IEnumerator CalculateMovmentPredicition()
+        public IEnumerator CalculateMovementPredicition()
         {
             yield return UpdateColisionDetectionAlt();
         }
@@ -63,7 +63,7 @@ namespace Movement
 
         private IEnumerator UpdateColisionDetectionAlt()
         {
-            yield return WaitForFrames(5);
+            yield return WaitForFrames(2);
             GetResults();
         }
 

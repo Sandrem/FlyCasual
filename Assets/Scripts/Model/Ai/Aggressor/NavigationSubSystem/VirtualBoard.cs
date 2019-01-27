@@ -38,5 +38,18 @@ namespace AI.Aggressor
             //Add debug mode
             ship.SetPositionInfo(virtualPositionInfo);
         }
+
+        public void RestorePositionInfo(GenericShip ship)
+        {
+            ship.SetPositionInfo(Ships[ship].RealPositionInfo);
+        }
+
+        public void RestoreBoard()
+        {
+            foreach (var ship in Ships.Keys)
+            {
+                RestorePositionInfo(ship);
+            }
+        }
     }
 }

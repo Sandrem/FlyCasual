@@ -8,6 +8,12 @@ namespace Ship
     {
         // POSITION AND ANGLES
 
+        public void SetPositionInfo(ShipPositionInfo positionInfo)
+        {
+            SetPosition(positionInfo.Position);
+            SetAngles(positionInfo.Angles);
+        }
+
         public void SetPosition(Vector3 position)
         {
             Model.transform.position = position;

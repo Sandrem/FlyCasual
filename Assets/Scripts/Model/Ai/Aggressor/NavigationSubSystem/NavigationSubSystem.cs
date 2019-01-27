@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BoardTools;
 using Movement;
 using Ship;
@@ -9,88 +9,9 @@ using UnityEngine;
 
 namespace AI.Aggressor
 {
-    public class NavigationResult
-    {
-        public bool isOffTheBoard;
-        public bool isLandedOnObstacle;
-
-        public int enemiesInShotRange;
-
-        public int obstaclesHit;
-        public int minesHit;
-
-        public float distanceToNearestEnemy;
-        public float distanceToNearestEnemyInShotRange;
-
-        public bool isOffTheBoardNextTurn;
-        public bool isHitAsteroidNextTurn;
-
-        public bool isBumped;
-        
-        public MovementComplexity movementComplexity;
-
-        public int Priority { get; private set; }
-
-        public void CalculatePriority()
-        {
-            if (isOffTheBoard) {
-                Priority = int.MinValue;
-                return;
-            }
-
-            if (isLandedOnObstacle) Priority -= 10000;
-
-            if (isOffTheBoardNextTurn) Priority -= 20000;
-
-            // TODO: Koigogran Turn ignores rotation
-            Priority += enemiesInShotRange * 1000;
-
-            Priority -= obstaclesHit * 2000;
-            Priority -= minesHit * 2000;
-
-            if (isHitAsteroidNextTurn) Priority -= 1000;
-
-            if (isBumped) Priority -= 1000;
-
-            switch (movementComplexity)
-            {
-                case MovementComplexity.Easy:
-                    if (Selection.ThisShip.IsStressed) Priority += 500;
-                    break;
-                case MovementComplexity.Complex:
-                    if (Selection.ThisShip.IsStressed)
-                    {
-                        Priority = int.MinValue;
-                    }
-                    else
-                    {
-                        Priority -= 500;
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            //distance is 0..10
-            Priority += (10 - (int)distanceToNearestEnemy) * 10;
-        }
-    }
-
-    public class ShipPosition
-    {
-        public Vector3 Position { get; private set; }
-        public Vector3 Angles { get; private set; }
-
-        public ShipPosition(Vector3 position, Vector3 angles)
-        {
-            Position = position;
-            Angles = angles;
-        }
-    }
-
     public static class NavigationSubSystem
     {
-        private static ShipPosition RealPosition;
+        private static ShipPositionInfo RealPosition;
         private static GenericShip CurrentShip;
         private static Action Callback;
 
@@ -101,59 +22,57 @@ namespace AI.Aggressor
         private static List<NavigationResult> NextTurnNavigationResults;
         private static MovementPrediction CurrentTurnMovementPrediction;
 
-        private static Dictionary<GenericShip, ShipPosition> SavedShipPositions;
+        private static VirtualBoard VirtualBoard;
 
         public static string BestManeuver { get; private set; }
 
-        public static void CalculateNavigation(Action callback)
+        public static void CalculateNavigation(GenericShip ship, Action callback)
         {
-            CurrentShip = Selection.ThisShip;
+            CurrentShip = ship;
             Callback = callback;
-            SavedShipPositions = new Dictionary<GenericShip, ShipPosition>();
+
+            // TODO: for each player
+            VirtualBoard = new VirtualBoard();
 
             AllManeuvers = CurrentShip.GetManeuvers();
             NavigationResults = new Dictionary<string, NavigationResult>();
 
-            PredictPositionsOfEnemyShipsRecursive();
+            GameManagerScript.Instance.StartCoroutine(StartCalculations(FinishCalculations));
         }
 
-        private static void PredictPositionsOfEnemyShipsRecursive()
+        private static IEnumerator StartCalculations(Action callback)
         {
-            GenericShip enemyShip = CurrentShip.Owner.EnemyShips.Where(n => !SavedShipPositions.ContainsKey(n.Value)).FirstOrDefault().Value;
-
-            if (enemyShip != null)
-            {
-                Selection.ChangeActiveShip(enemyShip);
-
-                GenericMovement movement = ShipMovementScript.MovementFromString("2.F.S");
-                enemyShip.SetAssignedManeuver(movement);
-
-                CurrentMovementPrediction = new MovementPrediction(movement, FinishEnemyManeuverPredicition);
-            }
-            else
-            {
-                //TODO: Predict Maneuvers of Friendly Ships with lower Initiative
-                PredictManeuversRecusive();
-            }
+            yield return PredictManeuversOfEnemyShips();
+            callback();
         }
 
-        private static void FinishEnemyManeuverPredicition()
+        private static void FinishCalculations()
         {
-            SavedShipPositions.Add(
-                Selection.ThisShip,
-                new ShipPosition(
-                    Selection.ThisShip.GetPosition(),
-                    Selection.ThisShip.GetAngles()
-                )
-            );
-
-            Selection.ThisShip.SetPosition(CurrentMovementPrediction.FinalPosition);
-            Selection.ThisShip.SetAngles(CurrentMovementPrediction.FinalAngles);
-
-            PredictPositionsOfEnemyShipsRecursive();
+            Debug.Log("Done");
         }
 
-        private static void PredictManeuversRecusive()
+        private static IEnumerator PredictManeuversOfEnemyShips()
+        {
+            foreach (GenericShip enemyShip in CurrentShip.Owner.EnemyShips.Values)
+            {
+                yield return PredictManeuverOfEnemyShip(enemyShip);
+                ShipPositionInfo shipPositionInfo = new ShipPositionInfo(CurrentMovementPrediction.FinalPosition, CurrentMovementPrediction.FinalAngles);
+                VirtualBoard.SetVirtualPositionInfo(enemyShip, shipPositionInfo);
+            }
+        }
+
+        private static IEnumerator PredictManeuverOfEnemyShip(GenericShip enemyShip)
+        {
+            Selection.ChangeActiveShip(enemyShip);
+
+            GenericMovement movement = ShipMovementScript.MovementFromString("2.F.S");
+            enemyShip.SetAssignedManeuver(movement);
+
+            CurrentMovementPrediction = new MovementPrediction(movement);
+            yield return CurrentMovementPrediction.CalculateMovmentPredicition();
+        }
+
+        /*private static void PredictManeuversRecusive()
         {
             Selection.ChangeActiveShip(CurrentShip);
 
@@ -176,7 +95,7 @@ namespace AI.Aggressor
 
         private static void StartCheckNextTurn()
         {
-            RealPosition = new ShipPosition(
+            RealPosition = new ShipPositionInfo(
                 Selection.ThisShip.GetPosition(),
                 Selection.ThisShip.GetAngles()
             );
@@ -317,6 +236,6 @@ namespace AI.Aggressor
                 record.Key.SetPosition(record.Value.Position);
                 record.Key.SetAngles(record.Value.Angles);
             }
-        }
+        }*/
     }
 }

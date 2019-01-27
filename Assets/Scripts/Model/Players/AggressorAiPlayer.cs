@@ -37,7 +37,7 @@ namespace Players
             if (shipWithoutManeuver != null)
             {
                 Selection.ChangeActiveShip(shipWithoutManeuver);
-                AI.Aggressor.NavigationSubSystem.CalculateNavigation(FinishAssignManeuver);
+                AI.Aggressor.NavigationSubSystem.CalculateNavigation(Selection.ThisShip, FinishAssignManeuver);
             }
             else
             {

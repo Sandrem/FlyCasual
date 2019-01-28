@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace AI
+namespace AI.HotAC
 {
     public static class TargetForAttackSelector
     {

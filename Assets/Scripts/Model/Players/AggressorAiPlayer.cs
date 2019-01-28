@@ -30,8 +30,6 @@ namespace Players
 
         private void AssignManeuverRecursive()
         {
-            System.Random rnd = new System.Random();
-
             GenericShip shipWithoutManeuver = Ships.Values.FirstOrDefault(n => n.AssignedManeuver == null);
 
             if (shipWithoutManeuver != null)
@@ -50,6 +48,13 @@ namespace Players
             ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, AI.Aggressor.NavigationSubSystem.BestManeuver);
 
             AssignManeuverRecursive();
+        }
+
+        protected override GenericShip SelectTargetForAttack()
+        {
+            if (DebugManager.DebugNoCombat) return null;
+
+            return AI.Aggressor.TargetingSubSystem.SelectTargetAndWeapon(Selection.ThisShip);
         }
     }
 }

@@ -123,11 +123,11 @@ namespace Players
             }
         }
 
-        private GenericShip SelectTargetForAttack()
+        protected virtual GenericShip SelectTargetForAttack()
         {
             if (DebugManager.DebugNoCombat) return null;
 
-            return AI.TargetForAttackSelector.SelectTargetAndWeapon(Selection.ThisShip);
+            return AI.HotAC.TargetForAttackSelector.SelectTargetAndWeapon(Selection.ThisShip);
         }
 
         private static void SelectShipThatCanAttack(Action callback)

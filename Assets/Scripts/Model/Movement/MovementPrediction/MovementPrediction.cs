@@ -65,7 +65,7 @@ namespace Movement
 
         private IEnumerator UpdateColisionDetectionAlt()
         {
-            yield return WaitForFrames(10);
+            yield return WaitForFrames(2);
             GetResults();
         }
 

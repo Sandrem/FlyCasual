@@ -17,9 +17,10 @@ namespace Ship.SecondEdition.VCX100LightFreighter
             ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.Front, 4);
             ShipInfo.Shields = 4;
 
-            ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.System);
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
+            ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
+            ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Title);
 
             ShipInfo.ActionIcons.RemoveActions(typeof(EvadeAction));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));

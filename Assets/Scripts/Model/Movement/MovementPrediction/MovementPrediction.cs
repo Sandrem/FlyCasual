@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Obstacles;
+using Ship;
 
 namespace Movement
 {
@@ -28,6 +29,7 @@ namespace Movement
         public float SuccessfullMovementProgress { get; private set; }
         public bool IsOffTheBoard;
 
+        public ShipPositionInfo FinalPositionInfo { get; private set; }
         public Vector3 FinalPosition { get; private set; }
         public Vector3 FinalAngles { get; private set; }
 
@@ -63,7 +65,7 @@ namespace Movement
 
         private IEnumerator UpdateColisionDetectionAlt()
         {
-            yield return WaitForFrames(2);
+            yield return WaitForFrames(50);
             GetResults();
         }
 
@@ -148,6 +150,8 @@ namespace Movement
 
                         FinalPosition = generatedShipStands[i].transform.position;
                         FinalAngles = generatedShipStands[i].transform.eulerAngles;
+
+                        FinalPositionInfo = new ShipPositionInfo(FinalPosition, FinalAngles);
 
                         //break;
                     }

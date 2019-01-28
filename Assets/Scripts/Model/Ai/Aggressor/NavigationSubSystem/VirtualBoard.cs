@@ -34,12 +34,15 @@ namespace AI.Aggressor
         public void SetVirtualPositionInfo(GenericShip ship, ShipPositionInfo virtualPositionInfo)
         {
             Ships[ship].VirtualPositionInfo = virtualPositionInfo;
-
-            //Add debug mode
-            ship.SetPositionInfo(virtualPositionInfo);
         }
 
-        public void RestorePositionInfo(GenericShip ship)
+        public void SwitchToVirtualPosition(GenericShip ship)
+        {
+            //Add debug mode
+            ship.SetPositionInfo(Ships[ship].VirtualPositionInfo);
+        }
+
+        public void SwitchToRealPosition(GenericShip ship)
         {
             ship.SetPositionInfo(Ships[ship].RealPositionInfo);
         }
@@ -48,7 +51,7 @@ namespace AI.Aggressor
         {
             foreach (var ship in Ships.Keys)
             {
-                RestorePositionInfo(ship);
+                SwitchToRealPosition(ship);
             }
         }
     }

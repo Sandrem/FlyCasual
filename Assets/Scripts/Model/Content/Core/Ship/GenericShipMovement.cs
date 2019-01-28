@@ -264,8 +264,15 @@ namespace Ship
 
         public void SetAssignedManeuver(GenericMovement movement)
         {
-            AssignedManeuver = movement;
-            Roster.UpdateAssignedManeuverDial(this, movement);
+            if (movement == null)
+            {
+                ClearAssignedManeuver();
+            }
+            else
+            {
+                AssignedManeuver = movement;
+                Roster.UpdateAssignedManeuverDial(this, movement);
+            }
         }
 
         public void ClearAssignedManeuver()

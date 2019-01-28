@@ -5,7 +5,7 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SupernaturalReflexes : GenericUpgrade
+    public class SupernaturalReflexes : GenericUpgrade, IVariableCost
     {
         public SupernaturalReflexes() : base()
         {
@@ -17,7 +17,23 @@ namespace UpgradesList.SecondEdition
                 restriction: new BaseSizeRestriction(BaseSize.Small),
                 seImageNumber: 22
             );
-        }        
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
+            {
+                {0, 4},
+                {1, 4},
+                {2, 4},
+                {3, 8},
+                {4, 16},
+                {5, 24},
+                {6, 32}
+            };
+
+            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
+        }
     }
 }
 

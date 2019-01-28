@@ -20,7 +20,7 @@ public static class DebugManager
 
     public static bool NoReplayCreation; // = true;
 
-    public static bool DebugMovement;
+    public static bool DebugMovement = true;
 
     public static bool ErrorIsAlreadyReported { get; set; }
 

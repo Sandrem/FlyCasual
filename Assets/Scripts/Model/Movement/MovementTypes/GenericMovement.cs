@@ -316,13 +316,13 @@ namespace Movement
             }
         }
 
-
         protected float ProgressTarget { get; set; }
         protected float ProgressCurrent { get; set; }
 
         protected float AnimationSpeed { get; set; }
 
         public MovementPrediction movementPrediction;
+        public bool IsSimple;
 
         public GenericMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color)
         {

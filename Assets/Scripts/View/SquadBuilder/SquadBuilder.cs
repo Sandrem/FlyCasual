@@ -894,6 +894,19 @@ namespace SquadBuilderNS
             }
         }
 
+        public static void CheckAiButtonVisibility()
+        {
+            bool isAi = GetSquadList(CurrentPlayer).PlayerType.IsSubclassOf(typeof(GenericAiPlayer));
+            GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").gameObject.SetActive(isAi);
+
+            if (isAi)
+            {
+                SquadBuilder.CurrentSquadList.PlayerType = typeof(HotacAiPlayer);
+                GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").GetComponentInChildren<Text>().text = "AI: HotAC";
+            }
+            
+        }
+
     }
 
 }

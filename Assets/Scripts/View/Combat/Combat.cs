@@ -64,7 +64,7 @@ public static partial class Combat
         }
         else
         {
-            if (!(Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer) is Players.HotacAiPlayer))
+            if (Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PlayerType != Players.PlayerType.Ai)
             {
                 if (type != DiceModificationTimingType.Normal)
                 {

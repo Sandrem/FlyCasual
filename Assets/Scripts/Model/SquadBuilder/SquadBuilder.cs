@@ -1100,7 +1100,7 @@ namespace SquadBuilderNS
 
         public static bool IsVsAiGame
         {
-            get { return GetSquadList(PlayerNo.Player2).PlayerType == typeof(HotacAiPlayer); }
+            get { return GetSquadList(PlayerNo.Player2).PlayerType.IsSubclassOf(typeof(GenericAiPlayer)); }
         }
 
         public static void SwitchPlayers()
@@ -1186,11 +1186,11 @@ namespace SquadBuilderNS
             {
                 if (playerNo == PlayerNo.Player1) return "Squadron of Player 1"; else return "Squadron of Player 2";
             }
-            else if (playerOneType == typeof(HumanPlayer) && playerTwoType == typeof(HotacAiPlayer))
+            else if (playerOneType == typeof(HumanPlayer) && playerTwoType.IsSubclassOf(typeof(GenericAiPlayer)))
             {
                 if (playerNo == PlayerNo.Player1) return "My Squadron"; else return "Squadron of AI";
             }
-            else if (playerOneType == typeof(HotacAiPlayer) && playerTwoType == typeof(HotacAiPlayer))
+            else if (playerOneType.IsSubclassOf(typeof(GenericAiPlayer)) && playerTwoType.IsSubclassOf(typeof(GenericAiPlayer)))
             {
                 if (playerNo == PlayerNo.Player1) return "Squadron of AI 1"; else return "Squadron of AI 2";
             }

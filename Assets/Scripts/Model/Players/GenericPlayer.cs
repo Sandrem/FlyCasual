@@ -36,7 +36,7 @@ namespace Players
 
     public partial class GenericPlayer
     {
-        public PlayerType Type;
+        public PlayerType PlayerType;
         public string Name;
         public PlayerNo PlayerNo;
         public bool UsesHotacAiRules;

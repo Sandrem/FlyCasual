@@ -34,7 +34,7 @@ public class Global : MonoBehaviour {
 
     public static void BattleIsReady()
     {
-        if ((Roster.Player2 is Players.GenericAiPlayer) && (!Options.DontShowAiInfo))
+        if ((Roster.Player2 is Players.HotacAiPlayer) && (!Options.DontShowAiInfo))
         {
             MainMenu.ShowAiInformationContinue();
         }

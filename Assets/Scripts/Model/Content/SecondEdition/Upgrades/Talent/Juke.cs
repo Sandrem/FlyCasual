@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Juke",
                 UpgradeType.Talent,
-                cost: 4,
+                cost: 5,
                 abilityType: typeof(Abilities.FirstEdition.JukeAbility),
                 restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
                 seImageNumber: 8

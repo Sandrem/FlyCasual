@@ -21,9 +21,26 @@ namespace AI.Aggressor
         private static List<NavigationResult> NextTurnNavigationResults;
         private static MovementPrediction CurrentTurnMovementPrediction;
 
-        private static VirtualBoard VirtualBoard;
+        private static Dictionary<Players.PlayerNo, VirtualBoard> VirtualBoards;
+        private static VirtualBoard VirtualBoard {
+            get
+            {
+                if (!VirtualBoards.ContainsKey(CurrentShip.Owner.PlayerNo)) VirtualBoards.Add(CurrentShip.Owner.PlayerNo, null);
+                return VirtualBoards[CurrentShip.Owner.PlayerNo];
+            }
+            set
+            {
+                if (!VirtualBoards.ContainsKey(CurrentShip.Owner.PlayerNo)) VirtualBoards.Add(CurrentShip.Owner.PlayerNo, null);
+                VirtualBoards[CurrentShip.Owner.PlayerNo] = value;
+            }
+        }
 
         public static string BestManeuver { get; private set; }
+
+        public static void Initialize()
+        {
+            VirtualBoards = new Dictionary<Players.PlayerNo, VirtualBoard>();
+        }
 
         public static void CalculateNavigation(GenericShip ship, Action callback)
         {

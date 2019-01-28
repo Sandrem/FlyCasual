@@ -38,6 +38,8 @@ public class GameManagerScript : MonoBehaviour {
         DamageDecks.Initialize();
         new ObstaclesManager();
 
+        AI.Aggressor.NavigationSubSystem.Initialize();
+
         CheckRemoteSettings();
 
         GameMode.CurrentGameMode.StartBattle();

@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "IG-2000",
                 UpgradeType.Title,
-                cost: 2,
+                cost: 1,
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.Aggressor.Aggressor)),
                 abilityType: typeof(Abilities.FirstEdition.Ig2000Ability),
                 seImageNumber: 149

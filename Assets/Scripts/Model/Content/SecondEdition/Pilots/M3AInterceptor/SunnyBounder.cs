@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Sunny Bounder",
                     1,
-                    31,
+                    30,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SunnyBounderAbility),
                     seImageNumber: 188

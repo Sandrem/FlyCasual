@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Zuckuss",
                 UpgradeType.Crew,
-                cost: 3,
+                cost: 2,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.ZuckussCrewAbility),

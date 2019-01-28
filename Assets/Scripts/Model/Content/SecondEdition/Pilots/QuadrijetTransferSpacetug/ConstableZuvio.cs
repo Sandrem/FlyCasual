@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Constable Zuvio",
                     4,
-                    33,
+                    35,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ConstableZuvioAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

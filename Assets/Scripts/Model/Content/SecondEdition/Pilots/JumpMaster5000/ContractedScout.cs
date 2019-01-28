@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Contracted Scout",
                     2,
-                    52,
+                    46,
                     seImageNumber: 217
                 );
             }

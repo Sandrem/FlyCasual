@@ -17,7 +17,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Palob Godalhi",
                     3,
-                    38,
+                    40,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PalobGodalhi),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },

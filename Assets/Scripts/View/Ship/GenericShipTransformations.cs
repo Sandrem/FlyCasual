@@ -14,6 +14,11 @@ namespace Ship
             SetAngles(positionInfo.Angles);
         }
 
+        public ShipPositionInfo GetPositionInfo()
+        {
+            return new ShipPositionInfo(GetPosition(), GetAngles());
+        }
+
         public void SetPosition(Vector3 position)
         {
             Model.transform.position = position;

@@ -1,4 +1,5 @@
 ﻿using Movement;
+using Ship;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,6 +26,8 @@ namespace AI.Aggressor
         public MovementComplexity movementComplexity;
 
         public int Priority { get; private set; }
+
+        public ShipPositionInfo FinalPositionInfo { get; set; }
 
         public void CalculatePriority()
         {

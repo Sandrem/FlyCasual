@@ -9,31 +9,57 @@ namespace AI.Aggressor
     {
         public GenericShip Ship { get; private set; }
         public ShipPositionInfo RealPositionInfo { get; private set; }
-        public ShipPositionInfo VirtualPositionInfo { get; set; }
+        public ShipPositionInfo VirtualPositionInfo { get; private set; }
 
         public VirtualShipInfo(GenericShip ship)
         {
             Ship = ship;
             RealPositionInfo = VirtualPositionInfo = new ShipPositionInfo(ship.GetPosition(), ship.GetAngles());
         }
+
+        public void UpdateVirtualPositionInfo(ShipPositionInfo virtualPositionInfo)
+        {
+            VirtualPositionInfo = virtualPositionInfo;
+        }
+
+        public void UpdatePositionInfo(ShipPositionInfo positionInfo)
+        {
+            RealPositionInfo = VirtualPositionInfo = positionInfo;
+        }
     }
 
     public class VirtualBoard
     {
         public Dictionary<GenericShip, VirtualShipInfo> Ships;
+        public int Round;
 
         public VirtualBoard()
         {
-            Ships = new Dictionary<GenericShip, VirtualShipInfo>();
-            foreach (GenericShip ship in Roster.AllShips.Values)
+            Update();
+        }
+
+        public void Update()
+        {
+            if (Round < Phases.RoundCounter)
             {
-                Ships.Add(ship, new VirtualShipInfo(ship));
+                Ships = new Dictionary<GenericShip, VirtualShipInfo>();
+                foreach (GenericShip ship in Roster.AllShips.Values)
+                {
+                    Ships.Add(ship, new VirtualShipInfo(ship));
+                }
+
+                Round = Phases.RoundCounter;
             }
         }
 
         public void SetVirtualPositionInfo(GenericShip ship, ShipPositionInfo virtualPositionInfo)
         {
-            Ships[ship].VirtualPositionInfo = virtualPositionInfo;
+            Ships[ship].UpdateVirtualPositionInfo(virtualPositionInfo);
+        }
+
+        public void UpdatePositionInfo(GenericShip ship)
+        {
+            Ships[ship].UpdatePositionInfo(new ShipPositionInfo(ship.GetPosition(), ship.GetAngles()));
         }
 
         public void SwitchToVirtualPosition(GenericShip ship)
@@ -53,6 +79,11 @@ namespace AI.Aggressor
             {
                 SwitchToRealPosition(ship);
             }
+        }
+
+        public bool IsVirtualPositionReady(GenericShip ship)
+        {
+            return Ships[ship].VirtualPositionInfo != Ships[ship].RealPositionInfo;
         }
     }
 }

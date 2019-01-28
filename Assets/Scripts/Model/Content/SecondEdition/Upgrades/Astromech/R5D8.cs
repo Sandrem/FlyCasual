@@ -9,7 +9,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R5-D8",
                 UpgradeType.Astromech,
-                cost: 7,
+                cost: 6,
                 isLimited: true,
                 abilityType: typeof(Abilities.FirstEdition.R5AstromechAbility),
                 restriction: new FactionRestriction(Faction.Rebel),

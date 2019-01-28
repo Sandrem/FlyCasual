@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Norra Wexley",
                     5,
-                    43,
+                    41,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NorraWexleyYWingAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

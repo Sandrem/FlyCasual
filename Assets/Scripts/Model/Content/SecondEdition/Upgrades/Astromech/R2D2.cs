@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R2-D2",
                 UpgradeType.Astromech,
-                cost: 8,
+                cost: 6,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.R2AstromechAbility),
                 restriction: new FactionRestriction(Faction.Rebel),

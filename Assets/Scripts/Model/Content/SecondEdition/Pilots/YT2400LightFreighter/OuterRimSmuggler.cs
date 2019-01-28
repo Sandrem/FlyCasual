@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Wild Space Fringer",
                     1,
-                    88,
+                    86,
                     seImageNumber: 79
                 );
             }

@@ -16,7 +16,7 @@ namespace Ship
                     98,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DashRendarAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Crew },
                     seImageNumber: 77
                 );
             }

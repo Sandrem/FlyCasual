@@ -13,6 +13,7 @@ namespace Ship
                     "Wild Space Fringer",
                     1,
                     86,
+                    extraUpgradeIcon: Upgrade.UpgradeType.Crew,
                     seImageNumber: 79
                 );
             }

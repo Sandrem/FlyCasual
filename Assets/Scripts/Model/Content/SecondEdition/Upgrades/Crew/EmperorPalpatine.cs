@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Crew,
                     UpgradeType.Crew
                 },
-                cost: 13,
+                cost: 11,
                 isLimited: true,
                 addForce: 1,                
                 restriction: new FactionRestriction(Faction.Imperial),

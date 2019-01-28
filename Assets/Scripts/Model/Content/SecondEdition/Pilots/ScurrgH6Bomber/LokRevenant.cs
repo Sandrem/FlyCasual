@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Lok Revenant",
                     2,
-                    46,
+                    43,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 206
                 );

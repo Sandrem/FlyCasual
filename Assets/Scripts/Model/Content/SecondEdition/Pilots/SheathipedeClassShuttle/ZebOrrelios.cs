@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Zeb\" Orrelios",
                     2,
-                    32,
+                    34,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "Jakku Gunrunner",
                     1,
-                    28,
+                    32,
                     seImageNumber: 164
                 );
             }

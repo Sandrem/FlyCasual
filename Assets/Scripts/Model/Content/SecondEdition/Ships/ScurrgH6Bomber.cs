@@ -24,6 +24,7 @@ namespace Ship
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Missile);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Easy);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Easy);

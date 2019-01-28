@@ -17,8 +17,7 @@ namespace Ship
                     0,
                     31,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.NullAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
+                    abilityType: typeof(Abilities.SecondEdition.NullAbility) //,
                                                          //seImageNumber: 120
                 );
 

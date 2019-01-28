@@ -7,7 +7,7 @@ using ActionsList;
 
 namespace UpgradesList.SecondEdition
 {
-    public class BBAstromech : GenericUpgrade
+    public class BBAstromech : GenericUpgrade, IVariableCost
     {
         public BBAstromech() : base()
         {
@@ -20,6 +20,22 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.BBAstromechAbility)
             );
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f8/fd/f8fd534a-43df-4285-a41c-1f8a789d06a5/swz25_bb-astromech_a1.png";
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
+            {
+                {0, 0},
+                {1, 1},
+                {2, 2},
+                {3, 3},
+                {4, 4},
+                {5, 5},
+                {6, 6}
+            };
+
+            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

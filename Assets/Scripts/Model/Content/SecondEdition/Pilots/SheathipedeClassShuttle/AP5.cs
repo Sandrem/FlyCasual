@@ -17,7 +17,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "AP-5",
                     1,
-                    30,
+                    32,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AP5PilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

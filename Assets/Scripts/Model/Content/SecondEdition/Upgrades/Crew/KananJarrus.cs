@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Kanan Jarrus",
                 UpgradeType.Crew,
-                cost: 14,
+                cost: 12,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.KananJarrusCrewAbility),

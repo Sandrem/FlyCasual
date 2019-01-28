@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Veteran Turret Gunner",
                 UpgradeType.Gunner,
-                cost: 8,
+                cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.VeteranTurretGunnerAbility),
                 restriction: new ActionBarRestriction(new ActionInfo(typeof(RotateArcAction))),
                 seImageNumber: 52

@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Evaan Verlaine",
                     3,
-                    36,
+                    35,
                     isLimited: true,
                     abilityType: typeof(EvaanVerlaineAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

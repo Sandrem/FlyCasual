@@ -21,7 +21,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Dutch\" Vander",
                     4,
-                    42,
+                    39,
                     isLimited: true,
                     abilityType: typeof(DutchVanderAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

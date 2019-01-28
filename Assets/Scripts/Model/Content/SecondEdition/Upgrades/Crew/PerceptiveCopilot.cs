@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Perceptive Copilot",
                 UpgradeType.Crew,
-                cost: 10,
+                cost: 8,
                 abilityType: typeof(Abilities.FirstEdition.ReconSpecialistAbility),
                 seImageNumber: 46
             );

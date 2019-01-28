@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Knave Squadron Escort",
                     2,
-                    61,
+                    54,
                     seImageNumber: 53
                 );
             }

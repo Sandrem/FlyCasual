@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Lone Wolf",
                 UpgradeType.Talent,
-                cost: 4,
+                cost: 5,
                 isLimited: true,
                 charges: 1,
                 regensCharges: true,

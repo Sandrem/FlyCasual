@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Zuckuss",
                     3,
-                    47,
+                    45,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZuckussAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

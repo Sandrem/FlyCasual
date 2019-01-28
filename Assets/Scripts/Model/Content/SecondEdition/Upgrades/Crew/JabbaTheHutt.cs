@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Crew,
                     UpgradeType.Crew
                 },
-                cost: 8,
+                cost: 6,
                 charges: 4,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),

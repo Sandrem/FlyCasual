@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Zertik Strom",
                     3,
-                    45,
+                    42,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZertikStromAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

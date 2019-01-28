@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Ketsu Onyo",
                     5,
-                    74,
+                    70,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.KetsuOnyoPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

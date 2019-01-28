@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Sabine Wren",
                     3,
-                    68,
+                    64,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SabineWrenLancerPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

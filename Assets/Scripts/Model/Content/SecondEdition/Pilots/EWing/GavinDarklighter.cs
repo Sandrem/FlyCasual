@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Gavin Darklighter",
                     4,
-                    68,
+                    61,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GavinDarklighterAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

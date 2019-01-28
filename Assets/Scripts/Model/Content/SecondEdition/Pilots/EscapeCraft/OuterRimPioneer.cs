@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Outer Rim Pioneer",
                     3,
-                    24,
+                    28,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OuterRimPioneerAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

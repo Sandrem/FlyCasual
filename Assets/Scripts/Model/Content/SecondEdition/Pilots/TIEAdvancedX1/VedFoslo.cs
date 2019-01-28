@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Ved Foslo",
                     4,
-                    47,
+                    45,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.JunoEclipseAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

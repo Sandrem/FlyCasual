@@ -22,6 +22,7 @@ namespace Ship
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.FirstOrder };
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.System);
+                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Torpedo);
 

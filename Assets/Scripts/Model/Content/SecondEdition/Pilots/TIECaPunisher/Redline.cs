@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Redline\"",
                     5,
-                    44,
+                    52,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RedlineAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

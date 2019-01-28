@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Darth Vader",
                     6,
-                    70,
+                    65,
                     isLimited: true,
                     abilityType: typeof(DarthVaderAbility),
                     force: 3,

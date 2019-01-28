@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "Scimitar Squadron Pilot",
                     2,
-                    28,
+                    30,
                     seImageNumber: 112
                 );
             }

@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Baron of the Empire",
                     3,
-                    34,
+                    33,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 101
                 );

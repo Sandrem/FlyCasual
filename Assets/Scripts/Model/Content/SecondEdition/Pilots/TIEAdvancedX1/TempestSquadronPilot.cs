@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Tempest Squadron Pilot",
                     2,
-                    41,
+                    38,
                     seImageNumber: 98
                 );
             }

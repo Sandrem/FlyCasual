@@ -64,9 +64,14 @@ namespace Abilities.FirstEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose another ship.\nIt may perform free action shown in its action bar.",
+                GetAbilityDescription(),
                 HostShip
             );
+        }
+
+        protected virtual string GetAbilityDescription()
+        {
+            return "Choose another ship.\nIt may perform free action shown in its action bar.";
         }
 
         protected virtual bool FilterAbilityTargets(GenericShip ship)

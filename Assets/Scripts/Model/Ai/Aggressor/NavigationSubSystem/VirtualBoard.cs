@@ -64,13 +64,32 @@ namespace AI.Aggressor
 
         public void SwitchToVirtualPosition(GenericShip ship)
         {
-            //Add debug mode
-            ship.SetPositionInfo(Ships[ship].VirtualPositionInfo);
+            if (!DebugManager.DebugMovementShowPlanning)
+            {
+                ShipPositionInfo savedModelPosition = new ShipPositionInfo(ship.GetShipAllPartsTransform().position, ship.GetShipAllPartsTransform().eulerAngles);
+                ship.SetPositionInfo(Ships[ship].VirtualPositionInfo);
+                ship.GetShipAllPartsTransform().position = savedModelPosition.Position;
+                ship.GetShipAllPartsTransform().eulerAngles = savedModelPosition.Angles;
+            }
+            else
+            {
+                ship.SetPositionInfo(Ships[ship].VirtualPositionInfo);
+            }
         }
 
         public void SwitchToRealPosition(GenericShip ship)
         {
-            ship.SetPositionInfo(Ships[ship].RealPositionInfo);
+            if (!DebugManager.DebugMovementShowPlanning)
+            {
+                ShipPositionInfo savedModelPosition = new ShipPositionInfo(ship.GetShipAllPartsTransform().position, ship.GetShipAllPartsTransform().eulerAngles);
+                ship.SetPositionInfo(Ships[ship].RealPositionInfo);
+                ship.GetShipAllPartsTransform().position = savedModelPosition.Position;
+                ship.GetShipAllPartsTransform().eulerAngles = savedModelPosition.Angles;
+            }
+            else
+            {
+                ship.SetPositionInfo(Ships[ship].RealPositionInfo);
+            }
         }
 
         public void RestoreBoard()

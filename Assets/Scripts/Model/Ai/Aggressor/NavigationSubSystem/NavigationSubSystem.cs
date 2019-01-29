@@ -92,7 +92,7 @@ namespace AI.Aggressor
 
         private static IEnumerator PredictSimpleManeuver(GenericShip ship)
         {
-            Selection.ChangeActiveShip(ship);
+            Selection.ThisShip = ship;
 
             GenericMovement savedMovement = ship.AssignedManeuver;
 

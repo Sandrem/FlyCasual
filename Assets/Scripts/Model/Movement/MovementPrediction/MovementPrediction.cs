@@ -179,15 +179,14 @@ namespace Movement
 
             Selection.ThisShip.ToggleColliders(true);
 
-            if (!DebugManager.DebugMovement)
+            if (!DebugManager.DebugMovementDestroyTempBasesLater)
             {
                 DestroyGeneratedShipStands();
                 if (CallBack != null) CallBack();
             }
             else
             {
-                DestroyGeneratedShipStands(); if (CallBack != null) CallBack();
-                //GameManagerScript.Wait(2, delegate { DestroyGeneratedShipStands(); if (CallBack != null) CallBack(); });
+                GameManagerScript.Wait(2, delegate { DestroyGeneratedShipStands(); if (CallBack != null) CallBack(); });
             }
         }
 

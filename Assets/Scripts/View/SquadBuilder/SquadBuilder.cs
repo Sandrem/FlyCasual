@@ -901,8 +901,7 @@ namespace SquadBuilderNS
 
             if (isAi)
             {
-                SquadBuilder.CurrentSquadList.PlayerType = typeof(HotacAiPlayer);
-                GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").GetComponentInChildren<Text>().text = "AI: HotAC";
+                SquadBuilder.SetAiType(Options.AiType);
             }
             
         }

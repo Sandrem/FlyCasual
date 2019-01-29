@@ -20,6 +20,7 @@ public static class Options
     public static string Title;
     public static string Edition;
     public static bool DontShowAiInfo;
+    public static string AiType;
 
     public static readonly string DefaultAvatar = "UpgradesList.FirstEdition.VeteranInstincts";
 
@@ -40,6 +41,7 @@ public static class Options
         NickName = PlayerPrefs.GetString("NickName", "Unknown Pilot");
         Title = PlayerPrefs.GetString("Title", "Test Pilot");
         DontShowAiInfo = PlayerPrefs.GetInt("DontShowAiInfo", 0) == 1;
+        AiType = PlayerPrefs.GetString("AiType", "AI: Aggressor");
 
         Edition = PlayerPrefs.GetString("Edition", "SecondEdition");
         MainMenu.SetEdition(Edition);

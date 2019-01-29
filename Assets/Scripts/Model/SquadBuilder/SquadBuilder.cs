@@ -1213,5 +1213,34 @@ namespace SquadBuilderNS
             JSONObject playerJson = GetSquadList(playerNo).SavedConfiguration;
             SetPlayerSquadFromImportedJson("", playerJson, playerNo, callback);
         }
+
+        public static void SetAiType(string aiName)
+        {
+            SquadList currentSquadList = GetSquadList(CurrentPlayer);
+            switch (aiName)
+            {
+                case "AI: Aggressor":
+                    currentSquadList.PlayerType = typeof(AggressorAiPlayer);
+                    break;
+                case "AI: HotAC":
+                    currentSquadList.PlayerType = typeof(HotacAiPlayer);
+                    break;
+                default:
+                    break;
+            }
+
+            GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").GetComponentInChildren<UnityEngine.UI.Text>().text = aiName;
+
+            Options.AiType = aiName;
+            Options.ChangeParameterValue("AiType", aiName);
+        }
+
+        public static void ToggleAiType()
+        {
+            SquadList currentSquadList = GetSquadList(CurrentPlayer);
+            string aiName = (currentSquadList.PlayerType == typeof(HotacAiPlayer)) ? "AI: Aggressor" : "AI: HotAC";
+
+            SetAiType(aiName);
+        }
     }
 }

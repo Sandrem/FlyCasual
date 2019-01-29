@@ -147,19 +147,7 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void ChangeAiMode(Text textComponent)
     {
-        SquadList currentSquadList = SquadBuilder.GetSquadList(SquadBuilder.CurrentPlayer);
-        bool isHotacAi = (currentSquadList.PlayerType == typeof(HotacAiPlayer));
-
-        if (isHotacAi)
-        {
-            currentSquadList.PlayerType = typeof(AggressorAiPlayer);
-            textComponent.text = "AI: Aggressor";
-        }
-        else
-        {
-            currentSquadList.PlayerType = typeof(HotacAiPlayer);
-            textComponent.text = "AI: HotAC";
-        }
+        SquadBuilder.ToggleAiType();
     }
 
 }

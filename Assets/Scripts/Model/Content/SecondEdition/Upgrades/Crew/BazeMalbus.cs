@@ -79,12 +79,12 @@ namespace Abilities.SecondEdition
                 UpgradesList.SecondEdition.BazeMalbus.MaximumAdditionalFocusTokens : enemyShipsWithinRange);
 
             if (enemyShipsWithinRange > 0) {
-                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Gained additional " + enemyShipsWithinRange + " Focus token(s)");
+                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Gained additional " + additionalFocusTokens + " Focus token(s)");
             }
 
             HostShip.Tokens.AssignTokens(
                 () => new FocusToken(HostShip),
-                enemyShipsWithinRange,
+                additionalFocusTokens,
                 delegate { HostShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger); }
             );
         }

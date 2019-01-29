@@ -2,6 +2,7 @@
 using Ship;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace AI.Aggressor
 {
@@ -41,7 +42,6 @@ namespace AI.Aggressor
 
             if (isOffTheBoardNextTurn) Priority -= 20000;
 
-            // TODO: Koigogran Turn ignores rotation
             Priority += enemiesInShotRange * 1000;
 
             Priority -= obstaclesHit * 2000;
@@ -65,6 +65,9 @@ namespace AI.Aggressor
                     {
                         Priority -= 500;
                     }
+                    break;
+                case MovementComplexity.None: // Impossible maneuvers
+                    Priority = int.MinValue;
                     break;
                 default:
                     break;

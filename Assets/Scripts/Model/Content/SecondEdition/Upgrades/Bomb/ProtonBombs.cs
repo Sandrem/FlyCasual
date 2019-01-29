@@ -9,7 +9,7 @@ using Bombs;
 
 namespace UpgradesList.SecondEdition
 {
-    public class ProtonBombs : GenericTimedBomb
+    public class ProtonBombs : GenericTimedBombSE
     {
         GenericShip _ship = null;
 

@@ -14,10 +14,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Tycho Celchu",
                     5,
-                    42,
+                    40,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent }
                 );
                 
                 RequiredMods = new List<System.Type>() { typeof(FirstEditionPilotsMod) };

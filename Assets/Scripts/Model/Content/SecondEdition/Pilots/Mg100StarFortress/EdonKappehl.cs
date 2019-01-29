@@ -18,11 +18,13 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Edon Kappehl",
                     3,
-                    69,
+                    66,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EdonKappehlAbility),
                     pilotTitle: "Crimson Hailstorm"
-                    );
+                );
+
+                ModelInfo.SkinName = "Crimson";
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/f58fe0b57dc4a9c878627f0fea9cf1ef.png";
             }

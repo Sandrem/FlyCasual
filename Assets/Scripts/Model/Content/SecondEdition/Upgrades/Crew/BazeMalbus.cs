@@ -20,13 +20,12 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Baze Malbus",
                 UpgradeType.Crew,
-                cost: 8,
+                cost: 3,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
-                abilityType: typeof(Abilities.SecondEdition.BazeMalbusCrewAbility)
-                );
-
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/Card_Upgrade_79.png";
+                abilityType: typeof(Abilities.SecondEdition.BazeMalbusCrewAbility),
+                seImageNumber: 79
+            );
         }
     }
 }

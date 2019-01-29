@@ -147,6 +147,7 @@ namespace AI.Aggressor
         {
             NextTurnNavigationResults = new List<NavigationResult>();
 
+            VirtualBoard.RemoveCollisionsExcept(CurrentShip);
             foreach (string turnManeuver in turnManeuvers)
             {
                 GenericMovement movement = ShipMovementScript.MovementFromString(turnManeuver);
@@ -162,6 +163,7 @@ namespace AI.Aggressor
                     obstaclesHit = CurrentMovementPrediction.AsteroidsHit.Count
                 });
             }
+            VirtualBoard.ReturnCollisionsExcept(CurrentShip);
         }
 
         private static List<string> GetShortestTurnManeuvers()

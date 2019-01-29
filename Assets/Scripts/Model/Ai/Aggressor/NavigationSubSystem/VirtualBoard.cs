@@ -94,7 +94,7 @@ namespace AI.Aggressor
 
         public void RestoreBoard()
         {
-            foreach (var ship in Ships.Keys)
+            foreach (GenericShip ship in Ships.Keys)
             {
                 SwitchToRealPosition(ship);
             }
@@ -103,6 +103,32 @@ namespace AI.Aggressor
         public bool IsVirtualPositionReady(GenericShip ship)
         {
             return Ships[ship].VirtualPositionInfo != Ships[ship].RealPositionInfo;
+        }
+
+        public void RemoveCollisionsExcept(GenericShip exceptShip)
+        {
+            foreach (GenericShip ship in Ships.Keys)
+            {
+                if (ship == exceptShip) continue;
+
+                Vector3 savedModelPosition = ship.GetShipAllPartsTransform().position;
+                
+                ship.SetPosition(ship.GetPosition() - new Vector3(0, -100, 0));
+                ship.GetShipAllPartsTransform().position = savedModelPosition;
+            }
+        }
+
+        public void ReturnCollisionsExcept(GenericShip exceptShip)
+        {
+            foreach (GenericShip ship in Ships.Keys)
+            {
+                if (ship == exceptShip) continue;
+
+                Vector3 savedModelPosition = ship.GetShipAllPartsTransform().position;
+
+                ship.SetPosition(ship.GetPosition() - new Vector3(0, +100, 0));
+                ship.GetShipAllPartsTransform().position = savedModelPosition;
+            }
         }
     }
 }

@@ -24,13 +24,14 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Roster.AllShipsHighlightOff();
             PlayerAssignsManeuvers();
         }
 
         private void PlayerAssignsManeuvers()
         {
             UpdateHelpInfo();
-            Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
+            if (!(Roster.GetPlayer(RequiredPlayer) is Players.GenericAiPlayer)) Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
 
             if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
             {

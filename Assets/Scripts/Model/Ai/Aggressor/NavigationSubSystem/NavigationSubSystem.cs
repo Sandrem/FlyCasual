@@ -44,7 +44,7 @@ namespace AI.Aggressor
 
         public static void CalculateNavigation(GenericShip ship, Action callback)
         {
-            Debug.Log("Start: " + ship);
+            //Debug.Log("Start: " + ship);
 
             CurrentShip = ship;
 
@@ -63,9 +63,13 @@ namespace AI.Aggressor
 
         private static IEnumerator StartCalculations(Action callback)
         {
+            Roster.ToggleStatusPanel(CurrentShip.Owner.PlayerNo, true);
+
             yield return PredictSimpleManeuversOfAllShips();
             yield return PredictManeuversOfThisShip();
             FinishManeuverPredicition();
+
+            Roster.ToggleStatusPanel(CurrentShip.Owner.PlayerNo, false);
 
             callback();
         }
@@ -278,10 +282,10 @@ namespace AI.Aggressor
         {
             VirtualBoard.RestoreBoard();
 
-            Debug.Log("ALL RESULTS:");
+            //Debug.Log("ALL RESULTS:");
             foreach (var result in NavigationResults)
             {
-                Debug.Log(result.Key + ": " + result.Value.Priority);
+                //Debug.Log(result.Key + ": " + result.Value.Priority);
             }
 
             int bestNavigationIdePriority = NavigationResults.Values.Max(n => n.Priority);
@@ -297,7 +301,7 @@ namespace AI.Aggressor
             }
 
             VirtualBoard.SetVirtualPositionInfo(CurrentShip, bestNavigationIdeas[BestManeuver].FinalPositionInfo);
-            Debug.Log("PREFERED RESULT: " + BestManeuver);
+            //Debug.Log("PREFERED RESULT: " + BestManeuver);
         }
 
         private static bool IsActivationBeforeCurrentShip(GenericShip ship)

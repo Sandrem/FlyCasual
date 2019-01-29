@@ -12,7 +12,7 @@ namespace Movement
 
         public TallonRollMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color) : base(speed, direction, bearing, color)
         {
-
+            RotationEndDegrees = (direction == ManeuverDirection.Left) ? -90 : 90;
         }
 
         public override void Perform()

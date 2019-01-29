@@ -148,9 +148,15 @@ namespace Movement
 
                         finalPositionFound = true;
 
+                        // Rotate last temp base
+                        if (i == generatedShipStands.Length - 1 && CurrentMovement.RotationEndDegrees != 0)
+                        {
+                            Vector3 centerOfTempBase = generatedShipStands[i].transform.TransformPoint(new Vector3(0, 0, -0.5f));
+                            generatedShipStands[i].transform.RotateAround(centerOfTempBase, new Vector3(0, 1, 0), CurrentMovement.RotationEndDegrees);
+                        }
+
                         FinalPosition = generatedShipStands[i].transform.position;
                         FinalAngles = generatedShipStands[i].transform.eulerAngles;
-
                         FinalPositionInfo = new ShipPositionInfo(FinalPosition, FinalAngles);
 
                         //break;

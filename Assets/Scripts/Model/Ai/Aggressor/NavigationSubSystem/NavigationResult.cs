@@ -23,7 +23,7 @@ namespace AI.Aggressor
 
         public bool isBumped;
 
-        public MovementComplexity movementComplexity;
+        public GenericMovement movement;
 
         public int Priority { get; private set; }
 
@@ -51,7 +51,7 @@ namespace AI.Aggressor
 
             if (isBumped) Priority -= 1000;
 
-            switch (movementComplexity)
+            switch (movement.ColorComplexity)
             {
                 case MovementComplexity.Easy:
                     if (Selection.ThisShip.IsStressed) Priority += 500;

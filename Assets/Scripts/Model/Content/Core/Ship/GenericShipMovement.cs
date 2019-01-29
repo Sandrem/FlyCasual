@@ -262,7 +262,7 @@ namespace Ship
             return HasManeuver(maneuverString);
         }
 
-        public void SetAssignedManeuver(GenericMovement movement)
+        public void SetAssignedManeuver(GenericMovement movement, bool isSilent = false)
         {
             if (movement == null)
             {
@@ -271,7 +271,7 @@ namespace Ship
             else
             {
                 AssignedManeuver = movement;
-                Roster.UpdateAssignedManeuverDial(this, movement);
+                if (!isSilent) Roster.UpdateAssignedManeuverDial(this, movement);
             }
         }
 

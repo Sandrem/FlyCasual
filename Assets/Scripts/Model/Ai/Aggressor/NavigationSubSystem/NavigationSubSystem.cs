@@ -97,7 +97,7 @@ namespace AI.Aggressor
             GenericMovement savedMovement = ship.AssignedManeuver;
 
             GenericMovement movement = ShipMovementScript.MovementFromString("2.F.S");
-            ship.SetAssignedManeuver(movement);
+            ship.SetAssignedManeuver(movement, isSilent: true);
             movement.Initialize();
             movement.IsSimple = true;
             CurrentSimpleMovementPrediction = new MovementPrediction(movement);
@@ -105,7 +105,7 @@ namespace AI.Aggressor
 
             if (savedMovement != null)
             {
-                ship.SetAssignedManeuver(savedMovement);
+                ship.SetAssignedManeuver(savedMovement, isSilent: true);
             }
             else
             {
@@ -122,7 +122,7 @@ namespace AI.Aggressor
             foreach (var maneuver in CurrentShip.GetManeuvers())
             {
                 GenericMovement movement = ShipMovementScript.MovementFromString(maneuver.Key);
-                CurrentShip.SetAssignedManeuver(movement);
+                CurrentShip.SetAssignedManeuver(movement, isSilent: true);
                 movement.Initialize();
                 movement.IsSimple = true;
 
@@ -146,7 +146,7 @@ namespace AI.Aggressor
             foreach (string turnManeuver in turnManeuvers)
             {
                 GenericMovement movement = ShipMovementScript.MovementFromString(turnManeuver);
-                CurrentShip.SetAssignedManeuver(movement);
+                CurrentShip.SetAssignedManeuver(movement, isSilent: true);
                 movement.Initialize();
                 movement.IsSimple = true;
                 CurrentTurnMovementPrediction = new MovementPrediction(movement);
@@ -241,7 +241,7 @@ namespace AI.Aggressor
 
             NavigationResult result = new NavigationResult()
             {
-                movementComplexity = CurrentMovementPrediction.CurrentMovement.ColorComplexity,
+                movement = CurrentMovementPrediction.CurrentMovement,
                 distanceToNearestEnemy = minDistanceToEnenmyShip,
                 distanceToNearestEnemyInShotRange = minDistanceToNearestEnemyInShotRange,
                 enemiesInShotRange = enemiesInShotRange,
@@ -284,9 +284,19 @@ namespace AI.Aggressor
                 Debug.Log(result.Key + ": " + result.Value.Priority);
             }
 
-            var bestNavigationIdea = NavigationResults.OrderByDescending(n => n.Value.Priority).First();
-            BestManeuver = bestNavigationIdea.Key;
-            VirtualBoard.SetVirtualPositionInfo(CurrentShip, bestNavigationIdea.Value.FinalPositionInfo);
+            int bestNavigationIdePriority = NavigationResults.Values.Max(n => n.Priority);
+            var bestNavigationIdeas = NavigationResults.Where(n => n.Value.Priority == bestNavigationIdePriority).ToDictionary(n => n.Key, m => m.Value);
+
+            if (bestNavigationIdeas.Any(n => n.Value.movement.Direction == ManeuverDirection.Forward))
+            {
+                BestManeuver = bestNavigationIdeas.FirstOrDefault(n => n.Value.movement.Direction == ManeuverDirection.Forward).Key;
+            }
+            else
+            {
+                BestManeuver = bestNavigationIdeas.First().Key;
+            }
+
+            VirtualBoard.SetVirtualPositionInfo(CurrentShip, bestNavigationIdeas[BestManeuver].FinalPositionInfo);
             Debug.Log("PREFERED RESULT: " + BestManeuver);
         }
 

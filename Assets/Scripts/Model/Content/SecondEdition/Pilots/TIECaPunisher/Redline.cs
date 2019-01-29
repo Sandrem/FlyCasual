@@ -16,7 +16,6 @@ namespace Ship
                     52,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RedlineAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 139
                 );
             }

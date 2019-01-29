@@ -14,7 +14,6 @@ namespace Ship
                     44,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DeathrainAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 140
                 );
             }

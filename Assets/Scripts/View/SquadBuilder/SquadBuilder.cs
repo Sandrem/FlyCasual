@@ -830,7 +830,14 @@ namespace SquadBuilderNS
         {
             string filename = "";
             var json = GetRandomAiSquad(out filename);
-            SetPlayerSquadFromImportedJson(filename, json, CurrentPlayer, callback);
+            SetPlayerSquadFromImportedJson(
+                filename,
+                json,
+                CurrentPlayer,
+                delegate {
+                    SetAiType(Options.AiType);
+                    callback();
+                });
         }
 
         private static JSONObject GetRandomAiSquad(out string filename)

@@ -82,8 +82,10 @@ namespace AI
 
         public override void AdaptToSecondEdition()
         {
+            ReplaceManeuver("5.F.R", "4.F.R");
+
             SideManeuversInner.Remove("3.F.R");
-            SideManeuversInner.Add("5.F.R");
+            SideManeuversInner.Add("4.F.R");
 
             BackSideManeuversInner.Remove("3.F.R");
             BackSideManeuversInner.Add("3.L.R");
@@ -104,8 +106,8 @@ namespace AI
             BackManeuversOuter.Remove("3.F.R");
             BackManeuversOuter.Add("3.L.R");
             BackManeuversOuter.Add("3.R.R");
-            BackManeuversOuter.Add("5.F.R");
-            BackManeuversOuter.Add("5.F.R");
+            BackManeuversOuter.Add("4.F.R");
+            BackManeuversOuter.Add("4.F.R");
         }
     }
 }

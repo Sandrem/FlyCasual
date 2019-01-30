@@ -37,8 +37,8 @@ namespace Ship.SecondEdition.V19Torrent
             };
 
             ModelInfo = new ShipModelInfo(
-                "B-wing",
-                "Teal"
+                "V-19 Torrent",
+                "V-19 Torrent"
             );
 
             DialInfo = new ShipDialInfo(

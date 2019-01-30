@@ -40,8 +40,8 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
             };
 
             ModelInfo = new ShipModelInfo(
-                "Kihraxz Fighter",
-                "Hutt Cartel"
+                "Belbullab",
+                "Belbullab"
             );
 
             DialInfo = new ShipDialInfo(

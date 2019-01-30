@@ -36,8 +36,8 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             };
 
             ModelInfo = new ShipModelInfo(
-                "RZ-2 A-wing",
-                "Blue"
+                "Delta-7 Aethersprite",
+                "Default"
             );
 
             DialInfo = new ShipDialInfo(

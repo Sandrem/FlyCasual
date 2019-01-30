@@ -103,7 +103,8 @@ namespace SquadBuilderNS
 
         private static bool IsSmallFaction(Faction faction)
         {
-            return faction == Faction.Resistance || faction == Faction.FirstOrder;
+            List<Faction> bigFactions = new List<Faction>() { Faction.Rebel, Faction.Imperial, Faction.Scum };
+            return !bigFactions.Contains(faction);
         }
 
         private static string GetImageOfIconicPilot(ShipRecord ship)

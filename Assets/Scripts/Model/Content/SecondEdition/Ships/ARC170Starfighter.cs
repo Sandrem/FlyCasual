@@ -18,11 +18,13 @@ namespace Ship
                 ShipInfo.ShipName = "ARC-170 Starfighter";
                 ShipInfo.ArcInfo.Arcs.First(a => a.ArcType == ArcType.Front).Firepower = 3;
                 ShipInfo.BaseSize = BaseSize.Medium;
+                ShipInfo.FactionsAll = new List<Faction>() { Faction.Rebel, Faction.Republic };
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
 
                 IconicPilots[Faction.Rebel] = typeof(NorraWexley);
+                IconicPilots[Faction.Republic] = typeof(Sinker);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/f/f5/Maneuver_arc-170.png";
 

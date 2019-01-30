@@ -972,6 +972,12 @@ namespace SquadBuilderNS
                 case Faction.FirstOrder:
                     result = "firstorder";
                     break;
+                case Faction.Republic:
+                    result = "republic";
+                    break;
+                case Faction.Separatists:
+                    result = "separatists";
+                    break;
                 default:
                     break;
             }
@@ -999,6 +1005,12 @@ namespace SquadBuilderNS
                     break;
                 case "firstorder":
                     result = Faction.FirstOrder;
+                    break;
+                case "republic":
+                    result = Faction.Republic;
+                    break;
+                case "separatists":
+                    result = Faction.Separatists;
                     break;
                 default:
                     break;

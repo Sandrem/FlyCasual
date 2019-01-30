@@ -36,13 +36,11 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
             };
 
             ModelInfo = new ShipModelInfo(
-                "TIE Fighter",
-                "TIE Fighter"
+                "Vulture",
+                "Empty"
             );
 
             DialInfo = new ShipDialInfo(
-                new ManeuverInfo(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary, MovementComplexity.Complex),
-
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
 

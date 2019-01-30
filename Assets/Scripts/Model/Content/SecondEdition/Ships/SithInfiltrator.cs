@@ -35,8 +35,8 @@ namespace Ship.SecondEdition.SithInfiltrator
             };
 
             ModelInfo = new ShipModelInfo(
-                "JumpMaster 5000",
-                "JumpMaster 5000"
+                "Sith Infiltrator",
+                "Default"
             );
 
             DialInfo = new ShipDialInfo(

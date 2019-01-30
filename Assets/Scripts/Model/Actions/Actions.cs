@@ -16,7 +16,8 @@ namespace Actions
     public enum ActionColor
     {
         White,
-        Red
+        Red,
+        Purple
     }
 
     public class ActionInfo

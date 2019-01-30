@@ -11,7 +11,7 @@ namespace Ship
             public Sinker() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Sinker",
+                    "\"Sinker\"",
                     3,
                     50,
                     isLimited: true,

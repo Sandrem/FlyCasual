@@ -100,7 +100,7 @@ namespace AI.Aggressor
 
             GenericMovement savedMovement = ship.AssignedManeuver;
 
-            GenericMovement movement = ShipMovementScript.MovementFromString("2.F.S");
+            GenericMovement movement = ShipMovementScript.MovementFromString( (ship.State.IsIonized) ? "1.F.S" : "2.F.S");
             ship.SetAssignedManeuver(movement, isSilent: true);
             movement.Initialize();
             movement.IsSimple = true;

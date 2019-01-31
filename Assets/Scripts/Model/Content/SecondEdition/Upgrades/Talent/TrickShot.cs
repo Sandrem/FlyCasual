@@ -35,7 +35,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbilityAndAddDice()
         {
-            if (Combat.Attacker.ShipId == HostShip.ShipId && Combat.ShotInfo.IsObstructedByAsteroid)
+            if (Combat.ShotInfo.IsObstructedByAsteroid)
             {
                 HostShip.AfterGotNumberOfAttackDice += RollExtraDie;
             }

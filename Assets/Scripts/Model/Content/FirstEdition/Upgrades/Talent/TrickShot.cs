@@ -37,7 +37,7 @@ namespace Abilities.FirstEdition
 
         private void CheckAbilityTrigger()
         {
-            if (Combat.Attacker.ShipId == HostShip.ShipId && Combat.ShotInfo.IsObstructedByAsteroid)
+            if (Combat.ShotInfo.IsObstructedByAsteroid)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnShotStart, AskTrickShotAbility);
             }

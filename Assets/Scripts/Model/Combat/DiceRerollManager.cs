@@ -16,6 +16,7 @@ public partial class DiceRerollManager
     public int NumberOfDiceCanBeRerolled = int.MaxValue;
     public bool IsOpposite;
     public bool IsTrueReroll = true;
+    public bool IsForcedFullReroll = false;
 
     public System.Action CallBack;
 
@@ -70,14 +71,26 @@ public partial class DiceRerollManager
 
     private void DoDefaultSelection()
     {
-        if (!IsOpposite)
+        if (!IsForcedFullReroll)
         {
-            DoDefaultSelectionOwnDice();
+            if (!IsOpposite)
+            {
+                DoDefaultSelectionOwnDice();
+            }
+            else
+            {
+                DoDefaultSelectionOppositeDice();
+            }
         }
         else
         {
-            DoDefaultSelectionOppositeDice();
+            DoDefaultSelectionAll();
         }
+    }
+
+    public void DoDefaultSelectionAll()
+    {
+        Combat.CurrentDiceRoll.SelectAll();
     }
 
     private void DoDefaultSelectionOwnDice()
@@ -177,7 +190,16 @@ public partial class DiceRerollManager
 
     private void StartPlayerInteraction()
     {
-        Selection.ActiveShip.Owner.RerollManagerIsPrepared();
+        if (!IsForcedFullReroll)
+        {
+            Selection.ActiveShip.Owner.RerollManagerIsPrepared();
+        }
+        else
+        {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+            ConfirmRerollButtonIsPressed();
+        }
+        
     }
 
     public void ShowConfirmButton()

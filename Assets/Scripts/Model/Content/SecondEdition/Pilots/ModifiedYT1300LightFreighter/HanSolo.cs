@@ -41,7 +41,8 @@ namespace Abilities.SecondEdition
                 DiceModificationType.Reroll,
                 int.MaxValue,
                 timing: DiceModificationTimingType.AfterRolled,
-                isTrueReroll: false
+                isTrueReroll: false,
+                isForcedFullReroll: true
             );
         }
 

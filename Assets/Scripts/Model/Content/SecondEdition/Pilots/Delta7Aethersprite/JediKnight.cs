@@ -5,12 +5,12 @@ using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
-    public class RycerzJedi : Delta7Aethersprite
+    public class JediKnight : Delta7Aethersprite
     {
-        public RycerzJedi()
+        public JediKnight()
         {
             PilotInfo = new PilotCardInfo(
-                "Rycerz Jedi",
+                "Jedi Knight",
                 3,
                 50,
                 force: 1,

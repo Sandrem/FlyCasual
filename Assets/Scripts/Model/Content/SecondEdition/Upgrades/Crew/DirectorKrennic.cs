@@ -36,7 +36,7 @@ namespace Abilities.SecondEdition
         {
             get
             {
-                return "Choose a friendly ship.\nIt gets the Optimized Prototype condition.";
+                return "Choose another friendly ship.\nIt gets the Optimized Prototype condition.";
             }
         }
 
@@ -50,7 +50,8 @@ namespace Abilities.SecondEdition
 
         protected override bool CheckRequirements(GenericShip ship)
         {
-            var match = ship.Owner.PlayerNo == HostShip.Owner.PlayerNo;
+            var match = ship.Owner.PlayerNo == HostShip.Owner.PlayerNo
+                && ship.ShipId != HostShip.ShipId;
             return match;
         }
     }
@@ -106,9 +107,10 @@ namespace ActionsList
             {
                 if (Combat.AttackStep != CombatStep.Attack) return false;
                 if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) return false;
-                if (!Combat.ShotInfo.InPrimaryArc) return false;
+                if (!Combat.Attacker.SectorsInfo.IsShipInSector(Combat.Defender, Arcs.ArcType.Front)) return false;
                 if (Combat.DiceRollAttack.Focuses == 0 && Combat.DiceRollAttack.Successes == 0) return false;
                 if (!IsLockedByFriendlyKrennicShip()) return false;
+                if (!IsWayToHarmPreset()) return false;
 
                 return true;
             }
@@ -128,6 +130,12 @@ namespace ActionsList
                     }
                 }
                 return false;
+            }
+
+            private bool IsWayToHarmPreset()
+            {
+                return Combat.Defender.State.ShieldsCurrent != 0
+                    || Combat.Defender.Damage.GetFacedownCards().Count != 0;
             }
 
             private class OptimizedPrototypeDecisionSubPhase : DecisionSubPhase { }
@@ -236,7 +244,7 @@ namespace ActionsList
             {
                 int result = 0;
 
-                if (Combat.Defender.State.ShieldsCurrent != 0 && Combat.Defender.Damage.GetFacedownCards().Count != 0) result = 53;
+                if (IsWayToHarmPreset()) result = 53;
 
                 return result;
             }

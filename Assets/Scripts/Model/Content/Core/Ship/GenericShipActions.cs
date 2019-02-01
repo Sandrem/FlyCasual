@@ -643,7 +643,12 @@ namespace Ship
 
             if (OnActionIsFailed != null) OnActionIsFailed(action, failReasons, ref isDefaultFailOverwritten);
 
-            if (!isDefaultFailOverwritten) Edition.Current.ActionIsFailed(this, action);
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnActionIsFailed, 
+                delegate
+                {
+                    Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten);
+                });
         }
 
     }

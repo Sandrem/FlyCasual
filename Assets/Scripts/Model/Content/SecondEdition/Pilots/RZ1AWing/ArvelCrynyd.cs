@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -71,26 +72,31 @@ namespace Abilities.SecondEdition
             )
             {
                 ActionToRevert = action;
-
-                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Resolve Boost as maneuver");
                 isDefaultFailOverwritten = true;
 
-                SavedManeuver = HostShip.AssignedManeuver;
-
-                SavedManeuverColors = new Dictionary<string, MovementComplexity>();
-                foreach (var changedManeuver in ChangedManeuversCodes)
-                {
-                    KeyValuePair<ManeuverHolder, MovementComplexity> existingManeuver = (HostShip.DialInfo.PrintedDial.FirstOrDefault(n => n.Key.ToString() == changedManeuver));
-                    SavedManeuverColors.Add(changedManeuver, (existingManeuver.Equals(default(KeyValuePair<ManeuverHolder, MovementComplexity>))) ? MovementComplexity.None : existingManeuver.Value);
-                    HostShip.Maneuvers[changedManeuver] = MovementComplexity.Normal;
-                }
-
-                // TODO: Direction from action
-                HostShip.SetAssignedManeuver(ShipMovementScript.MovementFromString("1.F.S"));
-                HostShip.AssignedManeuver.IsRevealDial = false;
-                HostShip.AssignedManeuver.GrantedBy = HostShip.PilotInfo.PilotName;
-                ShipMovementScript.LaunchMovement(FinishAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnActionIsFailed, DoPseudoBoost);
             }
+        }
+
+        private void DoPseudoBoost(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Resolve Boost as maneuver");
+
+            SavedManeuver = HostShip.AssignedManeuver;
+
+            SavedManeuverColors = new Dictionary<string, MovementComplexity>();
+            foreach (var changedManeuver in ChangedManeuversCodes)
+            {
+                KeyValuePair<ManeuverHolder, MovementComplexity> existingManeuver = (HostShip.DialInfo.PrintedDial.FirstOrDefault(n => n.Key.ToString() == changedManeuver));
+                SavedManeuverColors.Add(changedManeuver, (existingManeuver.Equals(default(KeyValuePair<ManeuverHolder, MovementComplexity>))) ? MovementComplexity.None : existingManeuver.Value);
+                HostShip.Maneuvers[changedManeuver] = MovementComplexity.Normal;
+            }
+
+            // TODO: Direction from action
+            HostShip.SetAssignedManeuver(ShipMovementScript.MovementFromString("1.F.S"));
+            HostShip.AssignedManeuver.IsRevealDial = false;
+            HostShip.AssignedManeuver.GrantedBy = HostShip.PilotInfo.PilotName;
+            ShipMovementScript.LaunchMovement(FinishAbility);
         }
 
         private void FinishAbility()
@@ -109,7 +115,7 @@ namespace Abilities.SecondEdition
                 }
             }
 
-            ActionToRevert.RevertActionOnFail();
+            Triggers.FinishTrigger();
         }
     }
 }

@@ -37,9 +37,9 @@ namespace Editions
 
         public abstract int MinShipCost(Faction faction);
 
-        public virtual void ActionIsFailed(GenericShip ship, GenericAction action)
+        public virtual void ActionIsFailed(GenericShip ship, GenericAction action, bool overWrittenInstead = false)
         {
-            ship.RemoveAlreadyExecutedAction(action.GetType());
+            if (!overWrittenInstead) ship.RemoveAlreadyExecutedAction(action.GetType());
             action.RevertActionOnFail();
         }
 

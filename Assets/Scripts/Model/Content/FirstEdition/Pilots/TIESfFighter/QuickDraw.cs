@@ -26,7 +26,6 @@ namespace Abilities.FirstEdition
 {
     public class QuickDrawPilotAbility : GenericAbility
     {
-
         private bool performedRegularAttack;
 
         public override void ActivateAbility()
@@ -38,23 +37,26 @@ namespace Abilities.FirstEdition
             Phases.Events.OnCombatPhaseEnd_NoTriggers += ClearIsAbilityUsedFlag;
         }
 
-
         public override void DeactivateAbility()
         {
             HostShip.OnShieldLost -= CheckAbility;
             Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
-
         private void CheckAbility()
         {
-            if (IsAbilityUsed)
-            {
-                return;
-            }
+            if (IsAbilityCanBeUsed()) InitializeCounterAttack();
+        }
 
-            if (HostShip.IsCannotAttackSecondTime) return;
+        protected virtual bool IsAbilityCanBeUsed()
+        {
+            if (IsAbilityUsed || HostShip.IsCannotAttackSecondTime) return false;
 
+            return true;
+        }
+
+        private void InitializeCounterAttack()
+        {
             if (Combat.AttackStep == CombatStep.None)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnShieldIsLost, RegisterCombat);
@@ -74,7 +76,7 @@ namespace Abilities.FirstEdition
 
         private void RegisterCombat(object sender, System.EventArgs e)
         {
-            if (!IsAbilityUsed)
+            if (IsAbilityCanBeUsed())
             {
                 // Temporary fix
                 if (HostShip.IsDestroyed)
@@ -86,12 +88,12 @@ namespace Abilities.FirstEdition
                 // Save his "is already attacked" flag
                 performedRegularAttack = HostShip.IsAttackPerformed;
 
-                HostShip.OnAttackFinishAsAttacker += SetIsAbilityIsUsed;
+                HostShip.OnAttackStartAsAttacker += MarkAbilityAsUsed;
 
                 Combat.StartAdditionalAttack(
                     HostShip,
                     AfterExtraAttackSubPhase,
-                    null,
+                    IsPrimaryWeaponAttack,
                     HostShip.PilotInfo.PilotName,
                     "You may perform a primary weapon attack.",
                     HostShip
@@ -104,15 +106,36 @@ namespace Abilities.FirstEdition
             }
         }
 
+        private bool IsPrimaryWeaponAttack(GenericShip targetShip, IShipWeapon weapon, bool isSilent)
+        {
+            bool result = false;
+
+            if (weapon.WeaponType == WeaponTypes.PrimaryWeapon)
+            {
+                result = true;
+            }
+            else
+            {
+                if (!isSilent) Messages.ShowError("Attack must be performed using primary weapon");
+            }
+
+            return result;
+        }
+
         private void AfterExtraAttackSubPhase()
         {
             // Restore previous value of "is already attacked" flag
             HostShip.IsAttackPerformed = performedRegularAttack;
 
             // Set IsAbilityUsed only after attack that was successfully started
-            HostShip.OnAttackFinishAsAttacker -= SetIsAbilityIsUsed;
+            HostShip.OnAttackStartAsAttacker -= MarkAbilityAsUsed;
 
             Triggers.FinishTrigger();
+        }
+
+        protected virtual void MarkAbilityAsUsed()
+        {
+            SetIsAbilityIsUsed(HostShip);
         }
 
     }

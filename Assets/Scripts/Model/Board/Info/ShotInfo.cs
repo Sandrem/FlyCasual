@@ -109,7 +109,10 @@ namespace BoardTools
                 if (WeaponArcRestrictions.Count > 0 && !WeaponArcRestrictions.Contains(arc.ArcType))
                     continue;
 
-                if (shotInfoArc.IsShotAvailable)
+                bool result = shotInfoArc.IsShotAvailable;
+                if (arc.ArcType == ArcType.Bullseye) Ship1.CallOnBullseyeArcCheck(Ship2, ref result);
+
+                if (result)
                 {
                     if (IsShotAvailable == false)
                     {

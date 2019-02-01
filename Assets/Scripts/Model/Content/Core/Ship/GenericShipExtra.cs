@@ -38,6 +38,8 @@ namespace Ship
         public event EventHandlerShip OnSetupPlaced;
         public static event EventHandlerShip OnSetupPlacedGlobal;
 
+        public event EventHandlerShipRefBool OnBullseyeArcCheck;
+
         public GenericShip Host;
 
         public Type ShipRuleType = typeof(Editions.FirstEdition);
@@ -260,6 +262,13 @@ namespace Ship
         {
             if (OnSetupPlaced != null) OnSetupPlaced(this);
             if (OnSetupPlacedGlobal != null) OnSetupPlacedGlobal(this);
+        }
+
+        // Arcs and distance override
+
+        public void CallOnBullseyeArcCheck(GenericShip anotherShip, ref bool result)
+        {
+            if (OnBullseyeArcCheck != null) OnBullseyeArcCheck(anotherShip, ref result);
         }
     }
 

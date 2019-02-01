@@ -8,7 +8,7 @@ namespace Upgrade
     public class SpecialWeaponInfo
     {
         public int AttackValue { get; private set; }
-        public int MinRange { get; private set; }
+        public int MinRange { get; set; }
         public int MaxRange { get; private set; }
         public Type RequiresToken { get; private set; }
         public Type SpendsToken { get; private set; }

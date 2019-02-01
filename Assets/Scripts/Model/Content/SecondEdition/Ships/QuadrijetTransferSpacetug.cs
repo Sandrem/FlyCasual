@@ -77,7 +77,7 @@ namespace ActionsList
                 typeof(SelectSpacetugTargetSubPhaseSE),
                 Phases.CurrentSubPhase.CallBack
             );
-
+            newPhase.HostAction = this;
             newPhase.SpacetugOwner = this.HostShip;
             newPhase.Start();
         }
@@ -88,6 +88,8 @@ namespace SubPhases
 {
     public class SelectSpacetugTargetSubPhaseSE : SelectShipSubPhase
     {
+        public GenericAction HostAction { get; set; }
+
         public GenericShip SpacetugOwner;
 
         public override void Prepare()
@@ -145,7 +147,7 @@ namespace SubPhases
 
         public override void RevertSubPhase()
         {
-            Edition.Current.ActionIsFailed(TheShip, typeof(SpacetugActionSE));
+            Edition.Current.ActionIsFailed(TheShip, HostAction);
             UpdateHelpInfo();
         }
 

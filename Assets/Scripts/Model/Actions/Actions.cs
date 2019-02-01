@@ -19,6 +19,15 @@ namespace Actions
         Red
     }
 
+    public enum ActionFailReason
+    {
+        WrongRange,
+        OutOfArc,
+        Bumped,
+        OffTheBoard,
+        ObstacleHit
+    }
+
     public class ActionInfo
     {
         public Type ActionType { get; private set; }

@@ -122,9 +122,9 @@ namespace Editions
             }
         }
 
-        public override void ActionIsFailed(GenericShip ship, Type actionType)
+        public override void ActionIsFailed(GenericShip ship, GenericAction action)
         {
-            base.ActionIsFailed(ship, actionType);
+            action.RevertActionOnFail();
 
             // Temporary solution for off-the-board problem
 

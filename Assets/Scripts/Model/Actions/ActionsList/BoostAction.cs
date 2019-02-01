@@ -7,6 +7,7 @@ using System.Linq;
 using Editions;
 using Obstacles;
 using ActionsList;
+using Actions;
 
 namespace ActionsList
 {
@@ -37,6 +38,12 @@ namespace ActionsList
             }
         }
 
+        public override void RevertActionOnFail()
+        {
+            base.RevertActionOnFail();
+
+            Phases.GoBack();
+        }
     }
 
     public class BoostMove
@@ -238,7 +245,10 @@ namespace SubPhases
             Game.Movement.CollidedWith = null;
             MovementTemplates.HideLastMovementRuler();
 
-            Edition.Current.ActionIsFailed(TheShip, typeof(BoostAction));
+            TheShip.CallOnActionIsFailed(
+                HostAction,
+                new List<ActionFailReason>() { ActionFailReason.Bumped }
+            );
         }
 
         private void HidePlanningTemplates()

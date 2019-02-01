@@ -8,6 +8,8 @@ using Tokens;
 using ActionsList;
 using GameModes;
 using Arcs;
+using Actions;
+using Editions;
 
 namespace Ship
 {
@@ -78,6 +80,8 @@ namespace Ship
         public event EventHandlerActionRef OnCheckActionComplexity;
 
         public event EventHandlerArcFacingList OnGetAvailableArcFacings;
+
+        public event EventHandlerFailedAction OnActionIsFailed;
 
         // ACTIONS
 
@@ -629,6 +633,17 @@ namespace Ship
             if (OnGetAvailableArcFacings != null) OnGetAvailableArcFacings(availableArcFacings);
 
             return availableArcFacings;
+        }
+
+        // Action is failed
+
+        public void CallOnActionIsFailed(GenericAction action, List<ActionFailReason> failReasons)
+        {
+            bool isDefaultFailOverwritten = false;
+
+            if (OnActionIsFailed != null) OnActionIsFailed(action, failReasons, ref isDefaultFailOverwritten);
+
+            if (!isDefaultFailOverwritten) Edition.Current.ActionIsFailed(this, action);
         }
 
     }

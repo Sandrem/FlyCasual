@@ -7,6 +7,8 @@ using System;
 using System.Linq;
 using Editions;
 using Obstacles;
+using ActionsList;
+using SubPhases;
 
 namespace ActionsList
 {
@@ -28,11 +30,12 @@ namespace ActionsList
             {
                 Phases.CurrentSubPhase.Pause();
 
-                Phases.StartTemporarySubPhaseOld(
+                BarrelRollPlanningSubPhase subphase = Phases.StartTemporarySubPhaseNew<BarrelRollPlanningSubPhase>(
                     "Barrel Roll",
-                    typeof(SubPhases.BarrelRollPlanningSubPhase),
                     Phases.CurrentSubPhase.CallBack
                 );
+                subphase.HostAction = this;
+                subphase.Start();
             }
         }
 
@@ -45,6 +48,8 @@ namespace SubPhases
 
     public class BarrelRollPlanningSubPhase : GenericSubPhase
     {
+        public GenericAction HostAction { get; set; }
+
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext }; } }
 
         bool useMobileControls;
@@ -479,7 +484,7 @@ namespace SubPhases
             MonoBehaviour.Destroy(TemporaryShipBase);
             BarrelRollTemplate.SetActive(false);
 
-            Edition.Current.ActionIsFailed(TheShip, typeof(ActionsList.BarrelRollAction));
+            Edition.Current.ActionIsFailed(TheShip, HostAction);
         }
 
         public void TryConfirmBarrelRollNetwork(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)

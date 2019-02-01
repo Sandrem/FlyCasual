@@ -351,7 +351,7 @@ namespace SubPhases
             MonoBehaviour.Destroy(TemporaryShipBase);
             DecloakTemplate.SetActive(false);
 
-            Edition.Current.ActionIsFailed(TheShip, typeof(ActionsList.CloakAction));
+            Edition.Current.ActionIsFailed(TheShip, new ActionsList.CloakAction());
         }
 
         private void StopPlanning()

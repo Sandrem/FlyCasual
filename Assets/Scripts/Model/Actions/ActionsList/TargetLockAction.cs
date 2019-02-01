@@ -1,7 +1,9 @@
-﻿using BoardTools;
+﻿using ActionsList;
+using BoardTools;
 using Editions;
 using RulesList;
 using Ship;
+using SubPhases;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,11 +88,12 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhaseOld(
+            SelectTargetLockActionSubPhase subphase = Phases.StartTemporarySubPhaseNew<SelectTargetLockActionSubPhase>(
                 "Select target for Target Lock",
-                typeof(SubPhases.SelectTargetLockActionSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
+            subphase.HostAction = this;
+            subphase.Start();
         }
 
     }
@@ -102,9 +105,11 @@ namespace SubPhases
 
     public class SelectTargetLockActionSubPhase : AcquireTargetLockSubPhase
     {
+        public GenericAction HostAction { get; set; }
+
         public override void RevertSubPhase()
         {
-            Edition.Current.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
+            Edition.Current.ActionIsFailed(TheShip, HostAction);
             UpdateHelpInfo();
         }
 

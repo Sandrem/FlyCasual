@@ -6,6 +6,7 @@ using SubPhases;
 using Players;
 using UnityEngine.UI;
 using GameCommands;
+using Actions;
 
 namespace GameModes
 { 
@@ -124,8 +125,9 @@ namespace GameModes
             Network.FinishTask();
         }
 
-        public override void CancelBoost()
+        public override void CancelBoost(List<ActionFailReason> boostProblems)
         {
+            // TODONETWORK - pass
             Network.CancelBoost();
         }
 

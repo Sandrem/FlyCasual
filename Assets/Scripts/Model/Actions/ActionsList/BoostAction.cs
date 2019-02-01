@@ -14,6 +14,8 @@ namespace ActionsList
 
     public class BoostAction : GenericAction
     {
+        public string SelectedBoostTemplate;
+
         public BoostAction()
         {
             Name = "Boost";
@@ -196,11 +198,12 @@ namespace SubPhases
         {
             if (SelectedBoostHelper != null)
             {
+                (HostAction as BoostAction).SelectedBoostTemplate = SelectedBoostHelper;
                 TryPerformBoost();
             }
             else
             {
-                CancelBoost();
+                CancelBoost(new List<ActionFailReason>() { ActionFailReason.NoTemplateAvailable});
             }
         }
 
@@ -233,7 +236,7 @@ namespace SubPhases
             execution.Start();
         }
 
-        public void CancelBoost()
+        public void CancelBoost(List<ActionFailReason> boostProblems)
         {
             TheShip.IsLandedOnObstacle = false;
 
@@ -243,10 +246,7 @@ namespace SubPhases
             Game.Movement.CollidedWith = null;
             MovementTemplates.HideLastMovementRuler();
 
-            TheShip.CallOnActionIsFailed(
-                HostAction,
-                new List<ActionFailReason>() { ActionFailReason.Bumped }
-            );
+            TheShip.CallOnActionIsFailed(HostAction, boostProblems);
         }
 
         private void HidePlanningTemplates()
@@ -298,11 +298,12 @@ namespace SubPhases
 
             if (canBoostCallback != null)
             {
-                canBoostCallback(IsBoostAllowed(true));
+                canBoostCallback(CheckBoostProblems(true).Count == 0);
                 return;
             }
 
-            if (IsBoostAllowed())
+            List<ActionFailReason> boostProblems = CheckBoostProblems();
+            if (boostProblems.Count == 0)
             {
                 CheckMines();
                 TheShip.LandedOnObstacles = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
@@ -314,7 +315,7 @@ namespace SubPhases
             }
             else
             {
-                GameMode.CurrentGameMode.CancelBoost();
+                GameMode.CurrentGameMode.CancelBoost(boostProblems);
             }
         }
 
@@ -327,28 +328,28 @@ namespace SubPhases
             }
         }
 
-        private bool IsBoostAllowed(bool quiet = false)
+        private List<ActionFailReason> CheckBoostProblems(bool quiet = false)
         {
-            bool allow = true;
+            List<ActionFailReason> result = new List<ActionFailReason>();
 
             if (obstaclesStayDetectorBase.OverlapsShipNow)
             {
                 if (!quiet) Messages.ShowError("Cannot overlap another ship");
-                allow = false;
+                result.Add(ActionFailReason.Bumped);
             }
             else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBoost && !IsTractorBeamBoost
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 if (!quiet) Messages.ShowError("Cannot overlap asteroid");
-                allow = false;
+                result.Add(ActionFailReason.ObstacleHit);
             }
             else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
             {
                 if (!quiet) Messages.ShowError("Cannot leave the battlefield");
-                allow = false;
+                result.Add(ActionFailReason.OffTheBoard);
             }
 
-            return allow;
+            return result;
         }
 
         public override void Next()

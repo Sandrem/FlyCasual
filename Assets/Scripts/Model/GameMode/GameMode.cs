@@ -3,6 +3,8 @@ using SubPhases;
 using Players;
 using System;
 using GameCommands;
+using Actions;
+using System.Collections.Generic;
 
 namespace GameModes
 { 
@@ -37,7 +39,7 @@ namespace GameModes
 
         public abstract void TryConfirmBoostPosition(string selectedBoostHelper);
         public abstract void StartBoostExecution();
-        public abstract void CancelBoost();
+        public abstract void CancelBoost(List<ActionFailReason> boostProblems);
         public abstract void FinishBoost();
 
         public abstract void SetSwarmManagerManeuver(string maneuverCode);

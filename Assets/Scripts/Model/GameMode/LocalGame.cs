@@ -6,6 +6,7 @@ using Players;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using GameCommands;
+using Actions;
 
 namespace GameModes
 {
@@ -129,9 +130,9 @@ namespace GameModes
             Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
         }
 
-        public override void CancelBoost()
+        public override void CancelBoost(List<ActionFailReason> boostProblems)
         {
-            (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost();
+            (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost(boostProblems);
         }
 
         // Swarm Manager

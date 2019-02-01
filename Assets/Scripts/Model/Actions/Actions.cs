@@ -25,7 +25,8 @@ namespace Actions
         OutOfArc,
         Bumped,
         OffTheBoard,
-        ObstacleHit
+        ObstacleHit,
+        NoTemplateAvailable
     }
 
     public class ActionInfo

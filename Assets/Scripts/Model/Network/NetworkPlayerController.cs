@@ -9,6 +9,7 @@ using SubPhases;
 using UnityEngine.SceneManagement;
 using System;
 using GameCommands;
+using Actions;
 
 public partial class NetworkPlayerController : NetworkBehaviour {
 
@@ -309,7 +310,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCancelBoost()
     {
-        (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost();
+        // TODONETWORK
+        (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost(new List<ActionFailReason> { ActionFailReason.NoTemplateAvailable });
     }
 
     // DECLOAK

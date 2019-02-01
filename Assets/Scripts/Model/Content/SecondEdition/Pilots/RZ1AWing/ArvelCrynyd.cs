@@ -92,8 +92,15 @@ namespace Abilities.SecondEdition
                 HostShip.Maneuvers[changedManeuver] = MovementComplexity.Normal;
             }
 
-            // TODO: Direction from action
-            HostShip.SetAssignedManeuver(ShipMovementScript.MovementFromString("1.F.S"));
+            // Direction from action
+            HostShip.SetAssignedManeuver(
+                ShipMovementScript.MovementFromString(
+                    ManeuverFromBoostTemplate(
+                        (ActionToRevert as BoostAction).SelectedBoostTemplate
+                    )
+                )
+            );
+
             HostShip.AssignedManeuver.IsRevealDial = false;
             HostShip.AssignedManeuver.GrantedBy = HostShip.PilotInfo.PilotName;
             ShipMovementScript.LaunchMovement(FinishAbility);
@@ -116,6 +123,25 @@ namespace Abilities.SecondEdition
             }
 
             Triggers.FinishTrigger();
+        }
+
+        private string ManeuverFromBoostTemplate(string boostTemplateName)
+        {
+            switch (boostTemplateName)
+            {
+                case "Straight 1":
+                    return "1.F.S";
+                case "Bank 1 Left":
+                    return "1.L.B";
+                case "Bank 1 Right":
+                    return "1.R.B";
+                case "Turn 1 Right":
+                    return "1.R.T";
+                case "Turn 1 Left":
+                    return "1.L.T";
+            }
+
+            return "1.F.S";
         }
     }
 }

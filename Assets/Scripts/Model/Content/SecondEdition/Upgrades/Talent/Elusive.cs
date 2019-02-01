@@ -16,6 +16,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Talent,
                 cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.Elusive),
+                restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
                 charges: 1,
                 seImageNumber: 4
             );

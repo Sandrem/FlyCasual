@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
             HostShip.PrimaryWeapons.ForEach(n => n.WeaponInfo.MinRange = 0);
             HostShip.OnCanAttackBumpedTarget += CanAttack;
 
-            HostShip.OnActionIsFailed += CheckAbility;
+            HostShip.OnActionIsReadyToBeFailed += CheckAbility;
         }
 
         public override void DeactivateAbility()
@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
             HostShip.PrimaryWeapons.ForEach(n => n.WeaponInfo.MinRange = 1);
             HostShip.OnCanAttackBumpedTarget -= CanAttack;
 
-            HostShip.OnActionIsFailed += CheckAbility;
+            HostShip.OnActionIsReadyToBeFailed += CheckAbility;
         }
 
         private void CanAttack(ref bool canAttack, GenericShip attacker, GenericShip defender)
@@ -74,7 +74,7 @@ namespace Abilities.SecondEdition
                 ActionToRevert = action;
                 isDefaultFailOverwritten = true;
 
-                RegisterAbilityTrigger(TriggerTypes.OnActionIsFailed, DoPseudoBoost);
+                RegisterAbilityTrigger(TriggerTypes.OnActionIsReadyToBeFailed, DoPseudoBoost);
             }
         }
 

@@ -81,7 +81,8 @@ namespace Ship
 
         public event EventHandlerArcFacingList OnGetAvailableArcFacings;
 
-        public event EventHandlerFailedAction OnActionIsFailed;
+        public event EventHandlerFailedAction OnActionIsReadyToBeFailed;
+        public event EventHandlerAction OnActionIsReallyFailed;
 
         // ACTIONS
 
@@ -641,14 +642,26 @@ namespace Ship
         {
             bool isDefaultFailOverwritten = false;
 
-            if (OnActionIsFailed != null) OnActionIsFailed(action, failReasons, ref isDefaultFailOverwritten);
+            if (OnActionIsReadyToBeFailed != null) OnActionIsReadyToBeFailed(action, failReasons, ref isDefaultFailOverwritten);
 
             Triggers.ResolveTriggers(
-                TriggerTypes.OnActionIsFailed, 
+                TriggerTypes.OnActionIsReadyToBeFailed, 
                 delegate
                 {
-                    Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten);
-                });
+                    if (!isDefaultFailOverwritten)
+                    {
+                        if (OnActionIsReallyFailed != null) OnActionIsReallyFailed(action);
+                    }
+
+                    Triggers.ResolveTriggers(
+                        TriggerTypes.OnActionIsReallyFailed,
+                        delegate
+                        {
+                            Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten);
+                        }
+                    );
+                }
+            );
         }
 
     }

@@ -124,7 +124,7 @@ namespace ActionsList
         {
             if (Combat.AttackStep != CombatStep.Attack) return false;
 
-            List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Enemy);
+            List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Friendly);
             return friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != HostShip.ShipId);
         }
 

@@ -124,7 +124,7 @@ namespace Editions
 
         public override void ActionIsFailed(GenericShip ship, GenericAction action)
         {
-            action.RevertActionOnFail();
+            base.ActionIsFailed(ship, action);
 
             // Temporary solution for off-the-board problem
 

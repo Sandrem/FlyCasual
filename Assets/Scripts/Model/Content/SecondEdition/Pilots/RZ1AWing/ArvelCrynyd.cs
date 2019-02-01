@@ -1,5 +1,6 @@
 ﻿using Actions;
 using ActionsList;
+using Movement;
 using Ship;
 using SubPhases;
 using System;
@@ -25,8 +26,6 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent },
                     seImageNumber: 20
                 );
-
-                ModelInfo.SkinName = "Blue";
             }
         }
     }
@@ -36,6 +35,12 @@ namespace Abilities.SecondEdition
 {
     public class ArvelCrynydAbility : GenericAbility
     {
+        private GenericMovement SavedManeuver;
+        private GenericAction ActionToRevert;
+
+        private static readonly List<string> ChangedManeuversCodes = new List<string>() { "1.L.B", "1.F.S", "1.R.B" };
+        private Dictionary<string, MovementComplexity> SavedManeuverColors;
+
         public override void ActivateAbility()
         {
             HostShip.PrimaryWeapons.ForEach(n => n.WeaponInfo.MinRange = 0);
@@ -59,14 +64,52 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(GenericAction action, List<ActionFailReason> failReasons, ref bool isDefaultFailOverwritten)
         {
+            // TODO: Real fail reasons
             if (action is BoostAction
                 && failReasons.Count == 1
                 && failReasons.First() == ActionFailReason.Bumped
             )
             {
-                Messages.ShowInfo("!!!");
+                ActionToRevert = action;
+
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Resolve Boost as maneuver");
                 isDefaultFailOverwritten = true;
+
+                SavedManeuver = HostShip.AssignedManeuver;
+
+                SavedManeuverColors = new Dictionary<string, MovementComplexity>();
+                foreach (var changedManeuver in ChangedManeuversCodes)
+                {
+                    KeyValuePair<ManeuverHolder, MovementComplexity> existingManeuver = (HostShip.DialInfo.PrintedDial.FirstOrDefault(n => n.Key.ToString() == changedManeuver));
+                    SavedManeuverColors.Add(changedManeuver, (existingManeuver.Equals(default(KeyValuePair<ManeuverHolder, MovementComplexity>))) ? MovementComplexity.None : existingManeuver.Value);
+                    HostShip.Maneuvers[changedManeuver] = MovementComplexity.Normal;
+                }
+
+                // TODO: Direction from action
+                HostShip.SetAssignedManeuver(ShipMovementScript.MovementFromString("1.F.S"));
+                HostShip.AssignedManeuver.IsRevealDial = false;
+                HostShip.AssignedManeuver.GrantedBy = HostShip.PilotInfo.PilotName;
+                ShipMovementScript.LaunchMovement(FinishAbility);
             }
+        }
+
+        private void FinishAbility()
+        {
+            HostShip.SetAssignedManeuver(SavedManeuver);
+
+            foreach (var changedManeuver in ChangedManeuversCodes)
+            {
+                if (SavedManeuverColors[changedManeuver] == MovementComplexity.None)
+                {
+                    HostShip.Maneuvers.Remove(changedManeuver);
+                }
+                else
+                {
+                    HostShip.Maneuvers[changedManeuver] = SavedManeuverColors[changedManeuver];
+                }
+            }
+
+            ActionToRevert.RevertActionOnFail();
         }
     }
 }

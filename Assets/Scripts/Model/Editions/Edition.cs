@@ -39,6 +39,7 @@ namespace Editions
 
         public virtual void ActionIsFailed(GenericShip ship, GenericAction action)
         {
+            ship.RemoveAlreadyExecutedAction(action.GetType());
             action.RevertActionOnFail();
         }
 

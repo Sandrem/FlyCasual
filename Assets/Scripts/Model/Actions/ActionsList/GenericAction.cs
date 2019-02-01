@@ -181,10 +181,7 @@ namespace ActionsList
             ActionTake();
         }
 
-        public virtual void RevertActionOnFail()
-        {
-            HostShip.RemoveAlreadyExecutedAction(this.GetType());
-        }
+        public virtual void RevertActionOnFail() {}
 
     }
 

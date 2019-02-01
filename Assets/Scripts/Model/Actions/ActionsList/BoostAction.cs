@@ -40,8 +40,6 @@ namespace ActionsList
 
         public override void RevertActionOnFail()
         {
-            base.RevertActionOnFail();
-
             Phases.GoBack();
         }
     }

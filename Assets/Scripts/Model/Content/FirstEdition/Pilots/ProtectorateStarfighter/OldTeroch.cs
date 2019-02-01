@@ -55,6 +55,8 @@ namespace Abilities.FirstEdition
             // first check if there is at least one enemy at range 1
             if (TargetsForAbilityExist(FilterTargetsOfAbility))
             {
+                Selection.ChangeActiveShip(HostShip);
+
                 // Available selection are only within Range 1.
                 // TODO : build the list if the enemy can fire to the ship
                 SelectTargetForAbility(

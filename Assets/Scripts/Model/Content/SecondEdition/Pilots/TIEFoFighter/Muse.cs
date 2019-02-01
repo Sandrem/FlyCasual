@@ -52,6 +52,8 @@ namespace Abilities.SecondEdition
 
         protected virtual void AskSelectShip(object sender, System.EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             SelectTargetForAbility(
                 TryRemoveStress,
                 FilterTargetsOfAbility,

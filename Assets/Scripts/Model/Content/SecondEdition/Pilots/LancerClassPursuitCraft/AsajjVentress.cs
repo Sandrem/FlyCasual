@@ -44,6 +44,8 @@ namespace Abilities.SecondEdition
 
         protected override void AskSelectShip(object sender, System.EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             SelectTargetForAbility(
                 CheckAssignStress,
                 FilterTargetsOfAbility,

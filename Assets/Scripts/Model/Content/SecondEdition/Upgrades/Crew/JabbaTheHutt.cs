@@ -54,6 +54,7 @@ namespace Abilities.SecondEdition
         {
             if (HostUpgrade.State.Charges > 0 && TargetsForAbilityExist(FilterAbilityTarget))
             {
+                Selection.ChangeActiveShip(HostShip);
                 Messages.ShowInfoToHuman("Jabba the Hutt: Select 1 ship to recover 1 charge on an illicit upgrade.");
 
                 SelectTargetForAbility(

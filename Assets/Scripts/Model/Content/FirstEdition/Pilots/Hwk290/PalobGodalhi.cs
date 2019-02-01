@@ -53,6 +53,7 @@ namespace Abilities.FirstEdition
         {
             if (TargetsForAbilityExist(FilterAbilityTarget))
             {
+                Selection.ChangeActiveShip(HostShip);
                 Messages.ShowInfoToHuman("Palob Godalhi: Select a ship to remove Focus/Evade token from");
 
                 SelectTargetForAbility(

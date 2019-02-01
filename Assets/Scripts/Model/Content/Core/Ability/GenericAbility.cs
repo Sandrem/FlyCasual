@@ -304,8 +304,6 @@ namespace Abilities
         /// </summary>
         protected bool TargetsForAbilityExist(Func<GenericShip, bool> filter)
         {
-            Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
-
             return Roster.AllShips.Values.FirstOrDefault(n => filter(n)) != null;
         }
 

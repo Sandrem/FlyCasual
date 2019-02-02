@@ -1,4 +1,4 @@
-﻿using RuleSets;
+﻿using Editions;
 using Ship;
 using System;
 using System.Collections;
@@ -60,11 +60,28 @@ public class SmallCardArt : MonoBehaviour {
         Rect imageRect = new Rect();
         if (imageSource is GenericShip)
         {
-            imageRect = (RuleSet.Instance is SecondEdition) ? new Rect(0, 0, 503, 205) : new Rect(0, 0, 298, 124);
+            if (Edition.Current is SecondEdition)
+            {
+                TextureScale.Bilinear(newTexture, 503, 700);
+                imageRect = new Rect(0, 0, 503, 205);
+            }
+            else if (Edition.Current is FirstEdition)
+            {
+                TextureScale.Bilinear(newTexture, 300, 418);
+                imageRect = new Rect(0, 0, 298, 124);
+            }
         }
         else if (imageSource is GenericUpgrade)
         {
-            imageRect = (RuleSet.Instance is SecondEdition) ? new Rect(281, 0, 394, 202) : new Rect(0, 0, 194, 106);
+            if (Edition.Current is SecondEdition)
+            {
+                TextureScale.Bilinear(newTexture, 700, 503);
+                imageRect = new Rect(281, 0, 394, 202);
+            }
+            else
+            {
+                new Rect(0, 0, 194, 106);
+            }
         }
 
         Sprite newSprite = Sprite.Create(

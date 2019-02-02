@@ -8,12 +8,12 @@ namespace RulesList
 
         public void RegenerateForce(GenericShip ship)
         {
-            if (ship.Force < ship.MaxForce) ship.Force++;
+            if (ship.State.Force < ship.State.MaxForce) ship.State.Force++;
         }
 
         public void AddForceAction(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.ForceAction() { Host = ship });
+            ship.AddAvailableDiceModification(new ActionsList.ForceAction() { HostShip = ship });
         }
     }
 }

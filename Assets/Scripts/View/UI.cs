@@ -148,6 +148,24 @@ public class UI : MonoBehaviour {
         GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.SetActive(!GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.activeSelf);
     }
 
+    public void ToggleControls()
+    {
+        if (CameraScript.InputTouchIsEnabled)
+        {
+            CameraScript.InputMouseIsEnabled = true;
+        }
+        else
+        {
+            CameraScript.InputTouchIsEnabled = true;
+        }
+        UpdateControlsButtonName();
+    }
+
+    public static void UpdateControlsButtonName()
+    {
+        GameObject.Find("UI/ToolsPanel/ControlsButton").GetComponentInChildren<Text>().text = "Controls: " + ((CameraScript.InputTouchIsEnabled) ? "Touch" : "Mouse");
+    }
+
     public void ToggleGameLog()
     {
         GameObject.Find("UI").transform.Find("MiniMapHolder").gameObject.SetActive(false);
@@ -247,22 +265,12 @@ public class UI : MonoBehaviour {
 
     public static void CheckFiringRangeAndShow()
     {
-        ShotInfo shotInfo = Actions.GetFiringRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
-        if (shotInfo.Range < 4)
-        {
-            Messages.ShowInfo("Range " + shotInfo.Range);
-            if (!shotInfo.InArc) Messages.ShowInfoToHuman("Out of arc");
-        }
-        else
-        {
-            Messages.ShowError("Out of range");
-        }
-        
+        ActionsHolder.GetRangeAndShow(Selection.ThisShip, Selection.AnotherShip);
     }
 
     public static void ShowNextButton()
     {
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human)
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).PlayerType == Players.PlayerType.Human)
         {
             GameObject.Find("UI").transform.Find("NextPanel").gameObject.SetActive(true);
             GameObject.Find("UI/NextPanel").transform.Find("NextButton").GetComponent<Animator>().enabled = false;
@@ -281,7 +289,7 @@ public class UI : MonoBehaviour {
 
     public static void ShowSkipButton(string text = null)
     {
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).Type == Players.PlayerType.Human)
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).PlayerType == Players.PlayerType.Human)
         {
             GameObject.Find("UI").transform.Find("SkipPanel").GetComponentInChildren<Text>().text = text ?? "Skip";
             GameObject.Find("UI").transform.Find("SkipPanel").gameObject.SetActive(true);

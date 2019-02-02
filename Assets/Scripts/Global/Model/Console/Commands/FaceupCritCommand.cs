@@ -50,7 +50,7 @@ namespace CommandsList
         {
             get
             {
-                return RuleSets.RuleSet.Instance is RuleSets.FirstEdition
+                return Editions.Edition.Current is Editions.FirstEdition
                     ? stringToTypeFE
                     : stringToTypeSE;
             }

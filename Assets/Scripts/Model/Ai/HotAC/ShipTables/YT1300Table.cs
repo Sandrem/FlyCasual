@@ -82,6 +82,7 @@ namespace AI
 
         public override void AdaptToSecondEdition()
         {
+            ReplaceManeuver("3.F.R", "3.L.R");
             ReplaceManeuver("1.L.T", "1.L.B");
             ReplaceManeuver("1.R.T", "1.R.B");
 

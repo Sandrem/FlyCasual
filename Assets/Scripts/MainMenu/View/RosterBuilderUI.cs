@@ -127,7 +127,7 @@ public class RosterBuilderUI : MonoBehaviour {
     {
         if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
-            SquadBuilder.SaveSquadConfigurations();
+            SquadBuilder.SaveAutosaveSquadConfigurations();
 
             if (!SquadBuilder.IsNetworkGame)
             {
@@ -138,6 +138,16 @@ public class RosterBuilderUI : MonoBehaviour {
                 MainMenu.CurrentMainMenu.ChangePanel("MultiplayerDecisionPanel");
             }
         }
+    }
+
+    public void LoadSquadDirectly()
+    {
+        MainMenu.CurrentMainMenu.ChangePanel("BrowseSavedSquadsPanel");
+    }
+
+    public void ChangeAiMode(Text textComponent)
+    {
+        SquadBuilder.ToggleAiType();
     }
 
 }

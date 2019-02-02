@@ -15,7 +15,7 @@ namespace Players
     {
         public ReplayPlayer() : base()
         {
-            Type = PlayerType.Replay;
+            PlayerType = PlayerType.Replay;
             Name = "Replay";
         }
 
@@ -26,7 +26,8 @@ namespace Players
 
         public override void RerollManagerIsPrepared()
         {
-            DiceRerollManager.CurrentDiceRerollManager.ConfirmRerollButtonIsPressed();
+            base.RerollManagerIsPrepared();
+            GameController.CheckExistingCommands();
         }
 
         public override void ConfirmDiceCheck()

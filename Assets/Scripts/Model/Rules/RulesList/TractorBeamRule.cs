@@ -8,7 +8,7 @@ using Players;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using RuleSets;
+using Editions;
 
 namespace RulesList
 {
@@ -35,18 +35,24 @@ namespace RulesList
 
             if (ShouldDecreaseAgility(ship)) ship.ChangeAgilityBy(-1);
 
-            if (ship.Tokens.CountTokensByType (typeof(TractorBeamToken)) == 1 && ship.ShipBaseSize == BaseSize.Small) 
+            if (IsTractorBeamReposition(ship))
             {
                 TractorBeamToken token = (TractorBeamToken)ship.Tokens.GetToken(typeof(TractorBeamToken));
                 token.Assigner.PerformTractorBeamReposition(ship);
             }
         }
 
+        public static bool IsTractorBeamReposition(GenericShip ship)
+        {
+            int tractorBeamTokensCount = ship.Tokens.GetAllTokens().Count(n => n is TractorBeamToken);
+            return (tractorBeamTokensCount == Edition.Current.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
+        }
+
         private bool ShouldDecreaseAgility(GenericShip ship)
         {
             bool result = true;
 
-            if (RuleSet.Instance is SecondEdition)
+            if (Edition.Current is SecondEdition)
             {
                 int tractorBeamTokensCount = ship.Tokens.CountTokensByType(typeof(TractorBeamToken));
                 if (tractorBeamTokensCount > 1) result = false;
@@ -90,7 +96,7 @@ namespace RulesList
         {
             bool result = true;
 
-            if (RuleSet.Instance is SecondEdition)
+            if (Edition.Current is SecondEdition)
             {
                 int tractorBeamTokensCount = ship.Tokens.CountTokensByType(typeof(TractorBeamToken));
                 if (tractorBeamTokensCount > 0) result = false;
@@ -141,7 +147,7 @@ namespace SubPhases
             RegisterTractorPlanning();
         }
 
-        private void RegisterTractorPlanning()
+        public void RegisterTractorPlanning()
         {
             Triggers.RegisterTrigger(new Trigger()
             {
@@ -168,7 +174,7 @@ namespace SubPhases
             }
         }
 
-        private void PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants template)
+        private void PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants template)
         {
             BarrelRollPlanningSubPhase brPlanning = (BarrelRollPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select position",
@@ -191,12 +197,12 @@ namespace SubPhases
 
         private void PerfromLeftBrTemplatePlanning()
         {
-            PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants.Straight1Left);
+            PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants.Straight1Left);
         }
 
         private void PerfromRightBrTemplatePlanning()
         {
-            PerfromBrTemplatePlanning(Actions.BarrelRollTemplateVariants.Straight1Right);
+            PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants.Straight1Right);
         }
 
         private void PerfromStraightTemplatePlanning()
@@ -223,6 +229,18 @@ namespace SubPhases
                 Triggers.FinishTrigger
             );
 
+            if (canBoost)
+            {
+                selectTractorDirection.AddDecision(
+                    "Straight",
+                    delegate {
+                        selectedPlanningAction = PerfromStraightTemplatePlanning;
+                        DecisionSubPhase.ConfirmDecision();
+                    },
+                    isCentered: true
+                );
+            }
+
             selectTractorDirection.AddDecision("Left", delegate {
                 selectedPlanningAction = PerfromLeftBrTemplatePlanning;
                 DecisionSubPhase.ConfirmDecision();
@@ -233,15 +251,7 @@ namespace SubPhases
                 DecisionSubPhase.ConfirmDecision();
             });
 
-            if (canBoost)
-            {
-                selectTractorDirection.AddDecision("Straight", delegate {
-                    selectedPlanningAction = PerfromStraightTemplatePlanning;
-                    DecisionSubPhase.ConfirmDecision();
-                });
-            }
-
-            selectTractorDirection.InfoText = "Select tractor beam direction for " + TheShip.PilotName;
+            selectTractorDirection.InfoText = "Select tractor beam direction for " + TheShip.PilotInfo.PilotName;
             selectTractorDirection.DefaultDecisionName = selectTractorDirection.GetDecisions().First().Name;
             selectTractorDirection.RequiredPlayer = Assigner.PlayerNo;
             selectTractorDirection.ShowSkipButton = true;

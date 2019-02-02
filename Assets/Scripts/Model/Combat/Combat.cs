@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using BoardTools;
-using GameModes;
 using Ship;
 using SubPhases;
-using ActionsList;
 using GameCommands;
+using Upgrade;
+using Arcs;
 
 public enum CombatStep
 {
@@ -60,6 +60,8 @@ public static partial class Combat
 
     public static bool IsAttackAlreadyCalled;
 
+    public static GenericArc ArcForShot;
+
     public static void Initialize()
     {
         CleanupCombatData();
@@ -67,7 +69,7 @@ public static partial class Combat
 
     // DECLARE INTENT TO ATTACK
 
-    public static GameCommand GenerateIntentToAttackCommand(int attackerId, int defenderId, bool weaponIsAlreadySelected = false)
+    public static GameCommand GenerateIntentToAttackCommand(int attackerId, int defenderId, bool weaponIsAlreadySelected = false, IShipWeapon chosenWeapon = null)
     {
         if (!IsAttackAlreadyCalled)
         {
@@ -77,6 +79,8 @@ public static partial class Combat
             parameters.AddField("id", attackerId.ToString());
             parameters.AddField("target", defenderId.ToString());
             parameters.AddField("weaponIsAlreadySelected", weaponIsAlreadySelected.ToString());
+            parameters.AddField("weapon", (chosenWeapon != null) ? chosenWeapon.Name : null);
+
             return GameController.GenerateGameCommand(
                 GameCommandTypes.DeclareAttack,
                 Phases.CurrentSubPhase.GetType(),
@@ -106,9 +110,7 @@ public static partial class Combat
         }
         else
         {
-            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
             ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-
             TryPerformAttack(isSilent: true);
         }
     }
@@ -117,9 +119,9 @@ public static partial class Combat
 
     private static void SelectWeapon()
     {
-        int anotherAttacksTypesCount = Selection.ThisShip.GetAnotherAttackTypesCount();
+        List<IShipWeapon> weapons = GetAvailbleAttackTypes(Selection.ThisShip, Selection.AnotherShip);
 
-        if (anotherAttacksTypesCount > 0)
+        if (weapons.Count > 1)
         {
             Phases.StartTemporarySubPhaseOld(
                 "Choose weapon for attack",
@@ -127,13 +129,36 @@ public static partial class Combat
                 delegate { TryPerformAttack(isSilent: false); }
             );
         }
+        else if (weapons.Count == 1)
+        {
+            Combat.ChosenWeapon = weapons.First();
+            Messages.ShowInfo("Attack with " + Combat.ChosenWeapon.Name);
+
+            Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
+
+            Combat.ShotInfo.CheckObstruction(delegate {
+                TryPerformAttack(isSilent: false);
+            });
+        }
         else
         {
-            ChosenWeapon = Selection.ThisShip.PrimaryWeapon;
-            ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-
+            // Messages.ShowError("Error: No weapon to use");
             TryPerformAttack(isSilent: false);
         }
+    }
+
+    // COUNT ATTACK TYPES
+
+    private static List<IShipWeapon> GetAvailbleAttackTypes(GenericShip thisShip, GenericShip anotherShip)
+    {
+        List<IShipWeapon> availableWeapons = new List<IShipWeapon>();
+
+        foreach (IShipWeapon shipWeapon in thisShip.GetAllWeapons())
+        {
+            if (shipWeapon.IsShotAvailable(anotherShip)) availableWeapons.Add(shipWeapon);
+        }
+
+        return availableWeapons;
     }
 
     // CHECK LEGALITY OF ATTACK
@@ -141,9 +166,10 @@ public static partial class Combat
     public static void TryPerformAttack(bool isSilent)
     {
         UI.HideContextMenu();
+
         MovementTemplates.ReturnRangeRuler();
 
-        if (IsTargetLegalForAttack(Selection.AnotherShip, ChosenWeapon, isSilent))
+        if (ChosenWeapon != null && Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent))
         {
             UI.HideSkipButton();
             Roster.AllShipsHighlightOff();
@@ -161,34 +187,8 @@ public static partial class Combat
 
     private static void SetArcAsUsedForAttack()
     {
-        if (Combat.ShotInfo.ShotAvailableFromArcs.Count == 1)
-        {
-            Combat.ShotInfo.ShotAvailableFromArcs.First().WasUsedForAttackThisRound = true;
-        }
-        else if (Combat.ShotInfo.ShotAvailableFromArcs.Count > 1)
-        {
-            // if few arcs are available, non-mobile arc is used
-            Combat.ShotInfo.ShotAvailableFromArcs.First(a => a.ArcType != Arcs.ArcTypes.Mobile).WasUsedForAttackThisRound = true;
-        }
-        else
-        {
-            Messages.ShowError("ERROR: No available arcs?");
-        }
-    }
-
-    public static bool IsTargetLegalForAttack(GenericShip targetShip, IShipWeapon weapon, bool isSilent)
-    {
-        bool result = false;
-
-        if (Rules.TargetIsLegalForShot.IsLegal(true) && weapon.IsShotAvailable(targetShip))
-        {
-            if (ExtraAttackFilter == null || ExtraAttackFilter(targetShip, weapon, isSilent))
-            {
-                result = true;
-            }
-        }
-
-        return result;
+        Combat.ArcForShot = Combat.ShotInfo.ShotAvailableFromArcs.FirstOrDefault();
+        if (ArcForShot != null) ArcForShot.WasUsedForAttackThisRound = true;
     }
 
     private static void CheckFireLineCollisions()
@@ -294,7 +294,6 @@ public static partial class Combat
 
         AttackStep = CombatStep.CompareResults;
 
-        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);
     }
 
@@ -391,8 +390,8 @@ public static partial class Combat
 
     private static void CheckTwinAttack()
     {
-        Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = ChosenWeapon as Upgrade.GenericSecondaryWeapon;
-        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.IsTwinAttack && !(Defender.IsDestroyed || Defender.IsReadyToBeDestroyed))
+        GenericSpecialWeapon chosenSecondaryWeapon = ChosenWeapon as GenericSpecialWeapon;
+        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.WeaponInfo.TwinAttack && !(Defender.IsDestroyed || Defender.IsReadyToBeDestroyed))
         {
             if (attacksCounter == 0)
             {
@@ -484,6 +483,7 @@ public static partial class Combat
         Defender = null;
         ChosenWeapon = null;
         ShotInfo = null;
+        ArcForShot = null;
         hitsCounter = 0;
         ExtraAttackFilter = null;
         IsAttackAlreadyCalled = false;
@@ -529,7 +529,6 @@ namespace SubPhases
         {
             List<IShipWeapon> allWeapons = Selection.ThisShip.GetAllWeapons();
 
-            //TODO: Range?
             InfoText = "Choose weapon for attack";
 
             foreach (var weapon in allWeapons)
@@ -537,13 +536,28 @@ namespace SubPhases
                 if (weapon.IsShotAvailable(Selection.AnotherShip))
                 {
                     AddDecision(weapon.Name, delegate { PerformAttackWithWeapon(weapon); });
-                    AddTooltip(weapon.Name, (weapon as Upgrade.GenericSecondaryWeapon != null) ? (weapon as Upgrade.GenericSecondaryWeapon).ImageUrl : null );
+                    AddTooltip(weapon.Name, (weapon as GenericSpecialWeapon != null) ? (weapon as GenericSpecialWeapon).ImageUrl : null );
                 }
             }
+
+            RemoveExtraDecisions();
 
             DefaultDecisionName = GetDecisions().Last().Name;
 
             callBack();
+        }
+
+        private void RemoveExtraDecisions()
+        {
+            if (decisions.Any(n => n.Name == "Primary Weapon (Front)") && decisions.Any(n => n.Name == "Primary Weapon (360)"))
+            {
+                decisions.RemoveAll(n => n.Name == "Primary Weapon (Front)");
+            }
+
+            if (decisions.Any(n => n.Name == "Primary Weapon (Front)") && decisions.Any(n => n.Name == "Primary Weapon (Full Front)"))
+            {
+                decisions.RemoveAll(n => n.Name == "Primary Weapon (Front)");
+            }
         }
 
         public void PerformAttackWithWeapon(IShipWeapon weapon)

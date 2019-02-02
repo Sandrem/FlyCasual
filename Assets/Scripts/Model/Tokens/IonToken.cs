@@ -1,4 +1,4 @@
-﻿using RuleSets;
+﻿using Editions;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace Tokens
         public bool IsIonized()
         {
             int ionTokensCount = Host.Tokens.GetAllTokens().Count(n => n is IonToken);
-            return (ionTokensCount >= RuleSet.Instance.NegativeTokensToAffectShip[Host.ShipBaseSize]);
+            return (ionTokensCount >= Edition.Current.NegativeTokensToAffectShip[Host.ShipInfo.BaseSize]);
         }
 
         public override void WhenRemoved()

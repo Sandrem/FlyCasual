@@ -44,19 +44,21 @@ namespace Movement
 
         public override GameObject[] PlanMovement()
         {
-            GameObject[] result = new GameObject[101];
+            int precision = (IsSimple) ? 10 : 100;
 
-            float distancePart = (TheShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1())/100f;
+            GameObject[] result = new GameObject[precision + 1];
+
+            float distancePart = (TheShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1()) / (float)precision;
             Vector3 position = TheShip.GetPosition();
 
-            for (int i = 0; i <= 100; i++)
+            for (int i = 0; i <= precision; i++)
             {
                 if (i > 0) position = Vector3.MoveTowards(position, position + TheShip.TransformDirection(Vector3.forward), distancePart);
                 GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
                 GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TheShip.GetRotation(), BoardTools.Board.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
-                if (!DebugManager.DebugMovement)
+                if (!DebugManager.DebugMovementShowTempBases)
                 {
                     foreach (var render in renderers)
                     {

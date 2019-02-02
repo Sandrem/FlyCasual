@@ -10,7 +10,7 @@ namespace Movement
     {
         public KoiogranTurnMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color) : base(speed, direction, bearing, color)
         {
-
+            RotationEndDegrees = 180;
         }
 
         protected override void ManeuverEndRotation(Action callBack)

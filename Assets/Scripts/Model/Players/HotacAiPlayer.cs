@@ -15,17 +15,35 @@ namespace Players
         public HotacAiPlayer() : base()
         {
             Name = "HotAC AI";
+
+            NickName = "HotAC AI";
+            Title = "Protocol Droid";
+            Avatar = "UpgradesList.FirstEdition.C3PO";
+
             UsesHotacAiRules = true;
+        }
+
+        public override void AssignManeuver()
+        {
+            base.AssignManeuver();
+
+            foreach (var ship in Ships.Values)
+            {
+                if (ship.State.IsIonized) continue;
+
+                ShipMovementScript.SendAssignManeuverCommand(ship.ShipId, "2.F.S");
+            }
+            GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
         }
 
         public override void ActivateShip(GenericShip ship)
         {
-            Console.Write(ship.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
+            Console.Write(ship.PilotInfo.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
 
             GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
-            Console.Write("Nearest enemy is " + ship.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
+            Console.Write("Nearest enemy is " + ship.PilotInfo.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
 
             // TODO: remove null variant
 
@@ -60,71 +78,6 @@ namespace Players
             if (!isTargetLockPerformed)
             {
                 PerformManeuverOfShip(ship);
-            }
-        }
-
-        public override void TakeDecision()
-        {
-            if (Phases.CurrentSubPhase is ActionDecisonSubPhase)
-            {
-                PerformActionFromList(Selection.ThisShip.GetAvailableActions());
-            }
-            else if (Phases.CurrentSubPhase is FreeActionDecisonSubPhase)
-            {
-                PerformActionFromList(Selection.ThisShip.GetAvailableFreeActions());
-            }
-            else (Phases.CurrentSubPhase as DecisionSubPhase).DoDefault();
-        }
-
-        private void PerformActionFromList(List<ActionsList.GenericAction> actionsList)
-        {
-            bool isActionTaken = false;
-
-            if (Selection.ThisShip.Tokens.GetToken(typeof(Tokens.StressToken)) != null)
-            {
-                isActionTaken = true;
-                Selection.ThisShip.Tokens.RemoveToken(
-                    typeof(Tokens.StressToken),
-                    Phases.CurrentSubPhase.CallBack
-                );
-            }
-            else
-            {
-                List<ActionsList.GenericAction> availableActionsList = actionsList;
-
-                Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
-
-                foreach (var action in availableActionsList)
-                {
-                    int priority = action.GetActionPriority();
-                    actionsPriority.Add(action, priority);
-                }
-
-                actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
-
-                if (actionsPriority.Count > 0)
-                {
-                    KeyValuePair<ActionsList.GenericAction, int> prioritizedActions = actionsPriority.First();
-
-                    if (prioritizedActions.Value > 0)
-                    {
-                        isActionTaken = true;
-
-                        //Actions.TakeActionStart(prioritizedActions.Key);
-                        JSONObject parameters = new JSONObject();
-                        parameters.AddField("name", prioritizedActions.Key.Name);
-                        GameController.SendCommand(
-                            GameCommandTypes.Decision,
-                            Phases.CurrentSubPhase.GetType(),
-                            parameters.ToString()
-                        );
-                    }
-                }
-            }
-
-            if (!isActionTaken)
-            {
-                GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
             }
         }
 

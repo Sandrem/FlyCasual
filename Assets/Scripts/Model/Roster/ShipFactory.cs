@@ -1,4 +1,4 @@
-﻿using RuleSets;
+﻿using Editions;
 using Ship;
 using SquadBuilderNS;
 using System.Collections;
@@ -60,7 +60,7 @@ public static class ShipFactory {
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;
         newShipContainer.AfterStatsAreChanged += Roster.UpdateShipStats;
 
-        RuleSet.Instance.SubScribeToGenericShipEvents(newShipContainer);
+        Edition.Current.SubScribeToGenericShipEvents(newShipContainer);
 
         return newShipContainer;
 	}

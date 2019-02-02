@@ -189,22 +189,22 @@ namespace Bombs
 
         public static void CheckBombDropAvailability(GenericShip ship)
         {
-            if (!ship.IsBombAlreadyDropped && HasTimedBombs(ship))
+            if (!ship.IsBombAlreadyDropped && HasBombsToDrop(ship))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Ask what bomb to drop",
                     TriggerType = TriggerTypes.OnMovementActivation,
                     TriggerOwner = ship.Owner.PlayerNo,
-                    EventHandler = AskWhatBombToDrop,
+                    EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip)),
                     Sender = ship
                 });
             }
         }
 
-        private static void AskWhatBombToDrop(object sender, EventArgs e)
+        public static void CreateAskBombDropSubPhase(GenericShip ship)
         {
-            Selection.ChangeActiveShip("ShipId:" + (sender as GenericShip).ShipId);
+            Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
 
             BombDecisionSubPhase selectBombToDrop = (BombDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select bomb to drop",
@@ -212,10 +212,10 @@ namespace Bombs
                 CheckSelectedBomb
             );
 
-            foreach (var timedBombInstalled in GetTimedBombsInstalled(Selection.ThisShip))
+            foreach (var timedBombInstalled in GetBombsToDrop(Selection.ThisShip))
             {
                 selectBombToDrop.AddDecision(
-                    timedBombInstalled.Name,
+                    timedBombInstalled.UpgradeInfo.Name,
                     delegate { SelectBomb(timedBombInstalled); }
                 );
             }
@@ -236,7 +236,7 @@ namespace Bombs
 
         private static void SelectBomb(GenericUpgrade timedBombUpgrade)
         {
-            CurrentBomb = timedBombUpgrade as GenericTimedBomb;
+            CurrentBomb = timedBombUpgrade as GenericBomb;
             DecisionSubPhase.ConfirmDecision();
         }
 
@@ -314,15 +314,23 @@ namespace Bombs
 
         private class WayToDropDecisionSubPhase : DecisionSubPhase { }
 
-        public static List<GenericUpgrade> GetTimedBombsInstalled(GenericShip ship)
+        public static List<GenericUpgrade> GetBombsToDrop(GenericShip ship)
         {
-            return ship.UpgradeBar.GetUpgradesOnlyFaceup().Where(n => n.GetType().BaseType == typeof(GenericTimedBomb)).Where(n => n.UsesCharges == false || (n.UsesCharges == true && n.Charges > 0)).ToList();
+            return ship.UpgradeBar.GetUpgradesOnlyFaceup()
+                .Where(n => n.GetType().BaseType == typeof(GenericTimedBomb) || 
+                    n.GetType().BaseType == typeof(GenericTimedBombSE) || n.GetType().BaseType == typeof(GenericContactMineSE))
+                .Where(n => n.State.UsesCharges == false || (n.State.UsesCharges == true && n.State.Charges > 0))
+                .ToList();
         }
 
-        public static bool HasTimedBombs(GenericShip ship)
+        public static bool HasBombsToDrop(GenericShip ship)
         {
-            int timedBombsInstalledCount = GetTimedBombsInstalled(ship).Count;
-            return timedBombsInstalledCount > 0;
+            return GetBombsToDrop(ship).Any();
+        }
+
+        public static Dictionary<GameObject, GenericBomb> GetBombsOnBoard()
+        {
+            return bombsList;
         }
 
     }

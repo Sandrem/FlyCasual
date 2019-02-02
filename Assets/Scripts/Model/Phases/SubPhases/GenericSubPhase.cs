@@ -76,7 +76,7 @@ namespace SubPhases
         public virtual bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.PilotSkill == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }
@@ -130,7 +130,7 @@ namespace SubPhases
 
         public virtual void DoSelectAnotherShip(GenericShip ship, int mouseKeyIsPressed) { }
 
-        protected static void HideSubphaseDescription()
+        public static void HideSubphaseDescription()
         {
             GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription").gameObject;
             subphaseDescriptionGO.SetActive(false);
@@ -139,7 +139,7 @@ namespace SubPhases
             subphaseDescriptionGO.SetActive(false);
         }
 
-        protected void ShowSubphaseDescription(string title, string description, IImageHolder imageSource = null)
+        public void ShowSubphaseDescription(string title, string description, IImageHolder imageSource = null)
         {
             HideSubphaseDescription();
             if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))

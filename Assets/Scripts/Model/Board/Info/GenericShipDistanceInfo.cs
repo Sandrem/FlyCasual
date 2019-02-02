@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Editions;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,33 @@ namespace BoardTools
     {
         public Vector3 Point1 { get; private set; }
         public Vector3 Point2 { get; private set; }
-        public int Range { get { return Mathf.Max(1, Mathf.CeilToInt(DistanceReal / Board.DISTANCE_INTO_RANGE)); } }
+        public GenericShip Ship1 { get; private set; }
+        public GenericShip Ship2 { get; private set; }
+
         public float DistanceReal { get; private set; }
         public Vector3 Vector { get { return Point2 - Point1; } }
 
-        public RangeHolder(Vector3 point1, Vector3 point2)
+        public int Range
+        {
+            get
+            {
+                if (Edition.Current is SecondEdition)
+                {
+                    if (Ship1 == Ship2 || Ship1.ShipsBumped.Contains(Ship2))
+                        return 0;
+                }
+
+                return Mathf.Max(1, Mathf.CeilToInt(DistanceReal / Board.DISTANCE_INTO_RANGE));
+            }
+        }
+
+        public RangeHolder(Vector3 point1, Vector3 point2, GenericShip ship1, GenericShip ship2)
         {
             Point1 = point1;
             Point2 = point2;
+
+            Ship1 = ship1;
+            Ship2 = ship2;
 
             CalculateDistance();
         }
@@ -57,7 +77,7 @@ namespace BoardTools
             {
                 foreach (var ship2point in Ship2.ShipBase.GetBaseEdges().Values.ToList())
                 {
-                    distances.Add(new RangeHolder(ship1point, ship2point));
+                    distances.Add(new RangeHolder(ship1point, ship2point, Ship1, Ship2));
                 }
             }
 
@@ -95,7 +115,7 @@ namespace BoardTools
                 Vector3 difference = ship2sideVector * scale;
                 Vector3 nearestPoint = MinDistance.Point2 + difference;
 
-                minDistancePerpA = new RangeHolder(MinDistance.Point1, nearestPoint);
+                minDistancePerpA = new RangeHolder(MinDistance.Point1, nearestPoint, Ship1, Ship2);
             }
         }
 
@@ -122,7 +142,7 @@ namespace BoardTools
                 Vector3 difference = ship2sideVector * scale;
                 Vector3 nearestPoint = MinDistance.Point1 + difference;
 
-                minDistancePerpB = new RangeHolder(nearestPoint, MinDistance.Point2);
+                minDistancePerpB = new RangeHolder(nearestPoint, MinDistance.Point2, Ship1, Ship2);
             }
         }
 

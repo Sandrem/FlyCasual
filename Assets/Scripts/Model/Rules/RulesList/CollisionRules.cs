@@ -25,7 +25,7 @@ namespace RulesList
 
         public void CheckSkipPerformAction()
         {
-            if (Selection.ThisShip.IsBumped)
+            if (Selection.ThisShip.IsBumped && !Selection.ThisShip.CanPerformActionsWhenBumped)
             {
                 Messages.ShowErrorToHuman("Collided into ship - action subphase is skipped");
                 Selection.ThisShip.IsSkipsActionSubPhase = true;

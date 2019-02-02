@@ -4,7 +4,7 @@ using UnityEngine;
 using Upgrade;
 using Tokens;
 using System.Linq;
-using RuleSets;
+using Editions;
 using SubPhases;
 
 namespace ActionsList
@@ -21,7 +21,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            RuleSet.Instance.ReloadAction();
+            Edition.Current.ReloadAction();
         }
 
         public static void FlipFaceupRecursive()
@@ -51,9 +51,14 @@ namespace ActionsList
             return result;
         }
 
+        private static List<GenericUpgrade> GetReloadableUpgrades()
+        {
+            return Selection.ThisShip.UpgradeBar.GetRechargableUpgrades(new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb });
+        }
+
         public static void RestoreOneCharge()
         {
-            List<GenericUpgrade> rechargableUpgrades = Selection.ThisShip.UpgradeBar.GetRechargableUpgrades();
+            List<GenericUpgrade> rechargableUpgrades = GetReloadableUpgrades();
 
             if (rechargableUpgrades.Count > 1)
             {
@@ -61,8 +66,8 @@ namespace ActionsList
             }
             else if (rechargableUpgrades.Count == 1)
             {
-                rechargableUpgrades[0].RestoreCharge();
-                Messages.ShowInfo("Reload: One charge of \"" + rechargableUpgrades[0].NameOriginal + "\" is restored");
+                rechargableUpgrades[0].State.RestoreCharge();
+                Messages.ShowInfo("Reload: One charge of \"" + rechargableUpgrades[0].UpgradeInfo.Name + "\" is restored");
                 AssignTokenAndFinish();
             }
             else
@@ -80,9 +85,9 @@ namespace ActionsList
             subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
             subphase.DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 
-            foreach (GenericUpgrade upgrade in Selection.ThisShip.UpgradeBar.GetRechargableUpgrades())
+            foreach (GenericUpgrade upgrade in GetReloadableUpgrades())
             {
-                subphase.AddDecision(upgrade.Name, delegate { RechargeUpgrade(upgrade); }, upgrade.ImageUrl, upgrade.Charges);
+                subphase.AddDecision(upgrade.UpgradeInfo.Name, delegate { RechargeUpgrade(upgrade); }, upgrade.ImageUrl, upgrade.State.Charges);
             }
 
             subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
@@ -97,8 +102,8 @@ namespace ActionsList
 
         private static void RechargeUpgrade(GenericUpgrade upgrage)
         {
-            upgrage.RestoreCharge();
-            Messages.ShowInfo("Reload: One charge of \"" + upgrage.NameOriginal + "\" is restored");
+            upgrage.State.RestoreCharge();
+            Messages.ShowInfo("Reload: One charge of \"" + upgrage.UpgradeInfo.Name + "\" is restored");
 
             DecisionSubPhase.ConfirmDecision();
         }

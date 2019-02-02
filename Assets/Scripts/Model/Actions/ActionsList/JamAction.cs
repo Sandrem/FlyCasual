@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Tokens;
-using RuleSets;
+using Editions;
 
 namespace ActionsList
 {
@@ -55,14 +55,14 @@ namespace SubPhases
             int result = 0;
 
             result += HasTokenPriority(ship);
-            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.UpgradeInfo.Cost);
 
             return result;
         }
 
         private int HasTokenPriority(GenericShip ship)
         {
-            if (RuleSet.Instance is SecondEdition && (ship.Tokens.HasToken(typeof(ReinforceAftToken)) || ship.Tokens.HasToken(typeof(ReinforceForeToken)))) return 110;
+            if (Edition.Current is Editions.SecondEdition && (ship.Tokens.HasToken(typeof(ReinforceAftToken)) || ship.Tokens.HasToken(typeof(ReinforceForeToken)))) return 110;
             if (ship.Tokens.HasToken(typeof(FocusToken))) return 100;
             if (ship.ActionBar.HasAction(typeof(ActionsList.EvadeAction)) || ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
             if (ship.ActionBar.HasAction(typeof(ActionsList.TargetLockAction)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
@@ -77,7 +77,7 @@ namespace SubPhases
             BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
             if (distanceInfo.Range <= 1) return true;
 
-            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapon);
+            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapons);
             if (shotInfo.Range <= 2 && shotInfo.InPrimaryArc) return true;
 
             return false;

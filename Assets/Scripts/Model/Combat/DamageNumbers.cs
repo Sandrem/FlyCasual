@@ -23,7 +23,7 @@ static partial class DamageNumbers
 
         foreach (var shipHolder in Roster.AllShips)
         {
-            SavedHP.Add(shipHolder.Key, new HpInfo(shipHolder.Value.Hull, shipHolder.Value.Shields));
+            SavedHP.Add(shipHolder.Key, new HpInfo(shipHolder.Value.State.HullCurrent, shipHolder.Value.State.ShieldsCurrent));
         }
     }
 
@@ -31,8 +31,8 @@ static partial class DamageNumbers
     {
         foreach (var shipHolder in Roster.AllShips)
         {
-            int hullChanged = SavedHP[shipHolder.Key].Hull - shipHolder.Value.Hull;
-            int shieldsChanged = SavedHP[shipHolder.Key].Shields - shipHolder.Value.Shields;
+            int hullChanged = SavedHP[shipHolder.Key].Hull - shipHolder.Value.State.HullCurrent;
+            int shieldsChanged = SavedHP[shipHolder.Key].Shields - shipHolder.Value.State.ShieldsCurrent;
 
             if ((hullChanged != 0) || (shieldsChanged != 0))
             {

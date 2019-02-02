@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using Editions;
+using System.Collections;
 using System.Collections.Generic;
 using Tokens;
-using UnityEngine;
 
 namespace ActionsList
 {
@@ -12,14 +12,15 @@ namespace ActionsList
         public EvadeAction()
         {
             Name = DiceModificationName = "Evade";
+            CanBeUsedFewTimes = (Edition.Current is Editions.SecondEdition);
 
-            TokensSpend.Add(typeof(Tokens.EvadeToken));
+            TokensSpend.Add(typeof(EvadeToken));
         }
 
         public override void ActionEffect(System.Action callBack)
         {
             Combat.CurrentDiceRoll.ApplyEvade();
-            Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.EvadeToken), callBack);
+            Selection.ActiveShip.Tokens.SpendToken(typeof(EvadeToken), callBack);
         }
 
         public override bool IsDiceModificationAvailable()
@@ -43,7 +44,7 @@ namespace ActionsList
                 }
             }
 
-            if (RuleSets.RuleSet.Instance is RuleSets.SecondEdition && Combat.DiceRollDefence.Failures == 0) return 0;
+            if (Editions.Edition.Current is Editions.SecondEdition && Combat.DiceRollDefence.Failures == 0) return 0;
 
             return result;
         }

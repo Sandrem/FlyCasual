@@ -54,7 +54,8 @@ public static partial class Combat
 
                 position += new Vector3(0, -offset, 0);
                 CreateDiceModificationsButton(actionEffect, position);
-                offset += 65;
+
+                offset = 65;
             }
 
             ShowCloseButton(CloseButtonEffect);
@@ -63,7 +64,7 @@ public static partial class Combat
         }
         else
         {
-            if (!(Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer) is Players.HotacAiPlayer))
+            if (Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).PlayerType != Players.PlayerType.Ai)
             {
                 if (type != DiceModificationTimingType.Normal)
                 {
@@ -104,7 +105,6 @@ public static partial class Combat
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
-        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
     }
 
@@ -119,7 +119,6 @@ public static partial class Combat
         Selection.ActiveShip = (AttackStep == CombatStep.Attack) ? Attacker : Defender;
         Phases.CurrentSubPhase.RequiredPlayer = Selection.ActiveShip.Owner.PlayerNo;
 
-        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.AfterRolled);
     }
 

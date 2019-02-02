@@ -2,7 +2,7 @@
 using Tokens;
 using System.Collections.Generic;
 using System.Linq;
-using RuleSets;
+using Editions;
 
 namespace RulesList
 {
@@ -79,7 +79,7 @@ namespace SubPhases
 
             foreach (GenericToken token in Selection.ActiveShip.Tokens.GetAllTokens())
             {
-                if (RuleSet.Instance.IsTokenCanBeDiscardedByJam(token))
+                if (Edition.Current.IsTokenCanBeDiscardedByJam(token))
                 {
                     if (!tokensTypesFound.Contains(token.GetType()) || token.GetType() == typeof(BlueTargetLockToken))
                     {

@@ -42,7 +42,7 @@ namespace BoardTools
             if (Arc.Limits != null && Arc.Limits.Count > 0)
             {
                 float signedAngle = (float) Math.Round(Vector3.SignedAngle(MinDistance.Vector, Ship1.GetFrontFacing(), Vector3.down), 2);
-                if (Arc.Facing != ArcFacing.Rear && Arc.Facing != ArcFacing.Rear180)
+                if (Arc.Facing != ArcFacing.Rear && Arc.Facing != ArcFacing.FullRear)
                 {
                     if (signedAngle < Arc.Limits.First().Value || signedAngle > Arc.Limits.Last().Value) return;
                 }
@@ -85,13 +85,13 @@ namespace BoardTools
                     {
                         if (!rayIsFound)
                         {
-                            MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
+                            MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point, Ship1, Ship2);
                             rayIsFound = true;
                         }
                         else
                         {
-                            RangeHolder secondRayResult = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
-                            if (secondRayResult.DistanceReal < MinDistance.DistanceReal) MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point);
+                            RangeHolder secondRayResult = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point, Ship1, Ship2);
+                            if (secondRayResult.DistanceReal < MinDistance.DistanceReal) MinDistance = new RangeHolder(Ship1.ShipBase.GetGlobalPoint(limit.Key), hitInfo.point, Ship1, Ship2);
                         }
                     }
                 }
@@ -108,11 +108,11 @@ namespace BoardTools
         private void Success()
         {
             //Fix of "Shot Available" for bullseye are when there is no forward-facing arc
-            if (Arc.ArcType != ArcTypes.Bullseye || (Arc.ArcType == ArcTypes.Bullseye && Ship1.ArcInfo.Arcs.Any(a => a.Facing == ArcFacing.Forward)))
+            if (Arc.ArcType != ArcType.Bullseye || (Arc.ArcType == ArcType.Bullseye && Ship1.ArcsInfo.Arcs.Any(a => a.Facing == ArcFacing.Front)))
             {
                 IsShotAvailable = true;
 
-                if (Arc.ArcType != ArcTypes.None)
+                if (Arc.ArcType != ArcType.None)
                 {
                     InArc = true;
                 }

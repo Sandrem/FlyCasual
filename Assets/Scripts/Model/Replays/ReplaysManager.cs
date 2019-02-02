@@ -5,7 +5,7 @@ using System.Text;
 using SquadBuilderNS;
 using Players;
 using UnityEngine;
-using RuleSets;
+using Editions;
 using System.IO;
 using GameCommands;
 
@@ -26,7 +26,7 @@ public static class ReplaysManager
 
         Phases.CurrentSubPhase = null;
 
-        FilePath = Application.persistentDataPath + "/" + RuleSet.Instance.Name + "/Replays";
+        FilePath = Application.persistentDataPath + "/" + Edition.Current.Name + "/Replays";
         if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
         FilePath += "/LastReplay.replay";
 

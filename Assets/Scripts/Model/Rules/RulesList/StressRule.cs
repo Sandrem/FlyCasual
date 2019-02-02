@@ -66,11 +66,11 @@ namespace RulesList
         {
             if (Selection.ThisShip.Tokens.GetToken(typeof(StressToken)) != null)
             {
-                result = Selection.ThisShip.CanPerformActionsWhileStressed || action.CanBePerformedWhileStressed;
+                result = Selection.ThisShip.CanPerformActionsWhileStressed || action.CanBePerformedWhileStressed || Selection.ThisShip.ActionBar.ActionsThatCanbePreformedwhileStressed.Contains(action.GetType());
             }
         }
 
-        public void CannotPerformRedManeuversWhileStressed(GenericShip ship, ref MovementStruct movement)
+        public void CannotPerformRedManeuversWhileStressed(GenericShip ship, ref ManeuverHolder movement)
         {
             if ((movement.ColorComplexity == MovementComplexity.Complex) && (ship.Tokens.GetToken(typeof(StressToken)) != null))
             {
@@ -83,7 +83,7 @@ namespace RulesList
 
         private void AddRemoveStressActionForHotacAI(GenericShip host)
         {
-            host.AddAvailableAction(new HotacRemoveStressAction() { Host = host });
+            host.AddAvailableAction(new HotacRemoveStressAction() { HostShip = host });
         }
 
     }
@@ -104,7 +104,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Host.Tokens.RemoveToken(
+            HostShip.Tokens.RemoveToken(
                 typeof(StressToken),
                 Phases.CurrentSubPhase.CallBack
             );
@@ -113,7 +113,7 @@ namespace ActionsList
         public override int GetActionPriority()
         {
             int result = 0;
-            if (Host.Tokens.HasToken(typeof(StressToken))) result = int.MaxValue;
+            if (HostShip.Tokens.HasToken(typeof(StressToken))) result = int.MaxValue;
             return result;
         }
 

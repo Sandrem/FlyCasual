@@ -141,11 +141,6 @@ namespace GameModes
             Network.SyncDecks(Tools.PlayerToInt(playerNo), seed);
         }
 
-        public override void StartDiceRerollExecution()
-        {
-            //Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceRerollSelected();
-        }
-
         public override void ReturnToMainMenu()
         {
             Network.ReturnToMainMenu();

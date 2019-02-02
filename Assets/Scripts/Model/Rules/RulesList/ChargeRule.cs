@@ -7,11 +7,11 @@ namespace RulesList
     {
         public void RegenerateCharge(GenericShip ship)
         {
-            if (ship.RegensCharges && ship.Charges < ship.MaxCharges) ship.RestoreCharge();
+            if (ship.State.RegensCharges && ship.State.Charges < ship.State.MaxCharges) ship.RestoreCharge();
 
-            ship.UpgradeBar.GetUpgradesAll().Where(u => u.RegensCharges && u.Charges < u.MaxCharges).ToList().ForEach(u =>
+            ship.UpgradeBar.GetUpgradesAll().Where(u => u.UpgradeInfo.RegensCharges && u.State.Charges < u.State.MaxCharges).ToList().ForEach(u =>
             { 
-                u.RestoreCharge();
+                u.State.RestoreCharge();
             });
         }
     }

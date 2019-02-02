@@ -19,12 +19,13 @@ namespace RulesList
 
         public void RedActionCheck(GenericAction action)
         {
-            if (action == null) return;
+            // Selection.ThisShip is null during tractor beam
+            if (action == null || Selection.ThisShip == null) return;
 
             Selection.ThisShip.CallOnCheckActionComplexity(ref action);
 
-            //HotAC AI perfroms red actions as white
-            if (action.IsRed && !Selection.ThisShip.Owner.UsesHotacAiRules)
+            //AI perfroms red actions as white
+            if (action.IsRed && !(Selection.ThisShip.Owner is Players.GenericAiPlayer))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
@@ -43,7 +44,8 @@ namespace RulesList
 
         public void CheckLinkedAction(GenericAction action)
         {
-            if (action == null) return;
+            // Selection.ThisShip is null during tractor beam
+            if (action == null || Selection.ThisShip == null) return;
 
             List<GenericAction> possibleLinkedActions = new List<GenericAction>();
 
@@ -88,7 +90,7 @@ namespace RulesList
             
             if (ship.Tokens.HasToken(typeof(StressToken)))
             {
-                if ((!ship.CanPerformActionsWhileStressed) && (!ship.GetAvailableActions().Any(n => n.CanBePerformedWhileStressed))) return false;
+                if ((!ship.CanPerformActionsWhileStressed) && (!ship.GetAvailableActions().Any(n => n.CanBePerformedWhileStressed)) && (ship.ActionBar.ActionsThatCanbePreformedwhileStressed.Count == 0)) return false;
             }
 
             return true;

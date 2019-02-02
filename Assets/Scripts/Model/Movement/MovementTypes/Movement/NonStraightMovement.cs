@@ -60,7 +60,7 @@ namespace Movement
                 int progressDirection = 1;
                 TheShip.RotateAround(TheShip.TransformPoint(new Vector3(turningAroundDistance * turningDirection, 0, 0)), turningDirection * progressDelta * progressDirection);
 
-                if (ProgressTarget != 0) TheShip.RotateModelDuringTurn((ProgressCurrent / ProgressTarget) * (1 - 0.2f*finisherTargetSuccess));
+                if (ProgressTarget != 0) TheShip.RotateModelDuringTurn((ProgressCurrent / ProgressTarget) * (1 - 0.2f*finisherTargetSuccess), Direction);
                 UpdateRotation();
             }
             else
@@ -68,7 +68,7 @@ namespace Movement
                 Vector3 progressDirection = Vector3.forward;
                 TheShip.SetPosition(Vector3.MoveTowards(TheShip.GetPosition(), TheShip.GetPosition() + TheShip.TransformDirection(progressDirection), progressDelta));
 
-                if (finisherTargetSuccess != 0) TheShip.RotateModelDuringTurn((1 - 0.2f * finisherTargetSuccess) + (ProgressCurrent / ProgressTarget) * 0.2f);
+                if (finisherTargetSuccess != 0) TheShip.RotateModelDuringTurn((1 - 0.2f * finisherTargetSuccess) + (ProgressCurrent / ProgressTarget) * 0.2f, Direction);
                 UpdateRotationFinisher();
             }
 
@@ -162,23 +162,27 @@ namespace Movement
 
         public override GameObject[] PlanMovement()
         {
+            int precision = (IsSimple) ? 10 : 100;
+            int firstPartLength = (int) ((float)precision * 0.8f);
+            int secondPartLength = precision - firstPartLength;
+
             //Temporary
             MovementTemplates.ApplyMovementRuler(TheShip);
 
-            GameObject[] result = new GameObject[101];
+            GameObject[] result = new GameObject[precision+1];
 
-            float distancePart = ProgressTarget / 80;
+            float distancePart = ProgressTarget / firstPartLength;
             Vector3 position = TheShip.GetPosition();
 
             GameObject lastShipStand = null;
-            for (int i = 0; i <= 80; i++)
+            for (int i = 0; i <= firstPartLength; i++)
             {
                 float step = (float)i * distancePart;
                 GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
                 GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TheShip.GetRotation(), BoardTools.Board.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
-                if (!DebugManager.DebugMovement)
+                if (!DebugManager.DebugMovementShowTempBases)
                 {
                     foreach (var render in renderers)
                     {
@@ -193,7 +197,7 @@ namespace Movement
 
                     UpdatePlanningRotation(ShipStand);
 
-                    if (i == 80) lastShipStand = ShipStand;
+                    if (i == firstPartLength) lastShipStand = ShipStand;
                 }
 
                 result[i] = ShipStand;
@@ -205,15 +209,15 @@ namespace Movement
             savedShipStand.transform.localEulerAngles -= new Vector3(0f, lastPlanningRotation, 0f);
 
             position = lastShipStand.transform.position;
-            distancePart = TheShip.ShipBase.GetShipBaseDistance() / 20;
-            for (int i = 1; i <= 20; i++)
+            distancePart = TheShip.ShipBase.GetShipBaseDistance() / secondPartLength;
+            for (int i = 1; i <= secondPartLength; i++)
             {
                 position = Vector3.MoveTowards(position, position + savedShipStand.transform.TransformDirection(Vector3.forward), distancePart);
                 GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
                 GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, savedShipStand.transform.rotation, BoardTools.Board.GetBoard());
 
                 Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
-                if (!DebugManager.DebugMovement)
+                if (!DebugManager.DebugMovementShowTempBases)
                 {
                     foreach (var render in renderers)
                     {
@@ -223,7 +227,7 @@ namespace Movement
 
                 UpdatePlanningRotationFinisher(ShipStand);
 
-                result[i + 80] = ShipStand;
+                result[i + firstPartLength] = ShipStand;
 
                 ShipStand.name = "Finishing" + i;
             }

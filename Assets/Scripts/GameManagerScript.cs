@@ -32,11 +32,13 @@ public class GameManagerScript : MonoBehaviour {
         Roster.Initialize();
         Selection.Initialize();
         BombsManager.Initialize();
-        Actions.Initialize();
+        ActionsHolder.Initialize();
         Combat.Initialize();
         Triggers.Initialize();
         DamageDecks.Initialize();
         new ObstaclesManager();
+
+        AI.Aggressor.NavigationSubSystem.Initialize();
 
         CheckRemoteSettings();
 
@@ -100,7 +102,7 @@ public class GameManagerScript : MonoBehaviour {
     {
         Ship.GenericShip ship1 = Roster.GetShipById("ShipId:1");
         Ship.GenericShip ship2 = Roster.GetShipById("ShipId:2");
-        ShotInfo shotInfo = new ShotInfo(ship1, ship2, ship1.PrimaryWeapon);
+        ShotInfo shotInfo = new ShotInfo(ship1, ship2, ship1.PrimaryWeapons);
         if (shotInfo.IsShotAvailable) MovementTemplates.ShowRangeRuler(shotInfo.MinDistance); else MovementTemplates.ReturnRangeRuler();
     }
 

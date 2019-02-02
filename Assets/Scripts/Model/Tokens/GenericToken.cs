@@ -7,7 +7,7 @@ namespace Tokens
     public enum TokenColors
     {
         Green,
-        Yellow,
+        Orange,
         Red,
         Blue,
         Empty
@@ -38,13 +38,13 @@ namespace Tokens
                 if (tooltipHolder is GenericShip)
                 {
                     GenericShip pilot = tooltipHolder as GenericShip;
-                    RuleSets.RuleSet.Instance.AdaptPilotToRules(pilot);
+                    Editions.Edition.Current.AdaptPilotToRules(pilot);
                     Tooltip = pilot.ImageUrl;
                 }
                 else if (tooltipHolder is GenericUpgrade)
                 {
                     GenericUpgrade upgrade = tooltipHolder as GenericUpgrade;
-                    RuleSets.RuleSet.Instance.AdaptUpgradeToRules(upgrade);
+                    Editions.Edition.Current.AdaptUpgradeToRules(upgrade);
                     Tooltip = upgrade.ImageUrl;
                 }
             }

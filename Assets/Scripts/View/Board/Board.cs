@@ -239,34 +239,34 @@ namespace BoardTools
 
         public static bool IsShipInFacing(GenericShip from, GenericShip to, ArcFacing facing)
         {
-            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+            List<GenericArc> savedArcs = from.ArcsInfo.Arcs;
 
-            if (facing == ArcFacing.Front180)
-                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
+            if (facing == ArcFacing.FullFront)
+                from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullFront(from.ShipBase) };
             else
-                from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
+                from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullRear(from.ShipBase) };
 
-            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapons);
 
-            from.ArcInfo.Arcs = savedArcs;
+            from.ArcsInfo.Arcs = savedArcs;
             return reverseShotInfo.InArc;
         }
 
         public static bool IsShipInFacingOnly(GenericShip from, GenericShip to, ArcFacing facing)
         {
-            List<GenericArc> savedArcs = from.ArcInfo.Arcs;
+            List<GenericArc> savedArcs = from.ArcsInfo.Arcs;
 
-            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180(from.ShipBase) };
-            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullFront(from.ShipBase) };
+            ShotInfo reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapons);
             bool inForward180Arc = reverseShotInfo.InArc;
 
-            from.ArcInfo.Arcs = new List<GenericArc>() { new ArcSpecial180Rear(from.ShipBase) };
-            reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapon);
+            from.ArcsInfo.Arcs = new List<GenericArc>() { new ArcFullRear(from.ShipBase) };
+            reverseShotInfo = new ShotInfo(from, to, from.PrimaryWeapons);
             bool inRear180Arc = reverseShotInfo.InArc;
 
-            from.ArcInfo.Arcs = savedArcs;
+            from.ArcsInfo.Arcs = savedArcs;
 
-            return (facing == ArcFacing.Front180) ? inForward180Arc && !inRear180Arc : !inForward180Arc && inRear180Arc;
+            return (facing == ArcFacing.FullFront) ? inForward180Arc && !inRear180Arc : !inForward180Arc && inRear180Arc;
         }
 
         public static bool IsShipAtRange(GenericShip from, GenericShip to, int range)
@@ -294,14 +294,21 @@ namespace BoardTools
 
         public static bool IsShipInArc(GenericShip source, GenericShip target)
         {
-            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapons);
             return shotInfo.InArc;
         }
 
-        public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcTypes arc)
+        public static bool IsShipInArcByType(GenericShip source, GenericShip target, ArcType arc)
         {
-            ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapon);
-            return shotInfo.InArcByType(arc);
+            if (arc != ArcType.Bullseye)
+            {
+                ShotInfo shotInfo = new ShotInfo(source, target, source.PrimaryWeapons);
+                return shotInfo.InArcByType(arc);
+            }
+            else
+            {
+                return source.SectorsInfo.IsShipInSector(target, ArcType.Bullseye);
+            }
         }
 
         public static List<GenericShip> GetShipsInBullseyeArc(GenericShip ship, Team.Type team = Team.Type.Any)
@@ -317,8 +324,7 @@ namespace BoardTools
                 if (team == Team.Type.Enemy && ship.Owner.Id == otherShip.Owner.Id)
                     continue;
 
-                ShotInfo shotInfo = new ShotInfo(ship, otherShip, ship.PrimaryWeapon);
-                if (!shotInfo.InArcByType(ArcTypes.Bullseye))
+                if (!ship.SectorsInfo.IsShipInSector(otherShip, ArcType.Bullseye))
                     continue;
 
                 shipsInBullseyeArc.Add(otherShip);

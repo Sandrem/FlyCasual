@@ -4,7 +4,7 @@ using UnityEngine;
 using BoardTools;
 using GameModes;
 using System.Linq;
-using RuleSets;
+using Editions;
 using Obstacles;
 using ActionsList;
 
@@ -42,29 +42,29 @@ namespace ActionsList
     public class BoostMove
     {
         public string Name { get; private set; }
-        public Actions.BoostTemplates Template;
+        public ActionsHolder.BoostTemplates Template;
         public bool IsRed;
 
-        public BoostMove(Actions.BoostTemplates template, bool isRed = false)
+        public BoostMove(ActionsHolder.BoostTemplates template, bool isRed = false)
         {
             Template = template;
             IsRed = isRed;
 
             switch (template)
             {
-                case Actions.BoostTemplates.Straight1:
+                case ActionsHolder.BoostTemplates.Straight1:
                     Name = "Straight 1";
                     break;
-                case Actions.BoostTemplates.RightBank1:
+                case ActionsHolder.BoostTemplates.RightBank1:
                     Name = "Bank 1 Right";
                     break;
-                case Actions.BoostTemplates.LeftBank1:
+                case ActionsHolder.BoostTemplates.LeftBank1:
                     Name = "Bank 1 Left";
                     break;
-                case Actions.BoostTemplates.RightTurn1:
+                case ActionsHolder.BoostTemplates.RightTurn1:
                     Name = "Turn 1 Right";
                     break;
-                case Actions.BoostTemplates.LeftTurn1:
+                case ActionsHolder.BoostTemplates.LeftTurn1:
                     Name = "Turn 1 Left";
                     break;
                 default:
@@ -154,7 +154,7 @@ namespace SubPhases
                     move.Name,
                     delegate { SelectTemplate(move); },
                     isRed: move.IsRed,
-                    isCentered: move.Template == Actions.BoostTemplates.Straight1
+                    isCentered: move.Template == ActionsHolder.BoostTemplates.Straight1
                 );
             }
 
@@ -183,7 +183,7 @@ namespace SubPhases
 
         private void ResetActionColor(GenericAction action)
         {
-            action.Host.OnActionIsPerformed -= ResetActionColor;
+            action.HostShip.OnActionIsPerformed -= ResetActionColor;
             HostAction.IsRed = false;
         }
 
@@ -238,7 +238,7 @@ namespace SubPhases
             Game.Movement.CollidedWith = null;
             MovementTemplates.HideLastMovementRuler();
 
-            RuleSet.Instance.ActionIsFailed(TheShip, typeof(BoostAction));
+            Edition.Current.ActionIsFailed(TheShip, typeof(BoostAction));
         }
 
         private void HidePlanningTemplates()

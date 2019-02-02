@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Analytics;
 
 namespace RulesList
 {
@@ -31,6 +32,8 @@ namespace RulesList
                     UI.AddTestLogEntry("Draw!");
                     UI.ShowGameResults("Draw!");
                 }
+
+                if (DebugManager.ReleaseVersion) AnalyticsEvent.GameOver();
 
                 Rules.FinishGame();
             }

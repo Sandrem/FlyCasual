@@ -1,4 +1,4 @@
-﻿using RuleSets;
+﻿using Editions;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,8 +12,8 @@ namespace Tokens
         public JamToken(GenericShip host) : base(host)
         {
             Name = "Jam Token";
-            Temporary = RuleSet.Instance is SecondEdition;
-            TokenColor = TokenColors.Yellow;
+            Temporary = Edition.Current is SecondEdition;
+            TokenColor = TokenColors.Orange;
             PriorityUI = 40;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/ReloadActionAndJamTokens.png";
         }

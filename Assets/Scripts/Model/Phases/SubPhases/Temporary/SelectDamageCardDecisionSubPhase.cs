@@ -13,7 +13,7 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            InfoText = withDamageCards.PilotName + ": " + "Select a face down damage card.";
+            InfoText = withDamageCards.PilotInfo.PilotName + ": " + "Select a face down damage card.";
             DecisionOwner = withDamageCards.Owner;
 
             Dictionary<string, GenericDamageCard> selection = new Dictionary<string, GenericDamageCard>();

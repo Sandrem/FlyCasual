@@ -1,0 +1,150 @@
+fileFormatVersion: 2
+guid: 2886c3de768f26e41b389b091d7de37d
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Mesh
+    100002: Mesh_(10)
+    100004: Mesh_(2)
+    100006: Mesh_(4)
+    100008: Mesh_(5)
+    100010: Mesh_(6)
+    100012: Mesh_(8)
+    100014: Mesh_(9)
+    100016: //RootNode
+    100018: ship_tie_fighter_mesh
+    100020: ship_tie_fighter_mesh_(2)
+    400000: Mesh
+    400002: Mesh_(10)
+    400004: Mesh_(2)
+    400006: Mesh_(4)
+    400008: Mesh_(5)
+    400010: Mesh_(6)
+    400012: Mesh_(8)
+    400014: Mesh_(9)
+    400016: //RootNode
+    400018: ship_tie_fighter_mesh
+    400020: ship_tie_fighter_mesh_(2)
+    2100000: MeshMat
+    2100002: Mesh_(10)Mat
+    2100004: Mesh_(2)Mat
+    2100006: Mesh_(4)Mat
+    2100008: Mesh_(5)Mat
+    2100010: Mesh_(6)Mat
+    2100012: Mesh_(8)Mat
+    2100014: Mesh_(9)Mat
+    2100016: ship_tie_fighter_meshMat
+    2100018: ship_tie_fighter_mesh_(2)Mat
+    2300000: Mesh
+    2300002: Mesh_(10)
+    2300004: Mesh_(2)
+    2300006: Mesh_(4)
+    2300008: Mesh_(5)
+    2300010: Mesh_(6)
+    2300012: Mesh_(8)
+    2300014: Mesh_(9)
+    2300016: ship_tie_fighter_mesh
+    2300018: ship_tie_fighter_mesh_(2)
+    3300000: Mesh
+    3300002: Mesh_(10)
+    3300004: Mesh_(2)
+    3300006: Mesh_(4)
+    3300008: Mesh_(5)
+    3300010: Mesh_(6)
+    3300012: Mesh_(8)
+    3300014: Mesh_(9)
+    3300016: ship_tie_fighter_mesh
+    3300018: ship_tie_fighter_mesh_(2)
+    4300000: Mesh
+    4300002: Mesh_(10)
+    4300004: Mesh_(2)
+    4300006: Mesh_(4)
+    4300008: Mesh_(5)
+    4300010: Mesh_(6)
+    4300012: Mesh_(8)
+    4300014: Mesh_(9)
+    4300016: ship_tie_fighter_mesh
+    4300018: ship_tie_fighter_mesh_(2)
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

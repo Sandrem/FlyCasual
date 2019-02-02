@@ -17,7 +17,7 @@ namespace Players
 
         public HumanPlayer() : base()
         {
-            Type = PlayerType.Human;
+            PlayerType = PlayerType.Human;
             Name = "Human";
         }
 
@@ -92,6 +92,7 @@ namespace Players
 
         public override void RerollManagerIsPrepared()
         {
+            base.RerollManagerIsPrepared();
             DiceRerollManager.CurrentDiceRerollManager.ShowConfirmButton();
         }
 

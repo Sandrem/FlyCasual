@@ -9,10 +9,47 @@ using System.ComponentModel;
 using Tokens;
 using System.Linq;
 using SubPhases;
+using Upgrade;
 
-public static partial class Actions
+namespace Actions
 {
+    public enum ActionColor
+    {
+        White,
+        Red
+    }
 
+    public class ActionInfo
+    {
+        public Type ActionType { get; private set; }
+        public ActionColor Color { get; private set; }
+        public GenericUpgrade Source { get; private set; }
+
+        public ActionInfo(Type actionType, ActionColor color = ActionColor.White, GenericUpgrade source = null)
+        {
+            ActionType = actionType;
+            Color = color;
+            Source = source;
+        }
+    }
+
+    public class LinkedActionInfo
+    {
+        public Type ActionType { get; private set; }
+        public Type ActionLinkedType { get; private set; }
+        public ActionColor LinkedColor { get; private set; }
+
+        public LinkedActionInfo(Type actionType, Type actionLinkedType, ActionColor linkedColor = ActionColor.Red)
+        {
+            ActionType = actionType;
+            ActionLinkedType = actionLinkedType;
+            LinkedColor = linkedColor;
+        }
+    }
+}
+
+public static partial class ActionsHolder
+{
     private static Dictionary<char, bool> Letters;
 
     public static GenericDamageCard SelectedCriticalHitCard;
@@ -24,6 +61,12 @@ public static partial class Actions
         Straight1,
         Bank1,
         Straight2
+    }
+
+    public enum DecloakTemplates
+    {
+        Straight2,
+        Bank2
     }
 
     public enum BoostTemplates
@@ -50,6 +93,19 @@ public static partial class Actions
         Bank1RightBackwards,
         Straight2Left,
         Straight2Right
+    }
+
+    public enum DecloakTemplateVariants
+    {
+        Straight2Forward,
+        Straight2Left,
+        Straight2Right,
+        Bank2LeftForward,
+        Bank2RightForward,
+        Bank2LeftBackwards,
+        Bank2RightBackwards,
+        Bank2ForwardLeft,
+        Bank2ForwardRight
     }
 
     public static List<GenericToken> TokensToRemove;
@@ -121,7 +177,7 @@ public static partial class Actions
                 else //If target is the same
                 {
                     //If already >1 of tokens, then remove all except one
-                    int alreadyAssignedSameTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>().Count(t => t.OtherTokenOwner == targetShip);
+                    int alreadyAssignedSameTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>('*').Count(t => t.OtherTokenOwner == targetShip);
                     if (alreadyAssignedSameTokens > 1 && TokensToRemove.Count < alreadyAssignedSameTokens -1)
                     {
                         tokenMustBeRemoved = true;
@@ -322,9 +378,11 @@ public static partial class Actions
 
     public static ShotInfo GetFiringRangeAndShow(GenericShip thisShip, GenericShip anotherShip)
     {
-        IShipWeapon outOfArcWeapon = (IShipWeapon) thisShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n is IShipWeapon && (n as IShipWeapon).CanShootOutsideArc == true);
+        // TODOREVERT
+        //IShipWeapon outOfArcWeapon = (IShipWeapon) thisShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n is IShipWeapon && (n as IShipWeapon).CanShootOutsideArc == true);
 
-        IShipWeapon checkedWeapon = outOfArcWeapon ?? thisShip.PrimaryWeapon;
+        IShipWeapon checkedWeapon = thisShip.PrimaryWeapons.First();
+        //IShipWeapon checkedWeapon = outOfArcWeapon ?? thisShip.PrimaryWeapon;
 
         ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, checkedWeapon);
         MovementTemplates.ShowFiringArcRange(shotInfo);
@@ -353,7 +411,7 @@ public static partial class Actions
     {
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapons);
             if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 return true;
@@ -367,9 +425,9 @@ public static partial class Actions
     {
         int result = 0;
 
-        foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
+        foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships.Values)
         {
-            ShotInfo shotInfo = new ShotInfo(anotherShip.Value, thisShip, anotherShip.Value.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(anotherShip, thisShip, anotherShip.PrimaryWeapons);
             if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
             {
                 if (direction == 0)
@@ -378,14 +436,13 @@ public static partial class Actions
                 }
                 else
                 {
-                    ShotInfo reverseShotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapon);
                     if (direction == 1)
                     {
-                        if (reverseShotInfo.InArc) result++;
+                        if (thisShip.SectorsInfo.IsShipInSector(anotherShip, Arcs.ArcType.FullFront)) result++;
                     }
                     else if (direction == -1)
                     {
-                        if (!reverseShotInfo.InArc) result++;
+                        if (thisShip.SectorsInfo.IsShipInSector(anotherShip, Arcs.ArcType.FullRear)) result++;
                     }
                 }
                 
@@ -415,7 +472,7 @@ public static partial class Actions
 
     public static void TakeActionFinish(Action callback)
     {
-        bool isActionSkipped = (Actions.CurrentAction == null);
+        bool isActionSkipped = (ActionsHolder.CurrentAction == null);
 
         if (!isActionSkipped)
         {
@@ -423,13 +480,19 @@ public static partial class Actions
         }
         else
         {
+            ActionIsSkipped();
             callback();
         }
     }
 
     private static void ActionIsTaken(Action callback)
     {
-        Selection.ThisShip.CallActionIsTaken(Actions.CurrentAction, callback);
+        Selection.ThisShip.CallActionIsTaken(ActionsHolder.CurrentAction, callback);
+    }
+
+    private static void ActionIsSkipped()
+    {
+        Selection.ThisShip.CallActionIsSkipped();
     }
 
     public static void EndActionDecisionSubhase(Action callback)

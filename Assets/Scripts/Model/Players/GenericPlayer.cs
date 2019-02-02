@@ -13,17 +13,9 @@ public enum Faction
     None,
     Rebel,
     Imperial,
-    Scum
-}
-
-public enum SubFaction
-{
-    None,
-    RebelAlliance,
+    Scum,
     Resistance,
-    GalacticEmpire,
-    FirstOrder,
-    ScumAndVillainy
+    FirstOrder
 }
 
 namespace Players
@@ -44,7 +36,7 @@ namespace Players
 
     public partial class GenericPlayer
     {
-        public PlayerType Type;
+        public PlayerType PlayerType;
         public string Name;
         public PlayerNo PlayerNo;
         public bool UsesHotacAiRules;
@@ -107,6 +99,8 @@ namespace Players
 
         public virtual void UseDiceModifications(DiceModificationTimingType type)
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
             Roster.HighlightPlayer(PlayerNo);
             Combat.ShowDiceModificationButtons(type);
             GameController.CheckExistingCommands();
@@ -131,7 +125,10 @@ namespace Players
 
         public virtual void OnTargetNotLegalForAttack()
         {
-            // TODO: Better explanations
+            // TODOREVERT
+            Messages.ShowErrorToHuman("Target is not legal");
+
+            /*// TODO: Better explanations
             if (!Rules.TargetIsLegalForShot.IsLegal())
             {
                 //automatic error messages
@@ -139,11 +136,12 @@ namespace Players
             else if (!Combat.ShotInfo.IsShotAvailable)
             {
                 Messages.ShowErrorToHuman("Target is outside your firing arc");
-            }
-            else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Range < Combat.ChosenWeapon.MinRange)
+            }*/
+            // TODOREVERT
+            /*else if (Combat.ShotInfo.Range > Combat.ChosenWeapon.MaxRange || Combat.ShotInfo.Range < Combat.ChosenWeapon.MinRange)
             {
                 Messages.ShowErrorToHuman("Target is outside your firing range");
-            }
+            }*/
 
             //TODO: except non-legal targets, bupmed for example, biggs?
             Roster.HighlightShipsFiltered(FilterShipsToAttack);
@@ -198,7 +196,7 @@ namespace Players
             float pilotSkillValue = 0;
             foreach (GenericShip s in Ships.Values)
             {
-                pilotSkillValue += s.PilotSkill;
+                pilotSkillValue += s.State.Initiative;
             }
             return Math.Max(0, pilotSkillValue / Ships.Count);
         }
@@ -208,12 +206,15 @@ namespace Players
             float pilotSkillValue = 0;
             foreach (GenericShip s in EnemyShips.Values)
             {
-                pilotSkillValue += s.PilotSkill;
+                pilotSkillValue += s.State.Initiative;
             }
             return Math.Max(0, pilotSkillValue / Ships.Count);
         }
 
-        public virtual void RerollManagerIsPrepared() { }
+        public virtual void RerollManagerIsPrepared()
+        {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+        }
 
         public virtual void PerformTractorBeamReposition(GenericShip ship) { }
 
@@ -231,6 +232,8 @@ namespace Players
 
         public virtual void SyncDiceResults()
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
             GameController.CheckExistingCommands();
         }
 
@@ -249,11 +252,13 @@ namespace Players
             JSONObject parameters = new JSONObject();
             parameters.AddField("dice", diceRerollSelected);
 
-            GameController.SendCommand(
+            GameCommand command = GameController.GenerateGameCommand(
                 GameCommandTypes.SyncDiceRerollSelected,
                 Phases.CurrentSubPhase.GetType(),
                 parameters.ToString()
             );
+
+            GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
         public virtual void InformAboutCrit()

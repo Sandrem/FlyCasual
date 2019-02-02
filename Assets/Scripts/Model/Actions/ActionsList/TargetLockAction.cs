@@ -1,5 +1,5 @@
 ﻿using BoardTools;
-using RuleSets;
+using Editions;
 using RulesList;
 using Ship;
 using System.Collections;
@@ -22,9 +22,9 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
+            if (ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                List<char> letters = Actions.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
+                List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
 
                 if (Combat.Attacker.Tokens.GetToken(typeof(Tokens.BlueTargetLockToken), letters.First()).CanBeUsed)
                 {
@@ -53,9 +53,9 @@ namespace ActionsList
             bool result = false;
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                if (Actions.HasTargetLockOn(Combat.Attacker, Combat.Defender))
+                if (ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender))
                 {
-                    result = true;
+                    result = !Combat.DiceRollAttack.IsEmpty;
                 }
             }
             return result;
@@ -104,7 +104,7 @@ namespace SubPhases
     {
         public override void RevertSubPhase()
         {
-            RuleSet.Instance.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
+            Edition.Current.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
             UpdateHelpInfo();
         }
 
@@ -151,12 +151,12 @@ namespace SubPhases
         {
             int result = 0;
 
-            ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapon);
+            ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapons);
             if (shotInfo.IsShotAvailable) result += 1000;
             if (!ship.ShipsBumped.Contains(Selection.ThisShip)) result += 500;
             if (shotInfo.Range <= 3) result += 250;
 
-            result += ship.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.Cost);
+            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.UpgradeInfo.Cost);
 
             return result;
         }
@@ -171,7 +171,7 @@ namespace SubPhases
         {
             if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
             {
-                Actions.AcquireTargetLock(
+                ActionsHolder.AcquireTargetLock(
                     Selection.ThisShip,
                     TargetShip,
                     SuccessfulCallback,

@@ -1,5 +1,5 @@
 ﻿using Movement;
-using RuleSets;
+using Editions;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -246,7 +246,7 @@ public static class DirectionsMenu
     private static void SetManeuverColor(GameObject button, KeyValuePair<string, MovementComplexity> maneuverData)
     {
         Color maneuverColor = Color.yellow;
-        if (maneuverData.Value == MovementComplexity.Easy) maneuverColor = RuleSet.Instance.MovementEasyColor;
+        if (maneuverData.Value == MovementComplexity.Easy) maneuverColor = Edition.Current.MovementEasyColor;
         if (maneuverData.Value == MovementComplexity.Normal) maneuverColor = Color.white;
         if (maneuverData.Value == MovementComplexity.Complex) maneuverColor = Color.red;
         button.GetComponentInChildren<Text>().color = maneuverColor;

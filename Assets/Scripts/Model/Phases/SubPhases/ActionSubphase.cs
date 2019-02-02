@@ -37,6 +37,10 @@ namespace SubPhases
                     }
                 );                
             }
+            else
+            {
+                ship.CallMovementActivationFinish();
+            }
 
             Phases.Events.CallOnActionSubPhaseTrigger();
         }
@@ -46,9 +50,9 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                delegate {
-                    Actions.TakeActionFinish(
-                        delegate { Actions.EndActionDecisionSubhase(Finish); }
+                    (Action)delegate {
+                        ActionsHolder.TakeActionFinish(
+                        delegate { ActionsHolder.EndActionDecisionSubhase(Finish); }
                     ); 
                 }
             );
@@ -58,6 +62,7 @@ namespace SubPhases
         {
             UI.HideSkipButton();
             Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
+            Selection.ThisShip.CallMovementActivationFinish();
             Triggers.FinishTrigger();
         }
 
@@ -101,7 +106,7 @@ namespace SubPhases
             ShowSkipButton = true;
             DefaultDecisionName = "Focus";
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
+            List<GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
 
             if (availableActions.Count > 0)
             {
@@ -113,7 +118,7 @@ namespace SubPhases
                 if (!DecisionWasPreparedAndShown)
                 {
                     Messages.ShowErrorToHuman("Cannot perform any actions");
-                    Actions.CurrentAction = null;
+                    ActionsHolder.CurrentAction = null;
                     CallBack();
                 }
             }
@@ -124,7 +129,7 @@ namespace SubPhases
             //TODO: Use more global way of fix
             HideDecisionWindowUI();
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
+            List<GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
             foreach (var action in availableActions)
             {
                 bool addedDecision = false;
@@ -137,11 +142,13 @@ namespace SubPhases
                     if (action.GetType() == actionType)
                     {
                         addedDecision = true;
-                        string decisionName = action.Name + " > <color=red>" + linkedAction.Name + "</color>";
+                        string linkedActionName = linkedAction.Name;
+                        if (linkedAction.IsRed) linkedActionName = "<color=red>" + linkedActionName + "</color>";
+                        string decisionName = action.Name + " > " + linkedActionName;
 
                         AddDecision(decisionName, delegate {
                             ActionWasPerformed = true;
-                            Actions.TakeActionStart(action);
+                            ActionsHolder.TakeActionStart(action);
                         }, action.ImageUrl, -1, action.IsRed);
                     }
                 }
@@ -150,7 +157,7 @@ namespace SubPhases
                 {
                     AddDecision(action.Name, delegate {
                         ActionWasPerformed = true;
-                        Actions.TakeActionStart(action);
+                        ActionsHolder.TakeActionStart(action);
                     }, action.ImageUrl, -1, action.IsRed);
                 }
             }
@@ -165,7 +172,7 @@ namespace SubPhases
 
         public override void SkipButton()
         {
-            Actions.CurrentAction = null;
+            ActionsHolder.CurrentAction = null;
             CallBack();
         }
 
@@ -185,7 +192,7 @@ namespace SubPhases
             InfoText = "Select free action";
             DefaultDecisionName = "Focus";
 
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
+            List<GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
 
             if (availableActions.Count > 0)
             {
@@ -196,7 +203,7 @@ namespace SubPhases
             {
                 Messages.ShowErrorToHuman("Cannot perform any free actions");
                 Selection.ThisShip.IsFreeActionSkipped = true;
-                Actions.CurrentAction = null;
+                ActionsHolder.CurrentAction = null;
                 CallBack();
             }
         }
@@ -204,7 +211,7 @@ namespace SubPhases
         public void GenerateFreeActionButtons()
 		{
 			Selection.ThisShip.IsFreeActionSkipped = false;
-            List<ActionsList.GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
+            List<GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();
 
             foreach (var action in availableActions)
             {
@@ -218,15 +225,17 @@ namespace SubPhases
                     if (action.GetType() == actionType)
                     {
                         addedDecision = true;
-                        string decisionName = action.Name + " > <color=red>" + linkedAction.Name + "</color>";
+                        string linkedActionName = linkedAction.Name;
+                        if (linkedAction.IsRed) linkedActionName = "<color=red>" + linkedActionName + "</color>";
+                        string decisionName = action.Name + " > " + linkedActionName;
 
                         AddDecision(
                             decisionName,
                             delegate {
                                 ActionWasPerformed = true;
                                 Selection.ThisShip.CallBeforeFreeActionIsPerformed(
-                                    action,
-                                    delegate { Actions.TakeActionStart(action); }
+                                    (GenericAction)action,
+                                    (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
                                 );
                             },
                             action.ImageUrl,
@@ -243,8 +252,8 @@ namespace SubPhases
                         delegate {
                             ActionWasPerformed = true;
                             Selection.ThisShip.CallBeforeFreeActionIsPerformed(
-                                action,
-                                delegate { Actions.TakeActionStart(action); }
+                                (GenericAction)action,
+                                (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
                             );
                         },
                         action.ImageUrl,
@@ -265,7 +274,7 @@ namespace SubPhases
         public override void SkipButton()
         {
             UI.HideSkipButton();
-            Actions.CurrentAction = null;
+            ActionsHolder.CurrentAction = null;
             Selection.ThisShip.IsFreeActionSkipped = true;
             CallBack();
         }

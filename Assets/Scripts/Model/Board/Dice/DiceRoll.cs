@@ -1,5 +1,5 @@
 ﻿using GameCommands;
-using RuleSets;
+using Editions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -223,11 +223,8 @@ public partial class DiceRoll
         }
         else
         {
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
-
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
         }
-        
     }
 
     private bool ShouldSkipToSync()
@@ -307,32 +304,25 @@ public partial class DiceRoll
 
     public void RerollSelected(DelegateDiceroll callBack)
     {
+        DiceRoll.CurrentDiceRoll = this;
+
         this.callBack = callBack;
 
-        if (ReplaysManager.Mode == ReplaysMode.Write)
+        if (!ShouldSkipToSync())
         {
-            if (!Network.IsNetworkGame)
+            foreach (Die die in DiceList)
             {
-                foreach (Die die in DiceList)
+                if (die.IsSelected)
                 {
-                    if (die.IsSelected)
-                    {
-                        die.RandomizeRotation();
-                    }
+                    die.RandomizeRotation();
                 }
-                RerollPreparedDice();
             }
-            else
-            {
-                if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.SyncSelectedDice");
-                Network.SyncSelectedDiceAndReroll();
-            }
+            RerollPreparedDice();
         }
         else
         {
             CurrentDiceRoll.DeselectDice();
 
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
         }
     }
@@ -367,7 +357,7 @@ public partial class DiceRoll
 
     public void ApplyEvade()
     {
-        RuleSet.Instance.EvadeDiceModification(this);
+        Edition.Current.EvadeDiceModification(this);
 
         OrganizeDicePositions();
     }
@@ -400,20 +390,8 @@ public partial class DiceRoll
 
     public void ChangeWorstResultTo(DieSide newSide)
     {
-        ChangeDice(GetWorstSide(), newSide, true);
+        ChangeDice(WorstResult, newSide, true);
         UpdateDiceCompareHelperPrediction();
-    }
-
-    public DieSide GetWorstSide()
-    {
-        DieSide worstSide = DieSide.Unknown;
-
-        if (Blanks > 0) worstSide = DieSide.Blank;
-        else if (Focuses > 0) worstSide = DieSide.Focus;
-        else if (RegularSuccesses > 0) worstSide = DieSide.Success;
-        else worstSide = DieSide.Crit;
-
-        return worstSide;
     }
 
     public void ChangeAll(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)
@@ -626,8 +604,6 @@ public partial class DiceRoll
 
             UpdateDiceCompareHelperPrediction();
 
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
-
             Roster.GetPlayer(Players.PlayerNo.Player1).SyncDiceResults(); // Server synchs dice
         }
     }
@@ -713,6 +689,14 @@ public partial class DiceRoll
         }
 
         return result;
+    }
+
+    public void SelectAll()
+    {
+        foreach (var dice in DiceList)
+        {
+            dice.ToggleSelected(true);
+        }
     }
 
     public void SelectBySides(List<DieSide> dieSides, int maxCanBeSelected)

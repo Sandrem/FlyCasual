@@ -55,10 +55,10 @@ namespace SubPhases
 
         private void ShowAttackAnimationAndSound()
         {
-            Upgrade.GenericSecondaryWeapon chosenSecondaryWeapon = Combat.ChosenWeapon as Upgrade.GenericSecondaryWeapon;
+            Upgrade.GenericSpecialWeapon chosenSecondaryWeapon = Combat.ChosenWeapon as Upgrade.GenericSpecialWeapon;
             if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Cannon) || chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Illicit))
             { // Primary Weapons, Cannons, and Illicits (HotShotBlaster)
-                Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
+                Sounds.PlayShots(Selection.ActiveShip.SoundInfo.ShotsName, Selection.ActiveShip.SoundInfo.ShotsCount);
                 Selection.ThisShip.AnimatePrimaryWeapon();
             }
             else if (chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Torpedo) || chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Missile))
@@ -68,7 +68,7 @@ namespace SubPhases
             }
             else if (chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Turret))
             { // Turrets
-                Sounds.PlayShots(Selection.ActiveShip.SoundShotsPath, Selection.ActiveShip.ShotsCount);
+                Sounds.PlayShots(Selection.ActiveShip.SoundInfo.ShotsName, Selection.ActiveShip.SoundInfo.ShotsCount);
                 Selection.ThisShip.AnimateTurretWeapon();
             }
         }
@@ -94,7 +94,6 @@ namespace SubPhases
             CurentDiceRoll = diceRoll;
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
 
-            IsReadyForCommands = true;
             Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Opposite);
         }
 

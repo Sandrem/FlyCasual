@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Ship;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -28,16 +30,57 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
+    //While a friendly ship in your left or right arc performs a primary attack, it may reroll 1 attack die.
     public class SinkerAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
-            // TODO
+            AddDiceModification(
+                HostName,
+                IsAvailable,
+                AiPriority,
+                DiceModificationType.Reroll,
+                1,
+                isGlobal: true
+            );
         }
 
         public override void DeactivateAbility()
         {
-            // TODO
+            RemoveDiceModification();
+        }
+
+        protected virtual bool IsAvailable()
+        {
+            return
+                Combat.AttackStep == CombatStep.Attack
+                && Combat.Attacker.Owner == HostShip.Owner
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
+                && (HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Left) 
+                    || HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Right));            
+        }
+
+        private int AiPriority()
+        {
+            int result = 0;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                var friendlyShip = Combat.Attacker;
+                int focuses = Combat.DiceRollAttack.FocusesNotRerolled;
+                int blanks = Combat.DiceRollAttack.BlanksNotRerolled;
+
+                if (friendlyShip.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                {
+                    if (blanks > 0) result = 90;
+                }
+                else
+                {
+                    if (blanks + focuses > 0) result = 90;
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Crew,
                 cost: 2,
                 addAction: new ActionInfo(typeof(CoordinateAction)),
-                restriction: new ActionBarRestriction(new ActionInfo(typeof(CoordinateAction), ActionColor.Red)),
+                restriction: new ActionBarRestriction(typeof(CoordinateAction), ActionColor.Red),
                 seImageNumber: 48
             );
         }

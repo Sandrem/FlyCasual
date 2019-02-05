@@ -37,7 +37,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
             ModelInfo = new ShipModelInfo(
                 "Delta-7 Aethersprite",
-                "Default"
+                "Red"
             );
 
             DialInfo = new ShipDialInfo(

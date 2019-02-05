@@ -52,6 +52,8 @@ namespace Abilities.FirstEdition
 
         protected virtual void AskSelectShip(object sender, System.EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             SelectTargetForAbility(
                 CheckAssignStress,
                 FilterTargetsOfAbility,

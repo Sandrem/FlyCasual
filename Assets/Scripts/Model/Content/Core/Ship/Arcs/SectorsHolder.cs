@@ -49,7 +49,11 @@ namespace Ship
         {
             GenericArc arc = Arcs.First(n => n.ArcType == arcType);
             ShotInfoArc arcInfo = new ShotInfoArc(HostShip, anotherShip, arc);
-            return arcInfo.IsShotAvailable;
+
+            bool result = arcInfo.IsShotAvailable;
+            if (arcType == ArcType.Bullseye) HostShip.CallOnBullseyeArcCheck(anotherShip, ref result);
+
+            return result;
         }
 
         public int RangeToShipBySector(GenericShip anotherShip, ArcType arcType)

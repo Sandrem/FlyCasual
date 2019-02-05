@@ -8,7 +8,7 @@ using Actions;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SquadLeader : GenericUpgrade
+    public class SquadLeader : GenericUpgrade, IVariableCost
     {
         public SquadLeader() : base()
         {
@@ -21,7 +21,23 @@ namespace UpgradesList.SecondEdition
                 //abilityType: typeof(Abilities.SecondEdition.SquadLeaderAbility),
                 seImageNumber: 16
             );
-        }        
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
+            {
+                {0, 2},
+                {1, 4},
+                {2, 6},
+                {3, 8},
+                {4, 10},
+                {5, 12},
+                {6, 14}
+            };
+
+            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
+        }
     }
 }
 

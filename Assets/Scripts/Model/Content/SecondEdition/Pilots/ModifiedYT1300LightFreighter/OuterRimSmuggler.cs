@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Outer Rim Smuggler",
                     1,
-                    78,
+                    69,
                     seImageNumber: 72
                 );
             }

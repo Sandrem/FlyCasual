@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Major Rhymer",
                     4,
-                    34,
+                    38,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MajorRhymerAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

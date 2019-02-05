@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Dorsal Turret",
                 UpgradeType.Turret,
-                cost: 4,
+                cost: 2,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     minRange: 1,

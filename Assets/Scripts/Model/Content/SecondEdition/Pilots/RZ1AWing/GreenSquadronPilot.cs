@@ -13,8 +13,8 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Green Squadron Pilot",
                     3,
-                    34,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    32,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent },
                     seImageNumber: 21
                 );
                 

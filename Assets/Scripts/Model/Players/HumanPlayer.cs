@@ -17,7 +17,7 @@ namespace Players
 
         public HumanPlayer() : base()
         {
-            Type = PlayerType.Human;
+            PlayerType = PlayerType.Human;
             Name = "Human";
         }
 

@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Drea Renthal",
                     4,
-                    40,
+                    42,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DreaRenthalAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },

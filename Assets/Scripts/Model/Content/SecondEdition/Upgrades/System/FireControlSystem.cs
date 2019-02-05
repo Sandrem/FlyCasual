@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Fire-Control System",
                 UpgradeType.System,
-                cost: 3,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.FireControlSystemAbility),
                 seImageNumber: 25
             );

@@ -9,6 +9,7 @@ using Ship;
 using Mods;
 using Editions;
 using Upgrade;
+using System.Linq;
 
 public class PilotPanelSquadBuilder : MonoBehaviour {
 
@@ -94,16 +95,18 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             Text SeCostText = this.transform.Find("SeCostInfo").GetComponent<Text>();
             SeCostText.text = Ship.PilotInfo.Cost.ToString();
 
+            // Show extra icons (that not present on all pilots of this ship)
             Text slotsText = this.transform.Find("SlotsInfo").GetComponent<Text>();
-            if (ShipHasUpgradeIcon(UpgradeType.Talent)) slotsText.text += "E";
-            if (ShipHasUpgradeIcon(UpgradeType.Force)) slotsText.text += "F";
-            if (Ship.Faction != Faction.Scum && ShipHasUpgradeIcon(UpgradeType.Illicit)) slotsText.text += "I";
+            for (int i = 0; i < CountUpgradeIcons(UpgradeType.Talent); i++) slotsText.text += "E";
+            for (int i = 0; i < CountUpgradeIcons(UpgradeType.Force); i++) slotsText.text += "F";
+            if (Ship is Ship.SecondEdition.YT2400LightFreighter.YT2400LightFreighter) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Crew); i++) slotsText.text += "W";
+            if (Ship.Faction != Faction.Scum) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Illicit); i++) slotsText.text += "I";
         }
     }
 
-    private bool ShipHasUpgradeIcon(UpgradeType upgradeType)
+    private int CountUpgradeIcons(UpgradeType upgradeType)
     {
-        return (Ship.ShipInfo.UpgradeIcons.Upgrades.Contains(upgradeType) || Ship.PilotInfo.ExtraUpgrades.Contains(upgradeType));
+        return Ship.ShipInfo.UpgradeIcons.Upgrades.Count(n => n == upgradeType) + Ship.PilotInfo.ExtraUpgrades.Count(n => n == upgradeType);
     }
 
     private void SetOnClickHandler()

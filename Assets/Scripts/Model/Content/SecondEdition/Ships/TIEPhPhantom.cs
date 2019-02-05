@@ -21,13 +21,16 @@ namespace Ship
                 ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.Front, 3);
                 ShipInfo.Hull = 3;
 
+                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
+                
                 ShipAbilities.Add(new Abilities.SecondEdition.StygiumArray());
 
                 IconicPilots[Faction.Imperial] = typeof(Whisper);
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Normal);
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);
-
+                
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/44/Maneuver_tie_phantom.png";
 
                 OldShipTypeName = "TIE Phantom";

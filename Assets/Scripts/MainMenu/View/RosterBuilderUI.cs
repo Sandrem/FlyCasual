@@ -145,4 +145,9 @@ public class RosterBuilderUI : MonoBehaviour {
         MainMenu.CurrentMainMenu.ChangePanel("BrowseSavedSquadsPanel");
     }
 
+    public void ChangeAiMode(Text textComponent)
+    {
+        SquadBuilder.ToggleAiType();
+    }
+
 }

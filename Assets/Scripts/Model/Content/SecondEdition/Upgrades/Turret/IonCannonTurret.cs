@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Ion Cannon Turret",
                 UpgradeType.Turret,
-                cost: 6,
+                cost: 4,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 3,
                     minRange: 1,

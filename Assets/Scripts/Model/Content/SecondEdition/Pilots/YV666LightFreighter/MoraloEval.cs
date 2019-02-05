@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Moralo Eval",
                     4,
-                    72,
+                    70,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MoraloEvalAbility),
                     charges: 2,

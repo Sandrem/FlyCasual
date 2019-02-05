@@ -1100,7 +1100,7 @@ namespace SquadBuilderNS
 
         public static bool IsVsAiGame
         {
-            get { return GetSquadList(PlayerNo.Player2).PlayerType == typeof(HotacAiPlayer); }
+            get { return GetSquadList(PlayerNo.Player2).PlayerType.IsSubclassOf(typeof(GenericAiPlayer)); }
         }
 
         public static void SwitchPlayers()
@@ -1186,11 +1186,11 @@ namespace SquadBuilderNS
             {
                 if (playerNo == PlayerNo.Player1) return "Squadron of Player 1"; else return "Squadron of Player 2";
             }
-            else if (playerOneType == typeof(HumanPlayer) && playerTwoType == typeof(HotacAiPlayer))
+            else if (playerOneType == typeof(HumanPlayer) && playerTwoType.IsSubclassOf(typeof(GenericAiPlayer)))
             {
                 if (playerNo == PlayerNo.Player1) return "My Squadron"; else return "Squadron of AI";
             }
-            else if (playerOneType == typeof(HotacAiPlayer) && playerTwoType == typeof(HotacAiPlayer))
+            else if (playerOneType.IsSubclassOf(typeof(GenericAiPlayer)) && playerTwoType.IsSubclassOf(typeof(GenericAiPlayer)))
             {
                 if (playerNo == PlayerNo.Player1) return "Squadron of AI 1"; else return "Squadron of AI 2";
             }
@@ -1212,6 +1212,35 @@ namespace SquadBuilderNS
         {
             JSONObject playerJson = GetSquadList(playerNo).SavedConfiguration;
             SetPlayerSquadFromImportedJson("", playerJson, playerNo, callback);
+        }
+
+        public static void SetAiType(string aiName)
+        {
+            SquadList currentSquadList = GetSquadList(CurrentPlayer);
+            switch (aiName)
+            {
+                case "AI: Aggressor":
+                    currentSquadList.PlayerType = typeof(AggressorAiPlayer);
+                    break;
+                case "AI: HotAC":
+                    currentSquadList.PlayerType = typeof(HotacAiPlayer);
+                    break;
+                default:
+                    break;
+            }
+
+            GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").GetComponentInChildren<UnityEngine.UI.Text>().text = aiName;
+
+            Options.AiType = aiName;
+            Options.ChangeParameterValue("AiType", aiName);
+        }
+
+        public static void ToggleAiType()
+        {
+            SquadList currentSquadList = GetSquadList(CurrentPlayer);
+            string aiName = (currentSquadList.PlayerType == typeof(HotacAiPlayer)) ? "AI: Aggressor" : "AI: HotAC";
+
+            SetAiType(aiName);
         }
     }
 }

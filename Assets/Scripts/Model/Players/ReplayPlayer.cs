@@ -15,7 +15,7 @@ namespace Players
     {
         public ReplayPlayer() : base()
         {
-            Type = PlayerType.Replay;
+            PlayerType = PlayerType.Replay;
             Name = "Replay";
         }
 

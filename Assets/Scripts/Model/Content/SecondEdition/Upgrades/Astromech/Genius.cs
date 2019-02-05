@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "\"Genius\"",
                 UpgradeType.Astromech,
-                cost: 0,
+                cost: 2,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.GeniusAbility),
                 restriction: new FactionRestriction(Faction.Scum),                

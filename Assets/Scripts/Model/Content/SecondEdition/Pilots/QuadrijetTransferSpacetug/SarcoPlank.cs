@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Jakku Gunrunner",
                     2,
-                    31,
+                    34,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SarcoPlankAbility),
                     seImageNumber: 162

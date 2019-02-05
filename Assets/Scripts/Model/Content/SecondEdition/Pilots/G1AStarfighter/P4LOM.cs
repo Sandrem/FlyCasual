@@ -75,6 +75,8 @@ namespace Abilities.SecondEdition
         {
             if (TargetsForAbilityExist(FilterAbilityTarget))
             {
+                Selection.ChangeActiveShip(HostShip);
+
                 SelectTargetForAbility
                 (
                     SelectAbilityTarget,

@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Tractor Beam",
                 UpgradeType.Cannon,
-                cost: 3,
+                cost: 2,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 3,
                     minRange: 1,

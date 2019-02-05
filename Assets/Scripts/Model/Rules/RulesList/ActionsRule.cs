@@ -24,8 +24,8 @@ namespace RulesList
 
             Selection.ThisShip.CallOnCheckActionComplexity(ref action);
 
-            //HotAC AI perfroms red actions as white
-            if (action.IsRed && !Selection.ThisShip.Owner.UsesHotacAiRules)
+            //AI perfroms red actions as white
+            if (action.IsRed && !(Selection.ThisShip.Owner is Players.GenericAiPlayer))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

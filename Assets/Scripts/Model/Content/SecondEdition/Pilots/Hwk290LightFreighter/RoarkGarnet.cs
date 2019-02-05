@@ -17,7 +17,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Roark Garnet",
                     4,
-                    38,
+                    43,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RoarkGarnetAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

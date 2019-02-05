@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Marauder",
                 UpgradeType.Title,
-                cost: 3,
+                cost: 6,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Gunner),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft)),

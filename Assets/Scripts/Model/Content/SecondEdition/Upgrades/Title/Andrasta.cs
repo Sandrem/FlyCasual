@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Andrasta",
                 UpgradeType.Title,
-                cost: 6,
+                cost: 4,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Bomb),
                 addAction: new ActionInfo(typeof(ReloadAction)),

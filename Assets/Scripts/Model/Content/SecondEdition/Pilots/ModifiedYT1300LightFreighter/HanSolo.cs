@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Han Solo",
                     6,
-                    92,
+                    82,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloRebelPilotAbility),
                     charges: 1,
@@ -41,7 +41,8 @@ namespace Abilities.SecondEdition
                 DiceModificationType.Reroll,
                 int.MaxValue,
                 timing: DiceModificationTimingType.AfterRolled,
-                isTrueReroll: false
+                isTrueReroll: false,
+                isForcedFullReroll: true
             );
         }
 

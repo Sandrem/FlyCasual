@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Evaan Verlaine",
                     3,
-                    36,
+                    35,
                     isLimited: true,
                     abilityType: typeof(EvaanVerlaineAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
@@ -53,6 +53,8 @@ namespace Abilities.SecondEdition
 
         private void AskSelectShip(object sender, System.EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             SelectTargetForAbility(
                 delegate
                 {

@@ -73,7 +73,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void SeeAssignedManuver()
         {
-            if (TargetShip.Owner is Players.GenericAiPlayer)
+            if (TargetShip.Owner is Players.HotacAiPlayer)
             {
                 Messages.ShowErrorToHuman("Useless against HotAC AI =)");
             }

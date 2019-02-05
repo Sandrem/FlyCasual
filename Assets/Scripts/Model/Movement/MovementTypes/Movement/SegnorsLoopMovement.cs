@@ -12,7 +12,7 @@ namespace Movement
 
         public SegnorsLoopMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color) : base(speed, direction, bearing, color)
         {
-
+            RotationEndDegrees = 180;
         }
 
         public override void Perform()

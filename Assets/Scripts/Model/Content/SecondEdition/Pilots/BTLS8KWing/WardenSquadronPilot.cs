@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Warden Squadron Pilot",
                     2,
-                    40,
+                    37,
                     seImageNumber: 64
                 );
             }

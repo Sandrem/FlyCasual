@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "First Order Test Pilot",
                     4,
-                    62,
+                    58,
                     extraUpgradeIcon: UpgradeType.Talent //,
                     //seImageNumber: 120
                 );

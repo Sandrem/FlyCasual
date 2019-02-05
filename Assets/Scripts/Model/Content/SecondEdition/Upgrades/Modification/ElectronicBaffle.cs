@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
 
         private void ChooseToken(object sender, EventArgs e)
         {
-            if (HostShip.Owner.Type == PlayerType.Ai)
+            if (HostShip.Owner.PlayerType == PlayerType.Ai)
             {
                 DamageSourceEventArgs electronicBaffleDamage = new DamageSourceEventArgs()
                 {

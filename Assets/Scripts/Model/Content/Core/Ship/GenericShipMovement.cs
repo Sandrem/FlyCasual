@@ -234,6 +234,18 @@ namespace Ship
             return result;
         }
 
+        public List<ManeuverHolder> GetManeuverHolders()
+        {
+            List<ManeuverHolder> maneuverHolders = new List<ManeuverHolder>();
+
+            foreach (var maneuverHolder in Maneuvers)
+            {
+                maneuverHolders.Add(new ManeuverHolder(maneuverHolder.Key, this));
+            }
+
+            return maneuverHolders;
+        }
+
         public bool HasManeuver(string maneuverString)
         {
             bool result = false;
@@ -250,10 +262,17 @@ namespace Ship
             return HasManeuver(maneuverString);
         }
 
-        public void SetAssignedManeuver(GenericMovement movement)
+        public void SetAssignedManeuver(GenericMovement movement, bool isSilent = false)
         {
-            AssignedManeuver = movement;
-            Roster.UpdateAssignedManeuverDial(this, movement);
+            if (movement == null)
+            {
+                ClearAssignedManeuver();
+            }
+            else
+            {
+                AssignedManeuver = movement;
+                if (!isSilent) Roster.UpdateAssignedManeuverDial(this, movement);
+            }
         }
 
         public void ClearAssignedManeuver()

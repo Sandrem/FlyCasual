@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Lieutenant Karsabi",
                     3,
-                    39,
+                    37,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.LieutenantKarsabiAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

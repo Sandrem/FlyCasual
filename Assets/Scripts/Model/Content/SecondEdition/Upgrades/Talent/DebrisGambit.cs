@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Debris Gambit",
                 UpgradeType.Talent,
-                cost: 2,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.DebrisGambit),
                 restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
                 addAction: new ActionInfo(typeof(EvadeAction), ActionColor.Red),

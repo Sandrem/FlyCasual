@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Lando Calrissian",
                     5,
-                    92,
+                    80,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LandoCalrissianRebelPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
@@ -42,6 +42,11 @@ namespace Abilities.SecondEdition
             HostShip.OnMovementFinishSuccessfully -= CheckLandoCalrissianPilotAbility;
         }
 
+        protected override string GetAbilityDescription()
+        {
+            return "Choose a ship.\nIt may perform an action.";
+        }
+
         protected override void CheckLandoCalrissianPilotAbility(GenericShip ship)
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
@@ -54,7 +59,7 @@ namespace Abilities.SecondEdition
 
         protected override bool FilterAbilityTargets(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.This, TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 3);
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.This, TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 0, 3);
         }
 
         protected override void PerformFreeAction(object sender, System.EventArgs e)

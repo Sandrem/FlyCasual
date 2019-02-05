@@ -304,8 +304,6 @@ namespace Abilities
         /// </summary>
         protected bool TargetsForAbilityExist(Func<GenericShip, bool> filter)
         {
-            Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
-
             return Roster.AllShips.Values.FirstOrDefault(n => filter(n)) != null;
         }
 
@@ -411,7 +409,21 @@ namespace Abilities
         /// <summary>
         /// Adds available dice modification
         /// </summary>
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, int count, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false, Action<Action<bool>> payAbilityCost = null, Action payAbilityPostCost = null, bool isTrueReroll = true)
+        protected void AddDiceModification(
+            string name,
+            Func<bool> isAvailable,
+            Func<int> aiPriority,
+            DiceModificationType modificationType,
+            int count,
+            List<DieSide> sidesCanBeSelected = null,
+            DieSide sideCanBeChangedTo = DieSide.Unknown,
+            DiceModificationTimingType timing = DiceModificationTimingType.Normal,
+            bool isGlobal = false,
+            Action<Action<bool>> payAbilityCost = null,
+            Action payAbilityPostCost = null,
+            bool isTrueReroll = true,
+            bool isForcedFullReroll = false
+        )
         {
             AddDiceModification(
                 name,
@@ -425,14 +437,29 @@ namespace Abilities
                 isGlobal, 
                 payAbilityCost,
                 payAbilityPostCost,
-                isTrueReroll
+                isTrueReroll,
+                isForcedFullReroll
             );
         }
 
         /// <summary>
         /// Adds available dice modification
         /// </summary>
-        protected void AddDiceModification(string name, Func<bool> isAvailable, Func<int> aiPriority, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected = null, DieSide sideCanBeChangedTo = DieSide.Unknown, DiceModificationTimingType timing = DiceModificationTimingType.Normal, bool isGlobal = false, Action<Action<bool>> payAbilityCost = null, Action payAbilityPostCost = null, bool isTrueReroll = true)
+        protected void AddDiceModification(
+            string name,
+            Func<bool> isAvailable,
+            Func<int> aiPriority,
+            DiceModificationType modificationType,
+            Func<int> getCount,
+            List<DieSide> sidesCanBeSelected = null,
+            DieSide sideCanBeChangedTo = DieSide.Unknown,
+            DiceModificationTimingType timing = DiceModificationTimingType.Normal,
+            bool isGlobal = false,
+            Action<Action<bool>> payAbilityCost = null,
+            Action payAbilityPostCost = null,
+            bool isTrueReroll = true,
+            bool isForcedFullReroll = false
+        )
         {
             if (sidesCanBeSelected == null) sidesCanBeSelected = new List<DieSide>() { DieSide.Blank, DieSide.Focus, DieSide.Success, DieSide.Crit };
 
@@ -467,7 +494,8 @@ namespace Abilities
                                     sidesCanBeSelected,
                                     sideCanBeChangedTo,
                                     timing,
-                                    isTrueReroll
+                                    isTrueReroll,
+                                    isForcedFullReroll
                                 );
                             }
                             else callback();
@@ -522,12 +550,21 @@ namespace Abilities
 
         protected class CustomDiceModification : GenericAction { }
 
-        private void GenericDiceModification(Action callback, DiceModificationType modificationType, Func<int> getCount, List<DieSide> sidesCanBeSelected, DieSide newSide, DiceModificationTimingType timing, bool isTrueReroll = true)
+        private void GenericDiceModification(
+            Action callback,
+            DiceModificationType modificationType,
+            Func<int> getCount,
+            List<DieSide> sidesCanBeSelected, 
+            DieSide newSide,
+            DiceModificationTimingType timing,
+            bool isTrueReroll = true,
+            bool isForcedFullReroll = false
+        )
         {
             switch (modificationType)
             {
                 case DiceModificationType.Reroll:
-                    DiceModificationReroll(callback, getCount, sidesCanBeSelected, timing, isTrueReroll);
+                    DiceModificationReroll(callback, getCount, sidesCanBeSelected, timing, isTrueReroll, isForcedFullReroll);
                     break;
                 case DiceModificationType.Change:
                     DiceModificationChange(callback, getCount, sidesCanBeSelected, newSide);
@@ -568,7 +605,7 @@ namespace Abilities
             }
         }
 
-        private void DiceModificationReroll(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing, bool isTrueReroll = true)
+        private void DiceModificationReroll(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing, bool isTrueReroll = true, bool isForcedFullReroll = false)
         {
             int diceCount = getCount();
 
@@ -580,6 +617,7 @@ namespace Abilities
                     SidesCanBeRerolled = sidesCanBeSelected,
                     IsOpposite = timing == DiceModificationTimingType.Opposite,
                     IsTrueReroll = isTrueReroll,
+                    IsForcedFullReroll = isForcedFullReroll,
                     CallBack = callback
                 };
                 diceRerollManager.Start();

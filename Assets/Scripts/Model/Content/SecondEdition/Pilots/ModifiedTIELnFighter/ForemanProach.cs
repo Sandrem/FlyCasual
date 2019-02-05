@@ -53,6 +53,7 @@ namespace Abilities.SecondEdition
         {
             if (TargetsForAbilityExist(FilterAbilityTarget))
             {
+                Selection.ChangeActiveShip(HostShip);
                 Messages.ShowInfoToHuman("Foreman Proach: Select a ship to gain 1 tractor token.");
 
                 SelectTargetForAbility(

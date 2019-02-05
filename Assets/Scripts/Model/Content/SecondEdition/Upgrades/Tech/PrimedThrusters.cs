@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Upgrade;
 namespace UpgradesList.SecondEdition
 {
-    public class PrimedThrusters : GenericUpgrade
+    public class PrimedThrusters : GenericUpgrade, IVariableCost
     {
         public PrimedThrusters() : base()
         {
@@ -17,6 +17,22 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/86/a1/86a1115b-eb55-491b-84e4-67e2b6124999/swz19_a1_primed-thrusters.png";
+        }
+        
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
+            {
+                {0, 4},
+                {1, 5},
+                {2, 6},
+                {3, 7},
+                {4, 8},
+                {5, 9},
+                {6, 10}
+            };
+
+            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Laetin A'shera",
                     3,
-                    35,
+                    33,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LaetinAshera),
                     extraUpgradeIcon: UpgradeType.Talent,

@@ -17,7 +17,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Asajj Ventress",
                     4,
-                    84,
+                    76,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AsajjVentressPilotAbility),
                     force: 2,
@@ -44,6 +44,8 @@ namespace Abilities.SecondEdition
 
         protected override void AskSelectShip(object sender, System.EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             SelectTargetForAbility(
                 CheckAssignStress,
                 FilterTargetsOfAbility,

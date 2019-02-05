@@ -11,8 +11,8 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Blue Squadron Recruit",
                     1,
-                    32
-                    //extraUpgradeIcon: UpgradeType.Talent //,
+                    32,
+                    extraUpgradeIcon: UpgradeType.Talent //,
                                                          //seImageNumber: 19
                 );
 

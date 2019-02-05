@@ -19,6 +19,7 @@ namespace Ship.SecondEdition.YT2400LightFreighter
             ShipInfo.Shields = 4;
 
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Cannon);
+            ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
 

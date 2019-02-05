@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Han Solo",
                 UpgradeType.Gunner,
-                cost: 4,
+                cost: 12,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.HanSoloGunnerAbilityScum),
                 restriction: new FactionRestriction(Faction.Scum),

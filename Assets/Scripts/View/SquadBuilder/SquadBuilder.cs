@@ -830,7 +830,14 @@ namespace SquadBuilderNS
         {
             string filename = "";
             var json = GetRandomAiSquad(out filename);
-            SetPlayerSquadFromImportedJson(filename, json, CurrentPlayer, callback);
+            SetPlayerSquadFromImportedJson(
+                filename,
+                json,
+                CurrentPlayer,
+                delegate {
+                    SetAiType(Options.AiType);
+                    callback();
+                });
         }
 
         private static JSONObject GetRandomAiSquad(out string filename)
@@ -892,6 +899,18 @@ namespace SquadBuilderNS
                 Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/Factions/" + editionName + "/" + imagePanel.name, typeof(Sprite));
                 imagePanel.GetComponent<Image>().sprite = sprite;
             }
+        }
+
+        public static void CheckAiButtonVisibility()
+        {
+            bool isAi = GetSquadList(CurrentPlayer).PlayerType.IsSubclassOf(typeof(GenericAiPlayer));
+            GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").gameObject.SetActive(isAi);
+
+            if (isAi)
+            {
+                SquadBuilder.SetAiType(Options.AiType);
+            }
+            
         }
 
     }

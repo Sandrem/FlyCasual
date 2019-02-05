@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Obstacles;
+using Ship;
 
 namespace Movement
 {
@@ -28,6 +29,23 @@ namespace Movement
         public float SuccessfullMovementProgress { get; private set; }
         public bool IsOffTheBoard;
 
+        public ShipPositionInfo FinalPositionInfo { get; private set; }
+        public Vector3 FinalPosition { get; private set; }
+        public Vector3 FinalAngles { get; private set; }
+
+        public MovementPrediction(GenericMovement movement)
+        {
+            CurrentMovement = movement;
+
+            Selection.ThisShip.ToggleColliders(false);
+            GenerateShipStands();
+        }
+
+        public IEnumerator CalculateMovementPredicition()
+        {
+            yield return UpdateColisionDetectionAlt();
+        }
+
         public MovementPrediction(GenericMovement movement, Action callBack)
         {
             CurrentMovement = movement;
@@ -43,6 +61,21 @@ namespace Movement
         private void GenerateShipStands()
         {
             generatedShipStands = CurrentMovement.PlanMovement();
+        }
+
+        private IEnumerator UpdateColisionDetectionAlt()
+        {
+            yield return WaitForFrames(2);
+            GetResults();
+        }
+
+        public static IEnumerator WaitForFrames(int frameCount)
+        {
+            while (frameCount > 0)
+            {
+                frameCount--;
+                yield return null;
+            }
         }
 
         private bool UpdateColisionDetection()
@@ -114,6 +147,18 @@ namespace Movement
                         }
 
                         finalPositionFound = true;
+
+                        // Rotate last temp base
+                        if (i == generatedShipStands.Length - 1 && CurrentMovement.RotationEndDegrees != 0)
+                        {
+                            Vector3 centerOfTempBase = generatedShipStands[i].transform.TransformPoint(new Vector3(0, 0, -0.5f));
+                            generatedShipStands[i].transform.RotateAround(centerOfTempBase, new Vector3(0, 1, 0), CurrentMovement.RotationEndDegrees);
+                        }
+
+                        FinalPosition = generatedShipStands[i].transform.position;
+                        FinalAngles = generatedShipStands[i].transform.eulerAngles;
+                        FinalPositionInfo = new ShipPositionInfo(FinalPosition, FinalAngles);
+
                         //break;
                     }
                 }
@@ -140,14 +185,14 @@ namespace Movement
 
             Selection.ThisShip.ToggleColliders(true);
 
-            if (!DebugManager.DebugMovement)
+            if (!DebugManager.DebugMovementDestroyTempBasesLater)
             {
                 DestroyGeneratedShipStands();
-                CallBack();
+                if (CallBack != null) CallBack();
             }
             else
             {
-                GameManagerScript.Wait(2, delegate { DestroyGeneratedShipStands(); CallBack(); });
+                GameManagerScript.Wait(2, delegate { DestroyGeneratedShipStands(); if (CallBack != null) CallBack(); });
             }
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ActionsList;
 using Actions;
 using Arcs;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,6 +17,9 @@ namespace Ship
                 ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.FullFront, 3);
                 ShipInfo.Hull = 9;
                 ShipInfo.Shields = 3;
+
+                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));
 

@@ -9,7 +9,7 @@ using SubPhases;
 
 namespace UpgradesList.SecondEdition
 {
-    public class BombletGenerator : GenericTimedBomb
+    public class BombletGenerator : GenericTimedBombSE
     {
         public BombletGenerator() : base()
         {

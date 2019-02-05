@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Inaldra",
                     2,
-                    32,
+                    31,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SerissuAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

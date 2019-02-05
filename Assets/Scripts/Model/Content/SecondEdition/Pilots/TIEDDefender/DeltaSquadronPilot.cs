@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "Delta Squadron Pilot",
                     1,
-                    72,
+                    70,
                     seImageNumber: 126
                 );
             }

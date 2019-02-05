@@ -10,7 +10,7 @@ public class Global : MonoBehaviour {
 
     private static bool isAlreadyInitialized;
 
-    public static string CurrentVersion = "0.7.2 DEV";
+    public static string CurrentVersion = "0.7.2";
     public static int CurrentVersionInt = 100070200;
 
     void Awake()
@@ -34,7 +34,7 @@ public class Global : MonoBehaviour {
 
     public static void BattleIsReady()
     {
-        if ((Roster.Player2 is Players.GenericAiPlayer) && (!Options.DontShowAiInfo))
+        if ((Roster.Player2 is Players.HotacAiPlayer) && (!Options.DontShowAiInfo))
         {
             MainMenu.ShowAiInformationContinue();
         }

@@ -103,7 +103,7 @@ public static partial class Roster
         {
             SquadBuilder.SetPlayerSquadFromImportedJson(squadList.Name, squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
 
-            if (Roster.GetPlayer(squadList.PlayerNo).GetType() != typeof(HotacAiPlayer))
+            if (Roster.GetPlayer(squadList.PlayerNo).PlayerType != PlayerType.Ai)
             {
                 JSONObject playerInfo = squadList.SavedConfiguration.GetField("PlayerInfo");
                 Roster.GetPlayer(squadList.PlayerNo).NickName = playerInfo.GetField("NickName").str;
@@ -369,6 +369,11 @@ public static partial class Roster
         ship.Owner.Ships.Add("ShipId:" + ship.ShipId, ship);
 
         Reserve.Remove(ship);
+    }
+
+    public static void ToggleStatusPanel(PlayerNo playerNo, bool isActive)
+    {
+        Roster.GetPlayer(playerNo).PlayerInfoPanel.transform.Find("StatusPanel").gameObject.SetActive(isActive);
     }
 
 }

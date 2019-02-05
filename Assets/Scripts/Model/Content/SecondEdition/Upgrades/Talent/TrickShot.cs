@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Trick Shot",
                 UpgradeType.Talent,
-                cost: 1,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.TrickShotAbility),
                 seImageNumber: 18
             );
@@ -35,7 +35,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbilityAndAddDice()
         {
-            if (Combat.Attacker.ShipId == HostShip.ShipId && Combat.ShotInfo.IsObstructedByAsteroid)
+            if (Combat.ShotInfo.IsObstructedByAsteroid)
             {
                 HostShip.AfterGotNumberOfAttackDice += RollExtraDie;
             }

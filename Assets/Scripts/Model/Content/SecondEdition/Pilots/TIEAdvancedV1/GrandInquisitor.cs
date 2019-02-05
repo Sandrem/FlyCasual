@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Grand Inquisitor",
                     5,
-                    58,
+                    56,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GrandInquisitorAbility),
                     force: 2,

@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.DareDevilAbility),
                 restrictions: new UpgradeCardRestrictions(
                     new BaseSizeRestriction(BaseSize.Small),
-                    new ActionBarRestriction(new ActionInfo(typeof(BoostAction), ActionColor.Red))
+                    new ActionBarRestriction(typeof(BoostAction), ActionColor.White)
                 ),
                 seImageNumber: 2
             );

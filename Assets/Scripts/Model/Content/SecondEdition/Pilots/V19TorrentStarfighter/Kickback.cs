@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
-namespace Ship.SecondEdition.V19Torrent
+namespace Ship.SecondEdition.V19TorrentStarfighter
 {
     public class Kickback : V19TorrentStarfighter
     {

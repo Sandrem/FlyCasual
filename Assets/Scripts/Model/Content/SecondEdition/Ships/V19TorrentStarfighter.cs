@@ -6,7 +6,7 @@ using Arcs;
 using Movement;
 using Upgrade;
 
-namespace Ship.SecondEdition.V19Torrent
+namespace Ship.SecondEdition.V19TorrentStarfighter
 {
     public class V19TorrentStarfighter : GenericShip
     {
@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.V19Torrent
         {
             ShipInfo = new ShipCardInfo
             (
-                "V-19 Torrent",
+                "V-19 Torrent Starfighter",
                 BaseSize.Small,
                 Faction.Republic,
                 new ShipArcsInfo(ArcType.Front, 2), 2, 5, 0,

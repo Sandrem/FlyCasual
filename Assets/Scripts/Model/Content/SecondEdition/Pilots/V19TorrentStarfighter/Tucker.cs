@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
-namespace Ship.SecondEdition.V19Torrent
+namespace Ship.SecondEdition.V19TorrentStarfighter
 {
-    // Luzak
     public class Tucker : V19TorrentStarfighter
     {
         public Tucker()
@@ -18,7 +17,7 @@ namespace Ship.SecondEdition.V19Torrent
                 abilityType: typeof(Abilities.SecondEdition.TuckerAbility)
             );
 
-            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_tucker_pl.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/79/05/790527b0-486c-4f5e-a1cb-bab1cf29fb5b/swz32_tucker.png";
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
 
             ModelInfo = new ShipModelInfo(
                 "Vulture",
-                "Empty"
+                "Default"
             );
 
             DialInfo = new ShipDialInfo(

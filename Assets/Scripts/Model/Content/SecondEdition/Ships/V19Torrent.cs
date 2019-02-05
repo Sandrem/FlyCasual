@@ -38,7 +38,7 @@ namespace Ship.SecondEdition.V19Torrent
 
             ModelInfo = new ShipModelInfo(
                 "V-19 Torrent",
-                "V-19 Torrent"
+                "Default"
             );
 
             DialInfo = new ShipDialInfo(

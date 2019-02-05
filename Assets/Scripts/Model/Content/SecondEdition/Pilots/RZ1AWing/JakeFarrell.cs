@@ -50,9 +50,6 @@ namespace Abilities.SecondEdition
         {
             if (action is BoostAction || action is BarrelRollAction)
             {
-                if (IsAbilityUsed) return;
-                IsAbilityUsed = true;
-
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, SelectTargetForJakeFarrellAbility);
             }
         }
@@ -72,10 +69,17 @@ namespace Abilities.SecondEdition
 
         private void GrantFreeFocusAction()
         {
+            Selection.ThisShip = TargetShip;
             TargetShip.AskPerformFreeAction(
                 new FocusAction() { HostShip = TargetShip },
-                SelectShipSubPhase.FinishSelection
+                AfterFreeFocusAction
             );
+        }
+
+        private void AfterFreeFocusAction()
+        {
+            Selection.ThisShip = HostShip;
+            SelectShipSubPhase.FinishSelection();
         }
 
         private bool FilterTargets(GenericShip ship)

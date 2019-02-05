@@ -5,8 +5,7 @@ using Upgrade;
 
 namespace Ship.SecondEdition.V19Torrent
 {
-    // Protektor Eskadry Niebieskich
-    public class BlueSquadronProtector : V19Torrent
+    public class BlueSquadronProtector : V19TorrentStarfighter
     {
         public BlueSquadronProtector()
         {
@@ -17,7 +16,7 @@ namespace Ship.SecondEdition.V19Torrent
                 extraUpgradeIcon: UpgradeType.Talent
             );
 
-            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_Blue-Sqd-protector_pl.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/51/18/5118d916-b09f-47a1-a4dd-0df667267d1b/swz32_blue-sqd-protector.png";
         }
     }
 }

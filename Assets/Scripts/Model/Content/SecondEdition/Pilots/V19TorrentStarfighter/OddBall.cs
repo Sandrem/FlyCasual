@@ -5,28 +5,27 @@ using Upgrade;
 
 namespace Ship.SecondEdition.V19Torrent
 {
-    // Nalot
-    public class Swoop : V19Torrent
+    public class OddBall : V19TorrentStarfighter
     {
-        public Swoop()
+        public OddBall()
         {
             PilotInfo = new PilotCardInfo(
-                "\"Swoop\"",
-                3,
-                44,
+                "\"Odd Ball\"",
+                5,
+                48,
                 true,
-                abilityType: typeof(Abilities.SecondEdition.SwoopAbility),
+                abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
                 extraUpgradeIcon: UpgradeType.Talent
             );
 
-            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_swoop_pl.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/18/d2/18d2b2c2-482a-4b6f-8c53-c3f0f24bea4b/swz32_odd-ball.png";
         }
     }
 }
 
 namespace Abilities.SecondEdition
 {
-    public class SwoopAbility : GenericAbility
+    public class OddBallAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

@@ -5,28 +5,27 @@ using Upgrade;
 
 namespace Ship.SecondEdition.V19Torrent
 {
-    // Topor
-    public class Axe : V19Torrent
+    public class Swoop : V19TorrentStarfighter
     {
-        public Axe()
+        public Swoop()
         {
             PilotInfo = new PilotCardInfo(
-                "\"Axe\"",
+                "\"Swoop\"",
                 3,
                 44,
                 true,
-                abilityType: typeof(Abilities.SecondEdition.AxeAbility),
+                abilityType: typeof(Abilities.SecondEdition.SwoopAbility),
                 extraUpgradeIcon: UpgradeType.Talent
             );
 
-            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_axe_PL.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c3/9f/c39f4623-a983-4fea-98aa-c11b37e867c0/swz32_swoop.png";
         }
     }
 }
 
 namespace Abilities.SecondEdition
 {
-    public class AxeAbility : GenericAbility
+    public class SwoopAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

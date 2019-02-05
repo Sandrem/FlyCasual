@@ -11,7 +11,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
         {
             PilotInfo = new PilotCardInfo(
                 "Mace Windu",
-                4,
+                5,
                 58,
                 true,
                 force: 2,
@@ -19,7 +19,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 extraUpgradeIcon: UpgradeType.Force
             );
 
-            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_Mace-Windu_pl.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/89/28/8928ae70-8883-4c39-9b15-a4754c063b88/swz32_mace-windu.png";
         }
     }
 }

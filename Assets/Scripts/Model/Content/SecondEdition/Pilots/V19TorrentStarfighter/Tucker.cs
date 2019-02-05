@@ -5,28 +5,27 @@ using Upgrade;
 
 namespace Ship.SecondEdition.V19Torrent
 {
-    // Szajbus
-    public class OddBall : V19Torrent
+    // Luzak
+    public class Tucker : V19TorrentStarfighter
     {
-        public OddBall()
+        public Tucker()
         {
             PilotInfo = new PilotCardInfo(
-                "\"Odd Ball\"",
-                5,
-                48,
+                "\"Tucker\"",
+                2,
+                42,
                 true,
-                abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                abilityType: typeof(Abilities.SecondEdition.TuckerAbility)
             );
 
-            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_odd-ball_pl.png";
+            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_tucker_pl.png";
         }
     }
 }
 
 namespace Abilities.SecondEdition
 {
-    public class OddBallAbility : GenericAbility
+    public class TuckerAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

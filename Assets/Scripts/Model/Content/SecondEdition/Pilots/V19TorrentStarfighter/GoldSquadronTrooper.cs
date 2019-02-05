@@ -5,8 +5,7 @@ using Upgrade;
 
 namespace Ship.SecondEdition.V19Torrent
 {
-    // Zolnierz Eskadry Zlotych
-    public class GoldSquadronTrooper : V19Torrent
+    public class GoldSquadronTrooper : V19TorrentStarfighter
     {
         public GoldSquadronTrooper()
         {
@@ -16,7 +15,7 @@ namespace Ship.SecondEdition.V19Torrent
                 40
             );
 
-            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_Gold-Sqd-trooper_pl.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/ab/a7/aba7c941-3472-453f-bfd8-032f5f854e0b/swz32_gold-sqd-trooper.png";
         }
     }
 }

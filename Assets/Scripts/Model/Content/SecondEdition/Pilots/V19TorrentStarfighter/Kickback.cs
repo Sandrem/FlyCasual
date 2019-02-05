@@ -5,27 +5,27 @@ using Upgrade;
 
 namespace Ship.SecondEdition.V19Torrent
 {
-    // Luzak
-    public class Tucker : V19Torrent
+    public class Kickback : V19TorrentStarfighter
     {
-        public Tucker()
+        public Kickback()
         {
             PilotInfo = new PilotCardInfo(
-                "\"Tucker\"",
-                2,
-                42,
+                "\"Kickback\"",
+                4,
+                46,
                 true,
-                abilityType: typeof(Abilities.SecondEdition.TuckerAbility)
+                abilityType: typeof(Abilities.SecondEdition.KickbackAbility),
+                extraUpgradeIcon: UpgradeType.Talent
             );
 
-            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_tucker_pl.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/57/c4/57c43689-5d1f-4fd2-b1f6-d4bec9448634/swz32_kickback.png";
         }
     }
 }
 
 namespace Abilities.SecondEdition
 {
-    public class TuckerAbility : GenericAbility
+    public class KickbackAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

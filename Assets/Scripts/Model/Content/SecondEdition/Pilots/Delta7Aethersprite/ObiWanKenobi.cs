@@ -19,7 +19,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 extraUpgradeIcon: UpgradeType.Force
             );
 
-            ImageUrl = "https://files.rebel.pl/images/wydawnictwo/zapowiedzi/Star_Wars/SWZ32_Obi-wan-Kenobi_pl.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f9/24/f9246e39-4852-4a8f-a331-9b78f62439e9/swz32_obi-wan-kenobi.png";
         }
     }
 }

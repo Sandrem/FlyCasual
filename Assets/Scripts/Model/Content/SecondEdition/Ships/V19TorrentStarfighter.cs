@@ -8,9 +8,9 @@ using Upgrade;
 
 namespace Ship.SecondEdition.V19Torrent
 {
-    public class V19Torrent : GenericShip
+    public class V19TorrentStarfighter : GenericShip
     {
-        public V19Torrent() : base()
+        public V19TorrentStarfighter() : base()
         {
             ShipInfo = new ShipCardInfo
             (

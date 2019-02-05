@@ -19,6 +19,8 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
 
             // TODO: Limited 2 
 
+            ModelInfo.SkinName = "Gray";
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/04/05/0405890a-0f0a-444e-b9eb-8d92dbdf3d63/swz29_hadr-chall.png";
         }
     }

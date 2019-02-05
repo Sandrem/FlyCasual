@@ -1,46 +1,16 @@
 fileFormatVersion: 2
-guid: 3d1490d47a779444da36be7d51137c5e
+guid: 846ebe1f689a64e42881e645f70c83a7
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Object01_1_001
-    100004: Object02_1_001
-    100006: Object03_1_001
-    100008: Object04_1_001
-    100010: Object05_1_001
-    100012: Object06_1_001
+    100002: default
     400000: //RootNode
-    400002: Object01_1_001
-    400004: Object02_1_001
-    400006: Object03_1_001
-    400008: Object04_1_001
-    400010: Object05_1_001
-    400012: Object06_1_001
-    2100000: Object01_1_001Mat
-    2100002: Object02_1_001Mat
-    2100004: Object03_1_001Mat
-    2100006: Object04_1_001Mat
-    2100008: Object05_1_001Mat
-    2100010: Object06_1_001Mat
-    2300000: Object01_1_001
-    2300002: Object02_1_001
-    2300004: Object03_1_001
-    2300006: Object04_1_001
-    2300008: Object05_1_001
-    2300010: Object06_1_001
-    3300000: Object01_1_001
-    3300002: Object02_1_001
-    3300004: Object03_1_001
-    3300006: Object04_1_001
-    3300008: Object05_1_001
-    3300010: Object06_1_001
-    4300000: Object01_1_001
-    4300002: Object02_1_001
-    4300004: Object03_1_001
-    4300006: Object04_1_001
-    4300008: Object05_1_001
-    4300010: Object06_1_001
+    400002: default
+    2100000: defaultMat
+    2300000: default
+    3300000: default
+    4300000: default
   externalObjects: {}
   materials:
     importMaterials: 1

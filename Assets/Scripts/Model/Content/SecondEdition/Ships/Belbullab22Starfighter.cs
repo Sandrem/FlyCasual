@@ -40,8 +40,8 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
             };
 
             ModelInfo = new ShipModelInfo(
-                "Belbullab",
-                "Belbullab"
+                "Belbullab-22",
+                "Default"
             );
 
             DialInfo = new ShipDialInfo(

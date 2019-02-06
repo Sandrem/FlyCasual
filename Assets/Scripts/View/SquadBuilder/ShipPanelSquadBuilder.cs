@@ -1,29 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using SquadBuilderNS;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using SquadBuilderNS;
 
 public class ShipPanelSquadBuilder : MonoBehaviour {
 
     public string ImageUrl;
     public string ShipName;
     public string FullType;
+    private const string TEXTURENAME = "SHIPPANEL_";
+    private string textureCacheKey = "";
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         this.gameObject.SetActive(false);
-
-        LoadImage();
+        textureCacheKey = TEXTURENAME + ImageUrl;
+        LoadTooltipImage(gameObject, ImageUrl);
         SetName();
         SetOnClickHandler();
-    }
-
-    private void LoadImage()
-    {
-        if (ImageUrl != null) Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
     }
 
     private void SetName()
@@ -31,31 +26,35 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         transform.Find("ShipName").GetComponent<Text>().text = FullType;
     }
 
-    private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
+    private void LoadTooltipImage(GameObject thisGameObject, string url)
     {
-        WWW www = ImageManager.GetImage(url);
-        yield return www;
-
-        if (www.error == null)
+        if (!SquadBuilder.TextureCache.ContainsKey(textureCacheKey))
         {
-            if (thisGameObject != null) SetImageFromWeb(thisGameObject.transform.Find("ShipImage").gameObject, www);
+            Global.Instance.StartCoroutine(ImageManager.GetTexture((texture) => 
+            {
+                if (thisGameObject != null && texture != null)
+                {
+                    SetObjectSprite(thisGameObject.transform.Find("ShipImage").gameObject, texture, false);
+                }
+                else
+                {
+                    ShowTextVersionOfCard();
+                }
+            }, url));
         }
         else
         {
-            ShowTextVersionOfCard();
+            SetObjectSprite(thisGameObject.transform.Find("ShipImage").gameObject, SquadBuilder.TextureCache[textureCacheKey], true);
         }
     }
 
-    private void SetImageFromWeb(GameObject targetObject, WWW www)
+    private void SetObjectSprite(GameObject targetObject, Texture2D newTexture, bool textureIsScaled)
     {
-        Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
-        www.LoadImageIntoTexture(newTexture);
-
-        TextureScale.Bilinear(newTexture, 600, 836);
-
-        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height-248, newTexture.width, 248), Vector2.zero);
+        if (!textureIsScaled) TextureScale.Bilinear(newTexture, 600, 836);
+        if (!SquadBuilder.TextureCache.ContainsKey(textureCacheKey)) SquadBuilder.TextureCache.Add(textureCacheKey, newTexture); //Since this Texture has been modified to fit this particular sprite we should just cache it for the ShipPanel
+        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height - 248, newTexture.width, 248), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
-
+        
         FinallyShow();
     }
 
@@ -78,7 +77,7 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         SquadBuilder.CurrentShip = shipName;
         MainMenu.CurrentMainMenu.ChangePanel("SelectPilotPanel");
     }
-    
+
     private void FinallyShow()
     {
         GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel/LoadingText");

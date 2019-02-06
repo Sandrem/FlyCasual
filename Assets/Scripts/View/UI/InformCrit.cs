@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using GameModes;
 using GameCommands;
+using UnityEngine.Networking;
+using SquadBuilderNS;
 
 public static class InformCrit
 {
@@ -24,31 +26,35 @@ public static class InformCrit
         if (InformCritPanel == null) Initialize();
         NetworkAnyPlayerConfirmedCrit = false;
 
-        Behavior.StartCoroutine(LoadTooltipImage(Combat.CurrentCriticalHitCard.ImageUrl));
+        LoadTooltipImage(Combat.CurrentCriticalHitCard.ImageUrl);
     }
 
-    private static IEnumerator LoadTooltipImage(string url)
+    private static void LoadTooltipImage(string url)
     {
-        WWW www = ImageManager.GetImage(url);
-        yield return www;
-
-        //TODO: add exception handler here
-        if (www.error == null)
+        if (!SquadBuilder.TextureCache.ContainsKey(url))
         {
-            SetImageFromWeb(InformCritPanel.Find("CritCardImage").gameObject, www);
+            Behavior.StartCoroutine(ImageManager.GetTexture((texture) =>
+            {
+                if (texture != null)
+                {
+                    if (!SquadBuilder.TextureCache.ContainsKey(url)) SquadBuilder.TextureCache.Add(url, texture);
+                    SetObjectSprite(InformCritPanel.Find("CritCardImage").gameObject, texture);
+                }
+                else
+                {
+                    SetTextInfo();
+                }
+            }, url));
         }
         else
         {
-            SetTextInfo();
+            SetObjectSprite(InformCritPanel.Find("CritCardImage").gameObject, SquadBuilder.TextureCache[url]);
         }
-
         ShowPanel();
     }
 
-    private static void SetImageFromWeb(GameObject targetObject, WWW www)
+    private static void SetObjectSprite(GameObject targetObject, Texture2D newTexture)
     {
-        Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
-        www.LoadImageIntoTexture(newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
         targetObject.transform.Find("TextInfo").GetComponent<Text>().text = "";

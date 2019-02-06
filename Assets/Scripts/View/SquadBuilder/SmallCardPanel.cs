@@ -1,8 +1,7 @@
 ﻿using Editions;
+using SquadBuilderNS;
 using SubPhases;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -15,6 +14,8 @@ public class SmallCardPanel : MonoBehaviour {
     private Action<string> OnClick;
     private DecisionViewTypes DecisionViewType;
     private static readonly Vector2 ImagesDamageCardSize = new Vector2(194, 300);
+    private const string TEXTURENAME = "CARDPANEL_";
+    private string textureCacheKey;
 
     public void Initialize(string damageCardName, string damageCardTooltip, Action<string> onClick = null, DecisionViewTypes decisionViewType = DecisionViewTypes.ImagesUpgrade, int count = -1)
     {
@@ -31,7 +32,8 @@ public class SmallCardPanel : MonoBehaviour {
 
         if (!String.IsNullOrEmpty(CardTooltip))
         {
-            LoadImage();
+            textureCacheKey = TEXTURENAME + CardTooltip;
+            LoadTooltipImage(this.gameObject, CardTooltip);
         }
         else
         {
@@ -41,54 +43,53 @@ public class SmallCardPanel : MonoBehaviour {
         SetOnClickHandler();
     }
 
-    private void LoadImage()
+    private void LoadTooltipImage(GameObject thisGameObject, string url)
     {
-        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, CardTooltip));
-    }
-
-    private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
-    {
-        WWW www = ImageManager.GetImage(url);
-        yield return www;
-
-        if (www.error == null)
+        if (!SquadBuilder.TextureCache.ContainsKey(textureCacheKey))
         {
-            if (thisGameObject != null)
+            Global.Instance.StartCoroutine(ImageManager.GetTexture((texture) =>
             {
-                SetImageFromWeb(thisGameObject.transform.Find("CardImage").gameObject, www);
-            }
+                if (thisGameObject != null && texture != null)
+                {
+                    SetObjectSprite(thisGameObject.transform.Find("CardImage").gameObject, texture, false);
+                }
+                else
+                {
+                    ShowTextVersionOfCard();
+                }
+            }, url));
         }
         else
         {
-            ShowTextVersionOfCard();
+            SetObjectSprite(thisGameObject.transform.Find("CardImage").gameObject, SquadBuilder.TextureCache[textureCacheKey], true);
         }
     }
 
-    private void SetImageFromWeb(GameObject targetObject, WWW www)
+    private void SetObjectSprite(GameObject targetObject, Texture2D newTexture, bool textureIsScaled)
     {
-        Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
-        www.LoadImageIntoTexture(newTexture);
-
-        switch (DecisionViewType)
+        if (!textureIsScaled)
         {
-            case DecisionViewTypes.ImagesUpgrade:
-                TextureScale.Bilinear(
-                    newTexture,
-                    (int)Edition.Current.UpgradeCardSize.x,
-                    (int)Edition.Current.UpgradeCardSize.y
-                );
-                break;
-            case DecisionViewTypes.ImagesDamageCard:
-                TextureScale.Bilinear(
-                    newTexture,
-                    (int)ImagesDamageCardSize.x,
-                    (int)ImagesDamageCardSize.y
-                );
-                break;
-            default:
-                break;
+            switch (DecisionViewType)
+            {
+                case DecisionViewTypes.ImagesUpgrade:
+                    TextureScale.Bilinear(
+                        newTexture,
+                        (int)Edition.Current.UpgradeCardSize.x,
+                        (int)Edition.Current.UpgradeCardSize.y
+                    );
+                    break;
+                case DecisionViewTypes.ImagesDamageCard:
+                    TextureScale.Bilinear(
+                        newTexture,
+                        (int)ImagesDamageCardSize.x,
+                        (int)ImagesDamageCardSize.y
+                    );
+                    break;
+                default:
+                    break;
+            }
         }
-
+        if (!SquadBuilder.TextureCache.ContainsKey(textureCacheKey)) SquadBuilder.TextureCache.Add(textureCacheKey, newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
         Image image = targetObject.transform.GetComponent<Image>();
         image.sprite = newSprite;

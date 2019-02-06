@@ -30,19 +30,23 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.ChangeFirepowerBy(1);
-            HostShip.AfterGotNumberOfAttackDice += CheckWeakArc;
+            HostShip.AfterGotNumberOfAttackDice += CheckArcBonus;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.ChangeFirepowerBy(-1);
-            HostShip.AfterGotNumberOfAttackDice -= CheckWeakArc;
+            HostShip.AfterGotNumberOfAttackDice -= CheckArcBonus;
         }
 
-        private void CheckWeakArc(ref int count)
+        private void CheckArcBonus(ref int count)
         {
-            if (HostShip.ArcsInfo.GetArc<Arcs.ArcSingleTurret>().Facing != ArcFacing.Front) count--;
+            if (HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Front)
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
+            )
+            {
+                Messages.ShowInfo("Punishing One: +1 attack die");
+                count++;
+            }
         }
     }
 }

@@ -81,6 +81,19 @@ namespace ActionsList
             newPhase.SpacetugOwner = this.HostShip;
             newPhase.Start();
         }
+
+        public override void RevertActionOnFail(bool hasSecondChance = false)
+        {
+            if (hasSecondChance)
+            {
+                UI.ShowSkipButton();
+                UI.HighlightNextButton();
+            }
+            else
+            {
+                Phases.GoBack();
+            }
+        }
     }
 }
 
@@ -99,16 +112,34 @@ namespace SubPhases
                 FilterAbilityTargets,
                 GetAiAbilityPriority,
                 Selection.ThisShip.Owner.PlayerNo,
-                true,
+                false,
                 "Spacetug Tractor Array",
                 "Choose a ship inside your firing arc at range 1 to assign a tractor beam token to it.",
                 SpacetugOwner
             );
         }
 
+        protected override void CancelShipSelection()
+        {
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, true);
+        }
+
+        public override void SkipButton()
+        {
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, false);
+        }
+
         private bool FilterAbilityTargets(GenericShip ship)
         {
-            return true; // Check in "SelectSpacetugTarget" to handle wrong target
+            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, ship, SpacetugOwner.PrimaryWeapons);
+            if (shotInfo.InArc && shotInfo.Range == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private int GetAiAbilityPriority(GenericShip ship)
@@ -157,11 +188,6 @@ namespace SubPhases
 
             TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
             TargetShip.Tokens.AssignToken(token, CallBack);
-        }
-
-        public override void SkipButton()
-        {
-            SelectShipSubPhase.FinishSelection();
         }
     }
 }

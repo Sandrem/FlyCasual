@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Editions;
+using ActionsList;
 
 namespace RulesList
 {
@@ -176,17 +177,20 @@ namespace SubPhases
 
         private void PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants template)
         {
+            BarrelRollAction stubAction = new BarrelRollAction{ HostShip = TheShip };
+
             BarrelRollPlanningSubPhase brPlanning = (BarrelRollPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Select position",
                 typeof(BarrelRollPlanningSubPhase),
                 delegate {
-                    FinishTractorBeamMovement(new ActionsList.BarrelRollAction());
+                    FinishTractorBeamMovement(stubAction);
                 }
             );
             brPlanning.Name = "Select position";
             brPlanning.TheShip = TheShip;
             brPlanning.IsTemporary = true;
             brPlanning.Controller = Assigner;
+            brPlanning.HostAction = stubAction;
 
             brPlanning.IsTractorBeamBarrelRoll = true;
             brPlanning.SelectTemplate(template);
@@ -207,13 +211,16 @@ namespace SubPhases
 
         private void PerfromStraightTemplatePlanning()
         {
+            BoostAction stubAction = new BoostAction() { HostShip = TheShip };
+
             BoostPlanningSubPhase boostPlanning = (BoostPlanningSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Boost",
                 typeof(BoostPlanningSubPhase),
                 delegate {
-                    FinishTractorBeamMovement(new ActionsList.BoostAction());
+                    FinishTractorBeamMovement(stubAction);
                 }
             );
+            boostPlanning.HostAction = stubAction;
             InitializeBostPlanning(boostPlanning);
             Phases.UpdateHelpInfo();
             boostPlanning.TryPerformBoost();

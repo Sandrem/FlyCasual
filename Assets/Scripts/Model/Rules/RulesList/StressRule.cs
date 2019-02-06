@@ -19,7 +19,8 @@ namespace RulesList
                 Name = "Check stress",
                 TriggerOwner = ship.Owner.PlayerNo,
                 TriggerType = TriggerTypes.OnMovementExecuted,
-                EventHandler = CheckStress
+                EventHandler = CheckStress,
+                Skippable = true
             });
 
             if (ship.Owner.UsesHotacAiRules)

@@ -262,7 +262,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCancelBarrelRoll()
     {
-        (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll();
+        //TODONETWORK
+        (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll(null);
     }
 
     // BOOST

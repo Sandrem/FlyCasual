@@ -281,7 +281,7 @@ namespace SubPhases
             var prevPhase = Phases.CurrentSubPhase;
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
-            if ((prevPhase is BarrelRollPlanningSubPhase) && !(prevPhase as BarrelRollPlanningSubPhase).IsBarrelRollAllowed()) {
+            if ((prevPhase is BarrelRollPlanningSubPhase) && (prevPhase as BarrelRollPlanningSubPhase).CheckBarrelRollProblems().Count > 0) {
                 RegisterTractorPlanning();
             }
         }

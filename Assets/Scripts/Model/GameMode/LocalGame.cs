@@ -86,9 +86,9 @@ namespace GameModes
             (Phases.CurrentSubPhase as BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
         }
 
-        public override void CancelBarrelRoll()
+        public override void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
         {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll(barrelRollProblems);
         }
 
         // DECLOAK

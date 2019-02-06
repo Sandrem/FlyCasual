@@ -132,7 +132,7 @@ namespace Editions
             {
                 if (!IsTractorBeamFailed())
                 {
-                    if (!overWrittenInstead) Messages.ShowError("Action is skipped");
+                    // if (!overWrittenInstead) Messages.ShowError("Action is skipped");
                     Phases.Skip();
                 }
                 else

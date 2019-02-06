@@ -29,7 +29,7 @@ namespace GameModes
         public abstract void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition);
 
         public abstract void StartBarrelRollExecution();
-        public abstract void CancelBarrelRoll();
+        public abstract void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems);
         public abstract void FinishBarrelRoll();
 
         public abstract void TryConfirmDecloakPosition(Vector3 shipBasePosition, string helperName, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles);

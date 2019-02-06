@@ -101,7 +101,7 @@ namespace ActionsList
         {
             if (hasSecondChance)
             {
-                Messages.ShowInfo("Select another target or press Skip");
+                UI.ShowSkipButton();
             }
             else
             {

@@ -279,6 +279,7 @@ namespace SubPhases
 
             if (updatesCount > 1)
             {
+                updatesCount = 0;
                 GetResults(canBoostCallback);
                 isFinished = true;
             }

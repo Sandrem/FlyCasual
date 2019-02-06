@@ -75,8 +75,9 @@ namespace GameModes
             Network.FinishTask();
         }
 
-        public override void CancelBarrelRoll()
+        public override void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
         {
+            //TODONETWORK
             Network.CancelBarrelRoll();
         }
 

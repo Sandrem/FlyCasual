@@ -60,6 +60,8 @@ namespace Ship
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
         public event EventHandlerShipType OnTokenIsRemoved;
         public static event EventHandlerShipType OnTokenIsRemovedGlobal;
+        public event EventHandlerShipTokenBool OnBeforeTokenIsRemoved;
+        public static event EventHandlerShipTokenBool OnBeforeTokenIsRemovedGlobal;
 
         public event EventHandlerShipType OnConditionIsAssigned;
         public event EventHandlerShipType OnConditionIsRemoved;
@@ -525,6 +527,17 @@ namespace Ship
         public void CallOnConditionIsRemoved(System.Type tokenType)
         {
             if (OnConditionIsRemoved != null) OnConditionIsRemoved(this, tokenType);
+        }
+
+        public bool CanRemoveToken(GenericToken token)
+        {
+            bool result = true;
+
+            if (OnBeforeTokenIsRemoved != null) OnBeforeTokenIsRemoved(this, token, ref result);
+
+            if (OnBeforeTokenIsRemovedGlobal != null) OnBeforeTokenIsRemovedGlobal(this, token, ref result);
+
+            return result;
         }
 
         public void CallOnRemoveTokenEvent(System.Type tokenType)

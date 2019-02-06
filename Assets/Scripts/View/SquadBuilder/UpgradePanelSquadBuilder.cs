@@ -8,6 +8,7 @@ using SquadBuilderNS;
 using Upgrade;
 using Mods;
 using Editions;
+using UnityEngine.Networking;
 
 public class UpgradePanelSquadBuilder : MonoBehaviour {
 
@@ -15,6 +16,8 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private GenericUpgrade Upgrade;
     private UpgradeSlot Slot;
     private Action<UpgradeSlot, GenericUpgrade> OnClick;
+    private const string TEXTURENAME = "UPGRADEPANEL_";
+    private string textureCacheKey;
     private bool ShowFromModInfo;
     private bool Compact;
 
@@ -40,7 +43,8 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         }
         else
         {
-            LoadImage();
+            textureCacheKey = TEXTURENAME + Upgrade.ImageUrl;
+            LoadTooltipImage(gameObject, Upgrade.ImageUrl);
             if (ShowFromModInfo) SetFromModeName();
         }
 
@@ -62,35 +66,32 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         this.gameObject.SetActive(true);
     }
 
-    private void LoadImage()
+    private void LoadTooltipImage(GameObject thisGameObject, string url)
     {
-        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, Upgrade.ImageUrl));
-    }
-
-    private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
-    {
-        WWW www = ImageManager.GetImage(url);
-        yield return www;
-
-        if (www.error == null)
+        if (!SquadBuilder.TextureCache.ContainsKey(textureCacheKey))
         {
-            if (thisGameObject != null)
+            Global.Instance.StartCoroutine(ImageManager.GetTexture((texture) =>
             {
-                SetImageFromWeb(thisGameObject.transform.Find("UpgradeImage").gameObject, www);
-            }
+                if (thisGameObject != null && texture != null)
+                {
+                    SetObjectSprite(thisGameObject.transform.Find("UpgradeImage").gameObject, texture, false);
+                }
+                else
+                {
+                    ShowTextVersionOfCard();
+                }
+            }, url));
         }
         else
         {
-            ShowTextVersionOfCard();
+            SetObjectSprite(thisGameObject.transform.Find("UpgradeImage").gameObject, SquadBuilder.TextureCache[textureCacheKey], true);
         }
     }
 
-    private void SetImageFromWeb(GameObject targetObject, WWW www)
+    private void SetObjectSprite(GameObject targetObject, Texture2D newTexture, bool textureIsScaled)
     {
-        Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
-        www.LoadImageIntoTexture(newTexture);
-        TextureScale.Bilinear(newTexture, (int)Edition.Current.UpgradeCardSize.x, (int)Edition.Current.UpgradeCardSize.y);
-
+        if (!textureIsScaled) TextureScale.Bilinear(newTexture, (int)Edition.Current.UpgradeCardSize.x, (int)Edition.Current.UpgradeCardSize.y);
+        if (!SquadBuilder.TextureCache.ContainsKey(textureCacheKey)) SquadBuilder.TextureCache.Add(textureCacheKey, newTexture);
         Sprite newSprite = null;
         if (!Compact)
         {

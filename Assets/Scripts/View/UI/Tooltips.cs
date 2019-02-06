@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using SquadBuilderNS;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,6 +15,9 @@ public static class Tooltips {
 
     private static MonoBehaviour Behavior;
     private static Transform TooltipsPanel;
+
+    private const float TARGET_TOOLTIP_HEIGHT = .95F;
+    private const float TARGET_TOOLTIP_WIDTH = .75F;
 
     static Tooltips()
     {
@@ -41,7 +43,7 @@ public static class Tooltips {
             TooltipActivationSchedule = Time.time + TooltipActivationDelay;
             TooltipImageReady = false;
 
-            Behavior.StartCoroutine(LoadTooltipImage(url));
+            LoadTooltipImage(url);
         }
     }
 
@@ -56,52 +58,95 @@ public static class Tooltips {
             TooltipActivationSchedule = Time.time + TooltipActivationDelay;
             TooltipImageReady = false;
 
-            Behavior.StartCoroutine(LoadTooltipImage(url));
+            LoadTooltipImage(url);
         }
     }
 
-    private static IEnumerator LoadTooltipImage(string url)
+    private static void LoadTooltipImage(string url)
     {
-        WWW www = ImageManager.GetImage(url);
-        yield return www;
-
-        if (TooltipsPanel != null && www.texture != null)
+        if (!SquadBuilder.TextureCache.ContainsKey(url))
         {
-            SetImageFromWeb(TooltipsPanel.Find("TooltipImage").gameObject, www);
-            AdaptTooltipWindowSize();
-
-            TooltipImageReady = true;
+            Behavior.StartCoroutine(ImageManager.GetTexture((texture) =>
+            {
+                if (texture != null)
+                {
+                    if (!SquadBuilder.TextureCache.ContainsKey(url)) SquadBuilder.TextureCache.Add(url, texture);
+                    SetObjectSprite(TooltipsPanel.Find("TooltipImage").gameObject, texture);
+                }
+            }, url));
+        }
+        else
+        {
+            SetObjectSprite(TooltipsPanel.Find("TooltipImage").gameObject, SquadBuilder.TextureCache[url]);
         }
     }
 
-    private static void SetImageFromWeb(GameObject targetObject, WWW www)
+    private static void SetObjectSprite(GameObject targetObject, Texture2D newTexture)
     {
-        Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
-        www.LoadImageIntoTexture(newTexture);
-        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
+        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero, 100, 0, SpriteMeshType.Tight, Vector4.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
+        SetSpriteScaleForWindow();
+        TooltipImageReady = true;
     }
 
-    private static void AdaptTooltipWindowSize()
+    private static void SetSpriteScaleForWindow()
     {
+        float targetHeight = Screen.height * TARGET_TOOLTIP_HEIGHT;
+        float targetWidth = Screen.width * TARGET_TOOLTIP_WIDTH;
         float width = TooltipsPanel.Find("TooltipImage").GetComponent<Image>().sprite.rect.width;
         float height = TooltipsPanel.Find("TooltipImage").GetComponent<Image>().sprite.rect.height;
-        TooltipsPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(width + 10, height + 10);
-        TooltipsPanel.Find("TooltipImage").GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+        float scale = 1;
+        if (height > targetHeight)
+        {
+            scale = targetHeight / height;
+        }
+        else if (width > targetWidth)
+        {
+            scale = targetWidth / width;
+        }
+        TooltipsPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(width * scale, height * scale);
+        TooltipsPanel.Find("TooltipImage").GetComponent<RectTransform>().sizeDelta = new Vector2(width * scale, height * scale);
     }
 
-    private static void SetFixedWindowPosition()
+    private static void SetTooltipPosition()
     {
-        float width = TooltipsPanel.GetComponent<RectTransform>().sizeDelta.x;
-        float height = TooltipsPanel.GetComponent<RectTransform>().sizeDelta.y;
+        RectTransform rect = TooltipsPanel.GetComponent<RectTransform>();
+        float height = rect.sizeDelta.y;
 
-        float positionX = Input.mousePosition.x + 5;
-        float positionY = Input.mousePosition.y - 5;
+        float positionX = Input.mousePosition.x;
+        float positionY = Input.mousePosition.y;
 
-        if (positionY < height) positionY = height + 5;
-        if ((positionX + width) > Screen.width) positionX = positionX - width - 10;
+        bool mouseIsLeft = positionX < (Screen.width / 2);
 
-        TooltipsPanel.position = new Vector2(positionX, positionY);
+        if (mouseIsLeft) //Move tooltip to right of mouse cursor
+        {
+            positionX += 5;
+            rect.pivot = new Vector2(0f, .5f);
+        }
+        else //Move tooltip to left of mouse cursor
+        {
+            positionX -= 10;
+            rect.pivot = new Vector2(1f, .5f);
+        }
+
+        //Determine pivot y-value, .5 y-value means directly in the middle, 0 y-value cursor is on the bottom of tooltip, 1 y-value cursor is on top of the tooltip
+        float spaceTop = Screen.height - positionY;
+        float spaceBottom = positionY;
+        float spaceNeededForHalf = height / 2;
+
+        if (spaceTop < spaceNeededForHalf) //lower image
+        {
+            float spaceNeeded = spaceNeededForHalf - spaceTop;
+            float percentNeeded = (spaceNeeded / height) + .06f;
+            rect.pivot = new Vector2(rect.pivot.x, rect.pivot.y + percentNeeded);
+        }
+        else if (spaceBottom < spaceNeededForHalf) //raise image
+        {
+            float spaceNeeded = spaceNeededForHalf - spaceBottom;
+            float percentNeeded = (spaceNeeded / height) + .06f;
+            rect.pivot = new Vector2(rect.pivot.x, rect.pivot.y - percentNeeded);
+        }
+        TooltipsPanel.transform.position = new Vector3(positionX, positionY);
     }
 
     public static void CheckTooltip()
@@ -120,7 +165,7 @@ public static class Tooltips {
 
     private static void ShowTooltip()
     {
-        SetFixedWindowPosition();
+        SetTooltipPosition();
         TooltipsPanel.gameObject.SetActive(true);
     }
 

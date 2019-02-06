@@ -1,11 +1,9 @@
 ﻿using Editions;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public interface IImageHolder
 {
@@ -14,51 +12,29 @@ public interface IImageHolder
 
 public static class ImageManager
 {
-
-    static public WWW GetImage(string url)
+    static public IEnumerator GetTexture(System.Action<Texture2D> callback, string url)
     {
         string filePath = Application.persistentDataPath + "/" + Edition.Current.Name + "/ImageCache";
         if (!Directory.Exists(filePath)) Directory.CreateDirectory(filePath);
         filePath += "/" + url.GetHashCode() + ".png";
         bool web = false;
-        WWW www;
+        UnityWebRequest www;
         if (File.Exists(filePath) && new FileInfo(filePath).Length > 100)
         {
             string pathforwww = "file://" + filePath;
-            //Debug.Log("TRYING FROM CACHE " + url + "  file " + pathforwww);
-            www = new WWW(pathforwww);
+            www = UnityWebRequestTexture.GetTexture(pathforwww);
         }
         else
         {
             web = true;
-            www = new WWW(url);
+            www = UnityWebRequestTexture.GetTexture(url);
         }
-        Global.Instance.StartCoroutine(DoLoad(www, filePath, web));
-        return www;
-    }
-
-    static IEnumerator DoLoad(WWW www, string filePath, bool web)
-    {
-        yield return www;
-
+        yield return www.SendWebRequest();
         if (www.error == null)
         {
             if (web)
             {
-                //System.IO.Directory.GetFiles
-                //Debug.Log("SAVING DOWNLOAD  " + www.url + " to " + filePath);
-                // string fullPath = filePath;
-                File.WriteAllBytes(filePath, www.bytes);
-                //Debug.Log("SAVING DONE  " + www.url + " to " + filePath);
-                //Debug.Log("FILE ATTRIBUTES  " + File.GetAttributes(filePath));
-                //if (File.Exists(fullPath))
-                // {
-                //    Debug.Log("File.Exists " + fullPath);
-                // }
-            }
-            else
-            {
-                //Debug.Log("SUCCESS CACHE LOAD OF " + www.url);
+                File.WriteAllBytes(filePath, www.downloadHandler.data);
             }
         }
         else
@@ -67,13 +43,11 @@ public static class ImageManager
             {
                 File.Delete(filePath);
             }
-            Debug.Log("Trying to download..." + www.url);
-            Debug.Log("WWW ERROR " + www.error);
         }
+        callback(DownloadHandlerTexture.GetContent(www));
     }
 
     // DELETE CACHED IMAGES FOR MIGRATIONS
-
     static public void DeleteCachedImage(string url, Type edition = null)
     {
         if (edition != null)

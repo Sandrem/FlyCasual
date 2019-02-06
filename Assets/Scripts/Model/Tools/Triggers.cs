@@ -43,6 +43,8 @@ public enum TriggerTypes
     OnFreeAction,
     BeforeFreeActionIsPerformed,
     OnActionIsPerformed,
+    OnActionIsReadyToBeFailed,
+    OnActionIsReallyFailed,
     OnBeforeTokenIsAssigned,
     OnTokenIsAssigned,
     OnTokenIsSpent,

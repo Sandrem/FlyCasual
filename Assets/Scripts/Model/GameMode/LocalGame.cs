@@ -6,6 +6,7 @@ using Players;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using GameCommands;
+using Actions;
 
 namespace GameModes
 {
@@ -85,9 +86,9 @@ namespace GameModes
             (Phases.CurrentSubPhase as BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
         }
 
-        public override void CancelBarrelRoll()
+        public override void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
         {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll(barrelRollProblems);
         }
 
         // DECLOAK
@@ -107,9 +108,9 @@ namespace GameModes
             (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishDecloakAnimation();
         }
 
-        public override void CancelDecloak()
+        public override void CancelDecloak(List<ActionFailReason> decloakProblems)
         {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak();
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak(decloakProblems);
         }
 
         // BOOST
@@ -129,9 +130,9 @@ namespace GameModes
             Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
         }
 
-        public override void CancelBoost()
+        public override void CancelBoost(List<ActionFailReason> boostProblems)
         {
-            (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost();
+            (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost(boostProblems);
         }
 
         // Swarm Manager

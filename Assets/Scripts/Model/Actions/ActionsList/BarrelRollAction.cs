@@ -7,6 +7,9 @@ using System;
 using System.Linq;
 using Editions;
 using Obstacles;
+using ActionsList;
+using SubPhases;
+using Actions;
 
 namespace ActionsList
 {
@@ -28,11 +31,25 @@ namespace ActionsList
             {
                 Phases.CurrentSubPhase.Pause();
 
-                Phases.StartTemporarySubPhaseOld(
+                BarrelRollPlanningSubPhase subphase = Phases.StartTemporarySubPhaseNew<BarrelRollPlanningSubPhase>(
                     "Barrel Roll",
-                    typeof(SubPhases.BarrelRollPlanningSubPhase),
                     Phases.CurrentSubPhase.CallBack
                 );
+                subphase.HostAction = this;
+                subphase.Start();
+            }
+        }
+
+        public override void RevertActionOnFail(bool hasSecondChance = false)
+        {
+            if (hasSecondChance)
+            {
+                (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).PerfromTemplatePlanning();
+            }
+            else
+            {
+                DecisionSubPhase.ConfirmDecision();
+                Phases.GoBack();
             }
         }
 
@@ -45,6 +62,8 @@ namespace SubPhases
 
     public class BarrelRollPlanningSubPhase : GenericSubPhase
     {
+        public GenericAction HostAction { get; set; }
+
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext }; } }
 
         bool useMobileControls;
@@ -227,7 +246,15 @@ namespace SubPhases
 
             selectBarrelRollPosition.RequiredPlayer = Controller.PlayerNo;
 
+            selectBarrelRollPosition.ShowSkipButton = true;
+            selectBarrelRollPosition.OnSkipButtonIsPressedOverwrite = FailBarrelRoll;
+
             selectBarrelRollPosition.Start();
+        }
+
+        private void FailBarrelRoll()
+        {
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, new List<ActionFailReason> { ActionFailReason.Bumped, ActionFailReason.ObstacleHit, ActionFailReason.OffTheBoard });
         }
 
         private void SetBarrelRollPosition(float position)
@@ -468,7 +495,14 @@ namespace SubPhases
             executionSubphase.Start();
         }
 
-        public void CancelBarrelRoll()
+        public void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
+        {
+            FinishBarrelRollPreparations();
+
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, barrelRollProblems, hasSecondChance: true);
+        }
+
+        private void FinishBarrelRollPreparations()
         {
             StopDrag();
 
@@ -476,10 +510,8 @@ namespace SubPhases
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
 
-            MonoBehaviour.Destroy(TemporaryShipBase);
-            BarrelRollTemplate.SetActive(false);
-
-            Edition.Current.ActionIsFailed(TheShip, typeof(ActionsList.BarrelRollAction));
+            if (TemporaryShipBase != null) MonoBehaviour.Destroy(TemporaryShipBase);
+            if (BarrelRollTemplate != null) BarrelRollTemplate.SetActive(false);
         }
 
         public void TryConfirmBarrelRollNetwork(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
@@ -516,6 +548,7 @@ namespace SubPhases
             if (updatesCount > 1)
             {
                 GetResults();
+                updatesCount = 0;
                 isFinished = true;
             }
             else
@@ -531,7 +564,9 @@ namespace SubPhases
             obstaclesStayDetectorBase.ReCheckCollisionsFinish();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
 
-            if (IsBarrelRollAllowed())
+            List<ActionFailReason> barrelRollProblems = CheckBarrelRollProblems();
+
+            if (barrelRollProblems.Count == 0)
             {
                 CheckMines();
                 TheShip.LandedOnObstacles = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
@@ -543,7 +578,7 @@ namespace SubPhases
             }
             else
             {
-                GameMode.CurrentGameMode.CancelBarrelRoll();
+                GameMode.CurrentGameMode.CancelBarrelRoll(barrelRollProblems);
             }
         }
 
@@ -556,32 +591,33 @@ namespace SubPhases
             }
         }
 
-        public bool IsBarrelRollAllowed()
+        public List<ActionFailReason> CheckBarrelRollProblems()
         {
-            bool allow = true;
+            List<ActionFailReason> failReasons = new List<ActionFailReason>();
 
             if (obstaclesStayDetectorBase.OverlapsShipNow)
             {
                 Messages.ShowError("Cannot overlap another ship");
-                allow = false;
+                failReasons.Add(ActionFailReason.Bumped);
             }
             else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBarrelRoll && !IsTractorBeamBarrelRoll
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 Messages.ShowError("Cannot overlap asteroid");
-                allow = false;
+                failReasons.Add(ActionFailReason.ObstacleHit);
             }
             else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
             {
                 Messages.ShowError("Cannot leave the battlefield");
-                allow = false;
+                failReasons.Add(ActionFailReason.OffTheBoard);
             }
 
-            return allow;
+            return failReasons;
         }
 
         public override void Next()
         {
+            FinishBarrelRollPreparations();
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
         }

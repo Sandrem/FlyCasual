@@ -8,6 +8,8 @@ using Tokens;
 using ActionsList;
 using GameModes;
 using Arcs;
+using Actions;
+using Editions;
 
 namespace Ship
 {
@@ -78,6 +80,9 @@ namespace Ship
         public event EventHandlerActionRef OnCheckActionComplexity;
 
         public event EventHandlerArcFacingList OnGetAvailableArcFacings;
+
+        public event EventHandlerFailedAction OnActionIsReadyToBeFailed;
+        public event EventHandlerAction OnActionIsReallyFailed;
 
         // ACTIONS
 
@@ -629,6 +634,71 @@ namespace Ship
             if (OnGetAvailableArcFacings != null) OnGetAvailableArcFacings(availableArcFacings);
 
             return availableArcFacings;
+        }
+
+        // Action is failed
+
+        public void CallActionIsReadyToBeFailed(GenericAction action, List<ActionFailReason> failReasons, bool hasSecondChance = false)
+        {
+            bool isDefaultFailOverwritten = false;
+
+            if (action is CloakAction) isDefaultFailOverwritten = true;
+            if (OnActionIsReadyToBeFailed != null) OnActionIsReadyToBeFailed(action, failReasons, ref isDefaultFailOverwritten);
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnActionIsReadyToBeFailed, 
+                delegate
+                {
+                    CallOnActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
+                }
+            );
+        }
+
+        private void CallOnActionIsReallyFailed(GenericAction action, bool isDefaultFailOverwritten, bool hasSecondChance)
+        {
+            if (hasSecondChance)
+            {
+                Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
+            }
+            else
+            {
+                if (action.IsRed)
+                {
+                    if (!isDefaultFailOverwritten) Messages.ShowError("Red action is failed: Stress token is assigned");
+                    this.Tokens.AssignToken(
+                        typeof(StressToken),
+                        delegate
+                        {
+                            CallResolveActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
+                        }
+                    );
+                }
+                else
+                {
+                    if (!isDefaultFailOverwritten) Messages.ShowError("Action is failed");
+                    CallResolveActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
+                }
+            }
+        }
+
+        private void CallResolveActionIsReallyFailed(GenericAction action, bool isDefaultFailOverwritten, bool hasSecondChance)
+        {
+            if (!isDefaultFailOverwritten)
+            {
+                if (OnActionIsReallyFailed != null) OnActionIsReallyFailed(action);
+
+                Triggers.ResolveTriggers(
+                    TriggerTypes.OnActionIsReallyFailed,
+                    delegate
+                    {
+                        Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
+                    }
+                );
+            }
+            else
+            {
+                Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
+            }
         }
 
     }

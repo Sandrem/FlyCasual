@@ -1,7 +1,10 @@
-﻿using BoardTools;
+﻿using Actions;
+using ActionsList;
+using BoardTools;
 using Editions;
 using RulesList;
 using Ship;
+using SubPhases;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,13 +89,26 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhaseOld(
+            SelectTargetLockActionSubPhase subphase = Phases.StartTemporarySubPhaseNew<SelectTargetLockActionSubPhase>(
                 "Select target for Target Lock",
-                typeof(SubPhases.SelectTargetLockActionSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
+            subphase.HostAction = this;
+            subphase.Start();
         }
 
+        public override void RevertActionOnFail(bool hasSecondChance = false)
+        {
+            if (hasSecondChance)
+            {
+                UI.ShowSkipButton();
+                UI.HighlightNextButton();
+            }
+            else
+            {
+                Phases.GoBack();
+            }
+        }
     }
 
 }
@@ -102,15 +118,16 @@ namespace SubPhases
 
     public class SelectTargetLockActionSubPhase : AcquireTargetLockSubPhase
     {
-        public override void RevertSubPhase()
+        public GenericAction HostAction { get; set; }
+
+        protected override void CancelShipSelection()
         {
-            Edition.Current.ActionIsFailed(TheShip, typeof(ActionsList.TargetLockAction));
-            UpdateHelpInfo();
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, true);
         }
 
         public override void SkipButton()
         {
-            RevertSubPhase();
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, false);
         }
 
         protected override void SuccessfulCallback()
@@ -125,7 +142,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            CanMeasureRangeBeforeSelection = false;
+            CanMeasureRangeBeforeSelection = (Edition.Current is Editions.SecondEdition);
 
             if (AbilityName == null) AbilityName = "Target Lock";
             if (Description == null) Description = "Choose a ship to acquire a target lock on it";

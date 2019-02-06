@@ -6,6 +6,9 @@ using System.Linq;
 using UnityEngine;
 using Tokens;
 using Editions;
+using ActionsList;
+using Actions;
+using SubPhases;
 
 namespace ActionsList
 {
@@ -19,12 +22,25 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            var jamPhase = Phases.StartTemporarySubPhaseNew(
+            JamTargetSubPhase jamPhase = Phases.StartTemporarySubPhaseNew<JamTargetSubPhase>(
                 "Select target to Jam",
-                typeof(SubPhases.JamTargetSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
+            jamPhase.HostAction = this;
             jamPhase.Start();
+        }
+
+        public override void RevertActionOnFail(bool hasSecondChance = false)
+        {
+            if (hasSecondChance)
+            {
+                UI.ShowSkipButton();
+                UI.HighlightNextButton();
+            }
+            else
+            {
+                Phases.GoBack();
+            }
         }
 
     }
@@ -36,6 +52,7 @@ namespace SubPhases
 
     public class JamTargetSubPhase : SelectShipSubPhase
     {
+        public GenericAction HostAction { get; set; }
 
         public override void Prepare()
         {
@@ -44,10 +61,20 @@ namespace SubPhases
                 FilterJamTargets,
                 GetAiJamPriority,
                 Selection.ThisShip.Owner.PlayerNo,
-                true,
+                false,
                 "Jam Action",
                 "Select an enemy ship to get a Jam token."
             );
+        }
+
+        protected override void CancelShipSelection()
+        {
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, true);
+        }
+
+        public override void SkipButton()
+        {
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, false);
         }
 
         private int GetAiJamPriority(GenericShip ship)
@@ -119,16 +146,7 @@ namespace SubPhases
 
         public override void RevertSubPhase()
         {
-            Selection.ThisShip.RemoveAlreadyExecutedAction(typeof(ActionsList.JamAction));
 
-            Phases.FinishSubPhase(this.GetType());
-            Phases.CurrentSubPhase.Resume();
-            UpdateHelpInfo();
-        }
-
-        public override void SkipButton()
-        {
-            RevertSubPhase();
         }
     }
 

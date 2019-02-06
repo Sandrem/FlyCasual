@@ -1,4 +1,5 @@
-﻿using Arcs;
+﻿using ActionsList;
+using Arcs;
 using Movement;
 using Ship;
 using System;
@@ -36,11 +37,10 @@ namespace Editions
 
         public abstract int MinShipCost(Faction faction);
 
-        public virtual void ActionIsFailed(GenericShip ship, Type actionType)
+        public virtual void ActionIsFailed(GenericShip ship, GenericAction action, bool overWrittenInstead = false, bool hasSecondChance = false)
         {
-            ship.RemoveAlreadyExecutedAction(actionType);
-
-            Phases.GoBack();
+            if (!overWrittenInstead && !hasSecondChance) ship.RemoveAlreadyExecutedAction(action.GetType());
+            action.RevertActionOnFail(hasSecondChance);
         }
 
         public Edition()

@@ -178,8 +178,7 @@ namespace SubPhases
 
         public override void RevertSubPhase()
         {
-            Edition.Current.ActionIsFailed(TheShip, HostAction);
-            UpdateHelpInfo();
+            CancelShipSelection();
         }
 
         private void AssignSecondTractorBeamToken()

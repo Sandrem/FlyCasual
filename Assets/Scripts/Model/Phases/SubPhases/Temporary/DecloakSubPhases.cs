@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Actions;
+using ActionsList;
 
 namespace SubPhases
 {
@@ -340,7 +342,7 @@ namespace SubPhases
             executionSubphase.Start();
         }
 
-        public void CancelDecloak()
+        public void CancelDecloak(List<ActionFailReason> decloakProblems)
         {
             StopPlanning();
 
@@ -351,7 +353,10 @@ namespace SubPhases
             MonoBehaviour.Destroy(TemporaryShipBase);
             DecloakTemplate.SetActive(false);
 
-            Edition.Current.ActionIsFailed(TheShip, new ActionsList.CloakAction());
+            CloakAction stubAction = new CloakAction();
+            stubAction.HostShip = TheShip;
+
+            Rules.Actions.ActionIsFailed(TheShip, stubAction, decloakProblems);
         }
 
         private void StopPlanning()
@@ -398,7 +403,8 @@ namespace SubPhases
             obstaclesStayDetectorBase.ReCheckCollisionsFinish();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
 
-            if (IsDecloakAllowed())
+            List<ActionFailReason> decloakProblems = GetDecloakProblems();
+            if (decloakProblems.Count == 0)
             {
                 CheckMines();
                 Selection.ThisShip.LandedOnObstacles = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
@@ -406,7 +412,7 @@ namespace SubPhases
             }
             else
             {
-                GameMode.CurrentGameMode.CancelDecloak();
+                GameMode.CurrentGameMode.CancelDecloak(decloakProblems);
             }
         }
 
@@ -419,27 +425,27 @@ namespace SubPhases
             }
         }
 
-        private bool IsDecloakAllowed()
+        private List<ActionFailReason> GetDecloakProblems()
         {
-            bool allow = true;
+            List<ActionFailReason> result = new List<ActionFailReason>();
 
             if (obstaclesStayDetectorBase.OverlapsShipNow)
             {
                 Messages.ShowError("Cannot overlap another ship");
-                allow = false;
+                result.Add(ActionFailReason.Bumped);
             }
             else if ((!IsObstacleCanBeIgnored()) && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 Messages.ShowError("Cannot overlap asteroid");
-                allow = false;
+                result.Add(ActionFailReason.ObstacleHit);
             }
             else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
             {
                 Messages.ShowError("Cannot leave the battlefield");
-                allow = false;
+                result.Add(ActionFailReason.OffTheBoard);
             }
 
-            return allow;
+            return result;
         }
 
         private bool IsObstacleCanBeIgnored()
@@ -468,7 +474,7 @@ namespace SubPhases
 
         public override void SkipButton()
         {
-            CancelDecloak();
+            CancelDecloak(new List<ActionFailReason>() { ActionFailReason.NoTemplateAvailable });
         }
 
         protected class DecloakDirectionDecisionSubPhase : DecisionSubPhase { }

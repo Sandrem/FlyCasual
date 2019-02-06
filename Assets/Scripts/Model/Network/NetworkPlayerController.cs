@@ -360,7 +360,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCancelDecloak()
     {
-        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak();
+        //TODONETWORK
+        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak(null);
     }
 
     // SELECT TARGET SHIP

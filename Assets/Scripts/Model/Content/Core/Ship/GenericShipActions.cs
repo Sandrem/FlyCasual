@@ -642,6 +642,7 @@ namespace Ship
         {
             bool isDefaultFailOverwritten = false;
 
+            if (action is CloakAction) isDefaultFailOverwritten = true;
             if (OnActionIsReadyToBeFailed != null) OnActionIsReadyToBeFailed(action, failReasons, ref isDefaultFailOverwritten);
 
             Triggers.ResolveTriggers(

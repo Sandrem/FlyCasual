@@ -101,8 +101,9 @@ namespace GameModes
             Network.FinishTask();
         }
 
-        public override void CancelDecloak()
+        public override void CancelDecloak(List<ActionFailReason> decloakProblems)
         {
+            //TODONETWORK
             Network.CancelDecloak();
         }
 

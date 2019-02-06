@@ -108,9 +108,9 @@ namespace GameModes
             (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishDecloakAnimation();
         }
 
-        public override void CancelDecloak()
+        public override void CancelDecloak(List<ActionFailReason> decloakProblems)
         {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak();
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak(decloakProblems);
         }
 
         // BOOST

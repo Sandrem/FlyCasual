@@ -34,7 +34,7 @@ namespace GameModes
 
         public abstract void TryConfirmDecloakPosition(Vector3 shipBasePosition, string helperName, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles);
         public abstract void StartDecloakExecution(Ship.GenericShip ship);
-        public abstract void CancelDecloak();
+        public abstract void CancelDecloak(List<ActionFailReason> decloakProblems);
         public abstract void FinishDecloak();
 
         public abstract void TryConfirmBoostPosition(string selectedBoostHelper);

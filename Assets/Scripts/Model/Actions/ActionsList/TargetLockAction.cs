@@ -1,4 +1,5 @@
-﻿using ActionsList;
+﻿using Actions;
+using ActionsList;
 using BoardTools;
 using Editions;
 using RulesList;
@@ -96,6 +97,17 @@ namespace ActionsList
             subphase.Start();
         }
 
+        public override void RevertActionOnFail(bool hasSecondChance = false)
+        {
+            if (hasSecondChance)
+            {
+                Messages.ShowInfo("Select another target or press Skip");
+            }
+            else
+            {
+                Phases.GoBack();
+            }
+        }
     }
 
 }
@@ -107,15 +119,14 @@ namespace SubPhases
     {
         public GenericAction HostAction { get; set; }
 
-        public override void RevertSubPhase()
+        protected override void CancelShipSelection()
         {
-            Edition.Current.ActionIsFailed(TheShip, HostAction);
-            UpdateHelpInfo();
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, true);
         }
 
         public override void SkipButton()
         {
-            RevertSubPhase();
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, false);
         }
 
         protected override void SuccessfulCallback()
@@ -130,7 +141,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            CanMeasureRangeBeforeSelection = false;
+            CanMeasureRangeBeforeSelection = (Edition.Current is Editions.SecondEdition);
 
             if (AbilityName == null) AbilityName = "Target Lock";
             if (Description == null) Description = "Choose a ship to acquire a target lock on it";

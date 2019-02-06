@@ -638,7 +638,7 @@ namespace Ship
 
         // Action is failed
 
-        public void CallOnActionIsFailed(GenericAction action, List<ActionFailReason> failReasons)
+        public void CallActionIsReadyToBeFailed(GenericAction action, List<ActionFailReason> failReasons, bool hasSecondChance = false)
         {
             bool isDefaultFailOverwritten = false;
 
@@ -648,20 +648,56 @@ namespace Ship
                 TriggerTypes.OnActionIsReadyToBeFailed, 
                 delegate
                 {
-                    if (!isDefaultFailOverwritten)
-                    {
-                        if (OnActionIsReallyFailed != null) OnActionIsReallyFailed(action);
-                    }
+                    CallOnActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
+                }
+            );
+        }
 
-                    Triggers.ResolveTriggers(
-                        TriggerTypes.OnActionIsReallyFailed,
+        private void CallOnActionIsReallyFailed(GenericAction action, bool isDefaultFailOverwritten, bool hasSecondChance)
+        {
+            if (hasSecondChance)
+            {
+                Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
+            }
+            else
+            {
+                if (action.IsRed)
+                {
+                    if (!isDefaultFailOverwritten) Messages.ShowError("Red action is failed: Stress token is assigned");
+                    this.Tokens.AssignToken(
+                        typeof(StressToken),
                         delegate
                         {
-                            Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten);
+                            CallResolveActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
                         }
                     );
                 }
-            );
+                else
+                {
+                    if (!isDefaultFailOverwritten) Messages.ShowError("Action is failed");
+                    CallResolveActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
+                }
+            }
+        }
+
+        private void CallResolveActionIsReallyFailed(GenericAction action, bool isDefaultFailOverwritten, bool hasSecondChance)
+        {
+            if (!isDefaultFailOverwritten)
+            {
+                if (OnActionIsReallyFailed != null) OnActionIsReallyFailed(action);
+
+                Triggers.ResolveTriggers(
+                    TriggerTypes.OnActionIsReallyFailed,
+                    delegate
+                    {
+                        Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
+                    }
+                );
+            }
+            else
+            {
+                Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
+            }
         }
 
     }

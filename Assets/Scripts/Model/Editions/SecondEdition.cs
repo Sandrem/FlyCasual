@@ -122,20 +122,23 @@ namespace Editions
             }
         }
 
-        public override void ActionIsFailed(GenericShip ship, GenericAction action, bool overWrittenInstead = false)
+        public override void ActionIsFailed(GenericShip ship, GenericAction action, bool overWrittenInstead = false, bool hasSecondChance = false)
         {
-            base.ActionIsFailed(ship, action, overWrittenInstead);
+            base.ActionIsFailed(ship, action, overWrittenInstead, hasSecondChance);
 
             // Temporary solution for off-the-board problem
 
-            if (!IsTractorBeamFailed())
+            if (!hasSecondChance)
             {
-                Messages.ShowError("Action is failed and skipped");
-                Phases.Skip();
-            }
-            else
-            {
-                (Phases.CurrentSubPhase as TractorBeamPlanningSubPhase).RegisterTractorPlanning();
+                if (!IsTractorBeamFailed())
+                {
+                    if (!overWrittenInstead) Messages.ShowError("Action is skipped");
+                    Phases.Skip();
+                }
+                else
+                {
+                    (Phases.CurrentSubPhase as TractorBeamPlanningSubPhase).RegisterTractorPlanning();
+                }
             }
         }
 

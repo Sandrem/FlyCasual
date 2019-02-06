@@ -40,7 +40,7 @@ namespace ActionsList
             }
         }
 
-        public override void RevertActionOnFail()
+        public override void RevertActionOnFail(bool hasSecondChance = false)
         {
             Phases.GoBack();
         }
@@ -246,7 +246,7 @@ namespace SubPhases
             Game.Movement.CollidedWith = null;
             MovementTemplates.HideLastMovementRuler();
 
-            TheShip.CallOnActionIsFailed(HostAction, boostProblems);
+            TheShip.CallActionIsReadyToBeFailed(HostAction, boostProblems);
         }
 
         private void HidePlanningTemplates()

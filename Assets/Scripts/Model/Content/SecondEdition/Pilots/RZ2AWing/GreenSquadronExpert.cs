@@ -17,7 +17,7 @@ namespace Ship
                                                          //seImageNumber: 19
                 );
 
-                //ModelInfo.SkinName = "Green";
+                ModelInfo.SkinName = "Green";
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/3f7ad9efb4c5af8b4d1f5c07a3c7538b.png";
             }

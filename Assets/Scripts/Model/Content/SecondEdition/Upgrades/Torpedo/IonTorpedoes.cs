@@ -21,39 +21,9 @@ namespace UpgradesList.SecondEdition
                     requiresToken: typeof(BlueTargetLockToken),
                     charges: 2
                 ),
-                abilityType: typeof(Abilities.SecondEdition.IonTorpedoesAbility),
+                abilityType: typeof(Abilities.SecondEdition.IonDamageAbility),
                 seImageNumber: 34
             );
         }        
     }
-}
-
-namespace Abilities.SecondEdition
-{
-    public class IonTorpedoesAbility : Abilities.FirstEdition.IonDamageAbility
-    {
-
-        protected override void IonWeaponEffect(object sender, System.EventArgs e)
-        {
-            var ionTokens = Combat.DiceRollAttack.Successes - 1;
-            Combat.DiceRollAttack.CancelAllResults();
-            Combat.DiceRollAttack.RemoveAllFailures();
-
-            if (ionTokens > 0)
-            {
-                Combat.Defender.Tokens.AssignTokens(
-                    () => new IonToken(Combat.Defender),
-                    ionTokens,
-                    delegate {
-                        GameManagerScript.Wait(2, DefenderSuffersDamage);
-                    }
-                );
-            }
-            else
-            {
-                DefenderSuffersDamage();
-            }
-        }
-    }
-
 }

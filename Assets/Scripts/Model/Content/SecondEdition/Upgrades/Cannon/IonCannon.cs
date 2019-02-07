@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
                     minRange: 1,
                     maxRange: 3
                 ),
-                abilityType: typeof(Abilities.SecondEdition.IonCannonAbility),
+                abilityType: typeof(Abilities.SecondEdition.IonDamageAbility),
                 seImageNumber: 28
             );
         }        
@@ -27,10 +27,10 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class IonCannonAbility : Abilities.FirstEdition.IonCannonAbility
+    public class IonDamageAbility : Abilities.FirstEdition.IonDamageAbility
     {
 
-        protected override void IonCannonEffect(object sender, System.EventArgs e)
+        protected override void IonWeaponEffect(object sender, System.EventArgs e)
         {
             int ionTokens = Combat.DiceRollAttack.Successes - 1;
             Combat.DiceRollAttack.CancelAllResults();

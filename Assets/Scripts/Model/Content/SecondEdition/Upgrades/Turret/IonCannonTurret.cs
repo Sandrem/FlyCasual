@@ -24,7 +24,7 @@ namespace UpgradesList.SecondEdition
                 ),
                 addArc: new ShipArcInfo(ArcType.SingleTurret),
                 addAction: new ActionInfo(typeof(RotateArcAction)),
-                abilityType: typeof(Abilities.FirstEdition.IonDamageAbility),
+                abilityType: typeof(Abilities.SecondEdition.IonDamageAbilityTurret),
                 seImageNumber: 32
             );
         }        
@@ -33,7 +33,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class IonDamageAbilityTurret : Abilities.FirstEdition.IonDamageAbility
+    public class IonDamageAbilityTurret : Abilities.SecondEdition.IonDamageAbility
     {
         public override void ActivateAbilityForSquadBuilder()
         {
@@ -43,29 +43,6 @@ namespace Abilities.SecondEdition
         public override void DeactivateAbilityForSquadBuilder()
         {
             HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
-        }
-
-        protected override void IonWeaponEffect(object sender, System.EventArgs e)
-        {
-            int ionTokens = Combat.DiceRollAttack.Successes - 1;
-            Combat.DiceRollAttack.CancelAllResults();
-            Combat.DiceRollAttack.RemoveAllFailures();
-
-            if (ionTokens > 0)
-            {
-                Combat.Defender.Tokens.AssignTokens(
-                    () => new IonToken(Combat.Defender),
-                    ionTokens,
-                    delegate
-                    {
-                        GameManagerScript.Wait(2, DefenderSuffersDamage);
-                    }
-                );
-            }
-            else
-            {
-                DefenderSuffersDamage();
-            }
         }
     }
 }

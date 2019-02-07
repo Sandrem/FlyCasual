@@ -276,11 +276,11 @@ namespace Abilities
         {
             bool result = false;
 
-            if (targetTypes.Contains(TargetTypes.Enemy) && ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo) result = true;
+            if (targetTypes.Contains(TargetTypes.Enemy) && ship.Owner.PlayerNo != hostShip.Owner.PlayerNo) result = true;
 
-            if (targetTypes.Contains(TargetTypes.This) && ship.ShipId == Selection.ThisShip.ShipId) result = true;
+            if (targetTypes.Contains(TargetTypes.This) && ship.ShipId == hostShip.ShipId) result = true;
 
-            if (targetTypes.Contains(TargetTypes.OtherFriendly) && ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo && ship.ShipId != Selection.ThisShip.ShipId) result = true;
+            if (targetTypes.Contains(TargetTypes.OtherFriendly) && ship.Owner.PlayerNo == hostShip.Owner.PlayerNo && ship.ShipId != hostShip.ShipId) result = true;
 
             return result;
         }
@@ -291,7 +291,7 @@ namespace Abilities
 
             if ((Phases.CurrentSubPhase as SelectShipSubPhase) == null || (Phases.CurrentSubPhase as SelectShipSubPhase).CanMeasureRangeBeforeSelection)
             {
-                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
+                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(hostShip, ship);
                 if (distanceInfo.Range < minRange) return false;
                 if (distanceInfo.Range > maxRange) return false;
             }

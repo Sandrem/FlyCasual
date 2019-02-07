@@ -102,7 +102,7 @@ namespace ActionsList
             if (hasSecondChance)
             {
                 UI.ShowSkipButton();
-                UI.HighlightNextButton();
+                UI.HighlightSkipButton();
             }
             else
             {

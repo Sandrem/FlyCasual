@@ -306,6 +306,11 @@ public class UI : MonoBehaviour {
         GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Animator>().enabled = true;
     }
 
+    public static void HighlightSkipButton()
+    {
+        GameObject.Find("UI").transform.Find("SkipPanel").Find("SkipButton").GetComponent<Animator>().enabled = true;
+    }
+
     public static void CallHideTooltip()
     {
         Tooltips.EndTooltip();

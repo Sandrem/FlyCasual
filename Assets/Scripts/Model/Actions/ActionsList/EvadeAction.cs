@@ -26,7 +26,17 @@ namespace ActionsList
         public override bool IsDiceModificationAvailable()
         {
             bool result = false;
-            if (Combat.AttackStep == CombatStep.Defence) result = true;
+            if (Combat.AttackStep == CombatStep.Defence)
+            {
+                if (Edition.Current is Editions.SecondEdition)
+                {
+                     if (Combat.CurrentDiceRoll.Count != 0) result = true;
+                }
+                else
+                {
+                    result = true;
+                }
+            }
             return result;
         }
 
@@ -44,7 +54,7 @@ namespace ActionsList
                 }
             }
 
-            if (Editions.Edition.Current is Editions.SecondEdition && Combat.DiceRollDefence.Failures == 0) return 0;
+            if (Edition.Current is Editions.SecondEdition && Combat.DiceRollDefence.Failures == 0) return 0;
 
             return result;
         }

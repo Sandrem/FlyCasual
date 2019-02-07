@@ -53,6 +53,11 @@ namespace ActionsList
             return result;
         }
 
+        public override bool IsDiceModificationAvailable()
+        {
+            return Combat.CurrentDiceRoll.Focuses != 0;
+        }
+
         public override void ActionTake()
         {
             Selection.ThisShip.Tokens.AssignToken(typeof(CalculateToken), Phases.CurrentSubPhase.CallBack);

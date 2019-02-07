@@ -163,6 +163,8 @@ namespace AI.Aggressor
             foreach (string turnManeuver in turnManeuvers)
             {
                 GenericMovement movement = ShipMovementScript.MovementFromString(turnManeuver);
+                if (movement.Bearing == ManeuverBearing.Stationary) continue;
+
                 CurrentShip.SetAssignedManeuver(movement, isSilent: true);
                 movement.Initialize();
                 movement.IsSimple = true;

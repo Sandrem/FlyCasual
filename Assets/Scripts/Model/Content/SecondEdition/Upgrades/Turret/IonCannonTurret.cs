@@ -3,6 +3,7 @@ using ActionsList;
 using Arcs;
 using Ship;
 using System.Linq;
+using Tokens;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -42,6 +43,22 @@ namespace Abilities.SecondEdition
         public override void DeactivateAbilityForSquadBuilder()
         {
             HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
+        }
+
+        protected override void IonTurretEffect(object sender, System.EventArgs e)
+        {
+            int ionTokens = Combat.DiceRollAttack.Successes - 1;
+            Combat.DiceRollAttack.CancelAllResults();
+            Combat.DiceRollAttack.RemoveAllFailures();
+
+            Combat.Defender.Tokens.AssignTokens(
+                () => new IonToken(Combat.Defender),
+                ionTokens,
+                delegate
+                {
+                    GameManagerScript.Wait(2, DefenderSuffersDamage);
+                }
+            );
         }
     }
 }

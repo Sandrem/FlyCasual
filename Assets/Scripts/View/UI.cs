@@ -23,7 +23,6 @@ public class UI : MonoBehaviour {
     public void Update()
     {
         UpdateShipIds();
-        UpdateDirectionsMenu();
         CheckSwarmManager();
     }
 
@@ -35,11 +34,6 @@ public class UI : MonoBehaviour {
     private void CheckSwarmManager()
     {
         SwarmManager.CheckActivation();
-    }
-
-    private void UpdateDirectionsMenu()
-    {
-        DirectionsMenu.Update();
     }
 
     //Move to context menu

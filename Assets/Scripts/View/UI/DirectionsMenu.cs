@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public static class DirectionsMenu
 {
-    public static bool IsForcedToShowRedManeuvers;
+    private static readonly float WarningPanelHeight = 55f;
 
     public static bool IsVisible
     {
@@ -24,13 +24,12 @@ public static class DirectionsMenu
 
         Callback = callback;
 
-        IsForcedToShowRedManeuvers = (Input.GetKey(KeyCode.LeftControl));
-
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/DirectionsWindow", typeof(GameObject));
         DirectionsWindow = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/DirectionsPanel").transform);
 
         GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
         CustomizeDirectionsMenu(filter);
+        CustomizeForStressed();
         DirectionsWindow.transform.localPosition = FixMenuPosition(
             DirectionsWindow.transform.gameObject,
             Input.mousePosition
@@ -215,8 +214,8 @@ public static class DirectionsMenu
         }
 
         DirectionsWindow.GetComponent<RectTransform>().sizeDelta = new Vector3(DirectionsWindow.GetComponent<RectTransform>().sizeDelta.x, linesExist.Count * 40);
-        DirectionsWindow.transform.Find("Numbers").GetComponent<RectTransform>().sizeDelta = new Vector3(DirectionsWindow.transform.Find("Numbers").GetComponent<RectTransform>().sizeDelta.x, linesExist.Count * 40);
-        DirectionsWindow.transform.Find("Directions").GetComponent<RectTransform>().sizeDelta = new Vector3(DirectionsWindow.transform.Find("Directions").GetComponent<RectTransform>().sizeDelta.x - missingColumnsCounter * freeSpace, linesExist.Count * 40);
+        DirectionsWindow.transform.Find("Numbers").GetComponent<RectTransform>().sizeDelta = new Vector3(DirectionsWindow.transform.Find("Numbers").GetComponent<RectTransform>().sizeDelta.x, linesExist.Count * 40 + 10);
+        DirectionsWindow.transform.Find("Directions").GetComponent<RectTransform>().sizeDelta = new Vector3(DirectionsWindow.transform.Find("Directions").GetComponent<RectTransform>().sizeDelta.x - missingColumnsCounter * freeSpace, linesExist.Count * 40 + 10);
 
         DirectionsWindow.GetComponent<RectTransform>().sizeDelta = new Vector2(DirectionsWindow.transform.Find("Directions").GetComponent<RectTransform>().sizeDelta.x + 70, DirectionsWindow.GetComponent<RectTransform>().sizeDelta.y);
 
@@ -248,7 +247,11 @@ public static class DirectionsMenu
         Color maneuverColor = Color.yellow;
         if (maneuverData.Value == MovementComplexity.Easy) maneuverColor = Edition.Current.MovementEasyColor;
         if (maneuverData.Value == MovementComplexity.Normal) maneuverColor = Color.white;
-        if (maneuverData.Value == MovementComplexity.Complex) maneuverColor = Color.red;
+        if (maneuverData.Value == MovementComplexity.Complex)
+        {
+            maneuverColor = Color.red;
+            if (Selection.ThisShip.IsStressed) button.transform.Find("RedBackground").gameObject.SetActive(true);
+        }
         button.GetComponentInChildren<Text>().color = maneuverColor;
     }
 
@@ -261,13 +264,20 @@ public static class DirectionsMenu
         position = new Vector3(position.x * uiScaleX, -(Screen.height - position.y) * uiScaleY);
 
         RectTransform menuRect = menuPanel.GetComponent<RectTransform>();
-        if (position.x + menuRect.sizeDelta.x * menuRect.localScale.x > fixedWidth)
+        float windowHeight = menuRect.sizeDelta.y;
+        float windowWidth = menuRect.sizeDelta.x;
+
+        if (position.x + windowWidth * menuRect.localScale.x > fixedWidth)
         {
-            position = new Vector3(fixedWidth - menuRect.sizeDelta.x * menuRect.localScale.x - 5, position.y, 0);
+            position = new Vector3(fixedWidth - windowWidth * menuRect.localScale.x - 5, position.y, 0);
         }
-        if (-position.y + menuRect.sizeDelta.y * menuRect.localScale.y > fixedHeight)
+        if (-position.y + windowHeight * menuRect.localScale.y > fixedHeight)
         {
-            position = new Vector3(position.x, - fixedHeight + menuRect.sizeDelta.y * menuRect.localScale.y + 5, 0);
+            position = new Vector3(position.x, - fixedHeight + windowHeight * menuRect.localScale.y + 5, 0);
+        }
+        if (Selection.ThisShip.IsStressed && -position.y < WarningPanelHeight * menuRect.localScale.y - 5)
+        {
+            position = new Vector3(position.x, - WarningPanelHeight * menuRect.localScale.y - 5, 0);
         }
         return position;
     }
@@ -277,18 +287,12 @@ public static class DirectionsMenu
         GameObject.Destroy(DirectionsWindow);
     }
 
-    public static void Update()
+    private static void CustomizeForStressed()
     {
-        /*if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Selection.ThisShip.IsStressed)
         {
-            ForceShowRedManeuvers = true;
-            if (IsVisible && !SwarmManager.IsActive) ShowUpdated();
+            GameObject warningGO = DirectionsWindow.transform.Find("Warning").gameObject;
+            warningGO.SetActive(true);
         }
-
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            ForceShowRedManeuvers = false;
-            if (IsVisible && !SwarmManager.IsActive) ShowUpdated();
-        }*/
     }
 }

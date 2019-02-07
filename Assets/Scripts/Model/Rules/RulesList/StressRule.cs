@@ -71,17 +71,6 @@ namespace RulesList
             }
         }
 
-        public void CannotPerformRedManeuversWhileStressed(GenericShip ship, ref ManeuverHolder movement)
-        {
-            if ((movement.ColorComplexity == MovementComplexity.Complex) && (ship.Tokens.GetToken(typeof(StressToken)) != null))
-            {
-                if (!ship.CanPerformRedManeuversWhileStressed && !DirectionsMenu.IsForcedToShowRedManeuvers)
-                {
-                    movement.ColorComplexity = MovementComplexity.None;
-                }
-            }
-        }
-
         private void AddRemoveStressActionForHotacAI(GenericShip host)
         {
             host.AddAvailableAction(new HotacRemoveStressAction() { HostShip = host });

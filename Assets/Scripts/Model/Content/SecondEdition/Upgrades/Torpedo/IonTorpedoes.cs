@@ -33,7 +33,7 @@ namespace Abilities.SecondEdition
     public class IonTorpedoesAbility : Abilities.FirstEdition.IonDamageAbility
     {
 
-        protected override void IonTurretEffect(object sender, System.EventArgs e)
+        protected override void IonWeaponEffect(object sender, System.EventArgs e)
         {
             var ionTokens = Combat.DiceRollAttack.Successes - 1;
             Combat.DiceRollAttack.CancelAllResults();

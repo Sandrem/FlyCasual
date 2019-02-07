@@ -45,20 +45,27 @@ namespace Abilities.SecondEdition
             HostShip.ActionBar.RemoveGrantedAction(typeof(RotateArcAction), HostUpgrade);
         }
 
-        protected override void IonTurretEffect(object sender, System.EventArgs e)
+        protected override void IonWeaponEffect(object sender, System.EventArgs e)
         {
             int ionTokens = Combat.DiceRollAttack.Successes - 1;
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Combat.Defender.Tokens.AssignTokens(
-                () => new IonToken(Combat.Defender),
-                ionTokens,
-                delegate
-                {
-                    GameManagerScript.Wait(2, DefenderSuffersDamage);
-                }
-            );
+            if (ionTokens > 0)
+            {
+                Combat.Defender.Tokens.AssignTokens(
+                    () => new IonToken(Combat.Defender),
+                    ionTokens,
+                    delegate
+                    {
+                        GameManagerScript.Wait(2, DefenderSuffersDamage);
+                    }
+                );
+            }
+            else
+            {
+                DefenderSuffersDamage();
+            }
         }
     }
 }

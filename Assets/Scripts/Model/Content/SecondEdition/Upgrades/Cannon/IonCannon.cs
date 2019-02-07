@@ -36,14 +36,21 @@ namespace Abilities.SecondEdition
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Combat.Defender.Tokens.AssignTokens(
-                () => new IonToken(Combat.Defender),
-                ionTokens,
-                delegate
-                {
-                    GameManagerScript.Wait(2, DefenderSuffersDamage);
-                }
-            );
+            if (ionTokens > 0)
+            {
+                Combat.Defender.Tokens.AssignTokens(
+                    () => new IonToken(Combat.Defender),
+                    ionTokens,
+                    delegate
+                    {
+                        GameManagerScript.Wait(2, DefenderSuffersDamage);
+                    }
+                );
+            }
+            else
+            {
+                DefenderSuffersDamage();
+            }
         }
     }
 }

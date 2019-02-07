@@ -909,7 +909,8 @@ namespace SquadBuilderNS
         public static void CheckAiButtonVisibility()
         {
             bool isAi = GetSquadList(CurrentPlayer).PlayerType.IsSubclassOf(typeof(GenericAiPlayer));
-            GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").gameObject.SetActive(isAi);
+            // ALTERNATIVE AI IS DISABLED
+            // GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").gameObject.SetActive(isAi);
 
             if (isAi)
             {

@@ -53,6 +53,7 @@ namespace Ship
         public event EventHandlerShip OnActionIsSkipped;
         public event EventHandlerAction BeforeFreeActionIsPerformed;
         public event EventHandlerAction OnActionIsPerformed;
+        public event EventHandlerAction OnActionIsPerformed_System;
 
         public event EventHandlerShipType OnTokenIsAssigned;
         public event EventHandlerShipType BeforeTokenIsAssigned;
@@ -174,11 +175,18 @@ namespace Ship
 
         public void CallActionIsTaken(GenericAction action, Action callBack)
         {
-            if (OnActionIsPerformed != null) OnActionIsPerformed(action);
+            if (OnActionIsPerformed_System != null) OnActionIsPerformed_System(action);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnActionIsPerformed_System,
+                delegate
+                {
+                    if (OnActionIsPerformed != null) OnActionIsPerformed(action);
+
+                    Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
+                }
+            );
         }
-
 
         public void CallBeforeFreeActionIsPerformed(GenericAction action, Action callBack)
         {

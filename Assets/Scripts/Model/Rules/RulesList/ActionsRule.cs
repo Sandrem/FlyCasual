@@ -31,7 +31,7 @@ namespace RulesList
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Stress after red action",
-                    TriggerType = TriggerTypes.OnActionIsPerformed,
+                    TriggerType = TriggerTypes.OnActionIsPerformed_System,
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                     EventHandler = GetStress
                 });

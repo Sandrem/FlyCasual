@@ -100,7 +100,8 @@ namespace Abilities.SecondEdition
                 return false;
             }
 
-            if (!weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.SingleTurret))
+            if (!weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.SingleTurret) 
+                && !weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.DoubleTurret))
             {
                 if (!isSilent) Messages.ShowError("Attack must use a turret arc");
                 return false;

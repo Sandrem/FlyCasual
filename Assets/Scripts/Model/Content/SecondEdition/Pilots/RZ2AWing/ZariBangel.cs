@@ -18,7 +18,7 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
                 );
 
-                //ModelInfo.SkinName = "Blue";
+                ModelInfo.SkinName = "Blue";
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/d7f37dbb86bb706dd535e9a65b69149a.png";
             }

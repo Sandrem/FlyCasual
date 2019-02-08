@@ -1217,7 +1217,12 @@ namespace SquadBuilderNS
         public static void SetAiType(string aiName)
         {
             SquadList currentSquadList = GetSquadList(CurrentPlayer);
-            switch (aiName)
+
+            currentSquadList.PlayerType = typeof(AggressorAiPlayer);
+
+            // ALTERNATIVE AI IS DISABLED
+
+            /*switch (aiName)
             {
                 case "AI: Aggressor":
                     currentSquadList.PlayerType = typeof(AggressorAiPlayer);
@@ -1232,7 +1237,7 @@ namespace SquadBuilderNS
             GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").GetComponentInChildren<UnityEngine.UI.Text>().text = aiName;
 
             Options.AiType = aiName;
-            Options.ChangeParameterValue("AiType", aiName);
+            Options.ChangeParameterValue("AiType", aiName); */
         }
 
         public static void ToggleAiType()

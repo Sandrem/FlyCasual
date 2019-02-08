@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ActionsList;
 using Ship;
+using SubPhases;
 using Upgrade;
 
 namespace Ship
@@ -69,11 +70,7 @@ namespace Abilities.FirstEdition
 
         private void PerformFreeEvadeActionDecision(object sender, System.EventArgs e)
         {
-            Phases.CurrentSubPhase.CallBack = delegate {
-                Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-                Triggers.FinishTrigger();
-            };
-            (new EvadeAction()).ActionTake();
+            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, true);
         }
     }
 }

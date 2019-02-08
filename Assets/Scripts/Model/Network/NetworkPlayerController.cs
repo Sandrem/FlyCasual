@@ -9,6 +9,7 @@ using SubPhases;
 using UnityEngine.SceneManagement;
 using System;
 using GameCommands;
+using Actions;
 
 public partial class NetworkPlayerController : NetworkBehaviour {
 
@@ -261,7 +262,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCancelBarrelRoll()
     {
-        (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll();
+        //TODONETWORK
+        (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll(null);
     }
 
     // BOOST
@@ -309,7 +311,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCancelBoost()
     {
-        (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost();
+        // TODONETWORK
+        (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost(new List<ActionFailReason> { ActionFailReason.NoTemplateAvailable });
     }
 
     // DECLOAK
@@ -357,7 +360,8 @@ public partial class NetworkPlayerController : NetworkBehaviour {
     [ClientRpc]
     private void RpcCancelDecloak()
     {
-        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak();
+        //TODONETWORK
+        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak(null);
     }
 
     // SELECT TARGET SHIP

@@ -1,4 +1,5 @@
 ﻿
+using Actions;
 using ActionsList;
 using Ship;
 using System;
@@ -30,7 +31,7 @@ namespace RulesList
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Stress after red action",
-                    TriggerType = TriggerTypes.OnActionIsPerformed,
+                    TriggerType = TriggerTypes.OnActionIsPerformed_System,
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                     EventHandler = GetStress
                 });
@@ -94,6 +95,16 @@ namespace RulesList
             }
 
             return true;
+        }
+
+        public void ActionIsFailed(GenericShip ship, GenericAction action, ActionFailReason failReason, bool hasSecondChance = false)
+        {
+            ActionIsFailed(ship, action, new List<ActionFailReason>() { failReason }, hasSecondChance);
+        }
+
+        public void ActionIsFailed(GenericShip ship, GenericAction action, List<ActionFailReason> failReasons, bool hasSecondChance = false)
+        {
+            ship.CallActionIsReadyToBeFailed(action, failReasons, hasSecondChance);
         }
 
     }

@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BoardTools;
+using Movement;
+using Ship;
+using System;
 using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
@@ -28,16 +29,31 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
 namespace Abilities.SecondEdition
 {
+    //After you fully execute a red maneuver, recover 1 force.
     public class MaceWinduAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
-            // TODO
+            HostShip.OnMovementFinish += RegisterTrigger;
         }
 
         public override void DeactivateAbility()
         {
-            // TODO
+            HostShip.OnMovementFinish -= RegisterTrigger;
+        }
+
+        private void RegisterTrigger(GenericShip ship)
+        {
+            if (HostShip.GetLastManeuverColor() == MovementComplexity.Complex && !(Board.IsOffTheBoard(HostShip) || HostShip.IsBumped))
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AssignTokens);
+            }
+        }
+        
+        private void AssignTokens(object sender, EventArgs e)
+        {
+            if (HostShip.State.Force < HostShip.State.MaxForce) HostShip.State.Force++;
+            Triggers.FinishTrigger();
         }
     }
 }

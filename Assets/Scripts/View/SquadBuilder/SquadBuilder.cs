@@ -59,6 +59,11 @@ namespace SquadBuilderNS
         private static ShipWithUpgradesPanel AddShipButtonPanel;
 
         private static List<UpgradeSlotPanel> UpgradeSlotPanels;
+        
+        /// <summary>
+        /// Texture cache to improve performance when dealing with textures
+        /// </summary>
+        public static Dictionary<string, Texture2D> TextureCache = new Dictionary<string, Texture2D>();
 
         private static void ShowAvailableShips(Faction faction)
         {
@@ -904,7 +909,8 @@ namespace SquadBuilderNS
         public static void CheckAiButtonVisibility()
         {
             bool isAi = GetSquadList(CurrentPlayer).PlayerType.IsSubclassOf(typeof(GenericAiPlayer));
-            GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").gameObject.SetActive(isAi);
+            // ALTERNATIVE AI IS DISABLED
+            // GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadBuilderTop").transform.Find("AIButton").gameObject.SetActive(isAi);
 
             if (isAi)
             {
@@ -915,4 +921,11 @@ namespace SquadBuilderNS
 
     }
 
+    /// <summary>
+    /// The WebRequest and texture scaling can be very expensive, so cache the textures for future use (navigating items in SquadBuilder)
+    /// </summary>
+    public static class TextureCache
+    {
+        
+    }
 }

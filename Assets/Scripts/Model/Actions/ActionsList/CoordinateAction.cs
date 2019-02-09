@@ -1,6 +1,8 @@
-﻿using ActionsList;
+﻿using Actions;
+using ActionsList;
 using RulesList;
 using Ship;
+using SubPhases;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +21,26 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Phases.StartTemporarySubPhaseOld(
+            CoordinateTargetSubPhase subphase = Phases.StartTemporarySubPhaseNew<CoordinateTargetSubPhase>(
                 "Select target for Coordinate",
-                typeof(SubPhases.CoordinateTargetSubPhase),
                 Phases.CurrentSubPhase.CallBack
             );
+            subphase.HostAction = this;
+            subphase.Start();
         }
 
+        public override void RevertActionOnFail(bool hasSecondChance = false)
+        {
+            if (hasSecondChance)
+            {
+                UI.ShowSkipButton();
+                UI.HighlightSkipButton();
+            }
+            else
+            {
+                Phases.GoBack();
+            }
+        }
     }
 
 }
@@ -35,6 +50,7 @@ namespace SubPhases
 
     public class CoordinateTargetSubPhase : SelectShipSubPhase
     {
+        public GenericAction HostAction { get; set; }
 
         public override void Prepare()
         {
@@ -43,10 +59,20 @@ namespace SubPhases
                 FilterCoordinateTargets,
                 GetAiCoordinatePriority,
                 Selection.ThisShip.Owner.PlayerNo,
-                true,
+                false,
                 "Coordinate Action",
                 "Select another ship.\nIt performs free action."
             );
+        }
+
+        protected override void CancelShipSelection()
+        {
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, true);
+        }
+
+        public override void SkipButton()
+        {
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, false);
         }
 
         private int GetAiCoordinatePriority(GenericShip ship)
@@ -114,12 +140,6 @@ namespace SubPhases
         protected virtual void PerformFreeAction(object sender, System.EventArgs e)
         {
             TargetShip.AskPerformFreeAction(GetPossibleActions(), Triggers.FinishTrigger);
-        }
-
-        public override void SkipButton()
-        {
-            Phases.FinishSubPhase(typeof(CoordinateTargetSubPhase));
-            CallBack();
         }
 
     }

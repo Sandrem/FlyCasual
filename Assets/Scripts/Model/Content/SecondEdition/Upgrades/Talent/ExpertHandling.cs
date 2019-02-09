@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 "Expert Handling",
                 UpgradeType.Talent,
                 cost: 2,
-                restriction: new ActionBarRestriction(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red)),
+                restriction: new ActionBarRestriction(typeof(BarrelRollAction), ActionColor.Red),
                 addAction: new ActionInfo(typeof(BarrelRollAction)),
                 seImageNumber: 5
             );

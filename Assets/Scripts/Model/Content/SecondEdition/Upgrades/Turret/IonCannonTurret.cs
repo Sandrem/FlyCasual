@@ -3,6 +3,7 @@ using ActionsList;
 using Arcs;
 using Ship;
 using System.Linq;
+using Tokens;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -23,7 +24,7 @@ namespace UpgradesList.SecondEdition
                 ),
                 addArc: new ShipArcInfo(ArcType.SingleTurret),
                 addAction: new ActionInfo(typeof(RotateArcAction)),
-                abilityType: typeof(Abilities.FirstEdition.IonDamageAbility),
+                abilityType: typeof(Abilities.SecondEdition.IonDamageAbilityTurret),
                 seImageNumber: 32
             );
         }        
@@ -32,7 +33,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class IonDamageAbilityTurret : Abilities.FirstEdition.IonDamageAbility
+    public class IonDamageAbilityTurret : Abilities.SecondEdition.IonDamageAbility
     {
         public override void ActivateAbilityForSquadBuilder()
         {

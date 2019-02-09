@@ -27,6 +27,7 @@ namespace BoardTools
             foreach (var ship in Roster.ShipsPlayer2.Values)
             {
                 SetShipPreSetup(ship, i);
+                RegisterBoardObject(ship);
                 i++;
             }
         }

@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,                
                 restrictions: new UpgradeCardRestrictions(
                     new FactionRestriction(Faction.Imperial), 
-                    new ActionBarRestriction(new ActionInfo(typeof(TargetLockAction)))
+                    new ActionBarRestriction(typeof(TargetLockAction))
                     ),
                 abilityType: typeof(Abilities.SecondEdition.GrandMoffTarkinAbility),
                 seImageNumber: 117,

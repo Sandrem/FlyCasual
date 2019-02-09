@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 "Engine Upgrade",
                 UpgradeType.Modification,
                 cost: 4,
-                restriction: new ActionBarRestriction(new ActionInfo(typeof(BoostAction), ActionColor.Red)),
+                restriction: new ActionBarRestriction(typeof(BoostAction), ActionColor.Red),
                 addAction: new ActionInfo(typeof(BoostAction)),
                 seImageNumber: 72
             );

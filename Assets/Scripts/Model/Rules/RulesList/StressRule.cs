@@ -19,7 +19,8 @@ namespace RulesList
                 Name = "Check stress",
                 TriggerOwner = ship.Owner.PlayerNo,
                 TriggerType = TriggerTypes.OnMovementExecuted,
-                EventHandler = CheckStress
+                EventHandler = CheckStress,
+                Skippable = true
             });
 
             if (ship.Owner.UsesHotacAiRules)
@@ -67,17 +68,6 @@ namespace RulesList
             if (Selection.ThisShip.Tokens.GetToken(typeof(StressToken)) != null)
             {
                 result = Selection.ThisShip.CanPerformActionsWhileStressed || action.CanBePerformedWhileStressed || Selection.ThisShip.ActionBar.ActionsThatCanbePreformedwhileStressed.Contains(action.GetType());
-            }
-        }
-
-        public void CannotPerformRedManeuversWhileStressed(GenericShip ship, ref ManeuverHolder movement)
-        {
-            if ((movement.ColorComplexity == MovementComplexity.Complex) && (ship.Tokens.GetToken(typeof(StressToken)) != null))
-            {
-                if (!ship.CanPerformRedManeuversWhileStressed && !DirectionsMenu.IsForcedToShowRedManeuvers)
-                {
-                    movement.ColorComplexity = MovementComplexity.None;
-                }
             }
         }
 

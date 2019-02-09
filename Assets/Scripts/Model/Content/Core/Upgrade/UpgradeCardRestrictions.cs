@@ -65,18 +65,20 @@ namespace Upgrade
 
     public class ActionBarRestriction : UpgradeCardRestriction
     {
-        public ActionInfo Action { get; private set; }
+        public Type ActionType { get; private set; }
+        public ActionColor? ActionColor { get; private set; }
 
-        public ActionBarRestriction(ActionInfo action)
+        public ActionBarRestriction(Type actionType, ActionColor? color = null)
         {
-            Action = action;
+            ActionType = actionType;
+            ActionColor = color;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
             return ship.ShipInfo.ActionIcons.Actions.Any(a => 
-                a.ActionType == Action.ActionType
-                && ((a.Color == Action.Color) || Action.Color == ActionColor.White)
+                a.ActionType == ActionType
+                && ((a.Color == ActionColor) || ActionColor == null)
             );
         }
     }

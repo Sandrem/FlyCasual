@@ -31,29 +31,29 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnShotHitAsAttacker += RegisterIonTurretEffect;
+            HostShip.OnShotHitAsAttacker += RegisterIonWeaponEffect;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnShotHitAsAttacker -= RegisterIonTurretEffect;
+            HostShip.OnShotHitAsAttacker -= RegisterIonWeaponEffect;
         }
 
-        protected void RegisterIonTurretEffect()
+        protected void RegisterIonWeaponEffect()
         {
             if (Combat.ChosenWeapon == HostUpgrade)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Ion Cannon Turret effect",
+                    Name = "Ion weapon effect",
                     TriggerType = TriggerTypes.OnShotHit,
                     TriggerOwner = Combat.Attacker.Owner.PlayerNo,
-                    EventHandler = IonTurretEffect
+                    EventHandler = IonWeaponEffect
                 });
             }
         }
 
-        protected virtual void IonTurretEffect(object sender, System.EventArgs e)
+        protected virtual void IonWeaponEffect(object sender, System.EventArgs e)
         {
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
@@ -68,13 +68,13 @@ namespace Abilities.FirstEdition
 
         protected void DefenderSuffersDamage()
         {
-            DamageSourceEventArgs ionturretDamage = new DamageSourceEventArgs()
+            DamageSourceEventArgs ionWeaponDamage = new DamageSourceEventArgs()
             {
-                Source = "Ion Cannon Turret",
+                Source = HostShip,
                 DamageType = DamageTypes.ShipAttack
             };
 
-            Combat.Defender.Damage.TryResolveDamage(1, ionturretDamage, Triggers.FinishTrigger);
+            Combat.Defender.Damage.TryResolveDamage(1, ionWeaponDamage, Triggers.FinishTrigger);
         }
     }
 

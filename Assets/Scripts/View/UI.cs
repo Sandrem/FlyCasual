@@ -23,7 +23,6 @@ public class UI : MonoBehaviour {
     public void Update()
     {
         UpdateShipIds();
-        UpdateDirectionsMenu();
         CheckSwarmManager();
     }
 
@@ -35,11 +34,6 @@ public class UI : MonoBehaviour {
     private void CheckSwarmManager()
     {
         SwarmManager.CheckActivation();
-    }
-
-    private void UpdateDirectionsMenu()
-    {
-        DirectionsMenu.Update();
     }
 
     //Move to context menu
@@ -304,6 +298,11 @@ public class UI : MonoBehaviour {
     public static void HighlightNextButton()
     {
         GameObject.Find("UI").transform.Find("NextPanel").Find("NextButton").GetComponent<Animator>().enabled = true;
+    }
+
+    public static void HighlightSkipButton()
+    {
+        GameObject.Find("UI").transform.Find("SkipPanel").Find("SkipButton").GetComponent<Animator>().enabled = true;
     }
 
     public static void CallHideTooltip()

@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Gunner,
                 cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.VeteranTurretGunnerAbility),
-                restriction: new ActionBarRestriction(new ActionInfo(typeof(RotateArcAction))),
+                restriction: new ActionBarRestriction(typeof(RotateArcAction)),
                 seImageNumber: 52
             );
         }
@@ -94,18 +94,19 @@ namespace Abilities.SecondEdition
 
         private bool IsUnusedTurretArcShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
-            bool result = false;
-
-            if (Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.SingleTurret && !a.WasUsedForAttackThisRound))
-            {
-                result = true;
-            }
-            else
+            if (!Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.SingleTurret && !a.WasUsedForAttackThisRound))
             {
                 if (!isSilent) Messages.ShowError("Attack must use a turret arc you did not already attack from this round");
+                return false;
             }
 
-            return result;
+            if (!weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.SingleTurret))
+            {
+                if (!isSilent) Messages.ShowError("Attack must use a turret arc");
+                return false;
+            }
+
+            return true;
         }
     }
 }

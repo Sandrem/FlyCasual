@@ -30,7 +30,8 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 ),
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
-                    UpgradeType.Modification
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 )
             );
 

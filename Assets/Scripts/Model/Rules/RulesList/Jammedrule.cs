@@ -28,7 +28,7 @@ namespace RulesList
                 return true;
             }
             // For other tokens, create a token of the type and check with the edition rules instead of checking for a fixed list of types, for future-proofing.
-            var token = (GenericToken)Activator.CreateInstance(tokenType, new GenericShip());
+            var token = (GenericToken)Activator.CreateInstance(tokenType, new object[] { null });
             return Edition.Current.IsTokenCanBeDiscardedByJam(token);
         }
 

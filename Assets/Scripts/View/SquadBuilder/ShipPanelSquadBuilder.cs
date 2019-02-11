@@ -83,6 +83,6 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel/LoadingText");
         if (loadingText != null) loadingText.SetActive(false);
 
-        this.gameObject.SetActive(true);
+        if (this.gameObject != null) this.gameObject.SetActive(true);
     }
 }

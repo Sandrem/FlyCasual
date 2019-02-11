@@ -4,6 +4,7 @@ using Arcs;
 using System.Linq;
 using ActionsList;
 using Actions;
+using BoardTools;
 
 namespace UpgradesList.SecondEdition
 {
@@ -94,7 +95,8 @@ namespace Abilities.SecondEdition
 
         private bool IsUnusedTurretArcShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
-            if (!Combat.ShotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.SingleTurret && !a.WasUsedForAttackThisRound))
+            ShotInfo shotInfo = new ShotInfo(HostShip, defender, weapon);
+            if (!shotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.SingleTurret && !a.WasUsedForAttackThisRound))
             {
                 if (!isSilent) Messages.ShowError("Attack must use a turret arc you did not already attack from this round");
                 return false;

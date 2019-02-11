@@ -49,7 +49,7 @@ namespace Abilities.SecondEdition
 
         public bool IsDiceModificationAvailable()
         {
-            return (Combat.AttackStep == CombatStep.Defence
+            return (Combat.AttackStep == CombatStep.Attack
                 && Combat.Defender.Owner == HostShip.Owner
                 && Combat.Defender.Tokens.HasToken<Tokens.CalculateToken>()
                 && new BoardTools.DistanceInfo(HostShip, Combat.Defender).Range <= 1);

@@ -32,7 +32,7 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                     UpgradeType.Modification
                 )
             );
-            ShipAbilities.Add(new Abilities.SecondEdition.NetworkedCalculationsAbility());
+            //ShipAbilities.Add(new Abilities.SecondEdition.NetworkedCalculationsAbility());
 
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(CalculateAction)));
 

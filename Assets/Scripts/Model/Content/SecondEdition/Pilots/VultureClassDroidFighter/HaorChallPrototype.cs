@@ -56,8 +56,16 @@ namespace Abilities.SecondEdition
 
         private void AskPerformAction(object sender, EventArgs e)
         {
+            Messages.ShowInfo(HostName + " can perform free action");
+
+            GenericShip previousActiveShip = Selection.ThisShip;
+            Selection.ChangeActiveShip(HostShip);
+
             List<GenericAction> actions = new List<GenericAction>() { new CalculateAction(), new TargetLockAction() };
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(actions, delegate {
+                Selection.ChangeActiveShip(previousActiveShip);
+                Triggers.FinishTrigger();
+            });
         }
     }
 }

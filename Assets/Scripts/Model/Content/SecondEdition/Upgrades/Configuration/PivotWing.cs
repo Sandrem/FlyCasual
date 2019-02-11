@@ -65,6 +65,9 @@ namespace Abilities.SecondEdition
 
             RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskToFlip);
         }
+
+        public override void ActivateAbilityForSquadBuilder() {}
+        public override void DeactivateAbilityForSquadBuilder() {}
     }
 
     public class PivotWingClosedAbility : Abilities.FirstEdition.PivotWingLandingAbility
@@ -74,7 +77,7 @@ namespace Abilities.SecondEdition
             ChangeInitialWingsPosition();
             HostShip.OnMovementActivationStart += RegisterAskToFlip;
             HostShip.OnManeuverIsRevealed += RegisterAskToRotate;
-            HostShip.ChangeAgilityBy(-1);
+            HostShip.AfterGotNumberOfDefenceDice += DecreaseDice;
         }
 
         public override void DeactivateAbility()
@@ -82,7 +85,13 @@ namespace Abilities.SecondEdition
             HostShip.WingsOpen();
             HostShip.OnMovementActivationStart -= RegisterAskToFlip;
             HostShip.OnManeuverIsRevealed -= RegisterAskToRotate;
-            HostShip.ChangeAgilityBy(+1);
+            HostShip.AfterGotNumberOfDefenceDice -= DecreaseDice;
+        }
+
+        private void DecreaseDice(ref int count)
+        {
+            Messages.ShowError("Pivot Wing: -1 defense die ");
+            count--;
         }
 
         protected override void AskToRotate(object sender, EventArgs e)

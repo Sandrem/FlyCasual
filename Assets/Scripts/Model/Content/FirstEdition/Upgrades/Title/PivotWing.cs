@@ -54,7 +54,17 @@ namespace Abilities.FirstEdition
         {
             Phases.Events.OnGameStart -= ChangeInitialWingsPosition;
             HostShip.OnMovementFinish -= RegisterAskToUseFlip;
-            HostShip.ChangeAgilityBy(-1);
+            HostShip.ChangeAgilityBy(-1); // Works only if flipped during battle, for squad builder ActivateAbilityForSquadBuilder is used
+        }
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            HostShip.ShipInfo.Agility++;
+        }
+
+        public override void DeactivateAbilityForSquadBuilder()
+        {
+            HostShip.ShipInfo.Agility--;
         }
 
         protected virtual void RegisterAskToUseFlip(GenericShip ship)

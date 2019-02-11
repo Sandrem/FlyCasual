@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Upgrade;
 
 namespace Ship.SecondEdition.VultureClassDroidFighter
 {
@@ -25,16 +23,53 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
 
 namespace Abilities.SecondEdition
 {
+    //When a friendly ship at range 0-1 defends, it may spend 1 calculate token to change all crit results to hit results.
     public class Dfs081Ability : GenericAbility
     {
         public override void ActivateAbility()
         {
-            // TODO
+            AddDiceModification(
+                HostName,
+                IsDiceModificationAvailable,
+                GetDiceModificationAiPriority,
+                DiceModificationType.Change,
+                0,
+                new List<DieSide> { DieSide.Crit }, 
+                DieSide.Success,
+                DiceModificationTimingType.Opposite,
+                isGlobal: true,
+                payAbilityCost: PayAbilityCost
+            );
         }
 
         public override void DeactivateAbility()
         {
-            // TODO
+            RemoveDiceModification();
+        }
+
+        public bool IsDiceModificationAvailable()
+        {
+            return (Combat.AttackStep == CombatStep.Defence
+                && Combat.Defender.Owner == HostShip.Owner
+                && Combat.Defender.Tokens.HasToken<Tokens.CalculateToken>()
+                && new BoardTools.DistanceInfo(HostShip, Combat.Defender).Range <= 1);
+        }
+
+        private void PayAbilityCost(Action<bool> callback)
+        {
+            if (Combat.Defender.Tokens.HasToken<Tokens.CalculateToken>())
+            {
+                Combat.Defender.Tokens.SpendToken(typeof(Tokens.CalculateToken), () => callback(true));
+            }
+            else
+            {
+                callback(false);
+            }
+        }
+
+        public int GetDiceModificationAiPriority()
+        {
+            return 95;
         }
     }
 }

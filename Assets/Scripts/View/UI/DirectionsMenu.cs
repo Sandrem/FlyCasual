@@ -250,7 +250,7 @@ public static class DirectionsMenu
         if (maneuverData.Value == MovementComplexity.Complex)
         {
             maneuverColor = Color.red;
-            if (Selection.ThisShip.IsStressed) button.transform.Find("RedBackground").gameObject.SetActive(true);
+            if (Selection.ThisShip != null && Selection.ThisShip.IsStressed) button.transform.Find("RedBackground").gameObject.SetActive(true);
         }
         button.GetComponentInChildren<Text>().color = maneuverColor;
     }
@@ -275,7 +275,10 @@ public static class DirectionsMenu
         {
             position = new Vector3(position.x, - fixedHeight + windowHeight * menuRect.localScale.y + 5, 0);
         }
-        if (Selection.ThisShip.IsStressed && -position.y < WarningPanelHeight * menuRect.localScale.y - 5)
+        if (Selection.ThisShip != null
+            && Selection.ThisShip.IsStressed
+            && -position.y < WarningPanelHeight * menuRect.localScale.y - 5
+        )
         {
             position = new Vector3(position.x, - WarningPanelHeight * menuRect.localScale.y - 5, 0);
         }

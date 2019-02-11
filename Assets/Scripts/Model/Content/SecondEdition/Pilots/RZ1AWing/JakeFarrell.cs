@@ -69,6 +69,7 @@ namespace Abilities.SecondEdition
 
         private void GrantFreeFocusAction()
         {
+            SelectShipSubPhase.FinishSelectionNoCallback();
             Selection.ThisShip = TargetShip;
             TargetShip.AskPerformFreeAction(
                 new FocusAction() { HostShip = TargetShip },
@@ -79,7 +80,7 @@ namespace Abilities.SecondEdition
         private void AfterFreeFocusAction()
         {
             Selection.ThisShip = HostShip;
-            SelectShipSubPhase.FinishSelection();
+            Triggers.FinishTrigger();
         }
 
         private bool FilterTargets(GenericShip ship)

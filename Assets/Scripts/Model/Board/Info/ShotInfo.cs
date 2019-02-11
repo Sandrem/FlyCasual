@@ -85,13 +85,6 @@ namespace BoardTools
             InArcInfo = new Dictionary<GenericArc, bool>();
             InSectorInfo = new Dictionary<GenericArc, bool>();
 
-            List<ArcType> WeaponArcRestrictions = new List<ArcType>(Weapon.WeaponInfo.ArcRestrictions);
-            if (WeaponArcRestrictions.Contains(ArcType.DoubleTurret))
-            {
-                WeaponArcRestrictions.RemoveAll(a => a == ArcType.DoubleTurret);
-                WeaponArcRestrictions.Add(ArcType.SingleTurret);
-            }
-
             foreach (var arc in Ship1.ArcsInfo.Arcs)
             {
                 ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
@@ -106,7 +99,7 @@ namespace BoardTools
                 ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
                 InSectorInfo.Add(arc, shotInfoArc.InArc);
 
-                if (WeaponArcRestrictions.Count > 0 && !WeaponArcRestrictions.Contains(arc.ArcType))
+                if (Weapon.WeaponInfo.ArcRestrictions.Count > 0 && !Weapon.WeaponInfo.ArcRestrictions.Contains(arc.ArcType))
                     continue;
 
                 bool result = shotInfoArc.IsShotAvailable;

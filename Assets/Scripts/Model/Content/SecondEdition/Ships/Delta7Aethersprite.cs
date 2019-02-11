@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
 using Arcs;
+using BoardTools;
 using Movement;
+using Ship;
 using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
@@ -27,9 +30,12 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 ),
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
-                    UpgradeType.Modification
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 )
             );
+
+            ShipAbilities.Add(new Abilities.SecondEdition.FineTunedControlsAbility());
 
             IconicPilots = new Dictionary<Faction, System.Type> {
                 { Faction.Republic, typeof(ObiWanKenobi) }
@@ -79,6 +85,59 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             HotacManeuverTable = new AI.EscapeCraftTable();
 
             //ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/20/Maneuver_escape_craft.png";
+        }
+    }
+}
+
+
+namespace Abilities.SecondEdition
+{
+    //After you fully execute a maneuver, you may spend 1 force to perform a barrel roll or boost action.
+    public class FineTunedControlsAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnMovementFinish += RegisterTrigger;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementFinish -= RegisterTrigger;
+        }
+
+        private void RegisterTrigger(GenericShip ship)
+        {
+            if (HostShip.State.Force > 0 && !(HostShip.IsStressed || Board.IsOffTheBoard(HostShip) || HostShip.IsBumped))
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskPerformRepositionAction);
+            }
+        }
+        
+        private void AskPerformRepositionAction(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfoToHuman("Fine-tuned Controls: You may spend 1 force to perform a barrel roll or boost action");
+            HostShip.BeforeFreeActionIsPerformed += PayForceCost;
+
+            HostShip.AskPerformFreeAction(
+                new List<GenericAction>()
+                {
+                    new BoostAction(),
+                    new BarrelRollAction()
+                },
+                CleanUp
+            );
+        }
+
+        private void PayForceCost(GenericAction action)
+        {
+            HostShip.State.Force--;
+            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+        }
+
+        private void CleanUp()
+        {
+            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+            Triggers.FinishTrigger();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Editions;
+using Editions;
 using Ship;
 using SquadBuilderNS;
 using UnityEngine;
@@ -88,6 +88,7 @@ public class SmallCardArt : MonoBehaviour {
 
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
         targetObject.GetComponent<RectTransform>().sizeDelta = new Vector2(188, 188 / imageRect.width * imageRect.height);
+        this.gameObject.SetActive(true);
     }
 
     private void ShowTextVersionOfCard()

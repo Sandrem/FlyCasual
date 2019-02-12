@@ -242,24 +242,12 @@ namespace Ship
                     skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(ModelInfo.ModelName) + "/" + defaultSkinName, typeof(Texture));
                 }
 
-                foreach (Transform modelPart in GetModelTransform())
+                foreach (Renderer renderer in GetModelTransform().GetComponentsInChildren<Renderer>())
                 {
-                    Renderer renderer = modelPart.GetComponent<Renderer>();
                     if (renderer != null)
                     {
                         renderer.material.SetTexture("_MainTex", skin);
                         renderer.material.SetColor("_Color", Color.white);
-                    }
-
-                    // Second level
-                    foreach (Transform modelPartLevel2 in modelPart.transform)
-                    {
-                        renderer = modelPartLevel2.GetComponent<Renderer>();
-                        if (renderer != null)
-                        {
-                            renderer.material.SetTexture("_MainTex", skin);
-                            renderer.material.SetColor("_Color", Color.white);
-                        }
                     }
                 }
             }

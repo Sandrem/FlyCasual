@@ -41,15 +41,15 @@ namespace Abilities.SecondEdition
 
         private void CheckRangeModification(GenericShip anotherShip, int minRange, int maxRange, RangeCheckReason reason, ref bool isInRange)
         {
-            if (reason == RangeCheckReason.CoordinateAction)
+            if ((anotherShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+                && (reason == RangeCheckReason.CoordinateAction || reason == RangeCheckReason.UpgradeCard)
+                && (minRange >= 0 || maxRange <= 1)
+            )
             {
-                if (minRange >= 0 || maxRange <= 1)
+                DistanceInfo distInfo = new DistanceInfo(HostShip, anotherShip);
+                if (distInfo.Range >= 2 && distInfo.Range <= 3)
                 {
-                    DistanceInfo distInfo = new DistanceInfo(HostShip, anotherShip);
-                    if (distInfo.Range >= 2 && distInfo.Range <= 3)
-                    {
-                        isInRange = true;
-                    }
+                    isInRange = true;
                 }
             }
         }

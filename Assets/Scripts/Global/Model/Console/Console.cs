@@ -114,30 +114,11 @@ public partial class Console : MonoBehaviour {
     {
         DebugManager.ErrorIsAlreadyReported = true;
 
-        string[] StackTraceLines = stackTrace.Split('\n');
-        string StackTraceFilesList = "";
-        foreach (var line in StackTraceLines)
-        {
-            int lastPosition = line.LastIndexOf('/');
-            if (lastPosition != -1)
-            {
-                string fileName = line.Substring(lastPosition + 1, line.Length - lastPosition - 2);
-                if (StackTraceFilesList.Length != 0) StackTraceFilesList += "\n";
-                StackTraceFilesList += fileName;
-
-                if (StackTraceFilesList.Length > 99)
-                {
-                    StackTraceFilesList = StackTraceFilesList.Substring(0, 99);
-                    break;
-                }
-            }
-        }
-
         AnalyticsEvent.LevelFail(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
             new Dictionary<string, object>()
             {
-                    { "T", StackTraceFilesList }
+                    { "Version", Global.CurrentVersion }
             }
         );
     }

@@ -92,6 +92,8 @@ namespace Ship
 
         public event EventHandlerShip OnSystemsAbilityActivation;
 
+        public event EventHandlerCheckRange OnCheckRange;
+
         public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             return true;
@@ -269,6 +271,12 @@ namespace Ship
         public void CallOnBullseyeArcCheck(GenericShip anotherShip, ref bool result)
         {
             if (OnBullseyeArcCheck != null) OnBullseyeArcCheck(anotherShip, ref result);
+        }
+
+        public bool CallOnCheckRange(GenericShip anotherShip, int minRange, int maxRange, BoardTools.RangeCheckReason reason, bool isInRange)
+        {
+            if (OnCheckRange != null) OnCheckRange(anotherShip, minRange, maxRange, reason, ref isInRange);
+            return isInRange;
         }
     }
 

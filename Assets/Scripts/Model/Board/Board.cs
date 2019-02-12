@@ -6,6 +6,12 @@ using System;
 
 namespace BoardTools
 {
+    public enum RangeCheckReason
+    {
+        CoordinateAction,
+        UpgradeCard,
+        Other
+    }
 
     public static partial class Board {
 
@@ -116,6 +122,16 @@ namespace BoardTools
         public static void Cleanup()
         {
             Objects = new List<MeshCollider>();
+        }
+
+        public static bool CheckInRange(GenericShip thisShip, GenericShip anotherShip, int minRange, int maxRange, RangeCheckReason reason = RangeCheckReason.Other)
+        {
+            DistanceInfo distInfo = new DistanceInfo(thisShip, anotherShip);
+            bool inRange = distInfo.Range >= minRange && distInfo.Range <= maxRange;
+
+            inRange = thisShip.CallOnCheckRange(anotherShip, minRange, maxRange, reason, inRange);
+
+            return inRange;
         }
     
     }

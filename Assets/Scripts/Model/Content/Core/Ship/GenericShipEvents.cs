@@ -45,6 +45,7 @@ namespace Ship
         public delegate void EventHandelerWeaponRange(IShipWeapon weapon, ref int minRange, ref int maxRange, GenericShip target);
         public delegate void EventHandlerArcFacingList(List<ArcFacing> facings);
         public delegate void EventHandlerFailedAction(GenericAction action, List<ActionFailReason> failReasons, ref bool isDefaultFailOverwritten);
+        public delegate void EventHandlerCheckRange(GenericShip anotherShip, int minRange, int maxRange, BoardTools.RangeCheckReason reason, ref bool isInRange);
 
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetMaxHull;

@@ -1,5 +1,6 @@
 ﻿using Actions;
 using ActionsList;
+using BoardTools;
 using RulesList;
 using Ship;
 using SubPhases;
@@ -95,8 +96,8 @@ namespace SubPhases
 
         private bool FilterCoordinateTargets(GenericShip ship)
         {
-            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
-            return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= 1 && distanceInfo.Range <= 2;
+            return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo
+                && Board.CheckInRange(Selection.ThisShip, ship, 1, 2, RangeCheckReason.CoordinateAction);
         }
 
         private void SelectCoordinateTarget()

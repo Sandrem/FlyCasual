@@ -29,7 +29,9 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 ),
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
-                    UpgradeType.Modification
+                    UpgradeType.Missile,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 )
             );
             //ShipAbilities.Add(new Abilities.SecondEdition.NetworkedCalculationsAbility());

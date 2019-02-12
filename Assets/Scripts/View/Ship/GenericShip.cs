@@ -404,6 +404,11 @@ namespace Ship
         public void ToggleShipStandAndPeg(bool value)
         {
             shipAllParts.Find("ShipBase").gameObject.SetActive(value);
+            TogglePeg(value);
+        }
+
+        public void TogglePeg(bool value)
+        {
             shipAllParts.Find("ShipBase").Find("ShipPeg").gameObject.SetActive(value);
         }
 

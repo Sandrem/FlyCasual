@@ -89,7 +89,7 @@ namespace Abilities.SecondEdition
                     HostShip,
                     FinishAdditionalAttack,
                     IsAllowedAttack,
-                    HostUpgrade.UpgradeInfo.Name,
+                    HostName,
                     "You may spend 2 force to perform a bonus primary attack" + (FirstAttackMissed ? "" : " against a different target"),
                     HostUpgrade
                 );

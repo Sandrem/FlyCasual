@@ -124,7 +124,8 @@ namespace ActionsList
         {
             if (Combat.AttackStep != CombatStep.Attack) return false;
 
-            List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Friendly);
+            // The team argument is relative to the ship it's measuring from, not the host of this ability, so we need to query for enemies of the defender
+            List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Enemy);
             return friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != HostShip.ShipId);
         }
 
@@ -134,7 +135,8 @@ namespace ActionsList
 
             if ((Combat.DiceRollAttack.Blanks > 0) || (Combat.DiceRollAttack.Focuses > 0))
             {
-                List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Friendly);
+                // The team argument is relative to the ship it's measuring from, not the host of this ability, so we need to query for enemies of the defender
+                List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Enemy);
                 if (friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != HostShip.ShipId && n.State.HullCurrent > 0)) result = 33;
             }
 

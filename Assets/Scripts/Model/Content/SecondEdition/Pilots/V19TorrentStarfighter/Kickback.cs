@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ActionsList;
+using Ship;
 using Upgrade;
 
 namespace Ship.SecondEdition.V19TorrentStarfighter
@@ -25,16 +24,42 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
 
 namespace Abilities.SecondEdition
 {
+    //After you perform a barrel roll action, you may perform a red lock action.
     public class KickbackAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
-            // TODO
+            HostShip.OnActionIsPerformed += CheckConditions;
         }
 
         public override void DeactivateAbility()
         {
-            // TODO
+            HostShip.OnActionIsPerformed -= CheckConditions;
+        }
+
+        private void CheckConditions(GenericAction action)
+        {
+            if (action is BarrelRollAction)
+            {
+                HostShip.OnActionDecisionSubphaseEnd += PerformLockAction;
+            }
+        }
+
+        private void PerformLockAction(GenericShip ship)
+        {
+            HostShip.OnActionDecisionSubphaseEnd -= PerformLockAction;
+
+            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, AskPerformBoostAction);
+        }
+
+        private void AskPerformBoostAction(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfoToHuman(HostName + ": you may perform a red lock action");
+
+            HostShip.AskPerformFreeAction(
+                new TargetLockAction() { IsRed = true },
+                Triggers.FinishTrigger
+            );
         }
     }
 }

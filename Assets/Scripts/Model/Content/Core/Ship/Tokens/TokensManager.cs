@@ -270,6 +270,14 @@ namespace Ship
             );
         }
 
+        public void TransferToken(Type tokenType, GenericShip targetShip, Action callback)
+        {
+            Host.Tokens.RemoveToken(
+                tokenType,
+                () => targetShip.Tokens.AssignToken(tokenType, callback)
+            );
+        }
+
         // CONDITIONS - don't trigger any abilities
 
         public void RemoveCondition(Type type)

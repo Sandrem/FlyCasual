@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ActionsList;
+using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -24,16 +26,46 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
 
 namespace Abilities.SecondEdition
 {
+    //After a friendly ship at range 1-2 performs an attack against an enemy ship in your front arc, you may perform a focus action.
     public class TuckerAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
-            // TODO
+            GenericShip.OnAttackFinishGlobal += RegisterTrigger;
         }
 
         public override void DeactivateAbility()
         {
-            // TODO
+            GenericShip.OnAttackFinishGlobal -= RegisterTrigger;
+        }
+
+        private void RegisterTrigger(GenericShip ship)
+        {
+            var range = new BoardTools.DistanceInfo(HostShip, Combat.Attacker).Range;
+
+            if (Combat.Attacker.Owner == HostShip.Owner 
+                && Combat.Defender.Owner != HostShip.Owner
+                && HostShip.SectorsInfo.IsShipInSector(Combat.Defender, Arcs.ArcType.Front)
+                && range >= 1 && range <= 2)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskPerformFocusAction);
+            }
+        }
+
+        private void AskPerformFocusAction(object sender, EventArgs e)
+        {
+            Messages.ShowInfoToHuman(HostName + ": you may perform a focus action");
+
+            GenericShip previousActiveShip = Selection.ThisShip;
+            Selection.ChangeActiveShip(HostShip);
+
+            HostShip.AskPerformFreeAction(
+                new FocusAction(),
+                () => {
+                    Selection.ChangeActiveShip(previousActiveShip);
+                    Triggers.FinishTrigger();
+                }
+            );
         }
     }
 }

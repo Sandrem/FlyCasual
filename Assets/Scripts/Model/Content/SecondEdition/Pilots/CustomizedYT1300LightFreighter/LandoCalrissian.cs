@@ -27,6 +27,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
+    //After you roll dice, if you are not stressed, you may gain 1 stress token to reroll all of your blank results.
     public class LandoCalrissianScumPilotAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -36,7 +37,7 @@ namespace Abilities.SecondEdition
                 IsDiceModificationAvailable,
                 GetAiPriority,
                 DiceModificationType.Reroll,
-                2,
+                int.MaxValue,
                 new List<DieSide>() { DieSide.Blank },
                 timing: DiceModificationTimingType.AfterRolled,
                 payAbilityCost: PayAbilityCost
@@ -45,7 +46,7 @@ namespace Abilities.SecondEdition
 
         private bool IsDiceModificationAvailable()
         {
-            return true;
+            return !HostShip.IsStressed;
         }
 
         private int GetAiPriority()

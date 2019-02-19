@@ -24,6 +24,7 @@ namespace UpgradesList.SecondEdition
 namespace Abilities.SecondEdition
 {
     //While you defend, you may spend 1 charge to reroll 1 defense die.
+    //After you fully execute a red maneuver, recover 1 charge.
     public class Elusive : GenericAbility
     {
         public override void ActivateAbility()

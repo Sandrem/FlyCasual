@@ -38,7 +38,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterPatternAnalyzer(GenericShip ship)
         {
-            if (HostShip.GetLastManeuverColor() == MovementComplexity.Complex)
+            if (HostShip.GetLastManeuverColor() == MovementComplexity.Complex && !HostShip.IsBumped && !BoardTools.Board.IsOffTheBoard(HostShip))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnMovementExecuted, UsePatternAnalyzer);
             }

@@ -1,9 +1,6 @@
 ﻿using Upgrade;
-using System.Collections.Generic;
-using System.Linq;
 using System;
 using Ship;
-using ActionsList;
 
 namespace UpgradesList.SecondEdition
 {
@@ -26,35 +23,61 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
+    //While you defend, you may spend 1 charge to reroll 1 defense die.
+    //After you fully execute a red maneuver, recover 1 charge.
     public class Elusive : GenericAbility
     {
         public override void ActivateAbility()
         {
-            HostShip.OnGenerateDiceModifications += AddDiceModification;
-            HostShip.OnMovementFinish += CheckRestoreCharge;
+            AddDiceModification(
+                HostName,
+                IsDiceModificationAvailable,
+                GetDiceModificationAiPriority,
+                DiceModificationType.Reroll,
+                1,
+                payAbilityCost: PayAbilityCost
+            );
+            HostShip.OnMovementFinishSuccessfully += CheckRestoreCharge;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGenerateDiceModifications -= AddDiceModification;
-            HostShip.OnMovementFinish -= CheckRestoreCharge;
+            RemoveDiceModification();
+            HostShip.OnMovementFinishSuccessfully -= CheckRestoreCharge;
         }
 
-        private void AddDiceModification(GenericShip host)
+        private bool IsDiceModificationAvailable()
         {
-            GenericAction newAction = new ElusiveDiceModification
+            if (Combat.AttackStep != CombatStep.Defence) return false;
+            if (HostUpgrade.State.Charges == 0) return false;
+
+            return true;
+        }
+
+        private int GetDiceModificationAiPriority()
+        {
+            int result = 0;
+
+            if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes) result = 85;
+
+            return result;
+        }
+
+        private void PayAbilityCost(Action<bool> callback)
+        {
+            if (HostUpgrade.State.Charges > 0)
             {
-                ImageUrl = HostUpgrade.ImageUrl,
-                HostShip = host,
-                Source = HostUpgrade
-            };
-            host.AddAvailableDiceModification(newAction);
+                HostUpgrade.State.SpendCharge();
+                callback(true);
+            }
+            else
+            {
+                callback(false);
+            }
         }
 
         private void CheckRestoreCharge(GenericShip host)
         {
-            if (HostShip.IsBumped) return;
-
             if (HostShip.AssignedManeuver.ColorComplexity != Movement.MovementComplexity.Complex) return;
 
             if (HostUpgrade.State.Charges < HostUpgrade.State.MaxCharges)
@@ -62,49 +85,6 @@ namespace Abilities.SecondEdition
                 HostUpgrade.State.RestoreCharge();
                 Messages.ShowInfo("Elusive: Charge is restored");
             }
-        }
-    }
-}
-
-namespace ActionsList
-{
-    public class ElusiveDiceModification : GenericAction
-    {
-        public ElusiveDiceModification()
-        {
-            Name = DiceModificationName = "Elusive";
-
-            IsReroll = true;
-        }
-
-        public override void ActionEffect(Action callBack)
-        {
-
-            DiceRerollManager diceRerollManager = new DiceRerollManager
-            {
-                NumberOfDiceCanBeRerolled = 1,
-                CallBack = callBack
-            };
-
-            Source.State.SpendCharge();
-            diceRerollManager.Start();
-        }
-
-        public override bool IsDiceModificationAvailable()
-        {
-            if (Combat.AttackStep != CombatStep.Defence) return false;
-            if (Source.State.Charges == 0) return false;
-
-            return true;
-        }
-
-        public override int GetDiceModificationPriority()
-        {
-            int result = 0;
-
-            if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes) result = 85;
-
-            return result;
         }
     }
 }

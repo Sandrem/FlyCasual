@@ -674,6 +674,11 @@ namespace Abilities
             public bool IsCritical;
         }
 
+        protected void DealDamageToShip(GenericShip ship, int damage, bool isCritical, Action callback)
+        {
+            DealDamageToShips(new List<GenericShip> { ship }, damage, isCritical, callback);
+        }
+
         protected void DealDamageToShips(List<GenericShip> ships, int damage, bool isCritical, Action callback)
         {
             foreach (var ship in ships)
@@ -692,7 +697,7 @@ namespace Abilities
             var damage = args.IsCritical ? 0 : args.Damage;
             var critDamage = args.IsCritical ? args.Damage : 0;
 
-            Messages.ShowInfo(ship.PilotInfo.PilotName + " is dealt Critical Hit by " + HostName);
+            Messages.ShowInfo(ship.PilotInfo.PilotName + " is dealt " + (args.IsCritical ? "Critical " : "")  + "Hit by " + HostName);
 
             DamageSourceEventArgs damageArgs = new DamageSourceEventArgs()
             {

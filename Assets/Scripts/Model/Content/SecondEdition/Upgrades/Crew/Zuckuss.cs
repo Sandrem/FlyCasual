@@ -9,8 +9,6 @@ namespace UpgradesList.SecondEdition
     {
         public Zuckuss() : base()
         {
-            IsHidden = true;
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Zuckuss",
                 UpgradeType.Crew,

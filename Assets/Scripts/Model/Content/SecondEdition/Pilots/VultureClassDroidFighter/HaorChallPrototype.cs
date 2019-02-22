@@ -14,11 +14,10 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 "Haor Chall Prototype",
                 1,
                 23,
+                limited: 2,
                 abilityType: typeof(Abilities.SecondEdition.HaorChallPrototypeAbility),
                 pilotTitle: "Xi Char Offering"
             );
-
-            // TODO: Limited 2 
 
             ModelInfo.SkinName = "Gray";
 

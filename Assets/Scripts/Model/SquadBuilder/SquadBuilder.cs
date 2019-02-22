@@ -509,7 +509,7 @@ namespace SquadBuilderNS
             if (!ValidateMaxShipsCount(playerNo)) return false;
             if (!ValidateUniqueCards(playerNo)) return false;
             if (!ValidateSquadCost(playerNo)) return false;
-            if (!ValidateLimitedCards(playerNo)) return false;
+            if (!ValidateFeLimitedCards(playerNo)) return false;
             if (!ValidateShipAiReady(playerNo)) return false;
             if (!ValidateUpgradePostChecks(playerNo)) return false;
             if (!ValidateSlotsRequirements(playerNo)) return false;
@@ -543,38 +543,41 @@ namespace SquadBuilderNS
         {
             bool result = true;
 
-            List<string> uniqueCards = new List<string>();
+            Dictionary<string, int> uniqueCards = new Dictionary<string, int>();
             foreach (var shipConfig in GetSquadList(playerNo).GetShips())
             {
                 if (shipConfig.Instance.PilotInfo.IsLimited)
                 {
-                    if (CheckDuplicate(uniqueCards, shipConfig.Instance.PilotInfo.PilotName)) return false;
+                    string cleanName = GetCleanName(shipConfig.Instance.PilotInfo.PilotName);
+                    if (uniqueCards.ContainsKey(cleanName)) uniqueCards[cleanName]--; else uniqueCards.Add(cleanName, shipConfig.Instance.PilotInfo.Limited - 1);
                 }
 
                 foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
                 {
                     if (upgrade.UpgradeInfo.IsLimited)
                     {
-                        if (CheckDuplicate(uniqueCards, upgrade.UpgradeInfo.Name)) return false;
+                        string cleanName = GetCleanName(upgrade.UpgradeInfo.Name);
+                        if (uniqueCards.ContainsKey(cleanName)) uniqueCards[cleanName]--; else uniqueCards.Add(cleanName, upgrade.UpgradeInfo.Limited - 1);
                     }
                 }
             }
+
+            foreach (var uniqueCardInfo in uniqueCards)
+            {
+                if (uniqueCardInfo.Value < 0)
+                {
+                    Messages.ShowError("Too many of limited cards with name " + uniqueCardInfo.Key);
+                    result = false;
+                }
+            }
+
             return result;
         }
 
-        private static bool CheckDuplicate(List<string> uniqueCards, string cardName)
+        private static string GetCleanName(string name)
         {
-            if (cardName.Contains("(")) cardName = cardName.Substring(0, cardName.LastIndexOf("(") - 1);
-            if (uniqueCards.Contains(cardName))
-            {
-                Messages.ShowError("Only one card with unique name " + cardName + " can be present");
-                return true;
-            }
-            else
-            {
-                uniqueCards.Add(cardName);
-                return false;
-            }
+            if (name.Contains("(")) name = name.Substring(0, name.LastIndexOf("(") - 1);
+            return name;
         }
 
         private static bool ValidateSquadCost(PlayerNo playerNo)
@@ -593,7 +596,7 @@ namespace SquadBuilderNS
             return result;
         }
 
-        private static bool ValidateLimitedCards(PlayerNo playerNo)
+        private static bool ValidateFeLimitedCards(PlayerNo playerNo)
         {
             bool result = true;
 

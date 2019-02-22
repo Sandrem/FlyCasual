@@ -14,11 +14,10 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 "Precise Hunter",
                 3,
                 27,
+                limited: 3,
                 abilityType: typeof(Abilities.SecondEdition.PreciseHunterAbility),
                 pilotTitle: "Pinpoint Protocols"
             );
-
-            // TODO: Limited 3 
 
             RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 

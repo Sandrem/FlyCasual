@@ -1,6 +1,7 @@
 ﻿using Actions;
 using ActionsList;
 using Ship;
+using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -18,6 +19,8 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 abilityType: typeof(Abilities.SecondEdition.SwoopAbility),
                 extraUpgradeIcon: UpgradeType.Talent
             );
+
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c3/9f/c39f4623-a983-4fea-98aa-c11b37e867c0/swz32_swoop.png";
         }

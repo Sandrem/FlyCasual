@@ -17,6 +17,9 @@ namespace UpgradesList.SecondEdition
                 //seImageNumber: 19
                 
             );
+
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d0/a4/d0a49094-b246-4345-9f65-846b070e9fc6/swz34_brilliant-evasion.png";
         }
     }

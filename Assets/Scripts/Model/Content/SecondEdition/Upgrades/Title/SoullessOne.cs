@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Soulless One",
                 UpgradeType.Title,
-                cost: 0,       
+                cost: 10,       
                 isLimited: true,
                 addHull: 2,
                 restrictions: new UpgradeCardRestrictions(
@@ -21,6 +21,9 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.SoullessOneAbility)
                 //seImageNumber: ??
             );
+
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f3/18/f318bb11-2334-4b13-aee2-3930ed267cf0/swz29_a2_soulless-one.png";
         }
     }

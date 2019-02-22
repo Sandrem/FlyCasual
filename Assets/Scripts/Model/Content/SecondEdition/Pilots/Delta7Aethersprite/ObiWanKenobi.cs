@@ -20,6 +20,8 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 extraUpgradeIcon: UpgradeType.Force
             );
 
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f9/24/f9246e39-4852-4a8f-a331-9b78f62439e9/swz32_obi-wan-kenobi.png";
         }
     }

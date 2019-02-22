@@ -2,6 +2,7 @@
 using Movement;
 using Ship;
 using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
@@ -21,6 +22,8 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             );
 
             ModelInfo.SkinName = "Mace Windu";
+
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/89/28/8928ae70-8883-4c39-9b15-a4754c063b88/swz32_mace-windu.png";
         }

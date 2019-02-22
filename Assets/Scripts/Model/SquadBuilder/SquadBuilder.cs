@@ -272,6 +272,9 @@ namespace SquadBuilderNS
             GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel").transform.Find("LoadingText").gameObject;
             loadingText.SetActive(true);
 
+            GameObject noContentText = GameObject.Find("UI/Panels/SelectShipPanel").transform.Find("NoContentText").gameObject;
+            if (noContentText != null) noContentText.SetActive(false);
+
             ShowAvailableShips(CurrentSquadList.SquadFaction);
         }
 

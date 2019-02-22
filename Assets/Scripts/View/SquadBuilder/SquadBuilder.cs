@@ -70,13 +70,38 @@ namespace SquadBuilderNS
             DestroyChildren(GameObject.Find("UI/Panels/SelectShipPanel/Panel").transform);
             availableShipsCounter = 0;
 
+            bool isAnyShipShown = false;
+
             foreach (ShipRecord ship in AllShips.OrderBy(s => s.Instance.ShipInfo.ShipName))
             {
-                if (ship.Instance.ShipInfo.FactionsAll.Contains(faction) && !ship.Instance.IsHidden)
+                if (ship.Instance.ShipInfo.FactionsAll.Contains(faction) && !ship.Instance.IsHidden && HasPilots(ship, faction))
                 {
-                    if (ship.Instance.GetType().ToString().Contains(Edition.Current.NameShort)) ShowAvailableShip(ship, faction);
+                    if (ship.Instance.GetType().ToString().Contains(Edition.Current.NameShort))
+                    {
+                        ShowAvailableShip(ship, faction);
+                        isAnyShipShown = true;
+                    }
                 }
             }
+
+            if (!isAnyShipShown)
+            {
+                ShowNoContentInfo();
+            }
+        }
+
+        private static void ShowNoContentInfo()
+        {
+            GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel/LoadingText");
+            if (loadingText != null) loadingText.SetActive(false);
+
+            GameObject noContentText = GameObject.Find("UI/Panels/SelectShipPanel").transform.Find("NoContentText").gameObject;
+            if (noContentText != null) noContentText.SetActive(true);
+        }
+
+        private static bool HasPilots(ShipRecord ship, Faction faction)
+        {
+            return AllPilots.Any(n => n.PilotShip == ship && n.PilotFaction == faction);
         }
 
         private static void ShowAvailableShip(ShipRecord ship, Faction faction)

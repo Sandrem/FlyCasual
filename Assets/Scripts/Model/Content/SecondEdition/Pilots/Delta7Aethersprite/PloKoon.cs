@@ -24,6 +24,8 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
             ModelInfo.SkinName = "Plo Koon";
 
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/6a/6f/6a6fef51-fb5f-49c1-b5cc-8e96b6d09051/swz32_plo-koon.png";
         }
     }

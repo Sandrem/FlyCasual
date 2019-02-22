@@ -17,6 +17,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.Delta7BAbility)
             );
 
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d6/97/d697602c-8614-4192-a44d-986fa2d2fd7a/swz_delta-7b.png";
         }        
     }

@@ -24,6 +24,8 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
             ModelInfo.SkinName = "Saesee Tiin";
 
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/77/73/777350cb-614b-48fd-ad8d-d9c867053c6b/swz32_saesee-tiin.png";
         }
     }

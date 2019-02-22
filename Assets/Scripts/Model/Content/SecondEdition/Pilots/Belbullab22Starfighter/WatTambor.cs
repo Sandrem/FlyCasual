@@ -23,6 +23,8 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
 
             ModelInfo.SkinName = "Wat Tambor";
 
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/5e/3d/5e3d8e36-3989-40f4-9908-6bd6583bb88a/swz29_wat-tambor.png";
         }
     }

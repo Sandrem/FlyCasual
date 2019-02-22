@@ -20,6 +20,8 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
 
             // TODO: Limited 3 
 
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/37/0c/370c5cb2-0f0d-4d6f-9358-eb3cad9088dc/swz29_precise-hunter.png";
         }
     }

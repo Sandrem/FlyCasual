@@ -21,6 +21,8 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 extraUpgradeIcon: UpgradeType.Talent
             );
 
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/2c/ee/2ceea646-b5bd-42ce-aeb1-7f38dc88e045/swz32_axe.png";
         }
     }

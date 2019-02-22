@@ -1,6 +1,8 @@
 ﻿using Actions;
 using ActionsList;
 using Ship;
+using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship.SecondEdition.V19TorrentStarfighter
@@ -17,6 +19,8 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 abilityType: typeof(Abilities.SecondEdition.KickbackAbility),
                 extraUpgradeIcon: UpgradeType.Talent
             );
+
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/57/c4/57c43689-5d1f-4fd2-b1f6-d4bec9448634/swz32_kickback.png";
         }

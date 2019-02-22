@@ -19,6 +19,8 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 abilityType: typeof(Abilities.SecondEdition.TuckerAbility)
             );
 
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/79/05/790527b0-486c-4f5e-a1cb-bab1cf29fb5b/swz32_tucker.png";
         }
     }

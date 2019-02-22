@@ -90,8 +90,8 @@ namespace Abilities.SecondEdition
             HostShip.AskPerformFreeAction(
                 new List<GenericAction>()
                     {
-                        new BoostAction() { IsRed = true },
-                        new RotateArcAction() { IsRed = true }
+                        new BoostAction() { Color = ActionColor.Red },
+                        new RotateArcAction() { Color = ActionColor.Red }
                     },
                 Triggers.FinishTrigger
             );

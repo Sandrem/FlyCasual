@@ -54,7 +54,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfoToHuman(HostUpgrade.UpgradeInfo.Name + ": You may perform a red Boost action");
 
             HostShip.AskPerformFreeAction(
-                new BoostAction() { IsRed = true },
+                new BoostAction() { Color = ActionColor.Red },
                 Triggers.FinishTrigger
             );
         }

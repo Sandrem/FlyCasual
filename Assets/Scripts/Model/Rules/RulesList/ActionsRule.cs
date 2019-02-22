@@ -16,9 +16,11 @@ namespace RulesList
         public void CanPerformActions(GenericAction action, ref bool result)
         {
             if (Selection.ThisShip.IsAlreadyExecutedAction(action.GetType())) result = false;
+
+            if (action.Color == ActionColor.Purple && Selection.ThisShip.State.Force == 0) result = false;
         }
 
-        public void RedActionCheck(GenericAction action)
+        public void ActionColorCheck(GenericAction action)
         {
             // Selection.ThisShip is null during tractor beam
             if (action == null || Selection.ThisShip == null) return;
@@ -36,6 +38,8 @@ namespace RulesList
                     EventHandler = GetStress
                 });
             }
+
+            if (action.IsPurple) Selection.ThisShip.State.Force--;
         }
 
         private void GetStress(object sender, System.EventArgs e)

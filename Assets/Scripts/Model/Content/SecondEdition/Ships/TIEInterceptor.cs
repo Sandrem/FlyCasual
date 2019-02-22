@@ -4,6 +4,7 @@ using Movement;
 using ActionsList;
 using Upgrade;
 using Ship;
+using Actions;
 
 namespace Ship
 {
@@ -67,8 +68,8 @@ namespace Abilities.SecondEdition
                 HostShip.AskPerformFreeAction(
                     new List<GenericAction>()
                     {
-                        new BoostAction() { IsRed = true },
-                        new BarrelRollAction() { IsRed = true }
+                        new BoostAction() { Color = ActionColor.Red },
+                        new BarrelRollAction() { Color = ActionColor.Red }
                     },
                     Triggers.FinishTrigger
                 );

@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
         {
             if (action is EvadeAction && action.IsRed)
             {
-                if (IsNearObstacle()) action.IsRed = false;
+                if (IsNearObstacle()) action.Color = ActionColor.White;
             }
         }
 

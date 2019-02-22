@@ -160,7 +160,7 @@ namespace SubPhases
                 selectBoostTemplateDecisionSubPhase.AddDecision(
                     move.Name,
                     delegate { SelectTemplate(move); },
-                    isRed: move.IsRed,
+                    color: (move.IsRed) ? ActionColor.Red: ActionColor.White,
                     isCentered: move.Template == ActionsHolder.BoostTemplates.Straight1
                 );
             }
@@ -180,7 +180,7 @@ namespace SubPhases
         {
             if (move.IsRed && !HostAction.IsRed)
             {
-                HostAction.IsRed = true;
+                HostAction.Color = ActionColor.Red;
                 TheShip.OnActionIsPerformed += ResetActionColor;
             }
                 
@@ -191,7 +191,7 @@ namespace SubPhases
         private void ResetActionColor(GenericAction action)
         {
             action.HostShip.OnActionIsPerformed -= ResetActionColor;
-            HostAction.IsRed = false;
+            HostAction.Color = ActionColor.Red;
         }
 
         private void SelectTemplateDecisionIsTaken()

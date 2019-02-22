@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Ship;
 using ActionsList;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -46,7 +47,7 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You can perform free Red Focus action");
 
-            HostShip.AskPerformFreeAction(new FocusAction() { IsRed = true }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(new FocusAction() { Color = ActionColor.Red }, Triggers.FinishTrigger);
         }
     }
 }

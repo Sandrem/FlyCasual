@@ -48,7 +48,7 @@ public static class ShipFactory {
         newShipContainer.OnRoundEnd += Rules.Charge.RegenerateCharge;
         newShipContainer.OnRoundEnd += Rules.BonusAttack.ResetCanBonusAttack;
         newShipContainer.OnShipIsDestroyed += Rules.TargetLocks.RegisterRemoveTargetLocksOnDestruction;
-        newShipContainer.OnActionIsPerformed_System += Rules.Actions.RedActionCheck;
+        newShipContainer.OnActionIsPerformed_System += Rules.Actions.ActionColorCheck;
         newShipContainer.OnActionIsPerformed += Rules.Actions.CheckLinkedAction;
 
         newShipContainer.OnTokenIsAssigned += Roster.UpdateTokensIndicator;

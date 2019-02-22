@@ -1,4 +1,5 @@
-﻿using ActionsList;
+﻿using Actions;
+using ActionsList;
 using Ship;
 using System.Collections.Generic;
 using Upgrade;
@@ -55,7 +56,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfoToHuman(HostName + ": you may perform a red boost action");
 
             TargetShip.AskPerformFreeAction(
-                new List<GenericAction>() { new BoostAction() { IsRed = true } },
+                new List<GenericAction>() { new BoostAction() { Color = ActionColor.Red } },
                 Triggers.FinishTrigger
             );
         }

@@ -1,4 +1,5 @@
-﻿using ActionsList;
+﻿using Actions;
+using ActionsList;
 using Ship;
 using System;
 using Upgrade;
@@ -51,7 +52,7 @@ namespace Abilities.SecondEdition
             HostShip.BeforeFreeActionIsPerformed += SpendForce;
             Selection.ChangeActiveShip(HostShip);
             //Card states that you can rotate your arc, not perform a rotate arc action so you can do it while stressed
-            HostShip.AskPerformFreeAction(new RotateArcAction() { IsRed = false, CanBePerformedWhileStressed = true }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(new RotateArcAction() { Color = ActionColor.White, CanBePerformedWhileStressed = true }, Triggers.FinishTrigger);
         }
 
         private void SpendForce(GenericAction action)

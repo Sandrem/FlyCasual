@@ -107,7 +107,7 @@ namespace Ship
             {
                 GenericAction action = (GenericAction)Activator.CreateInstance(actionInfo.ActionType);
                 action.HostShip = Host;
-                action.IsRed = actionInfo.Color == ActionColor.Red;
+                action.Color = actionInfo.Color;
 
                 if (actionInfo.Source == null)
                 {
@@ -124,7 +124,7 @@ namespace Ship
             {
                 GenericAction linkedAction = (GenericAction)Activator.CreateInstance(linkedActionInfo.ActionLinkedType);
                 linkedAction.HostShip = Host;
-                linkedAction.IsRed = linkedActionInfo.LinkedColor == ActionColor.Red;
+                linkedAction.Color = linkedActionInfo.LinkedColor;
 
                 AddActionLink(linkedActionInfo.ActionType, linkedAction);
             }

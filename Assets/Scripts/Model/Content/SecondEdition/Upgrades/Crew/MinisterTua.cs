@@ -3,6 +3,7 @@ using Upgrade;
 using System.Linq;
 using System.Collections.Generic;
 using ActionsList;
+using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -50,7 +51,7 @@ namespace Abilities.SecondEdition
             {
                 Selection.ThisShip = HostShip;
                 HostShip.AskPerformFreeAction(
-                    new ReinforceAction() { HostShip = HostShip, IsRed = true },
+                    new ReinforceAction() { HostShip = HostShip, Color = ActionColor.Red },
                     Triggers.FinishTrigger
                 );
             }

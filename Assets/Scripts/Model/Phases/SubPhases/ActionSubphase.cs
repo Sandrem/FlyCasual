@@ -143,22 +143,44 @@ namespace SubPhases
                     {
                         addedDecision = true;
                         string linkedActionName = linkedAction.Name;
-                        if (linkedAction.IsRed) linkedActionName = "<color=red>" + linkedActionName + "</color>";
+                        switch (linkedAction.Color)
+                        {
+                            case Actions.ActionColor.Red:
+                                linkedActionName = "<color=red>" + linkedActionName + "</color>";
+                                break;
+                            case Actions.ActionColor.Purple:
+                                linkedActionName = "<color=purple>" + linkedActionName + "</purple>";
+                                break;
+                            default:
+                                break;
+                        }
                         string decisionName = action.Name + " > " + linkedActionName;
 
-                        AddDecision(decisionName, delegate {
-                            ActionWasPerformed = true;
-                            ActionsHolder.TakeActionStart(action);
-                        }, action.ImageUrl, -1, action.IsRed);
+                        AddDecision(
+                            decisionName,
+                            delegate {
+                                ActionWasPerformed = true;
+                                ActionsHolder.TakeActionStart(action);
+                            },
+                            action.ImageUrl,
+                            -1,
+                            action.Color
+                        );
                     }
                 }
 
                 if(!addedDecision)
                 {
-                    AddDecision(action.Name, delegate {
-                        ActionWasPerformed = true;
-                        ActionsHolder.TakeActionStart(action);
-                    }, action.ImageUrl, -1, action.IsRed);
+                    AddDecision(
+                        action.Name,
+                        delegate {
+                            ActionWasPerformed = true;
+                            ActionsHolder.TakeActionStart(action);
+                        },
+                        action.ImageUrl,
+                        -1,
+                        action.Color
+                    );
                 }
             }
         }
@@ -226,7 +248,17 @@ namespace SubPhases
                     {
                         addedDecision = true;
                         string linkedActionName = linkedAction.Name;
-                        if (linkedAction.IsRed) linkedActionName = "<color=red>" + linkedActionName + "</color>";
+                        switch (linkedAction.Color)
+                        {
+                            case Actions.ActionColor.Red:
+                                linkedActionName = "<color=red>" + linkedActionName + "</color>";
+                                break;
+                            case Actions.ActionColor.Purple:
+                                linkedActionName = "<color=purple>" + linkedActionName + "</purple>";
+                                break;
+                            default:
+                                break;
+                        }
                         string decisionName = action.Name + " > " + linkedActionName;
 
                         AddDecision(
@@ -240,7 +272,7 @@ namespace SubPhases
                             },
                             action.ImageUrl,
                             -1,
-                            action.IsRed
+                            action.Color
                         );
                     }
                 }
@@ -258,7 +290,7 @@ namespace SubPhases
                         },
                         action.ImageUrl,
                         -1,
-                        action.IsRed
+                        action.Color
                     );
                 }
             }

@@ -1,4 +1,5 @@
-﻿using ActionsList;
+﻿using Actions;
+using ActionsList;
 using Ship;
 using Upgrade;
 
@@ -57,7 +58,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfoToHuman(HostName + ": you may perform a red lock action");
 
             HostShip.AskPerformFreeAction(
-                new TargetLockAction() { IsRed = true },
+                new TargetLockAction() { Color = ActionColor.Red },
                 Triggers.FinishTrigger
             );
         }

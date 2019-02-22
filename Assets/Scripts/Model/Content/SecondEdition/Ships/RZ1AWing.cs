@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfoToHuman("Vectored Thrusters: you may perform a red boost action");
 
             HostShip.AskPerformFreeAction(
-                new BoostAction() { IsRed = true },
+                new BoostAction() { Color = ActionColor.Red },
                 Triggers.FinishTrigger
             );
         }

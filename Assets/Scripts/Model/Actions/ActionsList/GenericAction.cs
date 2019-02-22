@@ -5,6 +5,7 @@ using Ship;
 using Upgrade;
 using System;
 using SubPhases;
+using Actions;
 
 public enum DiceModificationTimingType
 {
@@ -22,7 +23,17 @@ namespace ActionsList
         public string DiceModificationName;
         public string ImageUrl;
 
-        public bool IsRed;
+        public bool IsRed
+        {
+            get { return Color == ActionColor.Red; }
+        }
+
+        public bool IsPurple
+        {
+            get { return Color == ActionColor.Purple; }
+        }
+
+        public ActionColor Color;
 
         public bool IsCritCancelAction;
 
@@ -73,7 +84,7 @@ namespace ActionsList
             get
             {
                 var redAction = (GenericAction)MemberwiseClone();
-                redAction.IsRed = true;
+                redAction.Color = ActionColor.Red;
                 return redAction;
             }
         }

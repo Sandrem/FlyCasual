@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Actions;
 using ActionsList;
 using Upgrade;
 
@@ -51,7 +52,7 @@ namespace Abilities.SecondEdition
 
         private void AskToUseLeevanTenzaAbility(object sender, System.EventArgs e)
         {
-            HostShip.AskPerformFreeAction(new EvadeAction() { IsRed = true }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(new EvadeAction() { Color = ActionColor.Red }, Triggers.FinishTrigger);
         }
     }
 }

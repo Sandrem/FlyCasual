@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.Linq;
 using GameModes;
 using GameCommands;
+using Actions;
 
 namespace SubPhases
 {
@@ -16,7 +17,7 @@ namespace SubPhases
         public EventHandler Effect { get; private set; }
         public string Tooltip { get; private set; }
         public int Count { get; private set; }
-        public bool IsRed { get; private set; }
+        public ActionColor Color { get; private set; }
         public bool IsCentered { get; private set; }
 
         public bool HasTooltip
@@ -24,13 +25,13 @@ namespace SubPhases
             get { return Tooltip != null; }
         }
 
-        public Decision(string name, EventHandler effect, string tooltip = null, int count = -1, bool isRed = false, bool isCentered = false)
+        public Decision(string name, EventHandler effect, string tooltip = null, int count = -1, ActionColor color = ActionColor.White, bool isCentered = false)
         {
             Name = name;
             Effect = effect;
             Tooltip = tooltip;
             Count = count;
-            IsRed = isRed;
+            Color = color;
             IsCentered = isCentered;
         }
 
@@ -110,7 +111,7 @@ namespace SubPhases
             }
         }
 
-        public string AddDecision(string name, EventHandler call, string tooltip = null, int count = -1, bool isRed = false, bool isCentered = false)
+        public string AddDecision(string name, EventHandler call, string tooltip = null, int count = -1, ActionColor color = ActionColor.White, bool isCentered = false)
         {
             int counter = 2;
             string newName = name;
@@ -118,7 +119,7 @@ namespace SubPhases
             {
                 newName = name + " #" + counter++;
             }
-            decisions.Add(new Decision(newName, call, tooltip, count, isRed, isCentered));
+            decisions.Add(new Decision(newName, call, tooltip, count, color, isCentered));
 
             return newName;
         }
@@ -239,7 +240,21 @@ namespace SubPhases
                             }
 
                             button.GetComponentInChildren<Text>().text = decision.Name;
-                            button.GetComponentInChildren<Text>().color = (decision.IsRed) ? Color.red : Color.white;
+
+                            switch (decision.Color)
+                            {
+                                case ActionColor.White:
+                                    button.GetComponentInChildren<Text>().color = Color.white;
+                                    break;
+                                case ActionColor.Red:
+                                    button.GetComponentInChildren<Text>().color = Color.red;
+                                    break;
+                                case ActionColor.Purple:
+                                    button.GetComponentInChildren<Text>().color = new Color(128, 0, 128);
+                                    break;
+                                default:
+                                    break;
+                            }
 
                             if (decision.HasTooltip)
                             {

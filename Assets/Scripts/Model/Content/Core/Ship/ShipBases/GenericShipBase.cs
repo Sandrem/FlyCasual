@@ -208,6 +208,11 @@ namespace Ship
 
         public Vector3 GetGlobalPoint(Vector3 localPoint)
         {
+            if (Host.Model == null)
+            {
+                throw new NullReferenceException("Model of " + Host.PilotName + " is not available");
+            }
+
             return Host.Model.transform.TransformPoint(localPoint);
         }
 

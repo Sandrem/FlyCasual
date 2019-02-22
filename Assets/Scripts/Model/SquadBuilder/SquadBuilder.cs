@@ -1157,11 +1157,18 @@ namespace SquadBuilderNS
 
         private static void SetAutosavesOnTop(List<JSONObject> jsonList, string autosaveName)
         {
-            JSONObject autosaveJson = jsonList.Find(n => n["name"].str == autosaveName);
-            if (autosaveJson != null)
+            try
             {
-                jsonList.Remove(autosaveJson);
-                jsonList.Insert(0, autosaveJson);
+                JSONObject autosaveJson = jsonList.Find(n => n["name"].str == autosaveName);
+                if (autosaveJson != null)
+                {
+                    jsonList.Remove(autosaveJson);
+                    jsonList.Insert(0, autosaveJson);
+                }
+            }
+            catch (Exception)
+            {
+                // Ignore
             }
         }
 

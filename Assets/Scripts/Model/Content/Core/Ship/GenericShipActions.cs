@@ -8,6 +8,8 @@ using Tokens;
 using ActionsList;
 using GameModes;
 using Arcs;
+using Actions;
+using Editions;
 
 namespace Ship
 {
@@ -51,6 +53,7 @@ namespace Ship
         public event EventHandlerShip OnActionIsSkipped;
         public event EventHandlerAction BeforeFreeActionIsPerformed;
         public event EventHandlerAction OnActionIsPerformed;
+        public event EventHandlerAction OnActionIsPerformed_System;
 
         public event EventHandlerShipType OnTokenIsAssigned;
         public event EventHandlerShipType BeforeTokenIsAssigned;
@@ -60,6 +63,8 @@ namespace Ship
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
         public event EventHandlerShipType OnTokenIsRemoved;
         public static event EventHandlerShipType OnTokenIsRemovedGlobal;
+        public event EventHandlerShipTokenBool OnBeforeTokenIsRemoved;
+        public static event EventHandlerShipTokenBool OnBeforeTokenIsRemovedGlobal;
 
         public event EventHandlerShipType OnConditionIsAssigned;
         public event EventHandlerShipType OnConditionIsRemoved;
@@ -78,6 +83,9 @@ namespace Ship
         public event EventHandlerActionRef OnCheckActionComplexity;
 
         public event EventHandlerArcFacingList OnGetAvailableArcFacings;
+
+        public event EventHandlerFailedAction OnActionIsReadyToBeFailed;
+        public event EventHandlerAction OnActionIsReallyFailed;
 
         // ACTIONS
 
@@ -167,11 +175,18 @@ namespace Ship
 
         public void CallActionIsTaken(GenericAction action, Action callBack)
         {
-            if (OnActionIsPerformed != null) OnActionIsPerformed(action);
+            if (OnActionIsPerformed_System != null) OnActionIsPerformed_System(action);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnActionIsPerformed_System,
+                delegate
+                {
+                    if (OnActionIsPerformed != null) OnActionIsPerformed(action);
+
+                    Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
+                }
+            );
         }
-
 
         public void CallBeforeFreeActionIsPerformed(GenericAction action, Action callBack)
         {
@@ -527,6 +542,17 @@ namespace Ship
             if (OnConditionIsRemoved != null) OnConditionIsRemoved(this, tokenType);
         }
 
+        public bool CanRemoveToken(GenericToken token)
+        {
+            bool result = true;
+
+            if (OnBeforeTokenIsRemoved != null) OnBeforeTokenIsRemoved(this, token, ref result);
+
+            if (OnBeforeTokenIsRemovedGlobal != null) OnBeforeTokenIsRemovedGlobal(this, token, ref result);
+
+            return result;
+        }
+
         public void CallOnRemoveTokenEvent(System.Type tokenType)
         {
             if (OnTokenIsRemoved != null) OnTokenIsRemoved(this, tokenType);
@@ -629,6 +655,71 @@ namespace Ship
             if (OnGetAvailableArcFacings != null) OnGetAvailableArcFacings(availableArcFacings);
 
             return availableArcFacings;
+        }
+
+        // Action is failed
+
+        public void CallActionIsReadyToBeFailed(GenericAction action, List<ActionFailReason> failReasons, bool hasSecondChance = false)
+        {
+            bool isDefaultFailOverwritten = false;
+
+            if (action is CloakAction) isDefaultFailOverwritten = true;
+            if (OnActionIsReadyToBeFailed != null) OnActionIsReadyToBeFailed(action, failReasons, ref isDefaultFailOverwritten);
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnActionIsReadyToBeFailed, 
+                delegate
+                {
+                    CallOnActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
+                }
+            );
+        }
+
+        private void CallOnActionIsReallyFailed(GenericAction action, bool isDefaultFailOverwritten, bool hasSecondChance)
+        {
+            if (hasSecondChance)
+            {
+                Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
+            }
+            else
+            {
+                if (action.IsRed)
+                {
+                    if (!isDefaultFailOverwritten) Messages.ShowError("Red action is failed: Stress token is assigned");
+                    this.Tokens.AssignToken(
+                        typeof(StressToken),
+                        delegate
+                        {
+                            CallResolveActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
+                        }
+                    );
+                }
+                else
+                {
+                    if (!isDefaultFailOverwritten) Messages.ShowError("Action is failed");
+                    CallResolveActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
+                }
+            }
+        }
+
+        private void CallResolveActionIsReallyFailed(GenericAction action, bool isDefaultFailOverwritten, bool hasSecondChance)
+        {
+            if (!isDefaultFailOverwritten)
+            {
+                if (OnActionIsReallyFailed != null) OnActionIsReallyFailed(action);
+
+                Triggers.ResolveTriggers(
+                    TriggerTypes.OnActionIsReallyFailed,
+                    delegate
+                    {
+                        Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
+                    }
+                );
+            }
+            else
+            {
+                Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
+            }
         }
 
     }

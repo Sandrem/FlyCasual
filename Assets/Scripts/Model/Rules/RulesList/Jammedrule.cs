@@ -3,6 +3,7 @@ using Tokens;
 using System.Collections.Generic;
 using System.Linq;
 using Editions;
+using System;
 
 namespace RulesList
 {
@@ -19,21 +20,32 @@ namespace RulesList
             }
         }
 
+        private bool IsJammableToken(Type tokenType)
+        {
+            // Blue target locks are jammable
+            if (tokenType == typeof(BlueTargetLockToken))
+            {
+                return true;
+            }
+            // For other tokens, create a token of the type and check with the edition rules instead of checking for a fixed list of types, for future-proofing.
+            var token = (GenericToken)Activator.CreateInstance(tokenType, new object[] { null });
+            return Edition.Current.IsTokenCanBeDiscardedByJam(token);
+        }
+
         private void CheckJam(GenericShip ship, System.Type tokenType)
         {
             if (tokenType == typeof(JamToken))
             {
-                if (ship.Tokens.HasToken(typeof(FocusToken)) || ship.Tokens.HasToken(typeof(EvadeToken)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*'))
+                if (ship.Tokens.HasGreenTokens() || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*'))
                 {
                     RegisterJammedDecisionTrigger(ship);
                 }
             }
             else
             {
-                if (ship.Tokens.HasToken(typeof(JamToken)))
+                if (ship.Tokens.HasToken(typeof(JamToken)) && IsJammableToken(tokenType))
                 {
-                    List<System.Type> tokensTypesToDiscard = new List<System.Type> { typeof(FocusToken), typeof(EvadeToken), typeof(BlueTargetLockToken) };
-                    if (tokensTypesToDiscard.Contains(tokenType)) RegisterJammedDecisionTrigger(ship);
+                    RegisterJammedDecisionTrigger(ship);
                 }
             }
         }

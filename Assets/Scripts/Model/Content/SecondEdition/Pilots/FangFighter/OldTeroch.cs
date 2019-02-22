@@ -1,4 +1,5 @@
-﻿using BoardTools;
+﻿using Arcs;
+using BoardTools;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
@@ -34,7 +35,13 @@ namespace Abilities.SecondEdition
     {
         public OldTerochAbility()
         {
-            AbilityDescription = "Choose a ship. If you are inside its firing arc, it removes all of its green tokens.";
+            AbilityDescription = "Choose a ship. If you are inside its front firing arc, it removes all of its green tokens.";
+        }
+
+        protected override bool FilterTargetByArcAndTokens(GenericShip ship)
+        {
+            bool inFrontArcOfEnemy = ship.SectorsInfo.IsShipInSector(HostShip, ArcType.Front);
+            return inFrontArcOfEnemy && ship.Tokens.HasGreenTokens();
         }
 
         protected override void DiscardTokens()

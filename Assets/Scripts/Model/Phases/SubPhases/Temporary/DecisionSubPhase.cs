@@ -70,6 +70,7 @@ namespace SubPhases
         public bool ShowSkipButton;
         public DecisionViewTypes DecisionViewType = DecisionViewTypes.TextButtons;
         public Action OnSkipButtonIsPressed;
+        public Action OnSkipButtonIsPressedOverwrite;
         public bool WasDecisionButtonPressed;
         public bool IsForced;
         public bool DecisionWasPreparedAndShown;
@@ -424,8 +425,15 @@ namespace SubPhases
 
         public override void SkipButton()
         {
-            if (OnSkipButtonIsPressed != null) OnSkipButtonIsPressed();
-            ConfirmDecision();
+            if (OnSkipButtonIsPressedOverwrite != null)
+            {
+                OnSkipButtonIsPressedOverwrite();
+            }
+            else
+            {
+                if (OnSkipButtonIsPressed != null) OnSkipButtonIsPressed();
+                ConfirmDecision();
+            }
         }
 
         public void ShowDecisionWindowUI()

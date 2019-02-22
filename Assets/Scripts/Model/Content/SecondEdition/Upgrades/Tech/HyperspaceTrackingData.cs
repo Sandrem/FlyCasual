@@ -13,8 +13,6 @@ namespace UpgradesList.SecondEdition
     {
         public static readonly int LowestPossibleInitiative = 0;
         public static readonly int HighestPossibleInitiative = 6;
-        public static readonly int ShortestTokenDistance = 0;
-        public static readonly int LongestTokenDistance = 2;
 
         public HyperspaceTrackingData() : base()
         {
@@ -147,6 +145,8 @@ namespace Abilities.SecondEdition
         {
             if (TargetsForAbilityExist(FilterAbilityTarget))
             {
+                Selection.ChangeActiveShip(HostShip);
+
                 SelectTargetForAbility(
                     SelectAbilityTarget,
                     FilterAbilityTarget,
@@ -203,12 +203,8 @@ namespace Abilities.SecondEdition
             return
                 FilterByTargetType(ship, new List<SubPhases.TargetTypes>() {
                     SubPhases.TargetTypes.OtherFriendly,
-                    SubPhases.TargetTypes.This }) &&
-                FilterTargetsByRange(
-                    ship,
-                    UpgradesList.SecondEdition.HyperspaceTrackingData.ShortestTokenDistance,
-                    UpgradesList.SecondEdition.HyperspaceTrackingData.LongestTokenDistance
-                    );
+                    SubPhases.TargetTypes.This })
+                && Board.CheckInRange(HostShip, ship, 0, 2, RangeCheckReason.UpgradeCard);
         }
 
         private void CheckMoreTargets()

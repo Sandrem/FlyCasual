@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
         {
             bool result = false;
 
-            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon && Combat.ChosenWeapon.WeaponInfo.ArcRestrictions.Contains(ArcType.Rear))
+            if (weapon.WeaponType == WeaponTypes.PrimaryWeapon && weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.Rear))
             {
                 result = true;
             }

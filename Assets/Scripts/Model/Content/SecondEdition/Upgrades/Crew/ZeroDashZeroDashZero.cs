@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "0-0-0",
                 UpgradeType.Crew,
-                cost: 3,
+                cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum, Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.ZeroDashZeroDashZeroAbility),

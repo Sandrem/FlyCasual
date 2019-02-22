@@ -189,28 +189,28 @@ namespace SubPhases
 
             if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(NetworkOpponentPlayer))
             {
-                if (FilterTargets(anotherShip))
+                if (mouseKeyIsPressed == 1)
                 {
-                    if (mouseKeyIsPressed == 1)
+                    if (FilterTargets(anotherShip))
                     {
                         SendSelectShipCommand(anotherShip);
                     }
-                    else if (mouseKeyIsPressed == 2)
+                    else
                     {
-                        if (CanMeasureRangeBeforeSelection)
-                        {
-                            ActionsHolder.GetRangeAndShow(Selection.ThisShip, anotherShip);
-                        }
-                        else
-                        {
-                            Messages.ShowError("Cannot measure range before selection");
-                        }
+                        Messages.ShowErrorToHuman("This enemy ship cannot be selected");
+                        CancelShipSelection();
                     }
                 }
-                else
+                else if (mouseKeyIsPressed == 2)
                 {
-                    Messages.ShowErrorToHuman("This enemy ship cannot be selected");
-                    CancelShipSelection();
+                    if (CanMeasureRangeBeforeSelection)
+                    {
+                        ActionsHolder.GetRangeAndShow(Selection.ThisShip, anotherShip);
+                    }
+                    else
+                    {
+                        Messages.ShowError("Cannot measure range before selection");
+                    }
                 }
             }
             return result;
@@ -266,7 +266,7 @@ namespace SubPhases
             }
         }
 
-        private void CancelShipSelection()
+        protected virtual void CancelShipSelection()
         {
             GameMode.CurrentGameMode.RevertSubPhase();
         }

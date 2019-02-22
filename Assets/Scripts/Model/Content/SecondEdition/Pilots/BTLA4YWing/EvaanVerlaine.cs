@@ -53,6 +53,8 @@ namespace Abilities.SecondEdition
 
         private void AskSelectShip(object sender, System.EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             SelectTargetForAbility(
                 delegate
                 {

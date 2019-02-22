@@ -36,41 +36,6 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            GenericShip.OnGenerateDiceModificationsGlobal += AddSawGerreraPilotAbility;
-        }
-
-        public override void DeactivateAbility()
-        {
-            GenericShip.OnGenerateDiceModificationsGlobal -= AddSawGerreraPilotAbility;
-        }
-
-        private void AddSawGerreraPilotAbility(GenericShip ship)
-        {
-            if (Combat.Attacker.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
-
-            if (Combat.Attacker.Tokens.HasToken(typeof(StressToken)) || Combat.Attacker.State.HullCurrent < Combat.Attacker.State.HullMax)
-            {
-                Combat.Attacker.AddAvailableDiceModification(new SawGerreraPilotAction() { HostShip = HostShip, ImageUrl = HostShip.ImageUrl });
-            }
-        }
-
-        private class SawGerreraPilotAction : FriendlyRerollAction
-        {
-            public SawGerreraPilotAction() : base(1, 3, true, RerollTypeEnum.AttackDice)
-            {
-                Name = DiceModificationName = "Saw Gerrera's ability";
-                IsReroll = true;
-            }
-        }
-    }
-}
-
-namespace Abilities.SecondEdition
-{
-    public class SawGarreraPilotAbility : GenericAbility
-    {
-        public override void ActivateAbility()
-        {
             GenericShip.OnGenerateDiceModificationsGlobal += AddSawGarreraAbility;
         }
 

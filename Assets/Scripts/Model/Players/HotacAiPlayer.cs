@@ -27,11 +27,11 @@ namespace Players
         {
             base.AssignManeuver();
 
-            foreach (var shipHolder in Ships)
+            foreach (var ship in Ships.Values)
             {
-                if (RulesList.IonizationRule.IsIonized(shipHolder.Value)) continue;
+                if (ship.State.IsIonized) continue;
 
-                ShipMovementScript.SendAssignManeuverCommand(shipHolder.Value.ShipId, "2.F.S");
+                ShipMovementScript.SendAssignManeuverCommand(ship.ShipId, "2.F.S");
             }
             GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
         }

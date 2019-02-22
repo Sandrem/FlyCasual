@@ -20,6 +20,16 @@ namespace Actions
         Purple
     }
 
+    public enum ActionFailReason
+    {
+        WrongRange,
+        OutOfArc,
+        Bumped,
+        OffTheBoard,
+        ObstacleHit,
+        NoTemplateAvailable
+    }
+
     public class ActionInfo
     {
         public Type ActionType { get; private set; }

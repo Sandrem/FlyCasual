@@ -50,7 +50,8 @@ namespace RulesList
                 TriggerType = TriggerTypes.OnMovementExecuted,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = RemoveIonization,
-                Sender = ship
+                Sender = ship,
+                Skippable = true
             });
         }
 

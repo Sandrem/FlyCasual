@@ -181,6 +181,8 @@ namespace ActionsList
             ActionTake();
         }
 
+        public virtual void RevertActionOnFail(bool hasSecondChance = false) {}
+
     }
 
 }

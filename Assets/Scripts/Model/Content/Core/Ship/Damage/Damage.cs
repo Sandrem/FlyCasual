@@ -21,6 +21,11 @@ namespace Ship
             return DamageCards.Where(n => n.IsFaceup && (n.Type == type || type == null)).ToList();
         }
 
+        public bool HasCrit(Type critType)
+        {
+            return GetFaceupCrits().Any(n => n.GetType() == critType);
+        }
+
         public List<GenericDamageCard> GetFacedownCards()
         {
             return DamageCards.Where(n => !n.IsFaceup).ToList();
@@ -75,6 +80,8 @@ namespace Ship
         }
 
         public bool HasFacedownCards { get { return DamageCards.Any(n => !n.IsFaceup); } }
+
+        public bool HasFaceupCards { get { return DamageCards.Any(n => n.IsFaceup); } }
 
         public void ExposeRandomFacedownCard(Action callback)
         {

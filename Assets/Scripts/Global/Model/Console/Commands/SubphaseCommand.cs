@@ -13,7 +13,8 @@ namespace CommandsList
             Keyword = "subphase";
             Description =   "Shows current subphase and list of previous subphases\n" +
                             "subphase finish - finish current subphase\n" +
-                            "subphase resume - resume current subphase";
+                            "subphase resume - resume current subphase\n" +
+                            "subphase back - return to previous subphase";
 
             Console.AddAvailableCommand(this);
         }
@@ -27,6 +28,10 @@ namespace CommandsList
             else if (parameters.ContainsKey("resume"))
             {
                 ResumeCurrentSubphase();
+            }
+            else if (parameters.ContainsKey("back"))
+            {
+                GoBackSubphase();
             }
             else
             {
@@ -84,6 +89,18 @@ namespace CommandsList
             if (Phases.CurrentSubPhase != null)
             {
                 Phases.CurrentSubPhase.Resume();
+            }
+            else
+            {
+                Console.Write("Phases are not initialized yet!", LogTypes.Everything, true, "red");
+            }
+        }
+
+        private void GoBackSubphase()
+        {
+            if (Phases.CurrentSubPhase != null)
+            {
+                Phases.GoBack();
             }
             else
             {

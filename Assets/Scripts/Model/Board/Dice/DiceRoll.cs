@@ -691,6 +691,14 @@ public partial class DiceRoll
         return result;
     }
 
+    public void SelectAll()
+    {
+        foreach (var dice in DiceList)
+        {
+            dice.ToggleSelected(true);
+        }
+    }
+
     public void SelectBySides(List<DieSide> dieSides, int maxCanBeSelected)
     {
         DeselectDice();

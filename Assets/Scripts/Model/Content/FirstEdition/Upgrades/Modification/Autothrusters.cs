@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Modification,
                 cost: 2,
                 abilityType: typeof(Abilities.FirstEdition.AutothrustersAbility),
-                restriction: new ActionBarRestriction(new ActionInfo(typeof(BoostAction)))
+                restriction: new ActionBarRestriction(typeof(BoostAction))
             );
         }
 

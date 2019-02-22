@@ -688,6 +688,7 @@ namespace Ship
         {
             IsDestroyed = true;
 
+            Rules.Collision.ClearBumps(this);
             DeactivateAllAbilities();
 
             if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);

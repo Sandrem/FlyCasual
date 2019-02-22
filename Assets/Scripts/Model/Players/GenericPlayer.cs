@@ -149,7 +149,7 @@ namespace Players
             Roster.HighlightShipsFiltered(FilterShipsToAttack);
 
             UI.ShowSkipButton();
-            UI.HighlightNextButton();
+            UI.HighlightSkipButton();
 
             if (Phases.CurrentSubPhase is ExtraAttackSubPhase)
             {

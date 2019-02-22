@@ -24,9 +24,14 @@ namespace Ship
 
         public bool HasGreenTokens()
         {
-            foreach(GenericToken tok in AssignedTokens)
+            return HasTokenByColor(TokenColors.Green);
+        }
+
+        public bool HasTokenByColor(TokenColors tokensColor)
+        {
+            foreach (GenericToken tok in AssignedTokens)
             {
-                if (tok.TokenColor == TokenColors.Green)
+                if (tok.TokenColor == tokensColor)
                     return true;
             }
 
@@ -188,26 +193,28 @@ namespace Ship
 
         public void RemoveToken(GenericToken tokenToRemove, Action callback)
         {
-            AssignedTokens.Remove(tokenToRemove);
-
-            if (tokenToRemove.GetType().BaseType == typeof(GenericTargetLockToken))
+            if (Host.CanRemoveToken(tokenToRemove))
             {
-                GenericShip otherTokenOwner = (tokenToRemove as GenericTargetLockToken).OtherTokenOwner;
-                ActionsHolder.ReleaseTargetLockLetter((tokenToRemove as GenericTargetLockToken).Letter);
-                Type oppositeType = (tokenToRemove.GetType() == typeof(BlueTargetLockToken)) ? typeof(RedTargetLockToken) : typeof(BlueTargetLockToken);
+                AssignedTokens.Remove(tokenToRemove);
 
-                char letter = (tokenToRemove as GenericTargetLockToken).Letter;
-                GenericToken otherTargetLockToken = otherTokenOwner.Tokens.GetToken(oppositeType, letter);
-                if (otherTargetLockToken != null)
+                if (tokenToRemove.GetType().BaseType == typeof(GenericTargetLockToken))
                 {
-                    otherTokenOwner.Tokens.GetAllTokens().Remove(otherTargetLockToken);
-                    otherTokenOwner.CallOnRemoveTokenEvent(otherTargetLockToken.GetType());
+                    GenericShip otherTokenOwner = (tokenToRemove as GenericTargetLockToken).OtherTokenOwner;
+                    ActionsHolder.ReleaseTargetLockLetter((tokenToRemove as GenericTargetLockToken).Letter);
+                    Type oppositeType = (tokenToRemove.GetType() == typeof(BlueTargetLockToken)) ? typeof(RedTargetLockToken) : typeof(BlueTargetLockToken);
+
+                    char letter = (tokenToRemove as GenericTargetLockToken).Letter;
+                    GenericToken otherTargetLockToken = otherTokenOwner.Tokens.GetToken(oppositeType, letter);
+                    if (otherTargetLockToken != null)
+                    {
+                        otherTokenOwner.Tokens.GetAllTokens().Remove(otherTargetLockToken);
+                        otherTokenOwner.CallOnRemoveTokenEvent(otherTargetLockToken.GetType());
+                    }
                 }
+
+                tokenToRemove.WhenRemoved();
+                Host.CallOnRemoveTokenEvent(tokenToRemove.GetType());
             }
-
-            tokenToRemove.WhenRemoved();
-            Host.CallOnRemoveTokenEvent(tokenToRemove.GetType());
-
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsRemoved, callback);
         }
 

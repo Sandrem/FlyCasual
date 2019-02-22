@@ -30,7 +30,9 @@ namespace Players
 
         private void AssignManeuverRecursive()
         {
-            GenericShip shipWithoutManeuver = Ships.Values.FirstOrDefault(n => n.AssignedManeuver == null);
+            GenericShip shipWithoutManeuver = Ships.Values
+                .Where(n => !n.State.IsIonized)
+                .FirstOrDefault(n => n.AssignedManeuver == null);
 
             if (shipWithoutManeuver != null)
             {

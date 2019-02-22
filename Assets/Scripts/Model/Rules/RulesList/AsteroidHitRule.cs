@@ -21,10 +21,9 @@ namespace RulesList
                 GenericShip.OnMovementFinishGlobal += CheckDamage;
                 RuleIsInitialized = true;
             }
-            Phases.Events.BeforeActionSubPhaseStart += CheckSkipPerformAction;
         }
 
-        private void CheckSkipPerformAction()
+        public void CheckSkipPerformAction()
         {
             if (Selection.ThisShip.IsHitObstacles)
             {

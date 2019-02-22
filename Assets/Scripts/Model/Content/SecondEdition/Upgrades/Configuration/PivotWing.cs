@@ -3,6 +3,7 @@ using Ship;
 using System;
 using SubPhases;
 using System.Collections.Generic;
+using Tokens;
 
 namespace UpgradesList.SecondEdition
 {
@@ -65,6 +66,9 @@ namespace Abilities.SecondEdition
 
             RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskToFlip);
         }
+
+        public override void ActivateAbilityForSquadBuilder() {}
+        public override void DeactivateAbilityForSquadBuilder() {}
     }
 
     public class PivotWingClosedAbility : Abilities.FirstEdition.PivotWingLandingAbility
@@ -74,7 +78,9 @@ namespace Abilities.SecondEdition
             ChangeInitialWingsPosition();
             HostShip.OnMovementActivationStart += RegisterAskToFlip;
             HostShip.OnManeuverIsRevealed += RegisterAskToRotate;
-            HostShip.ChangeAgilityBy(-1);
+
+            HostShip.AfterGotNumberOfDefenceDice += DecreaseDice;
+            HostShip.Tokens.AssignCondition(new Conditions.PivotWingCondition(HostShip, HostUpgrade));
         }
 
         public override void DeactivateAbility()
@@ -82,7 +88,15 @@ namespace Abilities.SecondEdition
             HostShip.WingsOpen();
             HostShip.OnMovementActivationStart -= RegisterAskToFlip;
             HostShip.OnManeuverIsRevealed -= RegisterAskToRotate;
-            HostShip.ChangeAgilityBy(+1);
+
+            HostShip.AfterGotNumberOfDefenceDice -= DecreaseDice;
+            HostShip.Tokens.RemoveCondition(typeof(Conditions.PivotWingCondition));
+        }
+
+        private void DecreaseDice(ref int count)
+        {
+            Messages.ShowError("Pivot Wing: -1 defense die ");
+            count--;
         }
 
         protected override void AskToRotate(object sender, EventArgs e)
@@ -118,5 +132,18 @@ namespace Abilities.SecondEdition
         }
 
         private class PivotWindDecisionSubphase : DecisionSubPhase { };
+    }
+}
+
+namespace Conditions
+{
+    public class PivotWingCondition : GenericToken
+    {
+        public PivotWingCondition(GenericShip host, GenericUpgrade source) : base(host)
+        {
+            Name = "Debuff Token";
+            TooltipType = source.GetType();
+            Temporary = false;
+        }
     }
 }

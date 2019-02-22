@@ -27,22 +27,19 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnAttackStartAsAttacker += AddTestPilotBlackoutAbility;
+            HostShip.OnAttackStartAsAttacker += TryAddTestPilotBlackoutAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnAttackStartAsAttacker -= AddTestPilotBlackoutAbility;
+            HostShip.OnAttackStartAsAttacker -= TryAddTestPilotBlackoutAbility;
         }
 
-        private void AddTestPilotBlackoutAbility()
+        private void TryAddTestPilotBlackoutAbility()
         {
-            if (Selection.ThisShip.ShipId == HostShip.ShipId)
+            if (Combat.ShotInfo.IsObstructedByAsteroid)
             {
-                if (Combat.ShotInfo.IsObstructedByAsteroid)
-                {
-                    Combat.Defender.AfterGotNumberOfDefenceDice += DecreaseDiceResult;
-                }
+                Combat.Defender.AfterGotNumberOfDefenceDice += DecreaseDiceResult;
             }
         }
 

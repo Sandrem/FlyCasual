@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Editions;
+using Mods;
+using Ship;
+using SquadBuilderNS;
+using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using SquadBuilderNS;
-using Ship;
-using Mods;
-using Editions;
 using Upgrade;
-using System.Linq;
 
 public class PilotPanelSquadBuilder : MonoBehaviour {
 
@@ -28,38 +26,36 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     {
         this.gameObject.SetActive(false);
 
-        LoadImage();
+        LoadTooltipImage(this.gameObject, Ship.ImageUrl);
         if (ShowFromModInfo) SetFromModeName();
         SetOnClickHandler();
     }
 
-    private void LoadImage()
+    private void LoadTooltipImage(GameObject thisGameObject, string url)
     {
-        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, Ship.ImageUrl));
-    }
-
-    private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
-    {
-        WWW www = ImageManager.GetImage(url);
-        yield return www;
-
-        if (www.error == null)
+        if (!SquadBuilder.TextureCache.ContainsKey(url))
         {
-            if (thisGameObject != null)
+            Global.Instance.StartCoroutine(ImageManager.GetTexture((texture) =>
             {
-                SetImageFromWeb(thisGameObject.transform.Find("PilotImage").gameObject, www);
-            }
+                if (texture != null && thisGameObject != null)
+                {
+                    if (!SquadBuilder.TextureCache.ContainsKey(url)) SquadBuilder.TextureCache.Add(url, texture);
+                    SetObjectSprite(thisGameObject.transform.Find("PilotImage").gameObject, texture);
+                }
+                else
+                {
+                    ShowTextVersionOfCard();
+                }
+            }, url));
         }
         else
         {
-            ShowTextVersionOfCard();
+            SetObjectSprite(thisGameObject.transform.Find("PilotImage").gameObject, SquadBuilder.TextureCache[url]);
         }
     }
 
-    private void SetImageFromWeb(GameObject targetObject, WWW www)
+    private void SetObjectSprite(GameObject targetObject, Texture2D newTexture)
     {
-        Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
-        www.LoadImageIntoTexture(newTexture);
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
         Image image = targetObject.transform.GetComponent<Image>();
         image.sprite = newSprite;

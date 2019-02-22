@@ -18,57 +18,8 @@ namespace UpgradesList.FirstEdition
                     minRange: 1,
                     maxRange: 3
                 ),
-                abilityType: typeof(Abilities.FirstEdition.IonCannonAbility)
+                abilityType: typeof(Abilities.FirstEdition.IonDamageAbility)
             );
         }        
     }
-}
-
-namespace Abilities.FirstEdition
-{
-    public class IonCannonAbility : GenericAbility
-    {
-        public override void ActivateAbility()
-        {
-            HostShip.OnShotHitAsAttacker += RegisterIonCannonEffect;
-        }
-
-        public override void DeactivateAbility()
-        {
-            HostShip.OnShotHitAsAttacker -= RegisterIonCannonEffect;
-        }
-
-        private void RegisterIonCannonEffect()
-        {
-            if (Combat.ChosenWeapon == HostUpgrade)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnShotHit, IonCannonEffect);
-            }
-        }
-
-        protected virtual void IonCannonEffect(object sender, System.EventArgs e)
-        {
-            Combat.DiceRollAttack.CancelAllResults();
-            Combat.DiceRollAttack.RemoveAllFailures();
-
-            Combat.Defender.Tokens.AssignToken(
-                typeof(IonToken),
-                delegate {
-                    GameManagerScript.Wait(2, DefenderSuffersDamage);
-                }
-            );
-        }
-
-        protected void DefenderSuffersDamage()
-        {
-            DamageSourceEventArgs ionCannonDamage = new DamageSourceEventArgs()
-            {
-                Source = Combat.Attacker,
-                DamageType = DamageTypes.ShipAttack
-            };
-
-            Combat.Defender.Damage.TryResolveDamage(1, ionCannonDamage, Triggers.FinishTrigger);
-        }
-    }
-
 }

@@ -20,7 +20,7 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restrictions: new UpgradeCardRestrictions(
                     new FactionRestriction(Faction.Imperial),
-                    new ActionBarRestriction(new ActionInfo(typeof(CoordinateAction)))
+                    new ActionBarRestriction(typeof(CoordinateAction))
                 ),
                 abilityType: typeof(Abilities.SecondEdition.CienaReeCrewAbility),
                 seImageNumber: 111

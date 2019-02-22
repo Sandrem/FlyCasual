@@ -55,6 +55,8 @@ namespace Abilities.FirstEdition
             // first check if there is at least one enemy at range 1
             if (TargetsForAbilityExist(FilterTargetsOfAbility))
             {
+                Selection.ChangeActiveShip(HostShip);
+
                 // Available selection are only within Range 1.
                 // TODO : build the list if the enemy can fire to the ship
                 SelectTargetForAbility(
@@ -76,7 +78,7 @@ namespace Abilities.FirstEdition
 
         private bool FilterTargetsOfAbility(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 1) && FilterTargetInEnemyArcWithTokens(ship);
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 1) && FilterTargetByArcAndTokens(ship);
         }
 
         private int GetAiPriorityOfTarget(GenericShip ship)
@@ -91,7 +93,7 @@ namespace Abilities.FirstEdition
             return priority;
         }
 
-        private bool FilterTargetInEnemyArcWithTokens(GenericShip ship)
+        protected virtual bool FilterTargetByArcAndTokens(GenericShip ship)
         {
             ShotInfo shotInfo = new ShotInfo(ship, HostShip, ship.PrimaryWeapons);
             return shotInfo.InArc && (ship.Tokens.HasToken(typeof(FocusToken)) || ship.Tokens.HasToken(typeof(EvadeToken)));

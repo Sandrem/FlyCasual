@@ -55,6 +55,8 @@ namespace Abilities.SecondEdition
 
         private void Ability(object sender, EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             SelectTargetForAbility(
                 SelectAbilityTarget,
                 FilterAbilityTarget,

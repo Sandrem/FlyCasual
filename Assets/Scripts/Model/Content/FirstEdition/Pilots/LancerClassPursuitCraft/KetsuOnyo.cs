@@ -51,6 +51,8 @@ namespace Abilities.FirstEdition
 
         private void AskSelectShip(object sender, System.EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             SelectTargetForAbility(
                 CheckAssignTractorBeam,
                 FilterTargetsOfAbility,

@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
 
         private void PayAbilityCost(Action<bool> callback)
         {
-            HostUpgrade.State.SpendCharge();
+            if (Combat.Attacker == HostShip) HostUpgrade.State.SpendCharge();
             callback(true);
         }
     }

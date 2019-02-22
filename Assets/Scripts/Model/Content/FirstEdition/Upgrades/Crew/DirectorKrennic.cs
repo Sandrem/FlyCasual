@@ -88,7 +88,9 @@ namespace Abilities.FirstEdition
 
         protected virtual bool CheckRequirements(GenericShip ship)
         {
-            var match = ship.Owner.PlayerNo == HostShip.Owner.PlayerNo && ship.State.ShieldsMax <= 3 && ship.SubFaction == Faction.Imperial;
+            var match = ship.Owner.PlayerNo == HostShip.Owner.PlayerNo
+                && ship.State.ShieldsMax <= 3
+                && ship.SubFaction == Faction.Imperial;
             return match;
         }
 

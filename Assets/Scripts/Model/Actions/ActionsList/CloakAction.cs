@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BoardTools;
 using Tokens;
+using SubPhases;
 
 namespace ActionsList
 {
@@ -23,6 +24,11 @@ namespace ActionsList
         public override bool IsActionAvailable()
         {
             return !Selection.ThisShip.Tokens.HasToken(typeof(CloakToken));
+        }
+
+        public override void RevertActionOnFail(bool hasSecondChance = false)
+        {
+            Phases.GoBack();
         }
 
     }

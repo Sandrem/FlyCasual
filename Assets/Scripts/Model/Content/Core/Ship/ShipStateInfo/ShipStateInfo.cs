@@ -176,5 +176,11 @@ namespace Ship
             HostShip = host;
         }
 
+        public bool IsIonized
+        {
+            get { return RulesList.IonizationRule.IsIonized(this.HostShip); }
+        }
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Editions;
+using System.Collections;
 using System.Collections.Generic;
 using Tokens;
 using UnityEngine;
@@ -20,6 +21,11 @@ namespace ActionsList
         {
             Combat.CurrentDiceRoll.ApplyFocus();
             Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.FocusToken), callBack);
+        }
+
+        public override bool IsDiceModificationAvailable()
+        {
+            return Edition.Current is Editions.FirstEdition || Combat.CurrentDiceRoll.Focuses != 0;
         }
 
         public override int GetDiceModificationPriority()

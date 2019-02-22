@@ -56,7 +56,9 @@ namespace Abilities
 
             private bool IsDiceModificationAvailable()
             {
-                return HostShip.IsStressed && (HostShip.IsAttacking || HostShip.IsDefending);
+                return HostShip.IsStressed
+                    && (HostShip.IsAttacking || HostShip.IsDefending)
+                    && Combat.CurrentDiceRoll.Focuses != 0;
             }
 
             private int GetDiceModificationAiPriority()

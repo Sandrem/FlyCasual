@@ -1,8 +1,6 @@
-﻿using Editions;
+using Editions;
 using Ship;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using SquadBuilderNS;
 using UnityEngine;
 using UnityEngine.UI;
 using Upgrade;
@@ -11,6 +9,8 @@ public class SmallCardArt : MonoBehaviour {
 
     private string ImageUrl;
     private IImageHolder ImageSource;
+    private const string TEXTURENAME = "SMALLCARD_";
+    private string textureCacheKey = "";
 
     public void Initialize(IImageHolder imageSource)
     {
@@ -18,56 +18,48 @@ public class SmallCardArt : MonoBehaviour {
         ImageUrl = ImageSource.ImageUrl;
 
         this.gameObject.SetActive(false);
-
-        if (ImageUrl != null) LoadImage();
+        textureCacheKey = TEXTURENAME + ImageUrl;
+        if (ImageUrl != null) LoadTooltipImage(gameObject, ImageUrl);
     }
 
-    private void LoadImage()
+    private void LoadTooltipImage(GameObject thisGameObject, string url)
     {
-        Global.Instance.StartCoroutine(LoadTooltipImage(this.gameObject, ImageUrl));
-    }
-
-    private IEnumerator LoadTooltipImage(GameObject thisGameObject, string url)
-    {
-        WWW www = ImageManager.GetImage(url);
-        yield return www;
-
-        if (www.error == null)
+        if (!SquadBuilder.TextureCache.ContainsKey(textureCacheKey))
         {
-            if (thisGameObject != null)
+            Global.Instance.StartCoroutine(ImageManager.GetTexture((texture) =>
             {
-                SetImageFromWeb(thisGameObject, www);
-            }
+                if (thisGameObject != null && texture != null)
+                {
+                    SetObjectSprite(texture, ImageSource, thisGameObject, false);
+                }
+                else
+                {
+                    ShowTextVersionOfCard();
+                }
+            }, url)); 
         }
         else
         {
-            ShowTextVersionOfCard();
+            if (thisGameObject != null)
+            {
+                SetObjectSprite(SquadBuilder.TextureCache[textureCacheKey], ImageSource, thisGameObject, true);
+            }
         }
     }
 
-    private void SetImageFromWeb(GameObject targetObject, WWW www)
-    {
-        Texture2D newTexture = new Texture2D(www.texture.height, www.texture.width);
-        www.LoadImageIntoTexture(newTexture);
-
-        SetAdaptedArt(newTexture, ImageSource, targetObject);
-
-        this.gameObject.SetActive(true);
-    }
-
-    private void SetAdaptedArt(Texture2D newTexture, object imageSource, GameObject targetObject)
+    private void SetObjectSprite(Texture2D newTexture, object imageSource, GameObject targetObject, bool textureIsScaled)
     {
         Rect imageRect = new Rect();
         if (imageSource is GenericShip)
         {
             if (Edition.Current is SecondEdition)
             {
-                TextureScale.Bilinear(newTexture, 503, 700);
+                if (!textureIsScaled) TextureScale.Bilinear(newTexture, 503, 700);
                 imageRect = new Rect(0, 0, 503, 205);
             }
             else if (Edition.Current is FirstEdition)
             {
-                TextureScale.Bilinear(newTexture, 300, 418);
+                if (!textureIsScaled) TextureScale.Bilinear(newTexture, 300, 418);
                 imageRect = new Rect(0, 0, 298, 124);
             }
         }
@@ -75,7 +67,7 @@ public class SmallCardArt : MonoBehaviour {
         {
             if (Edition.Current is SecondEdition)
             {
-                TextureScale.Bilinear(newTexture, 700, 503);
+                if (!textureIsScaled) TextureScale.Bilinear(newTexture, 700, 503);
                 imageRect = new Rect(281, 0, 394, 202);
             }
             else
@@ -83,7 +75,7 @@ public class SmallCardArt : MonoBehaviour {
                 new Rect(0, 0, 194, 106);
             }
         }
-
+        if (!SquadBuilder.TextureCache.ContainsKey(textureCacheKey)) SquadBuilder.TextureCache.Add(textureCacheKey, newTexture);
         Sprite newSprite = Sprite.Create(
             newTexture,
             new Rect(
@@ -96,6 +88,7 @@ public class SmallCardArt : MonoBehaviour {
 
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
         targetObject.GetComponent<RectTransform>().sizeDelta = new Vector2(188, 188 / imageRect.width * imageRect.height);
+        this.gameObject.SetActive(true);
     }
 
     private void ShowTextVersionOfCard()

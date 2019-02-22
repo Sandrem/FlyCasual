@@ -13,7 +13,7 @@ namespace UpgradesList.FirstEdition
                 "Targeting Astromech",
                 UpgradeType.Astromech,
                 cost: 2,
-                abilityType: typeof(Abilities.FirstEdition.FlightAssistAstromechAbility)
+                abilityType: typeof(Abilities.FirstEdition.TargetingAstromechAbility)
             );
         }
     }

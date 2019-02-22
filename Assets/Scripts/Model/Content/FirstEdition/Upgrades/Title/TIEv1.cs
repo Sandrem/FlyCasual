@@ -100,11 +100,7 @@ namespace SubPhases
 
         private void PerformFreeEvadeAction(object sender, EventArgs e)
         {
-            Phases.CurrentSubPhase.CallBack = delegate {
-                Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-                Triggers.FinishTrigger();
-            };
-            (new EvadeAction()).ActionTake();
+            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, true);
         }
 
         private void DontPerformFreeEvadeAction(object sender, EventArgs e)

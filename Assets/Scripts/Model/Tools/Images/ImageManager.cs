@@ -44,7 +44,18 @@ public static class ImageManager
                 File.Delete(filePath);
             }
         }
-        callback(DownloadHandlerTexture.GetContent(www));
+
+        Texture2D texture = null;
+        try
+        {
+            texture = DownloadHandlerTexture.GetContent(www);
+        }
+        catch
+        {
+            Debug.Log("Cannot download image");
+        }
+
+        callback(texture);
     }
 
     // DELETE CACHED IMAGES FOR MIGRATIONS

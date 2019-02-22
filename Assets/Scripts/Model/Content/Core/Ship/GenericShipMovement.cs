@@ -87,6 +87,7 @@ namespace Ship
         public event EventHandlerShip OnMovementFinishUnsuccessfully;
         public event EventHandlerShip OnMovementBumped;
         public static event EventHandlerShip OnMovementFinishGlobal;
+        public static event EventHandlerShip OnMovementFinishSuccessfullyGlobal;
 
         public event EventHandlerShip OnPositionFinish;
         public static event EventHandlerShip OnPositionFinishGlobal;
@@ -169,6 +170,7 @@ namespace Ship
             if (!IsBumped && !BoardTools.Board.IsOffTheBoard(this))
             {
                 if (OnMovementFinishSuccessfully != null) OnMovementFinishSuccessfully(this);
+                if (OnMovementFinishSuccessfullyGlobal != null) OnMovementFinishSuccessfullyGlobal(this);
             }
             else if(IsBumped)
             {

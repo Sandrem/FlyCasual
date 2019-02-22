@@ -1,5 +1,6 @@
 ﻿using Ship;
 using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Tokens
@@ -66,4 +67,31 @@ namespace Tokens
 
     }
 
+    //Consider two tokens to be equal if they belong to the same ship and are of the same type
+    //Warning: Not sufficient to compare target locks!
+    public class TokenComparer : IEqualityComparer<GenericToken>
+    {
+        public bool Equals(GenericToken x, GenericToken y)
+        {
+            if (Object.ReferenceEquals(x, y)) return true;
+
+            if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                return false;
+
+            return x.Name == y.Name && x.Host == y.Host;
+        }
+
+        public int GetHashCode(GenericToken token)
+        {
+            if (Object.ReferenceEquals(token, null)) return 0;
+
+            int hashName = token.Name == null ? 0 : token.Name.GetHashCode();
+
+            int hashHostShip = token.Host == null ? 0 : token.Host.ShipId.GetHashCode();
+
+            return hashName ^ hashHostShip;
+        }
+    }
 }
+
+

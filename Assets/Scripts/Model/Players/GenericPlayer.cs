@@ -15,7 +15,9 @@ public enum Faction
     Imperial,
     Scum,
     Resistance,
-    FirstOrder
+    FirstOrder,
+    Republic,
+    Separatists
 }
 
 namespace Players

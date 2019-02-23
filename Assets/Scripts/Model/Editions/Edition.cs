@@ -39,7 +39,7 @@ namespace Editions
 
         public virtual void ActionIsFailed(GenericShip ship, GenericAction action, bool overWrittenInstead = false, bool hasSecondChance = false)
         {
-            if (!overWrittenInstead && !hasSecondChance) ship.RemoveAlreadyExecutedAction(action.GetType());
+            if (!overWrittenInstead && !hasSecondChance) ship.RemoveAlreadyExecutedAction(action);
             action.RevertActionOnFail(hasSecondChance);
         }
 

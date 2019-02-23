@@ -295,7 +295,7 @@ namespace Ship
         {
             if (CanPerformAction(action))
             {
-                if (!AvailableActionsList.Any(n => n.GetType() == action.GetType() && n.IsRed == action.IsRed))
+                if (!AvailableActionsList.Any(n => n.Name == action.Name && n.IsRed == action.IsRed))
                 {
                     AvailableActionsList.Add(action);
                 }
@@ -306,7 +306,7 @@ namespace Ship
         {
             if (CanPerformFreeAction(action))
             {
-                if (!AvailableFreeActionsList.Any(n => n.GetType() == action.GetType() && n.IsRed == action.IsRed))
+                if (!AvailableFreeActionsList.Any(n => n.Name == action.Name && n.IsRed == action.IsRed))
                 {
                     AvailableFreeActionsList.Add(action);
                 }
@@ -323,13 +323,13 @@ namespace Ship
             AlreadyExecutedActions = new List<GenericAction>();
         }
 
-        public void RemoveAlreadyExecutedAction(System.Type type)
+        public void RemoveAlreadyExecutedAction(GenericAction action)
         {
             List<GenericAction> keys = new List<GenericAction>(AlreadyExecutedActions);
 
             foreach (var executedAction in keys)
             {
-                if (executedAction.GetType() == type)
+                if (executedAction.Name == action.Name)
                 {
                     AlreadyExecutedActions.Remove(executedAction);
                     return;
@@ -337,12 +337,12 @@ namespace Ship
             }
         }
 
-        public bool IsAlreadyExecutedAction(System.Type type)
+        public bool IsAlreadyExecutedAction(GenericAction action)
         {
             bool result = false;
             foreach (var executedAction in AlreadyExecutedActions)
             {
-                if (executedAction.GetType() == type)
+                if (executedAction.Name == action.Name)
                 {
                     result = true;
                     break;
@@ -438,8 +438,8 @@ namespace Ship
 
         private bool NotAlreadyAddedSameDiceModification(GenericAction action)
         {
-            // Returns true if AvailableActionEffects doesn't contain action of the same type
-            return AvailableDiceModifications.FirstOrDefault(n => n.GetType() == action.GetType()) == null;
+            // Returns true if AvailableActionEffects doesn't contain action with the same name
+            return !AvailableDiceModifications.Any(n => n.Name == action.Name);
         }
 
         public bool CanUseDiceModification(GenericAction action)
@@ -482,7 +482,7 @@ namespace Ship
 
         public void RemoveAlreadyUsedDiceModification(GenericAction action)
         {
-            AlreadUsedDiceModifications.RemoveAll(a => a.GetType() == action.GetType());
+            AlreadUsedDiceModifications.RemoveAll(a => a.Name == action.Name);
         }
 
         public void ClearAlreadyUsedDiceModifications()

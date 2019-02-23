@@ -61,7 +61,7 @@ namespace ActionsList
         public override void ActionTake()
         {
             Phases.CurrentSubPhase.Pause();
-            if (!Selection.ThisShip.IsAlreadyExecutedAction(typeof(BarrelRollAction)))
+            if (!Selection.ThisShip.IsAlreadyExecutedAction(new BarrelRollAction()))
             {
                 Phases.StartTemporarySubPhaseOld(
                     "Expert Handling: Barrel Roll",

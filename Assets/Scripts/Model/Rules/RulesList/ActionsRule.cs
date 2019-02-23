@@ -15,7 +15,7 @@ namespace RulesList
 
         public void CanPerformActions(GenericAction action, ref bool result)
         {
-            if (Selection.ThisShip.IsAlreadyExecutedAction(action.GetType())) result = false;
+            if (Selection.ThisShip.IsAlreadyExecutedAction(action)) result = false;
 
             if (action.Color == ActionColor.Purple && Selection.ThisShip.State.Force == 0) result = false;
         }

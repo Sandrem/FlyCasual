@@ -64,7 +64,7 @@ namespace ActionsList
         {
             bool result = true;
             // can perform only one boost action per turn
-            if (HostShip.IsAlreadyExecutedAction(typeof(BoostAction)))
+            if (HostShip.IsAlreadyExecutedAction(new BoostAction()))
             {
                 result = false;
             }
@@ -83,7 +83,7 @@ namespace ActionsList
         {
             Phases.CurrentSubPhase.Pause();
             // should not be mandatory as it's checked by IsActionAvailable()
-            if (!Selection.ThisShip.IsAlreadyExecutedAction(typeof(BoostAction)))
+            if (!Selection.ThisShip.IsAlreadyExecutedAction(new BoostAction()))
             {
                 Phases.StartTemporarySubPhaseOld(
                     Name + ": Boost action",
@@ -104,7 +104,7 @@ namespace ActionsList
             // check if the free boost action has been performed
             // this may raise an issue where the Leebo free boost action is not recognized as a boost action. Therefore
             // a ship may be able to perform two boost actions per turn :/
-            if (HostShip.IsAlreadyExecutedAction(typeof(LeeboAction)))
+            if (HostShip.IsAlreadyExecutedAction(this))
             {
                 Messages.ShowInfoToHuman(Name + ": free boost performed, ion token received.");
                 HostShip.Tokens.AssignToken(typeof(IonToken), Finish);

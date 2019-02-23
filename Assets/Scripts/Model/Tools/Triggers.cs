@@ -177,6 +177,8 @@ public class StackLevel
 
 public static partial class Triggers
 {
+    public static Trigger CurrentTrigger { get; private set; }
+
     public static List<StackLevel> TriggersStack { get; private set; }
 
     // PUBLIC
@@ -251,6 +253,7 @@ public static partial class Triggers
 
     public static void FireTrigger(Trigger trigger)
     {
+        CurrentTrigger = trigger;
         Console.Write(trigger.Name + " is fired", LogTypes.Triggers);
         trigger.Fire();
     }
@@ -270,6 +273,8 @@ public static partial class Triggers
 
         currentStackLevel.RemoveTrigger(currentTrigger);
         currentStackLevel.IsActive = false;
+
+        CurrentTrigger = null;
 
         ResolveTriggers(currentTrigger.TriggerType);
     }

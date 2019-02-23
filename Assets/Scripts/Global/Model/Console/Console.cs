@@ -118,7 +118,9 @@ public partial class Console : MonoBehaviour {
             UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
             new Dictionary<string, object>()
             {
-                    { "Version", Global.CurrentVersion }
+                { "Version", Global.CurrentVersion },
+                { "Pilot", (Selection.ThisShip != null) ? Selection.ThisShip.PilotInfo.PilotName : "None" },
+                { "Trigger", (Triggers.CurrentTrigger != null) ? Triggers.CurrentTrigger.Name : "None" }
             }
         );
     }

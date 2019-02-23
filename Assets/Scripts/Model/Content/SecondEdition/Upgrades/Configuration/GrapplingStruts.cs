@@ -10,6 +10,8 @@ namespace UpgradesList.SecondEdition
     {
         public GrapplingStruts() : base()
         {
+            IsHidden = true;
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Grappling Struts (Test)",
                 UpgradeType.Configuration,

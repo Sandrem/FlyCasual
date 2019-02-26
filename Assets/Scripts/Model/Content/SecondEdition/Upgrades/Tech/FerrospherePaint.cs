@@ -41,8 +41,7 @@ namespace Abilities.SecondEdition
         {
             if (lockedShip == HostShip)
             {
-                ShotInfo shotInfo = new ShotInfo(activeShip, lockedShip, activeShip.PrimaryWeapons);
-                if (!shotInfo.InArcByType(Arcs.ArcType.Bullseye))
+                if (!activeShip.SectorsInfo.IsShipInSector(lockedShip, Arcs.ArcType.Bullseye))
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnTargetLockIsAcquired, delegate { AssignStress(activeShip); });
                 }

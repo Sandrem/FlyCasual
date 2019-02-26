@@ -510,6 +510,7 @@ namespace SquadBuilderNS
             if (!ValidateUniqueCards(playerNo)) return false;
             if (!ValidateSquadCost(playerNo)) return false;
             if (!ValidateFeLimitedCards(playerNo)) return false;
+            if (!ValidateSolitaryCards(playerNo)) return false;
             if (!ValidateShipAiReady(playerNo)) return false;
             if (!ValidateUpgradePostChecks(playerNo)) return false;
             if (!ValidateSlotsRequirements(playerNo)) return false;
@@ -616,6 +617,35 @@ namespace SquadBuilderNS
                         {
                             Messages.ShowError("A ship cannot equip multiple copies of the same limited card: " + upgrade.UpgradeInfo.Name);
                             result = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        private static bool ValidateSolitaryCards(PlayerNo playerNo)
+        {
+            bool result = true;
+
+            int solitaryCards = 0;
+
+            foreach (var shipConfig in GetSquadList(playerNo).GetShips())
+            {
+                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
+                {
+                    if (upgrade.UpgradeInfo.IsSolitary)
+                    {
+                        if (solitaryCards == 0)
+                        {
+                            solitaryCards++;
+                        }
+                        else
+                        {
+                            result = false;
+                            Messages.ShowError("Only one Solitary upgrade can be present");
                             break;
                         }
                     }

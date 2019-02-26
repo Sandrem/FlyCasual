@@ -42,6 +42,7 @@ namespace Upgrade
         Modification,
         Title,
         Configuration,
+        TacticalRelay,
         None
     }
 

@@ -26,7 +26,8 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                 ),
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
-                    UpgradeType.Modification
+                    UpgradeType.Modification,
+                    UpgradeType.TacticalRelay
                 )
             );
 

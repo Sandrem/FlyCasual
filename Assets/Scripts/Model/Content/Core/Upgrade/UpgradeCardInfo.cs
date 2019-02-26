@@ -20,6 +20,7 @@ namespace Upgrade
         public int Limited { get; private set; }
         public bool IsLimited { get { return Limited != 0; } }
         public bool FeIsLimitedPerShip { get; private set; }
+        public bool IsSolitary { get; private set; }
         public List<Type> AbilityTypes { get; private set; }
         public int Charges { get; private set; }
         public bool RegensCharges { get; private set; }
@@ -43,6 +44,7 @@ namespace Upgrade
             List<UpgradeType> types = null,
             int cost = 0,
             bool isLimited = false,
+            bool isSolitary = false,
             int limited = 0,
             Type abilityType = null,
             UpgradeCardRestriction restriction = null,
@@ -75,6 +77,7 @@ namespace Upgrade
             WeaponInfo = weaponInfo;
             AddAction = addAction;
             AddActionLink = addActionLink;
+            IsSolitary = isSolitary;
 
             AbilityTypes = new List<Type>();
             if (abilityType != null) AbilityTypes.Add(abilityType);

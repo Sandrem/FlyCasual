@@ -29,6 +29,19 @@ namespace Movement
             }
         }
 
+        public bool IsBasicManeuver
+        {
+            get
+            {
+                return Bearing == ManeuverBearing.Straight || Bearing == ManeuverBearing.Bank || Bearing == ManeuverBearing.Turn;
+            }
+        }
+
+        public bool IsAdvancedManeuver
+        {
+            get { return !IsBasicManeuver; }
+        }
+
         protected float ProgressTarget { get; set; }
         protected float ProgressCurrent { get; set; }
 

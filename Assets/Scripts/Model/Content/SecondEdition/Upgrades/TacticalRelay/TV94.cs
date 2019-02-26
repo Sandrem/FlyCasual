@@ -23,6 +23,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.TV94Ability)
             );
 
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/9/97/TacRelay_TV-94.png";
         }        
     }

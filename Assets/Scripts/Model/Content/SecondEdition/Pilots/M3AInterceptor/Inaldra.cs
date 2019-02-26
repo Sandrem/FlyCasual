@@ -1,7 +1,6 @@
 ﻿using ActionsList.SecondEdition;
 using Ship;
 using System;
-using Upgrade;
 
 namespace Ship
 {
@@ -16,8 +15,7 @@ namespace Ship
                     2,
                     31,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.SerissuAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    abilityType: typeof(Abilities.SecondEdition.InaldraAbilitySE),
                     seImageNumber: 187
                 );
             }
@@ -27,6 +25,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
+    //While you defend or perform an attack, you may suffer 1 damage to reroll any number of your dice.
     public class InaldraAbilitySE : Abilities.FirstEdition.InaldraAbility
     {
         protected override void AddInaldraAbility(GenericShip ship)

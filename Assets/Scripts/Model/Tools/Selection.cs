@@ -7,17 +7,19 @@ using Ship;
 
 public static class Selection {
 
-    public static Ship.GenericShip ThisShip;
-    public static Ship.GenericShip AnotherShip;
-    public static Ship.GenericShip ActiveShip;
-    public static Ship.GenericShip HoveredShip;
-    	
+    public static GenericShip ThisShip;
+    public static GenericShip AnotherShip;
+    public static GenericShip ActiveShip;
+    public static GenericShip HoveredShip;
+    public static List<GenericShip> MultiSelectedShips { get; private set; }
+
     public static void Initialize()
     {
         ThisShip = null;
         AnotherShip = null;
         ActiveShip = null;
         HoveredShip = null;
+        MultiSelectedShips = new List<GenericShip>();
     }
 
     //TODO: BUG - enemy ship can be selected
@@ -230,6 +232,29 @@ public static class Selection {
     {
         DeselectThisShip();
         DeselectAnotherShip();
+    }
+
+    public static void ToggleMultiSelection(GenericShip ship)
+    {
+        if (MultiSelectedShips.Contains(ship))
+        {
+            MultiSelectedShips.Remove(ship);
+        }
+        else
+        {
+            MultiSelectedShips.Add(ship);
+        }
+
+        ship.ToggleMultiSelectionProjector();
+    }
+
+    public static void ClearMultiSelection()
+    {
+        foreach (GenericShip ship in MultiSelectedShips)
+        {
+            ship.ToggleMultiSelectionProjector();
+        }
+        MultiSelectedShips = new List<GenericShip>();
     }
 
 }

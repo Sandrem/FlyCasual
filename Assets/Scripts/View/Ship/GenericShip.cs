@@ -356,12 +356,19 @@ namespace Ship
             return shipAllParts.Find("ShipBase").Find("SelectionProjector");
         }
 
+        public Transform GetMultiSelectionProjector()
+        {
+            return shipAllParts.Find("ShipBase").Find("MultiSelectionProjector");
+        }
+
         public void HighlightThisSelected()
         {
             Transform projector = GetSelectionProjector();
             projector.gameObject.SetActive(true);
             projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
         }
+
+
 
         public void HighlightAnyHovered()
         {
@@ -375,6 +382,12 @@ namespace Ship
             Transform projector = GetSelectionProjector();
             projector.gameObject.SetActive(true);
             projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
+        }
+
+        public void ToggleMultiSelectionProjector()
+        {
+            Transform projector = GetMultiSelectionProjector();
+            projector.gameObject.SetActive(!projector.gameObject.activeSelf);
         }
 
         public void HighlightSelectedOff()

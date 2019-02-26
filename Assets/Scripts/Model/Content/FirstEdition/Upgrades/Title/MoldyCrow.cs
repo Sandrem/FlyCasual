@@ -35,7 +35,7 @@ namespace Abilities.FirstEdition
             HostShip.BeforeRemovingTokenInEndPhase -= KeepFocusTokens;
         }
 
-        private void KeepFocusTokens(GenericToken token, ref bool remove)
+        private void KeepFocusTokens(GenericShip ship, GenericToken token, ref bool remove)
         {
             if (token is FocusToken) remove = false;
         }

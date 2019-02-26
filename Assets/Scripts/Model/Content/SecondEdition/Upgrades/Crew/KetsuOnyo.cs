@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
 
         }
 
-        void BeforeRemovingTokenInEndPhase(Tokens.GenericToken token, ref bool remove)
+        void BeforeRemovingTokenInEndPhase(GenericShip ship, Tokens.GenericToken token, ref bool remove)
         {
             if (token is Tokens.TractorBeamToken) 
             {

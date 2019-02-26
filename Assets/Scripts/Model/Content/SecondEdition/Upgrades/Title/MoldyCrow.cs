@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
             Phases.Events.OnEndPhaseStart_NoTriggers -= OnEndPhaseStart_NoTriggers;
         }
 
-        private void KeepTwoFocusTokens(GenericToken token, ref bool remove)
+        private void KeepTwoFocusTokens(GenericShip ship, GenericToken token, ref bool remove)
         {
             if (tokenCount < 2) //We can only keep up to two focus tokens in Second Edition
             {

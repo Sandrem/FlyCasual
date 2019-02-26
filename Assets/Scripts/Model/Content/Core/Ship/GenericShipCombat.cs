@@ -141,6 +141,7 @@ namespace Ship
 
         public event EventHandler AfterAttackDiceModification;
 
+        public event EventHandler OnBombWillBeDropped;
         public event EventHandler OnBombWasDropped;
         public event EventHandler OnBombWasLaunched;
 
@@ -883,6 +884,13 @@ namespace Ship
 				"You may perform a primary weapon attack.",
 				this
 			);
+        }
+
+        public void CallBombWillBeDropped(Action callback)
+        {
+            if (OnBombWillBeDropped != null) OnBombWillBeDropped();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnBombWillBeDropped, callback);
         }
 
         public void CallBombWasDropped(Action callback)

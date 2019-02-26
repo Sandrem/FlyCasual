@@ -45,6 +45,8 @@ namespace Bombs
         public static event EventHandlerBomb OnBombIsRemoved;
         public static event EventHandlerBombShip OnCheckPermissionToDetonate;
 
+        public static bool IsOverriden = false;
+
         public static void Initialize()
         {
             bombsList = new Dictionary<GameObject, GenericBomb>();
@@ -252,7 +254,7 @@ namespace Bombs
                 }
                 else
                 {
-                    DropBombWithoudDecision();
+                    DropBomb();
                 }
             }
             else
@@ -269,7 +271,7 @@ namespace Bombs
                 Triggers.FinishTrigger
             );
 
-            selectBombToDrop.AddDecision("Drop", DropBomb);
+            selectBombToDrop.AddDecision("Drop", (o, e) => { DecisionSubPhase.ConfirmDecisionNoCallback(); DropBomb(); });
             selectBombToDrop.AddDecision("Launch", LaunchBomb);
 
             selectBombToDrop.InfoText = "Select way to drop the bomb";
@@ -281,25 +283,26 @@ namespace Bombs
             selectBombToDrop.Start();
         }
 
-        private static void DropBombWithoudDecision()
+        private static void DropBomb()
         {
-            Phases.StartTemporarySubPhaseOld(
-                "Bomb drop planning",
-                typeof(BombDropPlanningSubPhase),
-                delegate {
-                    Selection.ThisShip.CallBombWasDropped(Triggers.FinishTrigger);
-                }
-            );
+            Selection.ThisShip.CallBombWillBeDropped(StartDropBombSubphase);
         }
 
-        private static void DropBomb(object sender, System.EventArgs e)
+        private static void StartDropBombSubphase()
         {
-            DecisionSubPhase.ConfirmDecisionNoCallback();
-            Phases.StartTemporarySubPhaseOld(
-                "Bomb drop planning",
-                typeof(BombDropPlanningSubPhase),
-                delegate { Selection.ThisShip.CallBombWasDropped(Triggers.FinishTrigger); }
-            );
+            if (!IsOverriden)
+            {
+                Phases.StartTemporarySubPhaseOld(
+                    "Bomb drop planning",
+                    typeof(BombDropPlanningSubPhase),
+                    delegate { Selection.ThisShip.CallBombWasDropped(Triggers.FinishTrigger); }
+                );
+            }
+            else
+            {
+                IsOverriden = false;
+                Selection.ThisShip.CallBombWasDropped(Triggers.FinishTrigger);
+            }
         }
 
         private static void LaunchBomb(object sender, System.EventArgs e)

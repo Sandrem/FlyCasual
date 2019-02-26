@@ -31,7 +31,8 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Modification,
-                    UpgradeType.Configuration
+                    UpgradeType.Configuration,
+                    UpgradeType.Astromech
                 )
             );
 

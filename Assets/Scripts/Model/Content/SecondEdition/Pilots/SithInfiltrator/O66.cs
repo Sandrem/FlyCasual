@@ -12,7 +12,7 @@ namespace Ship.SecondEdition.SithInfiltrator
             PilotInfo = new PilotCardInfo(
                 "O-66",
                 3,
-                54,
+                56,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.O66PilotAbility)
             );

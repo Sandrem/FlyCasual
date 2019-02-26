@@ -70,6 +70,7 @@ namespace Ship
         public event EventHandlerShipType OnConditionIsRemoved;
 
         public event EventHandlerShip OnTargetLockIsAcquired;
+        public static event EventHandler2Ships OnTargetLockIsAcquiredGlobal;
 
         public event EventHandlerShip OnCoordinateTargetIsSelected;
         public event EventHandlerShip OnJamTargetIsSelected;        
@@ -563,6 +564,7 @@ namespace Ship
         public void CallOnTargetLockIsAcquiredEvent(GenericShip target, Action callback)
         {
             if (OnTargetLockIsAcquired != null) OnTargetLockIsAcquired(target);
+            if (OnTargetLockIsAcquiredGlobal != null) OnTargetLockIsAcquiredGlobal(this, target);
 
             Triggers.ResolveTriggers(TriggerTypes.OnTargetLockIsAcquired, callback);
         }

@@ -120,8 +120,8 @@ namespace Ship
 
         public event EventHandlerBool OnWeaponsDisabledCheck;
 
-        public event EventHandler2Ships OnCanAttackBumpedTarget;
-        public static event EventHandler2Ships OnCanAttackBumpedTargetGlobal;
+        public event EventHandlerBool2Ships OnCanAttackBumpedTarget;
+        public static event EventHandlerBool2Ships OnCanAttackBumpedTargetGlobal;
 
         public static event EventHandlerShipRefBool OnCanAttackWhileLandedOnObstacleGlobal;
 

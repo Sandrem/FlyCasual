@@ -8,8 +8,8 @@ namespace RulesList
 {
     public class TargetLocksRule
     {
-        public static event GenericShip.EventHandler2Ships OnCheckTargetLockIsAllowed;
-        public static event GenericShip.EventHandler2Ships OnCheckTargetLockIsDisallowed;
+        public static event GenericShip.EventHandlerBool2Ships OnCheckTargetLockIsAllowed;
+        public static event GenericShip.EventHandlerBool2Ships OnCheckTargetLockIsDisallowed;
 
         public void RegisterRemoveTargetLocksOnDestruction(GenericShip ship, bool isFled)
         {

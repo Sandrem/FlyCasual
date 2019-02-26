@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Ship;
 
 public static class Selection {
 
@@ -159,7 +160,7 @@ public static class Selection {
         ChangeActiveShipUsingThisShip ();
     }
 
-    public static void ChangeActiveShip(Ship.GenericShip genShip)
+    public static void ChangeActiveShip(GenericShip genShip)
     {
         DeselectThisShip();
         ThisShip = genShip;
@@ -185,6 +186,11 @@ public static class Selection {
             DeselectShip(ThisShip);
             ThisShip = null;
         }
+    }
+
+    public static void ChangeAnotherShip(GenericShip ship)
+    {
+        ChangeAnotherShip("ShipId:" + ship.ShipId);
     }
 
     public static void ChangeAnotherShip(string shipId)

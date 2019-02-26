@@ -349,7 +349,12 @@ namespace SubPhases
 
                 buttonsHolder.transform.localPosition = new Vector2(-buttonsHolder.GetComponent<RectTransform>().sizeDelta.x / 2, -105);
 
-                if (DecisionOwner == null) DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
+                if (DecisionOwner == null)
+                {
+                    DecisionOwner = Roster.GetPlayer(Phases.CurrentPhasePlayer);
+                }
+                RequiredPlayer = DecisionOwner.PlayerNo;
+                Roster.HighlightPlayer(RequiredPlayer);
 
                 if (ShowSkipButton) UI.ShowSkipButton(); else UI.HideSkipButton();
             }

@@ -17,12 +17,12 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Missile,
                     UpgradeType.Missile
                 },
-                cost: 7,
-                charges: 5,
+                cost: 7,                
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 3,
                     minRange: 2,
                     maxRange: 3,
+                    charges: 5,
                     requiresToken: typeof(FocusToken)
                 ),
                 abilityType: typeof(Abilities.SecondEdition.BarrageRocketsAbility),
@@ -50,7 +50,7 @@ namespace Abilities.SecondEdition
 
         private bool IsAvailable()
         {
-            return Combat.ChosenWeapon == this
+            return Combat.ChosenWeapon == HostUpgrade
                 && HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye)
                 && HostUpgrade.State.Charges > 0
                 && Combat.AttackStep == CombatStep.Attack;

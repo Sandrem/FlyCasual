@@ -112,6 +112,21 @@ namespace Bombs
             return result;
         }
 
+        public static List<GenericBomb> GetBombsInRange(GenericShip ship)
+        {
+            List<GenericBomb> result = new List<GenericBomb>();
+
+            foreach (var bombHolder in bombsList)
+            {
+                if (IsShipInDetonationRange(ship, bombHolder.Key))
+                {
+                    result.Add(bombHolder.Value);
+                }
+            }
+
+            return result;
+        }
+
         private static bool IsShipInDetonationRange(GenericShip ship, GameObject bombObject)
         {
             List<Vector3> bombPoints = GetBombPointsRelative();
@@ -121,7 +136,7 @@ namespace Bombs
                 Vector3 globalBombPoint = bombObject.transform.TransformPoint(localBombPoint);
                 foreach (var globalShipBasePoint in ship.ShipBase.GetStandPoints().Select(n => n.Value))
                 {
-                    if (Board.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) == 1)
+                    if (Board.GetRangeBetweenPoints(globalBombPoint, globalShipBasePoint) <= 1)
                     {
                         return true;
                     }

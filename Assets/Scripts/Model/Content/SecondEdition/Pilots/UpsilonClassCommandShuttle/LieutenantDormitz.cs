@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Lieutenant Dormitz",
                     2,
-                    60,
+                    70,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantDormitzAbility)
                 );

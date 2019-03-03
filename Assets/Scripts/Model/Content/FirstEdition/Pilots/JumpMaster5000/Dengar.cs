@@ -98,7 +98,7 @@ namespace Abilities.FirstEdition
                 // Plan to set IsAbilityUsed only after attack that was successfully started
                 HostShip.OnAttackStartAsAttacker += MarkAbilityAsUsed;
 
-                Combat.StartAdditionalAttack(
+                Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishExtraAttack,
                     CounterAttackFilter,

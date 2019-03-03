@@ -61,7 +61,7 @@ namespace Abilities.FirstEdition
             {
                 HostShip.IsCannotAttackSecondTime = true;
 
-                Combat.StartAdditionalAttack(
+                Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishAdditionalAttack,
                     IsPrimaryWeaponShot,

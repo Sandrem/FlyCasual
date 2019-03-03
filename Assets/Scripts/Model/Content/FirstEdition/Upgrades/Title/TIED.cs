@@ -73,7 +73,7 @@ namespace Abilities.FirstEdition
         {
             Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform second attack from primary weapon");
 
-            Combat.StartAdditionalAttack(
+            Combat.StartSelectAttackTarget(
                 HostShip,
                 FinishAdditionalAttack,
                 IsPrimaryShot,

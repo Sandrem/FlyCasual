@@ -112,7 +112,7 @@ namespace Abilities.FirstEdition
         private void DoSpecialOpsExtraAttack(object sender, System.EventArgs e)
         {
 
-            Combat.StartAdditionalAttack(
+            Combat.StartSelectAttackTarget(
                 HostShip,
                 delegate {
                     Selection.ThisShip.IsAttackPerformed = true;

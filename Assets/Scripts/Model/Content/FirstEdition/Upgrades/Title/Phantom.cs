@@ -77,7 +77,7 @@ namespace Abilities.FirstEdition
             {
                 HostShip.Host.IsCannotAttackSecondTime = true;
 
-                Combat.StartAdditionalAttack(
+                Combat.StartSelectAttackTarget(
                     HostShip.Host,
                     Triggers.FinishTrigger,
                     IsTurretAttack,

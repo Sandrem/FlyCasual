@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SubPhases
 {
-    public class SelectTargetForSecondAttackSubPhase : SelectShipSubPhase
+    public class SelectTargetForAttackSubPhase : SelectShipSubPhase
     {
 
         public override void Prepare()
@@ -56,7 +56,7 @@ namespace SubPhases
                 typeof(ExtraAttackSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
-                    Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
+                    Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
                     CallBack();
                 }
             );
@@ -71,7 +71,7 @@ namespace SubPhases
         public override void SkipButton()
         {
             UI.HideSkipButton();
-            Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
+            Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
             CallBack();
         }
 

@@ -46,7 +46,7 @@ namespace Abilities
 
         protected void UseCorranHornAbility(object sender, System.EventArgs e)
         {
-            Combat.StartAdditionalAttack(
+            Combat.StartSelectAttackTarget(
                 HostShip,
                 AfterExtraAttackSubPhase,
                 ExtraAttackFilter,

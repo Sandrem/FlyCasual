@@ -71,7 +71,7 @@ namespace Abilities.SecondEdition
 
         private void UseBosskAbility(object sender, System.EventArgs e)
         {
-            Combat.StartAdditionalAttack(
+            Combat.StartSelectAttackTarget(
                 HostShip,
                 Cleanup,
                 IsPrimaryWeaponShot,

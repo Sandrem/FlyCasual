@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                Combat.StartAdditionalAttack(
+                Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishAdditionalAttack,
                     IsAnotherWeapon,

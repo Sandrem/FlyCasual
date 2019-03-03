@@ -95,7 +95,7 @@ namespace Abilities.SecondEdition
 
             Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform second Cluster Missiles attack");
 
-            Combat.StartAdditionalAttack(
+            Combat.StartSelectAttackTarget(
                 HostShip,
                 FinishAdditionalAttack,
                 IsClusterMissilesShotToNeighbour,

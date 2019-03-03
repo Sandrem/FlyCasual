@@ -67,7 +67,7 @@ namespace Abilities.FirstEdition
 
         private void DoBTL4AExtraAttack(object sender, System.EventArgs e)
         {
-            Combat.StartAdditionalAttack(
+            Combat.StartSelectAttackTarget(
                 HostShip,
                 delegate {
                     Selection.ThisShip.IsAttackPerformed = true;

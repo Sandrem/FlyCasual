@@ -71,7 +71,7 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": bonus attack");
 
-            Combat.StartAdditionalAttack(
+            Combat.StartSelectAttackTarget(
                 HostShip,
                 delegate {
                     Selection.ThisShip.IsAttackPerformed = true;

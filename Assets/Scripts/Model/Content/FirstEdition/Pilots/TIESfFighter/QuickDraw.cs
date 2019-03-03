@@ -90,7 +90,7 @@ namespace Abilities.FirstEdition
 
                 HostShip.OnAttackStartAsAttacker += MarkAbilityAsUsed;
 
-                Combat.StartAdditionalAttack(
+                Combat.StartSelectAttackTarget(
                     HostShip,
                     AfterExtraAttackSubPhase,
                     IsPrimaryWeaponAttack,

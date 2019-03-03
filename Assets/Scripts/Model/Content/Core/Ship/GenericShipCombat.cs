@@ -844,7 +844,7 @@ namespace Ship
 
             CanBonusAttack = false;
 
-			Combat.StartAdditionalAttack(
+			Combat.StartSelectAttackTarget(
 				this,
 				callback,
 				null,

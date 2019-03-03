@@ -149,7 +149,7 @@ namespace Players
 
             if (Selection.ThisShip != null)
             {
-                ReplaysManager.RecordCommand(CombatSubPhase.GenerateCombatActicationCommand(Selection.ThisShip.ShipId));
+                ReplaysManager.RecordCommand(CombatSubPhase.GenerateCombatActivationCommand(Selection.ThisShip.ShipId));
                 Selection.ThisShip.CallCombatActivation(callback);
             }
             else
@@ -332,7 +332,7 @@ namespace Players
                     delegate
                     {
                         Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
-                        Phases.FinishSubPhase(typeof(SelectTargetForSecondAttackSubPhase));
+                        Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
                         callback();
                     }
                 );

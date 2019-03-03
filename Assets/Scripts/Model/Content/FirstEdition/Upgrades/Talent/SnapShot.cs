@@ -146,7 +146,7 @@ namespace Abilities.FirstEdition
             {
                 HostShip.OnAttackFinishAsAttacker += SetIsAbilityIsUsed;
                 HostShip.IsCannotAttackSecondTime = true;
-                Combat.StartAdditionalAttack(
+                Combat.StartSelectAttackTarget(
                     HostShip,
                     AfterSnapShotAttackSubPhase,
                     SnapShotAttackFilter,

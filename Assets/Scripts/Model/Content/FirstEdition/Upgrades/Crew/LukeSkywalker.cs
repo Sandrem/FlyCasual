@@ -63,7 +63,7 @@ namespace Abilities.FirstEdition
                 HostShip.OnGenerateDiceModifications += AddLukeSkywalkerCrewAbility;
                 Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveLukeSkywalkerCrewAbility;
 
-                Combat.StartAdditionalAttack(
+                Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishAdditionalAttack,
                     IsPrimaryWeaponShot,

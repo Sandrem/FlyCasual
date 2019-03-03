@@ -59,7 +59,7 @@ namespace Abilities.SecondEdition
             {
                 HostShip.IsCannotAttackSecondTime = true;
 
-                Combat.StartAdditionalAttack(
+                Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishAdditionalAttack,
                     IsRearArcShot,

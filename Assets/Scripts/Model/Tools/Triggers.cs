@@ -26,6 +26,7 @@ public enum TriggerTypes
     OnEndPhaseStart,
     OnRoundEnd,
     OnEngagementInitiativeChanged,
+    OnSelectTargetForAttackStart_System,
 
     OnMovementActivation,
     OnCombatActivation,

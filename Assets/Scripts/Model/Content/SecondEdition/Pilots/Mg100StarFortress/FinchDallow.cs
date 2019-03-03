@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 NeverUseByDefault,
                 PlaceBombInstead,
-                infoText: "Do you want to place bombe touching your ship instead?"
+                infoText: "Do you want to place bomb touching your ship instead?"
             );
         }
 
@@ -63,11 +63,10 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            Messages.ShowInfo("TEST");
             BombsManager.IsOverriden = true;
 
-            PlaceBombTokenSubphase subphase = Phases.StartTemporarySubPhaseNew<PlaceBombTokenSubphase>("Place a bomb", Triggers.FinishTrigger);
-            subphase.AbilityName = HostShip.PilotName;
+            PlaceBombTokenSubphase subphase = Phases.StartTemporarySubPhaseNew<PlaceBombTokenSubphase>("Place the bomb", Triggers.FinishTrigger);
+            subphase.AbilityName = HostShip.PilotInfo.PilotName;
             subphase.Description = "Place the bomb touching your ship";
             subphase.ImageSource = HostShip;
 
@@ -146,11 +145,11 @@ namespace SubPhases
         {
             if (IsInReposition)
             {
+                CheckPerformRotation();
                 if (CameraScript.InputMouseIsEnabled) PerformDrag();
                 /*if (CameraScript.InputTouchIsEnabled) PerformTouchDragRotate();
                 CheckLimits();*/
             }
-            //CheckPerformRotation();
         }
 
         private void PerformDrag()
@@ -160,7 +159,10 @@ namespace SubPhases
 
             if (Physics.Raycast(ray, out hit))
             {
-                BombGO.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
+                Vector3 pointerPosition = new Vector3(hit.point.x, 0f, hit.point.z);
+                Vector3 bombCenterOffset = BombGO.transform.position - BombGO.transform.Find("Model").position;
+
+                BombGO.transform.position = pointerPosition + bombCenterOffset;
             }
         }
 
@@ -173,13 +175,60 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            
-
             IsInReposition = false;
 
             Roster.SetRaycastTargets(true);
 
             BombsManager.CurrentBomb.ActivateBombs(new List<GameObject>() { BombGO }, Next);
+        }
+
+        private void CheckPerformRotation()
+        {
+            if (Console.IsActive) return;
+
+            CheckResetRotation();
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                RotateBy1();
+            }
+            else
+            {
+                RotateBy22_5();
+            }
+        }
+
+        private void CheckResetRotation()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                BombGO.transform.localEulerAngles = Vector3.zero;
+            }
+        }
+
+        private void RotateBy22_5()
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                BombGO.transform.localEulerAngles += new Vector3(0, -22.5f, 0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                BombGO.transform.localEulerAngles += new Vector3(0, 22.5f, 0);
+            }
+        }
+
+        private void RotateBy1()
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                BombGO.transform.localEulerAngles += new Vector3(0, -1f, 0);
+            }
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                BombGO.transform.localEulerAngles += new Vector3(0, 1f, 0);
+            }
         }
     }
 }

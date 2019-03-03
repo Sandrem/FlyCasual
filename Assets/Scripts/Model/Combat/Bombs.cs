@@ -189,6 +189,11 @@ namespace Bombs
 
         public static void CheckBombDropAvailability(GenericShip ship)
         {
+            CheckBombDropAvailability(ship, TriggerTypes.OnMovementActivation);
+        }
+
+        public static void CheckBombDropAvailability(GenericShip ship, TriggerTypes triggerType)
+        {
             if (!ship.IsBombAlreadyDropped && HasBombsToDrop(ship))
             {
                 Triggers.RegisterTrigger(new Trigger()

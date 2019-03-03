@@ -52,7 +52,22 @@ namespace Abilities.SecondEdition
         private void AskDeathfireAbility(object sender, System.EventArgs e)
         {
             Selection.ChangeActiveShip(HostShip);
-            AskToUseAbility(NeverUseByDefault, DropBomb, infoText: "Do you want to drop a bomb?");
+
+            DeathfireAbilityDecision subphase = Phases.StartTemporarySubPhaseNew<DeathfireAbilityDecision>("\"Deathfire\"'s ability", Triggers.FinishTrigger);
+            subphase.AddDecision("Perform attack", DoAttack);
+            subphase.AddDecision("Drop or launch a device", DropBomb);
+            subphase.DecisionOwner = HostShip.Owner;
+            subphase.DefaultDecisionName = "Perform attack";
+            subphase.InfoText = "Ability of \"Deathfire\"";
+            subphase.ShowSkipButton = true;
+            subphase.Start();
+        }
+
+        private void DoAttack(object sender, System.EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            Combat.StartSelectAttackTarget(HostShip, Triggers.FinishTrigger, abilityName: "Attack", description: "Select target");
         }
 
         private void DropBomb(object sender, System.EventArgs e)
@@ -62,5 +77,7 @@ namespace Abilities.SecondEdition
             BombsManager.CheckBombDropAvailability(HostShip, TriggerTypes.OnAbilityDirect);
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, Triggers.FinishTrigger);
         }
+
+        private class DeathfireAbilityDecision: DecisionSubPhase { };
     }
 }

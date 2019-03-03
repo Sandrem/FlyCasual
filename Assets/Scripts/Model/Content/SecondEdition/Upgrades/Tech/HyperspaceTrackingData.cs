@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Hyperspace Tracking Data",
                 UpgradeType.Tech,
-                cost: 2,
+                cost: 10,
                 restrictions: new UpgradeCardRestrictions(
                     new BaseSizeRestriction(BaseSize.Large),
                     new FactionRestriction(Faction.FirstOrder)

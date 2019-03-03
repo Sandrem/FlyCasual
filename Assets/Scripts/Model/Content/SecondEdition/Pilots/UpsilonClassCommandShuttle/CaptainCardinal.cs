@@ -42,14 +42,14 @@ namespace Abilities.SecondEdition
                 isGlobal: true
             );
 
-            GenericShip.OnDestroyedGlobal += CheckRemoveCharge;
+            GenericShip.OnShipIsDestroyedGlobal += CheckRemoveCharge;
         }
 
         public override void DeactivateAbility()
         {
             RemoveDiceModification();
 
-            GenericShip.OnDestroyedGlobal -= CheckRemoveCharge;
+            GenericShip.OnShipIsDestroyedGlobal -= CheckRemoveCharge;
         }
 
         private bool IsDiceModificationAvailable()

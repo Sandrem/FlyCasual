@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
         {
             if (Combat.Defender.ShipId == HostShip.ShipId)
             {
-                if (!(Combat.Defender.IsDestroyed || Combat.Defender.IsReadyToBeDestroyed))
+                if (!Combat.Defender.IsDestroyed)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskAcquireTargetLock);
                 }

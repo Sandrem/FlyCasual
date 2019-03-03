@@ -29,6 +29,7 @@ public static class Rules
     public static ForceRule Force { get; private set; }
     public static ChargeRule Charge { get; private set; }
     public static BonusAttackRule BonusAttack { get; private set; }
+    public static DestructionRule Destruction { get; private set; }
 
 
     public static void Initialize()
@@ -56,6 +57,7 @@ public static class Rules
         Force = new ForceRule();
         Charge = new ChargeRule();
         BonusAttack = new BonusAttackRule();
+        Destruction = new DestructionRule();
     }
 
     public static void FinishGame()

@@ -26,23 +26,27 @@ namespace Abilities.FirstEdition
 {
     public class FelsWrathAbility : GenericAbility
     {
+        private bool IsAbilityActivated = false;
+
         public override void ActivateAbility()
         {
-            HostShip.OnReadyToBeDestroyed += ActivateAbility;
+            HostShip.OnCheckPreventDestruction += ActivateAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnReadyToBeDestroyed -= ActivateAbility;
+            HostShip.OnCheckPreventDestruction -= ActivateAbility;
         }
 
-        private void ActivateAbility(GenericShip ship)
+        private void ActivateAbility(GenericShip ship, ref bool preventDestruction)
         {
-            HostShip.OnReadyToBeDestroyed -= ActivateAbility;
+            preventDestruction = true;
 
-            HostShip.PreventDestruction = true;
-
-            Phases.Events.OnCombatPhaseEnd_NoTriggers += ProcessFelsWrath;
+            if (!IsAbilityActivated)
+            {
+                IsAbilityActivated = true;
+                Phases.Events.OnCombatPhaseEnd_NoTriggers += ProcessFelsWrath;
+            }
         }
 
         public void ProcessFelsWrath()
@@ -52,10 +56,9 @@ namespace Abilities.FirstEdition
 
         private void CleanUpFelsWrath(object sender, EventArgs e)
         {
-            HostShip.PreventDestruction = false;
             Phases.Events.OnCombatPhaseEnd_NoTriggers -= ProcessFelsWrath;
 
-            Selection.ThisShip = HostShip;
+            Selection.ChangeActiveShip(HostShip);
             HostShip.DestroyShipForced(Triggers.FinishTrigger);
         }
     }

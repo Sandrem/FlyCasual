@@ -47,36 +47,42 @@ namespace SubPhases
             MovementTemplates.ReturnRangeRuler();
             Selection.DeselectAllShips();
 
+            // Try to get any pilot with same inititative, that didn't perform attack
             bool success = GetNextActivation(RequiredPilotSkill);
-            if (!success)
-            {
-                int nextPilotSkill = GetNextPilotSkill(RequiredPilotSkill);
 
-                if (nextPilotSkill != RequiredPilotSkill)
-                {
-                    Phases.Events.CallCombatSubPhaseRequiredPilotSkillIsChanged();
-                }
-
-                if (nextPilotSkill != int.MaxValue)
-                {
-                    success = GetNextActivation(nextPilotSkill);
-                }
-                else
-                {
-                    FinishPhase();
-                }
-            }
-            
             if (success)
             {
-                if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
-
-                UpdateHelpInfo();
-                Roster.HighlightShipsFiltered(FilterShipsToPerfromAttack);
-
-                IsReadyForCommands = true;
-                Roster.GetPlayer(RequiredPlayer).PerformAttack();
+                ReadyForCombatActivation();
             }
+            else
+            {
+                ChangeInitiative();
+            }
+        }
+
+        private void ChangeInitiative()
+        {
+            RequiredPilotSkill = GetNextPilotSkill(RequiredPilotSkill);
+
+            if (RequiredPilotSkill != int.MaxValue)
+            {
+                Phases.Events.CallEngagementInitiativeChanged(Next);
+            }
+            else
+            {
+                Phases.Events.CallEngagementInitiativeChanged(FinishPhase);
+            }
+        }
+
+        private void ReadyForCombatActivation()
+        {
+            if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
+
+            UpdateHelpInfo();
+            Roster.HighlightShipsFiltered(FilterShipsToPerfromAttack);
+
+            IsReadyForCommands = true;
+            Roster.GetPlayer(RequiredPlayer).PerformAttack();
         }
 
         private bool GetNextActivation(int pilotSkill)

@@ -99,9 +99,11 @@ namespace Ship
         public static event EventHandlerShip OnDamageCardIsDealtGlobal;
         public static event EventHandlerShipDamage OnDamageInstanceResolvedGlobal;
 
-        public event EventHandlerShip OnReadyToBeDestroyed;
+        public event EventHandlerShipRefBool OnCheckPreventDestruction;
         public event EventHandlerShipBool OnShipIsDestroyed;
-        public static event EventHandlerShipBool OnDestroyedGlobal;
+        public static event EventHandlerShipBool OnShipIsDestroyedGlobal;
+        public event EventHandlerShip OnShipIsRemoved;
+        public static event EventHandlerShip OnShipIsRemovedGlobal;
 
         public event EventHandler AfterAttackWindow;
 
@@ -368,7 +370,6 @@ namespace Ship
         public void CallCombatActivation(Action callback)
         {
             //Messages.ShowInfo("Ship is activated! " + this.ShipId);
-            IsActivatedDuringCombat = true;
 
             if (OnCombatActivation != null) OnCombatActivation(this);
             if (OnCombatActivationGlobal != null) OnCombatActivationGlobal(this);
@@ -548,7 +549,6 @@ namespace Ship
                 Combat.CurrentCriticalHitCard.IsFaceup,
                 delegate { IsHullDestroyedCheck(callBack); }
             );
-            
         }
 
         public void CallAfterAssignedDamageIsChanged()
@@ -590,12 +590,16 @@ namespace Ship
 
         public virtual void IsHullDestroyedCheck(Action callBack)
         {
-            if (State.HullCurrent == 0 && !IsReadyToBeDestroyed)
+            if (State.HullCurrent == 0 && !IsDestroyed)
             {
-                if (OnReadyToBeDestroyed != null) OnReadyToBeDestroyed(this);
+                bool preventDestruction = false;
 
-                if (!PreventDestruction)
+                if (OnCheckPreventDestruction != null) OnCheckPreventDestruction(this, ref preventDestruction);
+
+                if (!preventDestruction)
                 {
+                    IsDestroyed = true;
+
                     PlayDestroyedAnimSound(
                         delegate { PlanShipDestruction(callBack); }
                     );
@@ -613,22 +617,9 @@ namespace Ship
 
         public void PlanShipDestruction(Action callback)
         {
-            IsReadyToBeDestroyed = true;
-
-            if (Combat.AttackStep != CombatStep.None)
+            if (IsSimultaneousFireRuleActive())
             {
-                if (IsSimultaneousFireRuleActive())
-                {
-                    Messages.ShowInfo("Simultaneous attack rule is active");
-                    this.OnCombatDeactivation += RegisterShipDestructionSimultaneous;
-                }
-                else
-                {
-                    Combat.Attacker.OnAttackFinishAsAttacker += RegisterShipDestructionUsual;
-
-                    //For splash damage
-                    Combat.Attacker.OnCombatDeactivation += RegisterShipDestructionUsual;
-                }
+                Phases.Events.OnEngagementInitiativeChanged += RegisterShipDestructionSimultaneous;
                 callback();
             }
             else
@@ -639,15 +630,7 @@ namespace Ship
 
         private bool IsSimultaneousFireRuleActive()
         {
-            bool result = true;
-
-            if (Phases.CurrentPhase.GetType() != typeof(MainPhases.CombatPhase)) return false;
-
-            if (this.IsActivatedDuringCombat) return false;
-
-            if (Phases.CurrentSubPhase.RequiredPilotSkill != State.Initiative) return false;
-
-            return result;
+            return (Phases.CurrentPhase is MainPhases.CombatPhase);
         }
 
         public void DestroyShipForced(Action callback, bool isFled = false)
@@ -657,28 +640,14 @@ namespace Ship
             );            
         }
 
-        private void RegisterShipDestructionSimultaneous(GenericShip shipToIgnore)
+        private void RegisterShipDestructionSimultaneous()
         {
-            this.OnCombatDeactivation -= RegisterShipDestructionSimultaneous;
+            Phases.Events.OnEngagementInitiativeChanged -= RegisterShipDestructionSimultaneous;
 
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Destruction of ship #" + this.ShipId,
-                TriggerType = TriggerTypes.OnCombatDeactivation,
-                TriggerOwner = this.Owner.PlayerNo,
-                EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
-            });
-        }
-
-        private void RegisterShipDestructionUsual(GenericShip shipToIgnore)
-        {
-            Combat.Attacker.OnAttackFinishAsAttacker -= RegisterShipDestructionUsual;
-            Combat.Attacker.OnCombatDeactivation -= RegisterShipDestructionUsual;
-
-            Triggers.RegisterTrigger(new Trigger
-            {
-                Name = "Destruction of ship #" + this.ShipId,
-                TriggerType = TriggerTypes.OnAttackFinish,
+                TriggerType = TriggerTypes.OnEngagementInitiativeChanged,
                 TriggerOwner = this.Owner.PlayerNo,
                 EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
             });
@@ -686,21 +655,21 @@ namespace Ship
 
         private void PerformShipDestruction(Action callback, bool isFled = false)
         {
-            IsDestroyed = true;
-
-            Rules.Collision.ClearBumps(this);
-            DeactivateAllAbilities();
-
             if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);
-            if (OnDestroyedGlobal != null) OnDestroyedGlobal(this, isFled);
+            if (OnShipIsDestroyedGlobal != null) OnShipIsDestroyedGlobal(this, isFled);
 
             Triggers.ResolveTriggers(
                 TriggerTypes.OnShipIsDestroyed,
-                delegate {
-                    Roster.DestroyShip(this.GetTag());
-                    callback();
-                }
+                delegate { RemoveDestroyedShip(callback); }
             );
+        }
+
+        private void RemoveDestroyedShip(Action callback)
+        {
+            if (OnShipIsRemoved != null) OnShipIsRemoved(this);
+            if (OnShipIsRemovedGlobal != null) OnShipIsRemovedGlobal(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShipIsRemoved, callback);
         }
 
         public void DeactivateAllAbilities()

@@ -22,11 +22,11 @@ public class PhaseEvents
     public event EventHandler OnCombatPhaseStart_Triggers;
     public event EventHandler OnCombatPhaseEnd_NoTriggers;
     public event EventHandler OnCombatPhaseEnd_Triggers;
-    public event EventHandler OnCombatSubPhaseRequiredPilotSkillIsChanged;
     public event EventHandler OnEndPhaseStart_NoTriggers;
     public event EventHandler OnEndPhaseStart_Triggers;
     public event EventHandler OnRoundEnd;
     public event EventHandler OnGameEnd;
+    public event EventHandler OnEngagementInitiativeChanged;
 
     public bool HasOnActivationPhaseEnd { get { return OnActivationPhaseEnd_Triggers != null; } }
     public bool HasOnCombatPhaseStartEvents { get { return OnCombatPhaseStart_Triggers != null; } }
@@ -154,11 +154,6 @@ public class PhaseEvents
         if (BeforeActionSubPhaseStart != null) BeforeActionSubPhaseStart();
     }
 
-    public void CallCombatSubPhaseRequiredPilotSkillIsChanged()
-    {
-        if (OnCombatSubPhaseRequiredPilotSkillIsChanged != null) OnCombatSubPhaseRequiredPilotSkillIsChanged();
-    }
-
     public void CallOnActionSubPhaseTrigger()
     {
         if (OnActionSubPhaseStart != null) OnActionSubPhaseStart();
@@ -170,5 +165,12 @@ public class PhaseEvents
     public void CallEndGame()
     {
         if (OnGameEnd != null) OnGameEnd();
+    }
+
+    public void CallEngagementInitiativeChanged(Action callback)
+    {
+        if (OnEngagementInitiativeChanged != null) OnEngagementInitiativeChanged();
+
+        Triggers.ResolveTriggers(TriggerTypes.OnEngagementInitiativeChanged, callback);
     }
 }

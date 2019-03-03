@@ -25,6 +25,7 @@ public enum TriggerTypes
     OnCombatPhaseEnd,
     OnEndPhaseStart,
     OnRoundEnd,
+    OnEngagementInitiativeChanged,
 
     OnMovementActivation,
     OnCombatActivation,
@@ -80,6 +81,7 @@ public enum TriggerTypes
     OnFaceupCritCardReadyToBeDealtUI,
     OnFaceupCritCardIsDealt,
     OnShipIsDestroyed,
+    OnShipIsRemoved,
 
     OnBombIsDetonated,
     OnBombIsRemoved,

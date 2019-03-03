@@ -25,12 +25,12 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            GenericShip.OnDestroyedGlobal += RegisterScavengerCraneAbility;
+            GenericShip.OnShipIsDestroyedGlobal += RegisterScavengerCraneAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnDestroyedGlobal -= RegisterScavengerCraneAbility;
+            GenericShip.OnShipIsDestroyedGlobal -= RegisterScavengerCraneAbility;
         }
 
         private void RegisterScavengerCraneAbility(GenericShip destroyedShip, bool isFled)

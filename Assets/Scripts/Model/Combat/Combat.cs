@@ -391,7 +391,7 @@ public static partial class Combat
     private static void CheckTwinAttack()
     {
         GenericSpecialWeapon chosenSecondaryWeapon = ChosenWeapon as GenericSpecialWeapon;
-        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.WeaponInfo.TwinAttack && !(Defender.IsDestroyed || Defender.IsReadyToBeDestroyed))
+        if (chosenSecondaryWeapon != null && chosenSecondaryWeapon.WeaponInfo.TwinAttack && !Defender.IsDestroyed)
         {
             if (attacksCounter == 0)
             {

@@ -11,12 +11,12 @@ namespace RulesList
         public static event GenericShip.EventHandlerBool2Ships OnCheckTargetLockIsAllowed;
         public static event GenericShip.EventHandlerBool2Ships OnCheckTargetLockIsDisallowed;
 
-        public void RegisterRemoveTargetLocksOnDestruction(GenericShip ship, bool isFled)
+        public void RegisterRemoveTargetLocksOnDestruction(GenericShip ship)
         {
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Remove tokens from destroyed ship",
-                TriggerType = TriggerTypes.OnShipIsDestroyed,
+                TriggerType = TriggerTypes.OnShipIsRemoved,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = DoRemoveTargetLocksOnDestruction,
                 Sender = ship

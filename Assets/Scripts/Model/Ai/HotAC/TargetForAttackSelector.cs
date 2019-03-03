@@ -50,7 +50,7 @@ namespace AI.HotAC
 
             foreach (GenericShip enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships.Values)
             {
-                if (!enemyShip.IsDestroyed && !enemyShip.IsReadyToBeDestroyed)
+                if (!enemyShip.IsDestroyed)
                 {
                     if (ignoreCollided)
                     {

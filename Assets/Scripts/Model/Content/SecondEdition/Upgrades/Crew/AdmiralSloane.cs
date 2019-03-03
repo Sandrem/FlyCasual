@@ -28,7 +28,7 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            GenericShip.OnDestroyedGlobal += RegisterAbility;
+            GenericShip.OnShipIsDestroyedGlobal += RegisterAbility;
 
             AddDiceModification(
                 HostName,
@@ -42,7 +42,7 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnDestroyedGlobal -= RegisterAbility;
+            GenericShip.OnShipIsDestroyedGlobal -= RegisterAbility;
             RemoveDiceModification();
         }
 

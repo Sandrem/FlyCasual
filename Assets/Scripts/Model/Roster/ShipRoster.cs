@@ -138,7 +138,7 @@ public static partial class Roster
 
     //SHIP DESTRUCTION
 
-    public static void DestroyShip(string id)
+    public static void RemoveDestroyedShip(string id)
     {
         HideShip(id);
 

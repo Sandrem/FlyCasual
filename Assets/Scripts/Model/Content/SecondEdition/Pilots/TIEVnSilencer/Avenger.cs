@@ -33,12 +33,12 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            GenericShip.OnDestroyedGlobal += RegisterOnDestroyedFriendly;
+            GenericShip.OnShipIsDestroyedGlobal += RegisterOnDestroyedFriendly;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnDestroyedGlobal -= RegisterOnDestroyedFriendly;
+            GenericShip.OnShipIsDestroyedGlobal -= RegisterOnDestroyedFriendly;
         }
 
         protected void RegisterOnDestroyedFriendly(GenericShip ship, bool isFled)

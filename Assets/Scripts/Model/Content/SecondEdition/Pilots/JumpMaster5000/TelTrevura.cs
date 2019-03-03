@@ -32,26 +32,24 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnReadyToBeDestroyed += ActivateAbility;
+            HostShip.OnCheckPreventDestruction += ActivateAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnReadyToBeDestroyed -= ActivateAbility;
+            HostShip.OnCheckPreventDestruction -= ActivateAbility;
         }
 
-        private void ActivateAbility(GenericShip ship)
+        private void ActivateAbility(GenericShip ship, ref bool preventDestruction)
         {
             if (HostShip.State.Charges > 0)
             {
-                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Destruction is prevented");
-
                 HostShip.SpendCharge();
 
-                HostShip.OnReadyToBeDestroyed -= ActivateAbility;
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Destruction is prevented");
 
-                HostShip.PreventDestruction = true;
-
+                HostShip.OnCheckPreventDestruction -= ActivateAbility;
+                preventDestruction = true;
                 Roster.MoveToReserve(HostShip);
 
                 Phases.Events.OnPlanningPhaseStart += RegisterSetup;
@@ -61,8 +59,6 @@ namespace Abilities.SecondEdition
         private void RegisterSetup()
         {
             Phases.Events.OnPlanningPhaseStart -= RegisterSetup;
-
-            HostShip.PreventDestruction = false;
 
             RegisterAbilityTrigger(TriggerTypes.OnPlanningSubPhaseStart, RestoreAndSetup);
         }

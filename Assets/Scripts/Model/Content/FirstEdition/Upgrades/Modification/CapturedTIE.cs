@@ -32,7 +32,7 @@ namespace Abilities.FirstEdition
         {
             GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
             HostShip.OnAttackFinishAsAttacker += RegisterDiscardOnAttackTrigger;
-            GenericShip.OnDestroyedGlobal += RegisterDiscardOnLastFriendlyDestroyedTrigger;
+            GenericShip.OnShipIsDestroyedGlobal += RegisterDiscardOnLastFriendlyDestroyedTrigger;
             Phases.Events.OnPlanningPhaseStart += RegisterDiscardOnGameStartBeingSingleFriendlyTrigger;
             HostShip.OnFlipFaceUpUpgrade += RegisterDiscardOnFlipFaceUpBeingSingleFriendlyTrigger;
         }
@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
         {
             GenericShip.OnTryPerformAttackGlobal -= CanPerformAttack;
             HostShip.OnAttackFinishAsAttacker -= RegisterDiscardOnAttackTrigger;
-            GenericShip.OnDestroyedGlobal -= RegisterDiscardOnLastFriendlyDestroyedTrigger;
+            GenericShip.OnShipIsDestroyedGlobal -= RegisterDiscardOnLastFriendlyDestroyedTrigger;
             Phases.Events.OnPlanningPhaseStart -= RegisterDiscardOnGameStartBeingSingleFriendlyTrigger;
             HostShip.OnFlipFaceUpUpgrade -= RegisterDiscardOnFlipFaceUpBeingSingleFriendlyTrigger;
         }

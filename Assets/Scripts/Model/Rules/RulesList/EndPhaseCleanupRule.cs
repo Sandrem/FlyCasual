@@ -80,7 +80,6 @@ namespace RulesList
             ship.IsSkipsActionSubPhase = false;
             ship.IsBombAlreadyDropped = false;
             ship.IsCannotAttackSecondTime = false;
-            ship.IsActivatedDuringCombat = false;
             ship.IsSystemsAbilityInactive = false;
             ship.AlwaysShowAssignedManeuver = false;
 

@@ -28,22 +28,16 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnReadyToBeDestroyed += RegisterAbility;
+            HostShip.OnShipIsDestroyed += RegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnReadyToBeDestroyed -= RegisterAbility;
+            HostShip.OnShipIsDestroyed -= RegisterAbility;
         }
 
-        private void RegisterAbility(GenericShip ship)
+        private void RegisterAbility(GenericShip ship, bool flag)
         {
-            ship.OnShipIsDestroyed += RegisterTrigger;
-        }
-
-        private void RegisterTrigger(GenericShip ship, bool flag)
-        {
-            ship.OnShipIsDestroyed -= RegisterTrigger;
             RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, DealDamage);
         }
         

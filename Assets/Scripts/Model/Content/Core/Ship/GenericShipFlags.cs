@@ -22,7 +22,6 @@ namespace Ship
         public int CanLaunchBombsWithTemplate { get; set; }
 
         public bool IsReadyToBeDestroyed { get; set; }
-        public bool PreventDestruction { get; set; }
         public bool IsDestroyed { get; set; }
 
         public bool IsSystemsAbilityCanBeActivated { get { return OnSystemsAbilityActivation != null && !IsSystemsAbilityInactive; } }

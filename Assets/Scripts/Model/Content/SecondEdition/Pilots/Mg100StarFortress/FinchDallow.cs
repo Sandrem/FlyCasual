@@ -1,5 +1,7 @@
 ﻿using BoardTools;
 using Bombs;
+using GameCommands;
+using GameModes;
 using Ship;
 using SubPhases;
 using System;
@@ -79,13 +81,18 @@ namespace SubPhases
 {
     public class PlaceBombTokenSubphase : GenericSubPhase
     {
-        GameObject BombGO;
+        private static GameObject BombGO;
 
         public string AbilityName;
         public string Description;
         public IImageHolder ImageSource;
 
         private static bool IsInReposition;
+
+        public override List<GameCommandTypes> AllowedGameCommandTypes
+        {
+            get { return new List<GameCommandTypes>() { GameCommandTypes.BombPlacement };}
+        }
 
         public override void Start()
         {
@@ -171,15 +178,67 @@ namespace SubPhases
             Roster.SetRaycastTargets(false);
 
             IsInReposition = true;
+            IsReadyForCommands = true;
+            Roster.GetPlayer(RequiredPlayer).SetupBomb();
         }
 
         public override void ProcessClick()
         {
             IsInReposition = false;
 
-            Roster.SetRaycastTargets(true);
+            GameManagerScript.Instance.StartCoroutine(CheckBombPlacement());
+        }
 
-            BombsManager.CurrentBomb.ActivateBombs(new List<GameObject>() { BombGO }, Next);
+        private IEnumerator CheckBombPlacement()
+        {
+            ObstaclesStayDetectorForced detector = BombGO.GetComponentInChildren<ObstaclesStayDetectorForced>();
+            detector.ReCheckCollisionsStart();
+            yield return WaitForFrames(2);
+            detector.ReCheckCollisionsFinish();
+
+            if (detector.OverlapsCurrentShipNow)
+            {
+                GameCommand command = GeneratePlaceBombCommand(BombGO.transform.position, BombGO.transform.eulerAngles);
+                GameMode.CurrentGameMode.ExecuteCommand(command);
+            }
+            else
+            {
+                Messages.ShowError("The bomb must be touching ship's base");
+                IsInReposition = true;
+            }
+        }
+
+        public static IEnumerator WaitForFrames(int frameCount)
+        {
+            while (frameCount > 0)
+            {
+                frameCount--;
+                yield return null;
+            }
+        }
+
+        public static GameCommand GeneratePlaceBombCommand(Vector3 position, Vector3 angles)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("positionX", position.x); parameters.AddField("positionY", position.y); parameters.AddField("positionZ", position.z);
+            parameters.AddField("rotationX", angles.x); parameters.AddField("rotationY", angles.y); parameters.AddField("rotationZ", angles.z);
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.BombPlacement,
+                typeof(PlaceBombTokenSubphase),
+                parameters.ToString()
+            );
+        }
+
+        public static void FinishBombPlacement(Vector3 position, Vector3 angles)
+        {
+            IsInReposition = false;
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
+
+            BombGO.transform.position = position;
+            BombGO.transform.eulerAngles = angles;
+
+            Roster.SetRaycastTargets(true);
+            BombsManager.CurrentBomb.ActivateBombs(new List<GameObject>() { BombGO }, Phases.CurrentSubPhase.Next);
         }
 
         private void CheckPerformRotation()

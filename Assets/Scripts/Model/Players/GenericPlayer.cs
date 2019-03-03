@@ -81,6 +81,12 @@ namespace Players
             GameController.CheckExistingCommands();
         }
 
+        public virtual void SetupBomb()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
+        }
+
         public virtual void AssignManeuver()
         {
             Roster.HighlightPlayer(PlayerNo);

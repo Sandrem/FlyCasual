@@ -27,7 +27,8 @@ public enum GameCommandTypes
     SyncPlayerWithInitiative,
     SystemActivation,
     CombatActivation,
-    SelectObstacle
+    SelectObstacle,
+    BombPlacement
 }
 
 namespace GameCommands

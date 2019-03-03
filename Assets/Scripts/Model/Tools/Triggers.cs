@@ -99,6 +99,7 @@ public enum TriggerTypes
     OnAfterFlipFaceUp,
     OnSystemsAbilityActivation,
 
+    OnBombWillBeDropped,
     OnBombWasDropped,
     OnBombWasLaunched
 }

@@ -222,9 +222,7 @@ namespace SubPhases
                 delegate () {
                     Combat.StartSelectAttackTarget(
                         Selection.ThisShip,
-                        Triggers.FinishTrigger,
-                        abilityName: "Attack",
-                        description: "Select target"
+                        Triggers.FinishTrigger
                     );
                 }
             );

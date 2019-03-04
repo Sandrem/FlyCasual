@@ -142,7 +142,7 @@ namespace SubPhases
         public void ShowSubphaseDescription(string title, string description, IImageHolder imageSource = null)
         {
             HideSubphaseDescription();
-            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
+            if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer) && title != null)
             {
                 GameObject subphaseDescriptionGO = GameObject.Find("UI").transform.Find("CurrentSubphaseDescription" + ((imageSource != null) ? "" : "NoImage")).gameObject; 
                  

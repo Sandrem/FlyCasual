@@ -251,14 +251,14 @@ public static partial class Network
 
     public static void CreateMatch(string roomName, string password)
     {
-        ToggleCreateMatchButtons(false);
+        /*ToggleCreateMatchButtons(false);
 
         roomName = roomName.Replace('|', ' '); // Remove info separator
         roomName = new RoomInfo(roomName, true).ToString();
 
         NetworkManager.singleton.SetMatchHost("us1-mm.unet.unity3d.com", NetworkManager.singleton.matchPort, true);
         NetworkManager.singleton.StartMatchMaker();
-        NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);
+        NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);*/
     }
 
     private static void ToggleCreateMatchButtons(bool isActive)
@@ -269,7 +269,7 @@ public static partial class Network
 
     private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
-        if (success)
+        /*if (success)
         {
             string roomName = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Name").GetComponentInChildren<InputField>().text;
 
@@ -287,18 +287,18 @@ public static partial class Network
             Messages.ShowError("Create match failed");
 
             ToggleCreateMatchButtons(true);
-        }
+        }*/
     }
 
     public static void BrowseMatches()
     {
-        ToggleNoRoomsMessage(false);
+        /*ToggleNoRoomsMessage(false);
         ToggleBrowseRoomsControls(false);
         ToggleLoadingMessage(true);
 
         NetworkManager.singleton.SetMatchHost("us1-mm.unet.unity3d.com", NetworkManager.singleton.matchPort, true);
         NetworkManager.singleton.StartMatchMaker();
-        NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);
+        NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);*/
     }
 
     private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
@@ -414,9 +414,9 @@ public static partial class Network
 
     public static void JoinCurrentRoomByParameters(string password = "")
     {
-        if (!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(false); else ToggleJoinPrivateMatchButtons(false);
+        /*if (!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(false); else ToggleJoinPrivateMatchButtons(false);
 
-        NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatchSnapshot.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
+        NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatchSnapshot.networkId, password, "", "", 0, 0, OnJoinInternetMatch);*/
     }
 
     private static void ToggleJoinPrivateMatchButtons(bool isActive)
@@ -427,7 +427,7 @@ public static partial class Network
 
     private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
     {
-        if (success)
+        /*if (success)
         {
             CurrentMatch = matchInfo;
             NetworkManager.singleton.StartClient(CurrentMatch);
@@ -449,24 +449,24 @@ public static partial class Network
                 Messages.ShowError("Cannot join match");
                 BrowseMatches();
             }
-        }
+        }*/
     }
 
     public static void CancelWaitingForOpponent()
     {
-        NetworkServer.Shutdown();
+        /*NetworkServer.Shutdown();
         NetworkManager.singleton.StopHost();
-        NetworkManager.singleton.StopMatchMaker();
+        NetworkManager.singleton.StopMatchMaker();*/
     }
 
     public static void Disconnect(Action callback)
     {
-        NetworkManager.singleton.matchMaker.DestroyMatch(CurrentMatch.networkId, 0, delegate { DisconnectPart2(callback); });
+        /*NetworkManager.singleton.matchMaker.DestroyMatch(CurrentMatch.networkId, 0, delegate { DisconnectPart2(callback); });*/
     }
 
     private static void DisconnectPart2(Action callback)
     {
-        if (IsServer)
+        /*if (IsServer)
         {
             NetworkServer.Shutdown();
             NetworkManager.singleton.StopHost();
@@ -478,7 +478,7 @@ public static partial class Network
             NetworkManager.singleton.StopMatchMaker();
         }
 
-        callback();
+        callback();*/
     }
 
     public static void SyncDecks(int playerNo, int seed)

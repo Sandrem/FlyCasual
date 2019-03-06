@@ -55,7 +55,7 @@ public partial class MainMenu : MonoBehaviour {
 
     private void UpdateVersionInfo()
     {
-        GameObject.Find("UI/Panels/MainMenuPanel/Version/Version Text").GetComponent<Text>().text = Global.CurrentVersion;
+        GameObject.Find("UI/Panels/MainMenuPanel/Background/Version/Version Text").GetComponent<Text>().text = Global.CurrentVersion;
     }
 
     private void UpdatePlayerInfo()

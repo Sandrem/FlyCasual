@@ -22,8 +22,8 @@ public static partial class Network
 
     public static JSONObject SquadJsons;
 
-    public static MatchInfoSnapshot SelectedMatchSnapshot;
-    public static MatchInfo CurrentMatch;
+    /*public static MatchInfoSnapshot SelectedMatchSnapshot;
+    public static MatchInfo CurrentMatch;*/
 
     public static bool IsNetworkGame
     {
@@ -267,9 +267,9 @@ public static partial class Network
         GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/BackButton").SetActive(isActive);
     }
 
-    private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
+    /*private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
-        /*if (success)
+        if (success)
         {
             string roomName = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Name").GetComponentInChildren<InputField>().text;
 
@@ -287,8 +287,8 @@ public static partial class Network
             Messages.ShowError("Create match failed");
 
             ToggleCreateMatchButtons(true);
-        }*/
-    }
+        }
+    }*/
 
     public static void BrowseMatches()
     {
@@ -301,7 +301,7 @@ public static partial class Network
         NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);*/
     }
 
-    private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
+    /*private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
     {
         ToggleLoadingMessage(false);
         ToggleBrowseRoomsControls(true);
@@ -324,7 +324,7 @@ public static partial class Network
         {
             Messages.ShowError("Cannot connect to match maker\nCheck network connection");
         }
-    }
+    }*/
 
     private static void ToggleNoRoomsMessage(bool isActive)
     {
@@ -348,7 +348,7 @@ public static partial class Network
         GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("LoadingMessage").gameObject.SetActive(isActive);
     }
 
-    public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
+    /*public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
     {
         float FREE_SPACE = 10f;
         float MATCH_PANEL_HEIGHT = 90;
@@ -384,7 +384,7 @@ public static partial class Network
 
             currentPosition = new Vector3(currentPosition.x, currentPosition.y - 90 - FREE_SPACE, currentPosition.z);
         }
-    }
+    }*/
 
     public static void ClearRoomsList()
     {
@@ -395,10 +395,10 @@ public static partial class Network
         }
     }
 
-    public static void ClickJoinRoom(MatchInfoSnapshot match)
+    /*public static void ClickJoinRoom(MatchInfoSnapshot match)
     {
         //Messages.ShowInfo("Joining room...");
-        SelectedMatchSnapshot = match;
+        //SelectedMatchSnapshot = match;
 
         if (!match.isPrivate)
         {
@@ -410,7 +410,7 @@ public static partial class Network
             JoinPrivateMatchPanelGO.transform.Find("Panel").Find("Name").Find("InputField").GetComponent<InputField>().text = new RoomInfo(match.name).RoomName;
             MainMenu.CurrentMainMenu.ChangePanel(JoinPrivateMatchPanelGO);
         }
-    }
+    }*/
 
     public static void JoinCurrentRoomByParameters(string password = "")
     {
@@ -425,9 +425,9 @@ public static partial class Network
         GameObject.Find("UI/Panels/JoinPrivateMatchPanel/ControlsPanel/BackButton").SetActive(isActive);
     }
 
-    private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
+    /*private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
     {
-        /*if (success)
+        if (success)
         {
             CurrentMatch = matchInfo;
             NetworkManager.singleton.StartClient(CurrentMatch);
@@ -449,8 +449,8 @@ public static partial class Network
                 Messages.ShowError("Cannot join match");
                 BrowseMatches();
             }
-        }*/
-    }
+        }
+    }*/
 
     public static void CancelWaitingForOpponent()
     {

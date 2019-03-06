@@ -14,9 +14,9 @@ using Actions;
 public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: NetworkBehaviour
 {
     // TEMPORARY
-    bool isLocalPlayer;
-    bool isServer;
-    bool isClient;
+    const bool isLocalPlayer = true;
+    const bool isServer = true;
+    const bool isClient = true;
 
     private void Start()
     {

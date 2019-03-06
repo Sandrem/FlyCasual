@@ -188,8 +188,8 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     {
         //RosterBuilder.GeneratePlayersShipConfigurations();
 
-        SquadBuilder.GetSquadList(PlayerNo.Player1).PlayerType = (isServer) ? typeof(HumanPlayer) : typeof(NetworkOpponentPlayer);
-        SquadBuilder.GetSquadList(PlayerNo.Player2).PlayerType = (isServer) ? typeof(NetworkOpponentPlayer) : typeof(HumanPlayer);
+        //SquadBuilder.GetSquadList(PlayerNo.Player1).PlayerType = (isServer) ? typeof(HumanPlayer) : typeof(NetworkOpponentPlayer);
+        //SquadBuilder.GetSquadList(PlayerNo.Player2).PlayerType = (isServer) ? typeof(NetworkOpponentPlayer) : typeof(HumanPlayer);
 
         SquadBuilder.LoadBattleScene();
     }

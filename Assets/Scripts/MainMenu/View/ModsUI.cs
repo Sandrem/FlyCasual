@@ -6,7 +6,7 @@ using Mods;
 
 public class ModsUI : MonoBehaviour {
 
-    public const float FREE_SPACE = 10f;
+    public const float FREE_SPACE = 25f;
 
     public void Start()
     {
@@ -19,7 +19,7 @@ public class ModsUI : MonoBehaviour {
         GameObject ModsPanel = GameObject.Find("UI/Panels").transform.Find("ModsPanel").Find("Scroll View/Viewport/Content").gameObject;
 
         RectTransform modsPanelRectTransform = ModsPanel.GetComponent<RectTransform>();
-        Vector3 currentPosition = new Vector3(modsPanelRectTransform.sizeDelta.x/2 + FREE_SPACE, -FREE_SPACE, ModsPanel.transform.localPosition.z);
+        Vector3 currentPosition = new Vector3(modsPanelRectTransform.sizeDelta.x/2, -FREE_SPACE, ModsPanel.transform.localPosition.z);
 
         foreach (Transform transform in ModsPanel.transform)
         {

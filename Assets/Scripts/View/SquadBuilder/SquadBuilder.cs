@@ -922,6 +922,13 @@ namespace SquadBuilderNS
             panelGO.SetActive(false);
 
             panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanels" + Edition.Current.NameShort).gameObject;
+
+            float globalUiScale = GameObject.Find("UI").GetComponent<RectTransform>().localScale.y;
+            float factionsListHeight = (Edition.Current is SecondEdition) ? (418f * 2f + 25f * 5f) : (418f * 1f + 25f * 4f);
+            float scale = (Screen.height - 250f*globalUiScale) / factionsListHeight / globalUiScale;
+            scale = Mathf.Min(scale, 1.25f);
+            panelGO.transform.localScale = new Vector3(scale, scale, scale);
+
             panelGO.SetActive(true);
 
             foreach (Transform imagePanel in panelGO.transform)

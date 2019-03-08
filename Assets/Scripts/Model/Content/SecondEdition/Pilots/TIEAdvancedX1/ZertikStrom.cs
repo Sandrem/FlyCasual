@@ -38,7 +38,7 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnEndPhaseStart_Triggers += UseZertikStromAbility;
+            Phases.Events.OnEndPhaseStart_Triggers -= UseZertikStromAbility;
         }
 
         private void UseZertikStromAbility()

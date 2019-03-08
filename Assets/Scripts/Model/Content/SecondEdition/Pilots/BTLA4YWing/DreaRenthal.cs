@@ -39,7 +39,7 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnGenerateDiceModificationsGlobal += AddDreaRenthalAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal -= AddDreaRenthalAbility;
         }
 
         private void AddDreaRenthalAbility(GenericShip ship)

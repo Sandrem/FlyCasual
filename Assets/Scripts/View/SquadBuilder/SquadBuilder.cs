@@ -115,7 +115,7 @@ namespace SquadBuilderNS
             script.ShipName = ship.Instance.ShipInfo.ShipName;
             script.FullType = ship.Instance.ShipInfo.ShipName;
 
-            int rowsCount = (IsSmallFaction(faction)) ? SHIP_COLUMN_COUNT_SMALLFACTION : SHIP_COLUMN_COUNT;
+            /*int rowsCount = (IsSmallFaction(faction)) ? SHIP_COLUMN_COUNT_SMALLFACTION : SHIP_COLUMN_COUNT;
             int row = availableShipsCounter / rowsCount;
             int column = availableShipsCounter - (row * rowsCount);
 
@@ -128,7 +128,7 @@ namespace SquadBuilderNS
                 newShipPanel.transform.localPosition = new Vector3(25 + column * PILOT_CARD_WIDTH + 25 * (column), - (DISTANCE_MEDIUM + row * 184 + DISTANCE_MEDIUM * (row)), 0);                
             }
 
-            availableShipsCounter++;
+            availableShipsCounter++;*/
         }
 
         private static bool IsSmallFaction(Faction faction)

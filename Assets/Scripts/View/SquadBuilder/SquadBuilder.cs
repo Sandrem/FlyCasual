@@ -787,7 +787,7 @@ namespace SquadBuilderNS
 
         public static void UpdateSquadName(string panelName)
         {
-            GameObject textGO = GameObject.Find("UI/Panels/" + panelName + "/Panel/SquadBuilderTop/SquadNameButton/Text");
+            GameObject textGO = GameObject.Find("UI/Panels/" + panelName + "/TopPanel/SquadNameButton/Text");
             textGO.GetComponent<Text>().text = CurrentSquadList.Name;
             textGO.GetComponent<RectTransform>().sizeDelta = new Vector2(textGO.GetComponent<Text>().preferredWidth, textGO.GetComponent<RectTransform>().sizeDelta.y);
         }
@@ -852,7 +852,7 @@ namespace SquadBuilderNS
         private static void UpdateSkinButton()
         {
             bool hasSkinsSelection = GetAvailableShipSkins(CurrentSquadBuilderShip).Count > 1;
-            GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipSlotsTop/TopButtons/SkinsButton").GetComponent<Button>().interactable = hasSkinsSelection;
+            GameObject.Find("UI/Panels/ShipSlotsPanel/TopPanel/TopButtons/SkinsButton").GetComponent<Button>().interactable = hasSkinsSelection;
         }
 
         // Random AI

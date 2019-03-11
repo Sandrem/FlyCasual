@@ -90,20 +90,29 @@ namespace SquadBuilderNS
             }
             else
             {
-                string prefabPath = (IsSmallFaction(faction)) ? "Prefabs/SquadBuilder/ShipPanelBig" : "Prefabs/SquadBuilder/ShipPanel";
-                GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
-                GridLayoutGroup grid = GameObject.Find("UI/Panels/SelectShipPanel/Panel").GetComponentInChildren<GridLayoutGroup>();
-                grid.cellSize = prefab.GetComponent<RectTransform>().sizeDelta;
-                if (!IsSmallFaction(faction))
-                {
-                    grid.constraint = GridLayoutGroup.Constraint.Flexible;
-                }
-                else
-                {
-                    grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                    grid.constraintCount = 2;
-                }
+                ScaleSelectShipPanel(faction);
             }
+        }
+
+        private static void ScaleSelectShipPanel(Faction faction)
+        {
+            string prefabPath = (IsSmallFaction(faction)) ? "Prefabs/SquadBuilder/ShipPanelBig" : "Prefabs/SquadBuilder/ShipPanel";
+            GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+            GridLayoutGroup grid = GameObject.Find("UI/Panels/SelectShipPanel/Panel").GetComponentInChildren<GridLayoutGroup>();
+            grid.cellSize = prefab.GetComponent<RectTransform>().sizeDelta;
+            grid.constraintCount = (IsSmallFaction(faction)) ? 2 : 5;
+
+            RectTransform uiRect = GameObject.Find("UI").GetComponent<RectTransform>();
+            float zoneWidth = uiRect.sizeDelta.x;
+            float zoneHeight = uiRect.sizeDelta.y - GameObject.Find("UI/Panels/SelectShipPanel/ControlsPanel").GetComponentInChildren<RectTransform>().sizeDelta.y;
+            float panelWidth = grid.constraintCount * (grid.cellSize.x + 25) + 25;
+            int rowsCount = availableShipsCounter / grid.constraintCount;
+            if (availableShipsCounter - rowsCount * grid.constraintCount != 0) rowsCount++;
+            float panelHeight = (rowsCount) * (grid.cellSize.y + 25) + 25;
+            float scaleX = zoneWidth / panelWidth;
+            float scaleY = zoneHeight / panelHeight;
+            float scale = Mathf.Min(scaleX, scaleY);
+            GameObject.Find("UI/Panels/SelectShipPanel/Panel").GetComponent<RectTransform>().localScale = new Vector3(scale, scale, scale);
         }
 
         private static void ShowNoContentInfo()
@@ -142,9 +151,9 @@ namespace SquadBuilderNS
             else
             {
                 newShipPanel.transform.localPosition = new Vector3(25 + column * PILOT_CARD_WIDTH + 25 * (column), - (DISTANCE_MEDIUM + row * 184 + DISTANCE_MEDIUM * (row)), 0);                
-            }
+            }*/
 
-            availableShipsCounter++;*/
+            availableShipsCounter++;
         }
 
         private static bool IsSmallFaction(Faction faction)

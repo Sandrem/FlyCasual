@@ -606,6 +606,9 @@ namespace SquadBuilderNS
             {
                 ShowAvailableUpgrade(upgrade);
             }
+
+            GridLayoutGroup grid = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").GetComponent<GridLayoutGroup>();
+            grid.cellSize = new Vector2(Edition.Current.UpgradeCardSize.x * 1.5f, Edition.Current.UpgradeCardSize.y * 1.5f);
         }
 
         private static void ShowAvailableUpgrade(UpgradeRecord upgrade)

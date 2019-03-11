@@ -20,7 +20,7 @@ namespace SquadBuilderNS
         private const float PILOT_CARD_WIDTH = 300;
         private const float PILOT_CARD_HEIGHT = 418;
         private const float DISTANCE_LARGE = 40;
-        private const float DISTANCE_MEDIUM = 20;
+        private const float DISTANCE_MEDIUM = 25;
         private const float DISTANCE_SMALL = 10;
 
         private class UpgradeSlotPanel
@@ -176,7 +176,7 @@ namespace SquadBuilderNS
 
         private static void ShowAvailablePilots(Faction faction, string shipName)
         {
-            availablePilotsCounter = 0;
+            //availablePilotsCounter = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
 
@@ -194,7 +194,7 @@ namespace SquadBuilderNS
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
             contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(pilotsCount*(PILOT_CARD_WIDTH + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(pilotsCount*(PILOT_CARD_WIDTH*1.25f + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
 
             foreach (PilotRecord pilot in AllPilotsFiltered)
             {
@@ -226,11 +226,9 @@ namespace SquadBuilderNS
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
             script.Initialize(newShip, PilotSelectedIsClicked, true);
 
-            int column = availablePilotsCounter;
-
-            newPilotPanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM + (PILOT_CARD_WIDTH + DISTANCE_MEDIUM) * column, PILOT_CARD_HEIGHT/2, 0);
-
-            availablePilotsCounter++;
+            //int column = availablePilotsCounter;
+            //newPilotPanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM + (PILOT_CARD_WIDTH + DISTANCE_MEDIUM) * column, PILOT_CARD_HEIGHT/2, 0);
+            //availablePilotsCounter++;
         }
 
         public static void PilotSelectedIsClicked(GenericShip ship)

@@ -88,6 +88,22 @@ namespace SquadBuilderNS
             {
                 ShowNoContentInfo();
             }
+            else
+            {
+                string prefabPath = (IsSmallFaction(faction)) ? "Prefabs/SquadBuilder/ShipPanelBig" : "Prefabs/SquadBuilder/ShipPanel";
+                GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+                GridLayoutGroup grid = GameObject.Find("UI/Panels/SelectShipPanel/Panel").GetComponentInChildren<GridLayoutGroup>();
+                grid.cellSize = prefab.GetComponent<RectTransform>().sizeDelta;
+                if (!IsSmallFaction(faction))
+                {
+                    grid.constraint = GridLayoutGroup.Constraint.Flexible;
+                }
+                else
+                {
+                    grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+                    grid.constraintCount = 2;
+                }
+            }
         }
 
         private static void ShowNoContentInfo()

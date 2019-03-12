@@ -288,4 +288,16 @@ public partial class MainMenu : MonoBehaviour {
             Global.StartBattle();
         });
     }
+
+    public static void ScalePanel(Transform panelTransform, float maxScale = float.MaxValue, bool twoBorders = true)
+    {
+        float bordersSize = (twoBorders) ? 250f : 125f;
+        float globalUiScale = GameObject.Find("UI").GetComponent<RectTransform>().localScale.y;
+
+        float scaleX = Screen.width / panelTransform.GetComponent<RectTransform>().sizeDelta.x / globalUiScale;
+        float scaleY = (Screen.height - bordersSize * globalUiScale) / panelTransform.GetComponent<RectTransform>().sizeDelta.y / globalUiScale;
+        float scale = Mathf.Min(scaleX, scaleY);
+        scale = Mathf.Min(scale, maxScale);
+        panelTransform.localScale = new Vector3(scale, scale, scale);
+    }
 }

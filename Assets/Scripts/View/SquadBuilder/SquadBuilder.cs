@@ -22,6 +22,7 @@ namespace SquadBuilderNS
         private const float DISTANCE_LARGE = 40;
         private const float DISTANCE_MEDIUM = 25;
         private const float DISTANCE_SMALL = 10;
+        private const float SCALE_DEFAULT = 1.25f;
 
         private class UpgradeSlotPanel
         {
@@ -102,17 +103,14 @@ namespace SquadBuilderNS
             grid.cellSize = prefab.GetComponent<RectTransform>().sizeDelta;
             grid.constraintCount = (IsSmallFaction(faction)) ? 2 : 5;
 
-            RectTransform uiRect = GameObject.Find("UI").GetComponent<RectTransform>();
-            float zoneWidth = uiRect.sizeDelta.x;
-            float zoneHeight = uiRect.sizeDelta.y - GameObject.Find("UI/Panels/SelectShipPanel/ControlsPanel").GetComponentInChildren<RectTransform>().sizeDelta.y;
             float panelWidth = grid.constraintCount * (grid.cellSize.x + 25) + 25;
             int rowsCount = availableShipsCounter / grid.constraintCount;
             if (availableShipsCounter - rowsCount * grid.constraintCount != 0) rowsCount++;
             float panelHeight = (rowsCount) * (grid.cellSize.y + 25) + 25;
-            float scaleX = zoneWidth / panelWidth;
-            float scaleY = zoneHeight / panelHeight;
-            float scale = Mathf.Min(scaleX, scaleY);
-            GameObject.Find("UI/Panels/SelectShipPanel/Panel").GetComponent<RectTransform>().localScale = new Vector3(scale, scale, scale);
+
+            GameObject selechShipPanelGO = GameObject.Find("UI/Panels/SelectShipPanel/Panel");
+            selechShipPanelGO.GetComponent<RectTransform>().sizeDelta = new Vector2(panelWidth, panelHeight);
+            MainMenu.ScalePanel(selechShipPanelGO.transform, twoBorders: false);
         }
 
         private static void ShowNoContentInfo()
@@ -194,7 +192,7 @@ namespace SquadBuilderNS
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
             contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(pilotsCount*(PILOT_CARD_WIDTH*1.25f + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(pilotsCount*(PILOT_CARD_WIDTH*SCALE_DEFAULT + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
 
             foreach (PilotRecord pilot in AllPilotsFiltered)
             {
@@ -507,7 +505,9 @@ namespace SquadBuilderNS
 
         private static void GenerateShipWithSlotsPanels()
         {
-            DestroyChildren(GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/Centered/ShipWithSlotsHolderPanel").transform);
+            Transform shipWithSlotsTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel").transform;
+            DestroyChildren(shipWithSlotsTransform);
+            shipWithSlotsTransform.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
 
             CreatePilotPanel();
             CreateSlotsPanels();
@@ -518,9 +518,9 @@ namespace SquadBuilderNS
         private static void CreatePilotPanel()
         {
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
-            Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/Centered/ShipWithSlotsHolderPanel/").transform;
+            Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel/").transform;
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
-            newPilotPanel.transform.localPosition = Vector3.zero;
+            newPilotPanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM, -DISTANCE_MEDIUM, 0);
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
             script.Initialize(CurrentSquadBuilderShip.Instance);
@@ -535,7 +535,7 @@ namespace SquadBuilderNS
                 if (!slot.IsEmpty && slot.InstalledUpgrade.GetType() == typeof(UpgradesList.EmptyUpgrade)) continue;
 
                 GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
-                Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/Centered/ShipWithSlotsHolderPanel/").transform;
+                Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel/").transform;
                 GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
                 UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
@@ -555,34 +555,31 @@ namespace SquadBuilderNS
 
         private static void OrganizeShipWithSlotsPanels()
         {
-            float defaultWidth = 1366 - 2 * SquadBuilder.DISTANCE_MEDIUM;
             int maxOneRowSize = (UpgradeSlotPanels.Count < 5 ) ? 4 : Mathf.CeilToInt((float)UpgradeSlotPanels.Count / 2f);
 
             int count = 0;
-            float offsetX = PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM;
-            float offsetY = 0;
+            float offsetX = (PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM);
+            float offsetY = -DISTANCE_MEDIUM;
             float maxSizeY = PILOT_CARD_HEIGHT;
             float maxSizeX = 0;
             foreach (var upgradeSlotPanel in UpgradeSlotPanels)
             {
                 if (count == maxOneRowSize)
                 {
-                    maxSizeX = offsetX;
                     offsetX = (UpgradeSlotPanels.Count % 2 == 0) ? PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM : PILOT_CARD_WIDTH + 2 * DISTANCE_MEDIUM + (Edition.Current.UpgradeCardCompactSize.x + DISTANCE_MEDIUM) / 2;
-                    offsetY = -(Edition.Current.UpgradeCardCompactSize.y + DISTANCE_MEDIUM);
-                    maxSizeY = 2 * Edition.Current.UpgradeCardCompactSize.y + DISTANCE_MEDIUM;
+                    offsetY = -(Edition.Current.UpgradeCardCompactSize.y + 2*DISTANCE_MEDIUM);
+                    maxSizeY = (2 * Edition.Current.UpgradeCardCompactSize.y + DISTANCE_MEDIUM);
                 }
                 upgradeSlotPanel.Panel.transform.localPosition = new Vector2(offsetX, offsetY);
                 offsetX += upgradeSlotPanel.Size.x + DISTANCE_MEDIUM;
+
+                maxSizeX = Mathf.Max(maxSizeX, offsetX);
                 count++;
             }
 
-            maxSizeX = Mathf.Max(maxSizeX, offsetX);
-            Transform centeredHolder = UpgradeSlotPanels.First().Panel.transform.parent.parent;
-            centeredHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(maxSizeX, maxSizeY);
-
-            float scale = Mathf.Min(defaultWidth / maxSizeX, 1);
-            centeredHolder.transform.localScale = new Vector2(scale, scale);
+            Transform centeredHolder = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel").transform;
+            centeredHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(maxSizeX, maxSizeY + 2*DISTANCE_MEDIUM);
+            MainMenu.ScalePanel(centeredHolder, maxScale: 1.25f);
         }
 
         private static void ShowAvailableUpgrades(UpgradeSlot slot)
@@ -874,12 +871,6 @@ namespace SquadBuilderNS
             backButton.GetComponent<Button>().onClick.AddListener(ReturnToSquadBuilder);
         }
 
-        private static void UpdateSkinButton()
-        {
-            bool hasSkinsSelection = GetAvailableShipSkins(CurrentSquadBuilderShip).Count > 1;
-            GameObject.Find("UI/Panels/ShipSlotsPanel/TopPanel/TopButtons/SkinsButton").GetComponent<Button>().interactable = hasSkinsSelection;
-        }
-
         // Random AI
 
         public static void SetRandomAiSquad(Action callback)
@@ -940,20 +931,14 @@ namespace SquadBuilderNS
 
         public static void ShowFactionsImages()
         {
-            // TODO: change panel struture and use foreach
-            GameObject panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanelsFirstEdition").gameObject;
-            panelGO.SetActive(false);
-            panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanelsSecondEdition").gameObject;
-            panelGO.SetActive(false);
+            List<string> panelNames = new List<string>() { "FactionPanelsFirstEdition", "FactionPanelsSecondEdition" };
+            foreach (string panelName in panelNames)
+            {
+                GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find(panelName).gameObject.SetActive(false);
+            }
 
-            panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanels" + Edition.Current.NameShort).gameObject;
-
-            float globalUiScale = GameObject.Find("UI").GetComponent<RectTransform>().localScale.y;
-            float factionsListHeight = (Edition.Current is SecondEdition) ? (418f * 2f + 25f * 5f) : (418f * 1f + 25f * 4f);
-            float scale = (Screen.height - 250f*globalUiScale) / factionsListHeight / globalUiScale;
-            scale = Mathf.Min(scale, 1.25f);
-            panelGO.transform.localScale = new Vector3(scale, scale, scale);
-
+            GameObject panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanels" + Edition.Current.NameShort).gameObject;
+            MainMenu.ScalePanel(panelGO.transform, maxScale: 1.25f);
             panelGO.SetActive(true);
 
             foreach (Transform imagePanel in panelGO.transform)

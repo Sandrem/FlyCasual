@@ -334,7 +334,6 @@ namespace SquadBuilderNS
         {
             UpdateSquadCostForPilotMenu(GetCurrentSquadCost());
             GenerateShipWithSlotsPanels();
-            UpdateSkinButton();
         }
 
         public static void OpenSelectShip()

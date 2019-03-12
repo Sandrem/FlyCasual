@@ -419,10 +419,10 @@ namespace SquadBuilderNS
                 AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -(PILOT_CARD_HEIGHT + 2 * DISTANCE_MEDIUM));
             }
 
-            float firstRowWidth = panelsByRow.Where(n => n.Value == 1).Sum(n => n.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Where(n => n.Value == 1).ToList().Count - 1);
+            /*float firstRowWidth = panelsByRow.Where(n => n.Value == 1).Sum(n => n.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Where(n => n.Value == 1).ToList().Count - 1);
             float secondRowWidth = panelsByRow.Where(n => n.Value == 2).Sum(n => n.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Where(n => n.Value == 2).ToList().Count - 1);
 
-            if (AddShipButtonPanel != null) secondRowWidth += AddShipButtonPanel.Size.x + DISTANCE_LARGE;
+            if (AddShipButtonPanel != null) secondRowWidth += AddShipButtonPanel.Size.x + DISTANCE_LARGE;*/
 
             shipsWithUpgradesPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(maxWidth + 2*DISTANCE_MEDIUM, 2 * PILOT_CARD_HEIGHT + 3 * DISTANCE_MEDIUM);
             MainMenu.ScalePanel(shipsWithUpgradesPanel.transform, maxScale: 1.25f);
@@ -485,6 +485,16 @@ namespace SquadBuilderNS
         private static void UpdateSquadCostForUpgradesMenu(int squadCost)
         {
             UpdateSquadCost(squadCost, "SelectUpgradePanel");
+        }
+
+        private static void UpdateSquadCostForShipsMenu(int squadCost)
+        {
+            UpdateSquadCost(squadCost, "SelectShipPanel");
+        }
+
+        private static void UpdateSquadCostForPilotsMenu(int squadCost)
+        {
+            UpdateSquadCost(squadCost, "SelectPilotPanel");
         }
 
         private static void UpdateSquadCost(int squadCost, string panelName)
@@ -570,7 +580,7 @@ namespace SquadBuilderNS
 
             Transform centeredHolder = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel").transform;
             centeredHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(maxSizeX, maxSizeY + 2*DISTANCE_MEDIUM);
-            MainMenu.ScalePanel(centeredHolder, maxScale: 1.25f);
+            MainMenu.ScalePanel(centeredHolder, maxScale: 1.25f, twoBorders: false);
         }
 
         private static void ShowAvailableUpgrades(UpgradeSlot slot)
@@ -800,9 +810,9 @@ namespace SquadBuilderNS
 
         public static void UpdateSquadName(string panelName)
         {
-            GameObject textGO = GameObject.Find("UI/Panels/" + panelName + "/TopPanel/SquadNameButton/Text");
+            /*GameObject textGO = GameObject.Find("UI/Panels/" + panelName + "/TopPanel/SquadNameButton/Text");
             textGO.GetComponent<Text>().text = CurrentSquadList.Name;
-            textGO.GetComponent<RectTransform>().sizeDelta = new Vector2(textGO.GetComponent<Text>().preferredWidth, textGO.GetComponent<RectTransform>().sizeDelta.y);
+            textGO.GetComponent<RectTransform>().sizeDelta = new Vector2(textGO.GetComponent<Text>().preferredWidth, textGO.GetComponent<RectTransform>().sizeDelta.y);*/
         }
 
         public static void PrepareSaveSquadronPanel()
@@ -929,7 +939,7 @@ namespace SquadBuilderNS
             }
 
             GameObject panelGO = GameObject.Find("UI/Panels/SelectFactionPanel/Panel").transform.Find("FactionPanels" + Edition.Current.NameShort).gameObject;
-            MainMenu.ScalePanel(panelGO.transform, maxScale: 1.25f);
+            MainMenu.ScalePanel(panelGO.transform, maxScale: 1.25f, twoBorders: false);
             panelGO.SetActive(true);
 
             foreach (Transform imagePanel in panelGO.transform)

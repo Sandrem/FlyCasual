@@ -238,7 +238,7 @@ namespace SquadBuilderNS
         private static void GenerateShipWithUpgradesPanels()
         {
             ShipWithUpgradesPanels = new List<ShipWithUpgradesPanel>();
-            DestroyChildren(GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);
+            DestroyChildren(GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadListPanel").transform);
 
             CreateShipWithUpgradesPanels();
 
@@ -258,7 +258,7 @@ namespace SquadBuilderNS
         private static void AddShipWithUpgradesPanel(SquadBuilderShip ship)
         {
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipWithUpgradesPanel", typeof(GameObject));
-            GameObject shipWithUpgradesPanelGO = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);
+            GameObject shipWithUpgradesPanelGO = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadListPanel").transform);
             ShipWithUpgradesPanel shipWithUpgradesPanel = new ShipWithUpgradesPanel(ship, shipWithUpgradesPanelGO);
             ShipWithUpgradesPanels.Add(shipWithUpgradesPanel);
             ship.Panel = shipWithUpgradesPanel;
@@ -309,7 +309,7 @@ namespace SquadBuilderNS
             if (GetCurrentSquadCost() <= Edition.Current.MaxPoints - Edition.Current.MinShipCost(CurrentSquadList.SquadFaction))
             {
                 GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipWithUpgradesPanel", typeof(GameObject));
-                GameObject addShipButtonPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered/SquadListPanel").transform);
+                GameObject addShipButtonPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadListPanel").transform);
                 AddShipButtonPanel = new ShipWithUpgradesPanel(null, addShipButtonPanel);
 
                 prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/AddShipButton", typeof(GameObject));
@@ -367,32 +367,29 @@ namespace SquadBuilderNS
 
         private static void ArrangeShipsWithUpgradesInOneLine(float allPanelsWidth)
         {
-            float defaultWidth = 1366 - 2 * DISTANCE_MEDIUM;
-            float offset = 0;
+            float offset = DISTANCE_MEDIUM;
 
-            GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
-            centerPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(allPanelsWidth, PILOT_CARD_HEIGHT);
+            GameObject shipsWithUpgradesPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadListPanel");
+            shipsWithUpgradesPanel.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
 
             foreach (ShipWithUpgradesPanel panel in ShipWithUpgradesPanels)
             {
-                panel.Panel.transform.localPosition = new Vector2(offset, 0);
+                panel.Panel.transform.localPosition = new Vector2(offset, -DISTANCE_MEDIUM);
                 offset += panel.Size.x + DISTANCE_LARGE;
             }
 
             if (AddShipButtonPanel != null)
             {
-                AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, 0);
+                AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -DISTANCE_MEDIUM);
             }
 
-            float scale = Mathf.Min(defaultWidth / allPanelsWidth, 1);
-            centerPanel.transform.localScale = new Vector2(scale, scale);
+            shipsWithUpgradesPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(allPanelsWidth + 2*DISTANCE_MEDIUM, PILOT_CARD_HEIGHT + 2*DISTANCE_MEDIUM);
+            MainMenu.ScalePanel(shipsWithUpgradesPanel.transform, maxScale: 1.25f);
         }
 
         private static void ArrangeShipsWithUpgradesInTwoLines(float allPanelsWidth)
         {
-            float defaultHeight = 600;
-            float defaultWidth = 1366 - 2 * DISTANCE_MEDIUM;
-            float offset = 0;
+            float offset = DISTANCE_MEDIUM;
 
             Dictionary<ShipWithUpgradesPanel, int> panelsByRow = GetArrangeShipsWithUpgradesIntoRowNumbers();
             float row1width = panelsByRow.Where(n => n.Value == 1).Sum(m => m.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Count(n => n.Value == 1) - 1);
@@ -400,41 +397,35 @@ namespace SquadBuilderNS
             if (AddShipButtonPanel != null) row2width += AddShipButtonPanel.Size.x;
             float maxWidth = Mathf.Max(row1width, row2width);
 
-            GameObject centerPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/Centered");
-            centerPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(maxWidth, 2 * PILOT_CARD_HEIGHT + DISTANCE_MEDIUM);
+            GameObject shipsWithUpgradesPanel = GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadListPanel");
+            shipsWithUpgradesPanel.GetComponent<RectTransform>().sizeDelta = Vector2.zero;
 
             offset = (maxWidth - row1width) / 2;
             foreach (var panel in panelsByRow.Where(n => n.Value == 1))
             {
-                panel.Key.Panel.transform.localPosition = new Vector2(offset, 0);
+                panel.Key.Panel.transform.localPosition = new Vector2(offset, -DISTANCE_MEDIUM);
                 offset += panel.Key.Size.x + DISTANCE_LARGE;
             }
 
             offset = (maxWidth - row2width) / 2;
             foreach (var panel in panelsByRow.Where(n => n.Value == 2))
             {
-                panel.Key.Panel.transform.localPosition = new Vector2(offset, -(PILOT_CARD_HEIGHT + DISTANCE_MEDIUM));
+                panel.Key.Panel.transform.localPosition = new Vector2(offset, -(PILOT_CARD_HEIGHT + 2 * DISTANCE_MEDIUM));
                 offset += panel.Key.Size.x + DISTANCE_LARGE;
             }
 
             if (AddShipButtonPanel != null)
             {
-                AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -(PILOT_CARD_HEIGHT + DISTANCE_MEDIUM));
+                AddShipButtonPanel.Panel.transform.localPosition = new Vector2(offset, -(PILOT_CARD_HEIGHT + 2 * DISTANCE_MEDIUM));
             }
-
-            float verticalScale = Mathf.Min(PILOT_CARD_HEIGHT / defaultHeight, 1);
 
             float firstRowWidth = panelsByRow.Where(n => n.Value == 1).Sum(n => n.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Where(n => n.Value == 1).ToList().Count - 1);
             float secondRowWidth = panelsByRow.Where(n => n.Value == 2).Sum(n => n.Key.Size.x) + DISTANCE_LARGE * (panelsByRow.Where(n => n.Value == 2).ToList().Count - 1);
 
             if (AddShipButtonPanel != null) secondRowWidth += AddShipButtonPanel.Size.x + DISTANCE_LARGE;
 
-            float scaleRow1 = defaultWidth / (firstRowWidth * verticalScale);
-            float scaleRow2 = defaultWidth / (secondRowWidth * verticalScale);
-            float horizontalScale = Mathf.Min(scaleRow1, scaleRow2, 1);
-
-            float scale = verticalScale * horizontalScale;
-            centerPanel.transform.localScale = new Vector2(scale, scale);
+            shipsWithUpgradesPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(maxWidth + 2*DISTANCE_MEDIUM, 2 * PILOT_CARD_HEIGHT + 3 * DISTANCE_MEDIUM);
+            MainMenu.ScalePanel(shipsWithUpgradesPanel.transform, maxScale: 1.25f);
         }
 
         private static Dictionary<ShipWithUpgradesPanel, int> GetArrangeShipsWithUpgradesIntoRowNumbers()

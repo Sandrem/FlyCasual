@@ -33,7 +33,7 @@ public partial class MainMenu : MonoBehaviour {
 
         DontDestroyOnLoad(GameObject.Find("GlobalUI").gameObject);
 
-        SetBackground();
+        SetBackground(GetRandomMenuBackground());
         ModsManager.Initialize();
         Options.ReadOptions();
         Options.UpdateVolume();
@@ -66,9 +66,9 @@ public partial class MainMenu : MonoBehaviour {
         GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/NicknameAndTitleText").GetComponent<Text>().text = Options.NickName + "\n" + Options.Title;
     }
 
-    private void SetBackground()
+    public static void SetBackground(Sprite background)
     {
-        GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = GetRandomMenuBackground();
+        GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = background;
     }
 
     public static Sprite GetRandomMenuBackground()

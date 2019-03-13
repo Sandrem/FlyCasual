@@ -30,7 +30,8 @@ public class OptionsUI : MonoBehaviour {
 
     public void CategorySelected(GameObject categoryGO)
     {
-        ClearOptionsViewPanel();
+        ClearOptionsView();
+        categoryGO.GetComponent<Image>().color = new Color(0, 0.5f, 1, 100f/256f);
 
         switch (categoryGO.GetComponentInChildren<Text>().text)
         {
@@ -101,8 +102,14 @@ public class OptionsUI : MonoBehaviour {
         }
     }
 
-    private void ClearOptionsViewPanel()
+    private void ClearOptionsView()
     {
+        Transform categoryTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/CategoriesPanel").transform;
+        foreach (Transform transform in categoryTransform.transform)
+        {
+            transform.GetComponent<Image>().color = new Color(0, 0.5f, 1, 0);
+        }
+
         Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
         foreach (Transform transform in parentTransform.transform)
         {

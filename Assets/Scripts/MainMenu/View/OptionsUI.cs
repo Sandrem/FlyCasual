@@ -57,7 +57,13 @@ public class OptionsUI : MonoBehaviour {
             GameObject backgroundGO = new GameObject(backgroundImage.name);
             backgroundGO.AddComponent<Image>().sprite = backgroundImage;
             backgroundGO.transform.SetParent(imageListParent.transform);
+            backgroundGO.transform.localScale = Vector3.one;
+
             Button button = backgroundGO.AddComponent<Button>();
+            ColorBlock buttonColors = button.colors;
+            buttonColors.normalColor = new Color(1, 1, 1, 200f / 256f);
+            button.colors = buttonColors;
+
             button.onClick.AddListener(() =>
             {
                 MainMenu.SetBackground(Resources.Load<Sprite>("Sprites/Backgrounds/MainMenu/" + backgroundImage.name));

@@ -32,6 +32,9 @@ public class OptionsUI : MonoBehaviour {
     {
         switch (categoryGO.GetComponentInChildren<Text>().text)
         {
+            case "Playmat":
+                ShowPlaymatSelection();
+                break;
             case "Background":
                 ShowBackgroundSelection();
                 break;
@@ -43,10 +46,7 @@ public class OptionsUI : MonoBehaviour {
     private void ShowBackgroundSelection()
     {
         Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
-        foreach (Transform transform in parentTransform.transform)
-        {
-            Destroy(transform.gameObject);
-        }
+        ClearOptionsViewPanel();
 
         string prefabPath = "Prefabs/MainMenu/Options/BackgroundSelectionViewPanel";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
@@ -68,6 +68,47 @@ public class OptionsUI : MonoBehaviour {
             {
                 MainMenu.SetBackground(Resources.Load<Sprite>("Sprites/Backgrounds/MainMenu/" + backgroundImage.name));
             });
+        }
+    }
+
+    private void ShowPlaymatSelection()
+    {
+        Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
+        ClearOptionsViewPanel();
+
+        string prefabPath = "Prefabs/MainMenu/Options/PlaymatSelectionViewPanel";
+        GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+        GameObject imageListParent = Instantiate(prefab, parentTransform);
+
+        foreach (Sprite playmatSprite in Resources.LoadAll<Sprite>("Playmats/Thumbnails"))
+        {
+            GameObject playmatPreviewGO = new GameObject(playmatSprite.name);
+            playmatPreviewGO.AddComponent<Image>().sprite = playmatSprite;
+            playmatPreviewGO.transform.SetParent(imageListParent.transform);
+            playmatPreviewGO.transform.localScale = Vector3.one;
+
+            Button button = playmatPreviewGO.AddComponent<Button>();
+            ColorBlock buttonColors = button.colors;
+            buttonColors.normalColor = new Color(1, 1, 1, 200f / 256f);
+            button.colors = buttonColors;
+
+            button.onClick.AddListener(() =>
+            {
+                string playmatName = playmatSprite.name.Replace("Thumbnail", "").Replace("Playmat", "");
+                PlayerPrefs.SetString("PlaymatName", playmatName);
+                PlayerPrefs.Save();
+
+                Options.Playmat = playmatName;
+            });
+        }
+    }
+
+    private void ClearOptionsViewPanel()
+    {
+        Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
+        foreach (Transform transform in parentTransform.transform)
+        {
+            Destroy(transform.gameObject);
         }
     }
 

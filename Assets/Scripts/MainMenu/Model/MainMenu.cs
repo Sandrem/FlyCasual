@@ -289,7 +289,7 @@ public partial class MainMenu : MonoBehaviour {
         });
     }
 
-    public static void ScalePanel(Transform panelTransform, float maxScale = float.MaxValue, bool twoBorders = true)
+    public static void ScalePanel(Transform panelTransform, float maxScale = float.MaxValue, bool twoBorders = false)
     {
         float bordersSize = (twoBorders) ? 250f : 125f;
         float globalUiScale = GameObject.Find("UI").GetComponent<RectTransform>().localScale.y;

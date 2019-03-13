@@ -580,7 +580,7 @@ namespace SquadBuilderNS
 
             Transform centeredHolder = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel").transform;
             centeredHolder.GetComponent<RectTransform>().sizeDelta = new Vector2(maxSizeX, maxSizeY + 2*DISTANCE_MEDIUM);
-            MainMenu.ScalePanel(centeredHolder, maxScale: 1.25f);
+            MainMenu.ScalePanel(centeredHolder, maxScale: 1.25f, twoBorders: true);
         }
 
         private static void ShowAvailableUpgrades(UpgradeSlot slot)

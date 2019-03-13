@@ -30,6 +30,8 @@ public class OptionsUI : MonoBehaviour {
 
     public void CategorySelected(GameObject categoryGO)
     {
+        ClearOptionsViewPanel();
+
         switch (categoryGO.GetComponentInChildren<Text>().text)
         {
             case "Playmat":
@@ -46,8 +48,6 @@ public class OptionsUI : MonoBehaviour {
     private void ShowBackgroundSelection()
     {
         Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
-        ClearOptionsViewPanel();
-
         string prefabPath = "Prefabs/MainMenu/Options/BackgroundSelectionViewPanel";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
         GameObject imageListParent = Instantiate(prefab, parentTransform);
@@ -74,8 +74,6 @@ public class OptionsUI : MonoBehaviour {
     private void ShowPlaymatSelection()
     {
         Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
-        ClearOptionsViewPanel();
-
         string prefabPath = "Prefabs/MainMenu/Options/PlaymatSelectionViewPanel";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
         GameObject imageListParent = Instantiate(prefab, parentTransform);

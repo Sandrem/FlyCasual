@@ -963,6 +963,33 @@ namespace SquadBuilderNS
             
         }
 
+        public static void ShowShipInformation()
+        {
+            GenericShip ship = (MainMenu.CurrentMainMenu.PreviousPanelName == "SelectPilotPanel") ? AllShips.Find(n => n.ShipName == CurrentShip).Instance : CurrentSquadBuilderShip.Instance;
+
+            Text shipNameText = GameObject.Find("UI/Panels/ShipInfoPanel/Content/LargerPanel/ShipTypeText").GetComponent<Text>();
+            shipNameText.text = ship.ShipInfo.ShipName;
+
+            Text sizeText = GameObject.Find("UI/Panels/ShipInfoPanel/Content/LargerPanel/ShipSizeText").GetComponent<Text>();
+            switch (ship.ShipInfo.BaseSize)
+            {
+                case BaseSize.Small:
+                    sizeText.text = "Small Ship";
+                    break;
+                case BaseSize.Medium:
+                    sizeText.text = "Medium Ship";
+                    break;
+                case BaseSize.Large:
+                    sizeText.text = "Large Ship";
+                    break;
+                default:
+                    break;
+            }
+
+            Text descriptionText = GameObject.Find("UI/Panels/ShipInfoPanel/Content/LargerPanel/ShipDescriptionText").GetComponent<Text>();
+            descriptionText.text = ship.ShipInfo.Description;
+        }
+
     }
 
     /// <summary>

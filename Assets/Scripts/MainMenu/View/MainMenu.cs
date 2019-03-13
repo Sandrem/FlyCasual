@@ -9,6 +9,7 @@ using Players;
 using Mods;
 using SquadBuilderNS;
 using Editions;
+using Ship;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -112,6 +113,9 @@ public partial class MainMenu : MonoBehaviour {
                 break;
             case "EditionPanel":
                 ShowActiveEdition(Options.Edition);
+                break;
+            case "ShipInfoPanel":
+                SquadBuilder.ShowShipInformation();
                 break;
         }
     }

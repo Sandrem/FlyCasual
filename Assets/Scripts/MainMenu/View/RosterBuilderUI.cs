@@ -10,20 +10,20 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void CopyToClipboard()
     {
-        GUIUtility.systemCopyBuffer = GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text;
+        GUIUtility.systemCopyBuffer = GameObject.Find("UI/Panels/ImportExportPanel/Content/InputField").GetComponent<InputField>().text;
         Messages.ShowInfo("Copied to clipboard");
     }
 
     public void PasteFromClipboard()
     {
-        GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text = GUIUtility.systemCopyBuffer;
+        GameObject.Find("UI/Panels/ImportExportPanel/Content/InputField").GetComponent<InputField>().text = GUIUtility.systemCopyBuffer;
     }
 
     public void Import()
     {
         SquadBuilder.CreateSquadFromImportedJson(
             "",
-            GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text,
+            GameObject.Find("UI/Panels/ImportExportPanel/Content/InputField").GetComponent<InputField>().text,
             SquadBuilder.CurrentPlayer,
             delegate { MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel"); }
         );

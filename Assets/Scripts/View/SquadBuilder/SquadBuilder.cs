@@ -675,8 +675,8 @@ namespace SquadBuilderNS
         {
             MainMenu.CurrentMainMenu.ChangePanel("ImportExportPanel");
 
-            GameObject.Find("UI/Panels/ImportExportPanel/InputField").GetComponent<InputField>().text = (isImport) ? "" : GetSquadInJson(CurrentPlayer).ToString();
-            GameObject.Find("UI/Panels/ImportExportPanel/ControlsPanel/ImportButton").SetActive(isImport);
+            GameObject.Find("UI/Panels/ImportExportPanel/Content/InputField").GetComponent<InputField>().text = (isImport) ? "" : GetSquadInJson(CurrentPlayer).ToString();
+            GameObject.Find("UI/Panels/ImportExportPanel/BottomPanel/ImportButton").SetActive(isImport);
         }
 
         private static List<JSONObject> GetSavedSquadsJsons()
@@ -705,7 +705,7 @@ namespace SquadBuilderNS
         {
             SetNoSavedSquadronsMessage(squadsJsonsList.Count == 0);
 
-            float FREE_SPACE = 10f;
+            float FREE_SPACE = 25;
 
             Transform contentTransform = GameObject.Find("UI/Panels/BrowseSavedSquadsPanel/Scroll View/Viewport/Content").transform;
 
@@ -714,14 +714,13 @@ namespace SquadBuilderNS
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/SavedSquadronPanel", typeof(GameObject));
 
             RectTransform contentRectTransform = contentTransform.GetComponent<RectTransform>();
-            Vector3 currentPosition = new Vector3(contentRectTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, contentTransform.localPosition.z);
+            Vector3 currentPosition = new Vector3(0, -FREE_SPACE, contentTransform.localPosition.z);
 
             foreach (var squadList in squadsJsonsList)
             {
                 GameObject SquadListRecord;
 
                 SquadListRecord = MonoBehaviour.Instantiate(prefab, contentTransform);
-                SquadListRecord.transform.localPosition = currentPosition;
 
                 SquadListRecord.transform.Find("Name").GetComponent<Text>().text = squadList["name"].str;
 
@@ -735,7 +734,7 @@ namespace SquadBuilderNS
 
                 SquadListRecord.GetComponent<RectTransform>().sizeDelta = new Vector2(
                     SquadListRecord.GetComponent<RectTransform>().sizeDelta.x,
-                    15 + 50 + 10 + descriptionPreferredHeight + 10 + 50 + 10
+                    15 + 70 + 10 + descriptionPreferredHeight + 10 + 55 + 10
                 );
 
                 SquadListRecord.name = squadList["filename"].str;
@@ -757,14 +756,15 @@ namespace SquadBuilderNS
                     totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
                 }
             }
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(0, totalHeight);
+            RectTransform contRect = contentTransform.GetComponent<RectTransform>();
+            contRect.sizeDelta = new Vector2(contRect.sizeDelta.x, totalHeight + 25);
 
-            totalHeight = 10;
+            totalHeight = 25;
             foreach (Transform transform in contentTransform)
             {
                 if (transform.name != "DestructionIsPlanned")
                 {
-                    transform.localPosition = new Vector2(10, -totalHeight);
+                    transform.localPosition = new Vector2(transform.localPosition.x, -totalHeight);
                     totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
                 }
             }

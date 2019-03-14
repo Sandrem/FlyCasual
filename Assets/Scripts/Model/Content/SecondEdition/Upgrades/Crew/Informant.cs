@@ -43,13 +43,15 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             Phases.Events.OnSetupStart += RegisterInformantAbility;
+            Phases.Events.OnSystemsPhaseStart += InformantRevealDial;
         }
 
         public override void DeactivateAbility()
         {
             Phases.Events.OnSetupStart -= RegisterInformantAbility;
+            Phases.Events.OnSystemsPhaseStart -= InformantRevealDial;
         }
-
+        
         private void RegisterInformantAbility()
         {
             Triggers.RegisterTrigger(new Trigger()
@@ -77,16 +79,6 @@ namespace Abilities.SecondEdition
         protected virtual void AssignListeningDevice()
         {
             TargetShip.Tokens.AssignCondition(typeof(ListeningDevice));
-            
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Informant target",
-                TriggerType = TriggerTypes.OnSystemsPhaseStart,
-                TriggerOwner = HostShip.Owner.PlayerNo,
-                EventHandler = InformantRevealDial,
-                Skippable = true
-            });
-            
             SelectShipSubPhase.FinishSelection();
         }
 
@@ -103,7 +95,7 @@ namespace Abilities.SecondEdition
             return result;
         }
         
-        private void InformantRevealDial(object Sender, System.EventArgs e)
+        private void InformantRevealDial()
         {
             // Listening Device: During the System Phase, if an enemy ship with the 
             // Informant upgrade is at range 0-2, flip your dial faceup.
@@ -125,7 +117,8 @@ namespace Conditions
     {
         public ListeningDevice(GenericShip host) : base(host)
         {
-            Name = "Informant Condition";
+            //Name = "Listening Device Condition";
+            Name = "Debuff Token";
             Temporary = false;
 
             Tooltip = "https://github.com/belk/xwing-data2-test/raw/listening-device/images/conditions/listening-device.png";

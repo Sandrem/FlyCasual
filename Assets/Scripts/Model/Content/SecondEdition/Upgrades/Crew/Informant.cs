@@ -32,8 +32,6 @@ namespace Abilities.SecondEdition
 {
     public class InformantAbility : GenericAbility
     {       
-        //GenericShip InformantTargetShip;
-
         protected virtual string Prompt
         {
             get
@@ -78,10 +76,8 @@ namespace Abilities.SecondEdition
 
         protected virtual void AssignListeningDevice()
         {
-            Messages.ShowInfo("Informant: " + TargetShip.PilotInfo.PilotName + " (" + TargetShip.ShipId + ") is selected");
-            TargetShip.Tokens.AssignCondition(new ListeningDevice(TargetShip));
-            /*
-            InformantTargetShip = TargetShip;
+            TargetShip.Tokens.AssignCondition(typeof(ListeningDevice));
+            
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Informant target",
@@ -90,7 +86,7 @@ namespace Abilities.SecondEdition
                 EventHandler = InformantRevealDial,
                 Skippable = true
             });
-            */
+            
             SelectShipSubPhase.FinishSelection();
         }
 
@@ -106,68 +102,18 @@ namespace Abilities.SecondEdition
             result = ship.State.Initiative;
             return result;
         }
-
-        /*
-        protected void SelectInformantTarget(object Sender, System.EventArgs e)
-        {
-            InformantDecisionSubPhase selectInformantTargetDecisionSubPhase = (InformantDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                Name,
-                typeof(InformantDecisionSubPhase),
-                Triggers.FinishTrigger
-            );
-
-            foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
-            {
-                selectInformantTargetDecisionSubPhase.AddDecision(
-                    enemyShip.Value.ShipId + ": " + enemyShip.Value.PilotInfo.PilotName,
-                    delegate { SelectTarget(enemyShip.Value); }
-                );
-            }
-
-            selectInformantTargetDecisionSubPhase.InfoText = "Informant: Select enemy ship";
-
-            GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
-            selectInformantTargetDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotInfo.PilotName;
-            selectInformantTargetDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
-
-            selectInformantTargetDecisionSubPhase.Start();
-        }
         
-        private void SelectTarget(GenericShip targetShip)
-        {
-            Messages.ShowInfo("Informant: " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ") is selected");
-
-            // Keep track of the target with a condition token
-            targetShip.Tokens.AssignCondition(typeof(Conditions.InformantCondition));
-            
-            // targetShip.OnSystemActivationStart += InformantRevealDial;
-            InformantTargetShip = targetShip;
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Informant target",
-                TriggerType = TriggerTypes.OnSystemsPhaseStart,
-                TriggerOwner = HostShip.Owner.PlayerNo,
-                EventHandler = InformantRevealDial,
-                Skippable = true
-            });
-
-            SubPhases.DecisionSubPhase.ConfirmDecision();
-        }
-        */
-        /*
         private void InformantRevealDial(object Sender, System.EventArgs e)
         {
             // Listening Device: During the System Phase, if an enemy ship with the 
             // Informant upgrade is at range 0-2, flip your dial faceup.
-            if (new BoardTools.DistanceInfo(HostShip, InformantTargetShip).Range < 3)
+            if (new BoardTools.DistanceInfo(HostShip, TargetShip).Range < 3)
             {
-                Messages.ShowInfo("Listening Device: " + InformantTargetShip.PilotInfo.PilotName + " flip your dial faceup");
-                Roster.ToggleManeuverVisibility(InformantTargetShip, true);
-                InformantTargetShip.AlwaysShowAssignedManeuver = true;
+                Messages.ShowInfo("Listening Device: " + TargetShip.PilotInfo.PilotName + " flip your dial faceup");
+                Roster.ToggleManeuverVisibility(TargetShip, true);
+                TargetShip.AlwaysShowAssignedManeuver = true;
             }
         }
-        */
-        protected class InformantDecisionSubPhase : SubPhases.DecisionSubPhase { }
     }
 }
 
@@ -184,16 +130,5 @@ namespace Conditions
 
             Tooltip = "https://github.com/belk/xwing-data2-test/raw/listening-device/images/conditions/listening-device.png";
         }
-        /*
-        public override void WhenAssigned()
-        {
-            // Host.OnActionIsPerformed_System += InformantRevealDial;
-        }
-        
-        public override void WhenRemoved()
-        {
-            // Host.OnActionIsPerformed_System -= InformantRevealDial;
-        }
-        */
     }
 }

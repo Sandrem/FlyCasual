@@ -88,6 +88,9 @@ namespace Ship
         public event EventHandlerFailedAction OnActionIsReadyToBeFailed;
         public event EventHandlerAction OnActionIsReallyFailed;
 
+        public event EventHandlerShipRefBool OnCanBeCoordinated;
+
+
         // ACTIONS
 
         public void GenerateAvailableActionsList()

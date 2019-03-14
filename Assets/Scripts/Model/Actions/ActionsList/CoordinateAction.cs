@@ -76,7 +76,7 @@ namespace SubPhases
             Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, false);
         }
 
-        private int GetAiCoordinatePriority(GenericShip ship)
+        public int GetAiCoordinatePriority(GenericShip ship)
         {
             int result = 0;
 
@@ -100,7 +100,7 @@ namespace SubPhases
                 && Board.CheckInRange(Selection.ThisShip, ship, 1, 2, RangeCheckReason.CoordinateAction);
         }
 
-        private void SelectCoordinateTarget()
+        public void SelectCoordinateTarget()
         {
             Selection.ThisShip.CallCoordinateTargetIsSelected(TargetShip, PerformCoordinateEffect);
         }
@@ -126,7 +126,7 @@ namespace SubPhases
             Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, (System.Action)delegate {
                 Selection.ThisShip = coordinatingShip;
                 ActionsHolder.CurrentAction = currentAction;
-                Phases.FinishSubPhase(typeof(CoordinateTargetSubPhase));
+                Phases.FinishSubPhase(this.GetType());
                 CallBack();
             });
         }

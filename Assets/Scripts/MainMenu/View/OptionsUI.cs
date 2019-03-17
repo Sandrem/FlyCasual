@@ -1,7 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
+using Upgrade;
 
 public class OptionsUI : MonoBehaviour {
 
@@ -46,6 +50,9 @@ public class OptionsUI : MonoBehaviour {
 
         switch (categoryGO.GetComponentInChildren<Text>().text)
         {
+            case "Avatar":
+                ShowAvatarSelection();
+                break;
             case "Player":
                 ShowPlayerView();
                 break;
@@ -120,6 +127,55 @@ public class OptionsUI : MonoBehaviour {
                 Options.Playmat = playmatName;
             });
         }
+    }
+
+    private void ShowAvatarSelection()
+    {
+        Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
+        string prefabPath = "Prefabs/MainMenu/Options/AvatarSelectionViewPanel";
+        GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+        GameObject imageListParent = Instantiate(prefab, parentTransform);
+        imageListParent.name = "AvatarSelectionViewPanel";
+
+        List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => String.Equals(t.Namespace, "UpgradesList.FirstEdition", StringComparison.Ordinal))
+            .ToList();
+
+        foreach (var type in typelist)
+        {
+            if (type.MemberType == MemberTypes.NestedType) continue;
+
+            GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
+            if (newUpgradeContainer.UpgradeInfo.Name != null)
+            {
+                //  && newUpgradeContainer.Avatar.AvatarFaction == CurrentAvatarsFaction
+                if (newUpgradeContainer.Avatar != null) AddAvailableAvatar(newUpgradeContainer);
+            }
+        }
+    }
+
+    private void AddAvailableAvatar(GenericUpgrade avatarUpgrade)
+    {
+        GameObject prefab = (GameObject)Resources.Load("Prefabs/MainMenu/AvatarImage", typeof(GameObject));
+        GameObject avatarPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel/AvatarSelectionViewPanel").transform);
+
+        avatarPanel.name = avatarUpgrade.GetType().ToString();
+
+        AvatarFromUpgrade avatar = avatarPanel.GetComponent<AvatarFromUpgrade>();
+        avatar.Initialize(avatarUpgrade.GetType().ToString(), ChangeAvatar);
+
+        /*if (avatarUpgrade.GetType().ToString() == Options.Avatar)
+        {
+            SetAvatarSelected(avatarPanel.transform.position);
+        }*/
+    }
+
+    private void ChangeAvatar(string avatarName)
+    {
+        Options.Avatar = avatarName;
+        Options.ChangeParameterValue("Avatar", avatarName);
+
+        // SetAvatarSelected(GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel/" + avatarName).transform.position);
     }
 
     private void ShowPlayerView()

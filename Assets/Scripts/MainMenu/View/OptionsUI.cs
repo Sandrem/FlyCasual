@@ -137,12 +137,17 @@ public class OptionsUI : MonoBehaviour {
         GameObject imageListParent = Instantiate(prefab, parentTransform);
         imageListParent.name = "AvatarSelectionViewPanel";
 
-        List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
+        /*List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
             .Where(t => String.Equals(t.Namespace, "UpgradesList.FirstEdition", StringComparison.Ordinal))
+            .ToList();*/
+
+        List<Type> typelist = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(t => String.Equals(t.Namespace, "UpgradesList.FirstEdition", StringComparison.Ordinal) || String.Equals(t.Namespace, "UpgradesList.SecondEdition", StringComparison.Ordinal))
             .ToList();
 
         foreach (var type in typelist)
         {
+
             if (type.MemberType == MemberTypes.NestedType) continue;
 
             GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);

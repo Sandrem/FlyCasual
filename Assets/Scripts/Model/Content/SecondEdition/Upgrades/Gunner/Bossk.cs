@@ -19,8 +19,6 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.BosskGunnerability),
                 seImageNumber: 139
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(47, 1));
         }        
     }
 }

@@ -68,6 +68,9 @@ public class OptionsUI : MonoBehaviour {
             case "Background":
                 ShowBackgroundSelection();
                 break;
+            case "Extra":
+                ShowExtraView();
+                break;
             default:
                 break;
         }
@@ -195,6 +198,17 @@ public class OptionsUI : MonoBehaviour {
         nameText.onEndEdit.AddListener(delegate { MainMenu.CurrentMainMenu.ChangeNickName(nameText.text); });
 
         panel.transform.Find("TitleInputPanel/InputField").GetComponent<InputField>().text = Options.Title;
+    }
+
+    private void ShowExtraView()
+    {
+        Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
+        string prefabPath = "Prefabs/MainMenu/Options/ExtraViewPanel";
+        GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+        GameObject panel = Instantiate(prefab, parentTransform);
+
+        // Foreach class in namespace
+        // Create panel with info and control of on/off mode
     }
 
     private void ShowViewSimple(string name)

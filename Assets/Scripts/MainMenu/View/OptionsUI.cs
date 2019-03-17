@@ -50,7 +50,10 @@ public class OptionsUI : MonoBehaviour {
                 ShowPlayerView();
                 break;
             case "Animations":
-                ShowAnimationsView();
+                ShowViewSimple("Animations");
+                break;
+            case "Sounds":
+                ShowViewSimple("Sounds");
                 break;
             case "Playmat":
                 ShowPlaymatSelection();
@@ -133,10 +136,10 @@ public class OptionsUI : MonoBehaviour {
         panel.transform.Find("TitleInputPanel/InputField").GetComponent<InputField>().text = Options.Title;
     }
 
-    private void ShowAnimationsView()
+    private void ShowViewSimple(string name)
     {
         Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
-        string prefabPath = "Prefabs/MainMenu/Options/AnimationsViewPanel";
+        string prefabPath = "Prefabs/MainMenu/Options/" + name + "ViewPanel";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
         GameObject panel = Instantiate(prefab, parentTransform);
     }

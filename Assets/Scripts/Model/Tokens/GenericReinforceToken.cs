@@ -32,7 +32,7 @@ namespace Tokens
             {
                 if (Editions.Edition.Current.ReinforceEffectCanBeUsed(Facing))
                 {
-                    Messages.ShowInfo("Reinforce: Evade result is added");
+                    Messages.ShowInfo("Reinforce has added an Evade result.");
                     diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
                     diceroll.OrganizeDicePositions();
                 }
@@ -47,12 +47,12 @@ namespace Tokens
                 if (Combat.DiceRollAttack.RegularSuccesses > 0)
                 {
                     dieSideToChange = DieSide.Success;
-                    Messages.ShowInfo("Reinforce: Hit is cancelled");
+                    Messages.ShowInfo("Reinforce has cancelled a Hit.");
                 }
                 else if (Combat.DiceRollAttack.CriticalSuccesses > 0)
                 {
                     dieSideToChange = DieSide.Crit;
-                    Messages.ShowInfo("Reinforce: Crit is cancelled");
+                    Messages.ShowInfo("Reinforce has cancelled a Critical Hit.");
                 }
                 Combat.DiceRollAttack.ChangeOne(dieSideToChange, DieSide.Blank);
             }

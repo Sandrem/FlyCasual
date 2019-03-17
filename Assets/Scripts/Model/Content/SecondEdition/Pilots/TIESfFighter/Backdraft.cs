@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
             {
                 if (HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Rear))
                 {
-                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 attack die");
+                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " gains +1 attack die.");
                     count++;
                 }
             }

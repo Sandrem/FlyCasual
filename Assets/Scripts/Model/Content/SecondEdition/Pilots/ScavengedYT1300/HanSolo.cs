@@ -86,7 +86,7 @@ namespace Abilities.SecondEdition
                 DistanceInfo distInfo = new DistanceInfo(HostShip, placedEnemyShip);
                 if (distInfo.Range <= 3)
                 {
-                    Messages.ShowError("Range to " + placedEnemyShip.PilotInfo.PilotName + " is " + distInfo.Range);
+                    Messages.ShowError("The range to " + placedEnemyShip.PilotInfo.PilotName + " is " + distInfo.Range);
                     return false;
                 }
             }

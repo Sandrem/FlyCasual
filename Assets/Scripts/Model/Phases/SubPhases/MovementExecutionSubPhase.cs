@@ -43,7 +43,7 @@ namespace SubPhases
             {
                 if (!Selection.ThisShip.CanPerformRedManeuversWhileStressed)
                 {
-                    Messages.ShowErrorToHuman("Red maneuver while stresses: Maneuver is changed to white straight 2");
+                    Messages.ShowErrorToHuman(Selection.ThisShip.PilotInfo.PilotName + " attempted to perform a red maneuver while stressed.  Their maneuver has been changed to white straight 2.");
                     Selection.ThisShip.SetAssignedManeuver(new StraightMovement(2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal));
                 }
             }

@@ -597,18 +597,18 @@ namespace SubPhases
 
             if (obstaclesStayDetectorBase.OverlapsShipNow)
             {
-                Messages.ShowError("Cannot overlap another ship");
+                Messages.ShowError("Barrel Roll would cause this ship to overlap another ship.");
                 failReasons.Add(ActionFailReason.Bumped);
             }
             else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBarrelRoll && !IsTractorBeamBarrelRoll
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
-                Messages.ShowError("Cannot overlap asteroid");
+                Messages.ShowError("Barrel Roll would cause this ship to overlap an obstacle.");
                 failReasons.Add(ActionFailReason.ObstacleHit);
             }
             else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
             {
-                Messages.ShowError("Cannot leave the battlefield");
+                Messages.ShowError("Barrel Roll would cause this ship to leave the battlefield.");
                 failReasons.Add(ActionFailReason.OffTheBoard);
             }
 

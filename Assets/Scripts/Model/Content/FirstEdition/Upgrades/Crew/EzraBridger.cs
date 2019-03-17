@@ -69,7 +69,7 @@ namespace ActionsList
             }
             else
             {
-                Messages.ShowErrorToHuman("Cannot use: not stressed");
+                Messages.ShowErrorToHuman("Ezra Bridger's ability cannot be used.  Ezra Bridger is not stressed.");
             }
             callBack();
         }

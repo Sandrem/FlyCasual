@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowError(HostUpgrade.UpgradeInfo.Name + ": No Force to spend");
+                Messages.ShowError(HostUpgrade.UpgradeInfo.Name + ": " + HostShip.PilotInfo.PilotName + " has no available Force to spend.");
                 callback(false);
             }
         }

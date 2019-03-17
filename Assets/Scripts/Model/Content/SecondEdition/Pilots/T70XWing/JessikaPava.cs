@@ -97,7 +97,7 @@ namespace ActionsList.SecondEdition
                 }
                 else
                 {
-                    Messages.ShowError("Error: No way to spend a charge");
+                    Messages.ShowError("Error: This ship has no available charges to spend.");
                 }
             }
 

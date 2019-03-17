@@ -68,11 +68,11 @@ namespace ActionsList
             Phases.Events.OnEndPhaseStart_NoTriggers += RemoveRageCondition;
 
             //Rage Condition for reroll dices on each attach during this round
-            Messages.ShowInfo("Rage: Condition assigned");
+            Messages.ShowInfo("Rage has been activated.");
             HostShip.Tokens.AssignCondition(typeof(Conditions.RageCondition));
 
             //Assigns one focus and two stress tokens
-            Messages.ShowInfo("Rage: Focus assigned");
+            Messages.ShowInfo("Rage has assigned a focus token to " + HostShip.PilotInfo.PilotName + ".");
             HostShip.Tokens.AssignToken(typeof(FocusToken), delegate { assignStressTokensRecursively(2); });
         }
 
@@ -84,7 +84,7 @@ namespace ActionsList
             if (tokens > 0)
             {
                 tokens--;
-                string message = (tokens == 0) ? "Rage: Second Stress assigned" : "Rage: First Stress assigned";
+                string message = (tokens == 0) ? "Rage has assigned " + HostShip.PilotName + " the second stress token." : "Rage has assigned" + HostShip.PilotName + " the first stress token.";
                 Messages.ShowInfo(message);
                 HostShip.Tokens.AssignToken(typeof(StressToken), delegate { assignStressTokensRecursively(tokens); });
             }

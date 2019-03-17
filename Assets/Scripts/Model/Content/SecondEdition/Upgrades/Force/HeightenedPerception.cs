@@ -68,7 +68,7 @@ namespace Abilities.SecondEdition
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Initiative is set to 7");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + "'s Initiative is set to 7.");
 
             HostShip.State.AddPilotSkillModifier(HostUpgrade as IModifyPilotSkill);
             Phases.Events.OnCombatPhaseEnd_NoTriggers += RestorePilotSkill;
@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
         {
             HostShip.State.RemovePilotSkillModifier(HostUpgrade as IModifyPilotSkill);
 
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Initiative is restored");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + "'s Initiative has been restored.");
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Abilities.FirstEdition
 
         private void UseSnapShotRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            Messages.ShowErrorToHuman("SnapShot: Unable to modify dice.");
+            Messages.ShowErrorToHuman("SnapShot's Ability: The target is unable to modify dice.");
             canBeUsed = false;
         }
 
@@ -125,10 +125,16 @@ namespace Abilities.FirstEdition
         private bool SnapShotAttackFilter(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = true;
-            if (defender != snapShotTarget || !(weapon.GetType() == HostUpgrade.GetType()))
+            if (defender != snapShotTarget)
             {
                 if (!isSilent) Messages.ShowErrorToHuman(
-                    string.Format("Snap Shot target must be {0}, using Snap Shot weapon", snapShotTarget.PilotInfo.PilotName));
+                    string.Format("Snap Shot's target must be {0}.", snapShotTarget.PilotInfo.PilotName));
+                result = false;
+            }
+            else if (!(weapon.GetType() == HostUpgrade.GetType()))
+            {
+                if (!isSilent) Messages.ShowErrorToHuman(
+                                    string.Format("This attack must use's Snap Shot's attack dice."));
                 result = false;
             }
 

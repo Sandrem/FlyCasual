@@ -143,7 +143,7 @@ public static partial class ActionsHolder
         }
         else
         {
-            Messages.ShowErrorToHuman("Target is out of range of Target Lock");
+            Messages.ShowErrorToHuman("The target is out of range of Target Lock.");
             failureCallback();
         }
     }
@@ -408,11 +408,11 @@ public static partial class ActionsHolder
         int range = distanceInfo.Range;
         if (range < 4)
         {
-            Messages.ShowInfo("Range " + range);
+            Messages.ShowInfo("Range to target: " + range);
         }
         else
         {
-            Messages.ShowError("Out of range");
+            Messages.ShowError("The target is beyond range 3.");
         }
         
         return distanceInfo.Range;

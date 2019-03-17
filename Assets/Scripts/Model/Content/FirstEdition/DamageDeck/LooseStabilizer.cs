@@ -29,7 +29,7 @@ namespace DamageDeckCardFE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("No stress after white maneuvers");
+            Messages.ShowInfo("The Loose Stabilizer has been locked down.  " + Host.PilotInfo.PilotName + " no longer receives 1 stress after performing a white maneuver.");
             Host.Tokens.RemoveCondition(typeof(Tokens.LooseStabilizerCritToken));
             Host.OnMovementFinish -= PlanStressAfterWhiteManeuvers;
             Host.OnGenerateActions -= CallAddCancelCritAction;
@@ -51,7 +51,7 @@ namespace DamageDeckCardFE
 
         private void StressAfterWhiteManeuvers(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Loose Stabilizer: Stress token is assigned");
+            Messages.ShowInfo("A Loose Stabilizer causes " + Host.PilotInfo.PilotName + " to receive a stress token.");
             UI.AddTestLogEntry("Loose Stabilizer: Stress token is assigned");
             Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }

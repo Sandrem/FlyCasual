@@ -29,7 +29,8 @@ namespace DamageDeckCardSE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("No more damage after non-straight maneuvers");
+            Messages.ShowInfo("The Loose Stabilizer has been locked down.  " + Host.PilotInfo.PilotName + " no longer takes damage after performing non-straight maneuvers.");
+           
             Host.Tokens.RemoveCondition(typeof(Tokens.LooseStabilizerSECritToken));
             Host.OnMovementFinish -= PlanDamageAfterNonStraightManeuvers;
             Host.OnGenerateActions -= CallAddCancelCritAction;
@@ -50,7 +51,7 @@ namespace DamageDeckCardSE
         {
             if (Host.GetLastManeuverBearing() != Movement.ManeuverBearing.Straight)
             {
-                Messages.ShowInfo("Loose Stabilizer: Suffer 1 damage on non-straight maneuver");
+                Messages.ShowInfo("A Loose Stabilizer causes " + Host.PilotInfo.PilotName + " to suffer 1 damage because they performed a non-straight maneuver.");
 
                 DamageSourceEventArgs looseDamage = new DamageSourceEventArgs()
                 {

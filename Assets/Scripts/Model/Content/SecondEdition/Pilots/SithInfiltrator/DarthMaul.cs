@@ -99,7 +99,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack an additional time.", HostShip.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }
@@ -108,14 +108,14 @@ namespace Abilities.SecondEdition
         {
             if (weapon.WeaponType != WeaponTypes.PrimaryWeapon)
             {
-                if (!isSilent) Messages.ShowError("Bonus attack must be a primary attack");
+                if (!isSilent) Messages.ShowError("Your bonus attack must be a primary weapon attack.");
                 return false;
             }
 
             if (!FirstAttackMissed && defender == OriginalDefender)
             {
 
-                if (!isSilent) Messages.ShowError("Bonus attack must be against a different target");
+                if (!isSilent) Messages.ShowError("Your bonus attack must be against a different target.");
                 return false;
             }
 

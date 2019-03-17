@@ -35,7 +35,7 @@ namespace DamageDeckCardFE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Pilot Skill is restored");
+            Messages.ShowInfo("Damaged Cockpit has been repaired.  " + Host.PilotInfo.PilotName + "'s Pilot Skill has been restored.");
 
             Host.Tokens.RemoveCondition(typeof(Tokens.DamagedCockpitCritToken));
             Host.State.RemovePilotSkillModifier(this);

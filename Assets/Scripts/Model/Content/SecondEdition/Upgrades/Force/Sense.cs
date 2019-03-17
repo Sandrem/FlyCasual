@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowInfo("No ships in range of ability");
+                Messages.ShowInfo("No ships is in range of Sense.");
             }
         }
 

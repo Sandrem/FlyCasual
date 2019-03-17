@@ -88,7 +88,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.Host.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack an additional time", HostShip.Host.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }
@@ -104,7 +104,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("Attack must be performed from Turret");
+                if (!isSilent) Messages.ShowError("This attack must be performed from a turret.");
             }
 
             return result;

@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
 
         private void MoveToReserve()
         {
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is moved to Reserve");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + "has been moved to the Reserve.");
             Roster.MoveToReserve(HostShip);
         }
 
@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             var subphase = Phases.StartTemporarySubPhaseNew<SetupShipMidgameSubPhase>(
                 "Setup",
                 delegate {
-                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is placed");
+                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has been placed.");
                     Triggers.FinishTrigger();
                 }
             );
@@ -65,7 +65,7 @@ namespace Abilities.SecondEdition
             subphase.ShipToSetup = HostShip;
             subphase.SetupSide = Direction.None;
             subphase.AbilityName = HostUpgrade.UpgradeInfo.Name;
-            subphase.Description = "Place yourself at range 0 of an obstacle and beyond range 3 of any enemy ship";
+            subphase.Description = "Place yourself at range 0 of an obstacle and beyond range 3 of any enemy ship.";
             subphase.ImageSource = HostUpgrade;
             subphase.SetupFilter = SetupFilter;
 
@@ -78,7 +78,7 @@ namespace Abilities.SecondEdition
 
             if (HostShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedAsteroids.Count == 0)
             {
-                Messages.ShowErrorToHuman("Cannot setup the ship:\nMust be placed on an asteroid");
+                Messages.ShowErrorToHuman("Boba Fett's Ability: Invalid location for this ship:\nThe ship must be placed at range 0 of an asteroid.");
                 return false;
             }
 
@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
                 DistanceInfo distInfo = new DistanceInfo(HostShip, enemyShip);
                 if (distInfo.Range < 4)
                 {
-                    Messages.ShowErrorToHuman("Cannot setup the ship:\nRange to " + enemyShip.PilotInfo.PilotName + " is " + distInfo.Range);
+                    Messages.ShowErrorToHuman("Boba Fett's Ability: Invalid location for this ship:\nThe range to " + enemyShip.PilotInfo.PilotName + " is " + distInfo.Range + ".  It must be beyond range 3.");
                     return false;
                 }
             }

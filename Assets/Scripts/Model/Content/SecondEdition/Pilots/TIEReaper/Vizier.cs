@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
 
         private void AskToPerformCoordinate(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("\"Vizier\" can perform a Coordinate action");
+            Messages.ShowInfo("\"Vizier\" can perform a Coordinate action.");
 
             RestrictedAbilityIsActivated = true;
             HostShip.OnActionIsPerformed += CheckActionRestriction;
@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
         {
             if (action is CoordinateAction && RestrictedAbilityIsActivated)
             {
-                Messages.ShowError("\"Vizier\" skips Perform Action step");
+                Messages.ShowError("\"Vizier\" skips their Perform Action step.");
                 HostShip.IsSkipsActionSubPhase = true;
             }
         }

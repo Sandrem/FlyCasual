@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
             LockedShip = GetLockedShip();
             if (LockedShip == null)
             {
-                Messages.ShowError("\"Dutch\" Vander: No Locked Object!");
+                Messages.ShowError("\"Dutch\" Vander doesn't have any locked targets!");
                 Triggers.FinishTrigger();
                 return;
             }
@@ -97,7 +97,7 @@ namespace Abilities.SecondEdition
 
         private void GetTargetLockOnSameTarget()
         {
-            Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " acquired Target Lock on " + LockedShip.PilotInfo.PilotName);
+            Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " acquired a Target Lock on " + LockedShip.PilotInfo.PilotName);
             ActionsHolder.AcquireTargetLock(TargetShip, LockedShip, SelectShipSubPhase.FinishSelection, SelectShipSubPhase.FinishSelection, ignoreRange: true);
         }
 

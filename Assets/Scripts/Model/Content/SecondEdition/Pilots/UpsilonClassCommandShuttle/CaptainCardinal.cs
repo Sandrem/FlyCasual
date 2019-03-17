@@ -82,7 +82,7 @@ namespace Abilities.SecondEdition
                 DistanceInfo distInfo = new DistanceInfo(HostShip, destroyedShip);
                 if (distInfo.Range < 4)
                 {
-                    Messages.ShowError(HostShip.PilotInfo.PilotName + ": Charge is lost");
+                    Messages.ShowError(HostShip.PilotInfo.PilotName + " has lost a charge token.");
                     HostShip.LoseCharge();
                 }
             }

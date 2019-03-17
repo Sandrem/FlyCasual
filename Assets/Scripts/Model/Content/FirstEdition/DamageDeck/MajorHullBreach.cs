@@ -28,7 +28,7 @@ namespace DamageDeckCardFE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Damage cards are dealt as usual");
+            Messages.ShowInfo("Damage cards are dealt as usual.");
             Host.Tokens.RemoveCondition(typeof(Tokens.MajorHullBreachCritToken));
 
             Host.OnCheckFaceupCrit -= DealDamageCardFaceup;

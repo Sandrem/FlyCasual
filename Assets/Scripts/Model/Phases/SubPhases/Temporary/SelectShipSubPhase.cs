@@ -169,14 +169,14 @@ namespace SubPhases
                             }
                             else
                             {
-                                Messages.ShowError("Cannot measure range before selection");
+                                Messages.ShowError("You cannot measure range before selecting another ship.");
                             }
                         }
                     }
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("This friendly ship cannot be selected");
+                    Messages.ShowErrorToHuman("You cannot select this friendly ship.");
                     CancelShipSelection();
                 }
             }
@@ -197,7 +197,7 @@ namespace SubPhases
                     }
                     else
                     {
-                        Messages.ShowErrorToHuman("This enemy ship cannot be selected");
+                        Messages.ShowErrorToHuman("You cannot select this enemy ship.");
                         CancelShipSelection();
                     }
                 }
@@ -209,7 +209,7 @@ namespace SubPhases
                     }
                     else
                     {
-                        Messages.ShowError("Cannot measure range before selection");
+                        Messages.ShowError("You cannot measure range before selecting another ship.");
                     }
                 }
             }
@@ -229,7 +229,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("Another ship should be selected");
+                Messages.ShowErrorToHuman("Please select a different ship.");
                 CancelShipSelection();
             }
         }

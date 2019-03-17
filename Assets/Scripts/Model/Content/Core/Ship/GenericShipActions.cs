@@ -687,7 +687,7 @@ namespace Ship
             {
                 if (action.IsRed)
                 {
-                    if (!isDefaultFailOverwritten) Messages.ShowError("Red action is failed: Stress token is assigned");
+                    if (!isDefaultFailOverwritten) Messages.ShowError("The attempted red action has failed. This ship gains a stress token.");
                     this.Tokens.AssignToken(
                         typeof(StressToken),
                         delegate
@@ -698,7 +698,7 @@ namespace Ship
                 }
                 else
                 {
-                    if (!isDefaultFailOverwritten) Messages.ShowError("Action is failed");
+                    if (!isDefaultFailOverwritten) Messages.ShowError("The attempted action has failed.");
                     CallResolveActionIsReallyFailed(action, isDefaultFailOverwritten, hasSecondChance);
                 }
             }

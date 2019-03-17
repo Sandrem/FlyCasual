@@ -85,7 +85,7 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
-            Messages.ShowErrorToHuman("Ship cannot be selected: Perform action first");
+            Messages.ShowErrorToHuman(ship.PilotName + " cannot be selected. Perform an action first.");
             return result;
         }
 
@@ -117,7 +117,7 @@ namespace SubPhases
             {
                 if (!DecisionWasPreparedAndShown)
                 {
-                    Messages.ShowErrorToHuman("Cannot perform any actions");
+                    Messages.ShowErrorToHuman("This ship cannot perform any actions.");
                     ActionsHolder.CurrentAction = null;
                     CallBack();
                 }
@@ -223,7 +223,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("Cannot perform any free actions");
+                Messages.ShowErrorToHuman(Selection.ThisShip.PilotInfo.PilotName + " cannot perform any free actions.");
                 Selection.ThisShip.IsFreeActionSkipped = true;
                 ActionsHolder.CurrentAction = null;
                 CallBack();

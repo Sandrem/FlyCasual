@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
             Selection.ChangeActiveShip(HostShip);
             Phases.CurrentSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You can spend 1 Force to perform an action");
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You may spend 1 Force to perform an action.");
 
             HostShip.BeforeFreeActionIsPerformed += SpendForce;
             HostShip.OnActionIsPerformed += RemoveSpendForce;

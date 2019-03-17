@@ -44,7 +44,7 @@ namespace Abilities.FirstEdition
         {
             if (Combat.ShotInfo.InArcByType(ArcType.Rear))
             {
-                Messages.ShowInfo("Defender is within auxiliary firing arc. Roll 1 additional attack die.");
+                Messages.ShowInfo("The defender is within Kath's auxiliary firing arc. Kath gains +1 attack die.");
                 diceNumber++;
             }
         }

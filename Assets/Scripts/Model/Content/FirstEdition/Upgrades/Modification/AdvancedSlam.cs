@@ -39,11 +39,11 @@ namespace Abilities.FirstEdition
             {
                 if (HostShip.IsBumped)
                 {
-                    Messages.ShowErrorToHuman("Overlapped another ship: Advanced SLAM is skipped");
+                    Messages.ShowErrorToHuman("SLAM maneuver overlapped another ship. Advanced SLAM action is skipped.");
                 }
                 else if (HostShip.IsHitObstacles)
                 {
-                    Messages.ShowErrorToHuman("Overlapped an obstacle: Advanced SLAM is skipped");
+                    Messages.ShowErrorToHuman("SLAM maneuver overlapped an obstacle. Advanced SLAM action is skipped.");
                 }
                 else
                 {

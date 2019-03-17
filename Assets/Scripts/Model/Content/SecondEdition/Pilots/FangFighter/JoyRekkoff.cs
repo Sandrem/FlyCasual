@@ -98,7 +98,7 @@ namespace Conditions
             {
                 AgilityWasDecreased = true;
 
-                Messages.ShowError("Joy Rekkoff: Agility is decreased");
+                Messages.ShowError("Joy Rekkoff causes " + Host.PilotInfo.PilotName + "'s Agility to be decreased by 1.");
                 Host.ChangeAgilityBy(-1);
             }
 
@@ -114,7 +114,7 @@ namespace Conditions
         {
             if (AgilityWasDecreased)
             {
-                Messages.ShowInfo("Agility is restored");
+                Messages.ShowInfo("Joy Rekkoff: " + Host.PilotInfo.PilotName + "'s Agility has been restored.");
                 Host.ChangeAgilityBy(+1);
             }
 

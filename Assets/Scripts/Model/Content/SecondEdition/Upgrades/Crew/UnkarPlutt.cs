@@ -63,7 +63,7 @@ namespace Abilities.SecondEdition
 
         private void SufferDamage(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Damage is suffered");
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " causes " + HostShip.PilotInfo.PilotName + " to suffer 1 Hit.");
 
             DamageSourceEventArgs damageArgs = new DamageSourceEventArgs
             {

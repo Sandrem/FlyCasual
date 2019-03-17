@@ -62,7 +62,7 @@ namespace ActionsList.FirstEdition
             //   but just in case ...
             if (HostShip.State.ShieldsCurrent > 0)
             {
-                Messages.ShowInfoToHuman(Name + ": losing one shield to reroll any number of dice");
+                Messages.ShowInfoToHuman("Inaldra is losing one shield to reroll any number of dice.");
                 HostShip.LoseShield();
                 // reroll dice
                 DiceRerollManager diceRerollManager = new DiceRerollManager
@@ -75,7 +75,7 @@ namespace ActionsList.FirstEdition
             else
             {
                 // should never happens, thanks to IsActionEffectAvailable...
-                Messages.ShowError(Name + ": no shield available, unable to use the ability.");
+                Messages.ShowError("Inaldra has no shields available and is unable to use her ability.");
                 callBack();
             }
         }

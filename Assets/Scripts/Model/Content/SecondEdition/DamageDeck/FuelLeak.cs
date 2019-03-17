@@ -51,7 +51,7 @@ namespace DamageDeckCardSE
 
         private void SufferAdditonalDamage(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Fuel Leak: Suffer 1 additional damage");
+            Messages.ShowInfo("Fuel Leak causes " + Host.PilotInfo.PilotName + " to suffer 1 additional Hit.");
 
             DamageSourceEventArgs fuelleakDamage = new DamageSourceEventArgs()
             {

@@ -29,7 +29,7 @@ namespace DamageDeckCardSE
         {
             if (!isCritical)
             {
-                Messages.ShowInfo("Hull Breach: Damage is suffered critical!");
+                Messages.ShowInfo("Due to a Hull Breach, the ship has suffered a Critical Hit instead of a normal Hit!");
                 isCritical = true;
             }
         }
@@ -38,7 +38,7 @@ namespace DamageDeckCardSE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Damage is suffered as usual");
+            Messages.ShowInfo("Hull Breach has been repaired.  Hits are no longer upgraded to Critical Hits against " + Host.PilotInfo.PilotName + ".");
             Host.Tokens.RemoveCondition(typeof(Tokens.HullBreachCritToken));
 
             Host.OnSufferDamageDecidingSeverity -= ChangeNormalDamageToCriticalDamage;

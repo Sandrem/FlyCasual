@@ -284,7 +284,7 @@ public static partial class Network
         }
         else
         {
-            Messages.ShowError("Create match failed");
+            Messages.ShowError("Match creation failed.");
 
             ToggleCreateMatchButtons(true);
         }
@@ -322,7 +322,7 @@ public static partial class Network
         }
         else
         {
-            Messages.ShowError("Cannot connect to match maker\nCheck network connection");
+            Messages.ShowError("Cannot connect to match maker.\nCheck your network connection.");
         }
     }
 
@@ -440,13 +440,13 @@ public static partial class Network
         {
             if (SelectedMatchSnapshot.isPrivate)
             {
-                Messages.ShowError("Cannot join match\nCheck password");
+                Messages.ShowError("Unable to join the match.\nThe password is invalid.");
                 ToggleJoinPrivateMatchButtons(true);
                 //ToggleBrowseRooms(true);
             }
             else
             {
-                Messages.ShowError("Cannot join match");
+                Messages.ShowError("Unable to join the match.");
                 BrowseMatches();
             }
         }

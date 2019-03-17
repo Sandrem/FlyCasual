@@ -66,6 +66,7 @@ public partial class MainMenu : MonoBehaviour {
                 break;
             case "OptionsPanel":
                 //Options.InitializePanel();
+                OptionsUI.Instance.InitializeOptionsPanel();
                 break;
             case "ModsPanel":
                 ModsManager.InitializePanel();

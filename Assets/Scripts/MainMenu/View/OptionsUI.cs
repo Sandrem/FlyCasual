@@ -5,7 +5,13 @@ using UnityEngine.UI;
 
 public class OptionsUI : MonoBehaviour {
 
-    public GameObject PlaymatSelector;
+    public GameObject PlaymatSelector { get; private set; }
+    public static OptionsUI Instance { get; private set; }
+
+    private void Start()
+    {
+        Instance = this;
+    }
 
     public void OnClickPlaymatChange(GameObject playmatImage)
     {
@@ -28,6 +34,11 @@ public class OptionsUI : MonoBehaviour {
         Options.InitializePanel();
     }
 
+    public void InitializeOptionsPanel()
+    {
+        CategorySelected(GameObject.Find("UI/Panels/OptionsPanel/Content/CategoriesPanel/PlayerButton"));
+    }
+
     public void CategorySelected(GameObject categoryGO)
     {
         ClearOptionsView();
@@ -35,6 +46,9 @@ public class OptionsUI : MonoBehaviour {
 
         switch (categoryGO.GetComponentInChildren<Text>().text)
         {
+            case "Player":
+                ShowPlayerView();
+                break;
             case "Playmat":
                 ShowPlaymatSelection();
                 break;
@@ -100,6 +114,20 @@ public class OptionsUI : MonoBehaviour {
                 Options.Playmat = playmatName;
             });
         }
+    }
+
+    private void ShowPlayerView()
+    {
+        Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
+        string prefabPath = "Prefabs/MainMenu/Options/PlayerViewPanel";
+        GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+        GameObject panel = Instantiate(prefab, parentTransform);
+
+        InputField nameText = panel.transform.Find("NameInputPanel/InputField").GetComponent<InputField>();
+        nameText.text = Options.NickName;
+        nameText.onEndEdit.AddListener(delegate { MainMenu.CurrentMainMenu.ChangeNickName(nameText.text); });
+
+        panel.transform.Find("TitleInputPanel/InputField").GetComponent<InputField>().text = Options.Title;
     }
 
     private void ClearOptionsView()

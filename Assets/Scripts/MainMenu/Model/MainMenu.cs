@@ -243,10 +243,10 @@ public partial class MainMenu : MonoBehaviour {
         selector.transform.position = position;
     }
 
-    public void ChangeNickName(Text inputText)
+    public void ChangeNickName(string text)
     {
-        Options.NickName = inputText.text;
-        Options.ChangeParameterValue("NickName", inputText.text);
+        Options.NickName = text;
+        Options.ChangeParameterValue("NickName", text);
     }
 
     public void ChangeTitle(Text inputText)

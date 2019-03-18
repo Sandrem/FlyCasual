@@ -11,7 +11,7 @@ namespace Ship
             public SarcoPlank() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Jakku Gunrunner",
+                    "Sarco Plank",
                     2,
                     34,
                     isLimited: true,

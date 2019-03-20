@@ -14,14 +14,11 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Jag\"",
                     3,
-                    50,
+                    49,
                     isLimited: true,
                     factionOverride: Faction.Republic,
-                    abilityType: typeof(Abilities.SecondEdition.JagAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.JagAbility)
                 );
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/06/ec/06ecf59a-74bb-425b-9b5e-0d90a76d3261/swz33_jag.png";
             }

@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R4-P44",
                 UpgradeType.Astromech,
-                cost: 0, //TODO
+                cost: 5, 
                 abilityType: typeof(Abilities.SecondEdition.R4P44Ability),
                 restriction: new FactionRestriction(Faction.Republic)
                 //seImageNumber: ?

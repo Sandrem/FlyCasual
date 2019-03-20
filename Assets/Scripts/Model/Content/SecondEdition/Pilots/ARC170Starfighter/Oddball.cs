@@ -13,14 +13,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"OddBall\"",
                     5,
-                    50,
+                    55,
                     isLimited: true,
                     factionOverride: Faction.Republic,
                     abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/ff/29/ff29970e-5ed7-416d-b5da-3918e226b3dc/swz33_odd-ball.png";
             }

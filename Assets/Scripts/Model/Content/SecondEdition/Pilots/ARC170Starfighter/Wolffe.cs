@@ -16,15 +16,13 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Wolffe\"",
                     4,
-                    50,
+                    51,
                     isLimited: true,
                     factionOverride: Faction.Republic,
                     abilityType: typeof(Abilities.SecondEdition.WolffeAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
                     charges: 1
                 );
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fb/ae/fbae3c90-c9bb-483a-a929-4381c205d416/swz33_wolffe.png";
             }

@@ -16,15 +16,13 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Synchronized Console",
                 UpgradeType.Modification,
-                cost: 0, //TODO
+                cost: 2,
                 restrictions: new UpgradeCardRestrictions(
                     new FactionRestriction(Faction.Republic), 
                     new ActionBarRestriction(typeof(TargetLockAction))),
                 abilityType: typeof(Abilities.SecondEdition.SynchronizedConsoleAbility)
                 //seImageNumber: ??
             );
-
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/dd/5a/dd5adbe7-cb13-4d42-8a81-211cd265c210/swz32_synchronized-console.png";
         }

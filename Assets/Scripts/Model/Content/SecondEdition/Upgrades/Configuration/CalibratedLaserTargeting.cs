@@ -19,7 +19,23 @@ namespace UpgradesList.SecondEdition
             );
             
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/4a/32/4a32d934-9d57-433c-8fb6-ce6c1cb52224/swz34_calibrated-laser-targeting.png";
-        }        
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
+            {
+                {0, 0},
+                {1, 0},
+                {2, 2},
+                {3, 4},
+                {4, 6},
+                {5, 8},
+                {6, 10}
+            };
+
+            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
+        }
     }
 }
 

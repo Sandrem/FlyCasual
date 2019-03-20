@@ -26,6 +26,7 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 ),
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
+                    UpgradeType.Missile,
                     UpgradeType.Modification
                 )
             );

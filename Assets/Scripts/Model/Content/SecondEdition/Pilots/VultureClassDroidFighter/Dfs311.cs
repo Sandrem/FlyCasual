@@ -12,13 +12,11 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
             PilotInfo = new PilotCardInfo(
                 "DFS-311",
                 1,
-                25,
+                24,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.Dfs311Ability),
                 pilotTitle: "Scouting Drone"
             );
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/07/b9/07b9dde5-0302-4c31-b54e-92ef136400b1/swz31_dfs-311.png";
         }

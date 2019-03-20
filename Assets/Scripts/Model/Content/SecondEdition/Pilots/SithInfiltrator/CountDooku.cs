@@ -16,15 +16,13 @@ namespace Ship.SecondEdition.SithInfiltrator
             PilotInfo = new PilotCardInfo(
                 "Count Dooku",
                 3,
-                64,
+                61,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.CountDookuPilotAbility),
                 pilotTitle: "Darth Tyranus",
                 force: 3,
                 extraUpgradeIcon: UpgradeType.Force
             );
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/3d/83/3d83b84f-e7d4-46b3-83ae-4d49245ae50d/swz30_count-dooku.png";
         }

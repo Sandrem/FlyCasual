@@ -54,11 +54,12 @@ namespace Abilities.SecondEdition
 
                 HostShip.BeforeFreeActionIsPerformed += SpendCharge;
 
+                var oldValue = HostShip.CanPerformActionsWhileStressed;
                 HostShip.CanPerformActionsWhileStressed = true;
                 List<GenericAction> actions = HostShip.GetAvailableActions();
                 HostShip.AskPerformFreeAction(actions, delegate
                 {
-                    HostShip.CanPerformActionsWhileStressed = false;
+                    HostShip.CanPerformActionsWhileStressed = oldValue;
                     HostShip.BeforeFreeActionIsPerformed -= SpendCharge;
                     Triggers.FinishTrigger();
                 });

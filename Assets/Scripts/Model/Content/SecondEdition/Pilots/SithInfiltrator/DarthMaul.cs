@@ -12,16 +12,14 @@ namespace Ship.SecondEdition.SithInfiltrator
             PilotInfo = new PilotCardInfo(
                 "Darth Maul",
                 5,
-                70,
+                65,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.DarthMaulPilotAbility),
                 pilotTitle: "Sith Assassin",
                 force: 3,
                 extraUpgradeIcon: UpgradeType.Force
             );
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
+            
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/35/d8/35d8295c-1018-4ed7-94a0-c0bff4e6fbbc/swz30_darth-maul.png";
         }
     }

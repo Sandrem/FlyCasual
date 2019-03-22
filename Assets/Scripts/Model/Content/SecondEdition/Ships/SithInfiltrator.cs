@@ -26,8 +26,12 @@ namespace Ship.SecondEdition.SithInfiltrator
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Modification,
+                    UpgradeType.Cannon,
                     UpgradeType.Crew,
-                    UpgradeType.TacticalRelay
+                    UpgradeType.Crew,
+                    UpgradeType.Bomb,
+                    UpgradeType.TacticalRelay,
+                    UpgradeType.Torpedo
                 )
             );
 

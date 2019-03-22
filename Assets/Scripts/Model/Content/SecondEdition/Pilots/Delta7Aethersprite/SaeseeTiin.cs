@@ -15,7 +15,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             PilotInfo = new PilotCardInfo(
                 "Saesee Tiin",
                 4,
-                58,
+                44,
                 true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.SaeseeTiinAbility),
@@ -23,8 +23,6 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             );
 
             ModelInfo.SkinName = "Saesee Tiin";
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/77/73/777350cb-614b-48fd-ad8d-d9c867053c6b/swz32_saesee-tiin.png";
         }

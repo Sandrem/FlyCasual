@@ -10,13 +10,11 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
             PilotInfo = new PilotCardInfo(
                 "DFS-081",
                 3,
-                29,
+                27,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.Dfs081Ability),
                 pilotTitle: "Preservation Programming"
             );
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b4/04/b4044057-fae9-4638-b758-14339c1ce98a/swz29_dfs-081.png";
         }

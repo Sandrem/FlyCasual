@@ -13,15 +13,13 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
             PilotInfo = new PilotCardInfo(
                 "Haor Chall Prototype",
                 1,
-                23,
+                24,
                 limited: 2,
                 abilityType: typeof(Abilities.SecondEdition.HaorChallPrototypeAbility),
                 pilotTitle: "Xi Char Offering"
             );
 
             ModelInfo.SkinName = "Gray";
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/04/05/0405890a-0f0a-444e-b9eb-8d92dbdf3d63/swz29_hadr-chall.png";
         }

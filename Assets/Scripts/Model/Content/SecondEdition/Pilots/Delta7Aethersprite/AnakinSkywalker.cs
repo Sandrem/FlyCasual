@@ -19,7 +19,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             PilotInfo = new PilotCardInfo(
                 "Anakin Skywalker",
                 6,
-                68,
+                60,
                 true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerAbility),
@@ -28,14 +28,14 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
             RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
-            ImageUrl = "https://i.imgur.com/MTqp3tr.jpg";
+            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/d60f4eca355471465ca3f6b99fb98e56.png";
         }
     }
 }
 
 namespace Abilities.SecondEdition
 {
-    // After you fully execute a maneuver, if you have an enemy ship in your primary arc at
+    // After you fully execute a maneuver, if there is an enemy ship in your front arc at
     // range 0-1 or in your bulls-eye arc, you may spend 1 force token to remove stress token.
     public class AnakinSkywalkerAbility : GenericAbility
     {

@@ -20,6 +20,15 @@ namespace Ship
         public bool CanPerformActionsWhenBumped { get; set; }
         public bool CanPerformRedManeuversWhileStressed { get; set; }
         public int CanLaunchBombsWithTemplate { get; set; }
+        public bool CanBeCoordinated
+        {
+            get
+            {
+                bool result = true;
+                if (OnCanBeCoordinated != null) OnCanBeCoordinated(this, ref result);
+                return result;
+            }
+        }
 
         public bool IsReadyToBeDestroyed { get; set; }
         public bool IsDestroyed { get; set; }

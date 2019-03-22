@@ -97,7 +97,8 @@ namespace SubPhases
         private bool FilterCoordinateTargets(GenericShip ship)
         {
             return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo
-                && Board.CheckInRange(Selection.ThisShip, ship, 1, 2, RangeCheckReason.CoordinateAction);
+                && Board.CheckInRange(Selection.ThisShip, ship, 1, 2, RangeCheckReason.CoordinateAction)
+                && ship.CanBeCoordinated;
         }
 
         private void SelectCoordinateTarget()

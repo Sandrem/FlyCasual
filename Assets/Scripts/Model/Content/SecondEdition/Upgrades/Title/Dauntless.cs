@@ -34,7 +34,7 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
-            HostShip.OnMovementFinishUnsuccessfully += RegisterAbility;
+            HostShip.OnMovementFinishUnsuccessfully -= RegisterAbility;
         }
 
         private void RegisterAbility(GenericShip ship)

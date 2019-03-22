@@ -35,7 +35,7 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
-            HostShip.OnSystemsAbilityActivation += RegisterAbilityTriggerByShip;
+            HostShip.OnSystemsAbilityActivation -= RegisterAbilityTriggerByShip;
         }
 
         private void RegisterAbilityTriggerByShip(GenericShip ship)

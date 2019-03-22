@@ -75,7 +75,7 @@ namespace Abilities.SecondEdition
                     {
                         if (Combat.Attacker.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye))
                         {
-                            Messages.ShowError("Bullseye: " + action.DiceModificationName + " cannot be used");
+                            Messages.ShowError("Bullseye ability: The defender cannot use " + action.DiceModificationName + ".");
                             canBeUsed = false;
                         }
                     }

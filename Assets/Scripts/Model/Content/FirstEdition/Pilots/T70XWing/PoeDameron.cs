@@ -60,7 +60,7 @@ namespace Abilities.FirstEdition
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("Cannot use ability - no Focus token");
+                    Messages.ShowErrorToHuman("This ability cannot be used.  The ship has no focus tokens.");
                 }
 
                 callBack();

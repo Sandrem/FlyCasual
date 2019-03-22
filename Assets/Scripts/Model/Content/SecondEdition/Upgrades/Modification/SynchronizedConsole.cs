@@ -100,7 +100,7 @@ namespace Abilities.SecondEdition
             {
                 HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), () =>
                 {
-                    Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " acquired Target Lock on " + Combat.Defender.PilotInfo.PilotName);
+                    Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " acquired a Target Lock on " + Combat.Defender.PilotInfo.PilotName);
                     ActionsHolder.AcquireTargetLock(TargetShip, Combat.Defender, SelectShipSubPhase.FinishSelection, SelectShipSubPhase.FinishSelection);
                 }, targetLock.Letter);
             }

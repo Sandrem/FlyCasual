@@ -93,7 +93,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman("Ability of Sabine Wren was already used!");
+                Messages.ShowErrorToHuman("Sabine Wren's ability has already been used!");
                 Triggers.FinishTrigger();
             }
         }

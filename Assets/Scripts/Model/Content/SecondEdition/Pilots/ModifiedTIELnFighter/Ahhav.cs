@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.Defender.ShipInfo.BaseSize > Combat.Attacker.ShipInfo.BaseSize)
             {
-                Messages.ShowInfo("Ahhav: +1 attack die");
+                Messages.ShowInfo("Ahhav is attacking a larger ship and gains +1 attack die.");
                 result++;
             }
         }

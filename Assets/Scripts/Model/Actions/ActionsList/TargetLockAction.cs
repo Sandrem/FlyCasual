@@ -40,13 +40,13 @@ namespace ActionsList
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("Cannot use current Target Lock on defender");
+                    Messages.ShowErrorToHuman("The attacker cannot use its current Target Lock on the defender.");
                     callBack();
                 }
             }
             else
             {
-                Messages.ShowErrorToHuman("No Target Lock on defender");
+                Messages.ShowErrorToHuman("The attacker has no Target Lock on the defender.");
                 callBack();
             }
         }

@@ -75,7 +75,7 @@ namespace SubPhases
         private void UseBobaFettCrewAbility(object sender, System.EventArgs e)
         {
             Sounds.PlayShipSound(GetRandomLine());
-            Messages.ShowInfo("Boba Fett is used");
+            Messages.ShowInfo("Boba Fett has been used");
             bobaFettUpgradeCard.TryDiscard(() =>
             {
                 var selectUpgradePhase = Phases.StartTemporarySubPhaseNew<BobaFettCrewUpgradeDecisionSubPhase>("Discard upgrade", ConfirmDecision);

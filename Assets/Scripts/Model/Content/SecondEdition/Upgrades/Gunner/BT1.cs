@@ -49,7 +49,7 @@ namespace UpgradesList.SecondEdition
 
                 if (result != true)
                 {
-                    Messages.ShowError("BT-1 cannot be in Imperial squad without Darth Vader");
+                    Messages.ShowError("BT-1 cannot be in an Imperial squad without Darth Vader.");
                 }
             }
 

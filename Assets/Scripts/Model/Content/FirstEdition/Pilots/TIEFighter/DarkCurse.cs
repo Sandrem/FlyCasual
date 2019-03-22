@@ -49,12 +49,12 @@ namespace Abilities.FirstEdition
         {
             if (action.TokensSpend.Contains(typeof(Tokens.FocusToken)))
             {
-                Messages.ShowErrorToHuman("Dark Curse: Cannot spend focus");
+                Messages.ShowErrorToHuman("Dark Curse's Ability: The target cannot spend focus.");
                 canBeUsed = false;
             }
             if (action.IsReroll)
             {
-                Messages.ShowErrorToHuman("Dark Curse: Cannot reroll");
+                Messages.ShowErrorToHuman("Dark Curse's Ability: The target cannot reroll.");
                 canBeUsed = false;
             }
         }

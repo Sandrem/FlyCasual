@@ -57,9 +57,9 @@ namespace RulesList
 
         private static void RemoveIonization(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Ship isn't ionized anymore");
-
             GenericShip ship = sender as GenericShip;
+            Messages.ShowInfo(ship.PilotInfo.PilotName + " isn't ionized anymore.");
+
             ship.ToggleIonized(false);
 
             ship.Tokens.RemoveAllTokensByType(

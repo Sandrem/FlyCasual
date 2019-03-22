@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
         {
             if (result == true)
             {
-                Messages.ShowInfo("Chewbacca: Crit is flipped facedown");
+                Messages.ShowInfo("Chewbacca flips a Critical Hit face-down.");
                 Sounds.PlayShipSound("Chewbacca");
                 result = false;
             }

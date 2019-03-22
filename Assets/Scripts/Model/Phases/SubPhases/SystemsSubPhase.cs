@@ -127,7 +127,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("Ship cannot be selected:\n Need " + RequiredPlayer + " and pilot skill " + RequiredPilotSkill);
+                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " cannot be selected:\n Selectable ships must be owned by " + RequiredPlayer + " and have a pilot skill of " + RequiredPilotSkill);
             }
             return result;
         }
@@ -145,7 +145,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship doesn't have any abilities to activate");
+                Messages.ShowErrorToHuman("This ship doesn't have any abilities to activate.");
             };
         }
 

@@ -50,7 +50,7 @@ namespace Abilities.SecondEdition
                 && Board.IsShipBetweenRange(HostShip, ship, 0, 1))
             {
                 allowed = false;
-                Messages.ShowInfo(string.Format("{0}'s Death Troopers prevent {1} from removing stress token!", HostShip.PilotInfo.PilotName, ship.PilotInfo.PilotName));
+                Messages.ShowInfo(string.Format("{0}'s Death Troopers prevent {1} from removing stress tokens!", HostShip.PilotInfo.PilotName, ship.PilotInfo.PilotName));
                 Sounds.PlayShipSound("DeathTrooper");
             }
         }

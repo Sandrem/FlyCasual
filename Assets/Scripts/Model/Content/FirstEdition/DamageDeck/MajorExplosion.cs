@@ -75,7 +75,7 @@ namespace SubPhases
 
         private void DealDamage()
         {
-            Messages.ShowInfo("Major Explosion: Suffer 1 additional critical damage");
+            Messages.ShowInfo("A Major Explosion causes " + Selection.ActiveShip.PilotInfo.PilotName + " to suffer an additional Critical Hit!");
 
             DamageSourceEventArgs majorexplosionDamage = new DamageSourceEventArgs()
             {
@@ -88,7 +88,7 @@ namespace SubPhases
 
         private void NoDamage()
         {
-            Messages.ShowInfo("No damage");
+            Messages.ShowInfo("No damage was dealt.");
             CallBack();
         }
     }

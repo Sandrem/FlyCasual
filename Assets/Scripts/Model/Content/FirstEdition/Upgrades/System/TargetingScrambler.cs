@@ -59,14 +59,14 @@ namespace Abilities.FirstEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostUpgrade.UpgradeInfo.Name,
-                "Choose another ship to assign \"Scrambled\" condition to it.\nYou will receive weapons disabled token.",
+                "Choose another ship to assign the \"Scrambled\" condition to.\nYou will receive a weapons disabled token.",
                 HostUpgrade
             );
         }
 
         private void AssignScrambledCondition()
         {
-            Messages.ShowInfo(string.Format("\"Scrambled\" condition is assigned to {0}", TargetShip.PilotInfo.PilotName));
+            Messages.ShowInfo(string.Format("The \"Scrambled\" condition is assigned to {0}", TargetShip.PilotInfo.PilotName));
 
             TargetShip.Tokens.AssignCondition(typeof(ScrambledCondition));
             TargetShip.OnTryAddAvailableDiceModification += UseDiceModificationRestriction;
@@ -90,7 +90,7 @@ namespace Abilities.FirstEdition
         {
             if (Combat.Defender.ShipId == HostShip.ShipId && Combat.ShotInfo.Range == 1)
             {
-                Messages.ShowInfoToHuman("Targeting Scrambler: All dice modifications are disabled");
+                Messages.ShowInfoToHuman("Targeting Scrambler: All dice modifications are disabled.");
                 canBeUsed = false;
             }
         }

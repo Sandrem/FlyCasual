@@ -28,7 +28,7 @@ namespace DamageDeckCardSE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Number of attack dice is restored");
+            Messages.ShowInfo("Weapons Failure has been repaired.  " + Host.PilotInfo.PilotName + "'s attack dice have been restored.");
 
             Host.Tokens.RemoveCondition(typeof(Tokens.WeaponsFailureSECritToken));
             Host.AfterGotNumberOfAttackDice -= ReduceNumberOfAttackDice;
@@ -37,7 +37,7 @@ namespace DamageDeckCardSE
 
         private void ReduceNumberOfAttackDice(ref int value)
         {
-            Messages.ShowInfo("Weapons Failure: Number of attack dice is reduced");
+            Messages.ShowInfo("Weapons Failure: " + Host.PilotInfo.PilotName + "'s attack dice have been reduced by 1.");
 
             value--;
         }

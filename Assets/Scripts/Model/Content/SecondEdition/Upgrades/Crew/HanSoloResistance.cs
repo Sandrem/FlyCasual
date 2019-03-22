@@ -59,7 +59,7 @@ namespace Abilities.SecondEdition
                 if (distanceInfo.Range <= 1) shipsInRangeCount++;
             }
 
-            if (shipsInRangeCount > 0) Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Gained additional " + shipsInRangeCount + " Evade token(s)");
+            if (shipsInRangeCount > 0) Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " caused " + HostShip.PilotInfo.PilotName + " to gain " + shipsInRangeCount + " Evade token(s).");
 
             HostShip.Tokens.AssignTokens(
                 () => new EvadeToken(HostShip),

@@ -28,7 +28,7 @@ namespace DamageDeckCardSE
         {
             if (Combat.AttackStep == CombatStep.Defence && Combat.Defender.ShipId == Host.ShipId)
             {
-                Messages.ShowInfo("Structural Damage: Roll one fewer defence die");
+                Messages.ShowInfo("Structural Damage causes " + Combat.Defender.PilotInfo.PilotName + " to roll one fewer defense die.");
                 dice--;
             }
         }

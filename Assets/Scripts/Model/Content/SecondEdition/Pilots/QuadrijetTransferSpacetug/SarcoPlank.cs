@@ -63,7 +63,7 @@ namespace Abilities.SecondEdition
 
         private void ChangeAgility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Agility is " + HostShip.AssignedManeuver.Speed);
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + "'s Agility is now " + HostShip.AssignedManeuver.Speed + ".");
 
             OriginalAgility = HostShip.State.Agility;
             HostShip.ChangeAgilityBy(HostShip.AssignedManeuver.Speed - HostShip.State.Agility);
@@ -77,7 +77,7 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnAttackFinishAsDefender -= RestoreOriginalAgility;
 
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Agility is " + OriginalAgility);
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + "'s Agility hass been restored to " + OriginalAgility + ".");
             HostShip.ChangeAgilityBy(OriginalAgility - HostShip.AssignedManeuver.Speed);
         }
     }

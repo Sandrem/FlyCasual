@@ -67,7 +67,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman("Special Ops Training ability has already been used");
+                Messages.ShowErrorToHuman("Special Ops Training ability has already been used.");
                 Triggers.FinishTrigger();
             }
         }
@@ -91,7 +91,7 @@ namespace Abilities.FirstEdition
         private void RollExtraDice(ref int count)
         {
             count++;
-            Messages.ShowInfo("TieSF rolls extra die from primary arc");
+            Messages.ShowInfo("Tie/SF rolls an extra die since it is attacking from its primary arc.");
             HostShip.AfterGotNumberOfAttackDice -= RollExtraDice;
         }
 

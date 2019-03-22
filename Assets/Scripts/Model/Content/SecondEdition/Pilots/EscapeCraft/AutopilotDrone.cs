@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
 
         private void LoseCharge(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Autopilot Drone: Charge is lost");
+            Messages.ShowInfo("Autopilot Drone loses 1 charge.");
             HostShip.RemoveCharge(Triggers.FinishTrigger);
         }
 

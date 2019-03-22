@@ -9,7 +9,7 @@ namespace RulesList
         {
             if (Combat.ShotInfo.IsObstructedByAsteroid && !Combat.Attacker.IsIgnoreObstacleObstructionWhenAttacking)
             {
-                Messages.ShowInfo("Obstruction bonus: +1 defence die");
+                Messages.ShowInfo("The attack is obstructed, giving the defender +1 defense die.");
                 result++;
             }
         }

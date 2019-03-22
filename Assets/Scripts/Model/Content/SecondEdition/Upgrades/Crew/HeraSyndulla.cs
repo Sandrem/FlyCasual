@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.Tokens.CountTokensByType<StressToken>() >= 3)
             {
-                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Stress token is removed, damage is suffered");
+                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " removes 1 stress from " + HostShip.PilotInfo.PilotName + " at the cost of 1 damage.");
                 HostShip.Tokens.RemoveToken(typeof(StressToken), SufferDamage);
             }
             else

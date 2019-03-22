@@ -63,7 +63,7 @@ namespace Abilities.SecondEdition
                 GenericShip shipToAssignStress = shipsToAssignStress.First();
                 shipsToAssignStress.Remove(shipToAssignStress);
 
-                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Stress token is assigned to " + shipToAssignStress.PilotInfo.PilotName);
+                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + "assigns a stress token to " + shipToAssignStress.PilotInfo.PilotName + ".");
                 shipToAssignStress.Tokens.AssignToken(
                     typeof(StressToken),
                     delegate { AssignStressRecursive(shipsToAssignStress); }

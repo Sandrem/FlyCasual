@@ -166,6 +166,7 @@ public static class Selection {
     {
         DeselectThisShip();
         ThisShip = genShip;
+
         ChangeActiveShipUsingThisShip ();
     }
 

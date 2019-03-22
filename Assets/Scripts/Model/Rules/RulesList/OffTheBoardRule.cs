@@ -45,7 +45,7 @@ namespace RulesList
         {
             GenericShip ship = sender as GenericShip;
 
-            Messages.ShowError("Ship left the play area and was destroyed!");
+            Messages.ShowError(ship.PilotInfo.PilotName + " left the play area and was destroyed!");
             ship.DestroyShipForced(Triggers.FinishTrigger, true);
         }
 

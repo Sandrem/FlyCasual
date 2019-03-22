@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Assign tractor beam to " + ship.PilotInfo.PilotName,
+                    Name = "Assign a tractor beam token to " + ship.PilotInfo.PilotName,
                     TriggerType = TriggerTypes.OnCombatPhaseStart,
                     TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = delegate { AssignTractorBeamToken(ship); }
@@ -59,7 +59,7 @@ namespace Abilities.FirstEdition
         protected void AssignTractorBeamToken(GenericShip bumpedShip)
         {
             Selection.ChangeActiveShip(HostShip);
-            Messages.ShowError(HostShip.PilotInfo.PilotName + " assigns Tractor Beam Token\nto " + bumpedShip.PilotInfo.PilotName);
+            Messages.ShowError(HostShip.PilotInfo.PilotName + " assigns a Tractor Beam Token\nto " + bumpedShip.PilotInfo.PilotName);
 
             bumpedShip.Tokens.AssignToken(new Tokens.TractorBeamToken(bumpedShip, HostShip.Owner), Triggers.FinishTrigger);
         }

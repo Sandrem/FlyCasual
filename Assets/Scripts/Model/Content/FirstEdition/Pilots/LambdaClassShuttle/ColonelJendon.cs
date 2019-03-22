@@ -116,7 +116,7 @@ namespace Abilities.FirstEdition
         {
             if (TargetShip.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
             {
-                Messages.ShowErrorToHuman("Only ships without blue target lock tokens can be selected");
+                Messages.ShowErrorToHuman("Only ships without blue target lock tokens can be selected.");
                 return;
             }
 

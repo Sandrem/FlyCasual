@@ -82,7 +82,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Messages.ShowInfo("Lightweight Frame - additional die rolled");
+            Messages.ShowInfo("Lightweight Frame gives this ship 1 additional defense die.");
             DiceRoll.CurrentDiceRoll.RollInDice(callBack);
         }
     }

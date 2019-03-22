@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ArcForShot.ArcType != Arcs.ArcType.Front)
             {
-                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 attack die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is attacking with a non-front-arc attack and gains +1 attack die.");
                 diceCount++;
             }
         }

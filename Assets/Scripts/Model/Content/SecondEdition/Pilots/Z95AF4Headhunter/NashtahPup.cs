@@ -38,7 +38,7 @@ namespace Ship
                     }
                 }
 
-                Messages.ShowError("You need YV-666 ship with Hound's Tooth title\nto use Nashtah Pup in squad");
+                Messages.ShowError("You need YV-666 ship with the Hound's Tooth title\nto use Nashtah Pup in a squad.");
                 return false;
             }
         }

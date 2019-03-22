@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You can perform free Red Focus action");
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You may perform a free Red Focus action.");
 
             HostShip.AskPerformFreeAction(new FocusAction() { Color = ActionColor.Red }, Triggers.FinishTrigger);
         }

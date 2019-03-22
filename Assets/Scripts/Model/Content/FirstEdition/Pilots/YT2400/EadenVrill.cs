@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
         private void RollExtraDice(ref int count)
         {
             count++;
-            Messages.ShowInfo("Defender is stressed. Roll 1 additional attack die.");
+            Messages.ShowInfo("The defender is stressed. The attacker rolls 1 additional attack die.");
             HostShip.AfterGotNumberOfAttackDice -= RollExtraDice;
         }
     }

@@ -98,7 +98,7 @@ namespace Abilities.FirstEdition
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            Messages.ShowInfo(string.Format("{0} : all Focus, Evade and Target Lock tokens reassigned to {1}", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
+            Messages.ShowInfo(string.Format("{0}: all Focus, Evade and Target Lock tokens have been reassigned to {1}.", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
 
             ManarooTokens = new List<GenericToken>(HostShip.Tokens.GetAllTokens());
             ReassignTokensRecursive();

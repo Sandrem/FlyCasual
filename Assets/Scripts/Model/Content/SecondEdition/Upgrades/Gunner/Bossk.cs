@@ -95,9 +95,14 @@ namespace Abilities.SecondEdition
             {
                 return true;
             }
+            else if(weapon.WeaponType != WeaponTypes.PrimaryWeapon)
+            {
+                Messages.ShowError("Bossk's bonus attack must be performed using Bossk's primary weapon.");
+                return false;
+            }
             else
             {
-                Messages.ShowError("Bossk bonus attack must be performed with a primary weapon and be the same target.");
+                Messages.ShowError("Bossk's bonus attack must target " + ship.PilotInfo.PilotName + ".");
                 return false;
             }
         }

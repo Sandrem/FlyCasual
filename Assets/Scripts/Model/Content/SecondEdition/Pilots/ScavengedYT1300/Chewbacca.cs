@@ -98,7 +98,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot preform a second bonus attack", HostShip.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot preform a second bonus attack.", HostShip.PilotInfo.PilotName));
                 CleanupBonusAttack();
             }
         }

@@ -88,13 +88,13 @@ namespace SubPhases
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
-            Messages.ShowError("Select an obstacle");
+            Messages.ShowError("Select an obstacle.");
             return false;
         }
 
         public override bool AnotherShipCanBeSelected(GenericShip targetShip, int mouseKeyIsPressed)
         {
-            Messages.ShowError("Select an obstacle");
+            Messages.ShowError("Select an obstacle.");
             return false;
         }
 
@@ -137,7 +137,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowError("This obstacle cannot be selected");
+                Messages.ShowError("This obstacle cannot be selected.");
             }
         }
 

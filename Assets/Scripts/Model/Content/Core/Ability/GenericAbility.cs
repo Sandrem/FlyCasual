@@ -632,7 +632,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowErrorToHuman("0 dice can be rerolled");
+                Messages.ShowErrorToHuman("No dice are eligible to be rerolled.");
                 callback();
             }
         }
@@ -698,7 +698,7 @@ namespace Abilities
             var damage = args.IsCritical ? 0 : args.Damage;
             var critDamage = args.IsCritical ? args.Damage : 0;
 
-            Messages.ShowInfo(ship.PilotInfo.PilotName + " is dealt " + (args.IsCritical ? "Critical " : "")  + "Hit by " + HostName);
+            Messages.ShowInfo(ship.PilotInfo.PilotName + " has been dealt a " + (args.IsCritical ? "Critical " : "")  + "Hit by " + HostName);
 
             DamageSourceEventArgs damageArgs = new DamageSourceEventArgs()
             {

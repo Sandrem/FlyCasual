@@ -165,14 +165,14 @@ namespace SubPhases
             {
                 if (ship.IsAttackPerformed)
                 {
-                    Messages.ShowErrorToHuman("Ship cannot be selected:\nShip already performed attack");
+                    Messages.ShowErrorToHuman("This ship cannot be selected:\nIt has already performed an attack.");
                     return result;
                 }
                 result = true;
             }
             else
             {
-                Messages.ShowErrorToHuman("Ship cannot be selected:\nRequires Player " + Tools.PlayerToInt(RequiredPlayer) + " and Initiative " + RequiredPilotSkill);
+                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " cannot be selected.  \nThe ship must be owned by " + Tools.PlayerToInt(RequiredPlayer) + " and have an initiative of " + RequiredPilotSkill);
             }
 
             return result;
@@ -203,7 +203,7 @@ namespace SubPhases
             Triggers.RegisterTrigger(
                 new Trigger()
                 {
-                    Name = "Select target for attack",
+                    Name = "Select a target to attack.",
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnSelectTargetForAttackStart_System,
                     EventHandler = StartSelectTarget
@@ -246,12 +246,12 @@ namespace SubPhases
                     }
                     else
                     {
-                        Messages.ShowErrorToHuman("Ship cannot be selected as attack target: Friendly ship");
+                        Messages.ShowErrorToHuman(targetShip.PilotInfo.PilotName + " cannot be selected as a target. It is a friendly ship.");
                     }
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("Ship cannot be selected as attack target:\nFirst select attacker");
+                    Messages.ShowErrorToHuman(targetShip.PilotInfo.PilotName + " cannot be selected as a target.\nFirst select the attacking ship.");
                 }
             }
             return result;
@@ -271,7 +271,7 @@ namespace SubPhases
                     }
                     else
                     {
-                        Messages.ShowErrorToHuman("Your ship already has attacked");
+                        Messages.ShowErrorToHuman("This ship already has attacked.");
                     }
                 }
             }
@@ -380,7 +380,7 @@ namespace SubPhases
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("Your ship already has attacked");
+                    Messages.ShowErrorToHuman("This ship already has attacked.");
                 }
             }
             else if (mouseKeyIsPressed == 2)

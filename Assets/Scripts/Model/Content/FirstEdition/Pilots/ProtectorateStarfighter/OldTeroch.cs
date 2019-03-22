@@ -113,13 +113,13 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowError(HostShip.PilotInfo.PilotName + " is not within " + TargetShip.PilotInfo.PilotName + " firing arc.");
+                Messages.ShowError(HostShip.PilotInfo.PilotName + " is not within " + TargetShip.PilotInfo.PilotName + "'s firing arc.");
             }
         }
 
         protected virtual void DiscardTokens()
         {
-            Messages.ShowInfo(string.Format("{0} discarded all Focus and Evade tokens from {1}", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
+            Messages.ShowInfo(string.Format("{0} discarded all Focus and Evade tokens from {1}.", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
             DiscardAllFocusTokens();
         }
 

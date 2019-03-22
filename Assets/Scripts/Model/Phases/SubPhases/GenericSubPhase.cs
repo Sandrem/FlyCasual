@@ -82,7 +82,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("Ship cannot be selected:\n Need " + Phases.CurrentSubPhase.RequiredPlayer + " and pilot skill " + Phases.CurrentSubPhase.RequiredPilotSkill);
+                Messages.ShowErrorToHuman(ship.PilotName + " cannot be selected.\n The ship must be owned by " + Phases.CurrentSubPhase.RequiredPlayer + " and have a pilot skill of " + Phases.CurrentSubPhase.RequiredPilotSkill);
             }
             return result;
         }
@@ -90,7 +90,7 @@ namespace SubPhases
         public virtual bool AnotherShipCanBeSelected(GenericShip targetShip, int mouseKeyIsPressed)
         {
             bool result = false;
-            Messages.ShowErrorToHuman("Ship of another player");
+            Messages.ShowErrorToHuman(targetShip.PilotName + "is owned by another player!");
             return result;
         }
 

@@ -91,7 +91,7 @@ namespace Abilities.FirstEdition
 
         private void UnSuccessfullSelection()
         {
-            Messages.ShowErrorToHuman("Cannot aquire Target Lock");
+            Messages.ShowErrorToHuman("Unable to acquire Target Lock.");
         }
     }
 }

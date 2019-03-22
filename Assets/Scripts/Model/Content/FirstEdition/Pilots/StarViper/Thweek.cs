@@ -120,7 +120,7 @@ namespace Abilities.FirstEdition
             {
                 if (!ability.IsAppliesConditionCard)
                 {
-                    Messages.ShowInfo("Ability of " + targetShip.PilotInfo.PilotName + " is mimicked");
+                    Messages.ShowInfo(targetShip.PilotInfo.PilotName + "'s ability has been mimicked!");
 
                     HostShip.PilotAbilities.Add((GenericAbility)Activator.CreateInstance(ability.GetType()));
                     HostShip.PilotAbilities[1].Initialize(HostShip);
@@ -133,7 +133,7 @@ namespace Abilities.FirstEdition
 
             if (!abilityIsFound)
             {
-                Messages.ShowError(targetShip.PilotInfo.PilotName + " doesn't have abilities to be mimicked");
+                Messages.ShowError(targetShip.PilotInfo.PilotName + " doesn't have abilities to be mimicked.");
             }
             targetShip.Tokens.AssignCondition(typeof(Conditions.Mimicked));
             DecisionSubPhase.ConfirmDecision();
@@ -141,7 +141,7 @@ namespace Abilities.FirstEdition
 
         private void Shadowed(GenericShip targetShip)
         {
-            Messages.ShowInfo("Pilot skill of " + targetShip.PilotInfo.PilotName + " is shadowed");
+            Messages.ShowInfo("The Pilot skill of " + targetShip.PilotInfo.PilotName + " is shadowed.");
             new ThweekPilotSkillModifier(HostShip, targetShip.State.Initiative);
             targetShip.Tokens.AssignCondition(typeof(Conditions.Shadowed));
             DecisionSubPhase.ConfirmDecision();

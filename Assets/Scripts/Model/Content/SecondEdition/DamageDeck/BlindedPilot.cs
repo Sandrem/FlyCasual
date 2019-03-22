@@ -40,7 +40,7 @@ namespace DamageDeckCardSE
 
             Host.OnTryAddAvailableDiceModification -= RestrictActionEffectsToForceOnly;
             Host.OnGenerateActions -= CallAddCancelCritAction;
-            Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can fully modify attacks");
+            Messages.ShowInfo(Host.PilotInfo.PilotName + " is no longer Blinded and may fully modify their attacks.");
             Host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotSECritToken));            
         }         
     }

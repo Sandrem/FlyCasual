@@ -147,7 +147,7 @@ namespace SubPhases
 
                     if (priority > 10)
                     {
-                        Messages.ShowInfo("AI decides to use Commander Malarus ability");
+                        Messages.ShowInfo("The AI decides to use Commander Malarus' ability.");
                         result = true;
                     }
                 }

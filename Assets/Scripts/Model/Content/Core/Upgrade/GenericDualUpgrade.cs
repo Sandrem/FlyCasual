@@ -49,7 +49,7 @@ namespace Upgrade
 
         public void Flip(Action<GenericDualUpgrade> callback = null)
         {
-            Messages.ShowInfo(string.Format("{0} was flipped", UpgradeInfo.Name));
+            Messages.ShowInfo(string.Format("{0} was flipped.", UpgradeInfo.Name));
             Discard(() => SetAnotherSide(callback));
         }
 

@@ -80,7 +80,7 @@ namespace Abilities.SecondEdition
 
         private void DoPseudoBoost(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Resolve Boost as maneuver");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is resolving Boost as a maneuver.");
 
             SavedManeuver = HostShip.AssignedManeuver;
 

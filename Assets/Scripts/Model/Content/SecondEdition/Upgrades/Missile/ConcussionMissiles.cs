@@ -79,7 +79,7 @@ namespace Abilities.SecondEdition
                 {
                     Triggers.RegisterTrigger(new Trigger()
                     {
-                        Name = "Concussion Missile exposes damage card",
+                        Name = "Concussion Missile exposes a damage card",
                         TriggerType = TriggerTypes.OnAbilityDirect,
                         TriggerOwner = Combat.Defender.Owner.PlayerNo,
                         EventHandler = delegate {

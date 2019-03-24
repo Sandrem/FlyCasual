@@ -22,7 +22,7 @@ namespace SubPhases
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressSkip }; } }
 
         protected List<TargetTypes> targetsAllowed = new List<TargetTypes>();
-        protected int minRange = 1;
+        protected int minRange = 0;
         protected int maxRange = 3;
 
         public bool CanMeasureRangeBeforeSelection = true;

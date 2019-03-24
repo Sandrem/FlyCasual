@@ -102,6 +102,10 @@ namespace BoardTools
                 if (Weapon.WeaponInfo.ArcRestrictions.Count > 0 && !Weapon.WeaponInfo.ArcRestrictions.Contains(arc.ArcType))
                     continue;
 
+                //Ship cannot shoot from bullseye arc if this is not mentioned in weapon restrictions
+                if (arc.ArcType == ArcType.Bullseye && !Weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.Bullseye))
+                    continue;
+
                 bool result = shotInfoArc.IsShotAvailable;
                 if (arc.ArcType == ArcType.Bullseye) Ship1.CallOnBullseyeArcCheck(Ship2, ref result);
 

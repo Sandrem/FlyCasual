@@ -96,6 +96,8 @@ namespace Abilities.SecondEdition
     //After you fully execute a maneuver, you may spend 1 force to perform a barrel roll or boost action.
     public class FineTunedControlsAbility : GenericAbility
     {
+        public override string Name { get { return "Fine Tuned Controls"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnMovementFinish += RegisterTrigger;

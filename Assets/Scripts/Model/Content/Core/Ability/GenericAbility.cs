@@ -12,7 +12,7 @@ namespace Abilities
 {
     public abstract class GenericAbility
     {
-        public string Name { get; private set; }
+        public virtual string Name { get; private set; }
 
         /// <summary>
         /// Set to true if ability applies condition card. Is checked by Thweek.
@@ -86,7 +86,7 @@ namespace Abilities
         {
             HostReal = hostShip;
             HostShip = hostShip;
-            Name = HostShip.PilotInfo.PilotName + "'s ability";
+            Name = Name ?? HostShip.PilotInfo.PilotName + "'s ability";
 
             ActivateAbilityForSquadBuilder();
         }
@@ -96,7 +96,7 @@ namespace Abilities
             HostReal = hostUpgrade;
             HostShip = hostUpgrade.HostShip;
             HostUpgrade = hostUpgrade;
-            Name = hostUpgrade.UpgradeInfo.Name + "'s ability";
+            Name = Name ?? hostUpgrade.UpgradeInfo.Name + "'s ability";
 
             ActivateAbilityForSquadBuilder();
         }

@@ -404,7 +404,7 @@ namespace Abilities
             Add
         }
 
-        private GenericShip.EventHandlerShip DiceModification;
+        private List<Action> DiceModificationRemovers = new List<Action>();
 
         /// <summary>
         /// Adds available dice modification
@@ -463,7 +463,7 @@ namespace Abilities
         {
             if (sidesCanBeSelected == null) sidesCanBeSelected = new List<DieSide>() { DieSide.Blank, DieSide.Focus, DieSide.Success, DieSide.Crit };
 
-            DiceModification = (ship) =>
+            GenericShip.EventHandlerShip DiceModification = (ship) =>
             {
                 CustomDiceModification diceModification = new CustomDiceModification()
                 {
@@ -505,22 +505,26 @@ namespace Abilities
                 };
                 ship.AddAvailableDiceModification(diceModification);
             };
-
+            
             if (!isGlobal)
             {
                 switch (timing)
                 {
                     case DiceModificationTimingType.AfterRolled:
                         HostShip.OnGenerateDiceModificationsAfterRolled += DiceModification;
+                        DiceModificationRemovers.Add(() => HostShip.OnGenerateDiceModificationsAfterRolled -= DiceModification);
                         break;
                     case DiceModificationTimingType.Normal:
                         HostShip.OnGenerateDiceModifications += DiceModification;
+                        DiceModificationRemovers.Add(() => HostShip.OnGenerateDiceModifications -= DiceModification);
                         break;
                     case DiceModificationTimingType.Opposite:
                         HostShip.OnGenerateDiceModificationsOpposite += DiceModification;
+                        DiceModificationRemovers.Add(() => HostShip.OnGenerateDiceModificationsOpposite -= DiceModification);
                         break;
                     case DiceModificationTimingType.CompareResults:
                         HostShip.OnGenerateDiceModificationsCompareResults += DiceModification;
+                        DiceModificationRemovers.Add(() => HostShip.OnGenerateDiceModificationsCompareResults -= DiceModification);
                         break;
                     default:
                         break;
@@ -532,15 +536,19 @@ namespace Abilities
                 {
                     case DiceModificationTimingType.AfterRolled:
                         GenericShip.OnGenerateDiceModificationsAfterRolledGlobal += DiceModification;
+                        DiceModificationRemovers.Add(() => GenericShip.OnGenerateDiceModificationsAfterRolledGlobal -= DiceModification);
                         break;
                     case DiceModificationTimingType.Normal:
                         GenericShip.OnGenerateDiceModificationsGlobal += DiceModification;
+                        DiceModificationRemovers.Add(() => GenericShip.OnGenerateDiceModificationsGlobal -= DiceModification);
                         break;
                     case DiceModificationTimingType.Opposite:
                         GenericShip.OnGenerateDiceModificationsOppositeGlobal += DiceModification;
+                        DiceModificationRemovers.Add(() => GenericShip.OnGenerateDiceModificationsOppositeGlobal -= DiceModification);
                         break;
                     case DiceModificationTimingType.CompareResults:
                         GenericShip.OnGenerateDiceModificationsCompareResultsGlobal += DiceModification;
+                        DiceModificationRemovers.Add(() => GenericShip.OnGenerateDiceModificationsCompareResultsGlobal -= DiceModification);
                         break;
                     default:
                         break;
@@ -624,7 +632,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowErrorToHuman("0 dice can be rerolled");
+                Messages.ShowErrorToHuman("No dice are eligible to be rerolled.");
                 callback();
             }
         }
@@ -653,18 +661,11 @@ namespace Abilities
         }
 
         /// <summary>
-        /// Removes available dice modification
+        /// Removes available dice modifications
         /// </summary>
         protected void RemoveDiceModification()
         {
-            HostShip.OnGenerateDiceModifications -= DiceModification;
-            GenericShip.OnGenerateDiceModificationsGlobal -= DiceModification;
-
-            HostShip.OnGenerateDiceModificationsOpposite -= DiceModification;
-            GenericShip.OnGenerateDiceModificationsOppositeGlobal -= DiceModification;
-
-            HostShip.OnGenerateDiceModificationsCompareResults -= DiceModification;
-            GenericShip.OnGenerateDiceModificationsCompareResultsGlobal -= DiceModification;
+            DiceModificationRemovers.ForEach(remove => remove());
         }
 
         private class ShipDamageEventArgs : EventArgs
@@ -697,7 +698,7 @@ namespace Abilities
             var damage = args.IsCritical ? 0 : args.Damage;
             var critDamage = args.IsCritical ? args.Damage : 0;
 
-            Messages.ShowInfo(ship.PilotInfo.PilotName + " is dealt " + (args.IsCritical ? "Critical " : "")  + "Hit by " + HostName);
+            Messages.ShowInfo(ship.PilotInfo.PilotName + " has been dealt a " + (args.IsCritical ? "Critical " : "")  + "Hit by " + HostName);
 
             DamageSourceEventArgs damageArgs = new DamageSourceEventArgs()
             {

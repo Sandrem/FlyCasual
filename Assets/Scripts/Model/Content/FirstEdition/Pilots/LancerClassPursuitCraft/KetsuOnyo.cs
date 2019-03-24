@@ -86,7 +86,7 @@ namespace Abilities.FirstEdition
             ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip, HostShip.PrimaryWeapons);
             if (shotInfo.InArcByType(ArcType.SingleTurret) && shotInfo.InPrimaryArc && shotInfo.Range == 1)
             {
-                Messages.ShowError(HostShip.PilotInfo.PilotName + " assigns Tractor Beam Token\nto " + TargetShip.PilotInfo.PilotName);
+                Messages.ShowError(HostShip.PilotInfo.PilotName + " assigns a Tractor Beam Token\nto " + TargetShip.PilotInfo.PilotName);
                 Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, HostShip.Owner);
                 TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
             }
@@ -94,11 +94,11 @@ namespace Abilities.FirstEdition
             {
                 if (!shotInfo.InArcByType(ArcType.SingleTurret) || !shotInfo.InPrimaryArc)
                 {
-                    Messages.ShowError("Target is not inside Mobile Arc and Primary Arc");
+                    Messages.ShowError("The target is not inside both your mobile arc and your primary arc.");
                 }
                 else if (shotInfo.Range > 1)
                 {
-                    Messages.ShowError("Target is outside range 1");
+                    Messages.ShowError("The target is outside of range 1.");
                 }
             }
         }

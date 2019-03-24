@@ -109,7 +109,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack an additional time", HostShip.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }
@@ -131,7 +131,7 @@ namespace Abilities.FirstEdition
 
             if (targetShip != shipToPunish)
             {
-                if (!isSilent) Messages.ShowErrorToHuman(string.Format("{0} can attack only {1}", HostShip.PilotInfo.PilotName, shipToPunish.PilotInfo.PilotName));
+                if (!isSilent) Messages.ShowErrorToHuman(string.Format("{0} can only attack {1}", HostShip.PilotInfo.PilotName, shipToPunish.PilotInfo.PilotName));
                 result = false;
             }
 

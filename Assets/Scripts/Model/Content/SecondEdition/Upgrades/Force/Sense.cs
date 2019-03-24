@@ -35,7 +35,7 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
-            HostShip.OnSystemsAbilityActivation += RegisterAbilityTriggerByShip;
+            HostShip.OnSystemsAbilityActivation -= RegisterAbilityTriggerByShip;
         }
 
         private void RegisterAbilityTriggerByShip(GenericShip ship)
@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowInfo("No ships in range of ability");
+                Messages.ShowInfo("No ships is in range of Sense.");
             }
         }
 

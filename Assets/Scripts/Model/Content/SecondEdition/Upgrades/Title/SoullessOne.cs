@@ -22,8 +22,6 @@ namespace UpgradesList.SecondEdition
                 //seImageNumber: ??
             );
 
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f3/18/f318bb11-2334-4b13-aee2-3930ed267cf0/swz29_a2_soulless-one.png";
         }
     }

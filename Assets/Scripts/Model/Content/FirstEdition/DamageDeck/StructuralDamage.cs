@@ -17,7 +17,7 @@ namespace DamageDeckCardFE
 
         public override void ApplyEffect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Agility is reduced");
+            Messages.ShowInfo("Structural Damage: " + Host.PilotInfo.PilotName + "'s agility is reduced by 1.");
 
             Host.ChangeAgilityBy(-1);
             Host.OnGenerateActions += CallAddCancelCritAction;
@@ -29,7 +29,7 @@ namespace DamageDeckCardFE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Agility is restored");
+            Messages.ShowInfo("Structural Damage has been repaired.  " + Host.PilotInfo.PilotName + "'s agility has been restored.");
 
             Host.Tokens.RemoveCondition(typeof(Tokens.StructuralDamageCritToken));
             Host.OnGenerateActions -= CallAddCancelCritAction;

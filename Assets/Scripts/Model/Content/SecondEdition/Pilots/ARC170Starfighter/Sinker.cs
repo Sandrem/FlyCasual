@@ -16,15 +16,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Sinker\"",
                     3,
-                    50,
+                    54,
                     isLimited: true,
                     factionOverride: Faction.Republic,
-                    abilityType: typeof(Abilities.SecondEdition.SinkerAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.SinkerAbility)
                 );
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
+                
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/4e/2b/4e2bb1a3-4865-421d-898f-5272f1ab3b73/swz33_sinker.png";
             }
         }

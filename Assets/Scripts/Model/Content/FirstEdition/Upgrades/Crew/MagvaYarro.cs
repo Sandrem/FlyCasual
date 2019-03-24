@@ -56,7 +56,7 @@ namespace Abilities.FirstEdition
 
         private void AcquireTargetLock(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Magva Yarro: Free Target Lock");
+            Messages.ShowInfo("Magva Yarro allows " + Combat.Defender.PilotInfo.PilotName + " to acquire a Target Lock on " + Combat.Attacker.PilotInfo.PilotName + ".");
             ActionsHolder.AcquireTargetLock(Combat.Defender, Combat.Attacker, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);
         }
     }

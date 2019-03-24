@@ -89,7 +89,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("Attack must be performed from secondary weapon");
+                if (!isSilent) Messages.ShowError("This attack must be performed with a secondary weapon.");
             }
             return result;
         }

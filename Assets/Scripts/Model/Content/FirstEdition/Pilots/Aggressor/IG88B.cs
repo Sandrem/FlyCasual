@@ -81,7 +81,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack another time.", HostShip.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }
@@ -105,7 +105,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("Attack must be performed from Cannon");
+                if (!isSilent) Messages.ShowError("This attack must be performed using a Cannon.");
             }
 
             return result;

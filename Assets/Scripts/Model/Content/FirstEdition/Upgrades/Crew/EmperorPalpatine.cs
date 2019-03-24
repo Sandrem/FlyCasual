@@ -131,7 +131,7 @@ namespace Abilities.FirstEdition
         {
             IsAbilityUsed = true;
             PalpatineDieChoice = dieSide;
-            Messages.ShowInfo(string.Format("Emperor Palpatine chooses '{0}'", dieDescription));
+            Messages.ShowInfo(string.Format("Emperor Palpatine chooses '{0}'.", dieDescription));
             ShipUsingPalpatine.OnImmediatelyAfterRolling += HandlePalpatineDiceChange;
             DecisionSubPhase.ConfirmDecision();
         }
@@ -164,7 +164,7 @@ namespace Abilities.FirstEdition
         private void DontUseEmperorPalpatine()
         {
             PalpatineDieChoice = DieSide.Unknown;
-            Messages.ShowInfo("Emperor Palpatine was not used");
+            Messages.ShowInfo("Emperor Palpatine was not used.");
         }
 
         private string GetDefaultDecision()

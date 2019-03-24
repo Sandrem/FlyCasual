@@ -91,7 +91,7 @@ namespace Abilities.FirstEdition
             tokenCount = Math.Min(tokenCount, 3);
 
             // ... and assign that many focus tokens to the selected ship
-            Messages.ShowInfo(string.Format("{0} assigns {1} focus {3} to {2}.", HostUpgrade.UpgradeInfo.Name, tokenCount, TargetShip.PilotInfo.PilotName, tokenCount == 1 ? "token" : "tokens"));
+            Messages.ShowInfo(string.Format("{0} assigns {1} Focus {3} to {2}.", HostUpgrade.UpgradeInfo.Name, tokenCount, TargetShip.PilotInfo.PilotName, tokenCount == 1 ? "token" : "tokens"));
             if (tokenCount > 0)
             {
                 // Assign the tokens

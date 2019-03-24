@@ -11,7 +11,7 @@ public class RosterBuilderUI : MonoBehaviour {
     public void CopyToClipboard()
     {
         GUIUtility.systemCopyBuffer = GameObject.Find("UI/Panels/ImportExportPanel/Content/InputField").GetComponent<InputField>().text;
-        Messages.ShowInfo("Copied to clipboard");
+        Messages.ShowInfo("Copied to clipboard.");
     }
 
     public void PasteFromClipboard()

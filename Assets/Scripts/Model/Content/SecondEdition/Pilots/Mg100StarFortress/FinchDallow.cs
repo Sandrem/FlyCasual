@@ -203,7 +203,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowError("The bomb must be touching ship's base");
+                Messages.ShowError("The bomb must be touching ship's base.");
                 IsInReposition = true;
             }
         }

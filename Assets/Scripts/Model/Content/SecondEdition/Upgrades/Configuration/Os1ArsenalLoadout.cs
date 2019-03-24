@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
 
             if (!ActionsHolder.HasTargetLockOn(HostShip, Selection.AnotherShip)) return;
 
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Attack is allowed");
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": The attack is allowed.");
             result = false;
             LockTargetLocks();
         }

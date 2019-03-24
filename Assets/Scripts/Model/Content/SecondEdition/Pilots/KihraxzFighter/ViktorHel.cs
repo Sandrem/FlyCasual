@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
 
         public void AssignStress(object sender, EventArgs e)
         {
-            Messages.ShowError("Viktor Hel assigns the attacker stress!");
+            Messages.ShowError("Viktor Hel assigns the attacker a stress token!");
             attacker.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
     }

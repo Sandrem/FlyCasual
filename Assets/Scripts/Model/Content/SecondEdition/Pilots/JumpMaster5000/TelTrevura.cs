@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
             {
                 HostShip.SpendCharge();
 
-                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Destruction is prevented");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has prevented his own destruction.");
 
                 HostShip.OnCheckPreventDestruction -= ActivateAbility;
                 preventDestruction = true;
@@ -88,7 +88,7 @@ namespace Abilities.SecondEdition
             var subphase = Phases.StartTemporarySubPhaseNew<SetupShipMidgameSubPhase>(
                 "Setup",
                 delegate {
-                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " returned to the play area");
+                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has returned to the play area.");
                     Triggers.FinishTrigger();
                 }
             );
@@ -96,7 +96,7 @@ namespace Abilities.SecondEdition
             subphase.ShipToSetup = HostShip;
             subphase.SetupSide = (HostShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? Direction.Bottom : Direction.Top;
             subphase.AbilityName = HostShip.PilotInfo.PilotName;
-            subphase.Description = "Place yourself within range 1 of your player edge";
+            subphase.Description = "Place yourself within range 1 of your player edge.";
             subphase.ImageSource = HostShip;
 
             subphase.Start();

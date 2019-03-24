@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
 
             if (Combat.Defender.ShipsBumped.Any(s => s.Owner.PlayerNo == HostShip.Owner.PlayerNo && !s.PilotInfo.IsLimited))
             {
-                Messages.ShowInfo("Kath Scarlet: +1 attack die");
+                Messages.ShowInfo("A non-limited friendly ship bumping the defender gives Kath Scarlet +1 attack die.");
                 count++;
             }
         }

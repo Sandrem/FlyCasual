@@ -50,7 +50,7 @@ namespace Abilities.SecondEdition
 
         private void AssignStress(GenericShip activeShip)
         {
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Stress token is assigned");
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " on " + HostShip.PilotInfo.PilotName + " causes " + activeShip.PilotInfo.PilotName + " to gain 1 stress token from their target lock.");
             activeShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
     }

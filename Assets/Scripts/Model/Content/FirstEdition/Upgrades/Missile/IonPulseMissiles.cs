@@ -70,7 +70,7 @@ namespace Abilities.FirstEdition
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Messages.ShowError("Defender receives 2 Ion Tokens");
+            Messages.ShowError("The defender receives 2 Ion tokens");
 
             Combat.Defender.Tokens.AssignToken(typeof(IonToken), AddSecondIonToken);
         }

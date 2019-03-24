@@ -92,7 +92,7 @@ namespace Abilities.SecondEdition
             {
                 if (action.TokensSpend.Any(t => NamedTokenTypes.Contains(t)))
                 {
-                    Messages.ShowErrorToHuman("4-LOM: Cannot spend " + NamedToken);
+                    Messages.ShowErrorToHuman("4-LOM's ability: The target cannot spend " + NamedToken + "s.");
                     canBeUsed = false;
                 }
             }

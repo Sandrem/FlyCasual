@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ShotInfo.InArcByType(ArcType.SingleTurret))
             {
-                Messages.ShowInfo("\"Rattled\" condition is assigned");
+                Messages.ShowInfo("The \"Rattled\" condition has been assigned to " + Combat.Defender.PilotInfo.PilotName + ".");
                 Combat.Defender.Tokens.AssignCondition(
                     new Conditions.RattledCondition(Combat.Defender, HostShip)
                 );
@@ -101,7 +101,7 @@ namespace Conditions
 
         private void RattledDamage(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Damage from \"Rattled\" condition");
+            Messages.ShowInfo("A Critical Hit has been suffered because of the \"Rattled\" condition!");
             Host.Damage.TryResolveDamage(
                 0,
                 1,
@@ -136,7 +136,7 @@ namespace ActionsList
     {
         public RattledRepairAction()
         {
-            Name = DiceModificationName = "\"Rattled\": Discard condition";
+            Name = DiceModificationName = "\"Rattled\" has been repaired. Discarding the \"Rattled\" condition.";
             ImageUrl = new Ship.SecondEdition.Mg100StarFortress.BenTeene().ImageUrl;
         }
 

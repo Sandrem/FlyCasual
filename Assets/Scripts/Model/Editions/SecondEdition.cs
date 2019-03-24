@@ -118,7 +118,7 @@ namespace Editions
             }
             else
             {
-                Messages.ShowError("Evade Token is spent, but no effect");
+                Messages.ShowError("An Evade Token was spent, but there were no valid dice to change to evade.");
             }
         }
 

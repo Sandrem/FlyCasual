@@ -80,7 +80,7 @@ namespace Abilities.SecondEdition
                 .ToArray();
             if (friendlies.Length == 0)
             {
-                Messages.ShowInfo(string.Format("No friendly ship is at lock range of any of {0}'s targets", HostShip.PilotInfo.PilotName));
+                Messages.ShowInfo(string.Format("No friendly ships are at Target Lock range of any of {0}'s targets.", HostShip.PilotInfo.PilotName));
 
             }
             else
@@ -90,7 +90,7 @@ namespace Abilities.SecondEdition
                     Triggers.RegisterTrigger(
                         new Trigger()
                         {
-                            Name = friendly.PilotInfo.PilotName + " (" + friendly.ShipId + ") can acquire " + HostShip.PilotInfo.PilotName + "'s lock",
+                            Name = friendly.PilotInfo.PilotName + " (" + friendly.ShipId + ") can acquire " + HostShip.PilotInfo.PilotName + "'s Target Lock.",
                             TriggerOwner = HostShip.Owner.PlayerNo,
                             TriggerType = TriggerTypes.OnAbilityDirect,
                             EventHandler = AskToAcquireTarkinsLock,

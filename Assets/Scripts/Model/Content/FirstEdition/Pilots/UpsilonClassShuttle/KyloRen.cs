@@ -109,7 +109,7 @@ namespace Abilities.FirstEdition
 
         protected void SelectDamageCard(GenericDamageCard damageCard)
         {
-            Messages.ShowInfo("Card is selected: " + damageCard.Name);
+            Messages.ShowInfo(damageCard.Name + " has been selected.");
 
             AssignedDamageCard = damageCard;
             AssignedDamageCard.IsFaceup = true;
@@ -146,11 +146,11 @@ namespace Abilities.FirstEdition
         {
             if ((e as DamageSourceEventArgs).DamageType == DamageTypes.ShipAttack)
             {
-                Messages.ShowInfo("Kylo Ren: Assigned card is dealt instead");
 
                 isSkipSufferDamage = true;
 
                 GenericShip ship = ShipWithCondition;
+                Messages.ShowInfo("Kylo Ren's premonition comes true.  " + ship.PilotInfo.PilotName + " receives " + AssignedDamageCard.Name + ".");
                 Combat.CurrentCriticalHitCard = AssignedDamageCard;
 
                 AssignedDamageCard = null;

@@ -393,18 +393,18 @@ namespace SubPhases
                     if (CameraScript.InputTouchIsEnabled)
                     {
                         // Touch-tailored error message
-                        Messages.ShowErrorToHuman("Drag ship into highlighted area");
+                        Messages.ShowErrorToHuman("Drag the ship into the highlighted area.");
                     }
                     else
                     {
-                        Messages.ShowErrorToHuman("Place ship into highlighted area");
+                        Messages.ShowErrorToHuman("Place the ship in the highlighted area.");
                     }
                     result = false;
                 }
 
                 if (Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedShips.Count > 0)
                 {
-                    Messages.ShowErrorToHuman("This ship shouldn't collide with another ships");
+                    Messages.ShowErrorToHuman("This ship overlaps another ship.  Please try placing it again.");
                     result = false;
                 }
 

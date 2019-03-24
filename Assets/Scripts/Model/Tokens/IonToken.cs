@@ -23,7 +23,7 @@ namespace Tokens
         {
             if (IsIonized())
             {
-                Messages.ShowError("Ship is ionized!");
+                Messages.ShowError("This ship is ionized!");
                 Host.ToggleIonized(true);
             }
         }

@@ -75,7 +75,7 @@ namespace Abilities.FirstEdition
         {
             if (TargetShip.Owner is Players.HotacAiPlayer)
             {
-                Messages.ShowErrorToHuman("Useless against HotAC AI =)");
+                Messages.ShowErrorToHuman("This ability is useless against HotAC AI =)");
             }
             else
             {

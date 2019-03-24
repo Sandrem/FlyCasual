@@ -14,13 +14,11 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
             PilotInfo = new PilotCardInfo(
                 "\"Kickback\"",
                 4,
-                46,
+                36,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.KickbackAbility),
                 extraUpgradeIcon: UpgradeType.Talent
             );
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/57/c4/57c43689-5d1f-4fd2-b1f6-d4bec9448634/swz32_kickback.png";
         }

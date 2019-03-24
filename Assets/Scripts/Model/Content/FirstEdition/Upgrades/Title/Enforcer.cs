@@ -53,7 +53,7 @@ namespace Abilities.FirstEdition
 
         private void StressEffect(object sender, System.EventArgs e)
         {
-            Messages.ShowError("Enforcer: stress is assigned to the attacker");
+            Messages.ShowError("Enforcer's Ability: The attacker is inside the Enforcer's Bullseye mark.  The attacker gains 1 stress token.");
             Combat.Attacker.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
     }

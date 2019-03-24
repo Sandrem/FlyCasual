@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
 
             if (!IsCannonAttack()) return;
 
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Attack is allowed");
+            Messages.ShowInfo("The attack using " + HostUpgrade.UpgradeInfo.Name + " is allowed.");
             result = false;
             PrepareAttackDiceCap();
         }
@@ -73,7 +73,7 @@ namespace Abilities.SecondEdition
 
         private void SetAttackDiceCap(ref int count)
         {
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Only 3 dice can be rolled");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has a disarmed token.  Only 3 dice may be rolled when attacking with " + HostUpgrade.UpgradeInfo.Name + ".");
             if (count > 3) count = 3;
         }
 

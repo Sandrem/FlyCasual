@@ -82,7 +82,7 @@ namespace Abilities.SecondEdition
             DistanceInfo distInfo = new DistanceInfo(Selection.ThisShip, HostShip);
             if (distInfo.Range > 2 && !SetupSubPhase.IsShipInStartingZone(Selection.ThisShip))
             {
-                Messages.ShowError("Range to " + HostShip.PilotInfo.PilotName + " is " + distInfo.Range);
+                Messages.ShowError("The range to " + HostShip.PilotInfo.PilotName + " is " + distInfo.Range);
                 return false;
             }
             return true;

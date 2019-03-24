@@ -15,14 +15,12 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
             PilotInfo = new PilotCardInfo(
                 "\"Axe\"",
                 3,
-                44,
+                33,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.AxeAbility),
                 extraUpgradeIcon: UpgradeType.Talent
             );
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
+            
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/2c/ee/2ceea646-b5bd-42ce-aeb1-7f38dc88e045/swz32_axe.png";
         }
     }

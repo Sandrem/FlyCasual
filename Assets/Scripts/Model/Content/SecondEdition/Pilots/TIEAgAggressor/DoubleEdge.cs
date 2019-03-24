@@ -98,7 +98,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack an additional time", HostShip.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }
@@ -121,7 +121,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("Attack must be performed using another weapon");
+                if (!isSilent) Messages.ShowError("This attack must be performed using a different weapon.");
             }
 
             return result;

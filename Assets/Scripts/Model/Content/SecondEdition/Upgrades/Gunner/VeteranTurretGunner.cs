@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowError(HostUpgrade.UpgradeInfo.Name + ": No arc to use");
+                Messages.ShowError(HostUpgrade.UpgradeInfo.Name + " does not have any valid arcs to use.");
             }
         }
 
@@ -80,7 +80,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack an additional time", HostShip.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }
@@ -98,13 +98,13 @@ namespace Abilities.SecondEdition
             ShotInfo shotInfo = new ShotInfo(HostShip, defender, weapon);
             if (!shotInfo.ShotAvailableFromArcs.Any(a => a.ArcType == ArcType.SingleTurret && !a.WasUsedForAttackThisRound))
             {
-                if (!isSilent) Messages.ShowError("Attack must use a turret arc you did not already attack from this round");
+                if (!isSilent) Messages.ShowError("Your attack must use a turret arc you have not already attacked from this round.");
                 return false;
             }
 
             if (!weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.SingleTurret))
             {
-                if (!isSilent) Messages.ShowError("Attack must use a turret arc");
+                if (!isSilent) Messages.ShowError("Your attack must use a turret arc.");
                 return false;
             }
 

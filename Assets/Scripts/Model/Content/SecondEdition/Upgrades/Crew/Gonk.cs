@@ -13,7 +13,6 @@ namespace UpgradesList.SecondEdition
                 "GNK \"Gonk\" Droid",
                 UpgradeType.Crew,
                 cost: 10,
-                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.GonkCrewAbility),
                 charges: 1,
                 seImageNumber: 43

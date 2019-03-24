@@ -60,7 +60,7 @@ namespace Abilities.FirstEdition
 
         private void AskAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Fenn Rau can use his ability");
+            Messages.ShowInfo("Fenn Rau can use his ability.");
             AskToUseAbility(AlwaysUseByDefault, UseAbility, DontUseAbility);
         }
 
@@ -68,20 +68,20 @@ namespace Abilities.FirstEdition
         {
             if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {
-                Messages.ShowInfoToHuman("Fenn Rau: Ability was used");
+                Messages.ShowInfoToHuman("Fenn Rau's target is unable to spend tokens to modify attack dice this round.");
 
                 HostShip.Tokens.AssignToken(typeof(StressToken), AssignConditionToActivatedShip);
             }
             else
             {
-                Messages.ShowErrorToHuman("Fenn Rau: Cannot use ability - already has stress");
+                Messages.ShowErrorToHuman("Fenn Rau's abiltiy cannot be used.  Fenn Rau has one or more stress tokens.");
                 Triggers.FinishTrigger();
             }
         }
 
         private void DontUseAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Fenn Rau: Ability was not used");
+            Messages.ShowInfoToHuman("Fenn Rau's ability was not used.");
             DecisionSubPhase.ConfirmDecision();
         }
 
@@ -101,7 +101,7 @@ namespace Abilities.FirstEdition
         {
             if (Combat.Attacker == affectedShip && action.DiceModificationTiming != DiceModificationTimingType.Opposite && action.TokensSpend.Count > 0)
             {
-                Messages.ShowErrorToHuman("Fenn Rau: Cannot use dice modification\n" + action.Name);
+                Messages.ShowErrorToHuman("Fenn Rau's Ability: " + Combat.Attacker.PilotInfo.PilotName + " cannot modify their attack rolls.\n" + action.Name + " cannot be completed.");
                 canBeUsed = false;
             }
         }

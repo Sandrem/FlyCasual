@@ -124,7 +124,7 @@ public static partial class Combat
         if (weapons.Count > 1)
         {
             Phases.StartTemporarySubPhaseOld(
-                "Choose weapon for attack",
+                "Choose a weapon for this attack.",
                 typeof(WeaponSelectionDecisionSubPhase),
                 delegate { TryPerformAttack(isSilent: false); }
             );
@@ -132,7 +132,7 @@ public static partial class Combat
         else if (weapons.Count == 1)
         {
             Combat.ChosenWeapon = weapons.First();
-            Messages.ShowInfo("Attack with " + Combat.ChosenWeapon.Name);
+            Messages.ShowInfo("Attacking with " + Combat.ChosenWeapon.Name);
 
             Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
 
@@ -349,7 +349,7 @@ public static partial class Combat
         {
             if (Attacker.AttackIsAlwaysConsideredHit)
             {
-                Messages.ShowInfo("Attack is considered a Hit");
+                Messages.ShowInfo("This attack is always considered a Hit.");
                 AttackHit();
             }
             else
@@ -570,7 +570,7 @@ namespace SubPhases
         public void PerformAttackWithWeapon(IShipWeapon weapon)
         {
             Tooltips.EndTooltip();
-            Messages.ShowInfo("Attack with " + weapon.Name);
+            Messages.ShowInfo("Attacking with " + weapon.Name);
 
             Combat.ChosenWeapon = weapon;
             Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);

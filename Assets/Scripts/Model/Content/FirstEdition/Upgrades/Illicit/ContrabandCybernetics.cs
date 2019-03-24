@@ -85,7 +85,7 @@ namespace Abilities.FirstEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You can perform actions and red maneuvers, even while stressed");
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " allows " + HostShip.PilotInfo.PilotName + " to perform actions and red maneuvers even while stressed.");
 
             CanPerformActionsWhileStressedOriginal = HostShip.CanPerformActionsWhileStressed;
             HostShip.CanPerformActionsWhileStressed = true;

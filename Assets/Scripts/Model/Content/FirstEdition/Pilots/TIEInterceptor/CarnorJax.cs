@@ -50,7 +50,7 @@ namespace Abilities.FirstEdition
                 BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(ship, HostShip);
                 if (positionInfo.Range <= 1)
                 {
-                    Messages.ShowErrorToHuman("Carnor Jax: Cannot perform focus or evade actions, or spend focus or evade tokens");
+                    Messages.ShowErrorToHuman("Carnor Jax's ability: The target ship cannot perform focus or evade actions, or spend focus or evade tokens.");
                     isAllowed = false;
                 }
             }

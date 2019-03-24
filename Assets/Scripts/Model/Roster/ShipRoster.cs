@@ -200,7 +200,8 @@ public static partial class Roster
 
     public static GenericShip GetShipById(string id)
     {
-		if (AllShips.Any (x => x.Key == id)) {
+		if (AllShips.Any (x => x.Key == id))
+        {
 			return AllShips[id];
 		}
 
@@ -272,7 +273,7 @@ public static partial class Roster
             where n.Value.IsManeuverPerformed == false
             select n;
 
-        if (results.Count() > 0) Messages.ShowErrorToHuman("Not all ship executed their maneuvers");
+        if (results.Count() > 0) Messages.ShowErrorToHuman("Not all ships have executed their maneuvers.");
         return (results.Count() == 0);
     }
 

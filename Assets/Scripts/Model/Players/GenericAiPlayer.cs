@@ -110,16 +110,16 @@ namespace Players
                 {
                     Selection.ThisShip.IsAttackPerformed = true;
 
-                    Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
+                    Console.Write(Selection.ThisShip.PilotName + " attacks target " + targetForAttack.PilotName + ".\n", LogTypes.AI, true, "yellow");
 
-                    Messages.ShowInfo("Attack with " + Combat.ChosenWeapon.Name);
+                    Messages.ShowInfo("Attacking with " + Combat.ChosenWeapon.Name);
 
                     GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true, Combat.ChosenWeapon);
                     if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
                 }
                 else
                 {
-                    Console.Write("Attack is skipped\n", LogTypes.AI, true, "yellow");
+                    Console.Write("The attack has been skipped.\n", LogTypes.AI, true, "yellow");
                     OnTargetNotLegalForAttack();
                 }
             }
@@ -265,7 +265,7 @@ namespace Players
                 if (prioritizedActionEffect.Value > 0)
                 {
                     isActionEffectTaken = true;
-                    Messages.ShowInfo("AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
+                    Messages.ShowInfo("The AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
 
                     GameManagerScript.Wait(1, delegate {
                         GameCommand command = Combat.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
@@ -377,7 +377,7 @@ namespace Players
                 GameManagerScript.Wait(1, delegate
                 {
                     (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();
-                    Messages.ShowInfo("AI: Obstacle was placed");
+                    Messages.ShowInfo("The AI has placed an obstacle.");
                 });
             }
         }

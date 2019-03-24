@@ -51,7 +51,7 @@ namespace Abilities.FirstEdition
 
         private void AcquireTargetLock(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Fire-Control System: Free Target Lock");
+            Messages.ShowInfo("Fire-Control System grants " + Combat.Attacker.PilotInfo.PilotName + " a free Target Lock on " + Combat.Defender.PilotInfo.PilotName + ".");
             ActionsHolder.AcquireTargetLock(Combat.Attacker, Combat.Defender, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);
         }
     }

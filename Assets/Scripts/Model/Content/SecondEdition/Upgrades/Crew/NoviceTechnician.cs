@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
         {
             if (DiceCheckRoll.Successes > 0)
             {
-                Messages.ShowInfo(HostName + ": exposes one damage card");
+                Messages.ShowInfo(HostName + " exposes one damage card.");
                 HostShip.Damage.ExposeRandomFacedownCard(AbilityDiceCheck.ConfirmCheck);
             }
             else
@@ -86,7 +86,7 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = "Novice Technician: Select faceup damage card to repair";
+                InfoText = "Novice Technician: Select faceup damage card to repair.";
 
                 DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 

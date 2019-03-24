@@ -121,7 +121,6 @@ namespace Ship
         {
             Owner = Roster.GetPlayer(playerNo);
             ShipId = shipId;
-
             StartingPosition = position;
 
             InitializeShip();

@@ -25,7 +25,7 @@ namespace DamageDeckCardFE
 
         private void OnTryPreformAttack(ref bool result, List<string> stringList)
         {
-            stringList.Add("Blinded Pilot: Cannot perfom attack now");
+            stringList.Add("This ship is suffering from Blinded Pilot. It cannot perfom attacks.");
             result = false;
         }
 
@@ -33,7 +33,7 @@ namespace DamageDeckCardFE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Blinded Pilot: Crit is flipped, pilot can perfom attacks");
+            Messages.ShowInfo("Blinded Pilot has been repaired.  The pilot can once again perform attacks.");
 
             Host.OnTryPerformAttack -= OnTryPreformAttack;
             Host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));

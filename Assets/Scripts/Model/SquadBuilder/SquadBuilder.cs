@@ -392,7 +392,7 @@ namespace SquadBuilderNS
         {
             if (Edition.Current.IsSquadBuilderLocked)
             {
-                Messages.ShowError("This part of squad builder is disabled");
+                Messages.ShowError("This part of squad builder is disabled.");
                 return;
             }
 
@@ -527,7 +527,7 @@ namespace SquadBuilderNS
             if (GetSquadList(playerNo).GetShips().Count < Edition.Current.MinShipsCount)
             {
                 result = false;
-                Messages.ShowError("Minimum number of pilots is required: " + Edition.Current.MinShipsCount);
+                Messages.ShowError("The minimum number of pilots required is: " + Edition.Current.MinShipsCount);
             }
             return result;
         }
@@ -538,7 +538,7 @@ namespace SquadBuilderNS
             if (GetSquadList(playerNo).GetShips().Count > Edition.Current.MaxShipsCount)
             {
                 result = false;
-                Messages.ShowError("Maximum number of pilots is required: " + Edition.Current.MaxShipsCount);
+                Messages.ShowError("The maximum number of pilots required is: " + Edition.Current.MaxShipsCount);
             }
             return result;
         }
@@ -570,7 +570,7 @@ namespace SquadBuilderNS
             {
                 if (uniqueCardInfo.Value < 0)
                 {
-                    Messages.ShowError("Too many of limited cards with name " + uniqueCardInfo.Key);
+                    Messages.ShowError("You have too many limited cards with the name " + uniqueCardInfo.Key);
                     result = false;
                 }
             }
@@ -592,7 +592,7 @@ namespace SquadBuilderNS
             {
                 if (GetSquadCost(playerNo) > Edition.Current.MaxPoints)
                 {
-                    Messages.ShowError("Cost of squadron cannot be more than " + Edition.Current.MaxPoints);
+                    Messages.ShowError("The cost of your squadron cannot be more than " + Edition.Current.MaxPoints);
                     result = false;
                 }
             }
@@ -648,7 +648,7 @@ namespace SquadBuilderNS
                         else
                         {
                             result = false;
-                            Messages.ShowError("Only one Solitary upgrade can be present");
+                            Messages.ShowError("Only one Solitary upgrade can be equipped.");
                             break;
                         }
                     }
@@ -668,7 +668,7 @@ namespace SquadBuilderNS
                 {
                     if (shipConfig.Instance.HotacManeuverTable == null)
                     {
-                        Messages.ShowError("AI for " + shipConfig.Instance.ShipInfo.ShipName + " is not ready. It can be controlled only by human.");
+                        Messages.ShowError("AI for " + shipConfig.Instance.ShipInfo.ShipName + " is not ready. It can be controlled only by a human.");
                         return false;
                     }
                 }
@@ -711,18 +711,18 @@ namespace SquadBuilderNS
                             int countDuplicates = shipHolder.Instance.UpgradeBar.GetUpgradesAll().Count(n => n.UpgradeInfo.Name == upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             if (countDuplicates > 1)
                             {
-                                Messages.ShowError("Upgrades must be different: " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
+                                Messages.ShowError("You cannot have more than one copy of " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name + " on one ship.");
                                 return false;
                             }
                         }
                         if (upgradeSlot.InstalledUpgrade.UpgradeInfo.Cost > upgradeSlot.MaxCost)
                         {
-                            Messages.ShowError("Upgrade must costs less than " + upgradeSlot.MaxCost + " : " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
+                            Messages.ShowError("The upgrade must costs less than " + upgradeSlot.MaxCost + " : " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             return false;
                         }
                         if (upgradeSlot.MustBeUnique && !upgradeSlot.InstalledUpgrade.UpgradeInfo.IsLimited)
                         {
-                            Messages.ShowError("Upgrade must be unique : " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
+                            Messages.ShowError("The upgrade must be unique : " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             return false;
                         }
                     }                
@@ -853,14 +853,14 @@ namespace SquadBuilderNS
                 }
                 else
                 {
-                    Messages.ShowError("No pilots");
+                    Messages.ShowError("The squad has no pilots.");
                 }
 
                 callBack();
             }
             catch (Exception)
             {
-                Messages.ShowError("Error during creation of squadron '" + name + "'");
+                Messages.ShowError("An error occurred during the creation of squadron '" + name + "'");
                 ClearShipsOfPlayer(playerNo);
                 //throw;
             }
@@ -1209,7 +1209,7 @@ namespace SquadBuilderNS
         {
             if (Edition.Current.IsSquadBuilderLocked)
             {
-                Messages.ShowError("This part of squad builder is disabled");
+                Messages.ShowError("This part of squad builder is disabled.");
                 return;
             }
 

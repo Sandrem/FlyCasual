@@ -68,7 +68,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman("Cannot use ability: pilot is stressed");
+                Messages.ShowErrorToHuman("Millennium Falcon (Hero of the Resistance) cannot rotate 180°.  The pilot is stressed.");
                 Triggers.FinishTrigger();
             }
         }

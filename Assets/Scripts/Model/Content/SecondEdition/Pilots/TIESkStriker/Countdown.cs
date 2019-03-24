@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
 
         private void BlankDamage()
         {
-            Messages.ShowInfo("Damage canceled by Countdown!");
+            Messages.ShowInfo("Countdown cancels all the attack's damage at the cost of 1 Hit and 1 stress token.");
 
             DamageSourceEventArgs countdownDamage = new DamageSourceEventArgs
             {

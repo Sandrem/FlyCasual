@@ -44,9 +44,14 @@ namespace Abilities.FirstEdition
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskGuriAbility);
         }
 
+        protected virtual Vector2 AbilityRange
+        {
+            get { return new Vector2(1, 1); }
+        }
+
         private void AskGuriAbility(object sender, EventArgs e)
         {
-            if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Enemy).Count > 0)
+            if (BoardTools.Board.GetShipsAtRange(HostShip, AbilityRange, Team.Type.Enemy).Count > 0)
             {
                 if (!alwaysUseAbility)
                 {

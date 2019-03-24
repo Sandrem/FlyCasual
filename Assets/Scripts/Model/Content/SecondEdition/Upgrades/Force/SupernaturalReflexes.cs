@@ -108,7 +108,7 @@ namespace Abilities.SecondEdition
 
         private void SufferDamage(object sender, System.EventArgs e)
         {
-            Messages.ShowError(HostUpgrade.UpgradeInfo.Name + ": Damage is suffered");
+            Messages.ShowError(HostUpgrade.UpgradeInfo.Name + ": This ship suffers 1 damage for performing an action not on its action bar.");
 
             DamageSourceEventArgs supernaturalReflexesDamage = new DamageSourceEventArgs()
             {

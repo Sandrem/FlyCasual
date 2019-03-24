@@ -60,7 +60,7 @@ namespace Ship
         {
             critCard.DiscardEffect();
 
-            Messages.ShowInfo("Critical damage card \"" + critCard.Name + "\" is flipped facedown");
+            Messages.ShowInfo("The critical damage card \"" + critCard.Name + "\" has been flipped face-down.");
         }
 
         public void DealDrawnCard(Action callback)

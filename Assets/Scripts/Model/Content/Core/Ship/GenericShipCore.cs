@@ -143,7 +143,7 @@ namespace Ship
             }
         }
 
-        private void InitializeState()
+        public void InitializeState()
         {
             State = new ShipStateInfo(this);
 
@@ -161,6 +161,7 @@ namespace Ship
             State.MaxCharges = PilotInfo.Charges;
             State.RegensCharges = PilotInfo.RegensCharges;
 
+            Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
             foreach (var maneuver in DialInfo.PrintedDial)
             {
                 Maneuvers.Add(maneuver.Key.ToString(), maneuver.Value);

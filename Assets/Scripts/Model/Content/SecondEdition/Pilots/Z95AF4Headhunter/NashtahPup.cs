@@ -16,7 +16,6 @@ namespace Ship
                     0,
                     6,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility),
                     extraUpgradeIcon: UpgradeType.Illicit,
                     factionOverride: Faction.Scum,
                     seImageNumber: 171
@@ -99,6 +98,7 @@ namespace Abilities.SecondEdition
             GenericAbility pilotAbility = (GenericAbility)System.Activator.CreateInstance(pilotAbilityType);
             pilotAbility.Initialize(HostShip);
             HostShip.PilotAbilities.Add(pilotAbility);
+            HostShip.InitializeState();
 
             Roster.UpdateShipStats(HostShip);
         }

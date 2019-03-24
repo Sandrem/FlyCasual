@@ -68,7 +68,7 @@ namespace Abilities.SecondEdition
 
         private void DiceCheckFinished()
         {
-            if (DiceCheckRoll.Successes > 0)
+            if (DiceCheckRoll.RegularSuccesses > 0)
             {
                 Messages.ShowInfo(HostName + " exposes one damage card.");
                 HostShip.Damage.ExposeRandomFacedownCard(AbilityDiceCheck.ConfirmCheck);

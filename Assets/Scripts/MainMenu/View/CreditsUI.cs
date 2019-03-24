@@ -27,7 +27,6 @@ public static class CreditsUI {
         GameObject prefab = (GameObject)Resources.Load("Prefabs/MainMenu/CreditsBlock", typeof(GameObject));
         GameObject CreditsPanel = GameObject.Find("UI/Panels").transform.Find("CreditsPanel").Find("Scroll View/Viewport/Content").gameObject;
 
-        RectTransform modsPanelRectTransform = CreditsPanel.GetComponent<RectTransform>();
         float verticalSpace = -LEGAL_INFO_SIZE;
 
         foreach (Transform transform in CreditsPanel.transform)

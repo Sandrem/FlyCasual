@@ -202,10 +202,10 @@ public class OptionsUI : MonoBehaviour {
 
     private void ShowExtraView()
     {
-        Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
+        /*Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
         string prefabPath = "Prefabs/MainMenu/Options/ExtraViewPanel";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
-        GameObject panel = Instantiate(prefab, parentTransform);
+        GameObject panel = Instantiate(prefab, parentTransform);*/
 
         // Foreach class in namespace
         // Create panel with info and control of on/off mode

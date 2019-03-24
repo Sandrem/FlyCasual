@@ -713,8 +713,8 @@ namespace SquadBuilderNS
 
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/SavedSquadronPanel", typeof(GameObject));
 
-            RectTransform contentRectTransform = contentTransform.GetComponent<RectTransform>();
-            Vector3 currentPosition = new Vector3(0, -FREE_SPACE, contentTransform.localPosition.z);
+            //RectTransform contentRectTransform = contentTransform.GetComponent<RectTransform>();
+            //Vector3 currentPosition = new Vector3(0, -FREE_SPACE, contentTransform.localPosition.z);
 
             foreach (var squadList in squadsJsonsList)
             {

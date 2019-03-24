@@ -96,7 +96,7 @@ namespace BoardTools
             sectorsAndTurrets.AddRange(Ship1.ArcsInfo.Arcs.Where(a => a.ArcType == ArcType.SingleTurret));
             foreach (var arc in sectorsAndTurrets)
             {
-                ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc);
+                ShotInfoArc shotInfoArc = new ShotInfoArc(Ship1, Ship2, arc, Weapon);
                 InSectorInfo.Add(arc, shotInfoArc.InArc);
 
                 if (Weapon.WeaponInfo.ArcRestrictions.Count > 0 && !Weapon.WeaponInfo.ArcRestrictions.Contains(arc.ArcType))

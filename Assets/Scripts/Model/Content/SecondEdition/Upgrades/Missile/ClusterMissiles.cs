@@ -90,8 +90,7 @@ namespace Abilities.SecondEdition
 
         private void UseClusterMissilesAbility(object sender, System.EventArgs e)
         {
-            // TODOREVERT
-            // (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).RequiresTargetLockOnTargetToShoot = false;
+            (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresToken = null;
 
             Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform a second Cluster Missiles attack.");
 
@@ -140,8 +139,7 @@ namespace Abilities.SecondEdition
 
         private void FinishAdditionalAttack()
         {
-            // TODOREVERT
-            //(HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).RequiresTargetLockOnTargetToShoot = true;
+            (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresToken = typeof(BlueTargetLockToken);
 
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             Selection.ThisShip.IsAttackPerformed = true;

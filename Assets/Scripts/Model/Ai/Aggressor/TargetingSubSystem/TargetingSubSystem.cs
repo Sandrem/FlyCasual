@@ -89,7 +89,7 @@ namespace AI.Aggressor
 
             // Results
 
-            float potentialDamage = potentialHits - potentialHits;
+            float potentialDamage = potentialHits - potentialEvades;
             float potentialCrits = attackDiceThrown * criticalHitsModifier;
             float shipCost = TargetShip.PilotInfo.Cost;
 

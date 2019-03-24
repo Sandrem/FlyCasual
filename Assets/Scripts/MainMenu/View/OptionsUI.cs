@@ -216,7 +216,8 @@ public class OptionsUI : MonoBehaviour {
         Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
         string prefabPath = "Prefabs/MainMenu/Options/" + name + "ViewPanel";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
-        GameObject panel = Instantiate(prefab, parentTransform);
+        //GameObject panel = 
+        Instantiate(prefab, parentTransform);
     }
 
     private void ClearOptionsView()

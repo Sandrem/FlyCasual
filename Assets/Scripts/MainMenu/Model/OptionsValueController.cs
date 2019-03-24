@@ -13,7 +13,7 @@ public class OptionsValueController : MonoBehaviour
     public void UpdateProgressByClick()
     {
         Vector2 localCursor;
-        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), Input.mousePosition, Camera.current, out localCursor)) ;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), Input.mousePosition, Camera.current, out localCursor);
         float myWidth = this.transform.Find("PanelHitDetection").GetComponent<RectTransform>().rect.width;
         float percentage = (localCursor.x + 0.5f * myWidth) / myWidth;
 

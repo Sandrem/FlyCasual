@@ -87,15 +87,19 @@ namespace Abilities.SecondEdition
             public override void PrepareDecision(Action callBack)
             {
                 InfoText = "Novice Technician: Select faceup damage card to repair.";
+                ShowSkipButton = false;
 
                 DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
-                foreach (var crit in HostShip.Damage.GetFaceupCrits().ToList())
+                if (HostShip.Damage.HasFaceupCards)
                 {
-                    AddDecision(crit.Name, delegate { DiscardCrit(crit); }, crit.ImageUrl);
-                }
+                    foreach (var crit in HostShip.Damage.GetFaceupCrits().ToList())
+                    {
+                        AddDecision(crit.Name, delegate { DiscardCrit(crit); }, crit.ImageUrl);
+                    }
 
-                DefaultDecisionName = GetDecisions().First().Name;
+                    DefaultDecisionName = GetDecisions().First().Name;
+                }
 
                 callBack();
             }

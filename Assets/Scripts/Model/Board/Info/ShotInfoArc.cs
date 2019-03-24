@@ -15,10 +15,23 @@ namespace BoardTools
         public bool IsShotAvailable { get; private set; }
         public bool InArc { get; private set; }
 
+        public IShipWeapon Weapon { get; private set; }
+
         private GenericArc Arc;
 
         public ShotInfoArc(GenericShip ship1, GenericShip ship2, GenericArc arc) : base(ship1, ship2)
         {
+            Weapon = ship1.PrimaryWeapons.First();
+
+            Arc = arc;
+
+            CheckRange();
+        }
+
+        public ShotInfoArc(GenericShip ship1, GenericShip ship2, GenericArc arc, IShipWeapon weapon) : base(ship1, ship2)
+        {
+            Weapon = weapon ?? ship1.PrimaryWeapons.First();
+
             Arc = arc;
 
             CheckRange();
@@ -108,7 +121,9 @@ namespace BoardTools
         private void Success()
         {
             //Fix of "Shot Available" for bullseye are when there is no forward-facing arc
-            if (Arc.ArcType != ArcType.Bullseye || (Arc.ArcType == ArcType.Bullseye && Ship1.ArcsInfo.Arcs.Any(a => a.Facing == ArcFacing.Front)))
+            if (Arc.ArcType != ArcType.Bullseye ||
+                (Arc.ArcType == ArcType.Bullseye && (Ship1.ArcsInfo.Arcs.Any(a => a.Facing == ArcFacing.Front) ||
+                                                     Weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.Bullseye))))
             {
                 IsShotAvailable = true;
 

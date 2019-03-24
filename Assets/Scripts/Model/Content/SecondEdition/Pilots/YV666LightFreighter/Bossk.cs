@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using Ship;
+using Upgrade;
 
 namespace Ship
 {

@@ -13,7 +13,7 @@ public class AvatarFromUpgrade : MonoBehaviour {
 
     private string UpgradeType;
     private GenericUpgrade Upgrade;
-    private Vector2 Offset;
+    private AvatarInfo Avatar;
     private Action<string> OnClick;
 
     public void Initialize(string upgradeType, Action<string> onClick = null)
@@ -28,11 +28,11 @@ public class AvatarFromUpgrade : MonoBehaviour {
         }
 
         Upgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-        Offset = Upgrade.Avatar.AvatarOffset;
+        Avatar = Upgrade.Avatar;
         OnClick = onClick;
 
         this.gameObject.SetActive(false);
-        LoadTooltipImage(this.gameObject, Upgrade.ImageUrlFE);
+        LoadTooltipImage(this.gameObject, (Upgrade.GetType().ToString().Contains("UpgradesList.FirstEdition")) ? Upgrade.ImageUrlFE : Upgrade.ImageUrl);
 
         SetOnClickHandler();
     }
@@ -62,7 +62,7 @@ public class AvatarFromUpgrade : MonoBehaviour {
 
     private void SetObjectSprite(GameObject targetObject, Texture2D newTexture)
     {
-        Sprite newSprite = Sprite.Create(newTexture, new Rect(Offset.x, newTexture.height-100-Offset.y, 100, 100), Vector2.zero);
+        Sprite newSprite = Sprite.Create(newTexture, new Rect(Avatar.AvatarOffset.x, newTexture.height-Avatar.AvatarSize.x-Avatar.AvatarOffset.y, Avatar.AvatarSize.x, Avatar.AvatarSize.y), Vector2.zero);
         Image image = targetObject.transform.GetComponent<Image>();
         image.sprite = newSprite;
 

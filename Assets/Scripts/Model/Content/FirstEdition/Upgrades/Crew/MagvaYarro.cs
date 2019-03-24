@@ -1,5 +1,6 @@
 ﻿using Ship;
 using SubPhases;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.FirstEdition
@@ -16,6 +17,8 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.MagvaYarroCrewAbility)
             );
+
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(87, 3));
         }        
     }
 }

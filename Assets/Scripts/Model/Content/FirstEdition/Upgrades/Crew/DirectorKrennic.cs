@@ -22,7 +22,7 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.DirectorKrennicAbility)
             );
 
-            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(53, 1));
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(71, 1));
         }        
     }
 }

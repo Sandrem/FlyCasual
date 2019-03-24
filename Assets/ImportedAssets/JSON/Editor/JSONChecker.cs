@@ -45,7 +45,7 @@ public class JSONChecker : EditorWindow {
 		URL = EditorGUILayout.TextField("URL", URL);
 		if (GUILayout.Button("Get JSON")) {
 			Debug.Log(URL);
-			WWW test = new WWW(URL);
+			/*WWW test = new WWW(URL);
 			while (!test.isDone) ;
 			if (!string.IsNullOrEmpty(test.error)) {
 				Debug.Log(test.error);
@@ -53,7 +53,7 @@ public class JSONChecker : EditorWindow {
 				Debug.Log(test.text);
 				j = new JSONObject(test.text);
 				Debug.Log(j.ToString(true));
-			}
+			}*/
 		}
 		if(j) {
 			//Debug.Log(System.GC.GetTotalMemory(false) + "");

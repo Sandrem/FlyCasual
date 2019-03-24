@@ -1,6 +1,7 @@
 ﻿using Ship;
 using Upgrade;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,6 +18,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.AdmiralSloaneCrewAbility),
                 seImageNumber: 109
             );
+
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(385, 11));
         }
     }
 }

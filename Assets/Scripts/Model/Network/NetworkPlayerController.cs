@@ -11,7 +11,12 @@ using System;
 using GameCommands;
 using Actions;
 
-public partial class NetworkPlayerController : NetworkBehaviour {
+public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: NetworkBehaviour
+{
+    // TEMPORARY
+    const bool isLocalPlayer = true;
+    const bool isServer = true;
+    const bool isClient = true;
 
     private void Start()
     {
@@ -26,8 +31,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
                 Network.ReadyToStartMatch = false;
                 SquadBuilder.StartNetworkGame();
             }
-        }
-        
+        }      
     }
 
     public bool IsServer
@@ -37,13 +41,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // COMMANDS
 
-    [Command]
+    //[Command]
     public void CmdSendCommand(string commandline)
     {
         RpcSendCommand(commandline);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     public void RpcSendCommand(string commandline)
     {
         GameController.SendCommand(GameController.GenerateGameCommand(commandline, true));
@@ -51,32 +55,32 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // TESTS
 
-    [Command]
+    //[Command]
     public void CmdTest()
     {
         RpcTest();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcTest()
     {
         Messages.ShowInfo("Network test\nLocal: " + isLocalPlayer + "; Client: " + isClient + "; Server: " + isServer);
     }
 
-    [Command]
+    //[Command]
     public void CmdCallBacksTest()
     {
         new NetworkExecuteWithCallback("Test", CmdRosterTest, CmdShowVariable);
     }
 
-    [Command]
+    //[Command]
     public void CmdRosterTest()
     {
         Network.AllShipNames = "";
         RpcRosterTest();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcRosterTest()
     {
         /*string text = (isServer) ? "Hello from server" : "Hello from client";
@@ -87,19 +91,19 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Network.FinishTask();*/
     }
 
-    [Command]
+    //[Command]
     public void CmdUpdateAllShipNames(string text)
     {
         Network.AllShipNames += text;
     }
 
-    [Command]
+    //[Command]
     public void CmdShowVariable()
     {
         RpcShowVariable(Network.AllShipNames);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcShowVariable(string text)
     {
         Messages.ShowInfo(text);
@@ -107,7 +111,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // START OF BATTLE
 
-    [Command]
+    //[Command]
     public void CmdStartNetworkGame()
     {
         new NetworkExecuteWithCallback(
@@ -117,14 +121,14 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         );
     }
 
-    [Command]
+    //[Command]
     public void CmdGetSquadList()
     {
         Network.SquadJsons = new JSONObject();
         RpcGetSquadList();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcGetSquadList()
     {
         GameMode.CurrentGameMode = new NetworkGame();
@@ -142,19 +146,19 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         Network.FinishTask();
     }
 
-    [Command]
+    //[Command]
     public void CmdStoreSquadList(string squadJson, bool isServer)
     {
         Network.ImportSquad(squadJson, isServer);
     }
 
-    [Command]
+    //[Command]
     public void CmdSendSquadToOpponent()
     {
         RpcSendSquadToOpponent(Network.SquadJsons.ToString());
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcSendSquadToOpponent(string squadsJsonString)
     {
         JSONObject squadsJson = new JSONObject(squadsJsonString);
@@ -173,30 +177,30 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         }
     }
 
-    [Command]
+    //[Command]
     public void CmdLoadBattleScene()
     {
         RpcLoadBattleScene();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcLoadBattleScene()
     {
         //RosterBuilder.GeneratePlayersShipConfigurations();
 
-        SquadBuilder.GetSquadList(PlayerNo.Player1).PlayerType = (isServer) ? typeof(HumanPlayer) : typeof(NetworkOpponentPlayer);
-        SquadBuilder.GetSquadList(PlayerNo.Player2).PlayerType = (isServer) ? typeof(NetworkOpponentPlayer) : typeof(HumanPlayer);
+        //SquadBuilder.GetSquadList(PlayerNo.Player1).PlayerType = (isServer) ? typeof(HumanPlayer) : typeof(NetworkOpponentPlayer);
+        //SquadBuilder.GetSquadList(PlayerNo.Player2).PlayerType = (isServer) ? typeof(NetworkOpponentPlayer) : typeof(HumanPlayer);
 
         SquadBuilder.LoadBattleScene();
     }
 
-    [Command]
+    //[Command]
     public void CmdStartBattle()
     {
         RpcStartBattle();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcStartBattle()
     {
         if (isServer) Sounds.PlaySoundGlobal("Notification");
@@ -205,13 +209,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // ASSIGN MANEUVER
 
-    [Command]
+    //[Command]
     public void CmdAssignManeuver(int shipId, string maneuverCode)
     {
         RpcAssignManeuver(shipId, maneuverCode);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcAssignManeuver(int shipId, string maneuverCode)
     {
         ShipMovementScript.SendAssignManeuverCommand(shipId, maneuverCode);
@@ -219,7 +223,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // BARREL ROLL
 
-    [Command]
+    //[Command]
     public void CmdPerformBarrelRoll()
     {
         new NetworkExecuteWithCallback(
@@ -229,37 +233,37 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         );
     }
 
-    [Command]
+    //[Command]
     public void CmdLaunchBarrelRoll()
     {
         RpcLaunchBarrelRoll();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcLaunchBarrelRoll()
     {
         (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartBarrelRollExecution();
     }
 
-    [Command]
+    //[Command]
     public void CmdFinishBarrelRoll()
     {
         RpcFinishBarrelRoll();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcFinishBarrelRoll()
     {
         (Phases.CurrentSubPhase as BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
     }
 
-    [Command]
+    //[Command]
     public void CmdCancelBarrelRoll()
     {
         RpcCancelBarrelRoll();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcCancelBarrelRoll()
     {
         //TODONETWORK
@@ -268,7 +272,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // BOOST
 
-    [Command]
+    //[Command]
     public void CmdPerformBoost()
     {
         new NetworkExecuteWithCallback(
@@ -278,37 +282,37 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         );
     }
 
-    [Command]
+    //[Command]
     public void CmdLaunchBoost()
     {
         RpcLaunchBoost();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcLaunchBoost()
     {
         (Phases.CurrentSubPhase as BoostPlanningSubPhase).StartBoostExecution();
     }
 
-    [Command]
+    //[Command]
     public void CmdFinishBoost()
     {
         RpcFinishBoost();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcFinishBoost()
     {
         Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
     }
 
-    [Command]
+    //[Command]
     public void CmdCancelBoost()
     {
         RpcCancelBoost();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcCancelBoost()
     {
         // TODONETWORK
@@ -317,7 +321,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // DECLOAK
 
-    [Command]
+    //[Command]
     public void CmdPerformDecloak()
     {
         new NetworkExecuteWithCallback(
@@ -327,37 +331,37 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         );
     }
 
-    [Command]
+    //[Command]
     public void CmdLaunchDecloak()
     {
         RpcLaunchDecloak();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcLaunchDecloak()
     {
         (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartDecloakExecution(Selection.ThisShip);
     }
 
-    [Command]
+    //[Command]
     public void CmdFinishDecloak()
     {
         RpcFinishDecloak();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcFinishDecloak()
     {
         (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishDecloakAnimation();
     }
 
-    [Command]
+    //[Command]
     public void CmdCancelDecloak()
     {
         RpcCancelDecloak();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcCancelDecloak()
     {
         //TODONETWORK
@@ -366,13 +370,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // SELECT TARGET SHIP
 
-    [Command]
+    //[Command]
     public void CmdSelectTargetShip(int targetId)
     {
         RpcSelectTargetShip(targetId);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcSelectTargetShip(int targetId)
     {
         SelectShipSubPhase currentSubPhase = (Phases.CurrentSubPhase as SelectShipSubPhase);
@@ -382,13 +386,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // REVERT SUBPHASE
 
-    [Command]
+    //[Command]
     public void CmdRevertSubPhase()
     {
         RpcRevertSubPhase();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcRevertSubPhase()
     {
         (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
@@ -396,13 +400,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // BARREL ROLL PLANNING
 
-    [Command]
+    //[Command]
     public void CmdTryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
         RpcTryConfirmBarrelRoll(templateName, shipPosition, movementTemplatePosition);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcTryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
     {
         (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).TryConfirmBarrelRollNetwork(templateName, shipPosition, movementTemplatePosition);
@@ -410,13 +414,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // DECLOAK PLANNING
 
-    [Command]
+    //[Command]
     public void CmdTryConfirmDecloak(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
     {
         RpcTryConfirmDecloak(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcTryConfirmDecloak(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
     {
         (Phases.CurrentSubPhase as DecloakPlanningSubPhase).TryConfirmDecloakNetwork(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
@@ -424,13 +428,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // BOOST PLANNING
 
-    [Command]
+    //[Command]
     public void CmdTryConfirmBoostPosition(string SelectedBoostHelper)
     {
         RpcTryConfirmBoostPosition(SelectedBoostHelper);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcTryConfirmBoostPosition(string SelectedBoostHelper)
     {
         (Phases.CurrentSubPhase as BoostPlanningSubPhase).TryConfirmBoostPositionNetwork(SelectedBoostHelper);
@@ -438,7 +442,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // SELECTED DICE SYNC
 
-    [Command]
+    //[Command]
     public void CmdSyncSelectedDiceAndReroll()
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdSyncSelectedDice");
@@ -452,7 +456,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
         RpcSyncSelectedDiceAndReroll(selectedDiceIds);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcSyncSelectedDiceAndReroll(int[] selectedDiceIds)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcSyncSelectedDice");
@@ -477,13 +481,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // SYNC DECKS
 
-    [Command]
+    //[Command]
     public void CmdSyncDecks(int playerNo, int seed)
     {
         RpcSyncDecks(playerNo, seed);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcSyncDecks(int playerNo, int seed)
     {
         DamageDecks.GetDamageDeck(Tools.IntToPlayer(playerNo)).ShuffleDeck(seed);
@@ -491,13 +495,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // MESSAGES
 
-    [Command]
+    //[Command]
     public void CmdShowMessage(string text)
     {
         RpcShowMessage(text);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcShowMessage(string text)
     {
         Messages.ShowInfo(text);
@@ -505,7 +509,7 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // CALLBACKS
 
-    [Command]
+    //[Command]
     public void CmdFinishTask()
     {
         Network.ServerFinishTask();
@@ -513,13 +517,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // Swarm Manager
 
-    [Command]
+    //[Command]
     public void CmdSetSwarmManagerManeuver(string maneuverCode)
     {
         RpcSetSwarmManagerManeuver(maneuverCode);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcSetSwarmManagerManeuver(string maneuverCode)
     {
         SwarmManager.SetManeuver(maneuverCode);
@@ -527,13 +531,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // Return To Main Menu
 
-    [Command]
+    //[Command]
     public void CmdReturnToMainMenu(bool isServerSurrendered)
     {
         RpcReturnToMainMenu(isServerSurrendered);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcReturnToMainMenu(bool isServerSurrendered)
     {
         Phases.EndGame();
@@ -555,13 +559,13 @@ public partial class NetworkPlayerController : NetworkBehaviour {
 
     // Quit to desktop
 
-    [Command]
+    //[Command]
     public void CmdQuitToDesktop(bool isServerSurrendered)
     {
         RpcQuitToDesktop(isServerSurrendered);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcQuitToDesktop(bool isServerSurrendered)
     {
         Phases.EndGame();

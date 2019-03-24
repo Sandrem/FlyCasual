@@ -12,8 +12,10 @@ public class OptionsValueController : MonoBehaviour
 
     public void UpdateProgressByClick()
     {
-        float UiScale = GameObject.Find("UI").GetComponent<RectTransform>().localScale.x;
-        float percentage = (Input.mousePosition.x - this.gameObject.transform.position.x - (20f * UiScale)) / (595f * UiScale);
+        Vector2 localCursor;
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), Input.mousePosition, Camera.current, out localCursor)) ;
+        float myWidth = this.transform.Find("PanelHitDetection").GetComponent<RectTransform>().rect.width;
+        float percentage = (localCursor.x + 0.5f * myWidth) / myWidth;
 
         string optionName = this.transform.Find("Text").GetComponent<Text>().text;
         if (optionName.Contains("Speed"))
@@ -34,8 +36,9 @@ public class OptionsValueController : MonoBehaviour
     {
         Options.ChangeParameterValue(this.transform.Find("Text").GetComponent<Text>().text, percentage);
 
-        this.transform.Find("ValueList/PanelValue").GetComponent<RectTransform>().sizeDelta = new Vector2(595f * percentage, 50);
-        this.transform.Find("ValueList/PanelEmpty").GetComponent<RectTransform>().sizeDelta = new Vector2(595f * (1f - percentage), 50);
+        float myWidth = this.transform.Find("PanelHitDetection").GetComponent<RectTransform>().rect.width;
+        this.transform.Find("ValueList/PanelValue").GetComponent<RectTransform>().sizeDelta = new Vector2(myWidth * percentage, 100);
+        this.transform.Find("ValueList/PanelEmpty").GetComponent<RectTransform>().sizeDelta = new Vector2(myWidth * (1f - percentage), 100);
     }
 
 }

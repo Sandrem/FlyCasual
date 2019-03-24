@@ -276,11 +276,15 @@ namespace SquadBuilderNS
             if (noContentText != null) noContentText.SetActive(false);
 
             ShowAvailableShips(CurrentSquadList.SquadFaction);
+
+            UpdateSquadCostForShipsMenu(GetCurrentSquadCost());
         }
 
         public static void ShowPilotsFilteredByShipAndFaction()
         {
             ShowAvailablePilots(CurrentSquadList.SquadFaction, CurrentShip);
+
+            UpdateSquadCostForPilotsMenu(GetCurrentSquadCost());
         }
 
         private static SquadBuilderShip AddPilotToSquad(GenericShip ship, PlayerNo playerNo)
@@ -334,7 +338,6 @@ namespace SquadBuilderNS
         {
             UpdateSquadCostForPilotMenu(GetCurrentSquadCost());
             GenerateShipWithSlotsPanels();
-            UpdateSkinButton();
         }
 
         public static void OpenSelectShip()

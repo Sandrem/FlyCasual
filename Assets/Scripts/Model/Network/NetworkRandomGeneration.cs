@@ -65,9 +65,9 @@ public static partial class Network
 
 }
 
-public partial class NetworkPlayerController : NetworkBehaviour
+public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK NetworkBehaviour
 {
-    [Command]
+    //[Command]
     public void CmdGenerateRandomValues(Vector2 range, int count)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdGenerateRandomValues");
@@ -84,14 +84,14 @@ public partial class NetworkPlayerController : NetworkBehaviour
         );
     }
 
-    [Command]
+    //[Command]
     private void CmdStoreGeneratedRandomValues(int[] randomHolder)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdStoreGeneratedRandomValues");
         RpcStoreGeneratedRandomValues(randomHolder);
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcStoreGeneratedRandomValues(int[] randomHolder)
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcStoreGeneratedRandomValues");
@@ -108,14 +108,14 @@ public partial class NetworkPlayerController : NetworkBehaviour
         Network.StoreGeneratedRandomValues(randomHolder);
     }
 
-    [Command]
+    //[Command]
     private void CmdGenerateRandomValuesCallBack()
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("S: CmdGenerateRandomValuesCallBack");
         RpcGenerateRandomValuesCallBack();
     }
 
-    [ClientRpc]
+    //[ClientRpc]
     private void RpcGenerateRandomValuesCallBack()
     {
         if (DebugManager.DebugNetwork) UI.AddTestLogEntry("C: RpcGenerateRandomValuesCallBack");

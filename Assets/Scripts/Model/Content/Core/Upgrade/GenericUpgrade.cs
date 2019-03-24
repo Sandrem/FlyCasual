@@ -15,11 +15,13 @@ namespace Upgrade
     {
         public Faction AvatarFaction;
         public Vector2 AvatarOffset;
+        public Vector2 AvatarSize;
 
-        public AvatarInfo(Faction faction, Vector3 offset)
+        public AvatarInfo(Faction faction, Vector2 offset, Vector2 size = default(Vector2))
         {
             AvatarFaction = faction;
             AvatarOffset = offset;
+            AvatarSize = (size != default(Vector2)) ? size : new Vector2(100, 100);
         }
     }
 

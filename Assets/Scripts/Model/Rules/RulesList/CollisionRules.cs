@@ -26,7 +26,10 @@ namespace RulesList
         public void CheckSkipPerformAction()
         {
             string ShipMessageString = "";
-            if (Selection.ThisShip.IsBumped && !Selection.ThisShip.CanPerformActionsWhenBumped)
+            if (Selection.ThisShip.IsBumped
+                && !Selection.ThisShip.CanPerformActionsWhenBumped
+                && Selection.ThisShip.AssignedManeuver.Speed != 0
+            )
             {
                 ShipMessageString = Selection.ThisShip.PilotInfo.PilotName + " collided into another ship.  Skipping their action subphase.";
                 Messages.ShowErrorToHuman(ShipMessageString);

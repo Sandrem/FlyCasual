@@ -167,12 +167,12 @@ namespace Ship
             if (OnMovementFinishGlobal != null) OnMovementFinishGlobal(this);
             
             // If we didn't bump, or end up off the board then we have succesfully completed our manuever.
-            if (!IsBumped && !BoardTools.Board.IsOffTheBoard(this))
+            if ((Selection.ThisShip.AssignedManeuver.Speed == 0 || !IsBumped) && !BoardTools.Board.IsOffTheBoard(this))
             {
                 if (OnMovementFinishSuccessfully != null) OnMovementFinishSuccessfully(this);
                 if (OnMovementFinishSuccessfullyGlobal != null) OnMovementFinishSuccessfullyGlobal(this);
             }
-            else if(IsBumped)
+            else if (IsBumped)
             {
                 if (OnMovementFinishUnsuccessfully != null) OnMovementFinishUnsuccessfully(this);
 
@@ -187,7 +187,8 @@ namespace Ship
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
                     Selection.ThisShip.FinishPosition(callback);
-                });
+                }
+            );
         }
 
         public void FinishPosition(System.Action callback)

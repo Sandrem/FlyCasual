@@ -38,6 +38,8 @@ namespace Abilities.SecondEdition
 
     public class ConcordiaFaceoffAbility : GenericAbility
     {
+        public override string Name { get { return "Concordia Faceoff"; } }
+
         public override void ActivateAbility()
         {
             AddDiceModification(

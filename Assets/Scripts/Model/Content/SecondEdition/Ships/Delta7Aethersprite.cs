@@ -96,7 +96,7 @@ namespace Abilities.SecondEdition
     //After you fully execute a maneuver, you may spend 1 force to perform a barrel roll or boost action.
     public class FineTunedControlsAbility : GenericAbility
     {
-        public override string Name { get { return "Fine-tuned Controls"; } }
+        public override string Name { get { return "Fine-Tuned Controls"; } }
 
         public override void ActivateAbility()
         {
@@ -118,7 +118,7 @@ namespace Abilities.SecondEdition
         
         private void AskPerformRepositionAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Fine-tuned Controls: You may spend 1 force to perform a barrel roll or boost action");
+            Messages.ShowInfoToHuman("Fine-Tuned Controls: You may spend 1 force to perform a barrel roll or boost action");
             HostShip.BeforeFreeActionIsPerformed += PayForceCost;
 
             HostShip.AskPerformFreeAction(

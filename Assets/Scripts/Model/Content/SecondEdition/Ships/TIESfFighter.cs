@@ -57,6 +57,8 @@ namespace Abilities.SecondEdition
     //After you perform an action, you may perform a red boost action.
     public class HeavyWeaponTurret : GenericAbility
     {
+        public override string Name { get { return "Heavy Weapon Turret"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnGameStart += RestrictMissileArcRequirements;

@@ -100,6 +100,8 @@ namespace Abilities.SecondEdition
     //at range 0-1 to change 1 focus result to an evade or hit result.
     public class NetworkedCalculationsAbility : GenericAbility
     {
+        public override string Name { get { return "Networked Calculations"; } }
+
         public override void ActivateAbility()
         {
             AddDiceModification(

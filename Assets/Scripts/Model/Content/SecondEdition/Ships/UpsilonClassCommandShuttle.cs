@@ -38,6 +38,8 @@ namespace Abilities.SecondEdition
 {
     public class LinkedBattery : GenericAbility
     {
+        public override string Name { get { return "Linked Battery"; } }
+
         public override void ActivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice += CheckAddDice;

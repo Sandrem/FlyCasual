@@ -40,6 +40,8 @@ namespace Abilities.SecondEdition
 {
     public class ModifiedTIELnFighterAbility : GenericAbility
     {
+        public override string Name { get { return "Notched Stabilizers"; } }
+
         public override void ActivateAbility()
         {
             HostShip.IgnoreObstacleTypes.Add(typeof(Obstacles.Asteroid));

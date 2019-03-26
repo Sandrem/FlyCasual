@@ -45,6 +45,8 @@ namespace Abilities.SecondEdition
     //While you perform a primary attack against a defender you have locked, roll 1 additional attack die and change 1 hit result to a critical hit result.
     public class AdvancedTargetingComputer : GenericAbility
     {
+        public override string Name { get { return "Advanced Targeting Computer"; } }
+
         public override void ActivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice += CheckAbility;

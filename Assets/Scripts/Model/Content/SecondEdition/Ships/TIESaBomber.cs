@@ -45,6 +45,8 @@ namespace Abilities.SecondEdition
 {
     public class NimbleBomber : GenericAbility
     {
+        public override string Name { get { return "Nimble Bomber"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnGetAvailableBombDropTemplates += AddNimbleBomberTemplates;

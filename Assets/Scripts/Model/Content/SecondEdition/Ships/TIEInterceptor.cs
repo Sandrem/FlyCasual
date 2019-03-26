@@ -37,6 +37,8 @@ namespace Abilities.SecondEdition
     //After you perform an action, you may perform a red boost / red barrel roll action.
     public class AutoThrustersAbility : GenericAbility
     {
+        public override string Name { get { return "Autothrusters"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnActionIsPerformed += CheckConditions;
@@ -63,7 +65,7 @@ namespace Abilities.SecondEdition
         {
             //if (!HostShip.IsStressed)
             //{
-                Messages.ShowInfoToHuman("AutoThrusters: you may perform a red action");
+                Messages.ShowInfoToHuman("Autothrusters: you may perform a red action");
 
                 HostShip.AskPerformFreeAction(
                     new List<GenericAction>()

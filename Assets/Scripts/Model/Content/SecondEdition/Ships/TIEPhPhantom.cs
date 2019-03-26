@@ -43,6 +43,8 @@ namespace Abilities.SecondEdition
 {
     public class StygiumArray : GenericAbility
     {
+        public override string Name { get { return "Stygium Array"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnDecloak += RegisterPerformFreeEvadeAction;

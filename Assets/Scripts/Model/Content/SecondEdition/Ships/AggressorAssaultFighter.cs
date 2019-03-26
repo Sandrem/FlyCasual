@@ -38,6 +38,8 @@ namespace Abilities.SecondEdition
 {
     public class AdvancedDroidBrain : GenericAbility
     {
+        public override string Name { get { return "Advanced Droid Brain"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnActionIsPerformed += CheckAbility;

@@ -44,6 +44,8 @@ namespace Abilities.SecondEdition
 {
     public class SpacetugAbility : GenericAbility
     {
+        public override string Name { get { return "Spacetug Tractor Array"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnGenerateActions += AddAction;

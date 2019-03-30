@@ -26,8 +26,6 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 extraUpgradeIcon: UpgradeType.Force
             );
 
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/d60f4eca355471465ca3f6b99fb98e56.png";
         }
     }

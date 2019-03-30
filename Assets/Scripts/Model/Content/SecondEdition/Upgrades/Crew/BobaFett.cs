@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
                 DistanceInfo distInfo = new DistanceInfo(HostShip, enemyShip);
                 if (distInfo.Range < 4)
                 {
-                    Messages.ShowErrorToHuman("Boba Fett's Ability: Invalid location for this ship:\nThe range to " + enemyShip.PilotInfo.PilotName + " is " + distInfo.Range + ".  It must be beyond range 3.");
+                    Messages.ShowErrorToHuman("Boba Fett's Ability: The range to the closest enemy is " + distInfo.Range + ".  It must be beyond range 3.");
                     return false;
                 }
             }

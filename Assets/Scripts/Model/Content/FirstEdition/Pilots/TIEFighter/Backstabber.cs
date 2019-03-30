@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             ShotInfo shotInformation = new ShotInfo(Combat.Defender, Combat.Attacker, Combat.ChosenWeapon);
             if (!shotInformation.InArc)
             {
-                Messages.ShowInfo("Backstabber: Additional dice");
+                Messages.ShowInfo("Backstabber is attacking from outside the defender's firing arc and rolls an additional attack die.");
                 diceNumber++;
             }
         }

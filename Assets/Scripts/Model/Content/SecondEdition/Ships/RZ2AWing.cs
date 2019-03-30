@@ -53,6 +53,8 @@ namespace Abilities.SecondEdition
     //After you perform an action, you may perform a red boost action.
     public class VectoredThrustersRZ2 : GenericAbility
     {
+        public override string Name { get { return "Refined Gyrostabilizers"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnActionIsPerformed += CheckConditions;
@@ -85,7 +87,7 @@ namespace Abilities.SecondEdition
 
         private void AskPerformPerositionAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Vectored Thrusters: you may perform a red boost or a red rotate arc action");
+            Messages.ShowInfoToHuman("Refined Gyrostabilizers: you may perform a red boost or a red rotate arc action");
 
             HostShip.AskPerformFreeAction(
                 new List<GenericAction>()

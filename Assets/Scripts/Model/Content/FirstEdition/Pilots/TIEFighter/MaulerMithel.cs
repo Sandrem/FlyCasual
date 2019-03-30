@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
             ShotInfo shotInformation = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
             if (shotInformation.Range == 1)
             {
-                Messages.ShowInfo("\"Mauler Mithel\": +1 attack die");
+                Messages.ShowInfo("\"Mauler Mithel\" is within range 1 of his target.  He rolls +1 attack die.");
                 result++;
             }
         }

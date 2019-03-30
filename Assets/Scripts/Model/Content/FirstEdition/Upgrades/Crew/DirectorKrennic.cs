@@ -22,7 +22,7 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.DirectorKrennicAbility)
             );
 
-            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(53, 1));
+            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(71, 1));
         }        
     }
 }
@@ -120,12 +120,12 @@ namespace Abilities.FirstEdition
 
         private void AskAcquireTargetLock(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, AcquireTargetLock, null, null, true, string.Format("Does {0} want to acquire target lock on {1}?", HostShip.PilotInfo.PilotName, Combat.Defender.PilotInfo.PilotName));
+            AskToUseAbility(AlwaysUseByDefault, AcquireTargetLock, null, null, true, string.Format("Does {0} want to acquire a Target Lock on {1}?", HostShip.PilotInfo.PilotName, Combat.Defender.PilotInfo.PilotName));
         }
 
         private void AcquireTargetLock(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(string.Format("Optimized Prototype: {0} gets target lock on {1}", HostShip.PilotInfo.PilotName, Combat.Defender.PilotInfo.PilotName));
+            Messages.ShowInfo(string.Format("Optimized Prototype: {0} gets a Target Lock on {1}.", HostShip.PilotInfo.PilotName, Combat.Defender.PilotInfo.PilotName));
             ActionsHolder.AcquireTargetLock(HostShip, Combat.Defender, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);
         }
     }

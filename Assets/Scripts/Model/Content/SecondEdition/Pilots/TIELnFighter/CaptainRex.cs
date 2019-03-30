@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
 
         private void AssignConditionToDefender(GenericShip ship)
         {
-            Messages.ShowInfo("Suppressive Fire is assigned by Captain Rex");
+            Messages.ShowInfo("Suppressive Fire has been assigned by Captain Rex.");
 
             AssignedCondition = new CaptainRexCondition(Combat.Defender) { Source = HostShip };
             SufferedShip = Combat.Defender;
@@ -68,7 +68,7 @@ namespace Abilities.SecondEdition
         {
             if (SufferedShip != null)
             {
-                Messages.ShowInfo("Suppressive Fire is removed from " + SufferedShip.PilotInfo.PilotName);
+                Messages.ShowInfo("Suppressive Fire has been removed from " + SufferedShip.PilotInfo.PilotName);
 
                 SufferedShip.Tokens.RemoveCondition(AssignedCondition);
                 SufferedShip = null;
@@ -117,7 +117,7 @@ namespace Conditions
         {
             if (Combat.Defender != Source)
             {
-                Messages.ShowError("Captain Rex: Roll 1 fewer attack die");
+                Messages.ShowError("Captain Rex - Suppressive Fire: Since the attacker is not attacking Captain Rex, it rolls 1 fewer attack die.");
                 count--;
             }
         }

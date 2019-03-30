@@ -78,7 +78,7 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            Messages.ShowInfo("Ability of Dace Bonearm is used");
+            Messages.ShowInfo("Dace Bonearm's ability has been activated.");
 
             for (int i = 0; i < 3; i++)
             {

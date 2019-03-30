@@ -27,7 +27,7 @@ namespace UpgradesList.FirstEdition
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             bool result = HostShip.PilotInfo.Initiative > 4;
-            if (!result) Messages.ShowError("You cannot equip \"Royal Guard TIE\" if pilot's skill is \"4\" or lower");
+            if (!result) Messages.ShowError("You cannot equip \"Royal Guard TIE\" if the pilot's skill is \"4\" or lower");
             return result;
         }
     }

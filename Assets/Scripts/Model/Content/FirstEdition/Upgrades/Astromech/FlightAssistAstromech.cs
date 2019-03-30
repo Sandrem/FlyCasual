@@ -25,7 +25,7 @@ namespace Abilities.FirstEdition
 {
     public class FlightAssistAstromechAbility : GenericAbility
     {
-        private List<IShipWeapon> turnedOffOutOfArcWeapons = new List<IShipWeapon>();
+        //private List<IShipWeapon> turnedOffOutOfArcWeapons = new List<IShipWeapon>();
 
         public override void ActivateAbility()
         {

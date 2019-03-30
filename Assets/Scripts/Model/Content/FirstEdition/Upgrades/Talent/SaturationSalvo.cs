@@ -122,11 +122,11 @@ namespace SubPhases
                     NoDamage();
                     break;
                 case DieSide.Success:
-                    Messages.ShowErrorToHuman("Damage is dealt!");
+                    Messages.ShowErrorToHuman("Ship is hit!");
                     SufferDamage();
                     break;
                 case DieSide.Crit:
-                    Messages.ShowErrorToHuman("Critical damage is dealt!");
+                    Messages.ShowErrorToHuman("Ship is critically hit!");
                     SufferDamage();
                     break;
                 default:

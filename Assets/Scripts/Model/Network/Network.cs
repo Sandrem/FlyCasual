@@ -22,8 +22,8 @@ public static partial class Network
 
     public static JSONObject SquadJsons;
 
-    public static MatchInfoSnapshot SelectedMatchSnapshot;
-    public static MatchInfo CurrentMatch;
+    /*public static MatchInfoSnapshot SelectedMatchSnapshot;
+    public static MatchInfo CurrentMatch;*/
 
     public static bool IsNetworkGame
     {
@@ -251,14 +251,14 @@ public static partial class Network
 
     public static void CreateMatch(string roomName, string password)
     {
-        ToggleCreateMatchButtons(false);
+        /*ToggleCreateMatchButtons(false);
 
         roomName = roomName.Replace('|', ' '); // Remove info separator
         roomName = new RoomInfo(roomName, true).ToString();
 
         NetworkManager.singleton.SetMatchHost("us1-mm.unet.unity3d.com", NetworkManager.singleton.matchPort, true);
         NetworkManager.singleton.StartMatchMaker();
-        NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);
+        NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);*/
     }
 
     private static void ToggleCreateMatchButtons(bool isActive)
@@ -267,7 +267,7 @@ public static partial class Network
         GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/BackButton").SetActive(isActive);
     }
 
-    private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
+    /*private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         if (success)
         {
@@ -284,24 +284,24 @@ public static partial class Network
         }
         else
         {
-            Messages.ShowError("Create match failed");
+            Messages.ShowError("Match creation failed.");
 
             ToggleCreateMatchButtons(true);
         }
-    }
+    }*/
 
     public static void BrowseMatches()
     {
-        ToggleNoRoomsMessage(false);
+        /*ToggleNoRoomsMessage(false);
         ToggleBrowseRoomsControls(false);
         ToggleLoadingMessage(true);
 
         NetworkManager.singleton.SetMatchHost("us1-mm.unet.unity3d.com", NetworkManager.singleton.matchPort, true);
         NetworkManager.singleton.StartMatchMaker();
-        NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);
+        NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);*/
     }
 
-    private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
+    /*private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
     {
         ToggleLoadingMessage(false);
         ToggleBrowseRoomsControls(true);
@@ -322,9 +322,9 @@ public static partial class Network
         }
         else
         {
-            Messages.ShowError("Cannot connect to match maker\nCheck network connection");
+            Messages.ShowError("Cannot connect to match maker.\nCheck your network connection.");
         }
-    }
+    }*/
 
     private static void ToggleNoRoomsMessage(bool isActive)
     {
@@ -348,7 +348,7 @@ public static partial class Network
         GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("LoadingMessage").gameObject.SetActive(isActive);
     }
 
-    public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
+    /*public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
     {
         float FREE_SPACE = 10f;
         float MATCH_PANEL_HEIGHT = 90;
@@ -384,7 +384,7 @@ public static partial class Network
 
             currentPosition = new Vector3(currentPosition.x, currentPosition.y - 90 - FREE_SPACE, currentPosition.z);
         }
-    }
+    }*/
 
     public static void ClearRoomsList()
     {
@@ -395,10 +395,10 @@ public static partial class Network
         }
     }
 
-    public static void ClickJoinRoom(MatchInfoSnapshot match)
+    /*public static void ClickJoinRoom(MatchInfoSnapshot match)
     {
         //Messages.ShowInfo("Joining room...");
-        SelectedMatchSnapshot = match;
+        //SelectedMatchSnapshot = match;
 
         if (!match.isPrivate)
         {
@@ -410,13 +410,13 @@ public static partial class Network
             JoinPrivateMatchPanelGO.transform.Find("Panel").Find("Name").Find("InputField").GetComponent<InputField>().text = new RoomInfo(match.name).RoomName;
             MainMenu.CurrentMainMenu.ChangePanel(JoinPrivateMatchPanelGO);
         }
-    }
+    }*/
 
     public static void JoinCurrentRoomByParameters(string password = "")
     {
-        if (!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(false); else ToggleJoinPrivateMatchButtons(false);
+        /*if (!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(false); else ToggleJoinPrivateMatchButtons(false);
 
-        NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatchSnapshot.networkId, password, "", "", 0, 0, OnJoinInternetMatch);
+        NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatchSnapshot.networkId, password, "", "", 0, 0, OnJoinInternetMatch);*/
     }
 
     private static void ToggleJoinPrivateMatchButtons(bool isActive)
@@ -425,7 +425,7 @@ public static partial class Network
         GameObject.Find("UI/Panels/JoinPrivateMatchPanel/ControlsPanel/BackButton").SetActive(isActive);
     }
 
-    private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
+    /*private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
     {
         if (success)
         {
@@ -440,33 +440,33 @@ public static partial class Network
         {
             if (SelectedMatchSnapshot.isPrivate)
             {
-                Messages.ShowError("Cannot join match\nCheck password");
+                Messages.ShowError("Unable to join the match.\nThe password is invalid.");
                 ToggleJoinPrivateMatchButtons(true);
                 //ToggleBrowseRooms(true);
             }
             else
             {
-                Messages.ShowError("Cannot join match");
+                Messages.ShowError("Unable to join the match.");
                 BrowseMatches();
             }
         }
-    }
+    }*/
 
     public static void CancelWaitingForOpponent()
     {
-        NetworkServer.Shutdown();
+        /*NetworkServer.Shutdown();
         NetworkManager.singleton.StopHost();
-        NetworkManager.singleton.StopMatchMaker();
+        NetworkManager.singleton.StopMatchMaker();*/
     }
 
     public static void Disconnect(Action callback)
     {
-        NetworkManager.singleton.matchMaker.DestroyMatch(CurrentMatch.networkId, 0, delegate { DisconnectPart2(callback); });
+        /*NetworkManager.singleton.matchMaker.DestroyMatch(CurrentMatch.networkId, 0, delegate { DisconnectPart2(callback); });*/
     }
 
     private static void DisconnectPart2(Action callback)
     {
-        if (IsServer)
+        /*if (IsServer)
         {
             NetworkServer.Shutdown();
             NetworkManager.singleton.StopHost();
@@ -478,7 +478,7 @@ public static partial class Network
             NetworkManager.singleton.StopMatchMaker();
         }
 
-        callback();
+        callback();*/
     }
 
     public static void SyncDecks(int playerNo, int seed)

@@ -33,7 +33,7 @@ namespace DamageDeckCardFE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Can be assigned straight maneuvers");
+            Messages.ShowInfo(Host.PilotInfo.PilotName + " is no longer shaken.  They can once again be assigned straight maneuvers.");
             Host.Tokens.RemoveCondition(typeof(Tokens.ShakenPilotCritToken));
 
             Host.AfterGetManeuverAvailablity -= CannotBeAssignedStraightManeuvers;

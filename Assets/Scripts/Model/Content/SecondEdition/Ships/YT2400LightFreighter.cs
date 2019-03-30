@@ -42,6 +42,8 @@ namespace Abilities.SecondEdition
 {
     public class SensorBlindspot : GenericAbility
     {
+        public override string Name { get { return "Sensor Blindspot"; } }
+
         public override void ActivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice += CheckSensorBlindspot;

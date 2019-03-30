@@ -26,8 +26,6 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.KrakenAbility)
             );
 
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/7/77/Swz29_kraken.png";
         }        
     }

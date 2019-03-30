@@ -112,7 +112,7 @@ namespace Abilities.FirstEdition
 
         private void DiscardTokenInstead(Action callback)
         {
-            Messages.ShowInfo("Illicit token is discarded instead of " + GenericUpgrade.CurrentUpgrade.UpgradeInfo.Name);
+            Messages.ShowInfo("Illicit token is discarded instead of " + GenericUpgrade.CurrentUpgrade.UpgradeInfo.Name + ".");
 
             RemoveIllicitToken(GenericUpgrade.CurrentUpgrade);
 

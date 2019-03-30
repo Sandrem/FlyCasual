@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowError(HostUpgrade.UpgradeInfo.Name + ": Not enough charges");
+                Messages.ShowError(HostUpgrade.UpgradeInfo.Name + " does not have enough charges to activate.");
                 Triggers.FinishTrigger();
             }
         }
@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
         {
             HostUpgrade.State.SpendCharges(3);
 
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Ability was activated");
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + "'s ability was successfully activated.");
 
             GenericShip.OnManeuverIsReadyToBeRevealedGlobal += CheckReduceComplexity;
             Phases.Events.OnRoundEnd += ClearAbility;

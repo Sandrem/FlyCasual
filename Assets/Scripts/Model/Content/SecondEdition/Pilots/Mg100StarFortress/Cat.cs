@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
                     List<GenericShip> shipsNear = BombsManager.GetShipsInRange(bombHolder.Key);
                     if (shipsNear.Contains(Combat.Defender) && bombHolder.Value.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
                     {
-                        Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 attack die");
+                        Messages.ShowInfo(HostShip.PilotInfo.PilotName + " gains +1 attack die.");
                         count++;
                         return;
                     }

@@ -9,6 +9,7 @@ using Players;
 using Mods;
 using SquadBuilderNS;
 using Editions;
+using Ship;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -38,7 +39,7 @@ public partial class MainMenu : MonoBehaviour {
             {
                 if (CurrentPanel.name == "SquadBuilderPanel")
                 {
-                    Messages.ShowError("This part of squad builder is disabled");
+                    Messages.ShowError("This part of squad builder is disabled.");
                     return;
                 }
                 else
@@ -64,10 +65,14 @@ public partial class MainMenu : MonoBehaviour {
                 UpdatePlayerInfo();
                 break;
             case "OptionsPanel":
-                Options.InitializePanel();
+                //Options.InitializePanel();
+                OptionsUI.Instance.InitializeOptionsPanel();
                 break;
             case "ModsPanel":
                 ModsManager.InitializePanel();
+                break;
+            case "CreditsPanel":
+                CreditsUI.InitializePanel();
                 break;
             case "BrowseRoomsPanel":
                 Network.BrowseMatches();
@@ -112,6 +117,9 @@ public partial class MainMenu : MonoBehaviour {
                 break;
             case "EditionPanel":
                 ShowActiveEdition(Options.Edition);
+                break;
+            case "ShipInfoPanel":
+                SquadBuilder.ShowShipInformation();
                 break;
         }
     }

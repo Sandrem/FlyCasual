@@ -46,6 +46,8 @@ namespace Abilities.SecondEdition
 {
     public class DeadToRights : GenericAbility
     {
+        public override string Name { get { return "Dead to Rights"; } }
+
         public override void ActivateAbility()
         {
             GenericShip.OnTryAddAvailableDiceModificationGlobal += CheckBullseyeArc;
@@ -75,7 +77,7 @@ namespace Abilities.SecondEdition
                     {
                         if (Combat.Attacker.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye))
                         {
-                            Messages.ShowError("Bullseye: " + action.DiceModificationName + " cannot be used");
+                            Messages.ShowError("Dead to Rights: The defender cannot use " + action.DiceModificationName + ".");
                             canBeUsed = false;
                         }
                     }

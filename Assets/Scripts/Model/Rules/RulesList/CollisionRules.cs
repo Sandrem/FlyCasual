@@ -25,9 +25,14 @@ namespace RulesList
 
         public void CheckSkipPerformAction()
         {
-            if (Selection.ThisShip.IsBumped && !Selection.ThisShip.CanPerformActionsWhenBumped)
+            string ShipMessageString = "";
+            if (Selection.ThisShip.IsBumped
+                && !Selection.ThisShip.CanPerformActionsWhenBumped
+                && Selection.ThisShip.AssignedManeuver.Speed != 0
+            )
             {
-                Messages.ShowErrorToHuman("Collided into ship - action subphase is skipped");
+                ShipMessageString = Selection.ThisShip.PilotInfo.PilotName + " collided into another ship.  Skipping their action subphase.";
+                Messages.ShowErrorToHuman(ShipMessageString);
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
             }
         }
@@ -63,7 +68,7 @@ namespace RulesList
             {
                 if (!Selection.ThisShip.CanAttackBumpedTarget(Selection.AnotherShip))
                 {
-                    stringList.Add("Cannot attack ship that you are touching");
+                    stringList.Add("You cannot attack the ship that you are touching.");
                     result = false;
                 }
             }

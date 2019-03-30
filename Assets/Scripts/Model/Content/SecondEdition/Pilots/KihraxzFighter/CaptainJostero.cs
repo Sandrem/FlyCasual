@@ -37,7 +37,7 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnDamageInstanceResolvedGlobal += CheckJosteroAbility;
+            GenericShip.OnDamageInstanceResolvedGlobal -= CheckJosteroAbility;
         }
 
         private void CheckJosteroAbility(GenericShip damaged, DamageSourceEventArgs damage)

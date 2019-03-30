@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R4-P17",
                 UpgradeType.Astromech,
-                cost: 0, //TODO
+                cost: 5,
                 charges: 2,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.R4P17Ability),
@@ -54,11 +54,12 @@ namespace Abilities.SecondEdition
 
                 HostShip.BeforeFreeActionIsPerformed += SpendCharge;
 
+                var oldValue = HostShip.CanPerformActionsWhileStressed;
                 HostShip.CanPerformActionsWhileStressed = true;
                 List<GenericAction> actions = HostShip.GetAvailableActions();
                 HostShip.AskPerformFreeAction(actions, delegate
                 {
-                    HostShip.CanPerformActionsWhileStressed = false;
+                    HostShip.CanPerformActionsWhileStressed = oldValue;
                     HostShip.BeforeFreeActionIsPerformed -= SpendCharge;
                     Triggers.FinishTrigger();
                 });

@@ -12,16 +12,14 @@ namespace Ship.SecondEdition.SithInfiltrator
             PilotInfo = new PilotCardInfo(
                 "Darth Maul",
                 5,
-                70,
+                65,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.DarthMaulPilotAbility),
                 pilotTitle: "Sith Assassin",
                 force: 3,
                 extraUpgradeIcon: UpgradeType.Force
             );
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
+            
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/35/d8/35d8295c-1018-4ed7-94a0-c0bff4e6fbbc/swz30_darth-maul.png";
         }
     }
@@ -99,7 +97,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack one more time", HostShip.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack an additional time.", HostShip.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }
@@ -108,14 +106,14 @@ namespace Abilities.SecondEdition
         {
             if (weapon.WeaponType != WeaponTypes.PrimaryWeapon)
             {
-                if (!isSilent) Messages.ShowError("Bonus attack must be a primary attack");
+                if (!isSilent) Messages.ShowError("Your bonus attack must be a primary weapon attack.");
                 return false;
             }
 
             if (!FirstAttackMissed && defender == OriginalDefender)
             {
 
-                if (!isSilent) Messages.ShowError("Bonus attack must be against a different target");
+                if (!isSilent) Messages.ShowError("Your bonus attack must be against a different target.");
                 return false;
             }
 

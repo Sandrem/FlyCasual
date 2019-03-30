@@ -37,7 +37,7 @@ namespace Abilities.FirstEdition
         {
             if (crit.Type == CriticalCardType.Pilot)
             {
-                Messages.ShowInfo("Determination: Crit with \"Pilot\" trait is discarded");
+                Messages.ShowInfo("Determination causes " + ship.PilotInfo.PilotName + " to discard " + crit.Name + " since it has the \"Pilot\" trait.");
                 crit = null;
             }
         }

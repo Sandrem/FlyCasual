@@ -62,7 +62,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman("Captain Nym already have used his ability");
+                Messages.ShowErrorToHuman("Captain Nym has already used his ability.");
                 Triggers.FinishTrigger();
             }
         }

@@ -33,7 +33,7 @@ public partial class MainMenu : MonoBehaviour {
 
         DontDestroyOnLoad(GameObject.Find("GlobalUI").gameObject);
 
-        SetBackground();
+        SetBackground(GetRandomMenuBackground());
         ModsManager.Initialize();
         Options.ReadOptions();
         Options.UpdateVolume();
@@ -55,7 +55,7 @@ public partial class MainMenu : MonoBehaviour {
 
     private void UpdateVersionInfo()
     {
-        GameObject.Find("UI/Panels/MainMenuPanel/Version/Version Text").GetComponent<Text>().text = Global.CurrentVersion;
+        GameObject.Find("UI/Panels/MainMenuPanel/Background/Version/Version Text").GetComponent<Text>().text = Global.CurrentVersion;
     }
 
     private void UpdatePlayerInfo()
@@ -66,9 +66,9 @@ public partial class MainMenu : MonoBehaviour {
         GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/NicknameAndTitleText").GetComponent<Text>().text = Options.NickName + "\n" + Options.Title;
     }
 
-    private void SetBackground()
+    public static void SetBackground(Sprite background)
     {
-        GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = GetRandomMenuBackground();
+        GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = background;
     }
 
     public static Sprite GetRandomMenuBackground()
@@ -243,10 +243,10 @@ public partial class MainMenu : MonoBehaviour {
         selector.transform.position = position;
     }
 
-    public void ChangeNickName(Text inputText)
+    public void ChangeNickName(string text)
     {
-        Options.NickName = inputText.text;
-        Options.ChangeParameterValue("NickName", inputText.text);
+        Options.NickName = text;
+        Options.ChangeParameterValue("NickName", text);
     }
 
     public void ChangeTitle(Text inputText)
@@ -287,5 +287,17 @@ public partial class MainMenu : MonoBehaviour {
             Options.ChangeParameterValue("DontShowAiInfo", GameObject.Find("GlobalUI/OpponentSquad/AiInformation/ToggleBlock/DontShowAgain").GetComponent<Toggle>().isOn);
             Global.StartBattle();
         });
+    }
+
+    public static void ScalePanel(Transform panelTransform, float maxScale = float.MaxValue, bool twoBorders = false)
+    {
+        float bordersSize = (twoBorders) ? 250f : 125f;
+        float globalUiScale = GameObject.Find("UI").GetComponent<RectTransform>().localScale.y;
+
+        float scaleX = Screen.width / panelTransform.GetComponent<RectTransform>().sizeDelta.x / globalUiScale;
+        float scaleY = (Screen.height - bordersSize * globalUiScale) / panelTransform.GetComponent<RectTransform>().sizeDelta.y / globalUiScale;
+        float scale = Mathf.Min(scaleX, scaleY);
+        scale = Mathf.Min(scale, maxScale);
+        panelTransform.localScale = new Vector3(scale, scale, scale);
     }
 }

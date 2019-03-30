@@ -296,7 +296,7 @@ public static partial class Roster {
             {
                 if (!Network.IsNetworkGame)
                 {
-                    if (AllShips[item.tag].Owner.PlayerNo == Phases.CurrentPhasePlayer)
+                    if (AllShips[item.tag].Owner.PlayerNo == Phases.CurrentPhasePlayer && !(AllShips[item.tag].Owner is GenericAiPlayer))
                     {
                         ToggleManeuverVisibility(AllShips[item.tag], true);
                         return;

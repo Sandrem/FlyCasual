@@ -45,6 +45,8 @@ namespace Abilities.SecondEdition
     //While you perform a primary attack against a defender you have locked, roll 1 additional attack die and change 1 hit result to a critical hit result.
     public class AdvancedTargetingComputer : GenericAbility
     {
+        public override string Name { get { return "Advanced Targeting Computer"; } }
+
         public override void ActivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice += CheckAbility;
@@ -82,7 +84,7 @@ namespace Abilities.SecondEdition
         {
             if (IsAvailable())
             {
-                Messages.ShowInfo("Advanced Targeting Computer: +1 attack die");
+                Messages.ShowInfo("Because of " + Combat.Attacker.PilotInfo.PilotName + "'s target lock on " + Combat.Defender.PilotInfo.PilotName + ", Advanced Targeting Computer grants them +1 attack die.");
                 value++;
             }
         }
@@ -92,7 +94,7 @@ namespace Abilities.SecondEdition
             HostShip.OnImmediatelyAfterRolling -= ModifyDice;
             if (diceroll.Change(DieSide.Success, DieSide.Crit, 1) > 0)
             {
-                Messages.ShowInfo("Advanced Targeting Computer: 1 hit changed to crit");
+                Messages.ShowInfo("Advanced Targeting Computer converts one Hit to a Critical Hit.");
             }
         }
     }

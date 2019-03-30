@@ -40,6 +40,8 @@ namespace Abilities.SecondEdition
     //After you perform an action, you may perform a red boost action.
     public class VectoredThrusters : GenericAbility
     {
+        public override string Name { get { return "Vectored Thrusters"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnActionIsPerformed += CheckConditions;

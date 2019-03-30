@@ -39,7 +39,7 @@ namespace DamageDeckCardSE
 
         private void CheckCollisionDamage(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Stunned Pilot: Ship suffered damage");
+            Messages.ShowInfo("Stunned Pilot has caused " + Host.PilotInfo.PilotName + " to suffer 1 Hit.");
 
             DamageSourceEventArgs stunnedpilotDamage = new DamageSourceEventArgs()
             {

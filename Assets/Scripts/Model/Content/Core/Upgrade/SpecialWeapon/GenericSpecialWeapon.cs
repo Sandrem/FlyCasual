@@ -209,7 +209,8 @@ namespace SubPhases
                 }
             }
 
-            DefaultDecisionName = GetDecisions().First().Name;
+            List<Decision> decision = GetDecisions();
+            if (decision != null) DefaultDecisionName = GetDecisions().First().Name;
 
             callBack();
         }

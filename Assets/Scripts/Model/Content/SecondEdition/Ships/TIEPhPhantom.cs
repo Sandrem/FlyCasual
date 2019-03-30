@@ -43,6 +43,8 @@ namespace Abilities.SecondEdition
 {
     public class StygiumArray : GenericAbility
     {
+        public override string Name { get { return "Stygium Array"; } }
+
         public override void ActivateAbility()
         {
             HostShip.OnDecloak += RegisterPerformFreeEvadeAction;
@@ -62,7 +64,7 @@ namespace Abilities.SecondEdition
 
         private void ProposeFreeEvadeAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Stygium Array: You may perform an Evade action");
+            Messages.ShowInfo("Stygium Array allows " + HostShip.PilotInfo.PilotName + " to perform an Evade action.");
             HostShip.AskPerformFreeAction(new EvadeAction() { HostShip = HostShip }, Triggers.FinishTrigger);
         }
 
@@ -76,7 +78,7 @@ namespace Abilities.SecondEdition
 
         private void AskToCloak(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, TradeEvadeForCloakToken, infoText: "Spend Evade Token to gain Cloak Token?");
+            AskToUseAbility(NeverUseByDefault, TradeEvadeForCloakToken, infoText: "Spend an Evade Token to gain a Cloak Token?");
         }
 
         private void TradeEvadeForCloakToken(object sender, System.EventArgs e)
@@ -89,7 +91,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowError("Ship doesn't have Evade token to spend!");
+                Messages.ShowError(HostShip.PilotInfo.PilotName + " doesn't have any Evade token to spend!");
                 Triggers.FinishTrigger();
             }
         }

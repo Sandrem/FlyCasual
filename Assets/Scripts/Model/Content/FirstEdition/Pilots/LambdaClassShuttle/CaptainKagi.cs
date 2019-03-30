@@ -55,7 +55,7 @@ namespace Abilities.FirstEdition
             {
                 if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
                 {
-                    Messages.ShowErrorToHuman("Captain Kagi: You cannot target lock that ship");
+                    Messages.ShowErrorToHuman("Captain Kagi: You cannot target lock that ship.");
                 }
                 result = false;
             }

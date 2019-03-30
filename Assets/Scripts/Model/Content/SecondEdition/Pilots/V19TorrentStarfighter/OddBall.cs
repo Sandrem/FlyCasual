@@ -17,13 +17,11 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
             PilotInfo = new PilotCardInfo(
                 "\"Odd Ball\"",
                 5,
-                48,
+                38,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
                 extraUpgradeIcon: UpgradeType.Talent
             );
-
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/18/d2/18d2b2c2-482a-4b6f-8c53-c3f0f24bea4b/swz32_odd-ball.png";
         }

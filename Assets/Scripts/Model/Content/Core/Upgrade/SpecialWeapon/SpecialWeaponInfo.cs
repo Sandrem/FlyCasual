@@ -45,7 +45,7 @@ namespace Upgrade
         public int AttackValue { get; private set; }
         public int MinRange { get; set; }
         public int MaxRange { get; private set; }
-        public Type RequiresToken { get; private set; }
+        public Type RequiresToken { get; set; }
         public Type SpendsToken { get; private set; }
         public int Charges { get; private set; }
         public bool Discard { get; private set; }

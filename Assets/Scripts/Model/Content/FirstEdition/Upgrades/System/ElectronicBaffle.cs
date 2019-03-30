@@ -81,7 +81,7 @@ namespace Abilities.FirstEdition
             //This token could be intercepted by other ability
             if (HostShip.Tokens.HasToken(typeof(Tokens.IonToken)))
             {
-                Messages.ShowInfo("Electronic Baffle: Ion removed");
+                Messages.ShowInfo("Electronic Baffle removes 1 ion token at the cost of 1 damage.");
                 HostShip.Tokens.RemoveToken(typeof(Tokens.IonToken), delegate { SufferDamage(); });
 
             }
@@ -93,7 +93,7 @@ namespace Abilities.FirstEdition
             //This token could be intercepted by other ability
             if (HostShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
-                Messages.ShowInfo("Electronic Baffle: Stress removed");
+                Messages.ShowInfo("Electronic Baffle removes 1 stress token at the cost of 1 damage.");
                 HostShip.Tokens.RemoveToken(typeof(Tokens.StressToken), delegate { SufferDamage(); });
 
             }

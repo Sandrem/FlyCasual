@@ -53,7 +53,7 @@ namespace Abilities.FirstEdition
 
         private void ActivateCountermeasures(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(string.Format("{0} used Countermeasures", HostShip.PilotInfo.PilotName));
+            Messages.ShowInfo(string.Format("{0} used Countermeasures.", HostShip.PilotInfo.PilotName));
 
             HostShip.ChangeAgilityBy(+1);
             Phases.Events.OnRoundEnd += DeactivateCountermeasures;

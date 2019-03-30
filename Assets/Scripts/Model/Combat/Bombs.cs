@@ -215,7 +215,7 @@ namespace Bombs
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Ask what bomb to drop",
+                    Name = "Ask which bomb to drop",
                     TriggerType = TriggerTypes.OnMovementActivation,
                     TriggerOwner = ship.Owner.PlayerNo,
                     EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip)),
@@ -229,7 +229,7 @@ namespace Bombs
             Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
 
             BombDecisionSubPhase selectBombToDrop = (BombDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                "Select bomb to drop",
+                "Select a bomb to drop",
                 typeof(BombDecisionSubPhase),
                 CheckSelectedBomb
             );
@@ -247,7 +247,7 @@ namespace Bombs
                 delegate { SelectBomb(null); }
             );
 
-            selectBombToDrop.InfoText = "Select bomb to drop";
+            selectBombToDrop.InfoText = "Select a bomb to drop";
 
             selectBombToDrop.DefaultDecisionName = "None";
 
@@ -286,7 +286,7 @@ namespace Bombs
         private static void AskWayToDropBomb()
         {
             WayToDropDecisionSubPhase selectBombToDrop = (WayToDropDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                "Select way to drop bomb",
+                "Select the direction to drop the bomb",
                 typeof(WayToDropDecisionSubPhase),
                 Triggers.FinishTrigger
             );
@@ -294,7 +294,7 @@ namespace Bombs
             selectBombToDrop.AddDecision("Drop", (o, e) => { DecisionSubPhase.ConfirmDecisionNoCallback(); DropBomb(); });
             selectBombToDrop.AddDecision("Launch", LaunchBomb);
 
-            selectBombToDrop.InfoText = "Select way to drop the bomb";
+            selectBombToDrop.InfoText = "Select the direction to drop the bomb";
 
             selectBombToDrop.DefaultDecisionName = "Drop";
 

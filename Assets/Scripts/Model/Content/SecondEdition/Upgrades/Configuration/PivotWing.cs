@@ -95,7 +95,7 @@ namespace Abilities.SecondEdition
 
         private void DecreaseDice(ref int count)
         {
-            Messages.ShowError("Pivot Wing: -1 defense die ");
+            Messages.ShowError("Pivot Wing Ability: This ship has -1 defense die.");
             count--;
         }
 

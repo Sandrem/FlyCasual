@@ -71,14 +71,14 @@ namespace Abilities.FirstEdition
 
         private void UseTIEDAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform second attack from primary weapon");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform a second attack from their primary weapon.");
 
             Combat.StartSelectAttackTarget(
                 HostShip,
                 FinishAdditionalAttack,
                 IsPrimaryShot,
                 HostUpgrade.UpgradeInfo.Name,
-                "You may perform a primary weapon attack.",
+                "You may perform a second primary weapon attack.",
                 HostUpgrade
             );
         }
@@ -101,7 +101,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("Attack must be performed from primary weapon");
+                if (!isSilent) Messages.ShowError("This attack must be performed using the ship's primary weapon.");
             }
 
             return result;

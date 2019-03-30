@@ -53,7 +53,7 @@ namespace Abilities.FirstEdition
         {
             Combat.Defender.Tokens.AssignToken(typeof(StressToken), delegate
             {
-                Messages.ShowInfo("Defender gained stress from Tactician");
+                Messages.ShowInfo(Combat.Defender.PilotInfo.PilotName + " gains a stress token from Tactician.");
                 Triggers.FinishTrigger();
             });
         }

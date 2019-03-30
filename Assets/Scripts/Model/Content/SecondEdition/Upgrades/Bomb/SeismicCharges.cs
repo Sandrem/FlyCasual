@@ -105,7 +105,7 @@ namespace UpgradesList.SecondEdition
 
         private void SelectObstacle(GenericObstacle obstacle)
         {
-            Messages.ShowInfo("Obstacle was selected");
+            Messages.ShowInfo("An obstacle was selected.");
             ChosenObstacle = obstacle;
 
             SelectObstacleSubPhase.SelectObstacle();

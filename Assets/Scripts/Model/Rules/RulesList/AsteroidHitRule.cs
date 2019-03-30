@@ -27,7 +27,7 @@ namespace RulesList
         {
             if (Selection.ThisShip.IsHitObstacles)
             {
-                Messages.ShowErrorToHuman("Hit asteroid during movement - action subphase is skipped");
+                Messages.ShowErrorToHuman(Selection.ThisShip.PilotInfo.PilotName + " hit an asteroid during movement. Their action subphase is skipped.");
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
             }
         }
@@ -42,7 +42,7 @@ namespace RulesList
 
                     Triggers.RegisterTrigger(new Trigger()
                     {
-                        Name = "Roll for asteroid damage",
+                        Name = "Roll for asteroid damage.",
                         TriggerOwner = ship.Owner.PlayerNo,
                         TriggerType = TriggerTypes.OnMovementFinish,
                         EventHandler = RollForDamage(ship)
@@ -54,7 +54,7 @@ namespace RulesList
         private System.EventHandler RollForDamage(GenericShip ship)
         {
             return delegate {
-                Messages.ShowErrorToHuman("Hit asteroid during movement - rolling for damage");
+                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement. Rolling for damage.");
 
                 AsteroidHitCheckSubPhase newPhase = (AsteroidHitCheckSubPhase) Phases.StartTemporarySubPhaseNew(
                     "Damage from asteroid collision",
@@ -100,11 +100,11 @@ namespace SubPhases
                     NoDamage();                    
                     break;
                 case DieSide.Success:
-                    Messages.ShowErrorToHuman("Damage is dealt!");
+                    Messages.ShowErrorToHuman("The ship takes a hit!");
                     SufferDamage();
                     break;
                 case DieSide.Crit:
-                    Messages.ShowErrorToHuman("Critical damage is dealt!");
+                    Messages.ShowErrorToHuman("The ship takes a critical hit!");
                     SufferDamage();
                     break;
                 default:

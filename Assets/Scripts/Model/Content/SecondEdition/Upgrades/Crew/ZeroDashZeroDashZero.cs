@@ -51,7 +51,7 @@ namespace UpgradesList.SecondEdition
 
                 if (result != true)
                 {
-                    Messages.ShowError("0-0-0 cannot be in Imperial squad without Darth Vader");
+                    Messages.ShowError("0-0-0 cannot be in an Imperial squad without Darth Vader");
                 }
 
             }
@@ -90,7 +90,7 @@ namespace Abilities.SecondEdition
                     GetAiPriority,
                     HostShip.Owner.PlayerNo,
                     HostUpgrade.UpgradeInfo.Name,
-                    "Gain 1 calculate token unless target ship chooses to gain 1 stress token",
+                    "Gain 1 calculate token unless the target ship chooses to gain 1 stress token.",
                     HostUpgrade
                 );
             }
@@ -124,7 +124,7 @@ namespace Abilities.SecondEdition
                 AiUseByDefault,
                 GetStress,
                 AllowCalculate,
-                "Do you want to get a Stress token?\nIf no - opponent's ship will get a Calculate token",
+                "Do you want to get a Stress token?\nIf not, the opponent's ship will get a Calculate token.",
                 showSkipButton: false
             );
         }
@@ -137,14 +137,14 @@ namespace Abilities.SecondEdition
         private void GetStress(object sender, System.EventArgs e)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Cost + ": A Stress token was assigned");
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Cost + " assigned a stress token to " + TargetShip.PilotInfo.PilotName + ".");
             TargetShip.Tokens.AssignToken(typeof(Tokens.StressToken), FinishAbility);
         }
 
         private void AllowCalculate(object sender, System.EventArgs e)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": A Calculate token was assigned");
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " granted " + HostShip.PilotInfo.PilotName + " a Calculate token.");
             HostShip.Tokens.AssignToken(typeof(Tokens.CalculateToken), FinishAbility);
         }
 

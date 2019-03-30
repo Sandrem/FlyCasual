@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R4-P Astromech",
                 UpgradeType.Astromech,
-                cost: 0, //TODO
+                cost: 4,
                 charges: 2,
                 abilityType: typeof(Abilities.SecondEdition.R4PAstromechAbility),
                 restriction: new FactionRestriction(Faction.Republic)

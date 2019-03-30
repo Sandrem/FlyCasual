@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using Ship;
+using Upgrade;
 
 namespace Ship
 {
@@ -28,7 +29,7 @@ namespace Abilities.SecondEdition
     {
         protected override void RegisterBosskPilotAbility()
         {
-            if (Combat.ChosenWeapon == HostShip.PrimaryWeapons)
+            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 base.RegisterBosskPilotAbility();
             }

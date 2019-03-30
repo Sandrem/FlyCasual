@@ -16,7 +16,6 @@ namespace Ship
                     0,
                     6,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility),
                     extraUpgradeIcon: UpgradeType.Illicit,
                     factionOverride: Faction.Scum,
                     seImageNumber: 171
@@ -38,7 +37,7 @@ namespace Ship
                     }
                 }
 
-                Messages.ShowError("You need YV-666 ship with Hound's Tooth title\nto use Nashtah Pup in squad");
+                Messages.ShowError("You need YV-666 ship with the Hound's Tooth title\nto use Nashtah Pup in a squad.");
                 return false;
             }
         }
@@ -99,6 +98,7 @@ namespace Abilities.SecondEdition
             GenericAbility pilotAbility = (GenericAbility)System.Activator.CreateInstance(pilotAbilityType);
             pilotAbility.Initialize(HostShip);
             HostShip.PilotAbilities.Add(pilotAbility);
+            HostShip.InitializeState();
 
             Roster.UpdateShipStats(HostShip);
         }

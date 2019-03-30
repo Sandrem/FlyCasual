@@ -25,14 +25,14 @@ namespace RulesList
 
         private void InformLandedOnAsteroid(GenericShip ship)
         {
-            if (ship.IsLandedOnObstacle) Messages.ShowErrorToHuman("Landed on asteroid");
+            if (ship.IsLandedOnObstacle) Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " landed on an asteroid.");
         }
 
         public void CanPerformAttack(ref bool result, List<string> stringList)
         {
             if (Selection.ThisShip.IsLandedOnObstacle && !Selection.ThisShip.CanAttackWhileLandedOnObstacle())
             {
-                stringList.Add("Landed on asteroid - cannot attack");
+                stringList.Add(Selection.ThisShip.PilotInfo.PilotName + " landed on an asteroid and cannot attack.");
                 result = false;
             }
         }

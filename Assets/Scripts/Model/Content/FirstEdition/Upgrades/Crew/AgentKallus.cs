@@ -67,7 +67,7 @@ namespace Abilities.FirstEdition
                 );
             }
 
-            selectAgentKallusTargetDecisionSubPhase.InfoText = "Agent Kallus: Select enemy ship";
+            selectAgentKallusTargetDecisionSubPhase.InfoText = "Agent Kallus: Select an enemy ship.";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
             selectAgentKallusTargetDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotInfo.PilotName;
@@ -79,7 +79,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void SelectTarget(GenericShip targetShip)
         {
-            Messages.ShowInfo("Agent Kallus: " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ") is selected");
+            Messages.ShowInfo("Agent Kallus Hunts " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ").");
 
             AgentKallusSelectedTarget = targetShip;
 
@@ -171,7 +171,7 @@ namespace ActionsList
             }
             else
             {
-                Messages.ShowError("No Focus results to change");
+                Messages.ShowError("This die roll had no Focus results to change.");
             }
             callBack();
         }

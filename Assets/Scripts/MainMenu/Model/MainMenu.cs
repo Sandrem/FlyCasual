@@ -93,8 +93,8 @@ public partial class MainMenu : MonoBehaviour {
 
     private void CheckUpdateNotification(bool wasUpdatedFromServer, bool settingsChanged, int serverResponse)
     {
-        int latestVersionInt = RemoteSettings.GetInt("UpdateLatestVersionInt", Global.CurrentVersionInt);
-        if (latestVersionInt > Global.CurrentVersionInt)
+        Global.LatestVersionInt = RemoteSettings.GetInt("UpdateLatestVersionInt", Global.CurrentVersionInt);
+        if (Global.LatestVersionInt > Global.CurrentVersionInt)
         {
             string latestVersion    = RemoteSettings.GetString("UpdateLatestVersion", Global.CurrentVersion);
             string updateLink       = RemoteSettings.GetString("UpdateLink");

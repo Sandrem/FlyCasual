@@ -12,6 +12,7 @@ public class Global : MonoBehaviour {
 
     public static string CurrentVersion = "0.8.0 DEV";
     public static int CurrentVersionInt = 100080000;
+    public static int LatestVersionInt = 100080000;
 
     void Awake()
     {

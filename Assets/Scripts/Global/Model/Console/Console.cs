@@ -103,7 +103,13 @@ public partial class Console : MonoBehaviour {
         {
             if (IsHiddenError(logString)) return;
 
-            if (DebugManager.ReleaseVersion && !DebugManager.ErrorIsAlreadyReported) SendReport(stackTrace);
+            if (DebugManager.ReleaseVersion
+                && !DebugManager.ErrorIsAlreadyReported
+                && Global.CurrentVersionInt == Global.LatestVersionInt
+            )
+            {
+                SendReport(stackTrace);
+            }
 
             IsActive = true;
             Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");
@@ -120,7 +126,8 @@ public partial class Console : MonoBehaviour {
             {
                 { "Version", Global.CurrentVersion },
                 { "Pilot", (Selection.ThisShip != null) ? Selection.ThisShip.PilotInfo.PilotName : "None" },
-                { "Trigger", (Triggers.CurrentTrigger != null) ? Triggers.CurrentTrigger.Name : "None" }
+                { "Trigger", (Triggers.CurrentTrigger != null) ? Triggers.CurrentTrigger.Name : "None" },
+                { "Subphase", (Phases.CurrentSubPhase != null) ? Phases.CurrentSubPhase.GetType().ToString() : "None" }
             }
         );
     }

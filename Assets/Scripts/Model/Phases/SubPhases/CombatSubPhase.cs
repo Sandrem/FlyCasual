@@ -172,7 +172,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " cannot be selected.  \nThe ship must be owned by " + Tools.PlayerToInt(RequiredPlayer) + " and have an initiative of " + RequiredPilotSkill);
+                Messages.ShowErrorToHuman("This ship cannot be selected.  The ship must be owned by " + Tools.PlayerToInt(RequiredPlayer) + " and have an initiative of " + RequiredPilotSkill + ".");
             }
 
             return result;

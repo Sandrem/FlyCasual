@@ -266,8 +266,10 @@ public static partial class Roster {
                 totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + 5;
             }
 
+            float globalUiScale = GameObject.Find("UI").transform.localScale.x;
             float scale = 1f;
-            if (totalHeight > 795) scale = 795 / totalHeight;
+            float sizeLimit = (Screen.height - 105f) / globalUiScale;
+            if (totalHeight > sizeLimit) scale = sizeLimit / totalHeight;
             GameObject.Find("UI/RostersHolder").transform.Find("TeamPlayer" + i).GetComponent<RectTransform>().localScale = new Vector3(scale, scale, scale);
         }
     }

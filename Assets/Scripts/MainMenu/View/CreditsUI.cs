@@ -12,14 +12,14 @@ public static class CreditsUI {
 
     private static Dictionary<string, string> CreditsData = new Dictionary<string, string>()
     {
-        { "Programming", "Sandrem, Rune-b, Azrapse, Matthew Blanchard, GeneralVryth, bwakefield27, thordurk91, Conzar, deakolt, Galaxy613, TheChiefMoose, YannickBgn, Evan Lundell, Fabio Macal, SirHaplo, Nick Buonarota (NickyDaB), rats3g, tetrarchangel, Andrew Matheny, Jimmy5910, jamorbal, pappnase99, Stephen Wangner, jychuah, jtg15, vladamex, xNyer, Ryan Praska, savagerose, Krumok, Tron, mikethetike, tinydantser" },
+        { "Programming", "Sandrem, Rune-b, Azrapse, Matthew Blanchard, GeneralVryth, bwakefield27, thordurk91, Conzar, deakolt, Galaxy613, TheChiefMoose, YannickBgn, Evan Lundell, Fabio Macal, SirHaplo, Nick Buonarota (NickyDaB), rats3g, tetrarchangel, Andrew Matheny, Jimmy5910, jamorbal, pappnase99, Stephen Wangner, jychuah, jtg15, vladamex, xNyer, Ryan Praska, savagerose, Krumok, Tron, mikethetike, tinydantser, belk, XPav, DejaFu, bitsai" },
         { "Models", "TerranCmdr, Izaak94, Darksaber, DTM, Warb Null, Rob, Gambler, Nim the Netrunner, Gremlyn, Morvana, FabioOtto, Grediel, Cherrybomb67, Smight, Voiceoftheforce, flipdark95, JonnieLP, Atherin" },
         { "Backgrounds", "xwingtmgphotography, Andreas Bazylewsi" },
         { "Music", "Daniel (Affordable Audio 4 Everyone), Robson Cozendey" },
         { "Fonts", "Pixel Sagas \"Rebellion\", \"Strike Fighter\" (Daniel Zadorozny, Iconian Fonts), xwing-miniatures-font (geordanr)" },
         { "Additional assets", "Skybox Volume 2: Nebula (Hedgehog Team), Simple Table Glass (Quadrante Studio)" },
         { "Testing", "djeknemesis2012, LiquidLogic" },
-        { "Thanks for support", "Spencer Loper, Landon, Dual Torpedoes, Vittorio Rosa, GregFromParis#42, Charlie King, Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug" },
+        { "Thanks for support", "Spencer Loper, Landon, Dual Torpedoes, Vittorio Rosa, GregFromParis#42, Charlie King, Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug, John Snape, Bryan Froh" },
     };
 
     public static void InitializePanel()

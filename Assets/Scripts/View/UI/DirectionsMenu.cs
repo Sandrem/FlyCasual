@@ -257,32 +257,34 @@ public static class DirectionsMenu
 
     private static Vector3 FixMenuPosition(GameObject menuPanel, Vector3 position)
     {
-        float fixedWidth = 1600;
-        float fixedHeight = 900;
-        float uiScaleX = fixedWidth / Screen.width;
-        float uiScaleY = fixedHeight / Screen.height;
-        position = new Vector3(position.x * uiScaleX, -(Screen.height - position.y) * uiScaleY);
+        float globalUiScale = GameObject.Find("UI").transform.localScale.x;
+
+        Vector3 screenPosition = new Vector3(position.x, position.y);
+        Vector3 newPosition = new Vector3(position.x / globalUiScale, position.y / globalUiScale - Screen.height / globalUiScale);
 
         RectTransform menuRect = menuPanel.GetComponent<RectTransform>();
         float windowHeight = menuRect.sizeDelta.y;
         float windowWidth = menuRect.sizeDelta.x;
 
-        if (position.x + windowWidth * menuRect.localScale.x > fixedWidth)
+        if (newPosition.x + windowWidth > Screen.width / globalUiScale)
         {
-            position = new Vector3(fixedWidth - windowWidth * menuRect.localScale.x - 5, position.y, 0);
+            newPosition = new Vector3(Screen.width / globalUiScale - windowWidth - 5, newPosition.y, 0);
         }
-        if (-position.y + windowHeight * menuRect.localScale.y > fixedHeight)
+        if (-newPosition.y + windowHeight > Screen.height / globalUiScale)
         {
-            position = new Vector3(position.x, - fixedHeight + windowHeight * menuRect.localScale.y + 5, 0);
+            newPosition = new Vector3(newPosition.x, (position.y + windowHeight) / globalUiScale - Screen.height / globalUiScale + 5, 0);
         }
+
+        Debug.Log("Gets position: " + newPosition.x + " " + newPosition.y);
+
         if (Selection.ThisShip != null
             && Selection.ThisShip.IsStressed
-            && -position.y < WarningPanelHeight * menuRect.localScale.y - 5
+            && -newPosition.y < WarningPanelHeight * menuRect.localScale.y - 5
         )
         {
-            position = new Vector3(position.x, - WarningPanelHeight * menuRect.localScale.y - 5, 0);
+            newPosition = new Vector3(newPosition.x, - WarningPanelHeight - 5, 0);
         }
-        return position;
+        return newPosition;
     }
 
     public static void Hide()

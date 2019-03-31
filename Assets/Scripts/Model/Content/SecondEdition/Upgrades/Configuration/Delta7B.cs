@@ -5,7 +5,7 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class Delta7B : GenericUpgrade
+    public class Delta7B : GenericUpgrade, IVariableCost
     {
         public Delta7B() : base()
         {

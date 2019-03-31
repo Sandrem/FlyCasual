@@ -13,17 +13,17 @@ namespace Ship.SecondEdition.Delta7Aethersprite
         {
             PilotInfo = new PilotCardInfo(
                 "Mace Windu",
-                5,
+                4,
                 46,
                 true,
-                force: 2,
+                force: 3,
                 abilityType: typeof(Abilities.SecondEdition.MaceWinduAbility),
                 extraUpgradeIcon: UpgradeType.Force
             );
 
             ModelInfo.SkinName = "Mace Windu";
 
-            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/89/28/8928ae70-8883-4c39-9b15-a4754c063b88/swz32_mace-windu.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/de/33/de3326f7-521c-4f50-8599-483db5f32d6d/swz32_mace-windu.png";
         }
     }
 }

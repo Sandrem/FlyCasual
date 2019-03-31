@@ -82,9 +82,9 @@ namespace Upgrade
                 if (waysToPay.Count == 0) return false;
             }
 
-            if (WeaponInfo.RequiresToken == typeof(FocusToken))
+            if (WeaponInfo.RequiresToken != null)
             {
-                if (!HostShip.Tokens.HasToken(typeof(FocusToken))) return false;
+                if (!HostShip.Tokens.HasToken(WeaponInfo.RequiresToken)) return false;
             }
 
             return result;

@@ -95,7 +95,7 @@ namespace ActionsList
             subphase.Start();
         }
 
-        private static void AssignTokenAndFinish()
+        protected static void AssignTokenAndFinish()
         {
             Selection.ThisShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Phases.CurrentSubPhase.CallBack);
         }

@@ -77,7 +77,7 @@ namespace Abilities.SecondEdition
         {
             ChangeInitialWingsPosition();
             HostShip.OnMovementActivationStart += RegisterAskToFlip;
-            HostShip.OnManeuverIsRevealed += RegisterAskToRotate;
+            HostShip.OnMovementExecuted += RegisterAskToRotate;
 
             HostShip.AfterGotNumberOfDefenceDice += DecreaseDice;
             HostShip.Tokens.AssignCondition(new Conditions.PivotWingCondition(HostShip, HostUpgrade));
@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
         {
             HostShip.WingsOpen();
             HostShip.OnMovementActivationStart -= RegisterAskToFlip;
-            HostShip.OnManeuverIsRevealed -= RegisterAskToRotate;
+            HostShip.OnMovementExecuted -= RegisterAskToRotate;
 
             HostShip.AfterGotNumberOfDefenceDice -= DecreaseDice;
             HostShip.Tokens.RemoveCondition(typeof(Conditions.PivotWingCondition));

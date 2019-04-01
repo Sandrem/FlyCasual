@@ -5,13 +5,6 @@ using static Ship.GenericShip;
 
 namespace Ship
 {
-    public enum ForceAlignment
-    {
-        None,
-        Light,
-        Dark
-    }
-
     public class PilotCardInfo
     {
         public string PilotName { get; private set; }
@@ -62,36 +55,6 @@ namespace Ship
             if (extraUpgradeIcon != UpgradeType.None) ExtraUpgrades.Add(extraUpgradeIcon);
             if (extraUpgradeIcons != null) ExtraUpgrades.AddRange(extraUpgradeIcons);
             if (factionOverride != Faction.None) Faction = factionOverride;
-        }
-
-        public delegate void EventHandlerForceAlignmentBool(ForceAlignment alignment, ref bool data);
-        public event EventHandlerForceAlignmentBool OnForceAlignmentEquipCheck;
-
-        public bool CanEquipForceAlignedCard(ForceAlignment alignment)
-        {
-            var result = false;
-
-            switch (alignment)
-            {
-                case ForceAlignment.Light:
-                    result = Faction == Faction.Republic ||
-                             Faction == Faction.Rebel ||
-                             Faction == Faction.Resistance;
-                    break;
-                case ForceAlignment.Dark:
-                    result = Faction == Faction.Separatists ||
-                             Faction == Faction.Imperial ||
-                             Faction == Faction.FirstOrder ||
-                             Faction == Faction.Scum;
-                    break;
-                default:
-                    result =  true;
-                    break;
-            }
-
-            OnForceAlignmentEquipCheck?.Invoke(alignment, ref result);
-
-            return result;
         }
     }
 }

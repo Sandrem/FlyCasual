@@ -124,7 +124,7 @@ namespace Upgrade
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.PilotInfo.CanEquipForceAlignedCard(Alignment);
+            return ship.CanEquipForceAlignedCard(Alignment);
         }
     }
 

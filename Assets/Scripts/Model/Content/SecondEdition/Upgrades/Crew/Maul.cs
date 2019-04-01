@@ -82,12 +82,12 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbilityForSquadBuilder()
         {
-            HostShip.PilotInfo.OnForceAlignmentEquipCheck += AllowDarkSideUpgrades;
+            HostShip.OnForceAlignmentEquipCheck += AllowDarkSideUpgrades;
         }
 
         public override void DeactivateAbilityForSquadBuilder()
         {
-            HostShip.PilotInfo.OnForceAlignmentEquipCheck -= AllowDarkSideUpgrades;
+            HostShip.OnForceAlignmentEquipCheck -= AllowDarkSideUpgrades;
         }
 
         private void AllowDarkSideUpgrades(ForceAlignment alignment, ref bool result)

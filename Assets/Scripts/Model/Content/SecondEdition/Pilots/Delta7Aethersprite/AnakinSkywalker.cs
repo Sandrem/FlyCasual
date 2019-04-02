@@ -74,9 +74,7 @@ namespace Abilities.SecondEdition
 
         private bool isAnakinAbilityAvailable(GenericShip ship)
         {
-            if (ship.AssignedManeuver.ColorComplexity == MovementComplexity.Complex
-                && ship.State.Force > 0 
-                && ship.Owner == HostShip.Owner)
+            if (ship.State.Force > 0 && ship.Owner == HostShip.Owner)
             {
                 int enemies = 0;
                 enemies += Board.GetShipsInBullseyeArc(HostShip, Team.Type.Enemy).Count;

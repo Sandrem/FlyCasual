@@ -49,9 +49,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterCheckAnakinAbility(GenericShip ship)
         {
-            if (isAnakinAbilityAvailable(ship)) {
-                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToUseAnakin);
-            }
+            RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToUseAnakin);
         }
 
         private void AskToUseAnakin(object sender, System.EventArgs e)

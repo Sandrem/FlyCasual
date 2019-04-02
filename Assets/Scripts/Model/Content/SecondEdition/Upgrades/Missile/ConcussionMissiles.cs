@@ -71,10 +71,6 @@ namespace Abilities.SecondEdition
 
             foreach (GenericShip ship in shipsHitByBlast)
             {
-                // Defending ship shouldn't flip the crit.
-                if (ship == Combat.Defender)
-                    continue;
-
                 if (ship.Damage.HasFacedownCards)
                 {
                     Triggers.RegisterTrigger(new Trigger()

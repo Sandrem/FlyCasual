@@ -1,11 +1,12 @@
 ﻿using Arcs;
+using Ship;
 using System;
 using System.Collections.Generic;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class BrilliantEvasion : GenericUpgrade
+    public class BrilliantEvasion : GenericUpgrade, IVariableCost
     {
         public BrilliantEvasion() : base()
         {
@@ -19,6 +20,19 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d0/a4/d0a49094-b246-4345-9f65-846b070e9fc6/swz34_brilliant-evasion.png";
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
+            {
+                {0, 0},
+                {1, 2},
+                {2, 4},
+                {3, 6}
+            };
+
+            UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];
         }
     }
 }

@@ -56,6 +56,8 @@ public static partial class Combat
 
     public static ShotInfo ShotInfo;
 
+    public static Action<Action> PayExtraAttackCost;
+
     public static Func<GenericShip, IShipWeapon, bool, bool> ExtraAttackFilter;
 
     public static bool IsAttackAlreadyCalled;
@@ -201,7 +203,8 @@ public static partial class Combat
 
     private static void PayAttackCost()
     {
-        ChosenWeapon.PayAttackCost(StartAttack);
+        if (PayExtraAttackCost == null) PayExtraAttackCost = callback => callback();
+        ChosenWeapon.PayAttackCost(() => PayExtraAttackCost(StartAttack));
     }
 
     // DECLARE REAL ATTACK
@@ -487,6 +490,7 @@ public static partial class Combat
         hitsCounter = 0;
         ExtraAttackFilter = null;
         IsAttackAlreadyCalled = false;
+        PayExtraAttackCost = null;
     }
 
     public static void FinishCombatSubPhase()
@@ -499,17 +503,19 @@ public static partial class Combat
     public static void StartSelectAttackTarget(
         GenericShip ship,
         Action callback,
-        Func<GenericShip, IShipWeapon, bool, bool> extraAttackFilter = null, 
+        Func<GenericShip, IShipWeapon, bool, bool> extraAttackFilter = null,
         string abilityName = null,
         string description = null,
         IImageHolder imageSource = null,
-        bool showSkipButton = true
+        bool showSkipButton = true,
+        Action<Action> payAttackCost = null
     )
     {
         Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
         Phases.CurrentSubPhase.RequiredPlayer = ship.Owner.PlayerNo;
 
         ExtraAttackFilter = extraAttackFilter;
+        PayExtraAttackCost = payAttackCost;
 
         SelectTargetForAttackSubPhase newAttackSubphase = (SelectTargetForAttackSubPhase) Phases.StartTemporarySubPhaseNew(
             "Second attack",

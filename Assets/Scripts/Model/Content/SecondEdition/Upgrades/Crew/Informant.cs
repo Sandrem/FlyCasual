@@ -42,13 +42,13 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            Phases.Events.OnSetupStart += RegisterInformantAbility;
+            Phases.Events.OnSetupEnd += RegisterInformantAbility;
             Phases.Events.OnSystemsPhaseStart += InformantRevealDial;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnSetupStart -= RegisterInformantAbility;
+            Phases.Events.OnSetupEnd -= RegisterInformantAbility;
             Phases.Events.OnSystemsPhaseStart -= InformantRevealDial;
         }
         
@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Informant target",
-                TriggerType = TriggerTypes.OnSetupStart,
+                TriggerType = TriggerTypes.OnSetupEnd,
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = SelectInformantTarget
             });

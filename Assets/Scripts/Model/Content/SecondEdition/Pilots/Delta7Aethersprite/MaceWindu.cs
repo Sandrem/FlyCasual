@@ -13,7 +13,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
         {
             PilotInfo = new PilotCardInfo(
                 "Mace Windu",
-                5,
+                4,
                 46,
                 true,
                 force: 3,

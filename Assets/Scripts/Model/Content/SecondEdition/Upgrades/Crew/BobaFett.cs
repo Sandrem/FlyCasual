@@ -78,7 +78,7 @@ namespace Abilities.SecondEdition
 
             if (HostShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedAsteroids.Count == 0)
             {
-                Messages.ShowErrorToHuman("Boba Fett's Ability: Invalid location for this ship:\nThe ship must be placed at range 0 of an asteroid.");
+                Messages.ShowErrorToHuman("Boba Fett's Ability: Invalid location for this ship.  The ship must be placed at range 0 of an asteroid.");
                 return false;
             }
 

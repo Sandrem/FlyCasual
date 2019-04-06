@@ -45,7 +45,10 @@ namespace Abilities.SecondEdition
 
         public bool IsDiceModificationAvailable()
         {
-            return (Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && Combat.ShotInfo.InArcByType(Arcs.ArcType.Front) && HostUpgrade.State.Charges > 0);
+            return (Combat.AttackStep == CombatStep.Attack 
+                    && Combat.Attacker == HostShip 
+                    && HostShip.SectorsInfo.IsShipInSector(Combat.Defender, Arcs.ArcType.Front) 
+                    && HostUpgrade.State.Charges > 0);
         }
 
         private int GetDiceModificationAiPriority()

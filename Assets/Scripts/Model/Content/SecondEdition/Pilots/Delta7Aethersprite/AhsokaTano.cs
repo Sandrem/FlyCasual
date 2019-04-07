@@ -50,15 +50,22 @@ namespace Abilities.SecondEdition
 
         private void SelectTargetForAbility(object sender, EventArgs e)
         {
-            SelectTargetForAbility(
-                GrantAction,
-                FilterTargets,
-                GetAiPriority,
-                HostShip.Owner.PlayerNo,
-                HostShip.PilotInfo.PilotName,
-                "Choose a friendly ship, it may perform an action, even if stressed",
-                HostShip
-            );
+            if (HostShip.State.Force > 0)
+            {
+                SelectTargetForAbility(
+                    GrantAction,
+                    FilterTargets,
+                    GetAiPriority,
+                    HostShip.Owner.PlayerNo,
+                    HostShip.PilotInfo.PilotName,
+                    "Choose a friendly ship, it may perform an action, even if stressed",
+                    HostShip
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
         
         private void GrantAction()

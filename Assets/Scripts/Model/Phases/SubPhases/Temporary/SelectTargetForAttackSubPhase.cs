@@ -81,6 +81,7 @@ namespace SubPhases
             HideSubphaseDescription();
 
             Combat.ExtraAttackFilter = null;
+            Combat.PayExtraAttackCost = null;
 
             Phases.CurrentSubPhase = PreviousSubPhase;
         }

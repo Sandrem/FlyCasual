@@ -92,7 +92,8 @@ namespace Abilities.SecondEdition
                     IsAllowedAttack,
                     HostName,
                     "You may spend 2 force to perform a bonus primary attack" + (FirstAttackMissed ? "" : " against a different target"),
-                    HostUpgrade
+                    HostUpgrade,
+                    payAttackCost: PayAttackCost
                 );
             }
             else
@@ -102,8 +103,20 @@ namespace Abilities.SecondEdition
             }
         }
 
+        private void PayAttackCost(Action callback)
+        {
+            HostShip.State.Force -= 2;
+            callback();
+        }
+
         private bool IsAllowedAttack(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
+            if (HostShip.State.Force < 2)
+            {
+                if (!isSilent) Messages.ShowError("Your must have at least 2 Force tokens to perform this attack.");
+                return false;
+            }
+
             if (weapon.WeaponType != WeaponTypes.PrimaryWeapon)
             {
                 if (!isSilent) Messages.ShowError("Your bonus attack must be a primary weapon attack.");
@@ -122,11 +135,7 @@ namespace Abilities.SecondEdition
 
         private void FinishAdditionalAttack()
         {
-            if (HostShip.IsAttackPerformed)
-            {
-                HostShip.State.Force -= 2;
-            }
-            else
+            if (!HostShip.IsAttackPerformed)
             {
                 // If attack is skipped, set this flag, otherwise regular attack can be performed second time
                 HostShip.IsAttackPerformed = true;

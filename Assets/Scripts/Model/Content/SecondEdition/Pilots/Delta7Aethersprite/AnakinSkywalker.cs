@@ -49,9 +49,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterCheckAnakinAbility(GenericShip ship)
         {
-            if (isAnakinAbilityAvailable(ship)) {
-                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToUseAnakin);
-            }
+            RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToUseAnakin);
         }
 
         private void AskToUseAnakin(object sender, System.EventArgs e)
@@ -74,9 +72,7 @@ namespace Abilities.SecondEdition
 
         private bool isAnakinAbilityAvailable(GenericShip ship)
         {
-            if (ship.AssignedManeuver.ColorComplexity == MovementComplexity.Complex
-                && ship.State.Force > 0 
-                && ship.Owner == HostShip.Owner)
+            if (ship.State.Force > 0 && ship.Owner == HostShip.Owner)
             {
                 int enemies = 0;
                 enemies += Board.GetShipsInBullseyeArc(HostShip, Team.Type.Enemy).Count;

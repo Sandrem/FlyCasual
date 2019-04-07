@@ -5,7 +5,7 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class CalibratedLaserTargeting : GenericUpgrade
+    public class CalibratedLaserTargeting : GenericUpgrade, IVariableCost
     {
         public CalibratedLaserTargeting() : base()
         {

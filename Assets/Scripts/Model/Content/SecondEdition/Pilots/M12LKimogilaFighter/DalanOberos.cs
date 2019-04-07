@@ -18,7 +18,7 @@ namespace Ship
                     3,
                     48,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.ToraniKuldaAbility),
+                    abilityType: typeof(Abilities.SecondEdition.DalanOberosKimogilaAbility),
                     charges: 2,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 208

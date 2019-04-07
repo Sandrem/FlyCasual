@@ -113,6 +113,21 @@ namespace Upgrade
         }
     }
 
+    public class ForceAlignmentRestriction : UpgradeCardRestriction
+    {
+        public ForceAlignment Alignment { get; private set; }
+
+        public ForceAlignmentRestriction(ForceAlignment alignment)
+        {
+            Alignment = alignment;
+        }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.CanEquipForceAlignedCard(Alignment);
+        }
+    }
+
     public class UpgradeCardRestrictions
     {
         public List<UpgradeCardRestriction> Restrictions { get; private set; }

@@ -84,7 +84,7 @@ namespace Abilities.SecondEdition
         {
             if (IsAvailable())
             {
-                Messages.ShowInfo("Because of " + Combat.Attacker.PilotInfo.PilotName + "'s target lock on " + Combat.Defender.PilotInfo.PilotName + ", Advanced Targeting Computer grants them +1 attack die.");
+                Messages.ShowInfo(Combat.Attacker.PilotInfo.PilotName + "'s target lock and Advanced Targeting Computer grants them +1 attack die.");
                 value++;
             }
         }

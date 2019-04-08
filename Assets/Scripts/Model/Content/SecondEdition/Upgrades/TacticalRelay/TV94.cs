@@ -48,9 +48,9 @@ namespace Abilities.SecondEdition
 
         private void PayCalculateToken(Action<bool> callback)
         {
-            if (HostShip.Tokens.HasToken<Tokens.CalculateToken>())
+            if (Combat.Attacker.Tokens.HasToken<Tokens.CalculateToken>())
             {
-                HostShip.Tokens.SpendToken(
+                Combat.Attacker.Tokens.SpendToken(
                     typeof(Tokens.CalculateToken),
                     () => callback(true)
                 );
@@ -63,7 +63,7 @@ namespace Abilities.SecondEdition
 
         private int GetDiceModificationAiPriority()
         {
-            return (HostShip.Tokens.HasToken<Tokens.CalculateToken>()) ? 110 : 0;
+            return (Combat.Attacker.Tokens.HasToken<Tokens.CalculateToken>()) ? 110 : 0;
         }
 
         private bool IsDiceModificationAvailable()

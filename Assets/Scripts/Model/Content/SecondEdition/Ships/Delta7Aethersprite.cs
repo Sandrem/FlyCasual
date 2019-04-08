@@ -118,18 +118,26 @@ namespace Abilities.SecondEdition
         
         private void AskPerformRepositionAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Fine-Tuned Controls: You may spend 1 force to perform a barrel roll or boost action");
-            HostShip.BeforeFreeActionIsPerformed += PayForceCost;
+            if (HostShip.State.Force > 0)
+            {
+                Messages.ShowInfoToHuman("Fine-Tuned Controls: You may spend 1 force to perform a barrel roll or boost action");
+                HostShip.BeforeFreeActionIsPerformed += PayForceCost;
 
-            HostShip.AskPerformFreeAction(
-                new List<GenericAction>()
-                {
+                HostShip.AskPerformFreeAction(
+                    new List<GenericAction>()
+                    {
                     new BoostAction(),
                     new BarrelRollAction()
-                },
-                CleanUp
-            );
+                    },
+                    CleanUp
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
+
 
         private void PayForceCost(GenericAction action)
         {

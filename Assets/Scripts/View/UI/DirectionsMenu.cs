@@ -275,8 +275,6 @@ public static class DirectionsMenu
             newPosition = new Vector3(newPosition.x, (position.y + windowHeight) / globalUiScale - Screen.height / globalUiScale + 5, 0);
         }
 
-        Debug.Log("Gets position: " + newPosition.x + " " + newPosition.y);
-
         if (Selection.ThisShip != null
             && Selection.ThisShip.IsStressed
             && -newPosition.y < WarningPanelHeight * menuRect.localScale.y - 5

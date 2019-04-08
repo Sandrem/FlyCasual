@@ -58,5 +58,46 @@ namespace Players
 
             return AI.Aggressor.TargetingSubSystem.SelectTargetAndWeapon(Selection.ThisShip);
         }
+
+        protected override void PerformActionFromList(List<ActionsList.GenericAction> actionsList)
+        {
+            bool isActionTaken = false;
+
+            List<ActionsList.GenericAction> availableActionsList = actionsList;
+
+            Dictionary<ActionsList.GenericAction, int> actionsPriority = new Dictionary<ActionsList.GenericAction, int>();
+
+            foreach (var action in availableActionsList)
+            {
+                int priority = action.GetActionPriority();
+                actionsPriority.Add(action, priority);
+            }
+
+            actionsPriority = actionsPriority.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, n => n.Value);
+
+            if (actionsPriority.Count > 0)
+            {
+                KeyValuePair<ActionsList.GenericAction, int> prioritizedActions = actionsPriority.First();
+
+                if (prioritizedActions.Value > 0)
+                {
+                    isActionTaken = true;
+
+                    //Actions.TakeActionStart(prioritizedActions.Key);
+                    JSONObject parameters = new JSONObject();
+                    parameters.AddField("name", prioritizedActions.Key.Name);
+                    GameController.SendCommand(
+                        GameCommandTypes.Decision,
+                        Phases.CurrentSubPhase.GetType(),
+                        parameters.ToString()
+                    );
+                }
+            }
+
+            if (!isActionTaken)
+            {
+                GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
+            }
+        }
     }
 }

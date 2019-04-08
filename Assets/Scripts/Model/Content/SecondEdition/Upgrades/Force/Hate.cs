@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
                 "Hate",
                 UpgradeType.Force,
                 cost: 3,
-                restriction: new FactionRestriction(Faction.Scum, Faction.Imperial, Faction.FirstOrder),
+                restriction: new ForceAlignmentRestriction(ForceAlignment.Dark),
                 abilityType: typeof(Abilities.SecondEdition.HateAbility)//,
                 //seImageNumber: 22
             );

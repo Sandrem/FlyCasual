@@ -97,13 +97,24 @@ namespace Editions
 
         public override int MinShipCost(Faction faction)
         {
-            if (faction != Faction.Scum)
+            switch (faction)
             {
-                return 23;
-            }
-            else
-            {
-                return (HasYv666InSquad()) ? 6 : 12;
+                case Faction.Rebel:
+                    return 23;
+                case Faction.Imperial:
+                    return 23;
+                case Faction.Scum:
+                    return (HasYv666InSquad()) ? 6 : 23;
+                case Faction.Resistance:
+                    return 32;
+                case Faction.FirstOrder:
+                    return 28;
+                case Faction.Republic:
+                    return 25;
+                case Faction.Separatists:
+                    return 20;
+                default:
+                    return 0;
             }
         }
 

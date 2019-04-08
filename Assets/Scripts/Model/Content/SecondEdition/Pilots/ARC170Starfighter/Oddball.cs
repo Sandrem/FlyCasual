@@ -11,7 +11,7 @@ namespace Ship
             public OddBall() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "\"OddBall\"",
+                    "\"Odd Ball\"",
                     5,
                     55,
                     isLimited: true,

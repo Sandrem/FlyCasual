@@ -185,7 +185,7 @@ namespace SubPhases
 
         private void AssignSecondTractorBeamToken()
         {
-            Messages.ShowInfo("Spacetug Tractor Array: " + TargetShip.PilotInfo.PilotName + " was in " + SpacetugOwner.PilotInfo.PilotName + "'s Bullseye arc.  A second Tractor Beam token has been assigned.");
+            Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " was in " + SpacetugOwner.PilotInfo.PilotName + "'s Bullseye arc.  A second Tractor Beam token has been assigned.");
 
             TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
             TargetShip.Tokens.AssignToken(token, CallBack);

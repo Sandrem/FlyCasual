@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Upgrade;
+using static Ship.GenericShip;
 
 namespace Ship
 {

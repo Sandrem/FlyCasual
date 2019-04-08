@@ -67,7 +67,7 @@ namespace ActionsList
             else if (rechargableUpgrades.Count == 1)
             {
                 rechargableUpgrades[0].State.RestoreCharge();
-                Messages.ShowInfo("Reload: One charge of \"" + rechargableUpgrades[0].UpgradeInfo.Name + "\" is restored.  " + Selection.ThisShip.PilotInfo.PilotName + " gains a Disarmed token.");
+                Messages.ShowInfo(Selection.ThisShip.PilotInfo.PilotName + " recharges 1 charge of " + rechargableUpgrades[0].UpgradeInfo.Name + " and gains a Disarmed token.");
                 AssignTokenAndFinish();
             }
             else
@@ -95,7 +95,7 @@ namespace ActionsList
             subphase.Start();
         }
 
-        private static void AssignTokenAndFinish()
+        protected static void AssignTokenAndFinish()
         {
             Selection.ThisShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Phases.CurrentSubPhase.CallBack);
         }

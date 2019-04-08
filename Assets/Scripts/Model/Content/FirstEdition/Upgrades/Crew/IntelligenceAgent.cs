@@ -88,7 +88,9 @@ namespace Abilities.FirstEdition
 
         private bool FilterTargets(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, MinRange, MaxRange);
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy })
+                && FilterTargetsByRange(ship, MinRange, MaxRange)
+                && ship.AssignedManeuver != null;
         }
 
         private int GetAiPriority(GenericShip ship)

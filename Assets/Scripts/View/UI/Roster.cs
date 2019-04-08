@@ -581,6 +581,8 @@ public static partial class Roster {
 
     public static void UpdateAssignedManeuverDial(GenericShip ship, Movement.GenericMovement maneuver)
     {
+        if (maneuver == null) return;
+
         GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
 
         Text maneuverSpeed = maneuverDial.transform.Find("Holder").Find("ManeuverSpeed").GetComponent<Text>();

@@ -101,7 +101,7 @@ namespace Abilities.SecondEdition
             // Informant upgrade is at range 0-2, flip your dial faceup.
             if (new BoardTools.DistanceInfo(HostShip, TargetShip).Range < 3)
             {
-                Messages.ShowInfo("Listening Device: " + TargetShip.PilotInfo.PilotName + " flip your dial faceup");
+                Messages.ShowInfo("Listening Device: " + TargetShip.PilotInfo.PilotName + " flips dial faceup");
                 Roster.ToggleManeuverVisibility(TargetShip, true);
                 TargetShip.AlwaysShowAssignedManeuver = true;
             }

@@ -11,6 +11,7 @@ public class OptionsUI : MonoBehaviour {
 
     public GameObject PlaymatSelector { get; private set; }
     public static OptionsUI Instance { get; private set; }
+    public GameObject Selector { get; private set; }
 
     private void Start()
     {
@@ -108,6 +109,7 @@ public class OptionsUI : MonoBehaviour {
         string prefabPath = "Prefabs/MainMenu/Options/PlaymatSelectionViewPanel";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
         GameObject imageListParent = Instantiate(prefab, parentTransform);
+        imageListParent.name = "PlaymatSelectionViewPanel";
 
         foreach (Sprite playmatSprite in Resources.LoadAll<Sprite>("Playmats/Thumbnails"))
         {
@@ -115,19 +117,26 @@ public class OptionsUI : MonoBehaviour {
             playmatPreviewGO.AddComponent<Image>().sprite = playmatSprite;
             playmatPreviewGO.transform.SetParent(imageListParent.transform);
             playmatPreviewGO.transform.localScale = Vector3.one;
+            playmatPreviewGO.name = playmatSprite.name.Replace("Playmat", "");
 
             Button button = playmatPreviewGO.AddComponent<Button>();
             ColorBlock buttonColors = button.colors;
             buttonColors.normalColor = new Color(1, 1, 1, 200f / 256f);
             button.colors = buttonColors;
 
+            string playmatName = playmatSprite.name.Replace("Thumbnail", "").Replace("Playmat", "");
+            if (playmatName == Options.Playmat)
+            {
+                SetPlaymatSelected();
+            }
+
             button.onClick.AddListener(() =>
             {
-                string playmatName = playmatSprite.name.Replace("Thumbnail", "").Replace("Playmat", "");
                 PlayerPrefs.SetString("PlaymatName", playmatName);
                 PlayerPrefs.Save();
 
                 Options.Playmat = playmatName;
+                SetPlaymatSelected();
             });
         }
     }
@@ -172,10 +181,10 @@ public class OptionsUI : MonoBehaviour {
         AvatarFromUpgrade avatar = avatarPanel.GetComponent<AvatarFromUpgrade>();
         avatar.Initialize(avatarUpgrade.GetType().ToString(), ChangeAvatar);
 
-        /*if (avatarUpgrade.GetType().ToString() == Options.Avatar)
+        if (avatarUpgrade.GetType().ToString() == Options.Avatar)
         {
-            SetAvatarSelected(avatarPanel.transform.position);
-        }*/
+            SetAvatarSelected();
+        }
     }
 
     private void ChangeAvatar(string avatarName)
@@ -183,7 +192,7 @@ public class OptionsUI : MonoBehaviour {
         Options.Avatar = avatarName;
         Options.ChangeParameterValue("Avatar", avatarName);
 
-        // SetAvatarSelected(GameObject.Find("UI/Panels/AvatarsPanel/ContentPanel/" + avatarName).transform.position);
+        SetAvatarSelected();
     }
 
     private void ShowPlayerView()
@@ -233,6 +242,25 @@ public class OptionsUI : MonoBehaviour {
         {
             Destroy(transform.gameObject);
         }
+    }
+
+    private void SetAvatarSelected()
+    {
+        GameObject.Destroy(Selector);
+
+        string prefabPath = "Prefabs/MainMenu/Options/Selector";
+        GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+        Selector = Instantiate(prefab, GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel/AvatarSelectionViewPanel/" + Options.Avatar).transform);
+    }
+
+    private void SetPlaymatSelected()
+    {
+        GameObject.Destroy(Selector);
+
+        string prefabPath = "Prefabs/MainMenu/Options/Selector";
+        GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+        Debug.Log(Options.Playmat);
+        Selector = Instantiate(prefab, GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel/PlaymatSelectionViewPanel/" + Options.Playmat + "Thumbnail").transform);
     }
 
 }

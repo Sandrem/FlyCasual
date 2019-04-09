@@ -82,7 +82,7 @@ namespace Abilities.SecondEdition
 
 
         private bool FilterTargetShip(GenericShip otherShip){
-            return otherShip.Owner != HostShip.Owner && otherShip.InPrimaryWeaponFireZone(HostShip, 0, 2)
+            return otherShip.Owner != HostShip.Owner && HostShip.InPrimaryWeaponFireZone(otherShip, 0, 2)
                             && otherShip.Tokens.HasToken<Tokens.TractorBeamToken>();
         }
 

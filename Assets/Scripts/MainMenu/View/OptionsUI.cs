@@ -259,7 +259,6 @@ public class OptionsUI : MonoBehaviour {
 
         string prefabPath = "Prefabs/MainMenu/Options/Selector";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
-        Debug.Log(Options.Playmat);
         Selector = Instantiate(prefab, GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel/PlaymatSelectionViewPanel/" + Options.Playmat + "Thumbnail").transform);
     }
 

@@ -119,6 +119,9 @@ public class CameraScript : MonoBehaviour {
         //TODO: Call hide context menu only once
         CheckChangeMode();
 
+        //Don't move camera while "Select a maneuver" window is shown - fixes problem with touch input
+        if (DirectionsMenu.IsVisible) return;
+
         if (InputTouchIsEnabled)
         {
             CamRotateZoomByTouch();

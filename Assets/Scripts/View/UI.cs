@@ -84,13 +84,6 @@ public class UI : MonoBehaviour {
     public static void HideTemporaryMenus()
     {
         HideContextMenu();
-        if (Phases.CurrentSubPhase != null)
-        {
-            if (Phases.CurrentSubPhase.GetType() == typeof(SubPhases.PlanningSubPhase) && !SwarmManager.IsActive)
-            {
-                HideDirectionMenu();
-            }
-        }
     }
 
     //TODO: use in static generic UI class

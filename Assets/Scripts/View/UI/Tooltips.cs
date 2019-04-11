@@ -217,9 +217,13 @@ public static class Tooltips {
         {
             return "ImageUpgradeSE";
         }
-        else if (sprite.rect.width == 300)
+        else if (sprite.rect.height > 400 && sprite.rect.width < 310)
         {
-            return "ImageUpgeadeFE";
+            return "ImagePilot";
+        }
+        else if (sprite.rect.height > 290 && sprite.rect.width < 210)
+        {
+            return "ImageUpgradeFE";
         }
         else
         {

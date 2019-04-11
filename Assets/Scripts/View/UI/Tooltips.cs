@@ -17,9 +17,6 @@ public static class Tooltips {
     private static Transform TooltipsPanel;
     private static Transform ImagePanel;
 
-    private const float TARGET_TOOLTIP_HEIGHT = .95F;
-    private const float TARGET_TOOLTIP_WIDTH = .75F;
-
     static Tooltips()
     {
         //TEMPORARY
@@ -93,62 +90,56 @@ public static class Tooltips {
 
     private static void SetSpriteScaleForWindow()
     {
-        float targetHeight = Screen.height * TARGET_TOOLTIP_HEIGHT;
-        float targetWidth = Screen.width * TARGET_TOOLTIP_WIDTH;
+        float targetHeight = Screen.height * 0.9f;
+        float targetWidth = Screen.width * 0.9f;
         float width = ImagePanel.GetComponent<Image>().sprite.rect.width;
         float height = ImagePanel.GetComponent<Image>().sprite.rect.height;
-        float scale = 1;
+        float scaleX = 1, scaleY = 1, scale = 1;
         if (height > targetHeight)
         {
-            scale = targetHeight / height;
+            scaleX = targetHeight / height;
         }
         else if (width > targetWidth)
         {
-            scale = targetWidth / width;
+            scaleY = targetWidth / width;
         }
-        TooltipsPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(width * scale, height * scale);
-        //ImagePanel.GetComponent<RectTransform>().sizeDelta = new Vector2(width * scale, height * scale);
+        scale = Mathf.Min(scaleX, scaleY);
+        TooltipsPanel.GetComponent<RectTransform>().localScale = new Vector2(scale, scale);
     }
 
     private static void SetTooltipPosition()
     {
-        RectTransform rect = TooltipsPanel.GetComponent<RectTransform>();
-        float height = rect.sizeDelta.y;
+        float uiScale = GameObject.Find("UI").transform.localScale.x;
 
-        float positionX = Input.mousePosition.x;
-        float positionY = Input.mousePosition.y;
+        RectTransform imageRect = ImagePanel.GetComponent<RectTransform>();
+        float imageWidth = imageRect.sizeDelta.x * uiScale;
+        float imageHeight = imageRect.sizeDelta.y * uiScale;
 
-        bool mouseIsLeft = positionX < (Screen.width / 2);
+        float mousePositionX = Input.mousePosition.x;
+        float mousePositionY = Input.mousePosition.y;
 
-        if (mouseIsLeft) //Move tooltip to right of mouse cursor
+        float windowPositionX = 0;
+        float windowPositionY = 0;
+
+        if (mousePositionX + imageWidth + 25f > Screen.width)
         {
-            positionX += 5;
-            rect.pivot = new Vector2(0f, .5f);
+            windowPositionX = mousePositionX - imageWidth - 25f;
         }
-        else //Move tooltip to left of mouse cursor
+        else
         {
-            positionX -= 10;
-            rect.pivot = new Vector2(1f, .5f);
+            windowPositionX = mousePositionX + 25f;
         }
 
-        //Determine pivot y-value, .5 y-value means directly in the middle, 0 y-value cursor is on the bottom of tooltip, 1 y-value cursor is on top of the tooltip
-        float spaceTop = Screen.height - positionY;
-        float spaceBottom = positionY;
-        float spaceNeededForHalf = height / 2;
+        if ((Screen.height - mousePositionY) + imageHeight > Screen.height)
+        {
+            windowPositionY = imageHeight;
+        }
+        else
+        {
+            windowPositionY = mousePositionY;
+        }
 
-        if (spaceTop < spaceNeededForHalf) //lower image
-        {
-            float spaceNeeded = spaceNeededForHalf - spaceTop;
-            float percentNeeded = (spaceNeeded / height) + .06f;
-            rect.pivot = new Vector2(rect.pivot.x, rect.pivot.y + percentNeeded);
-        }
-        else if (spaceBottom < spaceNeededForHalf) //raise image
-        {
-            float spaceNeeded = spaceNeededForHalf - spaceBottom;
-            float percentNeeded = (spaceNeeded / height) + .06f;
-            rect.pivot = new Vector2(rect.pivot.x, rect.pivot.y - percentNeeded);
-        }
-        TooltipsPanel.transform.position = new Vector3(positionX, positionY);
+        TooltipsPanel.transform.position = new Vector3(windowPositionX, windowPositionY);
     }
 
     public static void CheckTooltip()

@@ -12,10 +12,11 @@ public class OptionsValueController : MonoBehaviour
 
     public void UpdateProgressByClick()
     {
-        Vector2 localCursor;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), Input.mousePosition, Camera.current, out localCursor);
         float myWidth = this.transform.Find("PanelHitDetection").GetComponent<RectTransform>().rect.width;
-        float percentage = (localCursor.x + 0.5f * myWidth) / myWidth;
+        float localCursorX = Input.mousePosition.x - this.transform.position.x;
+        float percentage = (localCursorX + 0.5f * myWidth) / myWidth;
+
+        Console.Write("MyWidth: " + myWidth + " LocCursorX: " + localCursorX + " Percent: " + percentage);
 
         string optionName = this.transform.Find("Text").GetComponent<Text>().text;
         if (optionName.Contains("Speed"))

@@ -15,6 +15,7 @@ public static class Tooltips {
 
     private static MonoBehaviour Behavior;
     private static Transform TooltipsPanel;
+    private static Transform ImagePanel;
 
     private const float TARGET_TOOLTIP_HEIGHT = .95F;
     private const float TARGET_TOOLTIP_WIDTH = .75F;
@@ -32,33 +33,22 @@ public static class Tooltips {
         }
     }
 
-    public static void StartTooltip(TooltipImageDelegate tooltipImageDelegate, GameObject sender)
+    public static void StartTooltip(GameObject sender, TooltipImageDelegate tooltipImageDelegate)
     {
-        TooltipsPanel = GameObject.Find("UI").transform.Find("TooltipPanel").transform;
-        string url = tooltipImageDelegate.Invoke(sender);
-
-        if (url != null)
-        {
-            TooltipIsCalled = true;
-            TooltipActivationSchedule = Time.time + TooltipActivationDelay;
-            TooltipImageReady = false;
-
-            LoadTooltipImage(url);
-        }
+        StartTooltip(sender, tooltipImageDelegate.Invoke(sender));
     }
 
-    public static void StartTooltip(string tooltipUrl, GameObject sender)
+    public static void StartTooltip(GameObject sender, string tooltipUrl)
     {
         TooltipsPanel = GameObject.Find("UI").transform.Find("TooltipPanel").transform;
-        string url = tooltipUrl;
 
-        if (url != null)
+        if (tooltipUrl != null)
         {
             TooltipIsCalled = true;
             TooltipActivationSchedule = Time.time + TooltipActivationDelay;
             TooltipImageReady = false;
 
-            LoadTooltipImage(url);
+            LoadTooltipImage(tooltipUrl);
         }
     }
 
@@ -71,30 +61,42 @@ public static class Tooltips {
                 if (texture != null)
                 {
                     if (!SquadBuilder.TextureCache.ContainsKey(url)) SquadBuilder.TextureCache.Add(url, texture);
-                    SetObjectSprite(TooltipsPanel.Find("TooltipImage").gameObject, texture);
+                    SetTooltipTexture(texture);
                 }
             }, url));
         }
         else
         {
-            SetObjectSprite(TooltipsPanel.Find("TooltipImage").gameObject, SquadBuilder.TextureCache[url]);
+            SetTooltipTexture(SquadBuilder.TextureCache[url]);
         }
     }
 
-    private static void SetObjectSprite(GameObject targetObject, Texture2D newTexture)
+    private static void SetTooltipTexture(Texture2D newTexture)
     {
-        Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero, 100, 0, SpriteMeshType.Tight, Vector4.zero);
-        targetObject.transform.GetComponent<Image>().sprite = newSprite;
+        Sprite sprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero, 100, 0, SpriteMeshType.Tight, Vector4.zero);
+        string panelName = GetNameOfImagePanelBySize(sprite);
+        ImagePanel = TooltipsPanel.Find(panelName);
+        ImagePanel.GetComponent<Image>().sprite = sprite;
+        PrepareImagePanel();
         SetSpriteScaleForWindow();
         TooltipImageReady = true;
+    }
+
+    private static void PrepareImagePanel()
+    {
+        foreach (Transform transform in TooltipsPanel)
+        {
+            transform.gameObject.SetActive(false);
+        }
+        ImagePanel.gameObject.SetActive(true);
     }
 
     private static void SetSpriteScaleForWindow()
     {
         float targetHeight = Screen.height * TARGET_TOOLTIP_HEIGHT;
         float targetWidth = Screen.width * TARGET_TOOLTIP_WIDTH;
-        float width = TooltipsPanel.Find("TooltipImage").GetComponent<Image>().sprite.rect.width;
-        float height = TooltipsPanel.Find("TooltipImage").GetComponent<Image>().sprite.rect.height;
+        float width = ImagePanel.GetComponent<Image>().sprite.rect.width;
+        float height = ImagePanel.GetComponent<Image>().sprite.rect.height;
         float scale = 1;
         if (height > targetHeight)
         {
@@ -105,7 +107,7 @@ public static class Tooltips {
             scale = targetWidth / width;
         }
         TooltipsPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(width * scale, height * scale);
-        TooltipsPanel.Find("TooltipImage").GetComponent<RectTransform>().sizeDelta = new Vector2(width * scale, height * scale);
+        //ImagePanel.GetComponent<RectTransform>().sizeDelta = new Vector2(width * scale, height * scale);
     }
 
     private static void SetTooltipPosition()
@@ -175,20 +177,9 @@ public static class Tooltips {
         if (TooltipsPanel != null) TooltipsPanel.gameObject.SetActive(false);
     }
 
-    public static void AddTooltip(GameObject sender, TooltipImageDelegate tooltipImageDelegate)
+    public static void AddTooltip(TooltipImageDelegate tooltipImageDelegate, GameObject sender)
     {
-        sender.AddComponent<EventTrigger>();
-        EventTrigger trigger = sender.GetComponent<EventTrigger>();
-
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerEnter;
-        entry.callback.AddListener((data) => { StartTooltip(tooltipImageDelegate, sender); });
-        trigger.triggers.Add(entry);
-
-        entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerExit;
-        entry.callback.AddListener((data) => { EndTooltip(); });
-        trigger.triggers.Add(entry);
+        AddTooltip(sender, tooltipImageDelegate.Invoke(sender));
     }
 
     public static void AddTooltip(GameObject sender, string tooltipUrl)
@@ -202,7 +193,7 @@ public static class Tooltips {
 
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerEnter;
-        entry.callback.AddListener((data) => { StartTooltip(tooltipUrl, sender); });
+        entry.callback.AddListener((data) => { StartTooltip(sender, tooltipUrl); });
         trigger.triggers.Add(entry);
 
         entry = new EventTrigger.Entry();
@@ -222,7 +213,27 @@ public static class Tooltips {
             return;
         }
         entry.callback.RemoveAllListeners();
-        entry.callback.AddListener((data) => StartTooltip(tooltipUrl, sender));
+        entry.callback.AddListener((data) => StartTooltip(sender, tooltipUrl));
+    }
+
+    private static string GetNameOfImagePanelBySize(Sprite sprite)
+    {
+        if (sprite.rect.height > 650)
+        {
+            return "ImagePilot";
+        }
+        else if (sprite.rect.width > 650)
+        {
+            return "ImageUpgradeSE";
+        }
+        else if (sprite.rect.width == 300)
+        {
+            return "ImageUpgeadeFE";
+        }
+        else
+        {
+            return "ImageUpgradeSE";
+        }
     }
 
 }

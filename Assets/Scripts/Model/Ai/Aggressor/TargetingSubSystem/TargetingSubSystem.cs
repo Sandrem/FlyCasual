@@ -96,6 +96,7 @@ namespace AI.Aggressor
             IShipWeapon currentWeapon;
             GenericUpgrade currentUpgrade = null;
 
+            // Find the upgrade that matches our current weapon.
             foreach (GenericUpgrade upgrade in Selection.ThisShip.UpgradeBar.GetSpecialWeaponsActive())
             {
                 if(upgrade is GenericSpecialWeapon)
@@ -109,6 +110,7 @@ namespace AI.Aggressor
                 }
             }
 
+            // If our current weapon uses charges and has no charges available, don't use it.
             if (currentUpgrade != null && Weapon.WeaponInfo.UsesCharges == true && currentUpgrade.State.Charges == 0)
             {
                 Priority = 0;

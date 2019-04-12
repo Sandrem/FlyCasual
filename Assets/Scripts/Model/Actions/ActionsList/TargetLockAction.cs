@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Upgrade;
 
 namespace ActionsList
 {
@@ -108,6 +109,107 @@ namespace ActionsList
             {
                 Phases.GoBack();
             }
+        }
+
+        public override int GetActionPriority()
+        {
+            int result = 0;
+
+            result = (ActionsHolder.HasTarget(Selection.ThisShip)) ? 40 : 0;
+            int maxOrdinanceRange = -1;
+            int minOrdinanceRange = 99;
+            int minShipTargetRange = 1;
+            int curOrdinanceMax = -1;
+            int curOrdinanceMin = -1;
+            int numTargetLockTargets = 0;
+            bool validTargetLockedAlready = false;
+            if(Selection.ThisShip.ShipInfo.ShipName == "E-wing")
+            {
+                minShipTargetRange = 2;
+            }
+
+            // Find out if this ship has ordinance available to fire.
+            int loadedOrdinance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup().Count(n => n.HasType(UpgradeType.Missile) || n.HasType(UpgradeType.Torpedo));
+            if(loadedOrdinance > 0)
+            {
+                // Find the combined maximum and minimum range of all of our ordinance.
+                foreach (GenericUpgrade currentUpgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
+                {
+                    if(currentUpgrade.HasType(UpgradeType.Missile) || currentUpgrade.HasType(UpgradeType.Torpedo))
+                    {
+                        curOrdinanceMax = currentUpgrade.UpgradeInfo.WeaponInfo.MaxRange;
+                        curOrdinanceMin = currentUpgrade.UpgradeInfo.WeaponInfo.MinRange;
+
+                        if(curOrdinanceMin < minOrdinanceRange && curOrdinanceMin >= minShipTargetRange)
+                        {
+                            minOrdinanceRange = curOrdinanceMin;
+                        }
+                        if(curOrdinanceMax > maxOrdinanceRange)
+                        {
+                            maxOrdinanceRange = curOrdinanceMax;
+                        }
+                    }
+                }
+                // If our minimum range is less than 99, we have ordinance that is loaded and have set our min and max ranges.
+                // Check all enemy ships to see if they are in range of our ordinance.
+                if (minOrdinanceRange < 99)
+                {
+                    foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(Selection.ThisShip.Owner.PlayerNo)).Ships)
+                    {
+                        ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, anotherShip.Value, Selection.ThisShip.PrimaryWeapons);
+                        if ((shotInfo.Range <= maxOrdinanceRange) && (shotInfo.Range >= minOrdinanceRange) && (shotInfo.IsShotAvailable))
+                        {
+                            if (!ActionsHolder.HasTargetLockOn(Selection.ThisShip, anotherShip.Value))
+                            {
+                                // We have a target in range that doesn't have a target lock on it from us.
+                                numTargetLockTargets++;
+                            }
+                            else
+                            {
+                                // We already have a target in range that has our target lock on it.
+                                validTargetLockedAlready = true;
+                            }
+                        }
+                    }
+                }
+            if (validTargetLockedAlready == false && numTargetLockTargets > 0)
+                {
+                // We have ordinance, we have targets for that ordinance, and none of them have our target lock on them.
+                result += 25;
+                }
+            }
+
+            if (Selection.ThisShip.State.Force > 1 && result == 40)
+            {
+                // We have at least 2 Force and we haven't already decided to possibly perform a target lock action.
+                validTargetLockedAlready = false;
+                numTargetLockTargets = 0;
+                // Jedi with 2 or more Force should target lock more often than they focus.
+                foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(Selection.ThisShip.Owner.PlayerNo)).Ships)
+                {
+                    ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, anotherShip.Value, Selection.ThisShip.PrimaryWeapons);
+                    if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
+                    {
+                        if (!ActionsHolder.HasTargetLockOn(Selection.ThisShip, anotherShip.Value))
+                        {
+                            // We have a target in range that doesn't have a target lock on it from us.
+                            numTargetLockTargets++;
+                        }
+                        else
+                        {
+                            // We already have a target in range that has our target lock on it.
+                            validTargetLockedAlready = true;
+                        }
+                    }
+                }
+                if (validTargetLockedAlready == false && numTargetLockTargets > 0)
+                {
+                    // We don't already have a target that is in range and locked, and we have targets available.
+                    result += 25;
+                }
+            }
+
+            return result;
         }
     }
 

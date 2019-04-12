@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Tokens;
 using UnityEngine;
+using Upgrade;
 
 namespace AI.Aggressor
 {
@@ -92,8 +93,31 @@ namespace AI.Aggressor
             float potentialDamage = potentialHits - potentialEvades;
             float potentialCrits = attackDiceThrown * criticalHitsModifier;
             float shipCost = TargetShip.PilotInfo.Cost;
+            IShipWeapon currentWeapon;
+            GenericUpgrade currentUpgrade = null;
 
-            Priority = (int) (potentialDamage * 1000f + potentialCrits * 100f + shipCost);
+            foreach (GenericUpgrade upgrade in Selection.ThisShip.UpgradeBar.GetSpecialWeaponsActive())
+            {
+                if(upgrade is GenericSpecialWeapon)
+                {
+                    currentWeapon = (upgrade as IShipWeapon);
+                    if(currentWeapon.Name == Weapon.Name)
+                    {
+                        currentUpgrade = upgrade;
+                        break;
+                    }
+                }
+            }
+
+            if (currentUpgrade != null && Weapon.WeaponInfo.UsesCharges == true && currentUpgrade.State.Charges == 0)
+            {
+                Priority = 0;
+            }
+            else
+            {
+                Priority = (int)(potentialDamage * 1000f + potentialCrits * 100f + shipCost);
+            }
+        
         }
     }
 

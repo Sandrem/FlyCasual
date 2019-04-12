@@ -8,6 +8,7 @@ using SubPhases;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -133,16 +134,19 @@ namespace ActionsList
             {
                 if (currentUpgrade.HasType(UpgradeType.Missile) || currentUpgrade.HasType(UpgradeType.Torpedo) && currentUpgrade.State.Charges > 0)
                 {
-                    curOrdinanceMax = currentUpgrade.UpgradeInfo.WeaponInfo.MaxRange;
-                    curOrdinanceMin = currentUpgrade.UpgradeInfo.WeaponInfo.MinRange;
+                    if (currentUpgrade.UpgradeInfo.WeaponInfo.RequiresToken == typeof(BlueTargetLockToken))
+                    {
+                        curOrdinanceMax = currentUpgrade.UpgradeInfo.WeaponInfo.MaxRange;
+                        curOrdinanceMin = currentUpgrade.UpgradeInfo.WeaponInfo.MinRange;
 
-                    if (curOrdinanceMin < minOrdinanceRange && curOrdinanceMin >= minShipTargetRange)
-                    {
-                        minOrdinanceRange = curOrdinanceMin;
-                    }
-                    if (curOrdinanceMax > maxOrdinanceRange)
-                    {
-                        maxOrdinanceRange = curOrdinanceMax;
+                        if (curOrdinanceMin < minOrdinanceRange && curOrdinanceMin >= minShipTargetRange)
+                        {
+                            minOrdinanceRange = curOrdinanceMin;
+                        }
+                        if (curOrdinanceMax > maxOrdinanceRange)
+                        {
+                            maxOrdinanceRange = curOrdinanceMax;
+                        }
                     }
                 }
             }

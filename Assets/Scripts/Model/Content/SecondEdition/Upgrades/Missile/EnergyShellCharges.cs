@@ -62,7 +62,16 @@ namespace Abilities.SecondEdition
 
         private int GetAiPriority()
         {
-            return 42; // Just above Calculate's default priority
+            int result = 0;
+            foreach (GenericUpgrade currentUpgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
+            {
+                if (currentUpgrade.UpgradeInfo.Name == "Energy-Shell Charges" && currentUpgrade.State.Charges < currentUpgrade.State.MaxCharges)
+                {
+                    // We have munitions we wish to reload.  Set this to just above Calculate's priority.
+                    result += 42;
+                }
+            }
+            return result;
         }
                 
         private void PayAbilityCost(Action<bool> callback)

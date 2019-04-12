@@ -19,7 +19,7 @@ public static class CreditsUI {
         { "Fonts", "Pixel Sagas \"Rebellion\", \"Strike Fighter\" (Daniel Zadorozny, Iconian Fonts), xwing-miniatures-font (geordanr)" },
         { "Additional assets", "Skybox Volume 2: Nebula (Hedgehog Team), Simple Table Glass (Quadrante Studio)" },
         { "Testing", "djeknemesis2012, LiquidLogic" },
-        { "Thanks for support", "Spencer Loper, Landon, Dual Torpedoes, Vittorio Rosa, GregFromParis#42, Charlie King, Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug, John Snape, Bryan Froh" },
+        { "Thanks for support", "Spencer Loper, Landon, Dual Torpedoes, Vittorio Rosa, GregFromParis#42, Charlie King, Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug, John Snape, Bryan Froh, Ross Kushnereit" },
     };
 
     public static void InitializePanel()

@@ -618,7 +618,7 @@ namespace Ship
 
         public void PlanShipDestruction(Action callback)
         {
-            if (IsSimultaneousFireRuleActive())
+            if (IsDestructionDuringCombat())
             {
                 Phases.Events.OnEngagementInitiativeChanged += RegisterShipDestructionSimultaneous;
                 callback();
@@ -629,13 +629,15 @@ namespace Ship
             }
         }
 
-        private bool IsSimultaneousFireRuleActive()
+        private bool IsDestructionDuringCombat()
         {
             return (Phases.CurrentPhase is MainPhases.CombatPhase);
         }
 
         public void DestroyShipForced(Action callback, bool isFled = false)
         {
+            IsDestroyed = true;
+
             PlayDestroyedAnimSound(
                 delegate { PerformShipDestruction(callback, isFled); }
             );            

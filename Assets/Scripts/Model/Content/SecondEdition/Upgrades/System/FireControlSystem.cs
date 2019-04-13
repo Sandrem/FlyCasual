@@ -61,9 +61,22 @@ namespace ActionsList.SecondEdition
         public override int GetDiceModificationPriority()
         {
             int result = 0;
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.CurrentDiceRoll.FocusesNotRerolled;
+                int attackBlanks = Combat.CurrentDiceRoll.BlanksNotRerolled;
+                int numFocusTokens = Selection.ActiveShip.Tokens.CountTokensByType(typeof(FocusToken));
 
-            result = 110;
-
+                // Only use Fire Control if the number of dice that need re-rolled is 1.
+                if (numFocusTokens > 0)
+                {
+                    if (attackBlanks == 1) result = 80;
+                }
+                else
+                {
+                    if (attackBlanks + attackFocuses == 1) result = 80;
+                }
+            }
             return result;
         }
 

@@ -458,6 +458,30 @@ public static partial class ActionsHolder
                 }
                 
             }
+            foreach (GenericUpgrade SecondaryWeapon in anotherShip.UpgradeBar.GetSpecialWeaponsAll())
+            {
+            IShipWeapon currentWeapon = SecondaryWeapon as IShipWeapon;
+            shotInfo = new ShotInfo(anotherShip, thisShip, currentWeapon);
+                if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
+                {
+                    if (direction == 0)
+                    {
+                        result++;
+                    }
+                    else
+                    {
+                        if (direction == 1)
+                        {
+                            if (thisShip.SectorsInfo.IsShipInSector(anotherShip, Arcs.ArcType.FullFront)) result++;
+                        }
+                        else if (direction == -1)
+                        {
+                            if (thisShip.SectorsInfo.IsShipInSector(anotherShip, Arcs.ArcType.FullRear)) result++;
+                        }
+                    }
+                }
+
+            }
         }
 
         return result;

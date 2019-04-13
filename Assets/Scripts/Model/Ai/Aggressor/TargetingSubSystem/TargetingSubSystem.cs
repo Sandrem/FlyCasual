@@ -41,7 +41,35 @@ namespace AI.Aggressor
             const float defenceDiceChanceUnmodified = 0.375f;
             const float defenceDiceChanceFocusModification = 0.625f;
 
+            bool hasVeteranTurretGunner = false;
+
             ShotInfo shotInfo = new ShotInfo(CurrentShip, TargetShip, Weapon);
+            ShotInfo turretShot = null;
+            ShotInfo successfulTurretShot = null;
+
+            // Veteran Turret Gunner makes the Primary weapon a priority if both the turret and the primary have a target in arc 
+            // and the primary hasn't already attacked this turn.
+            foreach(GenericUpgrade potentialTurretGunner in Selection.ThisShip.UpgradeBar.GetUpgradesAll())
+            {
+                if (potentialTurretGunner.NameCanonical == "veteranturretgunner")
+                {
+                    foreach (GenericUpgrade turretUpgrade in Selection.ThisShip.UpgradeBar.GetSpecialWeaponsAll())
+                    {
+                        IShipWeapon turretWeapon = turretUpgrade as IShipWeapon;
+                        if (turretWeapon.WeaponType == WeaponTypes.Turret)
+                        {
+                            turretShot = new ShotInfo(CurrentShip, TargetShip, (turretUpgrade as IShipWeapon));
+                            if (turretShot.IsShotAvailable == true)
+                            {
+                                hasVeteranTurretGunner = true;
+                                successfulTurretShot = turretShot;
+                                break;
+                            }
+                        }
+                    }
+                break;
+                }
+            }
 
             // Attack dice
 
@@ -114,6 +142,31 @@ namespace AI.Aggressor
             if (currentUpgrade != null && Weapon.WeaponInfo.UsesCharges == true && currentUpgrade.State.Charges == 0)
             {
                 Priority = 0;
+            }
+            else if(currentUpgrade == null && hasVeteranTurretGunner == true && Selection.ThisShip.IsAttackPerformed == false && Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
+            {
+                // This is the primary weapon, we have VeteranTurretGunner with a turret weapon, the primary weapon has not been used yet, 
+                // and the weapon has a target in arc.  Give the primary weapon priority.
+                Priority = (int)(potentialDamage * 1000f + potentialCrits * 100f + shipCost + 2000f);
+            }
+            else if(currentUpgrade != null && hasVeteranTurretGunner == true && Selection.ThisShip.IsAttackPerformed == true)
+            {
+                if (Weapon.WeaponType == WeaponTypes.Turret)
+                {
+                    // We have already fired the primary weapon and we are calculating for a turret.
+                    Priority = (int)(potentialDamage * 1000f + potentialCrits * 100f + shipCost + 2000f);
+                }
+                else if(Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
+                {
+                    // We've already attacked this round.  Don't use the primary weapon again if we have Veteran Turret Gunner
+                    // with a target in arc.
+                    Priority = 0;
+                }
+                else
+                {
+                    // This is a non-turret secondary weapon.  Calculate priority normally.
+                    Priority = (int)(potentialDamage * 1000f + potentialCrits * 100f + shipCost);
+                }
             }
             else
             {

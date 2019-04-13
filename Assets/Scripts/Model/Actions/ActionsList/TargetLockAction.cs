@@ -72,11 +72,11 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
-                int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
+                int attackFocuses = Combat.CurrentDiceRoll.FocusesNotRerolled;
+                int attackBlanks = Combat.CurrentDiceRoll.BlanksNotRerolled;
+                int numFocusTokens = Selection.ActiveShip.Tokens.CountTokensByType(typeof(FocusToken));
 
-                //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                if (Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
+                if(numFocusTokens > 0)
                 {
                     if (attackBlanks > 0) result = 80;
                 }

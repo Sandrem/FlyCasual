@@ -48,7 +48,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                int attackFocuses = Combat.DiceRollAttack.Focuses;
+                int attackFocuses = Combat.CurrentDiceRoll.Focuses;
                 if (attackFocuses > 0)
                 {
                     result = 41;

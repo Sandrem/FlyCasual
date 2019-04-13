@@ -65,9 +65,9 @@ namespace Abilities.SecondEdition
             int result = 0;
             foreach (GenericUpgrade currentUpgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
-                if (currentUpgrade.UpgradeInfo.Name == "Energy-Shell Charges" && currentUpgrade.State.Charges < currentUpgrade.State.MaxCharges)
+                if (currentUpgrade.UpgradeInfo.Name == "Energy-Shell Charges" && currentUpgrade.State.Charges < currentUpgrade.State.MaxCharges && !ActionsHolder.HasTarget(Selection.ThisShip))
                 {
-                    // We have munitions we wish to reload.  Set this to just above Calculate's priority.
+                    // We have munitions we wish to reload and have no targets available.  Set this to just above Calculate's priority.
                     result += 42;
                 }
             }

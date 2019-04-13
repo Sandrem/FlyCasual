@@ -117,6 +117,7 @@ namespace ActionsList
             int result = 0;
 
             result = (ActionsHolder.HasTarget(Selection.ThisShip)) ? 40 : 0;
+
             int maxOrdinanceRange = -1;
             int minOrdinanceRange = 99;
             int minShipTargetRange = 1;
@@ -171,12 +172,13 @@ namespace ActionsList
                         }
                     }
                 }
+                if (validTargetLockedAlready == false && numTargetLockTargets > 0)
+                {
+                    // We have ordinance, we have targets for that ordinance, and none of them have our target lock on them.
+                    result += 15;
+                }
             }
-            if (validTargetLockedAlready == false && numTargetLockTargets > 0)
-            {
-                // We have ordinance, we have targets for that ordinance, and none of them have our target lock on them.
-                result += 15;
-            }
+
 
             if (Selection.ThisShip.State.Force > 1 && result == 40)
             {
@@ -262,7 +264,9 @@ namespace SubPhases
 
         private bool FilterTargetLockTargets(GenericShip ship)
         {
-            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship);
+            // Don't include targets that are owned by the target locking player, ships that can't get target locks, or ships that already have a target lock from this ship.
+            // Without the last test, Redline can target lock the same target twice.
+            return (ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship) && !ActionsHolder.HasTargetLockOn(Selection.ThisShip, ship));
         }
 
         private int GetTargetLockAiPriority(GenericShip ship)

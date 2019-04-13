@@ -70,11 +70,13 @@ namespace ActionsList.SecondEdition
                 // Only use Fire Control if the number of dice that need re-rolled is 1.
                 if (numFocusTokens > 0)
                 {
-                    if (attackBlanks == 1) result = 80;
+                    // Slightly above Target Lock.
+                    if (attackBlanks == 1) result = 81;
                 }
                 else
                 {
-                    if (attackBlanks + attackFocuses == 1) result = 80;
+                    // Slightly above Target Lock.
+                    if (attackBlanks + attackFocuses == 1) result = 81;
                 }
             }
             return result;

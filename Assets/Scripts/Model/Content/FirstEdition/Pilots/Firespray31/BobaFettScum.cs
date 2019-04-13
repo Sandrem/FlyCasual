@@ -46,7 +46,7 @@ namespace Abilities.FirstEdition
             bool result = false;
             if ((Combat.AttackStep == CombatStep.Attack) || (Combat.AttackStep == CombatStep.Defence))
             {
-                if (GetNumberOfEnemyShipsAtRange1() > 0) result = true;
+                if (GetNumberOfEnemyShipsAtRange1() > 0 && (Combat.CurrentDiceRoll.Blanks + Combat.CurrentDiceRoll.Focuses) > 0) result = true;
             }
             return result;
         }

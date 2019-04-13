@@ -55,7 +55,8 @@ namespace ActionsList
             {
                 foreach (GenericUpgrade currentUpgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
                 {
-                    if (currentUpgrade.HasType(UpgradeType.Missile) || currentUpgrade.HasType(UpgradeType.Torpedo) && currentUpgrade.State.Charges < currentUpgrade.State.MaxCharges)
+                    // Only perform a reload if the upgradeable ordinance has less than their maximum charges.
+                    if ((currentUpgrade.HasType(UpgradeType.Missile) || currentUpgrade.HasType(UpgradeType.Torpedo) || currentUpgrade.HasType(UpgradeType.Bomb)) && currentUpgrade.State.Charges < currentUpgrade.State.MaxCharges)
                     {
                         // We have munitions we wish to reload.
                         result += 30;

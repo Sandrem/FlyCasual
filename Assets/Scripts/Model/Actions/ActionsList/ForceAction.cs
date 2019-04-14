@@ -29,7 +29,7 @@ namespace ActionsList
             {
                 int attackSuccessesCancelable = Combat.DiceRollAttack.SuccessesCancelable;
                 int defenceSuccesses = Combat.CurrentDiceRoll.Successes;
-               if (attackSuccessesCancelable > defenceSuccesses)
+                if (attackSuccessesCancelable > defenceSuccesses)
                 {
                     int defenceFocuses = Combat.DiceRollDefence.Focuses;
                     int numFocusTokens = Selection.ActiveShip.Tokens.CountTokensByType(typeof(FocusToken));

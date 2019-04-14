@@ -31,17 +31,22 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence)
             {
-                int defenceFocuses = Combat.CurrentDiceRoll.Focuses;
-                int numFocusTokens = Selection.ActiveShip.Tokens.CountTokensByType(typeof(FocusToken));
-                if (numFocusTokens > 0 && defenceFocuses > 1)
+                int attackSuccessesCancelable = Combat.DiceRollAttack.SuccessesCancelable;
+                int defenceSuccesses = Combat.CurrentDiceRoll.Successes;
+                if (attackSuccessesCancelable > defenceSuccesses)
                 {
-                    // Multiple focus results on our defense roll and we have a Focus token.  Use it instead of the Calculate.
-                    result = 0;
-                }
-                else if (defenceFocuses > 0)
-                {
-                    // We don't have a focus token.  Better use the Calculate.
-                    result = 41;
+                    int defenceFocuses = Combat.CurrentDiceRoll.Focuses;
+                    int numFocusTokens = Selection.ActiveShip.Tokens.CountTokensByType(typeof(FocusToken));
+                    if (numFocusTokens > 0 && defenceFocuses > 1)
+                    {
+                        // Multiple focus results on our defense roll and we have a Focus token.  Use it instead of the Calculate.
+                        result = 0;
+                    }
+                    else if (defenceFocuses > 0)
+                    {
+                        // We don't have a focus token.  Better use the Calculate.
+                        result = 41;
+                    }
                 }
 
             }

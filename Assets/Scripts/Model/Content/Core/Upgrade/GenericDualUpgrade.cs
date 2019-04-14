@@ -13,13 +13,15 @@ namespace Upgrade
     public class GenericDualUpgrade : GenericUpgrade
     {
         protected Type AnotherSide { get; set; }
+        protected bool SelectSideOnSetup { get; set; } = true;
         private GenericDualUpgrade AnotherSideInstance { get; set; }
 
         public override void AttachToShip(GenericShip host)
         {
             base.AttachToShip(host);
 
-            HostShip.OnShipIsPlaced += AskToSelectSide;
+            if (SelectSideOnSetup)
+                HostShip.OnShipIsPlaced += AskToSelectSide;
         }
 
         private void AskToSelectSide(GenericShip host)

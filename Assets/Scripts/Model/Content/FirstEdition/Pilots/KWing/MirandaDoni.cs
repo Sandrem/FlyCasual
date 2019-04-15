@@ -38,7 +38,7 @@ namespace Abilities.FirstEdition
             Phases.Events.OnRoundEnd -= ClearAbility;
         }
 
-        private void CheckConditions()
+        protected virtual void CheckConditions()
         {
             if (!IsAbilityUsed)
             {

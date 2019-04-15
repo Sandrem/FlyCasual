@@ -13,6 +13,8 @@ namespace Ship.SecondEdition.BTLBYWing
     {
         public BTLBYWing() : base()
         {
+            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
             ShipInfo = new ShipCardInfo
             (
                 "BTL-B Y-wing",
@@ -75,7 +77,48 @@ namespace Ship.SecondEdition.BTLBYWing
                 "XWing-Laser", 3
             );
 
+            ShipAbilities.Add(new Abilities.SecondEdition.PlatedHull());
+
             //ManeuversImageUrl
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class PlatedHull : GenericAbility
+    {
+        // TODO: You MUST use this ability
+
+        public override string Name { get { return "Plated Hull"; } }
+
+        public override void ActivateAbility()
+        {
+            AddDiceModification(
+                "Plated Hull",
+                IsAvailable,
+                GetAiPriority,
+                DiceModificationType.Change,
+                1,
+                new List<DieSide>() { DieSide.Crit },
+                DieSide.Success,
+                DiceModificationTimingType.Opposite
+            );
+        }
+
+        private bool IsAvailable()
+        {
+            return Combat.AttackStep == CombatStep.Attack && !HostShip.Damage.HasFaceupCards;
+        }
+
+        private int GetAiPriority()
+        {
+            return 100;
+        }
+
+        public override void DeactivateAbility()
+        {
+            RemoveDiceModification();
         }
     }
 }

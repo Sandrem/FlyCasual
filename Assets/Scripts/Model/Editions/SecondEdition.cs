@@ -168,7 +168,7 @@ namespace Editions
         {
             if (Edition.Current is SecondEdition)
             {
-                if (ship.HotacManeuverTable != null) ship.HotacManeuverTable.AdaptToSecondEdition();
+                ship.HotacManeuverTable.AdaptToSecondEdition();
             }
         }
 

@@ -123,6 +123,7 @@ namespace BoardTools
             //Fix of "Shot Available" for bullseye are when there is no forward-facing arc
             if (Arc.ArcType != ArcType.Bullseye ||
                 (Arc.ArcType == ArcType.Bullseye && (Ship1.ArcsInfo.Arcs.Any(a => a.Facing == ArcFacing.Front) ||
+                                                     Ship1.ArcsInfo.Arcs.Any(a => a.Facing == ArcFacing.FullFront) ||
                                                      Weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.Bullseye))))
             {
                 IsShotAvailable = true;

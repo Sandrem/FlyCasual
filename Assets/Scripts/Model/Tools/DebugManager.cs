@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class DebugManager
 {
-    public static bool ReleaseVersion = true;
+    public static bool ReleaseVersion;
 
     public static bool FullDebug;
 

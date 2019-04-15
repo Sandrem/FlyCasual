@@ -47,7 +47,6 @@ namespace Ship
         public Players.GenericPlayer Owner { get; private set; }
 
         public string PilotName { get; set; }
-        public string PilotNameShort { get; protected set; }
 
         public int TargetLockMinRange { get; protected set; }
         public int TargetLockMaxRange { get; protected set; }

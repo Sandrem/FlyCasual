@@ -41,7 +41,7 @@ namespace Ship.SecondEdition.BTLBYWing
             };
 
             ModelInfo = new ShipModelInfo(
-                "Y-wing",
+                "BTL-B Y-wing",
                 "Yellow"
             );
 
@@ -63,7 +63,7 @@ namespace Ship.SecondEdition.BTLBYWing
                 new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Complex),
 
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Complex),
-                new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Reverse, MovementComplexity.Complex)
+                new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
             SoundInfo = new ShipSoundInfo(
@@ -76,8 +76,6 @@ namespace Ship.SecondEdition.BTLBYWing
             );
 
             //ManeuversImageUrl
-
-            OldShipTypeName = "Y-wing";
         }
     }
 }

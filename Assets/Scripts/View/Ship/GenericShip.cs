@@ -202,9 +202,14 @@ namespace Ship
                 shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/SecondArc").GetComponent<MeshRenderer>().enabled = true;
             }
 
-            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotName").GetComponent<TextMesh>().text = this.PilotNameShort ?? this.PilotInfo.PilotName;
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotName").GetComponent<TextMesh>().text = ShortenPilotName(this.PilotInfo.PilotName);
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotSkill").GetComponent<TextMesh>().text = this.State.Initiative.ToString();
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ShipIcon").GetComponent<TextMesh>().text = this.ShipIconLetter.ToString();
+        }
+
+        private string ShortenPilotName(string pilotName)
+        {
+            return pilotName.Replace("Squadron", "Sq.");
         }
 
         public void ShowMobileFiringArcHighlight(ArcFacing facing)

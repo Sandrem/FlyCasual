@@ -10,10 +10,10 @@ public static class CreditsUI {
     private static readonly float FREE_SPACE_MEDIUM = 25f;
     private static readonly float FREE_SPACE_SMALL = 10f;
 
-    private static Dictionary<string, string> CreditsData = new Dictionary<string, string>()
+    private static readonly Dictionary<string, string> CreditsData = new Dictionary<string, string>()
     {
         { "Programming", "Sandrem, Rune-b, Azrapse, Matthew Blanchard, GeneralVryth, bwakefield27, thordurk91, Conzar, deakolt, Galaxy613, TheChiefMoose, YannickBgn, Evan Lundell, Fabio Macal, SirHaplo, Nick Buonarota (NickyDaB), rats3g, tetrarchangel, Andrew Matheny, Jimmy5910, jamorbal, pappnase99, Stephen Wangner, jychuah, jtg15, vladamex, xNyer, Ryan Praska, savagerose, Krumok, Tron, mikethetike, tinydantser, belk, XPav, DejaFu, bitsai" },
-        { "Models", "TerranCmdr, Izaak94, Darksaber, DTM, Warb Null, Rob, Gambler, Nim the Netrunner, Gremlyn, Morvana, FabioOtto, Grediel, Cherrybomb67, Smight, Voiceoftheforce, flipdark95, JonnieLP, Atherin, Captain Tributon" },
+        { "Models", "TerranCmdr, Izaak94, Darksaber, DTM, Warb Null, Rob, Gambler, Nim the Netrunner, Gremlyn, Morvana, FabioOtto, Grediel, Cherrybomb67, Smight, Voiceoftheforce, flipdark95, JonnieLP, Atherin, Captain Tributon, JackJohn2942" },
         { "Backgrounds", "xwingtmgphotography, Andreas Bazylewsi" },
         { "Music", "Daniel (Affordable Audio 4 Everyone), Robson Cozendey" },
         { "Fonts", "Pixel Sagas \"Rebellion\", \"Strike Fighter\" (Daniel Zadorozny, Iconian Fonts), xwing-miniatures-font (geordanr)" },

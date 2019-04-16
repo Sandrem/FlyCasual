@@ -6,12 +6,12 @@ namespace Ship
 {
     namespace SecondEdition.NabooRoyalN1Starfighter
     {
-        public class N1GenericPilot : NabooRoyalN1Starfighter
+        public class BravoFlightOfficer : NabooRoyalN1Starfighter
         {
-            public N1GenericPilot() : base()
+            public BravoFlightOfficer() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "N-1 Generic Pilot",
+                    "Bravo Flight Officer",
                     2,
                     30
                 );

@@ -34,7 +34,8 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                     UpgradeType.Title,
                     UpgradeType.System,
                     UpgradeType.Missile,
-                    UpgradeType.Torpedo,
+                    UpgradeType.Missile,
+                    UpgradeType.Bomb,
                     UpgradeType.Bomb,
                     UpgradeType.Modification,
                     UpgradeType.Configuration

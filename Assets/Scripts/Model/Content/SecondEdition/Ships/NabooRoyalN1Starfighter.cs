@@ -37,7 +37,7 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(N1GenericPilot) }
+                { Faction.Republic, typeof(BravoFlightOfficer) }
             };
 
             ModelInfo = new ShipModelInfo(

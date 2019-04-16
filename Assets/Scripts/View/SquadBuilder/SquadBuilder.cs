@@ -157,7 +157,14 @@ namespace SquadBuilderNS
         private static bool IsSmallFaction(Faction faction)
         {
             List<Faction> bigFactions = new List<Faction>() { Faction.Rebel, Faction.Imperial, Faction.Scum };
-            if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) bigFactions.Add(Faction.Republic);
+
+            //TODO: Show more ships on "Small faction" layout
+            if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn)
+            {
+                bigFactions.Add(Faction.Republic);
+                bigFactions.Add(Faction.Separatists);
+            }
+
             return !bigFactions.Contains(faction);
         }
 

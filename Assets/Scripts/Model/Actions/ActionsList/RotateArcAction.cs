@@ -32,7 +32,6 @@ namespace ActionsList
         public override int GetActionPriority()
         {
             bool hasVeteranTurretGunner = false;
-            int totalTargetsInArcs = 0;
 
             foreach (GenericUpgrade potentialTurretGunner in Selection.ThisShip.UpgradeBar.GetUpgradesAll())
             {

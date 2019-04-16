@@ -51,10 +51,10 @@ namespace Abilities.SecondEdition
             {
                 // Only take another action if you don't have a Focus token or a Target Lock token.  Otherwise, Darth Vader locks up when there's a target he can
                 // Target Lock, but he already has a Target Lock on them.
-                if (HostShip.Tokens.CountTokensByType(typeof(BlueTargetLockToken)) == 0 || HostShip.Tokens.CountTokensByType(typeof(FocusToken)) == 0)
-                {
+                //if (HostShip.Tokens.CountTokensByType(typeof(BlueTargetLockToken)) == 0 || HostShip.Tokens.CountTokensByType(typeof(FocusToken)) == 0)
+                //{
                     HostShip.OnActionDecisionSubphaseEnd += DoAnotherAction;
-                }
+                //}
             }
         }
 

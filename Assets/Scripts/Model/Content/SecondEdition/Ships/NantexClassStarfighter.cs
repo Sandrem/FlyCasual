@@ -37,10 +37,6 @@ namespace Ship.SecondEdition.NantexClassStarfighter
 
             ShipInfo.ArcInfo.Arcs.Add(new ShipArcInfo(ArcType.SingleTurret, 2));
 
-            ShipInfo.ActionIcons.AddLinkedAction(
-                new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction), ActionColor.Red)
-            );
-
             ShipAbilities.Add(new Abilities.SecondEdition.PinpointTractorArray());
 
             IconicPilots = new Dictionary<Faction, System.Type> {
@@ -144,7 +140,7 @@ namespace Abilities.SecondEdition
 
         private void RotateArc()
         {
-            HostShip.AskPerformFreeAction(new RotateArcAction(), Triggers.FinishTrigger);
+            new RotateArcAction().DoOnlyEffect(Triggers.FinishTrigger);
         }
     }
 }

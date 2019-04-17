@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
     {
         public Ensnare() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
 
             UpgradeInfo = new UpgradeCardInfo(
                 "Ensnare",

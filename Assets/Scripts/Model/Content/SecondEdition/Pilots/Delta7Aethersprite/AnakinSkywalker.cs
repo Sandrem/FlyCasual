@@ -49,12 +49,16 @@ namespace Abilities.SecondEdition
 
         private void RegisterCheckAnakinAbility(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToUseAnakin);
+            if (HostShip.IsStressed == true)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToUseAnakin);
+            }
         }
 
         private void AskToUseAnakin(object sender, System.EventArgs e)
         {
-            if (isAnakinAbilityAvailable(HostShip)) {
+            if (isAnakinAbilityAvailable(HostShip) && HostShip.IsStressed == true)
+            {
                 AskToUseAbility(AlwaysUseByDefault, UseAnakinAbility);
             } else {
                 Triggers.FinishTrigger();

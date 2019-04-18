@@ -45,8 +45,25 @@ namespace ActionsList
         {
             int result = 0;
 
-            int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded().Count(n => n.HasType(UpgradeType.Missile) || n.HasType(UpgradeType.Torpedo));
-            result = discardedOrdnance * 30;
+            if (Edition.Current.Name == "First Edition")
+            {
+
+                // Ordinance is discarded when used here.
+                int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded().Count(n => n.HasType(UpgradeType.Missile) || n.HasType(UpgradeType.Torpedo));
+                result = discardedOrdnance * 30;
+            }
+            else
+            {
+                foreach (GenericUpgrade currentUpgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
+                {
+                    // Only perform a reload if the upgradeable ordinance has less than their maximum charges.
+                    if ((currentUpgrade.HasType(UpgradeType.Missile) || currentUpgrade.HasType(UpgradeType.Torpedo) || currentUpgrade.HasType(UpgradeType.Bomb)) && currentUpgrade.State.Charges < currentUpgrade.State.MaxCharges)
+                    {
+                        // We have munitions we wish to reload.  The more reliant we are on munitions, the more likely we will try to reload them.
+                        result += 30;
+                    }
+                }
+            }
 
             return result;
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using Arcs;
 using BoardTools;
 using Ship;
+using Upgrade;
 
 namespace ActionsList
 {
@@ -30,14 +31,62 @@ namespace ActionsList
 
         public override int GetActionPriority()
         {
-            if (ActionsHolder.HasTarget(Selection.ThisShip)) return 0;
+            bool hasVeteranTurretGunner = false;
 
             EnemiesInArcHolder = HostShip.SectorsInfo.GetEnemiesInAllSectors();
-            foreach (ArcFacing arcFacing in HostShip.GetAvailableArcFacings())
+            foreach (GenericUpgrade potentialTurretGunner in Selection.ThisShip.UpgradeBar.GetUpgradesAll())
             {
-                if (EnemiesInArcHolder[arcFacing].Count > 0) return 100;
+                if (potentialTurretGunner.NameCanonical == "veteranturretgunner")
+                {
+                    hasVeteranTurretGunner = true;
+                    break;
+                }
             }
+            if (hasVeteranTurretGunner == true)
+            {
+                // Do a full weapons check to see if our turret weapons have targets.  If they don't, we'll want to rotate the turret so we can use Veteran Turret Gunner.
+                int numTargetsInTurret = 0;
+                foreach (IShipWeapon currentWeapon in Selection.ThisShip.GetAllWeapons())
+                {
+                    if (currentWeapon.WeaponType == WeaponTypes.Turret)
+                        {
+                        foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(Selection.ThisShip.Owner.PlayerNo)).Ships)
+                        {
+                            ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, anotherShip.Value, currentWeapon);
+                            if ((shotInfo.Range <= currentWeapon.WeaponInfo.MaxRange) && shotInfo.Range >= currentWeapon.WeaponInfo.MinRange && (shotInfo.IsShotAvailable))
+                            {
+                                // We found at least one target for the turret.
+                                numTargetsInTurret++;
+                                break;
+                            }
+                        }
+                    }
+                    if (numTargetsInTurret > 0)
+                    {
+                        // We only need one target in the turret arc to pass this test.
+                        break;
+                    }
 
+                }
+                if (numTargetsInTurret == 0)
+                {
+                    // We have Veteran Turret Gunner, but our turret(s) don't have a target.  Rotate a turret.
+                    return 100;
+                }
+            }
+            else if (ActionsHolder.HasTarget(Selection.ThisShip)) return 0;
+            else
+            {
+                EnemiesInArcHolder = HostShip.SectorsInfo.GetEnemiesInAllSectors();
+                foreach (ArcFacing arcFacing in HostShip.GetAvailableArcFacings())
+                {
+                    if (EnemiesInArcHolder[arcFacing].Count > 0)
+                    {
+                        // We found at least one target in one of our arcs, and we don't have someone in arc already.
+                        return 100;
+                    }
+                }
+            }
             return 1;
         }
     }

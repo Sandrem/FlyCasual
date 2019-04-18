@@ -47,14 +47,25 @@ namespace ActionsList
             if (Combat.AttackStep == CombatStep.Defence)
             {
                 int attackSuccessesCancelable = Combat.DiceRollAttack.SuccessesCancelable;
-                int defenceSuccesses = Combat.DiceRollDefence.Successes;
+                int defenceSuccesses = Combat.CurrentDiceRoll.Successes;
                 if (attackSuccessesCancelable > defenceSuccesses)
                 {
-                    result = (attackSuccessesCancelable - defenceSuccesses == 1) ? 70 : 20;
+                    int defenceFocuses = Combat.DiceRollDefence.Focuses;
+                    int numFocusTokens = Selection.ActiveShip.Tokens.CountTokensByType(typeof(FocusToken));
+                    if (numFocusTokens > 0 && defenceFocuses == Combat.CurrentDiceRoll.Count)
+                    {
+                        // Multiple focus results on our defense roll and we have a Focus token.  Use it instead of the Evade.
+                        result = 0;
+                    }
+                    else if (defenceFocuses > 0)
+                    {
+                        // Either we don't have a focus token or we have at least one blank.  Better use the Evade.
+                        result = 70;
+                    }
                 }
             }
 
-            if (Edition.Current is Editions.SecondEdition && Combat.DiceRollDefence.Failures == 0) return 0;
+            if (Edition.Current is Editions.SecondEdition && Combat.CurrentDiceRoll.Failures == 0) return 0;
 
             return result;
         }
@@ -67,7 +78,12 @@ namespace ActionsList
         public override int GetActionPriority()
         {
             int result = 0;
-            result = 40;
+            // Increase the chance to evade if the ship has only 1 hull and has enemies targeting it.
+            if (Selection.ThisShip.State.HullCurrent == 1 && Selection.ThisShip.State.Agility >= 1 && ActionsHolder.CountEnemiesTargeting(HostShip, 0) > 0)
+            {
+                result += 80;
+            }
+
             return result;
         }
 

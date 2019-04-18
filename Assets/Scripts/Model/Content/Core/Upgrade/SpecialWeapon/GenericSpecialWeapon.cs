@@ -81,7 +81,8 @@ namespace Upgrade
 
                 if (waysToPay.Count == 0) return false;
             }
-            else if (WeaponInfo.RequiresToken != null)
+
+            if (WeaponInfo.RequiresToken != null)
             {
                 if (!HostShip.Tokens.HasToken(WeaponInfo.RequiresToken)) return false;
             }

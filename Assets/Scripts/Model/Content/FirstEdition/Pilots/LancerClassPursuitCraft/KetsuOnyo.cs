@@ -84,9 +84,9 @@ namespace Abilities.FirstEdition
             SelectShipSubPhase.FinishSelectionNoCallback();
 
             ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip, HostShip.PrimaryWeapons);
-            if (shotInfo.InArcByType(ArcType.SingleTurret) && shotInfo.InPrimaryArc && shotInfo.Range <= 1)
+            if (shotInfo.InArcByType(ArcType.SingleTurret) && shotInfo.InPrimaryArc && shotInfo.Range == 1)
             {
-                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " assigns a Tractor Beam Token\nto " + TargetShip.PilotInfo.PilotName);
+                Messages.ShowError(HostShip.PilotInfo.PilotName + " assigns a Tractor Beam Token\nto " + TargetShip.PilotInfo.PilotName);
                 Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(TargetShip, HostShip.Owner);
                 TargetShip.Tokens.AssignToken(token, Triggers.FinishTrigger);
             }

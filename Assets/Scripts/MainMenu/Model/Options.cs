@@ -31,7 +31,7 @@ public static class Options
 
     public static void ReadOptions()
     {
-        Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
+        Playmat = PlayerPrefs.GetString("PlaymatName", "3DSceneHoth");
         CheckVersionUrl = PlayerPrefs.GetString("CheckVersionUrl", "http://sandrem.freeasphost.net/data/currentversion.txt");
         MusicVolume = PlayerPrefs.GetFloat("Music Volume", 0.25f);
         SfxVolume = PlayerPrefs.GetFloat("SFX Volume", 0.25f);

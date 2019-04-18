@@ -190,6 +190,15 @@ namespace Ship
                 shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/FirstArc").GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/FirstArc").GetComponent<MeshRenderer>().enabled = true;
             }
+            else if (ArcsInfo.HasArc(ArcType.Bullseye))
+            {
+                newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipInfo.BaseSize.ToString() + "/" + this.Faction.ToString() + "/Bullseye";
+                newMaterial = CreateMaterial(newTexture);
+                StandardShaderUtils.ChangeRenderMode(newMaterial, StandardShaderUtils.BlendMode.Fade);
+                shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/FirstArc").GetComponent<Renderer>().material = newMaterial;
+                shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/FirstArc").GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/FirstArc").GetComponent<MeshRenderer>().enabled = true;
+            }
 
             //Rear arc
             if (ArcsInfo.Arcs.Any(n => n.Facing == ArcFacing.Rear))
@@ -202,9 +211,14 @@ namespace Ship
                 shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/SecondArc").GetComponent<MeshRenderer>().enabled = true;
             }
 
-            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotName").GetComponent<TextMesh>().text = this.PilotNameShort ?? this.PilotInfo.PilotName;
+            shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotName").GetComponent<TextMesh>().text = ShortenPilotName(this.PilotInfo.PilotName);
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotSkill").GetComponent<TextMesh>().text = this.State.Initiative.ToString();
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ShipIcon").GetComponent<TextMesh>().text = this.ShipIconLetter.ToString();
+        }
+
+        private string ShortenPilotName(string pilotName)
+        {
+            return pilotName.Replace("Squadron", "Sq.");
         }
 
         public void ShowMobileFiringArcHighlight(ArcFacing facing)

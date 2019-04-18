@@ -27,6 +27,14 @@ namespace Abilities.SecondEdition
 {
     public class MirandaDoniAbility : Abilities.FirstEdition.MirandaDoniAbility
     {
+        protected override void CheckConditions()
+        {
+            if (!IsAbilityUsed && Combat.ChosenWeapon.WeaponType == Ship.WeaponTypes.PrimaryWeapon)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnShotStart, StartQuestionSubphase);
+            }
+        }
+
         protected override void StartQuestionSubphase(object sender, System.EventArgs e)
         {
             MirandaDoniDecisionSubPhase selectMirandaDoniSubPhase = (MirandaDoniDecisionSubPhase)Phases.StartTemporarySubPhaseNew(

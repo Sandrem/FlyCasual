@@ -46,7 +46,8 @@ namespace Abilities.FirstEdition
             bool result = false;
             if ((Combat.AttackStep == CombatStep.Attack) || (Combat.AttackStep == CombatStep.Defence))
             {
-                if (GetNumberOfEnemyShipsAtRange1() > 0) result = true;
+                // Make sure Boba Fett doesn't use his ability if he has already succeeded in blocking the attack.
+                if (GetNumberOfEnemyShipsAtRange1() > 0 && (Combat.CurrentDiceRoll.Blanks + Combat.CurrentDiceRoll.Focuses) > 0) result = true;
             }
             return result;
         }

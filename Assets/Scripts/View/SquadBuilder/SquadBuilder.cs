@@ -163,6 +163,7 @@ namespace SquadBuilderNS
             {
                 bigFactions.Add(Faction.Republic);
                 bigFactions.Add(Faction.Separatists);
+                bigFactions.Add(Faction.Resistance);
             }
 
             return !bigFactions.Contains(faction);

@@ -39,7 +39,8 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                     UpgradeType.Bomb,
                     UpgradeType.Modification,
                     UpgradeType.Configuration
-                )
+                ),
+                abilityText: "<b>Networked Calculations:</b> While you defend or perform an attack, you may spend 1 calculate token from a friendly ship at range 0-1 to change 1 eye result to evade or hit result."
             );
 
             ShipInfo.ActionIcons.AddLinkedAction(

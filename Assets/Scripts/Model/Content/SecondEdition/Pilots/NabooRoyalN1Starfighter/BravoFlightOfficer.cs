@@ -16,7 +16,7 @@ namespace Ship
                     30
                 );
 
-                ImageUrl = "https://i.imgur.com/nPZzZUW.png";
+                ImageUrl = "https://i.imgur.com/JxA7qYJ.png";
             }
         }
     }

@@ -15,6 +15,7 @@ namespace Ship
         public bool IsLimited { get { return Limited != 0; } }
 
         public Type AbilityType { get; private set; }
+        public string AbilityText { get; private set; }
 
         public int Force { get; set; }
         public int Charges { get; private set; }
@@ -26,7 +27,7 @@ namespace Ship
         public Faction Faction { get; private set; }
         public int SEImageNumber { get; private set; }
 
-        public PilotCardInfo(string pilotName, int initiative, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, bool regensCharges = false, UpgradeType extraUpgradeIcon = UpgradeType.None, List<UpgradeType> extraUpgradeIcons = null, Faction factionOverride = Faction.None, int seImageNumber = 0)
+        public PilotCardInfo(string pilotName, int initiative, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, bool regensCharges = false, UpgradeType extraUpgradeIcon = UpgradeType.None, List<UpgradeType> extraUpgradeIcons = null, Faction factionOverride = Faction.None, int seImageNumber = 0, string abilityText = "")
         {
             PilotName = pilotName;
             PilotTitle = pilotTitle;
@@ -42,6 +43,7 @@ namespace Ship
             }
 
             AbilityType = abilityType;
+            AbilityText = abilityText;
 
             Force = force;
             Charges = charges;

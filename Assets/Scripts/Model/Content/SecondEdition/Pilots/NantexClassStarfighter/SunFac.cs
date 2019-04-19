@@ -14,7 +14,8 @@ namespace Ship
                     52,
                     isLimited: true,
                     extraUpgradeIcon: UpgradeType.Talent,
-                    abilityType: typeof(Abilities.SecondEdition.SunFacAbility)
+                    abilityType: typeof(Abilities.SecondEdition.SunFacAbility),
+                    abilityText: "while you perform a primary attack, if the defender is tractored, roll 1 additional attack die."
                 );
             }
         }

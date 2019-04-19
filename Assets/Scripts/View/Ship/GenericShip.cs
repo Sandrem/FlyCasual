@@ -243,6 +243,23 @@ namespace Ship
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ThirdArc").GetComponent<MeshRenderer>().enabled = true;
         }
 
+        private void SetIdMarker()
+        {
+            string[] goNames = { "Front", "Rear" };
+            string idColor = (Owner.PlayerNo == Players.PlayerNo.Player1) ? "ID_White" : "ID_Black";
+
+            foreach (string goName in goNames)
+            {
+                TextMesh ShipIdText = shipAllParts.Find("ShipBase/ShipPeg/XWingNumberMarker" + goName + "/" + idColor).GetComponent<TextMesh>();
+                ShipIdText.text = ShipId.ToString();
+                if (Owner.PlayerNo == Players.PlayerNo.Player2)
+                {
+                    shipAllParts.Find("ShipBase/ShipPeg/XWingNumberMarker" + goName).transform.localEulerAngles += new Vector3(0, 180, 0);
+                }
+            }
+
+        }
+
         public void SetShipSkin()
         {
             if (!string.IsNullOrEmpty(ModelInfo.SkinName))

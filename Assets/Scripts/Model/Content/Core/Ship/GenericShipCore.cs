@@ -185,11 +185,16 @@ namespace Ship
             CreateModel(StartingPosition);
             InitializeSectors();
             InitializeShipBaseArc();
-
-            SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
-
+            SetId();
             SetShipInsertImage();
             SetShipSkin();
+        }
+
+        private void SetId()
+        {
+            SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
+
+            SetIdMarker();
         }
 
         public void InitializeSectors()

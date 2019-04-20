@@ -17,9 +17,10 @@ namespace UpgradesList.SecondEdition
                 cost: 4,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.FirstOrder),
-                abilityType: typeof(Abilities.SecondEdition.PettyOfficerThanissonCrewAbility),
-                seImageNumber: 999 //TODO: update this with correct image
+                abilityType: typeof(Abilities.SecondEdition.PettyOfficerThanissonCrewAbility)
             );
+            
+            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/900397d209adfd3f7bd6429909cc20cc.png";
         }        
     }
 }

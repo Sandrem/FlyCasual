@@ -46,7 +46,8 @@ namespace Abilities.FirstEdition
             bool result = false;
             if ((Combat.AttackStep == CombatStep.Attack) || (Combat.AttackStep == CombatStep.Defence))
             {
-                if (GetNumberOfEnemyShipsAtRange1() > 0) result = true;
+                // Boba Fett will now test to see if there are any results that need changed before using his ability on a die roll.
+                if (GetNumberOfEnemyShipsAtRange1() > 0 && (Combat.CurrentDiceRoll.Blanks + Combat.CurrentDiceRoll.Focuses) > 0) result = true;
             }
             return result;
         }

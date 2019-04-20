@@ -2,7 +2,7 @@
 using Upgrade;
 using Arcs;
 using SubPhases;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using Tokens;
 
 namespace UpgradesList.SecondEdition
@@ -51,8 +51,8 @@ namespace Abilities.SecondEdition
             if ((Phases.CurrentPhase is MainPhases.ActivationPhase || Phases.CurrentPhase is MainPhases.CombatPhase) 
                 && (tokenColor == TokenColors.Red || tokenColor == TokenColors.Orange)
                 && tokenType != typeof(RedTargetLockToken)
-                && ship.Owner.PlayerNo != HostShip.Owner.PlayerNo
                 && !HostShip.Tokens.HasToken(typeof(StressToken))
+                && ship.Owner.PlayerNo != HostShip.Owner.PlayerNo
                 && HostShip.SectorsInfo.IsShipInSector(ship, ArcType.Front)
                 && HostShip.SectorsInfo.RangeToShipBySector(ship, ArcType.Front) <= 1)
             {
@@ -64,11 +64,17 @@ namespace Abilities.SecondEdition
 
         private void ShowDecision(object sender, System.EventArgs e)
         {
-            AskToUseAbility(
-                ShouldUseAbility,
-                UseAbility,
-                infoText: HostShip.PilotInfo.PilotName + ": Gain a Stress Token to assign an additional " + token.Name + " to " + ShipWithToken.PilotInfo.PilotName + "?" 
-            );
+            if(!HostShip.Tokens.HasToken(typeof(StressToken))){
+                AskToUseAbility(
+                    ShouldUseAbility,
+                    UseAbility,
+                    infoText: HostShip.PilotInfo.PilotName + ": Gain a Stress Token to assign an additional " + token.Name + " to " + ShipWithToken.PilotInfo.PilotName + "?" 
+                );
+            } 
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         private bool ShouldUseAbility()
@@ -79,20 +85,26 @@ namespace Abilities.SecondEdition
         private void UseAbility(object sender, System.EventArgs e)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
+         
+            HostShip.Tokens.AssignToken(
+                typeof(StressToken), delegate { AssignExtraToken(token); }
+            );
+        }
 
-            //TODO: Still having one bug that I identified. Noticed that during Lieutenant Karsabi's ability that replaces a disarm with a stress, 
-            //the ability triggered for each and allowed me to gain 2 and assign 2 stress tokens.
-            if(token == typeof(TractorBeamToken)){
-                HostShip.Tokens.AssignToken(
-                    typeof(StressToken), delegate { ShipWithToken.Tokens.AssignToken(new Tokens.TractorBeamToken(ShipWithToken, HostShip.Owner), Triggers.FinishTrigger); }
-                );
-            } 
-            else
+        private void AssignExtraToken(System.Type tokenToAssign)
+        {
+            if(token == typeof(TractorBeamToken))
             {
-                HostShip.Tokens.AssignToken(
-                    typeof(StressToken), delegate { ShipWithToken.Tokens.AssignToken(token, Triggers.FinishTrigger); }
-                );
+                GenericToken tractorToken = new Tokens.TractorBeamToken(ShipWithToken, HostShip.Owner);
+                ShipWithToken.Tokens.AssignToken(tractorToken, Triggers.FinishTrigger);
+            } 
+            else 
+            {
+                ShipWithToken.Tokens.AssignToken(tokenToAssign, Triggers.FinishTrigger);
             }
+            
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Gained a Stress Token to assign an additional " + tokenToAssign.Name 
+                + " to " + ShipWithToken.PilotInfo.PilotName + ".");
         }
     }
 }

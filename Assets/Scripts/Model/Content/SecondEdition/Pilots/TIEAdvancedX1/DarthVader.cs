@@ -2,6 +2,7 @@
 using ActionsList;
 using Ship;
 using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -48,7 +49,13 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Force > 0)
             {
-                HostShip.OnActionDecisionSubphaseEnd += DoAnotherAction;
+                // Only take another action if you don't have a Focus token or a Target Lock token.  Otherwise, Darth Vader locks up when there's a target he can
+                // Target Lock, but he already has a Target Lock on them.  We will need to update this change (the check for focus and target lock) once Boost
+                // becomes a viable action.
+                if (HostShip.Tokens.CountTokensByType(typeof(BlueTargetLockToken)) == 0 || HostShip.Tokens.CountTokensByType(typeof(FocusToken)) == 0)
+                {
+                    HostShip.OnActionDecisionSubphaseEnd += DoAnotherAction;
+                }
             }
         }
 

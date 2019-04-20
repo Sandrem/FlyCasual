@@ -57,7 +57,7 @@ namespace ActionsList
                         // Multiple focus results on our defense roll and we have a Focus token.  Use it instead of the Evade.
                         result = 0;
                     }
-                    else if (defenceFocuses > 0)
+                    else
                     {
                         // Either we don't have a focus token or we have at least one blank.  Better use the Evade.
                         result = 70;

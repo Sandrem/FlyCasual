@@ -1,6 +1,7 @@
 ﻿using Ship;
 using System;
 using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
@@ -40,7 +41,7 @@ namespace Abilities.SecondEdition
             AddDiceModification(
                 HostName + ": crit to hit",
                 IsAvailable,
-                () => 35,
+                GetAICritModPriority,
                 DiceModificationType.Change,
                 1, 
                 new List<DieSide> { DieSide.Crit},
@@ -53,7 +54,7 @@ namespace Abilities.SecondEdition
             AddDiceModification(
                 HostName + ": hit to focus",
                 IsAvailable,
-                () => 20,
+                GetAINormalModPriority,
                 DiceModificationType.Change,
                 1,
                 new List<DieSide> { DieSide.Success },
@@ -100,6 +101,39 @@ namespace Abilities.SecondEdition
             {
                 callback(false);
             }
+        }
+
+        private int GetAICritModPriority()
+        {
+            int result = 0;
+
+
+            int critSuccesses = Combat.CurrentDiceRoll.CriticalSuccesses;
+            int numSuccesses = Combat.CurrentDiceRoll.Successes;
+            int currentShields = Combat.Defender.State.ShieldsCurrent;
+            if (critSuccesses > 0 && currentShields < numSuccesses && Combat.Defender.State.HullCurrent + currentShields >= numSuccesses && Combat.Defender.State.Agility > 0)
+            {
+                // We have don't have enough shields to mitigate this critical hit, and there's a chance we'll survive the attack.  Use this ability.
+                result = 35;
+            }
+            return result;
+        }
+
+        private int GetAINormalModPriority()
+        {
+            int result = 0;
+            int hitSuccesses = Combat.CurrentDiceRoll.Successes - Combat.CurrentDiceRoll.CriticalSuccesses;
+            int focusResults = Combat.CurrentDiceRoll.Focuses;
+            if (hitSuccesses > 0)
+            {
+                if (Combat.Attacker.Tokens.CountTokensByType(typeof(FocusToken)) == 0 && Combat.Attacker.State.Force <= focusResults && Combat.Attacker.Tokens.CountTokensByType(typeof(CalculateToken)) == 0)
+                {
+                    // The attack doesn't have a focus token or a calculate, and doesn't have enough Force to convert the focus back into a hit.
+                    // Use this ability.
+                    result = 20;
+                }
+            }
+            return result;
         }
     }
 }

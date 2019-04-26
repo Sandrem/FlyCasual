@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ActionsList;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -325,6 +326,236 @@ namespace AI.Aggressor
             return ship.State.Initiative < CurrentShip.State.Initiative
                 || (ship.State.Initiative == CurrentShip.State.Initiative && ship.Owner.PlayerNo == Phases.PlayerWithInitiative && ship.Owner.PlayerNo != CurrentShip.Owner.PlayerNo)
                 || (ship.State.Initiative == CurrentShip.State.Initiative && ship.ShipId < CurrentShip.ShipId && ship.Owner.PlayerNo == CurrentShip.Owner.PlayerNo);
+        }
+
+        // This function will try all moves related to a boost, barrelroll, decloak, SLAM, or tractor.  If the action is from Supernatural Reflexes or Advanced Sensors,
+        // it will also test the maneuver that follows it to see if that is better or worse than without taking the action before it.
+        public static int TryActionPossibilities(GenericMovement FinalSuggestion, GenericAction actionToTry, bool isBeforeManeuverPhase = false)
+        {
+            int result = 0;
+            GenericShip thisShip = Selection.ActiveShip;
+            GenericMovement savedMovement = thisShip.AssignedManeuver;
+            FinalSuggestion = thisShip.AssignedManeuver;
+            int shieldHullTotal = thisShip.State.ShieldsCurrent + thisShip.State.HullCurrent;
+            int startingResult = 0;
+
+            NavigationResult StartingPosition = null;
+            ShipPositionInfo shipOriginalPosition = thisShip.GetPositionInfo();
+
+            // Prepare our virtual board maneuver tests.
+            VirtualBoard.SetVirtualPositionInfo(thisShip, shipOriginalPosition);
+            VirtualBoard.SwitchToVirtualPosition(thisShip);
+
+
+
+            // Set up our virtual board.
+            if (VirtualBoard == null)
+            {
+                VirtualBoard = new VirtualBoard();
+            }
+            else
+            {
+                VirtualBoard.Update();
+            }
+
+            // Record our current position for comparison.
+            if (isBeforeManeuverPhase == true)
+            {
+                // Our action is before a maneuver.  Find out the results for our maneuver if we don't boost/barrel-roll/decloak before it.
+                MovementPrediction maneuverWithoutActionFirst = new MovementPrediction(thisShip.AssignedManeuver);
+                VirtualBoard.SetVirtualPositionInfo(thisShip, maneuverWithoutActionFirst.FinalPositionInfo);
+                StartingPosition = GetCurrentPositionNavigationInfo(thisShip);
+
+                // Move us back to before the maneuver.
+                VirtualBoard.SetVirtualPositionInfo(thisShip, shipOriginalPosition);
+            }
+            else
+            {
+                // Just record our current position.
+                StartingPosition = GetCurrentPositionNavigationInfo(thisShip);
+            }
+            // Determine how good our starting position is.
+            startingResult = CalculatePositionPriority(StartingPosition);
+
+            // Test for a boost action.
+            if (actionToTry is BoostAction)
+            {
+
+                int bestBoostResult = 0;
+                GenericMovement bestBoostMove = null;
+                NavigationResult bestBoostNavigation = null;
+
+                NavigationResult currentBoostNavigation = null;
+                int currentBoostResult = 0;
+
+                // We're performing a boost action.  Check all boost action possibilities.
+                List<BoostMove> AvailableBoostMoves = new List<BoostMove>();
+                AvailableBoostMoves = thisShip.GetAvailableBoostTemplates();
+                foreach(BoostMove move in AvailableBoostMoves)
+                {
+                    string selectedBoostHelper = move.Name;
+
+                    MovementPrediction boostPrediction = null;
+                    GenericMovement boostMovement;
+                    // Use the name of our boost action to generate a GenericMovement of the matching type.
+                    switch (selectedBoostHelper)
+                    {
+                        case "Straight 1":
+                            boostMovement = new StraightBoost(1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.None);
+                            break;
+                        case "Bank 1 Left":
+                            boostMovement = new BankBoost(1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.None);
+                            break;
+                        case "Bank 1 Right":
+                            boostMovement = new BankBoost(1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.None);
+                            break;
+                        case "Turn 1 Right":
+                            boostMovement = new TurnBoost(1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.None);
+                            break;
+                        case "Turn 1 Left":
+                            boostMovement = new TurnBoost(1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.None);
+                            break;
+                        default:
+                            boostMovement = new StraightBoost(1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.None);
+                            break;
+                    }
+
+                    // Predict our collisions and future position.
+                    boostPrediction = new MovementPrediction(boostMovement);
+
+                    VirtualBoard.SetVirtualPositionInfo(thisShip, boostPrediction.FinalPositionInfo);
+
+                    if(isBeforeManeuverPhase == true)
+                    {
+                        // We need to now perform our maneuver from this new position.
+                        MovementPrediction maneuverAfterAction = new MovementPrediction(thisShip.AssignedManeuver);
+                        VirtualBoard.SetVirtualPositionInfo(thisShip, maneuverAfterAction.FinalPositionInfo);
+                    }
+                    // Find out how good this move is.
+                    currentBoostNavigation = GetCurrentPositionNavigationInfo(thisShip);
+                    currentBoostResult = CalculatePositionPriority(currentBoostNavigation);
+
+                    if(move.IsRed == true)
+                    {
+                        // Make red maneuvers a little less optimal.
+                        currentBoostResult -= 250;
+                    }
+                    if (currentBoostResult > bestBoostResult)
+                    {
+                        // We have a new best boost result.
+                        bestBoostResult = currentBoostResult;
+                        bestBoostNavigation = currentBoostNavigation;
+                        bestBoostMove = boostMovement;
+                    }
+
+                    // Reset our ship position for the next boost test.
+                    VirtualBoard.SetVirtualPositionInfo(thisShip, shipOriginalPosition);
+                }
+                if(bestBoostResult > startingResult)
+                {
+                    result = bestBoostResult;
+                    FinalSuggestion = bestBoostMove;
+                }
+            }
+      
+            // Restore our original move.
+            if (savedMovement != null)
+            {
+                thisShip.SetAssignedManeuver(savedMovement, isSilent: true);
+            }
+            else
+            {
+                thisShip.ClearAssignedManeuver();
+            }
+
+            // Put us back to our normal location.
+            VirtualBoard.SwitchToRealPosition(thisShip);
+            return result;
+        }
+
+        // Set navigation information for the current ship's position.
+        private static NavigationResult GetCurrentPositionNavigationInfo(GenericShip thisShip)
+        {
+            NavigationResult currentNavigationResult = new NavigationResult()
+            {
+                movement = thisShip.AssignedManeuver,
+                distanceToNearestEnemy = 0,
+                distanceToNearestEnemyInShotRange = 0,
+                enemiesInShotRange = 0,
+                isBumped = thisShip.IsBumped,
+                isLandedOnObstacle = thisShip.IsLandedOnObstacle,
+                obstaclesHit = 0,
+                isOffTheBoard = false,
+                minesHit = 0,
+                isOffTheBoardNextTurn = false,
+                isHitAsteroidNextTurn = false,
+                FinalPositionInfo = thisShip.GetPositionInfo()
+            };
+
+            int enemiesInShotRange = 0;
+
+            float minDistanceToNearestEnemyInShotRange = 0;
+            foreach (GenericShip enemyShip in thisShip.Owner.EnemyShips.Values)
+            {
+                // Get our weapon shot info for each arc that has a weapon pointing in it.
+                foreach (IShipWeapon currentWeapon in thisShip.GetAllWeapons())
+                {
+                    ShotInfo shotInfo = new ShotInfo(thisShip, enemyShip, currentWeapon);
+                    if (shotInfo.IsShotAvailable)
+                    {
+                        // We only need to find one target in range to pass our requirements (at least one shot available against that enemy with any particular weapon).
+                        enemiesInShotRange++;
+                        if (minDistanceToNearestEnemyInShotRange < shotInfo.DistanceReal) minDistanceToNearestEnemyInShotRange = shotInfo.DistanceReal;
+                        break;
+                    }
+                }
+            }
+
+            currentNavigationResult.enemiesInShotRange = enemiesInShotRange;
+            currentNavigationResult.distanceToNearestEnemyInShotRange = minDistanceToNearestEnemyInShotRange;
+
+            // Find the nearest distance to an enemy ship.
+            float minDistanceToEnemyShip = float.MaxValue;
+            foreach (GenericShip enemyShip in thisShip.Owner.EnemyShips.Values)
+            {
+                DistanceInfo distInfo = new DistanceInfo(CurrentShip, enemyShip);
+                if (distInfo.MinDistance.DistanceReal < minDistanceToEnemyShip) minDistanceToEnemyShip = distInfo.MinDistance.DistanceReal;
+            }
+
+            currentNavigationResult.distanceToNearestEnemy = minDistanceToEnemyShip;
+
+            return currentNavigationResult;
+        }
+
+        // Determine how good the position we have been passed is.
+        private static int CalculatePositionPriority(NavigationResult CurrentPosition)
+        {
+            int Priority = 0;
+
+            if (CurrentPosition.isOffTheBoard)
+            {
+                return 0;
+            }
+            if (CurrentPosition.isLandedOnObstacle) Priority -= 10000;
+
+            if (CurrentPosition.isOffTheBoardNextTurn) Priority -= 20000;
+
+            Priority += CurrentPosition.enemiesInShotRange * 1000;
+
+            Priority -= CurrentPosition.obstaclesHit * 2000;
+            Priority -= CurrentPosition.minesHit * 2000;
+
+            if (CurrentPosition.isHitAsteroidNextTurn) Priority -= 1000;
+
+            if (CurrentPosition.isBumped)
+            {
+                // Leave space for testing Arvyl and Zeb.
+                Priority -= 1000;
+            }
+
+            //distance is 0..10
+            Priority += (10 - (int) CurrentPosition.distanceToNearestEnemy) * 10;
+            return Priority;
         }
     }
 }

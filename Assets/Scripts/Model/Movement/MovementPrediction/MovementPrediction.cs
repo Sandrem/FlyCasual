@@ -41,6 +41,12 @@ namespace Movement
             GenerateShipStands();
         }
 
+        public void CalculateMovePredictionFast()
+        {
+            WaitForFrames(4);
+            GetResults();
+        }
+
         public IEnumerator CalculateMovementPredicition()
         {
             yield return UpdateColisionDetectionAlt();

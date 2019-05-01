@@ -34,11 +34,13 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker += CheckAbility;
+            HostShip.Ai.OnGetWeaponPriority += ModifyWeaponPriority;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker -= CheckAbility;
+            HostShip.Ai.OnGetWeaponPriority += ModifyWeaponPriority;
         }
 
         private void CheckAbility(GenericShip ship)
@@ -109,6 +111,45 @@ namespace Abilities.SecondEdition
             }
 
             return true;
+        }
+
+        private void ModifyWeaponPriority(GenericShip targetShip, IShipWeapon weapon, ref int priority)
+        {
+            //If this is first attack, and ship can trigger VTG - priorize primary weapon
+            if
+            (
+                !HostShip.IsAttackPerformed
+                && weapon.WeaponType == WeaponTypes.PrimaryWeapon
+                && CanAttackTargetWithPrimaryWeapon(targetShip)
+                && CanAttackTargetWithTurret(targetShip)
+            )
+            {
+                priority += 2000;
+            }
+        }
+
+        private bool CanAttackTargetWithTurret(GenericShip targetShip)
+        {
+            foreach (GenericUpgrade turretUpgrade in Selection.ThisShip.UpgradeBar.GetSpecialWeaponsAll())
+            {
+                IShipWeapon turretWeapon = turretUpgrade as IShipWeapon;
+                if (turretWeapon.WeaponType == WeaponTypes.Turret)
+                {
+                    ShotInfo turretShot = new ShotInfo(HostShip, targetShip, turretWeapon);
+                    if (turretShot.IsShotAvailable)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool CanAttackTargetWithPrimaryWeapon(GenericShip targetShip)
+        {
+            ShotInfo primaryShot = new ShotInfo(HostShip, targetShip, HostShip.PrimaryWeapons.First());
+            return primaryShot.IsShotAvailable;
         }
     }
 }

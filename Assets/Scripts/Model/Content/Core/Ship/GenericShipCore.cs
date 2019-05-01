@@ -24,6 +24,8 @@ namespace Ship
         public ShipDialInfo DialInfo;
         public ShipModelInfo ModelInfo;
 
+        public CustomizedAi Ai;
+
         public Faction Faction { get { return (PilotInfo.Faction != Faction.None) ? PilotInfo.Faction : ShipInfo.DefaultShipFaction; } }
 
         public Faction SubFaction
@@ -111,6 +113,7 @@ namespace Ship
             UpgradeBar = new ShipUpgradeBar(this);
             Tokens = new TokensManager(this);
             ActionBar = new ShipActionBar(this);
+            Ai = new CustomizedAi(this);
 
             TargetLockMinRange = 0;
             TargetLockMaxRange = 3;

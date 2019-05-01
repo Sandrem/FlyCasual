@@ -9,14 +9,14 @@ namespace Ship
 {
     public class SectorsHolder : ArcsHolder
     {
-        public List<GenericArc> Sectors { get { return Arcs.Where(a => a is ArcPrimary || a is ArcLeft || a is ArcRight || a is ArcRear).ToList(); } }
+        public List<GenericArc> Sectors { get { return Arcs.Where(a => a is ArcFront || a is ArcLeft || a is ArcRight || a is ArcRear).ToList(); } }
 
         public SectorsHolder(GenericShip hostShip) : base(hostShip)
         {
             Arcs = new List<GenericArc>()
             {
                 new ArcBullseye(hostShip.ShipBase),
-                new ArcPrimary(hostShip.ShipBase),
+                new ArcFront(hostShip.ShipBase),
                 new ArcRear(hostShip.ShipBase),
                 new ArcLeft(hostShip.ShipBase),
                 new ArcRight(hostShip.ShipBase),

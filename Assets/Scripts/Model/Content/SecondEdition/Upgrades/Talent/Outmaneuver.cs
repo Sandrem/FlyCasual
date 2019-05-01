@@ -25,7 +25,7 @@ namespace Abilities.SecondEdition
     {
         protected override bool AbilityCanBeUsed()
         {
-            if (!Combat.ShotInfo.InArcByType(Arcs.ArcType.Front)) return false;
+            if (!(Combat.ArcForShot is Arcs.ArcFront)) return false;
 
             BoardTools.ShotInfo reverseShotInfo = new BoardTools.ShotInfo(Combat.Defender, Combat.Attacker, Combat.Defender.PrimaryWeapons);
             if (reverseShotInfo.InArc) return false;

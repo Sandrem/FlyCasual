@@ -171,7 +171,7 @@ namespace Ship
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/ShipInfo").GetComponent<MeshRenderer>().enabled = true;
 
             //Forward arc
-            ArcPrimary arcPrimary = ArcsInfo.GetArc<ArcPrimary>();
+            ArcFront arcPrimary = ArcsInfo.GetArc<ArcFront>();
             if (arcPrimary != null && !ArcsInfo.HasArc(ArcType.FullFront))
             {
                 newTexture = "ShipStandInsert/Universal/SecondEdition/" + this.ShipInfo.BaseSize.ToString() + "/" + this.Faction.ToString() + "/Front";

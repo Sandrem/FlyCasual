@@ -6,9 +6,9 @@ using Ship;
 
 namespace Arcs
 {
-    public class ArcPrimary : GenericArc
+    public class ArcFront : GenericArc
     {
-        public ArcPrimary(GenericShipBase shipBase) : base(shipBase)
+        public ArcFront(GenericShipBase shipBase) : base(shipBase)
         {
             ArcType = ArcType.Front;
             Facing = ArcFacing.Front;

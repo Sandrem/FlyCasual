@@ -205,7 +205,7 @@ namespace Ship
                 switch (arc.ArcType)
                 {
                     case ArcType.Front:
-                        ArcsInfo.Arcs.Add(new ArcPrimary(ShipBase));
+                        ArcsInfo.Arcs.Add(new ArcFront(ShipBase));
                         break;
                     case ArcType.Rear:
                         ArcsInfo.Arcs.Add(new ArcRear(ShipBase));

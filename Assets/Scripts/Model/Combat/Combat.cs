@@ -173,18 +173,31 @@ public static partial class Combat
 
         if (ChosenWeapon != null && Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent))
         {
-            UI.HideSkipButton();
-            Roster.AllShipsHighlightOff();
-
-            SetArcAsUsedForAttack();
-            DeclareAttackerAndDefender();
-            CheckFireLineCollisions();
+            if (DebugManager.CinematicCamera)
+            {
+                CommandsList.ShotCamera.ShowShotCamera(Selection.ThisShip, Selection.AnotherShip);
+                GameManagerScript.Wait(3, StartLegalAttack);
+            }
+            else
+            {
+                StartLegalAttack();
+            }
         }
         else
         {
             IsAttackAlreadyCalled = false;
             Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
         }
+    }
+
+    private static void StartLegalAttack()
+    {
+        UI.HideSkipButton();
+        Roster.AllShipsHighlightOff();
+
+        SetArcAsUsedForAttack();
+        DeclareAttackerAndDefender();
+        CheckFireLineCollisions();
     }
 
     private static void SetArcAsUsedForAttack()

@@ -37,6 +37,8 @@ namespace MainPhases
         {
             Selection.DeselectAllShips();
 
+            if (DebugManager.CinematicCamera) CameraScript.RestoreCamera();
+
             if (Phases.Events.HasOnEndPhaseStartEvents)
             {
                 GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartEndPhase);

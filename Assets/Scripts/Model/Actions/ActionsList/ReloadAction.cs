@@ -45,7 +45,7 @@ namespace ActionsList
         {
             int result = 0;
 
-            if (Edition.Current.Name == "First Edition")
+            if (Edition.Current is Editions.FirstEdition)
             {
                 // Ordinance is discarded when used in First Edition.
                 int discardedOrdnance = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded().Count(n => n.HasType(UpgradeType.Missile) || n.HasType(UpgradeType.Torpedo));
@@ -53,15 +53,9 @@ namespace ActionsList
             }
             else
             {
-                foreach (GenericUpgrade currentUpgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
-                {
-                    // Only perform a reload if the upgradeable ordinance has less than their maximum charges.
-                    if ((currentUpgrade.HasType(UpgradeType.Missile) || currentUpgrade.HasType(UpgradeType.Torpedo) || currentUpgrade.HasType(UpgradeType.Bomb)) && currentUpgrade.State.Charges < currentUpgrade.State.MaxCharges)
-                    {
-                        // Consider reloading if we have any munitions that need it.  Increase the odds of reloading if more than one munitions card needs reloaded, as it means this ship relies heavily on munitions.
-                        result += 30;
-                    }
-                }
+                // Only perform a reload if the upgradeable ordinance has less than their maximum charges.
+                // Consider reloading if we have any munitions that need it.  Increase the odds of reloading if more than one munitions card needs reloaded, as it means this ship relies heavily on munitions.
+                result = GetReloadableUpgrades().Count * 30;
             }
 
             return result;

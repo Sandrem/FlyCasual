@@ -30,7 +30,8 @@ namespace Ship
                         UpgradeType.Title,
                         UpgradeType.Turret,
                         UpgradeType.Missile,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
                     )
                 );
 

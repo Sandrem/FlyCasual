@@ -17,7 +17,7 @@ public class MessageContainer : MonoBehaviour {
 
     public void Initialize(string text, MessageType type)
     {
-        targetPosition = new Vector3(Screen.width / 2, 5, 0);
+        targetPosition = new Vector3(transform.position.x, 5, 0);
         transform.Find("MessageText").GetComponent<Text>().text = text;
         switch (type)
         {

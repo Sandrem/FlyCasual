@@ -66,11 +66,14 @@ namespace CommandsList
             Vector3 direction = defender.GetPosition();
 
             float shiftBackSize = (attacker.ShipBase.Size == BaseSize.Large) ? 2f : 1.5f;
-            float shiftRightSize = (attacker.ShipBase.Size == BaseSize.Large) ? 1f : 0.5f;
+            float shiftRightSize = (attacker.ShipBase.Size == BaseSize.Large) ? -1.5f : -1f;
             float shiftUpSize = (attacker.ShipBase.Size == BaseSize.Large) ? 1.5f : 1f;
 
             Vector3 vectorToTarget = direction - position;
-            Vector3 shift = vectorToTarget.normalized * -1 * shiftBackSize + new Vector3(-shiftRightSize, shiftUpSize, 0);
+            Vector3 vectorLeft = new Vector3(-vectorToTarget.z, 0, -vectorToTarget.x);
+            Vector3 shift = vectorToTarget.normalized * -1 * shiftBackSize
+                + vectorLeft.normalized * shiftRightSize
+                + new Vector3(0, shiftUpSize, 0);
             CameraScript.AnimateChangePosition(position + shift, directionTransform);
         }
 

@@ -204,7 +204,7 @@ namespace ActionsList
                 if (validTargetLockedAlready == false && numTargetLockTargets > 0)
                 {
                     // We don't already have a target that is in range and locked, and we have targets available.
-                    result += 15;
+                    result += 55;
                 }
             }
 

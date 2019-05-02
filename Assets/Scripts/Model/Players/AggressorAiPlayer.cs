@@ -70,6 +70,7 @@ namespace Players
             foreach (var action in availableActionsList)
             {
                 int priority = action.GetActionPriority();
+                Selection.ThisShip.Ai.CallGetActionPriority(action, ref priority);
                 actionsPriority.Add(action, priority);
             }
 

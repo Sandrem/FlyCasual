@@ -422,10 +422,13 @@ public static partial class ActionsHolder
     {
         foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(thisShip.Owner.PlayerNo)).Ships)
         {
-            ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip.Value, thisShip.PrimaryWeapons);
-            if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
+            foreach (IShipWeapon weapon in thisShip.GetAllWeapons())
             {
-                return true;
+                ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip.Value, weapon);
+                if (shotInfo.IsShotAvailable)
+                {
+                    return true;
+                }
             }
         }
 

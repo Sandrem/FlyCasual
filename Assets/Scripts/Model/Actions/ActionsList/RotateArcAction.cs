@@ -4,6 +4,7 @@ using System.Linq;
 using Arcs;
 using BoardTools;
 using Ship;
+using UnityEngine;
 using Upgrade;
 
 namespace ActionsList
@@ -24,71 +25,27 @@ namespace ActionsList
                 "Rotate Arc decision",
                 Phases.CurrentSubPhase.CallBack
             );
-            subphase.EnemiesInArcHolder = HostShip.SectorsInfo.GetEnemiesInAllSectors();
             subphase.Start();
-
         }
 
         public override int GetActionPriority()
         {
-            bool hasVeteranTurretGunner = false;
+            int priority = 0;
 
-            // Check if this ship has Veteran Turret Gunner equipped.
-            foreach (GenericUpgrade potentialTurretGunner in Selection.ThisShip.UpgradeBar.GetUpgradesAll())
-            {
-                if (potentialTurretGunner.NameCanonical == "veteranturretgunner")
-                {
-                    hasVeteranTurretGunner = true;
-                    break;
-                }
-            }
-            if (hasVeteranTurretGunner == true)
-            {
-                // Do a full weapons check to see if our turret weapons have targets.  If they don't, we'll want to rotate the turret so we can use Veteran Turret Gunner.
-                int numTargetsInTurret = 0;
-                foreach (IShipWeapon currentWeapon in Selection.ThisShip.GetAllWeapons())
-                {
-                    if (currentWeapon.WeaponType == WeaponTypes.Turret)
-                    {
-                        foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(Selection.ThisShip.Owner.PlayerNo)).Ships)
-                        {
-                            ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, anotherShip.Value, currentWeapon);
-                            if ((shotInfo.Range <= currentWeapon.WeaponInfo.MaxRange) && shotInfo.Range >= currentWeapon.WeaponInfo.MinRange && (shotInfo.IsShotAvailable))
-                            {
-                                // We found at least one target for the turret.
-                                numTargetsInTurret++;
-                                break;
-                            }
-                        }
-                    }
-                    if (numTargetsInTurret > 0)
-                    {
-                        // We only need one target in the turret arc to pass this test.
-                        break;
-                    }
-
-                }
-                if (numTargetsInTurret == 0)
-                {
-                    // We have Veteran Turret Gunner, but our turret(s) don't have a target.  Rotate a turret.
-                    return 100;
-                }
-            }
-            else if (ActionsHolder.HasTarget(Selection.ThisShip)) return 0;
-            else
+            //If we don't have a target to shoot in current arcs, but have a target to shoot in available turret sector - rotate arc
+            if (!ActionsHolder.HasTarget(Selection.ThisShip))
             {
                 EnemiesInArcHolder = HostShip.SectorsInfo.GetEnemiesInAllSectors();
                 foreach (ArcFacing arcFacing in HostShip.GetAvailableArcFacings())
                 {
                     if (EnemiesInArcHolder[arcFacing].Count > 0)
                     {
-                        // We found at least one target in one of our arcs, and we don't have someone in arc already.
-                        return 100;
+                        priority = 100;
                     }
                 }
             }
 
-            return 1;
+            return priority;
         }
     }
 
@@ -98,8 +55,6 @@ namespace SubPhases
 {
     public class RotateArcDecisionSubPhase : DecisionSubPhase
     {
-        public Dictionary<ArcFacing, List<GenericShip>> EnemiesInArcHolder = new Dictionary<ArcFacing, List<GenericShip>>();
-
         public override void PrepareDecision(System.Action callBack)
         {
             InfoText = "Rotate Arc";
@@ -135,79 +90,95 @@ namespace SubPhases
 
         private string GetDefaultDecision()
         {
-            string facing = "";
+            string chosenFacing = "";
 
+            Dictionary<ArcFacing, List<GenericShip>> enemiesInArcHolder = Selection.ThisShip.SectorsInfo.GetEnemiesInAllSectors();
+
+            Dictionary<ArcFacing, int> singleTurretPriorities = new Dictionary<ArcFacing, int>();
+            foreach (ArcFacing facing in Selection.ThisShip.GetAvailableArcFacings())
+            {
+                int priority = 0;
+
+                //Ignore static arcs with same facing
+                if (!Selection.ThisShip.ArcsInfo.Arcs.Any(a => a.Facing == facing && (!(a is ArcSingleTurret))))
+                {
+                    priority = enemiesInArcHolder[facing].Count;
+                }
+                
+                Selection.ThisShip.Ai.CallGetRotateArcFacingPriority(facing, ref priority);
+                singleTurretPriorities.Add(facing, priority);
+            }
+
+            // For single turret
             if (Selection.ThisShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType.SingleTurret))
             {
-                if (EnemiesInArcHolder.Any(n => n.Value.Count > 0))
-                {
-                    int maxCount = 0;
-                    ArcFacing maxFacing = Selection.ThisShip.ArcsInfo.GetArc<ArcSingleTurret>().Facing;
+                ArcFacing currentFacing = Selection.ThisShip.ArcsInfo.GetArc<ArcSingleTurret>().Facing;
 
-                    List<ArcFacing> availableArcFacings = Selection.ThisShip.GetAvailableArcFacings();
-                    foreach (var sectorInfo in EnemiesInArcHolder)
-                    {
-                        if (sectorInfo.Value.Count > maxCount && availableArcFacings.Contains(sectorInfo.Key))
-                        {
-                            maxCount = sectorInfo.Value.Count;
-                            maxFacing = sectorInfo.Key;
-                        }
-                    }
-                    facing = maxFacing.ToString();
-                }
-                else
+                //if no enemies in all sectors, prioritize default values
+                if (!singleTurretPriorities.Any(n => n.Value > 0))
                 {
                     if (Selection.ThisShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType.Front))
                     {
-                        facing = "Rear";
+                        singleTurretPriorities[ArcFacing.Rear] += 1;
                     }
                     else
                     {
-                        facing = "Front";
+                        singleTurretPriorities[ArcFacing.Front] += 1;
                     }
                 }
+
+                //Get facing with highest priority that is not current facing
+                ArcFacing bestFacing = singleTurretPriorities.FirstOrDefault(a => a.Key != currentFacing && a.Value == singleTurretPriorities.Max(b => b.Value)).Key;
+                chosenFacing = bestFacing.ToString();
             }
+            // For double turret
             else if (Selection.ThisShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType.DoubleTurret))
             {
-                if (EnemiesInArcHolder.Any(n => n.Value.Count > 0))
-                {
-                    int enemiesInFrontRearArc = 0;
-                    int enemiesInLeftRearArc = 0;
-                    if (Selection.ThisShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType.Front))
-                    {
-                        enemiesInFrontRearArc = EnemiesInArcHolder
-                            .Where(a => a.Key == ArcFacing.Front || a.Key == ArcFacing.Rear)
-                            .Sum(a => a.Value.Count);
-                        enemiesInLeftRearArc = EnemiesInArcHolder
-                            .Where(a => a.Key == ArcFacing.Front || a.Key == ArcFacing.Left || a.Key == ArcFacing.Right)
-                            .Sum(a => a.Value.Count);
-                    }
-                    else
-                    {
-                        enemiesInFrontRearArc = EnemiesInArcHolder
-                            .Where(a => a.Key == ArcFacing.Front || a.Key == ArcFacing.Rear)
-                            .Sum(a => a.Value.Count);
-                        enemiesInLeftRearArc = EnemiesInArcHolder
-                            .Where(a => a.Key == ArcFacing.Left || a.Key == ArcFacing.Right)
-                            .Sum(a => a.Value.Count);
-                    }
+                ArcFacing currentFacing = Selection.ThisShip.ArcsInfo.GetArc<ArcDualTurretA>().Facing;
 
-                    facing = (enemiesInFrontRearArc >= enemiesInLeftRearArc) ? "Front-Rear" : "Left-Right";
+                string currentFacingString = "None";
+                if (currentFacing == ArcFacing.Front || currentFacing == ArcFacing.Rear)
+                {
+                    currentFacingString = "Front-Rear";
                 }
-                else
+                else if (currentFacing == ArcFacing.Left || currentFacing == ArcFacing.Right)
+                {
+                    currentFacingString = "Left-Right";
+                }
+
+                Dictionary<string, int> doubleTurretPriorities = new Dictionary<string, int>
+                {
+                    { "Front-Rear", singleTurretPriorities[ArcFacing.Front] + singleTurretPriorities[ArcFacing.Rear] },
+                    { "Left-Right", singleTurretPriorities[ArcFacing.Left] + singleTurretPriorities[ArcFacing.Right] }
+                };
+
+                if (!doubleTurretPriorities.Any(n => n.Value > 0))
                 {
                     if (Selection.ThisShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType.Front))
                     {
-                        facing = "Left-Right";
+                        doubleTurretPriorities["Left-Right"] += 1;
                     }
                     else
                     {
-                        facing = "Front-Rear";
+                        doubleTurretPriorities["Front-Rear"] += 1;
                     }
                 }
+
+                foreach (var item in doubleTurretPriorities)
+                {
+                    Debug.Log(item.Key + " " + item.Value);
+                }
+
+                Debug.Log(currentFacingString);
+
+                Debug.Log(doubleTurretPriorities.FirstOrDefault(a => a.Key != currentFacingString && a.Value == doubleTurretPriorities.Max(b => b.Value)).Key);
+                Debug.Log(doubleTurretPriorities.FirstOrDefault(a => a.Value == doubleTurretPriorities.Max(b => b.Value)).Key);
+                Debug.Log(doubleTurretPriorities.FirstOrDefault(a => a.Key != currentFacingString));
+
+                chosenFacing = doubleTurretPriorities.FirstOrDefault(a => a.Key != currentFacingString && a.Value == doubleTurretPriorities.Max(b => b.Value)).Key;
             }
 
-            return facing;
+            return chosenFacing;
         }
 
         private void ChangeMobileArcFacing(ArcFacing facing)

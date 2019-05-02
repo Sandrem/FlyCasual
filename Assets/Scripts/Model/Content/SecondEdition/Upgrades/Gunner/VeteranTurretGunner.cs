@@ -5,6 +5,7 @@ using System.Linq;
 using ActionsList;
 using Actions;
 using BoardTools;
+using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
@@ -35,12 +36,16 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnAttackFinishAsAttacker += CheckAbility;
             HostShip.Ai.OnGetWeaponPriority += ModifyWeaponPriority;
+            HostShip.Ai.OnGetActionPriority += ModifyRotateArcActionPriority;
+            HostShip.Ai.OnGetRotateArcFacingPriority += ModifyRotateArcFacingPriority;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker -= CheckAbility;
-            HostShip.Ai.OnGetWeaponPriority += ModifyWeaponPriority;
+            HostShip.Ai.OnGetWeaponPriority -= ModifyWeaponPriority;
+            HostShip.Ai.OnGetActionPriority -= ModifyRotateArcActionPriority;
+            HostShip.Ai.OnGetRotateArcFacingPriority -= ModifyRotateArcFacingPriority;
         }
 
         private void CheckAbility(GenericShip ship)
@@ -115,11 +120,12 @@ namespace Abilities.SecondEdition
 
         private void ModifyWeaponPriority(GenericShip targetShip, IShipWeapon weapon, ref int priority)
         {
-            //If this is first attack, and ship can trigger VTG - priorize primary weapon
+            //If this is first attack, and ship can trigger VTG - priorize primary non-turret weapon
             if
             (
                 !HostShip.IsAttackPerformed
                 && weapon.WeaponType == WeaponTypes.PrimaryWeapon
+                && !weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.SingleTurret)
                 && CanAttackTargetWithPrimaryWeapon(targetShip)
                 && CanAttackTargetWithTurret(targetShip)
             )
@@ -148,8 +154,67 @@ namespace Abilities.SecondEdition
 
         private bool CanAttackTargetWithPrimaryWeapon(GenericShip targetShip)
         {
-            ShotInfo primaryShot = new ShotInfo(HostShip, targetShip, HostShip.PrimaryWeapons.First());
+            //AI tries to check non-turret weapon first
+            IShipWeapon weapon = HostShip.PrimaryWeapons.FirstOrDefault(w => !w.WeaponInfo.ArcRestrictions.Contains(ArcType.SingleTurret));
+            if (weapon == null) weapon = HostShip.PrimaryWeapons.First();
+            ShotInfo primaryShot = new ShotInfo(HostShip, targetShip, weapon);
             return primaryShot.IsShotAvailable;
+        }
+
+        private void ModifyRotateArcActionPriority(GenericAction action, ref int priority)
+        {
+            if (action is RotateArcAction)
+            {
+                // Rotate arc if ship has fixed arcs, has a target in it, but doesn't have a turret pointer in that sector
+                List<GenericArc> fixedArcs = HostShip.ArcsInfo.Arcs
+                                                            .Where(a => (!(a is ArcSingleTurret || a is OutOfArc)))
+                                                            .ToList();
+
+                if (fixedArcs.Count > 0 && HasTargetForWeapons(fixedArcs))
+                {
+                    List<ArcSingleTurret> singleTurretArcs = HostShip.ArcsInfo.Arcs
+                                                            .Where(a => a is ArcSingleTurret)
+                                                            .Select(a => a as ArcSingleTurret)
+                                                            .ToList();
+
+                    if (!singleTurretArcs.Any(sta => fixedArcs.Any(fa => fa.Facing == sta.Facing)))
+                    {
+                        priority += 100;
+                    }
+                }
+            }
+        }
+
+        private bool HasTargetForWeapons(List<GenericArc> arcs)
+        {
+            foreach (GenericArc arc in arcs)
+            {
+                foreach (GenericShip enemyShip in HostShip.Owner.EnemyShips.Values)
+                {
+                    ShotInfoArc shotInfoArc = new ShotInfoArc(HostShip, enemyShip, arc);
+                    if (shotInfoArc.IsShotAvailable) return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void ModifyRotateArcFacingPriority(ArcFacing facing, ref int priority)
+        {
+            if (facing == ArcFacing.Front && NoArcInFrontSector())
+            {
+                priority += (IsEnemyInFrontSector()) ? 100 : 5;
+            }
+        }
+
+        private bool NoArcInFrontSector()
+        {
+            return !HostShip.ArcsInfo.Arcs.Any(a => a.ArcType == ArcType.SingleTurret && a.Facing == ArcFacing.Front);
+        }
+
+        private bool IsEnemyInFrontSector()
+        {
+            return HostShip.Owner.EnemyShips.Any(e => HostShip.SectorsInfo.IsShipInSector(e.Value, ArcType.Front));
         }
     }
 }

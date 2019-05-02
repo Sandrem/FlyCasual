@@ -12,12 +12,12 @@ using UnityEngine.EventSystems;
 public class CameraState
 {
     public Vector3 CameraPosition { get; private set; }
-    public Vector3 CameraAngles { get; private set; }
+    public Quaternion CameraAngles { get; private set; }
     public Vector3 CameraHolderPosition { get; private set; }
-    public Vector3 CameraHolderAngles { get; private set; }
+    public Quaternion CameraHolderAngles { get; private set; }
     public Vector3 LookAtPosition { get; private set; }
 
-    public CameraState(Vector3 cameraPosition, Vector3 cameraAngles, Vector3 cameraHolderPosition, Vector3 cameraHolderAngles, Vector3 lookAtPosition = default)
+    public CameraState(Vector3 cameraPosition, Quaternion cameraAngles, Vector3 cameraHolderPosition, Quaternion cameraHolderAngles, Vector3 lookAtPosition = default)
     {
         CameraPosition = cameraPosition;
         CameraAngles = cameraAngles;
@@ -565,7 +565,7 @@ public class CameraScript : MonoBehaviour {
         //TODO: Fix this part
         CameraHolder.transform.position = position;
         Camera.transform.LookAt(directionTransform);
-        NewCameraState = new CameraState(Camera.localPosition, Camera.localEulerAngles, CameraHolder.position, CameraHolder.eulerAngles, directionTransform.position);
+        NewCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, directionTransform.position);
 
         SetCameraState(SavedCameraState);
 
@@ -575,20 +575,13 @@ public class CameraScript : MonoBehaviour {
     private static void SetOldCameraPosition()
     {
         Vector3 oldLookAt = (NewCameraState != null) ? NewCameraState.LookAtPosition : default;
-        OldCameraState = new CameraState(Camera.localPosition, Camera.localEulerAngles, CameraHolder.position, CameraHolder.eulerAngles, oldLookAt);
+        OldCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, oldLookAt);
     }
 
     private static void SetSavedCameraPosition()
     {
-        if (NewCameraState != null)
-        {
-            SavedCameraState = NewCameraState;
-        }
-        else
-        {
-            //TODO: Save current target of view
-            SavedCameraState = new CameraState(Camera.localPosition, Camera.localEulerAngles, CameraHolder.position, CameraHolder.eulerAngles);
-        }
+        Vector3 oldLookAt = (NewCameraState != null) ? NewCameraState.LookAtPosition : default;
+        SavedCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, oldLookAt);
     }
 
     public static void RestoreCamera()
@@ -604,9 +597,9 @@ public class CameraScript : MonoBehaviour {
     private static void SetCameraState(CameraState state)
     {
         Camera.localPosition = state.CameraPosition;
-        Camera.localEulerAngles = state.CameraAngles;
+        Camera.localRotation = state.CameraAngles;
         CameraHolder.position = state.CameraHolderPosition;
-        CameraHolder.eulerAngles = state.CameraHolderAngles;
+        CameraHolder.rotation = state.CameraHolderAngles;
     }
 
     private void DoCameraTransition(CameraState oldCamera, CameraState newCamera)
@@ -623,7 +616,7 @@ public class CameraScript : MonoBehaviour {
             Vector3.up
         );
 
-        CameraState currentCameraState = new CameraState(Camera.localPosition, Camera.localEulerAngles, CameraHolder.position, CameraHolder.eulerAngles, NewCameraState.LookAtPosition);
+        CameraState currentCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, NewCameraState.LookAtPosition);
         SetCameraState(currentCameraState);
 
         TransitionTimeCounter += Mathf.Min(Time.deltaTime * TRANSITION_TIME_SPEED, 1 - TransitionTimeCounter);

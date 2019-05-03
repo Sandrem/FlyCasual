@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
             {
                 if (friendlyShip.ShipId == HostShip.ShipId) continue;
 
-                ShotInfo shotInfo = new ShotInfo(HostShip, friendlyShip, HostShip.PrimaryWeapons.First());
+                ShotInfo shotInfo = new ShotInfo(Combat.Attacker, friendlyShip, HostShip.PrimaryWeapons.First());
                 if (shotInfo.InArc) friendlyShipsInArc++;
             }
 

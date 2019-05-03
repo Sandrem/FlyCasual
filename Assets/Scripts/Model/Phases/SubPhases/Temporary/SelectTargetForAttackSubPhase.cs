@@ -30,7 +30,9 @@ namespace SubPhases
         public override void Initialize()
         {
             // If not skipped
-            if (Phases.CurrentSubPhase == this) Selection.ThisShip.Owner.StartExtraAttack();
+
+            // Not needed anymore - target is selected as "Select a ship" AI
+            // if (Phases.CurrentSubPhase == this) Selection.ThisShip.Owner.StartExtraAttack();
         }
 
         private bool FilterAttackTargets(GenericShip ship)
@@ -53,9 +55,9 @@ namespace SubPhases
         {
             var subphase = Phases.StartTemporarySubPhaseNew(
                 "Extra Attack",
-                typeof(ExtraAttackSubPhase),
+                typeof(AttackExecutionSubphase),
                 delegate {
-                    Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
+                    Phases.FinishSubPhase(typeof(AttackExecutionSubphase));
                     Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
                     CallBack();
                 }
@@ -73,6 +75,8 @@ namespace SubPhases
             UI.HideSkipButton();
             Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
             CallBack();
+
+            if (Phases.CurrentSubPhase is CombatSubPhase) (Phases.CurrentSubPhase as CombatSubPhase).SkipButton();
         }
 
         public override void Next()

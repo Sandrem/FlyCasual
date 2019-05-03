@@ -164,9 +164,9 @@ namespace Players
             UI.ShowSkipButton();
             UI.HighlightSkipButton();
 
-            if (Phases.CurrentSubPhase is ExtraAttackSubPhase)
+            if (Phases.CurrentSubPhase is AttackExecutionSubphase)
             {
-                (Phases.CurrentSubPhase as ExtraAttackSubPhase).RevertSubphase();
+                (Phases.CurrentSubPhase as AttackExecutionSubphase).RevertSubphase();
             }
             else
             {

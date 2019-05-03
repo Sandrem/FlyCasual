@@ -23,13 +23,13 @@ namespace SubPhases
         public override void Next()
         {
             GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartObstaclesPlacementpPhase);
-            (subphase as NotificationSubPhase).TextToShow = "Obstacles";
+            (subphase as NotificationSubPhase).TextToShow = (DebugManager.NoObstaclesSetup) ? "Setup" : "Obstacles";
             subphase.Start();
         }
 
         private void StartObstaclesPlacementpPhase()
         {
-            if (!DebugManager.NoAsteroidSetup)
+            if (!DebugManager.NoObstaclesSetup)
             {
                 Phases.CurrentSubPhase = new ObstaclesPlacementSubPhase();
             }

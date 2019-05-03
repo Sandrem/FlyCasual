@@ -6,7 +6,7 @@ public static class DebugManager
 {
     public static bool ReleaseVersion;
 
-    public static bool CinematicCamera = true;
+    public static bool CinematicCamera;
 
     public static bool FullDebug;
 
@@ -18,7 +18,7 @@ public static class DebugManager
 
     public static bool DebugNoCombat;
 
-    public static bool NoAsteroidSetup;
+    public static bool NoObstaclesSetup;
 
     public static bool NoReplayCreation; // = true;
 

@@ -10,6 +10,7 @@ using System.Reflection;
 using System;
 using Upgrade;
 using Migrations;
+using ExtraOptions;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -37,6 +38,7 @@ public partial class MainMenu : MonoBehaviour {
         ModsManager.Initialize();
         Options.ReadOptions();
         Options.UpdateVolume();
+        ExtraOptionsManager.Initialize();
         UpdateVersionInfo();
         UpdatePlayerInfo();
 

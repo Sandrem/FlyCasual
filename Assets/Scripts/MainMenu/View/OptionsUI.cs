@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExtraOptions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,8 @@ public class OptionsUI : MonoBehaviour {
     public GameObject PlaymatSelector { get; private set; }
     public static OptionsUI Instance { get; private set; }
     public GameObject Selector { get; private set; }
+
+    private const float FREE_SPACE_EXTRA_OPTIONS = 25f;
 
     private void Start()
     {
@@ -209,17 +212,6 @@ public class OptionsUI : MonoBehaviour {
         panel.transform.Find("TitleInputPanel/InputField").GetComponent<InputField>().text = Options.Title;
     }
 
-    private void ShowExtraView()
-    {
-        /*Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
-        string prefabPath = "Prefabs/MainMenu/Options/ExtraViewPanel";
-        GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
-        GameObject panel = Instantiate(prefab, parentTransform);*/
-
-        // Foreach class in namespace
-        // Create panel with info and control of on/off mode
-    }
-
     private void ShowViewSimple(string name)
     {
         Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
@@ -260,6 +252,53 @@ public class OptionsUI : MonoBehaviour {
         string prefabPath = "Prefabs/MainMenu/Options/Selector";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
         Selector = Instantiate(prefab, GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel/PlaymatSelectionViewPanel/" + Options.Playmat + "Thumbnail").transform);
+    }
+
+    private void ShowExtraView()
+    {
+        Transform parentTransform = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel").transform;
+        string prefabPath = "Prefabs/MainMenu/Options/ExtraOptionsViewPanel";
+        GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+        GameObject panel = Instantiate(prefab, parentTransform);
+        panel.name = "ExtraOptionsViewPanel";
+
+        GameObject itemPrefab = (GameObject)Resources.Load("Prefabs/UI/ExtraOptionPanel", typeof(GameObject));
+        GameObject ExtraOptionsPanel = GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel/ExtraOptionsViewPanel/Viewport/Content").gameObject;
+
+        RectTransform modsPanelRectTransform = ExtraOptionsPanel.GetComponent<RectTransform>();
+        Vector3 currentPosition = new Vector3(modsPanelRectTransform.sizeDelta.x / 2, -FREE_SPACE_EXTRA_OPTIONS, ExtraOptionsPanel.transform.localPosition.z);
+
+        foreach (Transform transform in ExtraOptionsPanel.transform)
+        {
+            Destroy(transform.gameObject);
+        }
+
+        modsPanelRectTransform.sizeDelta = new Vector2(modsPanelRectTransform.sizeDelta.x, 0);
+        GameObject.Find("UI/Panels").transform.Find("ModsPanel").Find("Scroll View").GetComponentInChildren<ScrollRect>().verticalNormalizedPosition = 0f;
+
+        foreach (var mod in ExtraOptionsManager.ExtraOptions)
+        {
+            GameObject ModRecord;
+
+            ModRecord = MonoBehaviour.Instantiate(itemPrefab, ExtraOptionsPanel.transform);
+            ModRecord.transform.localPosition = currentPosition;
+            ModRecord.name = mod.Key.ToString();
+
+            ModRecord.transform.Find("Label").GetComponent<Text>().text = mod.Value.Name;
+
+            Text description = ModRecord.transform.Find("Text").GetComponent<Text>();
+            description.text = mod.Value.Description;
+            RectTransform descriptionRectTransform = description.GetComponent<RectTransform>();
+            descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, description.preferredHeight);
+
+            RectTransform modRecordRectTransform = ModRecord.GetComponent<RectTransform>();
+            modRecordRectTransform.sizeDelta = new Vector2(modRecordRectTransform.sizeDelta.x, modRecordRectTransform.sizeDelta.y + description.preferredHeight);
+
+            currentPosition = new Vector3(currentPosition.x, currentPosition.y - modRecordRectTransform.sizeDelta.y - FREE_SPACE_EXTRA_OPTIONS, currentPosition.z);
+            modsPanelRectTransform.sizeDelta = new Vector2(modsPanelRectTransform.sizeDelta.x, modsPanelRectTransform.sizeDelta.y + modRecordRectTransform.sizeDelta.y + FREE_SPACE_EXTRA_OPTIONS);
+
+            ModRecord.transform.Find("Toggle").GetComponent<Toggle>().isOn = ExtraOptionsManager.ExtraOptions[mod.Key].IsOn;
+        }
     }
 
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Mods;
+using ExtraOptions;
 
 public static class Options
 {

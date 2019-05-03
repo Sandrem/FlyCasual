@@ -1,13 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using BoardTools;
-using GameModes;
-using System.Linq;
-using Editions;
-using Obstacles;
+﻿using Actions;
 using ActionsList;
-using Actions;
+using AI;
+using BoardTools;
+using Editions;
+using GameModes;
+using Obstacles;
+using Players;
+using Ship;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+
+
+
+
+
 
 namespace ActionsList
 {
@@ -43,6 +52,19 @@ namespace ActionsList
         public override void RevertActionOnFail(bool hasSecondChance = false)
         {
             Phases.GoBack();
+        }
+
+        public override int GetActionPriority()
+        {
+            int result = 0;
+
+            // Check to see if we are before the maneuver phase or not.
+            bool isBeforeManeuverPhase = !Selection.ActiveShip.AiPlans.shipHasManeuvered;
+            // Until I get Advanced Sensors fixed...
+            isBeforeManeuverPhase = false;
+            result = AI.Aggressor.NavigationSubSystem.TryActionPossibilities(this, isBeforeManeuverPhase);
+
+            return result;
         }
     }
 
@@ -130,8 +152,23 @@ namespace SubPhases
             AvailableBoostMoves = TheShip.GetAvailableBoostTemplates();
 
             InitializeRendering();
+            if (TheShip.Owner.PlayerType == PlayerType.Ai)
+            {
+                // We have AI here.  Do AI things.
+                AiSinglePlan aiBoostAction = TheShip.AiPlans.GetPlanByActionName("Boost");
+                if (aiBoostAction != null)
+                {
+                    SelectTemplateByName(aiBoostAction.actionName, aiBoostAction.isRedAction);
 
-            AskSelectTemplate();
+                    // Now that we're done with the plan, remove it.
+                    TheShip.AiPlans.RemovePlan(aiBoostAction);
+                }
+            }
+            else
+            {
+                // We have a player here.  Ask them about their boost.
+                AskSelectTemplate();
+            }
         }
 
         private void AskSelectTemplate()
@@ -186,6 +223,25 @@ namespace SubPhases
                 
             SelectedBoostHelper = move.Name;
             DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void SelectTemplateByName(string actionName, bool isRed)
+        {
+            if (isRed && !HostAction.IsRed)
+            {
+                HostAction.Color = ActionColor.Red;
+                TheShip.OnActionIsPerformed += ResetActionColor;
+            }
+
+            SelectedBoostHelper = actionName;
+            if (TheShip.Owner.PlayerType == PlayerType.Ai)
+            {
+                SelectTemplateDecisionIsTaken();
+            }
+            else
+            {
+                DecisionSubPhase.ConfirmDecision();
+            }
         }
 
         private void ResetActionColor(GenericAction action)
@@ -316,7 +372,24 @@ namespace SubPhases
             }
             else
             {
-                GameMode.CurrentGameMode.CancelBoost(boostProblems);
+                if (TheShip.Owner.PlayerType == PlayerType.Ai)
+                {
+                    // Skip the failed boost action.
+                    GameMode.CurrentGameMode.FinishBoost();
+                    string tempName = Phases.CurrentSubPhase.Name;
+                    Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+                    tempName = Phases.CurrentSubPhase.Name;
+
+                    UpdateHelpInfo();
+
+
+
+                    CallBack();
+                }
+                else
+                {
+                    GameMode.CurrentGameMode.CancelBoost(boostProblems);
+                }
             }
         }
 
@@ -433,6 +506,7 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
+
             UpdateHelpInfo();
 
             CallBack();
@@ -449,5 +523,6 @@ namespace SubPhases
             bool result = false;
             return result;
         }
+
     }
 }

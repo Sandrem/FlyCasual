@@ -12,6 +12,7 @@ namespace AI.Aggressor
         public bool isLandedOnObstacle;
 
         public int enemiesInShotRange;
+        public int enemiesTargetingThisShip;
 
         public int obstaclesHit;
         public int minesHit;
@@ -42,7 +43,10 @@ namespace AI.Aggressor
 
             if (isOffTheBoardNextTurn) Priority -= 20000;
 
+            // Base our priority off of how many enemies can shoot us versus how many we can shoot.
             Priority += enemiesInShotRange * 1000;
+            // Allow up to two enemies targeting us to equal one enemy in our attack range.
+            // Priority -= enemiesTargetingThisShip * 500;
 
             Priority -= obstaclesHit * 2000;
             Priority -= minesHit * 2000;

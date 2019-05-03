@@ -1,6 +1,8 @@
-﻿using Arcs;
+﻿using ActionsList;
+using Arcs;
 using BoardTools;
 using Editions;
+using Movement;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +16,8 @@ namespace Ship
 
         private Transform shipAllParts;
         private Transform modelCenter;
+
+        public AiPlansStorage AiPlans = new AiPlansStorage();
 
         private string originalSkinName;
 
@@ -399,8 +403,6 @@ namespace Ship
             projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
         }
 
-
-
         public void HighlightAnyHovered()
         {
             Transform projector = GetSelectionProjector();
@@ -576,4 +578,98 @@ namespace Ship
 
     }
 
+    public class AiPlansStorage
+    {
+        private List<AiSinglePlan> PlansList = new List<AiSinglePlan>();
+        public bool shipHasManeuvered = false;
+
+        public AiSinglePlan GetPlannedAction()
+        {
+            if (PlansList.Count != 0)
+            {
+                OrderByPriority();
+                return PlansList.First();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public int GetActionsCount()
+        {
+            return PlansList.Count();
+        }
+
+        public AiSinglePlan GetPlanByActionName(string actionName)
+        {
+            AiSinglePlan chosenPlan = null;
+            if (PlansList.Count != 0)
+            {
+                foreach (AiSinglePlan plan in PlansList)
+                {
+                    if (plan.currentAction.Name == actionName)
+                    {
+                        chosenPlan = plan;
+                        break;
+                    }
+                }
+            }
+            return chosenPlan;
+        }
+
+        public void OrderByPriority()
+        {
+            // Put the highest priority action first.
+            PlansList.OrderByDescending(plan => plan.Priority);
+        }
+
+        public void AddPlan(AiSinglePlan newPlan)
+        {
+            PlansList.Add(newPlan);
+        }
+
+        public void RemovePlan(AiSinglePlan Plan)
+        {
+            if (PlansList.Count > 0)
+            {
+                PlansList.Remove(Plan);
+            }
+        }
+
+        public void ClearPlans()
+        {
+            PlansList.Clear();
+        }
+    }
+
+    public class AiSinglePlan
+    {
+        public int Priority = 0;
+        public string actionName;
+        public bool isRedAction = false;
+        public GenericAction currentAction = null;
+        public GenericMovement currentActionMove = null;
+        private List<GenericShip> preferredTargets = new List<GenericShip>();
+        
+        public void AddTarget(GenericShip newTarget)
+        {
+            preferredTargets.Add(newTarget);
+        }
+
+        public void RemoveTarget(GenericShip ship)
+        {
+            preferredTargets.Remove(ship);
+        }
+
+        public void ClearTargetList()
+        {
+            preferredTargets.Clear();
+        }
+
+        public GenericShip GetFirstTarget()
+        {
+            return preferredTargets.First();
+        }
+    }
 }

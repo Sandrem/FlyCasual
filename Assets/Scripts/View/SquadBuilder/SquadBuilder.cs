@@ -16,7 +16,7 @@ namespace SquadBuilderNS
     public static partial class SquadBuilder
     {
         private const int SHIP_COLUMN_COUNT = 5;
-        private const int SHIP_COLUMN_COUNT_SMALLFACTION = 2;
+        private const int SHIP_COLUMN_COUNT_SMALLFACTION = 3;
         private const float PILOT_CARD_WIDTH = 300;
         private const float PILOT_CARD_HEIGHT = 418;
         private const float DISTANCE_LARGE = 40;
@@ -101,7 +101,7 @@ namespace SquadBuilderNS
             GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
             GridLayoutGroup grid = GameObject.Find("UI/Panels/SelectShipPanel/Panel").GetComponentInChildren<GridLayoutGroup>();
             grid.cellSize = prefab.GetComponent<RectTransform>().sizeDelta;
-            grid.constraintCount = (IsSmallFaction(faction)) ? 2 : 5;
+            grid.constraintCount = (IsSmallFaction(faction)) ? SHIP_COLUMN_COUNT_SMALLFACTION : SHIP_COLUMN_COUNT;
 
             float panelWidth = grid.constraintCount * (grid.cellSize.x + 25) + 25;
             int rowsCount = availableShipsCounter / grid.constraintCount;
@@ -157,14 +157,6 @@ namespace SquadBuilderNS
         private static bool IsSmallFaction(Faction faction)
         {
             List<Faction> bigFactions = new List<Faction>() { Faction.Rebel, Faction.Imperial, Faction.Scum };
-
-            //TODO: Show more ships on "Small faction" layout
-            if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn)
-            {
-                bigFactions.Add(Faction.Republic);
-                bigFactions.Add(Faction.Separatists);
-                bigFactions.Add(Faction.Resistance);
-            }
 
             return !bigFactions.Contains(faction);
         }

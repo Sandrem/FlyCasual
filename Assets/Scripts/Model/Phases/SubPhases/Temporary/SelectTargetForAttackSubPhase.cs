@@ -50,10 +50,13 @@ namespace SubPhases
             Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapons.First();
             Combat.ShotInfo = new BoardTools.ShotInfo(Selection.ThisShip, TargetShip, Combat.ChosenWeapon);
             MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
+            ExtraAttackTargetSelected();
+        }
 
-            GameMode.CurrentGameMode.ExecuteCommand(
-                Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId)
-            );
+        private void ExtraAttackTargetSelected()
+        {
+            GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
+            if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
         public override void RevertSubPhase() { }
@@ -61,10 +64,8 @@ namespace SubPhases
         public override void SkipButton()
         {
             UI.HideSkipButton();
-            Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
+            Selection.ThisShip.IsAttackPerformed = true;
             CallBack();
-
-            if (Phases.CurrentSubPhase is CombatSubPhase) (Phases.CurrentSubPhase as CombatSubPhase).SkipButton();
         }
 
         public override void Next()

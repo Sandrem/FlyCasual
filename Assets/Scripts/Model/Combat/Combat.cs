@@ -114,7 +114,6 @@ public static partial class Combat
             typeof(AttackExecutionSubphase),
             delegate {
                 Phases.FinishSubPhase(typeof(AttackExecutionSubphase));
-                Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
                 callback();
             }
         );
@@ -547,8 +546,11 @@ public static partial class Combat
         SelectTargetForAttackSubPhase newAttackSubphase = (SelectTargetForAttackSubPhase) Phases.StartTemporarySubPhaseNew(
             "Second attack",
             typeof(SelectTargetForAttackSubPhase),
-            //delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
-            callback
+            delegate
+            {
+                Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
+                callback();
+            }
         );
         newAttackSubphase.AbilityName = abilityName;
         newAttackSubphase.Description = description;

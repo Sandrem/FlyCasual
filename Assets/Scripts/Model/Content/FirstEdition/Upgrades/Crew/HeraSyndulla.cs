@@ -27,12 +27,17 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.CanPerformRedManeuversWhileStressed = true;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed += AllowRedManeuversWhileStressed;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.CanPerformRedManeuversWhileStressed = false;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed -= AllowRedManeuversWhileStressed;
+        }
+
+        private void AllowRedManeuversWhileStressed(ref bool isAllowed)
+        {
+            isAllowed = true;
         }
     }
 }

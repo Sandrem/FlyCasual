@@ -38,35 +38,24 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnTokenIsAssigned += UseReysMillenniumFalcon;
             HostShip.OnTokenIsRemoved += UseReysMillenniumFalcon;
-            HostShip.OnManeuverIsReadyToBeRevealed += AllowSegnorsLoop;
-            HostShip.OnMovementFinish += RestoreFlag;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed += AllowRedSegnorsLoopWhileStressed;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnTokenIsAssigned -= UseReysMillenniumFalcon;
             HostShip.OnTokenIsRemoved -= UseReysMillenniumFalcon;
-            HostShip.OnManeuverIsReadyToBeRevealed -= AllowSegnorsLoop;
-            HostShip.OnMovementFinish -= RestoreFlag;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed -= AllowRedSegnorsLoopWhileStressed;
         }
 
-        private void AllowSegnorsLoop(GenericShip ship)
+        private void AllowRedSegnorsLoopWhileStressed(ref bool isAllowed)
         {
-            if (ship.AssignedManeuver.Bearing == Movement.ManeuverBearing.SegnorsLoop)
+            if ((HostShip.AssignedManeuver != null)
+                && (HostShip.AssignedManeuver.Bearing == Movement.ManeuverBearing.SegnorsLoop)
+                && (HostShip.Tokens.CountTokensByType(typeof(StressToken)) <= 2)
+            )
             {
-                manueversWhileStressedFlag = HostShip.CanPerformRedManeuversWhileStressed;
-                if (HostShip.Tokens.CountTokensByType(typeof(StressToken)) <= 2)
-                {
-                    HostShip.CanPerformRedManeuversWhileStressed = true;
-                }
-            }
-        }
-
-        private void RestoreFlag(GenericShip ship)
-        {
-            if (ship.AssignedManeuver.Bearing == Movement.ManeuverBearing.SegnorsLoop)
-            {
-                HostShip.CanPerformRedManeuversWhileStressed = manueversWhileStressedFlag;
+                isAllowed = true;
             }
         }
 

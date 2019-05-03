@@ -77,7 +77,7 @@ namespace Abilities.FirstEdition
             priority += (ship.Tokens.CountTokensByType(typeof(StressToken)) * 25);
             priority += (ship.State.Agility * 5);
 
-            if (ship.CanPerformActionsWhileStressed && ship.CanPerformRedManeuversWhileStressed) priority = 10;
+            if (ship.CanPerformActionsWhileStressed && ship.CanPerformRedManeuverWhileStressed()) priority = 10;
 
             return priority;
         }

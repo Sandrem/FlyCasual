@@ -19,7 +19,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                 "Resistance Transport",
                 BaseSize.Small,
                 Faction.Resistance,
-                new ShipArcsInfo(ArcType.Front, 2), 1, 7, 3,
+                new ShipArcsInfo(ArcType.Front, 2), 1, 5, 3,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),
@@ -38,7 +38,7 @@ namespace Ship.SecondEdition.ResistanceTransport
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(LogisticsDivisionPilot) }
+                { Faction.Resistance, typeof(PammichNerroGoode) }
             };
 
             ModelInfo = new ShipModelInfo(

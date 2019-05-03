@@ -41,7 +41,7 @@ namespace SubPhases
         {
             if (Selection.ThisShip.AssignedManeuver.ColorComplexity == MovementComplexity.Complex && Selection.ThisShip.Tokens.HasToken(typeof(Tokens.StressToken)))
             {
-                if (!Selection.ThisShip.CanPerformRedManeuversWhileStressed)
+                if (!Selection.ThisShip.CanPerformRedManeuverWhileStressed())
                 {
                     Messages.ShowErrorToHuman(Selection.ThisShip.PilotInfo.PilotName + " attempted to perform a red maneuver while stressed. It will instead perform a white straight 2.");
                     Selection.ThisShip.SetAssignedManeuver(new StraightMovement(2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal));

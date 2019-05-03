@@ -24,6 +24,8 @@ namespace Ship
         public List<GenericObstacle> IgnoreObstaclesList = new List<GenericObstacle>();
         public List<Type> IgnoreObstacleTypes = new List<Type>();
 
+        public EventHandlerBool OnTryCanPerformRedManeuverWhileStressed;
+
         public bool IsLandedOnObstacle
         {
             get
@@ -296,6 +298,15 @@ namespace Ship
         public void Rotate90Counterclockwise(Action callBack)
         {
             Phases.StartTemporarySubPhaseOld("Rotate ship -90°", typeof(SubPhases.Rotate90CounterclockwiseSubPhase), callBack);
+        }
+
+        public bool CanPerformRedManeuverWhileStressed()
+        {
+            bool result = false;
+
+            OnTryCanPerformRedManeuverWhileStressed?.Invoke(ref result);
+
+            return result;
         }
     }
 

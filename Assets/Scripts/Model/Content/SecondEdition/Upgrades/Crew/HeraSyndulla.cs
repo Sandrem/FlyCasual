@@ -27,14 +27,19 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.CanPerformRedManeuversWhileStressed = true;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed += AllowRedManeuversWhileStressed;
             HostShip.OnMovementFinishSuccessfully += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.CanPerformRedManeuversWhileStressed = false;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed -= AllowRedManeuversWhileStressed;
             HostShip.OnMovementFinishSuccessfully -= CheckAbility;
+        }
+
+        private void AllowRedManeuversWhileStressed(ref bool isAllowed)
+        {
+            isAllowed = true;
         }
 
         private void CheckAbility(GenericShip ship)

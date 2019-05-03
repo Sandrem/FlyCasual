@@ -25,7 +25,6 @@ namespace Abilities.FirstEdition
     public class ContrabandCyberneticsAbility : GenericAbility
     {
         private bool CanPerformActionsWhileStressedOriginal;
-        private bool CanPerformRedManeuversWhileStressedOriginal;
 
         public override void ActivateAbility()
         {
@@ -90,10 +89,14 @@ namespace Abilities.FirstEdition
             CanPerformActionsWhileStressedOriginal = HostShip.CanPerformActionsWhileStressed;
             HostShip.CanPerformActionsWhileStressed = true;
 
-            CanPerformRedManeuversWhileStressedOriginal = HostShip.CanPerformRedManeuversWhileStressed;
-            HostShip.CanPerformRedManeuversWhileStressed = true;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed += AllowRedManeuversWhileStressed;
 
             FinishAbility();
+        }
+
+        private void AllowRedManeuversWhileStressed(ref bool isAllowed)
+        {
+            isAllowed = true;
         }
 
         protected virtual void FinishAbility()
@@ -106,7 +109,7 @@ namespace Abilities.FirstEdition
             Phases.Events.OnEndPhaseStart_NoTriggers -= DeactivateContrabandCyberneticsAbility;
 
             HostShip.CanPerformActionsWhileStressed = CanPerformActionsWhileStressedOriginal;
-            HostShip.CanPerformRedManeuversWhileStressed = CanPerformRedManeuversWhileStressedOriginal;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed -= AllowRedManeuversWhileStressed;
         }
     }
 }

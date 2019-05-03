@@ -3,19 +3,20 @@ using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransport
 {
-    public class GenericResistanceTransport : ResistanceTransport
+    public class LogisticsDivisionPilot : ResistanceTransport
     {
-        public GenericResistanceTransport()
+        public LogisticsDivisionPilot()
         {
             PilotInfo = new PilotCardInfo(
-                "Generic Resistance Transport",
+                "Logistics Division Pilot",
                 1,
                 40
             );
+
+            ImageUrl = "https://i.imgur.com/qJdFrk4.jpg";
         }
     }
 }

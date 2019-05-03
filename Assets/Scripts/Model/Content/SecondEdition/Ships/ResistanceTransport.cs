@@ -23,7 +23,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),
-                    new ActionInfo(typeof(ReinforceAction), ActionColor.Red),
+                    new ActionInfo(typeof(CoordinateAction), ActionColor.Red),
                     new ActionInfo(typeof(JamAction), ActionColor.Red)
                 ),
                 new ShipUpgradesInfo(
@@ -38,7 +38,7 @@ namespace Ship.SecondEdition.ResistanceTransport
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(GenericResistanceTransport) }
+                { Faction.Resistance, typeof(LogisticsDivisionPilot) }
             };
 
             ModelInfo = new ShipModelInfo(

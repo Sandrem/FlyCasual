@@ -35,7 +35,7 @@ namespace Ship.SecondEdition.ResistanceTransportPod
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(GenericResistanceTransportPod) }
+                { Faction.Resistance, typeof(RoseTico) }
             };
 
             ModelInfo = new ShipModelInfo(

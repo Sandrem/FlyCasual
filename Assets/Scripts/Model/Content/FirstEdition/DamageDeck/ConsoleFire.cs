@@ -95,7 +95,7 @@ namespace SubPhases
 
         private void SufferDamage()
         {
-            Messages.ShowError("Console Fire: This ship suffered 1 damage.");
+            Messages.ShowInfo("Console Fire: This ship suffered 1 damage.");
 
             DamageSourceEventArgs consolefireDamage = new DamageSourceEventArgs()
             {

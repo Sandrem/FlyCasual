@@ -93,7 +93,7 @@ namespace Abilities.FirstEdition
             ShotInfo shotInfo = new ShotInfo(HostShip, TargetShip, HostShip.PrimaryWeapons);
             if (shotInfo.InArcByType(ArcType.SingleTurret) && shotInfo.Range >= 1 && shotInfo.Range <= 2)
             {
-                Messages.ShowError(HostShip.PilotInfo.PilotName + " assigns a Stress token\nto " + TargetShip.PilotInfo.PilotName);
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " assigns a Stress token\nto " + TargetShip.PilotInfo.PilotName);
                 TargetShip.Tokens.AssignToken(typeof(StressToken), SelectShipSubPhase.FinishSelection);
             }
             else

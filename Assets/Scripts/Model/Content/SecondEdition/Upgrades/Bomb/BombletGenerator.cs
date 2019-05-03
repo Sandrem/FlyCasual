@@ -84,7 +84,7 @@ namespace SubPhases.SecondEdition
 
         private void SufferDamage()
         {
-            Messages.ShowError("Bomblet: The attacked ship suffered damage.");
+            Messages.ShowInfo("Bomblet: The attacked ship suffered damage.");
 
             DamageSourceEventArgs bombletDamage = new DamageSourceEventArgs()
             {
@@ -97,7 +97,7 @@ namespace SubPhases.SecondEdition
 
         private void NoDamage()
         {
-            Messages.ShowInfoToHuman("Bomblet: The attacked ship suffered no damage.");
+            Messages.ShowInfo("Bomblet: The attacked ship suffered no damage.");
             CallBack();
         }
     }

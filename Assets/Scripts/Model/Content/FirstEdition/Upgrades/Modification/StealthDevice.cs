@@ -49,7 +49,7 @@ namespace Abilities.FirstEdition
 
         protected void StealthDeviceCleanup(object sender, System.EventArgs e)
         {
-            Messages.ShowError("Stealth Device: This ship has suffered a hit! Discarding Stealth Device.");
+            Messages.ShowInfo("Stealth Device: This ship has suffered a hit! Discarding Stealth Device.");
             HostUpgrade.Discard(Triggers.FinishTrigger);
         }
     }

@@ -70,7 +70,7 @@ namespace Abilities.FirstEdition
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Messages.ShowError("The defender receives 2 Ion tokens");
+            Messages.ShowInfo("The defender receives 2 Ion tokens");
 
             Combat.Defender.Tokens.AssignToken(typeof(IonToken), AddSecondIonToken);
         }
@@ -82,7 +82,7 @@ namespace Abilities.FirstEdition
 
         private void DefenderSuffersDamage()
         {
-            Messages.ShowError("Defender suffers 1 damage");
+            Messages.ShowInfo("Defender suffers 1 damage");
 
             DamageSourceEventArgs ionpulseDamage = new DamageSourceEventArgs()
             {

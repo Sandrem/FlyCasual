@@ -77,7 +77,7 @@ namespace Abilities.SecondEdition
                     {
                         if (Combat.Attacker.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye))
                         {
-                            Messages.ShowError("Dead to Rights: The defender cannot use " + action.DiceModificationName + ".");
+                            Messages.ShowInfo("Dead to Rights: The defender cannot use " + action.DiceModificationName + ".");
                             canBeUsed = false;
                         }
                     }

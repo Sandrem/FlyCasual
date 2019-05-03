@@ -17,7 +17,7 @@ public class MessageContainer : MonoBehaviour {
 
     public void Initialize(string text, MessageType type)
     {
-        targetPosition = new Vector3(transform.position.x, 5, 0);
+        targetPosition = new Vector3(transform.position.x, 5, transform.position.z);
         transform.Find("MessageText").GetComponent<Text>().text = text;
         switch (type)
         {
@@ -25,7 +25,7 @@ public class MessageContainer : MonoBehaviour {
                 this.gameObject.GetComponent<Image>().color = new Color32(255, 0, 0, 255);
                 break;
             case MessageType.Info:
-                this.gameObject.GetComponent<Image>().color = new Color32(0, 110, 33, 255);
+                this.gameObject.GetComponent<Image>().color = new Color32(0, 0, 0, 255);
                 break;
             default:
                 break;
@@ -33,10 +33,12 @@ public class MessageContainer : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-        
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * MOVE_SPEED);
-        if ((!doomed) && (transform.position.y > 0))
+	void Update ()
+    {
+        transform.localPosition = transform.localPosition + new Vector3(0, Time.deltaTime * MOVE_SPEED, 0);
+        if (transform.localPosition.y > targetPosition.y) transform.localPosition = new Vector3(transform.localPosition.x, targetPosition.y, transform.localPosition.z);
+
+        if ((!doomed) && (transform.localPosition.y > 0))
         {
             PlanSelfDestruction();
             doomed = true;
@@ -50,6 +52,6 @@ public class MessageContainer : MonoBehaviour {
 
     public void ShiftTargetPosition()
     {
-        targetPosition = targetPosition + new Vector3(0, 100, 0);
+        targetPosition = targetPosition + new Vector3(0, 85, 0);
     }
 }

@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
         {
             if (action is CoordinateAction && RestrictedAbilityIsActivated)
             {
-                Messages.ShowError("\"Vizier\" skips their Perform Action step.");
+                Messages.ShowInfo("\"Vizier\" skips their Perform Action step.");
                 HostShip.IsSkipsActionSubPhase = true;
             }
         }

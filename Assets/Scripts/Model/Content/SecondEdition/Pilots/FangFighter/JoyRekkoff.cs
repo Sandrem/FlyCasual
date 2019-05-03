@@ -98,7 +98,7 @@ namespace Conditions
             {
                 AgilityWasDecreased = true;
 
-                Messages.ShowError("Joy Rekkoff causes " + Host.PilotInfo.PilotName + "'s Agility to be decreased by 1.");
+                Messages.ShowInfo("Joy Rekkoff causes " + Host.PilotInfo.PilotName + "'s Agility to be decreased by 1.");
                 Host.ChangeAgilityBy(-1);
             }
 

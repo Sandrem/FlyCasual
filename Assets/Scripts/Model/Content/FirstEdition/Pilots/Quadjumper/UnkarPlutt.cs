@@ -59,7 +59,7 @@ namespace Abilities.FirstEdition
         protected void AssignTractorBeamToken(GenericShip bumpedShip)
         {
             Selection.ChangeActiveShip(HostShip);
-            Messages.ShowError(HostShip.PilotInfo.PilotName + " assigns a Tractor Beam Token\nto " + bumpedShip.PilotInfo.PilotName);
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " assigns a Tractor Beam Token\nto " + bumpedShip.PilotInfo.PilotName);
 
             bumpedShip.Tokens.AssignToken(new Tokens.TractorBeamToken(bumpedShip, HostShip.Owner), Triggers.FinishTrigger);
         }

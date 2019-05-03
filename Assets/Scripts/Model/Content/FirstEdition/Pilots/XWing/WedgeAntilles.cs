@@ -69,7 +69,7 @@ namespace Conditions
             {
                 AgilityWasDecreased = true;
 
-                Messages.ShowError("Wedge Antilles' Ability: The defender's agility has been decreased by 1.");
+                Messages.ShowInfo("Wedge Antilles' Ability: The defender's agility has been decreased by 1.");
                 Host.ChangeAgilityBy(-1);
             }
 

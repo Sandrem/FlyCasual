@@ -6,6 +6,8 @@ public static class DebugManager
 {
     public static bool ReleaseVersion;
 
+    public static bool CinematicCamera = true;
+
     public static bool FullDebug;
 
     public static bool DebugTemporary;

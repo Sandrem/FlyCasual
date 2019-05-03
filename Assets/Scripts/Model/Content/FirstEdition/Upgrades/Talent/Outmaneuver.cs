@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
         {
             if (Combat.Defender.State.Agility != 0)
             {
-                Messages.ShowError(Combat.Attacker.PilotInfo.PilotName + " Outmaneuvered " + Combat.Defender.PilotInfo.PilotName + ", decreasing their agility by 1.");
+                Messages.ShowInfo(Combat.Attacker.PilotInfo.PilotName + " Outmaneuvered " + Combat.Defender.PilotInfo.PilotName + ", decreasing their agility by 1.");
                 Conditions.OutmaneuverCondition condition = new Conditions.OutmaneuverCondition(HostShip, HostUpgrade);
                 //condition.Upgrade = HostUpgrade;
                 Combat.Defender.Tokens.AssignCondition(condition);

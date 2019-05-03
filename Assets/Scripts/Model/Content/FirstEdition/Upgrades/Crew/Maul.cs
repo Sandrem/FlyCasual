@@ -181,7 +181,7 @@ namespace ActionsList
 
         private void StartAssignStess(int diceRerolledCount)
         {
-            Messages.ShowError(string.Format("Maul's Ability: You gain {0} stress tokens.", diceRerolledCount));
+            Messages.ShowInfo(string.Format("Maul's Ability: You gain {0} stress tokens.", diceRerolledCount));
             AssignStressRecursive(diceRerolledCount);
         }
 

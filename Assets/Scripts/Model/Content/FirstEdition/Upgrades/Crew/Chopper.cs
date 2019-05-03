@@ -54,7 +54,7 @@ namespace Abilities.FirstEdition
         {
             Phases.CurrentSubPhase.Pause();
 
-            Messages.ShowError("\"Chopper\": This ship suffers 1 damage.");
+            Messages.ShowInfo("\"Chopper\": This ship suffers 1 damage.");
 
             DamageSourceEventArgs chopperDamage = new DamageSourceEventArgs()
             {

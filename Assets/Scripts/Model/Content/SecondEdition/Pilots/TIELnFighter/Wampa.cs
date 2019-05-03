@@ -80,7 +80,7 @@ namespace Abilities.SecondEdition
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, delegate
                 {
-                    Messages.ShowError("Wampa lost a charge after defending!");
+                    Messages.ShowInfo("Wampa lost a charge after defending!");
                     HostShip.RemoveCharge(Triggers.FinishTrigger);
                 });
             }

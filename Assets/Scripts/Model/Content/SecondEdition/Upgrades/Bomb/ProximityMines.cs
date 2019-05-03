@@ -80,7 +80,7 @@ namespace SubPhases.SecondEdition
 
         private void SufferDamage()
         {
-            Messages.ShowError("Proximity Mines: The attacked ship suffered damage.");
+            Messages.ShowInfo("Proximity Mines: The attacked ship suffered damage.");
 
             DamageSourceEventArgs proximityDamage = new DamageSourceEventArgs()
             {

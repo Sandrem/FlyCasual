@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
                 //can't reduce defender agility past 0 and must be aux arc
                 if (Combat.Defender.State.Agility != 0 && shotInfo.InArcByType(ArcType.Rear))
                 {
-                    Messages.ShowError("Tail Gunner: " + Combat.Defender.PilotInfo.PilotName + "'s Agility is decreased by 1.");
+                    Messages.ShowInfo("Tail Gunner: " + Combat.Defender.PilotInfo.PilotName + "'s Agility is decreased by 1.");
                     Combat.Defender.Tokens.AssignCondition(typeof(Conditions.TailGunnerCondition));
                     Combat.Defender.ChangeAgilityBy(-1);
                     Combat.Defender.OnAttackFinish += RemoveTailGunnerAbility;

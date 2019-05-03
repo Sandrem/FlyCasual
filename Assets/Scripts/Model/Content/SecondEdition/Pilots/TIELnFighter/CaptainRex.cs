@@ -117,7 +117,7 @@ namespace Conditions
         {
             if (Combat.Defender != Source)
             {
-                Messages.ShowError("Captain Rex - Suppressive Fire: Since the attacker is not attacking Captain Rex, it rolls 1 fewer attack die.");
+                Messages.ShowInfo("Captain Rex - Suppressive Fire: Since the attacker is not attacking Captain Rex, it rolls 1 fewer attack die.");
                 count--;
             }
         }

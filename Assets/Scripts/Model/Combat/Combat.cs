@@ -75,6 +75,8 @@ public static partial class Combat
     {
         if (!IsAttackAlreadyCalled)
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
             IsAttackAlreadyCalled = true;
 
             JSONObject parameters = new JSONObject();
@@ -105,6 +107,17 @@ public static partial class Combat
 
         Selection.ChangeActiveShip("ShipId:" + attackerId);
         Selection.ChangeAnotherShip("ShipId:" + defenderId);
+
+        Action callback = Phases.CurrentSubPhase.CallBack;
+        var subphase = Phases.StartTemporarySubPhaseNew(
+            "Extra Attack",
+            typeof(AttackExecutionSubphase),
+            delegate {
+                Phases.FinishSubPhase(typeof(AttackExecutionSubphase));
+                callback();
+            }
+        );
+        subphase.Start();
 
         if (!weaponIsAlreadySelected)
         {
@@ -173,18 +186,31 @@ public static partial class Combat
 
         if (ChosenWeapon != null && Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent))
         {
-            UI.HideSkipButton();
-            Roster.AllShipsHighlightOff();
-
-            SetArcAsUsedForAttack();
-            DeclareAttackerAndDefender();
-            CheckFireLineCollisions();
+            if (DebugManager.CinematicCamera)
+            {
+                CommandsList.ShotCamera.ShowShotCamera(Selection.ThisShip, Selection.AnotherShip);
+                GameManagerScript.Wait(3, StartLegalAttack);
+            }
+            else
+            {
+                StartLegalAttack();
+            }
         }
         else
         {
             IsAttackAlreadyCalled = false;
             Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
         }
+    }
+
+    private static void StartLegalAttack()
+    {
+        UI.HideSkipButton();
+        Roster.AllShipsHighlightOff();
+
+        SetArcAsUsedForAttack();
+        DeclareAttackerAndDefender();
+        CheckFireLineCollisions();
     }
 
     private static void SetArcAsUsedForAttack()
@@ -520,8 +546,11 @@ public static partial class Combat
         SelectTargetForAttackSubPhase newAttackSubphase = (SelectTargetForAttackSubPhase) Phases.StartTemporarySubPhaseNew(
             "Second attack",
             typeof(SelectTargetForAttackSubPhase),
-            //delegate { ExtraAttackTargetSelected(callback, extraAttackFilter); }
-            callback
+            delegate
+            {
+                Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
+                callback();
+            }
         );
         newAttackSubphase.AbilityName = abilityName;
         newAttackSubphase.Description = description;
@@ -692,10 +721,8 @@ namespace SubPhases
         }
     }
 
-    public class ExtraAttackSubPhase : GenericSubPhase
+    public class AttackExecutionSubphase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
-
         public override void Start()
         {
             Name = "Extra Attack";

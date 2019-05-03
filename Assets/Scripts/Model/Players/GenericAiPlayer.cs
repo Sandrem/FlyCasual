@@ -95,7 +95,18 @@ namespace Players
 
             Console.Write("AI is going to perform attack", LogTypes.AI);
 
-            SelectShipThatCanAttack(PerformAttackContinue);
+            GenericShip attacker = GetShipThatCanAttack();
+
+            if (attacker != null)
+            {
+                GameMode.CurrentGameMode.ExecuteCommand(
+                    CombatSubPhase.GenerateCombatActivationCommand(attacker.ShipId)
+                );
+            }
+            else
+            {
+                Debug.Log("AI cannot find ship to activate");
+            }
         }
 
         private void PerformAttackContinue()
@@ -104,6 +115,7 @@ namespace Players
             {
                 GenericShip targetForAttack = SelectTargetForAttack();
 
+                Selection.ThisShip.IsAttackPerformed = true;
                 Selection.ThisShip.CallAfterAttackWindow();
 
                 if (targetForAttack != null)
@@ -132,7 +144,7 @@ namespace Players
             return AI.HotAC.TargetForAttackSelector.SelectTargetAndWeapon(Selection.ThisShip);
         }
 
-        private static void SelectShipThatCanAttack(Action callback)
+        private static GenericShip GetShipThatCanAttack()
         {
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
@@ -140,22 +152,13 @@ namespace Players
                 {
                     if (!shipHolder.Value.IsAttackPerformed)
                     {
-                        Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
-                        Console.Write(Selection.ThisShip.PilotInfo.PilotName + "(" + Selection.ThisShip.ShipId + ") is selected as attacker", LogTypes.AI);
-                        break;
+                        Console.Write(shipHolder.Value.PilotInfo.PilotName + "(" + shipHolder.Value.ShipId + ") is selected as attacker", LogTypes.AI);
+                        return shipHolder.Value;
                     }
                 }
             }
 
-            if (Selection.ThisShip != null)
-            {
-                ReplaysManager.RecordCommand(CombatSubPhase.GenerateCombatActivationCommand(Selection.ThisShip.ShipId));
-                Selection.ThisShip.CallCombatActivation(callback);
-            }
-            else
-            {
-                callback();
-            }
+            return null;
         }
 
         public GenericShip FindNearestEnemyShip(GenericShip thisShip, bool ignoreCollided = false, bool inArcAndRange = false)
@@ -324,19 +327,6 @@ namespace Players
 
             if (targetForAttack != null)
             {
-                Action callback = Phases.CurrentSubPhase.CallBack;
-
-                Phases.StartTemporarySubPhaseNew(
-                    "Extra Attack",
-                    typeof(ExtraAttackSubPhase),
-                    delegate
-                    {
-                        Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
-                        Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
-                        callback();
-                    }
-                );
-
                 Selection.ThisShip.IsAttackPerformed = true;
 
                 Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
@@ -354,7 +344,14 @@ namespace Players
         {
             base.SelectShipForAbility();
 
-            (Phases.CurrentSubPhase as SelectShipSubPhase).AiSelectPrioritizedTarget();
+            if (Phases.CurrentSubPhase is SelectTargetForAttackSubPhase)
+            {
+                PerformAttackContinue();
+            }
+            else
+            {
+                (Phases.CurrentSubPhase as SelectShipSubPhase).AiSelectPrioritizedTarget();
+            }
         }
 
         public override void RerollManagerIsPrepared()

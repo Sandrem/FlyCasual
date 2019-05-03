@@ -103,6 +103,10 @@ public class UI : MonoBehaviour {
         GameObject gameResultsPanel = GameObject.Find("UI").transform.Find("GameResultsPanel").gameObject;
         gameResultsPanel.transform.Find("Panel").transform.Find("Congratulations").GetComponent<Text>().text = results;
         gameResultsPanel.transform.Find("Panel").Find("Restart").gameObject.SetActive(!(GameMode.CurrentGameMode is NetworkGame));
+
+        RectTransform rectTransform = gameResultsPanel.transform.Find("Panel").GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 350);
+
         gameResultsPanel.SetActive(true);
     }
 
@@ -110,6 +114,10 @@ public class UI : MonoBehaviour {
     {
         GameObject gameResultsPanel = GameObject.Find("UI").transform.Find("GameResultsPanel").gameObject;
         gameResultsPanel.transform.Find("Panel").Find("Restart").gameObject.SetActive(!(GameMode.CurrentGameMode is NetworkGame));
+
+        RectTransform rectTransform = gameResultsPanel.transform.Find("Panel").GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 170);
+
         gameResultsPanel.SetActive(!gameResultsPanel.activeSelf);
     }
 

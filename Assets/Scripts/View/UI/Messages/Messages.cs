@@ -59,7 +59,7 @@ public static class Messages{
         }
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/MessagePanel", typeof(GameObject));
-        GameObject MessagePanelsHolder = GameObject.Find("UI/MessagePanels");
+        GameObject MessagePanelsHolder = GameObject.Find("UI/MessagesContainer/MessagePanels");
         GameObject Message = MonoBehaviour.Instantiate(prefab, MessagePanelsHolder.transform);
         Message.transform.localPosition = startingPosition;
         Message.name = text;

@@ -31,6 +31,8 @@ public static class InformCrit
 
     private static void LoadTooltipImage(string url)
     {
+        InformCritPanel.Find("CritCardImage").gameObject.SetActive(false);
+
         if (!SquadBuilder.TextureCache.ContainsKey(url))
         {
             Behavior.StartCoroutine(ImageManager.GetTexture((texture) =>
@@ -50,7 +52,6 @@ public static class InformCrit
         {
             SetObjectSprite(InformCritPanel.Find("CritCardImage").gameObject, SquadBuilder.TextureCache[url]);
         }
-        ShowPanel();
     }
 
     private static void SetObjectSprite(GameObject targetObject, Texture2D newTexture)
@@ -58,12 +59,18 @@ public static class InformCrit
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
         targetObject.transform.Find("TextInfo").GetComponent<Text>().text = "";
+        InformCritPanel.Find("CritCardImage").gameObject.SetActive(true);
+
+        ShowPanel();
     }
 
     private static void SetTextInfo()
     {
         InformCritPanel.Find("CritCardImage").GetComponent<Image>().sprite = null;
+        InformCritPanel.Find("CritCardImage").gameObject.SetActive(true);
         InformCritPanel.Find("CritCardImage").Find("TextInfo").GetComponent<Text>().text = Combat.CurrentCriticalHitCard.Name;
+
+        ShowPanel();
     }
 
     private static void ShowPanel()

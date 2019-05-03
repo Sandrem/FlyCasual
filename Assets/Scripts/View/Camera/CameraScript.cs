@@ -9,11 +9,36 @@ using UnityEngine.EventSystems;
  * Movement, vertical rotation and zoom have MIN and MAX values.
  * Event when view is changed.
 */
+public class CameraState
+{
+    public Vector3 CameraPosition { get; private set; }
+    public Quaternion CameraAngles { get; private set; }
+    public Vector3 CameraHolderPosition { get; private set; }
+    public Quaternion CameraHolderAngles { get; private set; }
+    public Vector3 LookAtPosition { get; private set; }
+
+    public CameraState(Vector3 cameraPosition, Quaternion cameraAngles, Vector3 cameraHolderPosition, Quaternion cameraHolderAngles, Vector3 lookAtPosition = default)
+    {
+        CameraPosition = cameraPosition;
+        CameraAngles = cameraAngles;
+        CameraHolderPosition = cameraHolderPosition;
+        CameraHolderAngles = cameraHolderAngles;
+        LookAtPosition = (lookAtPosition == default) ? Vector3.zero : lookAtPosition;
+    }
+}
 
 public class CameraScript : MonoBehaviour {
 
     private static Transform Camera;
-    private static Transform GameObjectTransform;
+    private static Transform CameraHolder;
+
+    public static bool IsCinematic { get; private set; }
+    private static CameraState SavedCameraState;
+    private static CameraState OldCameraState;
+    private static CameraState NewCameraState;
+    private static Transform LookAtTransform;
+    private static float TransitionTimeCounter;
+    private static readonly float TRANSITION_TIME_SPEED = 0.5f;
 
     private const float SENSITIVITY_MOVE = 0.125f;
     private const float SENSITIVITY_TURN = 5;
@@ -93,7 +118,7 @@ public class CameraScript : MonoBehaviour {
     void Start()
     {
         Camera = transform.Find("Main Camera");
-        GameObjectTransform = transform;
+        CameraHolder = transform;
 
         ChangeMode(CameraModes.Free);
 
@@ -109,13 +134,19 @@ public class CameraScript : MonoBehaviour {
         camera.orthographicSize = 6;
 
         Camera.localEulerAngles = (cameraMode == CameraModes.Free) ? new Vector3(-50, 0, 0) : new Vector3(0, 0, 0);
-        GameObjectTransform.localEulerAngles = new Vector3(90, 0, (!isSecondPlayer) ? 0 : 180);
-        GameObjectTransform.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, (!isSecondPlayer) ? -9 : 9) : new Vector3(0, 0, (!isSecondPlayer) ? 0.85f: -0.85f);
+        CameraHolder.localEulerAngles = new Vector3(90, 0, (!isSecondPlayer) ? 0 : 180);
+        CameraHolder.localPosition = (cameraMode == CameraModes.Free) ? new Vector3(0, 6, (!isSecondPlayer) ? -9 : 9) : new Vector3(0, 0, (!isSecondPlayer) ? 0.85f: -0.85f);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (IsCinematic)
+        {
+            DoCameraTransition(OldCameraState, NewCameraState);
+            return;
+        }
+
         //TODO: Call hide context menu only once
         CheckChangeMode();
 
@@ -512,6 +543,83 @@ public class CameraScript : MonoBehaviour {
     private void WhenViewChanged()
     {
         UI.HideTemporaryMenus();
+    }
+
+    // Cinematic camera
+
+    public static void SetPosition(Vector3 position, Vector3 direction)
+    {
+        CameraHolder.transform.position = position;
+        Camera.transform.LookAt(direction, Vector3.up);
+    }
+
+    public static void AnimateChangePosition(Vector3 position, Transform directionTransform)
+    {
+        SetOldCameraPosition();
+        if (!IsCinematic)
+        {
+            SetSavedCameraPosition();
+            IsCinematic = true;
+        }
+
+        //TODO: Fix this part
+        CameraHolder.transform.position = position;
+        Camera.transform.LookAt(directionTransform);
+        NewCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, directionTransform.position);
+
+        SetCameraState(SavedCameraState);
+
+        TransitionTimeCounter = 0;
+    }
+
+    private static void SetOldCameraPosition()
+    {
+        Vector3 oldLookAt = (NewCameraState != null) ? NewCameraState.LookAtPosition : default;
+        OldCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, oldLookAt);
+    }
+
+    private static void SetSavedCameraPosition()
+    {
+        Vector3 oldLookAt = (NewCameraState != null) ? NewCameraState.LookAtPosition : default;
+        SavedCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, oldLookAt);
+    }
+
+    public static void RestoreCamera()
+    {
+        if (SavedCameraState != null)
+        {
+            SetCameraState(SavedCameraState);
+            SavedCameraState = null;
+            IsCinematic = false;
+        }
+    }
+
+    private static void SetCameraState(CameraState state)
+    {
+        Camera.localPosition = state.CameraPosition;
+        Camera.localRotation = state.CameraAngles;
+        CameraHolder.position = state.CameraHolderPosition;
+        CameraHolder.rotation = state.CameraHolderAngles;
+    }
+
+    private void DoCameraTransition(CameraState oldCamera, CameraState newCamera)
+    {
+        if (TransitionTimeCounter == 1) return;
+
+        SetPosition(
+            Vector3.Lerp(oldCamera.CameraHolderPosition, newCamera.CameraHolderPosition, TransitionTimeCounter),
+            Vector3.zero
+        );
+
+        Camera.LookAt(
+            Vector3.Lerp(OldCameraState.LookAtPosition, NewCameraState.LookAtPosition, TransitionTimeCounter),
+            Vector3.up
+        );
+
+        CameraState currentCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, NewCameraState.LookAtPosition);
+        SetCameraState(currentCameraState);
+
+        TransitionTimeCounter += Mathf.Min(Time.deltaTime * TRANSITION_TIME_SPEED, 1 - TransitionTimeCounter);
     }
 
 }

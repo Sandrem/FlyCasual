@@ -2,6 +2,7 @@
 using GameModes;
 using Ship;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace SubPhases
 {
     public class SelectTargetForAttackSubPhase : SelectShipSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
 
         public override void Prepare()
         {
@@ -30,7 +32,9 @@ namespace SubPhases
         public override void Initialize()
         {
             // If not skipped
-            if (Phases.CurrentSubPhase == this) Selection.ThisShip.Owner.StartExtraAttack();
+
+            // Not needed anymore - target is selected as "Select a ship" AI
+            // if (Phases.CurrentSubPhase == this) Selection.ThisShip.Owner.StartExtraAttack();
         }
 
         private bool FilterAttackTargets(GenericShip ship)
@@ -51,17 +55,6 @@ namespace SubPhases
 
         private void ExtraAttackTargetSelected()
         {
-            var subphase = Phases.StartTemporarySubPhaseNew(
-                "Extra Attack",
-                typeof(ExtraAttackSubPhase),
-                delegate {
-                    Phases.FinishSubPhase(typeof(ExtraAttackSubPhase));
-                    Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
-                    CallBack();
-                }
-            );
-            subphase.Start();
-
             GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
             if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
         }
@@ -71,7 +64,7 @@ namespace SubPhases
         public override void SkipButton()
         {
             UI.HideSkipButton();
-            Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
+            Selection.ThisShip.IsAttackPerformed = true;
             CallBack();
         }
 

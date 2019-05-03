@@ -99,7 +99,9 @@ namespace Players
 
             if (attacker != null)
             {
-                CombatSubPhase.DoCombatActivation(attacker.ShipId);
+                GameMode.CurrentGameMode.ExecuteCommand(
+                    CombatSubPhase.GenerateCombatActivationCommand(attacker.ShipId)
+                );
             }
             else
             {
@@ -118,20 +120,6 @@ namespace Players
 
                 if (targetForAttack != null)
                 {
-                    Action callback = Phases.CurrentSubPhase.CallBack;
-
-                    var subphase = Phases.StartTemporarySubPhaseNew(
-                        "Extra Attack",
-                        typeof(AttackExecutionSubphase),
-                        delegate
-                        {
-                            Phases.FinishSubPhase(typeof(AttackExecutionSubphase));
-                            Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
-                            callback();
-                        }
-                    );
-                    subphase.Start();
-
                     Selection.ThisShip.IsAttackPerformed = true;
 
                     Console.Write(Selection.ThisShip.PilotName + " attacks target " + targetForAttack.PilotName + ".\n", LogTypes.AI, true, "yellow");
@@ -339,20 +327,6 @@ namespace Players
 
             if (targetForAttack != null)
             {
-                Action callback = Phases.CurrentSubPhase.CallBack;
-
-                var subphase = Phases.StartTemporarySubPhaseNew(
-                    "Extra Attack",
-                    typeof(AttackExecutionSubphase),
-                    delegate
-                    {
-                        Phases.FinishSubPhase(typeof(AttackExecutionSubphase));
-                        Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
-                        callback();
-                    }
-                );
-                subphase.Start();
-
                 Selection.ThisShip.IsAttackPerformed = true;
 
                 Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");

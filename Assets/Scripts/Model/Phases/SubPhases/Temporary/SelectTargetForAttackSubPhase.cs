@@ -2,6 +2,7 @@
 using GameModes;
 using Ship;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace SubPhases
 {
     public class SelectTargetForAttackSubPhase : SelectShipSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
 
         public override void Prepare()
         {
@@ -48,24 +50,10 @@ namespace SubPhases
             Combat.ChosenWeapon = Selection.ThisShip.PrimaryWeapons.First();
             Combat.ShotInfo = new BoardTools.ShotInfo(Selection.ThisShip, TargetShip, Combat.ChosenWeapon);
             MovementTemplates.ShowFiringArcRange(Combat.ShotInfo);
-            ExtraAttackTargetSelected();
-        }
 
-        private void ExtraAttackTargetSelected()
-        {
-            var subphase = Phases.StartTemporarySubPhaseNew(
-                "Extra Attack",
-                typeof(AttackExecutionSubphase),
-                delegate {
-                    Phases.FinishSubPhase(typeof(AttackExecutionSubphase));
-                    Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
-                    CallBack();
-                }
+            GameMode.CurrentGameMode.ExecuteCommand(
+                Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId)
             );
-            subphase.Start();
-
-            GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
-            if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
         public override void RevertSubPhase() { }

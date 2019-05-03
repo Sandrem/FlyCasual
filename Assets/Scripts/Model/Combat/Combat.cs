@@ -75,6 +75,8 @@ public static partial class Combat
     {
         if (!IsAttackAlreadyCalled)
         {
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+
             IsAttackAlreadyCalled = true;
 
             JSONObject parameters = new JSONObject();
@@ -105,6 +107,18 @@ public static partial class Combat
 
         Selection.ChangeActiveShip("ShipId:" + attackerId);
         Selection.ChangeAnotherShip("ShipId:" + defenderId);
+
+        Action callback = Phases.CurrentSubPhase.CallBack;
+        var subphase = Phases.StartTemporarySubPhaseNew(
+            "Extra Attack",
+            typeof(AttackExecutionSubphase),
+            delegate {
+                Phases.FinishSubPhase(typeof(AttackExecutionSubphase));
+                Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
+                callback();
+            }
+        );
+        subphase.Start();
 
         if (!weaponIsAlreadySelected)
         {
@@ -707,8 +721,6 @@ namespace SubPhases
 
     public class AttackExecutionSubphase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
-
         public override void Start()
         {
             Name = "Extra Attack";

@@ -15,6 +15,7 @@ namespace Ship
         public Vector3 StartingPosition { get; private set; }
 
         public GenericMovement AssignedManeuver { get; private set; }
+        public GenericMovement RevealedManeuver { get; set; }
 
         public bool IsIgnoreObstacles;
         public bool IsIgnoreObstaclesDuringBoost;
@@ -113,18 +114,20 @@ namespace Ship
 
         public void CallManeuverIsRevealed(System.Action callBack)
         {
-            if (Selection.ThisShip.AssignedManeuver != null) Roster.ToggleManeuverVisibility(Selection.ThisShip, true);
+            if (AssignedManeuver != null) Roster.ToggleManeuverVisibility(Selection.ThisShip, true);
 
-            if (Selection.ThisShip.AssignedManeuver != null && Selection.ThisShip.AssignedManeuver.IsRevealDial)
+            if (AssignedManeuver != null && AssignedManeuver.IsRevealDial)
             {
-                if (OnManeuverIsRevealed != null) OnManeuverIsRevealed(this);
-                if (OnManeuverIsRevealedGlobal != null) OnManeuverIsRevealedGlobal(this);
+                RevealedManeuver = AssignedManeuver;
+
+                OnManeuverIsRevealed?.Invoke(this);
+                OnManeuverIsRevealedGlobal?.Invoke(this);
 
                 Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsRevealed, callBack);
             }
             else // For ionized ships
             {
-                if (OnNoManeuverWasRevealedGlobal != null) OnNoManeuverWasRevealedGlobal(this);
+                OnNoManeuverWasRevealedGlobal?.Invoke(this);
 
                 callBack();
             }

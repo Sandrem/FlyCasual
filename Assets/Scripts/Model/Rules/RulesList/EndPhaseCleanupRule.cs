@@ -82,6 +82,7 @@ namespace RulesList
             ship.IsCannotAttackSecondTime = false;
             ship.IsSystemsAbilityInactive = false;
             ship.AlwaysShowAssignedManeuver = false;
+            ship.RevealedManeuver = null;
 
             ClearUsedArcs(ship);
         }

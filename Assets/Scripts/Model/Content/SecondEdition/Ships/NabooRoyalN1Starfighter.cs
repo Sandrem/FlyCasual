@@ -33,7 +33,8 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
                     UpgradeType.Torpedo,
                     UpgradeType.System,
                     UpgradeType.Astromech
-                )
+                ),
+                abilityText: "<b>Full Throttle:</b> After you fully execute a speed 3-5 maneuver, you may perform an evade action."
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {

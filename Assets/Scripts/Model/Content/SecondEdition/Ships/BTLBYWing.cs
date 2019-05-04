@@ -35,7 +35,8 @@ namespace Ship.SecondEdition.BTLBYWing
                     UpgradeType.Gunner,
                     UpgradeType.Bomb,
                     UpgradeType.Astromech
-                )
+                ),
+                abilityText: "<b>Plated Hull:</b> While you defend, if you are not critically damaged, change 1 crit result to a hit result."
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {

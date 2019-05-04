@@ -11,6 +11,7 @@ public static class Options
     private static OptionsUI optionsUI;
 
     public static string Playmat;
+    public static string BackgroundImage;
     public static string CheckVersionUrl;
     public static float MusicVolume;
     public static float SfxVolume;
@@ -33,6 +34,7 @@ public static class Options
     public static void ReadOptions()
     {
         Playmat = PlayerPrefs.GetString("PlaymatName", "Endor");
+        BackgroundImage = PlayerPrefs.GetString("BackgroundImage", "_RANDOM");
         CheckVersionUrl = PlayerPrefs.GetString("CheckVersionUrl", "http://sandrem.freeasphost.net/data/currentversion.txt");
         MusicVolume = PlayerPrefs.GetFloat("Music Volume", 0.25f);
         SfxVolume = PlayerPrefs.GetFloat("SFX Volume", 0.25f);

@@ -86,6 +86,7 @@ public class OptionsUI : MonoBehaviour {
         string prefabPath = "Prefabs/MainMenu/Options/BackgroundSelectionViewPanel";
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
         GameObject imageListParent = Instantiate(prefab, parentTransform);
+        imageListParent.name = "BackgroundSelectionViewPanel";
 
         foreach (Sprite backgroundImage in Resources.LoadAll<Sprite>("Sprites/Backgrounds/MainMenu"))
         {
@@ -101,9 +102,31 @@ public class OptionsUI : MonoBehaviour {
 
             button.onClick.AddListener(() =>
             {
-                MainMenu.SetBackground(Resources.Load<Sprite>("Sprites/Backgrounds/MainMenu/" + backgroundImage.name));
+                SetBackgroundImageSelected(backgroundImage.name);
             });
         }
+
+        ChangeBackground();
+    }
+
+    private void SetBackgroundImageSelected(string name)
+    {
+        PlayerPrefs.SetString("BackgroundImage", name);
+        PlayerPrefs.Save();
+        Options.BackgroundImage = name;
+
+        ChangeBackground();
+
+        MainMenu.SetBackground();
+    }
+
+    private void ChangeBackground()
+    {
+        GameObject.Destroy(Selector);
+
+        string prefabPath = "Prefabs/MainMenu/Options/Selector";
+        GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+        Selector = Instantiate(prefab, GameObject.Find("UI/Panels/OptionsPanel/Content/ContentViewPanel/BackgroundSelectionViewPanel/" + Options.BackgroundImage).transform);
     }
 
     private void ShowPlaymatSelection()

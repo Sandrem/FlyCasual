@@ -23,6 +23,8 @@ namespace ActionsList
         public string DiceModificationName;
         public string ImageUrl;
 
+        public bool IsRealAction;
+
         public bool IsRed
         {
             get { return Color == ActionColor.Red; }

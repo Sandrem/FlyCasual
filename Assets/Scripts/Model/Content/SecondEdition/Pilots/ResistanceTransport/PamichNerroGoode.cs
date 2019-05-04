@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Abilities.SecondEdition;
+using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransport
 {
@@ -16,7 +17,8 @@ namespace Ship.SecondEdition.ResistanceTransport
                 3,
                 43,
                 isLimited: true,
-                abilityType: typeof(PammichNerroGoodeAbility)
+                abilityType: typeof(PammichNerroGoodeAbility),
+                extraUpgradeIcon: UpgradeType.Talent
             );
 
             ImageUrl = "https://i.imgur.com/JzLxRpD.jpg";

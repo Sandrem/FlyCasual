@@ -4,6 +4,7 @@ using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransportPod
 {
@@ -16,7 +17,8 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 3,
                 33,
                 isLimited: true,
-                abilityType: typeof(RoseTicoResistanceTransportPodAbility)
+                abilityType: typeof(RoseTicoResistanceTransportPodAbility),
+                extraUpgradeIcon: UpgradeType.Talent
             );
 
             ImageUrl = "https://i.imgur.com/4pdeLF5.jpg";

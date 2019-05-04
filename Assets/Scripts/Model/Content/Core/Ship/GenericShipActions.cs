@@ -174,18 +174,24 @@ namespace Ship
 
         public void CallActionIsSkipped()
         {
-            if (OnActionIsSkipped != null) OnActionIsSkipped(this);
+            OnActionIsSkipped?.Invoke(this);
         }
 
         public void CallActionIsTaken(GenericAction action, Action callBack)
         {
-            if (OnActionIsPerformed_System != null) OnActionIsPerformed_System(action);
+            if (!action.IsRealAction)
+            {
+                callBack();
+                return;
+            }
+
+            OnActionIsPerformed_System?.Invoke(action);
 
             Triggers.ResolveTriggers(
                 TriggerTypes.OnActionIsPerformed_System,
                 delegate
                 {
-                    if (OnActionIsPerformed != null) OnActionIsPerformed(action);
+                    OnActionIsPerformed?.Invoke(action);
 
                     Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
                 }
@@ -194,7 +200,13 @@ namespace Ship
 
         public void CallBeforeFreeActionIsPerformed(GenericAction action, Action callBack)
         {
-            if (BeforeFreeActionIsPerformed != null) BeforeFreeActionIsPerformed(action);
+            if (!action.IsRealAction)
+            {
+                callBack();
+                return;
+            }
+
+            BeforeFreeActionIsPerformed?.Invoke(action);
 
             Triggers.ResolveTriggers(TriggerTypes.BeforeFreeActionIsPerformed, callBack);
         }
@@ -319,7 +331,7 @@ namespace Ship
 
         public void AddAlreadyExecutedAction(GenericAction action)
         {
-            AlreadyExecutedActions.Add(action);
+            if (action.IsRealAction) AlreadyExecutedActions.Add(action);
         }
 
         public void ClearAlreadyExecutedActions()
@@ -344,21 +356,19 @@ namespace Ship
         public bool IsAlreadyExecutedAction(GenericAction action)
         {
             bool result = false;
-            foreach (var executedAction in AlreadyExecutedActions)
+
+            if (action.IsRealAction)
             {
-                if (executedAction.Name == action.Name)
+                foreach (var executedAction in AlreadyExecutedActions)
                 {
-                    result = true;
-                    break;
+                    if (executedAction.Name == action.Name)
+                    {
+                        result = true;
+                        break;
+                    }
                 }
             }
-            return result;
-        }
 
-        public bool IsAlreadyExecutedAction<T>() where T : GenericAction
-        {
-            bool result = false;
-            result = AlreadyExecutedActions.Any(a => a is T);            
             return result;
         }
 

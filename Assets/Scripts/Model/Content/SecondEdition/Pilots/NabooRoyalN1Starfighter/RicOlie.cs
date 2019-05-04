@@ -17,7 +17,8 @@ namespace Ship
                     40,
                     isLimited: true,
                     abilityText: "When you defend or perform a primary attack, if the maneuver you revealed is greater than the enemy ship’s maneuver, roll 1 additional die.",
-                    abilityType: typeof(RicOlieAbility)
+                    abilityType: typeof(RicOlieAbility),
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

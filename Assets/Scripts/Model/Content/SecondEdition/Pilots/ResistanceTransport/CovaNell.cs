@@ -17,7 +17,8 @@ namespace Ship
                     45,
                     isLimited: true,
                     abilityText: "While you defend or perform an attack, if you revealed a red maneuver roll 1 additional die.",
-                    abilityType: typeof(CovaNellAbility)
+                    abilityType: typeof(CovaNellAbility),
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
             }
         }

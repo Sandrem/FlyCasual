@@ -4,13 +4,7 @@ using ActionsList;
 using SubPhases;
 using Actions;
 using Tokens;
-
-//TODO: Remove unused
-using System.Linq;
-using System.Collections.Generic;
-using ActionsList;
 using System;
-using BoardTools;
 
 namespace UpgradesList.SecondEdition
 {
@@ -33,17 +27,14 @@ namespace UpgradesList.SecondEdition
     }
 }
 
-
 namespace Abilities.SecondEdition
 {
     public class C3P0RebelCrewAbility : GenericAbility
     {
-
         //Before rolling defense dice, you may spend 1 calculate token to guess aloud a number 1 or higher. 
         //If you do and you roll exactly that many evade results, add 1 evade result.
         //After you perform the calculate action, gain 1 calculate token.
         //Adds calculate action
-
         bool addedAbility = false;
         int numberGuessed = -1;
 
@@ -74,18 +65,6 @@ namespace Abilities.SecondEdition
             HostShip.OnDefenceStartAsDefender -= C3P0RebelEffect;
         }
 
-         private int GetDiceModificationAiPriority()
-        {
-            return 0;
-        }
-
-        private bool IsDiceModificationAvailable()
-        {
-            if (Combat.AttackStep != CombatStep.Defence) return false;
-            if (!HostShip.Tokens.HasToken<Tokens.CalculateToken>()) return false;
-            return true;
-        }
-
         private void C3P0RebelEffect()
         {
             if(HostShip.Tokens.HasToken(typeof(CalculateToken))){
@@ -101,7 +80,6 @@ namespace Abilities.SecondEdition
                 infoText: HostShip.PilotInfo.PilotName + ": Spend a Calculate Token to guess a number 1 or higher. "
                     + "If you do and you roll exactly that many evade results, add 1 evade result. " 
             );
-            
         }
 
         private void UseAbility(object sender, System.EventArgs e)
@@ -109,10 +87,10 @@ namespace Abilities.SecondEdition
             SpendCalculateToken();
 
             var selectionSubPhase = (EvadeCountSelectionSubPhase)Phases.StartTemporarySubPhaseNew(
-                    "C3PO - Guess number of evade results",
-                    typeof(EvadeCountSelectionSubPhase),
-                    Triggers.FinishTrigger
-                );
+                "C3PO - Guess number of evade results",
+                typeof(EvadeCountSelectionSubPhase),
+                Triggers.FinishTrigger
+            );
 
             selectionSubPhase.InfoText = String.Format("You may choose a number greater than 1. If you roll exactly that many evade results, add 1 evade result.");
 
@@ -125,7 +103,6 @@ namespace Abilities.SecondEdition
                         this.numberGuessed = option;
                         SubPhases.DecisionSubPhase.ConfirmDecision(); 
                     }
-
                 );
             }
 
@@ -141,7 +118,6 @@ namespace Abilities.SecondEdition
                 DecisionSubPhase.ConfirmDecisionNoCallback();
                 HostShip.OnImmediatelyAfterRolling += CheckGuess; 
             });
-
         }
             
         private class EvadeCountSelectionSubPhase : DecisionSubPhase { }
@@ -156,7 +132,7 @@ namespace Abilities.SecondEdition
         }
         private void AddEvadeDie(DiceRoll diceroll)
         {
-            Messages.ShowInfo("C-3PO: add evade for correct guess.");
+            Messages.ShowInfo("C-3PO: added evade for correct guess.");
             diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
             diceroll.OrganizeDicePositions();
         }

@@ -1300,5 +1300,24 @@ namespace SquadBuilderNS
 
             SetAiType(aiName);
         }
+
+        public static void ClearUpgradesOfCurrentShip()
+        {
+            ClearUpgradesOfCurrentShipRecursive();
+        }
+
+        private static void ClearUpgradesOfCurrentShipRecursive()
+        {
+            UpgradeSlot slot = CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots().FirstOrDefault(s => !s.IsEmpty);
+            if (slot != null)
+            {
+                slot.RemovePreInstallUpgrade();
+                ClearUpgradesOfCurrentShipRecursive();
+            }
+            else
+            {
+                ShowPilotWithSlots();
+            }
+        }
     }
 }

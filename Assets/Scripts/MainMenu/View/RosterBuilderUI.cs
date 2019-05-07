@@ -150,4 +150,9 @@ public class RosterBuilderUI : MonoBehaviour {
         SquadBuilder.ToggleAiType();
     }
 
+    public void ClearUpgradesOfCurrentShip()
+    {
+        SquadBuilder.ClearUpgradesOfCurrentShip();
+    }
+
 }

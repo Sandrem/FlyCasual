@@ -3,6 +3,7 @@ using Mods;
 using Ship;
 using SquadBuilderNS;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,6 +17,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     private bool ShowFromModInfo;
 
     public static int WaitingToLoad = 0;
+    public static List<PilotPanelSquadBuilder> AllLoadingPanels = new List<PilotPanelSquadBuilder>();
 
     public void Initialize(GenericShip ship, Action<GenericShip> onClick = null, bool showFromModInfo = false)
     {
@@ -27,7 +29,9 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     void Start()
     {
         this.gameObject.SetActive(false);
+
         WaitingToLoad++;
+        AllLoadingPanels.Add(this);
 
         LoadTooltipImage(this.gameObject, Ship.ImageUrl);
         if (ShowFromModInfo) SetFromModeName();
@@ -63,7 +67,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         Image image = targetObject.transform.GetComponent<Image>();
         image.sprite = newSprite;
 
-        FinallyShow();
+        ReadyToShow();
     }
 
     private void ShowTextVersionOfCard()
@@ -75,19 +79,31 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         this.transform.Find("PilotAbility").GetComponent<Text>().text = Ship.PilotInfo.AbilityText + "\n\n" + Ship.ShipInfo.AbilityText;
         if (Edition.Current is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.PilotInfo.Cost.ToString();
 
-        FinallyShow();
+        ReadyToShow();
     }
 
-    private void FinallyShow()
+    private void ReadyToShow()
     {
-        if (this.gameObject != null) this.gameObject.SetActive(true);
         WaitingToLoad--;
 
-        if (WaitingToLoad == 0)
+        if (WaitingToLoad == 0) ShowAllLoadedPanels();
+    }
+
+    private void ShowAllLoadedPanels()
+    {
+        foreach (PilotPanelSquadBuilder loadingPanel in AllLoadingPanels)
         {
-            GameObject loadingText = GameObject.Find("UI/Panels/SelectPilotPanel/LoadingText");
-            if (loadingText != null) loadingText.SetActive(false);
+            loadingPanel.FinallyShow();
         }
+        AllLoadingPanels.Clear();
+
+        GameObject loadingText = GameObject.Find("UI/Panels/SelectPilotPanel/LoadingText");
+        if (loadingText != null) loadingText.SetActive(false);
+    }
+
+    public void FinallyShow()
+    {
+        if (this.gameObject != null) this.gameObject.SetActive(true);
     }
 
     private void SetFromModeName()

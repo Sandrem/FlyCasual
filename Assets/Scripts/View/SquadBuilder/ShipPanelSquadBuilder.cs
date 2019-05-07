@@ -1,4 +1,5 @@
 ﻿using SquadBuilderNS;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,12 +13,16 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
     private string textureCacheKey = "";
 
     public static int WaitingToLoad = 0;
+    public static List<ShipPanelSquadBuilder> AllLoadingPanels = new List<ShipPanelSquadBuilder>();
 
     // Use this for initialization
     void Start()
     {
         this.gameObject.SetActive(false);
+
+        AllLoadingPanels.Add(this);
         WaitingToLoad++;
+
         textureCacheKey = TEXTURENAME + ImageUrl;
         LoadTooltipImage(gameObject, ImageUrl);
         SetName();
@@ -58,12 +63,12 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         Sprite newSprite = Sprite.Create(newTexture, new Rect(0, newTexture.height - 248, newTexture.width, 248), Vector2.zero);
         targetObject.transform.GetComponent<Image>().sprite = newSprite;
         
-        FinallyShow();
+        ReadyToShow();
     }
 
     private void ShowTextVersionOfCard()
     {
-        FinallyShow();
+        ReadyToShow();
     }
 
     private void SetOnClickHandler()
@@ -81,15 +86,27 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
         MainMenu.CurrentMainMenu.ChangePanel("SelectPilotPanel");
     }
 
-    private void FinallyShow()
+    private void ReadyToShow()
     {
-        if (this.gameObject != null) this.gameObject.SetActive(true);
         WaitingToLoad--;
 
-        if (WaitingToLoad == 0)
+        if (WaitingToLoad == 0) ShowAllLoadedPanels();
+    }
+
+    private void ShowAllLoadedPanels()
+    {
+        foreach (ShipPanelSquadBuilder loadingPanel in AllLoadingPanels)
         {
-            GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel/LoadingText");
-            if (loadingText != null) loadingText.SetActive(false);
+            loadingPanel.FinallyShow();
         }
+        AllLoadingPanels.Clear();
+
+        GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel/LoadingText");
+        if (loadingText != null) loadingText.SetActive(false);
+    }
+
+    public void FinallyShow()
+    {
+        if (this.gameObject != null) this.gameObject.SetActive(true);
     }
 }

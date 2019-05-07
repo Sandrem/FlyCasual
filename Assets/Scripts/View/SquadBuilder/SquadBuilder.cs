@@ -252,6 +252,7 @@ namespace SquadBuilderNS
 
         private static void CreateShipWithUpgradesPanels()
         {
+            PilotPanelSquadBuilder.WaitingToLoad = 0;
             foreach (SquadBuilderShip ship in CurrentSquadList.GetShips())
             {
                 AddShipWithUpgradesPanel(ship);
@@ -284,6 +285,7 @@ namespace SquadBuilderNS
         private static void ShowUpgradesOfPilot(SquadBuilderShip ship)
         {
             availableUpgradesCounter = 0;
+            UpgradePanelSquadBuilder.WaitingToLoad = 0;
 
             foreach (GenericUpgrade upgrade in ship.Instance.UpgradeBar.GetUpgradesAll().OrderBy(s => s.UpgradeInfo.UpgradeTypes[0]))
             {
@@ -521,6 +523,8 @@ namespace SquadBuilderNS
 
         private static void CreatePilotPanel()
         {
+            PilotPanelSquadBuilder.WaitingToLoad = 0;
+
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
             Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel/").transform;
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
@@ -533,6 +537,8 @@ namespace SquadBuilderNS
         private static void CreateSlotsPanels()
         {
             UpgradeSlotPanels = new List<UpgradeSlotPanel>();
+            UpgradePanelSquadBuilder.WaitingToLoad = 0;
+
             foreach (UpgradeSlot slot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots().OrderBy(s => s.Type))
             {
                 //Skip for slots with empty upgrade

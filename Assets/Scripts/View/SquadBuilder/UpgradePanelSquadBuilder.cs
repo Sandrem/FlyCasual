@@ -22,6 +22,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private bool Compact;
 
     public static int WaitingToLoad = 0;
+    public static List<UpgradePanelSquadBuilder> AllLoadingPanels = new List<UpgradePanelSquadBuilder>();
 
     public void Initialize(string upgradeName, UpgradeSlot slot, GenericUpgrade upgrade = null, Action<UpgradeSlot, GenericUpgrade> onClick = null, bool showFromModInfo = false, bool compact = false)
     {
@@ -38,7 +39,9 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     void Start()
     {
         this.gameObject.SetActive(false);
+
         WaitingToLoad++;
+        AllLoadingPanels.Add(this);
 
         if (IsSlotImage())
         {
@@ -66,7 +69,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/UpgradeSlots/" + editionName + "/" + slotTypeName, typeof(Sprite));
         this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().sprite = sprite;
 
-        this.gameObject.SetActive(true);
+        ReadyToShow();
     }
 
     private void LoadTooltipImage(GameObject thisGameObject, string url)
@@ -121,7 +124,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         Image image = targetObject.transform.GetComponent<Image>();
         image.sprite = newSprite;
 
-        FinallyShow();
+        ReadyToShow();
     }
 
     private void ShowTextVersionOfCard()
@@ -131,7 +134,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             this.transform.Find("UpgradeInfo").GetComponent<Text>().text = UpgradeName;
             if (Edition.Current is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Upgrade.UpgradeInfo.Cost.ToString();
 
-            FinallyShow();
+            ReadyToShow();
         }
         catch { }
     }
@@ -181,15 +184,27 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         }
     }
 
-    private void FinallyShow()
+    private void ReadyToShow()
     {
-        if (this.gameObject != null) this.gameObject.SetActive(true);
         WaitingToLoad--;
 
-        if (WaitingToLoad == 0  && !IsSlotImage())
+        if (WaitingToLoad == 0) ShowAllLoadedPanels();
+    }
+
+    private void ShowAllLoadedPanels()
+    {
+        foreach (UpgradePanelSquadBuilder loadingPanel in AllLoadingPanels)
         {
-            GameObject loadingText = GameObject.Find("UI/Panels/SelectUpgradePanel/LoadingText");
-            if (loadingText != null) loadingText.SetActive(false);
+            loadingPanel.FinallyShow();
         }
+        AllLoadingPanels.Clear();
+
+        GameObject loadingText = GameObject.Find("UI/Panels/SelectUpgradePanel/LoadingText");
+        if (loadingText != null) loadingText.SetActive(false);
+    }
+
+    public void FinallyShow()
+    {
+        if (this.gameObject != null) this.gameObject.SetActive(true);
     }
 }

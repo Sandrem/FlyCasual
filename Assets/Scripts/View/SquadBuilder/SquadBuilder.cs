@@ -608,6 +608,7 @@ namespace SquadBuilderNS
                     && n.Instance.UpgradeInfo.Restrictions.IsAllowedForShip(CurrentSquadBuilderShip.Instance)
                     && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)
                     && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)
+                    && ShipDoesntHaveUpgradeWithSameName(CurrentSquadBuilderShip.Instance, n.Instance)
                 ).ToList();
 
             int filteredUpgradesCount = filteredUpgrades.Count();
@@ -632,6 +633,11 @@ namespace SquadBuilderNS
             {
                 ShowNoContentInfo("Upgrade");
             }
+        }
+
+        private static bool ShipDoesntHaveUpgradeWithSameName(GenericShip ship, GenericUpgrade upgrade)
+        {
+            return !ship.UpgradeBar.GetUpgradesAll().Any(n => n.UpgradeInfo.Name == upgrade.UpgradeInfo.Name);
         }
 
         private static void ShowAvailableUpgrade(UpgradeRecord upgrade)

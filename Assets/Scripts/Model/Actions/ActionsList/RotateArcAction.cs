@@ -164,17 +164,6 @@ namespace SubPhases
                     }
                 }
 
-                foreach (var item in doubleTurretPriorities)
-                {
-                    Debug.Log(item.Key + " " + item.Value);
-                }
-
-                Debug.Log(currentFacingString);
-
-                Debug.Log(doubleTurretPriorities.FirstOrDefault(a => a.Key != currentFacingString && a.Value == doubleTurretPriorities.Max(b => b.Value)).Key);
-                Debug.Log(doubleTurretPriorities.FirstOrDefault(a => a.Value == doubleTurretPriorities.Max(b => b.Value)).Key);
-                Debug.Log(doubleTurretPriorities.FirstOrDefault(a => a.Key != currentFacingString));
-
                 chosenFacing = doubleTurretPriorities.FirstOrDefault(a => a.Key != currentFacingString && a.Value == doubleTurretPriorities.Max(b => b.Value)).Key;
             }
 

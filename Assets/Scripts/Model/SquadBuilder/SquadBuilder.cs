@@ -504,7 +504,7 @@ namespace SquadBuilderNS
         private static bool ValidatePlayerRoster(PlayerNo playerNo)
         {
             if (!ValidateMinShipsCount(playerNo)) return false;
-            if (!ValidateMaxShipsCount(playerNo)) return false;
+            if (!ValidateMaxSameShipsCount(playerNo)) return false;
             if (!ValidateUniqueCards(playerNo)) return false;
             if (!ValidateSquadCost(playerNo)) return false;
             if (!ValidateFeLimitedCards(playerNo)) return false;
@@ -527,7 +527,7 @@ namespace SquadBuilderNS
             return result;
         }
 
-        private static bool ValidateMaxShipsCount(PlayerNo playerNo)
+        private static bool ValidateMaxSameShipsCount(PlayerNo playerNo)
         {
             bool result = true;
 
@@ -549,6 +549,12 @@ namespace SquadBuilderNS
                         return false;
                     }
                 }
+            }
+
+            if (shipTypesCount.Sum(n => n.Value) > 10)
+            {
+                Messages.ShowError("Current version of the game supports only 10 ships per player. Please, wait for support of epic mode.");
+                result = false;
             }
 
             return result;

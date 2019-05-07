@@ -88,7 +88,7 @@ namespace SquadBuilderNS
 
             if (!isAnyShipShown)
             {
-                ShowNoContentInfo();
+                ShowNoContentInfo("Ship");
             }
             else
             {
@@ -114,12 +114,12 @@ namespace SquadBuilderNS
             MainMenu.ScalePanel(selechShipPanelGO.transform);
         }
 
-        private static void ShowNoContentInfo()
+        private static void ShowNoContentInfo(string panelTypeName)
         {
-            GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel/LoadingText");
+            GameObject loadingText = GameObject.Find("UI/Panels/Select" + panelTypeName + "Panel/LoadingText");
             if (loadingText != null) loadingText.SetActive(false);
 
-            GameObject noContentText = GameObject.Find("UI/Panels/SelectShipPanel").transform.Find("NoContentText").gameObject;
+            GameObject noContentText = GameObject.Find("UI/Panels/Select" + panelTypeName + "Panel").transform.Find("NoContentText").gameObject;
             if (noContentText != null) noContentText.SetActive(true);
         }
 
@@ -603,20 +603,29 @@ namespace SquadBuilderNS
                     && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)
                     && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)
                 ).ToList();
-            int filteredUpgradesCount = filteredUpgrades.Count();
 
+            int filteredUpgradesCount = filteredUpgrades.Count();
+            
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
-            contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(filteredUpgradesCount * (Edition.Current.UpgradeCardSize.x * 1.5f + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
 
-            foreach (UpgradeRecord upgrade in filteredUpgrades)
+            if (filteredUpgradesCount > 0)
             {
-                ShowAvailableUpgrade(upgrade);
-            }
+                contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
+                contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(filteredUpgradesCount * (Edition.Current.UpgradeCardSize.x * 1.5f + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
 
-            GridLayoutGroup grid = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").GetComponent<GridLayoutGroup>();
-            grid.cellSize = new Vector2(Edition.Current.UpgradeCardSize.x * 1.5f, Edition.Current.UpgradeCardSize.y * 1.5f);
+                foreach (UpgradeRecord upgrade in filteredUpgrades)
+                {
+                    ShowAvailableUpgrade(upgrade);
+                }
+
+                GridLayoutGroup grid = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").GetComponent<GridLayoutGroup>();
+                grid.cellSize = new Vector2(Edition.Current.UpgradeCardSize.x * 1.5f, Edition.Current.UpgradeCardSize.y * 1.5f);
+            }
+            else
+            {
+                ShowNoContentInfo("Upgrade");
+            }
         }
 
         private static void ShowAvailableUpgrade(UpgradeRecord upgrade)
@@ -1002,6 +1011,9 @@ namespace SquadBuilderNS
 
         private static void ShowLoadingContentStub(string panelType)
         {
+            GameObject noContentText = GameObject.Find("UI/Panels/Select" + panelType +"Panel").transform.Find("NoContentText")?.gameObject;
+            if (noContentText != null) noContentText.SetActive(false);
+
             GameObject loadingText = GameObject.Find("UI/Panels/Select" + panelType + "Panel").transform.Find("LoadingText").gameObject;
             loadingText.SetActive(true);
         }

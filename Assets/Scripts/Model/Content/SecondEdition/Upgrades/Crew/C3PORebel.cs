@@ -84,8 +84,14 @@ namespace Abilities.SecondEdition
 
         private void UseAbility(object sender, System.EventArgs e)
         {
-            SpendCalculateToken();
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            HostShip.OnImmediatelyAfterRolling += CheckGuess;
 
+            HostShip.Tokens.SpendToken(typeof(Tokens.CalculateToken), ShowCustomDecision);
+        }
+
+        private void ShowCustomDecision()
+        {
             var selectionSubPhase = (EvadeCountSelectionSubPhase)Phases.StartTemporarySubPhaseNew(
                 "C3PO - Guess number of evade results",
                 typeof(EvadeCountSelectionSubPhase),
@@ -98,10 +104,10 @@ namespace Abilities.SecondEdition
             {
                 int option = i;
                 selectionSubPhase.AddDecision(option.ToString(),
-                    delegate 
-                    { 
+                    delegate
+                    {
                         this.numberGuessed = option;
-                        SubPhases.DecisionSubPhase.ConfirmDecision(); 
+                        SubPhases.DecisionSubPhase.ConfirmDecision();
                     }
                 );
             }
@@ -109,15 +115,6 @@ namespace Abilities.SecondEdition
             selectionSubPhase.DefaultDecisionName = "1";
             selectionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
             selectionSubPhase.Start();
-        }
-
-        private void SpendCalculateToken()
-        {
-            HostShip.Tokens.SpendToken(typeof(Tokens.CalculateToken), delegate
-            {
-                DecisionSubPhase.ConfirmDecisionNoCallback();
-                HostShip.OnImmediatelyAfterRolling += CheckGuess; 
-            });
         }
             
         private class EvadeCountSelectionSubPhase : DecisionSubPhase { }
@@ -130,6 +127,7 @@ namespace Abilities.SecondEdition
             } 
             HostShip.OnImmediatelyAfterRolling -= CheckGuess; 
         }
+
         private void AddEvadeDie(DiceRoll diceroll)
         {
             Messages.ShowInfo("C-3PO: added evade for correct guess.");

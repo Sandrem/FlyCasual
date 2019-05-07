@@ -155,4 +155,9 @@ public class RosterBuilderUI : MonoBehaviour {
         SquadBuilder.ClearUpgradesOfCurrentShip();
     }
 
+    public void CopyCurrentShip()
+    {
+        SquadBuilder.CopyCurrentShip();
+    }
+
 }

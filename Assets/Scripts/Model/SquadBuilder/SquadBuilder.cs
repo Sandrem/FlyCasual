@@ -1319,5 +1319,31 @@ namespace SquadBuilderNS
                 ShowPilotWithSlots();
             }
         }
+
+        public static void CopyCurrentShip()
+        {
+            GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(CurrentSquadBuilderShip.Instance.GetType().ToString()));
+            Edition.Current.AdaptShipToRules(newShip);
+            Edition.Current.AdaptPilotToRules(newShip);
+
+            SquadBuilderShip squadBuilderShip = CurrentSquadList.AddShip(newShip);
+            List<GenericUpgrade> copyUpgradesList = new List<GenericUpgrade>(CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradesAll());
+            CopyUpgradesRecursive(squadBuilderShip, copyUpgradesList);
+        }
+
+        private static void CopyUpgradesRecursive(SquadBuilderShip targetShip, List<GenericUpgrade> upgradeList)
+        {
+            if (upgradeList.Count > 0)
+            {
+                InstallUpgrade(targetShip, upgradeList.First().UpgradeInfo.Name);
+                upgradeList.Remove(upgradeList.First());
+
+                CopyUpgradesRecursive(targetShip, upgradeList);
+            }
+            else
+            {
+                UpdateSquadCostForPilotMenu(GetCurrentSquadCost());
+            }
+        }
     }
 }

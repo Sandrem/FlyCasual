@@ -52,7 +52,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(CalculateAction)));
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(BombardmentDrone) }
+                { Faction.Separatists, typeof(TechnoUnionBomber) }
             };
 
             ModelInfo = new ShipModelInfo(

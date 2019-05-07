@@ -10,6 +10,8 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
     {
         public BombardmentDrone()
         {
+            IsHidden = true;
+
             PilotInfo = new PilotCardInfo(
                 "Bombardment Drone",
                 3,

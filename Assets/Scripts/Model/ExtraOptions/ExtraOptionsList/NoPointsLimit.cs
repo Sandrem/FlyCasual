@@ -7,7 +7,8 @@
             public NoPointsLimitExtraOption()
             {
                 Name = "No points limit";
-                Description = "You can use squads with total points cost more than " + Editions.Edition.Current.MaxPoints;
+                Description = "You can use squads with total points cost more than " + Editions.Edition.Current.MaxPoints + ".\n"
+                    + "Max 10 ships per player.";
             }
 
             protected override void Activate()

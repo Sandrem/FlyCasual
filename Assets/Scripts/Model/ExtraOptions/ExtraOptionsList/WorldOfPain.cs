@@ -7,7 +7,7 @@
             public WorldOfPainExtraOption()
             {
                 Name = "World of Pain";
-                Description = "All damage cards are dealt faceup";
+                Description = "All damage cards are dealt faceup.";
             }
 
             protected override void Activate()

@@ -7,7 +7,7 @@
             public NoCombatExtraOption()
             {
                 Name = "No Combat";
-                Description = "Ships don't attack - only fly";
+                Description = "Ships don't attack - only fly.";
             }
 
             protected override void Activate()

@@ -7,7 +7,7 @@
             public DynamicCameraExtraOption()
             {
                 Name = "Dynamic Camera";
-                Description = "Camera that moves to show attacks of ships";
+                Description = "Camera that moves to show attacks of ships.";
             }
 
             protected override void Activate()

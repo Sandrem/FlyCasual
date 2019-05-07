@@ -7,7 +7,7 @@
             public NoObstaclesExtraOption()
             {
                 Name = "No Obstacles";
-                Description = "Skip obstacles placement phase";
+                Description = "Skip obstacles placement phase.";
             }
 
             protected override void Activate()

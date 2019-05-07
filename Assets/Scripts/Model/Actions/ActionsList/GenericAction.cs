@@ -23,7 +23,7 @@ namespace ActionsList
         public string DiceModificationName;
         public string ImageUrl;
 
-        public bool IsRealAction;
+        public bool IsRealAction = true;
 
         public bool IsRed
         {

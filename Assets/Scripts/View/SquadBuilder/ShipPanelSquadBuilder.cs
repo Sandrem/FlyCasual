@@ -11,10 +11,13 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
     private const string TEXTURENAME = "SHIPPANEL_";
     private string textureCacheKey = "";
 
+    public static int WaitingToLoad = 0;
+
     // Use this for initialization
     void Start()
     {
         this.gameObject.SetActive(false);
+        WaitingToLoad++;
         textureCacheKey = TEXTURENAME + ImageUrl;
         LoadTooltipImage(gameObject, ImageUrl);
         SetName();
@@ -80,9 +83,13 @@ public class ShipPanelSquadBuilder : MonoBehaviour {
 
     private void FinallyShow()
     {
-        GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel/LoadingText");
-        if (loadingText != null) loadingText.SetActive(false);
-
         if (this.gameObject != null) this.gameObject.SetActive(true);
+        WaitingToLoad--;
+
+        if (WaitingToLoad == 0)
+        {
+            GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel/LoadingText");
+            if (loadingText != null) loadingText.SetActive(false);
+        }
     }
 }

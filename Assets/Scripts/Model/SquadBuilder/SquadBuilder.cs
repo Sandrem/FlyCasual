@@ -269,8 +269,7 @@ namespace SquadBuilderNS
 
         public static void ShowShipsFilteredByFaction()
         {
-            GameObject loadingText = GameObject.Find("UI/Panels/SelectShipPanel").transform.Find("LoadingText").gameObject;
-            loadingText.SetActive(true);
+            ShowLoadingContentStub("Ship");
 
             GameObject noContentText = GameObject.Find("UI/Panels/SelectShipPanel").transform.Find("NoContentText").gameObject;
             if (noContentText != null) noContentText.SetActive(false);
@@ -282,6 +281,8 @@ namespace SquadBuilderNS
 
         public static void ShowPilotsFilteredByShipAndFaction()
         {
+            ShowLoadingContentStub("Pilot");
+
             ShowAvailablePilots(CurrentSquadList.SquadFaction, CurrentShip);
 
             UpdateSquadCostForPilotsMenu(GetCurrentSquadCost());
@@ -420,6 +421,8 @@ namespace SquadBuilderNS
 
         public static void ShowUpgradesList()
         {
+            ShowLoadingContentStub("Upgrade");
+
             UpdateSquadCostForUpgradesMenu(GetCurrentSquadCost());
             ShowAvailableUpgrades(CurrentUpgradeSlot);
         }

@@ -72,6 +72,7 @@ namespace SquadBuilderNS
             availableShipsCounter = 0;
 
             bool isAnyShipShown = false;
+            ShipPanelSquadBuilder.WaitingToLoad = 0;
 
             foreach (ShipRecord ship in AllShips.OrderBy(s => s.Instance.ShipInfo.ShipName))
             {
@@ -176,6 +177,7 @@ namespace SquadBuilderNS
         private static void ShowAvailablePilots(Faction faction, string shipName)
         {
             //availablePilotsCounter = 0;
+            PilotPanelSquadBuilder.WaitingToLoad = 0;
 
             ShipRecord shipRecord = AllShips.Find(n => n.ShipName == shipName);
 
@@ -587,6 +589,7 @@ namespace SquadBuilderNS
         private static void ShowAvailableUpgrades(UpgradeSlot slot)
         {
             availableUpgradesCounter = 0;
+            UpgradePanelSquadBuilder.WaitingToLoad = 0;
 
             List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => 
                     n.Instance.HasType(slot.Type)
@@ -989,6 +992,12 @@ namespace SquadBuilderNS
 
             Text descriptionText = GameObject.Find("UI/Panels/ShipInfoPanel/Content/LargerPanel/ShipDescriptionText").GetComponent<Text>();
             descriptionText.text = ship.ShipInfo.Description;
+        }
+
+        private static void ShowLoadingContentStub(string panelType)
+        {
+            GameObject loadingText = GameObject.Find("UI/Panels/Select" + panelType + "Panel").transform.Find("LoadingText").gameObject;
+            loadingText.SetActive(true);
         }
 
     }

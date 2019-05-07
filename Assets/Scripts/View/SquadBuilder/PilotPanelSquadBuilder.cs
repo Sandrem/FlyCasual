@@ -15,6 +15,8 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     private Action<GenericShip> OnClick;
     private bool ShowFromModInfo;
 
+    public static int WaitingToLoad = 0;
+
     public void Initialize(GenericShip ship, Action<GenericShip> onClick = null, bool showFromModInfo = false)
     {
         Ship = ship;
@@ -25,6 +27,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     void Start()
     {
         this.gameObject.SetActive(false);
+        WaitingToLoad++;
 
         LoadTooltipImage(this.gameObject, Ship.ImageUrl);
         if (ShowFromModInfo) SetFromModeName();
@@ -60,7 +63,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         Image image = targetObject.transform.GetComponent<Image>();
         image.sprite = newSprite;
 
-        this.gameObject.SetActive(true);
+        FinallyShow();
     }
 
     private void ShowTextVersionOfCard()
@@ -72,7 +75,19 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         this.transform.Find("PilotAbility").GetComponent<Text>().text = Ship.PilotInfo.AbilityText + "\n\n" + Ship.ShipInfo.AbilityText;
         if (Edition.Current is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Ship.PilotInfo.Cost.ToString();
 
-        this.gameObject.SetActive(true);
+        FinallyShow();
+    }
+
+    private void FinallyShow()
+    {
+        if (this.gameObject != null) this.gameObject.SetActive(true);
+        WaitingToLoad--;
+
+        if (WaitingToLoad == 0)
+        {
+            GameObject loadingText = GameObject.Find("UI/Panels/SelectPilotPanel/LoadingText");
+            if (loadingText != null) loadingText.SetActive(false);
+        }
     }
 
     private void SetFromModeName()

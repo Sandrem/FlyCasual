@@ -21,6 +21,8 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private bool ShowFromModInfo;
     private bool Compact;
 
+    public static int WaitingToLoad = 0;
+
     public void Initialize(string upgradeName, UpgradeSlot slot, GenericUpgrade upgrade = null, Action<UpgradeSlot, GenericUpgrade> onClick = null, bool showFromModInfo = false, bool compact = false)
     {
         UpgradeName = upgradeName;
@@ -36,6 +38,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     void Start()
     {
         this.gameObject.SetActive(false);
+        WaitingToLoad++;
 
         if (IsSlotImage())
         {
@@ -118,7 +121,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         Image image = targetObject.transform.GetComponent<Image>();
         image.sprite = newSprite;
 
-        this.gameObject.SetActive(true);
+        FinallyShow();
     }
 
     private void ShowTextVersionOfCard()
@@ -128,7 +131,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             this.transform.Find("UpgradeInfo").GetComponent<Text>().text = UpgradeName;
             if (Edition.Current is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Upgrade.UpgradeInfo.Cost.ToString();
 
-            this.gameObject.SetActive(true);
+            FinallyShow();
         }
         catch { }
     }
@@ -175,6 +178,18 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             ScrollRect mainScroll = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View").GetComponent<ScrollRect>();
             FixScrollRect fixScrollRect = this.gameObject.AddComponent<FixScrollRect>();
             fixScrollRect.MainScroll = mainScroll;
+        }
+    }
+
+    private void FinallyShow()
+    {
+        if (this.gameObject != null) this.gameObject.SetActive(true);
+        WaitingToLoad--;
+
+        if (WaitingToLoad == 0  && !IsSlotImage())
+        {
+            GameObject loadingText = GameObject.Find("UI/Panels/SelectUpgradePanel/LoadingText");
+            if (loadingText != null) loadingText.SetActive(false);
         }
     }
 }

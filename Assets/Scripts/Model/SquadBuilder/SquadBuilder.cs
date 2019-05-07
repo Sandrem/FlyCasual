@@ -530,11 +530,27 @@ namespace SquadBuilderNS
         private static bool ValidateMaxShipsCount(PlayerNo playerNo)
         {
             bool result = true;
-            if (GetSquadList(playerNo).GetShips().Count > Edition.Current.MaxShipsCount)
+
+            Dictionary<string, int> shipTypesCount = new Dictionary<string, int>();
+
+            foreach (GenericShip ship in GetSquadList(playerNo).GetShips().Select(n => n.Instance))
             {
-                result = false;
-                Messages.ShowError("The maximum number of pilots required is: " + Edition.Current.MaxShipsCount);
+                if (!shipTypesCount.ContainsKey(ship.ShipInfo.ShipName))
+                {
+                    shipTypesCount.Add(ship.ShipInfo.ShipName, 1);
+                }
+                else
+                {
+                    shipTypesCount[ship.ShipInfo.ShipName]++;
+                    if (shipTypesCount[ship.ShipInfo.ShipName] > Edition.Current.MaxShipsCount)
+                    {
+                        Messages.ShowError("Too many ships of type \"" + ship.ShipInfo.ShipName + "\"");
+                        Messages.ShowError("The maximum allowed number of same ships in squad is: " + Edition.Current.MaxShipsCount);
+                        return false;
+                    }
+                }
             }
+
             return result;
         }
 

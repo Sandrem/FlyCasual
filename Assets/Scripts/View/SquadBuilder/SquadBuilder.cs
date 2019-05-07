@@ -10,6 +10,8 @@ using Upgrade;
 using System.IO;
 using Ship;
 using Editions;
+using ExtraOptions;
+using ExtraOptions.ExtraOptionsList;
 
 namespace SquadBuilderNS
 {
@@ -311,7 +313,11 @@ namespace SquadBuilderNS
 
         private static void ShowAddShipPanel()
         {
-            if (GetCurrentSquadCost() <= Edition.Current.MaxPoints - Edition.Current.MinShipCost(CurrentSquadList.SquadFaction))
+            if
+            (
+                GetCurrentSquadCost() <= Edition.Current.MaxPoints - Edition.Current.MinShipCost(CurrentSquadList.SquadFaction)
+                || ExtraOptionsManager.ExtraOptions[typeof(NoPointsLimitExtraOption)].IsOn
+            )
             {
                 GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/ShipWithUpgradesPanel", typeof(GameObject));
                 GameObject addShipButtonPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SquadBuilderPanel/Panel/SquadListPanel").transform);

@@ -76,16 +76,25 @@ public partial class MainMenu : MonoBehaviour {
 
     public static Sprite GetRandomMenuBackground()
     {
-        UnityEngine.Object[] sprites = Resources.LoadAll("Sprites/Backgrounds/MainMenu/", typeof(Sprite));
-        return (Sprite) sprites[UnityEngine.Random.Range(0, sprites.Length)];
+        List<Sprite> spritesList = Resources.LoadAll<Sprite>("Sprites/Backgrounds/MainMenu/")
+            .Where(n => n.name != "_RANDOM")
+            .ToList();
+        return spritesList[UnityEngine.Random.Range(0, spritesList.Count)];
     }
 
     public static Sprite GetRandomSplashScreen()
     {
-        List<UnityEngine.Object> sprites = new List<UnityEngine.Object>();
-        sprites.AddRange(Resources.LoadAll("Sprites/Backgrounds/MainMenu/", typeof(Sprite)).ToList());
-        sprites.AddRange(Resources.LoadAll("Sprites/Backgrounds/SplashScreens/", typeof(Sprite)).ToList());
-        return (Sprite)sprites[UnityEngine.Random.Range(0, sprites.Count)];
+        List<Sprite> spritesArray = new List<Sprite>();
+        spritesArray.AddRange(
+            Resources.LoadAll<Sprite>("Sprites/Backgrounds/MainMenu/")
+                .Where(n => n.name != "_RANDOM")
+                .ToList()
+        );
+        spritesArray.AddRange(
+            Resources.LoadAll<Sprite>("Sprites/Backgrounds/SplashScreens/")
+                .ToList()
+        );
+        return spritesArray[UnityEngine.Random.Range(0, spritesArray.Count)];
     }
 
     private void PrepareUpdateChecker()

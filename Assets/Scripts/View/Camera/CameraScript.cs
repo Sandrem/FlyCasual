@@ -9,6 +9,13 @@ using UnityEngine.EventSystems;
  * Movement, vertical rotation and zoom have MIN and MAX values.
  * Event when view is changed.
 */
+
+public enum CameraModes
+{
+    Free,
+    TopDown
+}
+
 public class CameraState
 {
     public Vector3 CameraPosition { get; private set; }
@@ -16,13 +23,15 @@ public class CameraState
     public Vector3 CameraHolderPosition { get; private set; }
     public Quaternion CameraHolderAngles { get; private set; }
     public Vector3 LookAtPosition { get; private set; }
+    public CameraModes CameraMode { get; private set; }
 
-    public CameraState(Vector3 cameraPosition, Quaternion cameraAngles, Vector3 cameraHolderPosition, Quaternion cameraHolderAngles, Vector3 lookAtPosition = default)
+    public CameraState(Vector3 cameraPosition, Quaternion cameraAngles, Vector3 cameraHolderPosition, Quaternion cameraHolderAngles, CameraModes cameraMode, Vector3 lookAtPosition = default)
     {
         CameraPosition = cameraPosition;
         CameraAngles = cameraAngles;
         CameraHolderPosition = cameraHolderPosition;
         CameraHolderAngles = cameraHolderAngles;
+        CameraMode = cameraMode;
         LookAtPosition = (lookAtPosition == default) ? Vector3.zero : lookAtPosition;
     }
 }
@@ -108,11 +117,6 @@ public class CameraScript : MonoBehaviour {
     }
     public static bool TouchInputsPaused = false;
 
-    private enum CameraModes
-    {
-        Free,
-        TopDown
-    }
     private static CameraModes cameraMode = CameraModes.Free;
 
     // Use this for initialization
@@ -125,6 +129,7 @@ public class CameraScript : MonoBehaviour {
         VirtualCamera = VirtualCameraHolder.Find("VirtualCamera");
 
         ChangeMode(CameraModes.Free);
+        SetDefaultCameraPosition();
 
         InputTouchIsEnabled = Input.touchSupported && !Input.mousePresent;
         UI.UpdateControlsButtonName();
@@ -188,6 +193,7 @@ public class CameraScript : MonoBehaviour {
     public static void ToggleMode()
     {
         ChangeMode((cameraMode == CameraModes.Free) ? CameraModes.TopDown : CameraModes.Free);
+        SetDefaultCameraPosition();
     }
 
     private static void ChangeMode(CameraModes mode)
@@ -196,8 +202,6 @@ public class CameraScript : MonoBehaviour {
 
         Camera camera = Camera.GetComponent<Camera>();
         camera.orthographic = (mode == CameraModes.Free) ? false : true;
-
-        SetDefaultCameraPosition();
     }
 
     // Movement, Rotation, Zoom
@@ -568,7 +572,8 @@ public class CameraScript : MonoBehaviour {
 
         VirtualCameraHolder.position = position;
         VirtualCamera.transform.LookAt(directionTransform);
-        NewCameraState = new CameraState(VirtualCamera.localPosition, VirtualCamera.localRotation, VirtualCameraHolder.position, VirtualCameraHolder.rotation, directionTransform.position);
+        NewCameraState = new CameraState(VirtualCamera.localPosition, VirtualCamera.localRotation, VirtualCameraHolder.position, VirtualCameraHolder.rotation, CameraModes.Free, directionTransform.position);
+        ChangeMode(CameraModes.Free);
 
         TransitionTimeCounter = 0;
     }
@@ -576,19 +581,20 @@ public class CameraScript : MonoBehaviour {
     private static void SetOldCameraPosition()
     {
         Vector3 oldLookAt = (NewCameraState != null) ? NewCameraState.LookAtPosition : default;
-        OldCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, oldLookAt);
+        OldCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, CameraModes.Free, oldLookAt);
     }
 
     private static void SetSavedCameraPosition()
     {
         Vector3 oldLookAt = (NewCameraState != null) ? NewCameraState.LookAtPosition : default;
-        SavedCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, oldLookAt);
+        SavedCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, cameraMode, oldLookAt);
     }
 
     public static void RestoreCamera()
     {
         if (SavedCameraState != null)
         {
+            ChangeMode(SavedCameraState.CameraMode);
             SetCameraState(SavedCameraState);
             SavedCameraState = null;
             IsCinematic = false;
@@ -617,7 +623,7 @@ public class CameraScript : MonoBehaviour {
             Vector3.up
         );
 
-        CameraState currentCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, NewCameraState.LookAtPosition);
+        CameraState currentCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, CameraModes.Free, NewCameraState.LookAtPosition);
         SetCameraState(currentCameraState);
 
         TransitionTimeCounter += Mathf.Min(Time.deltaTime * TRANSITION_TIME_SPEED, 1 - TransitionTimeCounter);

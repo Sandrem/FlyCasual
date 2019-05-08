@@ -49,7 +49,7 @@ namespace Abilities.FirstEdition
 
         private void AssignCondition(GenericShip ship)
         {
-            Messages.ShowInfo("The Hotshot Co-pilot effect is active.");
+            Messages.ShowInfo("The Hotshot Co-pilot effect is active");
 
             ship.Tokens.AssignCondition(typeof(Conditions.HotshotCoPilotCondition));
 
@@ -66,7 +66,7 @@ namespace Abilities.FirstEdition
 
         private void RemoveCondition(GenericShip ship)
         {
-            Messages.ShowInfo("The Hotshot Co-pilot effect is no longer active.");
+            Messages.ShowInfo("The Hotshot Co-pilot effect is no longer active");
 
             ship.OnTryConfirmDiceResults -= DisallowIfHasFocusToken;
             ship.OnAiGetDiceModificationPriority -= PrioritizeSpendFocus;

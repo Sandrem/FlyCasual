@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.Defender.IsTractored)
             {
-                Messages.ShowInfo("The defender is tractored. You roll an additional attack die.");
+                Messages.ShowInfo("The defender is tractored, you roll an additional attack die");
                 count++;
             }
         }

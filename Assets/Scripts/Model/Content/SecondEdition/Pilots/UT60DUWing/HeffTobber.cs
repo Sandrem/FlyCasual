@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
 
         private void UseHeffTobberAbility(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Heff Tobber can perform a free action.");
+            Messages.ShowInfo("Heff Tobber can perform a free action");
 
             GenericShip previousActiveShip = Selection.ThisShip;
             Selection.ChangeActiveShip(HostShip);

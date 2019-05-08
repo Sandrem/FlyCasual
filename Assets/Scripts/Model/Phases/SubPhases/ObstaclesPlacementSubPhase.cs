@@ -412,7 +412,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowError("The obstacle cannot be placed.");
+                Messages.ShowError("The obstacle cannot be placed");
                 return false;
             }
         }

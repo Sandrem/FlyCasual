@@ -60,7 +60,7 @@ namespace Abilities.FirstEdition
 
         private void AssignStress(Action callback)
         {
-            Messages.ShowInfo(Name + " is activated.");
+            Messages.ShowInfo(Name + " is activated");
             Sounds.PlayShipSound("R2D2-Beeping-5");
 
             HostShip.Tokens.AssignToken(typeof(StressToken), delegate { AssignStressToDefender(callback); });

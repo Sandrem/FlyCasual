@@ -119,7 +119,7 @@ namespace Abilities.FirstEdition
 
         private void RestoreShield()
         {
-            if (HostShip.TryRegenShields()) Messages.ShowInfo("Pulsed Ray Shield restores 1 shield.");
+            if (HostShip.TryRegenShields()) Messages.ShowInfo("Pulsed Ray Shield restores 1 shield");
             DecisionSubPhase.ConfirmDecision();
         }
     }

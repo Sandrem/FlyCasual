@@ -71,7 +71,7 @@ namespace Abilities.FirstEdition
         {
             if (action.TokensSpend.Contains(typeof(EvadeToken)))
             {
-                Messages.ShowErrorToHuman("Homing Missiles Ability: The defender cannot spend evade tokens.");
+                Messages.ShowErrorToHuman("Homing Missiles: The defender cannot spend evade tokens");
                 canBeUsed = false;
             }
         }

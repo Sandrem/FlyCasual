@@ -66,7 +66,7 @@ namespace Abilities.FirstEdition
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
                 HostUpgrade.UpgradeInfo.Name,
-                "Choose a ship to look at it's chosen maneuver.",
+                "Choose a ship to look at it's chosen maneuver",
                 HostUpgrade
             );
         }

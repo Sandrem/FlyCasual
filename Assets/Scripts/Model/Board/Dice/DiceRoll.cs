@@ -748,25 +748,25 @@ public partial class DiceRoll
 
                 if (die.CannotBeModified)
                 {
-                    Messages.ShowErrorToHuman("This die cannot be modified.");
+                    Messages.ShowErrorToHuman("This die cannot be modified");
                     return;
                 }
 
                 if (die.IsRerolled)
                 {
-                    Messages.ShowErrorToHuman("Each die can only be re-rolled once.");
+                    Messages.ShowErrorToHuman("Each die can only be re-rolled once");
                     return;
                 }
 
                 if (DiceRerollManager.CurrentDiceRerollManager.NumberOfDiceCanBeRerolled == GetSelectedNumber())
                 {
-                    Messages.ShowErrorToHuman("Only " + DiceRerollManager.CurrentDiceRerollManager.NumberOfDiceCanBeRerolled + " dice can be selected.");
+                    Messages.ShowErrorToHuman("Only " + DiceRerollManager.CurrentDiceRerollManager.NumberOfDiceCanBeRerolled + " dice can be selected");
                     return;
                 }
 
                 if (!DiceRerollManager.CurrentDiceRerollManager.SidesCanBeRerolled.Contains(die.Side))
                 {
-                    Messages.ShowErrorToHuman("Dice with this result cannot be rerolled.");
+                    Messages.ShowErrorToHuman("Dice with this result cannot be rerolled");
                     return;
                 }
 
@@ -829,7 +829,7 @@ public partial class DiceRoll
     {
         if (DiceList.Count <= 0)
         {
-            Messages.ShowErrorToHuman("There are no dice available to be changed.");
+            Messages.ShowErrorToHuman("There are no dice available to be changed");
             return DieSide.Unknown;
         }
 

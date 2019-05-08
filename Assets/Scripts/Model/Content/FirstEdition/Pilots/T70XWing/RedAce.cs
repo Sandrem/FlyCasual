@@ -53,7 +53,7 @@ namespace Abilities.FirstEdition
 
         private void AssignEvadeToken(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("\"Red Ace\" lost 1 shield, causing them to gain 1 Evade token.");
+            Messages.ShowInfo("\"Red Ace\" lost 1 shield, causing them to gain 1 Evade token");
             HostShip.Tokens.AssignToken(typeof(EvadeToken), Triggers.FinishTrigger);
         }
 

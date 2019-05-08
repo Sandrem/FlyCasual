@@ -77,7 +77,7 @@ namespace Abilities.SecondEdition
                 AiPriority,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose ship. That ship will acquire a lock on the object you locked.",
+                "Choose a ship, that ship will acquire a lock on the object you locked",
                 HostShip
             );
         }

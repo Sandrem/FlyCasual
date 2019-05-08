@@ -632,7 +632,7 @@ namespace Abilities
             }
             else
             {
-                Messages.ShowErrorToHuman("No dice are eligible to be rerolled.");
+                Messages.ShowErrorToHuman("No dice are eligible to be rerolled");
                 callback();
             }
         }

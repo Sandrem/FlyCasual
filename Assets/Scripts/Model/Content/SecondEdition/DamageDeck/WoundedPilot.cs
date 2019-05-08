@@ -101,7 +101,7 @@ namespace SubPhases
 
         private void SufferStress()
         {
-            Messages.ShowInfo("Wounded Pilot: This ship has gained a stress token.");
+            Messages.ShowInfo("Wounded Pilot: This ship has gained a stress token");
             HostShip.Tokens.AssignToken(typeof(StressToken), CallBack);
         }
 

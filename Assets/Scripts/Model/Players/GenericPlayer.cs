@@ -141,7 +141,7 @@ namespace Players
         public virtual void OnTargetNotLegalForAttack()
         {
             // TODOREVERT
-            Messages.ShowErrorToHuman("The target is not a legal target for the attacker.");
+            Messages.ShowErrorToHuman("The target is not a legal target for the attacker");
 
             /*// TODO: Better explanations
             if (!Rules.TargetIsLegalForShot.IsLegal())

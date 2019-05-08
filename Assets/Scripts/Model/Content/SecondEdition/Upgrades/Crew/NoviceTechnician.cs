@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
         {
             if (DiceCheckRoll.RegularSuccesses > 0)
             {
-                Messages.ShowInfo(HostName + " exposes one damage card.");
+                Messages.ShowInfo(HostName + " exposes one damage card");
                 HostShip.Damage.ExposeRandomFacedownCard(AbilityDiceCheck.ConfirmCheck);
             }
             else

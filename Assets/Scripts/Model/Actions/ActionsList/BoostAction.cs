@@ -335,18 +335,18 @@ namespace SubPhases
 
             if (obstaclesStayDetectorBase.OverlapsShipNow)
             {
-                if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship overlapping another ship.");
+                if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship overlapping another ship");
                 result.Add(ActionFailReason.Bumped);
             }
             else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBoost && !IsTractorBeamBoost
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
-                if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship overlapping an obstacle.");
+                if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship overlapping an obstacle");
                 result.Add(ActionFailReason.ObstacleHit);
             }
             else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
             {
-                if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship leaving the battlefield.");
+                if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship leaving the battlefield");
                 result.Add(ActionFailReason.OffTheBoard);
             }
 

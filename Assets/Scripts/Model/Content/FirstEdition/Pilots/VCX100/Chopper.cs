@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
             {
                 GenericShip shipToAssignStress = shipsToAssignStress[0];
                 shipsToAssignStress.Remove(shipToAssignStress);
-                Messages.ShowErrorToHuman(shipToAssignStress.PilotInfo.PilotName + " is at range 0 of \"Chopper\" and gains a stress token.");
+                Messages.ShowErrorToHuman(shipToAssignStress.PilotInfo.PilotName + " is at range 0 of \"Chopper\" and gains a stress token");
                 shipToAssignStress.Tokens.AssignToken(typeof(StressToken), AssignStressTokenRecursive);
             }
             else

@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
                 && Combat.ArcForShot.ArcType == ArcType.Front
                 && HostShip.ArcsInfo.GetArc<ArcSingleTurret>().Facing == ArcFacing.Front)
             {
-                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + "gains +1 attack die.");
+                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + "gains +1 attack die");
                 count++;
             }
         }
@@ -79,7 +79,7 @@ namespace Abilities.SecondEdition
                 },
                 IsPrimaryTurretAttack,
                 HostUpgrade.UpgradeInfo.Name,
-                "You may perform an bonus attack from your primary turret arc.",
+                "You may perform an bonus attack from your primary turret arc",
                 HostUpgrade
             );
         }
@@ -90,7 +90,7 @@ namespace Abilities.SecondEdition
 
             if (weapon.WeaponType != WeaponTypes.PrimaryWeapon || !weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.SingleTurret))
             {
-                if (!isSilent) Messages.ShowErrorToHuman("You can only perform primary weapon turret attacks.");
+                if (!isSilent) Messages.ShowErrorToHuman("You can only perform primary weapon turret attacks");
                 result = false;
             }
 

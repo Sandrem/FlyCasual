@@ -71,7 +71,7 @@ namespace ActionsList
             }
             else
             {
-                Messages.ShowError(Selection.ThisShip.PilotInfo.PilotName + " cannot use Expert Handling. This ship has already executed a Barrel Roll action this round.");
+                Messages.ShowError(Selection.ThisShip.PilotInfo.PilotName + " cannot use Expert Handling: this ship has already executed a Barrel Roll action this round");
                 Phases.CurrentSubPhase.Resume();
             }
         }

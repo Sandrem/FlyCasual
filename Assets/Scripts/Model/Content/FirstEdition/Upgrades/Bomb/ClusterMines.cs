@@ -91,7 +91,7 @@ namespace SubPhases
 
         private void SufferDamage()
         {
-            Messages.ShowInfo("Cluster Mines: The attacked ship suffered damage.");
+            Messages.ShowInfo("Cluster Mines: The attacked ship suffered damage");
 
             DamageSourceEventArgs clustermineDamage = new DamageSourceEventArgs()
             {
@@ -104,7 +104,7 @@ namespace SubPhases
 
         private void NoDamage()
         {
-            Messages.ShowInfoToHuman("The attacked ship suffered no damage.");
+            Messages.ShowInfoToHuman("The attacked ship suffered no damage");
             CallBack();
         }
     }

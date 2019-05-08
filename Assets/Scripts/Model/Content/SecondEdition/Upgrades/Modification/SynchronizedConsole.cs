@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostName,
-                "Choose ship to acquire a lock on the defender.",
+                "Choose ship to acquire a lock on the defender",
                 HostUpgrade
             );
         }

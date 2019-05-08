@@ -84,7 +84,7 @@ namespace Abilities
             public CorranHornAbility()
             {
                 TriggerType = TriggerTypes.OnEndPhaseStart;
-                Description = "You may perform an additional attack.\nYou cannot attack during next round.";
+                Description = "You may perform an additional attack.\nYou cannot attack during next round";
             }
 
             public override void ActivateAbility()

@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
             ShotInfo shotInformation = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
             if (shotInformation.Range == 3)
             {
-                Messages.ShowInfo("\"Longshot\" is attacking at range 3 and gains +1 attack die.");
+                Messages.ShowInfo("\"Longshot\" is attacking at range 3 and gains +1 attack die");
                 result++;
             }
         }

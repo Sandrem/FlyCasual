@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
                 && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
             )
             {
-                Messages.ShowInfo("Punishing One is attacking a ship with its primary weapon and gains +1 attack die.");
+                Messages.ShowInfo("Punishing One is attacking a ship with its primary weapon and gains +1 attack die");
                 count++;
             }
         }

@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
 
         private void DecreaseDiceResult(ref int count)
         {
-            Messages.ShowInfo("Test Pilot \"Blackout\"'s attack is obstructed.\n The defender rolls 2 fewer defense dice.");
+            Messages.ShowInfo("Test Pilot \"Blackout\"'s attack is obstructed,\n the defender rolls 2 fewer defense dice");
             count -= 2;
             Combat.Defender.AfterGotNumberOfDefenceDice -= DecreaseDiceResult;
         }

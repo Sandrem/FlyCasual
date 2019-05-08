@@ -378,7 +378,7 @@ public static partial class Combat
         {
             if (Attacker.AttackIsAlwaysConsideredHit)
             {
-                Messages.ShowInfo("This attack is always considered a Hit.");
+                Messages.ShowInfo("This attack is always considered a Hit");
                 AttackHit();
             }
             else

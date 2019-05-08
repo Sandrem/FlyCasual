@@ -99,7 +99,7 @@ namespace Abilities.FirstEdition
             count++;
             HostShip.LoseShield();
 
-            Messages.ShowInfo("Miranda Doni spends 1 shield to gain +1 attack die.");
+            Messages.ShowInfo("Miranda Doni spends 1 shield to gain +1 attack die");
 
             HostShip.AfterGotNumberOfAttackDice -= RollExtraDice;
         }
@@ -117,7 +117,7 @@ namespace Abilities.FirstEdition
             count--;
             HostShip.TryRegenShields();
 
-            Messages.ShowInfo("Miranda Doni rolls 1 fewer defense die to recover 1 shield.");
+            Messages.ShowInfo("Miranda Doni rolls 1 fewer defense die to recover 1 shield");
 
             HostShip.AfterGotNumberOfAttackDice -= RegenerateShield;
         }

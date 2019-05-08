@@ -60,7 +60,7 @@ namespace Abilities.FirstEdition
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose a ship inside your mobile firing arc to assign Stress token to it.",
+                "Choose a ship inside your mobile firing arc to assign Stress token to it",
                 HostShip
             );
         }
@@ -98,8 +98,8 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                if (!shotInfo.InArcByType(ArcType.SingleTurret)) Messages.ShowError("The target is not inside " + HostShip.PilotInfo.PilotName + "'s Mobile Arc.");
-                else if (shotInfo.Range >= 3) Messages.ShowError("The target is outside range 2.");
+                if (!shotInfo.InArcByType(ArcType.SingleTurret)) Messages.ShowError("The target is not inside " + HostShip.PilotInfo.PilotName + "'s Mobile Arc");
+                else if (shotInfo.Range >= 3) Messages.ShowError("The target is outside range 2");
             }
         }
 

@@ -91,7 +91,7 @@ namespace Abilities.FirstEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose a ship to assign to it one of your Blue Target Lock tokens if it does not have a Blue Target Lock token.",
+                "Choose a ship to assign to it one of your Blue Target Lock tokens if it does not have a Blue Target Lock token",
                 HostShip
             );
         }
@@ -116,7 +116,7 @@ namespace Abilities.FirstEdition
         {
             if (TargetShip.Tokens.HasToken(typeof(Tokens.BlueTargetLockToken), '*'))
             {
-                Messages.ShowErrorToHuman("Only ships without blue target lock tokens can be selected.");
+                Messages.ShowErrorToHuman("Only ships without blue target lock tokens can be selected");
                 return;
             }
 

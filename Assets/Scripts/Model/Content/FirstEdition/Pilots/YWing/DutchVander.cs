@@ -62,7 +62,7 @@ namespace Abilities.FirstEdition
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
                     HostShip.PilotInfo.PilotName,
-                    "Choose another ship.\nIt may acquire a Target Lock.",
+                    "Choose another ship, it may acquire a Target Lock",
                     HostShip
                 );
             }

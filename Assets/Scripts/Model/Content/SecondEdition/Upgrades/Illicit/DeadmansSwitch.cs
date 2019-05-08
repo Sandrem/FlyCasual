@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
                 if (distInfo.Range < 2) sufferedShips.Add(ship);
             }
 
-            Messages.ShowInfo("Deadman's Switch deals 1 Hit to " + sufferedShips.Count + " ships.");
+            Messages.ShowInfo("Deadman's Switch deals 1 Hit to " + sufferedShips.Count + " ships");
             DealDamageToShips(sufferedShips, 1, false, Triggers.FinishTrigger);
         }
     }

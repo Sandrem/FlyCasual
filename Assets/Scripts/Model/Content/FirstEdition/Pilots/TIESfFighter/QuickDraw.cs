@@ -95,7 +95,7 @@ namespace Abilities.FirstEdition
                     AfterExtraAttackSubPhase,
                     IsPrimaryWeaponAttack,
                     HostShip.PilotInfo.PilotName,
-                    "You may perform a primary weapon attack.",
+                    "You may perform a primary weapon attack",
                     HostShip
                 );
             }
@@ -116,7 +116,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("This attack must be performed using your primary weapon.");
+                if (!isSilent) Messages.ShowError("This attack must be performed using your primary weapon");
             }
 
             return result;

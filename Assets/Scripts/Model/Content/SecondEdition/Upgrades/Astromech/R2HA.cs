@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowError("Error: The attacker has no Target Lock to spend.");
+                Messages.ShowError("Error: The attacker has no Target Lock to spend");
                 callback(false);
             }
         }

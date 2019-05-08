@@ -77,8 +77,8 @@ namespace Abilities.FirstEdition
             if (astromech != null)
             {
                 Sounds.PlayShipSound("R2D2-Killed");
-                Messages.ShowInfo("Integrated Astromech causes " + astromech.UpgradeInfo.Name + " to take a hit instead of " + HostShip.PilotInfo.PilotName + ".");
-                Messages.ShowInfo(astromech.UpgradeInfo.Name + " has been discarded.");
+                Messages.ShowInfo("Integrated Astromech causes " + astromech.UpgradeInfo.Name + " to take a hit instead of " + HostShip.PilotInfo.PilotName);
+                Messages.ShowInfo(astromech.UpgradeInfo.Name + " has been discarded");
                 Combat.CurrentCriticalHitCard = null;
                 astromech.Discard(DiscardModification);
             }

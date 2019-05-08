@@ -165,14 +165,14 @@ namespace SubPhases
             {
                 if (ship.IsAttackPerformed)
                 {
-                    Messages.ShowErrorToHuman("This ship cannot be selected:\nIt has already performed an attack.");
+                    Messages.ShowErrorToHuman("This ship cannot be selected:\nIt has already performed an attack");
                     return result;
                 }
                 result = true;
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship cannot be selected.  The ship must be owned by " + Tools.PlayerToInt(RequiredPlayer) + " and have an initiative of " + RequiredPilotSkill + ".");
+                Messages.ShowErrorToHuman("This ship cannot be selected, the ship must be owned by " + Tools.PlayerToInt(RequiredPlayer) + " and have an initiative of " + RequiredPilotSkill);
             }
 
             return result;
@@ -246,12 +246,12 @@ namespace SubPhases
                     }
                     else
                     {
-                        Messages.ShowErrorToHuman(targetShip.PilotInfo.PilotName + " cannot be selected as a target. It is a friendly ship.");
+                        Messages.ShowErrorToHuman(targetShip.PilotInfo.PilotName + " cannot be selected as a target, it is a friendly ship");
                     }
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman(targetShip.PilotInfo.PilotName + " cannot be selected as a target.\nFirst select the attacking ship.");
+                    Messages.ShowErrorToHuman(targetShip.PilotInfo.PilotName + " cannot be selected as a target, first select the attacking ship");
                 }
             }
             return result;
@@ -271,7 +271,7 @@ namespace SubPhases
                     }
                     else
                     {
-                        Messages.ShowErrorToHuman("This ship already has attacked.");
+                        Messages.ShowErrorToHuman("This ship already has attacked");
                     }
                 }
             }
@@ -380,7 +380,7 @@ namespace SubPhases
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman("This ship already has attacked.");
+                    Messages.ShowErrorToHuman("This ship already has attacked");
                 }
             }
             else if (mouseKeyIsPressed == 2)

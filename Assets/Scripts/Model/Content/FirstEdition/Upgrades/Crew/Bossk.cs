@@ -62,7 +62,7 @@ namespace Abilities.FirstEdition
 
         private void AssignStressToken()
         {
-            Messages.ShowInfoToHuman("Bossk: Focus and Stress tokens acquired.");
+            Messages.ShowInfoToHuman("Bossk: Focus and Stress tokens acquired");
             HostShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
     }

@@ -88,7 +88,7 @@ namespace SubPhases
 
         private void NoDamage()
         {
-            Messages.ShowInfo("No damage was dealt.");
+            Messages.ShowInfo("No damage was dealt");
             CallBack();
         }
     }

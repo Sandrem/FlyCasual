@@ -298,7 +298,7 @@ namespace Upgrade
             Roster.ShowUpgradeAsActive(HostShip, UpgradeInfo.Name);
             ActivateAbility();
 
-            Messages.ShowInfo(UpgradeInfo.Name + " is flipped face-up.");
+            Messages.ShowInfo(UpgradeInfo.Name + " is flipped face-up");
             HostShip.CallAfterFlipFaceUpUpgrade(this, callback);
         }
 

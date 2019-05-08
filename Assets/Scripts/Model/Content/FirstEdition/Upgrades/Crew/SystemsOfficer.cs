@@ -69,7 +69,7 @@ namespace Abilities.FirstEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostUpgrade.UpgradeInfo.Name,
-                "Choose another ship.\nIt may acquire a Target Lock.",
+                "Choose another ship,\nit may acquire a Target Lock",
                 HostUpgrade
             );
         }

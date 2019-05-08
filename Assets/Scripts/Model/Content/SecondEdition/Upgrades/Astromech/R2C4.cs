@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowError("Error: The attacker has no Evade to spend.");
+                Messages.ShowError("Error: The attacker has no Evade to spend");
                 callback(false);
             }
         }

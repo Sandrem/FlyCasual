@@ -80,7 +80,7 @@ namespace Abilities.SecondEdition
                 .ToArray();
             if (friendlies.Length == 0)
             {
-                Messages.ShowInfo(string.Format("No friendly ships are at Target Lock range of any of {0}'s targets.", HostShip.PilotInfo.PilotName));
+                Messages.ShowInfo(string.Format("No friendly ships are at Target Lock range of any of {0}'s targets", HostShip.PilotInfo.PilotName));
 
             }
             else
@@ -132,7 +132,7 @@ namespace Abilities.SecondEdition
                 t => GetAiTargetPriority(ship, t),
                 HostShip.Owner.PlayerNo,
                 HostUpgrade.UpgradeInfo.Name,
-                shipName + ": You may lock any of " + tarkinsShip.PilotInfo.PilotName + "'s target(s).",
+                shipName + ": You may lock any of " + tarkinsShip.PilotInfo.PilotName + "'s target(s)",
                 HostUpgrade
             );
         }

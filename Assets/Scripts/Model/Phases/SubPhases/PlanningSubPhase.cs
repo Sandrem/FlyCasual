@@ -86,7 +86,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " cannot be selected.  It is owned by the wrong player.");
+                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " cannot be selected: it is owned by the wrong player");
             }
             return result;
         }
@@ -118,7 +118,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowError("This ship is ionized. A maneuver cannot be assigned to it.");
+                Messages.ShowError("This ship is ionized. A maneuver cannot be assigned to it");
             }
             
         }

@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
                 HostUpgrade.UpgradeInfo.Name,
-                "Choose another friendly ship near the defender. That ship will suffer 1 damage and you will change 1 die result to Hit.",
+                "Choose another friendly ship near the defender: that ship will suffer 1 damage and you will change 1 die result to Hit",
                 HostUpgrade,
                 showSkipButton: false
             );

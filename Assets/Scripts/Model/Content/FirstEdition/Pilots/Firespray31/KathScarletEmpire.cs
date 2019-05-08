@@ -46,7 +46,7 @@ namespace Abilities.FirstEdition
 
         private void KathScarletPilotAbility(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("The defender cancelled a Critical Hit.  Kath Scarlet gives the defender a stress token.");
+            Messages.ShowInfo("The defender cancelled a Critical Hit, Kath Scarlet gives the defender a stress token");
             Combat.Defender.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
         }
     }

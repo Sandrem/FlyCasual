@@ -54,7 +54,7 @@ namespace Abilities.SecondEdition
             if (TargetsForAbilityExist(FilterAbilityTarget))
             {
                 Selection.ChangeActiveShip(HostShip);
-                Messages.ShowInfoToHuman("Foreman Proach: Select a ship to gain 1 tractor token.");
+                Messages.ShowInfoToHuman("Foreman Proach: Select a ship to gain 1 tractor token");
 
                 SelectTargetForAbility(
                     SelectAbilityTarget,
@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
                     HostShip.PilotInfo.PilotName,
-                    "Select a ship to gain 1 tractor token and gain 1 disarm token.",
+                    "Select a ship to gain 1 tractor token and gain 1 disarm token",
                     HostShip
                 );
             }

@@ -374,7 +374,7 @@ namespace Players
                 GameManagerScript.Wait(1, delegate
                 {
                     (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();
-                    Messages.ShowInfo("The AI has placed an obstacle.");
+                    Messages.ShowInfo("The AI has placed an obstacle");
                 });
             }
         }

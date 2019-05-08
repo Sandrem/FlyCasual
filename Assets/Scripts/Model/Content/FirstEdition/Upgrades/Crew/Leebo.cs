@@ -106,7 +106,7 @@ namespace ActionsList
             // a ship may be able to perform two boost actions per turn :/
             if (HostShip.IsAlreadyExecutedAction(this))
             {
-                Messages.ShowInfoToHuman(Name + ": free boost performed, ion token received.");
+                Messages.ShowInfoToHuman(Name + ": free boost performed, ion token received");
                 HostShip.Tokens.AssignToken(typeof(IonToken), Finish);
             }
             else

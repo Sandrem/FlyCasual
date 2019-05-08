@@ -106,7 +106,7 @@ namespace SubPhases
 
         private void InformConfirmDecision()
         {
-            Messages.ShowInfo("Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) + " has Initiative.");
+            Messages.ShowInfo(Roster.GetPlayer(Phases.PlayerWithInitiative).NickName + " has Initiative");
             Phases.FinishSubPhase(this.GetType());
             CallBack();
         }

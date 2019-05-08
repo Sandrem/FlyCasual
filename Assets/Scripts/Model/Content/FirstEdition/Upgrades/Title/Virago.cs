@@ -32,7 +32,7 @@ namespace UpgradesList.FirstEdition
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             bool result = HostShip.PilotInfo.Initiative > 3;
-            if (!result) Messages.ShowError("You cannot equip \"Virago\" if the pilot's skill is \"3\" or lower.");
+            if (!result) Messages.ShowError("You cannot equip \"Virago\" if the pilot's skill is \"3\" or lower");
             return result;
         }
     }

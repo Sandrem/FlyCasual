@@ -59,7 +59,7 @@ namespace Abilities.FirstEdition
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose a ship inside your primary and mobile firing arcs to assign 1 Tractor Beam token to it.",
+                "Choose a ship inside your primary and mobile firing arcs to assign 1 Tractor Beam token to it",
                 HostShip
             );
         }
@@ -94,11 +94,11 @@ namespace Abilities.FirstEdition
             {
                 if (!shotInfo.InArcByType(ArcType.SingleTurret) || !shotInfo.InPrimaryArc)
                 {
-                    Messages.ShowError("The target is not inside both your mobile arc and your primary arc.");
+                    Messages.ShowError("The target is not inside both your mobile arc and your primary arc");
                 }
                 else if (shotInfo.Range > 1)
                 {
-                    Messages.ShowError("The target is outside of range 1.");
+                    Messages.ShowError("The target is outside of range 1");
                 }
             }
         }

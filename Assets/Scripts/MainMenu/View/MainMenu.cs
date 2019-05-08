@@ -39,7 +39,7 @@ public partial class MainMenu : MonoBehaviour {
             {
                 if (CurrentPanel.name == "SquadBuilderPanel")
                 {
-                    Messages.ShowError("This part of squad builder is disabled.");
+                    Messages.ShowError("This part of squad builder is disabled");
                     return;
                 }
                 else

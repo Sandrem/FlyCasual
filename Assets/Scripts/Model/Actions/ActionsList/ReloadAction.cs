@@ -77,12 +77,12 @@ namespace ActionsList
             else if (rechargableUpgrades.Count == 1)
             {
                 rechargableUpgrades[0].State.RestoreCharge();
-                Messages.ShowInfo(Selection.ThisShip.PilotInfo.PilotName + " recharges 1 charge of " + rechargableUpgrades[0].UpgradeInfo.Name + " and gains a Disarmed token.");
+                Messages.ShowInfo(Selection.ThisShip.PilotInfo.PilotName + " recharges 1 charge of " + rechargableUpgrades[0].UpgradeInfo.Name + " and gains a Disarmed token");
                 AssignTokenAndFinish();
             }
             else
             {
-                Messages.ShowError("This ship has no upgrades that can have their charges restored.");
+                Messages.ShowError("This ship has no upgrades that can have their charges restored");
                 Phases.CurrentSubPhase.CallBack();
             }
         }
@@ -113,7 +113,7 @@ namespace ActionsList
         private static void RechargeUpgrade(GenericUpgrade upgrade)
         {
             upgrade.State.RestoreCharge();
-            Messages.ShowInfo("Reload: One charge of \"" + upgrade.UpgradeInfo.Name + "\" is restored.");
+            Messages.ShowInfo("Reload: One charge of \"" + upgrade.UpgradeInfo.Name + "\" is restored");
 
             DecisionSubPhase.ConfirmDecision();
         }

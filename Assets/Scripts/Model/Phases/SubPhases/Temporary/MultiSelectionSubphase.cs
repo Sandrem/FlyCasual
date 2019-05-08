@@ -52,7 +52,7 @@ namespace SubPhases
                 }
                 else
                 {
-                    Messages.ShowError("Only " + MaxToSelect + " ships can be selected.");
+                    Messages.ShowError("Only " + MaxToSelect + " ships can be selected");
                 }
             }
 
@@ -76,7 +76,7 @@ namespace SubPhases
         {
             if (!Filter(ship))
             {
-                Messages.ShowError("This ship cannot be selected.");
+                Messages.ShowError("This ship cannot be selected");
                 return false;
             }
 
@@ -86,7 +86,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowError("Only " + MaxToSelect + " ships can be selected.");
+                Messages.ShowError("Only " + MaxToSelect + " ships can be selected");
                 return false;
             }
         }

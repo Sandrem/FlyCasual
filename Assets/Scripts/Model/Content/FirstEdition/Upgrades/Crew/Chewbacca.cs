@@ -77,16 +77,16 @@ namespace Abilities.FirstEdition
         private void UseChewbaccaCrewAbility(object sender, System.EventArgs e)
         {
             Sounds.PlayShipSound("Chewbacca");
-            Messages.ShowInfo("Chewbacca (crew) has been used.");
+            Messages.ShowInfo("Chewbacca (crew) has been used");
 
             Combat.CurrentCriticalHitCard = null;
             if (Selection.ActiveShip.TryRegenShields())
             {
-                Messages.ShowInfo("1 shield has been restored.");
+                Messages.ShowInfo("1 shield has been restored");
             }
             else
             {
-                Messages.ShowInfo("No shields could be restored.");
+                Messages.ShowInfo("No shields could be restored");
             }
             HostUpgrade.TryDiscard(DecisionSubPhase.ConfirmDecision);
         }

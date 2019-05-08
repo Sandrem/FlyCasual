@@ -131,7 +131,7 @@ namespace SubPhases
 
                     if (priority > 10)
                     {
-                        Messages.ShowInfo("The AI decides to use Glitterstim.  It feels faster...stronger...better!");
+                        Messages.ShowInfo("The AI decides to use Glitterstim");
                         result = true;
                     }
                 }

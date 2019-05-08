@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
 
         private void ProposeFreeEvadeAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Stygium Array allows " + HostShip.PilotInfo.PilotName + " to perform an Evade action.");
+            Messages.ShowInfo("Stygium Array allows " + HostShip.PilotInfo.PilotName + " to perform an Evade action");
             HostShip.AskPerformFreeAction(new EvadeAction() { HostShip = HostShip }, Triggers.FinishTrigger);
         }
 

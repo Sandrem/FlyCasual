@@ -27,7 +27,7 @@ namespace RulesList
         {
             if (Selection.ThisShip.IsHitObstacles)
             {
-                Messages.ShowErrorToHuman(Selection.ThisShip.PilotInfo.PilotName + " hit an asteroid during movement. Their action subphase is skipped.");
+                Messages.ShowErrorToHuman(Selection.ThisShip.PilotInfo.PilotName + " hit an asteroid during movement, their action subphase is skipped");
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
             }
         }
@@ -54,7 +54,7 @@ namespace RulesList
         private System.EventHandler RollForDamage(GenericShip ship)
         {
             return delegate {
-                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement. Rolling for damage.");
+                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement, rolling for damage");
 
                 AsteroidHitCheckSubPhase newPhase = (AsteroidHitCheckSubPhase) Phases.StartTemporarySubPhaseNew(
                     "Damage from asteroid collision",

@@ -82,7 +82,7 @@ namespace SubPhases.FirstEdition
 
         private void SufferDamage()
         {
-            Messages.ShowInfo("Bomblet: The attacked ship suffered damage.");
+            Messages.ShowInfo("Bomblet: The attacked ship suffered damage");
 
             DamageSourceEventArgs bombletDamage = new DamageSourceEventArgs()
             {

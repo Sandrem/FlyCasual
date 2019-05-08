@@ -98,7 +98,7 @@ namespace Upgrade
             }
             else
             {
-                Messages.ShowInfo(string.Format("{0} ignored the detonation of {1}.", ship.PilotInfo.PilotName, BombsManager.CurrentBomb.UpgradeInfo.Name));
+                Messages.ShowInfo(string.Format("{0} ignored the detonation of {1}", ship.PilotInfo.PilotName, BombsManager.CurrentBomb.UpgradeInfo.Name));
                 callBack();
             }
         }

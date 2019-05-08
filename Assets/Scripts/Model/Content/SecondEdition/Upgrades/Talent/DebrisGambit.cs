@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.IsLandedOnObstacle)
             {
-                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": The Evade action is treated as a white action.");
+                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": The Evade action is treated as a white action");
                 return true;
             }
 
@@ -61,7 +61,7 @@ namespace Abilities.SecondEdition
                 ShipObstacleDistance shipObstacleDist = new ShipObstacleDistance(HostShip, obstacle);
                 if (shipObstacleDist.Range < 2)
                 {
-                    Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": The Evade action is treated as a white action.");
+                    Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": The Evade action is treated as a white action");
                     return true;
                 }
             }

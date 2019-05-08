@@ -70,7 +70,7 @@ namespace Abilities.FirstEdition
         protected void RollExtraDie(ref int diceCount)
         {
             HostShip.AfterGotNumberOfAttackDice -= RollExtraDie;
-            Messages.ShowInfo("The attack is obstructed.  Trick Shot causes " + HostShip.PilotInfo.PilotName + " to roll +1 attack die.");
+            Messages.ShowInfo("The attack is obstructed, Trick Shot causes " + HostShip.PilotInfo.PilotName + " to roll +1 attack die");
             diceCount++;
         }
     }

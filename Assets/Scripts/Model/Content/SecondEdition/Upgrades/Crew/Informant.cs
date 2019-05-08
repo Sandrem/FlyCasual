@@ -36,7 +36,7 @@ namespace Abilities.SecondEdition
         {
             get
             {
-                return "Choose 1 enemy ship and assign the Listening device condition to it.";
+                return "Choose 1 enemy ship and assign the Listening device condition to it";
             }
         }
 

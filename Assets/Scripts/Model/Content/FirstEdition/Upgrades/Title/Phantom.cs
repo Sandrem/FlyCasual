@@ -82,7 +82,7 @@ namespace Abilities.FirstEdition
                     Triggers.FinishTrigger,
                     IsTurretAttack,
                     HostUpgrade.UpgradeInfo.Name,
-                    "You may perform additional turret attack.",
+                    "You may perform additional turret attack",
                     HostUpgrade
                 );
             }
@@ -104,7 +104,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("This attack must be performed from a turret.");
+                if (!isSilent) Messages.ShowError("This attack must be performed from a turret");
             }
 
             return result;

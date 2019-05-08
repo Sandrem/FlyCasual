@@ -87,7 +87,7 @@ namespace Abilities.FirstEdition
                     GetAiPriorityForDealDamage,
                     HostShip.Owner.PlayerNo,
                     HostUpgrade.UpgradeInfo.Name,
-                    "Choose enemy ship at range 1 of detonated bomb token.\nThat ship suffers 1 damage.",
+                    "Choose enemy ship at range 1 of detonated bomb token,\nthat ship suffers 1 damage",
                     HostUpgrade
                 );
             }

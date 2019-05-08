@@ -71,7 +71,7 @@ namespace Abilities.FirstEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostUpgrade.UpgradeInfo.Name,
-                "Choose a ship. Assign 1 Focus token to that ship for each enemy ship inside your firing arc.",
+                "Choose a ship, assign 1 Focus token to that ship for each enemy ship inside your firing arc",
                 HostUpgrade
             );
         }
@@ -91,7 +91,7 @@ namespace Abilities.FirstEdition
             tokenCount = Math.Min(tokenCount, 3);
 
             // ... and assign that many focus tokens to the selected ship
-            Messages.ShowInfo(string.Format("{0} assigns {1} Focus {3} to {2}.", HostUpgrade.UpgradeInfo.Name, tokenCount, TargetShip.PilotInfo.PilotName, tokenCount == 1 ? "token" : "tokens"));
+            Messages.ShowInfo(string.Format("{0} assigns {1} Focus {3} to {2}", HostUpgrade.UpgradeInfo.Name, tokenCount, TargetShip.PilotInfo.PilotName, tokenCount == 1 ? "token" : "tokens"));
             if (tokenCount > 0)
             {
                 // Assign the tokens

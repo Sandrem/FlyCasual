@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
         {
             if (maneuverCode != HostShip.AssignedManeuver.ToString())
             {
-                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": The difficulty of the maneuver has been increased.");
+                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": The difficulty of the maneuver has been increased");
 
                 HostShip.AfterGetManeuverColorIncreaseComplexity += ChangeComplexity;
                 HostShip.OnMovementFinish += ClearAbility;

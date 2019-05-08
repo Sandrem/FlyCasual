@@ -164,7 +164,7 @@ namespace Abilities.FirstEdition
         private void DontUseEmperorPalpatine()
         {
             PalpatineDieChoice = DieSide.Unknown;
-            Messages.ShowInfo("Emperor Palpatine was not used.");
+            Messages.ShowInfo("Emperor Palpatine was not used");
         }
 
         private string GetDefaultDecision()
@@ -260,10 +260,10 @@ namespace Abilities.FirstEdition
                 DieSide dieToChange = diceroll.FindDieToChange(PalpatineDieChoice);
                 if (dieToChange == DieSide.Unknown)
                 {
-                    Messages.ShowErrorToHuman("Error selecting die to change for Emperor Palpatine.");
+                    Messages.ShowErrorToHuman("Error selecting die to change for Emperor Palpatine");
                     return;
                 }
-                Messages.ShowInfo(string.Format("Emperor Palpatine changes one '{0}' to {1}.", dieToChange, PalpatineDieChoice));
+                Messages.ShowInfo(string.Format("Emperor Palpatine changes one '{0}' to {1}", dieToChange, PalpatineDieChoice));
                 diceroll.ChangeOne(dieToChange, PalpatineDieChoice, true, true);
                 PalpatineDieChoice = DieSide.Unknown;
                 return;

@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
 
         protected virtual string GenerateAbilityString()
         {
-            return "Choose another ship to assign 1 of your Focus tokens to it.";
+            return "Choose another ship to assign 1 of your Focus tokens to it";
         }
 
         private void Ability(object sender, EventArgs e)

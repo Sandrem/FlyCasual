@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
                 if (HostShip.TryRegenShields())
                 {
                     Sounds.PlayShipSound("R2D2-Proud");
-                    Messages.ShowInfo(HostName + " causes " + HostShip.PilotInfo.PilotName + " to recover 1 shield and gain 1 disarm token.");
+                    Messages.ShowInfo(HostName + " causes " + HostShip.PilotInfo.PilotName + " to recover 1 shield and gain 1 disarm token");
                 }
                 Triggers.FinishTrigger();
             });

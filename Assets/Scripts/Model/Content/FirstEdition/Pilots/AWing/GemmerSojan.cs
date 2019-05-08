@@ -64,7 +64,7 @@ namespace Abilities.FirstEdition
         {
             if (!AbilityIsActive)
             {
-                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is within range 1 of at least one enemy ship and gains +1 Agility.");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is within range 1 of at least one enemy ship and gains +1 Agility");
                 HostShip.ChangeAgilityBy(+1);
                 HostShip.Tokens.AssignCondition(typeof(Conditions.GemmerSojanCondition));
                 AbilityIsActive = true;

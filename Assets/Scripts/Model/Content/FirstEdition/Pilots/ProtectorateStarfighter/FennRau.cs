@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
         {
             if (Combat.ShotInfo.Range == 1)
             {
-                Messages.ShowInfo("The attack is at range 1.  Fenn Rau gain +1 die.");
+                Messages.ShowInfo("The attack is at range 1 -Fenn Rau gain +1 die");
                 value++;
             }
         }

@@ -79,7 +79,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void SelectTarget(GenericShip targetShip)
         {
-            Messages.ShowInfo("Agent Kallus Hunts " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ").");
+            Messages.ShowInfo("Agent Kallus is hunting " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ")");
 
             AgentKallusSelectedTarget = targetShip;
 
@@ -171,7 +171,7 @@ namespace ActionsList
             }
             else
             {
-                Messages.ShowError("This die roll had no Focus results to change.");
+                Messages.ShowError("This die roll had no Focus results to change");
             }
             callBack();
         }

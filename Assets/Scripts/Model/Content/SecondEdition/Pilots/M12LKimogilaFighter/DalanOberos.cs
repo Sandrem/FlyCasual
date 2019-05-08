@@ -73,14 +73,14 @@ namespace Abilities.SecondEdition
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose a shielded ship in your Bullseye arc and spend a charge - that ship loses 1 shield and you recover 1 shield.",
+                "Choose a shielded ship in your Bullseye arc and spend a charge - that ship loses 1 shield and you recover 1 shield",
                 HostShip
             );
         }
 
         private void TargetIsSelected()
         {
-            Messages.ShowInfo("Dalan Oberos: " + TargetShip.PilotInfo.PilotName + " is selected.");
+            Messages.ShowInfo("Dalan Oberos: " + TargetShip.PilotInfo.PilotName + " is selected");
 
             HostShip.SpendCharge();
             TargetShip.LoseShield();

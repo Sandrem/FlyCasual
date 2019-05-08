@@ -65,7 +65,7 @@ namespace Abilities.SecondEdition
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
                     HostShip.PilotInfo.PilotName,
-                    "Choose a ship to transfer 1 green token to it or transfer one orange token from it to you.",
+                    "Choose a ship to transfer 1 green token to it or transfer one orange token from it to you",
                     HostShip
                 );
             }

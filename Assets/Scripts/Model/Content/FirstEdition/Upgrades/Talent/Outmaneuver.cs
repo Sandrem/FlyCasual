@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
         {
             if (Combat.Defender.State.Agility != 0)
             {
-                Messages.ShowInfo(Combat.Attacker.PilotInfo.PilotName + " Outmaneuvered " + Combat.Defender.PilotInfo.PilotName + ", decreasing their agility by 1.");
+                Messages.ShowInfo(Combat.Attacker.PilotInfo.PilotName + " Outmaneuvered " + Combat.Defender.PilotInfo.PilotName + ", decreasing their agility by 1");
                 Conditions.OutmaneuverCondition condition = new Conditions.OutmaneuverCondition(HostShip, HostUpgrade);
                 //condition.Upgrade = HostUpgrade;
                 Combat.Defender.Tokens.AssignCondition(condition);
@@ -52,7 +52,7 @@ namespace Abilities.FirstEdition
 
         public void RemoveOutmaneuverAbility(GenericShip ship)
         {
-            Messages.ShowInfo("Outmaneuver: " + Combat.Defender.PilotInfo.PilotName + "'s agility is restored.");
+            Messages.ShowInfo("Outmaneuver: " + Combat.Defender.PilotInfo.PilotName + "'s agility is restored");
             Combat.Defender.Tokens.RemoveCondition(typeof(Conditions.OutmaneuverCondition));
             ship.ChangeAgilityBy(+1);
             ship.OnAttackFinish -= RemoveOutmaneuverAbility;

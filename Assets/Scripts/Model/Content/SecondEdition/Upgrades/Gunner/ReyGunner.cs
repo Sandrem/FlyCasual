@@ -69,7 +69,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowError("ERROR: This ship has no Force to spend.");
+                Messages.ShowError("ERROR: This ship has no Force to spend");
                 callback(false);
             }
         }

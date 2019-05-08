@@ -95,7 +95,7 @@ namespace SubPhases
 
         private void SufferDamage()
         {
-            Messages.ShowInfo("Console Fire: This ship suffered 1 damage.");
+            Messages.ShowInfo("Console Fire: This ship suffered 1 damage");
 
             DamageSourceEventArgs consolefireDamage = new DamageSourceEventArgs()
             {
@@ -108,7 +108,7 @@ namespace SubPhases
 
         private void NoDamage()
         {
-            Messages.ShowInfoToHuman("Console Fire: No damage was suffered.");
+            Messages.ShowInfoToHuman("Console Fire: No damage was suffered");
             CallBack();
         }
     }

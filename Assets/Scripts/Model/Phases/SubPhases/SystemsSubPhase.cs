@@ -145,7 +145,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship doesn't have any abilities to activate.");
+                Messages.ShowErrorToHuman("This ship doesn't have any abilities to activate");
             };
         }
 

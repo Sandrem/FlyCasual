@@ -38,7 +38,7 @@ namespace DamageDeckCardSE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Hull Breach has been repaired.  Hits are no longer upgraded to Critical Hits against " + Host.PilotInfo.PilotName + ".");
+            Messages.ShowInfo("Hull Breach has been repaired, Hits are no longer upgraded to Critical Hits against " + Host.PilotInfo.PilotName);
             Host.Tokens.RemoveCondition(typeof(Tokens.HullBreachCritToken));
 
             Host.OnSufferDamageDecidingSeverity -= ChangeNormalDamageToCriticalDamage;

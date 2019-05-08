@@ -63,7 +63,7 @@ namespace Abilities.FirstEdition
 
         private void UseOmegaLeaderRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            Messages.ShowErrorToHuman("Omega Leader's Ability: The target is unable to modify dice.");
+            Messages.ShowErrorToHuman("\"Omega Leader\": The target is unable to modify dice");
             canBeUsed = false;
         }
 

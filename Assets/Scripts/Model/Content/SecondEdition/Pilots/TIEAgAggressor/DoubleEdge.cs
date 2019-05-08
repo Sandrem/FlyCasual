@@ -92,7 +92,7 @@ namespace Abilities.SecondEdition
                     FinishAdditionalAttack,
                     IsAnotherWeapon,
                     "\"Double Edge\"",
-                    "You may perform a bonus attack using different weapon.",
+                    "You may perform a bonus attack using different weapon",
                     HostShip
                 );
             }
@@ -121,7 +121,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("This attack must be performed using a different weapon.");
+                if (!isSilent) Messages.ShowError("This attack must be performed using a different weapon");
             }
 
             return result;

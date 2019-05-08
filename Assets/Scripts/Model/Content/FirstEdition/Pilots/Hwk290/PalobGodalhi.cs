@@ -62,7 +62,7 @@ namespace Abilities.FirstEdition
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
                     HostShip.PilotInfo.PilotName,
-                    "Choose a ship to remove 1 focus or evade token from it and assign this token to yourself.",
+                    "Choose a ship to remove 1 focus or evade token from it and assign this token to yourself",
                     HostShip
                 );
             }

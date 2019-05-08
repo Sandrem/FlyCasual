@@ -49,7 +49,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void SendExtraDiceMessage()
         {
-            Messages.ShowInfo("The defender has a damage card. \"Scourge\" rolls an additional attack die.");
+            Messages.ShowInfo("The defender has a damage card, \"Scourge\" rolls an additional attack die");
         }
 
         protected void RollExtraDice(ref int count)

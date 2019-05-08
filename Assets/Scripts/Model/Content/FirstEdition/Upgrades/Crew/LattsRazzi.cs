@@ -62,7 +62,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Messages.ShowInfo("Latts Razzi removes a stress token from the attacker to gain 1 Evade result.");
+            Messages.ShowInfo("Latts Razzi removes a stress token from the attacker to gain 1 Evade result");
 
             Combat.CurrentDiceRoll.ApplyEvade();
 

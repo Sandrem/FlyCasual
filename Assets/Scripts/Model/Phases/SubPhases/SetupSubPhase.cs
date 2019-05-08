@@ -140,12 +140,12 @@ namespace SubPhases
                 }
                 else
                 {
-                    Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " cannot be selected. Its starting position is already set.");
+                    Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " cannot be selected: its starting position is already set");
                 }
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship cannot be selected. The ship must be owned by " + Phases.CurrentSubPhase.RequiredPlayer + " and have a pilot skill of " + Phases.CurrentSubPhase.RequiredPilotSkill + ".");
+                Messages.ShowErrorToHuman("This ship cannot be selected: the ship must be owned by " + Phases.CurrentSubPhase.RequiredPlayer + " and have a pilot skill of " + Phases.CurrentSubPhase.RequiredPilotSkill);
             }
             return result;
         }
@@ -436,7 +436,7 @@ namespace SubPhases
             {
                 if (Selection.ThisShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedShips.Count > 0)
                 {
-                    Messages.ShowErrorToHuman("This ship shouldn't overlap other ships.");
+                    Messages.ShowErrorToHuman("This ship shouldn't overlap other ships");
                     result = false;
                 }
 
@@ -445,17 +445,17 @@ namespace SubPhases
                     if (CameraScript.InputTouchIsEnabled)
                     {
                         // Touch-tailored error message
-                        Messages.ShowErrorToHuman("Drag the ship into the highlighted area.");
+                        Messages.ShowErrorToHuman("Drag the ship into the highlighted area");
                     }
                     else
                     {
-                        Messages.ShowErrorToHuman("Place the ship in the highlighted area.");
+                        Messages.ShowErrorToHuman("Place the ship in the highlighted area");
                     }
                     result = false;
                 }
                 else if (SetupFilter != null && (!SetupFilter() && !ship.ShipBase.IsInside(StartingZone)))
                 {
-                    Messages.ShowErrorToHuman("This ship's position is not valid.");
+                    Messages.ShowErrorToHuman("This ship's position is not valid");
                     result = false;
                 }
             }

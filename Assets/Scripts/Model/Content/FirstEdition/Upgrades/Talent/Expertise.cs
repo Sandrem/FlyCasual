@@ -89,7 +89,7 @@ namespace ActionsList
             }
             else
             {
-                Messages.ShowErrorToHuman(HostShip.PilotInfo.PilotName + " cannot use Expertise while stressed.");
+                Messages.ShowErrorToHuman(HostShip.PilotInfo.PilotName + " cannot use Expertise while stressed");
             }
             callBack();
         }

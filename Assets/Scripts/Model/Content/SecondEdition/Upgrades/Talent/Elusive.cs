@@ -83,7 +83,7 @@ namespace Abilities.SecondEdition
             if (HostUpgrade.State.Charges < HostUpgrade.State.MaxCharges)
             {
                 HostUpgrade.State.RestoreCharge();
-                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " performed a red maneuver, causing Elusive to regain its charge.");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " performed a red maneuver, causing Elusive to regain its charge");
             }
         }
     }

@@ -29,7 +29,7 @@ namespace DamageDeckCardSE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("The Loose Stabilizer has been locked down.  " + Host.PilotInfo.PilotName + " no longer takes damage after performing non-straight maneuvers.");
+            Messages.ShowInfo("The Loose Stabilizer has been locked down:  " + Host.PilotInfo.PilotName + " no longer takes damage after performing non-straight maneuvers");
            
             Host.Tokens.RemoveCondition(typeof(Tokens.LooseStabilizerSECritToken));
             Host.OnMovementFinish -= PlanDamageAfterNonStraightManeuvers;

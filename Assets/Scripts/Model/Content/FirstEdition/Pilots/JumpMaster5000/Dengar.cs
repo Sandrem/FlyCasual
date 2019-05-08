@@ -103,7 +103,7 @@ namespace Abilities.FirstEdition
                     FinishExtraAttack,
                     CounterAttackFilter,
                     HostShip.PilotInfo.PilotName,
-                    "You may perform an additional attack against " + shipToPunish.PilotInfo.PilotName + ".",
+                    "You may perform an additional attack against " + shipToPunish.PilotInfo.PilotName,
                     HostShip
                 );
             }

@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
         {
             if (diceroll.Type == DiceKind.Defence && diceroll.CheckType == DiceRollCheckType.Combat && Combat.Attacker.Tokens.HasToken<JamToken>())
             {
-                Messages.ShowInfo("Captain Feroph is being attacked by a Jammed attacker and gains +1 Evade result.");
+                Messages.ShowInfo("Captain Feroph is being attacked by a Jammed attacker and gains +1 Evade result");
                 diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
                 diceroll.OrganizeDicePositions();
             }

@@ -30,7 +30,7 @@ namespace DamageDeckCardFE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Damaged Sensor Array has been repaired.  " + Host.PilotInfo.PilotName + " can perform actions as usual.");
+            Messages.ShowInfo("Damaged Sensor Array has been repaired,  " + Host.PilotInfo.PilotName + " can perform actions as usual");
             Host.Tokens.RemoveCondition(typeof(Tokens.DamagedSensorArrayCritToken));
 
             Host.OnTryAddAction -= OnlyCancelCritActions;

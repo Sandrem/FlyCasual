@@ -77,8 +77,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 AlwaysUseByDefault,
                 UseAbility,
-                infoText: HostShip.PilotInfo.PilotName + ": Spend a Calculate Token to guess a number 1 or higher. "
-                    + "If you do and you roll exactly that many evade results, add 1 evade result. " 
+                infoText: HostUpgrade.UpgradeInfo.Name + ": Do you want to spend a Calculate Token to guess a number of evade results?" 
             );
         }
 
@@ -130,7 +129,7 @@ namespace Abilities.SecondEdition
 
         private void AddEvadeDie(DiceRoll diceroll)
         {
-            Messages.ShowInfo("C-3PO: added evade for correct guess.");
+            Messages.ShowInfo("C-3PO: added evade for correct guess");
             diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
             diceroll.OrganizeDicePositions();
         }

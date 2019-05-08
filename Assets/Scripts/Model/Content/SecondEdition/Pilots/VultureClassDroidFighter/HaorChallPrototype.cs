@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
 
         private void AskPerformAction(object sender, EventArgs e)
         {
-            Messages.ShowInfo(HostName + " can perform a free action.");
+            Messages.ShowInfo(HostName + " can perform a free action");
 
             GenericShip previousActiveShip = Selection.ThisShip;
             Selection.ChangeActiveShip(HostShip);

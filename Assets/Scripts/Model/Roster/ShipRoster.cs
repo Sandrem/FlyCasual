@@ -273,7 +273,7 @@ public static partial class Roster
             where n.Value.IsManeuverPerformed == false
             select n;
 
-        if (results.Count() > 0) Messages.ShowErrorToHuman("Not all ships have executed their maneuvers.");
+        if (results.Count() > 0) Messages.ShowErrorToHuman("Not all ships have executed their maneuvers");
         return (results.Count() == 0);
     }
 

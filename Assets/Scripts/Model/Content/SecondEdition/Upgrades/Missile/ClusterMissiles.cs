@@ -92,14 +92,14 @@ namespace Abilities.SecondEdition
         {
             (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresToken = null;
 
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform a second Cluster Missiles attack.");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform a second Cluster Missiles attack");
 
             Combat.StartSelectAttackTarget(
                 HostShip,
                 FinishAdditionalAttack,
                 IsClusterMissilesShotToNeighbour,
                 HostUpgrade.UpgradeInfo.Name,
-                "You may perform a second Cluster Missiles attack.",
+                "You may perform a second Cluster Missiles attack",
                 HostUpgrade
             );
         }

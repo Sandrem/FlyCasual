@@ -23,7 +23,7 @@ namespace DamageDeckCardSE
 
         private void SufferAdditionalDamage()
         {
-            Messages.ShowInfo("A Direct Hit causes " + Host.PilotInfo.PilotName + " to suffer 1 additional damage.");
+            Messages.ShowInfo("A Direct Hit causes " + Host.PilotInfo.PilotName + " to suffer 1 additional damage");
 
             DamageSourceEventArgs directhitDamage = new DamageSourceEventArgs()
             {

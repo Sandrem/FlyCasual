@@ -65,11 +65,11 @@ namespace Abilities.SecondEdition
             {
                 if(Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon)
                 {
-                    if (!isSilent) Messages.ShowError("This attack must be performed with the primary weapon.");
+                    if (!isSilent) Messages.ShowError("This attack must be performed with the primary weapon");
                 }
                 else
                 {
-                    if (!isSilent) Messages.ShowError("This attack must be performed against a target in the ship's Bullseye arc.");
+                    if (!isSilent) Messages.ShowError("This attack must be performed against a target in the ship's Bullseye arc");
                 }
             }
             return result;

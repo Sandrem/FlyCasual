@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose a ship inside your mobile firing arc to assign Stress token to it.",
+                "Choose a ship inside your mobile firing arc to assign Stress token to it",
                 HostShip
             );
         }

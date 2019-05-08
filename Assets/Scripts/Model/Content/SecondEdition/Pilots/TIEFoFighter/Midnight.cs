@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
 
         private void UseOmegaLeaderRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            Messages.ShowErrorToHuman("Midnight's Ability: The target is unable to modify dice.");
+            Messages.ShowErrorToHuman("\"Midnight\": The target is unable to modify dice");
             canBeUsed = false;
         }
 

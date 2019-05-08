@@ -40,7 +40,7 @@ namespace DamageDeckCardSE
 
             Host.OnTryAddAvailableDiceModification -= RestrictActionEffectsToForceOnly;
             Host.OnGenerateActions -= CallAddCancelCritAction;
-            Messages.ShowInfo(Host.PilotInfo.PilotName + " is no longer Blinded and may fully modify their attacks.");
+            Messages.ShowInfo(Host.PilotInfo.PilotName + " is no longer Blinded and may fully modify their attacks");
             Host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotSECritToken));            
         }         
     }

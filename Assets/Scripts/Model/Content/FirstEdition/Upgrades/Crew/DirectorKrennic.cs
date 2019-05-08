@@ -35,7 +35,7 @@ namespace Abilities.FirstEdition
         {
             get
             {
-                return "Choose Galactic Empire ship with 3 or fewer Shields.\nIt gets Optimized Prototype condition.";
+                return "Choose Galactic Empire ship with 3 or fewer Shields:\nIt gets Optimized Prototype condition";
             }
         }
 

@@ -84,7 +84,7 @@ namespace Abilities.SecondEdition
         {
             if (IsAvailable())
             {
-                Messages.ShowInfo(Combat.Attacker.PilotInfo.PilotName + "'s target lock and Advanced Targeting Computer grants them +1 attack die.");
+                Messages.ShowInfo(Combat.Attacker.PilotInfo.PilotName + "'s target lock and Advanced Targeting Computer grants them +1 attack die");
                 value++;
             }
         }
@@ -94,7 +94,7 @@ namespace Abilities.SecondEdition
             HostShip.OnImmediatelyAfterRolling -= ModifyDice;
             if (diceroll.Change(DieSide.Success, DieSide.Crit, 1) > 0)
             {
-                Messages.ShowInfo("Advanced Targeting Computer converts one Hit to a Critical Hit.");
+                Messages.ShowInfo("Advanced Targeting Computer converts one Hit to a Critical Hit");
             }
         }
     }

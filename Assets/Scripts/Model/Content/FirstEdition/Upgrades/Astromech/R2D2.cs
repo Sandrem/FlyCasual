@@ -54,7 +54,7 @@ namespace Abilities.FirstEdition
             if (HostShip.TryRegenShields())
             {
                 Sounds.PlayShipSound("R2D2-Proud");
-                Messages.ShowInfo("R2-D2 restores 1 shield on " + HostShip.PilotInfo.PilotName + ".");
+                Messages.ShowInfo("R2-D2 restores 1 shield on " + HostShip.PilotInfo.PilotName);
             }
             Triggers.FinishTrigger();
         }

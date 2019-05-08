@@ -47,7 +47,7 @@ namespace Abilities.FirstEdition
         {
             if (!BoardTools.Board.IsShipInArcByType(HostShip, Combat.Defender, ArcType.Front))
             {
-                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " gains +1 attack die.");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " gains +1 attack die");
                 diceCount++;
             }
         }

@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
             if (TargetsForAbilityExist(FilterTargetShip))
             {
                 Selection.ChangeActiveShip(HostShip);
-                SelectTargetForAbility(TargetIsSelected, FilterTargetShip, GetAiPriority, HostShip.Owner.PlayerNo, "Keysu Onyo's Ability", "You may choose 1 enemy ship. That ship does not remove its tractor tokens", HostShip);
+                SelectTargetForAbility(TargetIsSelected, FilterTargetShip, GetAiPriority, HostShip.Owner.PlayerNo, "Keysu Onyo's Ability", "You may choose 1 enemy ship, that ship does not remove its tractor tokens", HostShip);
             }
             else
             {

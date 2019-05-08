@@ -142,7 +142,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship cannot be selected. The ship must be owned by " + RequiredPlayer + " and have a pilot skill of " + RequiredPilotSkill + ".");
+                Messages.ShowErrorToHuman("This ship cannot be selected, the ship must be owned by " + RequiredPlayer + " and have a pilot skill of " + RequiredPilotSkill);
             }
             return result;
         }
@@ -158,7 +158,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship has already executed their maneuver.");
+                Messages.ShowErrorToHuman("This ship has already executed their maneuver");
             };
             return result;
         }
@@ -178,7 +178,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship has already executed their maneuver.");
+                Messages.ShowErrorToHuman("This ship has already executed their maneuver");
             };
         }
 

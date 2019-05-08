@@ -93,7 +93,7 @@ namespace Abilities.FirstEdition
             {
                 GenericShip shipToAssignIon = shipsToAssignIon[0];
                 shipsToAssignIon.Remove(shipToAssignIon);
-                Messages.ShowErrorToHuman(shipToAssignIon.PilotInfo.PilotName + " gains an Ion Token.");
+                Messages.ShowErrorToHuman(shipToAssignIon.PilotInfo.PilotName + " gains an Ion Token");
                 shipToAssignIon.Tokens.AssignToken(typeof(IonToken), AssignIonTokensRecursive);
             }
             else

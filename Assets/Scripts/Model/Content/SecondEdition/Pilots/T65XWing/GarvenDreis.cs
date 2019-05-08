@@ -60,7 +60,7 @@ namespace Abilities.FirstEdition
                     GetAiAbilityPriority,
                     HostShip.Owner.PlayerNo,
                     HostShip.PilotInfo.PilotName,
-                    "Choose another ship to assign Focus token to it.",
+                    "Choose another ship to assign Focus token to it",
                     HostShip
                 );
             }

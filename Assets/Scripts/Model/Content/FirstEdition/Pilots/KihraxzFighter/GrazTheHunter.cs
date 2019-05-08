@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
         private void RollExtraDice(ref int count)
         {
             count++;
-            Messages.ShowInfo("The attacker is within Graz's firing arc. Graz rolls 1 additional defense die.");
+            Messages.ShowInfo("The attacker is within Graz's firing arc, Graz rolls 1 additional defense die");
             HostShip.AfterGotNumberOfDefenceDice -= RollExtraDice;
         }
     }

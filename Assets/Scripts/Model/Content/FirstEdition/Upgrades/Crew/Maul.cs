@@ -52,7 +52,7 @@ namespace UpgradesList.FirstEdition
 
                 if (result != true)
                 {
-                    Messages.ShowError("Maul cannot be in a Rebel squad that does not contain Ezra Bridger.");
+                    Messages.ShowError("Maul cannot be in a Rebel squad that does not contain Ezra Bridger");
                 }
 
             }
@@ -97,7 +97,7 @@ namespace Abilities.FirstEdition
         {
             if (HostShip.Tokens.HasToken(typeof(StressToken)))
             {
-                Messages.ShowInfo("Maul removes a stress token from " + HostShip.PilotInfo.PilotName + ".");
+                Messages.ShowInfo("Maul removes a stress token from " + HostShip.PilotInfo.PilotName);
                 HostShip.Tokens.RemoveToken(
                     typeof(StressToken),
                     Triggers.FinishTrigger
@@ -181,7 +181,7 @@ namespace ActionsList
 
         private void StartAssignStess(int diceRerolledCount)
         {
-            Messages.ShowInfo(string.Format("Maul's Ability: You gain {0} stress tokens.", diceRerolledCount));
+            Messages.ShowInfo(string.Format("Maul's Ability: You gain {0} stress tokens", diceRerolledCount));
             AssignStressRecursive(diceRerolledCount);
         }
 

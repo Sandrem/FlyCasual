@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
         {
             if (!HostShip.Tokens.HasToken(typeof(StressToken)) && attackIsPrimaryWeapon && !HostShip.IsCannotAttackSecondTime)
             {
-                Messages.ShowInfoToHuman("Bossk says: GRRRRAAARR, you will receive a stress token and perform another primary attack.");
+                Messages.ShowInfoToHuman("Bossk: You will receive a stress token and perform another primary attack");
                 HostShip.OnCombatCheckExtraAttack += RegisterBosskAbility;
             }
         }
@@ -74,7 +74,7 @@ namespace Abilities.SecondEdition
                 Cleanup,
                 IsPrimaryWeaponShot,
                 "Bossk",
-                "You must perform an additional primary attack.",
+                "You must perform an additional primary attack",
                 HostShip,
                 false
             );
@@ -95,12 +95,12 @@ namespace Abilities.SecondEdition
             }
             else if(weapon.WeaponType != WeaponTypes.PrimaryWeapon)
             {
-                Messages.ShowError("Bossk's bonus attack must be performed using Bossk's primary weapon.");
+                Messages.ShowError("Bossk's bonus attack must be performed using Bossk's primary weapon");
                 return false;
             }
             else
             {
-                Messages.ShowError("Bossk's bonus attack must target " + ship.PilotInfo.PilotName + ".");
+                Messages.ShowError("Bossk's bonus attack must target " + ship.PilotInfo.PilotName);
                 return false;
             }
         }

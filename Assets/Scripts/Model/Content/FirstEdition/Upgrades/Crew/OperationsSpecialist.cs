@@ -53,7 +53,7 @@ namespace Abilities.FirstEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostUpgrade.UpgradeInfo.Name,
-                "You may assign focus token to a ship at Range 1-3 of the attacker.",
+                "You may assign focus token to a ship at Range 1-3 of the attacker",
                 HostUpgrade
             );
         }

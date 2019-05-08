@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
             {
                 HostShip.SpendCharge();
 
-                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has prevented his own destruction.");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has prevented his own destruction");
 
                 HostShip.OnCheckPreventDestruction -= ActivateAbility;
                 preventDestruction = true;
@@ -88,7 +88,7 @@ namespace Abilities.SecondEdition
             var subphase = Phases.StartTemporarySubPhaseNew<SetupShipMidgameSubPhase>(
                 "Setup",
                 delegate {
-                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has returned to the play area.");
+                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has returned to the play area");
                     Triggers.FinishTrigger();
                 }
             );

@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ShotInfo.IsObstructedByBombToken)
             {
-                Messages.ShowInfo("The attack is obstructed by a bomb token.  Captain Nym gains +1 defense die.");
+                Messages.ShowInfo("The attack is obstructed by a bomb token.  Captain Nym gains +1 defense die");
                 count++;
             }
         }

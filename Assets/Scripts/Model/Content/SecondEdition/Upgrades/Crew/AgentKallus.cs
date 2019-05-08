@@ -31,7 +31,7 @@ namespace Abilities.SecondEdition
     {        
         protected override void SelectTarget(GenericShip targetShip)
         {
-            Messages.ShowInfo("Agent Kallus is hunting " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ").");
+            Messages.ShowInfo("Agent Kallus is hunting " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ")");
 
             // The difference with First Edition is that we keep track of the target with a condition token
             targetShip.Tokens.AssignCondition(typeof(Conditions.HuntedCondition));

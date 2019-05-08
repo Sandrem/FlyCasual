@@ -159,7 +159,7 @@ namespace SubPhases
 
                 MovementTemplates.ReturnRangeRuler();
 
-                Messages.ShowInfo("Spacetug Tractor Array: " + SpacetugOwner.PilotInfo.PilotName + " has assigned a Tractor Beam token to " + TargetShip.PilotInfo.PilotName + ".");
+                Messages.ShowInfo("Spacetug Tractor Array: " + SpacetugOwner.PilotInfo.PilotName + " has assigned a Tractor Beam token to " + TargetShip.PilotInfo.PilotName);
 
                 TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
 
@@ -185,7 +185,7 @@ namespace SubPhases
 
         private void AssignSecondTractorBeamToken()
         {
-            Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " was in " + SpacetugOwner.PilotInfo.PilotName + "'s Bullseye arc.  A second Tractor Beam token has been assigned.");
+            Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " was in " + SpacetugOwner.PilotInfo.PilotName + "'s Bullseye arc: a second Tractor Beam token has been assigned");
 
             TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
             TargetShip.Tokens.AssignToken(token, CallBack);

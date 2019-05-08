@@ -50,7 +50,7 @@ namespace Abilities.SecondEdition
 
         protected virtual string GenerateAbilityMessage()
         {
-            return "Choose another friendly ship to transfer focus or evade from.";
+            return "Choose another friendly ship to transfer focus or evade from";
         }
 
         private void Ability(object sender, EventArgs e)

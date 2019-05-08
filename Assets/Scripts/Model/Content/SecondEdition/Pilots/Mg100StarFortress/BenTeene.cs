@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ShotInfo.InArcByType(ArcType.SingleTurret))
             {
-                Messages.ShowInfo("The \"Rattled\" condition has been assigned to " + Combat.Defender.PilotInfo.PilotName + ".");
+                Messages.ShowInfo("The \"Rattled\" condition has been assigned to " + Combat.Defender.PilotInfo.PilotName);
                 Combat.Defender.Tokens.AssignCondition(
                     new Conditions.RattledCondition(Combat.Defender, HostShip)
                 );

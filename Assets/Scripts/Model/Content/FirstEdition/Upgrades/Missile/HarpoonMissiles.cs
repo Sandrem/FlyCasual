@@ -70,7 +70,7 @@ namespace Abilities.FirstEdition
         {
             HostShip.OnAttackFinishAsAttacker -= ApplyHarpoonMissilesCondition;
 
-            Messages.ShowInfo("The \"Harpooned!\" condition has been assigned to " + Combat.Defender.PilotInfo.PilotName + ".");
+            Messages.ShowInfo("The \"Harpooned!\" condition has been assigned to " + Combat.Defender.PilotInfo.PilotName);
             Combat.Defender.Tokens.AssignCondition(typeof(Conditions.Harpooned));
         }
     }

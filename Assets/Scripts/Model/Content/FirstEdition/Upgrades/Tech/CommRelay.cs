@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
         {
             if (tokenType == typeof(EvadeToken) && ship.Tokens.HasToken(typeof(EvadeToken)))
             {
-                Messages.ShowError("Comm Relay: This ship cannot have more than 1 Evade token.");
+                Messages.ShowError("Comm Relay: This ship cannot have more than 1 Evade token");
                 ship.Tokens.TokenToAssign = null;
             }
         }

@@ -33,7 +33,7 @@ namespace DamageDeckCardFE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Blinded Pilot has been repaired.  The pilot can once again perform attacks.");
+            Messages.ShowInfo("Blinded Pilot has been repaired.  The pilot can once again perform attacks");
 
             Host.OnTryPerformAttack -= OnTryPreformAttack;
             Host.Tokens.RemoveCondition(typeof(Tokens.BlindedPilotCritToken));

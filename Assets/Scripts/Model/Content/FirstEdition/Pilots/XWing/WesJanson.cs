@@ -119,7 +119,7 @@ namespace Abilities.FirstEdition
         private void UseWesJansonAbility(GenericToken token)
         {
             //remove the chosen token
-            Messages.ShowInfo(string.Format("{0} removed {1} from {2}.", HostShip.PilotInfo.PilotName, token.Name, Combat.Defender.PilotInfo.PilotName));
+            Messages.ShowInfo(string.Format("{0} removed {1} from {2}", HostShip.PilotInfo.PilotName, token.Name, Combat.Defender.PilotInfo.PilotName));
 
             Combat.Defender.Tokens.RemoveToken(token, DecisionSubPhase.ConfirmDecision);
         }

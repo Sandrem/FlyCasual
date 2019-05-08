@@ -77,7 +77,7 @@ namespace Abilities.FirstEdition
             Combat.DiceRollAttack.DiceList.Remove(
                 Combat.DiceRollAttack.DiceList.First(die => die.Side == DieSide.Crit));
 
-            Messages.ShowInfoToHuman("Bossk: Changed one critical result into two success results.");
+            Messages.ShowInfoToHuman("Bossk: Changed one critical result into two success results");
             DecisionSubPhase.ConfirmDecision();
             Phases.CurrentSubPhase.Resume();
         }

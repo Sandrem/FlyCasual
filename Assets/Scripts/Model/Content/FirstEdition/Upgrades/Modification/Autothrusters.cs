@@ -26,7 +26,7 @@ namespace UpgradesList.FirstEdition
             bool result = false;
 
             result = IsAllowedForShip(HostShip);
-            if (!result) Messages.ShowError("Autothrusters can only be installed if ship has a Boost action icon.");
+            if (!result) Messages.ShowError("Autothrusters can only be installed if ship has a Boost action icon");
 
             return result;
         }

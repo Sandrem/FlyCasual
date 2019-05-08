@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose a ship to increase it's agility value.",
+                "Choose a ship to increase it's agility value",
                 HostShip
             );
         }

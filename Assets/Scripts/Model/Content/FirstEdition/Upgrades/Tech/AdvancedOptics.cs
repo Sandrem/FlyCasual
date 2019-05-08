@@ -42,7 +42,7 @@ namespace Abilities.FirstEdition
         {
             if (tokenType == typeof(FocusToken) && ship.Tokens.HasToken(typeof(FocusToken)))
             {
-                Messages.ShowError("Advanced Optics: This ship cannot have more than 1 Focus token.");
+                Messages.ShowError("Advanced Optics: This ship cannot have more than 1 Focus token");
                 ship.Tokens.TokenToAssign = null;
             }
         }

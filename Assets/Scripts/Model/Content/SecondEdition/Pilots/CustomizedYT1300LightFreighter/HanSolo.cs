@@ -98,7 +98,7 @@ namespace Abilities.SecondEdition
             if (UseAbility && Combat.ShotInfo.IsObstructedByAsteroid)
             {
                 count++;
-                Messages.ShowInfo("The attack against Han Solo is obstructed.  Han rolls +1 defense die.");
+                Messages.ShowInfo("The attack against Han Solo is obstructed, Han rolls +1 defense die");
                 UseAbility = false;
             }
         }
@@ -108,7 +108,7 @@ namespace Abilities.SecondEdition
             if (UseAbility && Combat.ShotInfo.IsObstructedByAsteroid && Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 count++;
-                Messages.ShowInfo("Han Solo's attack is obstructed.  Han rolls +1 attack die.");
+                Messages.ShowInfo("Han Solo's attack is obstructed, Han rolls +1 attack die");
                 UseAbility = false;
             }
         }

@@ -26,7 +26,7 @@ namespace DamageDeckCardFE
         {
             base.DiscardEffect();
 
-            Messages.ShowInfo("Damaged Engine has been repaired.  Turn maneuvers regain their normal colors.");
+            Messages.ShowInfo("Damaged Engine has been repaired, turn maneuvers regain their normal colors");
             Host.Tokens.RemoveCondition(typeof(Tokens.DamagedEngineCritToken));
 
             Host.AfterGetManeuverColorIncreaseComplexity -= TurnManeuversAreRed;

@@ -34,7 +34,7 @@ namespace DamageDeckCardFE
 
             Host.Tokens.RemoveCondition(typeof(Tokens.DirectHitCritToken));
             Host.CallAfterAssignedDamageIsChanged();
-            Messages.ShowInfo("Direct Hit has been repaired.  One hull point is restored.");
+            Messages.ShowInfo("Direct Hit has been repaired, one hull point is restored");
         }
     }
 

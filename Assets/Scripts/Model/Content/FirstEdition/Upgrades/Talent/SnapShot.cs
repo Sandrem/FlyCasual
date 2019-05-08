@@ -64,7 +64,7 @@ namespace Abilities.FirstEdition
 
         private void UseSnapShotRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            Messages.ShowErrorToHuman("SnapShot's Ability: The target is unable to modify dice.");
+            Messages.ShowErrorToHuman("Snap Shot: The target is unable to modify dice");
             canBeUsed = false;
         }
 
@@ -128,13 +128,13 @@ namespace Abilities.FirstEdition
             if (defender != snapShotTarget)
             {
                 if (!isSilent) Messages.ShowErrorToHuman(
-                    string.Format("Snap Shot's target must be {0}.", snapShotTarget.PilotInfo.PilotName));
+                    string.Format("Snap Shot's target must be {0}", snapShotTarget.PilotInfo.PilotName));
                 result = false;
             }
             else if (!(weapon.GetType() == HostUpgrade.GetType()))
             {
                 if (!isSilent) Messages.ShowErrorToHuman(
-                                    string.Format("This attack must use's Snap Shot's attack dice."));
+                                    string.Format("This attack must use's Snap Shot's attack dice"));
                 result = false;
             }
 
@@ -157,7 +157,7 @@ namespace Abilities.FirstEdition
                     AfterSnapShotAttackSubPhase,
                     SnapShotAttackFilter,
                     HostUpgrade.UpgradeInfo.Name,
-                    "You may perform an additional attack against " + snapShotTarget.PilotInfo.PilotName + ".",
+                    "You may perform an additional attack against " + snapShotTarget.PilotInfo.PilotName,
                     HostUpgrade
                 );
             }

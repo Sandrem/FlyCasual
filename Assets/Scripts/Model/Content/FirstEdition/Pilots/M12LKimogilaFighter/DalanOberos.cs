@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Acqure a Target Lock on an enemy ship inside your bullseye firing arc.",
+                "Acqure a Target Lock on an enemy ship inside your bullseye firing arc",
                 HostShip
             );
         }
@@ -91,7 +91,7 @@ namespace Abilities.FirstEdition
 
         private void UnSuccessfullSelection()
         {
-            Messages.ShowErrorToHuman("Unable to acquire Target Lock.");
+            Messages.ShowErrorToHuman("Unable to acquire Target Lock");
         }
     }
 }

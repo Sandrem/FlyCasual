@@ -107,7 +107,7 @@ namespace Abilities.FirstEdition
 
         private void DiscardTokenInstead(Action callback)
         {
-            Messages.ShowInfo("An ordinance token has been discarded instead of " + GenericUpgrade.CurrentUpgrade.UpgradeInfo.Name + ".");
+            Messages.ShowInfo("An ordinance token has been discarded instead of " + GenericUpgrade.CurrentUpgrade.UpgradeInfo.Name);
 
             RemoveOrdnanceToken(GenericUpgrade.CurrentUpgrade);
 

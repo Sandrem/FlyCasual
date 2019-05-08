@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot make additional attacks.", HostShip.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot make additional attacks", HostShip.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }
@@ -93,7 +93,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("This attack must use the ship's rear firing arc.");
+                if (!isSilent) Messages.ShowError("This attack must use the ship's rear firing arc");
             }
 
             return result;

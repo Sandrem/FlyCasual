@@ -852,7 +852,7 @@ namespace Ship
 				callback,
 				null,
                 PilotInfo.PilotName,
-				"You may perform a primary weapon attack.",
+				"You may perform a primary weapon attack",
 				this
 			);
         }

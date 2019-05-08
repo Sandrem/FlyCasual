@@ -66,7 +66,7 @@ namespace Abilities.FirstEdition
                     FinishAdditionalAttack,
                     IsPrimaryWeaponShot,
                     HostUpgrade.UpgradeInfo.Name,
-                    "You may perform a primary weapon attack.",
+                    "You may perform a primary weapon attack",
                     HostUpgrade
                 );
             }
@@ -95,7 +95,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                if (!isSilent) Messages.ShowError("This attack must be performed using the ship's primary weapon.");
+                if (!isSilent) Messages.ShowError("This attack must be performed using the ship's primary weapon");
             }
 
             return result;

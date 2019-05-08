@@ -105,7 +105,7 @@ namespace Abilities.SecondEdition
             public override void ActionTake()
             {
                 Source.State.RestoreCharge();
-                Messages.ShowInfo($"Reload: One charge of \"{Source.UpgradeInfo.Name}\" is restored.  {HostShip.PilotInfo.PilotName} gains a Disarmed token.");
+                Messages.ShowInfo($"Reload: One charge of \"{Source.UpgradeInfo.Name}\" is restored, {HostShip.PilotInfo.PilotName} gains a Disarmed token");
                 AssignTokenAndFinish();
             }
         }

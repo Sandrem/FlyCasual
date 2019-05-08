@@ -386,7 +386,7 @@ namespace SquadBuilderNS
         {
             if (Edition.Current.IsSquadBuilderLocked)
             {
-                Messages.ShowError("This part of squad builder is disabled.");
+                Messages.ShowError("This part of squad builder is disabled");
                 return;
             }
 
@@ -665,7 +665,7 @@ namespace SquadBuilderNS
                         else
                         {
                             result = false;
-                            Messages.ShowError("Only one Solitary upgrade can be equipped.");
+                            Messages.ShowError("Only one Solitary upgrade can be equipped");
                             break;
                         }
                     }
@@ -685,7 +685,7 @@ namespace SquadBuilderNS
                 {
                     if (shipConfig.Instance.HotacManeuverTable == null)
                     {
-                        Messages.ShowError("AI for " + shipConfig.Instance.ShipInfo.ShipName + " is not ready. It can be controlled only by a human.");
+                        Messages.ShowError("AI for " + shipConfig.Instance.ShipInfo.ShipName + " is not ready, it can be controlled only by a human");
                         return false;
                     }
                 }
@@ -728,7 +728,7 @@ namespace SquadBuilderNS
                             int countDuplicates = shipHolder.Instance.UpgradeBar.GetUpgradesAll().Count(n => n.UpgradeInfo.Name == upgradeSlot.InstalledUpgrade.UpgradeInfo.Name);
                             if (countDuplicates > 1)
                             {
-                                Messages.ShowError("You cannot have more than one copy of " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name + " on one ship.");
+                                Messages.ShowError("You cannot have more than one copy of " + upgradeSlot.InstalledUpgrade.UpgradeInfo.Name + " on one ship");
                                 return false;
                             }
                         }
@@ -870,7 +870,7 @@ namespace SquadBuilderNS
                 }
                 else
                 {
-                    Messages.ShowError("The squad has no pilots.");
+                    Messages.ShowError("The squad has no pilots");
                 }
 
                 callBack();
@@ -1226,7 +1226,7 @@ namespace SquadBuilderNS
         {
             if (Edition.Current.IsSquadBuilderLocked)
             {
-                Messages.ShowError("This part of squad builder is disabled.");
+                Messages.ShowError("This part of squad builder is disabled");
                 return;
             }
 

@@ -141,7 +141,7 @@ namespace Abilities.FirstEdition
 
         private void SelectDamageCard(GenericDamageCard damageCard)
         {
-            Messages.ShowInfo("Kylo Ren selected  " + damageCard.Name + ".");
+            Messages.ShowInfo("Kylo Ren selected  " + damageCard.Name);
 
             AssignedDamageCard = damageCard;
             AssignedDamageCard.IsFaceup = true;
@@ -182,7 +182,7 @@ namespace Abilities.FirstEdition
                 isSkipSufferDamage = true;
 
                 GenericShip ship = ShipWithCondition;
-                Messages.ShowInfo("Kylo Ren's vison of the Dark Side came true. " + ship.PilotInfo.PilotName + " suffers " + AssignedDamageCard.Name + ".");
+                Messages.ShowInfo("Kylo Ren's vison of the Dark Side came true: " + ship.PilotInfo.PilotName + " suffers " + AssignedDamageCard.Name);
                 Combat.CurrentCriticalHitCard = AssignedDamageCard;
 
                 AssignedDamageCard = null;

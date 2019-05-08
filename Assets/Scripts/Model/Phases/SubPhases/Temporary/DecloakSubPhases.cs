@@ -431,17 +431,17 @@ namespace SubPhases
 
             if (obstaclesStayDetectorBase.OverlapsShipNow)
             {
-                Messages.ShowError("Your position after decloaking cannot overlap another ship.");
+                Messages.ShowError("Your position after decloaking cannot overlap another ship");
                 result.Add(ActionFailReason.Bumped);
             }
             else if ((!IsObstacleCanBeIgnored()) && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
-                Messages.ShowError("Your position after decloaking cannot overlap an obstacle.");
+                Messages.ShowError("Your position after decloaking cannot overlap an obstacle");
                 result.Add(ActionFailReason.ObstacleHit);
             }
             else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
             {
-                Messages.ShowError("Your position after decloaking cannot be outside of the battlefield.");
+                Messages.ShowError("Your position after decloaking cannot be outside of the battlefield");
                 result.Add(ActionFailReason.OffTheBoard);
             }
 

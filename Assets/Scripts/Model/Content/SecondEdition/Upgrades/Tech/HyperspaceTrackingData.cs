@@ -153,7 +153,7 @@ namespace Abilities.SecondEdition
                     getAiPriority: delegate { return 100; },
                     subphaseOwnerPlayerNo: HostShip.Owner.PlayerNo,
                     name: String.Format("{0} {1} - {2}", HostShip.ShipId, HostShip.PilotInfo.PilotName, HostName),
-                    description: "Choose a ship to assign 1 focus or 1 evade token to.",
+                    description: "Choose a ship to assign 1 focus or 1 evade token to",
                     showSkipButton: true
                 );
             }

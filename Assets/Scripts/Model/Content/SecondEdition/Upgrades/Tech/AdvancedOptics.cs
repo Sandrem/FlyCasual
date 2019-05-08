@@ -68,7 +68,7 @@ namespace ActionsList
             //e.g. See Pilot Garven Dreis for synergy.
             if (Combat.CurrentDiceRoll.Blanks <= 0)
             {
-                Messages.ShowInfoToHuman("Focus token is spent, but there are no blanks.");
+                Messages.ShowInfoToHuman("Focus token is spent, but there are no blanks");
             }
 
             Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);

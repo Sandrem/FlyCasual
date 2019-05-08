@@ -67,7 +67,7 @@ namespace Abilities.SecondEdition
                     AlwaysUseByDefault,
                     TurnOnIgnoreObstacle,
                     DontIgnoreObstacle,
-                    infoText: HostUpgrade.UpgradeInfo.Name + ": Do you want ignore " + ObstaclesHit.First().Name,
+                    infoText: HostUpgrade.UpgradeInfo.Name + ": Do you want ignore " + ObstaclesHit.First().Name + "?",
                     showSkipButton: false
                 );
             }

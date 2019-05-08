@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
 
         private void MoveToReserve()
         {
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + "has been moved to the Reserve.");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + "has been moved to the Reserve");
             Roster.MoveToReserve(HostShip);
         }
 
@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             var subphase = Phases.StartTemporarySubPhaseNew<SetupShipMidgameSubPhase>(
                 "Setup",
                 delegate {
-                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has been placed.");
+                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has been placed");
                     Triggers.FinishTrigger();
                 }
             );
@@ -78,7 +78,7 @@ namespace Abilities.SecondEdition
 
             if (HostShip.Model.GetComponentInChildren<ObstaclesStayDetector>().OverlapedAsteroids.Count == 0)
             {
-                Messages.ShowErrorToHuman("Boba Fett's Ability: Invalid location for this ship.  The ship must be placed at range 0 of an asteroid.");
+                Messages.ShowErrorToHuman("Boba Fett: Invalid location for this ship, the ship must be placed at range 0 of an asteroid");
                 return false;
             }
 
@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
                 DistanceInfo distInfo = new DistanceInfo(HostShip, enemyShip);
                 if (distInfo.Range < 4)
                 {
-                    Messages.ShowErrorToHuman("Boba Fett's Ability: The range to the closest enemy is " + distInfo.Range + ".  It must be beyond range 3.");
+                    Messages.ShowErrorToHuman("Boba Fett: The range to the closest enemy is " + distInfo.Range + ", it must be beyond range 3");
                     return false;
                 }
             }

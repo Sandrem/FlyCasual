@@ -51,7 +51,7 @@ namespace UpgradesList.SecondEdition
 
                 if (result != true)
                 {
-                    Messages.ShowError("Maul cannot be in a Rebel squad that does not contain Ezra Bridger.");
+                    Messages.ShowError("Maul cannot be in a Rebel squad that does not contain Ezra Bridger");
                 }
 
             }

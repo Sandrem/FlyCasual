@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
                 GetAiPriorityOfTarget,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose a ship to remove 1 Stress token from it.",
+                "Choose a ship to remove 1 Stress token from it",
                 HostShip
             );
         }

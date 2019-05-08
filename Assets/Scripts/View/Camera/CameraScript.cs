@@ -31,12 +31,13 @@ public class CameraScript : MonoBehaviour {
 
     private static Transform Camera;
     private static Transform CameraHolder;
+    private static Transform VirtualCamera;
+    private static Transform VirtualCameraHolder;
 
     public static bool IsCinematic { get; private set; }
-    private static CameraState SavedCameraState;
-    private static CameraState OldCameraState;
+    private static CameraState SavedCameraState; // Position of camera before all dynamic movement
+    private static CameraState OldCameraState; // Position of camera before current dynamic movement
     private static CameraState NewCameraState;
-    private static Transform LookAtTransform;
     private static float TransitionTimeCounter;
     private static readonly float TRANSITION_TIME_SPEED = 0.5f;
 
@@ -119,6 +120,9 @@ public class CameraScript : MonoBehaviour {
     {
         Camera = transform.Find("Main Camera");
         CameraHolder = transform;
+
+        VirtualCameraHolder = GameObject.Find("VirtualCameraHolder").transform;
+        VirtualCamera = VirtualCameraHolder.Find("VirtualCamera");
 
         ChangeMode(CameraModes.Free);
 
@@ -562,12 +566,9 @@ public class CameraScript : MonoBehaviour {
             IsCinematic = true;
         }
 
-        //TODO: Fix this part
-        CameraHolder.transform.position = position;
-        Camera.transform.LookAt(directionTransform);
-        NewCameraState = new CameraState(Camera.localPosition, Camera.localRotation, CameraHolder.position, CameraHolder.rotation, directionTransform.position);
-
-        SetCameraState(SavedCameraState);
+        VirtualCameraHolder.position = position;
+        VirtualCamera.transform.LookAt(directionTransform);
+        NewCameraState = new CameraState(VirtualCamera.localPosition, VirtualCamera.localRotation, VirtualCameraHolder.position, VirtualCameraHolder.rotation, directionTransform.position);
 
         TransitionTimeCounter = 0;
     }

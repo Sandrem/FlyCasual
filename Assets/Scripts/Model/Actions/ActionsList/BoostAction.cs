@@ -35,6 +35,7 @@ namespace ActionsList
                     "Boost",
                     Phases.CurrentSubPhase.CallBack
                 );
+                phase.SelectedBoostHelper = SelectedBoostTemplate;
                 phase.HostAction = this;
                 phase.Start();
             }
@@ -51,11 +52,13 @@ namespace ActionsList
         public string Name { get; private set; }
         public ActionsHolder.BoostTemplates Template;
         public bool IsRed;
+        public bool IsForced { get; private set; }
 
-        public BoostMove(ActionsHolder.BoostTemplates template, bool isRed = false)
+        public BoostMove(ActionsHolder.BoostTemplates template, bool isRed = false, bool isForced = false)
         {
             Template = template;
             IsRed = isRed;
+            IsForced = isForced;
 
             switch (template)
             {
@@ -96,7 +99,7 @@ namespace SubPhases
 
         private int updatesCount = 0;
 
-        List<BoostMove> AvailableBoostMoves = new List<BoostMove>();
+        public List<BoostMove> AvailableBoostMoves = new List<BoostMove>();
         public string SelectedBoostHelper;
 
         public bool IsTractorBeamBoost = false;
@@ -131,7 +134,15 @@ namespace SubPhases
 
             InitializeRendering();
 
-            AskSelectTemplate();
+            if (SelectedBoostHelper != "")
+            {
+                SelectTemplate(AvailableBoostMoves.First(n => n.Name == SelectedBoostHelper));
+                SelectTemplateDecisionIsTaken();
+            }
+            else
+            {
+                AskSelectTemplate();
+            }
         }
 
         private void AskSelectTemplate()
@@ -159,7 +170,10 @@ namespace SubPhases
             {
                 selectBoostTemplateDecisionSubPhase.AddDecision(
                     move.Name,
-                    delegate { SelectTemplate(move); },
+                    delegate {
+                        SelectTemplate(move);
+                        DecisionSubPhase.ConfirmDecision();
+                    },
                     color: (move.IsRed) ? ActionColor.Red: ActionColor.White,
                     isCentered: move.Template == ActionsHolder.BoostTemplates.Straight1
                 );
@@ -185,7 +199,6 @@ namespace SubPhases
             }
                 
             SelectedBoostHelper = move.Name;
-            DecisionSubPhase.ConfirmDecision();
         }
 
         private void ResetActionColor(GenericAction action)

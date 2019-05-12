@@ -40,6 +40,8 @@ namespace Ship
 
         public event EventHandlerShipRefBool OnBullseyeArcCheck;
 
+        public event EventHandlerShipRefBool OnTryAttackSameTeamCheck;
+
         public GenericShip Host;
 
         public Type ShipRuleType = typeof(Editions.FirstEdition);
@@ -278,6 +280,13 @@ namespace Ship
         {
             if (OnCheckRange != null) OnCheckRange(anotherShip, minRange, maxRange, reason, ref isInRange);
             return isInRange;
+        }
+
+        // Teams
+
+        public void CallTryAttackSameTeamCheck(GenericShip ship, ref bool result)
+        {
+            OnTryAttackSameTeamCheck?.Invoke(ship, ref result);
         }
     }
 

@@ -40,7 +40,20 @@ namespace SubPhases
         private bool FilterAttackTargets(GenericShip ship)
         {
             BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
-            return ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange;
+            return CanBeAttackedTeamCheck(ship) && distanceInfo.Range >= minRange && distanceInfo.Range <= maxRange;
+        }
+
+        private bool CanBeAttackedTeamCheck(GenericShip ship)
+        {
+            bool result = true;
+
+            if (ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo)
+            {
+                result = false;
+                Selection.ThisShip.CallTryAttackSameTeamCheck(ship, ref result);
+            }
+
+            return result;
         }
 
         private void FinishActon()

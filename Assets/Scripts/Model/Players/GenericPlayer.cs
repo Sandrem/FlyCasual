@@ -32,7 +32,8 @@ namespace Players
     public enum PlayerNo
     {
         Player1,
-        Player2
+        Player2,
+        PlayerNone
     }
 
     public enum PlayerType

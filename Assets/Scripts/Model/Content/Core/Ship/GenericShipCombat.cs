@@ -210,7 +210,6 @@ namespace Ship
             {
                 if (OnAttackStartAsDefender != null) OnAttackStartAsDefender();
                 if (OnAttackStartAsDefenderGlobal != null) OnAttackStartAsDefenderGlobal();
-
             }
         }
 
@@ -883,6 +882,26 @@ namespace Ship
             if (OnUpdateWeaponRange != null) OnUpdateWeaponRange(weapon, ref minRange, ref maxRange, target);
 
             if (OnUpdateWeaponRangeGlobal != null) OnUpdateWeaponRangeGlobal(weapon, ref minRange, ref maxRange, target);
+        }
+
+        public void ShowAttackAnimationAndSound()
+        {
+            GenericSpecialWeapon chosenSecondaryWeapon = Combat.ChosenWeapon as GenericSpecialWeapon;
+            if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.HasType(UpgradeType.Cannon) || chosenSecondaryWeapon.HasType(UpgradeType.Illicit))
+            { // Primary Weapons, Cannons, and Illicits (HotShotBlaster)
+                Sounds.PlayShots(SoundInfo.ShotsName, SoundInfo.ShotsCount);
+                AnimatePrimaryWeapon();
+            }
+            else if (chosenSecondaryWeapon.HasType(UpgradeType.Torpedo) || chosenSecondaryWeapon.HasType(UpgradeType.Missile))
+            { // Torpedos and Missiles
+                Sounds.PlayShots("Proton-Torpedoes", 1);
+                AnimateMunitionsShot();
+            }
+            else if (chosenSecondaryWeapon.HasType(UpgradeType.Turret))
+            { // Turrets
+                Sounds.PlayShots(SoundInfo.ShotsName, SoundInfo.ShotsCount);
+                AnimateTurretWeapon();
+            }
         }
     }
 

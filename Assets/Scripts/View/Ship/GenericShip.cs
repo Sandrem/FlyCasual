@@ -481,7 +481,7 @@ namespace Ship
             return shipAllParts.Find("ShipBase/DecloakHelper");
         }
 
-        public void AnimatePrimaryWeapon()
+        private void AnimatePrimaryWeapon()
         {
             Transform shotsTransform = modelCenter.Find("Shots");
             if (shotsTransform != null)
@@ -500,7 +500,7 @@ namespace Ship
             }
         }
 
-        public void AnimateTurretWeapon()
+        private void AnimateTurretWeapon()
         {
             Transform origin = modelCenter.Find("TurretShots/Rotation");
 
@@ -515,7 +515,7 @@ namespace Ship
             Game.StartCoroutine(TurnOffTurretShots(SoundInfo.ShotsCount));
         }
 
-        public void AnimateMunitionsShot()
+        private void AnimateMunitionsShot()
         {
             Transform launchOrigin = modelCenter.Find("MunitionsLauncherPoint/MunitionsLauncherDirection");
             if (launchOrigin != null)

@@ -64,6 +64,8 @@ public static partial class Combat
 
     public static GenericArc ArcForShot;
 
+    public static bool SkipDiceRolls;
+
     public static void Initialize()
     {
         CleanupCombatData();
@@ -265,14 +267,25 @@ public static partial class Combat
     {
         Attacker.CallShotStart();
         Defender.CallShotStart();
-        
+
+        Attacker.ShowAttackAnimationAndSound();
+
         Triggers.ResolveTriggers(TriggerTypes.OnShotStart, AttackDiceRoll);
     }
 
     private static void AttackDiceRoll()
     {
-        Selection.ActiveShip = Selection.ThisShip;
-        Phases.StartTemporarySubPhaseOld("Attack dice roll", typeof(AttackDiceRollCombatSubPhase));
+        if (!SkipDiceRolls)
+        {
+            Selection.ActiveShip = Selection.ThisShip;
+            Phases.StartTemporarySubPhaseOld("Attack dice roll", typeof(AttackDiceRollCombatSubPhase));
+        }
+        else
+        {
+            Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase));
+            DiceRollAttack = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Combat);
+            AttackHit();
+        }
     }
 
     public static void ConfirmAttackDiceResults()
@@ -341,6 +354,8 @@ public static partial class Combat
 
     public static void CancelHitsByDefenceDice()
     {
+        if (SkipDiceRolls) return;
+
         int crits = DiceRollAttack.CriticalSuccesses;
         DiceRollAttack.CancelHitsByDefence(DiceRollDefence.Successes);
         if (crits > DiceRollAttack.CriticalSuccesses)
@@ -517,6 +532,7 @@ public static partial class Combat
         ExtraAttackFilter = null;
         IsAttackAlreadyCalled = false;
         PayExtraAttackCost = null;
+        SkipDiceRolls = false;
     }
 
     public static void FinishCombatSubPhase()

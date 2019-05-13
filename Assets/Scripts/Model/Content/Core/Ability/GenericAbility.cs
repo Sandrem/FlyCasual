@@ -153,7 +153,7 @@ namespace Abilities
         /// <summary>
         /// Shows "Take a decision" window for ability with Yes / No / [Always] buttons
         /// </summary>
-        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string infoText = null, bool showSkipButton = true)
+        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string infoText = null, bool showSkipButton = true, PlayerNo requiredPlayer = PlayerNo.PlayerNone)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -167,7 +167,7 @@ namespace Abilities
 
             pilotAbilityDecision.InfoText = infoText ?? "Use " + Name + "?";
 
-            pilotAbilityDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
+            pilotAbilityDecision.RequiredPlayer = (requiredPlayer == PlayerNo.PlayerNone) ? HostShip.Owner.PlayerNo : requiredPlayer;
 
             pilotAbilityDecision.AddDecision("Yes", useAbility);
             pilotAbilityDecision.AddDecision("No", dontUseAbility);

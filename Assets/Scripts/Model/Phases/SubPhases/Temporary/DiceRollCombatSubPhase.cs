@@ -37,7 +37,6 @@ namespace SubPhases
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
-                ShowAttackAnimationAndSound();
                 Combat.Attacker.CallDiceAboutToBeRolled(RollDice);
             }
             else
@@ -51,26 +50,6 @@ namespace SubPhases
             DiceRoll DiceRollCombat;
             DiceRollCombat = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
             DiceRollCombat.Roll(delegate { ImmediatelyAfterRolling(); });
-        }
-
-        private void ShowAttackAnimationAndSound()
-        {
-            Upgrade.GenericSpecialWeapon chosenSecondaryWeapon = Combat.ChosenWeapon as Upgrade.GenericSpecialWeapon;
-            if (chosenSecondaryWeapon == null || chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Cannon) || chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Illicit))
-            { // Primary Weapons, Cannons, and Illicits (HotShotBlaster)
-                Sounds.PlayShots(Selection.ActiveShip.SoundInfo.ShotsName, Selection.ActiveShip.SoundInfo.ShotsCount);
-                Selection.ThisShip.AnimatePrimaryWeapon();
-            }
-            else if (chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Torpedo) || chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Missile))
-            { // Torpedos and Missiles
-                Sounds.PlayShots("Proton-Torpedoes", 1);
-                Selection.ThisShip.AnimateMunitionsShot();
-            }
-            else if (chosenSecondaryWeapon.HasType(Upgrade.UpgradeType.Turret))
-            { // Turrets
-                Sounds.PlayShots(Selection.ActiveShip.SoundInfo.ShotsName, Selection.ActiveShip.SoundInfo.ShotsCount);
-                Selection.ThisShip.AnimateTurretWeapon();
-            }
         }
 
         private void ImmediatelyAfterRolling()

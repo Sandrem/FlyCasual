@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 cost: 10,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
-                abilityType: typeof(Abilities.SecondEdition.BosskGunnerability),
+                abilityType: typeof(Abilities.SecondEdition.BosskGunnerAbility),
                 seImageNumber: 139
             );
         }        
@@ -25,7 +25,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class BosskGunnerability : GenericAbility
+    public class BosskGunnerAbility : GenericAbility
     {
         bool attackIsPrimaryWeapon = false;
         GenericShip theShipAttacked;

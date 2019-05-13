@@ -20,6 +20,7 @@ namespace UpgradesList.SecondEdition
                 type: UpgradeType.Bomb,
                 cost: 5,
                 charges: 2,
+                subType: UpgradeSubType.Bomb,
                 seImageNumber: 65
             );
 

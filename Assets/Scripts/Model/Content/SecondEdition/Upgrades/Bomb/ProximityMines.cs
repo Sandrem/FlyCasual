@@ -6,6 +6,7 @@ using Upgrade;
 using Ship;
 using System.Linq;
 using SubPhases;
+using SubPhases.SecondEdition;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,6 +20,7 @@ namespace UpgradesList.SecondEdition
                 cost: 6,
                 charges: 2,
                 cannotBeRecharged: true,
+                subType: UpgradeSubType.Mine,
                 seImageNumber: 66
             );
 
@@ -28,13 +30,16 @@ namespace UpgradesList.SecondEdition
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
             Selection.ActiveShip = ship;
-            Phases.StartTemporarySubPhaseOld(
+
+            ProximityMinesCheckSubPhase subphase = Phases.StartTemporarySubPhaseNew<ProximityMinesCheckSubPhase>(
                 "Damage from " + UpgradeInfo.Name,
-                typeof(SubPhases.SecondEdition.ProximityMinesCheckSubPhase),
                 delegate {
-                    Phases.FinishSubPhase(typeof(SubPhases.SecondEdition.ProximityMinesCheckSubPhase));
+                    Phases.FinishSubPhase(typeof(ProximityMinesCheckSubPhase));
                     callBack();
-                });
+                }
+            );
+            subphase.HostUpgrade = this;
+            subphase.Start();
         }
 
         public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
@@ -53,6 +58,8 @@ namespace SubPhases.SecondEdition
 {
     public class ProximityMinesCheckSubPhase : DiceRollCheckSubPhase
     {
+        public GenericUpgrade HostUpgrade;
+
         public override void Prepare()
         {
             DiceKind = DiceKind.Attack;
@@ -84,7 +91,7 @@ namespace SubPhases.SecondEdition
 
             DamageSourceEventArgs proximityDamage = new DamageSourceEventArgs()
             {
-                Source = "Proximity Mines",
+                Source = HostUpgrade,
                 DamageType = DamageTypes.BombDetonation
             };
 

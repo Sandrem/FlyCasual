@@ -6,6 +6,7 @@ using Upgrade;
 using Ship;
 using System.Linq;
 using SubPhases;
+using SubPhases.SecondEdition;
 
 namespace UpgradesList.SecondEdition
 {
@@ -23,6 +24,7 @@ namespace UpgradesList.SecondEdition
                 cost: 5,
                 charges: 2,
                 abilityType: typeof(Abilities.SecondEdition.BombletGeneratorAbility),
+                subType: UpgradeSubType.Bomb,
                 seImageNumber: 63
             );
 
@@ -32,11 +34,14 @@ namespace UpgradesList.SecondEdition
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
             Selection.ActiveShip = ship;
-            var sufferBombletDamageSubphase = Phases.StartTemporarySubPhaseNew("Damage from " + UpgradeInfo.Name, typeof(SubPhases.SecondEdition.BombletCheckSubPhase), () =>
-            {
-                Phases.FinishSubPhase(typeof(SubPhases.SecondEdition.BombletCheckSubPhase));
-                callBack();
-            });
+            BombletCheckSubPhase sufferBombletDamageSubphase = Phases.StartTemporarySubPhaseNew<BombletCheckSubPhase>(
+                "Damage from " + UpgradeInfo.Name,
+                () => {
+                    Phases.FinishSubPhase(typeof(BombletCheckSubPhase));
+                    callBack();
+                }
+            );
+            sufferBombletDamageSubphase.HostUpgrade = this;
             sufferBombletDamageSubphase.Start();
         }
 
@@ -58,6 +63,7 @@ namespace SubPhases.SecondEdition
 {
     public class BombletCheckSubPhase : DiceRollCheckSubPhase
     {
+        public GenericUpgrade HostUpgrade;
 
         public override void Prepare()
         {
@@ -88,7 +94,7 @@ namespace SubPhases.SecondEdition
 
             DamageSourceEventArgs bombletDamage = new DamageSourceEventArgs()
             {
-                Source = "Bomblet",
+                Source = HostUpgrade,
                 DamageType = DamageTypes.BombDetonation
             };
 

@@ -48,6 +48,13 @@ namespace Upgrade
         None
     }
 
+    public enum UpgradeSubType
+    {
+        None,
+        Bomb,
+        Mine
+    }
+
     public abstract class GenericUpgrade : IImageHolder
     {
         public static GenericUpgrade CurrentUpgrade;

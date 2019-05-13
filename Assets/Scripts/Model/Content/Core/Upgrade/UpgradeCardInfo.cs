@@ -16,6 +16,7 @@ namespace Upgrade
 
         public string Name { get; private set; }
         public List<UpgradeType> UpgradeTypes { get; private set; }
+        public UpgradeSubType SubType { get; private set; }
         public int Cost { get; set; }
         public int Limited { get; private set; }
         public bool IsLimited { get { return Limited != 0; } }
@@ -65,7 +66,8 @@ namespace Upgrade
             Dictionary<UpgradeType, int> costReductionByType = null,
             int addShields = 0,
             int addHull = 0,
-            int addForce = 0
+            int addForce = 0,
+            UpgradeSubType subType = UpgradeSubType.None
         )
         {
             Name = name;
@@ -111,6 +113,8 @@ namespace Upgrade
             AddForce = addForce;
 
             AddArc = addArc;
+
+            SubType = subType;
         }
 
         public bool HasType(UpgradeType upgradeType)

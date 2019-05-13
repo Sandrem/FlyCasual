@@ -67,6 +67,7 @@ namespace Ship
         public static event EventHandler OnShotHitAsDefenderGlobal;
 
         public static event EventHandlerShipDamage OnTryDamagePreventionGlobal;
+        public event EventHandlerShipDamage OnTryDamagePrevention;
 
         public event EventHandler OnAttackHitAsAttacker;
         public event EventHandler OnAttackHitAsDefender;
@@ -262,6 +263,7 @@ namespace Ship
         public void CallTryDamagePrevention(DamageSourceEventArgs e, Action callback)
         {
             if (OnTryDamagePreventionGlobal != null) OnTryDamagePreventionGlobal(this, e);
+            if (OnTryDamagePrevention != null) OnTryDamagePrevention(this, e);
 
             Triggers.ResolveTriggers(TriggerTypes.OnTryDamagePrevention, callback);
         }

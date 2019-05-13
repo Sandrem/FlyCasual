@@ -349,7 +349,7 @@ public static partial class Combat
 
         MovementTemplates.ReturnRangeRuler();
 
-        Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase));
+        Defender.CallAfterModifyDefenseDiceStep(delegate { Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase)); });
     }
 
     public static void CancelHitsByDefenceDice()

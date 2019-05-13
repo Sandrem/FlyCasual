@@ -134,7 +134,7 @@ namespace SubPhases
 
             InitializeRendering();
 
-            if (SelectedBoostHelper != "")
+            if (SelectedBoostHelper != null)
             {
                 SelectTemplate(AvailableBoostMoves.First(n => n.Name == SelectedBoostHelper));
                 SelectTemplateDecisionIsTaken();

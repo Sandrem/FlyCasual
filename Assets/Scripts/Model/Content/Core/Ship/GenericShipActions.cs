@@ -90,6 +90,8 @@ namespace Ship
 
         public event EventHandlerShipRefBool OnCanBeCoordinated;
 
+        public event EventHandlerShip OnAfterModifyDefenseDiceStep;
+
 
         // ACTIONS
 
@@ -735,6 +737,13 @@ namespace Ship
             {
                 Edition.Current.ActionIsFailed(this, action, isDefaultFailOverwritten, hasSecondChance);
             }
+        }
+
+        public void CallAfterModifyDefenseDiceStep(Action callback)
+        {
+            if (OnAfterModifyDefenseDiceStep != null) OnAfterModifyDefenseDiceStep(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAfterModifyDefenseDiceStep, callback);
         }
 
     }

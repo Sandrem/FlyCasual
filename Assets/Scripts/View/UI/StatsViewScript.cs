@@ -30,6 +30,8 @@ public class StatsViewScript : MonoBehaviour
     {
         public PlayerNo PlayerNo { get; private set; }
         private readonly List<DiceStatsEntry> DiceStats;
+        private int TotalDice;
+        private Text TotalDiceText;
 
         private static Dictionary<DieSide, float> AttackDiceChances = new Dictionary<DieSide, float>()
         {
@@ -68,6 +70,8 @@ public class StatsViewScript : MonoBehaviour
                 new DiceStatsEntry(DiceKind.Defence, DieSide.Focus, this, script),
                 new DiceStatsEntry(DiceKind.Defence, DieSide.Blank, this, script),
             };
+
+            TotalDiceText = script.transform.Find("General/TextDiceP" + Tools.PlayerToInt(PlayerNo)).GetComponent<Text>();
         }
 
         public void ProcessRolledDice(DieRollEventArg args)
@@ -75,6 +79,9 @@ public class StatsViewScript : MonoBehaviour
             DiceStatsEntry entry = DiceStats.Find(n => n.DiceKind == args.DiceKind && n.DieSide == DieSide.Unknown);
             entry.Count++;
             entry.Text.text = entry.Count.ToString();
+
+            TotalDice++;
+            TotalDiceText.text = DiceStats.Where(n => n.DieSide == DieSide.Unknown).Sum(n => n.Count).ToString();
         }
 
         private void UpdateStats(DiceKind diceKind)

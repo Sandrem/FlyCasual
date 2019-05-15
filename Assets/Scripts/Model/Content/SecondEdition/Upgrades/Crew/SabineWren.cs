@@ -81,7 +81,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(GenericShip ship, GenericBomb bomb)
         {
-            if (bomb.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo && ReadyTokens.Any())
+            if (bomb.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo && bomb.UpgradeInfo.SubType == UpgradeSubType.Bomb && ReadyTokens.Any())
             {
                 BombEffectTargetShip = ship;
                 RegisterAbilityTrigger(TriggerTypes.OnAfterSufferBombEffect, AskToUseOwnAbility);

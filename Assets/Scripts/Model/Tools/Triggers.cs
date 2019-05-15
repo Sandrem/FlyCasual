@@ -89,6 +89,7 @@ public enum TriggerTypes
     OnBombIsRemoved,
     OnCheckPermissionToDetonate,
     OnCheckSufferBombDetonation,
+    OnAfterSufferBombEffect,
 
     OnAbilityDirect,
     OnAbilityTargetIsSelected,

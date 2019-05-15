@@ -94,13 +94,21 @@ namespace Upgrade
         {
             if (!ship.IgnoressBombDetonationEffect)
             {
-                ExplosionEffect(ship, callBack);
+                ExplosionEffect(
+                    ship, 
+                    delegate { AfterBombEffect(ship, callBack); }
+                );
             }
             else
             {
                 Messages.ShowInfo(string.Format("{0} ignored the detonation of {1}", ship.PilotInfo.PilotName, BombsManager.CurrentBomb.UpgradeInfo.Name));
                 callBack();
             }
+        }
+
+        private void AfterBombEffect(GenericShip ship, Action callback)
+        {
+            ship.CallAfterSufferBombEffect(this, callback);
         }
 
         public virtual void ExplosionEffect(GenericShip ship, Action callBack)

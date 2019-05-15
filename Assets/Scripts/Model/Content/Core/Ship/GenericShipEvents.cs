@@ -48,6 +48,7 @@ namespace Ship
         public delegate void EventHandlerFailedAction(GenericAction action, List<ActionFailReason> failReasons, ref bool isDefaultFailOverwritten);
         public delegate void EventHandlerCheckRange(GenericShip anotherShip, int minRange, int maxRange, BoardTools.RangeCheckReason reason, ref bool isInRange);
         public delegate void EventHandlerForceAlignmentBool(ForceAlignment alignment, ref bool data);
+        public delegate void EventHandlerShipBomb(GenericShip ship, GenericBomb bomb);
 
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetMaxHull;

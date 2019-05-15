@@ -99,6 +99,7 @@ namespace Ship
         public event EventHandlerShip OnDamageCardIsDealt;
         public static event EventHandlerShip OnDamageCardIsDealtGlobal;
         public static event EventHandlerShipDamage OnDamageInstanceResolvedGlobal;
+        public static event EventHandlerShipBomb OnAfterSufferBombEffect;
 
         public event EventHandlerShipRefBool OnCheckPreventDestruction;
         public event EventHandlerShipBool OnShipIsDestroyed;
@@ -904,6 +905,13 @@ namespace Ship
                 Sounds.PlayShots(SoundInfo.ShotsName, SoundInfo.ShotsCount);
                 AnimateTurretWeapon();
             }
+        }
+
+        public void CallAfterSufferBombEffect(GenericBomb bomb, Action callback)
+        {
+            OnAfterSufferBombEffect?.Invoke(this, bomb);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAfterSufferBombEffect, callback);
         }
     }
 

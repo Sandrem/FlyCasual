@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,9 @@ public static class DiceManager {
 
     public static GameObject DiceAttack;
     public static GameObject DiceDefence;
+
+    public static EventHandler OnDiceRolled;
+    public static EventHandler OnDiceResult;
 
     // Use this for initialization
     static DiceManager()
@@ -115,5 +119,14 @@ public static class DiceManager {
         // Add 10+ dice ???
 
     }
-	
+
+    public static void CallDiceRolled(object sender, EventArgs e)
+    {
+        OnDiceRolled?.Invoke(sender, e);
+    }
+
+    internal static void CallDiceResult(object sender, EventArgs e)
+    {
+        OnDiceResult?.Invoke(sender, e);
+    }
 }

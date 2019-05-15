@@ -283,7 +283,7 @@ public static partial class Combat
         else
         {
             Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase));
-            DiceRollAttack = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Combat);
+            DiceRollAttack = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Combat, Attacker.Owner.PlayerNo);
             AttackHit();
         }
     }

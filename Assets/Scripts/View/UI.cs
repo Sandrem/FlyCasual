@@ -17,6 +17,7 @@ public class UI : MonoBehaviour {
     private static float lastLogTextStep = -20;
 
     private int minimapSize = 256;
+    private bool IsStatBlockVisible;
 
     public static bool ShowShipIds;
 
@@ -170,6 +171,14 @@ public class UI : MonoBehaviour {
     public void ToggleViewMode()
     {
         CameraScript.ToggleMode();
+    }
+
+    public void ToggleStatsView()
+    {
+        RectTransform statsGoRect = GameObject.Find("UI").transform.Find("StatsHolder").gameObject.GetComponent<RectTransform>();
+        int modifier = (IsStatBlockVisible) ? -1 : +1;
+        IsStatBlockVisible = !IsStatBlockVisible;
+        statsGoRect.localPosition += new Vector3(0, modifier * 525, 0);
     }
 
     public static void AddTestLogEntry(string text)

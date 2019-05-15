@@ -48,7 +48,7 @@ namespace SubPhases
         private void RollDice()
         {
             DiceRoll DiceRollCombat;
-            DiceRollCombat = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat);
+            DiceRollCombat = new DiceRoll(diceType, diceCount, DiceRollCheckType.Combat, Selection.ActiveShip.Owner.PlayerNo);
             DiceRollCombat.Roll(delegate { ImmediatelyAfterRolling(); });
         }
 

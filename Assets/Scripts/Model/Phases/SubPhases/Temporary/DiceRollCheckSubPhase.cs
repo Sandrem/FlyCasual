@@ -39,7 +39,7 @@ namespace SubPhases
             GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").gameObject.SetActive(true);
 
             DiceRoll DiceRollCheck;
-            DiceRollCheck = new DiceRoll(DiceKind, DiceCount, DiceRollCheckType.Check);
+            DiceRollCheck = new DiceRoll(DiceKind, DiceCount, DiceRollCheckType.Check, Selection.ActiveShip.Owner.PlayerNo);
             DiceRollCheck.Roll(SyncDiceResults);
         }
 

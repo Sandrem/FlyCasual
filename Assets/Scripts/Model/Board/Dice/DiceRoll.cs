@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Players;
 
 public enum DiceRollCheckType
 {
@@ -47,6 +48,8 @@ public partial class DiceRoll
 
     private bool isRolling;
 
+    public PlayerNo PlayerNo { get; private set; }
+
     public DieSide[] ResultsArray
     {
         get { return this.DiceList.Select(n => n.Side).ToArray();}
@@ -65,13 +68,17 @@ public partial class DiceRoll
         }
     }
 
-    public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType)
+    public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType, PlayerNo playerNo = PlayerNo.PlayerNone)
     {
         Type = type;
         CountOfInitialRoll = number;
         CheckType = checkType;
+        PlayerNo = playerNo;
 
-        if (checkType != DiceRollCheckType.Virtual) SetSpawningPoint();
+        if (checkType != DiceRollCheckType.Virtual)
+        {
+            SetSpawningPoint();
+        }
 
         GenerateDiceRoll();
     }
@@ -595,6 +602,12 @@ public partial class DiceRoll
             {
                 DieSide face = die.GetModelFace();
                 die.SetSide(face);
+
+                if (die.IsWaitingForNewResult)
+                {
+                    die.IsWaitingForNewResult = false;
+                    DiceManager.CallDiceResult(this, new DieResultEventArg(PlayerNo, Type, die.Side));
+                }
             }
 
             if (IsDiceFacesVisibilityWrong())

@@ -1,8 +1,5 @@
 ﻿using Ship;
 using Upgrade;
-using Movement;
-using Actions;
-using ActionsList;
 using System;
 using BoardTools;
 using Tokens;
@@ -16,7 +13,7 @@ namespace UpgradesList.SecondEdition
         public ChewbaccaResistance() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Chewbacca",
+                "Chewbacca (Resistance)",
                 UpgradeType.Crew,
                 cost: 5,
                 isLimited: true,

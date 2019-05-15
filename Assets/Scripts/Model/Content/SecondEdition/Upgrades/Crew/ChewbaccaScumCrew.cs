@@ -1,24 +1,23 @@
 ﻿using Ship;
 using Upgrade;
 using System;
+using Tokens;
 using System.Linq;
 
 namespace UpgradesList.SecondEdition
 {
-    public class ChewbaccaRebel : GenericUpgrade
+    public class ChewbaccaScum : GenericUpgrade
     {
-        public ChewbaccaRebel() : base()
+        public ChewbaccaScum() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Chewbacca",
+                "Chewbacca (Scum)",
                 UpgradeType.Crew,
                 cost: 4,
                 isLimited: true,
-                restriction: new FactionRestriction(Faction.Rebel),
-                charges: 2,
-                regensCharges: true,
-                abilityType: typeof(Abilities.SecondEdition.ChewbaccaRebelCrewAbility),
-                seImageNumber: 82
+                restriction: new FactionRestriction(Faction.Scum),
+                abilityType: typeof(Abilities.SecondEdition.ChewbaccaScumCrewAbility),
+                seImageNumber: 157
             );
         }
     }
@@ -26,23 +25,23 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class ChewbaccaRebelCrewAbility : GenericAbility
+    public class ChewbaccaScumCrewAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
-            Phases.Events.OnCombatPhaseStart_Triggers += CheckAbility;
+            Phases.Events.OnEndPhaseStart_Triggers += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnCombatPhaseStart_Triggers -= CheckAbility;
+            Phases.Events.OnEndPhaseStart_Triggers -= CheckAbility;
         }
 
         private void CheckAbility()
         {
-            if (HostUpgrade.State.Charges >= 2 && HostShip.Damage.HasFaceupCards)
+            if (HostShip.Tokens.HasToken<FocusToken>() && HostShip.Damage.HasFaceupCards)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskToUseOwnAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, AskToUseOwnAbility);
             }
         }
 
@@ -60,8 +59,11 @@ namespace Abilities.SecondEdition
         {
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            HostUpgrade.State.SpendCharges(2);
+            HostShip.Tokens.SpendToken(typeof(FocusToken), RepairFaceupCards);
+        }
 
+        private void RepairFaceupCards()
+        {
             if (HostShip.Damage.GetFaceupCrits().Count == 1)
             {
                 DoAutoRepair();
@@ -88,37 +90,4 @@ namespace Abilities.SecondEdition
             );
         }
     }
-}
-
-namespace SubPhases
-{
-
-    public class ChewbaccaRebelCrewDecisionSubPhase : DecisionSubPhase
-    {
-
-        public override void PrepareDecision(System.Action callBack)
-        {
-            InfoText = "Chewbacca: Select faceup damage card";
-
-            DecisionViewType = DecisionViewTypes.ImagesDamageCard;
-
-            foreach (var faceupCrit in Selection.ThisShip.Damage.GetFaceupCrits().ToList())
-            {
-                AddDecision(faceupCrit.Name, delegate { Repair(faceupCrit); }, faceupCrit.ImageUrl);
-            }
-
-            DefaultDecisionName = GetDecisions().First().Name;
-
-            callBack();
-        }
-
-        private void Repair(GenericDamageCard critCard)
-        {
-            Selection.ThisShip.Damage.FlipFaceupCritFacedown(critCard);
-            Sounds.PlayShipSound("Chewbacca");
-            ConfirmDecision();
-        }
-
-    }
-
 }

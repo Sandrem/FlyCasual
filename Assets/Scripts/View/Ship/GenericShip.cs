@@ -57,7 +57,7 @@ namespace Ship
             GameObject shipPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModel", typeof(GameObject));
             GameObject newShip = MonoBehaviour.Instantiate(shipPrefab, position + new Vector3(0, 0.03f, 0), Quaternion.Euler(facing), Board.GetBoard());
 
-            GameObject modelPrefab = (GameObject)Resources.Load("Prefabs/ShipModel/ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)), typeof(GameObject));
+            GameObject modelPrefab = GetShipModelPrefab();
             if (modelPrefab != null)
             {
                 GameObject newModel = MonoBehaviour.Instantiate(modelPrefab, newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels"));
@@ -73,6 +73,11 @@ namespace Ship
             SetShipIdText(newShip);
 
             return newShip;
+        }
+
+        public GameObject GetShipModelPrefab()
+        {
+            return Resources.Load<GameObject>("Prefabs/ShipModel/ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)));
         }
 
         private void SetShipIdText(GameObject model)
@@ -260,20 +265,13 @@ namespace Ship
 
         }
 
-        public void SetShipSkin()
+        public void SetShipSkin(Transform shipTransform)
         {
             if (!string.IsNullOrEmpty(ModelInfo.SkinName))
             {
-                Texture skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(ModelInfo.ModelName) + "/" + ModelInfo.SkinName, typeof(Texture));
+                Texture skin = GetSkinTexture();
 
-                if (skin == null)
-                {
-                    Debug.Log("Warning: Skin \"" + ModelInfo.SkinName + "\" not found, default skin is used ");
-                    string defaultSkinName = GetDefaultSkinName();
-                    skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(ModelInfo.ModelName) + "/" + defaultSkinName, typeof(Texture));
-                }
-
-                foreach (Renderer renderer in GetModelTransform().GetComponentsInChildren<Renderer>())
+                foreach (Renderer renderer in shipTransform.GetComponentsInChildren<Renderer>())
                 {
                     if (renderer != null)
                     {
@@ -282,6 +280,20 @@ namespace Ship
                     }
                 }
             }
+        }
+
+        public Texture GetSkinTexture()
+        {
+            Texture skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(ModelInfo.ModelName) + "/" + ModelInfo.SkinName, typeof(Texture));
+
+            if (skin == null)
+            {
+                Debug.Log("Warning: Skin \"" + ModelInfo.SkinName + "\" not found, default skin is used ");
+                string defaultSkinName = GetDefaultSkinName();
+                skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(ModelInfo.ModelName) + "/" + defaultSkinName, typeof(Texture));
+            }
+
+            return skin;
         }
 
         private string GetDefaultSkinName()

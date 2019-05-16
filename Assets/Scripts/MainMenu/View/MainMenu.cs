@@ -121,6 +121,9 @@ public partial class MainMenu : MonoBehaviour {
             case "ShipInfoPanel":
                 SquadBuilder.ShowShipInformation();
                 break;
+            case "SkinsPanel":
+                SquadBuilder.ShowSkinsPanel();
+                break;
         }
     }
 

@@ -1030,6 +1030,29 @@ namespace SquadBuilderNS
             loadingText.SetActive(true);
         }
 
+        public static void ShowSkinsPanel()
+        {
+            string prefabPath = "Prefabs/SquadBuilder/SkinSelectionPanel";
+            GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+            GameObject contentGO = GameObject.Find("UI/Panels/SkinsPanel/Content/Scroll View/Viewport/Content").gameObject;
+
+            foreach (Transform item in contentGO.transform)
+            {
+                GameObject.Destroy(item.gameObject);
+            }
+
+            int shipsCount = CurrentSquadList.GetShips().Count;
+            contentGO.GetComponent<RectTransform>().sizeDelta = new Vector2(shipsCount * 600 + ((shipsCount + 1) * 20), 0);
+
+            DestroyChildren(GameObject.Find("PreviewsHolder").transform);
+            int i = 0;
+            foreach (SquadBuilderShip ship in CurrentSquadList.GetShips())
+            {
+                GameObject newSkinPanel = GameObject.Instantiate(prefab, contentGO.transform);
+                newSkinPanel.GetComponent<SkinSelectionPanelScript>().Initialize(ship.Instance, i++);
+            }
+        }
+
     }
 
     /// <summary>

@@ -22,6 +22,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Selection.ThisShip.CallPerformActionStepStart();
             Phases.Events.CallBeforeActionSubPhaseTrigger();
             var ship = Selection.ThisShip;
 

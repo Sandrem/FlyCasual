@@ -92,6 +92,8 @@ namespace Ship
 
         public event EventHandlerShip OnAfterModifyDefenseDiceStep;
 
+        public event EventHandler OnPerformActionStepStart;
+
 
         // ACTIONS
 
@@ -744,6 +746,11 @@ namespace Ship
             if (OnAfterModifyDefenseDiceStep != null) OnAfterModifyDefenseDiceStep(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnAfterModifyDefenseDiceStep, callback);
+        }
+
+        public void CallPerformActionStepStart()
+        {
+            OnPerformActionStepStart?.Invoke();
         }
 
     }

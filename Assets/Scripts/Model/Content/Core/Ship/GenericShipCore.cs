@@ -190,7 +190,7 @@ namespace Ship
             InitializeShipBaseArc();
             SetId();
             SetShipInsertImage();
-            SetShipSkin(GetModelTransform());
+            SetShipSkin(GetModelTransform(), GetSkinTexture());
         }
 
         private void SetId()

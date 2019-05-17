@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.KihraxzFighter
 {
@@ -36,7 +37,9 @@ namespace Ship.FirstEdition.KihraxzFighter
 
             ModelInfo = new ShipModelInfo(
                 "Kihraxz Fighter",
-                "Hutt Cartel"
+                "Hutt Cartel",
+                new Vector3(-3.9f, 7.8f, 5.55f),
+                1.5f
             );
 
             DialInfo = new ShipDialInfo(

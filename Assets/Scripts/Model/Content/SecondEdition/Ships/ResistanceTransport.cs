@@ -4,6 +4,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransport
@@ -43,7 +44,9 @@ namespace Ship.SecondEdition.ResistanceTransport
 
             ModelInfo = new ShipModelInfo(
                 "Resistance Transport",
-                "Default"
+                "Default",
+                new Vector3(-3.7f, 8f, 5.55f),
+                1.75f
             );
 
             DialInfo = new ShipDialInfo(

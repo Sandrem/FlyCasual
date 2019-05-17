@@ -8,6 +8,7 @@ using Arcs;
 using Movement;
 using Ship;
 using SubPhases;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.NantexClassStarfighter
@@ -46,7 +47,9 @@ namespace Ship.SecondEdition.NantexClassStarfighter
 
             ModelInfo = new ShipModelInfo(
                 "Nantex-class Starfighter",
-                "Default"
+                "Default",
+                new Vector3(-3.8f, 7.9f, 5.55f),
+                0.75f
             );
 
             DialInfo = new ShipDialInfo(

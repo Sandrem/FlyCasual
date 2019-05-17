@@ -38,7 +38,8 @@ namespace Ship.FirstEdition.Z95Headhunter
 
             ModelInfo = new ShipModelInfo(
                 "Z-95 Headhunter",
-                "Blue"
+                "Blue",
+                previewScale: 1.25f
             );
 
             DialInfo = new ShipDialInfo(

@@ -9,6 +9,7 @@ using Movement;
 using Ship;
 using SubPhases;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
 {
@@ -57,7 +58,9 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
 
             ModelInfo = new ShipModelInfo(
                 "Hyena-class Droid Bomber",
-                "Gray"
+                "Gray",
+                new Vector3(-3.75f, 7.95f, 5.55f),
+                1f
             );
 
             DialInfo = new ShipDialInfo(

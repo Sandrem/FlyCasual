@@ -8,6 +8,7 @@ using Ship;
 using Abilities.SecondEdition;
 using System.Linq;
 using Arcs;
+using UnityEngine;
 
 namespace Ship
 {
@@ -18,7 +19,12 @@ namespace Ship
             public RZ2AWing() : base()
             {
                 ShipInfo.ShipName = "RZ-2 A-wing";
-                ModelInfo = new ShipModelInfo("RZ-2 A-wing", "Blue");
+                ModelInfo = new ShipModelInfo(
+                    "RZ-2 A-wing",
+                    "Blue",
+                    new Vector3(-3.76f, 7.87f, 5.55f),
+                    1f
+                );
 
                 ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.SingleTurret, 2);
 

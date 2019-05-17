@@ -48,7 +48,8 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "Firespray-31",
-                    "Boba Fett"
+                    "Boba Fett",
+                    previewScale: 2.75f
                 );
 
                 DialInfo = new ShipDialInfo(

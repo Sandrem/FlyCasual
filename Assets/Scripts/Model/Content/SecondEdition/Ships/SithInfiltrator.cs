@@ -4,6 +4,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.SithInfiltrator
@@ -41,7 +42,9 @@ namespace Ship.SecondEdition.SithInfiltrator
 
             ModelInfo = new ShipModelInfo(
                 "Sith Infiltrator",
-                "Default"
+                "Default",
+                new Vector3(-4.17f, 8.25f, 5.55f),
+                2.5f
             );
 
             DialInfo = new ShipDialInfo(

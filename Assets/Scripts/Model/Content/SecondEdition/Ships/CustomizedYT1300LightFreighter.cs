@@ -4,6 +4,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
@@ -30,7 +31,9 @@ namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
 
             ModelInfo = new ShipModelInfo(
                 "Customized YT-1300 Light Freighter",
-                "Default"
+                "Default",
+                new Vector3(-3.3f, 7.3f, 5.55f),
+                3.5f
             );
 
             DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Easy);

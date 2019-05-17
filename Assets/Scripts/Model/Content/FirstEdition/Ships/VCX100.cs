@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.VCX100
 {
@@ -43,7 +44,9 @@ namespace Ship.FirstEdition.VCX100
 
             ModelInfo = new ShipModelInfo(
                 "VCX-100",
-                "VCX-100"
+                "VCX-100",
+                new Vector3(-3.7f, 9.17f, 5.55f),
+                4f
             );
 
             DialInfo = new ShipDialInfo(

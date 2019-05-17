@@ -39,7 +39,8 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "TIE Reaper",
-                    "Gray"
+                    "Gray",
+                    previewScale: 2f
                 );
 
                 DialInfo = new ShipDialInfo(

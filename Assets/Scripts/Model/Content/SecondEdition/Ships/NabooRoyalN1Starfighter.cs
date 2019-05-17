@@ -6,6 +6,7 @@ using Upgrade;
 using Actions;
 using Arcs;
 using BoardTools;
+using UnityEngine;
 
 namespace Ship.SecondEdition.NabooRoyalN1Starfighter
 {
@@ -43,7 +44,9 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
 
             ModelInfo = new ShipModelInfo(
                 "Naboo Royal N-1 Starfighter",
-                "Yellow"
+                "Yellow",
+                new Vector3(-3.75f, 8f, 5.55f),
+                1.1f
             );
 
             DialInfo = new ShipDialInfo(

@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.SheathipedeClassShuttle
 {
@@ -41,7 +42,9 @@ namespace Ship.FirstEdition.SheathipedeClassShuttle
 
             ModelInfo = new ShipModelInfo(
                 "Sheathipede-class Shuttle",
-                "Phantom II"
+                "Phantom II",
+                new Vector3(-3.7f, 7.8f, 5.55f),
+                1.25f
             );
 
             DialInfo = new ShipDialInfo(

@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.BSF17Bomber
 {
@@ -43,7 +44,9 @@ namespace Ship.FirstEdition.BSF17Bomber
 
             ModelInfo = new ShipModelInfo(
                 "B/SF-17 Bomber",
-                "Crimson"
+                "Crimson",
+                new Vector3(-4.25f, 8.3f, 5.55f),
+                3f
             );
 
             DialInfo = new ShipDialInfo(

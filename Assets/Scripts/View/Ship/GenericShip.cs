@@ -265,12 +265,10 @@ namespace Ship
 
         }
 
-        public void SetShipSkin(Transform shipTransform)
+        public void SetShipSkin(Transform shipTransform, Texture skin)
         {
             if (!string.IsNullOrEmpty(ModelInfo.SkinName))
             {
-                Texture skin = GetSkinTexture();
-
                 foreach (Renderer renderer in shipTransform.GetComponentsInChildren<Renderer>())
                 {
                     if (renderer != null)
@@ -294,6 +292,11 @@ namespace Ship
             }
 
             return skin;
+        }
+
+        public List<Texture> GetAvailableSkins()
+        {
+            return Resources.LoadAll<Texture>("ShipSkins/" + FixTypeName(ModelInfo.ModelName)).ToList();
         }
 
         private string GetDefaultSkinName()

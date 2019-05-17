@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.EWing
 {
@@ -39,7 +40,9 @@ namespace Ship.FirstEdition.EWing
 
             ModelInfo = new ShipModelInfo(
                 "E-wing",
-                "Red"
+                "Red",
+                new Vector3(-3.85f, 7.62f, 5.55f),
+                1.1f
             );
 
             DialInfo = new ShipDialInfo(

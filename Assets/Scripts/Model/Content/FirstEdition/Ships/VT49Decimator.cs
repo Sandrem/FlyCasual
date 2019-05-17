@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.VT49Decimator
 {
@@ -43,7 +44,9 @@ namespace Ship.FirstEdition.VT49Decimator
 
             ModelInfo = new ShipModelInfo(
                 "VT-49 Decimator",
-                "Gray"
+                "Gray",
+                new Vector3(-4f, 8.15f, 5.55f),
+                3.5f
             );
 
             DialInfo = new ShipDialInfo(

@@ -4,6 +4,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.V19TorrentStarfighter
@@ -39,7 +40,9 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
 
             ModelInfo = new ShipModelInfo(
                 "V-19 Torrent",
-                "Default"
+                "Default",
+                new Vector3(-3.5f, 7.25f, 5.55f),
+                1.5f
             );
 
             DialInfo = new ShipDialInfo(

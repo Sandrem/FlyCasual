@@ -46,7 +46,8 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "TIE/SF Fighter",
-                    "First Order"
+                    "First Order",
+                    previewScale: 2f
                 );
 
                 DialInfo = new ShipDialInfo(

@@ -38,6 +38,7 @@ namespace Ship.FirstEdition.AttackShuttle
             ModelInfo = new ShipModelInfo(
                 "Attack Shuttle",
                 "Attack Shuttle",
+                previewScale: 1.18f,
                 wingsPositions: WingsPositions.Opened
             );
 

@@ -7,6 +7,7 @@ using Arcs;
 using Upgrade;
 using Mods;
 using Mods.ModsList;
+using UnityEngine;
 
 namespace Ship.FirstEdition.UWing
 {
@@ -44,6 +45,8 @@ namespace Ship.FirstEdition.UWing
             ModelInfo = new ShipModelInfo(
                 "U-wing",
                 "Blue Squadron",
+                new Vector3(-3.25f, 7.16f, 5.55f),
+                2f,
                 wingsPositions: WingsPositions.Closed
             );
 

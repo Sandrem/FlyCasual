@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.Hwk290
 {
@@ -43,7 +44,9 @@ namespace Ship.FirstEdition.Hwk290
 
             ModelInfo = new ShipModelInfo(
                 "HWK-290",
-                "Brown"
+                "Brown",
+                new Vector3(-4f, 7.75f, 5.55f),
+                1.75f
             );
 
             DialInfo = new ShipDialInfo(

@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.ARC170
 {
@@ -42,6 +43,8 @@ namespace Ship.FirstEdition.ARC170
             ModelInfo = new ShipModelInfo(
                 "ARC-170",
                 "ARC-170",
+                new Vector3(-3.25f, 7.1f, 5.55f),
+                2.5f,
                 wingsPositions: WingsPositions.Opened
             );
 

@@ -6,6 +6,7 @@ using Upgrade;
 using Actions;
 using Arcs;
 using BoardTools;
+using UnityEngine;
 
 namespace Ship.SecondEdition.BTLBYWing
 {
@@ -45,7 +46,9 @@ namespace Ship.SecondEdition.BTLBYWing
 
             ModelInfo = new ShipModelInfo(
                 "BTL-B Y-wing",
-                "Yellow"
+                "Yellow",
+                new Vector3(-4f, 7.9f, 5.55f),
+                1.75f
             );
 
             DialInfo = new ShipDialInfo(

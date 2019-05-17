@@ -4,6 +4,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.Belbullab22Starfighter
@@ -42,7 +43,9 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
 
             ModelInfo = new ShipModelInfo(
                 "Belbullab-22",
-                "Default"
+                "Default",
+                new Vector3(-3.7f, 7.77f, 5.55f),
+                0.8f
             );
 
             DialInfo = new ShipDialInfo(

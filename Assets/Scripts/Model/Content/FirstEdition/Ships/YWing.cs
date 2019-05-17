@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.YWing
 {
@@ -41,7 +42,9 @@ namespace Ship.FirstEdition.YWing
 
             ModelInfo = new ShipModelInfo(
                 "Y-wing",
-                "Yellow"
+                "Yellow",
+                new Vector3(-4f, 7.9f, 5.55f),
+                1.75f
             );
 
             DialInfo = new ShipDialInfo(

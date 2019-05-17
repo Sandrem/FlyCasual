@@ -5,6 +5,7 @@ using ActionsList;
 using Actions;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship
 {
@@ -43,7 +44,9 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "TIE Bomber",
-                    "Gray"
+                    "Gray",
+                    new Vector3(-3.9f, 8f, 5.55f),
+                    2f
                 );
 
                 DialInfo = new ShipDialInfo(

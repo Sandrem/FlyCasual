@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.XWing
 {
@@ -41,6 +42,8 @@ namespace Ship.FirstEdition.XWing
             ModelInfo = new ShipModelInfo(
                 "X-wing",
                 "Red",
+                new Vector3(-3.62f, 7.62f, 5.55f),
+                1.5f,
                 wingsPositions: WingsPositions.Opened
             );
 

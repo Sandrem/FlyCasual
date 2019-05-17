@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.YT2400
 {
@@ -42,7 +43,9 @@ namespace Ship.FirstEdition.YT2400
 
             ModelInfo = new ShipModelInfo(
                 "YT-2400",
-                "Red"
+                "Red",
+                new Vector3(-3.35f, 8.2f, 5.55f),
+                3.25f
             );
 
             DialInfo = new ShipDialInfo(

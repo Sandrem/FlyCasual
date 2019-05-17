@@ -5,6 +5,7 @@ using ActionsList;
 using Actions;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship
 {
@@ -41,7 +42,9 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "Alpha-class Star Wing",
-                    "Gray"
+                    "Gray",
+                    new Vector3(-4, 8, 5.5f),
+                    1.5f
                 );
 
                 DialInfo = new ShipDialInfo(

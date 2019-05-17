@@ -7,6 +7,7 @@ using Arcs;
 using BoardTools;
 using Movement;
 using Ship;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
@@ -44,7 +45,9 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
             ModelInfo = new ShipModelInfo(
                 "Delta-7 Aethersprite",
-                "Red"
+                "Red",
+                new Vector3(-3.75f, 7.85f, 5.55f),
+                0.6f
             );
 
             DialInfo = new ShipDialInfo(

@@ -5,6 +5,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Upgrade;
+using UnityEngine;
 
 namespace Ship.FirstEdition.AuzituckGunship
 {
@@ -40,7 +41,9 @@ namespace Ship.FirstEdition.AuzituckGunship
 
             ModelInfo = new ShipModelInfo(
                 "Auzituck Gunship",
-                "Kashyyyk Defender"
+                "Kashyyyk Defender",
+                new Vector3(-3.9f, 8.1f, 5.55f),
+                1.5f
             );
 
             DialInfo = new ShipDialInfo(

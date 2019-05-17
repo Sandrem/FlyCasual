@@ -4,6 +4,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.ScavengedYT1300
@@ -18,7 +19,12 @@ namespace Ship.SecondEdition.ScavengedYT1300
             ShipInfo.Hull = 8;
             ShipInfo.Shields = 3;
 
-            ModelInfo = new ShipModelInfo("Scavenged YT-1300", "YT-1300");
+            ModelInfo = new ShipModelInfo(
+                "Scavenged YT-1300",
+                "YT-1300",
+                new Vector3(-3.25f, 7.55f, 5.55f),
+                3.5f
+            );
 
             ShipInfo.DefaultShipFaction = Faction.Resistance;
             ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };

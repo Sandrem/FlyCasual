@@ -9,6 +9,7 @@ using Movement;
 using Ship;
 using SubPhases;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.VultureClassDroidFighter
@@ -46,7 +47,9 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
 
             ModelInfo = new ShipModelInfo(
                 "Vulture",
-                "Default"
+                "Default",
+                new Vector3(-3.7f, 7.85f, 5.55f),
+                1f
             );
 
             DialInfo = new ShipDialInfo(

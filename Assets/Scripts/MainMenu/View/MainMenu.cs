@@ -124,6 +124,9 @@ public partial class MainMenu : MonoBehaviour {
             case "SkinsPanel":
                 SquadBuilder.ShowSkinsPanel();
                 break;
+            case "ObstaclesPanel":
+                SquadBuilder.ShowObstaclesPanel();
+                break;
         }
     }
 

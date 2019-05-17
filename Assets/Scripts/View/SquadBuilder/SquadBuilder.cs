@@ -1036,14 +1036,10 @@ namespace SquadBuilderNS
             GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
             GameObject contentGO = GameObject.Find("UI/Panels/SkinsPanel/Content/Scroll View/Viewport/Content").gameObject;
 
-            foreach (Transform item in contentGO.transform)
-            {
-                GameObject.Destroy(item.gameObject);
-            }
-
             int shipsCount = CurrentSquadList.GetShips().Count;
             contentGO.GetComponent<RectTransform>().sizeDelta = new Vector2(shipsCount * 600 + ((shipsCount + 1) * 20), 0);
 
+            DestroyChildren(contentGO.transform);
             DestroyChildren(GameObject.Find("PreviewsHolder").transform);
             int i = 0;
             foreach (SquadBuilderShip ship in CurrentSquadList.GetShips())
@@ -1051,6 +1047,23 @@ namespace SquadBuilderNS
                 GameObject newSkinPanel = GameObject.Instantiate(prefab, contentGO.transform);
                 newSkinPanel.GetComponent<SkinSelectionPanelScript>().Initialize(ship.Instance, i++);
             }
+        }
+
+        public static void ShowObstaclesPanel()
+        {
+            string prefabPath = "Prefabs/SquadBuilder/ObstacleViewPanel";
+            GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+            GameObject contentGO = GameObject.Find("UI/Panels/ObstaclesPanel/Content").gameObject;
+
+            DestroyChildren(contentGO.transform);
+            DestroyChildren(GameObject.Find("PreviewsHolder").transform);
+
+            for (int i = 0; i < 3; i++)
+            {
+                GameObject newObstacleViewPanel = GameObject.Instantiate(prefab, contentGO.transform);
+                newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize("Core Asteroid " + i, i);
+            }
+
         }
 
     }

@@ -16,6 +16,8 @@ namespace Ship
                     factionOverride: Faction.Scum,
                     seImageNumber: 173
                 );
+
+                ModelInfo.SkinName = "Binayre Pirate";
             }
         }
     }

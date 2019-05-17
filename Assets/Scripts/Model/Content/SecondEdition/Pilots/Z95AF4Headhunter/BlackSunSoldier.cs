@@ -17,6 +17,8 @@ namespace Ship
                     factionOverride: Faction.Scum,
                     seImageNumber: 172
                 );
+
+                ModelInfo.SkinName = "Black Sun";
             }
         }
     }

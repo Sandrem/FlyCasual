@@ -17,6 +17,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Illicit,
                     factionOverride: Faction.Scum
                 );
+
+                ModelInfo.SkinName = "Black Sun";
             }
         }
     }

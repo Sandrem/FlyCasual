@@ -21,6 +21,8 @@ namespace Ship
                     factionOverride: Faction.Scum,
                     seImageNumber: 169
                 );
+
+                ModelInfo.SkinName = "N'dru Suhlak";
             }
         }
     }

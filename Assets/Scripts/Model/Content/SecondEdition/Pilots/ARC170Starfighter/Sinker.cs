@@ -21,7 +21,9 @@ namespace Ship
                     factionOverride: Faction.Republic,
                     abilityType: typeof(Abilities.SecondEdition.SinkerAbility)
                 );
-                
+
+                ModelInfo.SkinName = "Red";
+
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/4e/2b/4e2bb1a3-4865-421d-898f-5272f1ab3b73/swz33_sinker.png";
             }
         }

@@ -23,6 +23,8 @@ namespace Ship
                     factionOverride: Faction.Scum,
                     seImageNumber: 170
                 );
+
+                ModelInfo.SkinName = "Kaa'to Leeachos";
             }
         }
     }

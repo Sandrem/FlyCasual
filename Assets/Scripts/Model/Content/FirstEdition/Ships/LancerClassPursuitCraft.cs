@@ -46,7 +46,7 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "Lancer-class Pursuit Craft",
-                    "Lancer-class Pursuit Craft",
+                    "Shadow Caster",
                     new Vector3(-4f, 7.8f, 5.55f),
                     3.75f
                 );

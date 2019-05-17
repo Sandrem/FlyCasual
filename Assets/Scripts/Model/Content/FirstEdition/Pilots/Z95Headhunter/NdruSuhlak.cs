@@ -19,6 +19,8 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit},
                     factionOverride: Faction.Scum
                 );
+
+                ModelInfo.SkinName = "N'dru Suhlak";
             }
         }
     }

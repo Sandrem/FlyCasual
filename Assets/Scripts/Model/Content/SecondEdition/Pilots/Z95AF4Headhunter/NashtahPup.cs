@@ -21,6 +21,8 @@ namespace Ship
                     seImageNumber: 171
                 );
 
+                ModelInfo.SkinName = "Nashtah Pup";
+
                 ShipAbilities.Add(new Abilities.SecondEdition.EscapeCraftSE());
             }
 

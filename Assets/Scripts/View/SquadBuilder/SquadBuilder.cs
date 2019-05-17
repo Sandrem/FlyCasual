@@ -1058,10 +1058,10 @@ namespace SquadBuilderNS
             DestroyChildren(contentGO.transform);
             DestroyChildren(GameObject.Find("PreviewsHolder").transform);
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 1; i < 4; i++)
             {
                 GameObject newObstacleViewPanel = GameObject.Instantiate(prefab, contentGO.transform);
-                newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize("Core Asteroid " + i, i);
+                newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize("Gas Cloud " + i, i);
             }
 
         }

@@ -36,7 +36,7 @@ public class ObstacleViewPanelScript : MonoBehaviour
     private void CreateObstacleModel()
     {
         GameObject obstacleHolder = ObstaclePreview.transform.Find("ObstacleHolder").gameObject;
-        GameObject obstacleModelPrefab = Resources.Load<GameObject>("Prefabs/Obstacles/Asteroids/" + ObstacleId);
+        GameObject obstacleModelPrefab = Resources.Load<GameObject>("Prefabs/Obstacles/Gas Clouds/" + ObstacleId);
         ObstacleModel = GameObject.Instantiate<GameObject>(obstacleModelPrefab, obstacleHolder.transform);
     }
 

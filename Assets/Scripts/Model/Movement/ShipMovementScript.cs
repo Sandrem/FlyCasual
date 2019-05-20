@@ -193,8 +193,6 @@ public class ShipMovementScript : MonoBehaviour {
 
     private static void FinishMovementAndStartActionDecision()
     {
-        Rules.AsteroidHit.CheckSkipPerformAction();
-
         GenericSubPhase actionSubPhase = new ActionSubPhase();
         actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;
 

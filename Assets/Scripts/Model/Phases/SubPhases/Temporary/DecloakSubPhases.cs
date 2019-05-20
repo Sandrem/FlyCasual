@@ -407,7 +407,7 @@ namespace SubPhases
             if (decloakProblems.Count == 0)
             {
                 CheckMines();
-                Selection.ThisShip.LandedOnObstacles = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
+                Selection.ThisShip.ObstaclesLanded = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
                 GameMode.CurrentGameMode.StartDecloakExecution(Selection.ThisShip);
             }
             else

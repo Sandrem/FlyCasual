@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 pilotTitle: "Conflicted Padawan"
             );
 
-            ModelInfo.SkinName = "Green";
+            ModelInfo.SkinName = "Blue";
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/f8f58005da18d7041b1ec2374701465c.png";
         }

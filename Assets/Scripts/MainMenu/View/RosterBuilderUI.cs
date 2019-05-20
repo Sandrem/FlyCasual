@@ -160,4 +160,9 @@ public class RosterBuilderUI : MonoBehaviour {
         SquadBuilder.CopyCurrentShip();
     }
 
+    public void SetDefaultObstacles()
+    {
+        SquadBuilder.SetDefaultObstacles();
+    }
+
 }

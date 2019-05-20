@@ -7,6 +7,7 @@ using Ship;
 using SquadBuilderNS;
 using System;
 using GameCommands;
+using Obstacles;
 
 public static partial class Roster
 {
@@ -99,6 +100,8 @@ public static partial class Roster
 
     private static void SpawnAllShips()
     {
+        ObstaclesManager.Instance.ChosenObstacles = new List<GenericObstacle>();
+
         foreach (var squadList in SquadBuilder.SquadLists)
         {
             SquadBuilder.SetPlayerSquadFromImportedJson(squadList.Name, squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
@@ -112,6 +115,13 @@ public static partial class Roster
             }
 
             Roster.GetPlayer(squadList.PlayerNo).SquadCost = squadList.Points;
+
+            Roster.GetPlayer(squadList.PlayerNo).ChosenObstacles = new List<GenericObstacle>()
+            {
+                ObstaclesManager.GenerateObstacle(squadList.ChosenObstacles[0].ShortName, squadList.PlayerNo),
+                ObstaclesManager.GenerateObstacle(squadList.ChosenObstacles[1].ShortName, squadList.PlayerNo),
+                ObstaclesManager.GenerateObstacle(squadList.ChosenObstacles[2].ShortName, squadList.PlayerNo)
+            };
         }
 
         // Keep order, ships must have same ID on both clients

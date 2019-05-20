@@ -117,7 +117,7 @@ namespace SubPhases
                     {
                         if (hitInfo.transform.tag.StartsWith("Asteroid"))
                         {
-                            GenericObstacle clickedObstacle = ObstaclesManager.GetObstacleByTransform(hitInfo.transform);
+                            GenericObstacle clickedObstacle = ObstaclesManager.GetChosenObstacle(hitInfo.transform.name);
 
                             if (clickedObstacle.IsPlaced)
                             {
@@ -159,7 +159,7 @@ namespace SubPhases
 
         public static void ConfirmSelectionOfObstacle(string obstacleName)
         {
-            GenericObstacle obstacle = ObstaclesManager.GetObstacleByName(obstacleName);
+            GenericObstacle obstacle = ObstaclesManager.GetChosenObstacle(obstacleName);
             SelectTargetAction(obstacle);
         }
 

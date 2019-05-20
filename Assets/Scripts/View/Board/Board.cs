@@ -13,6 +13,7 @@ namespace BoardTools
         public static Transform BoardTransform;
 
         public static Transform RulersHolderTransform;
+        public static Transform ObstacleHolderTransform;
 
         public static GameObject StartingZone1;
         public static GameObject StartingZone2;
@@ -34,6 +35,7 @@ namespace BoardTools
         {
             BoardTransform = GameObject.Find("SceneHolder/Board").transform;
             RulersHolderTransform = BoardTransform.Find("RulersHolder");
+            ObstacleHolderTransform = BoardTransform.Find("ObstaclesZone/ObstaclesHolder");
             StartingZone1 = BoardTransform.Find("Playmat/StaringZone1").gameObject;
             StartingZone2 = BoardTransform.Find("Playmat/StaringZone2").gameObject;
             StartingZone3 = BoardTransform.Find("Playmat/StaringZone3").gameObject;
@@ -43,7 +45,6 @@ namespace BoardTools
             MovementTemplates.PrepareMovementTemplates();
 
             SetPlaymatScene();
-            SetObstacles();
         }
 
         private static void SetPlaymatScene()
@@ -158,6 +159,11 @@ namespace BoardTools
         public static Transform GetRulersHolder()
         {
             return RulersHolderTransform;
+        }
+
+        public static Transform GetObstacleHolder()
+        {
+            return ObstacleHolderTransform;
         }
 
         public static Transform GetStartingZone(Players.PlayerNo playerNo)
@@ -356,17 +362,9 @@ namespace BoardTools
             return ships;
         }
 
-        private static void SetObstacles()
-        {
-            for (int i = 1; i <= 6; i++)
-            {
-                Objects.Add(GameObject.Find("SceneHolder/Board/ObstaclesHolder/A" + i + "/A" + i + "model").GetComponent<MeshCollider>());
-            }
-        }
-
         public static void ToggleObstaclesHolder(bool isActive)
         {
-            BoardTransform.Find("ObstaclesHolder").gameObject.SetActive(isActive);
+            BoardTransform.Find("ObstaclesZone").gameObject.SetActive(isActive);
         }
 
         public static void ToggleDiceHolders(bool isActive)

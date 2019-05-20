@@ -21,7 +21,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 pilotTitle: "Wise Protector"
             );
 
-            ModelInfo.SkinName = "Blue";
+            ModelInfo.SkinName = "Green";
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/7f87b6c12631687bedf75a18582af0b0.png";
         }

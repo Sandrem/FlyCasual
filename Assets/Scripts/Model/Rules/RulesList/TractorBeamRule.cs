@@ -270,7 +270,7 @@ namespace SubPhases
         {
             TheShip.CallActionIsTaken(action, delegate {
                 // ^ CallActionIsTaken to support interaction with black one, etc
-                Rules.AsteroidHit.CheckDamage(TheShip);
+                Rules.AsteroidHit.CheckHits(TheShip);
                 Triggers.ResolveTriggers(TriggerTypes.OnMovementFinish, Next);
             });
         }

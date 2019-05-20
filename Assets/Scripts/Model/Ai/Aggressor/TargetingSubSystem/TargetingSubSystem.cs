@@ -70,7 +70,7 @@ namespace AI.Aggressor
 
             float defenceDiceThrown = TargetShip.State.Agility;
             if (shotInfo.Range == 3 && !Edition.Current.IsWeaponHaveRangeBonus(Weapon)) defenceDiceThrown++;
-            if (shotInfo.IsObstructedByAsteroid) defenceDiceThrown++;
+            if (shotInfo.IsObstructedByObstacle) defenceDiceThrown++;
 
             float defenceDiceModifier = 0;
             if (TargetShip.Tokens.HasToken<FocusToken>())

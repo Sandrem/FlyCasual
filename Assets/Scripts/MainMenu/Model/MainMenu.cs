@@ -11,6 +11,7 @@ using System;
 using Upgrade;
 using Migrations;
 using ExtraOptions;
+using Obstacles;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -43,6 +44,8 @@ public partial class MainMenu : MonoBehaviour {
         UpdatePlayerInfo();
 
         PrepareUpdateChecker();
+
+        new ObstaclesManager();
     }
 
     public void QuitGame()

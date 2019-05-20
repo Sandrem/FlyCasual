@@ -1,4 +1,5 @@
 ﻿using Arcs;
+using Obstacles;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,9 @@ namespace BoardTools
         private Dictionary<GenericArc, bool> InArcInfo { get; set; }
         private Dictionary<GenericArc, bool> InSectorInfo { get; set; }
 
-        public bool IsObstructedByAsteroid { get; private set; }
+        public bool IsObstructedByObstacle { get { return ObstaclesObstructed.Count > 0; } }
         public bool IsObstructedByBombToken { get; private set; }
+        public List<GenericObstacle> ObstaclesObstructed = new List<GenericObstacle>();
 
         public IShipWeapon Weapon { get; private set; }
 
@@ -207,10 +209,13 @@ namespace BoardTools
         private void GetResults()
         {
             ObstaclesFiringLineDetector obstacleDetector = FiringLine.GetComponentInChildren<ObstaclesFiringLineDetector>();
+
+            ObstaclesObstructed = new List<GenericObstacle>();
             if (obstacleDetector.IsObstructedByAsteroid)
             {
-                IsObstructedByAsteroid = true;
+                ObstaclesObstructed = obstacleDetector.ObstaclesObstructed;
             }
+
             if (obstacleDetector.IsObstructedByBombToken)
             {
                 IsObstructedByBombToken = true;

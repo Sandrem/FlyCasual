@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Players;
+using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +8,23 @@ using UnityEngine;
 
 namespace Obstacles
 {
-    public class GenericObstacle
+    public abstract class GenericObstacle
     {
-        public string Name { get; protected set; }
+        public string Name { get; set; }
+        public string ShortName { get; protected set; }
         public bool IsPlaced { get; set; }
         public GameObject ObstacleGO { get; set; }
 
-        public GenericObstacle(GameObject obstacleGO)
+        public GenericObstacle(string name, string shortName)
         {
-            ObstacleGO = obstacleGO;
+            Name = name;
+            ShortName = shortName;
         }
+
+        public abstract string GetTypeName { get; }
+
+        public abstract void OnHit(GenericShip ship);
+        public abstract void OnLanded(GenericShip ship);
+        public abstract void OnShotObstructedExtra(GenericShip attacker, GenericShip defender);
     }
 }

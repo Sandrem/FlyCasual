@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
         public BT1() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "R2-D2",
+                "BT-1",
                 UpgradeType.Gunner,
                 cost: 2,
                 isLimited: true,

@@ -1402,5 +1402,11 @@ namespace SquadBuilderNS
                 UpdateSquadCostForPilotMenu(GetCurrentSquadCost());
             }
         }
+
+        public static void SetDefaultObstacles()
+        {
+            CurrentSquadList.SetDefaultObstacles();
+            ShowChosenObstaclesPanel();
+        }
     }
 }

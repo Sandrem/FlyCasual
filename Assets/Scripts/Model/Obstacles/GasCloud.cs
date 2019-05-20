@@ -9,7 +9,7 @@ namespace Obstacles
 {
     public class GasCloud : GenericObstacle
     {
-        public GasCloud(string name) : base(name)
+        public GasCloud(string name, string shortName) : base(name, shortName)
         {
             
         }

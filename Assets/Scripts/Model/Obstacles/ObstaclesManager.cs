@@ -26,16 +26,37 @@ namespace Obstacles
             Instance.Obstacles = new List<GenericObstacle>();
             for (int i = 0; i < 6; i++)
             {
-                Instance.Obstacles.Add(new Asteroid("Core Asteroid " + i));
-                Instance.Obstacles.Add(new Asteroid("Force Awakens Asteroid " + i));
+                Instance.Obstacles.Add(
+                    new Asteroid(
+                        "Core Asteroid " + i,
+                        "coreasteroid" + i
+                    )
+                );
+
+                Instance.Obstacles.Add(
+                    new Asteroid(
+                        "Force Awakens Asteroid " + i,
+                        "core2asteroid" + i
+                    )
+                );
             }
 
             // TODO: Add all debris
-            Instance.Obstacles.Add(new Debris("YT2400 Debris 2"));
+            Instance.Obstacles.Add(
+                new Debris(
+                    "YT2400 Debris 2",
+                    "yt2400debris2"
+                )
+            );
 
             for (int i = 1; i < 4; i++)
             {
-                Instance.Obstacles.Add(new GasCloud("Gas Cloud " + i));
+                Instance.Obstacles.Add(
+                    new GasCloud(
+                        "Gas Cloud " + i,
+                        "gascloud" + i
+                    )
+                );
             }
 
             Instance.Obstacles = Instance.Obstacles.OrderBy(n => n.Name).ToList();
@@ -45,7 +66,12 @@ namespace Obstacles
 
         public static GenericObstacle GetObstacleByName(string obstacleName)
         {
-            return Instance.Obstacles.First(n => n.ObstacleGO.name == obstacleName);
+            return Instance.Obstacles.First(n => n.Name == obstacleName);
+        }
+
+        public static GenericObstacle GetObstacleByShortName(string obstacleShortName)
+        {
+            return Instance.Obstacles.First(n => n.ShortName == obstacleShortName);
         }
 
         public static GenericObstacle GetObstacleByTransform(Transform transform)

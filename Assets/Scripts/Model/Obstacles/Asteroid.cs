@@ -9,7 +9,7 @@ namespace Obstacles
 {
     public class Asteroid: GenericObstacle
     {
-        public Asteroid(string name) : base(name)
+        public Asteroid(string name, string shortName) : base(name, shortName)
         {
 
         }

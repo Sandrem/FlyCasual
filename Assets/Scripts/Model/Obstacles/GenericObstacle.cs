@@ -10,12 +10,14 @@ namespace Obstacles
     public abstract class GenericObstacle
     {
         public string Name { get; protected set; }
+        public string ShortName { get; protected set; }
         public bool IsPlaced { get; set; }
         public GameObject ObstacleGO { get; set; }
 
-        public GenericObstacle(string name)
+        public GenericObstacle(string name, string shortName)
         {
             Name = name;
+            ShortName = shortName;
         }
 
         public abstract string GetTypeName { get; }

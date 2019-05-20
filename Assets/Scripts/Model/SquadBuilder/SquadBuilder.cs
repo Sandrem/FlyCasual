@@ -9,6 +9,7 @@ using Upgrade;
 using GameModes;
 using UnityEngine.SceneManagement;
 using Editions;
+using Obstacles;
 
 namespace SquadBuilderNS
 {
@@ -41,10 +42,22 @@ namespace SquadBuilderNS
         public string Name;
         public JSONObject SavedConfiguration;
         public int Points;
+        public List<GenericObstacle> ChosenObstacles;
 
         public SquadList(PlayerNo playerNo)
         {
             PlayerNo = playerNo;
+            SetDefaultObstacles();
+        }
+
+        public void SetDefaultObstacles()
+        {
+            ChosenObstacles = new List<GenericObstacle>()
+            {
+                ObstaclesManager.GetObstacleByName("Core Asteroid 5"),
+                ObstaclesManager.GetObstacleByName("Force Awakens Asteroid 5"),
+                ObstaclesManager.GetObstacleByName("Force Awakens Asteroid 4")
+            };
         }
 
         public SquadBuilderShip AddShip(GenericShip ship)
@@ -873,6 +886,20 @@ namespace SquadBuilderNS
                     Messages.ShowError("The squad has no pilots");
                 }
 
+                if (squadJson.HasField("obstacles"))
+                {
+                    squadList.ChosenObstacles = new List<GenericObstacle>()
+                    {
+                        ObstaclesManager.GetObstacleByShortName(squadJson["obstacles"][0].str),
+                        ObstaclesManager.GetObstacleByShortName(squadJson["obstacles"][1].str),
+                        ObstaclesManager.GetObstacleByShortName(squadJson["obstacles"][2].str)
+                    };
+                }
+                else
+                {
+                    squadList.SetDefaultObstacles();
+                }
+
                 callBack();
             }
             catch (Exception)
@@ -924,6 +951,13 @@ namespace SquadBuilderNS
             JSONObject squadPilotsJson = new JSONObject(squadPilotsArrayJson);
             squadJson.AddField("pilots", squadPilotsJson);
 
+            JSONObject squadObstalesArrayJson = new JSONObject(JSONObject.Type.ARRAY);
+            for (int i = 0; i < GetSquadList(playerNo).ChosenObstacles.Count; i++)
+            {
+                squadObstalesArrayJson.Add(GetSquadList(playerNo).ChosenObstacles[i].ShortName);
+            }
+
+            squadJson.AddField("obstacles", squadObstalesArrayJson);
             squadJson.AddField("description", GetDescriptionOfSquadJson(squadJson));
 
             return squadJson;

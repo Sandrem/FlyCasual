@@ -9,7 +9,7 @@ namespace Obstacles
 {
     public class Debris: GenericObstacle
     {
-        public Debris(string name) : base(name)
+        public Debris(string name, string shortName) : base(name, shortName)
         {
             
         }

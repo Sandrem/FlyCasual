@@ -72,7 +72,9 @@ namespace SubPhases
                     obstacle.ObstacleGO = GameObject.Instantiate<GameObject>(obstacleModelPrefab, obstacleHolder.transform);
                     obstacle.Name = obstacle.Name + "_" + i;
                     obstacle.ObstacleGO.name = obstacle.Name;
-                    Board.Objects.Add(obstacle.ObstacleGO.GetComponent<MeshCollider>());
+                    GameObject colliderGO = obstacle.ObstacleGO.transform.Find("default").gameObject;
+                    colliderGO.name = obstacle.Name;
+                    Board.Objects.Add(colliderGO.GetComponent<MeshCollider>());
                 }
             }
         }

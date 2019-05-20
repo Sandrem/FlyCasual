@@ -1062,10 +1062,14 @@ namespace SquadBuilderNS
             for (int i = 0; i < 3; i++)
             {
                 GameObject newObstacleViewPanel = GameObject.Instantiate(prefab, contentGO.transform);
+                GenericObstacle obstacle = CurrentSquadList.ChosenObstacles[i];
                 newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize(
-                    CurrentSquadList.ChosenObstacles[i],
+                    obstacle,
                     i+1,
-                    delegate { MainMenu.CurrentMainMenu.ChangePanel("BrowseObstaclesPanel"); }
+                    delegate {
+                        SquadBuilder.CurrentObstacle = obstacle;
+                        MainMenu.CurrentMainMenu.ChangePanel("BrowseObstaclesPanel");
+                    }
                 );
             }
 
@@ -1083,10 +1087,15 @@ namespace SquadBuilderNS
             for (int i = 0; i < ObstaclesManager.Instance.AllPossibleObstacles.Count; i++)
             {
                 GameObject newObstacleViewPanel = GameObject.Instantiate(prefab, contentGO.transform);
+                GenericObstacle obstacle = ObstaclesManager.Instance.AllPossibleObstacles[i];
                 newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize(
-                    ObstaclesManager.Instance.AllPossibleObstacles[i],
+                    obstacle,
                     i,
-                    delegate { MainMenu.CurrentMainMenu.ChangePanel("ChosenObstaclesPanel"); }
+                    delegate {
+                        int index = CurrentSquadList.ChosenObstacles.IndexOf(SquadBuilder.CurrentObstacle);
+                        CurrentSquadList.ChosenObstacles[index] = obstacle;
+                        MainMenu.CurrentMainMenu.ChangePanel("ChosenObstaclesPanel");
+                    }
                 );
             }
 

@@ -130,6 +130,7 @@ namespace SquadBuilderNS
         public static string CurrentShip;
         public static SquadBuilderShip CurrentSquadBuilderShip;
         public static UpgradeSlot CurrentUpgradeSlot;
+        public static GenericObstacle CurrentObstacle;
 
         public static void Initialize()
         {

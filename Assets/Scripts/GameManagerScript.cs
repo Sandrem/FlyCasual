@@ -36,7 +36,6 @@ public class GameManagerScript : MonoBehaviour {
         Combat.Initialize();
         Triggers.Initialize();
         DamageDecks.Initialize();
-        new ObstaclesManager();
 
         AI.Aggressor.NavigationSubSystem.Initialize();
 

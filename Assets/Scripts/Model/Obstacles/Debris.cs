@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,27 @@ namespace Obstacles
 {
     public class Debris: GenericObstacle
     {
-        public Debris(GameObject obstacleGO) : base(obstacleGO)
+        public Debris(string name) : base(name)
         {
-            Name = "Debris";
+            
+        }
+
+        public override string GetTypeName => "Debris";
+
+        public override void OnHit(GenericShip ship)
+        {
+            // stress
+            // roll die
+        }
+
+        public override void OnLanded(GenericShip ship)
+        {
+            // Nothing
+        }
+
+        public override void OnShotObstructed(GenericShip attacker, GenericShip defender)
+        {
+            // +1 die
         }
     }
 }

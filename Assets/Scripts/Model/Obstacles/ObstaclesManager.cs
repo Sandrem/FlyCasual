@@ -12,7 +12,7 @@ namespace Obstacles
     {
         public static ObstaclesManager Instance;
 
-        private List<GenericObstacle> Obstacles;
+        public List<GenericObstacle> Obstacles { get; private set; }
 
         public ObstaclesManager()
         {
@@ -24,18 +24,24 @@ namespace Obstacles
         private static void InitializeObstacles()
         {
             Instance.Obstacles = new List<GenericObstacle>();
-            foreach (Transform obstacle in Board.BoardTransform.Find("ObstaclesHolder"))
+            for (int i = 0; i < 6; i++)
             {
-                if (obstacle.name.StartsWith("A"))
-                {
-                    Instance.Obstacles.Add(new Asteroid(obstacle.gameObject));
-                }
-                else if (obstacle.name.StartsWith("D"))
-                {
-                    Instance.Obstacles.Add(new Debris(obstacle.gameObject));
-                }
+                Instance.Obstacles.Add(new Asteroid("Core Asteroid " + i));
+                Instance.Obstacles.Add(new Asteroid("Force Awakens Asteroid " + i));
             }
+
+            // TODO: Add all debris
+            Instance.Obstacles.Add(new Debris("YT2400 Debris 2"));
+
+            for (int i = 1; i < 4; i++)
+            {
+                Instance.Obstacles.Add(new GasCloud("Gas Cloud " + i));
+            }
+
+            Instance.Obstacles = Instance.Obstacles.OrderBy(n => n.Name).ToList();
         }
+
+        // OLD
 
         public static GenericObstacle GetObstacleByName(string obstacleName)
         {

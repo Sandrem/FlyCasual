@@ -12,6 +12,7 @@ using Ship;
 using Editions;
 using ExtraOptions;
 using ExtraOptions.ExtraOptionsList;
+using Obstacles;
 
 namespace SquadBuilderNS
 {
@@ -1049,11 +1050,11 @@ namespace SquadBuilderNS
             }
         }
 
-        public static void ShowObstaclesPanel()
+        public static void ShowChosenObstaclesPanel()
         {
             string prefabPath = "Prefabs/SquadBuilder/ObstacleViewPanel";
             GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
-            GameObject contentGO = GameObject.Find("UI/Panels/ObstaclesPanel/Content").gameObject;
+            GameObject contentGO = GameObject.Find("UI/Panels/ChosenObstaclesPanel/Content").gameObject;
 
             DestroyChildren(contentGO.transform);
             DestroyChildren(GameObject.Find("PreviewsHolder").transform);
@@ -1061,7 +1062,32 @@ namespace SquadBuilderNS
             for (int i = 1; i < 4; i++)
             {
                 GameObject newObstacleViewPanel = GameObject.Instantiate(prefab, contentGO.transform);
-                newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize("Gas Cloud " + i, i);
+                newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize(
+                    ObstaclesManager.Instance.Obstacles[i-1],
+                    i,
+                    delegate { MainMenu.CurrentMainMenu.ChangePanel("BrowseObstaclesPanel"); }
+                );
+            }
+
+        }
+
+        public static void ShowBrowseObstaclesPanel()
+        {
+            string prefabPath = "Prefabs/SquadBuilder/ObstacleViewPanelSmall";
+            GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
+            GameObject contentGO = GameObject.Find("UI/Panels/BrowseObstaclesPanel/Content").gameObject;
+
+            DestroyChildren(contentGO.transform);
+            DestroyChildren(GameObject.Find("PreviewsHolder").transform);
+
+            for (int i = 0; i < ObstaclesManager.Instance.Obstacles.Count; i++)
+            {
+                GameObject newObstacleViewPanel = GameObject.Instantiate(prefab, contentGO.transform);
+                newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize(
+                    ObstaclesManager.Instance.Obstacles[i],
+                    i,
+                    delegate { MainMenu.CurrentMainMenu.ChangePanel("ChosenObstaclesPanel"); }
+                );
             }
 
         }

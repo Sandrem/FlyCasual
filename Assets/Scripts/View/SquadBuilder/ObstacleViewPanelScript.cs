@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Obstacles;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,14 +7,13 @@ using UnityEngine.UI;
 
 public class ObstacleViewPanelScript : MonoBehaviour
 {
-    public string ObstacleId;
+    public GenericObstacle Obstacle;
     public Text ObstacleName;
     public RawImage ObstacleRender;
     private GameObject ObstaclePreview;
     private int Number;
     private GameObject ObstacleModel;
-
-    private List<Texture> AvailableSkins;
+    private Action OnClick;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +22,12 @@ public class ObstacleViewPanelScript : MonoBehaviour
         CreatePreviewGroup();
         CreateObstacleModel();
         PrepareCamera();
+        PrepareButton();
+    }
+
+    private void PrepareButton()
+    {
+        this.GetComponent<Button>().onClick.AddListener(delegate { OnClick(); });
     }
 
     private void PrepareCamera()
@@ -36,7 +42,7 @@ public class ObstacleViewPanelScript : MonoBehaviour
     private void CreateObstacleModel()
     {
         GameObject obstacleHolder = ObstaclePreview.transform.Find("ObstacleHolder").gameObject;
-        GameObject obstacleModelPrefab = Resources.Load<GameObject>("Prefabs/Obstacles/Gas Clouds/" + ObstacleId);
+        GameObject obstacleModelPrefab = Resources.Load<GameObject>(string.Format("Prefabs/Obstacles/{0}/{1}", Obstacle.GetTypeName, Obstacle.Name));
         ObstacleModel = GameObject.Instantiate<GameObject>(obstacleModelPrefab, obstacleHolder.transform);
     }
 
@@ -49,7 +55,7 @@ public class ObstacleViewPanelScript : MonoBehaviour
 
     private void SetObstacleInformation()
     {
-        ObstacleName.text = ObstacleId;
+        ObstacleName.text = Obstacle.Name;
     }
 
     // Update is called once per frame
@@ -58,9 +64,10 @@ public class ObstacleViewPanelScript : MonoBehaviour
         
     }
 
-    public void Initialize(string obstacleId, int number)
+    public void Initialize(GenericObstacle obstacle, int number, Action onClick)
     {
-        ObstacleId = obstacleId;
+        Obstacle = obstacle;
         Number = number;
+        OnClick = onClick;
     }
 }

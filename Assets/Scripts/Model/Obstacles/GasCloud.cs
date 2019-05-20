@@ -7,29 +7,28 @@ using UnityEngine;
 
 namespace Obstacles
 {
-    public class Asteroid: GenericObstacle
+    public class GasCloud : GenericObstacle
     {
-        public Asteroid(string name) : base(name)
+        public GasCloud(string name) : base(name)
         {
-
+            
         }
 
-        public override string GetTypeName => "Asteroid";
+        public override string GetTypeName => "Gas Cloud";
 
         public override void OnHit(GenericShip ship)
         {
-            // no action
-            // roll die
+            // skip action
         }
 
         public override void OnLanded(GenericShip ship)
         {
-            // cannot shoot
+            // Nothing
         }
 
         public override void OnShotObstructed(GenericShip attacker, GenericShip defender)
         {
-            // +1 die
+            // +1 die, blank to evade
         }
     }
 }

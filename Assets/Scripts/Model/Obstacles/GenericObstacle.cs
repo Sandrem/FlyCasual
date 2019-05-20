@@ -25,6 +25,6 @@ namespace Obstacles
 
         public abstract void OnHit(GenericShip ship);
         public abstract void OnLanded(GenericShip ship);
-        public abstract void OnShotObstructed(GenericShip attacker, GenericShip defender);
+        public abstract void OnShotObstructedExtra(GenericShip attacker, GenericShip defender);
     }
 }

@@ -35,7 +35,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbilityAndAddDice()
         {
-            if (Combat.ShotInfo.IsObstructedByAsteroid)
+            if (Combat.ShotInfo.IsObstructedByObstacle)
             {
                 HostShip.AfterGotNumberOfAttackDice += RollExtraDie;
             }

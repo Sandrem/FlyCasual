@@ -37,7 +37,7 @@ namespace Abilities.FirstEdition
 
         private void CheckAbilityTrigger()
         {
-            if (Combat.ShotInfo.IsObstructedByAsteroid)
+            if (Combat.ShotInfo.IsObstructedByObstacle)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnShotStart, AskTrickShotAbility);
             }

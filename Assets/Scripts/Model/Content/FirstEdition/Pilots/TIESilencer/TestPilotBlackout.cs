@@ -37,7 +37,7 @@ namespace Abilities.FirstEdition
 
         private void TryAddTestPilotBlackoutAbility()
         {
-            if (Combat.ShotInfo.IsObstructedByAsteroid)
+            if (Combat.ShotInfo.IsObstructedByObstacle)
             {
                 Combat.Defender.AfterGotNumberOfDefenceDice += DecreaseDiceResult;
             }

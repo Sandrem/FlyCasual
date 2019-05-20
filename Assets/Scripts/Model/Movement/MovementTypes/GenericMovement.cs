@@ -119,7 +119,7 @@ namespace Movement
                 Rules.Collision.AddBump(TheShip, shipBumped);
             }
 
-            TheShip.LandedOnObstacles = new List<GenericObstacle>(movementPrediction.LandedOnObstacles);
+            TheShip.ObstaclesLanded = new List<GenericObstacle>(movementPrediction.LandedOnObstacles);
 
             if (movementPrediction.AsteroidsHit.Count > 0)
             {

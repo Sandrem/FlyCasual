@@ -50,7 +50,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAttackAbility()
         {
-            if (Combat.ShotInfo.IsObstructedByAsteroid && Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
+            if (Combat.ShotInfo.IsObstructedByObstacle && Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 if (alwaysUseAbility)
                 {
@@ -65,7 +65,7 @@ namespace Abilities.SecondEdition
 
         private void CheckDefenseAbility()
         {
-            if (Combat.ShotInfo.IsObstructedByAsteroid)
+            if (Combat.ShotInfo.IsObstructedByObstacle)
             {
                 if (alwaysUseAbility)
                 {
@@ -95,7 +95,7 @@ namespace Abilities.SecondEdition
 
         private void CheckDefenseObstructionBonus(ref int count)
         {
-            if (UseAbility && Combat.ShotInfo.IsObstructedByAsteroid)
+            if (UseAbility && Combat.ShotInfo.IsObstructedByObstacle)
             {
                 count++;
                 Messages.ShowInfo("The attack against Han Solo is obstructed, Han rolls +1 defense die");
@@ -105,7 +105,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAttackObstructionBonus(ref int count)
         {
-            if (UseAbility && Combat.ShotInfo.IsObstructedByAsteroid && Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
+            if (UseAbility && Combat.ShotInfo.IsObstructedByObstacle && Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 count++;
                 Messages.ShowInfo("Han Solo's attack is obstructed, Han rolls +1 attack die");

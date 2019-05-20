@@ -31,16 +31,16 @@ namespace Ship
         {
             get
             {
-                return LandedOnObstacles.Any(o => !IgnoreObstaclesList.Contains(o));
+                return ObstaclesLanded.Any(o => !IgnoreObstaclesList.Contains(o));
             }
 
             set
             {
-                if (value == false) LandedOnObstacles = new List<GenericObstacle>();
+                if (value == false) ObstaclesLanded = new List<GenericObstacle>();
             }
         }
 
-        public List<GenericObstacle> LandedOnObstacles = new List<GenericObstacle>();
+        public List<GenericObstacle> ObstaclesLanded = new List<GenericObstacle>();
 
         public bool IsHitObstacles
         {

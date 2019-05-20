@@ -320,7 +320,7 @@ namespace SubPhases
             if (boostProblems.Count == 0)
             {
                 CheckMines();
-                TheShip.LandedOnObstacles = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
+                TheShip.ObstaclesLanded = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
                 TheShip.ObstaclesHit = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
                 obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
                     .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()

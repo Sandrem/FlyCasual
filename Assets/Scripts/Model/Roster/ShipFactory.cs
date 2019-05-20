@@ -36,7 +36,6 @@ public static class ShipFactory {
         //TODO: Rework this
         newShipContainer.AfterGotNumberOfAttackDice += Rules.DistanceBonus.CheckAttackDistanceBonus;
         newShipContainer.AfterGotNumberOfDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
-        newShipContainer.AfterGotNumberOfDefenceDice += Rules.AsteroidObstruction.CheckDefenceObstructionBonus;
         newShipContainer.OnTryAddAction += Rules.Stress.CanPerformActions;
         newShipContainer.OnTryAddAction += Rules.Actions.CanPerformActions;
         newShipContainer.OnMovementStart += MovementTemplates.ApplyMovementRuler;

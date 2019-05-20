@@ -14,9 +14,9 @@ public class ObstaclesHitsDetector : MonoBehaviour {
     {
         if (checkCollisions)
         {
-            if (collisionInfo.tag == "Asteroid")
+            if (collisionInfo.tag == "Obstacle")
             {
-                GenericObstacle obstacle = ObstaclesManager.GetObstacleByTransform(collisionInfo.transform);
+                GenericObstacle obstacle = ObstaclesManager.GetChosenObstacle(collisionInfo.transform.name);
                 if (!OverlapedAsteroids.Contains(obstacle))
                 {
                     OverlapedAsteroids.Add(obstacle);

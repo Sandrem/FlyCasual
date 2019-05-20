@@ -54,9 +54,9 @@ namespace SquadBuilderNS
         {
             ChosenObstacles = new List<GenericObstacle>()
             {
-                ObstaclesManager.GetObstacleByName("Core Asteroid 5"),
-                ObstaclesManager.GetObstacleByName("Force Awakens Asteroid 5"),
-                ObstaclesManager.GetObstacleByName("Force Awakens Asteroid 4")
+                ObstaclesManager.GetPossibleObstacle("coreasteroid5"),
+                ObstaclesManager.GetPossibleObstacle("core2asteroid5"),
+                ObstaclesManager.GetPossibleObstacle("core2asteroid4")
             };
         }
 
@@ -890,9 +890,9 @@ namespace SquadBuilderNS
                 {
                     squadList.ChosenObstacles = new List<GenericObstacle>()
                     {
-                        ObstaclesManager.GetObstacleByShortName(squadJson["obstacles"][0].str),
-                        ObstaclesManager.GetObstacleByShortName(squadJson["obstacles"][1].str),
-                        ObstaclesManager.GetObstacleByShortName(squadJson["obstacles"][2].str)
+                        ObstaclesManager.GetPossibleObstacle(squadJson["obstacles"][0].str),
+                        ObstaclesManager.GetPossibleObstacle(squadJson["obstacles"][1].str),
+                        ObstaclesManager.GetPossibleObstacle(squadJson["obstacles"][2].str)
                     };
                 }
                 else

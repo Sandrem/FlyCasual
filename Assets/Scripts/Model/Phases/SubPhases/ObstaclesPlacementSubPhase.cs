@@ -42,7 +42,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            Board.ToggleObstaclesHolder(true);
+            ShowObstaclesHolder();
 
             MinBoardEdgeDistance = Board.BoardIntoWorld(2 * Board.RANGE_1);
             MinObstaclesDistance = Board.BoardIntoWorld(Board.RANGE_1);
@@ -55,6 +55,26 @@ namespace SubPhases
             }
 
             Next();
+        }
+
+        private void ShowObstaclesHolder()
+        {
+            Board.ToggleObstaclesHolder(true);
+
+            int asteroidCount = 1;
+
+            for (int i = 1; i < 3; i++)
+            {
+                foreach (GenericObstacle obstacle in Roster.GetPlayer(i).ChosenObstacles)
+                {
+                    GameObject obstacleHolder = Board.GetObstacleHolder().Find("Obstacle" + asteroidCount++).gameObject;
+                    GameObject obstacleModelPrefab = Resources.Load<GameObject>(string.Format("Prefabs/Obstacles/{0}/{1}", obstacle.GetTypeName, obstacle.Name));
+                    obstacle.ObstacleGO = GameObject.Instantiate<GameObject>(obstacleModelPrefab, obstacleHolder.transform);
+                    obstacle.Name = obstacle.Name + "_" + i;
+                    obstacle.ObstacleGO.name = obstacle.Name;
+                    Board.Objects.Add(obstacle.ObstacleGO.GetComponent<MeshCollider>());
+                }
+            }
         }
 
         public override void Next()
@@ -351,17 +371,17 @@ namespace SubPhases
                     // If an asteroid wasn't found and we're on touch, see if the user tapped right next to an asteroid
                     // Since the asteroid can be small, they can be hard to touch and this helps with that
                     if (CameraScript.InputTouchIsEnabled && 
-                        (!castHit || !hitInfo.transform.tag.StartsWith("Asteroid"))) {
+                        (!castHit || !hitInfo.transform.tag.StartsWith("Obstacle"))) {
                        
                         castHit = Physics.SphereCast(ray, 0.1f, out hitInfo, 10f);
                     }
 
 
                     // Select the obstacle found if it's valid
-                    if (castHit && hitInfo.transform.tag.StartsWith("Asteroid"))
+                    if (castHit && hitInfo.transform.tag.StartsWith("Obstacle"))
                     {
                         GameObject obstacleGO = hitInfo.transform.parent.gameObject;
-                        GenericObstacle clickedObstacle = ObstaclesManager.GetObstacleByName(obstacleGO.name);
+                        GenericObstacle clickedObstacle = ObstaclesManager.GetChosenObstacle(obstacleGO.transform.name);
 
                         if (!clickedObstacle.IsPlaced)
                         {
@@ -403,7 +423,7 @@ namespace SubPhases
             if (IsEnteredPlacementZone && !IsPlacementBlocked)
             {
                 GameCommand command = GeneratePlaceObstacleCommand(
-                    ChosenObstacle.ObstacleGO.name,
+                    ChosenObstacle.Name,
                     ChosenObstacle.ObstacleGO.transform.position,
                     ChosenObstacle.ObstacleGO.transform.eulerAngles
                 );
@@ -430,11 +450,11 @@ namespace SubPhases
             );
         }
 
-        public static void PlaceObstacle(string obstacleName, Vector3 position, Vector3 angles)
+        public static void PlaceObstacle(string obstacleName,  Vector3 position, Vector3 angles)
         {
             Phases.CurrentSubPhase.IsReadyForCommands = false;
 
-            ChosenObstacle = ObstaclesManager.GetObstacleByName(obstacleName);
+            ChosenObstacle = ObstaclesManager.GetChosenObstacle(obstacleName);
             ChosenObstacle.ObstacleGO.transform.position = position;
             ChosenObstacle.ObstacleGO.transform.eulerAngles = angles;
 

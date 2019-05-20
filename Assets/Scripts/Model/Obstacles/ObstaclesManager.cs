@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Players;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,8 @@ namespace Obstacles
     {
         public static ObstaclesManager Instance;
 
-        public List<GenericObstacle> Obstacles { get; private set; }
+        public List<GenericObstacle> AllPossibleObstacles { get; private set; }
+        public List<GenericObstacle> ChosenObstacles { get; set; }
 
         public ObstaclesManager()
         {
@@ -23,17 +25,17 @@ namespace Obstacles
 
         private static void InitializeObstacles()
         {
-            Instance.Obstacles = new List<GenericObstacle>();
+            Instance.AllPossibleObstacles = new List<GenericObstacle>();
             for (int i = 0; i < 6; i++)
             {
-                Instance.Obstacles.Add(
+                Instance.AllPossibleObstacles.Add(
                     new Asteroid(
                         "Core Asteroid " + i,
                         "coreasteroid" + i
                     )
                 );
 
-                Instance.Obstacles.Add(
+                Instance.AllPossibleObstacles.Add(
                     new Asteroid(
                         "Force Awakens Asteroid " + i,
                         "core2asteroid" + i
@@ -42,7 +44,7 @@ namespace Obstacles
             }
 
             // TODO: Add all debris
-            Instance.Obstacles.Add(
+            Instance.AllPossibleObstacles.Add(
                 new Debris(
                     "YT2400 Debris 2",
                     "yt2400debris2"
@@ -51,7 +53,7 @@ namespace Obstacles
 
             for (int i = 1; i < 4; i++)
             {
-                Instance.Obstacles.Add(
+                Instance.AllPossibleObstacles.Add(
                     new GasCloud(
                         "Gas Cloud " + i,
                         "gascloud" + i
@@ -59,40 +61,45 @@ namespace Obstacles
                 );
             }
 
-            Instance.Obstacles = Instance.Obstacles.OrderBy(n => n.Name).ToList();
+            Instance.AllPossibleObstacles = Instance.AllPossibleObstacles.OrderBy(n => n.Name).ToList();
+        }
+
+        public static GenericObstacle GenerateObstacle(string shortName, PlayerNo playerNo)
+        {
+            GenericObstacle prefab = Instance.AllPossibleObstacles.First(n => n.ShortName == shortName);
+            GenericObstacle newObstacle = (GenericObstacle)Activator.CreateInstance(
+                prefab.GetType(),
+                new object[] { prefab.Name, prefab.ShortName }
+            );
+            Instance.ChosenObstacles.Add(newObstacle);            
+            return newObstacle;
+        }
+
+        public static GenericObstacle GetChosenObstacle(string name)
+        {
+            return Instance.ChosenObstacles.First(n => n.Name == name);
+        }
+
+        public static GenericObstacle GetPossibleObstacle(string obstacleShortName)
+        {
+            return Instance.AllPossibleObstacles.First(n => n.ShortName == obstacleShortName);
         }
 
         // OLD
 
-        public static GenericObstacle GetObstacleByName(string obstacleName)
-        {
-            return Instance.Obstacles.First(n => n.Name == obstacleName);
-        }
-
-        public static GenericObstacle GetObstacleByShortName(string obstacleShortName)
-        {
-            return Instance.Obstacles.First(n => n.ShortName == obstacleShortName);
-        }
-
-        public static GenericObstacle GetObstacleByTransform(Transform transform)
-        {
-            GameObject obstacleGO = transform.parent.gameObject;
-            return GetObstacleByName(obstacleGO.name);
-        }
-
         public static List<GenericObstacle> GetPlacedObstacles()
         {
-            return Instance.Obstacles.Where(n => n.IsPlaced).ToList();
+            return Instance.ChosenObstacles.Where(n => n.IsPlaced).ToList();
         }
 
         public static int GetPlacedObstaclesCount()
         {
-            return Instance.Obstacles.Count(n => n.IsPlaced);
+            return Instance.ChosenObstacles.Count(n => n.IsPlaced);
         }
 
         public static GenericObstacle GetRandomFreeObstacle()
         {
-            List<GenericObstacle> freeObstacles = Instance.Obstacles.Where(n => !n.IsPlaced).ToList();
+            List<GenericObstacle> freeObstacles = Instance.ChosenObstacles.Where(n => !n.IsPlaced).ToList();
             int random = UnityEngine.Random.Range(0, freeObstacles.Count);
             return freeObstacles[random];
         }
@@ -104,7 +111,7 @@ namespace Obstacles
                 ship.LandedOnObstacles.RemoveAll(n => n == obstacle);
             }
 
-            Instance.Obstacles.Remove(obstacle);
+            Instance.ChosenObstacles.Remove(obstacle);
             Board.Objects.Remove(obstacle.ObstacleGO.GetComponentInChildren<MeshCollider>());
             GameObject.Destroy(obstacle.ObstacleGO);
         }

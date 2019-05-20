@@ -1080,11 +1080,11 @@ namespace SquadBuilderNS
             DestroyChildren(contentGO.transform);
             DestroyChildren(GameObject.Find("PreviewsHolder").transform);
 
-            for (int i = 0; i < ObstaclesManager.Instance.Obstacles.Count; i++)
+            for (int i = 0; i < ObstaclesManager.Instance.AllPossibleObstacles.Count; i++)
             {
                 GameObject newObstacleViewPanel = GameObject.Instantiate(prefab, contentGO.transform);
                 newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize(
-                    ObstaclesManager.Instance.Obstacles[i],
+                    ObstaclesManager.Instance.AllPossibleObstacles[i],
                     i,
                     delegate { MainMenu.CurrentMainMenu.ChangePanel("ChosenObstaclesPanel"); }
                 );

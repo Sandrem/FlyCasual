@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Players;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Obstacles
 {
     public abstract class GenericObstacle
     {
-        public string Name { get; protected set; }
+        public string Name { get; set; }
         public string ShortName { get; protected set; }
         public bool IsPlaced { get; set; }
         public GameObject ObstacleGO { get; set; }

@@ -7,6 +7,7 @@ using ActionsList;
 using GameModes;
 using SubPhases;
 using GameCommands;
+using Obstacles;
 
 public enum Faction
 {
@@ -59,6 +60,8 @@ namespace Players
         public GameObject PlayerInfoPanel;
 
         public Dictionary<string, GenericShip> Ships = new Dictionary<string, GenericShip>();
+
+        public List<GenericObstacle> ChosenObstacles = new List<GenericObstacle>();
 
         public Dictionary<string, GenericShip> EnemyShips
         {

@@ -54,9 +54,9 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
     {
         if (checkCollisionsNow)
         {
-            if (collisionInfo.tag == "Asteroid")
+            if (collisionInfo.tag == "Obstacle")
             {
-                GenericObstacle obstacle = ObstaclesManager.GetObstacleByTransform(collisionInfo.transform);
+                GenericObstacle obstacle = ObstaclesManager.GetChosenObstacle(collisionInfo.transform.name);
                 if (!OverlappedAsteroidsNow.Contains(obstacle)) OverlappedAsteroidsNow.Add(obstacle);
             }
             else if (collisionInfo.tag == "Mine")

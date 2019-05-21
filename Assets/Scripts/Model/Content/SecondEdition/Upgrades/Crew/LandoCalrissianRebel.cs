@@ -6,9 +6,9 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class LandoCalrissian : GenericUpgrade
+    public class LandoCalrissianRebelCrew : GenericUpgrade
     {
-        public LandoCalrissian() : base()
+        public LandoCalrissianRebelCrew() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Lando Calrissian",
@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 cost: 2,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
-                abilityType: typeof(Abilities.SecondEdition.LandoCalrissianCrewAbility),
+                abilityType: typeof(Abilities.SecondEdition.LandoCalrissianRebelAbility),
                 seImageNumber: 87
             );
         }
@@ -27,7 +27,7 @@ namespace Abilities.SecondEdition
 {
     //Action: Roll 2 defense dice. For each focus result, gain 1 focus token. For each evade result, gain 1 evade token. 
     //If both results are blank, the opposing player chooses focus or evade. You gain 1 token of that type.
-    public class LandoCalrissianCrewAbility : FirstEdition.LandoCalrissianCrewAbility
+    public class LandoCalrissianRebelAbility : FirstEdition.LandoCalrissianCrewAbility
     {        
         protected override void DiceCheckFinished()
         {

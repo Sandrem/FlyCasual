@@ -50,8 +50,6 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
 
             ShipAbilities.Add(new Abilities.SecondEdition.NetworkedCalculationsAbility());
 
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(CalculateAction)));
-
             IconicPilots = new Dictionary<Faction, System.Type> {
                 { Faction.Separatists, typeof(SeparatistBomber) }
             };

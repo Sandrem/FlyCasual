@@ -15,7 +15,7 @@ namespace Ship
             {
                 ShipInfo.ShipName = "StarViper-class Attack Platform";
 
-                IconicPilots[Faction.Scum] = typeof(BlackSunEnforcer);
+                IconicPilots[Faction.Scum] = typeof(Guri);
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
 

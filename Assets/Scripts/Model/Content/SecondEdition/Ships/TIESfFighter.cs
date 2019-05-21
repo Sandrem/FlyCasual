@@ -42,7 +42,7 @@ namespace Ship
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Turn), MovementComplexity.Normal);
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight), MovementComplexity.Normal);
 
-                IconicPilots[Faction.FirstOrder] = typeof(Backdraft);
+                IconicPilots[Faction.FirstOrder] = typeof(Quickdraw);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.HeavyWeaponTurret());
 

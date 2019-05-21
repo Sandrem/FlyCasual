@@ -24,7 +24,7 @@ namespace Ship
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction), ActionColor.Red));
 
                 IconicPilots[Faction.Rebel] = typeof(NorraWexley);
-                IconicPilots[Faction.Republic] = typeof(Sinker);
+                IconicPilots[Faction.Republic] = typeof(OddBall);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/f/f5/Maneuver_arc-170.png";
 

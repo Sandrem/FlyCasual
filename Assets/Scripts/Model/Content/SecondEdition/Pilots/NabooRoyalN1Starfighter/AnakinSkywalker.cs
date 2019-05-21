@@ -24,6 +24,8 @@ namespace Ship
                     abilityType: typeof(AnakinSkywalkerNabooN1StarfighterAbility),
                     extraUpgradeIcon: UpgradeType.Force
                 );
+
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/01/c2/01c23677-9c23-46fd-a97d-082f3f7866fd/swz40_anakin-skywalker.png";
             }
         }
     }

@@ -20,6 +20,8 @@ namespace Ship
                     abilityType: typeof(RicOlieAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d2/7b/d27baa36-e835-4311-b86b-b9b19ce8a0b9/swz40_ric-olie.png";
             }
         }
     }

@@ -19,7 +19,7 @@ namespace Ship
                 ShipInfo.Hull = 5;
                 ShipInfo.Shields = 4;
 
-                IconicPilots[Faction.Scum] = typeof(GandFindsman);
+                IconicPilots[Faction.Scum] = typeof(Zuckuss);
 
                 ShipInfo.ActionIcons.RemoveActions(typeof(EvadeAction));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(JamAction)));

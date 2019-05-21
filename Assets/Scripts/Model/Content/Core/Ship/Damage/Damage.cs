@@ -85,10 +85,20 @@ namespace Ship
 
         public void ExposeRandomFacedownCard(Action callback)
         {
-            int randomIndex = UnityEngine.Random.Range(0, DamageCards.Count);
-            GenericDamageCard randomCard = DamageCards[randomIndex];
+            List<GenericDamageCard> faceDownCards = GetFacedownCards();
 
-            randomCard.Expose(callback);
+            if (faceDownCards.Count > 0)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, faceDownCards.Count);
+                GenericDamageCard randomCard = faceDownCards[randomIndex];
+
+                randomCard.Expose(callback);
+            }
+            else
+            {
+                Messages.ShowInfo("No cards to expose");
+                callback();
+            }
         }
 
         // EXTRA

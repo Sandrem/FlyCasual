@@ -20,7 +20,7 @@ public class GuessManeuverScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
+        
     }
 
     // Update is called once per frame
@@ -67,19 +67,21 @@ public class GuessManeuverScript : MonoBehaviour
         else
         {
             this.gameObject.SetActive(false);
-            Messages.ShowInfo(BearingChosen + " " + SpeedChosen);
+            //Messages.ShowInfo(BearingChosen + " " + SpeedChosen);
             Callback(BearingChosen, SpeedChosen);
         }
     }
 
     public static void Initialize(Action<ManeuverBearing, ManeuverSpeed> callback)
     {
+        if (Instance == null) Instance = GameObject.Find("UI").transform.Find("GuessManeuverPanel").GetComponent<GuessManeuverScript>();
+
+        Instance.gameObject.SetActive(true);
         foreach (Button button in Instance.transform.Find("Center").GetComponentsInChildren<Button>())
         {
             SetColor(button.gameObject, isHighlighted: false);
         }
 
         Callback = callback;
-        Instance.gameObject.SetActive(true);
     }
 }

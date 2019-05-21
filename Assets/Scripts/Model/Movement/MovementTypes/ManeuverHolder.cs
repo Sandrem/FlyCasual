@@ -26,6 +26,7 @@ namespace Movement
 
     public enum ManeuverBearing
     {
+        None,
         Straight,
         Bank,
         Turn,

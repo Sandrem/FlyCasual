@@ -252,7 +252,7 @@ namespace Movement
                 case ManeuverBearing.Stationary:
                     maneuverString += "S";
                     break;
-                case ManeuverBearing.Reverse:
+                case ManeuverBearing.ReverseStraight:
                     maneuverString += "V";
                     break;
                 default:
@@ -292,7 +292,7 @@ namespace Movement
                 case ManeuverBearing.Stationary:
                     result = "5";
                     break;
-                case ManeuverBearing.Reverse:
+                case ManeuverBearing.ReverseStraight:
                     switch (Direction)
                     {
                         case ManeuverDirection.Left:

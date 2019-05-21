@@ -13,7 +13,7 @@ namespace Ship
             {
                 ShipInfo.ActionIcons.RemoveActions(typeof(TargetLockAction));
 
-                DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Reverse), MovementComplexity.Complex);
+                DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.ReverseStraight), MovementComplexity.Complex);
 
                 IconicPilots[Faction.Rebel] = typeof(FennRau);
 

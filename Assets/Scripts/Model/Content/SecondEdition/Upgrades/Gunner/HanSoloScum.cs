@@ -5,16 +5,16 @@ using Actions;
 
 namespace UpgradesList.SecondEdition
 {
-    public class HanSoloGunnerScum : GenericUpgrade
+    public class HanSoloScum : GenericUpgrade
     {
-        public HanSoloGunnerScum() : base()
+        public HanSoloScum() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Han Solo",
+                "Han Solo (Scum)",
                 UpgradeType.Gunner,
                 cost: 12,
                 isLimited: true,
-                abilityType: typeof(Abilities.SecondEdition.HanSoloGunnerAbilityScum),
+                abilityType: typeof(Abilities.SecondEdition.HanSoloScumGunnerAbility),
                 restriction: new FactionRestriction(Faction.Scum),
                 seImageNumber: 163
             );
@@ -24,7 +24,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class HanSoloGunnerAbilityScum : GenericAbility
+    public class HanSoloScumGunnerAbility : GenericAbility
     {
         // Before you engage, you may perform a red (Focus) action.
 

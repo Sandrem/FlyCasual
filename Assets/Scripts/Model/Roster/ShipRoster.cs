@@ -289,7 +289,7 @@ public static partial class Roster
 
     public static bool NoSamePlayerAndPilotSkillNotAttacked()
     {
-        Dictionary<string, GenericShip> samePlayerAndPilotSkill = ListSamePlayerAndPilotSkill(Phases.CurrentSubPhase.RequiredPlayer, Phases.CurrentSubPhase.RequiredPilotSkill);
+        Dictionary<string, GenericShip> samePlayerAndPilotSkill = ListSamePlayerAndPilotSkill(Phases.CurrentSubPhase.RequiredPlayer, Phases.CurrentSubPhase.RequiredInitiative);
         foreach (var item in samePlayerAndPilotSkill)
         {
             if (item.Value.IsAttackPerformed == false)

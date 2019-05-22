@@ -14,7 +14,7 @@ namespace SubPhases
             base.Start();
 
             Name = "Action SubPhase";
-            RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
+            RequiredInitiative = PreviousSubPhase.RequiredInitiative;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
             CanBePaused = true;
             UpdateHelpInfo();
@@ -77,7 +77,7 @@ namespace SubPhases
             GenericSubPhase activationSubPhase = new ActivationSubPhase();
             Phases.CurrentSubPhase = activationSubPhase;
             Phases.CurrentSubPhase.Start();
-            Phases.CurrentSubPhase.RequiredPilotSkill = RequiredPilotSkill;
+            Phases.CurrentSubPhase.RequiredInitiative = RequiredInitiative;
             Phases.CurrentSubPhase.RequiredPlayer = RequiredPlayer;
 
             Phases.CurrentSubPhase.Next();

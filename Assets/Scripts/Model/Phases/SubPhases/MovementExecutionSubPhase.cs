@@ -17,7 +17,7 @@ namespace SubPhases
             base.Start();
 
             Name = "Movement";
-            RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
+            RequiredInitiative = PreviousSubPhase.RequiredInitiative;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
             UpdateHelpInfo();
 

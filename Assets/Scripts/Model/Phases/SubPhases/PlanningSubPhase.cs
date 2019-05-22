@@ -19,7 +19,7 @@ namespace SubPhases
         public override void Prepare()
         {
             RequiredPlayer = Phases.PlayerWithInitiative;
-            RequiredPilotSkill = PILOTSKILL_MIN - 1;
+            RequiredInitiative = PILOTSKILL_MIN - 1;
         }
 
         public override void Initialize()

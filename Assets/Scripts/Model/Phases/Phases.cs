@@ -104,7 +104,7 @@ public static partial class Phases
         if (previousSubPhase != null)
         {
             CurrentSubPhase.RequiredPlayer = previousSubPhase.RequiredPlayer;
-            CurrentSubPhase.RequiredPilotSkill = previousSubPhase.RequiredPilotSkill;
+            CurrentSubPhase.RequiredInitiative = previousSubPhase.RequiredInitiative;
         }
 
         return CurrentSubPhase;

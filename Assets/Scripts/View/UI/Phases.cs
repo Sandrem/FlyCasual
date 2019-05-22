@@ -11,7 +11,7 @@ public static partial class Phases {
         GameObject.Find("UI/PhasesPanel").transform.Find("SubPhaseText").GetComponent<Text>().text = CurrentSubPhase.Name;
 
         string playerText = "PLAYER: " + Tools.PlayerToInt(CurrentSubPhase.RequiredPlayer);
-        string pilotSkillText = "PILOTS WITH SKILL: " + CurrentSubPhase.RequiredPilotSkill.ToString();
+        string pilotSkillText = "PILOTS WITH SKILL: " + CurrentSubPhase.RequiredInitiative.ToString();
 
         if (CurrentPhase.GetType() == typeof(MainPhases.PlanningPhase))
         {

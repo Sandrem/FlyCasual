@@ -41,7 +41,7 @@ namespace SubPhases
             set { theShip = value; }
         }
 
-        public int RequiredPilotSkill;
+        public int RequiredInitiative;
         public PlayerNo RequiredPlayer = PlayerNo.Player1;
 
         protected const int PILOTSKILL_MIN = 0;
@@ -76,13 +76,13 @@ namespace SubPhases
         public virtual bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredInitiative) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship cannot be selected: The ship must be owned by " + Phases.CurrentSubPhase.RequiredPlayer + " and have a pilot skill of " + Phases.CurrentSubPhase.RequiredPilotSkill);
+                Messages.ShowErrorToHuman("This ship cannot be selected: The ship must be owned by " + Phases.CurrentSubPhase.RequiredPlayer + " and have a pilot skill of " + Phases.CurrentSubPhase.RequiredInitiative);
             }
             return result;
         }

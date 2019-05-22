@@ -14,7 +14,7 @@ namespace SubPhases
 
             Name = "Barrel Roll";
             IsTemporary = true;
-            RequiredPilotSkill = PreviousSubPhase.RequiredPilotSkill;
+            RequiredInitiative = PreviousSubPhase.RequiredInitiative;
             RequiredPlayer = PreviousSubPhase.RequiredPlayer;
             UpdateHelpInfo();
         }

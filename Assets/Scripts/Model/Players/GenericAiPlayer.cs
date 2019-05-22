@@ -28,7 +28,7 @@ namespace Players
 
             foreach (var shipHolder in Ships)
             {
-                if (!shipHolder.Value.IsSetupPerformed && shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredPilotSkill)
+                if (!shipHolder.Value.IsSetupPerformed && shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
                 {
                     Selection.ChangeActiveShip(shipHolder.Value);
 
@@ -56,7 +56,7 @@ namespace Players
             bool foundToActivate = false;
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
-                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredPilotSkill)
+                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
                 {
                     if (!shipHolder.Value.IsManeuverPerformed)
                     {
@@ -148,7 +148,7 @@ namespace Players
         {
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
-                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredPilotSkill)
+                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
                 {
                     if (!shipHolder.Value.IsAttackPerformed)
                     {

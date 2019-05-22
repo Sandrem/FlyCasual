@@ -45,10 +45,17 @@ namespace Arcs
         public virtual List<Vector3> Edges { get; set; }
 
         public bool WasUsedForAttackThisRound { get; set; }
+        public bool CannotBeUsedForAttackThisRound { get; set; }
 
         public GenericArc(GenericShipBase shipBase)
         {
             ShipBase = shipBase;
+            Phases.Events.OnRoundEnd += ClearCannotBeUsedForAttackThisRoundFlag;
+        }
+
+        private void ClearCannotBeUsedForAttackThisRoundFlag()
+        {
+            CannotBeUsedForAttackThisRound = false;
         }
 
         public virtual void RemoveArc()

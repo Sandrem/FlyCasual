@@ -50,6 +50,8 @@ namespace BoardTools
 
         private void CheckRequirements()
         {
+            if (Arc.CannotBeUsedForAttackThisRound) return;
+
             if (Range > 3) return;
 
             if (Arc.Limits != null && Arc.Limits.Count > 0)

@@ -22,7 +22,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            RequiredPilotSkill = PILOTSKILL_MIN - 1;
+            RequiredInitiative = PILOTSKILL_MIN - 1;
         }
 
         public override void Initialize()
@@ -32,10 +32,10 @@ namespace SubPhases
 
         public override void Next()
         {
-            bool success = GetNextActivation(RequiredPilotSkill);
+            bool success = GetNextActivation(RequiredInitiative);
             if (!success)
             {
-                int nextPilotSkill = GetNextPilotSkill(RequiredPilotSkill);
+                int nextPilotSkill = GetNextPilotSkill(RequiredInitiative);
                 if (nextPilotSkill != int.MinValue)
                 {
                     success = GetNextActivation(nextPilotSkill);
@@ -70,7 +70,7 @@ namespace SubPhases
 
             if (pilotSkillResults.Count() > 0)
             {
-                RequiredPilotSkill = pilotSkill;
+                RequiredInitiative = pilotSkill;
 
                 var playerNoResults =
                     from n in pilotSkillResults
@@ -136,13 +136,13 @@ namespace SubPhases
         {
             bool result = false;
 
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredInitiative) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 result = true;
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship cannot be selected, the ship must be owned by " + RequiredPlayer + " and have a pilot skill of " + RequiredPilotSkill);
+                Messages.ShowErrorToHuman("This ship cannot be selected, the ship must be owned by " + RequiredPlayer + " and have a pilot skill of " + RequiredInitiative);
             }
             return result;
         }
@@ -165,7 +165,7 @@ namespace SubPhases
 
         private bool FilterShipsToPerformAttack(GenericShip ship)
         {
-            return ship.State.Initiative == RequiredPilotSkill && !ship.IsManeuverPerformed && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.State.Initiative == RequiredInitiative && !ship.IsManeuverPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)

@@ -27,7 +27,7 @@ namespace SubPhases
         public override void Prepare()
         {
             RequiredPlayer = Phases.PlayerWithInitiative;
-            RequiredPilotSkill = PILOTSKILL_MAX + 1;
+            RequiredInitiative = PILOTSKILL_MAX + 1;
         }
 
         public override void Initialize()
@@ -44,7 +44,7 @@ namespace SubPhases
             Selection.DeselectAllShips();
 
             // Try to get any pilot with same inititative, that didn't perform attack
-            bool success = GetNextActivation(RequiredPilotSkill);
+            bool success = GetNextActivation(RequiredInitiative);
 
             if (success)
             {
@@ -58,9 +58,11 @@ namespace SubPhases
 
         private void ChangeInitiative()
         {
-            RequiredPilotSkill = GetNextPilotSkill(RequiredPilotSkill);
+            //Just decrement to pass through all possible Initiative values (SE Han Solo Rebel Gunner, for example)
+            //RequiredInitiative = GetNextPilotSkill(RequiredInitiative);
+            RequiredInitiative--;
 
-            if (RequiredPilotSkill != int.MaxValue)
+            if (RequiredInitiative != -1)
             {
                 Phases.Events.CallEngagementInitiativeChanged(Next);
             }
@@ -72,7 +74,7 @@ namespace SubPhases
 
         private void ReadyForCombatActivation()
         {
-            if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredPilotSkill);
+            if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredInitiative);
 
             UpdateHelpInfo();
             Roster.HighlightShipsFiltered(FilterShipsToPerfromAttack);
@@ -94,7 +96,7 @@ namespace SubPhases
 
             if (pilotSkillResults.Count() > 0)
             {
-                RequiredPilotSkill = pilotSkill;
+                RequiredInitiative = pilotSkill;
 
                 var playerNoResults =
                     from n in pilotSkillResults
@@ -161,7 +163,7 @@ namespace SubPhases
         {
             bool result = false;
 
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredInitiative) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 if (ship.IsAttackPerformed)
                 {
@@ -172,7 +174,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship cannot be selected, the ship must be owned by " + Tools.PlayerToInt(RequiredPlayer) + " and have an initiative of " + RequiredPilotSkill);
+                Messages.ShowErrorToHuman("This ship cannot be selected, the ship must be owned by " + Tools.PlayerToInt(RequiredPlayer) + " and have an initiative of " + RequiredInitiative);
             }
 
             return result;
@@ -280,7 +282,7 @@ namespace SubPhases
 
         private bool FilterShipsToPerfromAttack(GenericShip ship)
         {
-            return ship.State.Initiative == RequiredPilotSkill && !ship.IsAttackPerformed && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.State.Initiative == RequiredInitiative && !ship.IsAttackPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void SkipButton()
@@ -294,7 +296,7 @@ namespace SubPhases
 
                 foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
                 {
-                    if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredPilotSkill)
+                    if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
                     {
                         shipsToSkipCombat.Add(shipHolder.Value);
                     }
@@ -356,7 +358,7 @@ namespace SubPhases
 
         private void CheckNext()
         {
-            if (Roster.GetPlayer(RequiredPlayer).Ships.Count(n => n.Value.State.Initiative == RequiredPilotSkill && !n.Value.IsAttackPerformed) == 0)
+            if (Roster.GetPlayer(RequiredPlayer).Ships.Count(n => n.Value.State.Initiative == RequiredInitiative && !n.Value.IsAttackPerformed) == 0)
             {
                 Next();
             }

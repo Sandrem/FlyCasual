@@ -31,7 +31,7 @@ namespace Ship
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
         public bool AttackIsAlwaysConsideredHit { get; set; }
-        public bool CanBonusAttack { get; set; }
+        public bool CanBonusAttack { get; set; } = true;
 
         // EVENTS
 

@@ -33,7 +33,7 @@ namespace SubPhases
 
         public override void Prepare()
         {
-            RequiredPilotSkill = PILOTSKILL_MIN - 1;
+            RequiredInitiative = PILOTSKILL_MIN - 1;
         }
 
         public override void Initialize()
@@ -43,10 +43,10 @@ namespace SubPhases
 
         public override void Next()
         {
-            bool success = GetNextActivation(RequiredPilotSkill);
+            bool success = GetNextActivation(RequiredInitiative);
             if (!success)
             {
-                int nextPilotSkill = GetNextPilotSkill(RequiredPilotSkill);
+                int nextPilotSkill = GetNextPilotSkill(RequiredInitiative);
                 if (nextPilotSkill != int.MinValue)
                 {
                     success = GetNextActivation(nextPilotSkill);
@@ -80,7 +80,7 @@ namespace SubPhases
 
             if (pilotSkillResults.Count() > 0)
             {
-                RequiredPilotSkill = pilotSkill;
+                RequiredInitiative = pilotSkill;
 
                 var playerNoResults =
                     from n in pilotSkillResults
@@ -132,7 +132,7 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredPilotSkill) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredInitiative) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 if (ship.IsSetupPerformed == false)
                 {
@@ -145,14 +145,14 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman("This ship cannot be selected: the ship must be owned by " + Phases.CurrentSubPhase.RequiredPlayer + " and have a pilot skill of " + Phases.CurrentSubPhase.RequiredPilotSkill);
+                Messages.ShowErrorToHuman("This ship cannot be selected: the ship must be owned by " + Phases.CurrentSubPhase.RequiredPlayer + " and have a pilot skill of " + Phases.CurrentSubPhase.RequiredInitiative);
             }
             return result;
         }
 
         private bool FilterShipsToSetup(GenericShip ship)
         {
-            return ship.State.Initiative == RequiredPilotSkill && !ship.IsSetupPerformed && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.State.Initiative == RequiredInitiative && !ship.IsSetupPerformed && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public static GameCommand GeneratePlaceShipCommand(int shipId, Vector3 position, Vector3 angles)

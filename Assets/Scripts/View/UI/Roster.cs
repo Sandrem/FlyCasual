@@ -481,9 +481,7 @@ public static partial class Roster {
         foreach (var upgrade in newShip.UpgradeBar.GetUpgradesAll())
         {
             GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade"+index).gameObject;
-            string upgradeName = upgrade.UpgradeInfo.Name;
-            if (upgrade.State.UsesCharges) upgradeName += " (" + upgrade.State.Charges + ")";
-            upgradeNamePanel.GetComponent<Text>().text = upgradeName + " " + upgrade.NamePostfix;
+            upgradeNamePanel.GetComponent<Text>().text = upgrade.State.Name;
             upgradeNamePanel.SetActive(true);
             index++;
         }

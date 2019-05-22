@@ -233,7 +233,7 @@ namespace Upgrade
             ActivateAbility();
         }
 
-        private void ActivateAbility()
+        public void ActivateAbility()
         {
             foreach (var ability in UpgradeAbilities)
             {
@@ -241,7 +241,7 @@ namespace Upgrade
             }
         }
 
-        private void DeactivateAbility()
+        public void DeactivateAbility()
         {
             foreach (var ability in UpgradeAbilities)
             {

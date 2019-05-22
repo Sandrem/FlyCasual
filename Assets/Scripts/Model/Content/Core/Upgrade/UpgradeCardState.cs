@@ -8,8 +8,17 @@ namespace Upgrade
 {
     public class UpgradeCardState
     {
-        private readonly GenericShip HostShip;
         private readonly GenericUpgrade HostUpgrade;
+        private GenericShip HostShip { get { return HostUpgrade.HostShip; } }
+
+        public string Name {
+            get {
+                string result = HostUpgrade.UpgradeInfo.Name;
+                if (UsesCharges) result += " (" + Charges + ")";
+                if (HostUpgrade.NamePostfix != null) result = result + " " + HostUpgrade.NamePostfix;
+                return result;
+            }
+        }
 
         public int Charges { get; private set; }
         public int MaxCharges { get; private set; }
@@ -20,7 +29,6 @@ namespace Upgrade
         public UpgradeCardState(GenericUpgrade upgrade)
         {
             HostUpgrade = upgrade;
-            HostShip = upgrade.HostShip;
 
             IsFaceup = true;
             if (upgrade.UpgradeInfo.WeaponInfo == null)

@@ -205,6 +205,7 @@ namespace Upgrade
 
         private void AddAbilities()
         {
+            HostUpgrade.UpgradeAbilities = new List<GenericAbility>();
             foreach (Type abilityType in AbilityTypes)
             {
                 HostUpgrade.UpgradeAbilities.Add((GenericAbility)Activator.CreateInstance(abilityType));

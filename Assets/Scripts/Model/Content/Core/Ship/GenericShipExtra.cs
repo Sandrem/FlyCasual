@@ -24,6 +24,8 @@ namespace Ship
 
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;
+        public event EventHandlerShip OnAnotherShipDocked;
+        public event EventHandlerShip OnAnotherShipUndocked;
 
         public event EventHandlerShip OnShipIsPlaced;
         public event EventHandler OnGameStart;
@@ -163,14 +165,24 @@ namespace Ship
             GetModelTransform().Find("DockedShips").transform.Find(dockedShip.ModelInfo.ModelName).gameObject.SetActive(isVisible);
         }
 
-        public void CallDocked(GenericShip host)
+        public void CallDocked(GenericShip hostShip)
         {
-            if (OnDocked != null) OnDocked(host);
+            if (OnDocked != null) OnDocked(hostShip);
         }
 
         public void CallUndocked(GenericShip host)
         {
             if (OnUndocked != null) OnUndocked(host);
+        }
+
+        public void CallAnotherShipDocked(GenericShip dockedShip)
+        {
+            if (OnAnotherShipDocked != null) OnAnotherShipDocked(dockedShip);
+        }
+
+        public void CallAnotherShipUndocked(GenericShip dockedShip)
+        {
+            if (OnAnotherShipUndocked != null) OnAnotherShipUndocked(dockedShip);
         }
 
         public virtual bool IsAllowedForSquadBuilder()

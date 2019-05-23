@@ -68,6 +68,7 @@ namespace RulesList
                 host.ToggleDockedModel(docked, true);
 
                 docked.CallDocked(host);
+                host.CallAnotherShipDocked(docked);
 
                 host.OnMovementFinish += RegisterAskUndockFE;
                 host.OnShipIsDestroyed += CheckForcedUndocking;
@@ -82,7 +83,8 @@ namespace RulesList
             dockedShip.Model.SetActive(false);
             hostShip.ToggleDockedModel(dockedShip, true);
 
-            hostShip.CallDocked(dockedShip);
+            dockedShip.CallDocked(hostShip);
+            hostShip.CallAnotherShipDocked(dockedShip);
 
             hostShip.OnShipIsDestroyed += CheckForcedUndocking;
 
@@ -150,6 +152,7 @@ namespace RulesList
             dockedShip.Model.SetActive(true);
 
             dockedShip.CallUndocked(hostShip);
+            hostShip.CallAnotherShipUndocked(dockedShip);
 
             if (Editions.Edition.Current is Editions.SecondEdition)
             {

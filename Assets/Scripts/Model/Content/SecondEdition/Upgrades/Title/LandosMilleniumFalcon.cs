@@ -37,11 +37,65 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             Phases.Events.OnSetupStart += CheckInitialDockingAbility;
+            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += CheckStressedTargetBonus;
+            HostShip.OnTryDamagePrevention += CheckDamageRedirection;
         }
 
         public override void DeactivateAbility()
         {
             Phases.Events.OnSetupStart -= CheckInitialDockingAbility;
+            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= CheckStressedTargetBonus;
+            HostShip.OnTryDamagePrevention -= CheckDamageRedirection;
+        }
+
+        private void CheckDamageRedirection(GenericShip ship, DamageSourceEventArgs e)
+        {
+            if (HostShip.DockedShips.Count > 0 && HostShip.DockedShips.First().State.ShieldsCurrent > 0)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, AskToRedirectDamage);
+            }
+        }
+
+        private void AskToRedirectDamage(object sender, EventArgs e)
+        {
+            AskToUseAbility(
+                AlwaysUseByDefault,
+                UseShieldsOfDockedShip,
+                infoText: HostUpgrade.UpgradeInfo.Name + ": Do you want to use shield of docked ship instead?"
+            );
+        }
+
+        private void UseShieldsOfDockedShip(object sender, EventArgs e)
+        {
+            SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Shields of Escape Craft were spent");
+
+            DieSide redirectedResult = DieSide.Unknown;
+            if (HostShip.AssignedDamageDiceroll.CriticalSuccesses > 0)
+            {
+                redirectedResult = DieSide.Crit;
+            }
+            else
+            {
+                redirectedResult = DieSide.Success;
+            }
+
+            HostShip.AssignedDamageDiceroll.RemoveType(redirectedResult);
+
+            GenericShip dockedShip = HostShip.DockedShips.First();
+            dockedShip.LoseShield();
+
+            Triggers.FinishTrigger();
+        }
+
+        private void CheckStressedTargetBonus(ref int count)
+        {
+            if (Combat.Defender.IsStressed)
+            {
+                count++;
+                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": defender is stressed, attacker gains +1 attack die");
+            }
         }
 
         private void CheckInitialDockingAbility()

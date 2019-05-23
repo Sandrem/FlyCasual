@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using Ship;
 using Upgrade;
 
 namespace Ship.SecondEdition.EscapeCraft
@@ -71,6 +74,38 @@ namespace Ship.SecondEdition.EscapeCraft
             HotacManeuverTable = new AI.EscapeCraftTable();
 
             ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/20/Maneuver_escape_craft.png";
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class CoPilotAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnDocked += CopyPilotAbilityToHost;
+            HostShip.OnUndocked += RemovePilotAbilityFromHost;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnDocked -= CopyPilotAbilityToHost;
+            HostShip.OnUndocked -= RemovePilotAbilityFromHost;
+        }
+
+        private void CopyPilotAbilityToHost(GenericShip ship)
+        {
+            GenericAbility abilityCopy = (GenericAbility) Activator.CreateInstance(HostShip.PilotInfo.AbilityType);
+            HostShip.DockingHost.PilotAbilities.Add(abilityCopy);
+            abilityCopy.Initialize(HostShip.DockingHost);
+        }
+
+        private void RemovePilotAbilityFromHost(GenericShip ship)
+        {
+            GenericAbility copiedAbility = HostShip.DockingHost.PilotAbilities.First(n => n.GetType() == HostShip.PilotInfo.AbilityType);
+            copiedAbility.DeactivateAbility();
+            HostShip.DockingHost.PilotAbilities.Remove(copiedAbility);
         }
     }
 }

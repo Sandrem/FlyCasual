@@ -22,6 +22,8 @@ namespace Ship
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();
+
+                ShipAbilities.Add(new Abilities.SecondEdition.CoPilotAbility());
             }
         }
     }

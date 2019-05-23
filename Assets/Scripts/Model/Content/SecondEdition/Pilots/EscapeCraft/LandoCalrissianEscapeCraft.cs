@@ -18,6 +18,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 226
                 );
+
+                ShipAbilities.Add(new Abilities.SecondEdition.CoPilotAbility());
             }
         }
     }

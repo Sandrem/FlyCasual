@@ -11,7 +11,7 @@ namespace SubPhases
 
     public class SystemsSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SystemActivation, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SystemActivation, GameCommandTypes.PressSkip, GameCommandTypes.AssignManeuver }; } }
 
         public override void Start()
         {

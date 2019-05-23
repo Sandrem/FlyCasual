@@ -42,7 +42,7 @@ namespace Ship
 
         public event EventHandlerShipRefBool OnTryAttackSameTeamCheck;
 
-        public GenericShip Host;
+        public GenericShip DockingHost;
 
         public Type ShipRuleType = typeof(Editions.FirstEdition);
         public Type PilotRuleType = typeof(Editions.FirstEdition);

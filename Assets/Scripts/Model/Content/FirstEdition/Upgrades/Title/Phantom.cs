@@ -65,7 +65,7 @@ namespace Abilities.FirstEdition
 
         private void RegisterExtraShotAbility()
         {
-            if (!HostShip.Host.IsCannotAttackSecondTime)
+            if (!HostShip.DockingHost.IsCannotAttackSecondTime)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, ExtraShotWithTurret);
             }
@@ -73,12 +73,12 @@ namespace Abilities.FirstEdition
 
         private void ExtraShotWithTurret(object sender, System.EventArgs e)
         {
-            if (!HostShip.Host.IsCannotAttackSecondTime)
+            if (!HostShip.DockingHost.IsCannotAttackSecondTime)
             {
-                HostShip.Host.IsCannotAttackSecondTime = true;
+                HostShip.DockingHost.IsCannotAttackSecondTime = true;
 
                 Combat.StartSelectAttackTarget(
-                    HostShip.Host,
+                    HostShip.DockingHost,
                     Triggers.FinishTrigger,
                     IsTurretAttack,
                     HostUpgrade.UpgradeInfo.Name,
@@ -88,7 +88,7 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Messages.ShowErrorToHuman(string.Format("{0} cannot attack an additional time", HostShip.Host.PilotInfo.PilotName));
+                Messages.ShowErrorToHuman(string.Format("{0} cannot attack an additional time", HostShip.DockingHost.PilotInfo.PilotName));
                 Triggers.FinishTrigger();
             }
         }

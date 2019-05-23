@@ -171,15 +171,19 @@ public static partial class Roster
 
     public static void DockShip(string id)
     {
-        var ship = GetShipById(id);
+        DockShip(GetShipById(id));
+    }
 
+    public static void DockShip(GenericShip ship)
+    {
         if (ship != null)
         {
             ship.SetActive(false);
             TogglePanelActive(ship, false);
             ship.SetDockedName(true);
-            ship.Owner.Ships.Remove(id);
-            AllShips.Remove(id);
+            string shipIdKey = ship.Owner.Ships.First(n => n.Value == ship).Key;
+            ship.Owner.Ships.Remove(shipIdKey);
+            AllShips.Remove(shipIdKey);
         }
     }
 

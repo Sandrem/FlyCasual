@@ -215,6 +215,10 @@ namespace Ship
                 shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/SecondArc").GetComponent<Renderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/SecondArc").GetComponent<MeshRenderer>().enabled = true;
             }
+            else
+            {
+                shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/SecondArc").GetComponent<MeshRenderer>().enabled = false;
+            }
 
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotName").GetComponent<TextMesh>().text = ShortenPilotName(this.PilotInfo.PilotName);
             shipAllParts.Find("ShipBase/ShipStandInsert/ShipStandInsertImage/PilotSkill").GetComponent<TextMesh>().text = this.State.Initiative.ToString();

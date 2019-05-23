@@ -161,7 +161,7 @@ namespace Ship
         {
             if (OnMovementActivationStart != null) OnMovementActivationStart(this);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnMovementActivation, callBack);
+            Triggers.ResolveTriggers(TriggerTypes.OnMovementActivationStart, callBack);
         }
 
         public void CallMovementActivationFinish()

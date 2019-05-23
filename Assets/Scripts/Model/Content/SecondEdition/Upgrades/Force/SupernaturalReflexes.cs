@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterTrigger(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskPerformFreeAction);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskPerformFreeAction);
         }
 
         private void AskPerformFreeAction(object sender, System.EventArgs e)

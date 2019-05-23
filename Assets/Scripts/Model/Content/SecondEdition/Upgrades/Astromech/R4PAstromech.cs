@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterAskChangeManeuver(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskAbility);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskAbility);
         }
 
         private void AskAbility(object sender, EventArgs e)

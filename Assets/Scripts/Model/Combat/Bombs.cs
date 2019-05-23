@@ -206,7 +206,7 @@ namespace Bombs
 
         public static void CheckBombDropAvailability(GenericShip ship)
         {
-            CheckBombDropAvailability(ship, TriggerTypes.OnMovementActivation);
+            CheckBombDropAvailability(ship, TriggerTypes.OnMovementActivationStart);
         }
 
         public static void CheckBombDropAvailability(GenericShip ship, TriggerTypes triggerType)
@@ -216,7 +216,7 @@ namespace Bombs
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Ask which bomb to drop",
-                    TriggerType = TriggerTypes.OnMovementActivation,
+                    TriggerType = TriggerTypes.OnMovementActivationStart,
                     TriggerOwner = ship.Owner.PlayerNo,
                     EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip)),
                     Sender = ship

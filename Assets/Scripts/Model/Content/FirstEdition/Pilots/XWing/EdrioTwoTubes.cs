@@ -50,7 +50,7 @@ namespace Abilities.FirstEdition
 
         private void RegisterEdrioTwoTubesTrigger()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskToPerfromFreeAction);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskToPerfromFreeAction);
         }
 
         private void AskToPerfromFreeAction(object sender, EventArgs e)

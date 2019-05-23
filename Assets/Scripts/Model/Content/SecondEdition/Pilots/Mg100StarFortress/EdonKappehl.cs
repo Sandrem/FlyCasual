@@ -59,7 +59,7 @@ namespace Abilities.SecondEdition
                 return;
             }
 
-            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskEdonKappehlAbility);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskEdonKappehlAbility);
         }
 
         private void AskEdonKappehlAbility(object sender, EventArgs e)

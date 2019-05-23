@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = Name,
-                    TriggerType = TriggerTypes.OnMovementActivation,
+                    TriggerType = TriggerTypes.OnMovementActivationStart,
                     TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = AskUseContrabandCybernetics
                 });

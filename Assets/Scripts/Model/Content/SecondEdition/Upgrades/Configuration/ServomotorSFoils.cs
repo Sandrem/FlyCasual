@@ -67,7 +67,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterAskToUseFlip(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskToFlip);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskToFlip);
         }
 
         protected void AskToFlip(object sender, EventArgs e)

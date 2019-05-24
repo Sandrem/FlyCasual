@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
             if (!BombsManager.HasBombsToDrop(ship)) return;
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
-            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskUseGeniusAbility);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskUseGeniusAbility);
         }
 
         private void AskUseGeniusAbility(object sender, EventArgs e)

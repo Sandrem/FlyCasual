@@ -7,6 +7,7 @@ using Upgrade;
 using Players;
 using System.Linq;
 using ActionsList;
+using BoardTools;
 
 namespace Abilities
 {
@@ -75,6 +76,8 @@ namespace Abilities
                 return HostUpgrade != null ? HostUpgrade.ImageUrl : HostShip.ImageUrl;
             }
         }
+
+        private Func<GenericShip, bool> FilterDockableShips;
 
         public virtual void Initialize(GenericShip hostShip)
         {
@@ -707,6 +710,118 @@ namespace Abilities
             };
 
             ship.Damage.TryResolveDamage(damage, damageArgs, Triggers.FinishTrigger, critDamage: critDamage);
+        }
+
+        // DOCKING
+
+        protected void ActivateDocking(Func<GenericShip, bool> filterDockableShips, Func<Direction, bool> filterUndockDirection = null)
+        {
+            FilterDockableShips = filterDockableShips;
+            HostShip.FilterUndockDirection = filterUndockDirection ?? delegate { return true; };
+
+            Phases.Events.OnSetupStart += CheckInitialDockingAbility;
+            Phases.Events.OnSystemsPhaseStart += CheckPotentialDockingShips;
+        }
+
+        protected void DeactivateDocking()
+        {
+            Phases.Events.OnSetupStart -= CheckInitialDockingAbility;
+            Phases.Events.OnSystemsPhaseStart -= CheckPotentialDockingShips;
+        }
+
+        private void CheckInitialDockingAbility()
+        {
+            if (GetDockableShips().Count > 0)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnSetupStart, AskInitialDocking);
+            }
+        }
+
+        private List<GenericShip> GetDockableShips()
+        {
+            return HostShip.Owner.Ships
+                .Where(s => FilterDockableShips(s.Value))
+                .Select(n => n.Value)
+                .ToList();
+        }
+
+        private void AskInitialDocking(object sender, EventArgs e)
+        {
+            Selection.ChangeActiveShip(HostShip);
+
+            AskToUseAbility(
+                AlwaysUseByDefault,
+                StartInitialDocking,
+                infoText: HostShip.PilotInfo.PilotName + ": Do you want to dock a ship?"
+            );
+        }
+
+        private void StartInitialDocking(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            List<GenericShip> dockableShips = GetDockableShips();
+            if (dockableShips.Count == 1)
+            {
+                Rules.Docking.Dock(HostShip, dockableShips.First());
+                Triggers.FinishTrigger();
+            }
+            else
+            {
+                // Ask what ships to dock
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void CheckPotentialDockingShips()
+        {
+            foreach (GenericShip ship in hostShip.Owner.Ships.Values)
+            {
+                if (FilterDockableShips(ship))
+                {
+                    DistanceInfo distInfo = new DistanceInfo(HostShip, ship);
+                    Vector2 dockingRange = ship.GetDockingRange(HostShip);
+                    if (dockingRange.x <= distInfo.Range && distInfo.Range <= dockingRange.y)
+                    {
+                        ship.OnSystemsAbilityActivation += PrepareAskToDock;
+                    }
+                }
+            }
+        }
+
+        private void PrepareAskToDock(GenericShip ship)
+        {
+            ship.OnSystemsAbilityActivation -= PrepareAskToDock;
+
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Ask to Dock",
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnSystemsAbilityActivation,
+                    EventHandler = AskToDock,
+                    Sender = ship
+                }
+            );
+        }
+
+        private void AskToDock(object sender, EventArgs e)
+        {
+            GenericShip dockingShip = sender as GenericShip;
+
+            AskToUseAbility(
+                NeverUseByDefault,
+                delegate { ConfirmDocking(dockingShip, HostShip); },
+                infoText: "Do you want to dock to " + HostShip.PilotInfo.PilotName + "?"
+            );
+        }
+
+        private void ConfirmDocking(GenericShip dockingShip, GenericShip chosenHostShip)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            Rules.Docking.Dock(chosenHostShip, dockingShip);
+            Triggers.FinishTrigger();
         }
     }
 }

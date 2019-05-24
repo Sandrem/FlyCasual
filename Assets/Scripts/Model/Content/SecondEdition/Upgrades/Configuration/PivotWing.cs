@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
-            RegisterAbilityTrigger(TriggerTypes.OnMovementActivation, AskToFlip);
+            RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskToFlip);
         }
 
         public override void ActivateAbilityForSquadBuilder() {}

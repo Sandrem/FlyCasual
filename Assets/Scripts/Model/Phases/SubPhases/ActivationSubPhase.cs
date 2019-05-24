@@ -99,6 +99,7 @@ namespace SubPhases
             var ascPilotSkills =
                 from n in Roster.AllShips
                 where n.Value.State.Initiative > pilotSkillMin
+                where n.Value.IsManeuverPerformed == false
                 orderby n.Value.State.Initiative
                 select n;
 

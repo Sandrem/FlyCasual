@@ -28,7 +28,7 @@ public enum TriggerTypes
     OnEngagementInitiativeChanged,
     OnSelectTargetForAttackStart_System,
 
-    OnMovementActivation,
+    OnMovementActivationStart,
     OnCombatActivation,
     OnCombatDeactivation,
 

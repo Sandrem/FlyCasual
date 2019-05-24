@@ -24,6 +24,8 @@ namespace Ship
 
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;
+        public event EventHandlerShip OnAnotherShipDocked;
+        public event EventHandlerShip OnAnotherShipUndocked;
 
         public event EventHandlerShip OnShipIsPlaced;
         public event EventHandler OnGameStart;
@@ -42,7 +44,9 @@ namespace Ship
 
         public event EventHandlerShipRefBool OnTryAttackSameTeamCheck;
 
-        public GenericShip Host;
+        public event EventHandlerShipRefVector OnGetDockingRange;
+
+        public GenericShip DockingHost;
 
         public Type ShipRuleType = typeof(Editions.FirstEdition);
         public Type PilotRuleType = typeof(Editions.FirstEdition);
@@ -96,6 +100,8 @@ namespace Ship
         public event EventHandlerShip OnSystemsAbilityActivation;
 
         public event EventHandlerCheckRange OnCheckRange;
+
+        public Func<Direction, bool> FilterUndockDirection { get; set; }
 
         public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
@@ -163,14 +169,24 @@ namespace Ship
             GetModelTransform().Find("DockedShips").transform.Find(dockedShip.ModelInfo.ModelName).gameObject.SetActive(isVisible);
         }
 
-        public void CallDocked(GenericShip host)
+        public void CallDocked(GenericShip hostShip)
         {
-            if (OnDocked != null) OnDocked(host);
+            if (OnDocked != null) OnDocked(hostShip);
         }
 
         public void CallUndocked(GenericShip host)
         {
             if (OnUndocked != null) OnUndocked(host);
+        }
+
+        public void CallAnotherShipDocked(GenericShip dockedShip)
+        {
+            if (OnAnotherShipDocked != null) OnAnotherShipDocked(dockedShip);
+        }
+
+        public void CallAnotherShipUndocked(GenericShip dockedShip)
+        {
+            if (OnAnotherShipUndocked != null) OnAnotherShipUndocked(dockedShip);
         }
 
         public virtual bool IsAllowedForSquadBuilder()
@@ -287,6 +303,15 @@ namespace Ship
         public void CallTryAttackSameTeamCheck(GenericShip ship, ref bool result)
         {
             OnTryAttackSameTeamCheck?.Invoke(ship, ref result);
+        }
+
+        // Docking
+
+        public Vector2 GetDockingRange(GenericShip carrier)
+        {
+            Vector2 dockingRange = new Vector2(0, 0);
+            OnGetDockingRange?.Invoke(carrier, ref dockingRange);
+            return dockingRange;
         }
     }
 

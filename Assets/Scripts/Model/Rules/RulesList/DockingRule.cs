@@ -8,6 +8,7 @@ using GameModes;
 using Ship;
 using SubPhases;
 using Tokens;
+using Movement;
 
 namespace RulesList
 {
@@ -30,6 +31,7 @@ namespace RulesList
             Phases.Events.OnGameStart += DockShips;
         }
 
+        // OLD
         public void Dock(Func<GenericShip> host, Func<GenericShip> docked)
         {
             if (host != null && docked != null)
@@ -38,32 +40,77 @@ namespace RulesList
             }
         }
 
+        public void Dock(GenericShip hostShip, GenericShip dockedShip)
+        {
+            if (hostShip != null && dockedShip != null)
+            {
+                PerformDocking(hostShip, dockedShip);
+            }
+        }
+
         private void DockShips()
         {
             foreach (var dockedShipsPair in dockedShipsPairs)
             {
-                DockShip(dockedShipsPair.Key(), dockedShipsPair.Value());
+                PerformDockingOld(dockedShipsPair.Key(), dockedShipsPair.Value());
             }
         }
 
-        private void DockShip(GenericShip docked, GenericShip host)
+        //old
+        private void PerformDockingOld(GenericShip docked, GenericShip host)
         {
             if (host != null && docked != null)
             {
                 Roster.DockShip("ShipId:" + docked.ShipId);
                 host.DockedShips.Add(docked);
-                docked.Host = host;
+                docked.DockingHost = host;
                 docked.Model.SetActive(false);
                 host.ToggleDockedModel(docked, true);
 
                 docked.CallDocked(host);
+                host.CallAnotherShipDocked(docked);
 
-                host.OnMovementFinish += RegisterAskUndock;
+                host.OnMovementFinish += RegisterAskUndockFE;
                 host.OnShipIsDestroyed += CheckForcedUndocking;
             }
         }
 
-        private void RegisterAskUndock(GenericShip ship)
+        private void PerformDocking(GenericShip hostShip, GenericShip dockedShip)
+        {
+            Roster.DockShip("ShipId:" + dockedShip.ShipId);
+            hostShip.DockedShips.Add(dockedShip);
+            dockedShip.DockingHost = hostShip;
+            dockedShip.Model.SetActive(false);
+            hostShip.ToggleDockedModel(dockedShip, true);
+
+            dockedShip.CallDocked(hostShip);
+            hostShip.CallAnotherShipDocked(dockedShip);
+
+            hostShip.OnShipIsDestroyed += CheckForcedUndocking;
+
+            // OLD
+            if (Editions.Edition.Current is Editions.SecondEdition)
+            {
+                hostShip.OnSystemsAbilityActivation += RegisterAskUndockSE;
+            }
+            else
+            {
+                hostShip.OnMovementFinish += RegisterAskUndockFE;
+            }
+            
+        }
+
+        private void RegisterAskUndockSE(GenericShip ship)
+        {
+            RegisterAskUndock(ship, TriggerTypes.OnSystemsAbilityActivation);
+        }
+
+        private void RegisterAskUndockFE(GenericShip ship)
+        {
+            RegisterAskUndock(ship, TriggerTypes.OnMovementFinish);
+        }
+
+        private void RegisterAskUndock(GenericShip ship, TriggerTypes timing)
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
@@ -74,7 +121,7 @@ namespace RulesList
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Undocking decision",
-                    TriggerType = TriggerTypes.OnMovementFinish,
+                    TriggerType = timing,
                     TriggerOwner = ship.Owner.PlayerNo,
                     EventHandler = AskUndock
                 });
@@ -95,32 +142,84 @@ namespace RulesList
             newSubphase.Start();            
         }
 
-        private void Undock(GenericShip host, GenericShip docked, bool isForced = false)
+        private void Undock(GenericShip hostShip, GenericShip dockedShip, bool isForced = false)
         {
-            SetUndockPosition(host, docked);
+            UndockingDirectionDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<UndockingDirectionDecisionSubphase>(
+                "Select direction of undocking",
+                delegate { ContinueUndocking(hostShip, dockedShip, isForced); }
+            );
 
-            Roster.UndockShip(docked);
-            host.DockedShips.Remove(docked);
-            host.ToggleDockedModel(docked, false);
-            docked.Model.SetActive(true);
+            subphase.InfoText = "Select direction for undocking";
+            subphase.DecisionOwner = hostShip.Owner;
 
-            docked.CallUndocked(host);
+            List<Direction> allDirections = new List<Direction>() { Direction.Top, Direction.Bottom }
+                .Where(n => hostShip.FilterUndockDirection(n))
+                .ToList();
 
-            host.OnMovementFinish -= RegisterAskUndock;
-            host.OnShipIsDestroyed -= CheckForcedUndocking;
-
-            if (!isForced)
+            foreach (Direction direction in allDirections)
             {
-                AskAssignManeuver(host, docked);
+                subphase.AddDecision(
+                    (direction == Direction.Top) ? "Front" : "Rear",
+                    delegate { SetUndockPosition(hostShip, dockedShip, direction); },
+                    isCentered: true
+                );
+            }
+
+            subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
+
+            subphase.Start();
+        }
+
+        private void ContinueUndocking(GenericShip hostShip, GenericShip dockedShip, bool isForced)
+        {
+            Roster.UndockShip(dockedShip);
+            hostShip.DockedShips.Remove(dockedShip);
+            hostShip.ToggleDockedModel(dockedShip, false);
+            dockedShip.Model.SetActive(true);
+
+            dockedShip.CallUndocked(hostShip);
+            hostShip.CallAnotherShipUndocked(dockedShip);
+
+            if (Editions.Edition.Current is Editions.SecondEdition)
+            {
+                hostShip.OnSystemsAbilityActivation -= RegisterAskUndockSE;
             }
             else
             {
-                docked.Tokens.AssignToken(typeof(WeaponsDisabledToken), delegate{
-                    DealFacedownDamageCard(docked, delegate{
-                        AskAssignManeuver(host, docked);
+                hostShip.OnMovementFinish -= RegisterAskUndockFE;
+            }
+
+            hostShip.OnShipIsDestroyed -= CheckForcedUndocking;
+
+            if (!isForced)
+            {
+                AskAssignManeuver(hostShip, dockedShip);
+            }
+            else
+            {
+                dockedShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), delegate {
+                    DealFacedownDamageCard(dockedShip, delegate {
+                        AskAssignManeuver(hostShip, dockedShip);
                     });
                 });
             }
+        }
+
+        private void SetUndockPosition(GenericShip hostShip, GenericShip dockedShip, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Top:
+                    SetUndockPositionForward(hostShip, dockedShip);
+                    break;
+                case Direction.Bottom:
+                    SetUndockPositionRear(hostShip, dockedShip);
+                    break;
+                default:
+                    break;
+            }
+
+            DecisionSubPhase.ConfirmDecision();            
         }
 
         private void CheckForcedUndocking(GenericShip host, bool isFled)
@@ -176,7 +275,29 @@ namespace RulesList
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver);
+            if (Editions.Edition.Current is Editions.SecondEdition)
+            {
+                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, FilterOnlyForward);
+            }
+            else
+            {
+                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver);
+            }
+        }
+
+        private bool FilterOnlyForward(string maneuverCode)
+        {
+            bool result = true;
+            GenericMovement maneuver = ShipMovementScript.MovementFromString(maneuverCode);
+
+            if (maneuver.Bearing == ManeuverBearing.Stationary
+                || maneuver.Bearing == ManeuverBearing.ReverseStraight
+                || maneuver.Bearing == ManeuverBearing.ReverseBank)
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         private void RegisterPerformManeuver()
@@ -229,23 +350,31 @@ namespace RulesList
 
         private void AfterUndockingFinished()
         {
-            if (!Selection.ThisShip.Host.IsDestroyed)
+            if (!Selection.ThisShip.DockingHost.IsDestroyed)
             {
-                Selection.ChangeActiveShip("ShipId:" + Selection.ThisShip.Host.ShipId);
+                Selection.ChangeActiveShip("ShipId:" + Selection.ThisShip.DockingHost.ShipId);
             }
             else
             {
-                Selection.ThisShip = Selection.ThisShip.Host;
+                Selection.ThisShip = Selection.ThisShip.DockingHost;
             }
 
             Triggers.FinishTrigger();
         }
 
-        private void SetUndockPosition(GenericShip host, GenericShip docked)
+        private void SetUndockPositionRear(GenericShip host, GenericShip docked)
         {
             docked.SetPosition(host.GetBack());
             docked.SetAngles(host.GetAngles() + new Vector3(0, 180, 0));
         }
+
+        private void SetUndockPositionForward(GenericShip host, GenericShip docked)
+        {
+            docked.SetPosition(host.GetPosition());
+            docked.SetAngles(host.GetAngles());
+        }
+
+        private class UndockingDirectionDecisionSubphase : DecisionSubPhase { }
 
     }
 

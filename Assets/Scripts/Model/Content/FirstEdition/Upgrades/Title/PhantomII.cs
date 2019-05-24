@@ -66,7 +66,7 @@ namespace Abilities.FirstEdition
 
         private void RegisterFreeCoordinateAbility()
         {
-            if (HostShip.Host.Owner.Ships.Count > 1)
+            if (HostShip.DockingHost.Owner.Ships.Count > 1)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActivationPhaseEnd, FreeCoordinateAction);
             }
@@ -76,7 +76,7 @@ namespace Abilities.FirstEdition
         {
             List<GenericAction> actions = new List<GenericAction>() { new CoordinateAction() };
 
-            HostShip.Host.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.DockingHost.AskPerformFreeAction(actions, Triggers.FinishTrigger);
         }
 
     }

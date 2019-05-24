@@ -36,16 +36,23 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            Phases.Events.OnSetupStart += CheckInitialDockingAbility;
+            ActivateDocking(FilterEscapeCraft);
+
             HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += CheckStressedTargetBonus;
             HostShip.OnTryDamagePrevention += CheckDamageRedirection;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnSetupStart -= CheckInitialDockingAbility;
+            DeactivateDocking();
+
             HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= CheckStressedTargetBonus;
             HostShip.OnTryDamagePrevention -= CheckDamageRedirection;
+        }
+
+        private bool FilterEscapeCraft(GenericShip ship)
+        {
+            return ship is Ship.SecondEdition.EscapeCraft.EscapeCraft;
         }
 
         private void CheckDamageRedirection(GenericShip ship, DamageSourceEventArgs e)
@@ -95,47 +102,6 @@ namespace Abilities.SecondEdition
             {
                 count++;
                 Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": defender is stressed, attacker gains +1 attack die");
-            }
-        }
-
-        private void CheckInitialDockingAbility()
-        {
-            DockableShips = GetDockableShips();
-            if (DockableShips.Count > 0)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnSetupStart, AskInitialDocking);
-            }
-        }
-
-        private List<GenericShip> GetDockableShips()
-        {
-            return HostShip.Owner.Ships
-                .Where(s => s.Value is Ship.SecondEdition.EscapeCraft.EscapeCraft)
-                .Select(n => n.Value)
-                .ToList();
-        }
-
-        private void AskInitialDocking(object sender, EventArgs e)
-        {
-            AskToUseAbility(
-                AlwaysUseByDefault,
-                StartInitialDocking,
-                infoText: "Lando's Millenium Falcon: Do you want to dock a shuttle?"
-            );
-        }
-
-        private void StartInitialDocking(object sender, EventArgs e)
-        {
-            SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            if (DockableShips.Count == 1)
-            {
-                Rules.Docking.Dock(HostShip, DockableShips.First());
-                Triggers.FinishTrigger();
-            }
-            else
-            {
-                // Ask what ships to dock
             }
         }
     }

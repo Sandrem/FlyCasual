@@ -36,53 +36,22 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            Phases.Events.OnSetupStart += CheckInitialDockingAbility;
+            ActivateDocking(FilterShuttles, FilterOnlyRearDirection);
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnSetupStart -= CheckInitialDockingAbility;
+            DeactivateDocking();
         }
 
-        private void CheckInitialDockingAbility()
+        private bool FilterOnlyRearDirection(Direction direction)
         {
-            DockableShips = GetDockableShips();
-            if (DockableShips.Count > 0)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnSetupStart, AskInitialDocking);
-            }
+            return direction == Direction.Bottom;
         }
 
-        private List<GenericShip> GetDockableShips()
+        private bool FilterShuttles(GenericShip ship)
         {
-            return HostShip.Owner.Ships
-                .Where(s => s.Value is Ship.SecondEdition.AttackShuttle.AttackShuttle || s.Value is Ship.SecondEdition.SheathipedeClassShuttle.SheathipedeClassShuttle)
-                .Select(n => n.Value)
-                .ToList();
-        }
-
-        private void AskInitialDocking(object sender, EventArgs e)
-        {
-            AskToUseAbility(
-                AlwaysUseByDefault,
-                StartInitialDocking,
-                infoText: "Ghost: Do you want to dock a shuttle?"
-            );
-        }
-
-        private void StartInitialDocking(object sender, EventArgs e)
-        {
-            SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            if (DockableShips.Count == 1)
-            {
-                Rules.Docking.Dock(HostShip, DockableShips.First());
-                Triggers.FinishTrigger();
-            }
-            else
-            {
-                // Ask what ships to dock
-            }
+            return ship is Ship.SecondEdition.AttackShuttle.AttackShuttle || ship is Ship.SecondEdition.SheathipedeClassShuttle.SheathipedeClassShuttle;
         }
     }
 }

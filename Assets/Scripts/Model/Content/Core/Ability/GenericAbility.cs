@@ -76,6 +76,9 @@ namespace Abilities
             }
         }
 
+        private Func<GenericShip, bool> FilterDockableShips;
+        private Func<Direction, bool> FilterUndockDirection;
+
         public virtual void Initialize(GenericShip hostShip)
         {
             InitializeForSquadBuilder(hostShip);
@@ -707,6 +710,65 @@ namespace Abilities
             };
 
             ship.Damage.TryResolveDamage(damage, damageArgs, Triggers.FinishTrigger, critDamage: critDamage);
+        }
+
+        // DOCKING
+
+        protected void ActivateDocking(Func<GenericShip, bool> filterDockableShips, Func<Direction, bool> filterUndockDirection = null)
+        {
+            FilterDockableShips = filterDockableShips;
+            FilterUndockDirection = filterUndockDirection ?? delegate { return true; };
+
+            Phases.Events.OnSetupStart += CheckInitialDockingAbility;
+        }
+
+        protected void DeactivateDocking()
+        {
+            Phases.Events.OnSetupStart -= CheckInitialDockingAbility;
+        }
+
+        private void CheckInitialDockingAbility()
+        {
+            if (GetDockableShips().Count > 0)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnSetupStart, AskInitialDocking);
+            }
+        }
+
+        private List<GenericShip> GetDockableShips()
+        {
+            return HostShip.Owner.Ships
+                .Where(s => FilterDockableShips(s.Value))
+                .Select(n => n.Value)
+                .ToList();
+        }
+
+        private void AskInitialDocking(object sender, EventArgs e)
+        {
+            Selection.ChangeActiveShip(HostShip);
+
+            AskToUseAbility(
+                AlwaysUseByDefault,
+                StartInitialDocking,
+                infoText: HostShip.PilotInfo.PilotName + ": Do you want to dock a ship?"
+            );
+        }
+
+        private void StartInitialDocking(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            List<GenericShip> dockableShips = GetDockableShips();
+            if (dockableShips.Count == 1)
+            {
+                Rules.Docking.Dock(HostShip, dockableShips.First());
+                Triggers.FinishTrigger();
+            }
+            else
+            {
+                // Ask what ships to dock
+                Triggers.FinishTrigger();
+            }
         }
     }
 }

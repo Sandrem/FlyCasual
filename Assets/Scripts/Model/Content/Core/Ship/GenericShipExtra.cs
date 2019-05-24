@@ -44,6 +44,8 @@ namespace Ship
 
         public event EventHandlerShipRefBool OnTryAttackSameTeamCheck;
 
+        public event EventHandlerShipRefVector OnGetDockingRange;
+
         public GenericShip DockingHost;
 
         public Type ShipRuleType = typeof(Editions.FirstEdition);
@@ -299,6 +301,15 @@ namespace Ship
         public void CallTryAttackSameTeamCheck(GenericShip ship, ref bool result)
         {
             OnTryAttackSameTeamCheck?.Invoke(ship, ref result);
+        }
+
+        // Docking
+
+        public Vector2 GetDockingRange(GenericShip carrier)
+        {
+            Vector2 dockingRange = new Vector2(0, 0);
+            OnGetDockingRange?.Invoke(carrier, ref dockingRange);
+            return dockingRange;
         }
     }
 

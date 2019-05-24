@@ -7,6 +7,7 @@ using Upgrade;
 using Players;
 using System.Linq;
 using ActionsList;
+using BoardTools;
 
 namespace Abilities
 {
@@ -720,11 +721,13 @@ namespace Abilities
             FilterUndockDirection = filterUndockDirection ?? delegate { return true; };
 
             Phases.Events.OnSetupStart += CheckInitialDockingAbility;
+            Phases.Events.OnSystemsPhaseStart += CheckPotentialDockingShips;
         }
 
         protected void DeactivateDocking()
         {
             Phases.Events.OnSetupStart -= CheckInitialDockingAbility;
+            Phases.Events.OnSystemsPhaseStart -= CheckPotentialDockingShips;
         }
 
         private void CheckInitialDockingAbility()
@@ -769,6 +772,57 @@ namespace Abilities
                 // Ask what ships to dock
                 Triggers.FinishTrigger();
             }
+        }
+
+        private void CheckPotentialDockingShips()
+        {
+            foreach (GenericShip ship in hostShip.Owner.Ships.Values)
+            {
+                if (FilterDockableShips(ship))
+                {
+                    DistanceInfo distInfo = new DistanceInfo(HostShip, ship);
+                    Vector2 dockingRange = ship.GetDockingRange(HostShip);
+                    if (dockingRange.x <= distInfo.Range && distInfo.Range <= dockingRange.y)
+                    {
+                        ship.OnSystemsAbilityActivation += PrepareAskToDock;
+                    }
+                }
+            }
+        }
+
+        private void PrepareAskToDock(GenericShip ship)
+        {
+            ship.OnSystemsAbilityActivation -= PrepareAskToDock;
+
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Ask to Dock",
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    TriggerType = TriggerTypes.OnSystemsAbilityActivation,
+                    EventHandler = AskToDock,
+                    Sender = ship
+                }
+            );
+        }
+
+        private void AskToDock(object sender, EventArgs e)
+        {
+            GenericShip dockingShip = sender as GenericShip;
+
+            AskToUseAbility(
+                NeverUseByDefault,
+                delegate { ConfirmDocking(dockingShip, HostShip); },
+                infoText: "Do you want to dock to " + HostShip.PilotInfo.PilotName + "?"
+            );
+        }
+
+        private void ConfirmDocking(GenericShip dockingShip, GenericShip chosenHostShip)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            Rules.Docking.Dock(chosenHostShip, dockingShip);
+            Triggers.FinishTrigger();
         }
     }
 }

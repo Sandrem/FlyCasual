@@ -130,7 +130,7 @@ namespace SubPhases
 
         public void StartBoostPlanning()
         {
-            AvailableBoostMoves = TheShip.GetAvailableBoostTemplates();
+            AvailableBoostMoves = TheShip.GetAvailableBoostTemplates(HostAction);
 
             InitializeRendering();
 

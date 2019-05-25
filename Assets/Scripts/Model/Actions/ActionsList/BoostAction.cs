@@ -204,7 +204,7 @@ namespace SubPhases
         private void ResetActionColor(GenericAction action)
         {
             action.HostShip.OnActionIsPerformed -= ResetActionColor;
-            HostAction.Color = ActionColor.Red;
+            HostAction.Color = ActionColor.White;
         }
 
         private void SelectTemplateDecisionIsTaken()

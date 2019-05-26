@@ -742,7 +742,7 @@ namespace Ship
             return availableTemplates;
         }
 
-        public List<BoostMove> GetAvailableBoostTemplates()
+        public List<BoostMove> GetAvailableBoostTemplates(GenericAction action)
         {
             var availableMoves = new List<BoostMove>
             {
@@ -753,7 +753,7 @@ namespace Ship
 
             if (OnGetAvailableBoostTemplates != null)
             {
-                OnGetAvailableBoostTemplates(availableMoves);
+                OnGetAvailableBoostTemplates(availableMoves, action);
             }
             return availableMoves;
         }

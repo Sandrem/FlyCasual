@@ -41,10 +41,13 @@ namespace Abilities.SecondEdition
             HostShip.OnGetAvailableBoostTemplates -= ChangeBoostTemplates;
         }
 
-        private void ChangeBoostTemplates(List<BoostMove> availableMoves)
+        private void ChangeBoostTemplates(List<BoostMove> availableMoves, GenericAction action)
         {
-            availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.LeftTurn1, true));
-            availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.RightTurn1, true));
+            if (action.Color == ActionColor.White)
+            {
+                availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.LeftTurn1, true));
+                availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.RightTurn1, true));
+            }
         }
     }
 }

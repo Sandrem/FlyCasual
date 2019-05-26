@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ActionsList;
+using System.Collections.Generic;
 
 namespace Ship
 {
@@ -34,7 +35,7 @@ namespace Abilities.FirstEdition
             HostShip.OnGetAvailableBoostTemplates -= ChangeBoostTemplate;
         }
 
-        private void ChangeBoostTemplate(List<ActionsList.BoostMove> availableMoves)
+        private void ChangeBoostTemplate(List<ActionsList.BoostMove> availableMoves, GenericAction action)
         {
             availableMoves.Add(new ActionsList.BoostMove(ActionsHolder.BoostTemplates.LeftTurn1));
             availableMoves.Add(new ActionsList.BoostMove(ActionsHolder.BoostTemplates.RightTurn1));

@@ -1097,6 +1097,10 @@ namespace SquadBuilderNS
                         MainMenu.CurrentMainMenu.ChangePanel("ChosenObstaclesPanel");
                     }
                 );
+                if (CurrentSquadList.ChosenObstacles.Contains(obstacle) && obstacle != CurrentObstacle)
+                {
+                    newObstacleViewPanel.GetComponent<Button>().interactable = false;
+                }
             }
 
         }

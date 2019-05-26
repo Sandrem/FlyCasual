@@ -43,13 +43,25 @@ namespace Obstacles
                 );
             }
 
-            // TODO: Add all debris
-            Instance.AllPossibleObstacles.Add(
-                new Debris(
-                    "YT2400 Debris 2",
-                    "yt2400debris2"
-                )
-            );
+            for (int i = 0; i < 3; i++)
+            {
+                Instance.AllPossibleObstacles.Add(
+                    new Debris(
+                        "YT2400 Debris " + i,
+                        "yt2400debris" + i
+                    )
+                );
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                Instance.AllPossibleObstacles.Add(
+                    new Debris(
+                        "VT49 Debris " + i,
+                        "vt49debris + i"
+                    )
+                );
+            }
 
             for (int i = 1; i < 4; i++)
             {

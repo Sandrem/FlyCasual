@@ -435,6 +435,7 @@ namespace SubPhases
         public void FinishBoost()
         {
             GameMode.CurrentGameMode.FinishBoost();
+            ((PreviousSubPhase as BoostPlanningSubPhase).HostAction as BoostAction).SelectedBoostTemplate = null;
         }
 
         public override void Next()

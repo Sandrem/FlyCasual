@@ -10,6 +10,7 @@ using GameModes;
 using UnityEngine.SceneManagement;
 using Editions;
 using Obstacles;
+using System.IO;
 
 namespace SquadBuilderNS
 {
@@ -758,19 +759,6 @@ namespace SquadBuilderNS
                         }
                     }                
                 }
-            }
-
-            return result;
-        }
-
-        private static List<string> GetAvailableShipSkins(SquadBuilderShip ship)
-        {
-            List<string> result = new List<string>();
-
-            UnityEngine.Object[] textures = Resources.LoadAll("ShipSkins/" + ship.Instance.FixTypeName(ship.Instance.ModelInfo.ModelName) + "/");
-            foreach (var texture in textures)
-            {
-                result.Add(texture.name);
             }
 
             return result;

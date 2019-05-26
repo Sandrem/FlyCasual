@@ -286,7 +286,7 @@ namespace Ship
 
         public Texture GetSkinTexture()
         {
-            Texture skin = (Texture)Resources.Load("ShipSkins/" + FixTypeName(ModelInfo.ModelName) + "/" + ModelInfo.SkinName, typeof(Texture));
+            Texture skin = GetAvailableSkins().FirstOrDefault(n => n.name == ModelInfo.SkinName);
 
             if (skin == null)
             {
@@ -300,7 +300,27 @@ namespace Ship
 
         public List<Texture> GetAvailableSkins()
         {
-            return Resources.LoadAll<Texture>("ShipSkins/" + FixTypeName(ModelInfo.ModelName)).ToList();
+            List<Texture> textures = new List<Texture>();
+            textures.AddRange(Resources.LoadAll<Texture>("ShipSkins/" + FixTypeName(ModelInfo.ModelName)).ToList());
+
+            string customizableSkinsPath = Application.dataPath + "/../Customizable/Ship Skins/";
+            if (Directory.Exists(customizableSkinsPath))
+            {
+                foreach (string filePath in Directory.GetFiles(customizableSkinsPath + FixTypeName(ModelInfo.ModelName) + "/"))
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(filePath);
+                    if (!textures.Any(n => n.name == fileName))
+                    {
+                        byte[] fileData = File.ReadAllBytes(filePath);
+                        Texture2D texture = new Texture2D(1, 1);
+                        texture.LoadImage(fileData);
+                        texture.name = fileName;
+                        textures.Add(texture);
+                    }
+                }
+            }
+
+            return textures;
         }
 
         private string GetDefaultSkinName()

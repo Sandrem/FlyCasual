@@ -109,9 +109,6 @@ public partial class MainMenu : MonoBehaviour {
             case "SaveSquadronPanel":
                 SquadBuilder.PrepareSaveSquadronPanel();
                 break;
-            case "ShipSkinsPanel":
-                SquadBuilder.ShowSkinButtons();
-                break;
             case "AvatarsPanel":
                 InitializePlayerCustomization();
                 break;

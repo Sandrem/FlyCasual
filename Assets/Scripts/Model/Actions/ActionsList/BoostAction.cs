@@ -130,7 +130,7 @@ namespace SubPhases
 
         public void StartBoostPlanning()
         {
-            AvailableBoostMoves = TheShip.GetAvailableBoostTemplates();
+            AvailableBoostMoves = TheShip.GetAvailableBoostTemplates(HostAction);
 
             InitializeRendering();
 
@@ -204,7 +204,7 @@ namespace SubPhases
         private void ResetActionColor(GenericAction action)
         {
             action.HostShip.OnActionIsPerformed -= ResetActionColor;
-            HostAction.Color = ActionColor.Red;
+            HostAction.Color = ActionColor.White;
         }
 
         private void SelectTemplateDecisionIsTaken()
@@ -435,6 +435,7 @@ namespace SubPhases
         public void FinishBoost()
         {
             GameMode.CurrentGameMode.FinishBoost();
+            ((PreviousSubPhase as BoostPlanningSubPhase).HostAction as BoostAction).SelectedBoostTemplate = null;
         }
 
         public override void Next()

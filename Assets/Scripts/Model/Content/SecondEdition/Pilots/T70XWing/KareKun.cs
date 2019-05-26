@@ -42,7 +42,7 @@ namespace Abilities.SecondEdition
             HostShip.OnGetAvailableBoostTemplates -= ChangeBoostTemplates;
         }
 
-        private void ChangeBoostTemplates(List<BoostMove> availableMoves)
+        private void ChangeBoostTemplates(List<BoostMove> availableMoves, GenericAction action)
         {
             availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.LeftTurn1, false));
             availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.RightTurn1, false));

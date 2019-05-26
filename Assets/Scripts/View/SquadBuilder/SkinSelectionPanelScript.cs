@@ -109,6 +109,6 @@ public class SkinSelectionPanelScript : MonoBehaviour
     {
         Ship.ModelInfo.SkinName = AvailableSkins[index].name;
         Ship.SetShipSkin(ShipModel.transform, AvailableSkins[index]);
-        SkinName.text = "<< " + Ship.ModelInfo.SkinName + " >>";
+        SkinName.text = Ship.ModelInfo.SkinName;
     }
 }

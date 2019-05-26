@@ -1054,7 +1054,7 @@ namespace SquadBuilderNS
         {
             string prefabPath = "Prefabs/SquadBuilder/ObstacleViewPanel";
             GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
-            GameObject contentGO = GameObject.Find("UI/Panels/ChosenObstaclesPanel/Content").gameObject;
+            GameObject contentGO = GameObject.Find("UI/Panels/ChosenObstaclesPanel/Content/ObstaclesPanel").gameObject;
 
             DestroyChildren(contentGO.transform);
             DestroyChildren(GameObject.Find("PreviewsHolder").transform);
@@ -1073,6 +1073,7 @@ namespace SquadBuilderNS
                 );
             }
 
+            MainMenu.ScalePanel(contentGO.transform);
         }
 
         public static void ShowBrowseObstaclesPanel()

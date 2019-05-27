@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
 
         private void CheckDamageRedirection(GenericShip ship, DamageSourceEventArgs e)
         {
-            if (HostShip.DockedShips.Count > 0 && HostShip.DockedShips.First().State.ShieldsCurrent > 0)
+            if (HostShip.DockedShips.Count > 0 && HostShip.DockedShips.First().State.ShieldsCurrent > 0 && HostShip.DockedShips.First().State.ShieldsCurrent > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTryDamagePrevention, AskToRedirectDamage);
             }
@@ -65,11 +65,23 @@ namespace Abilities.SecondEdition
 
         private void AskToRedirectDamage(object sender, EventArgs e)
         {
-            AskToUseAbility(
-                AlwaysUseByDefault,
-                UseShieldsOfDockedShip,
-                infoText: HostUpgrade.UpgradeInfo.Name + ": Do you want to use shield of docked ship instead?"
-            );
+            AskToRedirectDamageRecursive();
+        }
+
+        private void AskToRedirectDamageRecursive()
+        {
+            if (HostShip.AssignedDamageDiceroll.Count > 0 && HostShip.DockedShips.Count > 0 && HostShip.DockedShips.First().State.ShieldsCurrent > 0)
+            {
+                AskToUseAbility(
+                    AlwaysUseByDefault,
+                    UseShieldsOfDockedShip,
+                    infoText: HostUpgrade.UpgradeInfo.Name + ": Do you want to use shield of docked ship instead?"
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         private void UseShieldsOfDockedShip(object sender, EventArgs e)
@@ -78,6 +90,16 @@ namespace Abilities.SecondEdition
 
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Shields of Escape Craft were spent");
 
+            HostShip.AssignedDamageDiceroll.RemoveType(GetDieSideToSuffer());
+
+            GenericShip dockedShip = HostShip.DockedShips.First();
+            dockedShip.LoseShield();
+
+            AskToRedirectDamageRecursive();
+        }
+
+        private DieSide GetDieSideToSuffer()
+        {
             DieSide redirectedResult = DieSide.Unknown;
             if (HostShip.AssignedDamageDiceroll.CriticalSuccesses > 0)
             {
@@ -88,12 +110,7 @@ namespace Abilities.SecondEdition
                 redirectedResult = DieSide.Success;
             }
 
-            HostShip.AssignedDamageDiceroll.RemoveType(redirectedResult);
-
-            GenericShip dockedShip = HostShip.DockedShips.First();
-            dockedShip.LoseShield();
-
-            Triggers.FinishTrigger();
+            return redirectedResult;
         }
 
         private void CheckStressedTargetBonus(ref int count)

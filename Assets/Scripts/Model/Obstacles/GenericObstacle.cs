@@ -1,4 +1,5 @@
-﻿using Players;
+﻿using BoardTools;
+using Players;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -26,5 +27,15 @@ namespace Obstacles
         public abstract void OnHit(GenericShip ship);
         public abstract void OnLanded(GenericShip ship);
         public abstract void OnShotObstructedExtra(GenericShip attacker, GenericShip defender);
+
+        public void Spawn(string name, Transform obstacleHolder)
+        {
+            GameObject obstacleModelPrefab = Resources.Load<GameObject>(string.Format("Prefabs/Obstacles/{0}/{1}", GetTypeName, Name));
+            ObstacleGO = GameObject.Instantiate<GameObject>(obstacleModelPrefab, obstacleHolder);
+            Name = name;
+            ObstacleGO.name = name;
+            ObstacleGO.transform.Find("default").name = name;
+            Board.RegisterObstacle(this);
+        }
     }
 }

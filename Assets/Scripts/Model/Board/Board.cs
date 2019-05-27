@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using System;
+using Obstacles;
 
 namespace BoardTools
 {
@@ -42,6 +43,11 @@ namespace BoardTools
         {
             Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase").GetComponent<MeshCollider>());
             Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ObstaclesStayDetector").GetComponent<MeshCollider>());
+        }
+
+        public static void RegisterObstacle(GenericObstacle obstacle)
+        {
+            Objects.Add(obstacle.ObstacleGO.transform.Find(obstacle.Name).GetComponent<MeshCollider>());
         }
 
         public static float CalculateDistance(int countShips)

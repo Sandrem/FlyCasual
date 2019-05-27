@@ -76,6 +76,11 @@ namespace Obstacles
             Instance.AllPossibleObstacles = Instance.AllPossibleObstacles.OrderBy(n => n.Name).ToList();
         }
 
+        public static void AddObstacle(Debris looseCargo)
+        {
+            Instance.ChosenObstacles.Add(looseCargo);
+        }
+
         public static GenericObstacle GenerateObstacle(string shortName, PlayerNo playerNo)
         {
             GenericObstacle prefab = Instance.AllPossibleObstacles.First(n => n.ShortName == shortName);

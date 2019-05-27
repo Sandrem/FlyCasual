@@ -68,13 +68,7 @@ namespace SubPhases
                 foreach (GenericObstacle obstacle in Roster.GetPlayer(i).ChosenObstacles)
                 {
                     GameObject obstacleHolder = Board.GetObstacleHolder().Find("Obstacle" + asteroidCount++).gameObject;
-                    GameObject obstacleModelPrefab = Resources.Load<GameObject>(string.Format("Prefabs/Obstacles/{0}/{1}", obstacle.GetTypeName, obstacle.Name));
-                    obstacle.ObstacleGO = GameObject.Instantiate<GameObject>(obstacleModelPrefab, obstacleHolder.transform);
-                    obstacle.Name = obstacle.Name + "_" + i;
-                    obstacle.ObstacleGO.name = obstacle.Name;
-                    GameObject colliderGO = obstacle.ObstacleGO.transform.Find("default").gameObject;
-                    colliderGO.name = obstacle.Name;
-                    Board.Objects.Add(colliderGO.GetComponent<MeshCollider>());
+                    obstacle.Spawn(obstacle.Name + " " + asteroidCount, obstacleHolder.transform);
                 }
             }
         }

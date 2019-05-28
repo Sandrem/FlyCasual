@@ -28,7 +28,7 @@ namespace SubPhases
         public bool CanMeasureRangeBeforeSelection = true;
 
         protected Action finishAction;
-        public Func<GenericShip, bool> FilterTargets;
+        public Func<GenericShip, bool> FilterShipTargets { get; set; }
         public Func<GenericShip, int> GetAiPriority;
 
         public bool IsInitializationFinished;
@@ -69,7 +69,7 @@ namespace SubPhases
 
         public void PrepareByParameters(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, IImageHolder imageSource = null)
         {
-            FilterTargets = filterTargets;
+            FilterShipTargets = filterTargets;
             GetAiPriority = getAiPriority;
             finishAction = selectTargetAction;
             RequiredPlayer = subphaseOwnerPlayerNo;
@@ -94,13 +94,13 @@ namespace SubPhases
         public void HighlightShipsToSelect()
         {
             ShowSubphaseDescription(AbilityName, Description, ImageSource);
-            Roster.HighlightShipsFiltered(FilterTargets);
+            Roster.HighlightShipsFiltered(FilterShipTargets);
             IsInitializationFinished = true;
         }
 
         public void AiSelectPrioritizedTarget()
         {
-            List<GenericShip> filteredShips = Roster.AllShips.Values.Where(n => FilterTargets(n)).ToList();
+            List<GenericShip> filteredShips = Roster.AllShips.Values.Where(n => FilterShipTargets(n)).ToList();
             if (filteredShips == null || filteredShips.Count == 0)
             {
                 SkipButton();
@@ -149,7 +149,7 @@ namespace SubPhases
 
             if (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(HumanPlayer))
             {
-                if (FilterTargets(ship))
+                if (FilterShipTargets(ship))
                 {
                     if (ship == Selection.ThisShip)
                     {
@@ -191,7 +191,7 @@ namespace SubPhases
             {
                 if (mouseKeyIsPressed == 1)
                 {
-                    if (FilterTargets(anotherShip))
+                    if (FilterShipTargets(anotherShip))
                     {
                         SendSelectShipCommand(anotherShip);
                     }
@@ -223,7 +223,7 @@ namespace SubPhases
 
         private void TryToSelectThisShip()
         {
-            if (FilterTargets(Selection.ThisShip))
+            if (FilterShipTargets(Selection.ThisShip))
             {
                 SendSelectShipCommand(Selection.ThisShip);
             }

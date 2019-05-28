@@ -16,6 +16,7 @@ namespace Obstacles
         public string ShortName { get; protected set; }
         public bool IsPlaced { get; set; }
         public GameObject ObstacleGO { get; set; }
+        public List<GenericToken> Tokens { get; private set; } = new List<GenericToken>();
 
         public GenericObstacle(string name, string shortName)
         {
@@ -43,27 +44,34 @@ namespace Obstacles
 
         public int GetRangeToShip(GenericShip fromShip)
         {
-            throw new NotImplementedException();
+            ShipObstacleDistance dist = new ShipObstacleDistance(fromShip, this);
+            return dist.Range;
         }
 
         public void AssignToken(RedTargetLockToken token, Action callback)
         {
-            throw new NotImplementedException();
+            Tokens.Add(token);
+            //TODO: Show token on obstacle
+            callback();
         }
 
         public List<char> GetTargetLockLetterPairsOn(ITargetLockable targetShip)
         {
-            throw new NotImplementedException();
+            return Tokens
+                .Where(t => (t as RedTargetLockToken).OtherTargetLockTokenOwner == targetShip)
+                .Select(t => (t as RedTargetLockToken).Letter)
+                .ToList();
         }
 
         public GenericTargetLockToken GetAnotherToken(Type oppositeType, char letter)
         {
-            throw new NotImplementedException();
+            return Tokens.FirstOrDefault(t => (t as RedTargetLockToken).Letter == letter) as GenericTargetLockToken;
         }
 
-        public void RemoveToken(GenericToken otherTargetLockToken)
+        public void RemoveToken(GenericToken token)
         {
-            throw new NotImplementedException();
+            Tokens.Remove(token);
+            //TODO: Hide token from obstacle
         }
     }
 }

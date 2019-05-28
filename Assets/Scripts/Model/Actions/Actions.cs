@@ -492,7 +492,7 @@ public static partial class ActionsHolder
         return result;
     }
 
-    public static bool HasTargetLockOn(GenericShip attacker, GenericShip defender)
+    public static bool HasTargetLockOn(GenericShip attacker, ITargetLockable defender)
     {
         List<char> letter = GetTargetLocksLetterPairs(attacker, defender);
         return letter.Count > 0;

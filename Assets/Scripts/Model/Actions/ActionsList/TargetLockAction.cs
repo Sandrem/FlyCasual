@@ -2,6 +2,10 @@
 using ActionsList;
 using BoardTools;
 using Editions;
+using GameCommands;
+using GameModes;
+using Obstacles;
+using Players;
 using RulesList;
 using Ship;
 using SubPhases;
@@ -11,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tokens;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Upgrade;
 
 public interface ITargetLockable
@@ -270,23 +275,46 @@ namespace SubPhases
             );
         }
 
-        private bool FilterTargetLockTargets(GenericShip ship)
+        public void PrepareByParameters(Action selectTargetAction, Func<ITargetLockable, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, IImageHolder imageSource = null)
+        {
+            FilterTargetLockableTargets = filterTargets;
+            FilterShipTargets = filterTargets;
+            GetAiPriority = getAiPriority;
+            finishAction = selectTargetAction;
+            RequiredPlayer = subphaseOwnerPlayerNo;
+            if (showSkipButton)
+            {
+                UI.ShowSkipButton();
+            }
+            else
+            {
+                UI.HideSkipButton();
+            }
+            AbilityName = abilityName;
+            Description = description;
+            ImageSource = imageSource;
+        }
+
+        private bool FilterTargetLockTargets(ITargetLockable target)
         {
             // Don't include targets that are owned by the target locking player, ships that can't get target locks, or ships that already have a target lock from this ship.
             // Without the last test, Redline can target lock the same target twice.
-            return (ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo && Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, ship) && !ActionsHolder.HasTargetLockOn(Selection.ThisShip, ship));
+            return (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, target) && !ActionsHolder.HasTargetLockOn(Selection.ThisShip, target));
         }
 
         private int GetTargetLockAiPriority(GenericShip ship)
         {
             int result = 0;
 
-            ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapons);
-            if (shotInfo.IsShotAvailable) result += 1000;
-            if (!ship.ShipsBumped.Contains(Selection.ThisShip)) result += 500;
-            if (shotInfo.Range <= 3) result += 250;
+            if (ship.Owner.PlayerNo != Selection.ThisShip.Owner.PlayerNo)
+            {
+                ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapons);
+                if (shotInfo.IsShotAvailable) result += 1000;
+                if (!ship.ShipsBumped.Contains(Selection.ThisShip)) result += 500;
+                if (shotInfo.Range <= 3) result += 250;
 
-            result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.UpgradeInfo.Cost);
+                result += ship.PilotInfo.Cost + ship.UpgradeBar.GetUpgradesOnlyFaceup().Sum(n => n.UpgradeInfo.Cost);
+            }
 
             return result;
         }
@@ -328,7 +356,7 @@ namespace SubPhases
 
     public class SelectTargetLockableSubPhase : SelectShipSubPhase
     {
-        public ITargetLockable TargetLocked { get; private set; }
+        public static ITargetLockable TargetLocked { get; private set; }
 
         public override GenericShip TargetShip
         {
@@ -336,8 +364,74 @@ namespace SubPhases
             set { TargetLocked = value; }
         }
 
+        public Func<ITargetLockable, bool> FilterTargetLockableTargets { get; set; }
 
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.SelectObstacle, GameCommandTypes.PressSkip }; } }
+
+        public override void ProcessClick()
+        {
+            if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(HumanPlayer)) return;
+
+            TryToSelectObstacle();
+        }
+
+        private void TryToSelectObstacle()
+        {
+            if (!EventSystem.current.IsPointerOverGameObject() &&
+                (Input.touchCount == 0 || !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
+            {
+                if (Input.GetKeyUp(KeyCode.Mouse0))
+                {
+                    RaycastHit hitInfo = new RaycastHit();
+                    if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+                    {
+                        if (hitInfo.transform.tag.StartsWith("Obstacle"))
+                        {
+                            GenericObstacle clickedObstacle = ObstaclesManager.GetChosenObstacle(hitInfo.transform.name);
+
+                            if (clickedObstacle.IsPlaced)
+                            {
+                                SelectObstacle(clickedObstacle);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void SelectObstacle(GenericObstacle obstacle)
+        {
+            if (FilterTargetLockableTargets(obstacle))
+            {
+                ConfirmSelectionOfObstacle(obstacle);
+            }
+            else
+            {
+                Messages.ShowError("This obstacle cannot be selected");
+            }
+        }
+
+        private void ConfirmSelectionOfObstacle(GenericObstacle obstacle)
+        {
+            GameMode.CurrentGameMode.ExecuteCommand(GenerateSelectObstacleCommand(obstacle.ObstacleGO.name));
+        }
+
+        private GameCommand GenerateSelectObstacleCommand(string obstacleName)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("name", obstacleName);
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.SelectObstacle,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
+        }
+
+        public static void ConfirmSelectionOfObstacle(string obstacleName)
+        {
+            TargetLocked = ObstaclesManager.GetChosenObstacle(obstacleName);
+            (Phases.CurrentSubPhase as SelectTargetLockableSubPhase).InvokeFinish();
+        }
     }
 
 }

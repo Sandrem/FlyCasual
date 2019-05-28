@@ -5,12 +5,22 @@ using Editions;
 using RulesList;
 using Ship;
 using SubPhases;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
 using UnityEngine;
 using Upgrade;
+
+public interface ITargetLockable
+{
+    int GetRangeToShip(GenericShip fromShip);
+    void AssignToken(RedTargetLockToken token, Action callback);
+    List<char> GetTargetLockLetterPairsOn(ITargetLockable targetShip);
+    GenericTargetLockToken GetAnotherToken(Type oppositeType, char letter);
+    void RemoveToken(GenericToken otherTargetLockToken);
+}
 
 namespace ActionsList
 {
@@ -21,7 +31,7 @@ namespace ActionsList
         {
             Name = DiceModificationName = "Target Lock";
 
-            TokensSpend.Add(typeof(Tokens.BlueTargetLockToken));
+            TokensSpend.Add(typeof(BlueTargetLockToken));
             IsReroll = true;
         }
 
@@ -31,14 +41,14 @@ namespace ActionsList
             {
                 List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
 
-                if (Combat.Attacker.Tokens.GetToken(typeof(Tokens.BlueTargetLockToken), letters.First()).CanBeUsed)
+                if (Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First()).CanBeUsed)
                 {
                     DiceRerollManager diceRerollManager = new DiceRerollManager()
                     {
                         CallBack = callBack
                     };
 
-                    Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.BlueTargetLockToken), diceRerollManager.Start, letters.First());
+                    Selection.ActiveShip.Tokens.SpendToken(typeof(BlueTargetLockToken), diceRerollManager.Start, letters.First());
                 }
                 else
                 {
@@ -238,7 +248,7 @@ namespace SubPhases
         }
     }
 
-    public class AcquireTargetLockSubPhase : SelectShipSubPhase
+    public class AcquireTargetLockSubPhase : SelectTargetLockableSubPhase
     {
 
         public override void Prepare()
@@ -289,11 +299,11 @@ namespace SubPhases
 
         protected virtual void TrySelectTargetLock()
         {
-            if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetShip))
+            if (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, TargetLocked))
             {
                 ActionsHolder.AcquireTargetLock(
                     Selection.ThisShip,
-                    TargetShip,
+                    TargetLocked,
                     SuccessfulCallback,
                     RevertSubPhase
                 );
@@ -314,6 +324,11 @@ namespace SubPhases
             CallBack();
         }
 
+    }
+
+    public class SelectTargetLockableSubPhase : SelectShipSubPhase
+    {
+        public ITargetLockable TargetLocked { get; private set; }
     }
 
 }

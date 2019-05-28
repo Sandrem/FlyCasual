@@ -8,8 +8,8 @@ namespace RulesList
 {
     public class TargetLocksRule
     {
-        public static event GenericShip.EventHandlerBool2Ships OnCheckTargetLockIsAllowed;
-        public static event GenericShip.EventHandlerBool2Ships OnCheckTargetLockIsDisallowed;
+        public static event GenericShip.EventHandlerBoolShipLock OnCheckTargetLockIsAllowed;
+        public static event GenericShip.EventHandlerBoolShipLock OnCheckTargetLockIsDisallowed;
 
         public void RegisterRemoveTargetLocksOnDestruction(GenericShip ship)
         {
@@ -33,15 +33,15 @@ namespace RulesList
             ActionsHolder.RemoveTokens(tokensToRemove, Triggers.FinishTrigger);
         }
 
-        public bool TargetLockIsAllowed(GenericShip ship, GenericShip target)
+        public bool TargetLockIsAllowed(GenericShip ship, ITargetLockable target)
         {
             bool result = true;
 
-            DistanceInfo distanceInfo = new DistanceInfo(ship, target);
-            if (distanceInfo.Range > ship.TargetLockMaxRange || distanceInfo.Range < ship.TargetLockMinRange) result = false;
+            int rangeBetween = target.GetRangeToShip(ship);
+            if (rangeBetween > ship.TargetLockMaxRange || rangeBetween < ship.TargetLockMinRange) result = false;
 
-            if (result != true) if (OnCheckTargetLockIsAllowed != null) OnCheckTargetLockIsAllowed(ref result, ship, target);
-            if (result == true) if (OnCheckTargetLockIsDisallowed != null) OnCheckTargetLockIsDisallowed(ref result, ship, target);
+            if (result != true) OnCheckTargetLockIsAllowed?.Invoke(ref result, ship, target);
+            if (result == true) OnCheckTargetLockIsDisallowed?.Invoke(ref result, ship, target);
 
             return result;
         }

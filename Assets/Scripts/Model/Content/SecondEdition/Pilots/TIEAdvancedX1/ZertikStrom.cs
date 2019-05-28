@@ -48,32 +48,35 @@ namespace Abilities.SecondEdition
             // Do we have a target lock?
             if (tlock != null)
             {
-                GenericShip tlocked = tlock.OtherTokenOwner;
+                ITargetLockable tlocked = tlock.OtherTargetLockTokenOwner;
 
-                if (!tlocked.Damage.HasFacedownCards)
-                    return;
+                if (tlocked is GenericShip)
+                {
+                    if (!(tlocked as GenericShip).Damage.HasFacedownCards)
+                        return;
 
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = "Zertik Strom's Ability",
-                        TriggerOwner = HostShip.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnEndPhaseStart,
-                        EventHandler = delegate
+                    Triggers.RegisterTrigger(
+                        new Trigger()
                         {
-                            AskToUseAbility(AlwaysUseByDefault, RemoveTargetLock);
+                            Name = "Zertik Strom's Ability",
+                            TriggerOwner = HostShip.Owner.PlayerNo,
+                            TriggerType = TriggerTypes.OnEndPhaseStart,
+                            EventHandler = delegate
+                            {
+                                AskToUseAbility(AlwaysUseByDefault, RemoveTargetLock);
+                            }
                         }
-                    }
-                );
+                    );
+                }
             }
         }
 
         private void RemoveTargetLock(System.Object sender, EventArgs e)
         {
             BlueTargetLockToken tlock = HostShip.Tokens.GetToken(typeof(BlueTargetLockToken), '*') as BlueTargetLockToken;
-            GenericShip tlocked = tlock.OtherTokenOwner;
+            ITargetLockable tlocked = tlock.OtherTargetLockTokenOwner;
 
-            HostShip.Tokens.RemoveToken(tlock, delegate { tlocked.Damage.ExposeRandomFacedownCard(DecisionSubPhase.ConfirmDecision); });
+            HostShip.Tokens.RemoveToken(tlock, delegate { (tlocked as GenericShip).Damage.ExposeRandomFacedownCard(DecisionSubPhase.ConfirmDecision); });
         }
     }
 }

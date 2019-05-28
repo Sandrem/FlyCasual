@@ -5,11 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Tokens;
 using UnityEngine;
 
 namespace Obstacles
 {
-    public abstract class GenericObstacle
+    public abstract class GenericObstacle : ITargetLockable
     {
         public string Name { get; set; }
         public string ShortName { get; protected set; }
@@ -36,6 +37,33 @@ namespace Obstacles
             ObstacleGO.name = name;
             ObstacleGO.transform.Find("default").name = name;
             Board.RegisterObstacle(this);
+        }
+
+        // ITargetLockable
+
+        public int GetRangeToShip(GenericShip fromShip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssignToken(RedTargetLockToken token, Action callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<char> GetTargetLockLetterPairsOn(ITargetLockable targetShip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GenericTargetLockToken GetAnotherToken(Type oppositeType, char letter)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveToken(GenericToken otherTargetLockToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

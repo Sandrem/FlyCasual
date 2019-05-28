@@ -49,7 +49,7 @@ namespace Abilities.FirstEdition
             }
         }
 
-        private void RegisterHobbieKlivianPilotAbility(GenericShip ship)
+        private void RegisterHobbieKlivianPilotAbility(ITargetLockable ship)
         {
             if (HostShip.Tokens.HasToken(typeof(StressToken)))
             {

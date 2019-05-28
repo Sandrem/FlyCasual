@@ -37,7 +37,7 @@ namespace Abilities.FirstEdition
             HostShip.OnTargetLockIsAcquired -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship)
+        private void CheckAbility(ITargetLockable ship)
         {
             if (!IsAbilityUsed)
             {

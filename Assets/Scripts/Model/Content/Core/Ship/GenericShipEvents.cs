@@ -23,12 +23,16 @@ namespace Ship
         public delegate void EventHandlerActionInt(GenericAction action, ref int priority);
         public delegate void EventHandlerShipActionBool(GenericShip ship, GenericAction action, ref bool data);
         public delegate void EventHandlerShip(GenericShip ship);
+        public delegate void EventHandlerTargetLockable(ITargetLockable target);
         public delegate void EventHandlerShipDamage(GenericShip ship, DamageSourceEventArgs e);
         public delegate void EventHandlerShipBool(GenericShip ship, bool flag);
         public delegate void EventHandlerShipRefBool(GenericShip ship, ref bool flag);
         public delegate void EventHandlerShipRefVector(GenericShip ship, ref Vector2 range);
         public delegate void EventHandlerBool2Ships(ref bool result, GenericShip attacker, GenericShip defender);
+        public delegate void EventHandlerBoolShipLock(ref bool result, GenericShip attacker, ITargetLockable defender);
         public delegate void EventHandler2Ships(GenericShip attacker, GenericShip defender);
+        public delegate void EventHandlerShipTargetLockable(GenericShip ship, ITargetLockable target);
+        public delegate void EventHandlerTargetLockableType(ITargetLockable target, System.Type type);
         public delegate void EventHandlerShipType(GenericShip ship, System.Type type);
         public delegate void EventHandlerShipTypeBool(GenericShip ship, System.Type type, ref bool data);
         public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement.ManeuverHolder movement);

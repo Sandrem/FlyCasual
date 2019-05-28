@@ -9,7 +9,7 @@ namespace Tokens
     public class GenericTargetLockToken : GenericToken
     {
         public char Letter;
-        public GenericShip OtherTokenOwner;
+        public ITargetLockable OtherTargetLockTokenOwner;
 
         public GenericTargetLockToken(GenericShip host) : base(host)
         {

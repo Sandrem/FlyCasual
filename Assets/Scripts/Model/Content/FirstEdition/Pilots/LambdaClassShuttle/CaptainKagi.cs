@@ -36,28 +36,31 @@ namespace Abilities.FirstEdition
             RulesList.TargetLocksRule.OnCheckTargetLockIsDisallowed -= CanPerformTargetLock;
         }
 
-        public void CanPerformTargetLock(ref bool result, GenericShip attacker, GenericShip defender)
+        public void CanPerformTargetLock(ref bool result, GenericShip attacker, ITargetLockable defender)
         {
             bool abilityIsActive = false;
-            if (defender.ShipId != HostShip.ShipId)
+            if (defender is GenericShip)
             {
-                if (defender.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+                if ((defender as GenericShip).ShipId != HostShip.ShipId)
                 {
-                    BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(attacker, HostShip);
-                    if (positionInfo.Range >= attacker.TargetLockMinRange && positionInfo.Range <= attacker.TargetLockMaxRange)
+                    if ((defender as GenericShip).Owner.PlayerNo == HostShip.Owner.PlayerNo)
                     {
-                        abilityIsActive = true;
+                        BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(attacker, HostShip);
+                        if (positionInfo.Range >= attacker.TargetLockMinRange && positionInfo.Range <= attacker.TargetLockMaxRange)
+                        {
+                            abilityIsActive = true;
+                        }
                     }
                 }
-            }
 
-            if (abilityIsActive)
-            {
-                if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
+                if (abilityIsActive)
                 {
-                    Messages.ShowErrorToHuman("Captain Kagi: You cannot target lock that ship");
+                    if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
+                    {
+                        Messages.ShowErrorToHuman("Captain Kagi: You cannot target lock that ship");
+                    }
+                    result = false;
                 }
-                result = false;
             }
         }
 

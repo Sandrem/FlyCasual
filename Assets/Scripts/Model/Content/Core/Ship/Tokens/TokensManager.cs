@@ -105,7 +105,7 @@ namespace Ship
             return (GenericTargetLockToken)AssignedTokens.Find(n => n.GetType().BaseType == typeof(GenericTargetLockToken) && (n as GenericTargetLockToken).Letter == letter);
         }
 
-        public List<char> GetTargetLockLetterPairsOn(GenericShip targetShip)
+        public List<char> GetTargetLockLetterPairsOn(ITargetLockable targetShip)
         {
             List<char> result = new List<char>();
 
@@ -115,7 +115,7 @@ namespace Ship
             {
                 char foundLetter = (blueToken as BlueTargetLockToken).Letter;
 
-                GenericToken redToken = targetShip.Tokens.GetToken(typeof(RedTargetLockToken), foundLetter);
+                GenericToken redToken = targetShip.GetAnotherToken(typeof(RedTargetLockToken), foundLetter);
                 if (redToken != null)
                 {
                     result.Add(blueToken.Letter);
@@ -199,16 +199,19 @@ namespace Ship
 
                 if (tokenToRemove.GetType().BaseType == typeof(GenericTargetLockToken))
                 {
-                    GenericShip otherTokenOwner = (tokenToRemove as GenericTargetLockToken).OtherTokenOwner;
+                    ITargetLockable otherTokenOwner = (tokenToRemove as GenericTargetLockToken).OtherTargetLockTokenOwner;
                     ActionsHolder.ReleaseTargetLockLetter((tokenToRemove as GenericTargetLockToken).Letter);
                     Type oppositeType = (tokenToRemove.GetType() == typeof(BlueTargetLockToken)) ? typeof(RedTargetLockToken) : typeof(BlueTargetLockToken);
 
                     char letter = (tokenToRemove as GenericTargetLockToken).Letter;
-                    GenericToken otherTargetLockToken = otherTokenOwner.Tokens.GetToken(oppositeType, letter);
+                    GenericToken otherTargetLockToken = otherTokenOwner.GetAnotherToken(oppositeType, letter);
                     if (otherTargetLockToken != null)
                     {
-                        otherTokenOwner.Tokens.GetAllTokens().Remove(otherTargetLockToken);
-                        otherTokenOwner.CallOnRemoveTokenEvent(otherTargetLockToken.GetType());
+                        otherTokenOwner.RemoveToken(otherTargetLockToken);
+                        if (otherTokenOwner is GenericShip)
+                        {
+                            (otherTokenOwner as GenericShip).CallOnRemoveTokenEvent(otherTargetLockToken.GetType());
+                        }
                     }
                 }
 

@@ -67,14 +67,14 @@ namespace Abilities.SecondEdition
             HostUpgrade.State.SpendCharges(2);
             var tarkinsLocks = HostShip.Tokens.GetTokens<BlueTargetLockToken>('*');
             var targets = tarkinsLocks
-                .Where(t => t.OtherTokenOwner is GenericShip)
-                .Select(t => t.OtherTokenOwner)
+                .Where(t => t.OtherTargetLockTokenOwner is GenericShip)
+                .Select(t => t.OtherTargetLockTokenOwner)
                 .ToArray();
             // Limit the list of friendlies down to those that can actually lock these targets.
             var friendlies = HostShip.Owner.Ships.Values
                 .Where(f => targets.Any(t =>
                 {
-                    var range = BoardTools.Board.GetRangeOfShips(f, t);
+                    var range = t.GetRangeToShip(f);
                     return f.TargetLockMinRange <= range && f.TargetLockMaxRange >= range;
                 }))
                 .ToArray();
@@ -112,7 +112,7 @@ namespace Abilities.SecondEdition
         {
             public GenericShip tarkinsShip;
             public GenericShip tarkinsFriend;
-            public GenericShip[] tarkinsLocks;            
+            public ITargetLockable[] tarkinsLocks;            
         }
 
         protected void AskToAcquireTarkinsLock(object sender, EventArgs e)

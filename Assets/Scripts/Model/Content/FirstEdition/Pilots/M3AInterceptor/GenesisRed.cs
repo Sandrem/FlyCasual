@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using Tokens;
 using Upgrade;
 
@@ -40,12 +41,15 @@ namespace Abilities.FirstEdition
             HostShip.OnTargetLockIsAcquired -= RegisterTrigger;
         }
 
-        private void RegisterTrigger(Ship.GenericShip target)
+        private void RegisterTrigger(ITargetLockable target)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnTargetLockIsAcquired, delegate { GenesisRedAbilityEffect(target); });
+            if (target is GenericShip)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnTargetLockIsAcquired, delegate { GenesisRedAbilityEffect(target as GenericShip); });
+            }
         }
 
-        private void GenesisRedAbilityEffect(Ship.GenericShip target)
+        private void GenesisRedAbilityEffect(GenericShip target)
         {
             AssignTokensIfLessThanTarget(target, typeof(FocusToken), () => new FocusToken(HostShip), delegate
             {
@@ -53,7 +57,7 @@ namespace Abilities.FirstEdition
             });
         }
 
-        private void AssignTokensIfLessThanTarget(Ship.GenericShip target, Type tokenType, Func<GenericToken> createToken, Action callback)
+        private void AssignTokensIfLessThanTarget(GenericShip target, Type tokenType, Func<GenericToken> createToken, Action callback)
         {
             if (HostShip.Tokens.CountTokensByType(tokenType) < target.Tokens.CountTokensByType(tokenType))
             {

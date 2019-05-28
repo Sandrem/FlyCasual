@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
 
         private BlueTargetLockToken GetLockOnDefender(GenericShip ship)
         {
-            return ship.Tokens.GetTokens<BlueTargetLockToken>('*').FirstOrDefault(tl => tl.OtherTokenOwner == Combat.Defender);
+            return ship.Tokens.GetTokens<BlueTargetLockToken>('*').FirstOrDefault(tl => tl.OtherTargetLockTokenOwner == Combat.Defender);
         }
 
         private void UseAbility(object sender, EventArgs e)

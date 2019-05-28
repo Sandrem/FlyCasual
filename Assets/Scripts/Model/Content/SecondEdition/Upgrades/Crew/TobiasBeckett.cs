@@ -1,0 +1,110 @@
+﻿using Ship;
+using Upgrade;
+using System;
+using SubPhases;
+using BoardTools;
+using Bombs;
+using Obstacles;
+
+namespace UpgradesList.SecondEdition
+{
+    public class TobiasBeckett : GenericUpgrade
+    {
+        public TobiasBeckett() : base()
+        {
+            UpgradeInfo = new UpgradeCardInfo(
+                "Tobias Beckett",
+                UpgradeType.Crew,
+                cost: 2,
+                isLimited: true,
+                restriction: new FactionRestriction(Faction.Scum),
+                abilityType: typeof(Abilities.SecondEdition.TobiasBeckettAbility),
+                seImageNumber: 160
+            );
+        }        
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class TobiasBeckettAbility : GenericAbility
+    {
+        public GenericObstacle ChosenObstacle { get; private set; }
+
+        public override void ActivateAbility()
+        {
+            Phases.Events.OnSetupEnd += RegisterOwnAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnSetupEnd -= RegisterOwnAbility;
+        }
+
+        private void RegisterOwnAbility()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnSetupEnd, SelectObstacle);
+        }
+
+        private void SelectObstacle(object sender, EventArgs e)
+        {
+            Selection.ChangeActiveShip(HostShip);
+
+            SelectObstacleSubPhase subphase = Phases.StartTemporarySubPhaseNew<SelectObstacleSubPhase>(
+                HostUpgrade.UpgradeInfo.Name,
+                Triggers.FinishTrigger
+            );
+
+            subphase.PrepareByParameters(
+                SelectObstacle,
+                TrySelectObstacle,
+                HostShip.Owner.PlayerNo,
+                true,
+                HostUpgrade.UpgradeInfo.Name,
+                "Select obstacle to move",
+                HostUpgrade
+            );
+
+            subphase.Start();
+        }
+
+        private void SelectObstacle(GenericObstacle obstacle)
+        {
+            SelectObstacleSubPhase.SelectObstacleNoCallback();
+
+            Messages.ShowInfo("An obstacle was selected");
+            ChosenObstacle = obstacle;
+
+            StartMoveObstacleSubphase();
+        }
+
+        private bool TrySelectObstacle(GenericObstacle obstacle)
+        {
+            return true;
+        }
+
+        private void StartMoveObstacleSubphase()
+        {
+            MoveObstacleMidgameSubPhase subphase = Phases.StartTemporarySubPhaseNew<MoveObstacleMidgameSubPhase>(
+                "Move obstacle",
+                Triggers.FinishTrigger
+            );
+
+            MoveObstacleMidgameSubPhase.ChosenObstacle = ChosenObstacle;
+            subphase.AbilityName = HostUpgrade.UpgradeInfo.Name;
+            subphase.Description = "description will be here";
+            subphase.ImageSource = HostUpgrade;
+            subphase.SetupFilter = SetupFilter;
+
+            subphase.Start();
+        }
+
+        //TODO: Call later
+        private bool SetupFilter()
+        {
+            bool result = true;
+
+            return result;
+        }
+    }
+}

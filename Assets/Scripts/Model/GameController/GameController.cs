@@ -130,6 +130,9 @@ public static class GameController
             case GameCommandTypes.BombPlacement:
                 command = new BombPlacementCommand(commandType, subPhase, parameters);
                 break;
+            case GameCommandTypes.MoveObstacle:
+                command = new MoveObstacleCommand(commandType, subPhase, parameters);
+                break;
             default:
                 Console.Write("Constructor for GameCommand is not found", LogTypes.Errors, true, "red");
                 break;

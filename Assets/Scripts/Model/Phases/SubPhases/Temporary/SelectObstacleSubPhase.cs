@@ -115,7 +115,7 @@ namespace SubPhases
                     RaycastHit hitInfo = new RaycastHit();
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
                     {
-                        if (hitInfo.transform.tag.StartsWith("Asteroid"))
+                        if (hitInfo.transform.tag.StartsWith("Obstacle"))
                         {
                             GenericObstacle clickedObstacle = ObstaclesManager.GetChosenObstacle(hitInfo.transform.name);
 
@@ -169,6 +169,12 @@ namespace SubPhases
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
             Phases.CurrentSubPhase.Resume();
             callback();
+        }
+
+        public static void SelectObstacleNoCallback()
+        {
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+            //Phases.CurrentSubPhase.Resume();
         }
     }
 

@@ -92,6 +92,13 @@ namespace Players
             base.SetupShipMidgame();
         }
 
+        public override void MoveObstacleMidgame()
+        {
+            (Phases.CurrentSubPhase as MoveObstacleMidgameSubPhase).ShowDescription();
+
+            base.MoveObstacleMidgame();
+        }
+
         public override void RerollManagerIsPrepared()
         {
             base.RerollManagerIsPrepared();

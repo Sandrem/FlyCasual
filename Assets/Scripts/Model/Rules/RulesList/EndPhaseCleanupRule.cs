@@ -52,7 +52,7 @@ namespace RulesList
                 shipHolder.ClearAlreadyExecutedActions();
 
                 List<GenericToken> allShipTokens = shipHolder.Tokens.GetAllTokens();
-                if (allShipTokens != null) tokensList.AddRange(allShipTokens.Where(n => n.Host.ShouldRemoveTokenInEndPhase(n)));
+                if (allShipTokens != null) tokensList.AddRange(allShipTokens.Where(n => n.Host != null && n.Host.ShouldRemoveTokenInEndPhase(n)));
             }
 
             foreach (var shipHolder in Roster.Reserve)

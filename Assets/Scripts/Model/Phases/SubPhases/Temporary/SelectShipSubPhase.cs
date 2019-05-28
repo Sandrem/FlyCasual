@@ -33,7 +33,7 @@ namespace SubPhases
 
         public bool IsInitializationFinished;
 
-        public GenericShip TargetShip;
+        public virtual GenericShip TargetShip { get; set; }
 
         public string AbilityName;
         public string Description;

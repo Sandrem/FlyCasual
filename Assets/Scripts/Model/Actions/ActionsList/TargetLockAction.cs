@@ -329,6 +329,15 @@ namespace SubPhases
     public class SelectTargetLockableSubPhase : SelectShipSubPhase
     {
         public ITargetLockable TargetLocked { get; private set; }
+
+        public override GenericShip TargetShip
+        {
+            get { return TargetLocked as GenericShip; }
+            set { TargetLocked = value; }
+        }
+
+
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.SelectObstacle, GameCommandTypes.PressSkip }; } }
     }
 
 }

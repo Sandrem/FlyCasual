@@ -35,6 +35,8 @@ namespace SubPhases
         public string Description;
         public IImageHolder ImageSource;
 
+        public static float DistanceFromEdge { get; private set; }
+
         private TouchObjectPlacementHandler touchObjectPlacementHandler = new TouchObjectPlacementHandler();
 
         public override void Start()
@@ -205,8 +207,15 @@ namespace SubPhases
         private void CheckLimits()
         {
             IsPlacementBlocked = false;
+
             ApplyEdgeLimits();
+            ApplyCustomLimits();
             ApplyObstacleLimits();
+        }
+
+        private void ApplyCustomLimits()
+        {
+            IsPlacementBlocked = !SetupFilter();
         }
 
         private void ApplyEdgeLimits()
@@ -227,16 +236,16 @@ namespace SubPhases
 
                 if (Physics.Raycast(closestPoint + new Vector3(0, 0.003f, 0), ChosenObstacle.ObstacleGO.transform.position - closestPoint, out hitInfo))
                 {
-                    float distanceFromEdge = Vector3.Distance(closestPoint, hitInfo.point);
-                    if (distanceFromEdge < MinBoardEdgeDistance)
+                    DistanceFromEdge = Vector3.Distance(closestPoint, hitInfo.point);
+                    if (DistanceFromEdge < MinBoardEdgeDistance)
                     {
                         IsShiftRequired = true;
 
-                        if (distanceFromEdge < minDistance)
+                        if (DistanceFromEdge < minDistance)
                         {
                             fromEdge = closestPoint;
                             toObstacle = hitInfo.point;
-                            minDistance = distanceFromEdge;
+                            minDistance = DistanceFromEdge;
                         }
 
                         MoveObstacleToKeepInPlacementZone(closestPoint, hitInfo.point);

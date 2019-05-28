@@ -92,17 +92,30 @@ namespace Abilities.SecondEdition
 
             MoveObstacleMidgameSubPhase.ChosenObstacle = ChosenObstacle;
             subphase.AbilityName = HostUpgrade.UpgradeInfo.Name;
-            subphase.Description = "description will be here";
+            subphase.Description = "Place this obstacle beyond range 2 of any board edge of ship and beyond range 1 of other obstacles";
             subphase.ImageSource = HostUpgrade;
             subphase.SetupFilter = SetupFilter;
 
             subphase.Start();
         }
 
-        //TODO: Call later
         private bool SetupFilter()
         {
             bool result = true;
+            ShipObstacleDistance minDist = null;
+
+            foreach (GenericShip ship in Roster.AllShips.Values)
+            {
+                ShipObstacleDistance dist = new ShipObstacleDistance(ship, ChosenObstacle);
+                if (minDist == null || dist.DistanceReal < minDist.DistanceReal) minDist = dist;
+            }
+
+            if (minDist.Range <= 2)
+            {
+                result = false;
+                if (minDist.DistanceReal < MoveObstacleMidgameSubPhase.DistanceFromEdge)
+                MovementTemplates.ShowRangeRulerR2(minDist.NearestPointObstacle, minDist.NearestPointShip);
+            }
 
             return result;
         }

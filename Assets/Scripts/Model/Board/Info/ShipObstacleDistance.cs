@@ -8,8 +8,11 @@ namespace BoardTools
     public class ShipObstacleDistance
     {
         public int Range { get; private set; }
+        public float DistanceReal { get; private set; }
         public GenericShip Ship { get; private set; }
         public GenericObstacle Obstacle { get; private set; }
+        public Vector3 NearestPointShip { get; private set; }
+        public Vector3 NearestPointObstacle { get; private set; }
 
         public ShipObstacleDistance(GenericShip ship, GenericObstacle obstacle)
         {
@@ -21,9 +24,11 @@ namespace BoardTools
 
         private bool CheckDistanceSimple()
         {
-            float distanceBetweenCenters = Vector3.Distance(Ship.GetPosition(), Obstacle.ObstacleGO.transform.position);
+            NearestPointShip = Ship.GetPosition();
+            NearestPointObstacle = Obstacle.ObstacleGO.transform.position;
+            DistanceReal = Vector3.Distance(NearestPointShip, NearestPointObstacle);
 
-            Range = Mathf.Max(1, Mathf.CeilToInt(distanceBetweenCenters / Board.DISTANCE_INTO_RANGE));
+            Range = Mathf.Max(1, Mathf.CeilToInt(DistanceReal / Board.DISTANCE_INTO_RANGE));
 
             if (Range == 1) return true;
             if (Range > 4) return true;
@@ -34,13 +39,13 @@ namespace BoardTools
         private void CheckDistanceAdvanced()
         {
             MeshCollider obstacleCollider = Obstacle.ObstacleGO.GetComponentInChildren<MeshCollider>();
-            Vector3 obstacleColliderPoint = obstacleCollider.ClosestPoint(Ship.GetPosition());
+            NearestPointObstacle = obstacleCollider.ClosestPoint(Ship.GetPosition());
 
             MeshCollider shipCollider = Ship.GetCollider();
-            Vector3 shipColliderPoint = shipCollider.ClosestPoint(obstacleColliderPoint);
+            NearestPointShip = shipCollider.ClosestPoint(NearestPointObstacle);
 
-            float distanceBetweenEdges = Vector3.Distance(shipColliderPoint, obstacleColliderPoint);
-            Range = Mathf.Max(1, Mathf.CeilToInt(distanceBetweenEdges / Board.DISTANCE_INTO_RANGE));
+            DistanceReal = Vector3.Distance(NearestPointShip, NearestPointObstacle);
+            Range = Mathf.Max(1, Mathf.CeilToInt(DistanceReal / Board.DISTANCE_INTO_RANGE));
         }
     }
 }

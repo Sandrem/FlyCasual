@@ -48,6 +48,7 @@ namespace SubPhases
             MinObstaclesDistance = Board.BoardIntoWorld(Board.RANGE_1);
 
             RequiredPlayer = Roster.AnotherPlayer(Phases.PlayerWithInitiative); // Will be changed in Next
+            ChosenObstacle = null;
 
             foreach (GenericPlayer player in Roster.Players)
             {

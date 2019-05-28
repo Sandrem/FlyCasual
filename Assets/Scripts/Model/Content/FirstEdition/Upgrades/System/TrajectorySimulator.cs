@@ -1,5 +1,8 @@
-﻿using Bombs;
+﻿using BoardTools;
+using Bombs;
+using Movement;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Upgrade;
 
@@ -25,12 +28,24 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.CanLaunchBombsWithTemplate = 5;
+            HostShip.OnGetAvailableBombLaunchTemplates += TrajectorySimulatorTemplate;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.CanLaunchBombsWithTemplate = 0;
+            HostShip.OnGetAvailableBombLaunchTemplates -= TrajectorySimulatorTemplate;
+        }
+
+        protected virtual void TrajectorySimulatorTemplate(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)
+        {
+            if (upgrade.UpgradeInfo.SubType != UpgradeSubType.Bomb) return;
+
+            ManeuverTemplate newTemplate = new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed5);
+
+            if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+            {
+                availableTemplates.Add(newTemplate);
+            }
         }
     }
 }
@@ -41,6 +56,8 @@ namespace SubPhases
     public class BombLaunchPlanningSubPhase : GenericSubPhase
     {
         private List<GameObject> BombObjects = new List<GameObject>();
+        List<ManeuverTemplate> AvailableBombLaunchTemplates = new List<ManeuverTemplate>();
+        public ManeuverTemplate SelectedBombLaunchHelper;
 
         public override void Start()
         {
@@ -53,13 +70,9 @@ namespace SubPhases
 
         public void StartBombLaunchPlanning()
         {
-            CreateBombObject(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation());
-
             Roster.SetRaycastTargets(false);
 
             ShowBombLaunchHelper();
-
-            GameManagerScript.Wait(0.5f, SelectBombPosition);
         }
 
         private void CreateBombObject(Vector3 bombPosition, Quaternion bombRotation)
@@ -77,18 +90,94 @@ namespace SubPhases
 
         private void ShowBombLaunchHelper()
         {
-            string bombLaunchHelperName = "Straight" + Selection.ThisShip.CanLaunchBombsWithTemplate;
-            Selection.ThisShip.GetBombLaunchHelper().Find(bombLaunchHelperName).gameObject.SetActive(true);
-            Transform newBase = Selection.ThisShip.GetBombLaunchHelper().Find(bombLaunchHelperName + "/Finisher/BasePosition");
+            GenerateAllowedBombLaunchDirections();
 
-            // Cluster Mines cannot be launched - only single model is handled
-            BombObjects[0].transform.position = new Vector3(
-                newBase.position.x,
-                0,
-                newBase.position.z
+            if (AvailableBombLaunchTemplates.Count == 1)
+            {
+                ShowBombAndLaunchTemplate(AvailableBombLaunchTemplates.First());
+
+                WaitAndSelectBombPosition();
+            }
+            else
+            {
+                AskSelectTemplate();
+            }
+        }
+
+        private void AskSelectTemplate()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Select template to launch the bomb",
+                TriggerType = TriggerTypes.OnAbilityDirect,
+                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                EventHandler = StartSelectTemplateDecision
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, WaitAndSelectBombPosition);
+        }
+
+        private void StartSelectTemplateDecision(object sender, System.EventArgs e)
+        {
+            SelectBombLaunchTemplateDecisionSubPhase selectBoostTemplateDecisionSubPhase = (SelectBombLaunchTemplateDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Select template to launch the bomb",
+                typeof(SelectBombLaunchTemplateDecisionSubPhase),
+                Triggers.FinishTrigger
             );
 
-            BombObjects[0].transform.rotation = newBase.rotation;
+            selectBoostTemplateDecisionSubPhase.ShowSkipButton = false;
+
+            foreach (var bombDropTemplate in AvailableBombLaunchTemplates)
+            {
+                selectBoostTemplateDecisionSubPhase.AddDecision(
+                    bombDropTemplate.Name,
+                    delegate { SelectTemplate(bombDropTemplate); },
+                    isCentered: (bombDropTemplate.Direction == Movement.ManeuverDirection.Forward)
+                );
+            }
+
+            selectBoostTemplateDecisionSubPhase.InfoText = "Select template to launch the bomb";
+
+            selectBoostTemplateDecisionSubPhase.DefaultDecisionName = selectBoostTemplateDecisionSubPhase.GetDecisions().First().Name;
+
+            selectBoostTemplateDecisionSubPhase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+
+            selectBoostTemplateDecisionSubPhase.Start();
+        }
+
+        private void SelectTemplate(ManeuverTemplate selectedTemplate)
+        {
+            ShowBombAndLaunchTemplate(selectedTemplate);
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        private class SelectBombLaunchTemplateDecisionSubPhase : DecisionSubPhase { }
+
+        private void GenerateAllowedBombLaunchDirections()
+        {
+            List<ManeuverTemplate> allowedTemplates = Selection.ThisShip.GetAvailableBombLaunchTemplates(BombsManager.CurrentBomb);
+
+            foreach (ManeuverTemplate bombLaunchTemplate in allowedTemplates)
+            {
+                AvailableBombLaunchTemplates.Add(bombLaunchTemplate);
+            }
+        }
+
+        private void ShowBombAndLaunchTemplate(ManeuverTemplate bombDropTemplate)
+        {
+            bombDropTemplate.ApplyTemplate(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
+
+            Vector3 bombPosition = bombDropTemplate.GetFinalPosition();
+            Quaternion bombRotation = bombDropTemplate.GetFinalRotation();
+            CreateBombObject(bombPosition, bombRotation);
+            BombObjects[0].transform.position = bombPosition;
+
+            SelectedBombLaunchHelper = bombDropTemplate;
+        }
+
+        private void WaitAndSelectBombPosition()
+        {
+            GameManagerScript.Wait(1f, SelectBombPosition);
         }
 
         private void SelectBombPosition()
@@ -110,8 +199,7 @@ namespace SubPhases
 
         private void HidePlanningTemplates()
         {
-            string bombLaunchHelperName = "Straight" + Selection.ThisShip.CanLaunchBombsWithTemplate;
-            Selection.ThisShip.GetBombLaunchHelper().Find(bombLaunchHelperName).gameObject.SetActive(false);
+            SelectedBombLaunchHelper.DestroyTemplate();
             Roster.SetRaycastTargets(true);
         }
 

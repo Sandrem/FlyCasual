@@ -3,6 +3,9 @@ using Upgrade;
 using UnityEngine;
 using Bombs;
 using System.Collections.Generic;
+using BoardTools;
+using System.Linq;
+using Movement;
 
 namespace UpgradesList.FirstEdition
 {
@@ -36,9 +39,10 @@ namespace Abilities.FirstEdition
             HostShip.OnGetAvailableBombDropTemplates -= BombardierTemplate;
         }
 
-        private void BombardierTemplate(List<BombDropTemplates> availableTemplates)
+        private void BombardierTemplate(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)
         {
-            if (!availableTemplates.Contains(BombDropTemplates.Straight_2)) availableTemplates.Add(BombDropTemplates.Straight_2);
+            ManeuverTemplate newTemplate = new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed2, isBombTemplate: true);
+            if (!availableTemplates.Any(t => t.Name == newTemplate.Name)) availableTemplates.Add(newTemplate);
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿using Bombs;
+﻿using BoardTools;
+using Bombs;
+using Movement;
 using System.Collections.Generic;
+using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -40,11 +43,22 @@ namespace Abilities.FirstEdition
             HostShip.OnGetAvailableBombDropTemplates -= AddEmonAzzameenTemplates;
         }
 
-        private void AddEmonAzzameenTemplates(List<BombDropTemplates> availableTemplates)
+        private void AddEmonAzzameenTemplates(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)
         {
-            if (!availableTemplates.Contains(BombDropTemplates.Straight_3)) availableTemplates.Add(BombDropTemplates.Straight_3);
-            if (!availableTemplates.Contains(BombDropTemplates.Turn_3_Left)) availableTemplates.Add(BombDropTemplates.Turn_3_Left);
-            if (!availableTemplates.Contains(BombDropTemplates.Turn_3_Right)) availableTemplates.Add(BombDropTemplates.Turn_3_Right);
+            List<ManeuverTemplate> newTemplates = new List<ManeuverTemplate>()
+            {
+                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed3, isBombTemplate: true),
+                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Right, ManeuverSpeed.Speed3, isBombTemplate: true),
+                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Left, ManeuverSpeed.Speed3, isBombTemplate: true),
+            };
+
+            foreach (ManeuverTemplate newTemplate in newTemplates)
+            {
+                if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+                {
+                    availableTemplates.Add(newTemplate);
+                }
+            }
         }
     }
 }

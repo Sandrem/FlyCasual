@@ -18,7 +18,6 @@ namespace Ship
 
         public bool CanPerformActionsWhileStressed { get; set; }
         public bool CanPerformActionsWhenBumped { get; set; }
-        public int CanLaunchBombsWithTemplate { get; set; }
         public bool CanBeCoordinated
         {
             get

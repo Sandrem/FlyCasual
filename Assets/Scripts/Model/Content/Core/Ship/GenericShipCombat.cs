@@ -1,6 +1,7 @@
 ﻿using ActionsList;
 using Arcs;
 using BoardTools;
+using Movement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -115,6 +116,9 @@ namespace Ship
         public static event EventHandlerShip OnAttackFinishGlobal;
 
         public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
+        public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplatesModifications;
+        public event EventHandlerBombDropTemplates OnGetAvailableBombLaunchTemplates;
+        public event EventHandlerBombDropTemplates OnGetAvailableBombLaunchTemplatesModifications;
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
         public event EventHandlerDecloakTemplates OnGetAvailableDecloakTemplates;
         public event EventHandlerBoostTemplates OnGetAvailableBoostTemplates;
@@ -715,11 +719,27 @@ namespace Ship
             return result;
         }
 
-        public List<Bombs.BombDropTemplates> GetAvailableBombDropTemplates()
+        public List<ManeuverTemplate> GetAvailableBombDropTemplates(GenericUpgrade upgrade)
         {
-            List<Bombs.BombDropTemplates> availableTemplates = new List<Bombs.BombDropTemplates>() { Bombs.BombDropTemplates.Straight_1 };
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>()
+            {
+                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isBombTemplate: true)
+            };
 
-            if (OnGetAvailableBombDropTemplates != null) OnGetAvailableBombDropTemplates(availableTemplates);
+            OnGetAvailableBombDropTemplates?.Invoke(availableTemplates, upgrade);
+
+            OnGetAvailableBombDropTemplatesModifications?.Invoke(availableTemplates, upgrade);
+
+            return availableTemplates;
+        }
+
+        public List<ManeuverTemplate> GetAvailableBombLaunchTemplates(GenericUpgrade upgrade)
+        {
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();
+
+            OnGetAvailableBombLaunchTemplates?.Invoke(availableTemplates, upgrade);
+
+            OnGetAvailableBombLaunchTemplatesModifications?.Invoke(availableTemplates, upgrade);
 
             return availableTemplates;
         }

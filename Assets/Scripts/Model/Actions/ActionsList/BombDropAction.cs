@@ -40,8 +40,8 @@ namespace SubPhases
 
     public class BombDropPlanningSubPhase : GenericSubPhase
     {
-        Dictionary<string, Vector3> AvailableBombDropDirections = new Dictionary<string, Vector3>();
-        public string SelectedBombDropHelper;
+        List<ManeuverTemplate> AvailableBombDropTemplates = new List<ManeuverTemplate>();
+        public ManeuverTemplate SelectedBombDropHelper;
         private List<GameObject> BombObjects = new List<GameObject>();
         private bool inReposition;
 
@@ -56,11 +56,11 @@ namespace SubPhases
 
         public void StartBombDropPlanning()
         {
-            GenerateAllowedBombDropDirections();
+            GenerateAllowedBombDropTemplates();
 
-            if (AvailableBombDropDirections.Count == 1)
+            if (AvailableBombDropTemplates.Count == 1)
             {
-                ShowBombAndDropHelper(AvailableBombDropDirections.First().Key);
+                ShowBombAndDropTemplate(AvailableBombDropTemplates.First());
 
                 WaitAndSelectBombPosition();
             }
@@ -93,11 +93,12 @@ namespace SubPhases
 
             selectBoostTemplateDecisionSubPhase.ShowSkipButton = false;
 
-            foreach (var bombDropTemplate in AvailableBombDropDirections)
+            foreach (var bombDropTemplate in AvailableBombDropTemplates)
             {
                 selectBoostTemplateDecisionSubPhase.AddDecision(
-                    bombDropTemplate.Key,
-                    delegate { SelectTemplate(bombDropTemplate.Key); }
+                    bombDropTemplate.Name,
+                    delegate { SelectTemplate(bombDropTemplate); },
+                    isCentered: (bombDropTemplate.Direction == Movement.ManeuverDirection.Forward)
                 );
             }
 
@@ -110,9 +111,9 @@ namespace SubPhases
             selectBoostTemplateDecisionSubPhase.Start();
         }
 
-        private void SelectTemplate(string selectedTemplate)
+        private void SelectTemplate(ManeuverTemplate selectedTemplate)
         {
-            ShowBombAndDropHelper(selectedTemplate);
+            ShowBombAndDropTemplate(selectedTemplate);
             DecisionSubPhase.ConfirmDecision();
         }
 
@@ -131,49 +132,34 @@ namespace SubPhases
             }
         }
 
-        private void GenerateAllowedBombDropDirections()
+        private void GenerateAllowedBombDropTemplates()
         {
-            List<BombDropTemplates> allowedTemplates = Selection.ThisShip.GetAvailableBombDropTemplates();
+            List<ManeuverTemplate> allowedTemplates = Selection.ThisShip.GetAvailableBombDropTemplates(BombsManager.CurrentBomb);
 
-            foreach (Transform bombDropHelper in Selection.ThisShip.GetBombDropHelper())
+            foreach (ManeuverTemplate bombDropTemplate in allowedTemplates)
             {
-                if (allowedTemplates.Contains((BombDropTemplates)System.Enum.Parse(typeof(BombDropTemplates), bombDropHelper.name.Replace(" ", "_"))))
-                {
-                    AvailableBombDropDirections.Add(bombDropHelper.name, bombDropHelper.Find("Finisher").position);
-                }
+                AvailableBombDropTemplates.Add(bombDropTemplate);
             }
         }
 
-        private void ShowBombAndDropHelper(string name)
+        private void ShowBombAndDropTemplate(ManeuverTemplate bombDropTemplate)
         {
-            CreateBombObject(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation());
+            bombDropTemplate.ApplyTemplate(Selection.ThisShip.GetBack(), Selection.ThisShip.GetAngles() + new Vector3(0, 180, 0));
 
-            if (!string.IsNullOrEmpty(SelectedBombDropHelper))
-            {
-                Selection.ThisShip.GetBombDropHelper().Find(SelectedBombDropHelper).gameObject.SetActive(false);
-            }
-            Selection.ThisShip.GetBombDropHelper().Find(name).gameObject.SetActive(true);
-
-            Transform newBase = Selection.ThisShip.GetBombDropHelper().Find(name + "/Finisher/BasePosition");
+            Vector3 bombPosition = bombDropTemplate.GetFinalPosition();
+            Quaternion bombRotation = bombDropTemplate.GetFinalRotation();
+            CreateBombObject(bombPosition, bombRotation);
 
             for (int i = 0; i < BombObjects.Count; i++)
             {
                 switch (i)
                 {
                     case 0:
-                        BombObjects[i].transform.position = new Vector3(
-                            newBase.position.x,
-                            0,
-                            newBase.position.z
-                        );
+                        BombObjects[i].transform.position = bombPosition;
                         break;
                     case 1:
-                        BombObjects[i].transform.position = new Vector3(
-                            newBase.position.x,
-                            0,
-                            newBase.position.z)
-                            +
-                            newBase.TransformVector(new Vector3(
+                        BombObjects[i].transform.position = bombPosition
+                            + BombObjects.First().transform.TransformVector(new Vector3(
                                 BombsManager.CurrentBomb.bombSideDistanceX,
                                 0,
                                 BombsManager.CurrentBomb.bombSideDistanceZ
@@ -181,12 +167,8 @@ namespace SubPhases
                         );
                         break;
                     case 2:
-                        BombObjects[i].transform.position = new Vector3(
-                            newBase.position.x,
-                            0,
-                            newBase.position.z)
-                            +
-                            newBase.TransformVector(new Vector3(
+                        BombObjects[i].transform.position = bombPosition
+                            + BombObjects.First().transform.TransformVector(new Vector3(
                                 -BombsManager.CurrentBomb.bombSideDistanceX,
                                 0,
                                 BombsManager.CurrentBomb.bombSideDistanceZ
@@ -197,10 +179,10 @@ namespace SubPhases
                         break;
                 }
 
-                BombObjects[i].transform.rotation = newBase.rotation;
+                BombObjects[i].transform.rotation = bombRotation;
             }
 
-            SelectedBombDropHelper = name;
+            SelectedBombDropHelper = bombDropTemplate;
         }
 
         private void WaitAndSelectBombPosition()
@@ -227,7 +209,7 @@ namespace SubPhases
 
         private void HidePlanningTemplates()
         {
-            Selection.ThisShip.GetBombDropHelper().Find(SelectedBombDropHelper).gameObject.SetActive(false);
+            SelectedBombDropHelper.DestroyTemplate();
             Roster.SetRaycastTargets(true);
         }
 

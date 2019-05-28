@@ -7,6 +7,8 @@ using Arcs;
 using Upgrade;
 using Ship;
 using Bombs;
+using BoardTools;
+using System.Linq;
 
 namespace Ship
 {
@@ -57,10 +59,22 @@ namespace Abilities.SecondEdition
             HostShip.OnGetAvailableBombDropTemplates -= AddNimbleBomberTemplates;
         }
 
-        private void AddNimbleBomberTemplates(List<BombDropTemplates> availableTemplates)
+        private void AddNimbleBomberTemplates(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)
         {
-            if (!availableTemplates.Contains(BombDropTemplates.Bank_1_Left)) availableTemplates.Add(BombDropTemplates.Bank_1_Left);
-            if (!availableTemplates.Contains(BombDropTemplates.Bank_1_Right)) availableTemplates.Add(BombDropTemplates.Bank_1_Right);
+            List<ManeuverTemplate> newTemplates = new List<ManeuverTemplate>()
+            {
+                new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Right, ManeuverSpeed.Speed1, isBombTemplate: true),
+                new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Left, ManeuverSpeed.Speed1, isBombTemplate: true),
+            };
+
+            foreach (ManeuverTemplate newTemplate in newTemplates)
+            {
+                if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+                {
+                    availableTemplates.Add(newTemplate);
+                }
+            }
+
         }
     }
 }

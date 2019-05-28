@@ -1,6 +1,7 @@
 ﻿using Actions;
 using ActionsList;
 using Arcs;
+using BoardTools;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace Ship
         public delegate void EventHandlerShipCritArgs(GenericShip ship, GenericDamageCard crit, EventArgs e = null);
         public delegate void EventHandlerTokenBool(Tokens.GenericToken token, ref bool data);
         public delegate void EventHandlerShipTokenBool(GenericShip ship, Tokens.GenericToken token, ref bool data);
-        public delegate void EventHandlerBombDropTemplates(List<Bombs.BombDropTemplates> availableTemplates);
+        public delegate void EventHandlerBombDropTemplates(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade);
         public delegate void EventHandlerBarrelRollTemplates(List<ActionsHolder.BarrelRollTemplates> availableTemplates);
         public delegate void EventHandlerDecloakTemplates(List<ActionsHolder.DecloakTemplates> availableTemplates);
         public delegate void EventHandlerBoostTemplates(List<BoostMove> availableTemplates, GenericAction action);

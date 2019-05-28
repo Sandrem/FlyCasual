@@ -1,5 +1,9 @@
-﻿using Ship;
+﻿using BoardTools;
+using Movement;
+using Ship;
 using SubPhases;
+using System.Collections.Generic;
+using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -30,12 +34,22 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.CanLaunchBombsWithTemplate = 1;
+            HostShip.OnGetAvailableBombLaunchTemplates += ConstableZuvioTemplate;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.CanLaunchBombsWithTemplate = 0;
+            HostShip.OnGetAvailableBombLaunchTemplates -= ConstableZuvioTemplate;
+        }
+
+        protected virtual void ConstableZuvioTemplate(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)
+        {
+            ManeuverTemplate newTemplate = new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed5);
+
+            if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+            {
+                availableTemplates.Add(newTemplate);
+            }
         }
     }
 }

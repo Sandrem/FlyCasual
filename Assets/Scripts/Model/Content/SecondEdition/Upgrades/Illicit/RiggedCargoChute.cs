@@ -63,7 +63,7 @@ namespace Abilities.SecondEdition
 
             HostUpgrade.State.SpendCharge();
 
-            ManeuverTemplate dropTemplate = new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1);
+            ManeuverTemplate dropTemplate = new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isBombTemplate: true);
             dropTemplate.ApplyTemplate(
                 HostShip.GetBack(),
                 HostShip.GetAngles() + new Vector3(0, 180, 0)

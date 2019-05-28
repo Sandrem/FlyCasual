@@ -1,7 +1,10 @@
-﻿using Bombs;
+﻿using BoardTools;
+using Bombs;
+using Movement;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -39,10 +42,22 @@ namespace Abilities.FirstEdition
             HostShip.OnGetAvailableBombDropTemplates -= SolSixxaTemplate;
         }
 
-        protected virtual void SolSixxaTemplate(List<BombDropTemplates> availableTemplates)
+        protected virtual void SolSixxaTemplate(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)
         {
-            if (!availableTemplates.Contains(BombDropTemplates.Turn_1_Left)) availableTemplates.Add(BombDropTemplates.Turn_1_Left);
-            if (!availableTemplates.Contains(BombDropTemplates.Turn_1_Right)) availableTemplates.Add(BombDropTemplates.Turn_1_Right);
+            List<ManeuverTemplate> newTemplates = new List<ManeuverTemplate>()
+            {
+                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Right, ManeuverSpeed.Speed1, isBombTemplate: true),
+                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Left, ManeuverSpeed.Speed1, isBombTemplate: true),
+            };
+
+            foreach (ManeuverTemplate newTemplate in newTemplates)
+            {
+                if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+                {
+                    availableTemplates.Add(newTemplate);
+                }
+            }
+
         }
     }
 }

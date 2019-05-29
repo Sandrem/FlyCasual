@@ -246,14 +246,16 @@ namespace Abilities
         /// <summary>
         /// Starts "Select ship for ability" subphase
         /// </summary>
-        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true)
+        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true, Action callback = null)
         {
+            if (callback == null) callback = Triggers.FinishTrigger;
+
             Selection.ChangeActiveShip("ShipId:" + HostShip.ShipId);
 
             SelectShipSubPhase selectTargetSubPhase = (SelectShipSubPhase)Phases.StartTemporarySubPhaseNew(
                 name,
                 typeof(AbilitySelectTarget),
-                Triggers.FinishTrigger
+                callback
             );
 
             selectTargetSubPhase.PrepareByParameters(

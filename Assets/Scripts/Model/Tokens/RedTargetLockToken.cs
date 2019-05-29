@@ -8,11 +8,15 @@ namespace Tokens
 
     public class RedTargetLockToken : GenericTargetLockToken
     {
-        public RedTargetLockToken(GenericShip host) : base(host)
+        public new ITargetLockable Host { get; private set; }
+
+        public RedTargetLockToken(ITargetLockable host) : base(null)
         {
             Name = "Red Target Lock Token";
             TokenColor = TokenColors.Red;
             PriorityUI = 20;
+
+            Host = host;
         }
     }
 

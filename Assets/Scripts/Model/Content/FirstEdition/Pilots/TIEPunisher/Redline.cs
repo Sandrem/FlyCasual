@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
             HostShip.OnTargetLockIsAcquired -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship)
+        private void CheckAbility(ITargetLockable ship)
         {
             if (!IsAbilityUsed)
             {
@@ -59,7 +59,7 @@ namespace Abilities.FirstEdition
             IsAbilityUsed = true;
 
             BlueTargetLockToken existingToken = HostShip.Tokens.GetToken<BlueTargetLockToken>('*');
-            GenericShip TargetLockTarget = existingToken.OtherTokenOwner;
+            ITargetLockable TargetLockTarget = existingToken.OtherTargetLockTokenOwner;
 
             ActionsHolder.AcquireTargetLock(HostShip, TargetLockTarget, FinishAbility, FinishAbility);
         }

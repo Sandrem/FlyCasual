@@ -37,11 +37,11 @@ namespace Abilities.SecondEdition
             GenericShip.OnTargetLockIsAcquiredGlobal -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip activeShip, GenericShip lockedShip)
+        private void CheckAbility(GenericShip activeShip, ITargetLockable lockedShip)
         {
-            if (lockedShip == HostShip)
+            if (lockedShip == HostShip && lockedShip is GenericShip)
             {
-                if (!activeShip.SectorsInfo.IsShipInSector(lockedShip, Arcs.ArcType.Bullseye))
+                if (!activeShip.SectorsInfo.IsShipInSector(lockedShip as GenericShip, Arcs.ArcType.Bullseye))
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnTargetLockIsAcquired, delegate { AssignStress(activeShip); });
                 }

@@ -126,7 +126,7 @@ namespace ActionsList
                 {
                     foreach (BlueTargetLockToken token in friendlyKrennicShip.Tokens.GetTokens<BlueTargetLockToken>('*'))
                     {
-                        if (token.OtherTokenOwner == Combat.Defender) return true;
+                        if (token.OtherTargetLockTokenOwner == Combat.Defender) return true;
                     }
                 }
                 return false;

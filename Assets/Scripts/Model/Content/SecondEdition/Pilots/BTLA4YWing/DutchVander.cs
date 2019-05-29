@@ -36,7 +36,7 @@ namespace Abilities.SecondEdition
 {
     public class DutchVanderAbility : GenericAbility
     {
-        private GenericShip LockedShip;
+        private ITargetLockable LockedShip;
 
         public override void ActivateAbility()
         {
@@ -82,14 +82,14 @@ namespace Abilities.SecondEdition
             );
         }
 
-        private GenericShip GetLockedShip()
+        private ITargetLockable GetLockedShip()
         {
-            GenericShip result = null;
+            ITargetLockable result = null;
 
             BlueTargetLockToken blueTargetLock = HostShip.Tokens.GetToken<BlueTargetLockToken>(letter: '*');
             if (blueTargetLock != null)
             {
-                result = blueTargetLock.OtherTokenOwner;
+                result = blueTargetLock.OtherTargetLockTokenOwner;
             }
 
             return result;
@@ -97,7 +97,15 @@ namespace Abilities.SecondEdition
 
         private void GetTargetLockOnSameTarget()
         {
-            Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " acquired a Target Lock on " + LockedShip.PilotInfo.PilotName);
+            if (LockedShip is GenericShip)
+            {
+                Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " acquired a Target Lock on " + (LockedShip as GenericShip).PilotInfo.PilotName);
+            }
+            else
+            {
+                Messages.ShowInfo(TargetShip.PilotInfo.PilotName + " acquired a Target Lock on obstacle");
+            }
+            
             ActionsHolder.AcquireTargetLock(TargetShip, LockedShip, SelectShipSubPhase.FinishSelection, SelectShipSubPhase.FinishSelection, ignoreRange: true);
         }
 
@@ -112,8 +120,11 @@ namespace Abilities.SecondEdition
 
             if (!ship.Tokens.HasToken(typeof(BlueTargetLockToken))) priority += 50;
 
-            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(ship, LockedShip, ship.PrimaryWeapons);
-            if (shotInfo.IsShotAvailable) priority += 40;
+            if (LockedShip is GenericShip)
+            {
+                BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(ship, LockedShip as GenericShip, ship.PrimaryWeapons);
+                if (shotInfo.IsShotAvailable) priority += 40;
+            }
 
             priority += ship.State.Firepower * 5;
 

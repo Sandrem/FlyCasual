@@ -40,9 +40,12 @@ namespace Abilities.SecondEdition
             HostShip.OnTargetLockIsAcquired -= RegisterTrigger;
         }
 
-        private void RegisterTrigger(GenericShip target)
+        private void RegisterTrigger(ITargetLockable target)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnTargetLockIsAcquired, delegate { GenesisRedAbilityEffect(target); });
+            if (target is GenericShip)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnTargetLockIsAcquired, delegate { GenesisRedAbilityEffect(target as GenericShip); });
+            }
         }
 
         private void GenesisRedAbilityEffect(GenericShip target)

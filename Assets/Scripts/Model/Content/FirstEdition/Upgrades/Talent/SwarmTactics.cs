@@ -79,7 +79,7 @@ namespace SubPhases
             maxRange = 1;
             finishAction = SelectSwarmTacticsTarget;
 
-            FilterTargets = FilterAbilityTargets;
+            FilterShipTargets = FilterAbilityTargets;
             GetAiPriority = GetAiAbilityPriority;
 
             Description = "Select target for Swarm Tactics";

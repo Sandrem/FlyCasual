@@ -66,7 +66,10 @@ namespace Abilities.FirstEdition
                 blueTargetLocks.ForEach(l => {
                     var name = "Target Lock " + l.Letter;
                     pilotAbilityDecision.AddDecision(name, delegate { UseColonelJendonAbility(l.Letter); });
-                    pilotAbilityDecision.AddTooltip(name, l.OtherTokenOwner.ImageUrl);
+                    if (l.OtherTargetLockTokenOwner is GenericShip)
+                    {
+                        pilotAbilityDecision.AddTooltip(name, (l.OtherTargetLockTokenOwner as GenericShip).ImageUrl);
+                    }
                 });
 
                 pilotAbilityDecision.DefaultDecisionName = "No";

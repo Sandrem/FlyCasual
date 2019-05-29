@@ -10,10 +10,11 @@ using GameModes;
 using Arcs;
 using Actions;
 using Editions;
+using BoardTools;
 
 namespace Ship
 {
-    public partial class GenericShip
+    public partial class GenericShip : ITargetLockable
     {
         private     List<GenericAction> AvailableActionsList        = new List<GenericAction>();
         private     List<GenericAction> AvailableFreeActionsList    = new List<GenericAction>();
@@ -69,8 +70,8 @@ namespace Ship
         public event EventHandlerShipType OnConditionIsAssigned;
         public event EventHandlerShipType OnConditionIsRemoved;
 
-        public event EventHandlerShip OnTargetLockIsAcquired;
-        public static event EventHandler2Ships OnTargetLockIsAcquiredGlobal;
+        public event EventHandlerTargetLockable OnTargetLockIsAcquired;
+        public static event EventHandlerShipTargetLockable OnTargetLockIsAcquiredGlobal;
 
         public event EventHandlerShip OnCoordinateTargetIsSelected;
         public event EventHandlerShip OnJamTargetIsSelected;        
@@ -578,10 +579,10 @@ namespace Ship
             if (OnTokenIsRemovedGlobal != null) OnTokenIsRemovedGlobal(this, tokenType);
         }
 
-        public void CallOnTargetLockIsAcquiredEvent(GenericShip target, Action callback)
+        public void CallOnTargetLockIsAcquiredEvent(ITargetLockable target, Action callback)
         {
-            if (OnTargetLockIsAcquired != null) OnTargetLockIsAcquired(target);
-            if (OnTargetLockIsAcquiredGlobal != null) OnTargetLockIsAcquiredGlobal(this, target);
+            OnTargetLockIsAcquired?.Invoke(target);
+            OnTargetLockIsAcquiredGlobal?.Invoke(this, target);
 
             Triggers.ResolveTriggers(TriggerTypes.OnTargetLockIsAcquired, callback);
         }
@@ -753,6 +754,33 @@ namespace Ship
             OnPerformActionStepStart?.Invoke();
         }
 
+        // ITargetLockable
+
+        public int GetRangeToShip(GenericShip ship)
+        {
+            DistanceInfo distanceInfo = new DistanceInfo(ship, this);
+            return distanceInfo.Range;
+        }
+
+        public void AssignToken(RedTargetLockToken token, Action callback)
+        {
+            Tokens.AssignToken(token, callback);
+        }
+
+        public List<char> GetTargetLockLetterPairsOn(ITargetLockable targetShip)
+        {
+            return Tokens.GetTargetLockLetterPairsOn(targetShip);
+        }
+
+        public GenericTargetLockToken GetAnotherToken(Type oppositeType, char letter)
+        {
+            return Tokens.GetToken(oppositeType, letter) as GenericTargetLockToken;
+        }
+
+        public void RemoveToken(GenericToken otherTargetLockToken)
+        {
+            Tokens.GetAllTokens().Remove(otherTargetLockToken);
+        }
     }
 
 }

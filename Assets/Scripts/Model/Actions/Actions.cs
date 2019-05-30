@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BoardTools;
 using ActionsList;
+using Obstacles;
 using Ship;
 using System.ComponentModel;
 using Tokens;
@@ -633,16 +634,100 @@ public static partial class ActionsHolder
         else if (tokensList.Count == 1)
         {
             GenericToken tokenToRemove = tokensList.First();
-            tokenToRemove.Host.Tokens.RemoveToken(tokenToRemove, callback);
+            if (tokenToRemove.Host != null)
+            {
+                tokenToRemove.Host.Tokens.RemoveToken(tokenToRemove, callback);
+            }
+            else
+            {
+                // Test if we have a target lock token who's opposite needs to be removed.
+                if(tokenToRemove.GetType() == typeof(BlueTargetLockToken) || tokenToRemove.GetType() == typeof(RedTargetLockToken))
+                {
+                    bool matchingTokenFound = false;
+                    // We have an unmatched target lock token.  Remove it from the ship it is on.
+                    GenericTargetLockToken sourceToken = tokenToRemove as GenericTargetLockToken;
+                    foreach(GenericShip curTarget in Roster.AllShips.Values)
+                    {
+                        GenericToken removeMe = curTarget.GetAnotherToken(tokenToRemove.GetType(), sourceToken.Letter) as GenericToken;
+                        if (removeMe != null)
+                        {
+                            curTarget.Tokens.RemoveToken(removeMe, callback);
+                            matchingTokenFound = true;
+                            break;
+                        }
+                    }
+                    if(matchingTokenFound == false)
+                    {
+                        // Check all obstacles for matching tokens.
+                        foreach (GenericObstacle curTarget in ObstaclesManager.GetPlacedObstacles())
+                        {
+                            GenericToken removeMe = curTarget.GetAnotherToken(tokenToRemove.GetType(), sourceToken.Letter) as GenericToken;
+                            if (removeMe != null)
+                            {
+                                // We found the obstacle that needs its matching token removed.
+                                curTarget.RemoveToken(removeMe);
+                                matchingTokenFound = true;
+                                break;
+                            }
+                        }
+                        callback();
+                    }
+                }
+                else
+                {
+                    // We just have a normal token to remove.
+                    tokensList.Remove(tokenToRemove);
+                    callback();
+                }
+            }
         }
         else
         {
             GenericToken tokenToRemove = tokensList.First();
             tokensList.Remove(tokenToRemove);
-            tokenToRemove.Host.Tokens.RemoveToken(
-                tokenToRemove,
-                delegate { RemoveTokens(tokensList, callback); }
-            );
+            if (tokenToRemove.Host != null)
+            {
+                tokenToRemove.Host.Tokens.RemoveToken(
+                    tokenToRemove,
+                    delegate { RemoveTokens(tokensList, callback); }
+                );
+            }
+            else
+            {
+                // Test if we have a target lock token who's opposite needs to be removed.
+                if (tokenToRemove.GetType() == typeof(BlueTargetLockToken) || tokenToRemove.GetType() == typeof(RedTargetLockToken))
+                {
+                    bool matchingTokenFound = false;
+                    // We have an unmatched target lock token.  Remove it from the ship it is on.
+                    GenericTargetLockToken sourceToken = tokenToRemove as GenericTargetLockToken;
+                    foreach (GenericShip curTarget in Roster.AllShips.Values)
+                    {
+                        GenericToken removeMe = curTarget.GetAnotherToken(tokenToRemove.GetType(), sourceToken.Letter) as GenericToken;
+                        if (removeMe != null)
+                        {
+                            curTarget.Tokens.RemoveToken(removeMe, callback);
+                            matchingTokenFound = true;
+                            break;
+                        }
+                    }
+                    if (matchingTokenFound == false)
+                    {
+                        // Check all obstacles for matching tokens.
+                        foreach (GenericObstacle curTarget in ObstaclesManager.GetPlacedObstacles())
+                        {
+                            GenericToken removeMe = curTarget.GetAnotherToken(tokenToRemove.GetType(), sourceToken.Letter) as GenericToken;
+                            if (removeMe != null)
+                            {
+                                // We found the obstacle that needs its matching token removed.
+                                curTarget.RemoveToken(removeMe);
+                                matchingTokenFound = true;
+                                break;
+                            }
+                        }
+                        callback();
+                    }
+                }
+            }
         }
     }
 

@@ -633,14 +633,13 @@ public static partial class ActionsHolder
         else if (tokensList.Count == 1)
         {
             GenericToken tokenToRemove = tokensList.First();
-            tokenToRemove.Host.Tokens.RemoveToken(tokenToRemove, callback);
+            tokenToRemove.RemoveFromHost(callback);
         }
         else
         {
             GenericToken tokenToRemove = tokensList.First();
             tokensList.Remove(tokenToRemove);
-            tokenToRemove.Host.Tokens.RemoveToken(
-                tokenToRemove,
+            tokenToRemove.RemoveFromHost(
                 delegate { RemoveTokens(tokensList, callback); }
             );
         }

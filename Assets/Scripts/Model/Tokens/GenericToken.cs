@@ -65,6 +65,11 @@ namespace Tokens
             return result;
         }
 
+        public virtual void RemoveFromHost(Action callback)
+        {
+            Host.Tokens.RemoveToken(this, callback);
+        }
+
     }
 
     //Consider two tokens to be equal if they belong to the same ship and are of the same type

@@ -184,7 +184,8 @@ namespace Abilities.SecondEdition
                 HostShip.Owner.PlayerNo,
                 "Networked Calculations",
                 "Choose a friendly ship to spend a calculate token",
-                HostUpgrade
+                HostUpgrade,
+                callback: () => callback(false)
             );
         }
 

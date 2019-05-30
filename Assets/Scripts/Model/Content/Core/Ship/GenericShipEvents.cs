@@ -27,6 +27,7 @@ namespace Ship
         public delegate void EventHandlerShipDamage(GenericShip ship, DamageSourceEventArgs e);
         public delegate void EventHandlerShipBool(GenericShip ship, bool flag);
         public delegate void EventHandlerShipRefBool(GenericShip ship, ref bool flag);
+        public delegate void EventHandlerShipRefInt(GenericShip ship, ref int count);
         public delegate void EventHandlerShipRefVector(GenericShip ship, ref Vector2 range);
         public delegate void EventHandlerBool2Ships(ref bool result, GenericShip attacker, GenericShip defender);
         public delegate void EventHandlerBoolShipLock(ref bool result, GenericShip attacker, ITargetLockable defender);

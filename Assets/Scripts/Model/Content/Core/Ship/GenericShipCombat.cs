@@ -156,6 +156,8 @@ namespace Ship
         public event EventHandelerWeaponRange OnUpdateWeaponRange;
         public static event EventHandelerWeaponRange OnUpdateWeaponRangeGlobal;
 
+        public event EventHandlerShipRefInt OnShotObstructedByMe;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -932,6 +934,11 @@ namespace Ship
             OnAfterSufferBombEffect?.Invoke(this, bomb);
 
             Triggers.ResolveTriggers(TriggerTypes.OnAfterSufferBombEffect, callback);
+        }
+
+        public void CallShotObstructedByMe(GenericShip attacker, ref int count)
+        {
+            OnShotObstructedByMe?.Invoke(attacker, ref count);
         }
     }
 

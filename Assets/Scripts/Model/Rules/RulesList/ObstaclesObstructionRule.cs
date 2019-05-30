@@ -24,12 +24,17 @@ namespace RulesList
 
         public void CheckDefenceObstructionBonus(ref int result)
         {
+            foreach (GenericShip ship in Combat.ShotInfo.ObstructedByShips)
+            {
+                ship.CallShotObstructedByMe(Combat.Attacker, ref result);
+            }
+
             if (Combat.ShotInfo.IsObstructedByObstacle && !Combat.Attacker.IsIgnoreObstacleObstructionWhenAttacking)
             {
                 Messages.ShowInfo("The attack is obstructed, giving the defender +1 defense die");
                 result++;
 
-                foreach (GenericObstacle obstacle in Combat.ShotInfo.ObstaclesObstructed)
+                foreach (GenericObstacle obstacle in Combat.ShotInfo.ObstructedByObstacles)
                 {
                     obstacle.OnShotObstructedExtra(Combat.Attacker, Combat.Defender);
                 }

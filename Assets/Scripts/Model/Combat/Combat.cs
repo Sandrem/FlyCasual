@@ -153,9 +153,7 @@ public static partial class Combat
 
             Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
 
-            Combat.ShotInfo.CheckObstruction(delegate {
-                TryPerformAttack(isSilent: false);
-            });
+            TryPerformAttack(isSilent: false);
         }
         else
         {
@@ -212,19 +210,14 @@ public static partial class Combat
 
         SetArcAsUsedForAttack();
         DeclareAttackerAndDefender();
-        CheckFireLineCollisions();
+        ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        PayAttackCost();
     }
 
     private static void SetArcAsUsedForAttack()
     {
         Combat.ArcForShot = Combat.ShotInfo.ShotAvailableFromArcs.FirstOrDefault();
         if (ArcForShot != null) ArcForShot.WasUsedForAttackThisRound = true;
-    }
-
-    private static void CheckFireLineCollisions()
-    {
-        ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
-        ShotInfo.CheckObstruction(PayAttackCost);
     }
 
     // PAY ATTACK COST
@@ -626,10 +619,8 @@ namespace SubPhases
             Combat.ChosenWeapon = weapon;
             Combat.ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, Combat.ChosenWeapon);
 
-            Combat.ShotInfo.CheckObstruction(delegate{
-                Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
-                CallBack();
-            });
+            Phases.FinishSubPhase(typeof(WeaponSelectionDecisionSubPhase));
+            CallBack();
         }
 
     }

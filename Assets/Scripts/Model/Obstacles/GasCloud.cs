@@ -72,7 +72,7 @@ namespace ActionsList
 
             if (Combat.AttackStep == CombatStep.Defence
                 && Combat.CurrentDiceRoll.Blanks > 0
-                && Combat.ShotInfo.ObstaclesObstructed.Contains(HostObstacle)
+                && Combat.ShotInfo.ObstructedByObstacles.Contains(HostObstacle)
             )
             {
                 result = true;

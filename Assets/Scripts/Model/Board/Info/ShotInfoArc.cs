@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using Arcs;
 using Upgrade;
+using Obstacles;
 
 namespace BoardTools
 {
@@ -16,6 +17,12 @@ namespace BoardTools
         public bool InArc { get; private set; }
 
         public IShipWeapon Weapon { get; private set; }
+
+        public List<GenericShip> ObstructedByShips { get; private set; }
+        public List<GenericObstacle> ObstructedByObstacles { get; private set; }
+        public bool IsObstructedByBombToken { get; private set; }
+
+        private Dictionary<Collider, int> IgnoredColliders;
 
         private GenericArc Arc;
 
@@ -46,6 +53,8 @@ namespace BoardTools
 
             CheckRequirements();
             CheckRays();
+
+            CheckObstruction();
         }
 
         private void CheckRequirements()
@@ -135,6 +144,63 @@ namespace BoardTools
                     InArc = true;
                 }
             }
+        }
+
+        private void CheckObstruction()
+        {
+            ObstructedByShips = new List<GenericShip>();
+            ObstructedByObstacles = new List<GenericObstacle>();
+            IgnoredColliders = new Dictionary<Collider, int>();
+
+            CheckObstructionRecursive(MinDistance.Point1, MinDistance.Point2, Ship2);
+            RestoreColliders();
+
+            CheckObstructionRecursive(MinDistance.Point2, MinDistance.Point1, Ship1);
+            RestoreColliders();
+        }
+
+        private void RestoreColliders()
+        {
+            foreach (var collider in IgnoredColliders)
+            {
+                collider.Key.gameObject.layer = collider.Value;
+            }
+        }
+
+        private void CheckObstructionRecursive(Vector3 point1, Vector3 point2, GenericShip targetShip)
+        {
+            RaycastHit hitInfo = new RaycastHit();
+            if (Physics.Raycast(point1 + new Vector3(0, 0.003f, 0), point2 - point1 + new Vector3(0, 0.003f, 0), out hitInfo))
+            {
+                if (hitInfo.collider.tag == "Obstacle")
+                {
+                    GenericObstacle obstructedObstacle = ObstaclesManager.GetChosenObstacle(hitInfo.collider.name);
+                    if (!ObstructedByObstacles.Contains(obstructedObstacle)) ObstructedByObstacles.Add(obstructedObstacle);
+                    IgnoreCollider(hitInfo);
+                    CheckObstructionRecursive(point1, point2, targetShip);
+                }
+                else if (hitInfo.collider.tag.StartsWith("ShipId:"))
+                {
+                    if (hitInfo.collider.tag != "ShipId:" + targetShip.ShipId)
+                    {
+                        GenericShip obstructedShip = Roster.GetShipById(hitInfo.collider.tag);
+                        if (!ObstructedByShips.Contains(obstructedShip)) ObstructedByShips.Add(obstructedShip);
+                        IgnoreCollider(hitInfo);
+                        CheckObstructionRecursive(point1, point2, targetShip);
+                    }
+                }
+                else if (hitInfo.collider.tag == "Mine" || hitInfo.collider.tag == "TimedBomb")
+                {
+                    IsObstructedByBombToken = true;
+                }
+            }
+        }
+
+        private void IgnoreCollider(RaycastHit hitInfo)
+        {
+            int ignoreRaycastLayer = LayerMask.NameToLayer("Ignore Raycast");
+            if (!IgnoredColliders.ContainsKey(hitInfo.collider)) IgnoredColliders.Add(hitInfo.collider, hitInfo.collider.gameObject.layer);
+            hitInfo.collider.gameObject.layer = ignoreRaycastLayer;
         }
     }
 }

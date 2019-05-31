@@ -225,14 +225,21 @@ namespace Editions
 
         public override void WhenIonized(GenericShip ship)
         {
+            ship.OnPerformActionStepStart += EnableIonizationActionEffect;
+            ship.OnMovementActivationFinish += DisableIonizationActionEffect;
+        }
+
+        private void EnableIonizationActionEffect(GenericShip ship)
+        {
             ship.OnTryAddAction += IonizedShipCanDoOnlyFocus;
-            ship.OnRoundEnd += DisableIonizationActionEffect;
         }
 
         private void DisableIonizationActionEffect(GenericShip ship)
         {
             ship.OnTryAddAction -= IonizedShipCanDoOnlyFocus;
-            ship.OnRoundEnd -= DisableIonizationActionEffect;
+
+            ship.OnPerformActionStepStart -= EnableIonizationActionEffect;
+            ship.OnMovementActivationFinish -= DisableIonizationActionEffect;
         }
 
         private void IonizedShipCanDoOnlyFocus(GenericAction action, ref bool canBePerformed)

@@ -100,7 +100,7 @@ namespace Abilities.SecondEdition
             );
         }
 
-        private void CheckPeformActionStep()
+        private void CheckPeformActionStep(GenericShip ship)
         {
             if (HostShip.IsStressed)
             {

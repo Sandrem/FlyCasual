@@ -93,7 +93,7 @@ namespace Ship
 
         public event EventHandlerShip OnAfterModifyDefenseDiceStep;
 
-        public event EventHandler OnPerformActionStepStart;
+        public event EventHandlerShip OnPerformActionStepStart;
 
 
         // ACTIONS
@@ -751,7 +751,7 @@ namespace Ship
 
         public void CallPerformActionStepStart()
         {
-            OnPerformActionStepStart?.Invoke();
+            OnPerformActionStepStart?.Invoke(this);
         }
 
         // ITargetLockable

@@ -30,16 +30,9 @@ namespace Ship
 
 namespace Abilities.FirstEdition
 {
+    //At the start of the Combat phase, you may assign all focus, evade, and target lock tokens assigned to you to another friendly ship at Range 1.
     public class ManarooAbility : GenericAbility
     {
-        private static List<Type> ReassignableTokenTypes = new List<Type>()
-        {
-            typeof(FocusToken),
-            typeof(EvadeToken),
-            typeof(BlueTargetLockToken),
-            typeof(RedTargetLockToken)
-        };
-
         private List<GenericToken> ManarooTokens;
 
         public override void ActivateAbility()
@@ -52,16 +45,21 @@ namespace Abilities.FirstEdition
             Phases.Events.OnCombatPhaseStart_Triggers -= CheckAbility;
         }
 
-        private void CheckAbility()
+        protected virtual void CheckAbility()
         {
             if (HostShip.Owner.Ships.Count == 1) return;
 
-            if (CountFriendlyShipsRange1() == 1) return;
+            if (CountFriendlyShipsInRange(1, 1) == 0) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, SelectTarget);
         }
 
-        private void SelectTarget(object sender, EventArgs e)
+        protected virtual string GetSelectTargetDescription()
+        {
+            return "Choose another friendly ship to assign all your focus, evade and target lock tokens to it";
+        }
+
+        protected void SelectTarget(object sender, EventArgs e)
         {
             SelectTargetForAbility(
                 TargetToReassignIsSelected,
@@ -69,12 +67,12 @@ namespace Abilities.FirstEdition
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose another friendly ship to assign all your focus, evade and target lock tokens to it",
+                GetSelectTargetDescription(),
                 HostShip
             );
         }
 
-        private bool FilterAbilityTargets(GenericShip ship)
+        protected virtual bool FilterAbilityTargets(GenericShip ship)
         {
             return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 1);
         }
@@ -94,11 +92,16 @@ namespace Abilities.FirstEdition
             return result;
         }
 
+        protected virtual String GetReassignTokensFormatString()
+        {
+            return "{0}: all Focus, Evade and Target Lock tokens have been reassigned to {1}";
+        }
+
         private void TargetToReassignIsSelected()
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            Messages.ShowInfo(string.Format("{0}: all Focus, Evade and Target Lock tokens have been reassigned to {1}", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
+            Messages.ShowInfo(string.Format(GetReassignTokensFormatString(), HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
 
             ManarooTokens = new List<GenericToken>(HostShip.Tokens.GetAllTokens());
             ReassignTokensRecursive();
@@ -118,8 +121,21 @@ namespace Abilities.FirstEdition
             }
         }
 
+        protected virtual List<Type> GetReassignableTokenTypes()
+        {
+            return new List<Type>()
+            {
+                typeof(FocusToken),
+                typeof(EvadeToken),
+                typeof(BlueTargetLockToken),
+                typeof(RedTargetLockToken)
+            };
+        }
+
         private GenericToken GetTokenOfSupportedType()
         {
+            List<Type> ReassignableTokenTypes = GetReassignableTokenTypes();
+
             GenericToken supportedToken = ManarooTokens.Find(n => ReassignableTokenTypes.Contains(n.GetType()));
 
             if (supportedToken != null)
@@ -130,9 +146,9 @@ namespace Abilities.FirstEdition
             return supportedToken;
         }
 
-        private int CountFriendlyShipsRange1()
+        protected int CountFriendlyShipsInRange(int minRange, int maxRange)
         {
-            return BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(1, 1), Team.Type.Friendly).Count;
+            return BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(minRange, maxRange), Team.Type.Friendly).Count;
         }
     }
 }

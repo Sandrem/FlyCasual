@@ -87,7 +87,7 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
             //TODO: AI
             HotacManeuverTable = new AI.EscapeCraftTable();
 
-            //ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/20/Maneuver_escape_craft.png";
+            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/23/Maneuver_belbullab-22.png";
         }
     }
 }

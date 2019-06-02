@@ -33,7 +33,7 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AutoThrustersAbility());
 
-                // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/44/Maneuver_tie_phantom.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/67/Maneuver_tie_vn.png";
             }
         }
     }

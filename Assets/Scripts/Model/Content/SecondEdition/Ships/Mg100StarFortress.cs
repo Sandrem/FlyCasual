@@ -36,7 +36,7 @@ namespace Ship
 
                 IconicPilots[Faction.Resistance] = typeof(CobaltSquadronBomber);
 
-                // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/cf/Maneuver_t-65_x-wing.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/17/Maneuver_mg-100.png";
             }
         }
     }

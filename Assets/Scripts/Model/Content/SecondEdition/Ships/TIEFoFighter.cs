@@ -23,7 +23,7 @@ namespace Ship
 
                 IconicPilots[Faction.FirstOrder] = typeof(Midnight);
 
-                // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/44/Maneuver_tie_phantom.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/e/e6/Maneuver_tie_fo.png";
             }
         }
     }

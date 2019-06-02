@@ -46,7 +46,7 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.HeavyWeaponTurret());
 
-                // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/44/Maneuver_tie_phantom.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/14/Maneuver_tie_sf.png";
             }
         }
     }

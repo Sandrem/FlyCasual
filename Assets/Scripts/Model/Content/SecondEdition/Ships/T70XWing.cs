@@ -30,7 +30,7 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.FirstEdition.HardPointAbility());
 
-                // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/cf/Maneuver_t-65_x-wing.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/bc/Maneuver_t-70_x-wing.png";
             }
         }
     }

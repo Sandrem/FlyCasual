@@ -28,7 +28,7 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.LinkedBattery());
 
-                // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/d4/Maneuver_lambda_shuttle.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/24/Maneuver_upsilon_shuttle.png";
             }
         }
     }

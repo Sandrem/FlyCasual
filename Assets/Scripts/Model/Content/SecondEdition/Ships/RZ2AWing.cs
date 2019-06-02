@@ -47,7 +47,7 @@ namespace Ship
 
                 IconicPilots[Faction.Resistance] = typeof(TallissanLintra);
 
-                // ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b4/Maneuver_a-wing.png";
+                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/36/Maneuver_rz-2_a-wing.png";
                 HotacManeuverTable = new AI.RZ2AWingTable();
             }
         }

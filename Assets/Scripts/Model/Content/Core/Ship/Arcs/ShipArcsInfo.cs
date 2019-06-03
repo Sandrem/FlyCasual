@@ -73,5 +73,10 @@ namespace Ship
         {
             Arcs = new List<ShipArcInfo>() { new ShipArcInfo(arcType, firepower) };
         }
+
+        public bool IsMobileTurretShip()
+        {
+            return Arcs.Any(a => a.ArcType == ArcType.SingleTurret || a.ArcType == ArcType.DoubleTurret);
+        }
     }
 }

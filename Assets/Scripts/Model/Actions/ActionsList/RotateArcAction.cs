@@ -128,7 +128,8 @@ namespace SubPhases
                 }
 
                 //Get facing with highest priority that is not current facing
-                ArcFacing bestFacing = singleTurretPriorities.FirstOrDefault(a => a.Key != currentFacing && a.Value == singleTurretPriorities.Max(b => b.Value)).Key;
+                singleTurretPriorities.Remove(currentFacing);
+                ArcFacing bestFacing = singleTurretPriorities.FirstOrDefault(a => a.Value == singleTurretPriorities.Max(b => b.Value)).Key;
                 chosenFacing = bestFacing.ToString();
             }
             // For double turret
@@ -164,7 +165,8 @@ namespace SubPhases
                     }
                 }
 
-                chosenFacing = doubleTurretPriorities.FirstOrDefault(a => a.Key != currentFacingString && a.Value == doubleTurretPriorities.Max(b => b.Value)).Key;
+                doubleTurretPriorities.Remove(currentFacingString);
+                chosenFacing = doubleTurretPriorities.FirstOrDefault(a => a.Value == doubleTurretPriorities.Max(b => b.Value)).Key;
             }
 
             return chosenFacing;

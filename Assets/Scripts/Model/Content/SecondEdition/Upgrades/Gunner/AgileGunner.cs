@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
         private void UseAbility(object sender, System.EventArgs e)
         {
             Selection.ChangeActiveShip(HostShip);
-
+            Phases.CurrentSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You may rotate your turret arc");
 
             /*HostShip.AskPerformFreeAction(new RotateArcAction() { IsRed = false, CanBePerformedWhileStressed = true }, Triggers.FinishTrigger);*/

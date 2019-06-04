@@ -30,9 +30,48 @@ namespace Ship
 
 namespace Abilities.FirstEdition
 {
-    //At the start of the Combat phase, you may assign all focus, evade, and target lock tokens assigned to you to another friendly ship at Range 1.
-    public class ManarooAbility : GenericAbility
+    public abstract class ManarooCommonAbility : GenericAbility
     {
+        protected abstract List<Type> ReassignableTokenTypes { get; }
+
+        protected abstract string SelectTargetMessage { get; }
+
+        protected abstract string ReassignTokensMessage { get; }
+    }
+
+    //At the start of the Combat phase, you may assign all focus, evade, and target lock tokens assigned to you to another friendly ship at Range 1.
+    public class ManarooAbility : ManarooCommonAbility
+    {
+        protected override List<Type> ReassignableTokenTypes
+        {
+            get
+            {
+                return new List<Type>()
+                {
+                    typeof(FocusToken),
+                    typeof(EvadeToken),
+                    typeof(BlueTargetLockToken),
+                    typeof(RedTargetLockToken)
+                };
+            }
+        }
+
+        protected override string SelectTargetMessage
+        {
+            get
+            {
+                return "Choose another friendly ship to assign all your focus, evade and target lock tokens to it";
+            }
+        }
+
+        protected override string ReassignTokensMessage
+        {
+            get
+            {
+                return string.Format("{0}: all Focus, Evade and Target Lock tokens have been reassigned to {1}", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName);
+            }
+        }
+
         private List<GenericToken> ManarooTokens;
 
         public override void ActivateAbility()
@@ -54,11 +93,6 @@ namespace Abilities.FirstEdition
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, SelectTarget);
         }
 
-        protected virtual string GetSelectTargetDescription()
-        {
-            return "Choose another friendly ship to assign all your focus, evade and target lock tokens to it";
-        }
-
         protected void SelectTarget(object sender, EventArgs e)
         {
             SelectTargetForAbility(
@@ -67,7 +101,7 @@ namespace Abilities.FirstEdition
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                GetSelectTargetDescription(),
+                SelectTargetMessage,
                 HostShip
             );
         }
@@ -92,16 +126,11 @@ namespace Abilities.FirstEdition
             return result;
         }
 
-        protected virtual String GetReassignTokensFormatString()
-        {
-            return "{0}: all Focus, Evade and Target Lock tokens have been reassigned to {1}";
-        }
-
         private void TargetToReassignIsSelected()
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            Messages.ShowInfo(string.Format(GetReassignTokensFormatString(), HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
+            Messages.ShowInfo(ReassignTokensMessage);
 
             ManarooTokens = new List<GenericToken>(HostShip.Tokens.GetAllTokens());
             ReassignTokensRecursive();
@@ -121,21 +150,8 @@ namespace Abilities.FirstEdition
             }
         }
 
-        protected virtual List<Type> GetReassignableTokenTypes()
-        {
-            return new List<Type>()
-            {
-                typeof(FocusToken),
-                typeof(EvadeToken),
-                typeof(BlueTargetLockToken),
-                typeof(RedTargetLockToken)
-            };
-        }
-
         private GenericToken GetTokenOfSupportedType()
         {
-            List<Type> ReassignableTokenTypes = GetReassignableTokenTypes();
-
             GenericToken supportedToken = ManarooTokens.Find(n => ReassignableTokenTypes.Contains(n.GetType()));
 
             if (supportedToken != null)

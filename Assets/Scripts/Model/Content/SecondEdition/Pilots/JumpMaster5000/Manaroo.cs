@@ -84,7 +84,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.Owner.Ships.Count == 1) return;
 
-            //Skip if only 1 friendly ship in range, since Manaroo is always in range 0 of himself
+            //Skip if only 1 friendly ship in range, since Manaroo is always in range 0 of herself
             if (CountFriendlyShipsInRange() == 1) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, SelectTarget);

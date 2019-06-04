@@ -33,6 +33,22 @@ namespace Abilities.SecondEdition
     //At the start of the Engagement Phase, you may choose a friendly ship at range 0-1. If you do, transfer all green tokens assigned to you to that ship.
     public class ManarooAbility : Abilities.FirstEdition.ManarooAbility
     {
+        protected override int MinRange
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        protected override int MaxRange
+        {
+            get
+            {
+                return 1;
+            }
+        }
+
         protected override List<Type> ReassignableTokenTypes
         {
             get
@@ -68,14 +84,10 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.Owner.Ships.Count == 1) return;
 
-            if (CountFriendlyShipsInRange(0, 1) == 1) return;
+            //Skip if only 1 friendly ship in range, since Manaroo is always in range 0 of himself
+            if (CountFriendlyShipsInRange() == 1) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, SelectTarget);
-        }
-
-        protected override bool FilterAbilityTargets(GenericShip ship)
-        {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 0, 1);
         }
     }
 }

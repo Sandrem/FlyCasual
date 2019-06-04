@@ -32,6 +32,10 @@ namespace Abilities.FirstEdition
 {
     public abstract class ManarooCommonAbility : GenericAbility
     {
+        protected abstract int MinRange { get; }
+
+        protected abstract int MaxRange { get; }
+
         protected abstract List<Type> ReassignableTokenTypes { get; }
 
         protected abstract string SelectTargetMessage { get; }
@@ -42,6 +46,22 @@ namespace Abilities.FirstEdition
     //At the start of the Combat phase, you may assign all focus, evade, and target lock tokens assigned to you to another friendly ship at Range 1.
     public class ManarooAbility : ManarooCommonAbility
     {
+        protected override int MinRange
+        {
+            get
+            {
+                return 1;
+            }
+        }
+
+        protected override int MaxRange
+        {
+            get
+            {
+                return 1;
+            }
+        }
+
         protected override List<Type> ReassignableTokenTypes
         {
             get
@@ -88,7 +108,7 @@ namespace Abilities.FirstEdition
         {
             if (HostShip.Owner.Ships.Count == 1) return;
 
-            if (CountFriendlyShipsInRange(1, 1) == 0) return;
+            if (CountFriendlyShipsInRange() == 0) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, SelectTarget);
         }
@@ -106,9 +126,9 @@ namespace Abilities.FirstEdition
             );
         }
 
-        protected virtual bool FilterAbilityTargets(GenericShip ship)
+        private bool FilterAbilityTargets(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 1);
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, MinRange, MaxRange);
         }
 
         private int GetAiPriority(GenericShip ship)
@@ -162,9 +182,9 @@ namespace Abilities.FirstEdition
             return supportedToken;
         }
 
-        protected int CountFriendlyShipsInRange(int minRange, int maxRange)
+        protected int CountFriendlyShipsInRange()
         {
-            return BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(minRange, maxRange), Team.Type.Friendly).Count;
+            return BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(MinRange, MaxRange), Team.Type.Friendly).Count;
         }
     }
 }

@@ -128,6 +128,56 @@ namespace Upgrade
         }
     }
 
+    public class StatValueRestriction : UpgradeCardRestriction
+    {
+        public enum Stats { Attack, Agility, Hull, Shields, Force, Charges, Initiative}
+        public Stats Stat { get; private set; }
+
+        public enum Conditions { EqualTo, LowerThan, HigherThan, LowerThanOrEqual, HigherThanOrEqual, DifferentOf}
+        public Conditions Condition { get; private set; }
+
+        public int Value { get; private set; }
+
+        public StatValueRestriction(Stats stat, Conditions condition, int value)
+        {
+            Stat = stat;
+            Condition = condition;
+            Value = value;
+        }
+
+        static readonly Dictionary<Conditions, Func<int, int, bool>> conditionExpressionDictionary = new Dictionary<Conditions, Func<int, int, bool>>
+        {
+            { Conditions.DifferentOf,       (a, b) => a != b },
+            { Conditions.EqualTo,           (a, b) => a == b },
+            { Conditions.HigherThan,        (a, b) => a > b },
+            { Conditions.HigherThanOrEqual, (a, b) => a >= b },
+            { Conditions.LowerThan,         (a, b) => a < b },
+            { Conditions.LowerThanOrEqual,  (a, b) => a <= b },
+        };
+
+        static readonly Dictionary<Stats, Func<GenericShip, int>> statValueExpressionDictionary = new Dictionary<Stats, Func<GenericShip, int>>
+        {
+            { Stats.Attack,     (ship) => ship.ShipInfo.Firepower },
+            { Stats.Agility,    (ship) => ship.ShipInfo.Agility },
+            { Stats.Charges,    (ship) => ship.PilotInfo.Charges },
+            { Stats.Force,      (ship) => ship.PilotInfo.Force },
+            { Stats.Hull,       (ship) => ship.ShipInfo.Hull },
+            { Stats.Shields,     (ship) => ship.ShipInfo.Shields },
+            { Stats.Initiative, (ship) => ship.PilotInfo.Initiative },
+        };
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            var conditionExpression = conditionExpressionDictionary[Condition];
+            var valueExpression = statValueExpressionDictionary[Stat];
+
+            var value = valueExpression(ship);
+            var isMatch = conditionExpression(value, Value);
+            return isMatch;
+        }
+    }
+
+
     public class UpgradeCardRestrictions
     {
         public List<UpgradeCardRestriction> Restrictions { get; private set; }

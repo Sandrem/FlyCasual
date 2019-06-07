@@ -10,6 +10,7 @@ using Obstacles;
 using ActionsList;
 using SubPhases;
 using Actions;
+using Movement;
 
 namespace ActionsList
 {
@@ -66,14 +67,16 @@ namespace SubPhases
 
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext }; } }
 
-        bool useMobileControls;
-
-        List<ActionsHolder.BarrelRollTemplates> availableTemplates = new List<ActionsHolder.BarrelRollTemplates>();
-        ActionsHolder.BarrelRollTemplateVariants selectedTemplateVariant;
+        private List<ManeuverTemplate> AvailableBarrelRollTemplates = new List<ManeuverTemplate>();
         public GameObject TemporaryShipBase;
         public GameObject BarrelRollTemplate;
-        ObstaclesStayDetectorForced obstaclesStayDetectorBase;
-        ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
+        private ObstaclesStayDetectorForced obstaclesStayDetectorBase;
+        private ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
+
+        private ManeuverTemplate SelectedTemplate;
+        private Direction SelectedDirectionPrimary;
+        private Direction SelectedDirectionSecondary;
+        private Direction SelectedShift;
 
         public bool IsTractorBeamBarrelRoll = false;
 
@@ -86,10 +89,6 @@ namespace SubPhases
                 controller = value;
             }   
         }
-
-        private List<ManeuverTemplate> AvailableBarrelRollTemplates = new List<ManeuverTemplate>();
-
-        private float templateWidth;
 
         private int updatesCount = 0;
 
@@ -120,7 +119,7 @@ namespace SubPhases
 
         private void AskToSelectTemplate(Action callback)
         {
-            if (availableTemplates.Count > 0)
+            if (AvailableBarrelRollTemplates.Count > 0)
             {
                 RegisterDirectionDecisionTrigger(callback);
             }
@@ -151,26 +150,60 @@ namespace SubPhases
                 Triggers.FinishTrigger
             );
 
-            foreach (var template in availableTemplates)
+            foreach (ManeuverTemplate template in AvailableBarrelRollTemplates)
             {
-                switch (template)
+                if (template.Bearing == ManeuverBearing.Straight)
                 {
-                    case ActionsHolder.BarrelRollTemplates.Straight1:
-                        selectBarrelRollTemplate.AddDecision("Left Straight 1", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Straight1Left); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Right Straight 1", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Straight1Right); DecisionSubPhase.ConfirmDecision(); });
-                        break;
-                    case ActionsHolder.BarrelRollTemplates.Bank1:
-                        selectBarrelRollTemplate.AddDecision("Left Bank 1 Forward", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Bank1LeftForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Right Bank 1 Forward", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Bank1RightForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Left Bank 1 Backwards", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Bank1LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Right Bank 1 Backwards", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Bank1RightBackwards); DecisionSubPhase.ConfirmDecision(); });
-                        break;
-                    case ActionsHolder.BarrelRollTemplates.Straight2:
-                        selectBarrelRollTemplate.AddDecision("Left Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Straight2Left); DecisionSubPhase.ConfirmDecision(); });
-                        selectBarrelRollTemplate.AddDecision("Right Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.BarrelRollTemplateVariants.Straight2Right); DecisionSubPhase.ConfirmDecision(); });
-                        break;
-                    default:
-                        break;
+                    selectBarrelRollTemplate.AddDecision(
+                        "Left " + template.NameNoDirection,
+                        (EventHandler)delegate {
+                            SelectTemplate(template, Direction.Left);
+                            DecisionSubPhase.ConfirmDecision();
+                        }
+                    );
+
+                    selectBarrelRollTemplate.AddDecision(
+                        "Right " + template.NameNoDirection,
+                        (EventHandler)delegate {
+                            SelectTemplate(template, Direction.Right);
+                            DecisionSubPhase.ConfirmDecision();
+                        }
+                    );
+                }
+
+                if (template.Bearing == ManeuverBearing.Bank)
+                {
+                    selectBarrelRollTemplate.AddDecision(
+                        "Left " + template.NameNoDirection + " Forward",
+                        (EventHandler)delegate {
+                            SelectTemplate(template, Direction.Left, Direction.Top);
+                            DecisionSubPhase.ConfirmDecision();
+                        }
+                    );
+
+                    selectBarrelRollTemplate.AddDecision(
+                        "Right " + template.NameNoDirection + " Forward",
+                        (EventHandler)delegate {
+                            SelectTemplate(template, Direction.Right, Direction.Top);
+                            DecisionSubPhase.ConfirmDecision();
+                        }
+                    );
+
+                    selectBarrelRollTemplate.AddDecision(
+                        "Left " + template.NameNoDirection + " Backwards",
+                        (EventHandler)delegate {
+                            SelectTemplate(template, Direction.Left, Direction.Bottom);
+                            DecisionSubPhase.ConfirmDecision();
+                        }
+                    );
+
+                    selectBarrelRollTemplate.AddDecision(
+                        "Right " + template.NameNoDirection + " Backwards",
+                        (EventHandler)delegate {
+                            SelectTemplate(template, Direction.Right, Direction.Bottom);
+                            DecisionSubPhase.ConfirmDecision();
+                        }
+                    );
                 }
             }
 
@@ -183,22 +216,24 @@ namespace SubPhases
             selectBarrelRollTemplate.Start();
         }
 
-        public void SelectTemplate(ActionsHolder.BarrelRollTemplateVariants templateVariant)
+        public void SelectTemplate(ManeuverTemplate template, Direction directionPrimary, Direction directionSecondary = Direction.None)
         {
-            selectedTemplateVariant = templateVariant;
-            BarrelRollTemplate = GetCurrentBarrelRollHelperTemplateGO();
+            SelectedTemplate = template;
+            SelectedDirectionPrimary = directionPrimary;
+            SelectedDirectionSecondary = directionSecondary;
         }
 
         public void PerfromTemplatePlanning()
         {
-            templateWidth = (TheShip.ShipInfo.BaseSize == Ship.BaseSize.Small) ? TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE : TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
-
             Edition.Current.BarrelRollTemplatePlanning();
         }
 
+        //OLD
         public void PerfromTemplatePlanningFirstEdition()
         {
-            useMobileControls = Application.isMobilePlatform;
+            PerfromTemplatePlanningSecondEdition();
+
+            /*useMobileControls = Application.isMobilePlatform;
 
             ShowBarrelRollTemplate();
 
@@ -215,7 +250,7 @@ namespace SubPhases
                     ProcessTemplatePositionSlider
                 );
                 IsReadyForCommands = true;
-            }
+            }*/
         }
 
         public void PerfromTemplatePlanningSecondEdition()
@@ -228,7 +263,7 @@ namespace SubPhases
                 EventHandler = AskBarrelRollPosition
             });
 
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ConfirmPosition);
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, TryConfirmBarrelRollPosition);
         }
 
         private void AskBarrelRollPosition(object sender, System.EventArgs e)
@@ -239,9 +274,9 @@ namespace SubPhases
                  Triggers.FinishTrigger
             );
 
-            selectBarrelRollPosition.AddDecision("Forward",     delegate { SetBarrelRollPosition(1.5f); }, isCentered: true);
-            selectBarrelRollPosition.AddDecision("Center",      delegate { SetBarrelRollPosition(1);    }, isCentered: true);
-            selectBarrelRollPosition.AddDecision("Backwards",   delegate { SetBarrelRollPosition(0.5f); }, isCentered: true);
+            selectBarrelRollPosition.AddDecision("Forward",     delegate { SetBarrelRollPosition(Direction.Top); },     isCentered: true);
+            selectBarrelRollPosition.AddDecision("Center",      delegate { SetBarrelRollPosition(Direction.None); },    isCentered: true);
+            selectBarrelRollPosition.AddDecision("Backwards",   delegate { SetBarrelRollPosition(Direction.Bottom); },  isCentered: true);
 
             selectBarrelRollPosition.InfoText = "Barrel Roll: Select position";
 
@@ -255,107 +290,19 @@ namespace SubPhases
             selectBarrelRollPosition.Start();
         }
 
-        private void FailBarrelRoll()
+        private void SetBarrelRollPosition(Direction direction)
         {
-            Rules.Actions.ActionIsFailed(TheShip, HostAction, new List<ActionFailReason> { ActionFailReason.Bumped, ActionFailReason.ObstacleHit, ActionFailReason.OffTheBoard });
-        }
+            SelectedShift = direction;
 
-        private void SetBarrelRollPosition(float position)
-        {
             ShowBarrelRollTemplate();
             ShowTemporaryShipBase();
-
-            ProcessTemplatePositionSlider(-0.5f);
-            ProcessTemporaryShipBaseSlider(position);
 
             DecisionSubPhase.ConfirmDecision();
         }
 
-        public void ProcessTemplatePositionSlider(float value)
-        {
-            Vector3 newPositionRel = Vector3.zero;
-
-            newPositionRel.x = HelperDirection * templateWidth;
-            newPositionRel.z = value;
-
-            Vector3 newPositionAbs = TheShip.TransformPoint(newPositionRel);
-
-            BarrelRollTemplate.transform.position = newPositionAbs;
-        }
-
-        public override void NextButton()
-        {
-            if (TemporaryShipBase == null)
-            {
-                SliderMenu.CloseSlider();
-
-                SliderMenu.ShowSlider(
-                    0.5f * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE,
-                    1.5F * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE,
-                    1.0F * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE,
-                    ProcessTemporaryShipBaseSlider
-                );
-            }
-            else
-            {
-                SliderMenu.CloseSlider();
-            }
-
-            ConfirmPosition();
-        }
-
-        public void ProcessTemporaryShipBaseSlider(float value)
-        {
-            GameObject finisher = GetCurrentBarrelRollHelperTemplateFinisherGO();
-            Vector3 newPositionRel = Vector3.zero;
-
-            newPositionRel.x = HelperDirection * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE;
-            newPositionRel.z = value;
-
-            Vector3 newPositionAbs = finisher.transform.TransformPoint(newPositionRel);
-            TemporaryShipBase.transform.position = newPositionAbs;
-        }
-
         private void ShowBarrelRollTemplate()
         {
-            GameObject template = GetCurrentBarrelRollHelperTemplateGO();
-            if (Controller.GetType() != typeof(Players.NetworkOpponentPlayer)) template.SetActive(true);
-            HelperDirection = GetDirectionModifier(selectedTemplateVariant);
-            obstaclesStayDetectorMovementTemplate = template.GetComponentInChildren<ObstaclesStayDetectorForced>();
-            obstaclesStayDetectorMovementTemplate.TheShip = TheShip;
-        }
-
-        private void StartReposition()
-        {
-            if (!useMobileControls)
-            {
-                Roster.SetRaycastTargets(false);
-                if (Controller.GetType() == typeof(Players.HumanPlayer))
-                {
-                    inReposition = true;
-                }
-            }
-        }
-
-        private void StopDrag()
-        {
-            Roster.SetRaycastTargets(true);
-            inReposition = false;
-        }
-
-        private GameObject GetCurrentBarrelRollHelperTemplateGO()
-        {
-            return TheShip.GetBarrelRollHelper().Find(selectedTemplateVariant.ToString()).gameObject;
-        }
-
-        private GameObject GetCurrentBarrelRollHelperTemplateFinisherGO()
-        {
-            return GetCurrentBarrelRollHelperTemplateGO().transform.Find("Finisher").gameObject;
-        }
-
-        private GameObject GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO()
-        {
-            return GetCurrentBarrelRollHelperTemplateFinisherGO().transform.Find("BasePosition").gameObject;
+            SelectedTemplate.ApplyTemplate(TheShip, TheShip.GetBack(), Direction.Right);
         }
 
         private void ShowTemporaryShipBase()
@@ -363,140 +310,21 @@ namespace SubPhases
             if (TemporaryShipBase == null)
             {
                 GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-                TemporaryShipBase = MonoBehaviour.Instantiate(prefab, this.GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.position, this.GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.rotation, BoardTools.Board.GetBoard());
+                TemporaryShipBase = MonoBehaviour.Instantiate(
+                    prefab,
+                    SelectedTemplate.GetFinalPosition(),
+                    SelectedTemplate.GetFinalRotation(),
+                    Board.GetBoard()
+                );
+
                 TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = TheShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
                 TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
-                obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
-                obstaclesStayDetectorBase.TheShip = TheShip;
-
-                if (useMobileControls) ProcessTemporaryShipBaseSlider(SliderMenu.GetSliderValue());
             }
-        }
-
-        public override void Update()
-        {
-            if (inReposition && Edition.Current is Editions.FirstEdition)
-            {
-                PerfromDrag();
-            }
-        }
-
-        private void PerfromDrag()
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                if (TemporaryShipBase == null)
-                {
-                    BarrelRollTemplate.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
-                    ApplyBarrelRollTemplateLimits();
-                }
-                else
-                {
-                    TemporaryShipBase.transform.position = new Vector3(hit.point.x, 0f, hit.point.z);
-                    ApplyTemporaryShipBaseTemplateLimits();
-                }
-            }
-        }
-
-        private void ApplyBarrelRollTemplateLimits()
-        {
-            Vector3 newPosition = TheShip.InverseTransformPoint(BarrelRollTemplate.transform.position);
-
-            Vector3 fixedPositionRel = newPosition;
-
-            fixedPositionRel.x = HelperDirection * templateWidth;
-            fixedPositionRel.z = Mathf.Clamp(fixedPositionRel.z, -0.75f * TheShip.ShipBase.SHIPSTAND_SIZE, -0.25f * TheShip.ShipBase.SHIPSTAND_SIZE);
-
-            Vector3 fixedPositionAbs = TheShip.TransformPoint(fixedPositionRel);
-
-            BarrelRollTemplate.transform.position = fixedPositionAbs;
-        }
-
-        private void ApplyTemporaryShipBaseTemplateLimits()
-        {
-            GameObject finisher = GetCurrentBarrelRollHelperTemplateFinisherGO();
-            Vector3 newPosition = finisher.transform.InverseTransformPoint(TemporaryShipBase.transform.position);
-
-            Vector3 fixedPositionRel = newPosition;
-
-            fixedPositionRel.x = HelperDirection * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE;
-            fixedPositionRel.z = Mathf.Clamp(fixedPositionRel.z, 0.5f * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE, 1.5F * 1.18f * TheShip.ShipBase.SHIPSTAND_SIZE);
-
-            Vector3 fixedPositionAbs = finisher.transform.TransformPoint(fixedPositionRel);
-            TemporaryShipBase.transform.position = fixedPositionAbs;
-        }
-
-        private float GetDirectionModifier(ActionsHolder.BarrelRollTemplateVariants templateVariant)
-        {
-            return (templateVariant.ToString().Contains("Left")) ? -1 : 1;
-        }
-
-        public override void ProcessClick()
-        {
-            if (Edition.Current is Editions.FirstEdition)
-            {
-                StopDrag();
-
-                if (!useMobileControls) ConfirmPosition();
-            }
-        }
-
-        private void ConfirmPosition()
-        {
-            if (TemporaryShipBase == null)
-            {
-                PerfromTemporaryShipBasePlanning();
-            }
-            else
-            {
-                GameMode.CurrentGameMode.TryConfirmBarrelRollPosition(selectedTemplateVariant.ToString(), TemporaryShipBase.transform.position, BarrelRollTemplate.transform.position);
-            }
-        }
-
-        private void PerfromTemporaryShipBasePlanning()
-        {
-            ShowTemporaryShipBase();
-
-            StartReposition();
         }
 
         protected class BarrelRollDirectionDecisionSubPhase : DecisionSubPhase { }
 
         protected class BarrelRollPositionDecisionSubPhase : DecisionSubPhase { }
-
-        public override void Pause()
-        {
-            StopDrag();
-        }
-
-        public override void Resume()
-        {
-            StartReposition();
-        }
-
-        public void StartBarrelRollExecution()
-        {
-            Pause();
-
-            TheShip.ToggleShipStandAndPeg(false);
-            BarrelRollTemplate.SetActive(false);
-
-            BarrelRollExecutionSubPhase executionSubphase = (BarrelRollExecutionSubPhase) Phases.StartTemporarySubPhaseNew(
-                "Barrel Roll execution",
-                typeof(BarrelRollExecutionSubPhase),
-                CallBack
-            );
-
-            executionSubphase.TheShip = TheShip;
-            executionSubphase.TemporaryShipBase = TemporaryShipBase;
-            executionSubphase.HelperDirection = HelperDirection;
-            executionSubphase.IsTractorBeamBarrelRoll = IsTractorBeamBarrelRoll;
-
-            executionSubphase.Start();
-        }
 
         public void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
         {
@@ -507,19 +335,18 @@ namespace SubPhases
 
         private void FinishBarrelRollPreparations()
         {
-            StopDrag();
-
             TheShip.IsLandedOnObstacle = false;
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.CollidedWith = null;
 
             if (TemporaryShipBase != null) MonoBehaviour.Destroy(TemporaryShipBase);
-            if (BarrelRollTemplate != null) BarrelRollTemplate.SetActive(false);
+            if (SelectedTemplate != null) SelectedTemplate.DestroyTemplate();
         }
 
+        //OLD
         public void TryConfirmBarrelRollNetwork(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
         {
-            StopDrag();
+            /*StopDrag();
 
             SelectTemplate((ActionsHolder.BarrelRollTemplateVariants) Enum.Parse(typeof(ActionsHolder.BarrelRollTemplateVariants), templateName));
 
@@ -530,11 +357,15 @@ namespace SubPhases
             TemporaryShipBase.transform.position = shipPosition;
             TemporaryShipBase.transform.rotation = GetCurrentBarrelRollHelperTemplateFinisherBasePositionGO().transform.rotation;
 
-            TryConfirmBarrelRollPosition();
+            TryConfirmBarrelRollPosition();*/
         }
 
         public void TryConfirmBarrelRollPosition()
         {
+            return;
+
+            //TODO: Continue from here
+
             BarrelRollTemplate.SetActive(true);
 
             obstaclesStayDetectorBase.ReCheckCollisionsStart();
@@ -618,6 +449,27 @@ namespace SubPhases
             return failReasons;
         }
 
+        public void StartBarrelRollExecution()
+        {
+            Pause();
+
+            TheShip.ToggleShipStandAndPeg(false);
+            BarrelRollTemplate.SetActive(false);
+
+            BarrelRollExecutionSubPhase executionSubphase = (BarrelRollExecutionSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Barrel Roll execution",
+                typeof(BarrelRollExecutionSubPhase),
+                CallBack
+            );
+
+            executionSubphase.TheShip = TheShip;
+            executionSubphase.TemporaryShipBase = TemporaryShipBase;
+            executionSubphase.HelperDirection = HelperDirection;
+            executionSubphase.IsTractorBeamBarrelRoll = IsTractorBeamBarrelRoll;
+
+            executionSubphase.Start();
+        }
+
         public override void Next()
         {
             FinishBarrelRollPreparations();
@@ -633,6 +485,11 @@ namespace SubPhases
         public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
         {
             return false;
+        }
+
+        private void FailBarrelRoll()
+        {
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, new List<ActionFailReason> { ActionFailReason.Bumped, ActionFailReason.ObstacleHit, ActionFailReason.OffTheBoard });
         }
 
     }

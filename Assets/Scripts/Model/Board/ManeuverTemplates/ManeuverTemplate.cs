@@ -18,6 +18,7 @@ namespace BoardTools
         public ManeuverSpeed Speed { get; private set; }
         private GameObject TemplateGO;
         private GameObject FinisherGO;
+        public string NameNoDirection { get; private set; }
 
         public ManeuverTemplate(ManeuverBearing bearing, ManeuverDirection direction, ManeuverSpeed speed, bool isBombTemplate = false)
         {
@@ -34,10 +35,13 @@ namespace BoardTools
                 if (direction == ManeuverDirection.Left) direction = ManeuverDirection.Right;
                 else if (direction == ManeuverDirection.Right) direction = ManeuverDirection.Left;
             }
-            string directionString = (direction == ManeuverDirection.Forward) ? "" : direction.ToString();
 
-            TemplatePrefabName = bearingString + speedString;
-            Name = bearingString + " " + speedString + " " + directionString;
+            NameNoDirection = bearingString + speedString;
+
+            TemplatePrefabName = NameNoDirection;
+
+            string directionString = (direction == ManeuverDirection.Forward) ? "" : " " + direction.ToString();
+            Name = NameNoDirection + directionString;
         }
 
         public void ApplyTemplate(GenericShip ship, Vector3 position, Direction direction)

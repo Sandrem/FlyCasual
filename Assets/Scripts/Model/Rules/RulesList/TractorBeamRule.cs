@@ -193,7 +193,8 @@ namespace SubPhases
             brPlanning.HostAction = stubAction;
 
             brPlanning.IsTractorBeamBarrelRoll = true;
-            brPlanning.SelectTemplate(template);
+            // TODOREVERT
+            //brPlanning.SelectTemplate(template);
 
             Phases.UpdateHelpInfo();
             brPlanning.PerfromTemplatePlanning();

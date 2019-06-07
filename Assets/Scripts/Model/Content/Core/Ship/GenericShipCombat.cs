@@ -779,10 +779,8 @@ namespace Ship
                 new BoostMove(ActionsHolder.BoostTemplates.RightBank1),
             };
 
-            if (OnGetAvailableBoostTemplates != null)
-            {
-                OnGetAvailableBoostTemplates(availableMoves, action);
-            }
+            OnGetAvailableBoostTemplates?.Invoke(availableMoves, action);
+
             return availableMoves;
         }
 

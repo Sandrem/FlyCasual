@@ -52,16 +52,22 @@ namespace Ship
 
         public Vector3 GetCenter()
         {
-            Vector3 result;
-            result = Model.transform.TransformPoint(0, 0, -ShipBase.HALF_OF_SHIPSTAND_SIZE);
-            return result;
+            return Model.transform.TransformPoint(0, 0, -ShipBase.HALF_OF_SHIPSTAND_SIZE);
         }
 
         public Vector3 GetBack()
         {
-            Vector3 result;
-            result = Model.transform.TransformPoint(0, 0, -2*ShipBase.HALF_OF_SHIPSTAND_SIZE);
-            return result;
+            return Model.transform.TransformPoint(0, 0, -2 * ShipBase.HALF_OF_SHIPSTAND_SIZE);
+        }
+
+        public Vector3 GetLeft()
+        {
+            return Model.transform.TransformPoint(-ShipBase.HALF_OF_SHIPSTAND_SIZE, 0, -ShipBase.HALF_OF_SHIPSTAND_SIZE);
+        }
+
+        public Vector3 GetRight()
+        {
+            return Model.transform.TransformPoint(ShipBase.HALF_OF_SHIPSTAND_SIZE, 0, -ShipBase.HALF_OF_SHIPSTAND_SIZE);
         }
 
         public Vector3 GetModelCenter()

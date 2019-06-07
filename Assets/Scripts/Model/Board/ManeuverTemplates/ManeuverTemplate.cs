@@ -55,6 +55,8 @@ namespace BoardTools
 
             TemplateGO.transform.position = position;
 
+            float directionFix = (Direction == ManeuverDirection.Left) ? 180 : 0;
+
             Vector3 angles = ship.GetAngles();
             switch (direction)
             {
@@ -72,10 +74,7 @@ namespace BoardTools
                 default:
                     break;
             }
-
             TemplateGO.transform.eulerAngles = angles;
-
-            float directionFix = (Direction == ManeuverDirection.Left) ? 180 : 0;
 
             TemplateGO.transform.localEulerAngles = new Vector3(
                 TemplateGO.transform.localEulerAngles.x,

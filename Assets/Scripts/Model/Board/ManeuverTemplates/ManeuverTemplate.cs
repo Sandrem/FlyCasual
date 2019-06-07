@@ -1,4 +1,5 @@
 ﻿using Movement;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace BoardTools
             Name = bearingString + " " + speedString + " " + directionString;
         }
 
-        public void ApplyTemplate(Vector3 position, Vector3 angles)
+        public void ApplyTemplate(GenericShip ship, Vector3 position, Direction direction)
         {
             if (TemplateGO == null)
             {
@@ -49,6 +50,25 @@ namespace BoardTools
             }
 
             TemplateGO.transform.position = position;
+
+            Vector3 angles = ship.GetAngles();
+            switch (direction)
+            {
+                case global::Direction.Top:
+                    break;
+                case global::Direction.Bottom:
+                    angles += new Vector3(0, 180, 0);
+                    break;
+                case global::Direction.Left:
+                    angles += new Vector3(0, -90, 0);
+                    break;
+                case global::Direction.Right:
+                    angles += new Vector3(0, 90, 0);
+                    break;
+                default:
+                    break;
+            }
+
             TemplateGO.transform.eulerAngles = angles;
 
             float directionFix = (Direction == ManeuverDirection.Left) ? 180 : 0;

@@ -165,7 +165,7 @@ namespace SubPhases
 
         private void ShowBombAndLaunchTemplate(ManeuverTemplate bombDropTemplate)
         {
-            bombDropTemplate.ApplyTemplate(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetAngles());
+            bombDropTemplate.ApplyTemplate(Selection.ThisShip, Selection.ThisShip.GetPosition(), Direction.Top);
 
             Vector3 bombPosition = bombDropTemplate.GetFinalPosition();
             Quaternion bombRotation = bombDropTemplate.GetFinalRotation();

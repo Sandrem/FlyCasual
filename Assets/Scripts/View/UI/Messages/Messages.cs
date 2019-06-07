@@ -13,35 +13,38 @@ public static class Messages{
 
     private static List<GameObject> allMessages = new List<GameObject>();
 
-    public static void ShowError(string text)
+    public static void ShowError(string text, bool allowCopies = false)
     {
         ShowMessage(text, MessageType.Error);
     }
 
-    public static void ShowErrorToHuman(string text)
+    public static void ShowErrorToHuman(string text, bool allowCopies = false)
     {
         if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
         {
-            ShowMessage(text, MessageType.Error);
+            ShowMessage(text, MessageType.Error, allowCopies);
         }
     }
 
-    public static void ShowInfo(string text)
+    public static void ShowInfo(string text, bool allowCopies = false)
     {
-        ShowMessage(text, MessageType.Info);
+        ShowMessage(text, MessageType.Info, allowCopies);
     }
 
-    public static void ShowInfoToHuman(string text)
+    public static void ShowInfoToHuman(string text, bool allowCopies = false)
     {
         if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer))
         {
-            ShowMessage(text, MessageType.Info);
+            ShowMessage(text, MessageType.Info, allowCopies);
         }
     }
 
-    private static void ShowMessage(string text, MessageType type)
+    private static void ShowMessage(string text, MessageType type, bool allowCopies = false)
     {
-        if (allMessages.LastOrDefault() != null && allMessages.LastOrDefault().name == text) return;
+        if (!allowCopies)
+        {
+            if (allMessages.LastOrDefault() != null && allMessages.LastOrDefault().name == text) return;
+        }
 
         Vector2 startingPosition = new Vector3(0, -75, 0);
 

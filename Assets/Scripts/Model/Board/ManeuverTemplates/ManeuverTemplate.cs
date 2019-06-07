@@ -36,10 +36,9 @@ namespace BoardTools
                 else if (direction == ManeuverDirection.Right) direction = ManeuverDirection.Left;
             }
 
-            NameNoDirection = bearingString + speedString;
+            TemplatePrefabName = bearingString + speedString;
 
-            TemplatePrefabName = NameNoDirection;
-
+            NameNoDirection = bearingString + " " + speedString;
             string directionString = (direction == ManeuverDirection.Forward) ? "" : " " + direction.ToString();
             Name = NameNoDirection + directionString;
         }

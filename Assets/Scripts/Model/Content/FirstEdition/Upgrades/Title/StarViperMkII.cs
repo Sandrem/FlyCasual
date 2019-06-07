@@ -43,8 +43,8 @@ namespace Abilities.FirstEdition
             if (availableTemplates.Any(n => n.Name == "Straight 1"))
             {
                 availableTemplates.RemoveAll(n => n.Name == "Straight 1");
-                availableTemplates.Add(new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Right, ManeuverSpeed.Speed1));
                 availableTemplates.Add(new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Left, ManeuverSpeed.Speed1));
+                availableTemplates.Add(new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Right, ManeuverSpeed.Speed1));
             }
         }
     }

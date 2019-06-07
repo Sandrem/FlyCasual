@@ -150,6 +150,7 @@ namespace SubPhases
                 Triggers.FinishTrigger
             );
 
+            // Straight templates
             foreach (ManeuverTemplate template in AvailableBarrelRollTemplates)
             {
                 if (template.Bearing == ManeuverBearing.Straight)
@@ -170,41 +171,49 @@ namespace SubPhases
                         }
                     );
                 }
+            }
 
-                if (template.Bearing == ManeuverBearing.Bank)
-                {
-                    selectBarrelRollTemplate.AddDecision(
-                        "Left " + template.NameNoDirection + " Forward",
-                        (EventHandler)delegate {
-                            SelectTemplate(template, Direction.Left, Direction.Top);
-                            DecisionSubPhase.ConfirmDecision();
-                        }
-                    );
+            // Bank templates
+            ManeuverTemplate bank1Left = AvailableBarrelRollTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Speed == ManeuverSpeed.Speed1 && n.Direction == ManeuverDirection.Left);
+            ManeuverTemplate bank1Right = AvailableBarrelRollTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Speed == ManeuverSpeed.Speed1 && n.Direction == ManeuverDirection.Right);
 
-                    selectBarrelRollTemplate.AddDecision(
-                        "Right " + template.NameNoDirection + " Forward",
-                        (EventHandler)delegate {
-                            SelectTemplate(template, Direction.Right, Direction.Top);
-                            DecisionSubPhase.ConfirmDecision();
-                        }
-                    );
+            if (bank1Left != null && bank1Right != null)
+            {
+                selectBarrelRollTemplate.AddDecision(
+                    "Left " + bank1Right.NameNoDirection + " Forward",
+                    (EventHandler)delegate
+                    {
+                        SelectTemplate(bank1Right, Direction.Left, Direction.Top);
+                        DecisionSubPhase.ConfirmDecision();
+                    }
+                );
 
-                    selectBarrelRollTemplate.AddDecision(
-                        "Left " + template.NameNoDirection + " Backwards",
-                        (EventHandler)delegate {
-                            SelectTemplate(template, Direction.Left, Direction.Bottom);
-                            DecisionSubPhase.ConfirmDecision();
-                        }
-                    );
+                selectBarrelRollTemplate.AddDecision(
+                    "Right " + bank1Left.NameNoDirection + " Forward",
+                    (EventHandler)delegate
+                    {
+                        SelectTemplate(bank1Left, Direction.Right, Direction.Top);
+                        DecisionSubPhase.ConfirmDecision();
+                    }
+                );
 
-                    selectBarrelRollTemplate.AddDecision(
-                        "Right " + template.NameNoDirection + " Backwards",
-                        (EventHandler)delegate {
-                            SelectTemplate(template, Direction.Right, Direction.Bottom);
-                            DecisionSubPhase.ConfirmDecision();
-                        }
-                    );
-                }
+                selectBarrelRollTemplate.AddDecision(
+                    "Left " + bank1Left.NameNoDirection + " Backwards",
+                    (EventHandler)delegate
+                    {
+                        SelectTemplate(bank1Left, Direction.Left, Direction.Bottom);
+                        DecisionSubPhase.ConfirmDecision();
+                    }
+                );
+
+                selectBarrelRollTemplate.AddDecision(
+                    "Right " + bank1Right.NameNoDirection + " Backwards",
+                    (EventHandler)delegate
+                    {
+                        SelectTemplate(bank1Right, Direction.Right, Direction.Bottom);
+                        DecisionSubPhase.ConfirmDecision();
+                    }
+                );
             }
 
             selectBarrelRollTemplate.InfoText = "Barrel Roll: Select template and direction";

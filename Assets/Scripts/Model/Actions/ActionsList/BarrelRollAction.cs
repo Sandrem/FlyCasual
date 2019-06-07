@@ -327,21 +327,25 @@ namespace SubPhases
                 switch (SelectedShift)
                 {
                     case Direction.Top:
-                        finalShift += Board.BoardIntoWorld(TheShip.ShipBase.SHIPSTAND_SIZE_CM / 4);
+                        finalShift += TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
                         break;
                     case Direction.Bottom:
-                        finalShift -= Board.BoardIntoWorld(TheShip.ShipBase.SHIPSTAND_SIZE_CM / 4);
+                        finalShift -= TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
                         break;
                     default:
                         break;
                 }
 
                 TemporaryShipBase.transform.localEulerAngles += new Vector3(0, directionModifier * -90, 0);
-                TemporaryShipBase.transform.position += new Vector3(
-                    directionModifier * Board.BoardIntoWorld(TheShip.ShipBase.SHIPSTAND_SIZE_CM / 2),
+
+                Vector3 shift = new Vector3(
+                    directionModifier * TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE,
                     0,
-                    Board.BoardIntoWorld(TheShip.ShipBase.SHIPSTAND_SIZE_CM / 2) + finalShift
+                    TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE + finalShift
                 );
+                Vector3 absPosition = TemporaryShipBase.transform.TransformPoint(shift);
+
+                TemporaryShipBase.transform.position = absPosition;
 
                 TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = TheShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
                 TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();

@@ -87,6 +87,8 @@ namespace SubPhases
             }   
         }
 
+        private List<ManeuverTemplate> AvailableBarrelRollTemplates = new List<ManeuverTemplate>();
+
         private float templateWidth;
 
         private int updatesCount = 0;
@@ -106,13 +108,14 @@ namespace SubPhases
 
         private void StartBarrelRollPlanning()
         {
-            GenerateListOfAvailableTemplates();
-            AskToSelectTemplate(PerfromTemplatePlanning);
-        }
+            List<ManeuverTemplate> allowedTemplates = Selection.ThisShip.GetAvailableBarrelRollTemplates();
 
-        protected void GenerateListOfAvailableTemplates()
-        {
-            availableTemplates = TheShip.GetAvailableBarrelRollTemplates();
+            foreach (ManeuverTemplate barrelRollTemplate in allowedTemplates)
+            {
+                AvailableBarrelRollTemplates.Add(barrelRollTemplate);
+            }
+
+            AskToSelectTemplate(PerfromTemplatePlanning);
         }
 
         private void AskToSelectTemplate(Action callback)

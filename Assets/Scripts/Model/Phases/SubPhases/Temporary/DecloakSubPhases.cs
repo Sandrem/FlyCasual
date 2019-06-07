@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using Actions;
 using ActionsList;
+using BoardTools;
 
 namespace SubPhases
 {
@@ -68,7 +69,7 @@ namespace SubPhases
         public float helperDirection;
         public bool inReposition;
 
-        List<ActionsHolder.DecloakTemplates> availableTemplates = new List<ActionsHolder.DecloakTemplates>();
+        List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();
         ActionsHolder.DecloakTemplateVariants selectedTemplateVariant;
         public GameObject DecloakTemplate;
         public float HelperDirection;
@@ -282,7 +283,8 @@ namespace SubPhases
                 Triggers.FinishTrigger
             );
 
-            foreach (var template in availableTemplates)
+            // TODOREVERT
+            /*foreach (var template in availableTemplates)
             {
                 switch (template)
                 {
@@ -302,7 +304,7 @@ namespace SubPhases
                     default:
                         break;
                 }
-            }
+            }*/
 
             selectDecloakTemplate.InfoText = "Decloak: Select template and direction";
 

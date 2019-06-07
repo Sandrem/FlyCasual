@@ -746,20 +746,26 @@ namespace Ship
             return availableTemplates;
         }
 
-        public List<ActionsHolder.BarrelRollTemplates> GetAvailableBarrelRollTemplates()
+        public List<ManeuverTemplate> GetAvailableBarrelRollTemplates()
         {
-            List<ActionsHolder.BarrelRollTemplates> availableTemplates = new List<ActionsHolder.BarrelRollTemplates>() { ActionsHolder.BarrelRollTemplates.Straight1 };
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>()
+            {
+                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isBombTemplate: true)
+            };
 
-            if (OnGetAvailableBarrelRollTemplates != null) OnGetAvailableBarrelRollTemplates(availableTemplates);
+            OnGetAvailableBarrelRollTemplates?.Invoke(availableTemplates);
 
             return availableTemplates;
         }
 
-        public List<ActionsHolder.DecloakTemplates> GetAvailableDecloakTemplates()
+        public List<ManeuverTemplate> GetAvailableDecloakTemplates()
         {
-            List<ActionsHolder.DecloakTemplates> availableTemplates = new List<ActionsHolder.DecloakTemplates>() { ActionsHolder.DecloakTemplates.Straight2 };
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>()
+            {
+                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed2, isBombTemplate: true)
+            };
 
-            if (OnGetAvailableDecloakTemplates != null) OnGetAvailableDecloakTemplates(availableTemplates);
+            OnGetAvailableDecloakTemplates?.Invoke(availableTemplates);
 
             return availableTemplates;
         }

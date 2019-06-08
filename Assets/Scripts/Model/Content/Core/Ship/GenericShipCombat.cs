@@ -748,22 +748,16 @@ namespace Ship
 
         public List<ManeuverTemplate> GetAvailableBarrelRollTemplates()
         {
-            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>()
-            {
-                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isBombTemplate: true)
-            };
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>(ShipBase.BarrelRollTemplatesAvailable);
 
             OnGetAvailableBarrelRollTemplates?.Invoke(availableTemplates);
 
             return availableTemplates;
         }
 
-        public List<ManeuverTemplate> GetAvailableDecloakTemplates()
+        public List<ManeuverTemplate> GetAvailableDecloakBarrelRollTemplates()
         {
-            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>()
-            {
-                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed2, isBombTemplate: true)
-            };
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>(ShipBase.DecloakBarrelRollTemplatesAvailable);
 
             OnGetAvailableDecloakTemplates?.Invoke(availableTemplates);
 

@@ -19,14 +19,14 @@ namespace BoardTools
         private GameObject TemplateGO;
         private GameObject FinisherGO;
         public string NameNoDirection { get; private set; }
+        public bool IsSideTemplate { get; private set; }
 
-        public ManeuverTemplate(ManeuverBearing bearing, ManeuverDirection direction, ManeuverSpeed speed, bool isBombTemplate = false)
+        public ManeuverTemplate(ManeuverBearing bearing, ManeuverDirection direction, ManeuverSpeed speed, bool isBombTemplate = false, bool isSideTemplate = false)
         {
             Bearing = bearing;
-
             Direction = direction;
-
             Speed = speed;
+            IsSideTemplate = isSideTemplate;
 
             string bearingString = bearing.ToString();
             string speedString = speed.ToString().Replace("Speed", "");
@@ -36,7 +36,7 @@ namespace BoardTools
                 else if (direction == ManeuverDirection.Right) direction = ManeuverDirection.Left;
             }
 
-            TemplatePrefabName = bearingString + speedString;
+            TemplatePrefabName = bearingString + speedString + ((IsSideTemplate) ? "Alt" : "");
 
             NameNoDirection = bearingString + " " + speedString;
             string directionString = (direction == ManeuverDirection.Forward) ? "" : " " + direction.ToString();

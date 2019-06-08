@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BoardTools;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Ship
         None
     }
 
-    public class GenericShipBase
+    public abstract class GenericShipBase
     {
         public GenericShip Host { get; protected set; }
         public BaseSize Size { get; protected set; }
@@ -36,6 +37,11 @@ namespace Ship
         public float SHIPSTAND_SIZE_CM { get; protected set; }
         public float HALF_OF_FIRINGARC_SIZE { get; protected set; }
         public float HALF_OF_BULLSEYEARC_SIZE { get { return 0.25f; } }
+
+        public abstract List<ManeuverTemplate> BoostTemplatesAvailable { get; }
+        public abstract List<ManeuverTemplate> BarrelRollTemplatesAvailable { get; }
+        public abstract List<ManeuverTemplate> DecloakBoostTemplatesAvailable { get; }
+        public abstract List<ManeuverTemplate> DecloakBarrelRollTemplatesAvailable { get; }
 
         public GenericShipBase(GenericShip host)
         {
@@ -256,6 +262,5 @@ namespace Ship
             float result = BoardTools.Board.GetBoard().TransformVector(new Vector3(SHIPSTAND_SIZE_CM, 0, 0)).x;
             return result;
         }
-
     }
 }

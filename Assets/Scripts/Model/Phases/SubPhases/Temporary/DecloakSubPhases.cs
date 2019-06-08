@@ -247,7 +247,7 @@ namespace SubPhases
 
         protected void GenerateListOfAvailableTemplates()
         {
-            availableTemplates = Selection.ThisShip.GetAvailableDecloakTemplates();
+            availableTemplates = Selection.ThisShip.GetAvailableDecloakBarrelRollTemplates();
         }
 
         private void AskToSelectTemplate(Action callback)

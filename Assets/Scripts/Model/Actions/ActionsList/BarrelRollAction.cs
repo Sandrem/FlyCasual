@@ -336,10 +336,10 @@ namespace SubPhases
                 switch (SelectedShift)
                 {
                     case Direction.Top:
-                        finalShift += TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
+                        finalShift += (SelectedTemplate.IsSideTemplate)? 0.5f : 0.25f;
                         break;
                     case Direction.Bottom:
-                        finalShift -= TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE / 2;
+                        finalShift -= (SelectedTemplate.IsSideTemplate) ? 0.5f : 0.25f;
                         break;
                     default:
                         break;

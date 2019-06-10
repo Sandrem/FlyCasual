@@ -18,8 +18,7 @@ namespace Ship
                     cost: 46,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ColonelJendonAbility),
-                    charges: 2,                    
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    charges: 2,
                     seImageNumber: 143
                 );
             }

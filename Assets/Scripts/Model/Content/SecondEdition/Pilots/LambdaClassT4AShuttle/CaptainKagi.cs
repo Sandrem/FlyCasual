@@ -19,7 +19,6 @@ namespace Ship
                     48,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainKagiAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 142
                 );
             }

@@ -17,7 +17,6 @@ namespace Ship
                     47,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantSaiAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 144
                 );
             }

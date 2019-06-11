@@ -63,6 +63,7 @@ namespace SubPhases
 
     public class BarrelRollPlanningSubPhase : GenericSubPhase
     {
+        //Saves forward-center-bottom temporary ship bases and their collisions
         private class BarrelRollShiftData
         {
             public GameObject TemporaryShipBase { get; private set; }
@@ -87,15 +88,24 @@ namespace SubPhases
 
         public GenericAction HostAction { get; set; }
 
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes {
+            get {
+                return new List<GameCommandTypes>() { GameCommandTypes.PressNext };
+            }
+        }
 
         private List<ManeuverTemplate> AvailableBarrelRollTemplates = new List<ManeuverTemplate>();
-        public GameObject BarrelRollTemplate;
 
         List<BarrelRollShiftData> BarrelRollShiftVariants = new List<BarrelRollShiftData>();
+        public ObstaclesStayDetectorForced TemporaryBaseCollider {
+            get {
+                return BarrelRollShiftVariants.First(n => n.Direction == SelectedShift).Collider;
+            }
+        }
         public GameObject TemporaryShipBaseFinal;
 
         private ManeuverTemplate SelectedTemplate;
+
         private Direction SelectedDirectionPrimary;
         private Direction SelectedDirectionSecondary;
         private Direction SelectedShift;
@@ -112,11 +122,9 @@ namespace SubPhases
             }   
         }
 
-        private int updatesCount = 0;
+        public List<ActionFailReason> BarrelRollProblems { get; private set; } = new List<ActionFailReason>();
 
         public bool inReposition;
-
-        public float HelperDirection;
 
         public override void Start()
         {
@@ -127,20 +135,58 @@ namespace SubPhases
             StartBarrelRollPlanning();
         }
 
+        // Core
+
         private void StartBarrelRollPlanning()
         {
-            List<ManeuverTemplate> allowedTemplates = Selection.ThisShip.GetAvailableBarrelRollTemplates();
-
-            foreach (ManeuverTemplate barrelRollTemplate in allowedTemplates)
-            {
-                AvailableBarrelRollTemplates.Add(barrelRollTemplate);
-            }
-
             AskToSelectTemplate(PerfromTemplatePlanning);
         }
 
+        public void PerfromTemplatePlanning()
+        {
+            Edition.Current.BarrelRollTemplatePlanning();
+        }
+
+        public void PerfromTemplatePlanningSecondEdition()
+        {
+            GameManagerScript.Instance.StartCoroutine(
+                CheckCollisionsOfTemporaryElements(AskBarrelRollShift)
+            );
+        }
+
+        private void AskBarrelRollShift()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Barrel Roll position",
+                TriggerType = TriggerTypes.OnAbilityDirect,
+                TriggerOwner = Controller.PlayerNo,
+                EventHandler = StartAskBarrelRollShiftSubphase
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ConfirmBarrelRollPosition);
+        }
+
+        public void ConfirmBarrelRollPosition()
+        {
+            CheckMines();
+            SyncCollisions(TemporaryBaseCollider);
+            DestroyTemporaryElements();
+
+            GameMode.CurrentGameMode.StartBarrelRollExecution();
+        }
+
+        public void StartBarrelRollExecution()
+        {
+            StartBarrelRollExecutionSubphase();
+        }
+
+        // Subs
+
         private void AskToSelectTemplate(Action callback)
         {
+            GenerateListOfAvailableTemplates();
+
             if (AvailableBarrelRollTemplates.Count > 0)
             {
                 RegisterDirectionDecisionTrigger(callback);
@@ -149,6 +195,16 @@ namespace SubPhases
             {
                 Console.Write("No available templates for Barrel Roll!", LogTypes.Errors, true, "red");
             }                
+        }
+
+        private void GenerateListOfAvailableTemplates()
+        {
+            List<ManeuverTemplate> allowedTemplates = Selection.ThisShip.GetAvailableBarrelRollTemplates();
+
+            foreach (ManeuverTemplate barrelRollTemplate in allowedTemplates)
+            {
+                AvailableBarrelRollTemplates.Add(barrelRollTemplate);
+            }
         }
 
         private void RegisterDirectionDecisionTrigger(Action callback)
@@ -254,11 +310,6 @@ namespace SubPhases
             SelectedDirectionSecondary = directionSecondary;
         }
 
-        public void PerfromTemplatePlanning()
-        {
-            Edition.Current.BarrelRollTemplatePlanning();
-        }
-
         //OLD
         public void PerfromTemplatePlanningFirstEdition()
         {
@@ -284,21 +335,13 @@ namespace SubPhases
             }*/
         }
 
-        public void PerfromTemplatePlanningSecondEdition()
-        {
-            GameManagerScript.Instance.StartCoroutine(
-                CheckCollisionsStart(AskBarrelRollShift)
-            );
-        }
-
-        private IEnumerator CheckCollisionsStart(Action callback)
+        private IEnumerator CheckCollisionsOfTemporaryElements(Action callback)
         {
             yield return CheckTemplate();
-            if (IsBarrelRollTemplatePositionAllowed())
+
+            if (!IsColliderDataAllowed(SelectedTemplate.Collider))
             {
-                Messages.ShowError("Position of barell roll template is invalid");
-                SelectedTemplate.DestroyTemplate();
-                //TODO: Failed Barrel Roll
+                CancelBarrelRoll();
             }
             else
             {
@@ -310,8 +353,36 @@ namespace SubPhases
                 }
                 else
                 {
-                    Messages.ShowError("All possible final positions of ship are invalid");
-                    //TODO: Failed Barrel Roll
+                    CancelBarrelRoll();
+                }
+            }
+        }
+
+        private void CancelBarrelRoll()
+        {
+            DestroyTemporaryElements(isAll: true);
+            ShowInformationAboutProblems();
+
+            GameMode.CurrentGameMode.CancelBarrelRoll(BarrelRollProblems);
+        }
+
+        private void ShowInformationAboutProblems()
+        {
+            foreach (var problem in BarrelRollProblems)
+            {
+                switch (problem)
+                {
+                    case ActionFailReason.Bumped:
+                        Messages.ShowError("Barrel Roll would cause this ship to overlap another ship");
+                        break;
+                    case ActionFailReason.OffTheBoard:
+                        Messages.ShowError("Barrel Roll would cause this ship to leave the battlefield");
+                        break;
+                    case ActionFailReason.ObstacleHit:
+                        Messages.ShowError("Barrel Roll would cause this ship to overlap an obstacle");
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -326,11 +397,22 @@ namespace SubPhases
             yield return Tools.WaitForFrames(3);
         }
 
-        private bool IsBarrelRollTemplatePositionAllowed()
+        private bool IsColliderDataAllowed(ObstaclesStayDetectorForced collider, bool isBaseFinalPosition = false)
         {
-            return SelectedTemplate.Collider.OverlapsAsteroidNow
-                || SelectedTemplate.Collider.OverlapsShipNow
-                || SelectedTemplate.Collider.OffTheBoardNow;
+            if (collider.OverlapsShipNow && isBaseFinalPosition)
+            {
+                BarrelRollProblems.Add(ActionFailReason.Bumped);
+            }
+            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBarrelRoll && !IsTractorBeamBarrelRoll && collider.OverlapsAsteroidNow)
+            {
+                BarrelRollProblems.Add(ActionFailReason.ObstacleHit);
+            }
+            else if (collider.OffTheBoardNow)
+            {
+                BarrelRollProblems.Add(ActionFailReason.OffTheBoard);
+            }
+
+            return BarrelRollProblems.Count == 0;
         }
 
         private IEnumerator CheckPotentialFinalPositions()
@@ -358,32 +440,13 @@ namespace SubPhases
             bool isAllowed = false;
             foreach (BarrelRollShiftData barrelRollData in BarrelRollShiftVariants)
             {
-                if (IsPotentialFinalPositionsAllowed(barrelRollData))
+                BarrelRollProblems = new List<ActionFailReason>();
+                if (IsColliderDataAllowed(barrelRollData.Collider))
                 {
                     isAllowed = true;
                 }
             }
             return isAllowed;
-        }
-
-        private bool IsPotentialFinalPositionsAllowed(BarrelRollShiftData barrelRollData)
-        {
-            return !barrelRollData.Collider.OverlapsAsteroidNow
-                    && !barrelRollData.Collider.OverlapsShipNow
-                    && !barrelRollData.Collider.OffTheBoardNow;
-        }
-
-        private void AskBarrelRollShift()
-        {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Barrel Roll position",
-                TriggerType = TriggerTypes.OnAbilityDirect,
-                TriggerOwner = Controller.PlayerNo,
-                EventHandler = StartAskBarrelRollShiftSubphase
-            });
-
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ConfirmBarrelRollPosition);
         }
 
         private void StartAskBarrelRollShiftSubphase(object sender, System.EventArgs e)
@@ -422,7 +485,7 @@ namespace SubPhases
                 );
             }
 
-            if (!IsPotentialFinalPositionsAllowed(BarrelRollShiftVariants.First(n => n.Direction == SelectedShift)))
+            if (!IsColliderDataAllowed(TemporaryBaseCollider))
             {
                 Messages.ShowError("This final position is not valid, choose another position");
                 UI.HideNextButton();
@@ -435,26 +498,6 @@ namespace SubPhases
 
             DecisionSubPhase.ResetInput();
         }
-
-        /*
-            List<ActionFailReason> barrelRollProblems = CheckBarrelRollProblems();
-
-            if (barrelRollProblems.Count == 0)
-            {
-                CheckMines();
-                TheShip.ObstaclesLanded = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
-                TheShip.ObstaclesHit = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
-                obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
-                    .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
-                    .ForEach(TheShip.ObstaclesHit.Add);
-                
-            }
-            else
-            {
-                GameMode.CurrentGameMode.CancelBarrelRoll(barrelRollProblems);
-            }
-        */
-
 
         private void ShowBarrelRollTemplate()
         {
@@ -556,19 +599,11 @@ namespace SubPhases
             TryConfirmBarrelRollPosition();*/
         }
 
-        public void ConfirmBarrelRollPosition()
-        {
-            CheckMines();
-            DestroyTemporaryElements();
-
-            GameMode.CurrentGameMode.StartBarrelRollExecution();
-        }
-
-        private void DestroyTemporaryElements()
+        private void DestroyTemporaryElements(bool isAll = false)
         {
             foreach (var data in BarrelRollShiftVariants)
             {
-                if (data.Direction == SelectedShift)
+                if (data.Direction == SelectedShift && !isAll)
                 {
                     TemporaryShipBaseFinal = data.TemporaryShipBase;
                 }
@@ -590,31 +625,16 @@ namespace SubPhases
             }
         }
 
-        public List<ActionFailReason> CheckBarrelRollProblems()
+        private void SyncCollisions(ObstaclesStayDetectorForced collider)
         {
-            List<ActionFailReason> failReasons = new List<ActionFailReason>();
-
-            /*if (obstaclesStayDetectorBase.OverlapsShipNow)
-            {
-                Messages.ShowError("Barrel Roll would cause this ship to overlap another ship");
-                failReasons.Add(ActionFailReason.Bumped);
-            }
-            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBarrelRoll && !IsTractorBeamBarrelRoll
-                && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
-            {
-                Messages.ShowError("Barrel Roll would cause this ship to overlap an obstacle");
-                failReasons.Add(ActionFailReason.ObstacleHit);
-            }
-            else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
-            {
-                Messages.ShowError("Barrel Roll would cause this ship to leave the battlefield");
-                failReasons.Add(ActionFailReason.OffTheBoard);
-            }*/
-
-            return failReasons;
+            TheShip.ObstaclesLanded = new List<GenericObstacle>(collider.OverlappedAsteroidsNow);
+            TheShip.ObstaclesHit = new List<GenericObstacle>(collider.OverlappedAsteroidsNow);
+            collider.OverlappedAsteroidsNow
+                .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
+                .ForEach(TheShip.ObstaclesHit.Add);
         }
 
-        public void StartBarrelRollExecution()
+        private void StartBarrelRollExecutionSubphase()
         {
             Pause();
 

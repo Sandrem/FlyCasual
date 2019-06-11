@@ -32,7 +32,6 @@ namespace GameModes
         public abstract void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems);
         public abstract void FinishBarrelRoll();
 
-        public abstract void TryConfirmDecloakPosition(Vector3 shipBasePosition, string helperName, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles);
         public abstract void StartDecloakExecution(Ship.GenericShip ship);
         public abstract void CancelDecloak(List<ActionFailReason> decloakProblems);
         public abstract void FinishDecloak();

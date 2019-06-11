@@ -93,24 +93,19 @@ namespace GameModes
 
         // DECLOAK
 
-        public override void TryConfirmDecloakPosition(Vector3 shipBasePosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
-        {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).TryConfirmDecloakPosition();
-        }
-
         public override void StartDecloakExecution(Ship.GenericShip ship)
         {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartDecloakExecution(ship);
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartBarrelRollExecution();
         }
 
         public override void FinishDecloak()
         {
-            (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishDecloakAnimation();
+            (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishBarrelRollAnimation();
         }
 
         public override void CancelDecloak(List<ActionFailReason> decloakProblems)
         {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak(decloakProblems);
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelBarrelRoll(decloakProblems);
         }
 
         // BOOST

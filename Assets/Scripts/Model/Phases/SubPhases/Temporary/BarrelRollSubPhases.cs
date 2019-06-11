@@ -10,6 +10,7 @@ using Obstacles;
 using ActionsList;
 using Actions;
 using Movement;
+using Ship;
 
 namespace SubPhases
 {
@@ -49,7 +50,7 @@ namespace SubPhases
             }
         }
 
-        private List<ManeuverTemplate> AvailableBarrelRollTemplates = new List<ManeuverTemplate>();
+        protected List<ManeuverTemplate> AvailableBarrelRollTemplates = new List<ManeuverTemplate>();
 
         List<BarrelRollShiftData> BarrelRollShiftVariants = new List<BarrelRollShiftData>();
         public ObstaclesStayDetectorForced TemporaryBaseCollider
@@ -63,7 +64,7 @@ namespace SubPhases
 
         private ManeuverTemplate SelectedTemplate;
 
-        private Direction SelectedDirectionPrimary;
+        protected Direction SelectedDirectionPrimary;
         private Direction SelectedDirectionSecondary;
         private Direction SelectedShift;
 
@@ -97,12 +98,12 @@ namespace SubPhases
 
         // Core
 
-        private void StartBarrelRollPlanning()
+        protected void StartBarrelRollPlanning()
         {
             AskToSelectTemplate(PerfromTemplatePlanning);
         }
 
-        public void PerfromTemplatePlanning()
+        public virtual void PerfromTemplatePlanning()
         {
             Edition.Current.BarrelRollTemplatePlanning();
         }
@@ -133,6 +134,11 @@ namespace SubPhases
             SyncCollisions(TemporaryBaseCollider);
             DestroyTemporaryElements();
 
+            GameModeStartRepositionExecution();
+        }
+
+        protected virtual void GameModeStartRepositionExecution()
+        {
             GameMode.CurrentGameMode.StartBarrelRollExecution();
         }
 
@@ -157,7 +163,7 @@ namespace SubPhases
             }
         }
 
-        private void GenerateListOfAvailableTemplates()
+        protected virtual void GenerateListOfAvailableTemplates()
         {
             List<ManeuverTemplate> allowedTemplates = Selection.ThisShip.GetAvailableBarrelRollTemplates();
 
@@ -318,11 +324,16 @@ namespace SubPhases
             }
         }
 
-        private void CancelBarrelRoll()
+        protected virtual void CancelBarrelRoll()
         {
             DestroyTemporaryElements(isAll: true);
             ShowInformationAboutProblems();
 
+            GameModeCancelReposition();
+        }
+
+        protected virtual void GameModeCancelReposition()
+        {
             GameMode.CurrentGameMode.CancelBarrelRoll(BarrelRollProblems);
         }
 
@@ -581,7 +592,7 @@ namespace SubPhases
                 .ForEach(TheShip.ObstaclesHit.Add);
         }
 
-        private void StartBarrelRollExecutionSubphase()
+        protected virtual void StartBarrelRollExecutionSubphase()
         {
             Pause();
 
@@ -607,12 +618,12 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             return false;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
+        public override bool AnotherShipCanBeSelected(GenericShip anotherShip, int mouseKeyIsPressed)
         {
             return false;
         }
@@ -681,8 +692,13 @@ namespace SubPhases
             if (progressCurrent >= progressTarget)
             {
                 performingAnimation = false;
-                GameMode.CurrentGameMode.FinishBarrelRoll();
+                GameModeFinishReposition();
             }
+        }
+
+        protected virtual void GameModeFinishReposition()
+        {
+            GameMode.CurrentGameMode.FinishBarrelRoll();
         }
 
         public void FinishBarrelRollAnimation()
@@ -704,7 +720,7 @@ namespace SubPhases
             TheShip.FinishPosition(FinishBarrelRollAnimationPart2);
         }
 
-        private void FinishBarrelRollAnimationPart2()
+        protected virtual void FinishBarrelRollAnimationPart2()
         {
             Phases.FinishSubPhase(typeof(BarrelRollExecutionSubPhase));
             CallBack();
@@ -717,13 +733,13 @@ namespace SubPhases
             UpdateHelpInfo();
         }
 
-        public override bool ThisShipCanBeSelected(Ship.GenericShip ship, int mouseKeyIsPressed)
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;
         }
 
-        public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
+        public override bool AnotherShipCanBeSelected(GenericShip anotherShip, int mouseKeyIsPressed)
         {
             bool result = false;
             return result;

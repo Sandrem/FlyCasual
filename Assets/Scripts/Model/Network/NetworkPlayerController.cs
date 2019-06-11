@@ -340,7 +340,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     //[ClientRpc]
     private void RpcLaunchDecloak()
     {
-        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartDecloakExecution(Selection.ThisShip);
+        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartBarrelRollExecution();
     }
 
     //[Command]
@@ -352,7 +352,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     //[ClientRpc]
     private void RpcFinishDecloak()
     {
-        (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishDecloakAnimation();
+        (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishBarrelRollAnimation();
     }
 
     //[Command]
@@ -365,7 +365,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     private void RpcCancelDecloak()
     {
         //TODONETWORK
-        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak(null);
+        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelBarrelRoll(null);
     }
 
     // SELECT TARGET SHIP
@@ -423,7 +423,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     //[ClientRpc]
     private void RpcTryConfirmDecloak(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
     {
-        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).TryConfirmDecloakNetwork(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
+        //OLD
     }
 
     // BOOST PLANNING

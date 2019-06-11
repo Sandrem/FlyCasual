@@ -43,15 +43,8 @@ namespace ActionsList
 
         public override void RevertActionOnFail(bool hasSecondChance = false)
         {
-            if (hasSecondChance)
-            {
-                (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).PerfromTemplatePlanning();
-            }
-            else
-            {
-                DecisionSubPhase.ConfirmDecision();
-                Phases.GoBack();
-            }
+            Phases.GoBack();
+            Phases.CurrentSubPhase.CallBack();
         }
 
     }
@@ -566,20 +559,7 @@ namespace SubPhases
 
         public void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
         {
-            FinishBarrelRollPreparations();
-
-            Rules.Actions.ActionIsFailed(TheShip, HostAction, barrelRollProblems, hasSecondChance: true);
-        }
-
-        private void FinishBarrelRollPreparations()
-        {
-            TheShip.IsLandedOnObstacle = false;
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Movement.CollidedWith = null;
-
-            //TODO: Destroy ship bases
-            //if (TemporaryShipBase != null) MonoBehaviour.Destroy(TemporaryShipBase);
-            if (SelectedTemplate != null) SelectedTemplate.DestroyTemplate();
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, barrelRollProblems);
         }
 
         //OLD
@@ -656,7 +636,6 @@ namespace SubPhases
 
         public override void Next()
         {
-            FinishBarrelRollPreparations();
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
         }
@@ -669,11 +648,6 @@ namespace SubPhases
         public override bool AnotherShipCanBeSelected(Ship.GenericShip anotherShip, int mouseKeyIsPressed)
         {
             return false;
-        }
-
-        private void FailBarrelRoll()
-        {
-            Rules.Actions.ActionIsFailed(TheShip, HostAction, new List<ActionFailReason> { ActionFailReason.Bumped, ActionFailReason.ObstacleHit, ActionFailReason.OffTheBoard });
         }
 
     }

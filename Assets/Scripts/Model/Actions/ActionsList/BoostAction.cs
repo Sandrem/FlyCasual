@@ -237,7 +237,7 @@ namespace SubPhases
             obstaclesStayDetectorMovementTemplate.TheShip = TheShip;
         }
 
-        public void StartBoostExecution()
+        public virtual void StartBoostExecution()
         {
             BoostExecutionSubPhase execution = (BoostExecutionSubPhase) Phases.StartTemporarySubPhaseNew(
                 "Boost execution",
@@ -246,6 +246,7 @@ namespace SubPhases
             );
             execution.TheShip = TheShip;
             execution.IsTractorBeamBoost = IsTractorBeamBoost;
+            execution.SelectedBoostHelper = SelectedBoostHelper;
             execution.Start();
         }
 
@@ -386,6 +387,7 @@ namespace SubPhases
 
     public class BoostExecutionSubPhase : GenericSubPhase
     {
+        public string SelectedBoostHelper;
         public bool IsTractorBeamBoost;
 
         public override void Start()
@@ -402,7 +404,7 @@ namespace SubPhases
             Rules.Collision.ClearBumps(TheShip);
 
             Movement.GenericMovement boostMovement;
-            switch ((PreviousSubPhase as BoostPlanningSubPhase).SelectedBoostHelper)
+            switch (SelectedBoostHelper)
             {
                 case "Straight 1":
                     boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.None);
@@ -432,7 +434,7 @@ namespace SubPhases
             if (!IsTractorBeamBoost) Sounds.PlayFly(TheShip);
         }
 
-        public void FinishBoost()
+        public virtual void FinishBoost()
         {
             GameMode.CurrentGameMode.FinishBoost();
             ((PreviousSubPhase as BoostPlanningSubPhase).HostAction as BoostAction).SelectedBoostTemplate = null;
@@ -443,7 +445,7 @@ namespace SubPhases
             TheShip.FinishPosition(FinishBoostAnimation);
         }
 
-        private void FinishBoostAnimation()
+        protected virtual void FinishBoostAnimation()
         {
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;

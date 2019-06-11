@@ -242,7 +242,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     //[ClientRpc]
     private void RpcLaunchBarrelRoll()
     {
-        (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartBarrelRollExecution();
+        (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartRepositionExecution();
     }
 
     //[Command]
@@ -340,7 +340,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     //[ClientRpc]
     private void RpcLaunchDecloak()
     {
-        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartBarrelRollExecution();
+        (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartRepositionExecution();
     }
 
     //[Command]
@@ -352,7 +352,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     //[ClientRpc]
     private void RpcFinishDecloak()
     {
-        (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishBarrelRollAnimation();
+        (Phases.CurrentSubPhase as DecloakBarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
     }
 
     //[Command]

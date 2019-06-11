@@ -50,7 +50,7 @@ namespace SubPhases
             }
         }
 
-        protected List<ManeuverTemplate> AvailableBarrelRollTemplates = new List<ManeuverTemplate>();
+        protected List<ManeuverTemplate> AvailableRepositionTemplates = new List<ManeuverTemplate>();
 
         List<BarrelRollShiftData> BarrelRollShiftVariants = new List<BarrelRollShiftData>();
         public ObstaclesStayDetectorForced TemporaryBaseCollider
@@ -142,9 +142,9 @@ namespace SubPhases
             GameMode.CurrentGameMode.StartBarrelRollExecution();
         }
 
-        public void StartBarrelRollExecution()
+        public void StartRepositionExecution()
         {
-            StartBarrelRollExecutionSubphase();
+            StartRepositionExecutionSubphase();
         }
 
         // Subs
@@ -153,7 +153,7 @@ namespace SubPhases
         {
             GenerateListOfAvailableTemplates();
 
-            if (AvailableBarrelRollTemplates.Count > 0)
+            if (AvailableRepositionTemplates.Count > 0)
             {
                 RegisterDirectionDecisionTrigger(callback);
             }
@@ -169,7 +169,7 @@ namespace SubPhases
 
             foreach (ManeuverTemplate barrelRollTemplate in allowedTemplates)
             {
-                AvailableBarrelRollTemplates.Add(barrelRollTemplate);
+                AvailableRepositionTemplates.Add(barrelRollTemplate);
             }
         }
 
@@ -194,12 +194,25 @@ namespace SubPhases
                 Triggers.FinishTrigger
             );
 
+            GenerateSelectTemplateDecisions(selectBarrelRollTemplate);
+
+            selectBarrelRollTemplate.InfoText = "Barrel Roll: Select template and direction";
+
+            selectBarrelRollTemplate.DefaultDecisionName = selectBarrelRollTemplate.GetDecisions().First().Name;
+
+            selectBarrelRollTemplate.RequiredPlayer = Controller.PlayerNo;
+
+            selectBarrelRollTemplate.Start();
+        }
+
+        protected virtual void GenerateSelectTemplateDecisions(DecisionSubPhase subphase)
+        {
             // Straight templates
-            foreach (ManeuverTemplate template in AvailableBarrelRollTemplates)
+            foreach (ManeuverTemplate template in AvailableRepositionTemplates)
             {
                 if (template.Bearing == ManeuverBearing.Straight)
                 {
-                    selectBarrelRollTemplate.AddDecision(
+                    subphase.AddDecision(
                         "Left " + template.NameNoDirection,
                         (EventHandler)delegate {
                             SelectTemplate(template, Direction.Left);
@@ -207,7 +220,7 @@ namespace SubPhases
                         }
                     );
 
-                    selectBarrelRollTemplate.AddDecision(
+                    subphase.AddDecision(
                         "Right " + template.NameNoDirection,
                         (EventHandler)delegate {
                             SelectTemplate(template, Direction.Right);
@@ -218,12 +231,12 @@ namespace SubPhases
             }
 
             // Bank templates
-            ManeuverTemplate bank1Left = AvailableBarrelRollTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Speed == ManeuverSpeed.Speed1 && n.Direction == ManeuverDirection.Left);
-            ManeuverTemplate bank1Right = AvailableBarrelRollTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Speed == ManeuverSpeed.Speed1 && n.Direction == ManeuverDirection.Right);
+            ManeuverTemplate bank1Left = AvailableRepositionTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Speed == ManeuverSpeed.Speed1 && n.Direction == ManeuverDirection.Left);
+            ManeuverTemplate bank1Right = AvailableRepositionTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Speed == ManeuverSpeed.Speed1 && n.Direction == ManeuverDirection.Right);
 
             if (bank1Left != null && bank1Right != null)
             {
-                selectBarrelRollTemplate.AddDecision(
+                subphase.AddDecision(
                     "Left " + bank1Right.NameNoDirection + " Forward",
                     (EventHandler)delegate
                     {
@@ -232,7 +245,7 @@ namespace SubPhases
                     }
                 );
 
-                selectBarrelRollTemplate.AddDecision(
+                subphase.AddDecision(
                     "Right " + bank1Left.NameNoDirection + " Forward",
                     (EventHandler)delegate
                     {
@@ -241,7 +254,7 @@ namespace SubPhases
                     }
                 );
 
-                selectBarrelRollTemplate.AddDecision(
+                subphase.AddDecision(
                     "Left " + bank1Left.NameNoDirection + " Backwards",
                     (EventHandler)delegate
                     {
@@ -250,7 +263,7 @@ namespace SubPhases
                     }
                 );
 
-                selectBarrelRollTemplate.AddDecision(
+                subphase.AddDecision(
                     "Right " + bank1Right.NameNoDirection + " Backwards",
                     (EventHandler)delegate
                     {
@@ -259,14 +272,6 @@ namespace SubPhases
                     }
                 );
             }
-
-            selectBarrelRollTemplate.InfoText = "Barrel Roll: Select template and direction";
-
-            selectBarrelRollTemplate.DefaultDecisionName = selectBarrelRollTemplate.GetDecisions().First().Name;
-
-            selectBarrelRollTemplate.RequiredPlayer = Controller.PlayerNo;
-
-            selectBarrelRollTemplate.Start();
         }
 
         public void SelectTemplate(ManeuverTemplate template, Direction directionPrimary, Direction directionSecondary = Direction.None)
@@ -301,7 +306,7 @@ namespace SubPhases
             }*/
         }
 
-        private IEnumerator CheckCollisionsOfTemporaryElements(Action callback)
+        protected virtual IEnumerator CheckCollisionsOfTemporaryElements(Action callback)
         {
             yield return CheckTemplate();
 
@@ -592,7 +597,7 @@ namespace SubPhases
                 .ForEach(TheShip.ObstaclesHit.Add);
         }
 
-        protected virtual void StartBarrelRollExecutionSubphase()
+        protected virtual void StartRepositionExecutionSubphase()
         {
             Pause();
 

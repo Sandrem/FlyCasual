@@ -78,7 +78,7 @@ namespace GameModes
 
         public override void StartBarrelRollExecution()
         {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartBarrelRollExecution();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartRepositionExecution();
         }
 
         public override void FinishBarrelRoll()
@@ -95,12 +95,12 @@ namespace GameModes
 
         public override void StartDecloakExecution(Ship.GenericShip ship)
         {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartBarrelRollExecution();
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartRepositionExecution();
         }
 
         public override void FinishDecloak()
         {
-            (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishBarrelRollAnimation();
+            (Phases.CurrentSubPhase as DecloakBarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
         }
 
         public override void CancelDecloak(List<ActionFailReason> decloakProblems)
@@ -122,7 +122,7 @@ namespace GameModes
 
         public override void FinishBoost()
         {
-            Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
         }
 
         public override void CancelBoost(List<ActionFailReason> boostProblems)

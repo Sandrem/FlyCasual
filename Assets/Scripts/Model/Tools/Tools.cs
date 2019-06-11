@@ -50,4 +50,13 @@ public static partial class Tools
         return result;
     }
 
+    public static IEnumerator WaitForFrames(int frameCount)
+    {
+        while (frameCount > 0)
+        {
+            frameCount--;
+            yield return null;
+        }
+    }
+
 }

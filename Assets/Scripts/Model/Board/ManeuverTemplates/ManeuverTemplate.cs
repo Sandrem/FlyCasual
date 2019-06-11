@@ -1,6 +1,7 @@
 ﻿using Movement;
 using Ship;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace BoardTools
         private GameObject FinisherGO;
         public string NameNoDirection { get; private set; }
         public bool IsSideTemplate { get; private set; }
+        public ObstaclesStayDetectorForced Collider { get { return TemplateGO.GetComponentInChildren<ObstaclesStayDetectorForced>(); } }
 
         public ManeuverTemplate(ManeuverBearing bearing, ManeuverDirection direction, ManeuverSpeed speed, bool isBombTemplate = false, bool isSideTemplate = false)
         {

@@ -9,6 +9,7 @@ namespace Ship
         public bool IsSetupPerformed { get; set; }
         public bool IsManeuverPerformed { get; set; }
         public bool IsAttackPerformed { get; set; }
+        public bool IsAttackSkipped { get; set; }
         public bool IsActivatedDuringCombat { get; set; }
 
         public bool IsSkipsActionSubPhase { get; set; }

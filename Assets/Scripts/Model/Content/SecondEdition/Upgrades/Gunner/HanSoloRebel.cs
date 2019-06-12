@@ -71,6 +71,7 @@ namespace Abilities.SecondEdition
 
             // Can attack as usual later
             HostShip.IsAttackPerformed = false;
+            HostShip.IsAttackSkipped = false;
 
             Triggers.FinishTrigger();
         }

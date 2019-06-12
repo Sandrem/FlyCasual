@@ -59,7 +59,7 @@ namespace Abilities
         private void AfterExtraAttackSubPhase()
         {
             // "Weapons disabled" token is assigned only if attack was successfully performed
-            if (HostShip.IsAttackPerformed) Phases.Events.OnRoundStart += RegisterAssignWeaponsDisabledTrigger;
+            if (!HostShip.IsAttackSkipped) Phases.Events.OnRoundStart += RegisterAssignWeaponsDisabledTrigger;
 
             Triggers.FinishTrigger();
         }

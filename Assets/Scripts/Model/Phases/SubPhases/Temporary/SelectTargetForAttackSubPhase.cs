@@ -15,6 +15,7 @@ namespace SubPhases
         public override void Prepare()
         {
             Selection.ThisShip.IsAttackPerformed = false;
+            Selection.ThisShip.IsAttackSkipped = false;
             Combat.IsAttackAlreadyCalled = false;
 
             PrepareByParameters(
@@ -78,6 +79,7 @@ namespace SubPhases
         {
             UI.HideSkipButton();
             Selection.ThisShip.IsAttackPerformed = true;
+            Selection.ThisShip.IsAttackSkipped = true;
             CallBack();
         }
 

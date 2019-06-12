@@ -79,6 +79,7 @@ namespace Abilities.FirstEdition
             ClearIsAbilityUsedFlag();
             snapShotTarget = null;
             HostShip.IsAttackPerformed = false;
+            HostShip.IsAttackSkipped = false;
             HostShip.IsCannotAttackSecondTime = false;
 
             // TODOREVERT

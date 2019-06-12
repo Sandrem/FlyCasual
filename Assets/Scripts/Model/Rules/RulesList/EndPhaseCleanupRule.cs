@@ -76,6 +76,7 @@ namespace RulesList
         private void ClearShipFlags(GenericShip ship)
         {
             ship.IsAttackPerformed = false;
+            ship.IsAttackSkipped = false;
             ship.IsManeuverPerformed = false;
             ship.IsSkipsActionSubPhase = false;
             ship.IsBombAlreadyDropped = false;

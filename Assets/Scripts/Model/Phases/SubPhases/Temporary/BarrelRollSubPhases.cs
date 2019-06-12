@@ -62,11 +62,11 @@ namespace SubPhases
         }
         public GameObject TemporaryShipBaseFinal;
 
-        private ManeuverTemplate SelectedTemplate;
+        protected ManeuverTemplate SelectedTemplate;
 
         protected Direction SelectedDirectionPrimary;
-        private Direction SelectedDirectionSecondary;
-        private Direction SelectedShift;
+        protected Direction SelectedDirectionSecondary;
+        protected Direction SelectedShift;
 
         public bool IsTractorBeamBarrelRoll = false;
 
@@ -231,43 +231,43 @@ namespace SubPhases
             }
 
             // Bank templates
-            ManeuverTemplate bank1Left = AvailableRepositionTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Speed == ManeuverSpeed.Speed1 && n.Direction == ManeuverDirection.Left);
-            ManeuverTemplate bank1Right = AvailableRepositionTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Speed == ManeuverSpeed.Speed1 && n.Direction == ManeuverDirection.Right);
+            ManeuverTemplate bankLeft = AvailableRepositionTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Direction == ManeuverDirection.Left);
+            ManeuverTemplate bankRight = AvailableRepositionTemplates.FirstOrDefault(n => n.Bearing == ManeuverBearing.Bank && n.Direction == ManeuverDirection.Right);
 
-            if (bank1Left != null && bank1Right != null)
+            if (bankLeft != null && bankRight != null)
             {
                 subphase.AddDecision(
-                    "Left " + bank1Right.NameNoDirection + " Forward",
+                    "Left " + bankRight.NameNoDirection + " Forward",
                     (EventHandler)delegate
                     {
-                        SelectTemplate(bank1Right, Direction.Left, Direction.Top);
+                        SelectTemplate(bankRight, Direction.Left, Direction.Top);
                         DecisionSubPhase.ConfirmDecision();
                     }
                 );
 
                 subphase.AddDecision(
-                    "Right " + bank1Left.NameNoDirection + " Forward",
+                    "Right " + bankLeft.NameNoDirection + " Forward",
                     (EventHandler)delegate
                     {
-                        SelectTemplate(bank1Left, Direction.Right, Direction.Top);
+                        SelectTemplate(bankLeft, Direction.Right, Direction.Top);
                         DecisionSubPhase.ConfirmDecision();
                     }
                 );
 
                 subphase.AddDecision(
-                    "Left " + bank1Left.NameNoDirection + " Backwards",
+                    "Left " + bankLeft.NameNoDirection + " Backwards",
                     (EventHandler)delegate
                     {
-                        SelectTemplate(bank1Left, Direction.Left, Direction.Bottom);
+                        SelectTemplate(bankLeft, Direction.Left, Direction.Bottom);
                         DecisionSubPhase.ConfirmDecision();
                     }
                 );
 
                 subphase.AddDecision(
-                    "Right " + bank1Right.NameNoDirection + " Backwards",
+                    "Right " + bankRight.NameNoDirection + " Backwards",
                     (EventHandler)delegate
                     {
-                        SelectTemplate(bank1Right, Direction.Right, Direction.Bottom);
+                        SelectTemplate(bankRight, Direction.Right, Direction.Bottom);
                         DecisionSubPhase.ConfirmDecision();
                     }
                 );

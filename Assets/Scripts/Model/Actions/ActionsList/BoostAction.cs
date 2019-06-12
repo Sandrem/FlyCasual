@@ -421,6 +421,15 @@ namespace SubPhases
                 case "Turn 1 Left":
                     boostMovement = new Movement.TurnBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Turn, Movement.MovementComplexity.None);
                     break;
+                case "Straight 2":
+                    boostMovement = new Movement.StraightBoost(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.None);
+                    break;
+                case "Bank 2 Left":
+                    boostMovement = new Movement.BankBoost(2, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Bank, Movement.MovementComplexity.None);
+                    break;
+                case "Bank 2 Right":
+                    boostMovement = new Movement.BankBoost(2, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Bank, Movement.MovementComplexity.None);
+                    break;
                 default:
                     boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.None);
                     break;

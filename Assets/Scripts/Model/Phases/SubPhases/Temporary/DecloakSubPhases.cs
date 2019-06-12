@@ -182,7 +182,9 @@ namespace SubPhases
 
         private void ShowBoosterHelper()
         {
-            SelectedBoostHelper = "Straight 1";
+            SelectedBoostHelper = SelectedTemplate.Bearing
+                + " " + ((SelectedTemplate.Speed == ManeuverSpeed.Speed1) ? "1" : "2")
+                + ((SelectedDirectionSecondary == Direction.None) ? "" : " " + SelectedDirectionSecondary.ToString());
 
             TheShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(true);
 

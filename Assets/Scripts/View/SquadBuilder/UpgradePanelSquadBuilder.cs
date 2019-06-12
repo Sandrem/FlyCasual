@@ -158,6 +158,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             {
                 Mod mod = (Mod)Activator.CreateInstance(Upgrade.FromMod);
                 modText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(418, 0);
+                modText.transform.localPosition = new Vector3(129, -325, 0);
                 modText.text = mod.Name;
             }
 

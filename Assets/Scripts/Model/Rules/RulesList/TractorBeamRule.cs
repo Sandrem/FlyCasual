@@ -175,7 +175,7 @@ namespace SubPhases
             }
         }
 
-        private void PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants template)
+        private void PerfromBrTemplatePlanning(Direction direction)
         {
             BarrelRollAction stubAction = new BarrelRollAction{ HostShip = TheShip };
 
@@ -193,8 +193,15 @@ namespace SubPhases
             brPlanning.HostAction = stubAction;
 
             brPlanning.IsTractorBeamBarrelRoll = true;
-            // TODOREVERT
-            //brPlanning.SelectTemplate(template);
+            brPlanning.SelectTemplate(
+                new ManeuverTemplate(
+                    Movement.ManeuverBearing.Straight,
+                    Movement.ManeuverDirection.Forward,
+                    Movement.ManeuverSpeed.Speed1,
+                    isSideTemplate: TheShip.ShipInfo.BaseSize != BaseSize.Small
+                ),
+                direction
+            );
 
             Phases.UpdateHelpInfo();
             brPlanning.PerfromTemplatePlanning();
@@ -202,12 +209,12 @@ namespace SubPhases
 
         private void PerfromLeftBrTemplatePlanning()
         {
-            PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants.Straight1Left);
+            PerfromBrTemplatePlanning(Direction.Left);
         }
 
         private void PerfromRightBrTemplatePlanning()
         {
-            PerfromBrTemplatePlanning(ActionsHolder.BarrelRollTemplateVariants.Straight1Right);
+            PerfromBrTemplatePlanning(Direction.Right);
         }
 
         private void PerfromStraightTemplatePlanning()
@@ -289,10 +296,10 @@ namespace SubPhases
             var prevPhase = Phases.CurrentSubPhase;
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
-            // TODO: RESTORE
-            /*if ((prevPhase is BarrelRollPlanningSubPhase) && (prevPhase as BarrelRollPlanningSubPhase).CheckBarrelRollProblems().Count > 0) {
+            // TODO: Check barrel roll problems
+            //if ((prevPhase is BarrelRollPlanningSubPhase) && (prevPhase as BarrelRollPlanningSubPhase).CheckBarrelRollProblems().Count > 0) {
                 RegisterTractorPlanning();
-            }*/
+            //}
         }
 
         protected class TractorBeamDirectionDecisionSubPhase : DecisionSubPhase { }

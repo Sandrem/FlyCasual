@@ -198,9 +198,9 @@ namespace SubPhases
             ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate = TheShip.GetBoosterHelper().Find(SelectedBoostHelper).GetComponentInChildren<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorMovementTemplate.TheShip = TheShip;
 
-            // Check collisions
+            // TODO: Check collisions
 
-            // Check boost problems and mines
+            // TODO: Check boost problems and mines
 
             HidePlanningTemplates();
 

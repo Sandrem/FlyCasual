@@ -158,8 +158,31 @@ public static partial class ActionsHolder
             bool tokenMustBeRemoved = false;
             bool tokenMaybeWillBeRemoved = false;
 
+            //Two TLs on the same target AND on different targets are allowed
+            if (thisShip.TwoTargetLocksOnSameTargetsAreAllowed.Count > 0 && thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count > 0)
+            {
+                //If target is different
+                if (existingBlueToken.OtherTargetLockTokenOwner != targetShip)
+                {
+                    //If already >1 of tokens, then ask to remove
+                    int alreadyAssignedSameTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>('*').Count;
+                    if (alreadyAssignedSameTokens > 1 && TokensToRemove.Count < alreadyAssignedSameTokens - 1)
+                    {
+                        tokenMaybeWillBeRemoved = true;
+                    }
+                }
+                else //If target is the same
+                {
+                    //If already >1 of tokens, then remove all except one
+                    int alreadyAssignedSameTokens = thisShip.Tokens.GetTokens<BlueTargetLockToken>('*').Count(t => t.OtherTargetLockTokenOwner == targetShip);
+                    if (alreadyAssignedSameTokens > 1 && TokensToRemove.Count < alreadyAssignedSameTokens - 1)
+                    {
+                        tokenMustBeRemoved = true;
+                    }
+                }
+            }
             //Two TLs on the different targets are allowed
-            if (thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count > 0)
+            else if (thisShip.TwoTargetLocksOnSameTargetsAreAllowed.Count == 0 && thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count > 0)
             {
                 //Remove if token is on the same target
                 if (existingBlueToken.OtherTargetLockTokenOwner == targetShip)
@@ -176,9 +199,8 @@ public static partial class ActionsHolder
                     }
                 }
             } 
-
             //Two TLs on the same target are allowed
-            if (thisShip.TwoTargetLocksOnSameTargetsAreAllowed.Count > 0)
+            else if (thisShip.TwoTargetLocksOnSameTargetsAreAllowed.Count > 0 && thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count == 0)
             {
                 //Remove all if new target is another
                 if (existingBlueToken.OtherTargetLockTokenOwner != targetShip)
@@ -195,9 +217,8 @@ public static partial class ActionsHolder
                     }
                 }
             }
-
             //Always remove if only 1 token is allowed
-            if (thisShip.TwoTargetLocksOnSameTargetsAreAllowed.Count == 0 && thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count == 0)
+            else if (thisShip.TwoTargetLocksOnSameTargetsAreAllowed.Count == 0 && thisShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Count == 0)
             {
                 tokenMustBeRemoved = true;
             }

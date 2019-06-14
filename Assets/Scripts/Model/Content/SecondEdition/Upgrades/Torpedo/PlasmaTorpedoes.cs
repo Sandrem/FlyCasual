@@ -51,7 +51,7 @@ namespace Abilities
 
             private void PlasmaTorpedoesRemoveShield()
             {
-                if (Combat.Defender.State.ShieldsCurrent != 0)
+                if (Combat.ChosenWeapon.GetType() == HostUpgrade.GetType() && Combat.Defender.State.ShieldsCurrent != 0)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackHit, ShieldRemove);
                 }

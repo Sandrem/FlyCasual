@@ -60,7 +60,16 @@ namespace SubPhases
 
     public class DecisionSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.Decision, GameCommandTypes.PressSkip, GameCommandTypes.AssignManeuver }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes {
+            get {
+                return new List<GameCommandTypes>() {
+                    GameCommandTypes.Decision,
+                    GameCommandTypes.PressSkip,
+                    GameCommandTypes.PressNext,
+                    GameCommandTypes.AssignManeuver
+                };
+            }
+        }
 
         private GameObject decisionPanel;
         private GameObject buttonsHolder;
@@ -72,6 +81,7 @@ namespace SubPhases
         public DecisionViewTypes DecisionViewType = DecisionViewTypes.TextButtons;
         public Action OnSkipButtonIsPressed;
         public Action OnSkipButtonIsPressedOverwrite;
+        public Action OnNextButtonIsPressed;
         public bool WasDecisionButtonPressed;
         public bool IsForced;
         public bool DecisionWasPreparedAndShown;
@@ -388,11 +398,22 @@ namespace SubPhases
             PrepareDecision(StartIsFinished);
         }
 
+        public static void ResetInput()
+        {
+            (Phases.CurrentSubPhase as DecisionSubPhase).WasDecisionButtonPressed = false;
+            (Phases.CurrentSubPhase as DecisionSubPhase).IsReadyForCommands = true;
+        }
+
         public override void Next()
         {
             HideDecisionWindowUI();
             Phases.CurrentSubPhase = PreviousSubPhase;
             UpdateHelpInfo();
+        }
+
+        public override void NextButton()
+        {
+            OnNextButtonIsPressed();
         }
 
         protected void HideDecisionWindowUI()
@@ -451,7 +472,7 @@ namespace SubPhases
             }
             else
             {
-                if (OnSkipButtonIsPressed != null) OnSkipButtonIsPressed();
+                OnSkipButtonIsPressed?.Invoke();
                 ConfirmDecision();
             }
         }

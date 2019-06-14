@@ -83,14 +83,6 @@ namespace GameModes
 
         // DECLOAK
 
-        public override void TryConfirmDecloakPosition(Vector3 shipBasePosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
-        {
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
-            {
-                Network.TryConfirmDecloak(shipBasePosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
-            }
-        }
-
         public override void StartDecloakExecution(Ship.GenericShip ship)
         {
             Network.PerformDecloak();

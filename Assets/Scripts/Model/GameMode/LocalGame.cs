@@ -73,12 +73,12 @@ namespace GameModes
 
         public override void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition)
         {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).TryConfirmBarrelRollPosition();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).ConfirmBarrelRollPosition();
         }
 
         public override void StartBarrelRollExecution()
         {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartBarrelRollExecution();
+            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartRepositionExecution();
         }
 
         public override void FinishBarrelRoll()
@@ -93,24 +93,19 @@ namespace GameModes
 
         // DECLOAK
 
-        public override void TryConfirmDecloakPosition(Vector3 shipBasePosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
-        {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).TryConfirmDecloakPosition();
-        }
-
         public override void StartDecloakExecution(Ship.GenericShip ship)
         {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartDecloakExecution(ship);
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartRepositionExecution();
         }
 
         public override void FinishDecloak()
         {
-            (Phases.CurrentSubPhase as DecloakExecutionSubPhase).FinishDecloakAnimation();
+            (Phases.CurrentSubPhase as DecloakBarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
         }
 
         public override void CancelDecloak(List<ActionFailReason> decloakProblems)
         {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelDecloak(decloakProblems);
+            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelBarrelRoll(decloakProblems);
         }
 
         // BOOST
@@ -127,7 +122,7 @@ namespace GameModes
 
         public override void FinishBoost()
         {
-            Phases.FinishSubPhase(typeof(BoostExecutionSubPhase));
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
         }
 
         public override void CancelBoost(List<ActionFailReason> boostProblems)

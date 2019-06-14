@@ -746,20 +746,20 @@ namespace Ship
             return availableTemplates;
         }
 
-        public List<ActionsHolder.BarrelRollTemplates> GetAvailableBarrelRollTemplates()
+        public List<ManeuverTemplate> GetAvailableBarrelRollTemplates()
         {
-            List<ActionsHolder.BarrelRollTemplates> availableTemplates = new List<ActionsHolder.BarrelRollTemplates>() { ActionsHolder.BarrelRollTemplates.Straight1 };
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>(ShipBase.BarrelRollTemplatesAvailable);
 
-            if (OnGetAvailableBarrelRollTemplates != null) OnGetAvailableBarrelRollTemplates(availableTemplates);
+            OnGetAvailableBarrelRollTemplates?.Invoke(availableTemplates);
 
             return availableTemplates;
         }
 
-        public List<ActionsHolder.DecloakTemplates> GetAvailableDecloakTemplates()
+        public List<ManeuverTemplate> GetAvailableDecloakBarrelRollTemplates()
         {
-            List<ActionsHolder.DecloakTemplates> availableTemplates = new List<ActionsHolder.DecloakTemplates>() { ActionsHolder.DecloakTemplates.Straight2 };
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>(ShipBase.DecloakBarrelRollTemplatesAvailable);
 
-            if (OnGetAvailableDecloakTemplates != null) OnGetAvailableDecloakTemplates(availableTemplates);
+            OnGetAvailableDecloakTemplates?.Invoke(availableTemplates);
 
             return availableTemplates;
         }
@@ -773,10 +773,8 @@ namespace Ship
                 new BoostMove(ActionsHolder.BoostTemplates.RightBank1),
             };
 
-            if (OnGetAvailableBoostTemplates != null)
-            {
-                OnGetAvailableBoostTemplates(availableMoves, action);
-            }
+            OnGetAvailableBoostTemplates?.Invoke(availableMoves, action);
+
             return availableMoves;
         }
 

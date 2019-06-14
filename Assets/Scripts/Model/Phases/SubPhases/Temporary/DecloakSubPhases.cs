@@ -8,6 +8,9 @@ using System.Linq;
 using UnityEngine;
 using Actions;
 using ActionsList;
+using BoardTools;
+using Movement;
+using System.Collections;
 
 namespace SubPhases
 {
@@ -15,7 +18,7 @@ namespace SubPhases
     public class DecloakDecisionSubPhase : DecisionSubPhase
     {
 
-        public override void PrepareDecision(System.Action callBack)
+        public override void PrepareDecision(Action callBack)
         {
             InfoText = "Perform decloak?";
 
@@ -55,24 +58,10 @@ namespace SubPhases
 
 namespace SubPhases
 {
-
-    public class DecloakPlanningSubPhase : GenericSubPhase
+    public class DecloakPlanningSubPhase : BarrelRollPlanningSubPhase
     {
-        private int updatesCount = 0;
-
-        private ObstaclesStayDetectorForced obstaclesStayDetectorBase;
-        private ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate;
-
-        public string SelectedDecloakHelper;
-
-        public float helperDirection;
-        public bool inReposition;
-
-        List<ActionsHolder.DecloakTemplates> availableTemplates = new List<ActionsHolder.DecloakTemplates>();
-        ActionsHolder.DecloakTemplateVariants selectedTemplateVariant;
-        public GameObject DecloakTemplate;
-        public float HelperDirection;
-        public GameObject TemporaryShipBase;
+        public string SelectedBoostHelper { get; private set; }
+        public GameObject TemporaryShipBase { get; private set; }
 
         public override void Start()
         {
@@ -80,495 +69,158 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
-            StartDecloakPlanning();
+            StartBarrelRollPlanning();
         }
 
-        public void StartDecloakPlanning()
-        {
-            GenerateListOfAvailableTemplates();
-            AskToSelectTemplate(PerfromTemplatePlanning);
-        }
-
-        public void PerfromTemplatePlanning()
+        public override void PerfromTemplatePlanning()
         {
             Edition.Current.DecloakTemplatePlanning();
         }
 
-        public void PerfromTemplatePlanningFirstEdition()
+        protected override void GenerateListOfAvailableTemplates()
         {
-            // Temporary
-            PerfromTemplatePlanningSecondEdition();
-        }
+            List<ManeuverTemplate> allowedTemplates = Selection.ThisShip.GetAvailableDecloakBarrelRollTemplates();
 
-        public void PerfromTemplatePlanningSecondEdition()
-        {
-            if (IsBoostTemplate(selectedTemplateVariant))
+            foreach (ManeuverTemplate barrelRollTemplate in allowedTemplates)
             {
-                ShowBarrelRollTemplate();
-                ShowTemporaryShipBase();
-                ConfirmPosition();
-            }
-            else
-            {
-                Triggers.RegisterTrigger(new Trigger()
-                {
-                    Name = "Decloak position",
-                    TriggerType = TriggerTypes.OnAbilityDirect,
-                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                    EventHandler = AskDecloakPosition
-                });
-
-                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ConfirmPosition);
+                AvailableRepositionTemplates.Add(barrelRollTemplate);
             }
         }
 
-        private bool IsBoostTemplate(ActionsHolder.DecloakTemplateVariants selectedTemplateVariant)
+        protected override void GameModeStartRepositionExecution()
         {
-            return selectedTemplateVariant == ActionsHolder.DecloakTemplateVariants.Straight2Forward
-                || selectedTemplateVariant == ActionsHolder.DecloakTemplateVariants.Bank2ForwardLeft
-                || selectedTemplateVariant == ActionsHolder.DecloakTemplateVariants.Bank2ForwardRight;
+            GameMode.CurrentGameMode.StartDecloakExecution(Selection.ThisShip);
         }
 
-        private void ConfirmPosition()
+        protected override void GameModeCancelReposition()
         {
-            if (TemporaryShipBase == null)
-            {
-                PerfromTemporaryShipBasePlanning();
-            }
-            else
-            {
-                GameMode.CurrentGameMode.TryConfirmDecloakPosition(TemporaryShipBase.transform.position, selectedTemplateVariant.ToString(), DecloakTemplate.transform.position, DecloakTemplate.transform.eulerAngles);
-            }
+            GameMode.CurrentGameMode.CancelDecloak(BarrelRollProblems);
         }
 
-        private void PerfromTemporaryShipBasePlanning()
-        {
-            ShowTemporaryShipBase();
-
-            StartReposition();
-        }
-
-        private void StartReposition()
-        {
-            Roster.SetRaycastTargets(false);
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
-            {
-                inReposition = true;
-            }
-        }
-
-        private void AskDecloakPosition(object sender, System.EventArgs e)
-        {
-            DecloakPositionDecisionSubPhase selectBarrelRollPosition = (DecloakPositionDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                 Name,
-                 typeof(DecloakPositionDecisionSubPhase),
-                 Triggers.FinishTrigger
-            );
-
-            selectBarrelRollPosition.AddDecision("Forward", delegate { SetBarrelRollPosition(0.5f); }, isCentered: true);
-            selectBarrelRollPosition.AddDecision("Center", delegate { SetBarrelRollPosition(0); }, isCentered: true);
-            selectBarrelRollPosition.AddDecision("Backwards", delegate { SetBarrelRollPosition(-0.5f); }, isCentered: true);
-
-            selectBarrelRollPosition.InfoText = "Decloak: Select position";
-
-            selectBarrelRollPosition.DefaultDecisionName = "Center";
-
-            selectBarrelRollPosition.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
-
-            selectBarrelRollPosition.Start();
-        }
-
-        private void SetBarrelRollPosition(float position)
-        {
-            ShowBarrelRollTemplate();
-            ShowTemporaryShipBase();
-
-            ProcessTemporaryShipBaseSlider(position);
-
-            DecisionSubPhase.ConfirmDecision();
-        }
-
-        private void ShowBarrelRollTemplate()
-        {
-            GameObject template = GetCurrentDecloakHelperTemplateGO();
-            if (Selection.ThisShip.Owner.GetType() != typeof(Players.NetworkOpponentPlayer)) template.SetActive(true);
-            HelperDirection = GetDirectionModifier(selectedTemplateVariant);
-            obstaclesStayDetectorMovementTemplate = template.GetComponentInChildren<ObstaclesStayDetectorForced>();
-            obstaclesStayDetectorMovementTemplate.TheShip = Selection.ThisShip;
-        }
-
-        private void ShowTemporaryShipBase()
-        {
-            if (TemporaryShipBase == null)
-            {
-                GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
-                TemporaryShipBase = MonoBehaviour.Instantiate(prefab, this.GetCurrentDecloakHelperTemplateFinisherBasePositionGO().transform.position, this.GetCurrentDecloakHelperTemplateFinisherBasePositionGO().transform.rotation, BoardTools.Board.GetBoard());
-                TemporaryShipBase.transform.Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material = TheShip.Model.transform.Find("RotationHelper").Find("RotationHelper2").Find("ShipAllParts").Find("ShipBase").Find("ShipStandInsert").Find("ShipStandInsertImage").Find("default").GetComponent<Renderer>().material;
-                TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
-                obstaclesStayDetectorBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
-                obstaclesStayDetectorBase.TheShip = TheShip;
-            }
-        }
-
-        public void ProcessTemplatePositionSlider(float value)
-        {
-            Vector3 newPositionRel = Vector3.zero;
-
-            newPositionRel.x = HelperDirection * TheShip.ShipBase.HALF_OF_SHIPSTAND_SIZE;
-            newPositionRel.z = value;
-
-            Vector3 newPositionAbs = TheShip.TransformPoint(newPositionRel);
-
-            DecloakTemplate.transform.position = newPositionAbs;
-        }
-
-        public void ProcessTemporaryShipBaseSlider(float value)
-        {
-            GameObject finisherBase = GetCurrentDecloakHelperTemplateFinisherBasePositionGO();
-            Vector3 positionAbs = finisherBase.transform.TransformPoint(new Vector3(0, 0, value*1.18f));
-            TemporaryShipBase.transform.position = positionAbs;
-        }
-
-        private GameObject GetCurrentDecloakHelperTemplateFinisherBasePositionGO()
-        {
-            return GetCurrentDecloakHelperTemplateFinisherGO().transform.Find("BasePosition").gameObject;
-        }
-
-        private GameObject GetCurrentDecloakHelperTemplateFinisherGO()
-        {
-            return GetCurrentDecloakHelperTemplateGO().transform.Find("Finisher").gameObject;
-        }
-
-        private float GetDirectionModifier(ActionsHolder.DecloakTemplateVariants templateVariant)
-        {
-            return (templateVariant.ToString().Contains("Left")) ? -1 : 1;
-        }
-
-        protected void GenerateListOfAvailableTemplates()
-        {
-            availableTemplates = Selection.ThisShip.GetAvailableDecloakTemplates();
-        }
-
-        private void AskToSelectTemplate(Action callback)
-        {
-            if (availableTemplates.Count > 0)
-            {
-                RegisterDirectionDecisionTrigger(callback);
-            }
-            else
-            {
-                Console.Write("No available templates for Decloak!", LogTypes.Errors, true, "red");
-            }
-        }
-
-        private void RegisterDirectionDecisionTrigger(Action callback)
-        {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Select direction and template",
-                TriggerType = TriggerTypes.OnAbilityDirect,
-                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                EventHandler = StartSelectTemplateSubphase
-            });
-
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callback);
-        }
-
-        protected void StartSelectTemplateSubphase(object sender, System.EventArgs e)
-        {
-            DecloakDirectionDecisionSubPhase selectDecloakTemplate = (DecloakDirectionDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                Name,
-                typeof(DecloakDirectionDecisionSubPhase),
-                Triggers.FinishTrigger
-            );
-
-            foreach (var template in availableTemplates)
-            {
-                switch (template)
-                {
-                    case ActionsHolder.DecloakTemplates.Straight2:
-                        selectDecloakTemplate.AddDecision("Forward Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Straight2Forward); DecisionSubPhase.ConfirmDecision();}, isCentered: true);
-                        selectDecloakTemplate.AddDecision("Left Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Straight2Left); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Right Straight 2", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Straight2Right); DecisionSubPhase.ConfirmDecision(); });
-                        break;
-                    case ActionsHolder.DecloakTemplates.Bank2:
-                        selectDecloakTemplate.AddDecision("Forward Bank 2 Left", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2ForwardLeft); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Forward Bank 2 Right", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2ForwardRight); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Left Bank 2 Forward", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2LeftForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Right Bank 2 Forward", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2RightForward); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Left Bank 2 Backwards", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2LeftBackwards); DecisionSubPhase.ConfirmDecision(); });
-                        selectDecloakTemplate.AddDecision("Right Bank 2 Backwards", (EventHandler)delegate { SelectTemplate(ActionsHolder.DecloakTemplateVariants.Bank2RightBackwards); DecisionSubPhase.ConfirmDecision(); });
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            selectDecloakTemplate.InfoText = "Decloak: Select template and direction";
-
-            selectDecloakTemplate.DefaultDecisionName = selectDecloakTemplate.GetDecisions().First().Name;
-
-            selectDecloakTemplate.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
-
-            selectDecloakTemplate.Start();
-        }
-
-        public void SelectTemplate(ActionsHolder.DecloakTemplateVariants templateVariant)
-        {
-            selectedTemplateVariant = templateVariant;
-            DecloakTemplate = GetCurrentDecloakHelperTemplateGO();
-        }
-
-        private GameObject GetCurrentDecloakHelperTemplateGO()
-        {
-            return Selection.ThisShip.GetDecloakHelper().Find(selectedTemplateVariant.ToString()).gameObject;
-        }
-
-        public void StartDecloakExecution(GenericShip ship)
+        protected override void StartRepositionExecutionSubphase()
         {
             Pause();
 
-            Selection.ThisShip.ToggleShipStandAndPeg(false);
-            DecloakTemplate.SetActive(false);
+            TheShip.ToggleShipStandAndPeg(false);
 
-            DecloakExecutionSubPhase executionSubphase = Phases.StartTemporarySubPhaseNew<DecloakExecutionSubPhase>(
-                "Decloak execution",
-                CallBack
-            );
+            if (SelectedDirectionPrimary == Direction.Top)
+            {
+                DecloakBoostExecutionSubPhase execution = (DecloakBoostExecutionSubPhase)Phases.StartTemporarySubPhaseNew(
+                    "Boost execution",
+                    typeof(DecloakBoostExecutionSubPhase),
+                    CallBack
+                );
+                execution.TheShip = TheShip;
+                execution.IsTractorBeamBoost = IsTractorBeamBarrelRoll;
+                execution.SelectedBoostHelper = SelectedBoostHelper;
+                execution.Start();
+            }
+            else
+            {
+                BarrelRollExecutionSubPhase executionSubphase = (DecloakBarrelRollExecutionSubPhase)Phases.StartTemporarySubPhaseNew(
+                    "Barrel Roll execution",
+                    typeof(DecloakBarrelRollExecutionSubPhase),
+                    CallBack
+                );
 
-            executionSubphase.TemporaryShipBase = TemporaryShipBase;
-            executionSubphase.HelperDirection = HelperDirection;
+                executionSubphase.TheShip = TheShip;
+                executionSubphase.TemporaryShipBase = TemporaryShipBaseFinal;
+                executionSubphase.Direction = SelectedDirectionPrimary;
+                executionSubphase.IsTractorBeamBarrelRoll = IsTractorBeamBarrelRoll;
 
-            executionSubphase.Start();
+                executionSubphase.Start();
+            }
         }
 
-        public void CancelDecloak(List<ActionFailReason> decloakProblems)
+        protected override void GenerateSelectTemplateDecisions(DecisionSubPhase subphase)
         {
-            StopPlanning();
+            foreach (ManeuverTemplate template in AvailableRepositionTemplates)
+            {
+                if (template.Bearing == ManeuverBearing.Straight)
+                {
+                    subphase.AddDecision(
+                        "Boost " + template.NameNoDirection,
+                        (EventHandler)delegate
+                        {
+                            SelectTemplate(template, Direction.Top);
+                            DecisionSubPhase.ConfirmDecision();
+                        },
+                        isCentered: true
+                    );
+                }
+            }
 
-            Selection.ThisShip.IsLandedOnObstacle = false;
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Movement.CollidedWith = null;
+            foreach (ManeuverTemplate template in AvailableRepositionTemplates)
+            {
+                if (template.Bearing == ManeuverBearing.Bank)
+                {
+                    subphase.AddDecision(
+                        "Boost " + template.NameNoDirection + " " + ((template.Direction == ManeuverDirection.Left) ? "Left" : "Right"),
+                        (EventHandler)delegate
+                        {
+                            SelectTemplate(template, Direction.Top, (template.Direction == ManeuverDirection.Left) ? Direction.Left : Direction.Right);
+                            DecisionSubPhase.ConfirmDecision();
+                        }
+                    );
+                }
+            }
 
+            base.GenerateSelectTemplateDecisions(subphase);
+        }
+
+        protected override IEnumerator CheckCollisionsOfTemporaryElements(Action callback)
+        {
+            if (SelectedDirectionPrimary == Direction.Top)
+            {
+                ShowBoosterHelper();
+            }
+            else
+            {
+                yield return base.CheckCollisionsOfTemporaryElements(callback);
+            }
+        }
+
+        private void ShowBoosterHelper()
+        {
+            SelectedBoostHelper = SelectedTemplate.Bearing
+                + " " + ((SelectedTemplate.Speed == ManeuverSpeed.Speed1) ? "1" : "2")
+                + ((SelectedDirectionSecondary == Direction.None) ? "" : " " + SelectedDirectionSecondary.ToString());
+
+            TheShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(true);
+
+            Transform newBase = TheShip.GetBoosterHelper().Find(SelectedBoostHelper + "/Finisher/BasePosition");
+
+            GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+            TemporaryShipBase = MonoBehaviour.Instantiate(prefab, TheShip.GetPosition(), TheShip.GetRotation(), Board.GetBoard());
+            TemporaryShipBase.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
+            TemporaryShipBase.transform.rotation = newBase.rotation;
+
+            ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate = TheShip.GetBoosterHelper().Find(SelectedBoostHelper).GetComponentInChildren<ObstaclesStayDetectorForced>();
+            obstaclesStayDetectorMovementTemplate.TheShip = TheShip;
+
+            // TODO: Check collisions
+
+            // TODO: Check boost problems and mines
+
+            HidePlanningTemplates();
+
+            GameMode.CurrentGameMode.StartDecloakExecution(Selection.ThisShip);
+        }
+
+        private void HidePlanningTemplates()
+        {
+            TheShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(false);
             MonoBehaviour.Destroy(TemporaryShipBase);
-            DecloakTemplate.SetActive(false);
 
-            CloakAction stubAction = new CloakAction();
-            stubAction.HostShip = TheShip;
-
-            Rules.Actions.ActionIsFailed(TheShip, stubAction, decloakProblems);
-        }
-
-        private void StopPlanning()
-        {
             Roster.SetRaycastTargets(true);
-            inReposition = false;
         }
-
-        public void TryConfirmDecloakNetwork(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
-        {
-            TryConfirmDecloakPosition();
-        }
-
-        public void TryConfirmDecloakPosition()
-        {
-            DecloakTemplate.SetActive(true);
-
-            obstaclesStayDetectorBase.ReCheckCollisionsStart();
-            obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
-        }
-
-        private bool UpdateColisionDetection()
-        {
-            bool isFinished = false;
-
-            if (updatesCount > 1)
-            {
-                GetResults();
-                isFinished = true;
-            }
-            else
-            {
-                updatesCount++;
-            }
-
-            return isFinished;
-        }
-
-        private void GetResults()
-        {
-            obstaclesStayDetectorBase.ReCheckCollisionsFinish();
-            obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
-
-            List<ActionFailReason> decloakProblems = GetDecloakProblems();
-            if (decloakProblems.Count == 0)
-            {
-                CheckMines();
-                Selection.ThisShip.ObstaclesLanded = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
-                GameMode.CurrentGameMode.StartDecloakExecution(Selection.ThisShip);
-            }
-            else
-            {
-                GameMode.CurrentGameMode.CancelDecloak(decloakProblems);
-            }
-        }
-
-        private void CheckMines()
-        {
-            foreach (var mineCollider in obstaclesStayDetectorMovementTemplate.OverlapedMinesNow)
-            {
-                GameObject mineObject = mineCollider.transform.parent.gameObject;
-                if (!Selection.ThisShip.MinesHit.Contains(mineObject)) Selection.ThisShip.MinesHit.Add(mineObject);
-            }
-        }
-
-        private List<ActionFailReason> GetDecloakProblems()
-        {
-            List<ActionFailReason> result = new List<ActionFailReason>();
-
-            if (obstaclesStayDetectorBase.OverlapsShipNow)
-            {
-                Messages.ShowError("Your position after decloaking cannot overlap another ship");
-                result.Add(ActionFailReason.Bumped);
-            }
-            else if ((!IsObstacleCanBeIgnored()) && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
-            {
-                Messages.ShowError("Your position after decloaking cannot overlap an obstacle");
-                result.Add(ActionFailReason.ObstacleHit);
-            }
-            else if (obstaclesStayDetectorBase.OffTheBoardNow || obstaclesStayDetectorMovementTemplate.OffTheBoardNow)
-            {
-                Messages.ShowError("Your position after decloaking cannot be outside of the battlefield");
-                result.Add(ActionFailReason.OffTheBoard);
-            }
-
-            return result;
-        }
-
-        private bool IsObstacleCanBeIgnored()
-        {
-            if (Selection.ThisShip.IsIgnoreObstacles) return true;
-
-            return (IsBoostTemplate(selectedTemplateVariant)) ? Selection.ThisShip.IsIgnoreObstaclesDuringBoost : Selection.ThisShip.IsIgnoreObstaclesDuringBarrelRoll;
-        }
-
-        public override void Next()
-        {
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            Phases.CurrentSubPhase.Next();
-            UpdateHelpInfo();
-        }
-
-        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
-        {
-            return false;
-        }
-
-        public override bool AnotherShipCanBeSelected(GenericShip anotherShip, int mouseKeyIsPressed)
-        {
-            return false;
-        }
-
-        public override void SkipButton()
-        {
-            CancelDecloak(new List<ActionFailReason>() { ActionFailReason.NoTemplateAvailable });
-        }
-
-        protected class DecloakDirectionDecisionSubPhase : DecisionSubPhase { }
-
-        protected class DecloakPositionDecisionSubPhase : DecisionSubPhase { }
-
     }
 
-    public class DecloakExecutionSubPhase : GenericSubPhase
+    public class DecloakBarrelRollExecutionSubPhase : BarrelRollExecutionSubPhase
     {
-        private float progressCurrent;
-        private float progressTarget;
-
-        private float initialRotation;
-        private float plannedRotation;
-
-        private bool performingAnimation;
-
-        public GameObject TemporaryShipBase;
-        public float HelperDirection;
-
-        public override void Start()
+        protected override void FinishBarrelRollAnimationPart2()
         {
-            Name = "Decloak execution";
-            IsTemporary = true;
-            UpdateHelpInfo();
-
-            StartDecloakExecution();
-        }
-
-        private void StartDecloakExecution()
-        {
-            Rules.Collision.ClearBumps(Selection.ThisShip);
-
-            progressCurrent = 0;
-            progressTarget = Vector3.Distance(Selection.ThisShip.GetPosition(), TemporaryShipBase.transform.position);
-
-            initialRotation = (TheShip.GetAngles().y < 180) ? TheShip.GetAngles().y : -(360 - TheShip.GetAngles().y);
-            plannedRotation = (TemporaryShipBase.transform.eulerAngles.y - initialRotation < 180) ? TemporaryShipBase.transform.eulerAngles.y : -(360 - TemporaryShipBase.transform.eulerAngles.y);
-
-            Sounds.PlayFly();
-
-            performingAnimation = true;
-        }
-
-        public override void Update()
-        {
-            if (performingAnimation) DoDecloakAnimation();
-        }
-
-        private void DoDecloakAnimation()
-        {
-            float progressStep = 2.5f * Time.deltaTime * Options.AnimationSpeed;
-            progressStep = Mathf.Min(progressStep, progressTarget - progressCurrent);
-            progressCurrent += progressStep;
-
-            Selection.ThisShip.SetPosition(Vector3.MoveTowards(Selection.ThisShip.GetPosition(), TemporaryShipBase.transform.position, progressStep));
-
-            Selection.ThisShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, HelperDirection);
-            TheShip.SetRotationHelper2Angles(new Vector3(0, progressCurrent / progressTarget * (plannedRotation - initialRotation), 0));
-            Selection.ThisShip.MoveUpwards(progressCurrent / progressTarget);
-
-            if (progressCurrent >= progressTarget)
-            {
-                performingAnimation = false;
-                GameMode.CurrentGameMode.FinishDecloak();
-            }
-        }
-
-        public void FinishDecloakAnimation()
-        {
-            performingAnimation = false;
-
-            TheShip.ApplyRotationHelpers();
-            TheShip.ResetRotationHelpers();
-            TheShip.SetAngles(TemporaryShipBase.transform.eulerAngles);
-            TheShip.Model.transform.localPosition = new Vector3(TheShip.Model.transform.localPosition.x, 0, TheShip.Model.transform.localPosition.z);
-
-            MonoBehaviour.Destroy(TemporaryShipBase);
-
-            GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-            Game.Movement.CollidedWith = null;
-
-            MovementTemplates.HideLastMovementRuler();
-            MovementTemplates.CurrentTemplate.gameObject.SetActive(true);
-
-            Selection.ThisShip.ToggleShipStandAndPeg(true);
-            Selection.ThisShip.FinishPosition(FinishDecloakAnimationPart2);
-        }
-
-        private void FinishDecloakAnimationPart2()
-        {
-            Phases.FinishSubPhase(typeof(DecloakExecutionSubPhase));
-
+            Phases.FinishSubPhase(typeof(DecloakBarrelRollExecutionSubPhase));
             Selection.ThisShip.Tokens.SpendToken(typeof(Tokens.CloakToken), FinishDecloakAnimationPart3);
         }
 
@@ -577,25 +229,32 @@ namespace SubPhases
             Selection.ThisShip.CallDecloak(CallBack);
         }
 
-        public override void Next()
+        protected override void GameModeFinishReposition()
+        {
+            GameMode.CurrentGameMode.FinishDecloak();
+        }
+    }
+
+    public class DecloakBoostExecutionSubPhase : BoostExecutionSubPhase
+    {
+        public override void FinishBoost()
+        {
+            GameMode.CurrentGameMode.FinishBoost();
+        }
+
+        protected override void FinishBoostAnimation()
         {
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             UpdateHelpInfo();
+
+            Selection.ThisShip.ToggleShipStandAndPeg(true);
+            Selection.ThisShip.Tokens.SpendToken(typeof(Tokens.CloakToken), FinishDecloakAnimationPart3);
         }
 
-        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
+        private void FinishDecloakAnimationPart3()
         {
-            bool result = false;
-            return result;
+            Selection.ThisShip.CallDecloak(CallBack);
         }
-
-        public override bool AnotherShipCanBeSelected(GenericShip anotherShip, int mouseKeyIsPressed)
-        {
-            bool result = false;
-            return result;
-        }
-
     }
-
 }

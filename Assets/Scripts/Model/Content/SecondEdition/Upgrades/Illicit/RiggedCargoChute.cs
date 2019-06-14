@@ -64,10 +64,7 @@ namespace Abilities.SecondEdition
             HostUpgrade.State.SpendCharge();
 
             ManeuverTemplate dropTemplate = new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isBombTemplate: true);
-            dropTemplate.ApplyTemplate(
-                HostShip.GetBack(),
-                HostShip.GetAngles() + new Vector3(0, 180, 0)
-            );
+            dropTemplate.ApplyTemplate(HostShip, HostShip.GetBack(), Direction.Bottom);
 
             Debris looseCargo = new Debris("Loose Cargo", "loosecargo");
             looseCargo.Spawn("Loose Cargo " + HostShip.ShipId, Board.GetBoard());

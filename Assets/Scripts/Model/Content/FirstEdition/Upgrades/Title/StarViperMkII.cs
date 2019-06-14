@@ -1,4 +1,6 @@
-﻿using Ship;
+﻿using BoardTools;
+using Movement;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,12 +38,13 @@ namespace Abilities.FirstEdition
             HostShip.OnGetAvailableBarrelRollTemplates -= ChangeBarrelRollTemplates;
         }
 
-        private void ChangeBarrelRollTemplates(List<ActionsHolder.BarrelRollTemplates> availableTemplates)
+        private void ChangeBarrelRollTemplates(List<ManeuverTemplate> availableTemplates)
         {
-            if (availableTemplates.Contains(ActionsHolder.BarrelRollTemplates.Straight1))
+            if (availableTemplates.Any(n => n.Name == "Straight 1"))
             {
-                availableTemplates.Remove(ActionsHolder.BarrelRollTemplates.Straight1);
-                availableTemplates.Add(ActionsHolder.BarrelRollTemplates.Bank1);
+                availableTemplates.RemoveAll(n => n.Name == "Straight 1");
+                availableTemplates.Add(new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Left, ManeuverSpeed.Speed1));
+                availableTemplates.Add(new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Right, ManeuverSpeed.Speed1));
             }
         }
     }

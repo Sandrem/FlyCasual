@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BoardTools;
+using Movement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,24 @@ namespace Ship
 
             CreateShipBase();
         }
+
+        public override List<ManeuverTemplate> BoostTemplatesAvailable => new List<ManeuverTemplate>() {
+            new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1),
+            new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Left, ManeuverSpeed.Speed1),
+            new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Right, ManeuverSpeed.Speed1)
+        };
+
+        public override List<ManeuverTemplate> BarrelRollTemplatesAvailable => new List<ManeuverTemplate>() {
+            new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isSideTemplate:true)
+        };
+
+        public override List<ManeuverTemplate> DecloakBoostTemplatesAvailable => new List<ManeuverTemplate>() {
+            new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1)
+        };
+
+        public override List<ManeuverTemplate> DecloakBarrelRollTemplatesAvailable => new List<ManeuverTemplate>() {
+            new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isSideTemplate:true)
+        };
 
     }
 }

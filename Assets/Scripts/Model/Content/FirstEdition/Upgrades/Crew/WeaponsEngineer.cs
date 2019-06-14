@@ -27,13 +27,13 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Add(HostUpgrade);
+            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Add(HostShip);
             HostShip.OnTargetLockIsAcquired += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Remove(HostUpgrade);
+            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Remove(HostShip);
             HostShip.OnTargetLockIsAcquired -= CheckAbility;
         }
 

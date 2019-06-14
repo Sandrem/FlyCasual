@@ -39,13 +39,13 @@ namespace Abilities
         {
             public override void ActivateAbility()
             {
-                HostShip.OnAttackHitAsAttacker += PlasmaTorpedoesRemoveShield;
+                HostShip.OnShotHitAsAttacker += PlasmaTorpedoesRemoveShield;
                 HostShip.OnDefenceStartAsAttacker += CancelCritsFirstEffect;
             }
 
             public override void DeactivateAbility()
             {
-                HostShip.OnAttackHitAsAttacker -= PlasmaTorpedoesRemoveShield;
+                HostShip.OnShotHitAsAttacker -= PlasmaTorpedoesRemoveShield;
                 HostShip.OnDefenceStartAsAttacker -= CancelCritsFirstEffect;
             }
 
@@ -53,7 +53,7 @@ namespace Abilities
             {
                 if (Combat.ChosenWeapon.GetType() == HostUpgrade.GetType() && Combat.Defender.State.ShieldsCurrent != 0)
                 {
-                    RegisterAbilityTrigger(TriggerTypes.OnAttackHit, ShieldRemove);
+                    RegisterAbilityTrigger(TriggerTypes.OnShotHit, ShieldRemove);
                 }
             }
 

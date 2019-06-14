@@ -309,14 +309,15 @@ namespace Ship
                 foreach (string filePath in Directory.GetFiles(customizableSkinsPath + FixTypeName(ModelInfo.ModelName) + "/"))
                 {
                     string fileName = Path.GetFileNameWithoutExtension(filePath);
-                    if (!textures.Any(n => n.name == fileName))
-                    {
-                        byte[] fileData = File.ReadAllBytes(filePath);
-                        Texture2D texture = new Texture2D(1, 1);
-                        texture.LoadImage(fileData);
-                        texture.name = fileName;
-                        textures.Add(texture);
-                    }
+
+                    Texture existsingTexture = textures.FirstOrDefault(n => n.name == fileName);
+                    if (existsingTexture != null) textures.Remove(existsingTexture);
+
+                    byte[] fileData = File.ReadAllBytes(filePath);
+                    Texture2D texture = new Texture2D(1, 1);
+                    texture.LoadImage(fileData);
+                    texture.name = fileName;
+                    textures.Add(texture);
                 }
             }
 

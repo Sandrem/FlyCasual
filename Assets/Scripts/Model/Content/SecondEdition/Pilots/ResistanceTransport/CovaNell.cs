@@ -20,6 +20,8 @@ namespace Ship
                     abilityType: typeof(CovaNellAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/1b/93/1b934d61-0f90-42d0-bf84-0052960b105b/swz45_cova-nell.png";
             }
         }
     }

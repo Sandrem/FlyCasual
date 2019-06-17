@@ -24,7 +24,7 @@ namespace UpgradesList.SecondEdition
                 seImageNumber: 27
             );
             FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-            ImageUrl = "https://x-wing-cardcreator.com/img/published/AUTOBLASTERS_Azrapse_1.png";            
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e5/8d/e58d4426-4b4b-4fed-a2e9-0ed970600df5/swz45_autoblasters.png";            
         }        
     }
 }

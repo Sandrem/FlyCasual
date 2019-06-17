@@ -21,7 +21,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                 extraUpgradeIcon: UpgradeType.Talent
             );
 
-            ImageUrl = "https://i.imgur.com/JzLxRpD.jpg";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/8b/2d/8b2da8f2-041a-43e0-a48d-84fc958eb05e/swz45_pammich-goode.png";
         }
     }
 }

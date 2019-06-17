@@ -16,15 +16,19 @@ namespace UpgradesList.SecondEdition
                 cost: 4,
                 restrictions: new UpgradeCardRestrictions(
                     new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium), 
-                    new StatValueRestriction(StatValueRestriction.Stats.Shields, StatValueRestriction.Conditions.HigherThanOrEqual, 1)
-                    ),
+                    new StatValueRestriction(
+                        StatValueRestriction.Stats.Shields,
+                        StatValueRestriction.Conditions.HigherThanOrEqual,
+                        1
+                    )
+                ),
                 addAction: new ActionInfo(typeof(ReinforceAction)),
                 addShields: -1,
                 seImageNumber: 75
             );
             FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
 
-            ImageUrl = "http://azrapse.es/AngledDeflectors.jpg";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/50/91/5091f169-b8ea-449a-909d-9d8dd39b2efb/swz45_angled-deflectors.png";
         }
 
         public void UpdateCost(GenericShip ship)

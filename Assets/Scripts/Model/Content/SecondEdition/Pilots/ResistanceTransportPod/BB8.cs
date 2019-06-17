@@ -24,7 +24,7 @@ namespace Ship.SecondEdition.ResistanceTransportPod
 
             ShipInfo.ActionIcons.SwitchToDroidActions();
 
-            ImageUrl = "https://i.imgur.com/tvYZ2Ig.jpg";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/20/47/20474294-ecdf-4000-8f8c-63ba9ff0c9aa/swz45_bb-8.png";
         }
     }
 }

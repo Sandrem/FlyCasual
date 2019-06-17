@@ -21,7 +21,7 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 extraUpgradeIcon: UpgradeType.Talent
             );
 
-            ImageUrl = "https://i.imgur.com/4pdeLF5.jpg";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e7/36/e736f7ba-c5dd-4222-9bdb-b889eea03293/swz45_rose-tico.png";
         }
     }
 }

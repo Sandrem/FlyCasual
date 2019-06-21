@@ -16,7 +16,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                 40
             );
 
-            ImageUrl = "https://i.imgur.com/qJdFrk4.jpg";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/95/69/95692636-a7ef-499c-afb7-5891b998f696/swz45_logistics-pilot.png";
         }
     }
 }

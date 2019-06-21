@@ -39,7 +39,7 @@ namespace Ship.SecondEdition.ResistanceTransport
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(PammichNerroGoode) }
+                { Faction.Resistance, typeof(CovaNell) }
             };
 
             ModelInfo = new ShipModelInfo(

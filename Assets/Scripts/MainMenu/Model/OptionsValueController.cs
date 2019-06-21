@@ -5,14 +5,17 @@ using UnityEngine.UI;
 
 public class OptionsValueController : MonoBehaviour
 {
+    private float uiScale;
+
     public void Start()
     {
+        uiScale = GameObject.Find("UI").transform.localScale.x;
         SetValue(PlayerPrefs.GetFloat(this.transform.Find("Text").GetComponent<Text>().text, 0.25f));
     }
 
     public void UpdateProgressByClick()
     {
-        float myWidth = this.transform.Find("PanelHitDetection").GetComponent<RectTransform>().rect.width;
+        float myWidth = this.transform.Find("PanelHitDetection").GetComponent<RectTransform>().rect.width * uiScale;
         float localCursorX = Input.mousePosition.x - this.transform.position.x;
         float percentage = (localCursorX + 0.5f * myWidth) / myWidth;
 

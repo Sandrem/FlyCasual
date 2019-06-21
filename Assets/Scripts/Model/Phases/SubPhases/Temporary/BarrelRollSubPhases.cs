@@ -417,7 +417,7 @@ namespace SubPhases
             foreach (BarrelRollShiftData barrelRollData in BarrelRollShiftVariants)
             {
                 BarrelRollProblems = new List<ActionFailReason>();
-                if (IsColliderDataAllowed(barrelRollData.Collider))
+                if (IsColliderDataAllowed(barrelRollData.Collider, true))
                 {
                     isAllowed = true;
                 }

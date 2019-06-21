@@ -417,7 +417,7 @@ namespace SubPhases
             foreach (BarrelRollShiftData barrelRollData in BarrelRollShiftVariants)
             {
                 BarrelRollProblems = new List<ActionFailReason>();
-                if (IsColliderDataAllowed(barrelRollData.Collider, true))
+                if (IsColliderDataAllowed(barrelRollData.Collider, isBaseFinalPosition:true))
                 {
                     isAllowed = true;
                 }
@@ -461,7 +461,9 @@ namespace SubPhases
                 );
             }
 
-            if (!IsColliderDataAllowed(TemporaryBaseCollider))
+            BarrelRollProblems = new List<ActionFailReason>();
+
+            if (!IsColliderDataAllowed(TemporaryBaseCollider, isBaseFinalPosition:true))
             {
                 Messages.ShowError("This final position is not valid, choose another position");
                 UI.HideNextButton();

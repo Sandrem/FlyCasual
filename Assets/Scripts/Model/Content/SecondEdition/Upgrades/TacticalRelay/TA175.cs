@@ -24,6 +24,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.TA175Ability)
             );
 
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/3c/78/3c789eaf-ce5d-443a-8696-f0ad4781346c/swz41_ta-175.png";
         }        
     }

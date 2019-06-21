@@ -32,7 +32,7 @@ namespace Abilities.FirstEdition
 {
     public class SabineWrenCrewAbility : GenericAbility
     {
-        private GameObject detonatedBombObject;
+        private GenericDeviceGameObject detonatedBombObject;
 
         public override void ActivateAbility()
         {
@@ -46,7 +46,7 @@ namespace Abilities.FirstEdition
             Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
-        private void CheckAbility(GenericBomb bomb, GameObject bombObject)
+        private void CheckAbility(GenericBomb bomb, GenericDeviceGameObject bombObject)
         {
             if (!IsAbilityUsed && IsBombFriendly(bomb) && IsAtLeastOneEnemyInRange(bomb, bombObject))
             {
@@ -63,7 +63,7 @@ namespace Abilities.FirstEdition
             return bomb.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo;
         }
 
-        private bool IsAtLeastOneEnemyInRange(GenericBomb bomb, GameObject bombObject)
+        private bool IsAtLeastOneEnemyInRange(GenericBomb bomb, GenericDeviceGameObject bombObject)
         {
             List<GenericShip> shipsInRange = BombsManager.GetShipsInRange(bombObject);
 

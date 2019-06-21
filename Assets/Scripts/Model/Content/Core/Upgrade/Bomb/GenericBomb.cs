@@ -18,7 +18,7 @@ namespace Upgrade
 
         public bool IsDiscardedAfterDropped;
 
-        public List<GameObject> CurrentBombObjects = new List<GameObject>();
+        public List<GenericDeviceGameObject> CurrentBombObjects = new List<GenericDeviceGameObject>();
 
         public GenericBomb() : base()
         {
@@ -47,7 +47,7 @@ namespace Upgrade
             }
         }
 
-        public virtual void ActivateBombs(List<GameObject> bombObjects, Action callBack)
+        public virtual void ActivateBombs(List<GenericDeviceGameObject> bombObjects, Action callBack)
         {
             HostShip.IsBombAlreadyDropped = true;
             BombsManager.RegisterBombs(bombObjects, this);
@@ -116,7 +116,7 @@ namespace Upgrade
             callBack();
         }
 
-        public virtual void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
+        public virtual void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
         {
             callBack();
         }

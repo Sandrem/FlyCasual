@@ -14,7 +14,7 @@ namespace Bombs
     public class BombDetonationEventArgs : EventArgs
     {
         public GenericShip DetonatedShip;
-        public GameObject BombObject;
+        public GenericDeviceGameObject BombObject;
     }
 
     public enum BombDropTemplates
@@ -33,14 +33,14 @@ namespace Bombs
     public static class BombsManager
     {
         public static GenericBomb CurrentBomb { get; set; }
-        public static GameObject CurrentBombObject { get; set; }
+        public static GenericDeviceGameObject CurrentBombObject { get; set; }
         public static GenericShip DetonatedShip { get; set; }
         public static bool DetonationIsAllowed { get; set; }
 
         private static List<Vector3> generatedBombPoints = new List<Vector3>();
-        private static Dictionary<GameObject, GenericBomb> bombsList;
+        private static Dictionary<GenericDeviceGameObject, GenericBomb> bombsList;
 
-        public delegate void EventHandlerBomb(GenericBomb bomb, GameObject model);
+        public delegate void EventHandlerBomb(GenericBomb bomb, GenericDeviceGameObject model);
         public delegate void EventHandlerBombShip(GenericBomb bomb, GenericShip detonatedShip);
         public static event EventHandlerBomb OnBombIsRemoved;
         public static event EventHandlerBombShip OnCheckPermissionToDetonate;
@@ -49,7 +49,7 @@ namespace Bombs
 
         public static void Initialize()
         {
-            bombsList = new Dictionary<GameObject, GenericBomb>();
+            bombsList = new Dictionary<GenericDeviceGameObject, GenericBomb>();
             CurrentBomb = null;
         }
 
@@ -70,7 +70,7 @@ namespace Bombs
             return generatedBombPoints;
         }
 
-        public static void RegisterBombs(List<GameObject> bombObjects, GenericBomb bombUpgrade)
+        public static void RegisterBombs(List<GenericDeviceGameObject> bombObjects, GenericBomb bombUpgrade)
         {
             foreach (var bombObject in bombObjects)
             {
@@ -79,9 +79,12 @@ namespace Bombs
                 MeshCollider collider = bombObject.transform.Find("Model").GetComponent<MeshCollider>();
                 if (collider != null) Board.Objects.Add(collider);
             }
+
+            BombsManager.CurrentBombObject = bombObjects.FirstOrDefault();
+            BombsManager.CurrentBomb = bombUpgrade;
         }
 
-        public static void UnregisterBomb(GameObject bombObject)
+        public static void UnregisterBomb(GenericDeviceGameObject bombObject)
         {
             bombsList.Remove(bombObject);
 
@@ -89,12 +92,12 @@ namespace Bombs
             if (collider != null) Board.Objects.Remove(collider);
         }
 
-        public static GenericBomb GetBombByObject(GameObject bombObject)
+        public static GenericBomb GetBombByObject(GenericDeviceGameObject bombObject)
         {
             return bombsList[bombObject];
         }
 
-        public static List<GenericShip> GetShipsInRange(GameObject bombObject)
+        public static List<GenericShip> GetShipsInRange(GenericDeviceGameObject bombObject)
         {
             List<GenericShip> result = new List<GenericShip>();
 
@@ -127,7 +130,7 @@ namespace Bombs
             return result;
         }
 
-        private static bool IsShipInDetonationRange(GenericShip ship, GameObject bombObject)
+        private static bool IsShipInDetonationRange(GenericShip ship, GenericDeviceGameObject bombObject)
         {
             List<Vector3> bombPoints = GetBombPointsRelative();
 
@@ -171,14 +174,16 @@ namespace Bombs
 
         private static void RemoveModel()
         {
-            GameObject.Destroy(CurrentBombObject);
+            GameObject.Destroy(CurrentBombObject.Model);
             Triggers.FinishTrigger();
         }
 
         public static void CallGetPermissionToDetonateTrigger(Action callback)
-        {
+        {            
             DetonationIsAllowed = true;
             ToggleReadyToDetonateHighLight(true);
+
+            Rules.Fuse.CheckForRemoveFuseInsteadOfDetonating(CurrentBombObject);
 
             if (OnCheckPermissionToDetonate != null) OnCheckPermissionToDetonate(CurrentBomb, DetonatedShip);
 
@@ -351,7 +356,7 @@ namespace Bombs
             return GetBombsToDrop(ship).Any();
         }
 
-        public static Dictionary<GameObject, GenericBomb> GetBombsOnBoard()
+        public static Dictionary<GenericDeviceGameObject, GenericBomb> GetBombsOnBoard()
         {
             return bombsList;
         }

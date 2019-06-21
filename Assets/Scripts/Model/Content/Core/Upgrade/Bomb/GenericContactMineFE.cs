@@ -37,7 +37,7 @@ namespace Upgrade
             HostShip.AddAvailableAction(action);
         }
 
-        public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
+        public override void ActivateBombs(List<GenericDeviceGameObject> bombObjects, Action callBack)
         {
             CallBack = callBack;
             CurrentBombObjects = bombObjects;
@@ -92,7 +92,7 @@ namespace Upgrade
                     EventArgs = new BombDetonationEventArgs()
                     {
                         DetonatedShip = detonatedShip,
-                        BombObject = collisionChecker.transform.parent.gameObject
+                        BombObject = collisionChecker.transform.parent.GetComponent<GenericDeviceGameObject>()
                     }
                 });
             }

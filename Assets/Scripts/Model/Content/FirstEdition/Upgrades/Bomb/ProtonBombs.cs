@@ -47,7 +47,7 @@ namespace UpgradesList.FirstEdition
             Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
         }
 
-        public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
+        public override void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
         {
             BombsManager.CurrentBomb = this;
 

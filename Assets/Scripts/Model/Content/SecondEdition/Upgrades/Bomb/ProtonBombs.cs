@@ -41,7 +41,7 @@ namespace UpgradesList.SecondEdition
             _ship.Damage.TryResolveDamage(0, 1, protonDamage, callBack);
         }
 
-        public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
+        public override void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
         {
             BombsManager.CurrentBomb = this;
 

@@ -17,6 +17,7 @@ namespace Upgrade
         public float bombSideDistanceZ;
 
         public bool IsDiscardedAfterDropped;
+        public int detonationRange = 0;
 
         public List<GenericDeviceGameObject> CurrentBombObjects = new List<GenericDeviceGameObject>();
 

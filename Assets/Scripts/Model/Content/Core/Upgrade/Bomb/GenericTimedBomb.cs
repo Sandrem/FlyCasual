@@ -13,7 +13,7 @@ namespace Upgrade
     {
         public GenericTimedBomb() : base()
         {
-
+            detonationRange = 1;
         }
 
         public override void AttachToShip(GenericShip host)

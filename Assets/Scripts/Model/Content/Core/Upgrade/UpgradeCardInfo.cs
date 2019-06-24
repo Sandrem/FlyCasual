@@ -29,7 +29,7 @@ namespace Upgrade
         public int SEImageNumber { get; private set; }
         public UpgradeCardRestrictions Restrictions { get; private set; }
         public SpecialWeaponInfo WeaponInfo { get; private set; }
-        public ActionInfo AddAction { get; private set; }
+        public List<ActionInfo> AddedActions { get; private set; }
         public LinkedActionInfo AddActionLink { get; private set; }
         public List<UpgradeSlot> AddedSlots { get; private set; }
         public List<UpgradeType> ForbiddenSlots { get; private set; }
@@ -57,6 +57,7 @@ namespace Upgrade
             SpecialWeaponInfo weaponInfo = null,
             ShipArcInfo addArc = null,
             ActionInfo addAction = null,
+            List<ActionInfo> addActions = null,
             LinkedActionInfo addActionLink = null,
             UpgradeSlot addSlot = null,
             List<UpgradeSlot> addSlots = null,
@@ -77,7 +78,6 @@ namespace Upgrade
             CannotBeRecharged = cannotBeRecharged;
             SEImageNumber = seImageNumber;
             WeaponInfo = weaponInfo;
-            AddAction = addAction;
             AddActionLink = addActionLink;
             IsSolitary = isSolitary;
 
@@ -100,6 +100,10 @@ namespace Upgrade
             AddedSlots = new List<UpgradeSlot>();
             if (addSlot != null) AddedSlots.Add(addSlot);
             if (addSlots != null) AddedSlots.AddRange(addSlots);
+
+            AddedActions = new List<ActionInfo>();
+            if (addAction != null) AddedActions.Add(addAction);
+            if (addActions != null) AddedActions.AddRange(addActions);
 
             ForbiddenSlots = new List<UpgradeType>();
             if (forbidSlot != UpgradeType.None) ForbiddenSlots.Add(forbidSlot);
@@ -175,16 +179,19 @@ namespace Upgrade
 
         private void AddActions()
         {
-            if (AddAction != null)
+            if (AddedActions.Count > 0)
             {
-                HostShip.ShipInfo.ActionIcons.AddActions(new ActionInfo(AddAction.ActionType, AddAction.Color, HostUpgrade));
-                if (HostShip.State != null)
+                foreach (ActionInfo actionInfo in AddedActions)
                 {
-                   GenericAction addedAction = (GenericAction)Activator.CreateInstance(AddAction.ActionType);
-                   addedAction.Color = AddAction.Color;
-                   addedAction.HostShip = HostUpgrade.HostShip;
+                    HostShip.ShipInfo.ActionIcons.AddActions(new ActionInfo(actionInfo.ActionType, actionInfo.Color, HostUpgrade));
+                    if (HostShip.State != null)
+                    {
+                        GenericAction addedAction = (GenericAction)Activator.CreateInstance(actionInfo.ActionType);
+                        addedAction.Color = actionInfo.Color;
+                        addedAction.HostShip = HostUpgrade.HostShip;
 
-                   HostUpgrade.HostShip.ActionBar.AddGrantedAction(addedAction, HostUpgrade);
+                        HostUpgrade.HostShip.ActionBar.AddGrantedAction(addedAction, HostUpgrade);
+                    }
                 }
             }
 
@@ -238,16 +245,19 @@ namespace Upgrade
 
         private void RemoveActions()
         {
-            if (AddAction != null)
+            if (AddedActions.Count > 0)
             {
-                ActionInfo addedAction = HostShip.ShipInfo.ActionIcons.Actions.First(a => 
-                    a.ActionType == AddAction.ActionType
-                    && a.Color == AddAction.Color
-                    && a.Source == HostUpgrade
-                );
-                HostShip.ShipInfo.ActionIcons.Actions.Remove(addedAction);
+                foreach (ActionInfo actionInfo in AddedActions)
+                {
+                    ActionInfo addedAction = HostShip.ShipInfo.ActionIcons.Actions.First(a =>
+                        a.ActionType == actionInfo.ActionType
+                        && a.Color == actionInfo.Color
+                        && a.Source == HostUpgrade
+                    );
+                    HostShip.ShipInfo.ActionIcons.Actions.Remove(addedAction);
 
-                if (HostShip.State != null) HostUpgrade.HostShip.ActionBar.RemoveGrantedAction(AddAction.ActionType, HostUpgrade);
+                    if (HostShip.State != null) HostUpgrade.HostShip.ActionBar.RemoveGrantedAction(actionInfo.ActionType, HostUpgrade);
+                }
             }
 
             if (AddActionLink != null)

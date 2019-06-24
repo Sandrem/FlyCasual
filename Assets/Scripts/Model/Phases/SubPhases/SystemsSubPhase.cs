@@ -176,6 +176,16 @@ namespace SubPhases
             Next();
         }
 
+        public override void Pause()
+        {
+            UI.HideSkipButton();
+        }
+
+        public override void Resume()
+        {
+            UI.ShowSkipButton();
+        }
+
     }
 
 }

@@ -16,6 +16,9 @@ namespace Ship
             {
                 ShipInfo.ShipName = "Lambda-class T-4a Shuttle";
 
+                ShipInfo.Hull = 6;
+                ShipInfo.Shields = 4;
+
                 ShipInfo.ArcInfo.Arcs.Add(new ShipArcInfo(ArcType.Rear, 2));
 
                 ShipInfo.ActionIcons.RemoveActions(typeof(TargetLockAction));

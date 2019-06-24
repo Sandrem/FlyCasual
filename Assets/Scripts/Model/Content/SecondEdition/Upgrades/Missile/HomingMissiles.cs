@@ -45,7 +45,10 @@ namespace Abilities.SecondEdition
 
         private void RegisterOwnTrigger()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnShotStart, AskDefender);
+            if (Combat.ChosenWeapon == HostUpgrade)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnShotStart, AskDefender);
+            }
         }
 
         private void AskDefender(object sender, EventArgs e)
@@ -66,6 +69,8 @@ namespace Abilities.SecondEdition
         private void SufferOneDamage(object sender, EventArgs e)
         {
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Defender chose to suffer 1 damage");
 
             Combat.Defender.Damage.TryResolveDamage(
                 1,

@@ -79,6 +79,7 @@ namespace Ship
         public event EventHandlerShip OnRerollIsConfirmed;
 
         public EventHandlerShipTokenBool BeforeRemovingTokenInEndPhase;
+        public static EventHandlerShipTokenBool BeforeRemovingTokenInEndPhaseGlobal;
 
         public event EventHandler OnDecloak;
 
@@ -616,7 +617,8 @@ namespace Ship
         public bool ShouldRemoveTokenInEndPhase(GenericToken token)
         {
             var remove = token.Temporary;
-            if (BeforeRemovingTokenInEndPhase != null) BeforeRemovingTokenInEndPhase(this, token, ref remove);
+            BeforeRemovingTokenInEndPhaseGlobal?.Invoke(this, token, ref remove);
+            BeforeRemovingTokenInEndPhase?.Invoke(this, token, ref remove);
             return remove;
         }
 

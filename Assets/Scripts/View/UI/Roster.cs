@@ -605,6 +605,8 @@ public static partial class Roster {
 
     public static void ToggleManeuverVisibility(GenericShip ship, bool isVisible)
     {
+        if (ship.AssignedManeuver == null) return;
+
         if (isVisible) UpdateAssignedManeuverDial(ship, ship.AssignedManeuver);
 
         GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;

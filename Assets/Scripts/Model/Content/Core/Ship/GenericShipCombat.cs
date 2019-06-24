@@ -5,6 +5,7 @@ using Movement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -46,6 +47,9 @@ namespace Ship
         public static event EventHandlerBoolStringList OnTryPerformAttackGlobal;
 
         public event EventHandlerTokensList OnGenerateAvailableAttackPaymentList;
+
+        public event EventHandlerShipWeaponTypeBool OnModifyWeaponAttackRequirement;
+        public static event EventHandlerShipWeaponTypeBool OnModifyWeaponAttackRequirementGlobal;
 
         public event EventHandler OnAttackStartAsAttacker;
         public static event EventHandler OnAttackStartAsAttackerGlobal;
@@ -342,9 +346,19 @@ namespace Ship
             if (OnAtLeastOneCritWasCancelledByDefender != null) OnAtLeastOneCritWasCancelledByDefender();
         }
 
-        public void CallOnGenerateAvailableAttackPaymentList(List<Tokens.GenericToken> tokens)
+        public Type GetWeaponAttackRequirement(GenericSpecialWeapon weapon, bool isSilent)
         {
-            if (OnGenerateAvailableAttackPaymentList != null) OnGenerateAvailableAttackPaymentList(tokens);
+            Type tokenTypeAttackRequirement = weapon.WeaponInfo.RequiresToken;
+
+            GenericShip.OnModifyWeaponAttackRequirementGlobal?.Invoke(this, weapon, ref tokenTypeAttackRequirement, isSilent);
+            OnModifyWeaponAttackRequirement?.Invoke(this, weapon, ref tokenTypeAttackRequirement, isSilent);
+
+            return tokenTypeAttackRequirement;            
+        }
+
+        public void CallOnGenerateAvailableAttackPaymentList(List<GenericToken> tokens)
+        {
+            OnGenerateAvailableAttackPaymentList?.Invoke(tokens);
         }
 
         public void CallOnDamageCardIsDealt(Action callBack)

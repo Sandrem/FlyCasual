@@ -46,6 +46,7 @@ namespace Ship
         public delegate void EventHandlerBoostTemplates(List<BoostMove> availableTemplates, GenericAction action);
         public delegate void EventHandlerDiceroll(DiceRoll diceroll);
         public delegate void EventHandlerTokensList(List<Tokens.GenericToken> tokens);
+        public delegate void EventHandlerShipWeaponTypeBool(GenericShip ship, GenericSpecialWeapon weapon, ref Type tokenType, bool isSilent);
         public delegate void EventHandlerBoolStringList(ref bool result, List<string> stringList);
         public delegate void EventHandlerObjArgsBool(object sender, EventArgs e, ref bool isChanged);
         public delegate void EventHandlerUpgrade(GenericUpgrade upgrade);

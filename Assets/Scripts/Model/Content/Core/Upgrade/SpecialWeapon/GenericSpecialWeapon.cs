@@ -69,7 +69,9 @@ namespace Upgrade
             if (range < MinRangeUpdated) return false;
             if (range > MaxRangeUpdated) return false;
 
-            if (WeaponInfo.RequiresToken == typeof(BlueTargetLockToken))
+            Type tokenRequirement = HostShip.GetWeaponAttackRequirement(this, isSilent: true);
+
+            if (tokenRequirement == typeof(BlueTargetLockToken))
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
@@ -81,9 +83,9 @@ namespace Upgrade
 
                 if (waysToPay.Count == 0) return false;
             }
-            else if (WeaponInfo.RequiresToken != null)
+            else if (tokenRequirement != null)
             {
-                if (!HostShip.Tokens.HasToken(WeaponInfo.RequiresToken)) return false;
+                if (!HostShip.Tokens.HasToken(tokenRequirement)) return false;
             }
 
             return result;
@@ -113,7 +115,9 @@ namespace Upgrade
 
         private void PayTokenCost(Action callBack)
         {
-            if (WeaponInfo.RequiresToken == typeof(BlueTargetLockToken))
+            Type tokenRequirement = HostShip.GetWeaponAttackRequirement(this, isSilent: false);
+
+            if (tokenRequirement == typeof(BlueTargetLockToken))
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
@@ -148,7 +152,7 @@ namespace Upgrade
                     subphase.Start();
                 }
             }
-            else if (WeaponInfo.RequiresToken == typeof(FocusToken) && WeaponInfo.SpendsToken == typeof(FocusToken))
+            else if (tokenRequirement == typeof(FocusToken) && WeaponInfo.SpendsToken == typeof(FocusToken))
             {
                 Combat.Attacker.Tokens.SpendToken(typeof(FocusToken), callBack);
             }

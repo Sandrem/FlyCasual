@@ -55,6 +55,11 @@ namespace Abilities.FirstEdition
             host.AddAvailableAction(action);
         }
 
+        protected virtual bool IsActionAvailbale()
+        {
+            return true;
+        }
+
         private void DoKyloRenAction()
         {
             RegisterAbilityTrigger(TriggerTypes.OnAbilityDirect, SelectShip);
@@ -150,8 +155,12 @@ namespace Abilities.FirstEdition
             opponentDamageDeck.ReShuffleDeck();
             AssignConditions(TargetShip);
 
+            SpendExtra();
+
             DecisionSubPhase.ConfirmDecision();
         }
+
+        protected virtual void SpendExtra() {}
 
         private void AssignConditions(GenericShip ship)
         {

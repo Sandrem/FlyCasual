@@ -57,6 +57,7 @@ namespace Ship
         public delegate void EventHandlerCheckRange(GenericShip anotherShip, int minRange, int maxRange, BoardTools.RangeCheckReason reason, ref bool isInRange);
         public delegate void EventHandlerForceAlignmentBool(ForceAlignment alignment, ref bool data);
         public delegate void EventHandlerShipBomb(GenericShip ship, GenericBomb bomb);
+        public delegate void EventHandlerActionShip(GenericAction action, GenericShip wrongTarget);
 
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetMaxHull;

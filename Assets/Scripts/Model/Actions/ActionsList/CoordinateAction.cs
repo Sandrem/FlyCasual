@@ -51,8 +51,6 @@ namespace SubPhases
 
     public class CoordinateTargetSubPhase : SelectShipSubPhase
     {
-        public GenericAction HostAction { get; set; }
-
         public override void Prepare()
         {
             PrepareByParameters(

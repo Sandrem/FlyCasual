@@ -52,8 +52,6 @@ namespace SubPhases
 
     public class JamTargetSubPhase : SelectShipSubPhase
     {
-        public GenericAction HostAction { get; set; }
-
         public override void Prepare()
         {
             PrepareByParameters(
@@ -99,13 +97,17 @@ namespace SubPhases
         private bool FilterJamTargets(GenericShip ship)
         {
             if (ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) return false;
-            if (ship.Tokens.HasToken(typeof(JamToken))) return false;
 
             BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
             if (distanceInfo.Range <= 1) return true;
 
-            BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapons);
-            if (shotInfo.Range <= 2 && shotInfo.InPrimaryArc) return true;
+            if (Edition.Current is Editions.FirstEdition)
+            {
+                if (ship.Tokens.HasToken(typeof(JamToken))) return false;
+
+                BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapons);
+                if (shotInfo.Range <= 2 && shotInfo.InPrimaryArc) return true;
+            }
 
             return false;
         }

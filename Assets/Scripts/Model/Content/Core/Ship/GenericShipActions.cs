@@ -96,6 +96,8 @@ namespace Ship
 
         public event EventHandlerShip OnPerformActionStepStart;
 
+        public event EventHandlerActionShip OnActionTargetIsWrong;
+
 
         // ACTIONS
 
@@ -782,6 +784,13 @@ namespace Ship
         public void RemoveToken(GenericToken otherTargetLockToken)
         {
             Tokens.GetAllTokens().Remove(otherTargetLockToken);
+        }
+
+        public void CallActionTargetIsWrong(GenericAction action, GenericShip wrongTarget, Action callback)
+        {
+            OnActionTargetIsWrong?.Invoke(action, wrongTarget);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callback);
         }
     }
 

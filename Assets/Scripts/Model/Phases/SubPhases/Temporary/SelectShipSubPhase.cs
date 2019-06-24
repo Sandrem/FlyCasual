@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using Players;
 using UnityEngine.UI;
+using ActionsList;
 
 namespace SubPhases
 {
@@ -40,6 +41,8 @@ namespace SubPhases
         public IImageHolder ImageSource;
 
         public bool ShowSkipButton = true;
+
+        public GenericAction HostAction { get; set; }
 
         public override void Start()
         {
@@ -177,7 +180,7 @@ namespace SubPhases
                 else
                 {
                     Messages.ShowErrorToHuman("You cannot select this friendly ship");
-                    CancelShipSelection();
+                    Selection.ThisShip.CallActionTargetIsWrong(HostAction, ship, CancelShipSelection);
                 }
             }
             return result;
@@ -198,7 +201,7 @@ namespace SubPhases
                     else
                     {
                         Messages.ShowErrorToHuman("You cannot select this enemy ship");
-                        CancelShipSelection();
+                        Selection.ThisShip.CallActionTargetIsWrong(HostAction, anotherShip, CancelShipSelection);
                     }
                 }
                 else if (mouseKeyIsPressed == 2)

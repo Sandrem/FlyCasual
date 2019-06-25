@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Electro-Proton Bomb",
                 types: new List<UpgradeType> { UpgradeType.Bomb, UpgradeType.Modification },
-                cost: 5,
+                cost: 14,
                 charges: 1,
                 cannotBeRecharged: true,
                 subType: UpgradeSubType.Bomb,

@@ -20,6 +20,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.ChopperPilotAbility),
                     seImageNumber: 75
                 );
+
+                ShipInfo.ActionIcons.SwitchToDroidActions();
             }
         }
     }

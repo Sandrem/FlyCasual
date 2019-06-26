@@ -85,13 +85,6 @@ namespace Abilities.FirstEdition
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                // Temporary fix
-                if (HostShip.IsDestroyed)
-                {
-                    Triggers.FinishTrigger();
-                    return;
-                }
-
                 // Save his "is already attacked" flag
                 isPerformedRegularAttack = HostShip.IsAttackPerformed;
 

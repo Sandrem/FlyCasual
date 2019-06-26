@@ -76,13 +76,6 @@ namespace Abilities.SecondEdition
 
         private void RegisterBonusAttack(object sender, System.EventArgs e)
         {
-            if (HostShip.IsDestroyed)
-            {
-                Triggers.FinishTrigger();
-                return;
-            }
-
-
             HostShip.StartBonusAttack(CleanupBonusAttack);
         }
 

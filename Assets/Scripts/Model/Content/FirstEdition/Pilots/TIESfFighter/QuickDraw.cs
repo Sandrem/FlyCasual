@@ -78,13 +78,6 @@ namespace Abilities.FirstEdition
         {
             if (IsAbilityCanBeUsed())
             {
-                // Temporary fix
-                if (HostShip.IsDestroyed)
-                {
-                    Triggers.FinishTrigger();
-                    return;
-                }
-
                 // Save his "is already attacked" flag
                 performedRegularAttack = HostShip.IsAttackPerformed;
 

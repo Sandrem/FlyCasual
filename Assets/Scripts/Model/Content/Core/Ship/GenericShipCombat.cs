@@ -617,14 +617,17 @@ namespace Ship
             {
                 bool preventDestruction = false;
 
-                if (OnCheckPreventDestruction != null) OnCheckPreventDestruction(this, ref preventDestruction);
+                OnCheckPreventDestruction?.Invoke(this, ref preventDestruction);
 
                 if (!preventDestruction)
                 {
                     IsDestroyed = true;
 
                     PlayDestroyedAnimSound(
-                        delegate { PlanShipDestruction(callBack); }
+                        delegate { CallShipDestruction(
+                            delegate { PlanShipRemoval(callBack); },
+                            isFled: false);
+                        }
                     );
                 }
                 else
@@ -638,16 +641,24 @@ namespace Ship
             }
         }
 
-        public void PlanShipDestruction(Action callback)
+        private void CallShipDestruction(Action callback, bool isFled)
+        {
+            OnShipIsDestroyed?.Invoke(this, isFled);
+            OnShipIsDestroyedGlobal?.Invoke(this, isFled);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShipIsDestroyed, callback);
+        }
+
+        private void PlanShipRemoval(Action callback)
         {
             if (IsDestructionDuringCombat())
             {
-                Phases.Events.OnEngagementInitiativeChanged += RegisterShipDestructionSimultaneous;
+                Phases.Events.OnEngagementInitiativeChanged += RegisterShipRemovalSimultaneous;
                 callback();
             }
             else
             {
-                PerformShipDestruction(callback);
+                RemoveDestroyedShip(callback);
             }
         }
 
@@ -661,38 +672,30 @@ namespace Ship
             IsDestroyed = true;
 
             PlayDestroyedAnimSound(
-                delegate { PerformShipDestruction(callback, isFled); }
+                delegate { CallShipDestruction(
+                    delegate { RemoveDestroyedShip(callback); },
+                    isFled: isFled
+                ); }
             );            
         }
 
-        private void RegisterShipDestructionSimultaneous()
+        private void RegisterShipRemovalSimultaneous()
         {
-            Phases.Events.OnEngagementInitiativeChanged -= RegisterShipDestructionSimultaneous;
+            Phases.Events.OnEngagementInitiativeChanged -= RegisterShipRemovalSimultaneous;
 
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Destruction of ship #" + this.ShipId,
                 TriggerType = TriggerTypes.OnEngagementInitiativeChanged,
                 TriggerOwner = this.Owner.PlayerNo,
-                EventHandler = delegate { PerformShipDestruction(Triggers.FinishTrigger); }
+                EventHandler = delegate { RemoveDestroyedShip(Triggers.FinishTrigger); }
             });
-        }
-
-        private void PerformShipDestruction(Action callback, bool isFled = false)
-        {
-            if (OnShipIsDestroyed != null) OnShipIsDestroyed(this, isFled);
-            if (OnShipIsDestroyedGlobal != null) OnShipIsDestroyedGlobal(this, isFled);
-
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnShipIsDestroyed,
-                delegate { RemoveDestroyedShip(callback); }
-            );
         }
 
         private void RemoveDestroyedShip(Action callback)
         {
-            if (OnShipIsRemoved != null) OnShipIsRemoved(this);
-            if (OnShipIsRemovedGlobal != null) OnShipIsRemovedGlobal(this);
+            OnShipIsRemoved?.Invoke(this);
+            OnShipIsRemovedGlobal?.Invoke(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnShipIsRemoved, callback);
         }

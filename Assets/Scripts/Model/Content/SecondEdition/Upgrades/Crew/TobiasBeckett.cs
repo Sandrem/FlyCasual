@@ -43,6 +43,9 @@ namespace Abilities.SecondEdition
 
         private void RegisterOwnAbility()
         {
+            // Skip if ship controlled by AI
+            if (Roster.GetPlayer(HostShip.Owner.PlayerNo) is Players.AggressorAiPlayer) return;
+
             RegisterAbilityTrigger(TriggerTypes.OnSetupEnd, SelectObstacle);
         }
 

@@ -36,18 +36,46 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnShipIsDestroyed += TryRegisterDestructionAbility;
+            HostShip.OnAttackFinishAsAttacker += RegisterFirstAbility;
         }
 
         public override void DeactivateAbility()
         {
+            HostShip.OnAttackFinishAsAttacker -= RegisterFirstAbility;
             HostShip.OnShipIsDestroyed -= TryRegisterDestructionAbility;
+        }
+
+        private void RegisterFirstAbility(GenericShip ship)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskRotateOrDrop);
+        }
+
+        private void AskRotateOrDrop(object sender, EventArgs e)
+        {
+            Selection.ChangeActiveShip(HostShip);
+
+            PageTicoAbilityDecision subphase = Phases.StartTemporarySubPhaseNew<PageTicoAbilityDecision>("Paige Tico's ability", Triggers.FinishTrigger);
+            subphase.AddDecision("Drop a bomb", DropBomb);
+            subphase.AddDecision("Rotate Arc", AskRotateArc);
+            subphase.DecisionOwner = HostShip.Owner;
+            subphase.DefaultDecisionName = "Rotate Arc";
+            subphase.InfoText = "Ability of Paige Tico";
+            subphase.ShowSkipButton = true;
+            subphase.Start();
+        }
+
+        private void AskRotateArc(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            HostShip.AskPerformFreeAction(new RotateArcAction(), Triggers.FinishTrigger, isForced: true);
         }
 
         private void TryRegisterDestructionAbility(GenericShip ship, bool isFled)
         {
             if (!isFled && HasBombsToDrop())
             {
-                RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, AskDeathfireAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, AskDropBomb);
             }
         }
 
@@ -60,7 +88,7 @@ namespace Abilities.SecondEdition
             );
         }
 
-        private void AskDeathfireAbility(object sender, System.EventArgs e)
+        private void AskDropBomb(object sender, System.EventArgs e)
         {
             Selection.ChangeActiveShip(HostShip);
 
@@ -84,6 +112,8 @@ namespace Abilities.SecondEdition
 
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, Triggers.FinishTrigger);
         }
+
+        private class PageTicoAbilityDecision : DecisionSubPhase { };
 
     }
 };

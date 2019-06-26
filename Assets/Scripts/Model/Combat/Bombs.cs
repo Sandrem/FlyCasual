@@ -209,36 +209,36 @@ namespace Bombs
             CheckBombDropAvailability(ship, TriggerTypes.OnMovementActivationStart);
         }
 
-        public static void CheckBombDropAvailability(GenericShip ship, TriggerTypes triggerType)
+        public static void CheckBombDropAvailability(GenericShip ship, TriggerTypes triggerType, UpgradeSubType subType = UpgradeSubType.None, bool onlyDrop = false)
         {
-            if (!ship.IsBombAlreadyDropped && HasBombsToDrop(ship))
+            if (!ship.IsBombAlreadyDropped && HasBombsToDrop(ship, subType))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Ask which bomb to drop",
                     TriggerType = TriggerTypes.OnMovementActivationStart,
                     TriggerOwner = ship.Owner.PlayerNo,
-                    EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip)),
+                    EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip), subType, onlyDrop),
                     Sender = ship
                 });
             }
         }
 
-        public static void CreateAskBombDropSubPhase(GenericShip ship)
+        public static void CreateAskBombDropSubPhase(GenericShip ship, UpgradeSubType subType = UpgradeSubType.None, bool onlyDrop = false)
         {
             Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
 
             BombDecisionSubPhase selectBombToDrop = (BombDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select a bomb to drop",
                 typeof(BombDecisionSubPhase),
-                CheckSelectedBomb
+                delegate { CheckSelectedBomb(onlyDrop); }
             );
 
-            foreach (var timedBombInstalled in GetBombsToDrop(Selection.ThisShip))
+            foreach (var deviceInstalled in GetBombsToDrop(Selection.ThisShip, subType))
             {
                 selectBombToDrop.AddDecision(
-                    timedBombInstalled.UpgradeInfo.Name,
-                    delegate { SelectBomb(timedBombInstalled); }
+                    deviceInstalled.UpgradeInfo.Name,
+                    delegate { SelectBomb(deviceInstalled); }
                 );
             }
 
@@ -264,17 +264,17 @@ namespace Bombs
 
         private class BombDecisionSubPhase : DecisionSubPhase { }
 
-        private static void CheckSelectedBomb()
+        private static void CheckSelectedBomb(bool onlyDrop)
         {
             if (CurrentBomb != null)
             {
-                if (Selection.ThisShip.GetAvailableBombLaunchTemplates(CurrentBomb).Count > 0)
+                if (onlyDrop || Selection.ThisShip.GetAvailableBombLaunchTemplates(CurrentBomb).Count == 0)
                 {
-                    AskWayToDropBomb();
+                    DropBomb(); 
                 }
                 else
                 {
-                    DropBomb();
+                    AskWayToDropBomb();
                 }
             }
             else
@@ -337,18 +337,19 @@ namespace Bombs
 
         private class WayToDropDecisionSubPhase : DecisionSubPhase { }
 
-        public static List<GenericUpgrade> GetBombsToDrop(GenericShip ship)
+        public static List<GenericUpgrade> GetBombsToDrop(GenericShip ship, UpgradeSubType subType = UpgradeSubType.None)
         {
             return ship.UpgradeBar.GetUpgradesOnlyFaceup()
                 .Where(n => n.GetType().BaseType == typeof(GenericTimedBomb) || 
                     n.GetType().BaseType == typeof(GenericTimedBombSE) || n.GetType().BaseType == typeof(GenericContactMineSE))
                 .Where(n => n.State.UsesCharges == false || (n.State.UsesCharges == true && n.State.Charges > 0))
+                .Where(n => subType == UpgradeSubType.None || n.UpgradeInfo.SubType == subType)
                 .ToList();
         }
 
-        public static bool HasBombsToDrop(GenericShip ship)
+        public static bool HasBombsToDrop(GenericShip ship, UpgradeSubType subType = UpgradeSubType.None)
         {
-            return GetBombsToDrop(ship).Any();
+            return GetBombsToDrop(ship, subType).Any();
         }
 
         public static Dictionary<GameObject, GenericBomb> GetBombsOnBoard()

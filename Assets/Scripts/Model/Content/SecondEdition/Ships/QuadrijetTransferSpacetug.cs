@@ -103,8 +103,6 @@ namespace SubPhases
 {
     public class SelectSpacetugTargetSubPhaseSE : SelectShipSubPhase
     {
-        public GenericAction HostAction { get; set; }
-
         public GenericShip SpacetugOwner;
 
         public override void Prepare()

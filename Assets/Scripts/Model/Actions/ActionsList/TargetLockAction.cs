@@ -234,8 +234,6 @@ namespace SubPhases
 
     public class SelectTargetLockActionSubPhase : AcquireTargetLockSubPhase
     {
-        public GenericAction HostAction { get; set; }
-
         protected override void CancelShipSelection()
         {
             Rules.Actions.ActionIsFailed(TheShip, HostAction, ActionFailReason.WrongRange, true);

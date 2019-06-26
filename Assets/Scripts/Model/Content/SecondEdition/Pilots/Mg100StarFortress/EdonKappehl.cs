@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
         private void UseEdonKappehlAbility(object sender, EventArgs e)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
-            BombsManager.CreateAskBombDropSubPhase(HostShip);
+            BombsManager.CreateAskBombDropSubPhase(HostShip, onlyDrop: true);
         }
     }
 }

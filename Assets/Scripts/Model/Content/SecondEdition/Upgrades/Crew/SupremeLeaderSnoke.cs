@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
             subphase.Start();
         }
 
-        private void FlipDialsFaceup()
+        private void FlipDialsFaceup(Action callback)
         {
             foreach (GenericShip ship in Selection.MultiSelectedShips)
             {
@@ -78,6 +78,7 @@ namespace Abilities.SecondEdition
                 HostShip.State.Force--;
                 Messages.ShowInfo(string.Format("{0}: Dial of {1} is flipped faceup", HostUpgrade.UpgradeInfo.Name, ship.PilotInfo.PilotName));
             }
+            callback();
         }
 
         private bool FilterSelection(GenericShip ship)

@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
 
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You may spend 1 Force to perform an action");
 
-            HostShip.BeforeFreeActionIsPerformed += SpendForce;
+            HostShip.BeforeActionIsPerformed += SpendForce;
             HostShip.OnActionIsPerformed += RemoveSpendForce;
             HostShip.AskPerformFreeAction(
                 HostShip.GetAvailableActionsWhiteOnlyAsRed().Where(a => HostShip.ActionBar.HasAction(a.GetType())).ToList(),
@@ -66,14 +66,14 @@ namespace Abilities.SecondEdition
             );
         }
 
-        private void SpendForce(GenericAction action)
+        private void SpendForce(GenericAction action, ref bool isFreeAction)
         {
             HostShip.State.Force--;
         }
 
         private void RemoveSpendForce(GenericAction action)
         {
-            HostShip.BeforeFreeActionIsPerformed -= SpendForce;
+            HostShip.BeforeActionIsPerformed -= SpendForce;
             HostShip.OnActionIsPerformed -= RemoveSpendForce;
         }
 

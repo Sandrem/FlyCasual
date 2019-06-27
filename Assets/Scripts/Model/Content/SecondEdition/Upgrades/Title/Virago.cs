@@ -53,26 +53,31 @@ namespace Abilities.SecondEdition
         private void AskUseAbility(object sender, EventArgs e)
         {
             Messages.ShowInfo("Virago: You may spend 1 charge to perform a red boost action");
-            HostShip.BeforeFreeActionIsPerformed += RegisterSpendChargeTrigger;
+            HostShip.BeforeActionIsPerformed += RegisterSpendChargeTrigger;
             Selection.ChangeActiveShip(HostShip);
             HostShip.AskPerformFreeAction(new BoostAction() { Color = ActionColor.Red, CanBePerformedWhileStressed = false }, CleanUp);
         }
 
-        private void RegisterSpendChargeTrigger(GenericAction action)
+        private void RegisterSpendChargeTrigger(GenericAction action, ref bool isFreeAction)
         {
-            HostShip.BeforeFreeActionIsPerformed -= RegisterSpendChargeTrigger;
-            RegisterAbilityTrigger(
-                TriggerTypes.OnFreeAction,
-                delegate {
-                    HostUpgrade.State.SpendCharge();
-                    Triggers.FinishTrigger();
-                }
-            );
+            if (action is BoostAction && isFreeAction)
+            {
+                HostShip.BeforeActionIsPerformed -= RegisterSpendChargeTrigger;
+
+                RegisterAbilityTrigger(
+                    TriggerTypes.BeforeActionIsPerformed,
+                    delegate {
+                        HostUpgrade.State.SpendCharge();
+                        Triggers.FinishTrigger();
+                    }
+                );
+            }
         }
 
         private void CleanUp()
         {
-            HostShip.BeforeFreeActionIsPerformed -= RegisterSpendChargeTrigger;
+            HostShip.BeforeActionIsPerformed -= RegisterSpendChargeTrigger;
+
             Triggers.FinishTrigger();
         }
     }

@@ -79,12 +79,13 @@ namespace Abilities.SecondEdition
             return true;
         }
 
-        private void LeaveCalculateTokens()
+        private void LeaveCalculateTokens(Action callback)
         {
             foreach (GenericShip ship in Selection.MultiSelectedShips)
             {
                 ship.BeforeRemovingTokenInEndPhase += KeepOneCalculateToken;
             }
+            callback();
         }
 
         private void KeepOneCalculateToken(GenericShip ship, GenericToken token, ref bool remove)

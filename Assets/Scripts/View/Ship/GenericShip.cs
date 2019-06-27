@@ -461,6 +461,12 @@ namespace Ship
             projector.gameObject.SetActive(!projector.gameObject.activeSelf);
         }
 
+        public void TurnOffMultiSelectionProjector()
+        {
+            Transform projector = GetMultiSelectionProjector();
+            projector.gameObject.SetActive(false);
+        }
+
         public void HighlightSelectedOff()
         {
             Transform projector = GetSelectionProjector();

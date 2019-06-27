@@ -43,7 +43,7 @@ public enum TriggerTypes
     
     OnFreeActionPlanned,
     OnFreeAction,
-    BeforeFreeActionIsPerformed,
+    BeforeActionIsPerformed,
     OnActionIsPerformed,
     OnActionIsPerformed_System,
     OnActionIsReadyToBeFailed,
@@ -53,6 +53,7 @@ public enum TriggerTypes
     OnTokenIsSpent,
     OnTokenIsRemoved,
     OnCoordinateTargetIsSelected,
+    OnCoordinateMultiTargetsAreSelected,
     OnJamTargetIsSelected,
     OnTargetLockIsAcquired,
     OnRerollIsConfirmed,

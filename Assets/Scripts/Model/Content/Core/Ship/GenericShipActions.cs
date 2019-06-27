@@ -52,7 +52,7 @@ namespace Ship
 
         public event EventHandlerShip OnActionDecisionSubphaseEnd;
         public event EventHandlerShip OnActionIsSkipped;
-        public event EventHandlerAction BeforeFreeActionIsPerformed;
+        public event EventHandlerActionBool BeforeActionIsPerformed;
         public event EventHandlerAction OnActionIsPerformed;
         public event EventHandlerAction OnActionIsPerformed_System;
 
@@ -83,7 +83,7 @@ namespace Ship
 
         public event EventHandler OnDecloak;
 
-        public event EventHandlerActionRef OnCheckActionComplexity;
+        public event EventHandlerActionColor OnCheckActionComplexity;
 
         public event EventHandlerArcFacingList OnGetAvailableArcFacings;
 
@@ -97,6 +97,8 @@ namespace Ship
         public event EventHandlerShip OnPerformActionStepStart;
 
         public event EventHandlerActionShip OnActionTargetIsWrong;
+
+        public event EventHandlerCoordinateData OnCheckCoordinateModeModification;
 
 
         // ACTIONS
@@ -206,7 +208,7 @@ namespace Ship
             );
         }
 
-        public void CallBeforeFreeActionIsPerformed(GenericAction action, Action callBack)
+        public void CallBeforeActionIsPerformed(GenericAction action, Action callBack, bool isFree)
         {
             if (!action.IsRealAction)
             {
@@ -214,9 +216,9 @@ namespace Ship
                 return;
             }
 
-            BeforeFreeActionIsPerformed?.Invoke(action);
+            BeforeActionIsPerformed?.Invoke(action, ref isFree);
 
-            Triggers.ResolveTriggers(TriggerTypes.BeforeFreeActionIsPerformed, callBack);
+            Triggers.ResolveTriggers(TriggerTypes.BeforeActionIsPerformed, callBack);
         }
 
         public void GenerateAvailableFreeActionsList(List<GenericAction> freeActions)
@@ -660,9 +662,10 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnDecloak, callback);
         }
 
-        public void CallOnCheckActionComplexity(ref GenericAction action)
+        public ActionColor CallOnCheckActionComplexity(GenericAction action, ref ActionColor color)
         {
-            if (OnCheckActionComplexity != null) OnCheckActionComplexity(ref action);
+            OnCheckActionComplexity?.Invoke(action, ref color);
+            return color;
         }
 
         // ArcFacing
@@ -791,6 +794,13 @@ namespace Ship
             OnActionTargetIsWrong?.Invoke(action, wrongTarget);
 
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callback);
+        }
+
+        public CoordinateActionData CallCheckCoordinateModeModification()
+        {
+            CoordinateActionData coordinateActionData = new CoordinateActionData(this);
+            OnCheckCoordinateModeModification?.Invoke(ref coordinateActionData);
+            return coordinateActionData;
         }
     }
 

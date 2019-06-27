@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfoToHuman("Poe Dameron: you may spend 1 charge to perform a white action as a red action");
 
-            HostShip.BeforeFreeActionIsPerformed += PayChargeCost;
+            HostShip.BeforeActionIsPerformed += PayChargeCost;
 
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
             List<GenericAction> whiteActionBarActionsAsRed = actions
@@ -76,15 +76,15 @@ namespace Abilities.SecondEdition
             HostShip.AskPerformFreeAction(whiteActionBarActionsAsRed, CleanUp);
         }
 
-        private void PayChargeCost(GenericAction action)
+        private void PayChargeCost(GenericAction action, ref bool isFreeAction)
         {
             HostShip.State.Charges--;
-            HostShip.BeforeFreeActionIsPerformed -= PayChargeCost;
+            HostShip.BeforeActionIsPerformed -= PayChargeCost;
         }
 
         private void CleanUp()
         {
-            HostShip.BeforeFreeActionIsPerformed -= PayChargeCost;
+            HostShip.BeforeActionIsPerformed -= PayChargeCost;
             Triggers.FinishTrigger();
         }
 

@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
             {
                 Messages.ShowInfoToHuman(HostUpgrade.UpgradeInfo.Name + ": You may spend a force token to perform free action");
 
-                HostShip.BeforeFreeActionIsPerformed += PayForceToken;
+                HostShip.BeforeActionIsPerformed += PayForceToken;
                 HostShip.OnActionIsPerformed += CheckSupernaturalReflexesDamage;
                 HostShip.OnActionIsSkipped += DeregisterSupernaturalReflexesEvents;
 
@@ -82,16 +82,16 @@ namespace Abilities.SecondEdition
             }
         }
 
-        private void PayForceToken(GenericAction action)
+        private void PayForceToken(GenericAction action, ref bool isFreeAction)
         {
-            HostShip.BeforeFreeActionIsPerformed -= PayForceToken;
+            HostShip.BeforeActionIsPerformed -= PayForceToken;
 
             HostShip.State.Force--;
         }
 
         private void DeregisterSupernaturalReflexesEvents(GenericShip ship)
         {
-            HostShip.BeforeFreeActionIsPerformed -= PayForceToken;
+            HostShip.BeforeActionIsPerformed -= PayForceToken;
             HostShip.OnActionIsPerformed -= CheckSupernaturalReflexesDamage;
             HostShip.OnActionIsSkipped -= DeregisterSupernaturalReflexesEvents;
         }

@@ -161,7 +161,11 @@ namespace SubPhases
                             decisionName,
                             delegate {
                                 ActionWasPerformed = true;
-                                ActionsHolder.TakeActionStart(action);
+                                Selection.ThisShip.CallBeforeActionIsPerformed(
+                                    (GenericAction)action,
+                                    (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
+                                    isFree: false
+                                );
                             },
                             action.ImageUrl,
                             -1,
@@ -170,13 +174,17 @@ namespace SubPhases
                     }
                 }
 
-                if(!addedDecision)
+                if (!addedDecision)
                 {
                     AddDecision(
                         action.Name,
                         delegate {
                             ActionWasPerformed = true;
-                            ActionsHolder.TakeActionStart(action);
+                            Selection.ThisShip.CallBeforeActionIsPerformed(
+                                (GenericAction)action,
+                                (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
+                                isFree: false
+                            );
                         },
                         action.ImageUrl,
                         -1,
@@ -266,9 +274,10 @@ namespace SubPhases
                             decisionName,
                             delegate {
                                 ActionWasPerformed = true;
-                                Selection.ThisShip.CallBeforeFreeActionIsPerformed(
+                                Selection.ThisShip.CallBeforeActionIsPerformed(
                                     (GenericAction)action,
-                                    (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
+                                    (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
+                                    isFree: true
                                 );
                             },
                             action.ImageUrl,
@@ -284,9 +293,10 @@ namespace SubPhases
                         action.Name,
                         delegate {
                             ActionWasPerformed = true;
-                            Selection.ThisShip.CallBeforeFreeActionIsPerformed(
+                            Selection.ThisShip.CallBeforeActionIsPerformed(
                                 (GenericAction)action,
-                                (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); }
+                                (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
+                                isFree: true
                             );
                         },
                         action.ImageUrl,

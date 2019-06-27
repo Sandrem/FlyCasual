@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
 
             Messages.ShowInfoToHuman(HostName + ": you may spend 1 charge to perform an action");
 
-            HostShip.BeforeFreeActionIsPerformed += SpendCharge;
+            HostShip.BeforeActionIsPerformed += SpendCharge;
 
             HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), delegate
             {
@@ -67,15 +67,15 @@ namespace Abilities.SecondEdition
             });
         }
 
-        private void SpendCharge(GenericAction action)
+        private void SpendCharge(GenericAction action, ref bool isFreeAction)
         {
-            HostShip.BeforeFreeActionIsPerformed -= SpendCharge;
+            HostShip.BeforeActionIsPerformed -= SpendCharge;
             HostShip.SpendCharge();
         }
 
         private void CleanUp()
         {
-            HostShip.BeforeFreeActionIsPerformed -= SpendCharge;
+            HostShip.BeforeActionIsPerformed -= SpendCharge;
             Triggers.FinishTrigger();
         }
     }

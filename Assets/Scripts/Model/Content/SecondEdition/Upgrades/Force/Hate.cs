@@ -1,9 +1,10 @@
 ﻿using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class Hate : GenericUpgrade
+    public class Hate : GenericUpgrade, IVariableCost
     {
         public Hate() : base()
         {
@@ -17,6 +18,18 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/4a10b5c8a3d796116163a741d145f4e9.png";
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
+            {
+                {BaseSize.Small, 3},
+                {BaseSize.Medium, 6},
+                {BaseSize.Large, 9},
+            };
+
+            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
         }
     }
 }

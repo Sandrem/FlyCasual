@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Predictive Shot",
                 UpgradeType.Force,
-                cost: 4,
+                cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.PredictiveShotAbility)//,
                                                                         //seImageNumber: 22
             );

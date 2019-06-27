@@ -6,7 +6,7 @@ using Movement;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SeasonedNavigator : GenericUpgrade
+    public class SeasonedNavigator : GenericUpgrade, IVariableCost
     {
         public SeasonedNavigator() : base()
         {
@@ -17,7 +17,23 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.SeasonedNavigator),
                 seImageNumber: 47
             );
-        }        
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
+            {
+                {0, 2},
+                {1, 3},
+                {2, 4},
+                {3, 5},
+                {4, 6},
+                {5, 7},
+                {6, 8}
+            };
+
+            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
+        }
     }
 }
 

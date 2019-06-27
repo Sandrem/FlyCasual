@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Impervium Plating",
                 UpgradeType.Modification,
-                cost: 6, 
+                cost: 4,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.Belbullab22Starfighter.Belbullab22Starfighter)),
                 abilityType: typeof(Abilities.SecondEdition.ImperviumPlatingAbility),
                 charges: 2

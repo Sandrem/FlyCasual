@@ -15,7 +15,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             PilotInfo = new PilotCardInfo(
                 "Saesee Tiin",
                 4,
-                44,
+                43,
                 true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.SaeseeTiinAbility),

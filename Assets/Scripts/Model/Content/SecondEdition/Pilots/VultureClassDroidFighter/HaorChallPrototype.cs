@@ -13,7 +13,7 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
             PilotInfo = new PilotCardInfo(
                 "Haor Chall Prototype",
                 1,
-                24,
+                21,
                 limited: 2,
                 abilityType: typeof(Abilities.SecondEdition.HaorChallPrototypeAbility),
                 pilotTitle: "Xi Char Offering"

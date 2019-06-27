@@ -81,7 +81,7 @@ namespace SubPhases
 {
     public class PlaceBombTokenSubphase : GenericSubPhase
     {
-        private static GameObject BombGO;
+        private static GenericDeviceGameObject BombGO;
 
         public string AbilityName;
         public string Description;
@@ -124,8 +124,8 @@ namespace SubPhases
 
         private void CreateBombObject(Vector3 bombPosition, Quaternion bombRotation)
         {
-            GameObject prefab = (GameObject)Resources.Load(BombsManager.CurrentBomb.bombPrefabPath, typeof(GameObject));
-            BombGO = (MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, Board.GetBoard()));
+            GenericDeviceGameObject prefab = Resources.Load<GenericDeviceGameObject>(BombsManager.CurrentBomb.bombPrefabPath);
+            BombGO = MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, Board.GetBoard());
         }
 
         public void ShowDescription()
@@ -238,7 +238,7 @@ namespace SubPhases
             BombGO.transform.eulerAngles = angles;
 
             Roster.SetRaycastTargets(true);
-            BombsManager.CurrentBomb.ActivateBombs(new List<GameObject>() { BombGO }, Phases.CurrentSubPhase.Next);
+            BombsManager.CurrentBomb.ActivateBombs(new List<GenericDeviceGameObject>() { BombGO }, Phases.CurrentSubPhase.Next);
         }
 
         private void CheckPerformRotation()

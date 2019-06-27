@@ -83,7 +83,7 @@ namespace Conditions
             BombsManager.OnBombIsRemoved -= CheckDamage;
         }
 
-        private void CheckDamage(GenericBomb bomb, GameObject model)
+        private void CheckDamage(GenericBomb bomb, GenericDeviceGameObject model)
         {
             if (BombsManager.GetShipsInRange(model).Contains(Host))
             {

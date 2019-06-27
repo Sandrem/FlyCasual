@@ -6,6 +6,7 @@ using Upgrade;
 using Ship;
 using System.Linq;
 using SubPhases;
+using Bombs;
 
 namespace UpgradesList.FirstEdition
 {
@@ -38,7 +39,7 @@ namespace UpgradesList.FirstEdition
             sufferBombletDamageSubphase.Start();
         }
 
-        public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
+        public override void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
         {
             int random = UnityEngine.Random.Range(1, 8);
             Sounds.PlayBombSound(bombObject, "Explosion-" + random);

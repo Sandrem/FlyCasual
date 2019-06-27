@@ -35,7 +35,7 @@ namespace UpgradesList.FirstEdition
             ship.Damage.TryResolveDamage(1, seismicDamage, callBack);
         }
 
-        public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
+        public override void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
         {
             BombsManager.CurrentBomb = this;
             bombObject.transform.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
@@ -43,7 +43,7 @@ namespace UpgradesList.FirstEdition
             GameManagerScript.Wait(1, delegate { PlayDefferedSound(bombObject, callBack); });
         }
 
-        private void PlayDefferedSound(GameObject bombObject, Action callBack)
+        private void PlayDefferedSound(GenericDeviceGameObject bombObject, Action callBack)
         {
             Sounds.PlayBombSound(bombObject, "SeismicBomb");
             bombObject.transform.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();

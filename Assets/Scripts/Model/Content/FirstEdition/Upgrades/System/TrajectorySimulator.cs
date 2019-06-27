@@ -55,7 +55,7 @@ namespace SubPhases
 
     public class BombLaunchPlanningSubPhase : GenericSubPhase
     {
-        private List<GameObject> BombObjects = new List<GameObject>();
+        private List<GenericDeviceGameObject> BombObjects = new List<GenericDeviceGameObject>();
         List<ManeuverTemplate> AvailableBombLaunchTemplates = new List<ManeuverTemplate>();
         public ManeuverTemplate SelectedBombLaunchHelper;
 
@@ -77,14 +77,20 @@ namespace SubPhases
 
         private void CreateBombObject(Vector3 bombPosition, Quaternion bombRotation)
         {
-            GameObject prefab = (GameObject)Resources.Load(BombsManager.CurrentBomb.bombPrefabPath, typeof(GameObject));
-            BombObjects.Add(MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, BoardTools.Board.GetBoard()));
+            GenericDeviceGameObject prefab = Resources.Load<GenericDeviceGameObject>(BombsManager.CurrentBomb.bombPrefabPath);
+            var device = MonoBehaviour.Instantiate<GenericDeviceGameObject>(prefab, bombPosition, bombRotation, BoardTools.Board.GetBoard());
+            device.Initialize(BombsManager.CurrentBomb);
+            BombObjects.Add(device);
 
             if (!string.IsNullOrEmpty(BombsManager.CurrentBomb.bombSidePrefabPath))
             {
-                GameObject prefabSide = (GameObject)Resources.Load(BombsManager.CurrentBomb.bombSidePrefabPath, typeof(GameObject));
-                BombObjects.Add(MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardTools.Board.GetBoard()));
-                BombObjects.Add(MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardTools.Board.GetBoard()));
+                GenericDeviceGameObject prefabSide = Resources.Load<GenericDeviceGameObject>(BombsManager.CurrentBomb.bombSidePrefabPath);
+                var extraPiece1 = MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardTools.Board.GetBoard());
+                var extraPiece2 = MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardTools.Board.GetBoard());
+                BombObjects.Add(extraPiece1);
+                BombObjects.Add(extraPiece2);
+                extraPiece1.Initialize(BombsManager.CurrentBomb);
+                extraPiece2.Initialize(BombsManager.CurrentBomb);
             }
         }
 

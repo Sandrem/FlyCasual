@@ -13,7 +13,7 @@ namespace Upgrade
     {
         public GenericTimedBomb() : base()
         {
-
+            detonationRange = 1;
         }
 
         public override void AttachToShip(GenericShip host)
@@ -23,7 +23,7 @@ namespace Upgrade
             Editions.Edition.Current.TimedBombActivationTime(host);
         }
 
-        public override void ActivateBombs(List<GameObject> bombObjects, Action callBack)
+        public override void ActivateBombs(List<GenericDeviceGameObject> bombObjects, Action callBack)
         {
             Phases.Events.OnActivationPhaseEnd_Triggers -= PlanTimedDetonation;
             Phases.Events.OnActivationPhaseEnd_Triggers += PlanTimedDetonation;

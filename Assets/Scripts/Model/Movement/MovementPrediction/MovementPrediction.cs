@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Obstacles;
 using Ship;
+using Bombs;
 
 namespace Movement
 {
@@ -23,7 +24,7 @@ namespace Movement
 
         public List<Ship.GenericShip> ShipsBumped = new List<Ship.GenericShip>();
         public List<GenericObstacle> AsteroidsHit = new List<GenericObstacle>();
-        public List<GameObject> MinesHit = new List<GameObject>();
+        public List<GenericDeviceGameObject> MinesHit = new List<GenericDeviceGameObject>();
         public bool IsLandedOnAsteroid { get { return LandedOnObstacles.Count > 0; } }
         public List<GenericObstacle> LandedOnObstacles = new List<GenericObstacle>();
         public float SuccessfullMovementProgress { get; private set; }
@@ -139,7 +140,7 @@ namespace Movement
 
                         foreach (var mineHit in obstacleStayDetector.OverlapedMines)
                         {
-                            GameObject MineObject = mineHit.transform.parent.gameObject;
+                            GenericDeviceGameObject MineObject = mineHit.transform.parent.GetComponent<GenericDeviceGameObject>();
                             if (!MinesHit.Contains(MineObject))
                             {
                                 MinesHit.Add(MineObject);
@@ -173,7 +174,7 @@ namespace Movement
                     }
                     foreach (var mineHit in obstacleHitsDetector.OverlapedMines)
                     {
-                        GameObject MineObject = mineHit.transform.parent.gameObject;
+                        GenericDeviceGameObject MineObject = mineHit.transform.parent.GetComponent<GenericDeviceGameObject>();
                         if (!MinesHit.Contains(MineObject))
                         {
                             MinesHit.Add(MineObject);

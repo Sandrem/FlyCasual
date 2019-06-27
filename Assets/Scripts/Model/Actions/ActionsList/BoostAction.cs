@@ -8,6 +8,7 @@ using Editions;
 using Obstacles;
 using ActionsList;
 using Actions;
+using Bombs;
 
 namespace ActionsList
 {
@@ -338,7 +339,7 @@ namespace SubPhases
         {
             foreach (var mineCollider in obstaclesStayDetectorMovementTemplate.OverlapedMinesNow)
             {
-                GameObject mineObject = mineCollider.transform.parent.gameObject;
+                GenericDeviceGameObject mineObject = mineCollider.transform.parent.GetComponent<GenericDeviceGameObject>();
                 if (!TheShip.MinesHit.Contains(mineObject)) TheShip.MinesHit.Add(mineObject);
             }
         }

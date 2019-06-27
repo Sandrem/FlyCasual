@@ -35,7 +35,7 @@ namespace UpgradesList.FirstEdition
             ship.Damage.TryResolveDamage(1, thermaldetDamage, delegate { ship.Tokens.AssignToken(typeof(Tokens.StressToken), callBack); });
         }
 
-        public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
+        public override void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
         {
             BombsManager.CurrentBomb = this;
 

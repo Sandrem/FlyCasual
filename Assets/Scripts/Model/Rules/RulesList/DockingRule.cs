@@ -9,6 +9,7 @@ using Ship;
 using SubPhases;
 using Tokens;
 using Movement;
+using Bombs;
 
 namespace RulesList
 {
@@ -322,7 +323,7 @@ namespace RulesList
             Roster.AllShipsHighlightOff();
 
             Selection.ThisShip.IsHitObstacles = false;
-            Selection.ThisShip.MinesHit = new List<GameObject>();
+            Selection.ThisShip.MinesHit = new List<GenericDeviceGameObject>();
 
             Selection.ThisShip.AssignedManeuver.Perform();
         }

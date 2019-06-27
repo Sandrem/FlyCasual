@@ -5,6 +5,7 @@ using UnityEngine;
 using Upgrade;
 using Ship;
 using Tokens;
+using Bombs;
 
 namespace UpgradesList.SecondEdition
 {
@@ -54,7 +55,7 @@ namespace UpgradesList.SecondEdition
             return new IonToken(ship);
         }
 
-        public override void PlayDetonationAnimSound(GameObject bombObject, Action callBack)
+        public override void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
         {
             int random = UnityEngine.Random.Range(1, 8);
             Sounds.PlayBombSound(bombObject, "Explosion-" + random);

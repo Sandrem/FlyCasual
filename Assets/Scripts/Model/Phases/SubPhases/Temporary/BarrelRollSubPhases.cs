@@ -11,6 +11,7 @@ using ActionsList;
 using Actions;
 using Movement;
 using Ship;
+using Bombs;
 
 namespace SubPhases
 {
@@ -585,7 +586,7 @@ namespace SubPhases
         {
             foreach (var mineCollider in SelectedTemplate.Collider.OverlapedMinesNow)
             {
-                GameObject mineObject = mineCollider.transform.parent.gameObject;
+                GenericDeviceGameObject mineObject = mineCollider.transform.parent.GetComponent<GenericDeviceGameObject>();
                 if (!TheShip.MinesHit.Contains(mineObject)) TheShip.MinesHit.Add(mineObject);
             }
         }

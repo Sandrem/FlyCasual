@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Players;
 using Ship;
+using Bombs;
 
 public static class Sounds {
 
@@ -26,6 +27,11 @@ public static class Sounds {
     {
         AudioSource audioSource = bombObject.transform.GetComponentInChildren<AudioSource>();
         PlaySound(audioSource, path);
+    }
+
+    public static void PlayBombSound(GenericDeviceGameObject bombObjectComponent, string path)
+    {
+        PlayBombSound(bombObjectComponent.gameObject, path);
     }
 
     private static float PlaySound(AudioSource audioSource, string path)

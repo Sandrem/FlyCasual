@@ -31,6 +31,8 @@ public static class Rules
     public static BonusAttackRule BonusAttack { get; private set; }
     public static DestructionRule Destruction { get; private set; }
 
+    public static FuseRule Fuse { get; private set; }
+
 
     public static void Initialize()
     {
@@ -58,6 +60,7 @@ public static class Rules
         Charge = new ChargeRule();
         BonusAttack = new BonusAttackRule();
         Destruction = new DestructionRule();
+        Fuse = new FuseRule();
     }
 
     public static void FinishGame()

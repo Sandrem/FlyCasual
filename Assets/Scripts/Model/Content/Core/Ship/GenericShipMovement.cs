@@ -5,6 +5,7 @@ using Movement;
 using System;
 using Obstacles;
 using System.Linq;
+using Bombs;
 
 namespace Ship
 {
@@ -57,7 +58,7 @@ namespace Ship
 
         public List<GenericObstacle> ObstaclesHit = new List<GenericObstacle>();
 
-        public List<GameObject> MinesHit = new List<GameObject>();
+        public List<GenericDeviceGameObject> MinesHit = new List<GenericDeviceGameObject>();
 
         public bool IsBumped
         {

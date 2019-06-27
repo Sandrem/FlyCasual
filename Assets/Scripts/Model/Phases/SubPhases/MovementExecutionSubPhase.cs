@@ -4,6 +4,7 @@ using UnityEngine;
 using GameModes;
 using Movement;
 using Obstacles;
+using Bombs;
 
 namespace SubPhases
 {
@@ -32,7 +33,7 @@ namespace SubPhases
             Roster.AllShipsHighlightOff();
 
             Selection.ThisShip.ObstaclesHit = new List<GenericObstacle>();
-            Selection.ThisShip.MinesHit = new List<GameObject>();
+            Selection.ThisShip.MinesHit = new List<GenericDeviceGameObject>();
 
             CheckAssignedManeuver();
         }

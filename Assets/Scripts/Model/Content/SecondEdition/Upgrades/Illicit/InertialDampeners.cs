@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Inertial Dampeners",
                 UpgradeType.Illicit,
-                cost: 1,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.InertialDampenersAbility),
                 seImageNumber: 61
             );

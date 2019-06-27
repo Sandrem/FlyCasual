@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Seasoned Navigator",
                 UpgradeType.Crew,
-                cost: 5,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.SeasonedNavigator),
                 seImageNumber: 47
             );

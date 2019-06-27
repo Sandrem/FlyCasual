@@ -1,9 +1,10 @@
 ﻿using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class InertialDampeners : GenericUpgrade
+    public class InertialDampeners : GenericUpgrade, IVariableCost
     {
         public InertialDampeners() : base()
         {
@@ -14,7 +15,23 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.InertialDampenersAbility),
                 seImageNumber: 61
             );
-        }        
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
+            {
+                {0, 2},
+                {1, 3},
+                {2, 4},
+                {3, 5},
+                {4, 6},
+                {5, 7},
+                {6, 8}
+            };
+
+            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
+        }
     }
 }
 

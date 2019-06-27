@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Battle Meditation",
                 UpgradeType.Force,
-                cost: 0,
+                cost: 2,
                 isLimited: false,
                 restriction: new FactionRestriction(Faction.Republic),
                 addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Purple),

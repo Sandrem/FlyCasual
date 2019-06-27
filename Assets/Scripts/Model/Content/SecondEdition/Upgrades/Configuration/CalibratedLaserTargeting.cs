@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Calibrated Laser Targeting",
                 types: new List<UpgradeType> { UpgradeType.Configuration, UpgradeType.Modification },
-                cost: 10,
+                cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.Delta7Aethersprite.Delta7Aethersprite)),
                 abilityType: typeof(Abilities.SecondEdition.CalibratedLaserTargetingAbility)
                 //seImageNumber: ??
@@ -27,11 +27,11 @@ namespace UpgradesList.SecondEdition
             {
                 {0, 0},
                 {1, 0},
-                {2, 2},
-                {3, 4},
-                {4, 6},
-                {5, 8},
-                {6, 10}
+                {2, 1},
+                {3, 2},
+                {4, 3},
+                {5, 4},
+                {6, 5}
             };
 
             UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];

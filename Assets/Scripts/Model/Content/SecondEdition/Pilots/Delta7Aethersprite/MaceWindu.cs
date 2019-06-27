@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             PilotInfo = new PilotCardInfo(
                 "Mace Windu",
                 4,
-                46,
+                45,
                 true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.MaceWinduAbility),

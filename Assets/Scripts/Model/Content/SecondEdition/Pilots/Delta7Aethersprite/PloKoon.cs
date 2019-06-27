@@ -15,7 +15,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             PilotInfo = new PilotCardInfo(
                 "Plo Koon",
                 5,
-                51,
+                44,
                 true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.PloKoonAbility),

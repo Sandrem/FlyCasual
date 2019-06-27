@@ -63,21 +63,21 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfoToHuman("Darth Vader: you may spend 1 force to perform an action");
 
-            HostShip.BeforeFreeActionIsPerformed += PayForceCost;
+            HostShip.BeforeActionIsPerformed += PayForceCost;
 
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
             HostShip.AskPerformFreeAction(actions, CleanUp);
         }
 
-        private void PayForceCost(GenericAction action)
+        private void PayForceCost(GenericAction action, ref bool isFreeAction)
         {
             HostShip.State.Force--;
-            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+            HostShip.BeforeActionIsPerformed -= PayForceCost;
         }
 
         private void CleanUp()
         {
-            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+            HostShip.BeforeActionIsPerformed -= PayForceCost;
             Triggers.FinishTrigger();
         }
 

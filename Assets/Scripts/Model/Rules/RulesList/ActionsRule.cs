@@ -25,10 +25,11 @@ namespace RulesList
             // Selection.ThisShip is null during tractor beam
             if (action == null || Selection.ThisShip == null) return;
 
-            Selection.ThisShip.CallOnCheckActionComplexity(ref action);
+            ActionColor color = action.Color;
+            color = Selection.ThisShip.CallOnCheckActionComplexity(action, ref color);
 
             //AI perfroms red actions as white
-            if (action.IsRed && !(Selection.ThisShip.Owner is Players.GenericAiPlayer))
+            if (color == ActionColor.Red && !(Selection.ThisShip.Owner is Players.GenericAiPlayer))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
@@ -39,7 +40,7 @@ namespace RulesList
                 });
             }
 
-            if (action.IsPurple) Selection.ThisShip.State.Force--;
+            if (color == ActionColor.Purple) Selection.ThisShip.State.Force--;
         }
 
         private void GetStress(object sender, System.EventArgs e)

@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfoToHuman(HostUpgrade.UpgradeInfo.Name + ": You may suffer 1 damage to perform a white action");
 
-            HostShip.BeforeFreeActionIsPerformed += RegisterSufferDamage;
+            HostShip.BeforeActionIsPerformed += RegisterSufferDamage;
 
             HostShip.AskPerformFreeAction(
                 HostShip.GetAvailableActionsWhiteOnly(),
@@ -54,11 +54,11 @@ namespace Abilities.SecondEdition
             );
         }
 
-        private void RegisterSufferDamage(GenericAction action)
+        private void RegisterSufferDamage(GenericAction action, ref bool isFreeAction)
         {
-            HostShip.BeforeFreeActionIsPerformed -= RegisterSufferDamage;
+            HostShip.BeforeActionIsPerformed -= RegisterSufferDamage;
 
-            RegisterAbilityTrigger(TriggerTypes.BeforeFreeActionIsPerformed, SufferDamage);
+            RegisterAbilityTrigger(TriggerTypes.BeforeActionIsPerformed, SufferDamage);
         }
 
         private void SufferDamage(object sender, System.EventArgs e)
@@ -76,7 +76,7 @@ namespace Abilities.SecondEdition
 
         private void FinishAbility()
         {
-            HostShip.BeforeFreeActionIsPerformed -= RegisterSufferDamage;
+            HostShip.BeforeActionIsPerformed -= RegisterSufferDamage;
             Triggers.FinishTrigger();
         }
     }

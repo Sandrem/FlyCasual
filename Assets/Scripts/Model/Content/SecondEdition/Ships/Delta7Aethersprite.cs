@@ -124,7 +124,7 @@ namespace Abilities.SecondEdition
             if (HostShip.State.Force > 0)
             {
                 Messages.ShowInfoToHuman("Fine-Tuned Controls: You may spend 1 force to perform a barrel roll or boost action");
-                HostShip.BeforeFreeActionIsPerformed += PayForceCost;
+                HostShip.BeforeActionIsPerformed += PayForceCost;
 
                 HostShip.AskPerformFreeAction(
                     new List<GenericAction>()
@@ -142,15 +142,15 @@ namespace Abilities.SecondEdition
         }
 
 
-        private void PayForceCost(GenericAction action)
+        private void PayForceCost(GenericAction action, ref bool isFreeAction)
         {
             HostShip.State.Force--;
-            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+            HostShip.BeforeActionIsPerformed -= PayForceCost;
         }
 
         private void CleanUp()
         {
-            HostShip.BeforeFreeActionIsPerformed -= PayForceCost;
+            HostShip.BeforeActionIsPerformed -= PayForceCost;
             Triggers.FinishTrigger();
         }
     }

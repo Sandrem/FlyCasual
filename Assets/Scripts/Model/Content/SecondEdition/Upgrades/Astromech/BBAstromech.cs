@@ -67,7 +67,7 @@ namespace Abilities.SecondEdition
 
         private void AskPerformAction(object sender, EventArgs e)
         {
-            HostShip.BeforeFreeActionIsPerformed += SpendCharge;
+            HostShip.BeforeActionIsPerformed += SpendCharge;
 
             HostShip.AskPerformFreeAction(
                 AbilityActions,
@@ -75,16 +75,16 @@ namespace Abilities.SecondEdition
             );
         }
 
-        private void SpendCharge(GenericAction action)
+        private void SpendCharge(GenericAction action, ref bool isFreeAction)
         {
-            HostShip.BeforeFreeActionIsPerformed -= SpendCharge;
+            HostShip.BeforeActionIsPerformed -= SpendCharge;
             Sounds.PlayShipSound("BB-8-Sound");
             HostUpgrade.State.SpendCharge();
         }
 
         private void CleanUp()
         {
-            HostShip.BeforeFreeActionIsPerformed -= SpendCharge;
+            HostShip.BeforeActionIsPerformed -= SpendCharge;
             Triggers.FinishTrigger();
         }
     }

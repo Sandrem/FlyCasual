@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
         
         private void GrantAction()
         {
-            TargetShip.BeforeFreeActionIsPerformed += PayForceCost;
+            TargetShip.BeforeActionIsPerformed += PayForceCost;
 
             SelectShipSubPhase.FinishSelectionNoCallback();
             Selection.ThisShip = TargetShip;
@@ -84,16 +84,16 @@ namespace Abilities.SecondEdition
                 delegate {
                     TargetShip.CanPerformActionsWhileStressed = oldValue;
                     Selection.ThisShip = HostShip;
-                    TargetShip.BeforeFreeActionIsPerformed -= PayForceCost;
+                    TargetShip.BeforeActionIsPerformed -= PayForceCost;
                     Triggers.FinishTrigger();
                 }
             );
         }
 
-        private void PayForceCost(GenericAction action)
+        private void PayForceCost(GenericAction action, ref bool isFreeAction)
         {
             HostShip.State.Force--;
-            TargetShip.BeforeFreeActionIsPerformed -= PayForceCost;
+            TargetShip.BeforeActionIsPerformed -= PayForceCost;
         }
 
         private bool FilterTargets(GenericShip ship)

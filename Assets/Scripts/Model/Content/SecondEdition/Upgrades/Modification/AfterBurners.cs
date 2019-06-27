@@ -53,13 +53,13 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfoToHuman("AfterBurners: You may spend 1 charge to perform a boost action");
 
-            HostShip.BeforeFreeActionIsPerformed += RegisterSpendChargeTrigger;
+            HostShip.BeforeActionIsPerformed += RegisterSpendChargeTrigger;
             HostShip.AskPerformFreeAction(new BoostAction() { CanBePerformedWhileStressed = true }, CleanUp);
         }
 
-        private void RegisterSpendChargeTrigger(GenericAction action)
+        private void RegisterSpendChargeTrigger(GenericAction action, ref bool isFreeAction)
         {
-            HostShip.BeforeFreeActionIsPerformed -= RegisterSpendChargeTrigger;
+            HostShip.BeforeActionIsPerformed -= RegisterSpendChargeTrigger;
             RegisterAbilityTrigger(
                 TriggerTypes.OnFreeAction,
                 delegate {
@@ -71,7 +71,7 @@ namespace Abilities.SecondEdition
 
         private void CleanUp()
         {
-            HostShip.BeforeFreeActionIsPerformed -= RegisterSpendChargeTrigger;
+            HostShip.BeforeActionIsPerformed -= RegisterSpendChargeTrigger;
             Triggers.FinishTrigger();
         }
     }

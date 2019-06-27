@@ -40,11 +40,11 @@ namespace Abilities.SecondEdition
             HostShip.OnCheckActionComplexity -= CheckDecreaseComplexity;
         }
 
-        private void CheckDecreaseComplexity(ref GenericAction action)
+        private void CheckDecreaseComplexity(GenericAction action, ref ActionColor color)
         {
-            if (action is EvadeAction && action.IsRed)
+            if (action is EvadeAction && color == ActionColor.Red)
             {
-                if (IsNearObstacle()) action.Color = ActionColor.White;
+                if (IsNearObstacle()) color = ActionColor.White;
             }
         }
 

@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
             {
                 Messages.ShowInfoToHuman(HostName + ": you may spend 1 charge to perform an action, even while stressed");
 
-                HostShip.BeforeFreeActionIsPerformed += SpendCharge;
+                HostShip.BeforeActionIsPerformed += SpendCharge;
 
                 var oldValue = HostShip.CanPerformActionsWhileStressed;
                 HostShip.CanPerformActionsWhileStressed = true;
@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
                 HostShip.AskPerformFreeAction(actions, delegate
                 {
                     HostShip.CanPerformActionsWhileStressed = oldValue;
-                    HostShip.BeforeFreeActionIsPerformed -= SpendCharge;
+                    HostShip.BeforeActionIsPerformed -= SpendCharge;
                     Triggers.FinishTrigger();
                 });
             }
@@ -70,10 +70,10 @@ namespace Abilities.SecondEdition
             }
         }
 
-        private void SpendCharge(GenericAction action)
+        private void SpendCharge(GenericAction action, ref bool isFreeAction)
         {
             HostUpgrade.State.SpendCharge();
-            HostShip.BeforeFreeActionIsPerformed -= SpendCharge;
+            HostShip.BeforeActionIsPerformed -= SpendCharge;
         }
     }
 }

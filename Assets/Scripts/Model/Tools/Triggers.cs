@@ -43,7 +43,7 @@ public enum TriggerTypes
     
     OnFreeActionPlanned,
     OnFreeAction,
-    BeforeFreeActionIsPerformed,
+    BeforeActionIsPerformed,
     OnActionIsPerformed,
     OnActionIsPerformed_System,
     OnActionIsReadyToBeFailed,

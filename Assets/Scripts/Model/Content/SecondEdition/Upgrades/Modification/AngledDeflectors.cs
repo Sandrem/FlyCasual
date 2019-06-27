@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Angled Deflectors",
                 UpgradeType.Modification,
-                cost: 4,
+                cost: 6,
                 restrictions: new UpgradeCardRestrictions(
                     new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium), 
                     new StatValueRestriction(
@@ -35,10 +35,10 @@ namespace UpgradesList.SecondEdition
         {
             Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
             {
-                {0, 5},
-                {1, 4},
+                {0, 9},
+                {1, 6},
                 {2, 3},
-                {3, 2}
+                {3, 3}
             };
 
             UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];

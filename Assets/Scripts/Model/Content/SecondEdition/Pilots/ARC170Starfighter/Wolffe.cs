@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Wolffe\"",
                     4,
-                    51,
+                    50,
                     isLimited: true,
                     factionOverride: Faction.Republic,
                     abilityType: typeof(Abilities.SecondEdition.WolffeAbility),

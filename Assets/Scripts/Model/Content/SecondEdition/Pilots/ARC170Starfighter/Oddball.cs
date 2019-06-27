@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Odd Ball\"",
                     5,
-                    55,
+                    52,
                     isLimited: true,
                     factionOverride: Faction.Republic,
                     abilityType: typeof(Abilities.SecondEdition.OddBallAbility),

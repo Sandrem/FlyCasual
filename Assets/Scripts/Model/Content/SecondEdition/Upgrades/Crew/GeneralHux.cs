@@ -35,8 +35,6 @@ namespace Abilities.SecondEdition
 {
     public class GeneralHuxAbility : GenericAbility
     {
-        private GenericAction CurrentCoordinateAction;
-
         public override void ActivateAbility()
         {
             HostShip.BeforeActionIsPerformed += CheckAbility;
@@ -49,9 +47,8 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(GenericAction action, ref bool isFree)
         {
-            if (action is CoordinateAction && action.Color == Actions.ActionColor.White)
+            if (action is CoordinateAction && action.Color == ActionColor.White)
             {
-                CurrentCoordinateAction = action;
                 RegisterAbilityTrigger(TriggerTypes.BeforeActionIsPerformed, AskToTreatAsRed);
             }
         }
@@ -67,11 +64,10 @@ namespace Abilities.SecondEdition
 
         private void TreatActionAsRed(object sender, EventArgs e)
         {
-            SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            HostShip.OnCheckActionComplexity += ModifyComplexity;
+            HostShip.OnCheckActionComplexity += TreatThisCoordinateActionAsRed;
             HostShip.OnCheckCoordinateModeModification += SetCustomCoordinateMode;
-            Triggers.FinishTrigger();
+
+            SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
         private void SetCustomCoordinateMode(ref CoordinateActionData coordinateActionData)
@@ -79,16 +75,17 @@ namespace Abilities.SecondEdition
             coordinateActionData.MaxTargets = 3;
             coordinateActionData.SameShipTypeLimit = true;
             coordinateActionData.SameActionLimit = true;
+            coordinateActionData.TreatCoordinatedActionAsRed = true;
 
             HostShip.OnCheckCoordinateModeModification -= SetCustomCoordinateMode;
         }
 
-        private void ModifyComplexity(GenericAction action, ref ActionColor color)
+        private void TreatThisCoordinateActionAsRed(GenericAction action, ref ActionColor color)
         {
             if (action is CoordinateAction && color == ActionColor.White)
             {
                 color = ActionColor.Red;
-                HostShip.OnCheckActionComplexity -= ModifyComplexity;
+                HostShip.OnCheckActionComplexity -= TreatThisCoordinateActionAsRed;
             }
         }
     }

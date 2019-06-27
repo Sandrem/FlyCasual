@@ -19,7 +19,9 @@ namespace Actions
         public bool SameShipTypeLimit { get; set; }
         public bool SameActionLimit { get; set; }
         public bool OnlyNonLimited { get; set; }
+        public bool TreatCoordinatedActionAsRed { get; set; }
         public GenericShip CoordinateProvider { get; private set; }
+        public GenericAction FirstChosenAction { get; set; }
 
         public CoordinateActionData(GenericShip coordinateProvider)
         {
@@ -34,6 +36,8 @@ namespace ActionsList
 
     public class CoordinateAction : GenericAction
     {
+        CoordinateActionData CoordinateActionData;
+
         public CoordinateAction()
         {
             Name = DiceModificationName = "Coordinate";
@@ -41,9 +45,9 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            CoordinateActionData coordinateActionData = HostShip.CallCheckCoordinateModeModification();
+            CoordinateActionData = HostShip.CallCheckCoordinateModeModification();
 
-            if (coordinateActionData.MaxTargets == 1)
+            if (CoordinateActionData.MaxTargets == 1)
             {
                 CoordinateTargetSubPhase subphase = Phases.StartTemporarySubPhaseNew<CoordinateTargetSubPhase>(
                     "Select target for Coordinate",
@@ -63,9 +67,9 @@ namespace ActionsList
                 subphase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
                 subphase.Filter = FilterCoordinateTargets;
-                subphase.MaxToSelect = coordinateActionData.MaxTargets;
+                subphase.MaxToSelect = CoordinateActionData.MaxTargets;
                 subphase.WhenDone = CoordinateTargets;
-                subphase.CoordinateActionData = coordinateActionData;
+                subphase.CoordinateActionData = CoordinateActionData;
 
                 subphase.AbilityName = "Coordinate Action";
                 subphase.Description = "Select another ships.\nThey perform free action.";
@@ -96,15 +100,33 @@ namespace ActionsList
 
         private void CoordinateShipForMultiSelection(GenericShip targetShip)
         {
-            Selection.ThisShip.CallCoordinateTargetIsSelected(
+            CoordinateActionData.CoordinateProvider.OnCoordinateTargetIsSelected += PrepareToRememberChosenAction;
+            CoordinateActionData.CoordinateProvider.CallCoordinateTargetIsSelected(
                 targetShip,
                 delegate { PerformMultiCoordinateEffect(targetShip); }
             );
         }
 
+        private void PrepareToRememberChosenAction(GenericShip coordinatedShip)
+        {
+            coordinatedShip.OnActionIsPerformed += RememberChosenAction;
+            coordinatedShip.OnActionIsSkipped += ClearRememberChosenAction;
+        }
+
+        private void ClearRememberChosenAction(GenericShip coordinatedShip)
+        {
+            coordinatedShip.OnActionIsPerformed -= RememberChosenAction;
+            coordinatedShip.OnActionIsSkipped -= ClearRememberChosenAction;
+        }
+
+        private void RememberChosenAction(GenericAction action)
+        {
+            if (CoordinateActionData.FirstChosenAction == null) CoordinateActionData.FirstChosenAction = action;
+            ClearRememberChosenAction(Selection.ThisShip);
+        }
+
         private void PerformMultiCoordinateEffect(GenericShip targetShip)
         {
-            var coordinatingShip = Selection.ThisShip;
             Selection.ChangeActiveShip(targetShip);
             GenericAction currentAction = ActionsHolder.CurrentAction;
 
@@ -121,9 +143,9 @@ namespace ActionsList
             MovementTemplates.ReturnRangeRuler();
 
             Triggers.ResolveTriggers(TriggerTypes.OnFreeActionPlanned, (System.Action)delegate {
-                Selection.ThisShip = coordinatingShip;
+                Selection.ChangeActiveShip(CoordinateActionData.CoordinateProvider);
+                CoordinateActionData.CoordinateProvider.OnCoordinateTargetIsSelected -= PrepareToRememberChosenAction;
                 ActionsHolder.CurrentAction = currentAction;
-                Phases.FinishSubPhase(typeof(CoordinateTargetSubPhase));
                 Triggers.FinishTrigger();
             });
         }
@@ -133,7 +155,7 @@ namespace ActionsList
             targetShip.AskPerformFreeAction(
                 GetPossibleActions(), 
                 delegate {
-                    Selection.ChangeActiveShip((Phases.CurrentSubPhase as CoordinateMultiTargetSubPhase).CoordinateActionData.CoordinateProvider);
+                    Selection.ChangeActiveShip(CoordinateActionData.CoordinateProvider);
                     Triggers.FinishTrigger();
                 }
             );
@@ -141,14 +163,31 @@ namespace ActionsList
 
         protected virtual List<GenericAction> GetPossibleActions()
         {
-            return Selection.ThisShip.GetAvailableActions();
+            List<GenericAction> result = new List<GenericAction>();
+            if (!CoordinateActionData.SameActionLimit || CoordinateActionData.FirstChosenAction == null)
+            {
+                result = Selection.ThisShip.GetAvailableActions();
+            }
+            else
+            {
+                result = Selection.ThisShip.GetAvailableActions().Where(n => n.GetType() == CoordinateActionData.FirstChosenAction.GetType()).ToList();
+            }
+
+            if (CoordinateActionData.TreatCoordinatedActionAsRed)
+            {
+                result = result.Select(n => n.AsRedAction).ToList();
+            }
+
+            return result;
         }
 
         private bool FilterCoordinateTargets(GenericShip ship)
         {
             return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo
                 && Board.CheckInRange(Selection.ThisShip, ship, 1, 2, RangeCheckReason.CoordinateAction)
-                && ship.CanBeCoordinated;
+                && ship.CanBeCoordinated
+                && (!CoordinateActionData.SameActionLimit || Selection.MultiSelectedShips.Count == 0 || ship.ShipInfo.ShipName == Selection.MultiSelectedShips.First().ShipInfo.ShipName)
+                && (!CoordinateActionData.OnlyNonLimited || !ship.PilotInfo.IsLimited);
         }
 
         public override void RevertActionOnFail(bool hasSecondChance = false)

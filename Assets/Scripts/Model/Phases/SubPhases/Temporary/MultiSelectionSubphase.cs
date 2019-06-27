@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using ActionsList;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,13 @@ namespace SubPhases
     {
         public Func<GenericShip, bool> Filter { get; set; }
         public int MaxToSelect { get; set; }
-        public Action WhenDone { get; set; }
+        public Action<Action> WhenDone { get; set; }
 
-        public string AbilityName;
-        public string Description;
-        public IImageHolder ImageSource;
+        public string AbilityName { get; set; }
+        public string Description { get; set; }
+        public IImageHolder ImageSource { get; set; }
+
+        public GenericAction HostAction { get; set; }
 
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressNext }; } }
 
@@ -98,22 +101,28 @@ namespace SubPhases
 
         public override void Next()
         {
-            WhenDone();
-            FinishSubPhase();
+            WhenDone(FinishSubPhase);
         }
 
         private void FinishSubPhase()
         {
-            Selection.ClearMultiSelection();
+            Pause();
 
-            Roster.AllShipsHighlightOff();
-            HideSubphaseDescription();
-            UI.HideNextButton();
+            Selection.ClearMultiSelection();
 
             Action callback = Phases.CurrentSubPhase.CallBack;
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;
             Phases.CurrentSubPhase.Resume();
             callback();
+        }
+
+        public override void Pause()
+        {
+            Selection.HideMultiSelectionHighlight();
+
+            Roster.AllShipsHighlightOff();
+            HideSubphaseDescription();
+            UI.HideNextButton();
         }
     }
 }

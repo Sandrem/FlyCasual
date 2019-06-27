@@ -59,6 +59,7 @@ namespace Ship
         public delegate void EventHandlerForceAlignmentBool(ForceAlignment alignment, ref bool data);
         public delegate void EventHandlerShipBomb(GenericShip ship, GenericBomb bomb);
         public delegate void EventHandlerActionShip(GenericAction action, GenericShip wrongTarget);
+        public delegate void EventHandlerCoordinateData(ref CoordinateActionData coordinateActionData);
 
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetMaxHull;

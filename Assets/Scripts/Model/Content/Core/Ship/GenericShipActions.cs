@@ -98,6 +98,8 @@ namespace Ship
 
         public event EventHandlerActionShip OnActionTargetIsWrong;
 
+        public event EventHandlerCoordinateData OnCheckCoordinateModeModification;
+
 
         // ACTIONS
 
@@ -792,6 +794,13 @@ namespace Ship
             OnActionTargetIsWrong?.Invoke(action, wrongTarget);
 
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callback);
+        }
+
+        public CoordinateActionData CallCheckCoordinateModeModification()
+        {
+            CoordinateActionData coordinateActionData = new CoordinateActionData(this);
+            OnCheckCoordinateModeModification?.Invoke(ref coordinateActionData);
+            return coordinateActionData;
         }
     }
 

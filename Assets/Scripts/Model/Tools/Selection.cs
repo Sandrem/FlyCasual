@@ -251,11 +251,15 @@ public static class Selection {
 
     public static void ClearMultiSelection()
     {
-        foreach (GenericShip ship in MultiSelectedShips)
-        {
-            ship.ToggleMultiSelectionProjector();
-        }
+        HideMultiSelectionHighlight();
         MultiSelectedShips = new List<GenericShip>();
     }
 
+    public static void HideMultiSelectionHighlight()
+    {
+        foreach (GenericShip ship in MultiSelectedShips)
+        {
+            ship.TurnOffMultiSelectionProjector();
+        }
+    }
 }

@@ -70,7 +70,17 @@ namespace Abilities.SecondEdition
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
 
             HostShip.OnCheckActionComplexity += ModifyComplexity;
+            HostShip.OnCheckCoordinateModeModification += SetCustomCoordinateMode;
             Triggers.FinishTrigger();
+        }
+
+        private void SetCustomCoordinateMode(ref CoordinateActionData coordinateActionData)
+        {
+            coordinateActionData.MaxTargets = 3;
+            coordinateActionData.SameShipTypeLimit = true;
+            coordinateActionData.SameActionLimit = true;
+
+            HostShip.OnCheckCoordinateModeModification -= SetCustomCoordinateMode;
         }
 
         private void ModifyComplexity(GenericAction action, ref ActionColor color)

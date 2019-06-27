@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
             PilotInfo = new PilotCardInfo(
                 "Wat Tambor",
                 3,
-                43,
+                42,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.WatTamborAbility),
                 pilotTitle: "Techno Union Foreman",

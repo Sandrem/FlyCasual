@@ -13,7 +13,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
             PilotInfo = new PilotCardInfo(
                 "Separatist Bomber",
                 3,
-                28,
+                29,
                 extraUpgradeIcon: UpgradeType.Talent
             );
 

@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Grappling Struts (Test)",
                 UpgradeType.Configuration,
-                cost: 0, //TODO
+                cost: 1,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.VultureClassDroidFighter.VultureClassDroidFighter)),
                 abilityType: typeof(Abilities.SecondEdition.GrapplingStrutsAbility)
             );

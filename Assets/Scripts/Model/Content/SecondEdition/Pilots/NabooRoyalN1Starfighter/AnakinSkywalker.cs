@@ -17,12 +17,12 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Anakin Skywalker",
                     4,
-                    45,
+                    41,
                     isLimited: true,
                     force: 1,
                     abilityText: "Before you reveal your maneuver, you may spend 1 force to barrel roll (this does not count as an action).",
                     abilityType: typeof(AnakinSkywalkerNabooN1StarfighterAbility),
-                    extraUpgradeIcon: UpgradeType.Force
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/01/c2/01c23677-9c23-46fd-a97d-082f3f7866fd/swz40_anakin-skywalker.png";

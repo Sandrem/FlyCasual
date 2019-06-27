@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Bravo Flight Officer",
                     2,
-                    30
+                    34
                 );
 
                 ImageUrl = "https://i.imgur.com/JxA7qYJ.png";

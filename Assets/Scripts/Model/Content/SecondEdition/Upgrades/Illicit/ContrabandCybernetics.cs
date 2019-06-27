@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Contraband Cybernetics",
                 UpgradeType.Illicit,
-                cost: 5,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.ContrabandCyberneticsAbility),
                 charges: 1,
                 seImageNumber: 58

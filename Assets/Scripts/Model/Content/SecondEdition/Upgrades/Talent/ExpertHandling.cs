@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Expert Handling",
                 UpgradeType.Talent,
-                cost: 2,
+                cost: 4,
                 restriction: new ActionBarRestriction(typeof(BarrelRollAction), ActionColor.Red),
                 addAction: new ActionInfo(typeof(BarrelRollAction)),
                 seImageNumber: 5

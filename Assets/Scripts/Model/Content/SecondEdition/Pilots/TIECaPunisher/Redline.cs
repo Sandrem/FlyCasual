@@ -30,12 +30,14 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
+            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Add(HostShip);
             HostShip.TwoTargetLocksOnSameTargetsAreAllowed.Add(HostShip);
             HostShip.OnActionIsPerformed += RegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
+            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Remove(HostShip);
             HostShip.TwoTargetLocksOnSameTargetsAreAllowed.Remove(HostShip);
             HostShip.OnActionIsPerformed -= RegisterAbility;
         }

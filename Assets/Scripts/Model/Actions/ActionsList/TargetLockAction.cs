@@ -295,9 +295,8 @@ namespace SubPhases
 
         private bool FilterTargetLockTargets(ITargetLockable target)
         {
-            // Don't include targets that are owned by the target locking player, ships that can't get target locks, or ships that already have a target lock from this ship.
-            // Without the last test, Redline can target lock the same target twice.
-            return (Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, target) && !ActionsHolder.HasTargetLockOn(Selection.ThisShip, target));
+            // Don't include targets that are owned by the target locking player or ships that can't get target locks
+            return Rules.TargetLocks.TargetLockIsAllowed(Selection.ThisShip, target);
         }
 
         private int GetTargetLockAiPriority(GenericShip ship)

@@ -24,13 +24,13 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Add(HostUpgrade);
+            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Add(HostShip);
             HostShip.OnActionIsPerformed += CheckAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Remove(HostUpgrade);
+            HostShip.TwoTargetLocksOnDifferentTargetsAreAllowed.Remove(HostShip);
             HostShip.OnActionIsPerformed -= CheckAction;
         }
 

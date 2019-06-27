@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
             PilotInfo = new PilotCardInfo(
                 "General Grievous",
                 4,
-                47,
+                44,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.GeneralGrievousAbility),
                 pilotTitle: "Ambitious Cyborg",

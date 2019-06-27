@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SwarmTactics : GenericUpgrade
+    public class SwarmTactics : GenericUpgrade, IVariableCost
     {
         public SwarmTactics() : base()
         {
@@ -16,6 +16,22 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.FirstEdition.SwarmTacticsAbility),
                 seImageNumber: 17
             );
-        }        
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
+            {
+                {0, 3},
+                {1, 3},
+                {2, 3},
+                {3, 3},
+                {4, 3},
+                {5, 4},
+                {6, 5}
+            };
+
+            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
+        }
     }
 }

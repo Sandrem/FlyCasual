@@ -2,22 +2,36 @@
 using UnityEngine;
 using Ship;
 using System;
+using System.Collections.Generic;
 using Tokens;
 
 namespace UpgradesList.SecondEdition
 {
-    public class R2Astromech : GenericUpgrade
+    public class R2Astromech : GenericUpgrade, IVariableCost
     {
         public R2Astromech() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "R2 Astromech",
                 UpgradeType.Astromech,
-                cost: 4,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.R2AstromechAbility),
                 charges: 2,
                 seImageNumber: 53
             );
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
+            {
+                {0, 3},
+                {1, 3},
+                {2, 4},
+                {3, 6}
+            };
+
+            UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];
         }
     }
 }

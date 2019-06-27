@@ -99,6 +99,7 @@ namespace Ship
         public event EventHandlerActionShip OnActionTargetIsWrong;
 
         public event EventHandlerCoordinateData OnCheckCoordinateModeModification;
+        public event EventHandlerShipRefBool OnCheckCanCoordinate;
 
 
         // ACTIONS
@@ -801,6 +802,13 @@ namespace Ship
             CoordinateActionData coordinateActionData = new CoordinateActionData(this);
             OnCheckCoordinateModeModification?.Invoke(ref coordinateActionData);
             return coordinateActionData;
+        }
+
+        public bool CallCheckCanCoordinate(GenericShip ship)
+        {
+            bool result = true;
+            OnCheckCanCoordinate?.Invoke(ship, ref result);
+            return result;
         }
     }
 

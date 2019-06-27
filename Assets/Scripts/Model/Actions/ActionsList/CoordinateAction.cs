@@ -18,7 +18,6 @@ namespace Actions
         public int MaxTargets { get; set; }
         public bool SameShipTypeLimit { get; set; }
         public bool SameActionLimit { get; set; }
-        public bool OnlyNonLimited { get; set; }
         public bool TreatCoordinatedActionAsRed { get; set; }
         public GenericShip CoordinateProvider { get; private set; }
         public GenericAction FirstChosenAction { get; set; }
@@ -184,10 +183,10 @@ namespace ActionsList
         private bool FilterCoordinateTargets(GenericShip ship)
         {
             return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo
-                && Board.CheckInRange(Selection.ThisShip, ship, 1, 2, RangeCheckReason.CoordinateAction)
+                && Board.CheckInRange(CoordinateActionData.CoordinateProvider, ship, 1, 2, RangeCheckReason.CoordinateAction)
                 && ship.CanBeCoordinated
                 && (!CoordinateActionData.SameActionLimit || Selection.MultiSelectedShips.Count == 0 || ship.ShipInfo.ShipName == Selection.MultiSelectedShips.First().ShipInfo.ShipName)
-                && (!CoordinateActionData.OnlyNonLimited || !ship.PilotInfo.IsLimited);
+                && CoordinateActionData.CoordinateProvider.CallCheckCanCoordinate(ship);
         }
 
         public override void RevertActionOnFail(bool hasSecondChance = false)
@@ -256,7 +255,8 @@ namespace SubPhases
         {
             return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo
                 && Board.CheckInRange(Selection.ThisShip, ship, 1, 2, RangeCheckReason.CoordinateAction)
-                && ship.CanBeCoordinated;
+                && ship.CanBeCoordinated
+                && Selection.ThisShip.CallCheckCanCoordinate(ship);
         }
 
         private void SelectCoordinateTarget()

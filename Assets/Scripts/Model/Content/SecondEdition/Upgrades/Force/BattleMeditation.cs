@@ -21,7 +21,6 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.BattleMeditationAbility)
             );
 
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e3/0b/e30ba082-91c7-408b-9738-d631079911c7/swz32_battle-meditation.png";
         }
 

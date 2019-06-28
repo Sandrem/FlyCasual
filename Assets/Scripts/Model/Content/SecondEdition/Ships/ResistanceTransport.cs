@@ -13,8 +13,6 @@ namespace Ship.SecondEdition.ResistanceTransport
     {
         public ResistanceTransport() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "Resistance Transport",

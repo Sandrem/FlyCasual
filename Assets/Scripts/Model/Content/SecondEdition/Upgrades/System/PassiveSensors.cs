@@ -16,10 +16,8 @@ namespace UpgradesList.SecondEdition
                 cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.PassiveSensorsAbility),
                 regensCharges: true,
-                charges: 1                
-                //seImageNumber: 25
+                charges: 1
             );
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
 
             ImageUrl = "http://azrapse.es/Passive_Sensors.png";
         }

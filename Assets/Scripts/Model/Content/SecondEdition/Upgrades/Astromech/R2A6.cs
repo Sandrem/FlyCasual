@@ -13,8 +13,6 @@ namespace UpgradesList.SecondEdition
     {
         public R2A6() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "R2-A6",
                 UpgradeType.Astromech,
@@ -23,8 +21,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Republic),
                 abilityType: typeof(Abilities.SecondEdition.R2A6Ability)
             );
-
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
 
             ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/c4/Swz40_card-r2-a6.png";
         }

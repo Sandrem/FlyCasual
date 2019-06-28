@@ -17,8 +17,6 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
     {
         public HyenaClassDroidBomber() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "Hyena-class Droid Bomber",

@@ -23,10 +23,8 @@ namespace UpgradesList.SecondEdition
                     )
                 ),
                 addAction: new ActionInfo(typeof(ReinforceAction)),
-                addShields: -1,
-                seImageNumber: 75
+                addShields: -1
             );
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/50/91/5091f169-b8ea-449a-909d-9d8dd39b2efb/swz45_angled-deflectors.png";
         }

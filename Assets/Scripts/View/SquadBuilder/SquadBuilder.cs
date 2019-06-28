@@ -16,10 +16,15 @@ using Obstacles;
 
 namespace SquadBuilderNS
 {
+    public enum FactionSize
+    {
+        Small4,
+        Medium6,
+        Large20
+    }
+
     public static partial class SquadBuilder
     {
-        private const int SHIP_COLUMN_COUNT = 5;
-        private const int SHIP_COLUMN_COUNT_SMALLFACTION = 3;
         private const float PILOT_CARD_WIDTH = 300;
         private const float PILOT_CARD_HEIGHT = 418;
         private const float DISTANCE_LARGE = 40;
@@ -101,11 +106,23 @@ namespace SquadBuilderNS
 
         private static void ScaleSelectShipPanel(Faction faction)
         {
-            string prefabPath = (IsSmallFaction(faction)) ? "Prefabs/SquadBuilder/ShipPanelBig" : "Prefabs/SquadBuilder/ShipPanel";
+            string prefabPath = (GetFactionSize(faction) == FactionSize.Large20) ? "Prefabs/SquadBuilder/ShipPanelBig" : "Prefabs/SquadBuilder/ShipPanel";
             GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
             GridLayoutGroup grid = GameObject.Find("UI/Panels/SelectShipPanel/Panel").GetComponentInChildren<GridLayoutGroup>();
             grid.cellSize = prefab.GetComponent<RectTransform>().sizeDelta;
-            grid.constraintCount = (IsSmallFaction(faction)) ? SHIP_COLUMN_COUNT_SMALLFACTION : SHIP_COLUMN_COUNT;
+
+            switch (GetFactionSize(faction))
+            {
+                case FactionSize.Large20:
+                    grid.constraintCount = 5;
+                    break;
+                case FactionSize.Medium6:
+                    grid.constraintCount = 3;
+                    break;
+                case FactionSize.Small4:
+                    grid.constraintCount = 2;
+                    break;
+            }
 
             float panelWidth = grid.constraintCount * (grid.cellSize.x + 25) + 25;
             int rowsCount = availableShipsCounter / grid.constraintCount;
@@ -133,7 +150,7 @@ namespace SquadBuilderNS
 
         private static void ShowAvailableShip(ShipRecord ship, Faction faction)
         {
-            string prefabPath = (IsSmallFaction(faction)) ? "Prefabs/SquadBuilder/ShipPanelBig" : "Prefabs/SquadBuilder/ShipPanel";
+            string prefabPath = (GetFactionSize(faction) == FactionSize.Large20) ? "Prefabs/SquadBuilder/ShipPanelBig" : "Prefabs/SquadBuilder/ShipPanel";
             GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
             GameObject newShipPanel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels/SelectShipPanel/Panel").transform);
 
@@ -158,11 +175,27 @@ namespace SquadBuilderNS
             availableShipsCounter++;
         }
 
-        private static bool IsSmallFaction(Faction faction)
+        private static FactionSize GetFactionSize(Faction faction)
         {
-            List<Faction> bigFactions = new List<Faction>() { Faction.Rebel, Faction.Imperial, Faction.Scum };
-
-            return !bigFactions.Contains(faction);
+            switch (faction)
+            {
+                case Faction.Rebel:
+                    return FactionSize.Large20;
+                case Faction.Imperial:
+                    return FactionSize.Large20;
+                case Faction.Scum:
+                    return FactionSize.Large20;
+                case Faction.Resistance:
+                    return FactionSize.Medium6;
+                case Faction.FirstOrder:
+                    return FactionSize.Small4;
+                case Faction.Republic:
+                    return (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ? FactionSize.Medium6 : FactionSize.Small4;
+                case Faction.Separatists:
+                    return (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ? FactionSize.Medium6 : FactionSize.Small4;
+                default:
+                    return FactionSize.Large20;
+            }
         }
 
         private static string GetImageOfIconicPilot(ShipRecord ship)

@@ -10,8 +10,6 @@ namespace UpgradesList.SecondEdition
     {
         public R2C4() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "R2-C4",
                 UpgradeType.Astromech,

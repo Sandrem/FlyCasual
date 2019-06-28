@@ -14,8 +14,6 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
     {
         public NabooRoyalN1Starfighter() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "Naboo Royal N-1 Starfighter",

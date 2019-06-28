@@ -20,10 +20,9 @@ namespace UpgradesList.SecondEdition
                     maxRange: 2,
                     arc: ArcType.Front
                 ),
-                abilityType: typeof(Abilities.SecondEdition.AutoblastersAbility),
-                seImageNumber: 27
+                abilityType: typeof(Abilities.SecondEdition.AutoblastersAbility)
             );
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e5/8d/e58d4426-4b4b-4fed-a2e9-0ed970600df5/swz45_autoblasters.png";            
         }        
     }

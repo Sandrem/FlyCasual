@@ -51,9 +51,11 @@ namespace SubPhases
             Phases.StartTemporarySubPhaseOld(
                 "Action Decision",
                 typeof(ActionDecisonSubPhase),
-                    (Action)delegate {
-                        ActionsHolder.TakeActionFinish(
-                        delegate { ActionsHolder.EndActionDecisionSubhase(Finish); }
+                (Action)delegate {
+                    ActionsHolder.TakeActionFinish(
+                        delegate {
+                            ActionsHolder.EndActionDecisionSubhase(Finish);
+                        }
                     ); 
                 }
             );

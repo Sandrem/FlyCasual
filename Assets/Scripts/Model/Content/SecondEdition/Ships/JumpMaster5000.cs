@@ -24,6 +24,7 @@ namespace Ship
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(TargetLockAction), typeof(RotateArcAction)));
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Torpedo);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
                 IconicPilots[Faction.Scum] = typeof(Dengar);
 

@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cova Nell",
                     4,
-                    45,
+                    38,
                     isLimited: true,
                     abilityText: "While you defend or perform an attack, if you revealed a red maneuver roll 1 additional die.",
                     abilityType: typeof(CovaNellAbility),

@@ -297,9 +297,9 @@ namespace SubPhases
             Phases.CurrentSubPhase = this;
             UpdateHelpInfo();
             // TODO: Check barrel roll problems
-            //if ((prevPhase is BarrelRollPlanningSubPhase) && (prevPhase as BarrelRollPlanningSubPhase).CheckBarrelRollProblems().Count > 0) {
+            /*if ((prevPhase is BarrelRollPlanningSubPhase) && (prevPhase as BarrelRollPlanningSubPhase).CheckBarrelRollProblems().Count > 0) {
                 RegisterTractorPlanning();
-            //}
+            }*/
         }
 
         protected class TractorBeamDirectionDecisionSubPhase : DecisionSubPhase { }

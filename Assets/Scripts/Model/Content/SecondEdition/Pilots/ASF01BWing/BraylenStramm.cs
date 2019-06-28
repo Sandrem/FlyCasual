@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Braylen Stramm",
                     4,
-                    47,
+                    51,
                     isLimited: true,
                     abilityType: typeof(BraylenStrammAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

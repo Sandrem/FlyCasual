@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Saw Gerrera",
                 UpgradeType.Crew,
-                cost: 8,
+                cost: 9,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.SawGerreraCrewAbility),

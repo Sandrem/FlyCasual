@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Sienar-Jaemus Engineer",
                     1,
-                    52 //,
+                    51 //,
                     //seImageNumber: 120
                 );
 

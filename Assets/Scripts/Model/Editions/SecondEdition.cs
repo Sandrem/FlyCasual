@@ -242,7 +242,7 @@ namespace Editions
             ship.OnMovementActivationFinish -= DisableIonizationActionEffect;
         }
 
-        private void IonizedShipCanDoOnlyFocus(GenericAction action, ref bool canBePerformed)
+        private void IonizedShipCanDoOnlyFocus(GenericShip ship, GenericAction action, ref bool canBePerformed)
         {
             if (canBePerformed) canBePerformed = action is FocusAction;
         }

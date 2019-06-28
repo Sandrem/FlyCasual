@@ -37,7 +37,7 @@ namespace DamageDeckCardSE
             Host.OnGenerateActions -= CallAddCancelCritAction;
         }
 
-        private void OnlyCancelCritActionsOrFocus(GenericAction action, ref bool result)
+        private void OnlyCancelCritActionsOrFocus(GenericShip ship, GenericAction action, ref bool result)
         {
             if (!action.IsCritCancelAction && !(action is FocusAction))
             {

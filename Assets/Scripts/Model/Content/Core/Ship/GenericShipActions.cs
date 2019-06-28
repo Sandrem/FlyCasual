@@ -30,7 +30,7 @@ namespace Ship
         public event EventHandlerShip OnMovementActivationFinish;
 
         public event EventHandlerShip OnGenerateActions;
-        public event EventHandlerActionBool OnTryAddAction;
+        public event EventHandlerShipActionBool OnTryAddAction;
         public static event EventHandlerShipActionBool OnTryAddActionGlobal;
 
         public event EventHandlerShip OnGenerateDiceModifications;
@@ -237,7 +237,7 @@ namespace Ship
         {
             bool result = action.IsActionAvailable();
 
-            if (OnTryAddAction != null) OnTryAddAction(action, ref result);
+            if (OnTryAddAction != null) OnTryAddAction(this, action, ref result);
 
             if (OnTryAddActionGlobal != null) OnTryAddActionGlobal(this, action, ref result);
 
@@ -248,7 +248,7 @@ namespace Ship
         {
             bool result = action.IsActionAvailable() && action.CanBePerformedAsAFreeAction;
 
-            if (OnTryAddAction != null) OnTryAddAction(action, ref result);
+            if (OnTryAddAction != null) OnTryAddAction(this, action, ref result);
 
             if (OnTryAddActionGlobal != null) OnTryAddActionGlobal(this, action, ref result);
 

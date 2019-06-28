@@ -74,7 +74,7 @@ namespace Abilities.SecondEdition
             HostShip.OnMovementActivationFinish += ClearRestriction;
         }
 
-        private void DisallowAction(GenericAction action, ref bool isAllowed)
+        private void DisallowAction(GenericShip ship, GenericAction action, ref bool isAllowed)
         {
             isAllowed = false;
         }

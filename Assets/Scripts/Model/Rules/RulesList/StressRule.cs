@@ -63,11 +63,11 @@ namespace RulesList
             }
         }
 
-        public void CanPerformActions(GenericAction action, ref bool result)
+        public void CanPerformActions(GenericShip ship, GenericAction action, ref bool result)
         {
-            if (Selection.ThisShip.Tokens.GetToken(typeof(StressToken)) != null)
+            if (ship.Tokens.GetToken(typeof(StressToken)) != null)
             {
-                result = Selection.ThisShip.CanPerformActionsWhileStressed || action.CanBePerformedWhileStressed || Selection.ThisShip.ActionBar.ActionsThatCanbePreformedwhileStressed.Contains(action.GetType());
+                result = ship.CanPerformActionsWhileStressed || action.CanBePerformedWhileStressed || ship.ActionBar.ActionsThatCanbePreformedwhileStressed.Contains(action.GetType());
             }
         }
 

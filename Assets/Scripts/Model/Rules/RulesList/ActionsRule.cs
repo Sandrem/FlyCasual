@@ -13,11 +13,11 @@ namespace RulesList
     public class ActionsRule
     {
 
-        public void CanPerformActions(GenericAction action, ref bool result)
+        public void CanPerformActions(GenericShip ship, GenericAction action, ref bool result)
         {
-            if (Selection.ThisShip.IsAlreadyExecutedAction(action)) result = false;
+            if (ship.IsAlreadyExecutedAction(action)) result = false;
 
-            if (action.Color == ActionColor.Purple && Selection.ThisShip.State.Force == 0) result = false;
+            if (action.Color == ActionColor.Purple && ship.State.Force == 0) result = false;
         }
 
         public void ActionColorCheck(GenericAction action)

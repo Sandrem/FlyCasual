@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
             HostShip.OnActionIsPerformed -= LoseCharge;
         }
 
-        private void RestrictSlam(GenericAction action, ref bool canBeUsed)
+        private void RestrictSlam(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
             if (action is SlamAction)
             {

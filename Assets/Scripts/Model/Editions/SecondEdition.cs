@@ -152,6 +152,7 @@ namespace Editions
                     // if (!overWrittenInstead) Messages.ShowError("Action is skipped");
                     Phases.CurrentSubPhase.IsReadyForCommands = true;
                     Phases.Skip();
+                    Phases.CurrentSubPhase.Resume();
                 }
                 else
                 {

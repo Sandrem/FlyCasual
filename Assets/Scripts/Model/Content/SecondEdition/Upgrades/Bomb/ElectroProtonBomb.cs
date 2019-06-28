@@ -14,8 +14,6 @@ namespace UpgradesList.SecondEdition
 {
     public class ElectroProtonBomb : GenericTimedBombSE
     {
-        GenericShip _ship = null;
-
         public ElectroProtonBomb() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(

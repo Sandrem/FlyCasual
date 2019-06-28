@@ -44,11 +44,12 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(GenericShip ship)
     {
-            var range = new BoardTools.DistanceInfo(HostShip, Combat.Defender).Range;
+            var rangeLeft = HostShip.SectorsInfo.RangeToShipBySector(Combat.Defender, Arcs.ArcType.Left);
+            var rangeRight = HostShip.SectorsInfo.RangeToShipBySector(Combat.Defender, Arcs.ArcType.Right);
 
             if (Combat.Defender.Owner == HostShip.Owner
-                && (HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Left) || HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Right))
-                && range >= 1 && range <= 2)
+                && ((HostShip.SectorsInfo.IsShipInSector(Combat.Defender, Arcs.ArcType.Left) && rangeLeft >= 1 && rangeLeft <= 2)
+                    || (HostShip.SectorsInfo.IsShipInSector(Combat.Defender, Arcs.ArcType.Right) && rangeRight >= 1 && rangeRight <= 2)))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, delegate
                 {

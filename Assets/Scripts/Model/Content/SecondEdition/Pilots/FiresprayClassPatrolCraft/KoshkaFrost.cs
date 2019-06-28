@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Koshka Frost",
                     3,
-                    71,
+                    70,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KoshkaFrostAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "IG-88D",
                 UpgradeType.Crew,
-                cost: 4,
+                cost: 3,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
                 addAction: new ActionInfo(typeof(CalculateAction)),

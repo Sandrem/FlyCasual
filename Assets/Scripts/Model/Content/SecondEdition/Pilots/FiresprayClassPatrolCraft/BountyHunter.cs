@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "Bounty Hunter",
                     2,
-                    66,
+                    64,
                     seImageNumber: 154
                 );
 

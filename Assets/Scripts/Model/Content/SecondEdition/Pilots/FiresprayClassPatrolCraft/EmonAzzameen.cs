@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Emon Azzameen",
                     4,
-                    76,
+                    74,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.EmonAzzameenAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

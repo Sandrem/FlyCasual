@@ -16,7 +16,7 @@ namespace Ship
                 ShipInfo.Hull = 5;
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction)));
 

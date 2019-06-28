@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cartel Executioner",
                     3,
-                    44,
+                    43,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 209
                 );

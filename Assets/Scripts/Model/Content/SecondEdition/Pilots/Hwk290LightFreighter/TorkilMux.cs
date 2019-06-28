@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Torkil Mux",
                     2,
-                    38,
+                    37,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TorkilMuxAbility),
                     extraUpgradeIcon: UpgradeType.Illicit,

@@ -54,15 +54,15 @@ namespace Abilities.SecondEdition
 
         protected virtual bool IsAvailable()
         {
-            var range = new BoardTools.DistanceInfo(HostShip, Combat.Attacker).Range;
+            var rangeLeft = HostShip.SectorsInfo.RangeToShipBySector(Combat.Attacker, Arcs.ArcType.Left);
+            var rangeRight = HostShip.SectorsInfo.RangeToShipBySector(Combat.Attacker, Arcs.ArcType.Right);
 
             return
                 Combat.AttackStep == CombatStep.Attack
                 && Combat.Attacker.Owner == HostShip.Owner
                 && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
-                && range >= 1 && range <= 2
-                && (HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Left) 
-                    || HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Right));            
+                && ((HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Left) && rangeLeft >= 1 && rangeLeft <= 2)
+                    || (HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Right) && rangeRight >= 1 && rangeRight <= 2));
         }
 
         private int AiPriority()

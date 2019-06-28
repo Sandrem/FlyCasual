@@ -108,6 +108,8 @@ namespace Abilities.SecondEdition
 
         private void FinishAbility()
         {
+            (ActionToRevert as BoostAction).SelectedBoostTemplate = null;
+
             HostShip.SetAssignedManeuver(SavedManeuver);
 
             foreach (var changedManeuver in ChangedManeuversCodes)

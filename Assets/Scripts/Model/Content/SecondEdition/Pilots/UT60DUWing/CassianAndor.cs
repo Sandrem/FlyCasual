@@ -19,7 +19,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cassian Andor",
                     3,
-                    47,
+                    51,
                     isLimited: true,
                     abilityType: typeof(CassianAndorAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

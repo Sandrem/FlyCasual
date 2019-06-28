@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.ModifiedYT1300LightFreighter
 
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
-            ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
+            ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
 
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction), ActionColor.Red));

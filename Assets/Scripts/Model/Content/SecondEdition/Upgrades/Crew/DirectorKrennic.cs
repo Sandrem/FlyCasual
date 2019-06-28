@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Director Krennic",
                 UpgradeType.Crew,
-                cost: 5,
+                cost: 4,
                 isLimited: true,
                 addAction: new ActionInfo(typeof(TargetLockAction)),
                 restriction: new FactionRestriction(Faction.Imperial),

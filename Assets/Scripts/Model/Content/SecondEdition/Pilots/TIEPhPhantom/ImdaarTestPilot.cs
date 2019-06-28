@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "Imdaar Test Pilot",
                     3,
-                    43,
+                    44,
                     seImageNumber: 134
                 );
             }

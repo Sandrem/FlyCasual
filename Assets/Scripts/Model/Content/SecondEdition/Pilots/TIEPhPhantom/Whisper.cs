@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Whisper\"",
                     5,
-                    54,
+                    57,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WhisperAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

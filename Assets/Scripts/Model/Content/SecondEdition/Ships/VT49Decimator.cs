@@ -14,7 +14,6 @@ namespace Ship.SecondEdition.VT49Decimator
         {
             ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.DoubleTurret, 3);
 
-            ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));

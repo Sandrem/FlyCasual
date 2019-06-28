@@ -35,6 +35,7 @@ public static partial class Phases
     public static void Initialize()
     {
         Events = new PhaseEvents();
+        CurrentSubPhase = null;
     }
 
     public static void StartPhases()

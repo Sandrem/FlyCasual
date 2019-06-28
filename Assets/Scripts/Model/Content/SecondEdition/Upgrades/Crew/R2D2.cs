@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R2-D2 (crew)",
                 UpgradeType.Crew,
-                cost: 8,
+                cost: 10,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.R2D2CrewAbility),

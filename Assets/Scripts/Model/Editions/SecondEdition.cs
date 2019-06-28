@@ -150,6 +150,7 @@ namespace Editions
                 if (!IsTractorBeamFailed())
                 {
                     // if (!overWrittenInstead) Messages.ShowError("Action is skipped");
+                    Phases.CurrentSubPhase.IsReadyForCommands = true;
                     Phases.Skip();
                 }
                 else

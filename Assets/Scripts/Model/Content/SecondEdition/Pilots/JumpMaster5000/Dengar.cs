@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Dengar",
                     6,
-                    58,
+                    56,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DengarPilotAbility),
                     charges: 1,

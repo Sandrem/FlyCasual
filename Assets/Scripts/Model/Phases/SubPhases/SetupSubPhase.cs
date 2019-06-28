@@ -28,7 +28,9 @@ namespace SubPhases
         public override void Start()
         {
             base.Start();
+
             Name = "Setup SubPhase";
+            inReposition = false;
         }
 
         public override void Prepare()
@@ -191,7 +193,7 @@ namespace SubPhases
 
         private void CheckPerformRotation()
         {
-            if (Console.IsActive) return;
+            if (Console.IsActive || Selection.ThisShip == null) return;
 
             CheckResetRotation();
             if (Input.GetKey(KeyCode.LeftControl))
@@ -296,7 +298,7 @@ namespace SubPhases
 
             CheckControlledModeLimits();
             ApplySetupPositionLimits();
-            if (SetupRangeHelper != null) SetupRangeHelper();
+            SetupRangeHelper?.Invoke();
         }
 
         private void PerformTouchDragRotate() {

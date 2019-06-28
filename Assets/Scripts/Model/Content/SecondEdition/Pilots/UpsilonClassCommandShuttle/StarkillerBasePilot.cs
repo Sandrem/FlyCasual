@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Starkiller Base Pilot",
                     2,
-                    56 //,
+                    58 //,
                     //seImageNumber: 120
                 );
 

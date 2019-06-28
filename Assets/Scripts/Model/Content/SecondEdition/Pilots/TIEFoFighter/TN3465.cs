@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "TN-3465",
                     2,
-                    31,
+                    29,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TN3465Ability)
                 );

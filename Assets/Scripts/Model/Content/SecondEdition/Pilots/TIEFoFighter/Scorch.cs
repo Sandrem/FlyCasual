@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Scorch\"",
                     4,
-                    35,
+                    34,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZetaLeaderAbility),
                     extraUpgradeIcon: UpgradeType.Talent //,

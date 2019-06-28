@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Static\"",
                     4,
-                    35,
+                    34,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.OmegaAceAbility),
                     extraUpgradeIcon: UpgradeType.Talent //,

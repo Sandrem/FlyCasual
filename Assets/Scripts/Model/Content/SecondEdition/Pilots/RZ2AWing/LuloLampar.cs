@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "L'ulo L'ampar",
                     5,
-                    38,
+                    43,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LuloLamparAbility),
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,

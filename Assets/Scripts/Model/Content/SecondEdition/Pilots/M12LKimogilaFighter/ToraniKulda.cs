@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Torani Kulda",
                     4,
-                    50,
+                    48,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ToraniKuldaAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

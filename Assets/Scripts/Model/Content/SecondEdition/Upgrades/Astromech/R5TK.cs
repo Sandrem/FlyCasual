@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R5-TK",
                 UpgradeType.Astromech,
-                cost: 1,
+                cost: 0,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.R5TKAbility),
                 restriction: new FactionRestriction(Faction.Scum),

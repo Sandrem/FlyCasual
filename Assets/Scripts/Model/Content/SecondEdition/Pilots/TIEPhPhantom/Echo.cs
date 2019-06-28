@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Echo\"",
                     4,
-                    50,
+                    51,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EchoAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

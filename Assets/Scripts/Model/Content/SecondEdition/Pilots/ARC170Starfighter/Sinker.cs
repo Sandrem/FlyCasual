@@ -32,7 +32,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    //While a friendly ship in your left or right arc performs a primary attack, it may reroll 1 attack die.
+    //While a friendly ship at range 1-2 in your left or right arc performs a primary attack, it may reroll 1 attack die.
     public class SinkerAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -54,12 +54,15 @@ namespace Abilities.SecondEdition
 
         protected virtual bool IsAvailable()
         {
+            var rangeLeft = HostShip.SectorsInfo.RangeToShipBySector(Combat.Attacker, Arcs.ArcType.Left);
+            var rangeRight = HostShip.SectorsInfo.RangeToShipBySector(Combat.Attacker, Arcs.ArcType.Right);
+
             return
                 Combat.AttackStep == CombatStep.Attack
                 && Combat.Attacker.Owner == HostShip.Owner
                 && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
-                && (HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Left) 
-                    || HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Right));            
+                && ((HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Left) && rangeLeft >= 1 && rangeLeft <= 2)
+                    || (HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Right) && rangeRight >= 1 && rangeRight <= 2));
         }
 
         private int AiPriority()

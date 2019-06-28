@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Kath Scarlet",
                     4,
-                    74,
+                    72,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KathScarletAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

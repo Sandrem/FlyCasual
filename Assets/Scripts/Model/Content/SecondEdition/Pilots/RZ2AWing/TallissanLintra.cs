@@ -19,7 +19,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Tallissan Lintra",
                     5,
-                    35,
+                    36,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TallissanLintraAbility),
                     charges: 1,

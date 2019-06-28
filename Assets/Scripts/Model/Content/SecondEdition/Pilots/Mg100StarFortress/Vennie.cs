@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Vennie",
                     2,
-                    62,
+                    60,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VennieAbility) //,
                     //seImageNumber: 19

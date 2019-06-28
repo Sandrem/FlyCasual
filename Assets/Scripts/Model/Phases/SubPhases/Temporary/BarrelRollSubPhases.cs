@@ -545,6 +545,7 @@ namespace SubPhases
 
         public void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
         {
+            if (HostAction == null) HostAction = new BarrelRollAction() { HostShip = TheShip };
             Rules.Actions.ActionIsFailed(TheShip, HostAction, barrelRollProblems);
         }
 

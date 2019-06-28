@@ -24,6 +24,9 @@ namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
             ShipInfo.Hull = 8;
             ShipInfo.Shields = 3;
 
+            ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
+            ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
+
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction), ActionColor.Red));
 

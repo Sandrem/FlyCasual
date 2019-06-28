@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Shara Bey",
                     4,
-                    53,
+                    50,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SharaBeyAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

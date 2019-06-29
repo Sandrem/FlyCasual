@@ -153,7 +153,11 @@ namespace Editions
                     // if (!overWrittenInstead) Messages.ShowError("Action is skipped");
                     Phases.CurrentSubPhase.IsReadyForCommands = true;
                     Phases.Skip();
-                    Phases.CurrentSubPhase.Resume();
+                    if (Phases.CurrentSubPhase is ActivationSubPhase)
+                    {
+                        Selection.DeselectAllShips();
+                        Phases.Next();
+                    }
                 }
                 else
                 {

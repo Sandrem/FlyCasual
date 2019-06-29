@@ -183,12 +183,6 @@ namespace SubPhases
             };
         }
 
-        public override void Resume()
-        {
-            Selection.DeselectAllShips();
-            Next();
-        }
-
     }
 
 }

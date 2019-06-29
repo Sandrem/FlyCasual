@@ -30,7 +30,6 @@ namespace Upgrade
             get { return (InstalledUpgrade == null); }
         }
 
-
         public UpgradeSlot(UpgradeType type)
         {
             Type = type;
@@ -42,15 +41,6 @@ namespace Upgrade
         public void TryInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
         {
             if (upgrade != null) InstallUpgrade();
-
-            /*if (CheckRequirements(upgrade))
-            {
-                InstallUpgrade(upgrade, host);
-            }
-            else
-            {
-                Debug.Log("Requirements are not met: " + upgrade.Name);
-            }*/
         }
 
         public void PreInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
@@ -59,33 +49,29 @@ namespace Upgrade
             upgrade.Slot = this;
             InstalledUpgrade.PreAttachToShip(host);
 
-            // check if its a dual upgrade
             if (upgrade.UpgradeInfo.UpgradeTypes.Count > 1)
             {
-                // clone upgrade
-                //GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(upgrade.Types[0]);
-                UpgradesList.EmptyUpgrade emptyUpgrade = new UpgradesList.EmptyUpgrade();
-                emptyUpgrade.SetUpgradeInfo(upgrade.UpgradeInfo.UpgradeTypes, upgrade.UpgradeInfo.Name, 0);
+                List<UpgradeType> extraSlots = new List<UpgradeType>(upgrade.UpgradeInfo.UpgradeTypes);
+                extraSlots.Remove(extraSlots.First(n => n == this.Type));
 
-                int emptySlotsFilled = 0; // Fixes bug #708. TODO: Will need to revisit to support multi-type upgrades.
-                // find another slot
-                foreach (UpgradeSlot tempSlot in host.UpgradeBar.GetUpgradeSlots())
+                foreach (UpgradeType upgradeType in extraSlots)
                 {
-                    if (emptySlotsFilled < emptyUpgrade.UpgradeInfo.UpgradeTypes.Count && tempSlot.IsEmpty && upgrade.HasType(tempSlot.Type))
-                    {
-                        emptySlotsFilled += 1; // Fixes bug #708.
-                        tempSlot.PreInstallUpgrade(emptyUpgrade, host);
-                    }
+                    // Clone upgrade to fill extra slots
+                    UpgradesList.EmptyUpgrade emptyUpgrade = new UpgradesList.EmptyUpgrade();
+                    emptyUpgrade.SetUpgradeInfo(upgradeType, upgrade.UpgradeInfo.Name, 0);
+
+                    UpgradeSlot tempSlot = host.UpgradeBar.GetUpgradeSlots().First(n => n.IsEmpty && emptyUpgrade.HasType(n.Type));
+                    tempSlot.PreInstallUpgrade(emptyUpgrade, host);
                 }
             }
 
-            if (OnPreInstallUpgrade != null) OnPreInstallUpgrade(upgrade);
+            OnPreInstallUpgrade?.Invoke(upgrade);
         }
 
         public void RemovePreInstallUpgrade()
         {
             InstalledUpgrade.PreDettachFromShip();
-            if (OnRemovePreInstallUpgrade != null) OnRemovePreInstallUpgrade(InstalledUpgrade);
+            OnRemovePreInstallUpgrade?.Invoke(InstalledUpgrade);
             InstalledUpgrade = null;
         }
 
@@ -94,31 +80,5 @@ namespace Upgrade
             //TODO: Remove host paramater
             InstalledUpgrade.AttachToShip(InstalledUpgrade.HostShip);
         }
-
-        //No more used ?
-        /*private bool CheckRequirements(GenericUpgrade upgrade)
-        {
-            bool result = true;
-            return result;
-        }
-        
-        public bool UpgradeIsAllowed(GenericUpgrade upgrade)
-        {
-            bool result = true;
-
-            if (upgrade.Cost > MaxCost)
-            {
-                //Messages.ShowError(upgrade.Name + "cannot be installed. Max cost: " + MaxCost);
-                result = false;
-            }
-
-            if (MustBeNonUnique && upgrade.isUnique)
-            {
-                result = false;
-            }
-
-            return result;
-        }*/
-
     }
 }

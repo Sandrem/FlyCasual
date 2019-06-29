@@ -13,9 +13,9 @@ namespace UpgradesList
             isPlaceholder = true;
         }
 
-        public void SetUpgradeInfo( List<UpgradeType> types, string Name, int Cost )
+        public void SetUpgradeInfo(UpgradeType type, string Name, int Cost )
         {
-            UpgradeInfo = new UpgradeCardInfo(Name, types: types, cost: Cost);
+            UpgradeInfo = new UpgradeCardInfo(Name, type: type, cost: Cost);
         }
     }
 }

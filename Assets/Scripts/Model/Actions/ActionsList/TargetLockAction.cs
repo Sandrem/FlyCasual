@@ -258,8 +258,8 @@ namespace SubPhases
         {
             CanMeasureRangeBeforeSelection = (Edition.Current is Editions.SecondEdition);
 
-            if (AbilityName == null) AbilityName = "Target Lock";
-            if (Description == null) Description = "Choose a ship to acquire a target lock on it";
+            if (DescriptionShort == null) DescriptionShort = "Target Lock";
+            if (DescriptionLong == null) DescriptionLong = "Choose a ship to acquire a target lock on it";
 
             PrepareByParameters(
                 TrySelectTargetLock,
@@ -267,8 +267,8 @@ namespace SubPhases
                 GetTargetLockAiPriority,
                 Selection.ThisShip.Owner.PlayerNo,
                 true,
-                AbilityName,
-                Description,
+                DescriptionShort,
+                DescriptionLong,
                 ImageSource
             );
         }
@@ -288,8 +288,8 @@ namespace SubPhases
             {
                 UI.HideSkipButton();
             }
-            AbilityName = abilityName;
-            Description = description;
+            DescriptionShort = abilityName;
+            DescriptionLong = description;
             ImageSource = imageSource;
         }
 

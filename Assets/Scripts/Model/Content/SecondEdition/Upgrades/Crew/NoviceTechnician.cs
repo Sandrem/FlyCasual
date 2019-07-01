@@ -86,7 +86,7 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = "Novice Technician: Select faceup damage card to repair.";
+                DescriptionShort = "Novice Technician: Select faceup damage card to repair.";
                 ShowSkipButton = false;
 
                 DecisionViewType = DecisionViewTypes.ImagesDamageCard;

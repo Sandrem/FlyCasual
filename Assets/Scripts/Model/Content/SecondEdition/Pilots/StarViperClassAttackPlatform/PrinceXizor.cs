@@ -119,7 +119,7 @@ namespace Abilities.SecondEdition
         {
             var subphase = Phases.StartTemporarySubPhaseNew<HitOrCritDecisionSubphase>("Prince Xizor", Triggers.FinishTrigger);
 
-            subphase.InfoText = "Suffer Hit or Crit result?";
+            subphase.DescriptionShort = "Suffer Hit or Crit result?";
 
             subphase.AddDecision(
                 "Hit",

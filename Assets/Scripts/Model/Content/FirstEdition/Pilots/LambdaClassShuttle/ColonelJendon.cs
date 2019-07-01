@@ -53,7 +53,7 @@ namespace Abilities.FirstEdition
                     Triggers.FinishTrigger
                 );
 
-                pilotAbilityDecision.InfoText = "Use Colonel Jendon's ability?";
+                pilotAbilityDecision.DescriptionShort = "Use Colonel Jendon's ability?";
 
                 var blueTargetLocks = HostShip.Tokens.GetAllTokens()
                    .Where(t => t is Tokens.BlueTargetLockToken)

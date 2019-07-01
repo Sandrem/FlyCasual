@@ -75,7 +75,7 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            InfoText = "Select Critical Hit card to deal";
+            DescriptionShort = "Select Critical Hit card to deal";
 
             criticalHitCardsToChoose.Add(Combat.CurrentCriticalHitCard);
             for (int i = 0; i < 2; i++)

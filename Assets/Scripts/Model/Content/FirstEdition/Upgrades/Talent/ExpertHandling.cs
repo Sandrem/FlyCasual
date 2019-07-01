@@ -126,7 +126,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Select target lock to remove";
+            DescriptionShort = "Select target lock to remove";
 
             foreach (var token in Selection.ThisShip.Tokens.GetAllTokens())
             {

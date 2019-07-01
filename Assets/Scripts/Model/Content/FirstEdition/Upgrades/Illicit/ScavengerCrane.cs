@@ -76,7 +76,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Select upgrade to recover";
+            DescriptionShort = "Select upgrade to recover";
             var discardedUpgrades = hostAbility.GetRecoverableUpgrades();
 
             foreach (var upgrade in discardedUpgrades)

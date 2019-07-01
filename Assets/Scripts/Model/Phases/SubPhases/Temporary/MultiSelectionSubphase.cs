@@ -33,7 +33,7 @@ namespace SubPhases
             // If not skipped
             if (Phases.CurrentSubPhase == this)
             {
-                ShowSubphaseDescription(AbilityName, Description, ImageSource);
+                ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
                 Roster.HighlightShipsFiltered(Filter);
 
                 IsReadyForCommands = true;

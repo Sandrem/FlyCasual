@@ -120,7 +120,7 @@ namespace SubPhases
 
         public override void PrepareCustomDecisions()
         {
-            InfoText = "Select effect of Dengar's ability";
+            DescriptionShort = "Select effect of Dengar's ability";
             DecisionOwner = Combat.Attacker.Owner;
 
             AddDecision("Allow to roll a die", StartDiceCheck);

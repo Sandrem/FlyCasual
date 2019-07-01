@@ -103,7 +103,7 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            InfoText = "Perform free evade action?";
+            DescriptionShort = "Perform free evade action?";
 
             AddDecision("Yes", PerformFreeEvadeAction);
             AddDecision("No", DontPerformFreeEvadeAction);

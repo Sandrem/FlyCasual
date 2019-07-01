@@ -95,7 +95,7 @@ namespace Abilities.SecondEdition
                     Triggers.FinishTrigger
                 );
 
-                phase.InfoText = "Select token to transfer";
+                phase.DescriptionShort = "Select token to transfer";
                 phase.RequiredPlayer = HostShip.Owner.PlayerNo;
                 phase.ShowSkipButton = true;
 

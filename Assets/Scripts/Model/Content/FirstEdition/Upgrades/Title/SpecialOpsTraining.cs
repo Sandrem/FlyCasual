@@ -56,7 +56,7 @@ namespace Abilities.FirstEdition
                     Triggers.FinishTrigger
                 );
 
-                selectSpecialOpsTrainingSubPhase.InfoText = "Use " + Name + "?";
+                selectSpecialOpsTrainingSubPhase.DescriptionShort = "Use " + Name + "?";
                 selectSpecialOpsTrainingSubPhase.AddDecision("Roll 1 extra die from primary fire arc", RegisterRollExtraDice);
                 selectSpecialOpsTrainingSubPhase.AddTooltip("Roll 1 extra die from primary fire arc", HostShip.ImageUrl);
                 selectSpecialOpsTrainingSubPhase.AddDecision("Get a second attack from rear arc", RegisterExtraAttack);

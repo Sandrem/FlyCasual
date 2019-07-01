@@ -116,7 +116,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Use ability of Commander Malarus?";
+            DescriptionShort = "Use ability of Commander Malarus?";
             RequiredPlayer = CommanderMalarusAbility.HostShip.Owner.PlayerNo;
 
             AddDecision("Yes", UseCommanderMalarusAbility);

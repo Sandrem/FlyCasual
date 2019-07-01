@@ -67,7 +67,7 @@ namespace SubPhases
         {
             HostUpgrade = upgrade;
 
-            InfoText = string.Format("Discard \"Cool Hand\" to assign token?");
+            DescriptionShort = string.Format("Discard \"Cool Hand\" to assign token?");
 
             AddDecision("Focus Token", AddFocus);
             AddDecision("Evade Token", AddEvade);

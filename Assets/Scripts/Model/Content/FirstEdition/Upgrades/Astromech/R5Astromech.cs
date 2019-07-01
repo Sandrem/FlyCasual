@@ -73,7 +73,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "R5 Astromech: Select faceup ship Crit";
+            DescriptionShort = "R5 Astromech: Select faceup ship Crit";
 
             DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 

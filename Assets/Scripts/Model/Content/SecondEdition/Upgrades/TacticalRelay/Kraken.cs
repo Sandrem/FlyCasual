@@ -60,8 +60,8 @@ namespace Abilities.SecondEdition
             subphase.MaxToSelect = 3;
             subphase.WhenDone = LeaveCalculateTokens;
 
-            subphase.AbilityName = HostUpgrade.UpgradeInfo.Name;
-            subphase.Description = "You may choose up to 3 ships. If you do, these ships do not remove 1 calculate token.";
+            subphase.DescriptionShort = HostUpgrade.UpgradeInfo.Name;
+            subphase.DescriptionLong = "You may choose up to 3 ships. If you do, these ships do not remove 1 calculate token.";
             subphase.ImageSource = HostUpgrade;
 
             subphase.Start();

@@ -147,7 +147,7 @@ namespace Conditions
                 );
             }
 
-            selectAllyDecisionSubPhase.InfoText = "Hunted: Select another friendly ship";
+            selectAllyDecisionSubPhase.DescriptionShort = "Hunted: Select another friendly ship";
 
             GenericShip leastWorthAlly = otherFriendlies                
                 .OrderBy(ally => ally.State.Initiative)

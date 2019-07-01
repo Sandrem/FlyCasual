@@ -80,8 +80,8 @@ namespace SubPhases
             {
                 UI.HideSkipButton();
             }
-            AbilityName = abilityName;
-            Description = description;
+            DescriptionShort = abilityName;
+            DescriptionLong = description;
             ImageSource = imageSource;
         }
 
@@ -92,7 +92,7 @@ namespace SubPhases
 
         public void HighlightShipsToSelect()
         {
-            ShowSubphaseDescription(AbilityName, Description, ImageSource);
+            ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
             Roster.HighlightShipsFiltered(FilterShipTargets);
             IsInitializationFinished = true;
         }
@@ -313,7 +313,7 @@ namespace SubPhases
         {
             base.Resume();
 
-            ShowSubphaseDescription(AbilityName, Description, ImageSource);
+            ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
         }
 
     }

@@ -54,7 +54,7 @@ namespace Abilities.FirstEdition
                 Triggers.FinishTrigger
             );
 
-            selectMirandaDoniSubPhase.InfoText = "Use " + Name + "?";
+            selectMirandaDoniSubPhase.DescriptionShort = "Use " + Name + "?";
 
             if (HostShip.State.ShieldsCurrent > 0)
             {

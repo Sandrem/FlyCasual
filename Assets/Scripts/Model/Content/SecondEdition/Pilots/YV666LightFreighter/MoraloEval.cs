@@ -80,8 +80,8 @@ namespace Abilities.SecondEdition
 
             subphase.ShipToSetup = HostShip;
             subphase.SetupSide = ShipFledSide;
-            subphase.AbilityName = HostShip.PilotInfo.PilotName;
-            subphase.Description = "Place yourself within range 1 of the edge of the play area that you fled from";
+            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
+            subphase.DescriptionLong = "Place yourself within range 1 of the edge of the play area that you fled from";
             subphase.ImageSource = HostShip;
 
             subphase.Start();

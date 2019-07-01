@@ -97,7 +97,7 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger
             );
 
-            selectionSubPhase.InfoText = String.Format("You may choose a number greater than 1. If you roll exactly that many evade results, add 1 evade result.");
+            selectionSubPhase.DescriptionShort = String.Format("You may choose a number greater than 1. If you roll exactly that many evade results, add 1 evade result.");
 
             for (var i = 1; i <= 6; i++) //TODO: likely needs to be more than 6, add a way to increase numbers
             {

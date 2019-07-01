@@ -59,7 +59,7 @@ namespace Abilities.FirstEdition
 
             public override void PrepareDecision(System.Action callBack)
             {
-                InfoText = "Select upgrade to discard:";
+                DescriptionShort = "Select upgrade to discard:";
                 RequiredPlayer = chopperUpgrade.HostShip.Owner.PlayerNo;
 
                 var upgrades = chopperUpgrade.HostShip.UpgradeBar.GetUpgradesOnlyFaceup();

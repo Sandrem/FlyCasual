@@ -103,7 +103,7 @@ namespace Abilities.FirstEdition
             );
 
             newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
-            newSubPhase.InfoText = "Use " + Name + "?";
+            newSubPhase.DescriptionShort = "Use " + Name + "?";
             newSubPhase.ShowSkipButton = true;
             newSubPhase.OnSkipButtonIsPressed = DontUseEmperorPalpatine;
 

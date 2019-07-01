@@ -209,7 +209,7 @@ namespace Abilities.FirstEdition
                     callback
                 );
 
-                whichToken.InfoText = "Take which type of Token?";
+                whichToken.DescriptionShort = "Take which type of Token?";
 
                 whichToken.RequiredPlayer = HostShip.Owner.PlayerNo;
 

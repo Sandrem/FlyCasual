@@ -252,7 +252,7 @@ namespace Bombs
                 delegate { SelectBomb(null); }
             );
 
-            selectBombToDrop.InfoText = "Select a bomb to drop";
+            selectBombToDrop.DescriptionShort = "Select a bomb to drop";
 
             selectBombToDrop.DefaultDecisionName = "None";
 
@@ -299,7 +299,7 @@ namespace Bombs
             selectBombToDrop.AddDecision("Drop", (o, e) => { DecisionSubPhase.ConfirmDecisionNoCallback(); DropBomb(); });
             selectBombToDrop.AddDecision("Launch", LaunchBomb);
 
-            selectBombToDrop.InfoText = "Select the direction to drop the bomb";
+            selectBombToDrop.DescriptionShort = "Select the direction to drop the bomb";
 
             selectBombToDrop.DefaultDecisionName = "Drop";
 

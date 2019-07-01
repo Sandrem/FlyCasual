@@ -168,7 +168,7 @@ namespace Abilities
                 callback
             );
 
-            pilotAbilityDecision.InfoText = infoText ?? "Use " + Name + "?";
+            pilotAbilityDecision.DescriptionShort = infoText ?? "Use " + Name + "?";
 
             pilotAbilityDecision.RequiredPlayer = (requiredPlayer == PlayerNo.PlayerNone) ? HostShip.Owner.PlayerNo : requiredPlayer;
 
@@ -196,7 +196,7 @@ namespace Abilities
                 Triggers.FinishTrigger
             );
 
-            opponentDecision.InfoText = infoText ?? "Allow to use " + Name + "?";
+            opponentDecision.DescriptionShort = infoText ?? "Allow to use " + Name + "?";
 
             opponentDecision.RequiredPlayer = Roster.AnotherPlayer(HostShip.Owner.PlayerNo);
 

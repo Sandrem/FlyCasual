@@ -98,7 +98,7 @@ namespace SubPhases
     {
         protected override void PrepareDiceResultEffects()
         {
-            InfoText = Selection.ActiveShip.PilotInfo.PilotName + ": " + "Select a result to spend.";
+            DescriptionShort = Selection.ActiveShip.PilotInfo.PilotName + ": " + "Select a result to spend.";
 
             AddSpendDiceResultEffect(DieSide.Crit, "Spend a critical result to flip a damage card.", delegate { SpendResultToFlip(DieSide.Crit); });
             AddSpendDiceResultEffect(DieSide.Success, "Spend a hit result to flip a damage card.", delegate { SpendResultToFlip(DieSide.Success); });

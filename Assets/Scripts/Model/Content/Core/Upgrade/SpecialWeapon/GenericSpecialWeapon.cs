@@ -175,7 +175,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Choose how to pay attack cost";
+            DescriptionShort = "Choose how to pay attack cost";
 
             List<GenericToken> waysToPay = new List<GenericToken>();
 

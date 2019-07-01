@@ -95,7 +95,7 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger
             );
 
-            selectBiggsDarklighterSubPhase.InfoText = "Use " + Name + "?";
+            selectBiggsDarklighterSubPhase.DescriptionShort = "Use " + Name + "?";
 
             if (curToDamage.AssignedDamageDiceroll.RegularSuccesses > 0)
             {

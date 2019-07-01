@@ -63,8 +63,8 @@ namespace Abilities.SecondEdition
             subphase.MaxToSelect = HostShip.State.Force;
             subphase.WhenDone = FlipDialsFaceup;
 
-            subphase.AbilityName = HostUpgrade.UpgradeInfo.Name;
-            subphase.Description = "Choose any number of enemy ships beyond Range 1 - spend that many Force tokens to flip their dials faceup";
+            subphase.DescriptionShort = HostUpgrade.UpgradeInfo.Name;
+            subphase.DescriptionLong = "Choose any number of enemy ships beyond Range 1 - spend that many Force tokens to flip their dials faceup";
             subphase.ImageSource = HostUpgrade;
 
             subphase.Start();

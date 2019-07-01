@@ -80,7 +80,7 @@ namespace SubPhases
     {
         public override void PrepareCustomDecisions()
         {
-            InfoText = "Select green token to spend";
+            DescriptionShort = "Select green token to spend";
             DecisionOwner = HostShip.Owner;
         }
     }

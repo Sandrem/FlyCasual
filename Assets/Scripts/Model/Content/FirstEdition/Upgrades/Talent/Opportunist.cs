@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
                     Triggers.FinishTrigger
                 );
 
-                opportunistDecision.InfoText = "Use Opportunist ability?";
+                opportunistDecision.DescriptionShort = "Use Opportunist ability?";
                 opportunistDecision.AddDecision("Yes", UseOpportunistAbility);
                 opportunistDecision.AddDecision("No", DontUseOpportunistAbility);
                 opportunistDecision.DefaultDecisionName = "Yes";

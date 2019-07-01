@@ -87,7 +87,7 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            InfoText = "Select side of Dual Card";
+            DescriptionShort = "Select side of Dual Card";
 
             foreach (var type in UpgradeTypes)
             {

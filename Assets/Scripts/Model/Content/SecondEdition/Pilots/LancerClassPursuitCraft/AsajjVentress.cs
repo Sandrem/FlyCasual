@@ -80,7 +80,7 @@ namespace SubPhases
     {
         public override void PrepareCustomDecisions()
         {
-            InfoText = Selection.ThisShip.ShipId + ": " + "Select the effect of Asajj Ventress' ability.";
+            DescriptionShort = Selection.ThisShip.ShipId + ": " + "Select the effect of Asajj Ventress' ability.";
             DecisionOwner = Selection.ThisShip.Owner;
             DefaultDecisionName = "Recieve a stress token.";
 

@@ -98,7 +98,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Chewbacca: Select faceup damage card";
+            DescriptionShort = "Chewbacca: Select faceup damage card";
 
             DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 

@@ -110,7 +110,7 @@ namespace Abilities.SecondEdition
                 delegate { AssignToken(null); }
             );
 
-            subphase.InfoText = string.Format("Sabine Wren: Select token to assign to {0} (ID:{1})", BombEffectTargetShip.PilotInfo.PilotName, BombEffectTargetShip.ShipId);
+            subphase.DescriptionShort = string.Format("Sabine Wren: Select token to assign to {0} (ID:{1})", BombEffectTargetShip.PilotInfo.PilotName, BombEffectTargetShip.ShipId);
 
             subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
             subphase.RequiredPlayer = HostShip.Owner.PlayerNo;

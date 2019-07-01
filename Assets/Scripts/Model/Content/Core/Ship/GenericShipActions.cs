@@ -304,8 +304,8 @@ namespace Ship
                         newSubPhase.DecisionOwner = this.Owner;
                         newSubPhase.ShowSkipButton = !isForced;
                         newSubPhase.IsForced = isForced;
-                        newSubPhase.AbilityName = abilityName;
-                        newSubPhase.Description = abilityDescription;
+                        newSubPhase.DescriptionShort = abilityName;
+                        newSubPhase.DescriptionLong = abilityDescription;
                         newSubPhase.ImageSource = imageHolder;
 
                         newSubPhase.Start();
@@ -609,7 +609,7 @@ namespace Ship
                 });
 
             selectTargetLockSubPhase.RequiredPlayer = Owner.PlayerNo;
-            selectTargetLockSubPhase.AbilityName = abilityName;
+            selectTargetLockSubPhase.DescriptionShort = abilityName;
             selectTargetLockSubPhase.ImageSource = imageSource;
             selectTargetLockSubPhase.Start();
         }

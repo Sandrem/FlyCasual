@@ -83,7 +83,7 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            InfoText = "Receive stress token to rotate ship 180°?";
+            DescriptionShort = "Receive stress token to rotate ship 180°?";
 
             AddDecision("Yes", RotateShip180);
             AddDecision("No", DontRotateShip180);

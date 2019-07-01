@@ -197,7 +197,7 @@ namespace SubPhases
 
             GenerateSelectTemplateDecisions(selectBarrelRollTemplate);
 
-            selectBarrelRollTemplate.InfoText = "Barrel Roll: Select template and direction";
+            selectBarrelRollTemplate.DescriptionShort = "Barrel Roll: Select template and direction";
 
             selectBarrelRollTemplate.DefaultDecisionName = selectBarrelRollTemplate.GetDecisions().First().Name;
 
@@ -438,7 +438,7 @@ namespace SubPhases
             selectBarrelRollPosition.AddDecision("Center", delegate { SetBarrelRollPosition(Direction.None); }, isCentered: true);
             selectBarrelRollPosition.AddDecision("Backwards", delegate { SetBarrelRollPosition(Direction.Bottom); }, isCentered: true);
 
-            selectBarrelRollPosition.InfoText = "Barrel Roll: Select position";
+            selectBarrelRollPosition.DescriptionShort = "Barrel Roll: Select position";
 
             selectBarrelRollPosition.DefaultDecisionName = "Center";
 

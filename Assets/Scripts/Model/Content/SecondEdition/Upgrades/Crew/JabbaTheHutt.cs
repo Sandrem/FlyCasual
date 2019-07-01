@@ -106,7 +106,7 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = "Jabba the Hutt: Select upgrade to recover 1 charge";
+                DescriptionShort = "Jabba the Hutt: Select upgrade to recover 1 charge";
 
                 DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 

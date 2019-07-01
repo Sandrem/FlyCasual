@@ -111,7 +111,7 @@ namespace Abilities.SecondEdition
                 subphaseCallback
             );
 
-            subphase.InfoText = descriptionText;
+            subphase.DescriptionShort = descriptionText;
             subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
             subphase.DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 

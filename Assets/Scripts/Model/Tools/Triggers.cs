@@ -377,7 +377,7 @@ public static partial class Triggers
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Select a trigger to resolve";
+            DescriptionShort = "Select a trigger to resolve";
 
             List<Trigger> currentTriggersList = Triggers.GetCurrentLevel().GetTriggersByPlayer(Phases.PlayerWithInitiative);
             Players.PlayerNo currentPlayer = (currentTriggersList.Count > 0) ? Phases.PlayerWithInitiative : Roster.AnotherPlayer(Phases.PlayerWithInitiative);

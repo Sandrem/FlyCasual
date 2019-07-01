@@ -67,7 +67,7 @@ namespace Abilities.FirstEdition
                 );
             }
 
-            selectAgentKallusTargetDecisionSubPhase.InfoText = "Agent Kallus: Select an enemy ship.";
+            selectAgentKallusTargetDecisionSubPhase.DescriptionShort = "Agent Kallus: Select an enemy ship.";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
             selectAgentKallusTargetDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotInfo.PilotName;

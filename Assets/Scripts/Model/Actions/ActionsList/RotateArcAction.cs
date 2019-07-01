@@ -57,7 +57,7 @@ namespace SubPhases
     {
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Rotate Arc";
+            DescriptionShort = "Rotate Arc";
 
             if (Selection.ThisShip.ArcsInfo.Arcs.Any(a => a is ArcSingleTurret))
             {

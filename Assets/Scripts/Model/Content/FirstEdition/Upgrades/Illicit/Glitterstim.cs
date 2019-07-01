@@ -98,7 +98,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = GlitterstimAbility.HostShip.ShipId + ": Use ability of Glitterstim?";
+            DescriptionShort = GlitterstimAbility.HostShip.ShipId + ": Use ability of Glitterstim?";
             RequiredPlayer = GlitterstimAbility.HostShip.Owner.PlayerNo;
 
             AddDecision("Yes", UseGlitterstimAbility);

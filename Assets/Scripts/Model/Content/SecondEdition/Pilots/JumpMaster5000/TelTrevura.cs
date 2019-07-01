@@ -95,8 +95,8 @@ namespace Abilities.SecondEdition
 
             subphase.ShipToSetup = HostShip;
             subphase.SetupSide = (HostShip.Owner.PlayerNo == Players.PlayerNo.Player1) ? Direction.Bottom : Direction.Top;
-            subphase.AbilityName = HostShip.PilotInfo.PilotName;
-            subphase.Description = "Place yourself within range 1 of your player edge.";
+            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
+            subphase.DescriptionLong = "Place yourself within range 1 of your player edge.";
             subphase.ImageSource = HostShip;
 
             subphase.Start();

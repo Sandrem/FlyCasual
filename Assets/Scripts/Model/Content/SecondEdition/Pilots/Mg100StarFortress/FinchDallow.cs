@@ -68,8 +68,8 @@ namespace Abilities.SecondEdition
             BombsManager.IsOverriden = true;
 
             PlaceBombTokenSubphase subphase = Phases.StartTemporarySubPhaseNew<PlaceBombTokenSubphase>("Place the bomb", Triggers.FinishTrigger);
-            subphase.AbilityName = HostShip.PilotInfo.PilotName;
-            subphase.Description = "Place the bomb touching your ship";
+            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
+            subphase.DescriptionLong = "Place the bomb touching your ship";
             subphase.ImageSource = HostShip;
 
             subphase.Start();
@@ -126,7 +126,7 @@ namespace SubPhases
 
         public void ShowDescription()
         {
-            ShowSubphaseDescription(AbilityName, Description, ImageSource);
+            ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
         }
 
         public override void Next()

@@ -85,7 +85,7 @@ namespace Abilities.FirstEdition
                 );
             }
 
-            selectBombToDrop.InfoText = "Select bomb to drop";
+            selectBombToDrop.DescriptionShort = "Select bomb to drop";
 
             selectBombToDrop.DefaultDecisionName = BombsManager.GetBombsToDrop(HostShip).First().UpgradeInfo.Name;
 

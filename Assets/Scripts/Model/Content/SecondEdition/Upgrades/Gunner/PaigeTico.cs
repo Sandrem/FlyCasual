@@ -59,7 +59,7 @@ namespace Abilities.SecondEdition
             subphase.AddDecision("Rotate Arc", AskRotateArc);
             subphase.DecisionOwner = HostShip.Owner;
             subphase.DefaultDecisionName = "Rotate Arc";
-            subphase.InfoText = "Ability of Paige Tico";
+            subphase.DescriptionShort = "Ability of Paige Tico";
             subphase.ShowSkipButton = true;
             subphase.Start();
         }

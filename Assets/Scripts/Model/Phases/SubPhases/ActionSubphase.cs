@@ -105,8 +105,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            AbilityName = "Perform Action step";
-            Description = "A ship may perform one action during the Perform Action step of its activation";
+            DescriptionShort = "Perform Action step";
 
             ShowSkipButton = true;
             DefaultDecisionName = "Focus";
@@ -224,7 +223,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Select free action";
+            DescriptionShort = "Select free action";
             DefaultDecisionName = "Focus";
 
             List<GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();

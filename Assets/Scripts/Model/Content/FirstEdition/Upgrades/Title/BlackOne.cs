@@ -145,7 +145,7 @@ namespace Abilities.FirstEdition
                 SelectShipSubPhase.FinishSelection
             );
 
-            decisionPhase.InfoText = "Determine which Target Lock to remove:";
+            decisionPhase.DescriptionShort = "Determine which Target Lock to remove:";
 
             foreach (Tokens.RedTargetLockToken token in GetShipRedTargetLocks(TargetShip))
             {

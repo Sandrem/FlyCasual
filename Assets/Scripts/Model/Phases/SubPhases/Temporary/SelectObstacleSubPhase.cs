@@ -43,8 +43,8 @@ namespace SubPhases
             FilterTargets = filterTargets;
             RequiredPlayer = subphaseOwnerPlayerNo;
             if (showSkipButton) UI.ShowSkipButton();
-            AbilityName = abilityName;
-            Description = description;
+            DescriptionShort = abilityName;
+            DescriptionLong = description;
             ImageSource = imageSource;
         }
 
@@ -62,7 +62,7 @@ namespace SubPhases
 
         public void HighlightObstacleToSelect()
         {
-            ShowSubphaseDescription(AbilityName, Description, ImageSource);
+            ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
             //TODO: Highlight filtered obstacles
         }
 

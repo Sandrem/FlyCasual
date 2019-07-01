@@ -165,7 +165,7 @@ namespace ActionsList
                 var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, Triggers.FinishTrigger);
 
                 newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
-                newSubPhase.InfoText = "Choose what effect to apply to the defender:";
+                newSubPhase.DescriptionShort = "Choose what effect to apply to the defender:";
                 newSubPhase.ShowSkipButton = true;
                 newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;
 

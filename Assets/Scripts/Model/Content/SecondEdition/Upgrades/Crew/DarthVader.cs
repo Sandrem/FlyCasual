@@ -96,7 +96,7 @@ namespace Abilities.SecondEdition
                     Triggers.FinishTrigger
                 );
 
-                decisionSubPhase.InfoText = "Remove token to prevent 1 damage from Darth Vader?";
+                decisionSubPhase.DescriptionShort = "Remove token to prevent 1 damage from Darth Vader?";
 
                 decisionSubPhase.AddDecision(
                     "No",

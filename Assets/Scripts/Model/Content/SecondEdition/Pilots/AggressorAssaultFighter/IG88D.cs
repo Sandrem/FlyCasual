@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
         {
             var subphase = Phases.StartTemporarySubPhaseNew<IG88DDecisionSubphase>("IG88D", Triggers.FinishTrigger);
 
-            subphase.InfoText = "You may use anither template of the same speed and direction";
+            subphase.DescriptionShort = "You may use anither template of the same speed and direction";
 
             subphase.AddDecision("Turn", delegate { ChangeBearing(ManeuverBearing.SegnorsLoopUsingTurnTemplate); });
             subphase.AddDecision("Straight", delegate { ChangeBearing(ManeuverBearing.KoiogranTurn); });

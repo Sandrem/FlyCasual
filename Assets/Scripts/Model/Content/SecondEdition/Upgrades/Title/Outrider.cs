@@ -86,7 +86,7 @@ namespace SubPhases
     {
         public override void PrepareCustomDecisions()
         {
-            InfoText = "Outrider: Select token to remove";
+            DescriptionShort = "Outrider: Select token to remove";
             DecisionOwner = Selection.ThisShip.Owner;
             DefaultDecisionName = decisions.First().Name;
         }

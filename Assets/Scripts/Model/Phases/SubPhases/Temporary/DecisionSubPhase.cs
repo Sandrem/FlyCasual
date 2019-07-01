@@ -73,7 +73,6 @@ namespace SubPhases
 
         private GameObject DecisionPanel;
         private GameObject ButtonsHolder;
-        public string InfoText;
         protected List<Decision> decisions = new List<Decision>();
         public string DefaultDecisionName;
         public Players.GenericPlayer DecisionOwner;
@@ -86,9 +85,6 @@ namespace SubPhases
         public bool IsForced;
         public bool DecisionWasPreparedAndShown;
         public Vector2 ImagesDamageCardSize = new Vector2(194, 300);
-
-        private const float defaultWindowHeight = 190f;
-        private const float buttonHeight = 45*1.5f;
 
         public override void Start()
         {
@@ -111,8 +107,6 @@ namespace SubPhases
 
             if (!DecisionWasPreparedAndShown)
             {
-                if (AbilityName != null) ShowDecisionDescription(AbilityName, Description, ImageSource);
-
                 DecisionWasPreparedAndShown = true;
 
                 IsReadyForCommands = true;
@@ -197,9 +191,14 @@ namespace SubPhases
             DecisionPanel.name = "DecisionsPanel";
             ButtonsHolder = DecisionPanel.transform.Find("Center/DecisionsPanel").gameObject;
 
+            if (DescriptionShort != null) ShowDecisionDescription(DescriptionShort, DescriptionLong, ImageSource);
+
+            float defaultWindowHeight = (DescriptionLong != null) ? 190f : 90f;
+            float buttonHeight = 45 * 1.5f;
+
             if (decisions.Count != 0)
             {
-                if (Description == null) DecisionPanel.transform.Find("DescriptionHolder/Description").GetComponentInChildren<Text>().text = InfoText;
+                if (DescriptionLong == null) DecisionPanel.transform.Find("DescriptionHolder/Description").GetComponentInChildren<Text>().text = DescriptionShort;
 
                 int i = 0;
                 int rowsUsed = 0;
@@ -482,15 +481,24 @@ namespace SubPhases
             if (title != null)
             {
                 DecisionPanel.transform.Find("AbilityName").GetComponent<Text>().text = title;
-                DecisionPanel.transform.Find("DescriptionHolder/Description").GetComponent<Text>().text = description;
-                if (imageSource != null)
+
+                if (DescriptionLong != null)
                 {
-                    DecisionPanel.transform.Find("DescriptionHolder/CardImage").GetComponent<SmallCardArt>().Initialize(imageSource);
+                    DecisionPanel.transform.Find("DescriptionHolder/Description").GetComponent<Text>().text = description;
+                    if (imageSource != null)
+                    {
+                        DecisionPanel.transform.Find("DescriptionHolder/CardImage").GetComponent<SmallCardArt>().Initialize(imageSource);
+                    }
+                    else
+                    {
+                        DecisionPanel.transform.Find("DescriptionHolder/CardImage").gameObject.SetActive(false);
+                        DecisionPanel.transform.Find("DescriptionHolder/Description").GetComponent<RectTransform>().sizeDelta = new Vector2(680, 100);
+                    }
                 }
                 else
                 {
-                    DecisionPanel.transform.Find("DescriptionHolder/CardImage").gameObject.SetActive(false);
-                    DecisionPanel.transform.Find("DescriptionHolder/Description").GetComponent<RectTransform>().sizeDelta = new Vector2(680, 100);
+                    DecisionPanel.transform.Find("DescriptionHolder").gameObject.SetActive(false);
+                    DecisionPanel.transform.Find("Center").localPosition += new Vector3(0, 120, 0);
                 }
             }
         }

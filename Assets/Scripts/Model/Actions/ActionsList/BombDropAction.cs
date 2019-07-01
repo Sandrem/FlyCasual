@@ -102,7 +102,7 @@ namespace SubPhases
                 );
             }
 
-            selectBoostTemplateDecisionSubPhase.InfoText = "Select template to drop the bomb";
+            selectBoostTemplateDecisionSubPhase.DescriptionShort = "Select template to drop the bomb";
 
             selectBoostTemplateDecisionSubPhase.DefaultDecisionName = "Straight 1";
 

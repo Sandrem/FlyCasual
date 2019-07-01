@@ -50,7 +50,7 @@ namespace Abilities.SecondEdition
             DalanOberosStarviperDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<DalanOberosStarviperDecisionSubphase>("Rotate the ship?", Triggers.FinishTrigger);
 
             subphase.DecisionOwner = HostShip.Owner;
-            subphase.InfoText = "Gain Stress to rotate the ship?";
+            subphase.DescriptionShort = "Gain Stress to rotate the ship?";
 
             subphase.AddDecision("90 Counterclockwise", Rotate90Counterclockwise);
             subphase.AddDecision("90 Clockwise", Rotate90Clockwise);

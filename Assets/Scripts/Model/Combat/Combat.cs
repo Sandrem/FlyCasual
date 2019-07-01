@@ -561,8 +561,8 @@ public static partial class Combat
                 callback();
             }
         );
-        newAttackSubphase.AbilityName = abilityName;
-        newAttackSubphase.Description = description;
+        newAttackSubphase.DescriptionShort = abilityName;
+        newAttackSubphase.DescriptionLong = description;
         newAttackSubphase.ImageSource = imageSource;
         newAttackSubphase.ShowSkipButton = showSkipButton;
 
@@ -580,7 +580,7 @@ namespace SubPhases
         {
             List<IShipWeapon> allWeapons = Selection.ThisShip.GetAllWeapons();
 
-            InfoText = "Choose weapon for attack";
+            DescriptionShort = "Choose weapon for attack";
 
             foreach (var weapon in allWeapons)
             {

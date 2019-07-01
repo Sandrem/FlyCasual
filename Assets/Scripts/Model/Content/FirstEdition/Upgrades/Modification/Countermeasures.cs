@@ -96,7 +96,7 @@ namespace Abilities.FirstEdition
                 }
             }
 
-            selectTargetLockToDiscardDecision.InfoText = "Select target lock to remove";
+            selectTargetLockToDiscardDecision.DescriptionShort = "Select target lock to remove";
 
             selectTargetLockToDiscardDecision.DefaultDecisionName = selectTargetLockToDiscardDecision.GetDecisions().First().Name;
 

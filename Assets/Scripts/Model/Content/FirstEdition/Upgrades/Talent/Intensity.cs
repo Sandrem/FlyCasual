@@ -86,7 +86,7 @@ namespace Abilities.FirstEdition
                 Triggers.FinishTrigger
             );
 
-            decision.InfoText = "Select token to assign and flip Intensity to Exhausted side";
+            decision.DescriptionShort = "Select token to assign and flip Intensity to Exhausted side";
 
             decision.AddDecision("Focus Token", delegate { AssignToken(typeof(FocusToken)); });
             decision.AddDecision("Evade Token", delegate { AssignToken(typeof(EvadeToken)); });
@@ -175,7 +175,7 @@ namespace Abilities.FirstEdition
                 Triggers.FinishTrigger
             );
 
-            decision.InfoText = "Select token to spend to flip Intensity";
+            decision.DescriptionShort = "Select token to spend to flip Intensity";
 
             if (HostShip.Tokens.HasToken(typeof(FocusToken)))
             {

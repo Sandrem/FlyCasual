@@ -88,7 +88,7 @@ namespace Abilities.SecondEdition
             public Action<Tokens.GenericToken> TokenSelected;
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = $"Seventh Sister: You may spend 1 force to have {TargetShip.PilotInfo.PilotName} gain 1 jam or tractor token instead of stress";
+                DescriptionShort = $"Seventh Sister: You may spend 1 force to have {TargetShip.PilotInfo.PilotName} gain 1 jam or tractor token instead of stress";
 
                 DecisionViewType = DecisionViewTypes.TextButtons;
 

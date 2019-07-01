@@ -70,8 +70,8 @@ namespace ActionsList
                 subphase.WhenDone = CoordinateTargets;
                 subphase.CoordinateActionData = CoordinateActionData;
 
-                subphase.AbilityName = "Coordinate Action";
-                subphase.Description = "Select another ships.\nThey perform free action.";
+                subphase.DescriptionShort = "Coordinate Action";
+                subphase.DescriptionLong = "Select another ships.\nThey perform free action.";
 
                 subphase.Start();
             }

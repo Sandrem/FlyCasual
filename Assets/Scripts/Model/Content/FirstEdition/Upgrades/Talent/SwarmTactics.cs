@@ -82,7 +82,7 @@ namespace SubPhases
             FilterShipTargets = FilterAbilityTargets;
             GetAiPriority = GetAiAbilityPriority;
 
-            Description = "Select target for Swarm Tactics";
+            DescriptionLong = "Select target for Swarm Tactics";
 
             RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 

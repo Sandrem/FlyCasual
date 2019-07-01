@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = "4-LOM: Name a green token the defender can not spend";
+                DescriptionShort = "4-LOM: Name a green token the defender can not spend";
 
                 DecisionViewType = DecisionViewTypes.TextButtons;
 

@@ -49,7 +49,7 @@ namespace SubPhases
     {
         public override void PrepareCustomDecisions()
         {
-            InfoText = Selection.ThisShip.ShipId + ": " + "Select effect of Torani Kulda's ability";
+            DescriptionShort = Selection.ThisShip.ShipId + ": " + "Select effect of Torani Kulda's ability";
             DecisionOwner = Selection.ThisShip.Owner;
 
             AddDecision("Suffer 1 damage.", SufferDamage);

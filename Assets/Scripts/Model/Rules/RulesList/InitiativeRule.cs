@@ -88,9 +88,9 @@ namespace SubPhases
 
             DefaultDecisionName = "Opponent";
 
-            AbilityName = "Initiative";
+            DescriptionShort = "Initiative";
             string playerName = (Roster.GetPlayer(2) is HumanPlayer) ? "Player " + Tools.PlayerToInt(Phases.PlayerWithInitiative) : Roster.GetPlayer(Phases.PlayerWithInitiative).NickName;
-            Description = playerName + ", which player should have initiative?";
+            DescriptionLong = playerName + ", which player should have initiative?";
 
             callBack();
         }

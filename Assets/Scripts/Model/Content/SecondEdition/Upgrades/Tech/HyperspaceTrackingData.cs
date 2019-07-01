@@ -90,7 +90,7 @@ namespace Abilities.SecondEdition
                     Triggers.FinishTrigger
                 );
 
-            initiativeSubPhase.InfoText = String.Format("{0}: ({1}) You may choose a number between {2} and {3}. "
+            initiativeSubPhase.DescriptionShort = String.Format("{0}: ({1}) You may choose a number between {2} and {3}. "
                 + "Treat your initiative as the chosen value during Setup.",
                 HostShip.ShipId,
                 HostShip.PilotInfo.PilotName,
@@ -174,7 +174,7 @@ namespace Abilities.SecondEdition
             );
 
             tokenSubPhase.ShowSkipButton = true;
-            tokenSubPhase.InfoText = String.Format("Hyperspace Tracking Data: {0}: ({1}) "
+            tokenSubPhase.DescriptionShort = String.Format("Hyperspace Tracking Data: {0}: ({1}) "
                 + "Assign 1 Focus Token or 1 Evade Token",
                 TargetShip.ShipId,
                 TargetShip.PilotInfo

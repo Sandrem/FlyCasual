@@ -94,8 +94,8 @@ namespace Abilities.SecondEdition
             );
 
             MoveObstacleMidgameSubPhase.ChosenObstacle = ChosenObstacle;
-            subphase.AbilityName = HostUpgrade.UpgradeInfo.Name;
-            subphase.Description = "Place this obstacle beyond range 2 of any board edge of ship and beyond range 1 of other obstacles";
+            subphase.DescriptionShort = HostUpgrade.UpgradeInfo.Name;
+            subphase.DescriptionLong = "Place this obstacle beyond range 2 of any board edge of ship and beyond range 1 of other obstacles";
             subphase.ImageSource = HostUpgrade;
             subphase.SetupFilter = SetupFilter;
 

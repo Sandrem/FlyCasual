@@ -83,7 +83,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Select token to remove";
+            DescriptionShort = "Select token to remove";
 
             DecisionOwner = Selection.ActiveShip.Owner;
 

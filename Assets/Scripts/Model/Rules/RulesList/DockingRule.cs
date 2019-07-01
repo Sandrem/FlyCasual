@@ -150,7 +150,7 @@ namespace RulesList
                 delegate { ContinueUndocking(hostShip, dockedShip, isForced); }
             );
 
-            subphase.InfoText = "Select direction for undocking";
+            subphase.DescriptionShort = "Select direction for undocking";
             subphase.DecisionOwner = hostShip.Owner;
 
             List<Direction> allDirections = new List<Direction>() { Direction.Top, Direction.Bottom }
@@ -390,7 +390,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Deploy docked ship?";
+            DescriptionShort = "Deploy docked ship?";
 
             AddDecision("Yes", Undock);
             AddDecision("No", SkipUndock);

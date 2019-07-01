@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
                 "Tomax Bren's ability",
                 Triggers.FinishTrigger
             );
-            phase.InfoText = "You may recover a charge:";
+            phase.DescriptionShort = "You may recover a charge:";
             phase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
             phase.ShowSkipButton = true;

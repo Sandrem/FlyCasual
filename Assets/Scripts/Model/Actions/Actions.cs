@@ -264,7 +264,7 @@ public static partial class ActionsHolder
             Triggers.FinishTrigger
         );
 
-        subphase.InfoText = "Select token to remove";
+        subphase.DescriptionShort = "Select token to remove";
         subphase.RequiredPlayer = (sender as GenericShip).Owner.PlayerNo;
         subphase.ShowSkipButton = false;
 

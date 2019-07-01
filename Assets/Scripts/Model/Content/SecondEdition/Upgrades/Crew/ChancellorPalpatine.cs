@@ -150,7 +150,7 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = "Darth Sidious: Gain 1 focus token or recover 1 force?";
+                DescriptionShort = "Darth Sidious: Gain 1 focus token or recover 1 force?";
 
                 DecisionViewType = DecisionViewTypes.TextButtons;
 

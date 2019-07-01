@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
             subphase.AddDecision("Drop or launch a device", DropBomb);
             subphase.DecisionOwner = HostShip.Owner;
             subphase.DefaultDecisionName = "Perform attack";
-            subphase.InfoText = "Ability of \"Deathfire\"";
+            subphase.DescriptionShort = "Ability of \"Deathfire\"";
             subphase.ShowSkipButton = true;
             subphase.Start();
         }

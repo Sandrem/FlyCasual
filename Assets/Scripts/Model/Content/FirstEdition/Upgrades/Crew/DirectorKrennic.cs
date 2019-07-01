@@ -208,7 +208,7 @@ namespace ActionsList
             var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, callBack);
 
             newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
-            newSubPhase.InfoText = "Spend die result to make defender lose a shield?";
+            newSubPhase.DescriptionShort = "Spend die result to make defender lose a shield?";
             newSubPhase.ShowSkipButton = true;
             newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;
 

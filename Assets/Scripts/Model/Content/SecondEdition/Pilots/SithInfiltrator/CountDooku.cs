@@ -100,7 +100,7 @@ namespace Abilities.SecondEdition
                 SelectTokenSubphase subphase = Phases.StartTemporarySubPhaseNew<SelectTokenSubphase>("Select a token", Triggers.FinishTrigger);
                 subphase.DecisionOwner = HostShip.Owner;
                 subphase.ShowSkipButton = true;
-                subphase.InfoText = "You can spend a force token to remove a red or a blue token from your ship";
+                subphase.DescriptionShort = "You can spend a force token to remove a red or a blue token from your ship";
 
                 foreach (GenericToken token in HostShip.Tokens.GetAllTokens())
                 {

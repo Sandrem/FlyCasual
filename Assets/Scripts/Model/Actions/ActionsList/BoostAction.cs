@@ -182,7 +182,7 @@ namespace SubPhases
                 );
             }
 
-            selectBoostTemplateDecisionSubPhase.InfoText = "Select boost direction";
+            selectBoostTemplateDecisionSubPhase.DescriptionShort = "Select boost direction";
 
             selectBoostTemplateDecisionSubPhase.DefaultDecisionName = "Straight 1";
 

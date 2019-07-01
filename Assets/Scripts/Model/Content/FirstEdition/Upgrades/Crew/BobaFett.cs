@@ -61,7 +61,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Use Boba Fett's ability?";
+            DescriptionShort = "Use Boba Fett's ability?";
             RequiredPlayer = Combat.Attacker.Owner.PlayerNo;
 
             AddDecision("Yes", UseBobaFettCrewAbility);
@@ -100,7 +100,7 @@ namespace SubPhases
     {
         public override void PrepareDecision(System.Action callBack)
         {
-            InfoText = "Select upgrade to discard:";
+            DescriptionShort = "Select upgrade to discard:";
             RequiredPlayer = Combat.Attacker.Owner.PlayerNo;
 
             var upgrades = Combat.Defender.UpgradeBar.GetUpgradesOnlyFaceup();

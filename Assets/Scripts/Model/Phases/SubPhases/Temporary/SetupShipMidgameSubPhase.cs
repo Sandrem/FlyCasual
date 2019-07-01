@@ -60,7 +60,7 @@ namespace SubPhases
 
         public void ShowDescription()
         {
-            ShowSubphaseDescription(AbilityName, Description, ImageSource);
+            ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
         }
 
         public override void Next()

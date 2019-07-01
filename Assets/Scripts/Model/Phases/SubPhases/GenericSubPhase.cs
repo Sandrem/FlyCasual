@@ -23,8 +23,8 @@ namespace SubPhases
 
         public Action CallBack;
 
-        public string AbilityName;
-        public string Description;
+        public string DescriptionShort;
+        public string DescriptionLong;
         public IImageHolder ImageSource;
 
         public bool IsTemporary;

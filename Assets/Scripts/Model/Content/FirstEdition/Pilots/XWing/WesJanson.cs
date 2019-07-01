@@ -62,7 +62,7 @@ namespace Abilities.FirstEdition
                     Triggers.FinishTrigger
                 );
 
-                pilotAbilityDecision.InfoText = "Use Wes Janson's ability?";
+                pilotAbilityDecision.DescriptionShort = "Use Wes Janson's ability?";
 
                 pilotAbilityDecision.ShowSkipButton = true;
 

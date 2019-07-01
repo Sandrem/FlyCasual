@@ -86,7 +86,7 @@ namespace Abilities.SecondEdition
                 subphase.AddDecision(item, delegate { SelectTemplate(item); }, isCentered: (item == "Straight 1"));
             }
 
-            subphase.InfoText = "Choose a template - each friendly ship may perform a red boost action using that template";
+            subphase.DescriptionShort = "Choose a template - each friendly ship may perform a red boost action using that template";
             subphase.DefaultDecisionName = decisions.First();
             subphase.DecisionOwner = HostShip.Owner;
 

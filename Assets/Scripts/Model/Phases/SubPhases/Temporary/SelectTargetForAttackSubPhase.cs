@@ -24,8 +24,8 @@ namespace SubPhases
                 null,
                 Selection.ThisShip.Owner.PlayerNo,
                 ShowSkipButton,
-                AbilityName,
-                Description,
+                DescriptionShort,
+                DescriptionLong,
                 ImageSource
             );
         }

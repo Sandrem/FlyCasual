@@ -108,7 +108,7 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = TargetShip.PilotInfo.PilotName + ": " + "Select token to transfer to Kaato.";
+                DescriptionShort = TargetShip.PilotInfo.PilotName + ": " + "Select token to transfer to Kaato.";
                 DecisionOwner = TargetShip.Owner;
 
                 if (TargetShip.Tokens.HasToken(typeof(FocusToken)))

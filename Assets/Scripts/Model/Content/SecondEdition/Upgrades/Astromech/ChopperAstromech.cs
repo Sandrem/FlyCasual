@@ -149,7 +149,7 @@ namespace Abilities.SecondEdition
                     DecisionSubPhase.ConfirmDecision
                 );
 
-                decisionPhase.InfoText = InfoText;
+                decisionPhase.DescriptionShort = InfoText;
 
                 GetAvailableUpgrades().Where(IsUsable).ToList().ForEach(u =>
                 {

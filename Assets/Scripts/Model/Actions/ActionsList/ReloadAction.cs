@@ -91,7 +91,7 @@ namespace ActionsList
         {
             ReloadDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<ReloadDecisionSubphase>("Choose one device to reload", AssignTokenAndFinish);
 
-            subphase.InfoText = "Choose one device to regain one charge";
+            subphase.DescriptionShort = "Choose one device to regain one charge";
             subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
             subphase.DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 

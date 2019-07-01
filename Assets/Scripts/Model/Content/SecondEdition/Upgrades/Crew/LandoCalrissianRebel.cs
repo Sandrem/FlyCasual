@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                InfoText = "Lando Calrissian: Chose token to gain";
+                DescriptionShort = "Lando Calrissian: Chose token to gain";
 
                 DecisionViewType = DecisionViewTypes.TextButtons;
 

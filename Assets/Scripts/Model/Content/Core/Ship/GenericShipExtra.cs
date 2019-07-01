@@ -7,6 +7,7 @@ using ActionsList;
 using Upgrade;
 using Editions;
 using SquadBuilderNS;
+using Tokens;
 
 namespace Ship
 {
@@ -102,6 +103,11 @@ namespace Ship
         public event EventHandlerCheckRange OnCheckRange;
 
         public Func<Direction, bool> FilterUndockDirection { get; set; }
+
+        public bool IsStrained
+        {
+            get { return Tokens.HasToken<StrainToken>(); }
+        }
 
         public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {

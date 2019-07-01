@@ -10,6 +10,7 @@ public static class Rules
     public static DistanceBonusRule DistanceBonus { get; private set; }
     public static EndPhaseCleanupRule EndPhase { get; private set; }
     public static StressRule Stress { get; private set; }
+    public static StrainRule Strain { get; private set; }
     public static OffTheBoardRule OffTheBoard { get; private set; }
     public static CollisionRules Collision { get; private set; }
     public static ActionsRule Actions { get; private set; }
@@ -40,6 +41,7 @@ public static class Rules
         DistanceBonus = new DistanceBonusRule();
         EndPhase = new EndPhaseCleanupRule();
         Stress = new StressRule();
+        Strain = new StrainRule();
         OffTheBoard = new OffTheBoardRule();
         Collision = new CollisionRules();
         Actions = new ActionsRule();

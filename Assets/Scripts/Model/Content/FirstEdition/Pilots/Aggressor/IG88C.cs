@@ -70,7 +70,7 @@ namespace Abilities.FirstEdition
 
         private void PerformFreeEvadeActionDecision(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, true);
+            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, isForced: true);
         }
     }
 }

@@ -20,10 +20,6 @@ namespace SubPhases
         private static Action<GenericObstacle> SelectTargetAction;
         private Func<GenericObstacle, bool> FilterTargets;
 
-        public string AbilityName;
-        public string Description;
-        public IImageHolder ImageSource;
-
         public override void Start()
         {
             IsTemporary = true;

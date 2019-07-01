@@ -36,10 +36,6 @@ namespace SubPhases
 
         public virtual GenericShip TargetShip { get; set; }
 
-        public string AbilityName;
-        public string Description;
-        public IImageHolder ImageSource;
-
         public bool ShowSkipButton = true;
 
         public GenericAction HostAction { get; set; }

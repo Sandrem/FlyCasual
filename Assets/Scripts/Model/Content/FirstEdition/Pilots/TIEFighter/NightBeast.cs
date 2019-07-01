@@ -56,7 +56,13 @@ namespace Abilities.FirstEdition
 
         private void PerformFreeFocusAction(object sender, System.EventArgs e)
         {
-            HostShip.AskPerformFreeAction(new ActionsList.FocusAction(), Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                new ActionsList.FocusAction(),
+                Triggers.FinishTrigger,
+                abilityName: HostShip.PilotInfo.PilotName,
+                abilityDescription: "After you fully execute a blue maneuver, you may perform a Focus action",
+                imageHolder: HostShip
+            );
         }
     }
 }

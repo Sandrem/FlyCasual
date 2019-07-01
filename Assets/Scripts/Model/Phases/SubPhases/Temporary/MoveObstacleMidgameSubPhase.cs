@@ -31,10 +31,6 @@ namespace SubPhases
 
         public Func<bool> SetupFilter;
 
-        public string AbilityName;
-        public string Description;
-        public IImageHolder ImageSource;
-
         public static float DistanceFromEdge { get; private set; }
 
         private TouchObjectPlacementHandler touchObjectPlacementHandler = new TouchObjectPlacementHandler();

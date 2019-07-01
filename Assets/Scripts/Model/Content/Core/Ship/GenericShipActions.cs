@@ -255,13 +255,13 @@ namespace Ship
             return result;
         }
 
-        public void AskPerformFreeAction(GenericAction freeAction, Action callback, bool isForced = false)
+        public void AskPerformFreeAction(GenericAction freeAction, Action callback, string abilityName = "", string abilityDescription = "", IImageHolder imageHolder = null, bool isForced = false)
         {
-            AskPerformFreeAction(new List<GenericAction> { freeAction }, callback, isForced);
+            AskPerformFreeAction(new List<GenericAction> { freeAction }, callback, abilityName, abilityDescription, imageHolder, isForced);
         }
 
         // TODO: move actions list into subphase
-        public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback, bool isForced = false)
+        public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback, string abilityName = "", string abilityDescription = "", IImageHolder imageHolder = null, bool isForced = false)
         {
             foreach (GenericAction freeAction in freeActions)
             {
@@ -304,6 +304,10 @@ namespace Ship
                         newSubPhase.DecisionOwner = this.Owner;
                         newSubPhase.ShowSkipButton = !isForced;
                         newSubPhase.IsForced = isForced;
+                        newSubPhase.AbilityName = abilityName;
+                        newSubPhase.Description = abilityDescription;
+                        newSubPhase.ImageSource = imageHolder;
+
                         newSubPhase.Start();
                     }
                 }

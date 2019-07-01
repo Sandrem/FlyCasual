@@ -13,10 +13,6 @@ namespace SubPhases
         public int MaxToSelect { get; set; }
         public Action<Action> WhenDone { get; set; }
 
-        public string AbilityName { get; set; }
-        public string Description { get; set; }
-        public IImageHolder ImageSource { get; set; }
-
         public GenericAction HostAction { get; set; }
 
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressNext }; } }

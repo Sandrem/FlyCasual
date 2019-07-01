@@ -83,10 +83,6 @@ namespace SubPhases
     {
         private static GenericDeviceGameObject BombGO;
 
-        public string AbilityName;
-        public string Description;
-        public IImageHolder ImageSource;
-
         private static bool IsInReposition;
 
         public override List<GameCommandTypes> AllowedGameCommandTypes

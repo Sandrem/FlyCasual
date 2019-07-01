@@ -27,10 +27,6 @@ namespace SubPhases
 
         public Func<bool> SetupFilter;
 
-        public string AbilityName;
-        public string Description;
-        public IImageHolder ImageSource;
-
         public override void Start()
         {
             IsTemporary = true;

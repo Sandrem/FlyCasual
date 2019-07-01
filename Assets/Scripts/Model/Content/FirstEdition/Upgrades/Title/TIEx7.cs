@@ -123,7 +123,7 @@ namespace SubPhases
 
         private void PerformFreeEvadeAction(object sender, EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, true);
+            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, isForced: true);
         }
 
         private void DontPerformFreeEvadeAction(object sender, EventArgs e)

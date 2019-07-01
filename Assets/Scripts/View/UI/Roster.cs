@@ -445,16 +445,21 @@ public static partial class Roster {
 
         foreach (var token in GetTokensSorted(thisShip))
         {
-            GameObject prefab = (GameObject)Resources.Load("Prefabs/PanelToken", typeof(GameObject));
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/TokenPanel", typeof(GameObject));
             GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
+            Sprite tokenSprite = Resources.Load<Sprite>("Sprites/Tokens/" + token.Name);
+            if (tokenSprite == null) Console.Write("Token's image was not found: " + token.Name, LogTypes.Errors, true, "red");
+            tokenPanel.GetComponentInChildren<Image>().sprite = tokenSprite;
             tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
             tokenPanel.name = token.Name;
-            Tooltips.AddTooltip(tokenPanel, token.Tooltip);
-            tokenPanel.transform.Find(token.Name).gameObject.SetActive(true);
 
-            if (token.GetType().BaseType == typeof(Tokens.GenericTargetLockToken))
+            Tooltips.AddTooltip(tokenPanel, token.Tooltip);
+
+            if (token.GetType().BaseType == typeof(GenericTargetLockToken))
             {
-                tokenPanel.transform.Find(token.Name).Find("Letter").GetComponent<Text>().text = (token as Tokens.GenericTargetLockToken).Letter.ToString();
+                Text tokenText = tokenPanel.transform.Find("Image/Letter").GetComponent<Text>();
+                tokenText.text = (token as GenericTargetLockToken).Letter.ToString();
+                tokenText.color = (token is BlueTargetLockToken) ? new Color(0, 0.6f, 1) : Color.red;
             }
 
             tokenPanel.SetActive(true);

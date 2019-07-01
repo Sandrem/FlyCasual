@@ -13,7 +13,7 @@ namespace Tokens
     {
         public CloakToken(GenericShip host) : base(host)
         {
-            Name = "Cloak Token";
+            Name = ImageName = "Cloak Token";
             TokenColor = TokenColors.Blue;
             PriorityUI = 50;
             Temporary = false;

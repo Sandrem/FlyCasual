@@ -89,7 +89,7 @@ namespace Conditions
     {
         public R2F2Condition(GenericShip host) : base(host)
         {
-            Name = "Buff Token";
+            Name = ImageName = "Buff Token";
             Temporary = false;
             Tooltip = new UpgradesList.FirstEdition.R2F2().ImageUrl;
         }

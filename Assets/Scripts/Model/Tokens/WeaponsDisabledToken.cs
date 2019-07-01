@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Editions;
+using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Tokens
     {
         public WeaponsDisabledToken(GenericShip host) : base(host)
         {
-            Name = "Weapons Disabled Token";
+            Name = ImageName = (Edition.Current is SecondEdition) ? "Disarm Token" : "Weapons Disabled Token";
             Temporary = true;
             PriorityUI = 45;
             TokenColor = TokenColors.Orange;

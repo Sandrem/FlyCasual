@@ -116,7 +116,7 @@ namespace Conditions
     {
         public Harpooned(GenericShip host) : base(host)
         {
-            Name = "Harpooned Condition";
+            Name = ImageName = "Harpooned Condition";
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/harpooned.png";
         }

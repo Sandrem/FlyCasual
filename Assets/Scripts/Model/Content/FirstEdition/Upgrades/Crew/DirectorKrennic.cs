@@ -137,7 +137,7 @@ namespace Conditions
     {
         public OptimizedPrototype(GenericShip host) : base(host)
         {
-            Name = "Optimized Prototype Condition";
+            Name = ImageName = "Optimized Prototype Condition";
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/optimized-prototype.png";
         }

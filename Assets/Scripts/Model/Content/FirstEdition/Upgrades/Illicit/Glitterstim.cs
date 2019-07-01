@@ -208,7 +208,7 @@ namespace Conditions
     {
         public Glitterstim(GenericShip host) : base(host)
         {
-            Name = "Glitterstim Condition";
+            Name = ImageName = "Glitterstim Condition";
             Temporary = true;
             Tooltip = new UpgradesList.FirstEdition.Glitterstim().ImageUrl;
         }

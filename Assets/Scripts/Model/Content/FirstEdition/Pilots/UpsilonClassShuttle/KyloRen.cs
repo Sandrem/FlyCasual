@@ -176,7 +176,7 @@ namespace Conditions
     {
         public IllShowYouTheDarkSide(GenericShip host) : base(host)
         {
-            Name = "I'll Show You The Dark Side Condition";
+            Name = ImageName = "I'll Show You The Dark Side Condition";
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/ill-show-you-the-dark-side.png";
         }
@@ -186,7 +186,7 @@ namespace Conditions
     {
         public IllShowYouTheDarkSideDamageCard(GenericShip host) : base(host)
         {
-            Name = "I'll Show You The Dark Side Damage Card Condition";
+            Name = ImageName = "I'll Show You The Dark Side Damage Card Condition";
             Temporary = false;
         }
     }

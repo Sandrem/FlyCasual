@@ -97,7 +97,7 @@ namespace Conditions
 
         public CaptainRexCondition(GenericShip host) : base(host)
         {
-            Name = "Debuff Token";
+            Name = ImageName = "Debuff Token";
             TooltipType = typeof(Ship.SecondEdition.TIELnFighter.CaptainRex);
 
             Temporary = false;

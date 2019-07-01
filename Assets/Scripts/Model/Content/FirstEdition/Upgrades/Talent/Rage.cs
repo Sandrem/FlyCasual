@@ -147,7 +147,7 @@ namespace Conditions
     {
         public RageCondition(GenericShip host) : base(host)
         {
-            Name = "Buff Token";
+            Name = ImageName = "Buff Token";
             Temporary = false;
             Tooltip = new UpgradesList.FirstEdition.Rage().ImageUrl;
         }

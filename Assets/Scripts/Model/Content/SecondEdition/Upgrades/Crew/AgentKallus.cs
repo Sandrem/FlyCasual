@@ -84,7 +84,7 @@ namespace Conditions
     {
         public HuntedCondition(GenericShip host) : base(host)
         {
-            Name = "Hunted Condition";
+            Name = ImageName = "Hunted Condition";
             Temporary = false;
 
             Tooltip = "https://raw.githubusercontent.com/Sandrem/xwing-data2-test/master/images/conditions/hunted.png";

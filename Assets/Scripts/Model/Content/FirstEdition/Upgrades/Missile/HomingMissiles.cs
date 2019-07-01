@@ -93,7 +93,7 @@ namespace Conditions
     {
         public HomingMissilesCondition(GenericShip host) : base(host)
         {
-            Name = "Debuff Token";
+            Name = ImageName = "Debuff Token";
             Temporary = false;
             Tooltip = new UpgradesList.FirstEdition.HomingMissiles().ImageUrl;
         }

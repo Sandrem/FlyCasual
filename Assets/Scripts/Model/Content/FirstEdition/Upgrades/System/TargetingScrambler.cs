@@ -111,7 +111,7 @@ namespace Conditions
     {
         public ScrambledCondition(GenericShip host) : base(host)
         {
-            Name = "Scrambled Condition";
+            Name = ImageName = "Scrambled Condition";
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/scrambled.png";
         }

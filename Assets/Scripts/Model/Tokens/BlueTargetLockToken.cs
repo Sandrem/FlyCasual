@@ -11,7 +11,7 @@ namespace Tokens
 
         public BlueTargetLockToken(GenericShip host) : base(host)
         {
-            Name = "Blue Target Lock Token";
+            Name = ImageName = "Blue Target Lock Token";
             TokenColor = TokenColors.Blue;
             PriorityUI = 55;
             Action = new ActionsList.TargetLockAction() { HostShip = host };

@@ -224,7 +224,7 @@ namespace Conditions
     {
         public CommanderMalarusCondition(GenericShip host) : base(host)
         {
-            Name = "Buff Token";
+            Name = ImageName = "Buff Token";
             Temporary = true;
             Tooltip = new Ship.SecondEdition.TIEFoFighter.CommanderMalarus().ImageUrl;
         }

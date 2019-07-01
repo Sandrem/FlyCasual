@@ -97,7 +97,7 @@ namespace Conditions
     {
         public ExposeCondition(GenericShip host) : base(host)
         {
-            Name = "Buff Token";
+            Name = ImageName = "Buff Token";
             Tooltip = new UpgradesList.FirstEdition.Expose().ImageUrl;
         }
     }

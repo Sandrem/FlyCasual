@@ -3,6 +3,7 @@ using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Editions;
 
 namespace Tokens
 {
@@ -12,6 +13,7 @@ namespace Tokens
         public JamToken(GenericShip host) : base(host)
         {
             Name = "Jam Token";
+            ImageName = (Edition.Current is SecondEdition) ? "Jam Token SE" : "Jam Token FE";
             Temporary = Edition.Current is SecondEdition;
             TokenColor = TokenColors.Orange;
             PriorityUI = 40;

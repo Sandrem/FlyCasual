@@ -125,7 +125,7 @@ namespace Conditions
     {
         public MarksmanshipCondition(GenericShip host) : base(host)
         {
-            Name = "Buff Token";
+            Name = ImageName = "Buff Token";
             Temporary = false;
             Tooltip = new UpgradesList.FirstEdition.Marksmanship().ImageUrl;
         }

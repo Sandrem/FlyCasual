@@ -124,7 +124,7 @@ namespace Conditions
     {
         public FennRauRebelCondition(GenericShip host) : base(host)
         {
-            Name = "Debuff Token";
+            Name = ImageName = "Debuff Token";
             Temporary = false;
         }
     }

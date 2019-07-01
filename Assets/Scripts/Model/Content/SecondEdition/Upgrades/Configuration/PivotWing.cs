@@ -141,7 +141,7 @@ namespace Conditions
     {
         public PivotWingCondition(GenericShip host, GenericUpgrade source) : base(host)
         {
-            Name = "Debuff Token";
+            Name = ImageName = "Debuff Token";
             TooltipType = source.GetType();
             Temporary = false;
         }

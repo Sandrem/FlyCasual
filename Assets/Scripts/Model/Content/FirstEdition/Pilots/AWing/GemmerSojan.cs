@@ -90,7 +90,7 @@ namespace Conditions
     {
         public GemmerSojanCondition(GenericShip host) : base(host)
         {
-            Name = "Buff Token";
+            Name = ImageName = "Buff Token";
             Temporary = false;
             Tooltip = host.ImageUrl;
         }

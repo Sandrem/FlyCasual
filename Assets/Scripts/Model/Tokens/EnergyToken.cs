@@ -10,7 +10,7 @@ namespace Tokens
     {
         public EnergyToken(GenericShip host) : base(host)
         {
-            Name = "Energy Token";
+            Name = ImageName = "Energy Token";
             Temporary = false;
             PriorityUI = 10;
         }

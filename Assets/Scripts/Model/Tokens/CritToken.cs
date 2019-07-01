@@ -10,7 +10,7 @@ namespace Tokens
     {
         public CritToken(GenericShip host) : base(host)
         {
-            Name = "Critical Hit Token";
+            Name = ImageName = "Critical Hit Token";
             Temporary = false;
             PriorityUI = 33;
         }

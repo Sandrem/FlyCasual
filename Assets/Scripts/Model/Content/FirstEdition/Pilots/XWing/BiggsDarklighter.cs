@@ -124,7 +124,7 @@ namespace Conditions
     {
         public BiggsDarklighterCondition(GenericShip host) : base(host)
         {
-            Name = "Buff Token";
+            Name = ImageName = "Buff Token";
             Temporary = false;
             Tooltip = new Ship.FirstEdition.XWing.BiggsDarklighter().ImageUrl;
         }

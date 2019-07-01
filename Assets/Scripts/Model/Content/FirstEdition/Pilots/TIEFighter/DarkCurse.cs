@@ -76,7 +76,7 @@ namespace Conditions
     {
         public DarkCurseCondition(GenericShip host) : base(host)
         {
-            Name = "Debuff Token";
+            Name = ImageName = "Debuff Token";
             Temporary = false;
             Tooltip = new Ship.FirstEdition.TIEFighter.DarkCurse().ImageUrl;
         }

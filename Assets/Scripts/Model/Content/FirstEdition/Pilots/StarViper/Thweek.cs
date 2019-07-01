@@ -211,7 +211,7 @@ namespace Conditions
     {
         public Mimicked(GenericShip host) : base(host)
         {
-            Name = "Thweek Condition";
+            Name = ImageName = "Thweek Condition";
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/mimicked.png";
         }
@@ -221,7 +221,7 @@ namespace Conditions
     {
         public Shadowed(GenericShip host) : base(host)
         {
-            Name = "Thweek Condition";
+            Name = ImageName = "Thweek Condition";
             Temporary = false;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/conditions/shadowed.png";
         }

@@ -118,7 +118,7 @@ namespace Conditions
         public ListeningDevice(GenericShip host) : base(host)
         {
             //Name = "Listening Device Condition";
-            Name = "Debuff Token";
+            Name = ImageName = "Debuff Token";
             Temporary = false;
 
             Tooltip = "https://github.com/belk/xwing-data2-test/raw/listening-device/images/conditions/listening-device.png";

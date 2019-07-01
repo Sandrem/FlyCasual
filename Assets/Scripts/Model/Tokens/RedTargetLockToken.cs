@@ -14,7 +14,7 @@ namespace Tokens
 
         public RedTargetLockToken(ITargetLockable host) : base(null)
         {
-            Name = "Red Target Lock Token";
+            Name = ImageName = "Red Target Lock Token";
             TokenColor = TokenColors.Red;
             PriorityUI = 20;
 

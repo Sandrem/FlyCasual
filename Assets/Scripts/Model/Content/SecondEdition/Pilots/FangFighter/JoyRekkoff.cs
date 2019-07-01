@@ -86,7 +86,7 @@ namespace Conditions
 
         public JoyRekkoffCondition(GenericShip host) : base(host)
         {
-            Name = "Debuff Token";
+            Name = ImageName = "Debuff Token";
             TooltipType = typeof(Ship.SecondEdition.FangFighter.JoyRekkoff);
 
             Temporary = false;

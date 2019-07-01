@@ -7,7 +7,7 @@ namespace Tokens
     {
         public ReinforceAftToken(GenericShip host): base(host)
         {
-            Name = "Reinforce Aft Token";
+            Name = ImageName = "Reinforce Aft Token";
             Facing = Arcs.ArcFacing.FullRear;
         }
     }

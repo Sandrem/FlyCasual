@@ -79,7 +79,7 @@ namespace Conditions
         public OutmaneuverCondition(GenericShip host, GenericUpgrade upgrade) : base(host)
         {
             Upgrade = upgrade;
-            Name = "Debuff Token";
+            Name = ImageName = "Debuff Token";
             Temporary = false;
             Tooltip = Upgrade.ImageUrl;
         }

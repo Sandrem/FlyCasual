@@ -112,7 +112,7 @@ namespace Conditions
     {
         public HotshotCoPilotCondition(GenericShip host) : base(host)
         {
-            Name = "Debuff Token";
+            Name = ImageName = "Debuff Token";
             Temporary = false;
             Tooltip = new UpgradesList.FirstEdition.HotshotCoPilot().ImageUrl;
         }

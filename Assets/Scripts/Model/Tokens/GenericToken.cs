@@ -17,6 +17,7 @@ namespace Tokens
     public class GenericToken
     {
         public string Name;
+        public string ImageName;
         public GenericShip Host;
         public bool Temporary = true;
         public ActionsList.GenericAction Action = null;

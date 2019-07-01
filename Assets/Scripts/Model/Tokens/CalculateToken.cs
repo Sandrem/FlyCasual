@@ -10,7 +10,7 @@ namespace Tokens
     {
         public CalculateToken(GenericShip host) : base(host)
         {
-            Name = "Calculate Token";
+            Name = ImageName = "Calculate Token";
             TokenColor = TokenColors.Green;
             PriorityUI = 65;
             Action = new ActionsList.CalculateAction() { HostShip = host};

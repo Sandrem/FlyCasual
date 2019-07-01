@@ -12,7 +12,7 @@ namespace Tokens
     {
         public IonToken(GenericShip host) : base(host)
         {
-            Name = "Ion Token";
+            Name = ImageName = "Ion Token";
             Temporary = false;
             TokenColor = TokenColors.Red;
             PriorityUI = 35;

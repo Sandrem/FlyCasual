@@ -47,7 +47,13 @@ namespace Abilities.FirstEdition
         {
             List<GenericAction> actions = new List<GenericAction>() { new BoostAction(), new BarrelRollAction() };
 
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                actions,
+                Triggers.FinishTrigger,
+                descriptionShort: HostShip.PilotInfo.PilotName,
+                descriptionLong: "Before you activate, you may perform a Barrel Roll or Boost action",
+                imageHolder: HostShip
+            );
         }
     }
 }

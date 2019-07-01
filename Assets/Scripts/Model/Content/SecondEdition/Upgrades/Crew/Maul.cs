@@ -112,7 +112,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 ShouldUseAbility, 
                 RecoverForce, 
-                infoText: "Gain 1 stress token to recover 1 force?");
+                descriptionLong: "Gain 1 stress token to recover 1 force?");
         }
 
         private bool ShouldUseAbility()

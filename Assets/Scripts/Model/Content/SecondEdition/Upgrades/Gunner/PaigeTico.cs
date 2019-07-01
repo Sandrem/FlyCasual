@@ -95,7 +95,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 NeverUseByDefault,
                 DropBomb,
-                infoText: "Do you want to drop a bomb?"
+                descriptionLong: "Do you want to drop a bomb?"
             );
         }
 

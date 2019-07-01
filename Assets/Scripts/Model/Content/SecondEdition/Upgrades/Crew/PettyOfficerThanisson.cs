@@ -69,7 +69,7 @@ namespace Abilities.SecondEdition
                 AskToUseAbility(
                     ShouldUseAbility,
                     UseAbility,
-                    infoText: HostShip.PilotInfo.PilotName + ": Gain a Stress Token to assign an additional " + token.Name + " to " + ShipWithToken.PilotInfo.PilotName + "?" 
+                    descriptionLong: HostShip.PilotInfo.PilotName + ": Gain a Stress Token to assign an additional " + token.Name + " to " + ShipWithToken.PilotInfo.PilotName + "?" 
                 );
             } 
             else

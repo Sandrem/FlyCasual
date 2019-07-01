@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 AlwaysUseByDefault,
                 UseOwnAbility,
-                infoText: "Do you want to use Chewbacca's ability?"
+                descriptionLong: "Do you want to use Chewbacca's ability?"
             );
         }
 

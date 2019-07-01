@@ -88,7 +88,7 @@ namespace Abilities.SecondEdition
                     SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
                     RemoveTokenAndFinish(typeof(FocusToken));
                 },
-                infoText: "Hotshot Gunner: Do you want to remove Calculate token and stay with Focus token?",
+                descriptionLong: "Hotshot Gunner: Do you want to remove Calculate token and stay with Focus token?",
                 showSkipButton: false,
                 requiredPlayer: Combat.Defender.Owner.PlayerNo
             );

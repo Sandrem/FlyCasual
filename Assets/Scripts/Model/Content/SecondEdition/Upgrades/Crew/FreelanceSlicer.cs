@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 AlwaysUseByDefault,
                 UseOwnAbility,
-                infoText: "Do you want to use Freelance Slicer's ability?"
+                descriptionLong: "Do you want to use Freelance Slicer's ability?"
             );
         }
 

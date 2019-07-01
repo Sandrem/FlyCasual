@@ -54,7 +54,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 useByDefault: AlwaysUseByDefault,
                 useAbility: AddFuseMarker,
-                infoText: $"Place a Fuse marker on {BombsManager.CurrentBomb.UpgradeInfo.Name}?",
+                descriptionLong: $"Place a Fuse marker on {BombsManager.CurrentBomb.UpgradeInfo.Name}?",
                 requiredPlayer: HostShip.Owner.PlayerNo
                 );
         }

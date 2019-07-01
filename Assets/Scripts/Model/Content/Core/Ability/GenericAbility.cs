@@ -156,7 +156,7 @@ namespace Abilities
         /// <summary>
         /// Shows "Take a decision" window for ability with Yes / No / [Always] buttons
         /// </summary>
-        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string infoText = null, bool showSkipButton = true, PlayerNo requiredPlayer = PlayerNo.PlayerNone)
+        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string descriptionShort = null, string descriptionLong = null, IImageHolder imageHolder = null, bool showSkipButton = true, PlayerNo requiredPlayer = PlayerNo.PlayerNone)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -168,7 +168,9 @@ namespace Abilities
                 callback
             );
 
-            pilotAbilityDecision.DescriptionShort = infoText ?? "Use " + Name + "?";
+            pilotAbilityDecision.DescriptionShort = descriptionShort ?? "Use " + Name + "?";
+            pilotAbilityDecision.DescriptionLong = descriptionLong;
+            pilotAbilityDecision.ImageSource = imageHolder;
 
             pilotAbilityDecision.RequiredPlayer = (requiredPlayer == PlayerNo.PlayerNone) ? HostShip.Owner.PlayerNo : requiredPlayer;
 
@@ -754,7 +756,7 @@ namespace Abilities
             AskToUseAbility(
                 AlwaysUseByDefault,
                 StartInitialDocking,
-                infoText: HostShip.PilotInfo.PilotName + ": Do you want to dock a ship?"
+                descriptionLong: HostShip.PilotInfo.PilotName + ": Do you want to dock a ship?"
             );
         }
 
@@ -814,7 +816,7 @@ namespace Abilities
             AskToUseAbility(
                 NeverUseByDefault,
                 delegate { ConfirmDocking(dockingShip, HostShip); },
-                infoText: "Do you want to dock to " + HostShip.PilotInfo.PilotName + "?"
+                descriptionLong: "Do you want to dock to " + HostShip.PilotInfo.PilotName + "?"
             );
         }
 

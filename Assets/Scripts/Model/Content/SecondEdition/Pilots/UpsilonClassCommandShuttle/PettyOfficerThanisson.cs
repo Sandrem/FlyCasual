@@ -67,7 +67,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 ShouldUseAbility,
                 UseAbility,
-                infoText: HostShip.PilotInfo.PilotName + ": Assign Tractor token to " + ShipWithStressToken.PilotInfo.PilotName + "?"
+                descriptionLong: HostShip.PilotInfo.PilotName + ": Assign Tractor token to " + ShipWithStressToken.PilotInfo.PilotName + "?"
             );
         }
 

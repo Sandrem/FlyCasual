@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 AlwaysUseByDefault,
                 UseOwnAbility,
-                infoText: "Ablative Plating: You may spend 1 charge to prevent 1 damage"
+                descriptionLong: "Ablative Plating: You may spend 1 charge to prevent 1 damage"
             );
         }
 

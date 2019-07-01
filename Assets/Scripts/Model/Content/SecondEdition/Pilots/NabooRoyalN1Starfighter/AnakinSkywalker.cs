@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
                 AskToUseAbility(
                     NeverUseByDefault,
                     PerformBarrelRollNotAction,
-                    infoText: "Do you want to spend 1 force to barrel roll (this does not count as an action)?"
+                    descriptionLong: "Do you want to spend 1 force to barrel roll (this does not count as an action)?"
                 );
             }
             else

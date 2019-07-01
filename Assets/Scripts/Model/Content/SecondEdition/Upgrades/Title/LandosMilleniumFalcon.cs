@@ -75,7 +75,7 @@ namespace Abilities.SecondEdition
                 AskToUseAbility(
                     AlwaysUseByDefault,
                     UseShieldsOfDockedShip,
-                    infoText: HostUpgrade.UpgradeInfo.Name + ": Do you want to use shield of docked ship instead?"
+                    descriptionLong: HostUpgrade.UpgradeInfo.Name + ": Do you want to use shield of docked ship instead?"
                 );
             }
             else

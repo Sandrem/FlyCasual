@@ -59,8 +59,8 @@ namespace Abilities.FirstEdition
             HostShip.AskPerformFreeAction(
                 new ActionsList.FocusAction(),
                 Triggers.FinishTrigger,
-                abilityName: HostShip.PilotInfo.PilotName,
-                abilityDescription: "After you fully execute a blue maneuver, you may perform a Focus action",
+                descriptionShort: HostShip.PilotInfo.PilotName,
+                descriptionLong: "After you fully execute a blue maneuver, you may perform a Focus action",
                 imageHolder: HostShip
             );
         }

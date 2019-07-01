@@ -74,7 +74,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 NeverUseByDefault,
                 SpendTLtoAllow,
-                infoText: "Do you want to spend your lock to ignore range restriction?",
+                descriptionLong: "Do you want to spend your lock to ignore range restriction?",
                 requiredPlayer: HostShip.Owner.PlayerNo
             );
         }

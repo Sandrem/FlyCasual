@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 UseIfHaveEnoughHP,
                 SufferOneDamage,
-                infoText: "You may choose to suffer 1 damage. If you do, skip the Attack and Defense Dice steps and the attack is treated as hitting.",
+                descriptionLong: "You may choose to suffer 1 damage. If you do, skip the Attack and Defense Dice steps and the attack is treated as hitting.",
                 requiredPlayer: Combat.Defender.Owner.PlayerNo
             );
         }

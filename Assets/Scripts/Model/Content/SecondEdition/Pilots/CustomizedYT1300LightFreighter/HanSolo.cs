@@ -83,7 +83,7 @@ namespace Abilities.SecondEdition
                 AlwaysUseByDefault,
                 UseAdditionalDie,
                 showAlwaysUseOption: true,
-                infoText: "Han Solo: Roll an additional die?"
+                descriptionLong: "Han Solo: Roll an additional die?"
             );
         }
 

@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 AlwaysUseByDefault,
                 UseAbility,
-                infoText: "R2-D2: Do you want to recover shield, but have a chance to expose damage card?"
+                descriptionLong: "R2-D2: Do you want to recover shield, but have a chance to expose damage card?"
             );
         }
 

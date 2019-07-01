@@ -128,7 +128,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 NeverUseByDefault,
                 AgreeToAssignToken,
-                infoText: "Do you want to gain Tractor token to rotate your mobile arc?"
+                descriptionLong: "Do you want to gain Tractor token to rotate your mobile arc?"
             );
         }
 

@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 HasEnemyInRange,
                 UseOwnAbility,
-                infoText: "Do you want to use Static Discharge Vanes?"
+                descriptionLong: "Do you want to use Static Discharge Vanes?"
             );
         }
 

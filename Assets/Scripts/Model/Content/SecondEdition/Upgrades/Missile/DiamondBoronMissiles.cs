@@ -72,7 +72,7 @@ namespace Abilities.SecondEdition
                     (s, e) => AskToUseAbility(
                         AiDecidesUse,
                         SpendChargeToMakeNearbyRollDamage,
-                        infoText: $"Spend 1 charge to make {affectedPilotsText} roll 1 die for damage?",
+                        descriptionLong: $"Spend 1 charge to make {affectedPilotsText} roll 1 die for damage?",
                         requiredPlayer: Combat.Attacker.Owner.PlayerNo,
                         callback: () => Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, Triggers.FinishTrigger)                        
                     )

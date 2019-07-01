@@ -78,7 +78,7 @@ namespace Abilities.SecondEdition
 
         private void AskToFlip(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, FlipCard, infoText: $"Flip {HostName}?");
+            AskToUseAbility(NeverUseByDefault, FlipCard, descriptionLong: $"Flip {HostName}?");
         }
 
         private void FlipCard(object sender, EventArgs e)

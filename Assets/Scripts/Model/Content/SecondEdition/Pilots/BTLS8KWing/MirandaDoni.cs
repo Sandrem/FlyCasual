@@ -43,7 +43,9 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger
             );
 
-            selectMirandaDoniSubPhase.DescriptionShort = "Use " + Name + "?";
+            selectMirandaDoniSubPhase.DescriptionShort = HostShip.PilotInfo.PilotName;
+            selectMirandaDoniSubPhase.DescriptionLong = "You may either spend 1 shield to roll 1 additional attack die or, if you are not shielded, you may roll 1 fewer attack die to recover 1 shield";
+            selectMirandaDoniSubPhase.ImageSource = HostShip;
 
             if (HostShip.State.ShieldsCurrent > 0)
             {

@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 NeverUseByDefault,
                 PlaceBombInstead,
-                infoText: "Do you want to place bomb touching your ship instead?"
+                descriptionLong: "Do you want to place bomb touching your ship instead?"
             );
         }
 

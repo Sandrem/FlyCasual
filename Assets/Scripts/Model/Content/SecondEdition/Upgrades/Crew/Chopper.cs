@@ -71,7 +71,7 @@ namespace Abilities.SecondEdition
                         DecisionSubPhase.ConfirmDecisionNoCallback();
                         ExposeDamageCard();
                     },
-                    infoText: "\"Chopper\": Do you want to suffer damage instead of exposing of damage card?"
+                    descriptionLong: "\"Chopper\": Do you want to suffer damage instead of exposing of damage card?"
                 );
             }
             else

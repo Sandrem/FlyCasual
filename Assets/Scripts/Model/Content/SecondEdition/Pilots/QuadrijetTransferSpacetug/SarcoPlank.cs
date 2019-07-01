@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 ShouldUseAbility,
                 ChangeAgility,
-                infoText: "Treat your agility value as " + HostShip.AssignedManeuver.Speed + "?"
+                descriptionLong: "Treat your agility value as " + HostShip.AssignedManeuver.Speed + "?"
             );
         }
 

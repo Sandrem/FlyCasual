@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
                 AskToUseAbility(
                     NeverUseByDefault,
                     AgreeToPerformAction,
-                    infoText: "Do you want to spend a force token to perform an action?"
+                    descriptionLong: "Do you want to spend a force token to perform an action?"
                 );
             }
             else

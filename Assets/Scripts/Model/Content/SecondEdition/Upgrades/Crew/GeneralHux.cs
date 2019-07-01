@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 NeverUseByDefault,
                 TreatActionAsRed,
-                infoText: "Do you want to treat action as red to coordinate additional ships?"
+                descriptionLong: "Do you want to treat action as red to coordinate additional ships?"
             );
         }
 

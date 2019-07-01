@@ -76,7 +76,7 @@ namespace Abilities.FirstEdition
 
         protected void AskToFlip(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, DoFlipSide, infoText: "Flip to Landing position?");
+            AskToUseAbility(NeverUseByDefault, DoFlipSide, descriptionLong: "Flip to Landing position?");
         }
 
         private void DoFlipSide(object sender, EventArgs e)
@@ -119,7 +119,7 @@ namespace Abilities.FirstEdition
 
         private void AskToFlip(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, DoFlipSide, infoText: "Flip to Attack position?");
+            AskToUseAbility(AlwaysUseByDefault, DoFlipSide, descriptionLong: "Flip to Attack position?");
         }
 
         private void DoFlipSide(object sender, EventArgs e)
@@ -139,7 +139,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void AskToRotate(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, RotateShip, infoText: "Rotate this ship?");
+            AskToUseAbility(NeverUseByDefault, RotateShip, descriptionLong: "Rotate this ship?");
         }
 
         private void RotateShip(object sender, EventArgs e)

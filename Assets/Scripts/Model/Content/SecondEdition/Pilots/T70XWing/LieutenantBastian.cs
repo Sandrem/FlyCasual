@@ -61,7 +61,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 ShouldAbilityBeUsed,
                 AcquireTargetLock,
-                infoText: HostShip.PilotInfo.PilotName + ": Acquire a Lock on " + ShipToAssignLock.PilotInfo.PilotName + "?"
+                descriptionLong: HostShip.PilotInfo.PilotName + ": Acquire a Lock on " + ShipToAssignLock.PilotInfo.PilotName + "?"
             );
         }
 

@@ -139,7 +139,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 NeverUseByDefault,
                 RechargeBombletGenerator,
-                infoText: "Do you want to spend 1 shield to recover 2 charges of " + HostUpgrade.UpgradeInfo.Name + "?"
+                descriptionLong: "Do you want to spend 1 shield to recover 2 charges of " + HostUpgrade.UpgradeInfo.Name + "?"
             );
         }
 

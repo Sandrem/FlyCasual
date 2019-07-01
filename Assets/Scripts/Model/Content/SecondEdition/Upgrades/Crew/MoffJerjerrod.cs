@@ -61,7 +61,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 NeverUseByDefault,
                 UseAbility,
-                infoText: "You may spend 2 charges. If you do, choose a template. Each friendly ship may perform a red boost action using that template."
+                descriptionLong: "You may spend 2 charges. If you do, choose a template. Each friendly ship may perform a red boost action using that template."
             );
         }
 

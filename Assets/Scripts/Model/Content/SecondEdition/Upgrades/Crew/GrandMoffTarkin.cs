@@ -59,7 +59,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(AlwaysUseByDefault, 
                 UseAbility,
                 dontUseAbility: delegate { DecisionSubPhase.ConfirmDecision(); },                
-                infoText: "Grand Moff Tarkin: Allow all allies to lock " + HostShip.PilotInfo.PilotName + "'s locked ship?");
+                descriptionLong: "Grand Moff Tarkin: Allow all allies to lock " + HostShip.PilotInfo.PilotName + "'s locked ship?");
         }
 
         protected void UseAbility(object sender, EventArgs e)

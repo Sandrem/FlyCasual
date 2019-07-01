@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 AlwaysUseByDefault,
                 ReplaceToken,
-                infoText: "Do you want to gain Ion token to remove Disarm token?"
+                descriptionLong: "Do you want to gain Ion token to remove Disarm token?"
             );
         }
 

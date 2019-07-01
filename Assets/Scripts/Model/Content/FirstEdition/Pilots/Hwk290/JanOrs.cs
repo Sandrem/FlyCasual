@@ -55,7 +55,13 @@ namespace Abilities.FirstEdition
         {
             if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {
-                AskToUseAbility(AlwaysUseByDefault, UseJanOrsAbility);
+                AskToUseAbility(
+                    AlwaysUseByDefault,
+                    UseJanOrsAbility,
+                    descriptionShort: HostShip.PilotInfo.PilotName,
+                    descriptionLong: "You may gain 1 stress token. If you do, attacker may roll 1 additional attack die.",
+                    imageHolder: HostShip
+                );
             }
             else
             {

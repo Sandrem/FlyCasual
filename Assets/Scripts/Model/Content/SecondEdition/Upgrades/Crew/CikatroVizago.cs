@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 NeverUseByDefault,
                 AskToSelectFirstShip,
-                infoText: "Do you want to use ability of " + HostUpgrade.UpgradeInfo.Name + "?"
+                descriptionLong: "Do you want to use ability of " + HostUpgrade.UpgradeInfo.Name + "?"
             );
         }
 

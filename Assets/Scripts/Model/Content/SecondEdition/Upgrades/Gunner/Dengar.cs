@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 AlwaysUseByDefault,
                 UseOwnAbility,
-                infoText: "Do you want to use Dengar's ability?"
+                descriptionLong: "Do you want to use Dengar's ability?"
             );
         }
 

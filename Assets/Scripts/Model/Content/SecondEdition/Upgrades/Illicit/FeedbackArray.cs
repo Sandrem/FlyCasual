@@ -49,7 +49,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 CheckToUseAbility,
                 ActivateOwnAbility,
-                infoText: "Feedback Array: You may gain 1 ion token and 1 disarm token. If you do, each ship at range 0 suffers 1 damage."
+                descriptionLong: "Feedback Array: You may gain 1 ion token and 1 disarm token. If you do, each ship at range 0 suffers 1 damage."
             );
         }
 

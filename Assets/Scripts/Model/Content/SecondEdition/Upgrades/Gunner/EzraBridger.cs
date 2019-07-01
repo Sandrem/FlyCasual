@@ -93,7 +93,7 @@ namespace Abilities.SecondEdition
                 AskToUseAbility(
                     NeverUseByDefault,
                     UseGunnerAbility,
-                    infoText: "Do you want to spend 1 Force to use Ezra Bridger's ability?"
+                    descriptionLong: "Do you want to spend 1 Force to use Ezra Bridger's ability?"
                 );
             }
             else

@@ -77,7 +77,7 @@ namespace Abilities.SecondEdition
             AskToUseAbility(
                 AlwaysUseByDefault,
                 UseAbility,
-                infoText: HostUpgrade.UpgradeInfo.Name + ": Do you want to spend a Calculate Token to guess a number of evade results?" 
+                descriptionLong: HostUpgrade.UpgradeInfo.Name + ": Do you want to spend a Calculate Token to guess a number of evade results?" 
             );
         }
 

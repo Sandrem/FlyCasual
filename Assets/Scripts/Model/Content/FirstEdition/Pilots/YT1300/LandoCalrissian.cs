@@ -117,7 +117,11 @@ namespace Abilities.FirstEdition
                     Selection.ThisShip = HostShip;
                     Phases.CurrentSubPhase.Resume();
                     Triggers.FinishTrigger();
-                });
+                },
+                HostShip.PilotInfo.PilotName,
+                "You may perform 1 free action shown in your action bar",
+                HostShip
+            );
         }
     }
 }

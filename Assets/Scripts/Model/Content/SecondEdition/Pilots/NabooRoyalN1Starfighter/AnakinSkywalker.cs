@@ -77,7 +77,14 @@ namespace Abilities.SecondEdition
             Sounds.PlayShipSound("Ill try spinning - thats a good trick!");
 
             BarrelRollAction brAction = new BarrelRollAction { IsRealAction = false };
-            HostShip.AskPerformFreeAction(brAction, Triggers.FinishTrigger, isForced: true);
+            HostShip.AskPerformFreeAction(
+                brAction,
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "You must perform Barrel Roll (this is not an action)",
+                HostShip,
+                isForced: true
+            );
         }
     }
 }

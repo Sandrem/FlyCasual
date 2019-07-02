@@ -47,7 +47,13 @@ namespace Abilities.SecondEdition
         private void UsePatternAnalyzer(object sender, System.EventArgs e)
         {
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                actions,
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "While you fully execute a red maneuver, before the Check Difficulty step, you may perform 1 action",
+                HostUpgrade
+            );
         }
     }
 }

@@ -64,11 +64,16 @@ namespace Abilities.FirstEdition
                 .Where(action => action is BombDropAction)
                 .ToList();
 
-            HostShip.AskPerformFreeAction(actions, () =>
-            {
-                ClearIsAbilityUsedFlag();
-                Triggers.FinishTrigger();
-            });
+            HostShip.AskPerformFreeAction(
+                actions, () =>
+                {
+                    ClearIsAbilityUsedFlag();
+                    Triggers.FinishTrigger();
+                },
+                HostShip.PilotInfo.PilotName,
+                "When you reveal your maneuver dial or after you perform an action, you may perform a Bomb Upgrade card action as a free action",
+                HostShip
+            );
         }
     }
 }

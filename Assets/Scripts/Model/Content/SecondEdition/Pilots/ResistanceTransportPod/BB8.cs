@@ -50,13 +50,18 @@ namespace Abilities.SecondEdition
 
         private void AskToPerformReposition(object sender, EventArgs e)
         {
+            Sounds.PlayShipSound("BB-8-Sound");
+
             HostShip.AskPerformFreeAction(
                 new List<GenericAction>()
                 {
                     new BarrelRollAction(){Color = Actions.ActionColor.Red},
                     new BoostAction(){Color = Actions.ActionColor.Red}
                 },
-                Triggers.FinishTrigger
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "During the System Phase, you may perform a red Barrel Roll or Boost action",
+                HostShip
             );
         }
     }

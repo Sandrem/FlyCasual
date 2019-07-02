@@ -68,7 +68,13 @@ namespace Abilities.FirstEdition
             List<GenericAction> actions = HostShip.GetAvailableActions();
             List<GenericAction> actionBarActions = actions.Where(n => n.IsInActionBar).ToList();
 
-            Selection.ThisShip.AskPerformFreeAction(actionBarActions, Triggers.FinishTrigger);
+            Selection.ThisShip.AskPerformFreeAction(
+                actionBarActions,
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "After performing a SLAM action, if you did not overlap an obstacle or another ship, you may perform a free action on your action bar",
+                HostUpgrade
+            );
         }
     }
 }

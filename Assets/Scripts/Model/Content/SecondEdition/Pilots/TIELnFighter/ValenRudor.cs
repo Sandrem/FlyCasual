@@ -53,11 +53,17 @@ namespace Abilities.SecondEdition
             var previousSelectedShip = Selection.ThisShip;
             Selection.ThisShip = HostShip;
 
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), delegate
-            {
-                Selection.ThisShip = previousSelectedShip;
-                Triggers.FinishTrigger();
-            });
+            HostShip.AskPerformFreeAction(
+                HostShip.GetAvailableActions(),
+                delegate
+                {
+                    Selection.ThisShip = previousSelectedShip;
+                    Triggers.FinishTrigger();
+                },
+                HostShip.PilotInfo.PilotName,
+                "After a friendly ship at range 0-1 defends, you may perform an action",
+                HostShip
+            );
         }
     }
 }

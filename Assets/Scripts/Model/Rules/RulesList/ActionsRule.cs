@@ -86,7 +86,11 @@ namespace RulesList
         private void PerformLinkedAction(object sender, System.EventArgs e)
         {
             Selection.ThisShip.GenerateAvailableActionsList();
-            Selection.ThisShip.AskPerformFreeAction(Selection.ThisShip.PlannedLinkedActions, Triggers.FinishTrigger);
+            Selection.ThisShip.AskPerformFreeAction(
+                Selection.ThisShip.PlannedLinkedActions,
+                Triggers.FinishTrigger,
+                (Selection.ThisShip.PlannedLinkedActions.Count == 1) ? "Linked Action" : "Linked Actions"
+            );
         }
 
         public static bool HasPerformActionStep(GenericShip ship)

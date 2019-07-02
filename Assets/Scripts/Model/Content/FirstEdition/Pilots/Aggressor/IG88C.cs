@@ -77,7 +77,15 @@ namespace Abilities.FirstEdition
 
         private void PerformFreeEvadeActionDecision(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, isForced: true);
+            //Action is forced now
+            Selection.ThisShip.AskPerformFreeAction(
+                new EvadeAction(),
+                DecisionSubPhase.ConfirmDecision,
+                HostShip.PilotInfo.PilotName,
+                "You must perform a free evade action",
+                HostShip,
+                isForced: true
+            );
         }
     }
 }

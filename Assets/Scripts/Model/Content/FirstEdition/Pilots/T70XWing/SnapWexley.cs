@@ -54,7 +54,13 @@ namespace Abilities.FirstEdition
 
         private void PerformFreeBoost(object sender, EventArgs e)
         {
-            HostShip.AskPerformFreeAction(new List<GenericAction> { new BoostAction() }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                new List<GenericAction> { new BoostAction() },
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "After you execute a 2-, 3- or 4-speed maneuver, if you are not touching a ship, you may perform a free boost action",
+                HostShip
+            );
         }
     }
 }

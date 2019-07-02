@@ -97,7 +97,11 @@ namespace Abilities.FirstEdition
                 delegate {
                     Selection.ThisShip = HostShip;
                     SelectShipSubPhase.FinishSelection();
-                });
+                },
+                HostShip.PilotInfo.PilotName,
+                "You may perform 1 free action",
+                HostShip
+            );
         }
     }
 }

@@ -76,7 +76,13 @@ namespace Abilities.FirstEdition
         {
             List<GenericAction> actions = new List<GenericAction>() { new CoordinateAction() };
 
-            HostShip.DockingHost.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.DockingHost.AskPerformFreeAction(
+                actions,
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "While you are docked, at the end of the Activation phase, the Ghost may perform a free coordinate action",
+                HostUpgrade
+            );
         }
 
     }

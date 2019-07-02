@@ -346,7 +346,11 @@ namespace RulesList
         private void PerformFreeAction(object sender, System.EventArgs e)
         {
             List<ActionsList.GenericAction> actions = Selection.ThisShip.GetAvailableActions();
-            Selection.ThisShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            Selection.ThisShip.AskPerformFreeAction(
+                actions,
+                Triggers.FinishTrigger,
+                "Action after deployment"
+            );
         }
 
         private void AfterUndockingFinished()

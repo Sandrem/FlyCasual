@@ -47,7 +47,13 @@ namespace Abilities.FirstEdition
 
         private void PerformFreeCloakAction(object sender, System.EventArgs e)
         {
-            HostShip.AskPerformFreeAction(new CloakAction(), Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                new CloakAction(),
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "After you perform an attack, you may perform a free Cloak action",
+                HostUpgrade
+            );
         }
     }
 }

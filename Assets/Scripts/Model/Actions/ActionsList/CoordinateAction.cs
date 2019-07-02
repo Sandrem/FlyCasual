@@ -156,7 +156,9 @@ namespace ActionsList
                 delegate {
                     Selection.ChangeActiveShip(CoordinateActionData.CoordinateProvider);
                     Triggers.FinishTrigger();
-                }
+                },
+                "Coordinate action",
+                "You are coordinated by " + CoordinateActionData.CoordinateProvider.PilotInfo.PilotName
             );
         }
 
@@ -299,7 +301,12 @@ namespace SubPhases
 
         protected virtual void PerformFreeAction(object sender, System.EventArgs e)
         {
-            TargetShip.AskPerformFreeAction(GetPossibleActions(), Triggers.FinishTrigger);
+            TargetShip.AskPerformFreeAction(
+                GetPossibleActions(),
+                Triggers.FinishTrigger,
+                "Coordinate action",
+                "You are coordinated"
+            );
         }
 
     }

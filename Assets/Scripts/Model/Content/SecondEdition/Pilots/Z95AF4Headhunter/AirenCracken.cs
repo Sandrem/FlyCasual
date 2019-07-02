@@ -40,7 +40,11 @@ namespace Abilities.SecondEdition
                 delegate {
                     Selection.ThisShip = HostShip;
                     SelectShipSubPhase.FinishSelection();
-                });
+                },
+                HostShip.PilotInfo.PilotName,
+                "You may perform an action, treating it as red",
+                HostShip
+            );
         }
     }
 }

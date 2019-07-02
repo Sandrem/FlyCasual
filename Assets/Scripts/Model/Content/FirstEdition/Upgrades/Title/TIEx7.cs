@@ -124,7 +124,14 @@ namespace SubPhases
 
         private void PerformFreeEvadeAction(object sender, EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, isForced: true);
+            Selection.ThisShip.AskPerformFreeAction(
+                new EvadeAction(),
+                DecisionSubPhase.ConfirmDecision,
+                AbilityInstance.HostUpgrade.UpgradeInfo.Name,
+                "After executing a 3-, 4-, or 5-speed maneuver, if you did not overlap an obstacle or ship, you may perform a free Evade action",
+                AbilityInstance.HostUpgrade,
+                isForced: true
+            );
         }
 
         private void DontPerformFreeEvadeAction(object sender, EventArgs e)

@@ -76,7 +76,14 @@ namespace Abilities.SecondEdition
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
 
             HostShip.State.Force--;
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), Triggers.FinishTrigger);
+
+            HostShip.AskPerformFreeAction(
+                HostShip.GetAvailableActions(),
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "After you perform an attack that hits, you may spend 1 Force to perform an action",
+                HostShip
+            );
         }
 
         private void RegisterDefenceAbility(GenericShip ship)

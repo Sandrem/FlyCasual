@@ -57,9 +57,16 @@ namespace Abilities.FirstEdition
         {
             List<GenericAction> actions = HostShip.GetAvailableActions();
 
-            HostShip.AskPerformFreeAction(actions, SubPhases.DecisionSubPhase.ConfirmDecision);
             // if ability is used, skipped Perform Action
             HostShip.IsSkipsActionSubPhase = true;
+
+            HostShip.AskPerformFreeAction(
+                actions,
+                SubPhases.DecisionSubPhase.ConfirmDecision,
+                HostUpgrade.UpgradeInfo.Name,
+                "You may perform 1 action. You cannot perform another action during your activation.",
+                HostUpgrade
+            );
         }
 
     }

@@ -55,16 +55,20 @@ namespace Abilities.SecondEdition
 
         private void AskPerformAction(object sender, EventArgs e)
         {
-            Messages.ShowInfo(HostName + " can perform a free action");
-
             GenericShip previousActiveShip = Selection.ThisShip;
             Selection.ChangeActiveShip(HostShip);
 
             List<GenericAction> actions = new List<GenericAction>() { new CalculateAction(), new TargetLockAction() };
-            HostShip.AskPerformFreeAction(actions, delegate {
-                Selection.ChangeActiveShip(previousActiveShip);
-                Triggers.FinishTrigger();
-            });
+            HostShip.AskPerformFreeAction(
+                actions,
+                delegate {
+                    Selection.ChangeActiveShip(previousActiveShip);
+                    Triggers.FinishTrigger();
+                },
+                HostShip.PilotInfo.PilotName,
+                "After an Enemy ship in your bullseye arc at range 0-2 declares another friendly ship as the defender, you may perform a Calculate or Lock action",
+                HostShip
+            );
         }
     }
 }

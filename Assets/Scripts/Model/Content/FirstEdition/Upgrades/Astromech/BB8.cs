@@ -52,7 +52,10 @@ namespace Abilities.FirstEdition
 
             HostShip.AskPerformFreeAction(
                 new BarrelRollAction(),
-                Triggers.FinishTrigger
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "When you reveal a green maneuver, you may perform a free Barrel Roll action.",
+                HostUpgrade
             );
         }
     }

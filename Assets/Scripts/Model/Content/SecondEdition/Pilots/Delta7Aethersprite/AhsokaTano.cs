@@ -86,7 +86,10 @@ namespace Abilities.SecondEdition
                     Selection.ThisShip = HostShip;
                     TargetShip.BeforeActionIsPerformed -= PayForceCost;
                     Triggers.FinishTrigger();
-                }
+                },
+                HostShip.PilotInfo.PilotName,
+                "You may perform an action, even if you is stressed.",
+                HostShip
             );
         }
 

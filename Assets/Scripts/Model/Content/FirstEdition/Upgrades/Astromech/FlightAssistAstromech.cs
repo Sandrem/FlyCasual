@@ -93,7 +93,11 @@ namespace Abilities.FirstEdition
                     new BoostAction(),
                     new BarrelRollAction()
                 },
-                Triggers.FinishTrigger);
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "After you execute a maneuver, if you did not overlap a ship or obstacle and there are no enemy ships inside your firing arc at range 1-3, you may perform a free Boost or Barrel Roll action",
+                HostUpgrade
+            );
         }
 
     }

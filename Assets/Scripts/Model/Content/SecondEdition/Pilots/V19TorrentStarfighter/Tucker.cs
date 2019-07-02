@@ -54,8 +54,6 @@ namespace Abilities.SecondEdition
 
         private void AskPerformFocusAction(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman(HostName + ": you may perform a focus action");
-
             GenericShip previousActiveShip = Selection.ThisShip;
             Selection.ChangeActiveShip(HostShip);
 
@@ -64,7 +62,10 @@ namespace Abilities.SecondEdition
                 () => {
                     Selection.ChangeActiveShip(previousActiveShip);
                     Triggers.FinishTrigger();
-                }
+                },
+                HostShip.PilotInfo.PilotName,
+                "After a friendly ship at range 1-2 performs an attack against an enemy ship in your Standard Front Arc, you may perform a Focus action",
+                HostShip
             );
         }
     }

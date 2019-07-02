@@ -255,13 +255,13 @@ namespace Ship
             return result;
         }
 
-        public void AskPerformFreeAction(GenericAction freeAction, Action callback, string descriptionShort = "", string descriptionLong = "", IImageHolder imageHolder = null, bool isForced = false)
+        public void AskPerformFreeAction(GenericAction freeAction, Action callback, string descriptionShort, string descriptionLong = "", IImageHolder imageHolder = null, bool isForced = false)
         {
             AskPerformFreeAction(new List<GenericAction> { freeAction }, callback, descriptionShort, descriptionLong, imageHolder, isForced);
         }
 
         // TODO: move actions list into subphase
-        public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback, string descriptionShort = "", string descriptionLong = "", IImageHolder imageHolder = null, bool isForced = false)
+        public void AskPerformFreeAction(List<GenericAction> freeActions, Action callback, string descriptionShort, string descriptionLong = "", IImageHolder imageHolder = null, bool isForced = false)
         {
             foreach (GenericAction freeAction in freeActions)
             {

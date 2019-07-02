@@ -52,7 +52,13 @@ namespace Abilities.SecondEdition
 
         private void AskToUseLeevanTenzaAbility(object sender, System.EventArgs e)
         {
-            HostShip.AskPerformFreeAction(new EvadeAction() { Color = ActionColor.Red }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                new EvadeAction() { Color = ActionColor.Red },
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "After you perform a Barrel Roll or Boost action, you may perform a red Evade action.",
+                HostShip
+            );
         }
     }
 }

@@ -118,7 +118,7 @@ namespace Abilities.SecondEdition
                     GetAiPriority,
                     HostShip.Owner.PlayerNo,
                     HostUpgrade.UpgradeInfo.Name,
-                    "Choose a friendly ship to perform a red boost action using selected template",
+                    "Choose a friendly ship to perform a red Boost action using selected template",
                     HostUpgrade
                 );
             }
@@ -141,6 +141,9 @@ namespace Abilities.SecondEdition
                     SubPhases.SelectShipSubPhase.FinishSelectionNoCallback();
                     SelectTargetRecursive();
                 },
+                HostUpgrade.UpgradeInfo.Name,
+                "You must perform a red Boost action using selected template",
+                HostUpgrade,
                 isForced: true
             );
         }

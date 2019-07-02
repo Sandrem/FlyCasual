@@ -62,7 +62,10 @@ namespace Abilities.FirstEdition
                 {
                     Selection.ThisShip = originalSelectedShip;
                     Triggers.FinishTrigger();
-                }
+                },
+                HostShip.PilotInfo.PilotName,
+                "After you perform a Focus action or are assigned a Focus Token, you may perform a free Boost or Barrel Roll action",
+                HostShip
             );
         }
     }

@@ -78,7 +78,13 @@ namespace Abilities.SecondEdition
 
         private void PerformFreeAction()
         {
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), FinishAbility);
+            HostShip.AskPerformFreeAction(
+                HostShip.GetAvailableActions(),
+                FinishAbility,
+                HostShip.PilotInfo.PilotName,
+                "After you defend, you may spend 1 Calculate token to perform an action",
+                HostShip
+            );
         }
 
         private void FinishAbility()

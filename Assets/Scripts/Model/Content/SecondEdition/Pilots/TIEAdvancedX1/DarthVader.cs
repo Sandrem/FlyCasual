@@ -61,12 +61,17 @@ namespace Abilities.SecondEdition
 
         private void PerformAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Darth Vader: you may spend 1 force to perform an action");
-
             HostShip.BeforeActionIsPerformed += PayForceCost;
 
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
-            HostShip.AskPerformFreeAction(actions, CleanUp);
+
+            HostShip.AskPerformFreeAction(
+                actions,
+                CleanUp,
+                HostShip.PilotInfo.PilotName,
+                "After you perform an action, you may spend 1 Force to perform an action",
+                HostShip
+            );
         }
 
         private void PayForceCost(GenericAction action, ref bool isFreeAction)

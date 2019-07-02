@@ -81,7 +81,13 @@ namespace Abilities.FirstEdition
         {
             List<GenericAction> actions = HostShip.GetAvailableActions();
             List<GenericAction> notActionBarActions = actions.Where(n => !n.IsInActionBar).ToList();
-            HostShip.AskPerformFreeAction(notActionBarActions, AddStressToken);
+            HostShip.AskPerformFreeAction(
+                notActionBarActions,
+                AddStressToken,
+                HostUpgrade.UpgradeInfo.Name,
+                "Once per round, after you perform an action, you may perform 1 free action from an equipped Upgrade card with the \"Action: \" header. Then receive 1 stress token.",
+                HostUpgrade
+            );
         }
 
         private void AddStressToken()

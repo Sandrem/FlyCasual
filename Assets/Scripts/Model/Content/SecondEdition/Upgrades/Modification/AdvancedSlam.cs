@@ -35,7 +35,13 @@ namespace Abilities.SecondEdition
                 .Select(n => n.AsRedAction)
                 .ToList();
 
-            Selection.ThisShip.AskPerformFreeAction(whiteActionBarActionsAsRed, Triggers.FinishTrigger);
+            Selection.ThisShip.AskPerformFreeAction(
+                whiteActionBarActionsAsRed,
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "After you perform a SLAM action, if you fully executed the maneuver, you may perform a white action on your action bar, treating that action as red",
+                HostUpgrade
+            );
         }
     }
 }

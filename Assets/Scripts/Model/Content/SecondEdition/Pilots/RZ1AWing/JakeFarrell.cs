@@ -73,7 +73,10 @@ namespace Abilities.SecondEdition
             Selection.ThisShip = TargetShip;
             TargetShip.AskPerformFreeAction(
                 new FocusAction() { HostShip = TargetShip },
-                AfterFreeFocusAction
+                AfterFreeFocusAction,
+                HostShip.PilotInfo.PilotName,
+                "You may perform a Focus action",
+                HostShip
             );
         }
 

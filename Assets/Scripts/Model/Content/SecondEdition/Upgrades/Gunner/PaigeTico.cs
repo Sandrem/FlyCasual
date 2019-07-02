@@ -93,9 +93,11 @@ namespace Abilities.SecondEdition
             Selection.ChangeActiveShip(HostShip);
 
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
                 DropBomb,
-                descriptionLong: "Do you want to drop a bomb?"
+                descriptionLong: "Do you want to drop a bomb?",
+                imageHolder: HostUpgrade
             );
         }
 

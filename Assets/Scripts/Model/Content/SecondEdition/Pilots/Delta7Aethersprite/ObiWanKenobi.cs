@@ -55,8 +55,11 @@ namespace Abilities.SecondEdition
         private void AskToUseObiWanAbility(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
                 AlwaysUseByDefault,
-                UseAbility
+                UseAbility,
+                descriptionLong: "Do you want to spend 1 Force? (If you do, that ship gains 1 Focus Token)",
+                imageHolder: HostShip
             );
         }
 

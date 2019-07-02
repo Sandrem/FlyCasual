@@ -80,7 +80,14 @@ namespace Abilities.FirstEdition
 
             if (threatTrackerActions.Count > 0)
             {
-                AskToUseAbility(NeverUseByDefault, PerformThreatTracker, DontUseAbility);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    NeverUseByDefault,
+                    PerformThreatTracker,
+                    DontUseAbility,
+                    descriptionLong: "Do you want to spend your target lock on that ship to perform a free Boost or Barrel Roll action (if that action is on your action bar)?",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

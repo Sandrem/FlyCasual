@@ -59,7 +59,13 @@ namespace Abilities.FirstEdition
         {
             if (IsAbilityCanBeUsed())
             {
-                AskToUseAbility(NeverUseByDefault, ActivateContrabandCyberneticsAbility);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    NeverUseByDefault,
+                    ActivateContrabandCyberneticsAbility,
+                    descriptionLong: "Do you want to spend 1 Charge? (If you do, until the end of the round, you can perform actions and execute red maneuvers, even while stressed)",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

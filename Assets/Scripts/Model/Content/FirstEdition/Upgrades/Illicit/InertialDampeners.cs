@@ -46,7 +46,13 @@ namespace Abilities.FirstEdition
 
         private void AskToUseInertialDampenersAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseInertialDampenersAbility);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault, 
+                UseInertialDampenersAbility,
+                descriptionLong: "Do you want to spend 1 shield? (If you do, execute a white stationaty maneuver instead of the maneuver you revealed, then gain 1 stress token)",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void UseInertialDampenersAbility(object sender, System.EventArgs e)

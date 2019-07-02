@@ -49,7 +49,13 @@ namespace Abilities.FirstEdition
         {
             if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {
-                AskToUseAbility(AlwaysUseByDefault, UseAbility);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    UseAbility,
+                    descriptionLong: "Do you want to receive 1 Stress Token to remove Weapons Disabled Token?",
+                    imageHolder: HostShip
+                );
             }
             else
             {

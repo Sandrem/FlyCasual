@@ -120,7 +120,14 @@ namespace Abilities.FirstEdition
 
         private void AskAcquireTargetLock(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, AcquireTargetLock, null, null, true, string.Format("Does {0} want to acquire a Target Lock on {1}?", HostShip.PilotInfo.PilotName, Combat.Defender.PilotInfo.PilotName));
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                AcquireTargetLock,
+                descriptionLong: string.Format("Does {0} want to acquire a Target Lock on {1}?", HostShip.PilotInfo.PilotName, Combat.Defender.PilotInfo.PilotName),
+                imageHolder: HostUpgrade,
+                showAlwaysUseOption: true
+            );
         }
 
         private void AcquireTargetLock(object sender, System.EventArgs e)

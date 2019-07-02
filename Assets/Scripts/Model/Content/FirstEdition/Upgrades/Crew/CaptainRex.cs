@@ -49,7 +49,14 @@ namespace Abilities.FirstEdition
             if (!alwaysUseAbility)
             {
                 // give user the option to use ability
-                AskToUseAbility(AlwaysUseByDefault, UseAbility, null, null, true);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    UseAbility,
+                    descriptionLong: "Do you want to assign 1 Focus Token to your ship?",
+                    imageHolder: HostUpgrade,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

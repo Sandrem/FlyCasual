@@ -73,7 +73,14 @@ namespace Abilities.FirstEdition
             if (!alwaysUseAbility)
             {
                 Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.UpgradeInfo.Name));
-                AskToUseAbility(AlwaysUseByDefault, IgnoreContactMineDecision, null, null, true);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    IgnoreContactMineDecision,
+                    descriptionLong: "Do you want to ignore this friendly bomb?",
+                    imageHolder: HostShip,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {
@@ -105,7 +112,14 @@ namespace Abilities.FirstEdition
             if (!alwaysUseAbility)
             {
                 Messages.ShowInfoToHuman(string.Format("{0} token is ready for deal effect", BombsManager.CurrentBomb.UpgradeInfo.Name));
-                AskToUseAbility(AlwaysUseByDefault, IgnoreTimedBombDecision, null, null, true);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    IgnoreTimedBombDecision,
+                    descriptionLong: "Do you want to ignore detonation of this friendly bomb?",
+                    imageHolder: HostShip,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

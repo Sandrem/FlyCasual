@@ -51,7 +51,13 @@ namespace Abilities.SecondEdition
         {
             if (HostUpgrade.State.Charges >= 3)
             {
-                AskToUseAbility(NeverUseByDefault, UseLeiaAbility);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    NeverUseByDefault,
+                    UseLeiaAbility,
+                    descriptionLong: "Do you want to spend 3 Charges to allow each friendly ship to reduce the difficulty of its red maneuvers during this phase?",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

@@ -137,9 +137,11 @@ namespace Abilities.SecondEdition
         private void AskToRechargeBombletGenerator(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
                 RechargeBombletGenerator,
-                descriptionLong: "Do you want to spend 1 shield to recover 2 charges of " + HostUpgrade.UpgradeInfo.Name + "?"
+                descriptionLong: "Do you want to spend 1 shield to recover 2 charges?",
+                imageHolder: HostUpgrade
             );
         }
 

@@ -53,7 +53,13 @@ namespace Abilities.SecondEdition
             if (HostShip.State.Charges > 0)
             {
                 // give user the option to use ability
-                AskToUseAbility(AlwaysUseByDefault, UseAbility);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    UseAbility,
+                    descriptionLong: "Do you want ot spend 1 Charge to roll 1 additional attack die?",
+                    imageHolder: HostShip
+                );
             }
             else
             {

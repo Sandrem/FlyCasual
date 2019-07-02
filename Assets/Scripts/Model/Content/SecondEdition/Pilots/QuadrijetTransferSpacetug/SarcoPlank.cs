@@ -50,9 +50,11 @@ namespace Abilities.SecondEdition
         private void AskToUseSarcoPlankAbility(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
                 ShouldUseAbility,
                 ChangeAgility,
-                descriptionLong: "Treat your agility value as " + HostShip.AssignedManeuver.Speed + "?"
+                descriptionLong: "Do you want to treat your agility value as " + HostShip.AssignedManeuver.Speed + "?",
+                imageHolder: HostShip
             );
         }
 

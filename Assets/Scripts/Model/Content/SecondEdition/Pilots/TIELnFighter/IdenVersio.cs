@@ -75,7 +75,13 @@ namespace Abilities.SecondEdition
             if (HostShip.State.Charges > 0)
             {
                 // If there are we prompt to see if they want to use the ability.
-                AskToUseAbility(AlwaysUseByDefault, delegate { HostShip.RemoveCharge(BlankDamage); });
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    delegate { HostShip.RemoveCharge(BlankDamage); },
+                    descriptionLong: "Do you want to spend 1 Charge to prevent damage?",
+                    imageHolder: HostShip
+                );
             }
             else
             {

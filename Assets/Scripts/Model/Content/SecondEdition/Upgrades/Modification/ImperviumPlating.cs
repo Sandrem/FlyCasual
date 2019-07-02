@@ -56,10 +56,13 @@ namespace Abilities.SecondEdition
         private void AskUseAbility(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 DiscardDamage,
                 null,
-                Triggers.FinishTrigger
+                Triggers.FinishTrigger,
+                descriptionLong: "Do you want to spend 1 Charge to discard current Faceup Ship Damage card?",
+                imageHolder: HostUpgrade
             );
         }
 

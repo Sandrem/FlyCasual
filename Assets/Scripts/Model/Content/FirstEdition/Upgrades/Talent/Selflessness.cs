@@ -75,7 +75,13 @@ namespace Abilities.FirstEdition
             if (Combat.Defender.AssignedDamageDiceroll.RegularSuccesses > 0)
             {
                 // If there are we prompt to see if they want to use the ability.
-                AskToUseAbility(AlwaysUseByDefault, UseAbility);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    UseAbility,
+                    descriptionLong: "Do you want to discard this card to suffer all uncancelled \"hit\" results instead of the target ship?",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

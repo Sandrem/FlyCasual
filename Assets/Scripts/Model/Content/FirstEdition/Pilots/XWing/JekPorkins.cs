@@ -52,7 +52,13 @@ namespace Abilities.FirstEdition
 
         private void AskToUsePilotAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(ShouldUseAbility, RemoveStressAndRollDice);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                ShouldUseAbility,
+                RemoveStressAndRollDice,
+                descriptionLong: "Do you want to remove Stress Token and to roll 1 attack die? (On a hit result, deal 1 Facedown Damage card to this ship)",
+                imageHolder: HostShip
+            );
         }
 
         private bool ShouldUseAbility()

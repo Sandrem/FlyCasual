@@ -45,7 +45,13 @@ namespace Abilities.SecondEdition
 
         protected void AskUsePredictiveShot(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, RegisterPredictiveShot, null, null, false);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                RegisterPredictiveShot,
+                descriptionLong: "Do you want to spend 1 Force? (If you do, during the Roll Defense Dice step, the defender cannot roll more defense dice than the number of your \"hit\"/\"crit\" results.",
+                imageHolder: HostUpgrade
+            );
         }
 
         protected void RegisterPredictiveShot(object sender, System.EventArgs e)

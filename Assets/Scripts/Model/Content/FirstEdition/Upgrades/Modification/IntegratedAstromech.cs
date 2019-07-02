@@ -52,13 +52,17 @@ namespace Abilities.FirstEdition
             Selection.ActiveShip = sender as GenericShip;
 
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 IsShouldUseAbility,
                 UseAbility,
                 delegate
                 {
                     Selection.ActiveShip = previousShip;
                     SubPhases.DecisionSubPhase.ConfirmDecision();
-                });
+                },
+                descriptionLong: "Do you want to discard Astromech to discard current Damage card?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private bool IsShouldUseAbility()

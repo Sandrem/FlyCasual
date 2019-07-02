@@ -63,7 +63,13 @@ namespace Abilities.FirstEdition
             if (HostShip.State.ShieldsCurrent < HostShip.State.ShieldsMax)
             {
                 //Selection.ChangeActiveShip(HostShip);
-                AskToUseAbility(ShouldUseAbility, PulsedRayShieldConfirm);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    ShouldUseAbility,
+                    PulsedRayShieldConfirm,
+                    descriptionLong: "Do you want to receive 1 Ion Token to recover 1 shield?",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

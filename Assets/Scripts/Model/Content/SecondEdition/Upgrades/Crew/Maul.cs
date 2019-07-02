@@ -110,9 +110,12 @@ namespace Abilities.SecondEdition
         private void RecoverForceToken(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 ShouldUseAbility, 
                 RecoverForce, 
-                descriptionLong: "Gain 1 stress token to recover 1 force?");
+                descriptionLong: "Do you want to gain 1 Stress Token to recover 1 Force?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private bool ShouldUseAbility()

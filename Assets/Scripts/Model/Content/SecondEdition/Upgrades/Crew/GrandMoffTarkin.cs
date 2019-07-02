@@ -56,10 +56,14 @@ namespace Abilities.SecondEdition
 
         private void AskToUseTarkinAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, 
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault, 
                 UseAbility,
                 dontUseAbility: delegate { DecisionSubPhase.ConfirmDecision(); },                
-                descriptionLong: "Grand Moff Tarkin: Allow all allies to lock " + HostShip.PilotInfo.PilotName + "'s locked ship?");
+                descriptionLong: "Do you want to spend 2 Charges? (If you do, each friendly ship may acquire a target lock on a ship that you have locked)",
+                imageHolder: HostUpgrade
+            );
         }
 
         protected void UseAbility(object sender, EventArgs e)

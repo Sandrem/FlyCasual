@@ -78,7 +78,12 @@ namespace Abilities.SecondEdition
 
         private void AskToCloak(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, TradeEvadeForCloakToken, descriptionLong: "Spend an Evade Token to gain a Cloak Token?");
+            AskToUseAbility(
+                "Stygium Array",
+                NeverUseByDefault,
+                TradeEvadeForCloakToken,
+                descriptionLong: "Do you want to spend an Evade Token to gain a Cloak Token?"
+            );
         }
 
         private void TradeEvadeForCloakToken(object sender, System.EventArgs e)

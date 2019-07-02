@@ -50,7 +50,13 @@ namespace Abilities.FirstEdition
 
         private void AskUseGeniusAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseGeniusAbility);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                UseGeniusAbility,
+                descriptionLong: "Do you want to discard one of your equipped Bomb Upgrade cards without the \"Action:\" header to drop the corresponding bomb token?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void UseGeniusAbility(object sender, EventArgs e)

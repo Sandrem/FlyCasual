@@ -47,9 +47,11 @@ namespace Abilities.SecondEdition
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 CheckToUseAbility,
                 ActivateOwnAbility,
-                descriptionLong: "Feedback Array: You may gain 1 ion token and 1 disarm token. If you do, each ship at range 0 suffers 1 damage."
+                descriptionLong: "Do you want ot gain 1 Ion Token and 1 Disarm Token? (If you do, each ship at range 0 suffers 1 damage)",
+                imageHolder: HostUpgrade
             );
         }
 

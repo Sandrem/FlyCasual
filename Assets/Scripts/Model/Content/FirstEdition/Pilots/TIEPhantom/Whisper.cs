@@ -51,7 +51,14 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, AssignToken, null, null, true);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    AssignToken,
+                    descriptionLong: "Do you want to gain 1 Evade Token?",
+                    imageHolder: HostShip,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

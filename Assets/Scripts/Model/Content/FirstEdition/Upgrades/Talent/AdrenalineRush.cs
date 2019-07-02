@@ -58,7 +58,13 @@ namespace Abilities.FirstEdition
 
         private void AskToUseAdrenalineRush(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, delegate { ChangeManeuverColorAbility(DecisionSubPhase.ConfirmDecision); });
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                delegate { ChangeManeuverColorAbility(DecisionSubPhase.ConfirmDecision); },
+                descriptionLong: "Do you want to discard this card to treat maneuver as a white maneuver until the end of the Activation Phase?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void ChangeManeuverColorAbility(Action callback)

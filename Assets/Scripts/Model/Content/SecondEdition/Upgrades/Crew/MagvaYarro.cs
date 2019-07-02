@@ -52,7 +52,14 @@ namespace Abilities.SecondEdition
 
         private void AskAcquireTargetLock(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, AcquireTargetLock, null, null, true);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                AcquireTargetLock,
+                descriptionLong: "Do you want to acquire a lock on the attacker?",
+                imageHolder: HostUpgrade,
+                showAlwaysUseOption: true
+            );
         }
 
         private void AcquireTargetLock(object sender, System.EventArgs e)

@@ -56,9 +56,11 @@ namespace Abilities.SecondEdition
         private void AskToTreatAsRed(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
                 TreatActionAsRed,
-                descriptionLong: "Do you want to treat action as red to coordinate additional ships?"
+                descriptionLong: "Do you want to treat action as red? (If you do, you may coordinate up to 2 additional ships of the same ship type, and each ship you coordinate must perform the same action, treating that action as red)",
+                imageHolder: HostUpgrade
             );
         }
 

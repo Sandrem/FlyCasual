@@ -59,9 +59,11 @@ namespace Abilities.SecondEdition
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
                 UseAbility,
-                descriptionLong: "You may spend 2 charges. If you do, choose a template. Each friendly ship may perform a red boost action using that template."
+                descriptionLong: "Do you may spend 2 charges? (If you do, choose a template. Each friendly ship may perform a red boost action using that template)",
+                imageHolder: HostUpgrade
             );
         }
 

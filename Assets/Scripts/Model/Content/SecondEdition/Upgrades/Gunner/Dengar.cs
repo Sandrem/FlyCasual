@@ -51,9 +51,11 @@ namespace Abilities.SecondEdition
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 UseOwnAbility,
-                descriptionLong: "Do you want to use Dengar's ability?"
+                descriptionLong: "Do you want to spend 1 Charge? (If you do, roll 1 attack die unless the attacker chooses to remove 1 green token. On a \"hit\" or \"crit\" result, the attacker suffers 1 Damage.)",
+                imageHolder: HostUpgrade
             );
         }
 

@@ -55,7 +55,14 @@ namespace Abilities.FirstEdition
             {
                 if (!alwaysUseAbility)
                 {
-                    AskToUseAbility(AlwaysUseByDefault, PerformFreeEvadeActionDecision, null, null, true);
+                    AskToUseAbility(
+                        HostShip.PilotInfo.PilotName,
+                        AlwaysUseByDefault,
+                        PerformFreeEvadeActionDecision,
+                        descriptionLong: "Do you want to perform an Evade Action?",
+                        imageHolder: HostShip,
+                        showAlwaysUseOption: true
+                    );
                 }
                 else
                 {

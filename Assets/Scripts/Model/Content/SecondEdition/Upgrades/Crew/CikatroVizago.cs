@@ -64,9 +64,11 @@ namespace Abilities.SecondEdition
             SelectedUpgradeSlots = new UpgradeSlot[2];
 
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
                 AskToSelectFirstShip,
-                descriptionLong: "Do you want to use ability of " + HostUpgrade.UpgradeInfo.Name + "?"
+                descriptionLong: "Do you want to choose 2 Illicit upgrades equipped to friendly ships at range 0-1 to exchange these upgrades?",
+                imageHolder: HostUpgrade
             );
         }
 

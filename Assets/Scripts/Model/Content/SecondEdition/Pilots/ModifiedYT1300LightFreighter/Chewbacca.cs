@@ -56,6 +56,7 @@ namespace Abilities.SecondEdition
             Selection.ActiveShip = sender as GenericShip;
 
             AskToUseAbility(
+                descriptionShort: HostShip.PilotInfo.PilotName,
                 IsShouldUseAbility,
                 UseAbility,
                 delegate
@@ -63,8 +64,7 @@ namespace Abilities.SecondEdition
                     Selection.ActiveShip = previousShip;
                     DecisionSubPhase.ConfirmDecision();
                 },
-                descriptionShort: HostShip.PilotInfo.PilotName,
-                descriptionLong: "Before you would be dealt a faceup damage card, you may spend 1 Charge to be dealt the card facedown instead",
+                descriptionLong: "Do you want to spend 1 Charge to be dealt the faceup damage card as facedown instead?",
                 imageHolder: HostShip
             );
         }

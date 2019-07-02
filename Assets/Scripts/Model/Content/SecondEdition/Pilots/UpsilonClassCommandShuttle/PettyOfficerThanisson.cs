@@ -65,9 +65,11 @@ namespace Abilities.SecondEdition
         private void ShowDecision(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
                 ShouldUseAbility,
                 UseAbility,
-                descriptionLong: HostShip.PilotInfo.PilotName + ": Assign Tractor token to " + ShipWithStressToken.PilotInfo.PilotName + "?"
+                descriptionLong: "Do you want to assign Tractor token to " + ShipWithStressToken.PilotInfo.PilotName + "?",
+                imageHolder: HostShip
             );
         }
 

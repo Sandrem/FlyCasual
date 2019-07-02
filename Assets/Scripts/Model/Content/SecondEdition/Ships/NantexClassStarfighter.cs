@@ -126,9 +126,10 @@ namespace Abilities.SecondEdition
         private void AskToAssignTractor(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                "Pinpoint Tractor Array",
                 NeverUseByDefault,
                 AgreeToAssignToken,
-                descriptionLong: "Do you want to gain Tractor token to rotate your mobile arc?"
+                descriptionLong: "Do you want to gain Tractor Token to perform a Rotate action?"
             );
         }
 
@@ -144,7 +145,13 @@ namespace Abilities.SecondEdition
 
         private void RotateArc()
         {
-            new RotateArcAction().DoOnlyEffect(Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                new RotateArcAction(),
+                Triggers.FinishTrigger,
+                descriptionShort: "Pinpoint Tractor Array",
+                descriptionLong: "You must perform Rotate action",
+                isForced: true
+            );
         }
     }
 }

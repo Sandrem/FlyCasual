@@ -72,7 +72,13 @@ namespace Abilities.FirstEdition
 
         private void AskToUseMultiSpectralCamouflageAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, StartDiceRollSubphase);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                StartDiceRollSubphase,
+                descriptionLong: "Do you want to roll 1 defense die? (On an Evade result, remove 1 red target lock token)",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void StartDiceRollSubphase(object sender, EventArgs e)

@@ -70,9 +70,11 @@ namespace Abilities.SecondEdition
 
                 RegisterAbilityTrigger(TriggerTypes.OnShotHit,
                     (s, e) => AskToUseAbility(
+                        HostUpgrade.UpgradeInfo.Name,
                         AiDecidesUse,
                         SpendChargeToMakeNearbyRollDamage,
-                        descriptionLong: $"Spend 1 charge to make {affectedPilotsText} roll 1 die for damage?",
+                        descriptionLong: $"Do you want to spend 1 Charge? (If you do, {affectedPilotsText} roll 1 die for damage)",
+                        imageHolder: HostUpgrade,
                         requiredPlayer: Combat.Attacker.Owner.PlayerNo,
                         callback: () => Triggers.ResolveTriggers(TriggerTypes.OnAttackHit, Triggers.FinishTrigger)                        
                     )

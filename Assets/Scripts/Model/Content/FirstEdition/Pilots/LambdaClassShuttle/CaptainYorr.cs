@@ -53,7 +53,13 @@ namespace Abilities.FirstEdition
 
         private void ShowDecision(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseCaptainYorrAbility);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                NeverUseByDefault,
+                UseCaptainYorrAbility,
+                descriptionLong: "Do you want to receive Stress token instead of the friendly ship?",
+                imageHolder: HostShip
+            );
         }
 
         private void UseCaptainYorrAbility(object sender, System.EventArgs e)

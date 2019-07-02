@@ -49,7 +49,14 @@ namespace Abilities.FirstEdition
 
         private void AskAssignFocusToken(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, AssignFocusToken, null, null, true);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                AssignFocusToken,
+                descriptionLong: "Do you want to assign a Focus Token to your ship?",
+                imageHolder: HostUpgrade,
+                showAlwaysUseOption: true
+            );
         }
 
         private void AssignFocusToken(object sender, EventArgs e)

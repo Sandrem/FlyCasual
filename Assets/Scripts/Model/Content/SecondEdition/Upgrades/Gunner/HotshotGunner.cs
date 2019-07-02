@@ -79,6 +79,7 @@ namespace Abilities.SecondEdition
         private void AskWhatTokenToRemove()
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 delegate {
                     SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
@@ -88,7 +89,8 @@ namespace Abilities.SecondEdition
                     SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
                     RemoveTokenAndFinish(typeof(FocusToken));
                 },
-                descriptionLong: "Hotshot Gunner: Do you want to remove Calculate token and stay with Focus token?",
+                descriptionLong: "Do you want to remove Calculate token and stay with Focus token?",
+                imageHolder: HostUpgrade,
                 showSkipButton: false,
                 requiredPlayer: Combat.Defender.Owner.PlayerNo
             );

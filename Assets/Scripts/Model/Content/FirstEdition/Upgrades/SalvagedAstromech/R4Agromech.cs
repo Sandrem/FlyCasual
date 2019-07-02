@@ -46,7 +46,14 @@ namespace Abilities.FirstEdition
 
         private void AskAcquireTargetLock(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, AcquireTargetLock, null, null, true);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                AcquireTargetLock,
+                descriptionLong: "Do you want to acquire a Target Lock on the defender?",
+                imageHolder: HostUpgrade,
+                showAlwaysUseOption: true
+            );
         }
 
         private void AcquireTargetLock(object sender, EventArgs e)

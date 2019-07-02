@@ -59,9 +59,11 @@ namespace Abilities.SecondEdition
         private void AskAcquireTargetLock(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
                 ShouldAbilityBeUsed,
                 AcquireTargetLock,
-                descriptionLong: HostShip.PilotInfo.PilotName + ": Acquire a Lock on " + ShipToAssignLock.PilotInfo.PilotName + "?"
+                descriptionLong: "Do you want to acquire a Lock on " + ShipToAssignLock.PilotInfo.PilotName + "?",
+                imageHolder: HostShip
             );
         }
 

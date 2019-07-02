@@ -115,7 +115,13 @@ namespace Abilities.FirstEdition
 
             if (shotInfo.InArc && shotInfo.Range <= 1)
             {
-                AskToUseAbility(AlwaysUseByDefault, PerformSnapShot);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    PerformSnapShot,
+                    descriptionLong: "Do you want to perform \"Snap Shot\" attack against " + snapShotTarget.PilotInfo.PilotName + "?",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

@@ -97,7 +97,14 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, UseAbilityDecision, null, null, true);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    UseAbilityDecision,
+                    descriptionLong: "Do you want to discard 1 illicit token instead?",
+                    imageHolder: HostUpgrade,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

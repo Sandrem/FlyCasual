@@ -75,9 +75,11 @@ namespace Abilities.SecondEdition
         private void ShowDecision(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 UseAbility,
-                descriptionLong: HostUpgrade.UpgradeInfo.Name + ": Do you want to spend a Calculate Token to guess a number of evade results?" 
+                descriptionLong: "Do you want to spend a Calculate Token to guess a number of evade results? (If you roll exactly that many Evade results, add 1 Evade result)",
+                imageHolder: HostUpgrade
             );
         }
 

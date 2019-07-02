@@ -42,7 +42,13 @@ namespace Abilities.FirstEdition
 
         private void AskUseCountermeasuresAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AIShouldUseAbility, ActivateCountermeasures);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AIShouldUseAbility,
+                ActivateCountermeasures,
+                descriptionLong: "Do you want to discard this card? (If you do, increase your agility value by 1 until the end of the round and remove 1 enemy target lock from your ship)",
+                imageHolder: HostUpgrade
+            );
         }
 
         private bool AIShouldUseAbility()

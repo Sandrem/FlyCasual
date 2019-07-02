@@ -66,7 +66,13 @@ namespace Abilities.SecondEdition
 
         private void AskDaceBonearmAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(ShouldUseAbility, UseDaceBonearmAbility);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                ShouldUseAbility,
+                UseDaceBonearmAbility,
+                descriptionLong: "Do you want to spend 3 Charge? (If you do, that ship gains 2 additional Ion Tokens)",
+                imageHolder: HostShip
+            );
         }
 
         private bool ShouldUseAbility()

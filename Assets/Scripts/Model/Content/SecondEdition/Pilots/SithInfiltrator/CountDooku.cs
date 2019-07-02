@@ -58,9 +58,11 @@ namespace Abilities.SecondEdition
             if (HostShip.State.Force > 0)
             {
                 AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
                     NeverUseByDefault,
                     AgreeToPerformAction,
-                    descriptionLong: "Do you want to spend a force token to perform an action?"
+                    descriptionLong: "Do you want to spend 1 Force to perform an action?",
+                    imageHolder: HostShip
                 );
             }
             else

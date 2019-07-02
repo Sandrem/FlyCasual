@@ -63,7 +63,13 @@ namespace Abilities.SecondEdition
 
         protected void AskIncreaseDefense(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, IncreaseDefense, null, null, false);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                AlwaysUseByDefault,
+                IncreaseDefense,
+                descriptionLong: "Do you want to spend 1 Charge to allow defender to roll 1 additional die?",
+                imageHolder: HostShip
+            );
         }
 
         protected virtual void IncreaseDefense(object sender, System.EventArgs e)

@@ -55,9 +55,11 @@ namespace Abilities.SecondEdition
             if (HostShip.State.Force > 0)
             {
                 AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
                     NeverUseByDefault,
                     PerformBarrelRollNotAction,
-                    descriptionLong: "Do you want to spend 1 force to barrel roll (this does not count as an action)?"
+                    descriptionLong: "Do you want to spend 1 Force to Barrel Roll (this is not an action)?",
+                    imageHolder: HostShip
                 );
             }
             else

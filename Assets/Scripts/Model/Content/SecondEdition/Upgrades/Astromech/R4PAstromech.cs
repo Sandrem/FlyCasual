@@ -48,8 +48,11 @@ namespace Abilities.SecondEdition
             if (HostShip.AssignedManeuver.IsBasicManeuver && HostUpgrade.State.Charges > 0)
             {
                 AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
                     AlwaysUseByDefault,
-                    UseAbility
+                    UseAbility,
+                    descriptionLong: "Do you want to spend 1 Charge to reduce difficulty of your maneuver?",
+                    imageHolder: HostUpgrade
                 );
             }
             else

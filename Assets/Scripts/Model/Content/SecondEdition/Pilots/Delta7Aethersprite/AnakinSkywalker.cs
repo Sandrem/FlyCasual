@@ -59,9 +59,18 @@ namespace Abilities.SecondEdition
 
         private void AskToUseAnakin(object sender, System.EventArgs e)
         {
-            if (isAnakinAbilityAvailable(HostShip) && HostShip.IsStressed == true) {
-                AskToUseAbility(AlwaysUseByDefault, UseAnakinAbility);
-            } else {
+            if (isAnakinAbilityAvailable(HostShip) && HostShip.IsStressed == true)
+            {
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    UseAnakinAbility,
+                    descriptionLong: "Do you want to spend 1 Force to remove 1 Stress Token?",
+                    imageHolder: HostShip
+                );
+            }
+            else
+            {
                 Triggers.FinishTrigger();
             }
         }

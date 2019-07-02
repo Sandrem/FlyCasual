@@ -50,7 +50,13 @@ namespace Abilities.FirstEdition
 
         private void AskUseQuinnJastAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseQuinnJastAbility);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                NeverUseByDefault,
+                UseQuinnJastAbility,
+                descriptionLong: "Do you want to receive a Weapons Disabled Token to flip one of your discarded Torpedo or Missile upgrade cards faceup?",
+                imageHolder: HostShip
+            );
         }
 
         private List<GenericUpgrade> GetDiscardedMissilesOrTorpedoes()

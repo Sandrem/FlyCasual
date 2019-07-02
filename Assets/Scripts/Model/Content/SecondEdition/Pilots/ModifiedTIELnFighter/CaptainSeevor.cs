@@ -62,7 +62,13 @@ namespace Abilities.SecondEdition
 
         protected void AskGiveJam(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, GiveJam, null, null, false);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                AlwaysUseByDefault,
+                GiveJam,
+                descriptionLong: "Do you want to spend 1 Charge? (If you do, the enemy ship gains 1 Jam Token)",
+                imageHolder: HostShip
+            );
         }
 
         protected void GiveJam(object sender, System.EventArgs e)

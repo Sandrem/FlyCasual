@@ -52,11 +52,13 @@ namespace Abilities.SecondEdition
         private void AskPlaceFuseMarker()
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 useByDefault: AlwaysUseByDefault,
                 useAbility: AddFuseMarker,
-                descriptionLong: $"Place a Fuse marker on {BombsManager.CurrentBomb.UpgradeInfo.Name}?",
+                descriptionLong: $"Do you want to place a Fuse marker on {BombsManager.CurrentBomb.UpgradeInfo.Name}?",
+                imageHolder: HostUpgrade,
                 requiredPlayer: HostShip.Owner.PlayerNo
-                );
+            );
         }
 
         protected void AddFuseMarker(object sender, EventArgs e)

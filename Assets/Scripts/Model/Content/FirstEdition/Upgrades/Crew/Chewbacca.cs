@@ -55,13 +55,16 @@ namespace Abilities.FirstEdition
             Selection.ActiveShip = sender as GenericShip;
 
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AiForChewbaccaCrewAbility,
                 UseChewbaccaCrewAbility,
                 null,
                 delegate {
                     Selection.ActiveShip = previousShip;
                     Triggers.FinishTrigger();
-                }
+                },
+                descriptionLong: "Do you want to immediately discard this Damage card and recover 1 shield?",
+                imageHolder: HostUpgrade
             );
         }
 

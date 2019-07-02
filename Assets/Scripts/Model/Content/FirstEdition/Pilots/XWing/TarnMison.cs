@@ -44,7 +44,13 @@ namespace Abilities.FirstEdition
 
         private void AskToUseTarnMisonAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, UseTarnMisonAbility);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                AlwaysUseByDefault,
+                UseTarnMisonAbility,
+                descriptionLong: "Do you want to acquire a target lock on " + Combat.Attacker.PilotInfo.PilotName + "?",
+                imageHolder: HostShip
+            );
         }
 
         private void UseTarnMisonAbility(object sender, EventArgs e)

@@ -47,7 +47,14 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, UseAbilityDecision, null, null, true);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    UseAbilityDecision, 
+                    descriptionLong: "Do you want to roll 1 additional attack die?",
+                    imageHolder: HostUpgrade,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

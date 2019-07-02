@@ -66,13 +66,25 @@ namespace Abilities.FirstEdition
 
         private void ShowUseEBIon(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, RemoveIon);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                RemoveIon,
+                descriptionLong: "Do you want to suffer 1 damage to discard Ion Token?",
+                imageHolder: HostUpgrade
+            );
         }
 
 
         private void ShowUseEBStress(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, RemoveStress);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                RemoveStress,
+                descriptionLong: "Do you want to suffer 1 damage to discard Stress Token?",
+                imageHolder: HostUpgrade
+            );
         }
 
 

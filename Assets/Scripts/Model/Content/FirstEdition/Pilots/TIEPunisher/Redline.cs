@@ -49,7 +49,13 @@ namespace Abilities.FirstEdition
 
         private void AcquireSecondTargetLock(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, UseAbility);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                AlwaysUseByDefault,
+                UseAbility,
+                descriptionLong: "Do you want to acquire a second lock on that same ship?",
+                imageHolder: HostShip
+            );
         }
 
         private void UseAbility(object sender, System.EventArgs e)

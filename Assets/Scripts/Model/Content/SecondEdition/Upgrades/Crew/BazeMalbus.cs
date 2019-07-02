@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
 
         private void CheckBazeAbility(GenericAction action)
         {
-            if(action is FocusAction)
+            if (action is FocusAction)
             {
                 HostShip.OnActionDecisionSubphaseEnd += RegisterBazeAbility;
             }
@@ -64,11 +64,18 @@ namespace Abilities.SecondEdition
         {
             enemyShipsWithinRange = GetEnemyShipsWithinRange();
             Func<bool> useAbility = NeverUseByDefault;
-            if(enemyShipsWithinRange > 0)
+            if (enemyShipsWithinRange > 0)
             {
                 useAbility = AlwaysUseByDefault;
             }
-            AskToUseAbility(useAbility, UseBazeMalbusAbility);
+
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                useAbility,
+                UseBazeMalbusAbility,
+                descriptionLong: "Do you want to treat action as red? If you do, gain 1 additional focus token for each enemy ship at range 0-1, to a maximum of 2.",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void UseBazeMalbusAbility(object sender, EventArgs e)

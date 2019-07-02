@@ -60,9 +60,13 @@ namespace Abilities.SecondEdition
 
             HostShip.BeforeActionIsPerformed += SpendForce;
             HostShip.OnActionIsPerformed += RemoveSpendForce;
+
             HostShip.AskPerformFreeAction(
                 HostShip.GetAvailableActionsWhiteOnlyAsRed().Where(a => HostShip.ActionBar.HasAction(a.GetType())).ToList(),
-                FinishAbility
+                FinishAbility,
+                HostUpgrade.UpgradeInfo.Name,
+                "After an enemy ship at range 0-2 reveals its dial, you may spend 1 Force to perform 1 white action on your action bar, treating that action as red",
+                HostUpgrade
             );
         }
 

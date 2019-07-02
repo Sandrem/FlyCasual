@@ -76,7 +76,13 @@ namespace Abilities.FirstEdition
 
         protected void AskToFlip(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, DoFlipSide, descriptionLong: "Flip to Landing position?");
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                DoFlipSide,
+                descriptionLong: "Do you want to flip to Landing position?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void DoFlipSide(object sender, EventArgs e)
@@ -119,7 +125,13 @@ namespace Abilities.FirstEdition
 
         private void AskToFlip(object sender, EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, DoFlipSide, descriptionLong: "Flip to Attack position?");
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                DoFlipSide,
+                descriptionLong: "Do you want to flip to Attack position?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void DoFlipSide(object sender, EventArgs e)
@@ -139,7 +151,13 @@ namespace Abilities.FirstEdition
 
         protected virtual void AskToRotate(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, RotateShip, descriptionLong: "Rotate this ship?");
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                RotateShip,
+                descriptionLong: "Do you want to rotate this ship?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void RotateShip(object sender, EventArgs e)

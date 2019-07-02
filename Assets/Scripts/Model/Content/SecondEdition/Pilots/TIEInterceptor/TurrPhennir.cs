@@ -39,7 +39,11 @@ namespace Abilities.SecondEdition
                     new ActionsList.BoostAction() { CanBePerformedWhileStressed = true },
                     new ActionsList.BarrelRollAction() { CanBePerformedWhileStressed = true }
                 },
-                Triggers.FinishTrigger);
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "After you perform an attack, you may perform a Barrel Roll or Boost action, even if you are stressed",
+                HostShip
+            );
         }
     }
 }

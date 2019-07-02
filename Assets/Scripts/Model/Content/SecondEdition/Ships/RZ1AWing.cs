@@ -69,11 +69,11 @@ namespace Abilities.SecondEdition
 
         private void AskPerformBoostAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Vectored Thrusters: you may perform a red boost action");
-
             HostShip.AskPerformFreeAction(
                 new BoostAction() { Color = ActionColor.Red },
-                Triggers.FinishTrigger
+                Triggers.FinishTrigger,
+                descriptionShort: Name,
+                descriptionLong: "After you perform an action, you may perform a red Boost action"
             );
         }
     }

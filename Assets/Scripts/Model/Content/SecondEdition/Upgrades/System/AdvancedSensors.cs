@@ -46,13 +46,17 @@ namespace Abilities.SecondEdition
 
         private void UseAdvancedSensors(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman(HostUpgrade.UpgradeInfo.Name + ": You can perform an action");
-
             HostShip.OnActionIsPerformed += SkipActionsUntilEndOfActivation;
             HostShip.OnActionIsSkipped += SkipAbility;
 
             List<GenericAction> actions = HostShip.GetAvailableActions();
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                actions,
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "You may perform 1 action. You cannot perform another action during your activation.",
+                HostUpgrade
+            );
         }
 
         private void SkipAbility(GenericShip ship)

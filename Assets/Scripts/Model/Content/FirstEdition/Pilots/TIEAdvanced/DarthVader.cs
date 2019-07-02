@@ -52,7 +52,13 @@ namespace Abilities.FirstEdition
         {
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
 
-            HostShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                actions,
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "During your \"Perform Action\" step, you may perform second action",
+                HostShip
+            );
         }
     }
 }

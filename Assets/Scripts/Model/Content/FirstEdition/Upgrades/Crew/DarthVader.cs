@@ -48,7 +48,13 @@ namespace Abilities.FirstEdition
         //Confirmation for Darth Vader Ability
         private void AskToUseVaderAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, resolveDarthVaderAbility);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                resolveDarthVaderAbility,
+                descriptionLong: "Do you want to suffer 2 damage to cause that ship to suffer 1 critical damage?",
+                imageHolder: HostUpgrade
+            );
         }
 
         //This method assigns one crit to defender, and two damages to HostShip

@@ -64,7 +64,13 @@ namespace Abilities.SecondEdition
 
         private void AskEdonKappehlAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseEdonKappehlAbility);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                NeverUseByDefault,
+                UseEdonKappehlAbility,
+                descriptionLong: "Do you want to drop 1 device?",
+                imageHolder: HostShip
+            );
         }
 
         private void UseEdonKappehlAbility(object sender, EventArgs e)

@@ -54,11 +54,12 @@ namespace Abilities.SecondEdition
 
         private void AskPerformBoostAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman(HostName + ": you may perform a red boost action");
-
             TargetShip.AskPerformFreeAction(
                 new List<GenericAction>() { new BoostAction() { Color = ActionColor.Red } },
-                Triggers.FinishTrigger
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "You perform a red Boost action",
+                HostShip
             );
         }
     }

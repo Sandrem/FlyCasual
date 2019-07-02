@@ -57,9 +57,11 @@ namespace Abilities.SecondEdition
                 Selection.ChangeActiveShip(HostShip);
 
                 AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
                     NeverUseByDefault,
                     AgreeToPerformAction,
-                    descriptionLong: "Do you want to spend a calculate token to perform an action?"
+                    descriptionLong: "Do you want to spend a calculate token to perform an action?",
+                    imageHolder: HostShip
                 );
             }
             else
@@ -76,7 +78,13 @@ namespace Abilities.SecondEdition
 
         private void PerformFreeAction()
         {
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), FinishAbility);
+            HostShip.AskPerformFreeAction(
+                HostShip.GetAvailableActions(),
+                FinishAbility,
+                HostShip.PilotInfo.PilotName,
+                "After you defend, you may spend 1 Calculate token to perform an action",
+                HostShip
+            );
         }
 
         private void FinishAbility()

@@ -58,7 +58,13 @@ namespace Abilities.SecondEdition
 
         private void ShowDecision(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseAbility);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                NeverUseByDefault,
+                UseAbility,
+                descriptionLong: "Do you want to spend 1 Charge? (If you do, that ship gains 1 Stress Token instead of Disarm Token)",
+                imageHolder: HostShip
+            );
         }
 
         private void UseAbility(object sender, EventArgs e)

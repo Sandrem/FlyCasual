@@ -95,7 +95,14 @@ namespace Abilities.FirstEdition
         {
             if (HostShip.PilotInfo.PilotName == "\"Duchess\"")
             {
-                AskToUseAbility(AlwaysUseByDefault, UseAbility, DontUseAbility);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    UseAbility,
+                    DontUseAbility,
+                    descriptionLong: "Do you want to skip activation of your Adaptive Ailerons?",
+                    imageHolder: HostShip
+                );
             }
             else
             {

@@ -122,7 +122,14 @@ namespace Abilities.SecondEdition
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, UseAbilityDecision, null, null, true);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    UseAbilityDecision,
+                    descriptionLong: "Do you want to recover 1 Charge to roll 1 additional attack die?",
+                    imageHolder: HostShip,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

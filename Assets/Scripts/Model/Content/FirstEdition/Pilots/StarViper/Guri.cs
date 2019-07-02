@@ -55,7 +55,14 @@ namespace Abilities.FirstEdition
             {
                 if (!alwaysUseAbility)
                 {
-                    AskToUseAbility(AlwaysUseByDefault, UseAbility, null, null, true);
+                    AskToUseAbility(
+                        HostShip.PilotInfo.PilotName,
+                        AlwaysUseByDefault,
+                        UseAbility,
+                        descriptionLong: "Do you want to gain 1 Focus Token?",
+                        imageHolder: HostShip,
+                        showAlwaysUseOption: true
+                    );
                 }
                 else
                 {

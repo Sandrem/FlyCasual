@@ -48,7 +48,13 @@ namespace Abilities.SecondEdition
 
         private void AskUseQuinnJastAbility(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseQuinnJastAbility);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                NeverUseByDefault,
+                UseQuinnJastAbility,
+                descriptionLong: "Do you want to gain 1 Disarm Token to recover 1 Charge on 1 of your equipped upgrades?",
+                imageHolder: HostShip
+            );
         }
 
         private GenericUpgrade GetHardpointWithSpentCharges()

@@ -48,7 +48,16 @@ namespace Abilities.FirstEdition
 
             if (HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Normal || HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Easy)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, (s, e) => AskToUseAbility(NeverUseByDefault, UseAbility));
+                RegisterAbilityTrigger(
+                    TriggerTypes.OnMovementFinish,
+                    (s, e) => AskToUseAbility(
+                        HostUpgrade.UpgradeInfo.Name,
+                        NeverUseByDefault, 
+                        UseAbility,
+                        descriptionLong: "Do you want to discard this card to rotate your ship 180° and receive 1 stress token after the \"Check Pilot Stress\" step?",
+                        imageHolder: HostUpgrade
+                    )
+                );
             }
         }
 

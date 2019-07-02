@@ -60,8 +60,6 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Force > 0)
             {
-                Messages.ShowInfoToHuman(HostUpgrade.UpgradeInfo.Name + ": You may spend a force token to perform free action");
-
                 HostShip.BeforeActionIsPerformed += PayForceToken;
                 HostShip.OnActionIsPerformed += CheckSupernaturalReflexesDamage;
                 HostShip.OnActionIsSkipped += DeregisterSupernaturalReflexesEvents;
@@ -73,7 +71,10 @@ namespace Abilities.SecondEdition
                         new BoostAction(),
                         new BarrelRollAction()
                     },
-                    Triggers.FinishTrigger
+                    Triggers.FinishTrigger,
+                    HostUpgrade.UpgradeInfo.Name,
+                    "Before you activate, you may spend 1 Force to perform a Barrel Roll or Boost action. Then, if you performed an action you do not have on your action bar, suffer 1 damage.",
+                    HostUpgrade
                 );
             }
             else

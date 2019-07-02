@@ -100,7 +100,14 @@ namespace SubPhases
 
         private void PerformFreeEvadeAction(object sender, EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, isForced: true);
+            Selection.ThisShip.AskPerformFreeAction(
+                new EvadeAction(),
+                DecisionSubPhase.ConfirmDecision,
+                TIEv1Upgrade.UpgradeInfo.Name,
+                "After you acquire a target lock, you may perform a free evade action",
+                TIEv1Upgrade,
+                isForced: true
+            );
         }
 
         private void DontPerformFreeEvadeAction(object sender, EventArgs e)

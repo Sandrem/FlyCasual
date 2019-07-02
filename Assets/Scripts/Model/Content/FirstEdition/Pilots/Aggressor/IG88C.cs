@@ -55,7 +55,14 @@ namespace Abilities.FirstEdition
             {
                 if (!alwaysUseAbility)
                 {
-                    AskToUseAbility(AlwaysUseByDefault, PerformFreeEvadeActionDecision, null, null, true);
+                    AskToUseAbility(
+                        HostShip.PilotInfo.PilotName,
+                        AlwaysUseByDefault,
+                        PerformFreeEvadeActionDecision,
+                        descriptionLong: "Do you want to perform an Evade Action?",
+                        imageHolder: HostShip,
+                        showAlwaysUseOption: true
+                    );
                 }
                 else
                 {
@@ -70,7 +77,15 @@ namespace Abilities.FirstEdition
 
         private void PerformFreeEvadeActionDecision(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, isForced: true);
+            //Action is forced now
+            Selection.ThisShip.AskPerformFreeAction(
+                new EvadeAction(),
+                DecisionSubPhase.ConfirmDecision,
+                HostShip.PilotInfo.PilotName,
+                "You must perform a free evade action",
+                HostShip,
+                isForced: true
+            );
         }
     }
 }

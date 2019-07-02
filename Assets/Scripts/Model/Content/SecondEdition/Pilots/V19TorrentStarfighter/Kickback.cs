@@ -57,11 +57,12 @@ namespace Abilities.SecondEdition
 
         private void AskPerformBoostAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman(HostName + ": you may perform a red lock action");
-
             HostShip.AskPerformFreeAction(
                 new TargetLockAction() { Color = ActionColor.Red },
-                Triggers.FinishTrigger
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "After you perform a Barrel Roll action, you may perform a red Lock action",
+                HostShip
             );
         }
     }

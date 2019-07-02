@@ -93,15 +93,15 @@ namespace Abilities.SecondEdition
 
         private void AskPerformPerositionAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Refined Gyrostabilizers: you may perform a red boost or a red rotate arc action");
-
             HostShip.AskPerformFreeAction(
                 new List<GenericAction>()
                     {
                         new BoostAction() { Color = ActionColor.Red },
                         new RotateArcAction() { Color = ActionColor.Red }
                     },
-                Triggers.FinishTrigger
+                Triggers.FinishTrigger,
+                descriptionShort: Name,
+                descriptionLong: "After you perform an action, you may perform a red Boost or a red Rotate Arc action"
             );
         }
     }

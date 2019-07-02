@@ -45,7 +45,13 @@ namespace Abilities.FirstEdition
 
         private void ShowDecision(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, UseAbility);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                AlwaysUseByDefault,
+                UseAbility,
+                descriptionLong: "Do you want to roll 1 additional attack die? (If you do, then the defender rolls 1 additional defense die)",
+                imageHolder: HostShip
+            );
         }
 
         private void UseAbility(object sender, System.EventArgs e)

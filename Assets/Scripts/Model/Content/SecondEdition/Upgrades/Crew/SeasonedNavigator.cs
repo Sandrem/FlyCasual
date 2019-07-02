@@ -58,7 +58,13 @@ namespace Abilities.SecondEdition
 
         private void AskToChangeManeuver(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, ShowAvailableManeuver);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                ShowAvailableManeuver,
+                descriptionLong: "Do you want to set your dial to another non-red maneuver of the same speed? (While you execute that maneuver, increase its difficulty)",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void ShowAvailableManeuver(object sender, System.EventArgs e)

@@ -50,7 +50,13 @@ namespace Abilities.FirstEdition
             if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 // give user the option to use ability
-                AskToUseAbility(AlwaysUseByDefault, UseAbility);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    UseAbility,
+                    descriptionLong: "Do you want to receive 1 Stress token to roll 1 additional attack die?",
+                    imageHolder: HostShip
+                );
             }
             else
             {

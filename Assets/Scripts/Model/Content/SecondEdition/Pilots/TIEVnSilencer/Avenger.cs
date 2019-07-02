@@ -51,8 +51,6 @@ namespace Abilities.SecondEdition
 
         private void PerformAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("\"Avenger\": a friendly ship was destroyed you may to perform an action");
-
             var ship = Selection.ThisShip;
             Roster.HighlightPlayer(HostShip.Owner.PlayerNo);
             Selection.ChangeActiveShip(HostShip);
@@ -61,12 +59,23 @@ namespace Abilities.SecondEdition
             //List<GenericAction> actions = Selection.ThisShip.ActionBar.AllActions;
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
             HostShip.CanPerformActionsWhileStressed = oldValue;
-            foreach (GenericAction action in actions) { action.CanBePerformedWhileStressed = true; }
-            HostShip.AskPerformFreeAction(actions, delegate {
-                Roster.HighlightPlayer(ship.Owner.PlayerNo);
-                Selection.ChangeActiveShip(ship);
-                Triggers.FinishTrigger();
-                });
+
+            foreach (GenericAction action in actions)
+            {
+                action.CanBePerformedWhileStressed = true;
+            }
+
+            HostShip.AskPerformFreeAction(
+                actions,
+                delegate {
+                    Roster.HighlightPlayer(ship.Owner.PlayerNo);
+                    Selection.ChangeActiveShip(ship);
+                    Triggers.FinishTrigger();
+                },
+                HostShip.PilotInfo.PilotName,
+                "After another friendly ship is destroyed, you may perform an action, even while stressed",
+                HostShip
+            );
         }
     }
 }

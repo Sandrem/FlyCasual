@@ -59,9 +59,11 @@ namespace Abilities.SecondEdition
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
                 UseAbility,
-                descriptionLong: "You may spend 2 charges. If you do, choose a template. Each friendly ship may perform a red boost action using that template."
+                descriptionLong: "Do you may spend 2 charges? (If you do, choose a template. Each friendly ship may perform a red boost action using that template)",
+                imageHolder: HostUpgrade
             );
         }
 
@@ -116,7 +118,7 @@ namespace Abilities.SecondEdition
                     GetAiPriority,
                     HostShip.Owner.PlayerNo,
                     HostUpgrade.UpgradeInfo.Name,
-                    "Choose a friendly ship to perform a red boost action using selected template",
+                    "Choose a friendly ship to perform a red Boost action using selected template",
                     HostUpgrade
                 );
             }
@@ -139,6 +141,9 @@ namespace Abilities.SecondEdition
                     SubPhases.SelectShipSubPhase.FinishSelectionNoCallback();
                     SelectTargetRecursive();
                 },
+                HostUpgrade.UpgradeInfo.Name,
+                "You must perform a red Boost action using selected template",
+                HostUpgrade,
                 isForced: true
             );
         }

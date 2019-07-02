@@ -60,8 +60,6 @@ namespace Abilities.SecondEdition
 
         private void UseHeffTobberAbility(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Heff Tobber can perform a free action");
-
             GenericShip previousActiveShip = Selection.ThisShip;
             Selection.ChangeActiveShip(HostShip);
             List<GenericAction> actions = HostShip.GetAvailableActions();
@@ -71,7 +69,10 @@ namespace Abilities.SecondEdition
                 delegate {
                     Selection.ChangeActiveShip(previousActiveShip);
                     Triggers.FinishTrigger();
-                }
+                },
+                HostShip.PilotInfo.PilotName,
+                "After an enemy executes a maneuver, if it is at range 0, you may perform an action",
+                HostShip
             );
         }
     }

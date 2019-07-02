@@ -78,7 +78,13 @@ namespace Abilities.SecondEdition
 
         private void AskToFlip(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, FlipCard, descriptionLong: $"Flip {HostName}?");
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                FlipCard,
+                descriptionLong: "Do you want to flip this upgrade?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void FlipCard(object sender, EventArgs e)
@@ -96,7 +102,13 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Force > 0 && new DistanceInfo(HostShip, Combat.Attacker).Range <= 2)
             {
-                AskToUseAbility(AlwaysUseByDefault, AssignStress);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    AssignStress,
+                    descriptionLong: "Do you want to spend 1 Force to assign the attacker 1 Stress Token?",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

@@ -73,9 +73,11 @@ namespace Abilities.SecondEdition
             if (HostShip.AssignedDamageDiceroll.Count > 0 && HostShip.DockedShips.Count > 0 && HostShip.DockedShips.First().State.ShieldsCurrent > 0)
             {
                 AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
                     AlwaysUseByDefault,
                     UseShieldsOfDockedShip,
-                    descriptionLong: HostUpgrade.UpgradeInfo.Name + ": Do you want to use shield of docked ship instead?"
+                    descriptionLong: "Do you want to use shield of docked ship instead?",
+                    imageHolder: HostUpgrade
                 );
             }
             else

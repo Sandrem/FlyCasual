@@ -55,9 +55,11 @@ namespace Abilities.SecondEdition
         private void AskToUseFinchDallowAbility(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
                 NeverUseByDefault,
                 PlaceBombInstead,
-                descriptionLong: "Do you want to place bomb touching your ship instead?"
+                descriptionLong: "Do you want to place bomb touching your ship instead?",
+                imageHolder: HostShip
             );
         }
 

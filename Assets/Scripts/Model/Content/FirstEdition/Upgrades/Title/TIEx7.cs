@@ -73,7 +73,7 @@ namespace Abilities.FirstEdition
             if (Selection.ThisShip.CanPerformAction(new EvadeAction()))
             {
                 TIEx7DecisionSubPhase newSubPhase = (TIEx7DecisionSubPhase)Phases.StartTemporarySubPhaseNew("TIE/x7 decision", typeof(TIEx7DecisionSubPhase), Triggers.FinishTrigger);
-                newSubPhase.TIEx7AbilityInstance = this;
+                newSubPhase.AbilityInstance = this;
                 newSubPhase.Start();
             }
             else
@@ -99,11 +99,12 @@ namespace SubPhases
 
     public class TIEx7DecisionSubPhase : DecisionSubPhase
     {
-        public Abilities.FirstEdition.TIEx7Ability TIEx7AbilityInstance;
+        public Abilities.FirstEdition.TIEx7Ability AbilityInstance;
 
         public override void PrepareDecision(Action callBack)
         {
-            DescriptionShort = "Perform free evade action?";
+            DescriptionShort = AbilityInstance.Name;
+            DescriptionLong = "Do you want to perform an Evade action?";
 
             AddDecision("Yes", PerformFreeEvadeAction);
             AddDecision("No", DontPerformFreeEvadeAction);
@@ -111,7 +112,7 @@ namespace SubPhases
 
             DefaultDecisionName = "Yes";
 
-            if (!TIEx7AbilityInstance.IsAlwaysUseAbility())
+            if (!AbilityInstance.IsAlwaysUseAbility())
             {
                 callBack();
             }
@@ -123,7 +124,14 @@ namespace SubPhases
 
         private void PerformFreeEvadeAction(object sender, EventArgs e)
         {
-            Selection.ThisShip.AskPerformFreeAction(new EvadeAction(), DecisionSubPhase.ConfirmDecision, isForced: true);
+            Selection.ThisShip.AskPerformFreeAction(
+                new EvadeAction(),
+                DecisionSubPhase.ConfirmDecision,
+                AbilityInstance.HostUpgrade.UpgradeInfo.Name,
+                "After executing a 3-, 4-, or 5-speed maneuver, if you did not overlap an obstacle or ship, you may perform a free Evade action",
+                AbilityInstance.HostUpgrade,
+                isForced: true
+            );
         }
 
         private void DontPerformFreeEvadeAction(object sender, EventArgs e)
@@ -133,7 +141,7 @@ namespace SubPhases
 
         private void AlwaysPerformFreeEvadeAction(object sender, EventArgs e)
         {
-            TIEx7AbilityInstance.SetIsAlwaysUseAbility();
+            AbilityInstance.SetIsAlwaysUseAbility();
 
             PerformFreeEvadeAction(sender, e);
         }

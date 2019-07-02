@@ -62,11 +62,11 @@ namespace Abilities.FirstEdition
         {
             Messages.ShowInfo("Fenn Rau can use his ability");
             AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
                 AlwaysUseByDefault,
                 UseAbility,
                 DontUseAbility,
-                descriptionShort: HostShip.PilotInfo.PilotName,
-                descriptionLong: "If you are not stressed, you may gain 1 stress token. If you do, attacker cannot spend tokens to modify dice while it performs an attack this phase.",
+                descriptionLong: "Do you want to gain 1 stress token? (If you do, attacker cannot spend tokens to modify dice while it performs an attack this phase)",
                 imageHolder: HostShip
             );
         }

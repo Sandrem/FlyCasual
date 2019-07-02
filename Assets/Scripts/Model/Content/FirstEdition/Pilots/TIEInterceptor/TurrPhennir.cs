@@ -54,7 +54,11 @@ namespace Abilities.FirstEdition
                     new ActionsList.BoostAction(),
                     new ActionsList.BarrelRollAction()
                 },
-                Triggers.FinishTrigger);
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "After you perform an attack, you may perform a free Boost or Barrel Roll action",
+                HostShip
+            );
         }
     }
 }

@@ -50,19 +50,24 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Complex && HostUpgrade.State.Charges > 0)
             {
-                Messages.ShowInfoToHuman(HostName + ": you may spend 1 charge to perform an action, even while stressed");
-
                 HostShip.BeforeActionIsPerformed += SpendCharge;
 
                 var oldValue = HostShip.CanPerformActionsWhileStressed;
                 HostShip.CanPerformActionsWhileStressed = true;
                 List<GenericAction> actions = HostShip.GetAvailableActions();
-                HostShip.AskPerformFreeAction(actions, delegate
-                {
-                    HostShip.CanPerformActionsWhileStressed = oldValue;
-                    HostShip.BeforeActionIsPerformed -= SpendCharge;
-                    Triggers.FinishTrigger();
-                });
+
+                HostShip.AskPerformFreeAction(
+                    actions, 
+                    delegate
+                    {
+                        HostShip.CanPerformActionsWhileStressed = oldValue;
+                        HostShip.BeforeActionIsPerformed -= SpendCharge;
+                        Triggers.FinishTrigger();
+                    },
+                    HostUpgrade.UpgradeInfo.Name,
+                    "After you fully execute a red maneuver, you may spend 1 Charge to perform an action, even while stressed",
+                    HostUpgrade
+                );
             }
             else
             {

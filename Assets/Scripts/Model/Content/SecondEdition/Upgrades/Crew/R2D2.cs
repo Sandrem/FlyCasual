@@ -49,9 +49,11 @@ namespace Abilities.SecondEdition
             Selection.ChangeActiveShip(HostShip);
 
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 UseAbility,
-                descriptionLong: "R2-D2: Do you want to recover shield, but have a chance to expose damage card?"
+                descriptionLong: "Do you want to roll 1 attack die to recover 1 shield? (On \"hit\" result, expose 1 of your damage cards)",
+                imageHolder: HostUpgrade
             );
         }
 

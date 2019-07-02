@@ -62,10 +62,12 @@ namespace Abilities.FirstEdition
             TwoShipsArguments twoShipsArguments = (TwoShipsArguments)e;
 
             AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
                 delegate { return IsUseAP5PilotAbility(twoShipsArguments.Target); },
-                delegate { UsePilotAbility(twoShipsArguments); }
+                delegate { UsePilotAbility(twoShipsArguments); },
+                descriptionLong: "Do you want to receive 2 Stress Tokens to remove 1 Stress Token from target?",
+                imageHolder: HostShip
             );
-
         }
 
         private bool IsUseAP5PilotAbility(GenericShip targetShip)

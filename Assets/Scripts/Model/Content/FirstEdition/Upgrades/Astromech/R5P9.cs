@@ -48,7 +48,13 @@ namespace Abilities.FirstEdition
                 // is using the ability
                 Selection.ChangeActiveShip(HostShip);
                 // give user the option to use ability
-                AskToUseAbility(AlwaysUseByDefault, R5P9RegenShield);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    R5P9RegenShield,
+                    descriptionLong: "Do you want to spend 1 of your Focus Tokens to recover 1 shield?",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

@@ -64,8 +64,12 @@ namespace Abilities.SecondEdition
 
         private void ProposeFreeEvadeAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("Stygium Array allows " + HostShip.PilotInfo.PilotName + " to perform an Evade action");
-            HostShip.AskPerformFreeAction(new EvadeAction() { HostShip = HostShip }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                new EvadeAction() { HostShip = HostShip },
+                Triggers.FinishTrigger,
+                descriptionShort: Name,
+                descriptionLong: "After you decloak, you may perform an Evade action"
+            );
         }
 
         private void RegisterCloakAbility()
@@ -78,7 +82,12 @@ namespace Abilities.SecondEdition
 
         private void AskToCloak(object sender, System.EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, TradeEvadeForCloakToken, descriptionLong: "Spend an Evade Token to gain a Cloak Token?");
+            AskToUseAbility(
+                "Stygium Array",
+                NeverUseByDefault,
+                TradeEvadeForCloakToken,
+                descriptionLong: "Do you want to spend an Evade Token to gain a Cloak Token?"
+            );
         }
 
         private void TradeEvadeForCloakToken(object sender, System.EventArgs e)

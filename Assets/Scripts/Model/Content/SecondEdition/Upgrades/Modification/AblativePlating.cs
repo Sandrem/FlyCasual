@@ -50,9 +50,11 @@ namespace Abilities.SecondEdition
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 UseOwnAbility,
-                descriptionLong: "Ablative Plating: You may spend 1 charge to prevent 1 damage"
+                descriptionLong: "Do you want to spend 1 Charge to prevent 1 damage?",
+                imageHolder: HostUpgrade
             );
         }
 

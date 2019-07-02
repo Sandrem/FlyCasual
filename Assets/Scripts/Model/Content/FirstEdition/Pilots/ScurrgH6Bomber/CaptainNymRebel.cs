@@ -58,7 +58,13 @@ namespace Abilities.FirstEdition
             if (CanUseAbility())
             {
                 Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.UpgradeInfo.Name));
-                AskToUseAbility(NeverUseByDefault, UseAbility);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    NeverUseByDefault,
+                    UseAbility,
+                    descriptionLong: "Do you want to prevent a friendly bomb from detonating?",
+                    imageHolder: HostShip
+                );
             }
             else
             {

@@ -58,7 +58,13 @@ namespace Abilities.FirstEdition
             SFoilsUpgrade = GetSFoils();
             if (SFoilsUpgrade != null)
             {
-                AskToUseAbility(NeverUseByDefault, UseKullbeeSperadoAbility);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    NeverUseByDefault,
+                    UseKullbeeSperadoAbility,
+                    descriptionLong: "Do you want to flip your equipped \"Servomotor S-foils\" upgrade card?",
+                    imageHolder: HostShip
+                );
             }
             else
             {

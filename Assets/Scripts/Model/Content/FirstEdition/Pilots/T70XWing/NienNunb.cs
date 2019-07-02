@@ -65,7 +65,14 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, RemoveStress, null, null, true);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    RemoveStress,
+                    descriptionLong: "Do you want to discard Stress Token?",
+                    imageHolder: HostShip,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

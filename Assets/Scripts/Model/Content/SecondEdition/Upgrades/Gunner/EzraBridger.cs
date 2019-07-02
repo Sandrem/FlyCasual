@@ -91,9 +91,11 @@ namespace Abilities.SecondEdition
             if (HostShip.State.Force > 0)
             {
                 AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
                     NeverUseByDefault,
                     UseGunnerAbility,
-                    descriptionLong: "Do you want to spend 1 Force to use Ezra Bridger's ability?"
+                    descriptionLong: "Do you want to spend 1 Force to perform a bonus Turret attack from a Turret you have not attacked from this round? (If you do and you are stressed, you may reroll 1 attack die)",
+                    imageHolder: HostUpgrade
                 );
             }
             else

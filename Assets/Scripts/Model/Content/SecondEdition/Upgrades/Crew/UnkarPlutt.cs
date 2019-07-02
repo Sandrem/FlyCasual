@@ -44,13 +44,14 @@ namespace Abilities.SecondEdition
 
         private void AskToPerformAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman(HostUpgrade.UpgradeInfo.Name + ": You may suffer 1 damage to perform a white action");
-
             HostShip.BeforeActionIsPerformed += RegisterSufferDamage;
 
             HostShip.AskPerformFreeAction(
                 HostShip.GetAvailableActionsWhiteOnly(),
-                FinishAbility
+                FinishAbility,
+                HostUpgrade.UpgradeInfo.Name,
+                "After you partially execute a maneuver, you may suffer 1 damage to perform 1 white action",
+                HostUpgrade
             );
         }
 

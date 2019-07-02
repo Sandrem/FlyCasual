@@ -71,7 +71,10 @@ namespace Abilities.SecondEdition
 
             HostShip.AskPerformFreeAction(
                 AbilityActions,
-                CleanUp
+                CleanUp,
+                HostUpgrade.UpgradeInfo.Name,
+                "Before you execute a blue maneuver, you may spend 1 Charge to perform a Barrel Roll action",
+                HostUpgrade
             );
         }
 

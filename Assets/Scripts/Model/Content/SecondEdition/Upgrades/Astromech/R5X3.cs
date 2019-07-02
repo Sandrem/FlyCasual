@@ -29,7 +29,7 @@ namespace Abilities.SecondEdition
     //Before you activate or engage, you may spend 1 charge to ignore obstacles until the end of this phase.
     public class R5X3 : GenericAbility
     {
-        private string AbilityDescription = "R5-X3: Spend 1 charge to ignore obstacles until the end of this phase?";
+        private string AbilityDescription = "Do you want to spend 1 Charge to ignore obstacles until the end of this phase?";
 
         public override void ActivateAbility()
         {
@@ -61,12 +61,24 @@ namespace Abilities.SecondEdition
 
         private void AskToUseAbilityActivationPhase(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, TurnOnIgnoreObstaclesActivationPhase, null, null, false, AbilityDescription);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                TurnOnIgnoreObstaclesActivationPhase,
+                descriptionLong: AbilityDescription,
+                imageHolder: HostUpgrade
+            );
         }
 
         private void AskToUseAbilityCombatPhase(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, TurnOnIgnoreObstaclesCombatPhase, null, null, false, AbilityDescription);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                TurnOnIgnoreObstaclesCombatPhase,
+                descriptionLong: AbilityDescription,
+                imageHolder: HostUpgrade
+            );
         }
 
         private void TurnOnIgnoreObstaclesActivationPhase(object sender, EventArgs e)

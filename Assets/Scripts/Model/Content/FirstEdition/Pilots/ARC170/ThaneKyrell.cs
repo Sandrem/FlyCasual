@@ -57,11 +57,17 @@ namespace Abilities.FirstEdition
             var previousSelectedShip = Selection.ThisShip;
             Selection.ThisShip = HostShip;
 
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), delegate
-            {
-                Selection.ThisShip = previousSelectedShip;
-                Triggers.FinishTrigger();
-            });
+            HostShip.AskPerformFreeAction(
+                HostShip.GetAvailableActions(),
+                delegate
+                {
+                    Selection.ThisShip = previousSelectedShip;
+                    Triggers.FinishTrigger();
+                },
+                HostShip.PilotInfo.PilotName,
+                "After an enemy ship inside your firing arc at Range 1-3 attacks another friendly ship, you may perform a free action",
+                HostShip
+            );
         }
     }
 }

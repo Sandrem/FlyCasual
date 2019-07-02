@@ -79,11 +79,18 @@ namespace Abilities.SecondEdition
         {
             GenericShip previousActiveShip = Selection.ThisShip;
             Selection.ChangeActiveShip(HostShip);
-            HostShip.AskPerformFreeAction(abilityAction, delegate
-            {
-                Selection.ChangeActiveShip(previousActiveShip);
-                Triggers.FinishTrigger();
-            });
+
+            HostShip.AskPerformFreeAction(
+                abilityAction,
+                delegate
+                {
+                    Selection.ChangeActiveShip(previousActiveShip);
+                    Triggers.FinishTrigger();
+                },
+                HostShip.PilotInfo.PilotName,
+                "After you perform a Coordinate action, if the ship you chose performed an action on your action bar, you may perform that action",
+                HostShip
+            );
         }
     }
 }

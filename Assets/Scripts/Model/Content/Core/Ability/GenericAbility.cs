@@ -156,7 +156,7 @@ namespace Abilities
         /// <summary>
         /// Shows "Take a decision" window for ability with Yes / No / [Always] buttons
         /// </summary>
-        protected void AskToUseAbility(Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string descriptionShort = null, string descriptionLong = null, IImageHolder imageHolder = null, bool showSkipButton = true, PlayerNo requiredPlayer = PlayerNo.PlayerNone)
+        protected void AskToUseAbility(string descriptionShort, Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string descriptionLong = null, IImageHolder imageHolder = null, bool showSkipButton = true, PlayerNo requiredPlayer = PlayerNo.PlayerNone)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -754,9 +754,10 @@ namespace Abilities
             Selection.ChangeActiveShip(HostShip);
 
             AskToUseAbility(
+                "Docking",
                 AlwaysUseByDefault,
                 StartInitialDocking,
-                descriptionLong: HostShip.PilotInfo.PilotName + ": Do you want to dock a ship?"
+                descriptionLong: "Do you want to dock a ship?"
             );
         }
 
@@ -814,6 +815,7 @@ namespace Abilities
             GenericShip dockingShip = sender as GenericShip;
 
             AskToUseAbility(
+                "Docking",
                 NeverUseByDefault,
                 delegate { ConfirmDocking(dockingShip, HostShip); },
                 descriptionLong: "Do you want to dock to " + HostShip.PilotInfo.PilotName + "?"

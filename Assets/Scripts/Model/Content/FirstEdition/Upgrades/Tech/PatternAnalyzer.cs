@@ -39,7 +39,13 @@ namespace Abilities.FirstEdition
         private void ShowUsePatternAnalyzerDecision(object sender, System.EventArgs e)
         {
             // give user the option to use ability
-            AskToUseAbility(AlwaysUseByDefault, UsePatternAnalyzer);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                UsePatternAnalyzer,
+                descriptionLong: "Do you want to resolve the \"Check Pilot Stress\" step after the \"Perform Action\" step (instead of before that step)?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void UsePatternAnalyzer(object sender, System.EventArgs e)

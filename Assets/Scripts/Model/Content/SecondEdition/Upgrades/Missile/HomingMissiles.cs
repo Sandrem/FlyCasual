@@ -54,9 +54,11 @@ namespace Abilities.SecondEdition
         private void AskDefender(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 UseIfHaveEnoughHP,
                 SufferOneDamage,
-                descriptionLong: "You may choose to suffer 1 damage. If you do, skip the Attack and Defense Dice steps and the attack is treated as hitting.",
+                descriptionLong: "Do you want to suffer 1 damage damage? (If you do, skip the Attack and Defense Dice steps and the attack is treated as hitting)",
+                imageHolder: HostUpgrade,
                 requiredPlayer: Combat.Defender.Owner.PlayerNo
             );
         }

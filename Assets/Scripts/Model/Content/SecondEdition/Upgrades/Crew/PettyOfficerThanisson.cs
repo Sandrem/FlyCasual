@@ -65,11 +65,14 @@ namespace Abilities.SecondEdition
 
         private void ShowDecision(object sender, System.EventArgs e)
         {
-            if(!HostShip.Tokens.HasToken(typeof(StressToken))){
+            if (!HostShip.Tokens.HasToken(typeof(StressToken)))
+            {
                 AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
                     ShouldUseAbility,
                     UseAbility,
-                    descriptionLong: HostShip.PilotInfo.PilotName + ": Gain a Stress Token to assign an additional " + token.Name + " to " + ShipWithToken.PilotInfo.PilotName + "?" 
+                    descriptionLong: "Do you want to gain a Stress Token to assign an additional " + token.Name + " to " + ShipWithToken.PilotInfo.PilotName + "?",
+                    imageHolder: HostUpgrade
                 );
             } 
             else

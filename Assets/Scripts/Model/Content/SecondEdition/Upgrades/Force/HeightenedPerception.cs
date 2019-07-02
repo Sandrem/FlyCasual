@@ -53,7 +53,13 @@ namespace Abilities.SecondEdition
             {
                 Selection.ChangeActiveShip(HostShip);
 
-                AskToUseAbility(ShouldUseAbility, UseAbility);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    ShouldUseAbility,
+                    UseAbility,
+                    descriptionLong: "Do you want to spend Force to engage at initiative 7?",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

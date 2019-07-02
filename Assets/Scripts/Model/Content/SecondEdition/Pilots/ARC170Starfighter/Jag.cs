@@ -53,7 +53,13 @@ namespace Abilities.SecondEdition
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, delegate
                 {
-                    AskToUseAbility(AlwaysUseByDefault, AcquireLock);
+                    AskToUseAbility(
+                        HostShip.PilotInfo.PilotName,
+                        AlwaysUseByDefault,
+                        AcquireLock,
+                        descriptionLong: "Do you want to acquire a lock on the attacker?",
+                        imageHolder: HostShip
+                    );
                 });                
             }
         }

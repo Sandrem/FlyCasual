@@ -45,7 +45,14 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, AssignStressAndFinishDecision, null, null, true);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    AssignStressAndFinishDecision,
+                    descriptionLong: "Do you want to receive 1 Stress Token to cause the defender to receive 1 Stress Token?",
+                    imageHolder: HostUpgrade,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

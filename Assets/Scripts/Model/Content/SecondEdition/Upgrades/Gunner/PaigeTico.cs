@@ -68,7 +68,15 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            HostShip.AskPerformFreeAction(new RotateArcAction(), Triggers.FinishTrigger, isForced: true);
+            //TODO: Must not be an action
+            HostShip.AskPerformFreeAction(
+                new RotateArcAction(),
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "After you perform a primary attack, you may rotate your Turret Arc",
+                HostUpgrade,
+                isForced: true
+            );
         }
 
         private void TryRegisterDestructionAbility(GenericShip ship, bool isFled)
@@ -93,9 +101,11 @@ namespace Abilities.SecondEdition
             Selection.ChangeActiveShip(HostShip);
 
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
                 DropBomb,
-                descriptionLong: "Do you want to drop a bomb?"
+                descriptionLong: "Do you want to drop a bomb?",
+                imageHolder: HostUpgrade
             );
         }
 

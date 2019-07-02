@@ -52,7 +52,14 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                AskToUseAbility(AlwaysUseByDefault, AssignToken, null, null, true);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    AssignToken,
+                    descriptionLong: "Do you want to assign 1 Focus Token to your ship?",
+                    imageHolder: HostShip,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

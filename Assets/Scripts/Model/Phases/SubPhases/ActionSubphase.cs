@@ -223,7 +223,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            DescriptionShort = "Select free action";
+            DescriptionShort = DescriptionShort ?? "Select free action";
             DefaultDecisionName = "Focus";
 
             List<GenericAction> availableActions = Selection.ThisShip.GetAvailableFreeActions();

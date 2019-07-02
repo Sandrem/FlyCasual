@@ -68,9 +68,11 @@ namespace Abilities.SecondEdition
         private void AskToReplaceToken(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 ReplaceToken,
-                descriptionLong: "Do you want to gain Ion token to remove Disarm token?"
+                descriptionLong: "Do you want to gain Ion token to remove Disarm token?",
+                imageHolder: HostUpgrade
             );
         }
 

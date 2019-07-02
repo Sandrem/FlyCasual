@@ -50,7 +50,13 @@ namespace Abilities.SecondEdition
             if (!HostShip.Tokens.HasTokenByColor(TokenColors.Green))
             {
                 Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You may perform a Focus action");
-                HostShip.AskPerformFreeAction(new FocusAction(), Triggers.FinishTrigger);
+                HostShip.AskPerformFreeAction(
+                    new FocusAction(),
+                    Triggers.FinishTrigger,
+                    HostUpgrade.UpgradeInfo.Name,
+                    "After you fail an action, if you have no green tokens, you may perform a Focus action.",
+                    HostUpgrade
+                );
             }
             else
             {

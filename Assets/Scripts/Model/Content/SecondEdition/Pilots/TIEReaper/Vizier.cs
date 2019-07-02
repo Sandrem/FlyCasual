@@ -51,13 +51,17 @@ namespace Abilities.SecondEdition
 
         private void AskToPerformCoordinate(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("\"Vizier\" can perform a Coordinate action");
-
             RestrictedAbilityIsActivated = true;
             HostShip.OnActionIsPerformed += CheckActionRestriction;
             HostShip.OnMovementStart += ClearRestrictedAbility;
 
-            HostShip.AskPerformFreeAction(new CoordinateAction() { HostShip = HostShip }, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                new CoordinateAction() { HostShip = HostShip },
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "After you fully execute a speed 1 maneuver using your Adaptive Ailerons ship ability, you may perform a Coordinate action. If you do, skip your Perform Action step.",
+                HostShip
+            );
         }
 
         private void CheckActionRestriction(GenericAction action)

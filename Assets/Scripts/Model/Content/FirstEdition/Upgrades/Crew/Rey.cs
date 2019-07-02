@@ -67,7 +67,14 @@ namespace Abilities.FirstEdition
             {
                 if (!alwaysUseAbility)
                 {
-                    AskToUseAbility(AlwaysUseByDefault, StoreToken, null, null, true);
+                    AskToUseAbility(
+                        HostUpgrade.UpgradeInfo.Name,
+                        AlwaysUseByDefault,
+                        StoreToken,
+                        descriptionLong: "Do you want to place 1 of your ship's Focus Tokens on this card?",
+                        imageHolder: HostUpgrade,
+                        showAlwaysUseOption: true
+                    );
                 }
                 else
                 {
@@ -103,7 +110,13 @@ namespace Abilities.FirstEdition
         {
             if (FocusTokensStored > 0)
             {
-                AskToUseAbility(AlwaysUseByDefault, AssignStoredToken);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    AssignStoredToken,
+                    descriptionLong: "Do you want to assign 1 of stored Focus tokens to your ship?",
+                    imageHolder: HostUpgrade
+                );
             }
             else
             {

@@ -58,9 +58,11 @@ namespace Abilities.SecondEdition
             if (HostShip.State.Force > 0)
             {
                 AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
                     NeverUseByDefault,
                     AgreeToPerformAction,
-                    descriptionLong: "Do you want to spend a force token to perform an action?"
+                    descriptionLong: "Do you want to spend 1 Force to perform an action?",
+                    imageHolder: HostShip
                 );
             }
             else
@@ -74,7 +76,14 @@ namespace Abilities.SecondEdition
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
 
             HostShip.State.Force--;
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), Triggers.FinishTrigger);
+
+            HostShip.AskPerformFreeAction(
+                HostShip.GetAvailableActions(),
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "After you perform an attack that hits, you may spend 1 Force to perform an action",
+                HostShip
+            );
         }
 
         private void RegisterDefenceAbility(GenericShip ship)

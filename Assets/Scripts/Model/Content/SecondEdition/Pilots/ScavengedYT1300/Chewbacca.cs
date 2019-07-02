@@ -54,19 +54,25 @@ namespace Abilities.SecondEdition
 
         private void PerformAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Chewbacca: a friendly ship was destroyed you may to perform an action");
-
             selectedShip = Selection.ThisShip;
             selectedShip.OnCombatCheckExtraAttack += StartBonusAttack;
             Roster.HighlightPlayer(HostShip.Owner.PlayerNo);
             Selection.ChangeActiveShip(HostShip);
             performedRegularAttack = HostShip.IsAttackPerformed;
+
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
-            HostShip.AskPerformFreeAction(actions, delegate {
-                Roster.HighlightPlayer(selectedShip.Owner.PlayerNo);
-                Selection.ChangeActiveShip(selectedShip);
-                Triggers.FinishTrigger();
-            });
+
+            HostShip.AskPerformFreeAction(
+                actions, 
+                delegate {
+                    Roster.HighlightPlayer(selectedShip.Owner.PlayerNo);
+                    Selection.ChangeActiveShip(selectedShip);
+                    Triggers.FinishTrigger();
+                },
+                HostShip.PilotInfo.PilotName,
+                "After a friendly ship at range 0-3 is destroyed, you may perform an action",
+                HostShip
+            );
         }
 
         private void StartBonusAttack(GenericShip ship)

@@ -60,11 +60,17 @@ namespace Abilities.SecondEdition
 
             HostShip.BeforeActionIsPerformed += SpendCharge;
 
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), delegate
-            {
-                Selection.ThisShip = previousSelectedShip;
-                CleanUp();
-            });
+            HostShip.AskPerformFreeAction(
+                HostShip.GetAvailableActions(),
+                delegate
+                {
+                    Selection.ThisShip = previousSelectedShip;
+                    CleanUp();
+                },
+                HostShip.PilotInfo.PilotName,
+                "After you suffer damage, you may spend 1 Charge to perform an action",
+                HostShip
+            );
         }
 
         private void SpendCharge(GenericAction action, ref bool isFreeAction)

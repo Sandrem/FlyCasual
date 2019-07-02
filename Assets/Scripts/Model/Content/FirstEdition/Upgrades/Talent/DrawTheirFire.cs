@@ -68,7 +68,14 @@ namespace Abilities.FirstEdition
         {
             if (curToDamage.AssignedDamageDiceroll.CriticalSuccesses > 0)
             {
-                AskToUseAbility(AlwaysUseByDefault, UseAbility, null, null, true);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    UseAbility,
+                    descriptionLong: "Do you want to suffer 1 of the uncanceled critical results instead of the target ship?",
+                    imageHolder: HostUpgrade,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

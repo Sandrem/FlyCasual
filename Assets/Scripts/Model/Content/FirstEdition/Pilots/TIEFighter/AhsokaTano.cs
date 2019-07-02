@@ -90,11 +90,16 @@ namespace Abilities.FirstEdition
                 delegate {
                     var coordinatingShip = Selection.ThisShip;
                     Selection.ThisShip = TargetShip;
-                    Selection.ThisShip.AskPerformFreeAction(Selection.ThisShip.GetAvailableActions(), delegate
-                    {
-                        Selection.ThisShip = coordinatingShip;
-                        SelectShipSubPhase.FinishSelection();
-                    });
+                    Selection.ThisShip.AskPerformFreeAction(
+                        Selection.ThisShip.GetAvailableActions(), delegate
+                        {
+                            Selection.ThisShip = coordinatingShip;
+                            SelectShipSubPhase.FinishSelection();
+                        },
+                        HostShip.PilotInfo.PilotName,
+                        "You may perform 1 free action",
+                        HostShip
+                    );
                 }
             );
         }

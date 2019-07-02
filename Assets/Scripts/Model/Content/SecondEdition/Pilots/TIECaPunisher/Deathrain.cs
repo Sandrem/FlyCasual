@@ -49,9 +49,13 @@ namespace Abilities.SecondEdition
 
         private void AskToPerformFreeAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo("\"Deathrain\" can perform an action");
-
-            HostShip.AskPerformFreeAction(HostShip.GetAvailableActions(), Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                HostShip.GetAvailableActions(),
+                Triggers.FinishTrigger,
+                HostShip.PilotInfo.PilotName,
+                "After you drop or launch a device, you may perform an action",
+                HostShip
+            );
         }
     }
 }

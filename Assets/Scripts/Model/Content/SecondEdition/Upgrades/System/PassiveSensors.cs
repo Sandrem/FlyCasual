@@ -97,10 +97,15 @@ namespace Abilities.SecondEdition
 
         protected void PerformPassiveSensorsGrantedAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You may perform Calculate or Lock action");
             List<GenericAction> grantedActions = new List<GenericAction>() { new CalculateAction(), new TargetLockAction() };
 
-            HostShip.AskPerformFreeAction(grantedActions, Triggers.FinishTrigger);
+            HostShip.AskPerformFreeAction(
+                grantedActions,
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "Before you engage, if your Charge is inactive, you may perform a Calculate or Lock action",
+                HostUpgrade
+            );
         }
 
     }

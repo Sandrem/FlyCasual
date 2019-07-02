@@ -153,7 +153,13 @@ namespace SubPhases
         {
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
 
-            TargetShip.AskPerformFreeAction(actions, Triggers.FinishTrigger);
+            TargetShip.AskPerformFreeAction(
+                actions,
+                Triggers.FinishTrigger,
+                SquadLeaderUpgrade.UpgradeInfo.Name,
+                "You may immediately perform 1 free action",
+                SquadLeaderUpgrade
+            );
         }
 
         public override void SkipButton()

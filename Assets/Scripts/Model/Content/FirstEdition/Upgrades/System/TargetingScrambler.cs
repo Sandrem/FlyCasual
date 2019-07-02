@@ -46,7 +46,13 @@ namespace Abilities.FirstEdition
 
         private void AskToUseTargetingScrambler(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, SelecScrambledTarget);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                SelecScrambledTarget,
+                descriptionLong: "Do you want to receive a Weapons Disabled Token to choose a ship at range 1-3 and assign it the \"Scrambled\" condition?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void SelecScrambledTarget(object sender, EventArgs e)

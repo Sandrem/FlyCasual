@@ -60,7 +60,14 @@ namespace Abilities.FirstEdition
         {
             if (ShipToRemoveStress.Tokens.HasToken(typeof(StressToken)))
             {
-                AskToUseAbility(AlwaysUseByDefault, RemoveStress, null, null, true);
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    AlwaysUseByDefault,
+                    RemoveStress,
+                    descriptionLong: "Do you want to remove 1 additional Stress Token from " + ShipToRemoveStress.PilotInfo.PilotName + "?",
+                    imageHolder: HostUpgrade,
+                    showAlwaysUseOption: true
+                );
             }
             else
             {

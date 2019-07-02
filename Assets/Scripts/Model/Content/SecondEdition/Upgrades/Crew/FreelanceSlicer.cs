@@ -46,9 +46,11 @@ namespace Abilities.SecondEdition
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 UseOwnAbility,
-                descriptionLong: "Do you want to use Freelance Slicer's ability?"
+                descriptionLong: "Do you want to spend a lock you have on the attacker to roll 1 attack die? (If you do, the attacker gains 1 Jam Token. Then, on a \"hit\" or \"crit\" result, gain 1 Jam Token)",
+                imageHolder: HostUpgrade
             );
         }
 

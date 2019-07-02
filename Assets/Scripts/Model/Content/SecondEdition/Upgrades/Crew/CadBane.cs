@@ -51,11 +51,12 @@ namespace Abilities.SecondEdition
 
         private void AskToPerformBoost(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman(HostUpgrade.UpgradeInfo.Name + ": You may perform a red Boost action");
-
             HostShip.AskPerformFreeAction(
                 new BoostAction() { Color = ActionColor.Red },
-                Triggers.FinishTrigger
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "After you drop or launch a device, you may perform a red Boost action",
+                HostUpgrade
             );
         }
     }

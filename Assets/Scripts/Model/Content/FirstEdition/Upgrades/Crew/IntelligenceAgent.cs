@@ -50,11 +50,14 @@ namespace Abilities.FirstEdition
         private void AskToUseIntelligenceAgentAbility(object sender, System.EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
                 delegate {
                     DecisionSubPhase.ConfirmDecisionNoCallback();
                     StartSelectTargetForAbility(sender, e);
-                }
+                },
+                descriptionLong: "Do you want to choose 1 enemy ship at Range 1-2 to look at that ship's chosen maneuver?",
+                imageHolder: HostUpgrade
             );
         }
 

@@ -77,7 +77,14 @@ namespace Abilities.FirstEdition
         {
             List<GenericAction> actions = HostShip.GetAvailableActions();
             List<GenericAction> actionBarActions = actions.Where(n => n.IsInActionBar).ToList();
-            HostShip.AskPerformFreeAction(actionBarActions, AddStressToken);
+
+            HostShip.AskPerformFreeAction(
+                actionBarActions,
+                AddStressToken,
+                HostUpgrade.UpgradeInfo.Name,
+                "Once per round, after you perform an action, you may perform 1 free action shown in your action bar. Then receive 1 stress token.",
+                HostUpgrade
+            );
         }
 
         private void AddStressToken()

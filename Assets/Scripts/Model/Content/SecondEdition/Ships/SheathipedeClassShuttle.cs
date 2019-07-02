@@ -31,6 +31,8 @@ namespace Abilities.SecondEdition
 {
     public class CommsShuttle : GenericAbility
     {
+        public override string Name => "Comms Shuttle";
+
         private bool CoordinateActionWasAdded;
 
         public override void ActivateAbility()
@@ -63,8 +65,12 @@ namespace Abilities.SecondEdition
 
         private void AskFreeCoordinate(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Comms Shuttle: You can perfrom free Coordinate action");
-            HostShip.DockingHost.AskPerformFreeAction(new CoordinateAction(), Triggers.FinishTrigger);
+            HostShip.DockingHost.AskPerformFreeAction(
+                new CoordinateAction(),
+                Triggers.FinishTrigger,
+                descriptionShort: Name,
+                descriptionLong: "Before your carrier ship activates, it can perfrom a Coordinate action"
+            );
         }
 
         private void RemoveAbility(GenericShip ship)

@@ -51,10 +51,14 @@ namespace Abilities.SecondEdition
 
         private void AskUseAbility(object sender, EventArgs e)
         {
-            Messages.ShowInfoToHuman("AfterBurners: You may spend 1 charge to perform a boost action");
-
             HostShip.BeforeActionIsPerformed += RegisterSpendChargeTrigger;
-            HostShip.AskPerformFreeAction(new BoostAction() { CanBePerformedWhileStressed = true }, CleanUp);
+            HostShip.AskPerformFreeAction(
+                new BoostAction() { CanBePerformedWhileStressed = true },
+                CleanUp,
+                HostUpgrade.UpgradeInfo.Name,
+                "After you fully execute a speed 3-5 maneuver you may spend 1 Charge to perform a Boost action, even while stressed.",
+                HostUpgrade
+            );
         }
 
         private void RegisterSpendChargeTrigger(GenericAction action, ref bool isFreeAction)

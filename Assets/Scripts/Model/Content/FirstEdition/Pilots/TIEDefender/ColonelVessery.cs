@@ -44,7 +44,13 @@ namespace Abilities.FirstEdition
         {
             if (Combat.AttackStep == CombatStep.Attack && Combat.Defender.Tokens.HasToken(typeof(Tokens.RedTargetLockToken), '*'))
             {
-                AskToUseAbility(AlwaysUseByDefault, UseColonelVesseryAbility);
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    UseColonelVesseryAbility,
+                    descriptionLong: "Do you want to acquire a Lock on the defender?",
+                    imageHolder: HostShip
+                );
             }
             else
             {

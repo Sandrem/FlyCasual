@@ -80,10 +80,12 @@ namespace Abilities.SecondEdition
         private void AskToUseAdditionalDie(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
                 AlwaysUseByDefault,
                 UseAdditionalDie,
                 showAlwaysUseOption: true,
-                descriptionLong: "Han Solo: Roll an additional die?"
+                descriptionLong: "Do you want to roll 1 additional die?",
+                imageHolder: HostShip
             );
         }
 

@@ -72,7 +72,11 @@ namespace Abilities.SecondEdition
                     Selection.ThisShip = HostShip;
                     Phases.CurrentSubPhase.Resume();
                     Triggers.FinishTrigger();
-                });
+                },
+                HostShip.PilotInfo.PilotName,
+                "You may perform an action",
+                HostShip
+            );
         }
     }
 }

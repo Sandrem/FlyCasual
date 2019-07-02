@@ -62,6 +62,7 @@ namespace Abilities.SecondEdition
             if (HostShip.Damage.HasFacedownCards)
             {
                 AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
                     AlwaysUseByDefault,
                     delegate {
                         DecisionSubPhase.ConfirmDecisionNoCallback();
@@ -71,7 +72,8 @@ namespace Abilities.SecondEdition
                         DecisionSubPhase.ConfirmDecisionNoCallback();
                         ExposeDamageCard();
                     },
-                    descriptionLong: "\"Chopper\": Do you want to suffer damage instead of exposing of damage card?"
+                    descriptionLong: "Do you want to suffer damage instead of exposing of damage card?",
+                    imageHolder: HostUpgrade
                 );
             }
             else

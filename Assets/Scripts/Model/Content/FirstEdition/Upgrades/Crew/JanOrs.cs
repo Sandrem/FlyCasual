@@ -59,7 +59,13 @@ namespace Abilities.FirstEdition
 
         private void ShowDecision(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, UseJanOrsAbility);
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                UseJanOrsAbility,
+                descriptionLong: "Do you want to assign an evade token instead?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void UseJanOrsAbility(object sender, System.EventArgs e)

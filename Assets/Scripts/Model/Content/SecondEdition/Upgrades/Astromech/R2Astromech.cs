@@ -61,7 +61,13 @@ namespace Abilities.SecondEdition
 
         private void AskUseAbility(object sender, EventArgs e)
         {
-            AskToUseAbility(NeverUseByDefault, RegenShield, null, null, false, HostName + ": Spend 1 charge and gain 1 disarm token to recover 1 shield?");
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                RegenShield,
+                descriptionLong: "Do you want to spend 1 Charge and gain 1 Disarm Token to recover 1 shield?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private void RegenShield(object sender, EventArgs e)

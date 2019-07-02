@@ -72,9 +72,11 @@ namespace Abilities.SecondEdition
         private void AskToSpendTL(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
                 SpendTLtoAllow,
                 descriptionLong: "Do you want to spend your lock to ignore range restriction?",
+                imageHolder: HostUpgrade,
                 requiredPlayer: HostShip.Owner.PlayerNo
             );
         }

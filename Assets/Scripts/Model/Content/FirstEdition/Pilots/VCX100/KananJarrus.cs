@@ -52,7 +52,13 @@ namespace Abilities.FirstEdition
 
         protected void AskDecreaseAttack(object sender, System.EventArgs e)
         {
-            AskToUseAbility(AlwaysUseByDefault, DecreaseAttack, null, null, false);
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                AlwaysUseByDefault,
+                DecreaseAttack,
+                descriptionLong: "Do you want to spend a focus token? (If you do, the attacker rolls 1 fewer attack die)",
+                imageHolder: HostShip
+            );
         }
 
         protected virtual void DecreaseAttack(object sender, System.EventArgs e)

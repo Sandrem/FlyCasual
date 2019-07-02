@@ -64,10 +64,12 @@ namespace Abilities.SecondEdition
             if (HostUpgrade.State.Charges > 0)
             {
                 AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
                     AlwaysUseByDefault,
                     TurnOnIgnoreObstacle,
                     DontIgnoreObstacle,
-                    descriptionLong: HostUpgrade.UpgradeInfo.Name + ": Do you want ignore " + ObstaclesHit.First().Name + "?",
+                    descriptionLong: "Do you want to spend 1 Charge to ignore ignore effect of " + ObstaclesHit.First().Name + " until the end of the round?",
+                    imageHolder: HostUpgrade,
                     showSkipButton: false
                 );
             }

@@ -49,9 +49,11 @@ namespace Abilities.SecondEdition
         {
             Selection.ChangeActiveShip(HostShip);
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 UseOwnAbility,
-                descriptionLong: "Do you want to use Chewbacca's ability?"
+                descriptionLong: "Do you want to spend 1 Focus token to repair 1 of your Faceup Damage cards?",
+                imageHolder: HostUpgrade
             );
         }
 

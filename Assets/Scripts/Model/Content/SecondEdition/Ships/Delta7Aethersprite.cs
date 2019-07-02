@@ -123,16 +123,17 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Force > 0)
             {
-                Messages.ShowInfoToHuman("Fine-Tuned Controls: You may spend 1 force to perform a barrel roll or boost action");
                 HostShip.BeforeActionIsPerformed += PayForceCost;
 
                 HostShip.AskPerformFreeAction(
                     new List<GenericAction>()
                     {
-                    new BoostAction(),
-                    new BarrelRollAction()
+                        new BoostAction(),
+                        new BarrelRollAction()
                     },
-                    CleanUp
+                    CleanUp,
+                    descriptionShort: Name,
+                    descriptionLong: "After you fully execute a maneuver, you may spend 1 Force to perform a Barrel Roll or Boost action"
                 );
             }
             else

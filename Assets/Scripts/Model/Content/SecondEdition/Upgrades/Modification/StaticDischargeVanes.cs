@@ -56,9 +56,11 @@ namespace Abilities.SecondEdition
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
             AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
                 HasEnemyInRange,
                 UseOwnAbility,
-                descriptionLong: "Do you want to use Static Discharge Vanes?"
+                descriptionLong: "Do you want to choose another ship at range 0–1 and gain 1 stress token? (If you do, the chosen ship gains your token instead)",
+                imageHolder: HostUpgrade
             );
         }
 

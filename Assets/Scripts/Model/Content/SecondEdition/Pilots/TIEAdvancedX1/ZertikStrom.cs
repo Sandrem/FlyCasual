@@ -63,7 +63,13 @@ namespace Abilities.SecondEdition
                             TriggerType = TriggerTypes.OnEndPhaseStart,
                             EventHandler = delegate
                             {
-                                AskToUseAbility(AlwaysUseByDefault, RemoveTargetLock);
+                                AskToUseAbility(
+                                    HostShip.PilotInfo.PilotName,
+                                    AlwaysUseByDefault,
+                                    RemoveTargetLock,
+                                    descriptionLong: "Do you want to spend a lock you have on an enemy ship to expose 1 of that ship's damage cards?",
+                                    imageHolder: HostShip
+                                );
                             }
                         }
                     );

@@ -48,11 +48,17 @@ namespace Abilities.SecondEdition
 
         private void AskToRotateArc(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Luke Skywalker: You may spend 1 force to rotate your turret arc");
             HostShip.BeforeActionIsPerformed += SpendForce;
             Selection.ChangeActiveShip(HostShip);
-            //Card states that you can rotate your arc, not perform a rotate arc action so you can do it while stressed
-            HostShip.AskPerformFreeAction(new RotateArcAction() { Color = ActionColor.White, CanBePerformedWhileStressed = true }, Triggers.FinishTrigger);
+
+            //TODO: Card states that you can rotate your arc, not perform a rotate arc action so you can do it while stressed
+            HostShip.AskPerformFreeAction(
+                new RotateArcAction() { Color = ActionColor.White, CanBePerformedWhileStressed = true },
+                Triggers.FinishTrigger,
+                HostUpgrade.UpgradeInfo.Name,
+                "At the start of the Engagement Phase, you may spend 1 Force to rotate your Turret Arc indicator",
+                HostUpgrade
+            );
         }
 
         private void SpendForce(GenericAction action, ref bool isFreeAction)

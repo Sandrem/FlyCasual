@@ -73,7 +73,7 @@ namespace Abilities.FirstEdition
             if (Selection.ThisShip.CanPerformAction(new EvadeAction()))
             {
                 TIEx7DecisionSubPhase newSubPhase = (TIEx7DecisionSubPhase)Phases.StartTemporarySubPhaseNew("TIE/x7 decision", typeof(TIEx7DecisionSubPhase), Triggers.FinishTrigger);
-                newSubPhase.TIEx7AbilityInstance = this;
+                newSubPhase.AbilityInstance = this;
                 newSubPhase.Start();
             }
             else
@@ -99,11 +99,12 @@ namespace SubPhases
 
     public class TIEx7DecisionSubPhase : DecisionSubPhase
     {
-        public Abilities.FirstEdition.TIEx7Ability TIEx7AbilityInstance;
+        public Abilities.FirstEdition.TIEx7Ability AbilityInstance;
 
         public override void PrepareDecision(Action callBack)
         {
-            DescriptionShort = "Perform free evade action?";
+            DescriptionShort = AbilityInstance.Name;
+            DescriptionLong = "Do you want to perform an Evade action?";
 
             AddDecision("Yes", PerformFreeEvadeAction);
             AddDecision("No", DontPerformFreeEvadeAction);
@@ -111,7 +112,7 @@ namespace SubPhases
 
             DefaultDecisionName = "Yes";
 
-            if (!TIEx7AbilityInstance.IsAlwaysUseAbility())
+            if (!AbilityInstance.IsAlwaysUseAbility())
             {
                 callBack();
             }
@@ -133,7 +134,7 @@ namespace SubPhases
 
         private void AlwaysPerformFreeEvadeAction(object sender, EventArgs e)
         {
-            TIEx7AbilityInstance.SetIsAlwaysUseAbility();
+            AbilityInstance.SetIsAlwaysUseAbility();
 
             PerformFreeEvadeAction(sender, e);
         }

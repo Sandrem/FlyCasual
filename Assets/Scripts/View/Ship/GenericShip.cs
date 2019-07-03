@@ -68,8 +68,6 @@ namespace Ship
                 Console.Write("<b>Missing model: " + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "</b>", LogTypes.Errors, true, "red");
             }
 
-            ShipId = ShipFactory.lastId;
-            ShipFactory.lastId = ShipFactory.lastId + 1;
             SetShipIdText(newShip);
 
             return newShip;

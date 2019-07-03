@@ -21,14 +21,12 @@ public static class ShipFactory {
     }
 
 	//TODO: REWRITE ASAP
-	public static GenericShip SpawnShip(SquadBuilderShip shipConfig) {
-
-        //temporary
-        int id = 1;
+	public static GenericShip SpawnShip(SquadBuilderShip shipConfig)
+    {
         Vector3 position = Vector3.zero;
 
         GenericShip newShipContainer = shipConfig.Instance;
-        newShipContainer.InitializeGenericShip(shipConfig.List.PlayerNo, id, position);
+        newShipContainer.InitializeGenericShip(shipConfig.List.PlayerNo, ShipFactory.lastId++, position);
 
         Roster.SubscribeSelectionByInfoPanel(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
         Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);

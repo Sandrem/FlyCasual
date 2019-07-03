@@ -32,7 +32,7 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             AddDiceModification(
-                HostName, //TODO: add ship number
+                HostName + " (ID: " + HostShip.ShipId + ")",
                 IsAvailable,
                 AiPriority,
                 DiceModificationType.Reroll,

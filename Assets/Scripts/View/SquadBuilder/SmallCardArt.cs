@@ -28,7 +28,7 @@ public class SmallCardArt : MonoBehaviour {
         {
             Global.Instance.StartCoroutine(ImageManager.GetTexture((texture) =>
             {
-                if (thisGameObject != null && texture != null)
+                if (thisGameObject != null)
                 {
                     if (texture != null)
                     {

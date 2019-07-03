@@ -66,7 +66,17 @@ namespace Abilities.SecondEdition
 
         private int AiPriority()
         {
-            return 0; //TODO
+            int hitsIncoming = Combat.DiceRollAttack.Successes - Combat.DiceRollDefence.Successes;
+            int hitsLeft = Combat.Defender.State.HullCurrent + Combat.Defender.State.ShieldsCurrent;
+
+            if (hitsIncoming > 0 && hitsIncoming <= hitsLeft && Combat.DiceRollDefence.Blanks > 0)
+            {
+                return 87;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         private void PayAbilityCost(Action<bool> callback)

@@ -30,11 +30,14 @@ public class SmallCardArt : MonoBehaviour {
             {
                 if (thisGameObject != null && texture != null)
                 {
-                    SetObjectSprite(texture, ImageSource, thisGameObject, false);
-                }
-                else
-                {
-                    ShowTextVersionOfCard();
+                    if (texture != null)
+                    {
+                        SetObjectSprite(texture, ImageSource, thisGameObject, false);
+                    }
+                    else
+                    {
+                        ShowTextVersionOfCard();
+                    }
                 }
             }, url)); 
         }

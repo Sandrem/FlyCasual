@@ -61,7 +61,6 @@ namespace Abilities.SecondEdition
                 && (Combat.Defender.PilotInfo.IsLimited || Combat.Defender.UpgradeBar.GetInstalledUpgrades(UpgradeType.Talent).Any(u => u is Dedicated))
                 && !HostShip.IsStrained
                 && Combat.DiceRollDefence.DiceList.Any(d => d.Side is DieSide.Blank);
-
         }
 
         private int AiPriority()

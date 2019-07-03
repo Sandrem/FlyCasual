@@ -49,13 +49,17 @@ public class SmallCardPanel : MonoBehaviour {
         {
             Global.Instance.StartCoroutine(ImageManager.GetTexture((texture) =>
             {
-                if (thisGameObject != null && texture != null)
+                if (thisGameObject != null)
                 {
-                    SetObjectSprite(thisGameObject.transform.Find("CardImage").gameObject, texture, false);
-                }
-                else
-                {
-                    ShowTextVersionOfCard();
+                    if (texture != null)
+                    {
+                        SetObjectSprite(thisGameObject.transform.Find("CardImage").gameObject, texture, false);
+                    }
+                    else
+                    {
+                        ShowTextVersionOfCard();
+
+                    }
                 }
             }, url));
         }

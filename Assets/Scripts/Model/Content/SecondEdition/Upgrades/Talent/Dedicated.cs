@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Talent,
                 cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.DedicatedAbility),
-                restriction: new FactionRestriction(Faction.Republic) // TODO: restrict to non-limited
+                restrictions: new UpgradeCardRestrictions(new FactionRestriction(Faction.Republic), new NonLimitedRestriction())
             );
 
             ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/dd/Swz32_dedicated.png";

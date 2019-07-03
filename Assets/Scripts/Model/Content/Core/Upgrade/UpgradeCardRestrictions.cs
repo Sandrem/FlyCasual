@@ -41,7 +41,6 @@ namespace Upgrade
             return BaseSizes.Contains(ship.ShipInfo.BaseSize);
         }
     }
-
     
     public class UpgradeBarRestriction : UpgradeCardRestriction
     {
@@ -177,6 +176,13 @@ namespace Upgrade
         }
     }
 
+    public class NonLimitedRestriction : UpgradeCardRestriction
+    {
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return !ship.PilotInfo.IsLimited;
+        }
+    }
 
     public class UpgradeCardRestrictions
     {

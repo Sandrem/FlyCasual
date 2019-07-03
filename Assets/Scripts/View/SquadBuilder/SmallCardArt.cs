@@ -28,13 +28,16 @@ public class SmallCardArt : MonoBehaviour {
         {
             Global.Instance.StartCoroutine(ImageManager.GetTexture((texture) =>
             {
-                if (thisGameObject != null && texture != null)
+                if (thisGameObject != null)
                 {
-                    SetObjectSprite(texture, ImageSource, thisGameObject, false);
-                }
-                else
-                {
-                    ShowTextVersionOfCard();
+                    if (texture != null)
+                    {
+                        SetObjectSprite(texture, ImageSource, thisGameObject, false);
+                    }
+                    else
+                    {
+                        ShowTextVersionOfCard();
+                    }
                 }
             }, url)); 
         }

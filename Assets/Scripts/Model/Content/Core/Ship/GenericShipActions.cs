@@ -552,9 +552,10 @@ namespace Ship
 
         public void CallOnTokenIsAssigned(GenericToken token, Action callback)
         {
-            if (OnTokenIsAssigned != null) OnTokenIsAssigned(this, token.GetType());
+            TokensChangePanel.CreateTokensChangePanel(this, token, isAssigned: true);
 
-            if (OnTokenIsAssignedGlobal != null) OnTokenIsAssignedGlobal(this, token.GetType());
+            OnTokenIsAssigned?.Invoke(this, token.GetType());
+            OnTokenIsAssignedGlobal?.Invoke(this, token.GetType());
 
             Tokens.TokenToAssign = null;
 
@@ -582,11 +583,12 @@ namespace Ship
             return result;
         }
 
-        public void CallOnRemoveTokenEvent(System.Type tokenType)
+        public void CallOnRemoveTokenEvent(GenericToken token)
         {
-            if (OnTokenIsRemoved != null) OnTokenIsRemoved(this, tokenType);
+            TokensChangePanel.CreateTokensChangePanel(this, token, isAssigned: false);
 
-            if (OnTokenIsRemovedGlobal != null) OnTokenIsRemovedGlobal(this, tokenType);
+            OnTokenIsRemoved?.Invoke(this, token.GetType());
+            OnTokenIsRemovedGlobal?.Invoke(this, token.GetType());
         }
 
         public void CallOnTargetLockIsAcquiredEvent(ITargetLockable target, Action callback)

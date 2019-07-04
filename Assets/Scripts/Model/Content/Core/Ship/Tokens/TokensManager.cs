@@ -210,13 +210,13 @@ namespace Ship
                         otherTokenOwner.RemoveToken(otherTargetLockToken);
                         if (otherTokenOwner is GenericShip)
                         {
-                            (otherTokenOwner as GenericShip).CallOnRemoveTokenEvent(otherTargetLockToken.GetType());
+                            (otherTokenOwner as GenericShip).CallOnRemoveTokenEvent(otherTargetLockToken);
                         }
                     }
                 }
 
                 tokenToRemove.WhenRemoved();
-                Host.CallOnRemoveTokenEvent(tokenToRemove.GetType());
+                Host.CallOnRemoveTokenEvent(tokenToRemove);
             }
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsRemoved, callback);
         }

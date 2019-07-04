@@ -49,14 +49,14 @@ namespace Abilities.SecondEdition
         {
             if (hitOrCritResults > 0)
             {
-                HostShip.OnCombatDeactivation += RegisterTrigger;
+                HostShip.OnAttackFinish += RegisterTrigger;
             }
         }
 
         private void RegisterTrigger(GenericShip ship)
         {
             HostShip.OnCombatDeactivation -= RegisterTrigger;
-            RegisterAbilityTrigger(TriggerTypes.OnCombatDeactivation, AssignStrainToDefender);
+            RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AssignStrainToDefender);
         }
 
         private void AssignStrainToDefender(object sender, System.EventArgs e)

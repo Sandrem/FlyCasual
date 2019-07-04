@@ -137,7 +137,7 @@ namespace Abilities.SecondEdition
         private void GetStress(object sender, System.EventArgs e)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
-            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Cost + " assigned a stress token to " + TargetShip.PilotInfo.PilotName);
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " assigned a stress token to " + TargetShip.PilotInfo.PilotName);
             TargetShip.Tokens.AssignToken(typeof(Tokens.StressToken), FinishAbility);
         }
 

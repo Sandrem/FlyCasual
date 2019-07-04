@@ -205,7 +205,7 @@ namespace SubPhases
             Triggers.RegisterTrigger(
                 new Trigger()
                 {
-                    Name = "Select a target to attack.",
+                    Name = "Select a target to attack",
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnSelectTargetForAttackStart_System,
                     EventHandler = StartSelectTarget

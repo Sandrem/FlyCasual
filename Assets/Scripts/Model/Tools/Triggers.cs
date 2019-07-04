@@ -197,7 +197,7 @@ public static partial class Triggers
 
     public static void RegisterTrigger(Trigger trigger)
     {
-        Console.Write(trigger.Name + " is registed", LogTypes.Triggers);
+        Console.Write(trigger.Name + " is registered", LogTypes.Triggers);
         if (NewLevelIsRequired())
         {
             CreateTriggerInNewLevel(trigger);

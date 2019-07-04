@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterTrigger(GenericShip ship)
         {
-            HostShip.OnCombatDeactivation -= RegisterTrigger;
+            HostShip.OnAttackFinish -= RegisterTrigger;
             RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AssignStrainToDefender);
         }
 

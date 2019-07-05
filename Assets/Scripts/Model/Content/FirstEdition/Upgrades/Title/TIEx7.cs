@@ -127,9 +127,9 @@ namespace SubPhases
             Selection.ThisShip.AskPerformFreeAction(
                 new EvadeAction(),
                 DecisionSubPhase.ConfirmDecision,
-                AbilityInstance.HostUpgrade.UpgradeInfo.Name,
-                "After executing a 3-, 4-, or 5-speed maneuver, if you did not overlap an obstacle or ship, you may perform a free Evade action",
-                AbilityInstance.HostUpgrade,
+                DescriptionShort,
+                DescriptionLong,
+                AbilityInstance.HostShip,
                 isForced: true
             );
         }

@@ -30,6 +30,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
+    //While you perform a primary attack, if the defender is at range 0-1 of at least 1 friendly device, roll 1 additional die.
     public class CatAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -48,8 +49,8 @@ namespace Abilities.SecondEdition
             {
                 foreach (var bombHolder in BombsManager.GetBombsOnBoard())
                 {
-                    List<GenericShip> shipsNear = BombsManager.GetShipsInRange(bombHolder.Key);
-                    if (shipsNear.Contains(Combat.Defender) && bombHolder.Value.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+                    if (bombHolder.Value.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo
+                        && BombsManager.IsShipInRange(Combat.Defender, bombHolder.Key, 1))
                     {
                         Messages.ShowInfo(HostShip.PilotInfo.PilotName + " gains +1 attack die");
                         count++;

@@ -124,6 +124,7 @@ namespace SubPhases
         {
             GenericDeviceGameObject prefab = Resources.Load<GenericDeviceGameObject>(BombsManager.CurrentBomb.bombPrefabPath);
             BombGO = MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, Board.GetBoard());
+            BombGO.Initialize(BombsManager.CurrentBomb);
         }
 
         public void ShowDescription()

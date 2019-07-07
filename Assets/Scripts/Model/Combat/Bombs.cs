@@ -105,7 +105,7 @@ namespace Bombs
             {
                 if (!ship.IsDestroyed)
                 {
-                    if (IsShipInDetonationRange(ship, bombObject, bombObject.ParentUpgrade.detonationRange))
+                    if (IsShipInRange(ship, bombObject, bombObject.ParentUpgrade.detonationRange))
                     {
                         result.Add(ship);
                     }
@@ -121,7 +121,7 @@ namespace Bombs
 
             foreach (var bombHolder in bombsList)
             {
-                if (IsShipInDetonationRange(ship, bombHolder.Key, bombHolder.Key.ParentUpgrade.detonationRange))
+                if (IsShipInRange(ship, bombHolder.Key, bombHolder.Key.ParentUpgrade.detonationRange))
                 {
                     result.Add(bombHolder.Value);
                 }
@@ -130,7 +130,7 @@ namespace Bombs
             return result;
         }
 
-        private static bool IsShipInDetonationRange(GenericShip ship, GenericDeviceGameObject bombObject, int range = 1)
+        public static bool IsShipInRange(GenericShip ship, GenericDeviceGameObject bombObject, int range = 1)
         {
             List<Vector3> bombPoints = GetBombPointsRelative();
 

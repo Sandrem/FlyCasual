@@ -1,6 +1,5 @@
 ﻿using Abilities.SecondEdition;
-using System.Collections;
-using System.Collections.Generic;
+using Ship;
 using Upgrade;
 
 namespace Ship
@@ -16,7 +15,7 @@ namespace Ship
                     4,
                     38,
                     isLimited: true,
-                    abilityText: "While you defend or perform an attack, if you revealed a red maneuver roll 1 additional die.",
+                    abilityText: "While you defend or perform a primary attack, if your revealed maneuver is red, roll 1 additional die.",
                     abilityType: typeof(CovaNellAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
@@ -49,8 +48,16 @@ namespace Abilities.SecondEdition
 
             if (HostShip.RevealedManeuver.ColorComplexity == Movement.MovementComplexity.Complex)
             {
-                Messages.ShowInfo("Cova Nell: +1 " + ((Combat.AttackStep == CombatStep.Attack) ? "attack" : "defense") + " die");
-                count++;
+                if (Combat.AttackStep == CombatStep.Defence)
+                {
+                    Messages.ShowInfo("Cova Nell: +1 defense die");
+                    count++;
+                }
+                else if (Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
+                {
+                    Messages.ShowInfo("Cova Nell: +1 attack die");
+                    count++;
+                }
             }
         }
     }

@@ -1,7 +1,4 @@
-﻿using Arcs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
@@ -18,6 +15,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 32,
                 limited: 3,
                 abilityType: typeof(Abilities.SecondEdition.BombardmentDroneAbility),
+                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.System, UpgradeType.Bomb, UpgradeType.Bomb },
                 pilotTitle: "Time on Target"
             );
             

@@ -1,7 +1,4 @@
-﻿using Arcs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
@@ -14,7 +11,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 "Separatist Bomber",
                 3,
                 29,
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/5d/88/5d88fdec-55d6-4ea4-9fa1-af79d0ca5fcd/swz41_separatist-bomber.png";

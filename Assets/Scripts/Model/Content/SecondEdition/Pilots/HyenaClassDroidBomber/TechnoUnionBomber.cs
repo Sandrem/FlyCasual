@@ -13,7 +13,8 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
             PilotInfo = new PilotCardInfo(
                 "Techno Union Bomber",
                 1,
-                26
+                26,
+                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/7b/20/7b2032d2-dc96-4b69-9c59-92c809ba3da5/swz41_techno-union-bomber.png";

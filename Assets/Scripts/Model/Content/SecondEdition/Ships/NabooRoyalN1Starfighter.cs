@@ -27,10 +27,8 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
                     new ActionInfo(typeof(BoostAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
-                    UpgradeType.Modification,
-                    UpgradeType.Torpedo,
                     UpgradeType.System,
+                    UpgradeType.Torpedo,
                     UpgradeType.Astromech
                 ),
                 abilityText: "<b>Full Throttle:</b> After you fully execute a speed 3-5 maneuver, you may perform an evade action."

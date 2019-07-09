@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Passive Sensors",
                 UpgradeType.System,
-                cost: 2,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.PassiveSensorsAbility),
                 regensCharges: true,
                 charges: 1

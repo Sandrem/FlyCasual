@@ -30,12 +30,6 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                     new ActionInfo(typeof(ReloadAction), ActionColor.Red)
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
-                    UpgradeType.System,
-                    UpgradeType.Missile,
-                    UpgradeType.Missile,
-                    UpgradeType.Bomb,
-                    UpgradeType.Bomb,
                     UpgradeType.Modification,
                     UpgradeType.Configuration
                 ),

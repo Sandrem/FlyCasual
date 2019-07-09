@@ -26,9 +26,8 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                     new ActionInfo(typeof(JamAction), ActionColor.Red)
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
+                    UpgradeType.Tech,
                     UpgradeType.Crew,
-                    UpgradeType.Astromech,
                     UpgradeType.Modification
                 )
             );

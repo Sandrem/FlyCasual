@@ -26,7 +26,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                     new ActionInfo(typeof(JamAction), ActionColor.Red)
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
+                    UpgradeType.Tech,
                     UpgradeType.Cannon,
                     UpgradeType.Torpedo,
                     UpgradeType.Crew,

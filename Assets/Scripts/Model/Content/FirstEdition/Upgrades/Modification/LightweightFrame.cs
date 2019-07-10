@@ -18,7 +18,7 @@ namespace UpgradesList.FirstEdition
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return (ship.ShipInfo.BaseAgility < 3 && ship is TIE);
+            return (ship.ShipInfo.Agility < 3 && ship is TIE);
         }
     }
 }

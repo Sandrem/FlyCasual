@@ -157,7 +157,7 @@ namespace Upgrade
         static readonly Dictionary<Stats, Func<GenericShip, int>> statValueExpressionDictionary = new Dictionary<Stats, Func<GenericShip, int>>
         {
             { Stats.Attack,     (ship) => ship.ShipInfo.Firepower },
-            { Stats.Agility,    (ship) => ship.ShipInfo.BaseAgility },
+            { Stats.Agility,    (ship) => ship.ShipInfo.Agility },
             { Stats.Charges,    (ship) => ship.PilotInfo.Charges },
             { Stats.Force,      (ship) => ship.PilotInfo.Force },
             { Stats.Hull,       (ship) => ship.ShipInfo.Hull },

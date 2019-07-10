@@ -31,7 +31,7 @@ namespace UpgradesList.SecondEdition
                 {3, 6}
             };
 
-            UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.BaseAgility];
+            UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];
         }
     }
 }

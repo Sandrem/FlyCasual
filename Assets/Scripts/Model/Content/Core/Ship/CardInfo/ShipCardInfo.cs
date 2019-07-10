@@ -12,6 +12,7 @@ namespace Ship
 
         public ShipArcsInfo ArcInfo { get; set; }
         public int Firepower { get {return ArcInfo.Arcs.First().Firepower; } }
+        public int BaseAgility { get; set; }
         public int Agility { get; set; }
         public int Hull { get; set; }
         public int Shields { get; set; }
@@ -37,6 +38,7 @@ namespace Ship
 
             ArcInfo = arcInfo;
 
+            BaseAgility = agility;
             Agility = agility;
             Hull = hull;
             Shields = shields;

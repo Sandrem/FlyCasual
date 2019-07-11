@@ -100,5 +100,13 @@ namespace Players
                 GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
             }
         }
+
+        public override void SetupShip()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
+
+            AI.Aggressor.DeploymentSubSystem.SetupShip();
+        }
     }
 }

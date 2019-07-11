@@ -42,7 +42,7 @@ namespace Upgrade
 
     public class SpecialWeaponInfo
     {
-        public int AttackValue { get; private set; }
+        public int AttackValue { get; set; }
         public int MinRange { get; set; }
         public int MaxRange { get; private set; }
         public Type RequiresToken { get; set; }

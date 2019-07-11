@@ -7,7 +7,8 @@
             public FreeModeExtraOption()
             {
                 Name = "Free Mode";
-                Description = "You can install any upgrade on any ship";
+                Description = "You can install any upgrade on any ship.\n" +
+                    "Adds \"Improved Initiative\" upgrade that increases Initiative of pilot by 1.";
             }
 
             protected override void Activate()

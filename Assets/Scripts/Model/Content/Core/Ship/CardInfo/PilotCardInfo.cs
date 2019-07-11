@@ -9,7 +9,7 @@ namespace Ship
     {
         public string PilotName { get; private set; }
         public string PilotTitle { get; private set; }
-        public int Initiative { get; private set; }
+        public int Initiative { get; set; }
 
         public int Limited { get; private set; }
         public bool IsLimited { get { return Limited != 0; } }

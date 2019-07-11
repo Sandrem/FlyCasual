@@ -76,7 +76,7 @@ namespace Abilities.SecondEdition
             HostShip.State.Force--;
             Sounds.PlayShipSound("Ill try spinning - thats a good trick!");
 
-            BarrelRollAction brAction = new BarrelRollAction { CanBePerformedWhileStressed = true, IsRealAction = false };
+            BarrelRollAction brAction = new BarrelRollAction { IsRealAction = false };
             HostShip.AskPerformFreeAction(
                 brAction,
                 Triggers.FinishTrigger,

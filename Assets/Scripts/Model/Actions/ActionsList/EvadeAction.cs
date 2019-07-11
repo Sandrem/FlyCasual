@@ -78,11 +78,18 @@ namespace ActionsList
         public override int GetActionPriority()
         {
             int result = 0;
-            // Increase the chance to evade if the ship has only 1 hull and has enemies targeting it.
-            if (Selection.ThisShip.State.HullCurrent == 1 && Selection.ThisShip.State.Agility >= 1 && ActionsHolder.CountEnemiesTargeting(HostShip, 0) > 0)
+
+            // Increase the chance to evade if it's a free action
+            if (Phases.CurrentSubPhase is SubPhases.FreeActionDecisonSubPhase)
             {
                 result += 80;
             }
+            // Increase the chance to evade if the ship has only 1 hull and has enemies targeting it.
+            else if (Selection.ThisShip.State.HullCurrent == 1 && Selection.ThisShip.State.Agility >= 1 && ActionsHolder.CountEnemiesTargeting(HostShip, 0) > 0)
+            {
+                result += 80;
+            }
+
             return result;
         }
 

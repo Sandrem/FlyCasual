@@ -34,7 +34,7 @@ namespace ActionsList
         public override void RevertActionOnFail(bool hasSecondChance = false)
         {
             Phases.FinishSubPhase(typeof(BarrelRollPlanningSubPhase));
-            Phases.CurrentSubPhase.CallBack();
+            Phases.CurrentSubPhase.Resume();
         }
 
     }

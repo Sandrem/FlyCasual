@@ -657,9 +657,13 @@ namespace SquadBuilderNS
             }
 
             int filteredUpgradesCount = filteredUpgrades.Count();
-            
+
+            //Clear search text
+            GameObject.Find("UI/Panels/SelectUpgradePanel/TopPanel/InputField").GetComponent<InputField>().text = "";
+
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
+
 
             if (filteredUpgradesCount > 0)
             {
@@ -685,6 +689,39 @@ namespace SquadBuilderNS
             return !ship.UpgradeBar.GetUpgradesAll().Any(n => n.UpgradeInfo.Name == upgrade.UpgradeInfo.Name);
         }
 
+        public static void FilterVisibleUpgrades(string text)
+        {
+            int upgradesCount = 0;
+            foreach (Transform transform in GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform)
+            {
+                if (text == "")
+                {
+                    transform.gameObject.SetActive(true);
+                    upgradesCount++;
+                }
+                else
+                {
+                    if (transform.gameObject.name.ToLower().Contains(text))
+                    {
+                        transform.gameObject.SetActive(true);
+                        upgradesCount++;
+                    }
+                    else
+                    {
+                        transform.gameObject.SetActive(false);
+                    }
+                }
+            }
+
+            Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
+
+            if (upgradesCount > 0)
+            {
+                contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
+                contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(upgradesCount * (Edition.Current.UpgradeCardSize.x * 1.5f + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
+            }
+        }
+
         private static void ShowAvailableUpgrade(UpgradeRecord upgrade)
         {
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
@@ -698,6 +735,7 @@ namespace SquadBuilderNS
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
             script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked, true);
+            newUpgradePanel.name = upgrade.UpgradeName;
 
             //int column = availableUpgradesCounter;
             //newUpgradePanel.transform.localPosition = new Vector3(DISTANCE_MEDIUM + (Edition.Current.UpgradeCardSize.x + DISTANCE_MEDIUM) * column, Edition.Current.UpgradeCardSize.y / 2, 0);

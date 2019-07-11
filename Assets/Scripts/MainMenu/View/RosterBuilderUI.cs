@@ -165,4 +165,9 @@ public class RosterBuilderUI : MonoBehaviour {
         SquadBuilder.SetDefaultObstacles();
     }
 
+    public void OnUpgradeFilterTextChanged(InputField input)
+    {
+        SquadBuilder.FilterVisibleUpgrades(input.text.ToLower());
+    }
+
 }

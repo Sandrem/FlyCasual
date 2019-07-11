@@ -579,7 +579,9 @@ namespace SquadBuilderNS
             UpgradeSlotPanels = new List<UpgradeSlotPanel>();
             UpgradePanelSquadBuilder.WaitingToLoad = 0;
 
-            foreach (UpgradeSlot slot in CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots().OrderBy(s => s.Type))
+            List<UpgradeSlot> availableSlots = CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradeSlots().OrderBy(s => s.Type).ToList();
+
+            foreach (UpgradeSlot slot in availableSlots)
             {
                 //Skip for slots with empty upgrade
                 if (!slot.IsEmpty && slot.InstalledUpgrade.GetType() == typeof(UpgradesList.EmptyUpgrade)) continue;
@@ -637,13 +639,22 @@ namespace SquadBuilderNS
             availableUpgradesCounter = 0;
             UpgradePanelSquadBuilder.WaitingToLoad = 0;
 
-            List<UpgradeRecord> filteredUpgrades = AllUpgrades.Where(n => 
-                    n.Instance.HasType(slot.Type)
-                    && n.Instance.UpgradeInfo.Restrictions.IsAllowedForShip(CurrentSquadBuilderShip.Instance)
-                    && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)
-                    && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)
-                    && ShipDoesntHaveUpgradeWithSameName(CurrentSquadBuilderShip.Instance, n.Instance)
+            List<UpgradeRecord> filteredUpgrades = null;
+
+            if (!DebugManager.FreeMode)
+            {
+                filteredUpgrades = AllUpgrades.Where(n =>
+                     n.Instance.HasType(slot.Type)
+                     && n.Instance.UpgradeInfo.Restrictions.IsAllowedForShip(CurrentSquadBuilderShip.Instance)
+                     && n.Instance.IsAllowedForShip(CurrentSquadBuilderShip.Instance)
+                     && n.Instance.HasEnoughSlotsInShip(CurrentSquadBuilderShip.Instance)
+                     && ShipDoesntHaveUpgradeWithSameName(CurrentSquadBuilderShip.Instance, n.Instance)
                 ).ToList();
+            }
+            else
+            {
+                filteredUpgrades = AllUpgrades;
+            }
 
             int filteredUpgradesCount = filteredUpgrades.Count();
             

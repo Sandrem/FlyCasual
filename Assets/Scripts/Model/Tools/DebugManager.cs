@@ -26,6 +26,8 @@ public static class DebugManager
     public static bool DebugMovementDestroyTempBasesLater; // = true;
     public static bool DebugMovementShowPlanning; // = true;
 
+    public static bool FreeMode;
+
     public static bool ErrorIsAlreadyReported { get; set; }
 
     private static bool debugNetwork = true;

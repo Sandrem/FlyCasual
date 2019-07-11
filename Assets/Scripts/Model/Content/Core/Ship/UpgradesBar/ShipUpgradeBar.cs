@@ -44,6 +44,12 @@ namespace Upgrade
             if (slot != null) UpgradeSlots.Remove(slot);
         }
 
+        public void RemoveEmptySlot(UpgradeType upgradeType, object grantedBy = null)
+        {
+            UpgradeSlot slot = UpgradeSlots.Find(n => (n.Type == upgradeType) && (n.GrantedBy == grantedBy) && n.IsEmpty);
+            if (slot != null) UpgradeSlots.Remove(slot);
+        }
+
         public void TryInstallUpgrade(string upgradeName)
         {
             GenericUpgrade upgrade = (GenericUpgrade)System.Activator.CreateInstance(System.Type.GetType(upgradeName));
@@ -90,6 +96,11 @@ namespace Upgrade
                 }
             }
             return results;
+        }
+
+        public bool HasFreeSlots()
+        {
+            return UpgradeSlots.Where(n => n.InstalledUpgrade == null).ToList().Count > 0;
         }
 
         public List<GenericUpgrade> GetUpgradesAll()

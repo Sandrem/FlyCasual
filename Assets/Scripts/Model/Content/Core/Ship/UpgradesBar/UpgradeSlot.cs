@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace Upgrade
 {
     public class UpgradeSlot
     {
+        public GenericShip HostShip { get; private set; }
         public UpgradeType Type { get; private set; }
         public object GrantedBy { get; set; }
         public int Counter { get; set; }
@@ -38,13 +40,15 @@ namespace Upgrade
             MaxCost = int.MaxValue;
         }
 
-        public void TryInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
+        public void TryInstallUpgrade(GenericUpgrade upgrade, GenericShip host)
         {
+            HostShip = host;
             if (upgrade != null) InstallUpgrade();
         }
 
-        public void PreInstallUpgrade(GenericUpgrade upgrade, Ship.GenericShip host)
+        public void PreInstallUpgrade(GenericUpgrade upgrade, GenericShip host)
         {
+            HostShip = host;
             InstalledUpgrade = upgrade;
             upgrade.Slot = this;
             InstalledUpgrade.PreAttachToShip(host);
@@ -65,6 +69,11 @@ namespace Upgrade
                 }
             }
 
+            if (DebugManager.FreeMode)
+            {
+                if (!host.UpgradeBar.HasFreeSlots()) host.UpgradeBar.AddSlot(UpgradeType.Omni);
+            }
+
             OnPreInstallUpgrade?.Invoke(upgrade);
         }
 
@@ -73,6 +82,14 @@ namespace Upgrade
             InstalledUpgrade.PreDettachFromShip();
             OnRemovePreInstallUpgrade?.Invoke(InstalledUpgrade);
             InstalledUpgrade = null;
+
+            if (DebugManager.FreeMode)
+            {
+                if (HostShip.UpgradeBar.GetUpgradeSlots().Count(n => n.IsEmpty) > 1)
+                {
+                    HostShip.UpgradeBar.RemoveEmptySlot(UpgradeType.Omni);
+                }
+            }
         }
 
         private void InstallUpgrade()

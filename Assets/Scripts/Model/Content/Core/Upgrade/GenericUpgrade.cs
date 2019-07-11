@@ -45,7 +45,8 @@ namespace Upgrade
         Title,
         Configuration,
         TacticalRelay,
-        None
+        None,
+        Omni // Free Mode Extra Option
     }
 
     public enum UpgradeSubType

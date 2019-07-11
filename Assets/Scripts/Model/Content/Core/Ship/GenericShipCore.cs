@@ -309,14 +309,21 @@ namespace Ship
 
         private void InitializeSlots()
         {
-            foreach (var slot in ShipInfo.UpgradeIcons.Upgrades)
+            if (!DebugManager.FreeMode)
             {
-                UpgradeBar.AddSlot(slot);
-            }
+                foreach (var slot in ShipInfo.UpgradeIcons.Upgrades)
+                {
+                    UpgradeBar.AddSlot(slot);
+                }
 
-            foreach (var slot in PilotInfo.ExtraUpgrades)
+                foreach (var slot in PilotInfo.ExtraUpgrades)
+                {
+                    UpgradeBar.AddSlot(slot);
+                }
+            }
+            else
             {
-                UpgradeBar.AddSlot(slot);
+                UpgradeBar.AddSlot(UpgradeType.Omni);
             }
         }
 

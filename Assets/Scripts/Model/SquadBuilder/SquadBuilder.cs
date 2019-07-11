@@ -327,7 +327,7 @@ namespace SquadBuilderNS
 
         private static List<UpgradeSlot> FindFreeSlots(SquadBuilderShip shipHolder, List<UpgradeType> upgradeTypes)
         {
-            return shipHolder.Instance.UpgradeBar.GetFreeSlots (upgradeTypes);
+            return shipHolder.Instance.UpgradeBar.GetFreeSlots(upgradeTypes);
         }
 
         public static void ShowShipsAndUpgrades()

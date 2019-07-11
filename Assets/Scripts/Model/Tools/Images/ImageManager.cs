@@ -52,7 +52,7 @@ public static class ImageManager
         }
         catch
         {
-            Debug.Log("Cannot download image");
+            Debug.Log("Cannot download image: " + url);
         }
 
         callback(texture);

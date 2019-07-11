@@ -324,7 +324,7 @@ namespace Ship
 
         public void ChangeFirepowerBy(int value)
         {
-            State.Firepower += value;
+            if (State != null) State.Firepower += value;
             if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
         }
 
@@ -336,13 +336,13 @@ namespace Ship
 
         public void ChangeMaxHullBy(int value)
         {
-            State.HullMax += value;
+            if (State != null) State.HullMax += value;
             if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
         }
 
         public void ChangeShieldBy(int value)
         {
-            State.ShieldsCurrent += value;
+            if (State != null) State.ShieldsCurrent += value;
             if (AfterStatsAreChanged != null) AfterStatsAreChanged(this);
         }
 

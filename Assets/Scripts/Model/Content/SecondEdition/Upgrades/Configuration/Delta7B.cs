@@ -42,22 +42,26 @@ namespace Abilities.SecondEdition
 {
     public class Delta7BAbility : GenericAbility
     {
-        public override void ActivateAbility() {}
-
-        public override void DeactivateAbility() {}
-
-        public override void ActivateAbilityForSquadBuilder()
+        public override void ActivateAbility()
         {
             HostShip.ShipInfo.ArcInfo.Arcs.First().Firepower++;
+            HostShip.PrimaryWeapons.First().WeaponInfo.AttackValue++;
+            HostShip.ChangeFirepowerBy(1);
             HostShip.ShipInfo.Agility--;
+            HostShip.ChangeAgilityBy(-1);
             HostShip.ShipInfo.Shields += 2;
+            HostShip.ChangeShieldBy(2);
         }
 
-        public override void DeactivateAbilityForSquadBuilder()
+        public override void DeactivateAbility()
         {
             HostShip.ShipInfo.ArcInfo.Arcs.First().Firepower--;
+            HostShip.PrimaryWeapons.First().WeaponInfo.AttackValue--;
+            HostShip.ChangeFirepowerBy(-1);
             HostShip.ShipInfo.Agility++;
+            HostShip.ChangeAgilityBy(1);
             HostShip.ShipInfo.Shields -= 2;
+            HostShip.ChangeShieldBy(-2);
         }
     }
 }

@@ -88,7 +88,7 @@ namespace Upgrade
                 UpgradeType uType = upgradeTypes [i];
                 for (int j = 0; j < holder.Count; j++) {
                     UpgradeSlot uslot = holder [j];
-                    if (uType == uslot.Type && uslot.IsEmpty) {
+                    if ((uType == uslot.Type || uslot.Type == UpgradeType.Omni) && uslot.IsEmpty) {
                         results.Add (uslot);
                         holder.Remove (uslot);
                         break;

@@ -17,14 +17,13 @@ namespace AI.Aggressor
 {
     public class DeploymentPlans
     {
-        public PlayerNo Player { get; private set; }
-        public Dictionary<int, bool> EncounteredObstacles { get; private set; } = new Dictionary<int, bool>();
-        public Vector2 BestRange { get; private set; } = new Vector2(0, 0);
-        public float CenterOfBestRange { get; private set; }
-        public int Direction { get; private set; }
-
-        // TODO: Remove
-        public float CurrentPosition { get; set; }
+        private PlayerNo Player { get; set; }
+        private Dictionary<int, bool> EncounteredObstacles { get; set; } = new Dictionary<int, bool>();
+        private Vector2 BestRange { get; set; } = new Vector2(0, 0);
+        private float CenterOfBestRange { get; set; }
+        private float FormationWidth { get; set; }
+        private int Direction { get; set; }
+        private Dictionary<GenericShip, Vector3> PlannedShipPositions = new Dictionary<GenericShip, Vector3>();
 
         public DeploymentPlans(PlayerNo playerNo)
         {
@@ -32,14 +31,43 @@ namespace AI.Aggressor
             Direction = (playerNo == PlayerNo.Player1) ? 1 : -1;
         }
 
-        public void AddEncounteredObstaclesData(int key, bool hitObstacle)
+        public void CreatePlan()
         {
-            EncounteredObstacles.Add(key, hitObstacle);
+            ScanBoardForObstacles();
+            CalculateSafeRanges();
+            GenerateShipFormation();
+            AdjustShipFormationToSafeZoneCenter();
         }
 
-        public void CalculateRanges()
+        public void ScanBoardForObstacles()
         {
-            AddEncounteredObstaclesData(91, true);
+            for (int i = 0; i <= 90; i++)
+            {
+                RaycastHit hitInfo = new RaycastHit();
+                if (Physics.Raycast(
+                        new Vector3(
+                            Board.BoardIntoWorld(-91.44f / 2f) + (Board.BoardIntoWorld(91.44f) * (i / 90f)),
+                            0.003f,
+                            Board.BoardIntoWorld(Direction * -91.44f / 2f)
+                        ),
+                        new Vector3(0, 0, Direction),
+                        out hitInfo,
+                        Board.BoardIntoWorld(91.44f / 2f)
+                    )
+                )
+                {
+                    EncounteredObstacles.Add(i, true);
+                }
+                else
+                {
+                    EncounteredObstacles.Add(i, false);
+                }
+            }
+        }
+
+        public void CalculateSafeRanges()
+        {
+            EncounteredObstacles.Add(91, true);
 
             bool inRange = false;
             Vector2 currentRange = new Vector2(0, 0);
@@ -69,33 +97,124 @@ namespace AI.Aggressor
                 }
             }
 
-            CenterOfBestRange = BestRange.x + (BestRange.y - BestRange.x)/2f;
+            CenterOfBestRange = BestRange.x + (BestRange.y - BestRange.x) / 2f;
         }
 
-        public void ScanBoard()
+        private void GenerateShipFormation()
         {
-            for (int i = 0; i <= 90; i++)
+            List<GenericShip> shipsToSetup = Roster.GetPlayer(Player).Ships.Values.OrderBy(n => n.State.Initiative).ToList();
+
+            float currentPosition = 0;
+
+            // Not small ships - in single row
+
+            foreach (GenericShip notSmallShip in shipsToSetup.Where(n => n.ShipInfo.BaseSize != BaseSize.Small))
             {
-                RaycastHit hitInfo = new RaycastHit();
-                if (Physics.Raycast(
-                        new Vector3(
-                            Board.BoardIntoWorld(-91.44f / 2f) + (Board.BoardIntoWorld(91.44f) * (i / 90f)),
-                            0.003f,
-                            Board.BoardIntoWorld(Direction * -91.44f / 2f)
-                        ),
-                        new Vector3(0, 0, Direction),
-                        out hitInfo,
-                        Board.BoardIntoWorld(91.44f / 2f)
-                    )
-                )
+                PlannedShipPositions.Add(
+                    notSmallShip,
+                    new Vector3(currentPosition + Board.BoardIntoWorld(notSmallShip.ShipBase.SHIPSTAND_SIZE_CM / 2f), 0, 0)
+                );
+
+                currentPosition += Board.BoardIntoWorld(notSmallShip.ShipBase.SHIPSTAND_SIZE_CM + 2f);
+                FormationWidth += notSmallShip.ShipBase.SHIPSTAND_SIZE_CM + 2f;
+            }
+
+            // Small ships - can be in 2 rows
+
+            List<GenericShip> smallShips = shipsToSetup.Where(n => n.ShipInfo.BaseSize == BaseSize.Small).ToList();
+            float currentPositionSecondRow = currentPosition;
+            float secondRowShift = (smallShips.Count % 2 == 0) ? 0 : Board.BoardIntoWorld(3f);
+
+            for (int i = 0; i < smallShips.Count; i++)
+            {
+                if (!ShouldBeInSecondRow(smallShips[i], i, shipsToSetup))
                 {
-                    AddEncounteredObstaclesData(i, true);
+                    PlannedShipPositions.Add(
+                        smallShips[i],
+                        new Vector3(currentPosition + Board.BoardIntoWorld(smallShips[i].ShipBase.SHIPSTAND_SIZE_CM / 2f), 0, 0)
+                    );
+
+                    currentPosition += Board.BoardIntoWorld(smallShips[i].ShipBase.SHIPSTAND_SIZE_CM + 2f);
+                    FormationWidth += smallShips[i].ShipBase.SHIPSTAND_SIZE_CM + 2f;
                 }
                 else
                 {
-                    AddEncounteredObstaclesData(i, false);
+                    PlannedShipPositions.Add(
+                        smallShips[i],
+                        new Vector3(
+                            currentPositionSecondRow + Board.BoardIntoWorld(smallShips[i].ShipBase.SHIPSTAND_SIZE_CM / 2f) + secondRowShift,
+                            0,
+                            Direction * (-Board.BoardIntoWorld(smallShips[i].ShipBase.SHIPSTAND_SIZE_CM + 2f))
+                        )
+                    );
+
+                    currentPositionSecondRow += Board.BoardIntoWorld(smallShips[i].ShipBase.SHIPSTAND_SIZE_CM + 2f);
                 }
             }
+
+            FormationWidth -= 2f;
+        }
+
+        private bool ShouldBeInSecondRow(GenericShip ship, int count, List<GenericShip> shipsToSetup)
+        {
+            // only second part of small ships
+            if (count + 1 > (shipsToSetup.Count(n => n.ShipInfo.BaseSize == BaseSize.Small) + 1) / 2)
+            {
+                //if only 3 small ships without larger ships - still 1 row
+                if (shipsToSetup.Count(n => n.ShipInfo.BaseSize == BaseSize.Small) == 3 && shipsToSetup.Count(n => n.ShipInfo.BaseSize != BaseSize.Small) == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void AdjustShipFormationToSafeZoneCenter()
+        {
+            if (CenterOfBestRange < FormationWidth / 2f) CenterOfBestRange = FormationWidth / 2f + Board.BoardIntoWorld(1f);
+            if (CenterOfBestRange + FormationWidth / 2f > 91.44f) CenterOfBestRange = 91.44f - FormationWidth / 2f - Board.BoardIntoWorld(1f);
+
+            float centerToBoard = Board.BoardIntoWorld(-91.44f / 2f) + (Board.BoardIntoWorld(91.44f) * (CenterOfBestRange / 90f));
+            float shift = centerToBoard - Board.BoardIntoWorld(FormationWidth / 2f);
+
+            foreach (GenericShip ship in Roster.GetPlayer(Player).Ships.Values)
+            {
+                PlannedShipPositions[ship] += new Vector3(shift, 0, Board.BoardIntoWorld(Direction * -91.44f / 2f) + Direction * Board.BoardIntoWorld(Board.RANGE_1));
+            }
+        }
+
+        public void SetupShip()
+        {
+            List<GenericShip> PlayerShips = Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships.Values.ToList();
+
+            foreach (GenericShip shipToSetup in PlayerShips)
+            {
+                if (!shipToSetup.IsSetupPerformed && shipToSetup.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
+                {
+                    Selection.ChangeActiveShip(shipToSetup);
+
+                    GameManagerScript.Wait(
+                        0.5f,
+                        delegate {
+                            GameCommand command = SetupSubPhase.GeneratePlaceShipCommand(
+                                shipToSetup.ShipId,
+                                PlannedShipPositions[shipToSetup],
+                                shipToSetup.GetAngles()
+                            );
+                            GameMode.CurrentGameMode.ExecuteCommand(command);
+                        }
+                    );
+
+                    return;
+                }
+            }
+
+            Phases.Next();
         }
     }
 
@@ -114,57 +233,20 @@ namespace AI.Aggressor
             DeploymentPlans currentDeploymentPlans = new DeploymentPlans(Phases.CurrentSubPhase.RequiredPlayer);
             DeploymentPlans.Add(Phases.CurrentSubPhase.RequiredPlayer, currentDeploymentPlans);
 
-            currentDeploymentPlans.ScanBoard();
-            currentDeploymentPlans.CalculateRanges();
+            currentDeploymentPlans.CreatePlan();
         }
 
         public static void SetupShip()
         {
-            //If first time for player - scan board
-            if (!Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships.Any(n => n.Value.IsSetupPerformed))
-            {
-                ScanDeploymentZone();
-            }
+            if (IsSetupOfFirstShip()) ScanDeploymentZone();
 
             DeploymentPlans currentDeploymentPlans = DeploymentPlans[Phases.CurrentSubPhase.RequiredPlayer];
+            currentDeploymentPlans.SetupShip();
+        }
 
-            List<GenericShip> PlayerShips = Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships.Values.ToList();
-
-            // TODO: Remove blocks
-            if (currentDeploymentPlans.CurrentPosition == 0)
-            {
-                float requiredZone = PlayerShips.Count * Board.BoardIntoWorld(4) + (PlayerShips.Count - 1) * Board.BoardIntoWorld(2);
-                float centerToBoard = Board.BoardIntoWorld(-91.44f / 2f) + (Board.BoardIntoWorld(91.44f) * (currentDeploymentPlans.CenterOfBestRange / 90f));
-                float requiredZoneStart = centerToBoard - requiredZone / 2f;
-                currentDeploymentPlans.CurrentPosition = requiredZoneStart + Board.BoardIntoWorld(2);
-            }
-
-            foreach (GenericShip shipToSetup in PlayerShips)
-            {
-                if (!shipToSetup.IsSetupPerformed && shipToSetup.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
-                {
-                    Selection.ChangeActiveShip(shipToSetup);
-
-                    Vector3 position = new Vector3(
-                        currentDeploymentPlans.CurrentPosition,
-                        0,
-                        Board.BoardIntoWorld(currentDeploymentPlans.Direction * -91.44f / 2f) + currentDeploymentPlans.Direction * Board.BoardIntoWorld(Board.RANGE_1)
-                    );
-                    currentDeploymentPlans.CurrentPosition += Board.BoardIntoWorld(6);
-
-                    GameManagerScript.Wait(
-                        0.5f,
-                        delegate {
-                            GameCommand command = SetupSubPhase.GeneratePlaceShipCommand(shipToSetup.ShipId, position, shipToSetup.GetAngles());
-                            GameMode.CurrentGameMode.ExecuteCommand(command);
-                        }
-                    );
-
-                    return;
-                }
-            }
-
-            Phases.Next();
+        private static bool IsSetupOfFirstShip()
+        {
+            return !Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships.Any(n => n.Value.IsSetupPerformed);
         }
     }
 }

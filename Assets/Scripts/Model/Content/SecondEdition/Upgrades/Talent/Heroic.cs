@@ -68,11 +68,8 @@ namespace Abilities.SecondEdition
         {
             int result = 0;
 
-            if (Combat.AttackStep == CombatStep.Attack)
+            if (Combat.AttackStep == CombatStep.Attack || Combat.AttackStep == CombatStep.Defence)
             {
-                int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
-                int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
-
                 if (Combat.CurrentDiceRoll.Blanks == Combat.CurrentDiceRoll.Count) result = 95;
             }
 

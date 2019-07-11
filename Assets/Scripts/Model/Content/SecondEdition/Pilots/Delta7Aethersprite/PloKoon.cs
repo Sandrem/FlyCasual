@@ -92,7 +92,7 @@ namespace Abilities.SecondEdition
                 DecisionSubPhase phase = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                     Name,
                     typeof(DecisionSubPhase),
-                    Triggers.FinishTrigger
+                    SelectShipSubPhase.FinishSelection
                 );
 
                 phase.DescriptionShort = "Select token to transfer";

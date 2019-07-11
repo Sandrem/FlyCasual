@@ -106,8 +106,7 @@ namespace Players
             Roster.HighlightPlayer(PlayerNo);
             GameController.CheckExistingCommands();
 
-            AI.Aggressor.DeploymentSubSystem.ScanDeploymentZone();
-            AI.Aggressor.DeploymentSubSystem.SetupShipsInOneLine();
+            AI.Aggressor.DeploymentSubSystem.SetupShip();
         }
     }
 }

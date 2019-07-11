@@ -112,17 +112,13 @@ namespace SubPhases
 
             DefaultDecisionName = "Yes";
 
-            if (AbilityInstance.HostShip.Owner.PlayerType == Players.PlayerType.Ai)
+            if (!AbilityInstance.IsAlwaysUseAbility())
             {
-                (new EvadeAction()).ActionTake();
-            }
-            else if (AbilityInstance.IsAlwaysUseAbility())
-            {
-                PerformFreeEvadeAction(null, null);
+                callBack();
             }
             else
             {
-                callBack();
+                PerformFreeEvadeAction(null, null);
             }
         }
 

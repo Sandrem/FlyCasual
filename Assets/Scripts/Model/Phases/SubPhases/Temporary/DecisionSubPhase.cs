@@ -187,7 +187,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            DecisionPanel = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/UI/DecisionsPanel"), GameObject.Find("UI").transform);
+            DecisionPanel = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/UI/DecisionsPanel"), GameObject.Find("UI/DecisionPanelHolder").transform);
             DecisionPanel.name = "DecisionsPanel";
             ButtonsHolder = DecisionPanel.transform.Find("Center/DecisionsPanel").gameObject;
 
@@ -473,7 +473,7 @@ namespace SubPhases
         public void ShowDecisionWindowUI()
         {
             WasDecisionButtonPressed = false;
-            GameObject.Find("UI").transform.Find("DecisionsPanel").gameObject.SetActive(true);
+            GameObject.Find("UI/DecisionPanelHolder").transform.Find("DecisionsPanel").gameObject.SetActive(true);
         }
 
         public void ShowDecisionDescription(string title, string description, IImageHolder imageSource = null)

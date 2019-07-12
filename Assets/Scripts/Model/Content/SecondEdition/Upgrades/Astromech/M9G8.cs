@@ -81,7 +81,8 @@ namespace ActionsList
         public override bool IsDiceModificationAvailable()
         {
             return Combat.AttackStep == CombatStep.Attack
-                && ActionsHolder.HasTargetLockOn(GrantedBy, HostShip);
+                && ActionsHolder.HasTargetLockOn(GrantedBy, HostShip)
+                && Combat.Attacker.Owner.PlayerNo == GrantedBy.Owner.PlayerNo;
         }
 
         public override int GetDiceModificationPriority()
@@ -117,7 +118,8 @@ namespace ActionsList
         public override bool IsDiceModificationAvailable()
         {
             return Combat.AttackStep == CombatStep.Attack
-                && ActionsHolder.HasTargetLockOn(GrantedBy, HostShip);
+                && ActionsHolder.HasTargetLockOn(GrantedBy, HostShip)
+                && Combat.Defender.Owner.PlayerNo == GrantedBy.Owner.PlayerNo;
         }
 
         public override int GetDiceModificationPriority()

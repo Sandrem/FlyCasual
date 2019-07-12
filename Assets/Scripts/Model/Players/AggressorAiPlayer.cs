@@ -31,6 +31,8 @@ namespace Players
         private void AssignManeuverRecursive()
         {
             GenericShip shipWithoutManeuver = Ships.Values
+                .OrderBy(n => BoardTools.Board.DistanceToNearestEnemy(n))
+                .OrderBy(n => n.State.Initiative)
                 .Where(n => !n.State.IsIonized)
                 .FirstOrDefault(n => n.AssignedManeuver == null);
 

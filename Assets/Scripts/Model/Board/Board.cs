@@ -139,6 +139,19 @@ namespace BoardTools
 
             return inRange;
         }
+
+        public static float DistanceToNearestEnemy(GenericShip ship)
+        {
+            float result = float.MaxValue;
+
+            foreach (GenericShip enemyShip in ship.Owner.EnemyShips.Values)
+            {
+                DistanceInfo distInfo = new DistanceInfo(ship, enemyShip);
+                if (distInfo.MinDistance.DistanceReal < result) result = distInfo.MinDistance.DistanceReal;
+            }
+
+            return result;
+        }
     
     }
 

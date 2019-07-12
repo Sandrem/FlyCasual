@@ -50,6 +50,7 @@ namespace Players
         private void FinishAssignManeuver()
         {
             ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, AI.Aggressor.NavigationSubSystem.BestManeuver);
+            Selection.ThisShip.Ai.TimeManeuverAssigned = Time.time;
 
             AssignManeuverRecursive();
         }
@@ -109,6 +110,30 @@ namespace Players
             GameController.CheckExistingCommands();
 
             AI.Aggressor.DeploymentSubSystem.SetupShip();
+        }
+
+        public override void PerformManeuver()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
+
+            bool foundToActivate = false;
+
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships.OrderBy(n => n.Value.Ai.TimeManeuverAssigned))
+            {
+                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative && !shipHolder.Value.IsManeuverPerformed)
+                {
+                    foundToActivate = true;
+                    Selection.ChangeActiveShip("ShipId:" + shipHolder.Value.ShipId);
+                    ActivateShip(shipHolder.Value);
+                    break;
+                }
+            }
+
+            if (!foundToActivate)
+            {
+                Phases.Next();
+            }
         }
     }
 }

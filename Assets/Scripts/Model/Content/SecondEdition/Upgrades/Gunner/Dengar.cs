@@ -122,7 +122,8 @@ namespace SubPhases
 
         public override void PrepareCustomDecisions()
         {
-            DescriptionShort = "Select effect of Dengar's ability";
+            DescriptionShort = "Dengar";
+            DescriptionLong = "Dengar rolls 1 attack die to deal damage unless you choose to remove 1 green token.";
             DecisionOwner = Combat.Attacker.Owner;
 
             AddDecision("Allow to roll a die", StartDiceCheck);

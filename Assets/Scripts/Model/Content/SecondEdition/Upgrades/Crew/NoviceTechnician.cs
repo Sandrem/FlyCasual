@@ -49,6 +49,11 @@ namespace Abilities.SecondEdition
                 "Novice Technician: Select faceup damage card to repair",
                 Triggers.FinishTrigger
             );
+
+            phase.DescriptionShort = "Novice Technician";
+            phase.DescriptionLong = "Select a faceup damage card to repair.";
+            phase.ImageSource = HostUpgrade;
+
             phase.HostShip = HostShip;
             phase.DecisionOwner = HostShip.Owner;
             phase.ShowSkipButton = true;
@@ -86,7 +91,6 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                DescriptionShort = "Novice Technician: Select faceup damage card to repair.";
                 ShowSkipButton = false;
 
                 DecisionViewType = DecisionViewTypes.ImagesDamageCard;

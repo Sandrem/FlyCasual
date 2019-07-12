@@ -37,6 +37,7 @@ namespace Abilities.SecondEdition
                 "Lando Calrissian: Chose token to gain",
                 AbilityDiceCheck.ConfirmCheck);
                 phase.HostShip = HostShip;
+                phase.SourceUpgrade = HostUpgrade;
                 phase.DecisionOwner = HostShip.Owner.AnotherPlayer;
                 phase.Start();
             }
@@ -49,10 +50,13 @@ namespace Abilities.SecondEdition
         protected class LandoDecisionSubphase : DecisionSubPhase
         {
             public GenericShip HostShip;
+            public GenericUpgrade SourceUpgrade;
 
             public override void PrepareDecision(Action callBack)
             {
-                DescriptionShort = "Lando Calrissian: Chose token to gain";
+                DescriptionShort = "Lando Calrissian";
+                DescriptionLong = "Choose a token to gain";
+                ImageSource = SourceUpgrade;
 
                 DecisionViewType = DecisionViewTypes.TextButtons;
 

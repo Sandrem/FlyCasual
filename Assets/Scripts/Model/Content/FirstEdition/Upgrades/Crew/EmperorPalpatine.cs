@@ -102,8 +102,11 @@ namespace Abilities.FirstEdition
                 Triggers.FinishTrigger
             );
 
+            newSubPhase.DescriptionShort = "Emperor Palpatine";
+            newSubPhase.DescriptionLong = "Name a die result. After rolling, you must change 1 of your dice results to the named result.";
+            newSubPhase.ImageSource = HostUpgrade;
+
             newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
-            newSubPhase.DescriptionShort = "Use " + Name + "?";
             newSubPhase.ShowSkipButton = true;
             newSubPhase.OnSkipButtonIsPressed = DontUseEmperorPalpatine;
 

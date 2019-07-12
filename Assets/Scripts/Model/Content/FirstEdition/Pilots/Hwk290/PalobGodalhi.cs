@@ -209,7 +209,9 @@ namespace Abilities.FirstEdition
                     callback
                 );
 
-                whichToken.DescriptionShort = "Take which type of Token?";
+                whichToken.DescriptionShort = "Palog Godalhi";
+                whichToken.DescriptionLong = "Take which type of Token?";
+                whichToken.ImageSource = HostShip;
 
                 whichToken.RequiredPlayer = HostShip.Owner.PlayerNo;
 

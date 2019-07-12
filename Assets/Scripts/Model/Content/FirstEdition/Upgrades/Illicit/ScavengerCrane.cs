@@ -49,8 +49,14 @@ namespace Abilities.FirstEdition
         protected void AskUseScavengerCrane(object sender, EventArgs e)
         {
             var phase = Phases.StartTemporarySubPhaseNew<SubPhases.ScavengerCraneDecisionSubPhase>("Select upgrade to recover", Triggers.FinishTrigger);
+
+            phase.DescriptionShort = "Scavenger Crane";
+            phase.DescriptionLong = "Select upgrade to recover";
+            phase.ImageSource = HostUpgrade;
+
             phase.hostUpgrade = HostUpgrade;
             phase.hostAbility = this;
+
             phase.Start();
         }
 
@@ -76,7 +82,6 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            DescriptionShort = "Select upgrade to recover";
             var discardedUpgrades = hostAbility.GetRecoverableUpgrades();
 
             foreach (var upgrade in discardedUpgrades)

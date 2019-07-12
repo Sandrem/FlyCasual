@@ -99,7 +99,6 @@ namespace Abilities.SecondEdition
 
         }
 
-
         public class KaatoLeeachosDecisionSubPhaseSE : DecisionSubPhase
         {
             public GenericShip HostShip;
@@ -108,7 +107,10 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                DescriptionShort = TargetShip.PilotInfo.PilotName + ": " + "Select token to transfer to Kaato.";
+                DescriptionShort = "Ka'ato Leeachos";
+                DescriptionLong = TargetShip.PilotInfo.PilotName + ": " + "Select token to transfer to Kaato.";
+                ImageSource = HostShip;
+
                 DecisionOwner = TargetShip.Owner;
 
                 if (TargetShip.Tokens.HasToken(typeof(FocusToken)))

@@ -89,6 +89,7 @@ namespace Abilities.SecondEdition
                     Phases.CurrentSubPhase.CallBack();
                 });
             phase.TargetShip = TargetShip;
+            phase.SourceUpgrade = HostUpgrade;
             phase.Start();
         }
 
@@ -103,10 +104,13 @@ namespace Abilities.SecondEdition
         protected class JabbaTheHuttDecisionSubphase : DecisionSubPhase
         {
             public GenericShip TargetShip;
+            public GenericUpgrade SourceUpgrade;
 
             public override void PrepareDecision(Action callBack)
             {
-                DescriptionShort = "Jabba the Hutt: Select upgrade to recover 1 charge";
+                DescriptionShort = "Jabba the Hutt";
+                DescriptionLong = "Select upgrade to recover 1 charge";
+                ImageSource = SourceUpgrade;
 
                 DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 

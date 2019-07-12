@@ -54,7 +54,9 @@ namespace Abilities.FirstEdition
                 Triggers.FinishTrigger
             );
 
-            selectMirandaDoniSubPhase.DescriptionShort = "Use " + Name + "?";
+            selectMirandaDoniSubPhase.DescriptionShort = "Miranda Doni";
+            selectMirandaDoniSubPhase.DescriptionLong = "How do you want to use ability?";
+            selectMirandaDoniSubPhase.ImageSource = HostShip;
 
             if (HostShip.State.ShieldsCurrent > 0)
             {

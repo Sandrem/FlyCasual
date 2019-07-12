@@ -82,7 +82,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void AssignOptimizedPrototype()
         {
-            TargetShip.Tokens.AssignCondition(typeof(OptimizedPrototype));
+            TargetShip.Tokens.AssignCondition(new OptimizedPrototype(TargetShip) { SourceUpgrade = HostUpgrade });
             SelectShipSubPhase.FinishSelection();
         }
 
@@ -142,6 +142,8 @@ namespace Conditions
 {
     public class OptimizedPrototype : GenericToken
     {
+        public GenericUpgrade SourceUpgrade;
+
         public OptimizedPrototype(GenericShip host) : base(host)
         {
             Name = ImageName = "Optimized Prototype Condition";
@@ -179,7 +181,8 @@ namespace Conditions
         {
             OptimizedPrototypeAction action = new OptimizedPrototypeAction()
             {
-                HostShip = Host
+                HostShip = Host,
+                SourceUpgrade = SourceUpgrade
             };
 
             Host.AddAvailableDiceModification(action);
@@ -191,6 +194,8 @@ namespace ActionsList
 {
     public class OptimizedPrototypeAction : GenericAction
     {
+        public GenericUpgrade SourceUpgrade;
+
         public OptimizedPrototypeAction()
         {
             Name = DiceModificationName = "Optimized Prototype";
@@ -214,8 +219,11 @@ namespace ActionsList
         {
             var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, callBack);
 
+            newSubPhase.DescriptionShort = "Director Krennic's Optimized Prototype";
+            newSubPhase.DescriptionShort = "Do you want ot spend a die result to make the defender lose a shield?";
+            newSubPhase.ImageSource = SourceUpgrade;
+
             newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
-            newSubPhase.DescriptionShort = "Spend die result to make defender lose a shield?";
             newSubPhase.ShowSkipButton = true;
             newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;
 

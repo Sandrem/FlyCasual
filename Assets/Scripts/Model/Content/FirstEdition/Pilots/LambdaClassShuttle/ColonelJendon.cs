@@ -53,7 +53,9 @@ namespace Abilities.FirstEdition
                     Triggers.FinishTrigger
                 );
 
-                pilotAbilityDecision.DescriptionShort = "Use Colonel Jendon's ability?";
+                pilotAbilityDecision.DescriptionShort = "Colonel Jendon";
+                pilotAbilityDecision.DescriptionLong = "Do you want to reassign one of your blue target lock tokens?";
+                pilotAbilityDecision.ImageSource = HostShip;
 
                 var blueTargetLocks = HostShip.Tokens.GetAllTokens()
                    .Where(t => t is Tokens.BlueTargetLockToken)

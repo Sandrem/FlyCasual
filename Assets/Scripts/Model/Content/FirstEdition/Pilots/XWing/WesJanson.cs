@@ -62,7 +62,9 @@ namespace Abilities.FirstEdition
                     Triggers.FinishTrigger
                 );
 
-                pilotAbilityDecision.DescriptionShort = "Use Wes Janson's ability?";
+                pilotAbilityDecision.DescriptionShort = "Wes Janson";
+                pilotAbilityDecision.DescriptionLong = "Do you want to remove 1 focus, evade, or blue target lock token from the defender?";
+                pilotAbilityDecision.ImageSource = HostShip;
 
                 pilotAbilityDecision.ShowSkipButton = true;
 

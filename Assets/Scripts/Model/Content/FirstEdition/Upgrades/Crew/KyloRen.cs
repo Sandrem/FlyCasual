@@ -137,7 +137,9 @@ namespace Abilities.FirstEdition
 
             selectPilotCritSubphase.DefaultDecisionName = selectPilotCritSubphase.GetDecisions().First().Name;
 
-            selectPilotCritSubphase.DescriptionShort = "Kylo Ren: Select a Damage Card";
+            selectPilotCritSubphase.DescriptionShort = "Kylo Ren";
+            selectPilotCritSubphase.DescriptionLong = "Select a Damage Card to assign";
+            selectPilotCritSubphase.ImageSource = HostUpgrade;
 
             selectPilotCritSubphase.RequiredPlayer = HostShip.Owner.PlayerNo;
 

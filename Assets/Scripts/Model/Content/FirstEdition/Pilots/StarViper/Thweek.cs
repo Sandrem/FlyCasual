@@ -65,7 +65,9 @@ namespace Abilities.FirstEdition
                 );
             }
 
-            selectTargetForThweekDecisionSubPhase.DescriptionShort = "Thweek: Select enemy ship";
+            selectTargetForThweekDecisionSubPhase.DescriptionShort = "Thweek";
+            selectTargetForThweekDecisionSubPhase.DescriptionLong = "Select enemy ship to copy pilot skill";
+            selectTargetForThweekDecisionSubPhase.ImageSource = HostShip;
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
             selectTargetForThweekDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotInfo.PilotName;
@@ -105,7 +107,10 @@ namespace Abilities.FirstEdition
             selectAbilityForThweekDecisionSubPhase.AddDecision("Shadowed", delegate { Shadowed(targetShip); });
             selectAbilityForThweekDecisionSubPhase.AddTooltip("Shadowed", (new Conditions.Shadowed(targetShip)).Tooltip);
 
-            selectAbilityForThweekDecisionSubPhase.DescriptionShort = "Thweek: Select ability";
+            selectAbilityForThweekDecisionSubPhase.DescriptionShort = "Thweek";
+            selectAbilityForThweekDecisionSubPhase.DescriptionLong = "Select ability to copy";
+            selectAbilityForThweekDecisionSubPhase.ImageSource = HostShip;
+
             selectAbilityForThweekDecisionSubPhase.DefaultDecisionName = "Shadowed";
 
             selectAbilityForThweekDecisionSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;

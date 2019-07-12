@@ -62,6 +62,11 @@ namespace Abilities.FirstEdition
         private void AskVizierAbility(GenericShip target)
         {
             var newSubPhase = Phases.StartTemporarySubPhaseNew<VizierDecisionSubPhase>("\"Vizier\" decision", Triggers.FinishTrigger);
+
+            newSubPhase.DescriptionShort = "\"Vizier\"";
+            newSubPhase.DescriptionLong = string.Format("{0} may pass a token to {1}", HostShip.PilotInfo.PilotName, target.PilotInfo.PilotName);
+            newSubPhase.ImageSource = HostShip;
+
             newSubPhase.AddDecision("None", (s, e) => DontPassToken());
             if (HostShip.Tokens.HasToken<EvadeToken>())
             {
@@ -71,10 +76,11 @@ namespace Abilities.FirstEdition
             {
                 newSubPhase.AddDecision("Focus token", (s, e) => PassToken(new FocusToken(target)));
             }
+
             newSubPhase.ShowSkipButton = false;
-            newSubPhase.DescriptionShort = string.Format("{0} may pass a token to {1}", HostShip.PilotInfo.PilotName, target.PilotInfo.PilotName);
             var aiDecisionIndex = AiDecideToPassToken(target) ? 1 : 0;
             newSubPhase.DefaultDecisionName = newSubPhase.GetDecisions()[aiDecisionIndex].Name;
+
             newSubPhase.Start();
         }
 

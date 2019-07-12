@@ -62,6 +62,7 @@ namespace Abilities.SecondEdition
                 phase.TargetShip = TargetShip;
                 phase.HostShip = HostShip;
                 phase.TokenSelected = TokenSelected;
+                phase.SourceUpgrade = HostUpgrade;
                 phase.Start();
             }
             else
@@ -86,9 +87,13 @@ namespace Abilities.SecondEdition
             public GenericShip HostShip;
             public GenericShip TargetShip;
             public Action<Tokens.GenericToken> TokenSelected;
+            public GenericUpgrade SourceUpgrade;
+
             public override void PrepareDecision(Action callBack)
             {
-                DescriptionShort = $"Seventh Sister: You may spend 1 force to have {TargetShip.PilotInfo.PilotName} gain 1 jam or tractor token instead of stress";
+                DescriptionShort = "Seventh Sister";
+                DescriptionLong = $"You may spend 1 force to have {TargetShip.PilotInfo.PilotName} gain 1 jam or tractor token instead of stress";
+                ImageSource = SourceUpgrade;
 
                 DecisionViewType = DecisionViewTypes.TextButtons;
 

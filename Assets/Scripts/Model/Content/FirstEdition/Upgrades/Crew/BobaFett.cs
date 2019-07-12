@@ -61,7 +61,10 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            DescriptionShort = "Use Boba Fett's ability?";
+            DescriptionShort = "Boba Fett";
+            DescriptionLong = "Do you want to discard this card to choose and discard 1 of the defender's Upgrade cards?";
+            ImageSource = bobaFettUpgradeCard;
+
             RequiredPlayer = Combat.Attacker.Owner.PlayerNo;
 
             AddDecision("Yes", UseBobaFettCrewAbility);

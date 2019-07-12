@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using System.Linq;
 using System.Collections.Generic;
+using SubPhases;
 
 namespace UpgradesList.FirstEdition
 {
@@ -51,11 +52,14 @@ namespace Abilities.FirstEdition
             }
             else if (shipCritsList.Count > 1)
             {
-                Phases.StartTemporarySubPhaseOld(
+                R5AstromechDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<R5AstromechDecisionSubPhase>(
                     "R5 Astromech: Select faceup ship Crit",
-                    typeof(SubPhases.R5AstromechDecisionSubPhase),
                     Triggers.FinishTrigger
                 );
+                subphase.DescriptionShort = "R5 Astromech";
+                subphase.DescriptionLong = "Select a faceup ship Crit damage card to flip it facedown";
+                subphase.ImageSource = HostUpgrade;
+                subphase.Start();
             }
             else
             {
@@ -70,11 +74,8 @@ namespace SubPhases
 
     public class R5AstromechDecisionSubPhase : DecisionSubPhase
     {
-
         public override void PrepareDecision(System.Action callBack)
         {
-            DescriptionShort = "R5 Astromech: Select faceup ship Crit";
-
             DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
             foreach (var shipCrit in Selection.ActiveShip.Damage.GetFaceupCrits(CriticalCardType.Ship).ToList())

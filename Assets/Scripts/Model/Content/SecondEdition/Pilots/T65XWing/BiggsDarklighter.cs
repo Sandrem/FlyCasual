@@ -95,18 +95,20 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger
             );
 
-            selectBiggsDarklighterSubPhase.DescriptionShort = "Use " + Name + "?";
+            selectBiggsDarklighterSubPhase.DescriptionShort = "Biggs Darklighter";
+            selectBiggsDarklighterSubPhase.DescriptionLong = "You may suffer 1 Hit or Crit damage to cancel 1 matching result";
+            selectBiggsDarklighterSubPhase.ImageSource = HostShip;
 
             if (curToDamage.AssignedDamageDiceroll.RegularSuccesses > 0)
             {
-                selectBiggsDarklighterSubPhase.AddDecision("Suffer one damage to cancel one hit.", delegate { PreventDamage(DieSide.Success); });
-                selectBiggsDarklighterSubPhase.AddTooltip("Suffer one damage to cancel one hit.", HostShip.ImageUrl);
+                selectBiggsDarklighterSubPhase.AddDecision("Redirect Hit damage.", delegate { PreventDamage(DieSide.Success); });
+                selectBiggsDarklighterSubPhase.AddTooltip("Redirect Hit damage.", HostShip.ImageUrl);
             }
 
             if (curToDamage.AssignedDamageDiceroll.CriticalSuccesses > 0)
             {
-                selectBiggsDarklighterSubPhase.AddDecision("Suffer one critical damage to cancel one crit.", delegate { PreventDamage(DieSide.Crit); });
-                selectBiggsDarklighterSubPhase.AddTooltip("Suffer one critical damage to cancel one crit.", HostShip.ImageUrl);
+                selectBiggsDarklighterSubPhase.AddDecision("Redirect Crit damage.", delegate { PreventDamage(DieSide.Crit); });
+                selectBiggsDarklighterSubPhase.AddTooltip("Redirect Crit damage.", HostShip.ImageUrl);
             }
 
             selectBiggsDarklighterSubPhase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); });
@@ -124,12 +126,12 @@ namespace Abilities.SecondEdition
             {
                 if (curToDamage.AssignedDamageDiceroll.RegularSuccesses > 0)
                 {
-                    result = "Suffer one damage to cancel one hit.";
+                    result = "Redirect Hit damage.";
                 }
 
                 if (curToDamage.AssignedDamageDiceroll.CriticalSuccesses > 0)
                 {
-                    result = "Suffer one critical damage to cancel one crit.";
+                    result = "Redirect Crit damage.";
                 }
 
             }

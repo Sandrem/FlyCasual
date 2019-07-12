@@ -57,7 +57,10 @@ namespace Abilities.FirstEdition
                     Triggers.FinishTrigger
                 );
 
-                opportunistDecision.DescriptionShort = "Use Opportunist ability?";
+                opportunistDecision.DescriptionShort = "Opportunist";
+                opportunistDecision.DescriptionLong = "Do you want to receive 1 stress token to roll 1 additional attack die?";
+                opportunistDecision.ImageSource = HostUpgrade;
+
                 opportunistDecision.AddDecision("Yes", UseOpportunistAbility);
                 opportunistDecision.AddDecision("No", DontUseOpportunistAbility);
                 opportunistDecision.DefaultDecisionName = "Yes";

@@ -234,7 +234,7 @@ namespace Bombs
             Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
 
             BombDecisionSubPhase selectBombToDrop = (BombDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                "Select a bomb to drop",
+                "Select a device to drop",
                 typeof(BombDecisionSubPhase),
                 delegate { CheckSelectedBomb(onlyDrop); }
             );
@@ -299,7 +299,7 @@ namespace Bombs
             selectBombToDrop.AddDecision("Drop", (o, e) => { DecisionSubPhase.ConfirmDecisionNoCallback(); DropBomb(); });
             selectBombToDrop.AddDecision("Launch", LaunchBomb);
 
-            selectBombToDrop.DescriptionShort = "Select the direction to drop the bomb";
+            selectBombToDrop.DescriptionShort = "Select a way how to use the device";
 
             selectBombToDrop.DefaultDecisionName = "Drop";
 

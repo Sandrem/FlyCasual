@@ -67,7 +67,9 @@ namespace Abilities.SecondEdition
         {
             CienaReeRotationDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<CienaReeRotationDecisionSubphase>("Rotate the ship?", Triggers.FinishTrigger);
 
-            subphase.DescriptionShort = "Gain 1 Stress to rotate the ship?";
+            subphase.DescriptionShort = "Ciena Ree";
+            subphase.DescriptionLong = "Gain 1 Stress to rotate the ship?";
+            subphase.ImageSource = HostUpgrade;
 
             subphase.AddDecision("90 Counterclockwise", Rotate90Counterclockwise);
             subphase.AddDecision("90 Clockwise", Rotate90Clockwise);

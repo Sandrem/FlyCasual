@@ -99,7 +99,9 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger
             );
 
-            selectionSubPhase.DescriptionShort = String.Format("You may choose a number greater than 1. If you roll exactly that many evade results, add 1 evade result.");
+            selectionSubPhase.DescriptionShort = "C-3PO";
+            selectionSubPhase.DescriptionLong = String.Format("You may choose a number greater than 1. If you roll exactly that many evade results, add 1 evade result.");
+            selectionSubPhase.ImageSource = HostUpgrade;
 
             for (var i = 1; i <= 6; i++) //TODO: likely needs to be more than 6, add a way to increase numbers
             {

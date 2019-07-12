@@ -55,13 +55,18 @@ namespace Abilities.FirstEdition
             }
         }
 
-        private static void ShowDecision(object sender, EventArgs e)
+        private void ShowDecision(object sender, EventArgs e)
         {
-            Phases.StartTemporarySubPhaseOld(
+            CritToDealDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<CritToDealDecisionSubPhase>(
                 "Ability of Maarek Stele",
-                typeof(CritToDealDecisionSubPhase),
                 Triggers.FinishTrigger
             );
+
+            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
+            subphase.DescriptionLong = "Select Critical Hit card to deal";
+            subphase.ImageSource = HostShip;
+
+            subphase.Start();
         }
 
     }
@@ -75,7 +80,7 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            DescriptionShort = "Select Critical Hit card to deal";
+            DescriptionLong = "Select Critical Hit card to deal";
 
             criticalHitCardsToChoose.Add(Combat.CurrentCriticalHitCard);
             for (int i = 0; i < 2; i++)

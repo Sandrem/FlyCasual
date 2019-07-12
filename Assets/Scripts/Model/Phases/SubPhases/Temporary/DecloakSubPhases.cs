@@ -20,7 +20,7 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            DescriptionShort = "Perform decloak?";
+            DescriptionShort = "Do you want to perform decloak?";
 
             DecisionOwner = Selection.ThisShip.Owner;
 

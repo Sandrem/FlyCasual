@@ -55,12 +55,18 @@ namespace Abilities.SecondEdition
             Selection.ChangeActiveShip(HostShip);
 
             PageTicoAbilityDecision subphase = Phases.StartTemporarySubPhaseNew<PageTicoAbilityDecision>("Paige Tico's ability", Triggers.FinishTrigger);
+
+            subphase.DescriptionShort = "Paige Tico";
+            subphase.DescriptionLong = "You may drop a bomb or rotate arc";
+            subphase.ImageSource = HostUpgrade;
+
             subphase.AddDecision("Drop a bomb", DropBomb);
             subphase.AddDecision("Rotate Arc", AskRotateArc);
+
             subphase.DecisionOwner = HostShip.Owner;
             subphase.DefaultDecisionName = "Rotate Arc";
-            subphase.DescriptionShort = "Ability of Paige Tico";
             subphase.ShowSkipButton = true;
+
             subphase.Start();
         }
 

@@ -103,7 +103,9 @@ namespace Abilities.SecondEdition
         {
             PivotWindDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<PivotWindDecisionSubphase>("Rotate the ship?", Triggers.FinishTrigger);
 
-            subphase.DescriptionShort = "Rotate the ship?";
+            subphase.DescriptionShort = "Pivot Wing";
+            subphase.DescriptionLong = "Rotate the ship?";
+            subphase.ImageSource = HostUpgrade;
 
             subphase.AddDecision("180", Rotate180, isCentered: true);
             subphase.AddDecision("90 Counterclockwise", Rotate90Counterclockwise);

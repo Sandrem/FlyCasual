@@ -56,13 +56,18 @@ namespace Abilities.FirstEdition
                     Triggers.FinishTrigger
                 );
 
-                selectSpecialOpsTrainingSubPhase.DescriptionShort = "Use " + Name + "?";
+                selectSpecialOpsTrainingSubPhase.DescriptionShort = "Special Ops Training";
+                selectSpecialOpsTrainingSubPhase.DescriptionLong = "How do you want to use ability?";
+                selectSpecialOpsTrainingSubPhase.ImageSource = HostUpgrade;
+
                 selectSpecialOpsTrainingSubPhase.AddDecision("Roll 1 extra die from primary fire arc", RegisterRollExtraDice);
                 selectSpecialOpsTrainingSubPhase.AddTooltip("Roll 1 extra die from primary fire arc", HostShip.ImageUrl);
                 selectSpecialOpsTrainingSubPhase.AddDecision("Get a second attack from rear arc", RegisterExtraAttack);
                 selectSpecialOpsTrainingSubPhase.AddTooltip("Get a second attack from rear arc", HostShip.ImageUrl);
+
                 selectSpecialOpsTrainingSubPhase.DefaultDecisionName = GetDefaultDecision();
                 selectSpecialOpsTrainingSubPhase.ShowSkipButton = true;
+
                 selectSpecialOpsTrainingSubPhase.Start();
             }
             else

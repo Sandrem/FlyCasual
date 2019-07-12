@@ -34,7 +34,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfo("Agent Kallus is hunting " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ")");
 
             // The difference with First Edition is that we keep track of the target with a condition token
-            targetShip.Tokens.AssignCondition(typeof(Conditions.HuntedCondition));
+            targetShip.Tokens.AssignCondition( new HuntedCondition(targetShip) { SourceUpgrade = HostUpgrade } );
 
             HostShip.OnGenerateDiceModifications += AddAgentKallusDiceModification;
 
@@ -82,6 +82,8 @@ namespace Conditions
     /// </summary>
     public class HuntedCondition : GenericToken
     {
+        public GenericUpgrade SourceUpgrade;
+
         public HuntedCondition(GenericShip host) : base(host)
         {
             Name = ImageName = "Hunted Condition";
@@ -134,6 +136,10 @@ namespace Conditions
             }
 
             HuntedDecisionSubPhase selectAllyDecisionSubPhase = Phases.StartTemporarySubPhaseNew<HuntedDecisionSubPhase>(Name, Triggers.FinishTrigger);
+
+            selectAllyDecisionSubPhase.DescriptionShort = "Agent Kallus";
+            selectAllyDecisionSubPhase.DescriptionLong = "Assign the Haunted condition to 1 enemy ship";
+            selectAllyDecisionSubPhase.ImageSource = SourceUpgrade;
 
             foreach (var friendlyShip in otherFriendlies)
             {

@@ -116,7 +116,10 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            DescriptionShort = "Use ability of Commander Malarus?";
+            DescriptionShort = "Commander Malarus";
+            DescriptionLong = "Do you want to spend 1 Charge and gain 1 Stress Token to activate ability?";
+            ImageSource = CommanderMalarusAbility.HostShip;
+
             RequiredPlayer = CommanderMalarusAbility.HostShip.Owner.PlayerNo;
 
             AddDecision("Yes", UseCommanderMalarusAbility);

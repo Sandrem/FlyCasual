@@ -84,6 +84,7 @@ namespace ActionsList.SecondEdition
         private void StartSubphase(object sender, System.EventArgs e)
         {
             var spendDiceSubPhase = Phases.StartTemporarySubPhaseNew<ThaneKyrellDecisionSubPhase>(Name, Triggers.FinishTrigger);
+            spendDiceSubPhase.HostShip = HostShip;
             spendDiceSubPhase.ShowSkipButton = true;
             spendDiceSubPhase.OnSkipButtonIsPressed = DecisionSubPhase.ConfirmDecision;
             spendDiceSubPhase.DecisionOwner = HostShip.Owner;
@@ -96,13 +97,17 @@ namespace SubPhases
 {
     public class ThaneKyrellDecisionSubPhase : SpendDiceResultDecisionSubPhase
     {
+        public GenericShip HostShip;
+
         protected override void PrepareDiceResultEffects()
         {
-            DescriptionShort = Selection.ActiveShip.PilotInfo.PilotName + ": " + "Select a result to spend.";
+            DescriptionShort = "Thane Kyrell";
+            DescriptionLong = "Select a die result to spend to flip a damage card";
+            ImageSource = HostShip;
 
-            AddSpendDiceResultEffect(DieSide.Crit, "Spend a critical result to flip a damage card.", delegate { SpendResultToFlip(DieSide.Crit); });
-            AddSpendDiceResultEffect(DieSide.Success, "Spend a hit result to flip a damage card.", delegate { SpendResultToFlip(DieSide.Success); });
-            AddSpendDiceResultEffect(DieSide.Focus, "Spend a focus result to flip a damage card.", delegate { SpendResultToFlip(DieSide.Focus); });
+            AddSpendDiceResultEffect(DieSide.Crit, "Critical result", delegate { SpendResultToFlip(DieSide.Crit); });
+            AddSpendDiceResultEffect(DieSide.Success, "Hit result", delegate { SpendResultToFlip(DieSide.Success); });
+            AddSpendDiceResultEffect(DieSide.Focus, "Focus result", delegate { SpendResultToFlip(DieSide.Focus); });
         }
 
         private void SpendResultToFlip(DieSide side)

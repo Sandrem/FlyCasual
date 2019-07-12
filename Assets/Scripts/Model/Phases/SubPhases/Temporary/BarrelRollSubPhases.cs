@@ -197,7 +197,7 @@ namespace SubPhases
 
             GenerateSelectTemplateDecisions(selectBarrelRollTemplate);
 
-            selectBarrelRollTemplate.DescriptionShort = "Barrel Roll: Select template and direction";
+            selectBarrelRollTemplate.DescriptionShort = "Barrel Roll: Select template";
 
             selectBarrelRollTemplate.DefaultDecisionName = selectBarrelRollTemplate.GetDecisions().First().Name;
 

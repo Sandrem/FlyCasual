@@ -3,6 +3,7 @@ using Upgrade;
 using System.Collections.Generic;
 using System;
 using Tokens;
+using SubPhases;
 
 namespace UpgradesList.FirstEdition
 {
@@ -62,9 +63,18 @@ namespace Abilities.FirstEdition
         {
             GenericShip thisShip = sender as GenericShip;
 
-            if (!thisShip.Tokens.HasToken(typeof(Tokens.StressToken)))
+            if (!thisShip.Tokens.HasToken(typeof(StressToken)))
             {
-                Phases.StartTemporarySubPhaseOld("Rotate ship 180° decision", typeof(SubPhases.MillenniumFalconHotRDecisionSubPhase), Triggers.FinishTrigger);
+                MillenniumFalconHotRDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<MillenniumFalconHotRDecisionSubPhase>(
+                    "Rotate ship 180° decision",
+                    Triggers.FinishTrigger
+                );
+
+                subphase.DescriptionShort = "Millennium Falcon";
+                subphase.DescriptionLong = "Do you want to receive Stress Token to rotate ship 180°?";
+                subphase.ImageSource = HostUpgrade;
+
+                subphase.Start();
             }
             else
             {
@@ -83,8 +93,6 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            DescriptionShort = "Receive stress token to rotate ship 180°?";
-
             AddDecision("Yes", RotateShip180);
             AddDecision("No", DontRotateShip180);
 

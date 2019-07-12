@@ -66,11 +66,12 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.Tokens.HasTokenByColor(TokenColors.Orange) || HostShip.Tokens.HasTokenByColor(TokenColors.Red))
             {
-                Phases.StartTemporarySubPhaseOld(
+                OutriderAbilityDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<OutriderAbilityDecisionSubPhase>(
                     "Outrider: Select token to remove",
-                    typeof(OutriderAbilityDecisionSubPhase),
                     Triggers.FinishTrigger
                 );
+                subphase.SourceUpgrade = HostUpgrade;
+                subphase.Start();
             }
             else
             {
@@ -84,9 +85,14 @@ namespace SubPhases
 {
     public class OutriderAbilityDecisionSubPhase : RemoveBadTokenDecisionSubPhase
     {
+        public GenericUpgrade SourceUpgrade;
+
         public override void PrepareCustomDecisions()
         {
-            DescriptionShort = "Outrider: Select token to remove";
+            DescriptionShort = "Outrider";
+            DescriptionLong = "Select a token to remove";
+            ImageSource = SourceUpgrade;
+
             DecisionOwner = Selection.ThisShip.Owner;
             DefaultDecisionName = decisions.First().Name;
         }

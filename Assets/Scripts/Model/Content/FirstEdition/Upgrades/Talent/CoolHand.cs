@@ -51,6 +51,10 @@ namespace Abilities.FirstEdition
                 Triggers.FinishTrigger
             );
 
+            decision.DescriptionShort = "Cool Hand";
+            decision.DescriptionLong = string.Format("Discard \"Cool Hand\" to assign token?");
+            decision.ImageSource = HostUpgrade;
+
             decision.PrepareDecision(HostUpgrade);
             decision.Start();
         }
@@ -66,8 +70,6 @@ namespace SubPhases
         public void PrepareDecision(GenericUpgrade upgrade)
         {
             HostUpgrade = upgrade;
-
-            DescriptionShort = string.Format("Discard \"Cool Hand\" to assign token?");
 
             AddDecision("Focus Token", AddFocus);
             AddDecision("Evade Token", AddEvade);

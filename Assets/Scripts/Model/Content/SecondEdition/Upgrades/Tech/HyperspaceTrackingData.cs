@@ -90,12 +90,14 @@ namespace Abilities.SecondEdition
                     Triggers.FinishTrigger
                 );
 
-            initiativeSubPhase.DescriptionShort = String.Format("{0}: ({1}) You may choose a number between {2} and {3}. "
+            initiativeSubPhase.DescriptionShort = "Hyperspace Tracking Data";
+            initiativeSubPhase.DescriptionLong = String.Format("{0}: ({1}) You may choose a number between {2} and {3}. "
                 + "Treat your initiative as the chosen value during Setup.",
                 HostShip.ShipId,
                 HostShip.PilotInfo.PilotName,
                 UpgradesList.SecondEdition.HyperspaceTrackingData.LowestPossibleInitiative,
                 UpgradesList.SecondEdition.HyperspaceTrackingData.HighestPossibleInitiative);
+            initiativeSubPhase.ImageSource = HostUpgrade;
 
             for (var i = UpgradesList.SecondEdition.HyperspaceTrackingData.LowestPossibleInitiative;
                 i <= UpgradesList.SecondEdition.HyperspaceTrackingData.HighestPossibleInitiative; i++)
@@ -174,11 +176,14 @@ namespace Abilities.SecondEdition
             );
 
             tokenSubPhase.ShowSkipButton = true;
-            tokenSubPhase.DescriptionShort = String.Format("Hyperspace Tracking Data: {0}: ({1}) "
-                + "Assign 1 Focus Token or 1 Evade Token",
+
+            tokenSubPhase.DescriptionShort = "Hyperspace Tracking Data";
+            tokenSubPhase.DescriptionLong = String.Format("{0}: ({1}) Assign 1 Focus Token or 1 Evade Token",
                 TargetShip.ShipId,
                 TargetShip.PilotInfo
-                );
+            );
+            tokenSubPhase.ImageSource = HostUpgrade;
+
             tokenSubPhase.DecisionViewType = SubPhases.DecisionViewTypes.TextButtons;
 
             tokenSubPhase.AddDecision("Focus", delegate {

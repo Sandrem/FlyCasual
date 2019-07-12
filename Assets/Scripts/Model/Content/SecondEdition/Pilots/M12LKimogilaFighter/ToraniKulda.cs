@@ -34,11 +34,16 @@ namespace Abilities.SecondEdition
         {
             Selection.ThisShip = (GenericShip)sender;
 
-            Phases.StartTemporarySubPhaseOld(
+            ToraniKuldaAbilityDecisionSubPhaseSE subphase = Phases.StartTemporarySubPhaseNew<ToraniKuldaAbilityDecisionSubPhaseSE>(
                 "Select effect of Torani Kulda's ability",
-                typeof(ToraniKuldaAbilityDecisionSubPhaseSE),
                 Triggers.FinishTrigger
             );
+
+            subphase.DescriptionShort = "Torani Kulda";
+            subphase.DescriptionLong = Selection.ThisShip.ShipId + ": " + "Select effect of Torani Kulda's ability";
+            subphase.ImageSource = HostShip;
+
+            subphase.Start();
         }
     }
 }
@@ -49,7 +54,6 @@ namespace SubPhases
     {
         public override void PrepareCustomDecisions()
         {
-            DescriptionShort = Selection.ThisShip.ShipId + ": " + "Select effect of Torani Kulda's ability";
             DecisionOwner = Selection.ThisShip.Owner;
 
             AddDecision("Suffer 1 damage.", SufferDamage);

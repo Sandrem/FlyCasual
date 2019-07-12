@@ -52,7 +52,8 @@ namespace Abilities.FirstEdition
                 DiceKind.Defence,
                 2,
                 DiceCheckFinished,
-                Phases.CurrentSubPhase.CallBack);
+                Phases.CurrentSubPhase.CallBack
+            );
         }
 
         protected virtual void DiceCheckFinished()

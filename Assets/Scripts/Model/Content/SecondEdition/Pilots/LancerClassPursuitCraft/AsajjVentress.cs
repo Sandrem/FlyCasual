@@ -69,6 +69,7 @@ namespace Abilities.SecondEdition
 
             Selection.ThisShip = TargetShip;
             Selection.ActiveShip = HostShip;
+            subphase.SourceUpgrade = HostUpgrade;
             subphase.Start();
         }
     }
@@ -78,9 +79,14 @@ namespace SubPhases
 {
     public class AsajjVentressAbilityDecisionSubPhaseSE : RemoveGreenTokenDecisionSubPhase
     {
+        public GenericUpgrade SourceUpgrade;
+
         public override void PrepareCustomDecisions()
         {
-            DescriptionShort = Selection.ThisShip.ShipId + ": " + "Select the effect of Asajj Ventress' ability.";
+            DescriptionShort = "Asajj Ventress";
+            DescriptionLong = Selection.ThisShip.ShipId + ": " + "Select the effect of Asajj Ventress' ability.";
+            ImageSource = SourceUpgrade;
+
             DecisionOwner = Selection.ThisShip.Owner;
             DefaultDecisionName = "Recieve a stress token.";
 

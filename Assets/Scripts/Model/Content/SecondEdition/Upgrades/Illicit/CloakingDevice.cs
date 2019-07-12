@@ -155,7 +155,10 @@ namespace Abilities.SecondEdition
                 callback
             );
 
-            selectionSubPhase.DescriptionShort = String.Format("You must decloak.  Do you want to discard your cloak token or reposition and decloak?");
+            selectionSubPhase.DescriptionShort = "Cloaking Device";
+            selectionSubPhase.DescriptionLong = String.Format("You must decloak. Do you want to discard your cloak token or reposition and decloak?");
+            selectionSubPhase.ImageSource = HostUpgrade;
+
             selectionSubPhase.AddDecision("Discard the Cloak token", delegate { DiscardCloakToken(); DecisionSubPhase.ConfirmDecisionNoCallback(); });
 
             selectionSubPhase.AddDecision("Reposition and decloak", delegate {DecisionSubPhase.ConfirmDecisionNoCallback(); DecloakNormally(); });

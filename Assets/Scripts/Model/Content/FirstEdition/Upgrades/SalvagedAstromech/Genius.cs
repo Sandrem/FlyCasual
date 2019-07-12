@@ -91,7 +91,9 @@ namespace Abilities.FirstEdition
                 );
             }
 
-            selectBombToDrop.DescriptionShort = "Select bomb to drop";
+            selectBombToDrop.DescriptionShort = "\"Genius\"";
+            selectBombToDrop.DescriptionLong = "Select a device to drop";
+            selectBombToDrop.ImageSource = HostUpgrade;
 
             selectBombToDrop.DefaultDecisionName = BombsManager.GetBombsToDrop(HostShip).First().UpgradeInfo.Name;
 

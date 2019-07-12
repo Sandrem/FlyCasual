@@ -59,6 +59,10 @@ namespace Abilities.FirstEdition
                 Triggers.FinishTrigger
             );
 
+            selectAgentKallusTargetDecisionSubPhase.DescriptionShort = "Agent Kallus";
+            selectAgentKallusTargetDecisionSubPhase.DescriptionLong = "Assign the Haunted condition to 1 enemy ship";
+            selectAgentKallusTargetDecisionSubPhase.ImageSource = HostUpgrade;
+
             foreach (var enemyShip in Roster.GetPlayer(Roster.AnotherPlayer(HostShip.Owner.PlayerNo)).Ships)
             {
                 selectAgentKallusTargetDecisionSubPhase.AddDecision(
@@ -66,8 +70,6 @@ namespace Abilities.FirstEdition
                     delegate { SelectTarget(enemyShip.Value); }
                 );
             }
-
-            selectAgentKallusTargetDecisionSubPhase.DescriptionShort = "Agent Kallus: Select an enemy ship.";
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();
             selectAgentKallusTargetDecisionSubPhase.DefaultDecisionName = bestEnemyAce.ShipId + ": " + bestEnemyAce.PilotInfo.PilotName;

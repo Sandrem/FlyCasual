@@ -79,7 +79,9 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            DescriptionShort = "Perform free evade action?";
+            DescriptionShort = "TIE/v1";
+            DescriptionLong = "Do you want to perform free evade action?";
+            ImageSource = TIEv1Upgrade;
 
             AddDecision("Yes", PerformFreeEvadeAction);
             AddDecision("No", DontPerformFreeEvadeAction);

@@ -153,6 +153,9 @@ namespace Abilities.SecondEdition
         {
             var phase = Phases.StartTemporarySubPhaseNew<DarthSidiousDecisionSubPhase>("Darth Sidious", Triggers.FinishTrigger);
             phase.TargetShip = TargetShip;
+            phase.DescriptionShort = "Darth Sidious";
+            phase.DescriptionLong = "Gain 1 focus token or recover 1 force?";
+            phase.ImageSource = HostUpgrade;
             phase.Start();
         }
 
@@ -162,8 +165,6 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                DescriptionShort = "Darth Sidious: Gain 1 focus token or recover 1 force?";
-
                 DecisionViewType = DecisionViewTypes.TextButtons;
 
                 AddDecision("Focus", GainFocus);

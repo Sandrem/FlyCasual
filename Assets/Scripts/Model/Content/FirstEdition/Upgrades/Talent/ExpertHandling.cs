@@ -41,7 +41,8 @@ namespace Abilities.FirstEdition
             GenericAction newAction = new ExpertHandlingAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                HostShip = host
+                HostShip = host,
+                Source = HostUpgrade
             };
             host.AddAvailableAction(newAction);
         }
@@ -97,11 +98,16 @@ namespace ActionsList
         {
             if (HostShip.Tokens.HasToken(typeof(RedTargetLockToken), '*'))
             {
-                Phases.StartTemporarySubPhaseOld(
+                ExpertHandlingTargetLockDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<ExpertHandlingTargetLockDecisionSubPhase>(
                     "Expert Handling: Select target lock to remove",
-                    typeof(ExpertHandlingTargetLockDecisionSubPhase),
                     Finish
                 );
+
+                subphase.DescriptionShort = "Expert Handling";
+                subphase.DescriptionLong = "Select a target lock to remove";
+                subphase.ImageSource = Source;
+
+                subphase.Start();
             }
             else
             {
@@ -126,8 +132,6 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            DescriptionShort = "Select target lock to remove";
-
             foreach (var token in Selection.ThisShip.Tokens.GetAllTokens())
             {
                 if (token.GetType() == typeof(RedTargetLockToken))

@@ -99,7 +99,7 @@ namespace Abilities.SecondEdition
 
             SelectedShips[index] = TargetShip;
             StartSelectIllicitUpgradeSubphase(
-                HostUpgrade.UpgradeInfo.Name + ": Choose illicit upgrade to swap",
+                "Choose illicit upgrade to swap",
                 SelectedShips[index],
                 (GenericUpgrade illicitUpgrade) => { UpgradeCardIsSelected(index, illicitUpgrade); },
                 delegate { WhenSubphaseIsFinished(index); }
@@ -113,7 +113,10 @@ namespace Abilities.SecondEdition
                 subphaseCallback
             );
 
-            subphase.DescriptionShort = descriptionText;
+            subphase.DescriptionShort = "Cikatro Vizago";
+            subphase.DescriptionLong = descriptionText;
+            subphase.ImageSource = HostUpgrade;
+
             subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
             subphase.DecisionViewType = DecisionViewTypes.ImagesUpgrade;
 

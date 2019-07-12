@@ -2,6 +2,7 @@
 using Upgrade;
 using System;
 using System.Linq;
+using SubPhases;
 
 namespace UpgradesList.SecondEdition
 {
@@ -83,11 +84,16 @@ namespace Abilities.SecondEdition
 
         private void AskToSelectCrit()
         {
-            Phases.StartTemporarySubPhaseOld(
-                HostUpgrade.UpgradeInfo.Name + ": Select faceup damage card",
-                typeof(SubPhases.ChewbaccaRebelCrewDecisionSubPhase),
+            ChewbaccaRebelCrewDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<ChewbaccaRebelCrewDecisionSubPhase>(
+                "Chewbacca: Select faceup damage card",
                 Triggers.FinishTrigger
             );
+
+            subphase.DescriptionShort = "Chewbacca";
+            subphase.DescriptionLong = "Select Faceup Damage Card to repair";
+            subphase.ImageSource = HostUpgrade;
+
+            subphase.Start();
         }
     }
 }
@@ -100,8 +106,6 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            DescriptionShort = "Chewbacca: Select faceup damage card";
-
             DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
             foreach (var faceupCrit in Selection.ThisShip.Damage.GetFaceupCrits().ToList())

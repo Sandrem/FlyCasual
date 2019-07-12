@@ -98,7 +98,10 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
-            DescriptionShort = GlitterstimAbility.HostShip.ShipId + ": Use ability of Glitterstim?";
+            DescriptionShort = "Glitterstim?";
+            DescriptionLong = GlitterstimAbility.HostShip.ShipId + ": Activate Glitterstim?";
+            ImageSource = GlitterstimAbility.HostUpgrade;
+
             RequiredPlayer = GlitterstimAbility.HostShip.Owner.PlayerNo;
 
             AddDecision("Yes", UseGlitterstimAbility);

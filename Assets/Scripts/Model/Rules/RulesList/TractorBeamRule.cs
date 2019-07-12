@@ -266,7 +266,9 @@ namespace SubPhases
                 DecisionSubPhase.ConfirmDecision();
             });
 
-            selectTractorDirection.DescriptionShort = "Select tractor beam direction for " + TheShip.PilotInfo.PilotName;
+            selectTractorDirection.DescriptionShort = "Tractor beam";
+            selectTractorDirection.DescriptionLong = "Select direction for " + TheShip.PilotInfo.PilotName;
+
             selectTractorDirection.DefaultDecisionName = selectTractorDirection.GetDecisions().First().Name;
             selectTractorDirection.RequiredPlayer = Assigner.PlayerNo;
             selectTractorDirection.ShowSkipButton = true;
@@ -274,7 +276,7 @@ namespace SubPhases
             selectTractorDirection.Start();
         }
 
-        private void FinishTractorBeamMovement(ActionsList.GenericAction action)
+        private void FinishTractorBeamMovement(GenericAction action)
         {
             TheShip.CallActionIsTaken(action, delegate {
                 // ^ CallActionIsTaken to support interaction with black one, etc

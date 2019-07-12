@@ -82,13 +82,16 @@ namespace Abilities.SecondEdition
                 TemplateIsSelected
             );
 
+            subphase.DescriptionShort = "Moff Jerjerrod";
+            subphase.DescriptionLong = "Choose a template - each friendly ship may perform a red boost action using that template";
+            subphase.ImageSource = HostUpgrade;
+
             List<string> decisions = new List<string>() { "Straight 1", "Bank 1 Left", "Bank 1 Right" };
             foreach (string item in decisions)
             {
                 subphase.AddDecision(item, delegate { SelectTemplate(item); }, isCentered: (item == "Straight 1"));
             }
 
-            subphase.DescriptionShort = "Choose a template - each friendly ship may perform a red boost action using that template";
             subphase.DefaultDecisionName = decisions.First();
             subphase.DecisionOwner = HostShip.Owner;
 

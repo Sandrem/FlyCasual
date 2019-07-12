@@ -42,7 +42,7 @@ namespace Abilities.SecondEdition
 
         protected override void AssignOptimizedPrototype()
         {
-            TargetShip.Tokens.AssignCondition(typeof(OptimizedPrototypeSE));
+            TargetShip.Tokens.AssignCondition(new OptimizedPrototypeSE(TargetShip) { SourceUpgrade = HostUpgrade });
             SelectShipSubPhase.FinishSelection();
         }
 
@@ -61,6 +61,8 @@ namespace Conditions
 {
     public class OptimizedPrototypeSE : GenericToken
     {
+        public GenericUpgrade SourceUpgrade;
+
         public OptimizedPrototypeSE(GenericShip host) : base(host)
         {
             Name = ImageName = "Optimized Prototype Condition";
@@ -84,7 +86,8 @@ namespace Conditions
             GenericAction action = new ActionsList.SecondEdition.OptimizedPrototypeDiceModificationSE()
             {
                 HostShip = Host,
-                ImageUrl = Tooltip
+                ImageUrl = Tooltip,
+                Source = SourceUpgrade
             };
 
             Host.AddAvailableDiceModification(action);
@@ -164,8 +167,11 @@ namespace ActionsList
             {
                 var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, Triggers.FinishTrigger);
 
+                newSubPhase.DescriptionShort = "Director Krennic's Optimized Prototype";
+                newSubPhase.DescriptionLong = "Choose what effect to apply to the defender:";
+                newSubPhase.ImageSource = Source;
+
                 newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
-                newSubPhase.DescriptionShort = "Choose what effect to apply to the defender:";
                 newSubPhase.ShowSkipButton = true;
                 newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;
 

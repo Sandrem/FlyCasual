@@ -25,7 +25,7 @@ namespace ActionsList
                 Phases.CurrentSubPhase.CallBack
             );
 
-            decisionSubphase.DescriptionShort = "Select a side";
+            decisionSubphase.DescriptionShort = "Reinforce: Select a side";
             decisionSubphase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             decisionSubphase.AddDecision(

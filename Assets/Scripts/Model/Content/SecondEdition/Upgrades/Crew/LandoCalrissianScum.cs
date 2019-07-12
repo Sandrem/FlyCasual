@@ -47,7 +47,13 @@ namespace Abilities.SecondEdition
                     "Lando Calrissian: Select green token to spend",
                     delegate { callback(true); }
                 );
+
+                subphase.DescriptionShort = "Lando Calrissian";
+                subphase.DescriptionLong = "Select a green token to spend";
+                subphase.ImageSource = HostUpgrade;
+
                 subphase.HostShip = HostShip;
+                subphase.DecisionOwner = HostShip.Owner;
                 subphase.Start();
             }
             else
@@ -76,12 +82,5 @@ namespace Abilities.SecondEdition
 
 namespace SubPhases
 {
-    public class LandoCalrissianScumAbilityDecisionSubPhase : SpendGreenTokenDecisionSubPhase
-    {
-        public override void PrepareCustomDecisions()
-        {
-            DescriptionShort = "Select green token to spend";
-            DecisionOwner = HostShip.Owner;
-        }
-    }
+    public class LandoCalrissianScumAbilityDecisionSubPhase : SpendGreenTokenDecisionSubPhase {}
 }

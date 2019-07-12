@@ -102,7 +102,9 @@ namespace Abilities.FirstEdition
                 }
             }
 
-            selectTargetLockToDiscardDecision.DescriptionShort = "Select target lock to remove";
+            selectTargetLockToDiscardDecision.DescriptionShort = "Countermeasures";
+            selectTargetLockToDiscardDecision.DescriptionLong = "Select target lock to remove";
+            selectTargetLockToDiscardDecision.ImageSource = HostUpgrade;
 
             selectTargetLockToDiscardDecision.DefaultDecisionName = selectTargetLockToDiscardDecision.GetDecisions().First().Name;
 

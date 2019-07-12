@@ -54,12 +54,18 @@ namespace Abilities.SecondEdition
             Selection.ChangeActiveShip(HostShip);
 
             DeathfireAbilityDecision subphase = Phases.StartTemporarySubPhaseNew<DeathfireAbilityDecision>("\"Deathfire\"'s ability", Triggers.FinishTrigger);
+
+            subphase.DescriptionShort = "\"Deathfire\"";
+            subphase.DescriptionLong = "You may perform an attack and drop or launch 1 device";
+            subphase.ImageSource = HostShip;
+
             subphase.AddDecision("Perform attack", DoAttack);
             subphase.AddDecision("Drop or launch a device", DropBomb);
+
             subphase.DecisionOwner = HostShip.Owner;
             subphase.DefaultDecisionName = "Perform attack";
-            subphase.DescriptionShort = "Ability of \"Deathfire\"";
             subphase.ShowSkipButton = true;
+
             subphase.Start();
         }
 

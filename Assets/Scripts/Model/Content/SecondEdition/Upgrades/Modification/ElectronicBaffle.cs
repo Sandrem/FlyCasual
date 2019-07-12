@@ -94,7 +94,10 @@ namespace Abilities.SecondEdition
                     Triggers.FinishTrigger
                 );
 
-                pilotAbilityDecision.DescriptionShort = "Electronic Baffle: Choose which token to remove";
+                pilotAbilityDecision.DescriptionShort = "Electronic Baffle";
+                pilotAbilityDecision.DescriptionLong = "Choose which red token to remove";
+                pilotAbilityDecision.ImageSource = HostUpgrade;
+
                 pilotAbilityDecision.RequiredPlayer = HostShip.Owner.PlayerNo;
 
                 foreach (var Token in RedTokens)

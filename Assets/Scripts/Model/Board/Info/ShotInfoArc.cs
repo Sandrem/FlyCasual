@@ -83,7 +83,7 @@ namespace BoardTools
         {
             if (IsShotAvailable) return;
 
-            Dictionary<MeshCollider, bool> originalColliderValues = new Dictionary<MeshCollider, bool>();
+            Dictionary<Collider, bool> originalColliderValues = new Dictionary<Collider, bool>();
             foreach (var collider in Board.Objects)
             {
                 if (collider == null)

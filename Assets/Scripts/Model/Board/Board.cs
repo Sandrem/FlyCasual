@@ -18,7 +18,7 @@ namespace BoardTools
 
         public static readonly float PLAYMAT_SIZE = 10;
 
-        public static List<MeshCollider> Objects = new List<MeshCollider>();
+        public static List<Collider> Objects = new List<Collider>();
 
         public static void SetShips()
         {
@@ -42,6 +42,7 @@ namespace BoardTools
         private static void RegisterBoardObject(GenericShip ship)
         {
             Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider").GetComponent<MeshCollider>());
+            Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ObstaclesHitsDetector").GetComponent<BoxCollider>());
             Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<MeshCollider>());
         }
 
@@ -127,7 +128,7 @@ namespace BoardTools
 
         public static void Cleanup()
         {
-            Objects = new List<MeshCollider>();
+            Objects = new List<Collider>();
         }
 
         public static bool CheckInRange(GenericShip thisShip, GenericShip anotherShip, int minRange, int maxRange, RangeCheckReason reason = RangeCheckReason.Other)

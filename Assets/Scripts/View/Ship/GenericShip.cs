@@ -330,19 +330,19 @@ namespace Ship
 
         public void ToggleCollisionDetection(bool value)
         {
-            shipAllParts.Find("ShipBase/ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
+            shipAllParts.Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
             shipAllParts.Find("ShipBase/ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
         }
 
         public void ToggleColliders(bool value)
         {
-            shipAllParts.Find("ShipBase/ObstaclesStayDetector").GetComponent<Collider>().enabled = value;
+            shipAllParts.Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<Collider>().enabled = value;
             shipAllParts.Find("ShipBase/ObstaclesHitsDetector").GetComponent<Collider>().enabled = value;
         }
 
         public MeshCollider GetCollider()
         {
-            return shipAllParts.Find("ShipBase/ObstaclesStayDetector").GetComponent<MeshCollider>();
+            return shipAllParts.Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<MeshCollider>();
         }
 
         public void SetActive(bool argument)

@@ -70,6 +70,9 @@ namespace AI.Aggressor
                 ship.SetPositionInfo(Ships[ship].VirtualPositionInfo);
                 ship.GetShipAllPartsTransform().position = savedModelPosition.Position;
                 ship.GetShipAllPartsTransform().eulerAngles = savedModelPosition.Angles;
+                ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider").position = Ships[ship].VirtualPositionInfo.Position;
+                ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider").localPosition += new Vector3(0, 0.150289f, 1.156069f);
+                ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider").eulerAngles = Ships[ship].VirtualPositionInfo.Angles;
             }
             else
             {
@@ -85,6 +88,8 @@ namespace AI.Aggressor
                 ship.SetPositionInfo(Ships[ship].RealPositionInfo);
                 ship.GetShipAllPartsTransform().position = savedModelPosition.Position;
                 ship.GetShipAllPartsTransform().eulerAngles = savedModelPosition.Angles;
+                ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider").position = savedModelPosition.Position;
+                ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider").eulerAngles = savedModelPosition.Angles;
             }
             else
             {

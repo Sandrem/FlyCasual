@@ -41,8 +41,8 @@ namespace BoardTools
 
         private static void RegisterBoardObject(GenericShip ship)
         {
-            Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase").GetComponent<MeshCollider>());
-            Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ObstaclesStayDetector").GetComponent<MeshCollider>());
+            Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider").GetComponent<MeshCollider>());
+            Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<MeshCollider>());
         }
 
         public static void RegisterObstacle(GenericObstacle obstacle)

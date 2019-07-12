@@ -44,7 +44,7 @@ public class TokensChangePanel : MonoBehaviour
         {
             transform.Find("RemovedMark").gameObject.SetActive(true);
             MarkImage1 = transform.Find("RemovedMark/Line1").GetComponent<Image>();
-            MarkImage2 = transform.Find("RemovedMark/Line1").GetComponent<Image>();
+            MarkImage2 = transform.Find("RemovedMark/Line2").GetComponent<Image>();
         }
 
         PlanSelfDestruction();

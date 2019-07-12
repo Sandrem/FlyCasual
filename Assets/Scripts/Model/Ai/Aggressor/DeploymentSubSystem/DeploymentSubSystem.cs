@@ -161,7 +161,7 @@ namespace AI.Aggressor
             if (count + 1 > (shipsToSetup.Count(n => n.ShipInfo.BaseSize == BaseSize.Small) + 1) / 2)
             {
                 //if only 3 small ships without larger ships - still 1 row
-                if (shipsToSetup.Count(n => n.ShipInfo.BaseSize == BaseSize.Small) == 3 && shipsToSetup.Count(n => n.ShipInfo.BaseSize != BaseSize.Small) == 0)
+                if (shipsToSetup.Count(n => n.ShipInfo.BaseSize == BaseSize.Small) < 4 && shipsToSetup.Count(n => n.ShipInfo.BaseSize != BaseSize.Small) == 0)
                 {
                     return false;
                 }

@@ -28,7 +28,7 @@ namespace SubPhases
 
         public override void Next()
         {
-            Phases.CurrentPhase.NextPhase();
+            GameManagerScript.Wait(1, Phases.CurrentPhase.NextPhase);
         }
 
     }

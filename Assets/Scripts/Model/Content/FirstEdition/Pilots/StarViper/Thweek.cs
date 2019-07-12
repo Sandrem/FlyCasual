@@ -66,7 +66,7 @@ namespace Abilities.FirstEdition
             }
 
             selectTargetForThweekDecisionSubPhase.DescriptionShort = "Thweek";
-            selectTargetForThweekDecisionSubPhase.DescriptionLong = "Select enemy ship to copy pilot skill";
+            selectTargetForThweekDecisionSubPhase.DescriptionLong = "Select enemy ship";
             selectTargetForThweekDecisionSubPhase.ImageSource = HostShip;
 
             GenericShip bestEnemyAce = GetEnemyPilotWithHighestSkill();

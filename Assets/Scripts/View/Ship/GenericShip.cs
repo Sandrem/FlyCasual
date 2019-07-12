@@ -273,7 +273,7 @@ namespace Ship
             {
                 foreach (Renderer renderer in shipTransform.GetComponentsInChildren<Renderer>())
                 {
-                    if (renderer != null)
+                    if (renderer != null && renderer.gameObject.name != "Particle System")
                     {
                         renderer.material.SetTexture("_MainTex", skin);
                         renderer.material.SetColor("_Color", Color.white);

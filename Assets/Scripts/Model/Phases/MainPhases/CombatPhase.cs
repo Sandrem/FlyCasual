@@ -37,7 +37,7 @@ namespace MainPhases
         {
             Selection.DeselectAllShips();
 
-            if (DebugManager.CinematicCamera) CameraScript.RestoreCamera();
+            if (!DebugManager.NoCinematicCamera) CameraScript.RestoreCamera();
 
             if (Phases.Events.HasOnEndPhaseStartEvents)
             {

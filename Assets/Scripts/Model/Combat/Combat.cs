@@ -186,7 +186,7 @@ public static partial class Combat
 
         if (ChosenWeapon != null && Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent))
         {
-            if (DebugManager.CinematicCamera)
+            if (!DebugManager.NoCinematicCamera)
             {
                 CommandsList.ShotCamera.ShowShotCamera(Selection.ThisShip, Selection.AnotherShip);
                 GameManagerScript.Wait(3, StartLegalAttack);

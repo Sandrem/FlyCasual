@@ -25,7 +25,7 @@ namespace Players
         {
             UI.ShowSkipButton();
 
-            if (DebugManager.CinematicCamera) CameraScript.RestoreCamera();
+            if (!DebugManager.NoCinematicCamera) CameraScript.RestoreCamera();
 
             base.PerformAttack();
         }

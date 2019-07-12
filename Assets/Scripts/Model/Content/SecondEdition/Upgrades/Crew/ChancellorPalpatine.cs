@@ -140,16 +140,21 @@ namespace Abilities.SecondEdition
         private void CoordinateShipSelected(GenericShip ship)
         {
             TargetShip = ship;
-            ship.OnActionIsPerformed += RegisterAbility;            
+            HostShip.OnActionIsPerformed += RegisterAbility;
         }
 
         private void RegisterAbility(GenericAction action)
         {
-            TargetShip.OnActionIsPerformed -= RegisterAbility;
-            RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, ShowDecision);
+            HostShip.OnActionIsPerformed -= RegisterAbility;
+            RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, AssignStress);
         }
 
-        private void ShowDecision(object sender, EventArgs e)
+        private void AssignStress(object sender, EventArgs e)
+        {
+            TargetShip.Tokens.AssignToken(typeof(Tokens.StressToken), ShowDecision);
+        }
+
+        private void ShowDecision()
         {
             var phase = Phases.StartTemporarySubPhaseNew<DarthSidiousDecisionSubPhase>("Darth Sidious", Triggers.FinishTrigger);
             phase.TargetShip = TargetShip;

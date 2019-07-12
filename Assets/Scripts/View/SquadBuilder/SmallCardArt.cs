@@ -71,7 +71,15 @@ public class SmallCardArt : MonoBehaviour {
             if (Edition.Current is SecondEdition)
             {
                 if (!textureIsScaled) TextureScale.Bilinear(newTexture, 700, 503);
-                imageRect = new Rect(281, 0, 394, 202);
+
+                if (!(imageSource as GenericUpgrade).HasType(UpgradeType.Configuration))
+                {
+                    imageRect = new Rect(281, 0, 394, 202);
+                }
+                else
+                {
+                    imageRect = new Rect(25, 0, 394, 202);
+                }
             }
             else
             {

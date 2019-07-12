@@ -408,7 +408,19 @@ namespace Players
 
         public override void TakeDecision()
         {
-            if (Phases.CurrentSubPhase is ActionDecisonSubPhase)
+            DecisionSubPhase subphase = (Phases.CurrentSubPhase as DecisionSubPhase);
+
+            if (subphase.IsForced)
+            {
+                JSONObject parameters = new JSONObject();
+                parameters.AddField("name", subphase.GetDecisions().First().Name);
+                GameController.SendCommand(
+                    GameCommandTypes.Decision,
+                    Phases.CurrentSubPhase.GetType(),
+                    parameters.ToString()
+                );
+            }
+            else if (Phases.CurrentSubPhase is ActionDecisonSubPhase)
             {
                 PerformActionFromList(Selection.ThisShip.GetAvailableActions());
             }

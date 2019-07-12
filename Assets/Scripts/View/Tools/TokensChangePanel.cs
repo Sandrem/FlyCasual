@@ -8,6 +8,8 @@ public class TokensChangePanel : MonoBehaviour
 {
     private GenericShip Host;
     private Image TokenImage;
+    private Image MarkImage1;
+    private Image MarkImage2;
 
     private float DelaySeconds = 2f;
     private float TimeStarted;
@@ -38,6 +40,13 @@ public class TokensChangePanel : MonoBehaviour
 
         transform.position = Camera.main.WorldToScreenPoint(Host.GetCenter() + ABOVE_SHIP) + CENTER_PANEL;
 
+        if (!isAssigned)
+        {
+            transform.Find("RemovedMark").gameObject.SetActive(true);
+            MarkImage1 = transform.Find("RemovedMark/Line1").GetComponent<Image>();
+            MarkImage2 = transform.Find("RemovedMark/Line1").GetComponent<Image>();
+        }
+
         PlanSelfDestruction();
     }
 
@@ -52,7 +61,10 @@ public class TokensChangePanel : MonoBehaviour
         }
         else
         {
-            TokenImage.color = new Color(1, 1, 1, (DelaySeconds - (Time.time - TimeStarted)) / DelaySeconds);
+            float alpha = (DelaySeconds - (Time.time - TimeStarted)) / DelaySeconds;
+            TokenImage.color = new Color(1, 1, 1, alpha);
+            MarkImage1.color = new Color(0, 0, 0, alpha);
+            MarkImage2.color = new Color(0, 0, 0, alpha);
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -45,7 +46,7 @@ namespace Abilities.SecondEdition
 
         private void LuloLamparAbilityAtkPilotAbility(ref int result)
         {
-            if (HostShip.IsStressed)
+            if (HostShip.IsStressed && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 Messages.ShowInfo("L'ulo L'ampar is stressed and gains +1 attack die");
                 result++;

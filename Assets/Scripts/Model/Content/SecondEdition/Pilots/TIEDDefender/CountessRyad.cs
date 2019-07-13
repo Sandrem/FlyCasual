@@ -45,7 +45,9 @@ namespace Abilities.SecondEdition
         protected override void RegisterAskChangeManeuver(GenericShip ship)
         {
             //I have assumed that you can not use this ability if you execute a red maneuver
-            if (HostShip.AssignedManeuver.ColorComplexity != MovementComplexity.Complex && HostShip.AssignedManeuver.Bearing == ManeuverBearing.Straight)
+            if (HostShip.AssignedManeuver.ColorComplexity != MovementComplexity.Complex
+                && HostShip.AssignedManeuver.Bearing == ManeuverBearing.Straight
+                && !HostShip.Tokens.HasToken(typeof(Tokens.IonToken)))
             {
                 RegisterAbilityTrigger(TriggerTypes.BeforeMovementIsExecuted, AskChangeManeuver);
             }

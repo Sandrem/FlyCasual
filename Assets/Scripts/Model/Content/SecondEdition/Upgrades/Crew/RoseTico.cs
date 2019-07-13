@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
             GenericAction diceModification = new ActionsList.SecondEdition.RoseTicoDiceModification()
             {
                 HostShip = host,
-                ImageUrl = host.ImageUrl
+                ImageUrl = HostUpgrade.ImageUrl
             };
             host.AddAvailableDiceModification(diceModification);
         }

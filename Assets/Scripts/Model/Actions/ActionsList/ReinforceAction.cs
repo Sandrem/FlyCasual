@@ -26,17 +26,17 @@ namespace ActionsList
             );
 
             decisionSubphase.DescriptionShort = "Reinforce: Select a side";
-            decisionSubphase.RequiredPlayer = HostShip.Owner.PlayerNo;
+            decisionSubphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
             decisionSubphase.AddDecision(
                 "Fore side",
-                delegate { HostShip.Tokens.AssignToken(typeof(ReinforceForeToken), DecisionSubPhase.ConfirmDecision); },
+                delegate { Selection.ThisShip.Tokens.AssignToken(typeof(ReinforceForeToken), DecisionSubPhase.ConfirmDecision); },
                 isCentered: true
             );
 
             decisionSubphase.AddDecision(
                 "Aft side",
-                delegate { HostShip.Tokens.AssignToken(typeof(ReinforceAftToken), DecisionSubPhase.ConfirmDecision); },
+                delegate { Selection.ThisShip.Tokens.AssignToken(typeof(ReinforceAftToken), DecisionSubPhase.ConfirmDecision); },
                 isCentered: true
             );
 
@@ -49,8 +49,8 @@ namespace ActionsList
         {
             int result = 0;
 
-            int resultFore = 25 + 30 * ActionsHolder.CountEnemiesTargeting(HostShip, 1);
-            int resultAft = 25 + 30 * ActionsHolder.CountEnemiesTargeting(HostShip, -1);
+            int resultFore = 25 + 30 * ActionsHolder.CountEnemiesTargeting(Selection.ThisShip, 1);
+            int resultAft = 25 + 30 * ActionsHolder.CountEnemiesTargeting(Selection.ThisShip, -1);
 
             aiBetterSide = (resultFore >= resultAft) ? Direction.Top : Direction.Bottom;
 

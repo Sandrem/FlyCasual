@@ -153,8 +153,7 @@ namespace Upgrade
                 );
             }
 
-            // TODO: Select enemy ship first, friendly last
-            subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
+            subphase.DefaultDecisionName = (enemyShipToDetonate != null) ? enemyShipToDetonate.ShipId + ": " + enemyShipToDetonate.PilotInfo.PilotName : subphase.GetDecisions().First().Name;
 
             subphase.Start();
         }

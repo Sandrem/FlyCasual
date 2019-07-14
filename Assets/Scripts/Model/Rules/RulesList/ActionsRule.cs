@@ -28,8 +28,7 @@ namespace RulesList
             ActionColor color = action.Color;
             color = Selection.ThisShip.CallOnCheckActionComplexity(action, ref color);
 
-            //AI perfroms red actions as white
-            if (color == ActionColor.Red && !(Selection.ThisShip.Owner is Players.GenericAiPlayer))
+            if (color == ActionColor.Red)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

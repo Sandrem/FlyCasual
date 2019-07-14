@@ -600,6 +600,8 @@ public partial class DiceRoll
 
             foreach (Die die in DiceList)
             {
+                die.Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
+
                 DieSide face = die.GetModelFace();
                 die.SetSide(face);
 

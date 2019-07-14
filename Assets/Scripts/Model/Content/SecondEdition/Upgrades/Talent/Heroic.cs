@@ -25,7 +25,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    //While you perform a primary attack, if the defender is in your bullseye firing arc, you may reroll 1 attack die.
+    //While you defend or perform an attack, if you have only blank results and have two or more results, you may reroll any number of your dice.
     public class HeroicAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -47,21 +47,9 @@ namespace Abilities.SecondEdition
 
         public bool IsDiceModificationAvailable()
         {
-            bool result = false;
-
-            switch (Combat.AttackStep)
-            {
-                case CombatStep.Attack:
-                    if (Combat.CurrentDiceRoll.Blanks == Combat.CurrentDiceRoll.Count) result = true;
-                    break;
-                case CombatStep.Defence:
-                    if (Combat.CurrentDiceRoll.Blanks == Combat.CurrentDiceRoll.Count) result = true;
-                    break;
-                default:
-                    break;
-            }
-
-            return result;
+            return (Combat.AttackStep == CombatStep.Defence || Combat.AttackStep == CombatStep.Attack)
+                && (Combat.CurrentDiceRoll.Count == Combat.CurrentDiceRoll.Blanks)
+                && (Combat.CurrentDiceRoll.Count >= 2);
         }
 
         public int GetDiceModificationAiPriority()

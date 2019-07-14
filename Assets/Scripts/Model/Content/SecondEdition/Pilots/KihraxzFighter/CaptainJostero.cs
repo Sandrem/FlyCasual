@@ -30,6 +30,8 @@ namespace Abilities.SecondEdition
     {
         private bool performedRegularAttack;
 
+        private GenericShip damagedShip;
+
         public override void ActivateAbility()
         {
             GenericShip.OnDamageInstanceResolvedGlobal += CheckJosteroAbility;
@@ -54,8 +56,10 @@ namespace Abilities.SecondEdition
             if (Combat.Defender == damaged || damage.DamageType == DamageTypes.ShipAttack)
                 return;
 
-            // Save the value for whether they've attacked or not.
+            // Save the value for whether we've attacked or not.
             performedRegularAttack = HostShip.IsAttackPerformed;
+
+            damagedShip = damaged;
 
             // It may be possible in the future for a non-defender to be damaged in combat so we've got to future proof here.
             if (Combat.AttackStep == CombatStep.None)
@@ -81,8 +85,9 @@ namespace Abilities.SecondEdition
 
         private void CleanupBonusAttack()
         {
-            // Restore previous value of "is already attacked" flag
+            // Restore previous value of "has already attacked" flag
             HostShip.IsAttackPerformed = performedRegularAttack;
+            Selection.ChangeActiveShip("ShipId:" + damagedShip.ShipId);
             Triggers.FinishTrigger();
         }
     }

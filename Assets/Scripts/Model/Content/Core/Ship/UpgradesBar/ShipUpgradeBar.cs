@@ -15,6 +15,8 @@ namespace Upgrade
         private List<UpgradeType> ForbiddenSlots;
         private Dictionary<UpgradeType, int> CostReductionByType;
 
+        public List<GenericUpgrade> InstalledUpgradesAll_System { get; set; }
+
         public ShipUpgradeBar(GenericShip hostShip)
         {
             HostShip = hostShip;
@@ -22,6 +24,7 @@ namespace Upgrade
             UpgradeSlots = new List<UpgradeSlot>();
             ForbiddenSlots = new List<UpgradeType>();
             CostReductionByType = new Dictionary<UpgradeType, int>();
+            InstalledUpgradesAll_System = new List<GenericUpgrade>();
         }
 
         public void AddSlot(UpgradeType slotType)
@@ -105,9 +108,9 @@ namespace Upgrade
 
         public List<GenericUpgrade> GetUpgradesAll()
         {
-            List<GenericUpgrade> result = UpgradeSlots.Where(n => (!n.IsEmpty && n.InstalledUpgrade.GetType() != typeof(UpgradesList.EmptyUpgrade))).ToList().Select(n => n.InstalledUpgrade).ToList();
-            if (result == null) result = new List<GenericUpgrade>();
-            return result;
+            List<GenericUpgrade> result = new List<GenericUpgrade>();
+            result.AddRange(InstalledUpgradesAll_System);
+            return InstalledUpgradesAll_System;
         }
 
         /**

@@ -121,7 +121,8 @@ namespace Abilities.SecondEdition
                 HostShip,
                 TriggerTypes.OnAbilityDirect,
                 subType: UpgradeSubType.Bomb,
-                onlyDrop: true
+                onlyDrop: true,
+                isRealDrop: false
             );
 
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, Triggers.FinishTrigger);

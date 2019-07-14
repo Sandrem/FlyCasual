@@ -80,7 +80,20 @@ namespace Abilities.SecondEdition
 
         private void RegisterBonusAttack(object sender, System.EventArgs e)
         {
-            HostShip.StartBonusAttack(CleanupBonusAttack);
+            HostShip.StartBonusAttack(CleanupBonusAttack, IsDamagedShip);
+        }
+
+        private bool IsDamagedShip(GenericShip defender, IShipWeapon weapon, bool isSilent)
+        {
+            if (defender == damagedShip)
+            {
+                return true;
+            }
+            else
+            {
+                if (!isSilent) Messages.ShowErrorToHuman("Your bonus attack must be against the ship that just suffered damage");
+                return false;
+            }
         }
 
         private void CleanupBonusAttack()

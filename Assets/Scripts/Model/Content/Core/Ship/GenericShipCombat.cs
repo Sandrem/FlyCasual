@@ -875,7 +875,7 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnAfterNeutralizeResults, callback);
         }
 
-        public void StartBonusAttack(Action callback)
+        public void StartBonusAttack(Action callback, Func<GenericShip, IShipWeapon, bool, bool> bonusAttackFilter = null)
         {
             if(!CanBonusAttack)
             {
@@ -889,9 +889,9 @@ namespace Ship
 			Combat.StartSelectAttackTarget(
 				this,
 				callback,
-				null,
+				bonusAttackFilter,
                 PilotInfo.PilotName,
-				"You may perform a primary weapon attack",
+				"You may perform a bonus attack",
 				this
 			);
         }

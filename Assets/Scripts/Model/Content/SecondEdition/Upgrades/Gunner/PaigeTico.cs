@@ -74,9 +74,8 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            //TODO: Must not be an action
             HostShip.AskPerformFreeAction(
-                new RotateArcAction(),
+                new RotateArcAction() { IsRealAction = false },
                 Triggers.FinishTrigger,
                 HostUpgrade.UpgradeInfo.Name,
                 "After you perform a primary attack, you may rotate your Turret Arc",
@@ -123,7 +122,8 @@ namespace Abilities.SecondEdition
                 HostShip,
                 TriggerTypes.OnAbilityDirect,
                 subType: UpgradeSubType.Bomb,
-                onlyDrop: true
+                onlyDrop: true,
+                isRealDrop: false
             );
 
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, Triggers.FinishTrigger);

@@ -214,9 +214,9 @@ namespace Bombs
             CheckBombDropAvailability(ship, TriggerTypes.OnMovementActivationStart);
         }
 
-        public static void CheckBombDropAvailability(GenericShip ship, TriggerTypes triggerType, UpgradeSubType subType = UpgradeSubType.None, bool onlyDrop = false)
+        public static void CheckBombDropAvailability(GenericShip ship, TriggerTypes triggerType, UpgradeSubType subType = UpgradeSubType.None, bool onlyDrop = false, bool isRealDrop = true)
         {
-            if (!ship.IsBombAlreadyDropped && HasBombsToDrop(ship, subType))
+            if ((!isRealDrop || !ship.IsBombAlreadyDropped) && HasBombsToDrop(ship, subType))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {

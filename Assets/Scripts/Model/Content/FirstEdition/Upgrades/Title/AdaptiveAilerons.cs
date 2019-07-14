@@ -158,11 +158,16 @@ namespace Abilities.FirstEdition
         private void FinishAdaptiveAileronsAbility()
         {
             RestoreManuverColors(HostShip);
-
             Phases.CurrentSubPhase.IsReadyForCommands = true;
-            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, SavedManeuver.ToString());
-            //GameMode.CurrentGameMode.AssignManeuver(SavedManeuver.ToString());
-            // It calls Triggers.FinishTrigger
+            //ship may have flown off the board; only assign saved maneuver if ship is exists
+            if (Roster.GetShipById("ShipId:" + Selection.ThisShip.ShipId) != null)
+            {
+                ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, SavedManeuver.ToString());
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         private bool AdaptiveAileronsFilter(string maneuverString)

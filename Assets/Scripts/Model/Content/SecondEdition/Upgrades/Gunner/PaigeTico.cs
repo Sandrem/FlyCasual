@@ -79,7 +79,8 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger,
                 HostUpgrade.UpgradeInfo.Name,
                 "After you perform a primary attack, you may rotate your Turret Arc",
-                HostUpgrade
+                HostUpgrade,
+                isForced: true
             );
         }
 

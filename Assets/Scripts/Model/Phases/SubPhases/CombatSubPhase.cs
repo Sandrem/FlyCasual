@@ -347,7 +347,6 @@ namespace SubPhases
 
         private void AfterSkippedCombatActivation(GenericShip ship)
         {
-            if (!ship.IsAttackPerformed) ship.CallAfterAttackWindow();
             ship.IsAttackPerformed = true;
 
             Selection.DeselectThisShip();

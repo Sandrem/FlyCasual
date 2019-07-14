@@ -116,7 +116,6 @@ namespace Players
                 GenericShip targetForAttack = SelectTargetForAttack();
 
                 Selection.ThisShip.IsAttackPerformed = true;
-                Selection.ThisShip.CallAfterAttackWindow();
 
                 if (targetForAttack != null)
                 {

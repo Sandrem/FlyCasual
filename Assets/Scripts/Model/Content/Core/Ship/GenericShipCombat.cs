@@ -212,7 +212,6 @@ namespace Ship
         {
             if (Combat.Attacker.ShipId == this.ShipId)
             {
-                CallAfterAttackWindow();
                 IsAttackPerformed = true;
 
                 if (OnAttackStartAsAttacker != null) OnAttackStartAsAttacker();

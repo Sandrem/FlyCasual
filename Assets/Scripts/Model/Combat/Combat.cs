@@ -557,6 +557,7 @@ public static partial class Combat
             typeof(SelectTargetForAttackSubPhase),
             delegate
             {
+                ship.CallAfterAttackWindow();
                 Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
                 callback();
             }

@@ -72,7 +72,7 @@ public class ObstaclesStayDetectorForced: MonoBehaviour {
                 if (collisionInfo.tag != TheShip.GetTag())
                 {
                     GenericShip ship = Roster.GetShipById(collisionInfo.tag);
-                    if (ship != null) OverlappedShipsNow.Add(ship);
+                    if (ship != null && !OverlappedShipsNow.Contains(ship)) OverlappedShipsNow.Add(ship);
                 }
                 else if (collisionInfo.tag == TheShip.GetTag())
                 {

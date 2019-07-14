@@ -54,14 +54,7 @@ namespace Abilities.SecondEdition
 
         public int GetDiceModificationAiPriority()
         {
-            int result = 0;
-
-            if (Combat.AttackStep == CombatStep.Attack || Combat.AttackStep == CombatStep.Defence)
-            {
-                if (Combat.CurrentDiceRoll.Blanks == Combat.CurrentDiceRoll.Count) result = 95;
-            }
-
-            return result;
+            return 95;
         }
     }
 }

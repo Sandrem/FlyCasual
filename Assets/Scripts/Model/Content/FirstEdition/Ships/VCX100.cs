@@ -29,6 +29,8 @@ namespace Ship.FirstEdition.VCX100
                     new ActionInfo(typeof(EvadeAction))
                 ),
                 new ShipUpgradesInfo(
+                    UpgradeType.Title,
+                    UpgradeType.Modification,
                     UpgradeType.System,
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,

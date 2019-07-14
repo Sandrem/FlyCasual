@@ -58,7 +58,7 @@ namespace Abilities.FirstEdition
 
         private void ActivateEffect(GenericDualUpgrade upgrade)
         {
-            HostShip.State.AddPilotSkillModifier(this);
+            if (upgrade == HostUpgrade) HostShip.State.AddPilotSkillModifier(this);
         }
 
         public virtual void ModifyPilotSkill(ref int pilotSkill)

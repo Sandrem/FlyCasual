@@ -107,7 +107,7 @@ namespace Abilities.SecondEdition
         private bool IsClusterMissilesShotToNeighbour(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
-            string TargetingFailure = "The attack can be performed.";
+            string TargetingFailure = "The attack can be performed";
             if (weapon == HostUpgrade)
             {
                 if (defender.ShipId != OriginalDefender.ShipId)
@@ -119,17 +119,17 @@ namespace Abilities.SecondEdition
                     }
                     else
                     {
-                        TargetingFailure = "The attack cannot be performed. The new target is further than range 2 from the attacker.";
+                        TargetingFailure = "The attack cannot be performed. The new target is further than range 1 from the original target";
                     }
                 }
                 else
                 {
-                    TargetingFailure = "The attack cannot be performed. You cannot attack the original target of Cluster Missiles with the second attack.";
+                    TargetingFailure = "The attack cannot be performed. You cannot attack the original target of Cluster Missiles with the second attack";
                 }
             }
             else
             {
-                TargetingFailure = "The attack cannot be performed: Weapon " + HostUpgrade.UpgradeInfo.Name + " is not equipped."; 
+                TargetingFailure = "The attack cannot be performed: Weapon " + HostUpgrade.UpgradeInfo.Name + " is not equipped";
             }
 
             if (result == false && !isSilent) Messages.ShowErrorToHuman(TargetingFailure);

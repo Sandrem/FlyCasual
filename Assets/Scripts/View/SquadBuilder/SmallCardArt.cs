@@ -83,7 +83,8 @@ public class SmallCardArt : MonoBehaviour {
             }
             else
             {
-                imageRect = new Rect(0, 0, 270, 145);
+                if (!textureIsScaled) TextureScale.Bilinear(newTexture, 194, 300);
+                imageRect = new Rect(0, 0, 194, 103);
             }
         }
         if (!SquadBuilder.TextureCache.ContainsKey(textureCacheKey)) SquadBuilder.TextureCache.Add(textureCacheKey, newTexture);

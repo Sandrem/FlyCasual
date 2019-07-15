@@ -100,7 +100,10 @@ namespace Abilities.SecondEdition
         {
             // Restore previous value of "has already attacked" flag
             HostShip.IsAttackPerformed = performedRegularAttack;
-            Selection.ChangeActiveShip("ShipId:" + damagedShip.ShipId);
+
+            // Restore ship selection
+            Selection.ChangeActiveShip(damagedShip);
+
             Triggers.FinishTrigger();
         }
     }

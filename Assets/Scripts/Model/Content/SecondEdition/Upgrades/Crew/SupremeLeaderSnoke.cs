@@ -60,6 +60,7 @@ namespace Abilities.SecondEdition
             subphase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             subphase.Filter = FilterSelection;
+            subphase.GetAiPriority = GetAiPriority;
             subphase.MaxToSelect = HostShip.State.Force;
             subphase.WhenDone = FlipDialsFaceup;
 
@@ -68,6 +69,12 @@ namespace Abilities.SecondEdition
             subphase.ImageSource = HostUpgrade;
 
             subphase.Start();
+        }
+
+        private int GetAiPriority(GenericShip ship)
+        {
+            // Never use ability
+            return 0;
         }
 
         private void FlipDialsFaceup(Action callback)

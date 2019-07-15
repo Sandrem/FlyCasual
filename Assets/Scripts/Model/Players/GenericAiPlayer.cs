@@ -353,6 +353,13 @@ namespace Players
             }
         }
 
+        public override void SelectShipsForAbility()
+        {
+            base.SelectShipsForAbility();
+
+            (Phases.CurrentSubPhase as MultiSelectionSubphase).AiSelectPrioritizedTarget();
+        }
+
         public override void RerollManagerIsPrepared()
         {
             base.RerollManagerIsPrepared();

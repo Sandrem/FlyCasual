@@ -17,6 +17,8 @@ namespace SubPhases
 
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressNext }; } }
 
+        public Func<GenericShip, int> GetAiPriority;
+
         public override void Start()
         {
             IsTemporary = true;
@@ -34,11 +36,43 @@ namespace SubPhases
             if (Phases.CurrentSubPhase == this)
             {
                 ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
-                Roster.HighlightShipsFiltered(Filter);
+                UI.ShowNextButton();
 
                 IsReadyForCommands = true;
-                UI.ShowNextButton();
+                Roster.GetPlayer(RequiredPlayer).SelectShipsForAbility();
             }
+        }
+
+        public void AiSelectPrioritizedTarget()
+        {
+            List<GenericShip> filteredShips = Roster.AllShips.Values.Where(n => Filter(n)).ToList();
+            if (filteredShips != null && filteredShips.Count != 0)
+            {
+                Dictionary<GenericShip, int> prioritizedTargets = new Dictionary<GenericShip, int>();
+
+                // Calculate priority of each valid ship
+                foreach (var ship in filteredShips)
+                {
+                    prioritizedTargets.Add(ship, GetAiPriority(ship));
+                }
+
+                // Soft by priority
+                prioritizedTargets = prioritizedTargets.OrderByDescending(n => n.Value).ToDictionary(n => n.Key, m => m.Value);
+
+                // Select N with highest priority
+                for (int i = 0; i < MaxToSelect; i++)
+                {
+                    if (prioritizedTargets.Count > 0)
+                    {
+                        var shipToSelectData = prioritizedTargets.First();
+                        // Select only if priority > 0
+                        if (shipToSelectData.Value != 0) Selection.ToggleMultiSelection(shipToSelectData.Key);
+                        prioritizedTargets.Remove(shipToSelectData.Key);
+                    }
+                }
+            }
+
+            NextButton();
         }
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)

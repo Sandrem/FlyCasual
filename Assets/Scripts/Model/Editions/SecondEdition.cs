@@ -278,8 +278,8 @@ namespace Editions
 
         public override void TimedBombActivationTime(GenericShip ship)
         {
-            ship.OnSystemsAbilityActivation -= BombsManager.CheckBombDropAvailability;
-            ship.OnSystemsAbilityActivation += BombsManager.CheckBombDropAvailability;
+            ship.OnSystemsAbilityActivationGenerateListeners -= BombsManager.CheckBombDropAvailabilitySystemPhase;
+            ship.OnSystemsAbilityActivationGenerateListeners += BombsManager.CheckBombDropAvailabilitySystemPhase;
         }
 
         public override bool IsTokenCanBeDiscardedByJam(GenericToken token)

@@ -80,7 +80,7 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            BombsManager.CheckBombDropAvailability(HostShip, TriggerTypes.OnAbilityDirect);
+            BombsManager.RegisterBombDropTriggerIfAvailable(HostShip, TriggerTypes.OnAbilityDirect);
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, Triggers.FinishTrigger);
         }
 

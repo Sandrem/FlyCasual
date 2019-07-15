@@ -90,34 +90,41 @@ namespace Abilities.SecondEdition
 
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
-            Selection.ChangeAnotherShip(BombEffectTargetShip);
-
-            SabineWrenDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<SabineWrenDecisionSubphase>(
-                "Sabine Wren: Select token to assign", 
-                Triggers.FinishTrigger
-            );
-
-            foreach (var item in ReadyTokens)
+            if (BombEffectTargetShip.IsDestroyed || BombEffectTargetShip.IsReadyToBeDestroyed)
             {
-                subphase.AddDecision(
-                    item.Key.Name,
-                    delegate { AssignToken(item.Key); }
-                );
+                Triggers.FinishTrigger();
             }
+            else
+            {
+                Selection.ChangeAnotherShip(BombEffectTargetShip);
 
-            subphase.AddDecision(
-                "None",
-                delegate { AssignToken(null); }
-            );
+                SabineWrenDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<SabineWrenDecisionSubphase>(
+                    "Sabine Wren: Select token to assign",
+                    Triggers.FinishTrigger
+                );
 
-            subphase.DescriptionShort = "Sabine Wren";
-            subphase.DescriptionLong = string.Format("Select token to assign to {0} (ID:{1})", BombEffectTargetShip.PilotInfo.PilotName, BombEffectTargetShip.ShipId);
-            subphase.ImageSource = HostUpgrade;
+                foreach (var item in ReadyTokens)
+                {
+                    subphase.AddDecision(
+                        item.Key.Name,
+                        delegate { AssignToken(item.Key); }
+                    );
+                }
 
-            subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
-            subphase.RequiredPlayer = HostShip.Owner.PlayerNo;
-            subphase.ShowSkipButton = true;
-            subphase.Start();
+                subphase.AddDecision(
+                    "None",
+                    delegate { AssignToken(null); }
+                );
+
+                subphase.DescriptionShort = "Sabine Wren";
+                subphase.DescriptionLong = string.Format("Select token to assign to {0} (ID:{1})", BombEffectTargetShip.PilotInfo.PilotName, BombEffectTargetShip.ShipId);
+                subphase.ImageSource = HostUpgrade;
+
+                subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
+                subphase.RequiredPlayer = HostShip.Owner.PlayerNo;
+                subphase.ShowSkipButton = true;
+                subphase.Start();
+            }
         }
 
         private void AssignToken(GenericToken token)

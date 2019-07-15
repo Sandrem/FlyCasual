@@ -192,6 +192,8 @@ public class CameraScript : MonoBehaviour {
 
     public static void ToggleMode()
     {
+        if (IsCinematic) return;
+
         ChangeMode((cameraMode == CameraModes.Free) ? CameraModes.TopDown : CameraModes.Free);
         SetDefaultCameraPosition();
     }

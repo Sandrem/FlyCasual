@@ -1,4 +1,6 @@
 ﻿using System;
+using UnityEngine;
+using System.Linq;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -71,7 +73,7 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnImmediatelyAfterReRolling -= CheckForCrit;
 
-            if (diceroll.HasResult(DieSide.Crit))
+            if (diceroll.DiceRerolled.Any(n => n.Side == DieSide.Crit))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnImmediatelyAfterReRolling, DealDamage);
             }

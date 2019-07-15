@@ -16,23 +16,13 @@ public enum DiceRollCheckType
 
 public partial class DiceRoll
 {
-    public List<Die> DiceList
-    {
-        get;
-        private set;
-    }
+    public List<Die> DiceList { get; private set; }
 
-    public DiceKind Type
-    {
-        get;
-        private set;
-    }
+    public List<Die> DiceRerolled { get; private set; } = new List<Die>();
 
-    public DiceRollCheckType CheckType
-    {
-        get;
-        private set;
-    }
+    public DiceKind Type { get; private set; }
+
+    public DiceRollCheckType CheckType { get; private set; }
 
     public static DiceRoll CurrentDiceRoll;
 
@@ -301,7 +291,8 @@ public partial class DiceRoll
     {
         WasSelectedCount = SelectedCount;
 
-        foreach (Die die in DiceList.Where(n => n.IsSelected))
+        DiceRerolled = DiceList.Where(n => n.IsSelected).ToList();
+        foreach (Die die in DiceRerolled)
         {
             die.Reroll();
         }

@@ -884,11 +884,13 @@ namespace Ship
                 return;
             }
 
-            CanBonusAttack = false;
-
-			Combat.StartSelectAttackTarget(
+            Combat.StartSelectAttackTarget(
 				this,
-				callback,
+				delegate
+                {
+                    if (!this.IsAttackSkipped) CanBonusAttack = false;
+                    callback();
+                },
 				bonusAttackFilter,
                 PilotInfo.PilotName,
 				"You may perform a bonus attack",

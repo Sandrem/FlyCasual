@@ -272,7 +272,7 @@ namespace SquadBuilderNS
                 }
             }
 
-            AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.UpgradeInfo.Name).OrderBy(m => m.Instance.UpgradeInfo.Cost).ToList();
+            AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.UpgradeInfo.Name).ToList();
 
             //Messages.ShowInfo("Upgrades: " + AllUpgrades.Count);
         }

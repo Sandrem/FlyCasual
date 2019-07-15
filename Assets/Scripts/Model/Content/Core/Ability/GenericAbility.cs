@@ -721,7 +721,7 @@ namespace Abilities
         protected void ActivateDocking(Func<GenericShip, bool> filterDockableShips, Func<Direction, bool> filterUndockDirection = null)
         {
             FilterDockableShips = filterDockableShips;
-            HostShip.FilterUndockDirection = filterUndockDirection ?? delegate { return true; };
+            HostShip.FilterUndockDirection = filterUndockDirection ?? HostShip.FilterUndockDirection;
 
             Phases.Events.OnSetupStart += CheckInitialDockingAbility;
             Phases.Events.OnSystemsPhaseStart += CheckPotentialDockingShips;

@@ -103,7 +103,7 @@ namespace Ship
 
         public event EventHandlerCheckRange OnCheckRange;
 
-        public Func<Direction, bool> FilterUndockDirection { get; set; }
+        public Func<Direction, bool> FilterUndockDirection { get; set; } = delegate { return true; };
 
         public bool IsStrained
         {

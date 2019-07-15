@@ -75,7 +75,6 @@ namespace Abilities.FirstEdition
 
         public void ActivateContrabandCyberneticsAbility(object sender, System.EventArgs e)
         {
-            HostShip.OnMovementActivationStart -= RegisterTrigger;
             Phases.Events.OnEndPhaseStart_NoTriggers += DeactivateContrabandCyberneticsAbility;
 
             PayActivationCost(RemoveRestrictions);

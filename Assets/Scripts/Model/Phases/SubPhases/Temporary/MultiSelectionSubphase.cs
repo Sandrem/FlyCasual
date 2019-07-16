@@ -83,10 +83,6 @@ namespace SubPhases
                 {
                     Selection.ToggleMultiSelection(ship);
                 }
-                else
-                {
-                    Messages.ShowError("Only " + MaxToSelect + " ships can be selected");
-                }
             }
 
             return false;

@@ -78,7 +78,7 @@ public class GenericDamageCard
     protected void AddCancelCritAction()
     {
         ActionsList.CancelCritAction cancelCritAction = new ActionsList.CancelCritAction();
-        cancelCritAction.Initilize(this);
+        cancelCritAction.Initialize(this);
         Host.AddAvailableAction(cancelCritAction);
     }
 

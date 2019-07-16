@@ -37,7 +37,7 @@ namespace Abilities.SecondEdition
             Combat.DiceRollAttack.RemoveAllFailures();
 
             Combat.Defender.Tokens.AssignTokens(
-                () => new JamToken(Combat.Defender),
+                () => new JamToken(Combat.Defender, HostShip.Owner),
                 jammingBeamTokens,
                 Triggers.FinishTrigger
             );

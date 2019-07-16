@@ -1,15 +1,13 @@
 ﻿using Editions;
 using Ship;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Tokens
 {
-
     public class JamToken : GenericToken
     {
-        public JamToken(GenericShip host) : base(host)
+        public Players.GenericPlayer Assigner;
+
+        public JamToken(GenericShip host, Players.GenericPlayer assigner) : base(host)
         {
             Name = "Jam Token";
             ImageName = (Edition.Current is SecondEdition) ? "Jam Token SE" : "Jam Token FE";
@@ -17,6 +15,7 @@ namespace Tokens
             TokenColor = TokenColors.Orange;
             PriorityUI = 40;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/ReloadActionAndJamTokens.png";
+            Assigner = assigner;
         }
     }
 

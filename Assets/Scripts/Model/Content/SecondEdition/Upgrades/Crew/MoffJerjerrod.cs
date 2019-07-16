@@ -52,14 +52,14 @@ namespace Abilities.SecondEdition
         {
             if (HostUpgrade.State.Charges >= 2)
             {
-                ship.OnSystemsAbilityActivation += RegisterAbility;
+                HostShip.OnSystemsAbilityActivation += RegisterAbility;
             }
         }
 
         private void RegisterAbility(GenericShip ship)
         {
             RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToUseOwnAbility);
-            ship.OnSystemsAbilityActivation -= RegisterAbility;
+            HostShip.OnSystemsAbilityActivation -= RegisterAbility;
         }
 
         private void AskToUseOwnAbility(object sender, EventArgs e)

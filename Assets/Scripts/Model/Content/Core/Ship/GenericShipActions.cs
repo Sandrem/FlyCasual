@@ -127,6 +127,15 @@ namespace Ship
             return GetAvailableActions().Where(a => !a.IsRed).ToList();
         }
 
+        private GenericAction GetActionAsRed(GenericAction action)
+        {
+            //Make a deep clone to avoid changing the original action to red
+            GenericAction instance = (GenericAction)Activator.CreateInstance(action.GetType());
+            if (instance.IsCritCancelAction) ((CancelCritAction)instance).Initialize(((CancelCritAction)action).CritCard);
+            instance.Color = ActionColor.Red;
+            return instance;
+        }
+
         public List<GenericAction> GetAvailableActionsAsRed()
         {
             List<GenericAction> redActions = new List<GenericAction>();
@@ -135,9 +144,7 @@ namespace Ship
 
             foreach(GenericAction action in AvailableActionsList)
             {
-                GenericAction instance = (GenericAction)Activator.CreateInstance(action.GetType());
-                instance.Color = ActionColor.Red;
-                redActions.Add(instance);
+                redActions.Add(GetActionAsRed(action));
             }
 
             return redActions;
@@ -151,9 +158,7 @@ namespace Ship
 
             foreach (GenericAction action in AvailableActionsList.Where(n => !n.IsRed))
             {
-                GenericAction instance = (GenericAction)Activator.CreateInstance(action.GetType());
-                instance.Color = ActionColor.Red;
-                redActions.Add(instance);
+                redActions.Add(GetActionAsRed(action));
             }
 
             return redActions;

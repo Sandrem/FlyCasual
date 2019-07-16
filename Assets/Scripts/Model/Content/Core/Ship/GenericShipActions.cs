@@ -135,9 +135,8 @@ namespace Ship
 
             foreach(GenericAction action in AvailableActionsList)
             {
-                GenericAction instance = (GenericAction)Activator.CreateInstance(action.GetType());
-                instance.Color = ActionColor.Red;
-                redActions.Add(instance);
+                action.Color = ActionColor.Red;
+                redActions.Add(action);
             }
 
             return redActions;
@@ -151,9 +150,8 @@ namespace Ship
 
             foreach (GenericAction action in AvailableActionsList.Where(n => !n.IsRed))
             {
-                GenericAction instance = (GenericAction)Activator.CreateInstance(action.GetType());
-                instance.Color = ActionColor.Red;
-                redActions.Add(instance);
+                action.Color = ActionColor.Red;
+                redActions.Add(action);
             }
 
             return redActions;

@@ -83,7 +83,7 @@ namespace Abilities.SecondEdition
             var jammingShip = HostShip;
 
             targetShip.Tokens.AssignToken(
-                new Tokens.JamToken(targetShip),
+                new Tokens.JamToken(targetShip, HostShip.Owner),
                 DecisionSubPhase.ConfirmDecision
             );
         }

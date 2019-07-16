@@ -98,7 +98,7 @@ namespace Abilities.SecondEdition
 
                 DecisionViewType = DecisionViewTypes.TextButtons;
 
-                AddDecision("Jam", delegate { TokenSelected(new Tokens.JamToken(TargetShip)); });
+                AddDecision("Jam", delegate { TokenSelected(new Tokens.JamToken(TargetShip, HostShip.Owner)); });
                 AddDecision("Tractor", delegate { TokenSelected(new Tokens.TractorBeamToken(TargetShip, HostShip.Owner)); });
 
                 DefaultDecisionName = GetDecisions().First().Name;

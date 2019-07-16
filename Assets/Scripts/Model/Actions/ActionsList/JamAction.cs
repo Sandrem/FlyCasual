@@ -128,7 +128,7 @@ namespace SubPhases
                     Name = "Jam",
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnTokenIsAssigned,
-                    EventHandler = (s,e)=>AssignJamToken(targetShip)
+                    EventHandler = (s,e)=>AssignJamToken(targetShip, jammingShip)
                 }
             );
 
@@ -141,9 +141,9 @@ namespace SubPhases
             });
         }
 
-        private void AssignJamToken(GenericShip targetShip)
+        private void AssignJamToken(GenericShip targetShip, GenericShip jammingShip)
         {
-            targetShip.Tokens.AssignToken(typeof(JamToken), Triggers.FinishTrigger);
+            targetShip.Tokens.AssignToken(new JamToken(targetShip, jammingShip.Owner), Triggers.FinishTrigger);
         }
 
         public override void RevertSubPhase()

@@ -32,7 +32,7 @@ namespace Abilities.SecondEdition
         Dictionary<GenericToken, string> ReadyTokens = new Dictionary<GenericToken, string>()
         {
             { new IonToken(null), "I" },
-            { new JamToken(null), "J" },
+            { new JamToken(null, null), "J" },
             { new StressToken(null), "S" },
             { new TractorBeamToken(null, null), "TB" }
         };
@@ -135,6 +135,16 @@ namespace Abilities.SecondEdition
             if (token == null)
             {
                 Triggers.FinishTrigger();
+            }
+            else if (token is JamToken)
+            {
+                ReadyTokens.Remove(token);
+                UpdateName();
+
+                BombEffectTargetShip.Tokens.AssignToken(
+                    new JamToken(BombEffectTargetShip, HostShip.Owner),
+                    Triggers.FinishTrigger
+                );
             }
             else if (token is TractorBeamToken)
             {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Editions;
 using System;
+using Players;
 
 namespace RulesList
 {
@@ -52,26 +53,25 @@ namespace RulesList
 
         private void RegisterJammedDecisionTrigger(GenericShip ship)
         {
-            Triggers.RegisterTrigger(new Trigger() {
-                Name = "Jammed!",
-                TriggerType = TriggerTypes.OnTokenIsAssigned,
-                TriggerOwner = ship.Owner.PlayerNo,
-                EventHandler = StartJammedDecisionSubPhase,
-                Sender = ship
-            });
-        }
+            JamToken jamToken = (JamToken)ship.Tokens.GetToken(typeof(JamToken));
 
-        private void StartJammedDecisionSubPhase(object sender, System.EventArgs e)
-        {
-            Selection.ActiveShip = sender as GenericShip;
-
-            Phases.StartTemporarySubPhaseOld(
+            SubPhases.JammedDecisionSubPhase newPhase = (SubPhases.JammedDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Jammed",
                 typeof(SubPhases.JammedDecisionSubPhase),
                 Triggers.FinishTrigger
             );
-        }
+            newPhase.Assigner = jamToken.Assigner;
 
+            Triggers.RegisterTrigger(new Trigger() {
+                Name = "Jammed!",
+                TriggerType = TriggerTypes.OnTokenIsAssigned,
+                TriggerOwner = (Edition.Current is SecondEdition) ? jamToken.Assigner.PlayerNo: ship.Owner.PlayerNo,
+                EventHandler = delegate {
+                    Selection.ActiveShip = ship;
+                    newPhase.Start();
+                }
+            });
+        }
     }
 }
 
@@ -80,12 +80,13 @@ namespace SubPhases
 
     public class JammedDecisionSubPhase : DecisionSubPhase
     {
+        public GenericPlayer Assigner;
 
         public override void PrepareDecision(System.Action callBack)
         {
             DescriptionShort = "Jammed: Select a token to remove";
 
-            DecisionOwner = Selection.ActiveShip.Owner;
+            DecisionOwner = (Edition.Current is Editions.SecondEdition) ? Assigner : Selection.ActiveShip.Owner;
 
             List<System.Type> tokensTypesFound = new List<System.Type>();
 

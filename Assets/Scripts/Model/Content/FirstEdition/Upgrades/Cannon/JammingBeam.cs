@@ -51,7 +51,7 @@ namespace Abilities.FirstEdition
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Combat.Defender.Tokens.AssignToken(typeof(JamToken), Triggers.FinishTrigger);
+            Combat.Defender.Tokens.AssignToken(new JamToken(Combat.Defender, HostShip.Owner), Triggers.FinishTrigger);
         }
     }
 }

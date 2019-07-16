@@ -71,7 +71,7 @@ namespace ActionsList
                 subphase.CoordinateActionData = CoordinateActionData;
 
                 subphase.DescriptionShort = "Coordinate Action";
-                subphase.DescriptionLong = "Select another ships.\nThey perform free action.";
+                subphase.DescriptionLong = "Select one or more other ships.\nThey will each perform an action.";
 
                 subphase.Start();
             }
@@ -221,7 +221,7 @@ namespace SubPhases
                 Selection.ThisShip.Owner.PlayerNo,
                 false,
                 "Coordinate Action",
-                "Select another ship.\nIt performs free action."
+                "Select another ship.\nIt will perform an action."
             );
         }
 

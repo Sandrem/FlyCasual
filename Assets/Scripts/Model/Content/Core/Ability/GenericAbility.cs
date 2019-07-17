@@ -131,7 +131,7 @@ namespace Abilities
         /// <summary>
         /// Register trigger of ability
         /// </summary>
-        protected Trigger RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null)
+        protected Trigger RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null, bool isSkippable = false)
         {
             var trigger = new Trigger()
             {
@@ -140,7 +140,8 @@ namespace Abilities
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = eventHandler,
                 Sender = hostReal,
-                EventArgs = e
+                EventArgs = e,
+                Skippable = isSkippable
             };
             Triggers.RegisterTrigger(trigger);
             return trigger;

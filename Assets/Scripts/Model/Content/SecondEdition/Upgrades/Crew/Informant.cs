@@ -36,20 +36,20 @@ namespace Abilities.SecondEdition
         {
             get
             {
-                return "Choose 1 enemy ship and assign the Listening Device condition to it";
+                return "Choose 1 enemy ship and assign the Listening device condition to it";
             }
         }
 
         public override void ActivateAbility()
         {
             Phases.Events.OnSetupEnd += RegisterInformantAbility;
-            HostShip.OnSystemsAbilityActivationGenerateListeners += CheckListeningDeviceAbility;
+            Phases.Events.OnSystemsPhaseStart += InformantRevealDial;
         }
 
         public override void DeactivateAbility()
         {
             Phases.Events.OnSetupEnd -= RegisterInformantAbility;
-            HostShip.OnSystemsAbilityActivationGenerateListeners -= CheckListeningDeviceAbility;
+            Phases.Events.OnSystemsPhaseStart -= InformantRevealDial;
         }
         
         private void RegisterInformantAbility()
@@ -94,29 +94,17 @@ namespace Abilities.SecondEdition
             result = ship.State.Initiative;
             return result;
         }
-
-        private void CheckListeningDeviceAbility(GenericShip ship)
+        
+        private void InformantRevealDial()
         {
+            // Listening Device: During the System Phase, if an enemy ship with the 
+            // Informant upgrade is at range 0-2, flip your dial faceup.
             if (new BoardTools.DistanceInfo(HostShip, TargetShip).Range < 3)
             {
-                //TODO Listening Device should trigger at target ship's initiative
-                HostShip.OnSystemsAbilityActivation += RegisterListeningDeviceAbility;
+                Messages.ShowInfo("Listening Device: " + TargetShip.PilotInfo.PilotName + " flips dial faceup");
+                Roster.ToggleManeuverVisibility(TargetShip, true);
+                TargetShip.AlwaysShowAssignedManeuver = true;
             }
-        }
-
-        private void RegisterListeningDeviceAbility(GenericShip ship)
-        {
-            RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, ListeningDeviceRevealDial);
-            HostShip.OnSystemsAbilityActivation -= RegisterListeningDeviceAbility;
-        }
-
-        private void ListeningDeviceRevealDial(object sender, EventArgs e)
-        {
-            // Listening Device: During the System Phase, if an enemy ship with the
-            // Informant upgrade is at range 0-2, flip your dial faceup.
-            Messages.ShowInfo("Listening Device: " + TargetShip.PilotInfo.PilotName + " flips dial faceup");
-            Roster.ToggleManeuverVisibility(TargetShip, true);
-            TargetShip.AlwaysShowAssignedManeuver = true;
         }
     }
 }

@@ -187,7 +187,7 @@ namespace ActionsList
             return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo
                 && Board.CheckInRange(CoordinateActionData.CoordinateProvider, ship, 1, 2, RangeCheckReason.CoordinateAction)
                 && ship.CanBeCoordinated
-                && (!CoordinateActionData.SameActionLimit || Selection.MultiSelectedShips.Count == 0 || ship.ShipInfo.ShipName == Selection.MultiSelectedShips.First().ShipInfo.ShipName)
+                && (!CoordinateActionData.SameShipTypeLimit || Selection.MultiSelectedShips.Count == 0 || ship.ShipInfo.ShipName == Selection.MultiSelectedShips.First().ShipInfo.ShipName)
                 && CoordinateActionData.CoordinateProvider.CallCheckCanCoordinate(ship);
         }
 

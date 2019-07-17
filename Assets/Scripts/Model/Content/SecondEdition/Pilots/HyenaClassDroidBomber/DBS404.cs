@@ -16,7 +16,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 30,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DBS404Ability),
-                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.System, UpgradeType.Bomb, UpgradeType.Bomb },
+                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb },
                 pilotTitle: "Preservation Protocol Not Found"
             );
             

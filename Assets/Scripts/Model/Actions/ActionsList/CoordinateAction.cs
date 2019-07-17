@@ -296,7 +296,7 @@ namespace SubPhases
 
         protected virtual List<GenericAction> GetPossibleActions()
         {
-            return Selection.ThisShip.GetAvailableActions();
+            return Selection.ThisShip.GetAvailableActions().Select(n => n.AsCoordinatedAction).ToList();
         }
 
         protected virtual void PerformFreeAction(object sender, System.EventArgs e)

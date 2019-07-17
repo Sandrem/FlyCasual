@@ -1,5 +1,8 @@
-﻿using Upgrade;
+﻿using BoardTools;
+using Movement;
 using System.Collections.Generic;
+using System.Linq;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -11,9 +14,29 @@ namespace UpgradesList.SecondEdition
                 "Trajectory Simulator",
                 UpgradeType.System,
                 cost: 10,
-                abilityType: typeof(Abilities.FirstEdition.TrajectorySimulatorAbility),
+                abilityType: typeof(Abilities.SecondEdition.TrajectorySimulatorAbility),
                 seImageNumber: 26
             );
         }        
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class TrajectorySimulatorAbility : Abilities.FirstEdition.TrajectorySimulatorAbility
+    {
+        protected override void TrajectorySimulatorTemplate(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)
+        {
+            if (Phases.CurrentPhase.GetType() != typeof(MainPhases.SystemsPhase)) return;
+
+            if (upgrade.UpgradeInfo.SubType != UpgradeSubType.Bomb) return;
+
+            ManeuverTemplate newTemplate = new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed5);
+
+            if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+            {
+                availableTemplates.Add(newTemplate);
+            }
+        }
     }
 }

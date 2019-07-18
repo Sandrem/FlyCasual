@@ -32,30 +32,22 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnImmediatelyAfterRolling += AddAbility;
-            HostShip.OnImmediatelyAfterReRolling += AddAbility;
+            HostShip.OnGenerateDiceModifications += AddAbility;
             Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnImmediatelyAfterRolling -= AddAbility;
-            HostShip.OnImmediatelyAfterReRolling -= AddAbility;
+            HostShip.OnGenerateDiceModifications -= AddAbility;
             Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
-        protected virtual void AddAbility(DiceRoll diceroll)
+        protected virtual void AddAbility(GenericShip ship)
         {
-            if (!IsAbilityUsed && diceroll.DiceList.All(die => die.Side == diceroll.DiceList.First().Side))
+            if (!IsAbilityUsed && Combat.CurrentDiceRoll.DiceList.All(die => die.Side == Combat.CurrentDiceRoll.DiceList.First().Side))
             {
-                HostShip.OnGenerateDiceModifications += AddAvailableActionEffect;
+                HostShip.AddAvailableDiceModification(new ActionsList.FirstEdition.SunnyBounderAbilityAction(() => { IsAbilityUsed = true; }));
             }
-        }
-
-        protected void AddAvailableActionEffect(GenericShip ship)
-        {
-            ship.AddAvailableDiceModification(new ActionsList.FirstEdition.SunnyBounderAbilityAction(() => { IsAbilityUsed = true; }));
-            HostShip.OnGenerateDiceModifications -= AddAvailableActionEffect;
         }
     }
 }

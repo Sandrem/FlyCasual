@@ -148,14 +148,30 @@ namespace Ship
             {
                 for (int i = 0; i < currentTokens - value; i++)
                 {
-                    HostShip.Tokens.RemoveToken(tokenType, delegate { });
+                    if (Phases.CurrentPhase is MainPhases.SetupPhase)
+                    {
+                        //skip triggers during Setup phase
+                        HostShip.Tokens.RemoveCondition(tokenType);
+                    }
+                    else
+                    {
+                        HostShip.Tokens.RemoveToken(tokenType, delegate { });
+                    }
                 }
             }
             else if (value > currentTokens)
             {
                 for (int i = 0; i < value - currentTokens; i++)
                 {
-                    HostShip.Tokens.AssignToken(tokenType, delegate { });
+                    if (Phases.CurrentPhase is MainPhases.SetupPhase)
+                    {
+                        //skip triggers during Setup phase
+                        HostShip.Tokens.AssignCondition(tokenType);
+                    }
+                    else
+                    {
+                        HostShip.Tokens.AssignToken(tokenType, delegate { });
+                    }
                 }
             }
         }

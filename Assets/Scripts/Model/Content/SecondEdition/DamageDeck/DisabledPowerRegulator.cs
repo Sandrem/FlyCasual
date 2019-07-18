@@ -38,12 +38,10 @@ namespace DamageDeckCardSE
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Get Ion assigned",
-                TriggerType = TriggerTypes.OnTokenIsAssigned,
+                TriggerType = TriggerTypes.OnCombatActivation,
                 TriggerOwner = Host.Owner.PlayerNo,
                 EventHandler = GetIon
             });
-
-            Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, () => { });
         }
 
         public void GetIon(object sender, EventArgs e)

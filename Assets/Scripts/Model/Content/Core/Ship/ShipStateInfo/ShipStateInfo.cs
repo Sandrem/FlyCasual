@@ -137,10 +137,25 @@ namespace Ship
 
             set
             {
-                HostShip.Tokens.RemoveAllTokensByType(typeof(ForceToken), delegate { });
-                for (int i = 0; i < value; i++)
+                UpdateTokens(value, typeof(ForceToken));
+            }
+        }
+
+        private void UpdateTokens(int value, Type tokenType)
+        {
+            int currentTokens = HostShip.Tokens.CountTokensByType(tokenType);
+            if (currentTokens > value)
+            {
+                for (int i = 0; i < currentTokens - value; i++)
                 {
-                    HostShip.Tokens.AssignCondition(typeof(ForceToken));
+                    HostShip.Tokens.RemoveToken(tokenType, delegate { });
+                }
+            }
+            else if (value > currentTokens)
+            {
+                for (int i = 0; i < value - currentTokens; i++)
+                {
+                    HostShip.Tokens.AssignToken(tokenType, delegate { });
                 }
             }
         }
@@ -155,17 +170,8 @@ namespace Ship
             get { return charges; }
             set
             {
-                int currentTokens = HostShip.Tokens.CountTokensByType(typeof(ChargeToken));
-                for (int i = 0; i < currentTokens; i++)
-                {
-                    HostShip.Tokens.RemoveCondition(typeof(ChargeToken));
-                }
-
+                UpdateTokens(value, typeof(ChargeToken));
                 charges = value;
-                for (int i = 0; i < value; i++)
-                {
-                    HostShip.Tokens.AssignCondition(typeof(ChargeToken));
-                }
             }
         }
 

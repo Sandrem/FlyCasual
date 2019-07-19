@@ -1,6 +1,8 @@
 ﻿using Editions;
+using Remote;
 using Ship;
 using SquadBuilderNS;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -64,4 +66,8 @@ public static class ShipFactory {
         return newShipContainer;
 	}
 
+    public static void SpawnRemove(GenericRemote remote, Vector3 poistion, Quaternion rotation)
+    {
+        remote.SpawnModel(poistion, rotation);
+    }
 }

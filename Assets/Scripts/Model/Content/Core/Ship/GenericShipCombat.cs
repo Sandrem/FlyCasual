@@ -751,7 +751,7 @@ namespace Ship
             return availableTemplates;
         }
 
-        public List<ManeuverTemplate> GetAvailableBombLaunchTemplates(GenericUpgrade upgrade)
+        public List<ManeuverTemplate> GetAvailableDeviceLaunchTemplates(GenericUpgrade upgrade)
         {
             List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();
 
@@ -895,14 +895,14 @@ namespace Ship
 			);
         }
 
-        public void CallBombWillBeDropped(Action callback)
+        public void CallDeviceWillBeDropped(Action callback)
         {
             if (OnBombWillBeDropped != null) OnBombWillBeDropped();
 
             Triggers.ResolveTriggers(TriggerTypes.OnBombWillBeDropped, callback);
         }
 
-        public void CallBombWasDropped(Action callback)
+        public void CallDeviceWasDropped(Action callback)
         {
             if (OnBombWasDropped != null) OnBombWasDropped();
 

@@ -7,6 +7,7 @@ using UnityEngine;
 using Ship;
 using SubPhases;
 using BoardTools;
+using Remote;
 
 namespace Bombs
 {
@@ -32,7 +33,7 @@ namespace Bombs
 
     public static class BombsManager
     {
-        public static GenericBomb CurrentBomb { get; set; }
+        public static GenericUpgrade CurrentDevice { get; set; }
         public static GenericDeviceGameObject CurrentBombObject { get; set; }
         public static GenericShip DetonatedShip { get; set; }
         public static bool DetonationIsAllowed { get; set; }
@@ -50,7 +51,7 @@ namespace Bombs
         public static void Initialize()
         {
             bombsList = new Dictionary<GenericDeviceGameObject, GenericBomb>();
-            CurrentBomb = null;
+            CurrentDevice = null;
         }
 
         private static List<Vector3> GetBombPointsRelative()
@@ -81,7 +82,7 @@ namespace Bombs
             }
 
             BombsManager.CurrentBombObject = bombObjects.FirstOrDefault();
-            BombsManager.CurrentBomb = bombUpgrade;
+            BombsManager.CurrentDevice = bombUpgrade;
         }
 
         public static void UnregisterBomb(GenericDeviceGameObject bombObject)
@@ -167,7 +168,7 @@ namespace Bombs
 
         private static void ResolveRemoveModelTriggers()
         {
-            if (OnBombIsRemoved != null) OnBombIsRemoved(CurrentBomb, CurrentBombObject);
+            if (OnBombIsRemoved != null) OnBombIsRemoved(CurrentDevice as GenericBomb, CurrentBombObject);
 
             Triggers.ResolveTriggers(TriggerTypes.OnBombIsRemoved, RemoveModel);
         }
@@ -185,7 +186,7 @@ namespace Bombs
 
             Rules.Fuse.CheckForRemoveFuseInsteadOfDetonating(CurrentBombObject);
 
-            if (OnCheckPermissionToDetonate != null) OnCheckPermissionToDetonate(CurrentBomb, DetonatedShip);
+            if (OnCheckPermissionToDetonate != null) OnCheckPermissionToDetonate(CurrentDevice as GenericBomb, DetonatedShip);
 
             Triggers.ResolveTriggers(TriggerTypes.OnCheckPermissionToDetonate, delegate { CheckPermissionToDetonate(callback); });
         }
@@ -236,32 +237,32 @@ namespace Bombs
             RegisterBombDropTriggerIfAvailable(ship, TriggerTypes.OnMovementActivationStart);
         }
 
-        public static void RegisterBombDropTriggerIfAvailable(GenericShip ship, TriggerTypes triggerType, UpgradeSubType subType = UpgradeSubType.None, bool onlyDrop = false, bool isRealDrop = true)
+        public static void RegisterBombDropTriggerIfAvailable(GenericShip ship, TriggerTypes triggerType, UpgradeSubType subType = UpgradeSubType.None, Type type = null, bool onlyDrop = false, bool isRealDrop = true)
         {
-            if ((!isRealDrop || !ship.IsBombAlreadyDropped) && HasBombsToDrop(ship, subType))
+            if ((!isRealDrop || !ship.IsBombAlreadyDropped) && HasBombsToDrop(ship, subType, type))
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
                     Name = "Ask which bomb to drop",
                     TriggerType = TriggerTypes.OnMovementActivationStart,
                     TriggerOwner = ship.Owner.PlayerNo,
-                    EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip), subType, onlyDrop),
+                    EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip), subType, type, onlyDrop),
                     Sender = ship
                 });
             }
         }
 
-        public static void CreateAskBombDropSubPhase(GenericShip ship, UpgradeSubType subType = UpgradeSubType.None, bool onlyDrop = false)
+        public static void CreateAskBombDropSubPhase(GenericShip ship, UpgradeSubType subType = UpgradeSubType.None, Type type = null, bool onlyDrop = false)
         {
             Selection.ChangeActiveShip("ShipId:" + ship.ShipId);
 
             BombDecisionSubPhase selectBombToDrop = (BombDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select a device to drop",
                 typeof(BombDecisionSubPhase),
-                delegate { CheckSelectedBomb(onlyDrop); }
+                delegate { CheckSelectedDevice(onlyDrop); }
             );
 
-            foreach (var deviceInstalled in GetBombsToDrop(Selection.ThisShip, subType))
+            foreach (var deviceInstalled in GetBombsToDrop(Selection.ThisShip, subType, type))
             {
                 selectBombToDrop.AddDecision(
                     deviceInstalled.UpgradeInfo.Name,
@@ -283,25 +284,25 @@ namespace Bombs
             selectBombToDrop.Start();
         }
 
-        private static void SelectBomb(GenericUpgrade timedBombUpgrade)
+        private static void SelectBomb(GenericUpgrade device)
         {
-            CurrentBomb = timedBombUpgrade as GenericBomb;
+            CurrentDevice = device;
             DecisionSubPhase.ConfirmDecision();
         }
 
         private class BombDecisionSubPhase : DecisionSubPhase { }
 
-        private static void CheckSelectedBomb(bool onlyDrop)
+        private static void CheckSelectedDevice(bool onlyDrop)
         {
-            if (CurrentBomb != null)
+            if (CurrentDevice != null)
             {
-                if (onlyDrop || Selection.ThisShip.GetAvailableBombLaunchTemplates(CurrentBomb).Count == 0)
+                if (onlyDrop || Selection.ThisShip.GetAvailableDeviceLaunchTemplates(CurrentDevice).Count == 0)
                 {
-                    DropBomb(); 
+                    DropDevice(); 
                 }
                 else
                 {
-                    AskWayToDropBomb();
+                    AskWayToDropDevice();
                 }
             }
             else
@@ -310,45 +311,45 @@ namespace Bombs
             }
         }
 
-        private static void AskWayToDropBomb()
+        private static void AskWayToDropDevice()
         {
-            WayToDropDecisionSubPhase selectBombToDrop = (WayToDropDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+            WayToDropDecisionSubPhase subphase = (WayToDropDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select the direction to drop the bomb",
                 typeof(WayToDropDecisionSubPhase),
                 Triggers.FinishTrigger
             );
 
-            selectBombToDrop.AddDecision("Drop", (o, e) => { DecisionSubPhase.ConfirmDecisionNoCallback(); DropBomb(); });
-            selectBombToDrop.AddDecision("Launch", LaunchBomb);
+            subphase.AddDecision("Drop", (o, e) => { DecisionSubPhase.ConfirmDecisionNoCallback(); DropDevice(); });
+            subphase.AddDecision("Launch", LaunchBomb);
 
-            selectBombToDrop.DescriptionShort = "Select a way how to use the device";
+            subphase.DescriptionShort = "Select a way how to use the device";
 
-            selectBombToDrop.DefaultDecisionName = "Drop";
+            subphase.DefaultDecisionName = "Drop";
 
-            selectBombToDrop.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+            subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
-            selectBombToDrop.Start();
+            subphase.Start();
         }
 
-        private static void DropBomb()
+        private static void DropDevice()
         {
-            Selection.ThisShip.CallBombWillBeDropped(StartDropBombSubphase);
+            Selection.ThisShip.CallDeviceWillBeDropped(StartDropDeviceSubphase);
         }
 
-        private static void StartDropBombSubphase()
+        private static void StartDropDeviceSubphase()
         {
             if (!IsOverriden)
             {
                 Phases.StartTemporarySubPhaseOld(
-                    "Bomb drop planning",
+                    "Device drop planning",
                     typeof(BombDropPlanningSubPhase),
-                    delegate { Selection.ThisShip.CallBombWasDropped(Triggers.FinishTrigger); }
+                    delegate { Selection.ThisShip.CallDeviceWasDropped(Triggers.FinishTrigger); }
                 );
             }
             else
             {
                 IsOverriden = false;
-                Selection.ThisShip.CallBombWasDropped(Triggers.FinishTrigger);
+                Selection.ThisShip.CallDeviceWasDropped(Triggers.FinishTrigger);
             }
         }
 
@@ -364,19 +365,19 @@ namespace Bombs
 
         private class WayToDropDecisionSubPhase : DecisionSubPhase { }
 
-        public static List<GenericUpgrade> GetBombsToDrop(GenericShip ship, UpgradeSubType subType = UpgradeSubType.None)
+        public static List<GenericUpgrade> GetBombsToDrop(GenericShip ship, UpgradeSubType subType = UpgradeSubType.None, Type type = null)
         {
             return ship.UpgradeBar.GetUpgradesOnlyFaceup()
-                .Where(n => n.GetType().BaseType == typeof(GenericTimedBomb) || 
-                    n.GetType().BaseType == typeof(GenericTimedBombSE) || n.GetType().BaseType == typeof(GenericContactMineSE))
+                .Where(n => n.GetType().BaseType == typeof(GenericTimedBomb) || n.GetType().BaseType == typeof(GenericTimedBombSE) || n.GetType().BaseType == typeof(GenericContactMineSE) || n.UpgradeInfo.SubType == UpgradeSubType.Remote)
                 .Where(n => n.State.UsesCharges == false || (n.State.UsesCharges == true && n.State.Charges > 0))
                 .Where(n => subType == UpgradeSubType.None || n.UpgradeInfo.SubType == subType)
+                .Where(n => type == null || n.GetType() == type)
                 .ToList();
         }
 
-        public static bool HasBombsToDrop(GenericShip ship, UpgradeSubType subType = UpgradeSubType.None)
+        public static bool HasBombsToDrop(GenericShip ship, UpgradeSubType subType = UpgradeSubType.None, Type type = null)
         {
-            return GetBombsToDrop(ship, subType).Any();
+            return GetBombsToDrop(ship, subType, type).Any();
         }
 
         public static Dictionary<GenericDeviceGameObject, GenericBomb> GetBombsOnBoard()

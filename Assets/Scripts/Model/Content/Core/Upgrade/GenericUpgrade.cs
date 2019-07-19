@@ -53,7 +53,8 @@ namespace Upgrade
     {
         None,
         Bomb,
-        Mine
+        Mine,
+        Remote
     }
 
     public abstract class GenericUpgrade : IImageHolder

@@ -37,7 +37,7 @@ namespace UpgradesList.FirstEdition
 
         public override void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
         {
-            BombsManager.CurrentBomb = this;
+            BombsManager.CurrentDevice = this;
             bombObject.transform.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
 
             GameManagerScript.Wait(1, delegate { PlayDefferedSound(bombObject, callBack); });

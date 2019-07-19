@@ -66,7 +66,7 @@ namespace Abilities.FirstEdition
 
             if (timedBombsInstalled.Count == 1)
             {
-                BombsManager.CurrentBomb = timedBombsInstalled[0] as GenericBomb;
+                BombsManager.CurrentDevice = timedBombsInstalled[0] as GenericBomb;
                 StartDropBombSubphase();
             }
             else
@@ -104,7 +104,7 @@ namespace Abilities.FirstEdition
 
         private void SelectBomb(GenericUpgrade timedBombUpgrade)
         {
-            BombsManager.CurrentBomb = timedBombUpgrade as GenericTimedBomb;
+            BombsManager.CurrentDevice = timedBombUpgrade as GenericTimedBomb;
             DecisionSubPhase.ConfirmDecision();
         }
 
@@ -121,13 +121,13 @@ namespace Abilities.FirstEdition
 
         private void CheckThatBombIsDiscarded()
         {
-            if (BombsManager.CurrentBomb == null || BombsManager.CurrentBomb.IsDiscardedAfterDropped)
+            if (BombsManager.CurrentDevice == null || (BombsManager.CurrentDevice as GenericBomb).IsDiscardedAfterDropped)
             {
                 Triggers.FinishTrigger();
             }
             else
             {
-                BombsManager.CurrentBomb.TryDiscard(Triggers.FinishTrigger);
+                BombsManager.CurrentDevice.TryDiscard(Triggers.FinishTrigger);
             }
         }
     }

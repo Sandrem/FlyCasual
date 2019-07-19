@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
         {
             if (CanUseAbility())
             {
-                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.UpgradeInfo.Name));
+                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentDevice.UpgradeInfo.Name));
                 AskToUseAbility(
                     HostShip.PilotInfo.PilotName,
                     NeverUseByDefault,

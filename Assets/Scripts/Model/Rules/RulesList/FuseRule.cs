@@ -13,7 +13,7 @@ namespace RulesList
         {
             if (deviceObject.IsFused)
             {
-                Messages.ShowInfoToHuman($"{BombsManager.CurrentBomb.UpgradeInfo.Name} removes one Fuse token instead of detonating.");
+                Messages.ShowInfoToHuman($"{BombsManager.CurrentDevice.UpgradeInfo.Name} removes one Fuse token instead of detonating.");
                 deviceObject.Fuses--;
                 BombsManager.DetonationIsAllowed = false;
             }

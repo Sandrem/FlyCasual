@@ -72,7 +72,7 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentBomb.UpgradeInfo.Name));
+                Messages.ShowInfoToHuman(string.Format("{0} token is ready for detonation", BombsManager.CurrentDevice.UpgradeInfo.Name));
                 AskToUseAbility(
                     HostShip.PilotInfo.PilotName,
                     AlwaysUseByDefault,
@@ -101,7 +101,7 @@ namespace Abilities.FirstEdition
 
         private void CheckIgnoreTimedBombs(GenericShip detonatedShip)
         {
-            if (BombsManager.CurrentBomb.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
+            if (BombsManager.CurrentDevice.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCheckSufferBombDetonation, AskToIgnoreTimedBomb);
             }
@@ -111,7 +111,7 @@ namespace Abilities.FirstEdition
         {
             if (!alwaysUseAbility)
             {
-                Messages.ShowInfoToHuman(string.Format("{0} token is ready for deal effect", BombsManager.CurrentBomb.UpgradeInfo.Name));
+                Messages.ShowInfoToHuman(string.Format("{0} token is ready for deal effect", BombsManager.CurrentDevice.UpgradeInfo.Name));
                 AskToUseAbility(
                     HostShip.PilotInfo.PilotName,
                     AlwaysUseByDefault,

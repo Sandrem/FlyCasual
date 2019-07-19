@@ -111,7 +111,7 @@ namespace Abilities.SecondEdition
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             Selection.ThisShip.IsAttackPerformed = true;
 
-            //if additional attack was skipped, allow bonus attacks again
+            //if bonus attack was skipped, allow bonus attacks again
             if (Selection.ThisShip.IsAttackSkipped) Selection.ThisShip.IsCannotAttackSecondTime = false;
 
             Triggers.FinishTrigger();

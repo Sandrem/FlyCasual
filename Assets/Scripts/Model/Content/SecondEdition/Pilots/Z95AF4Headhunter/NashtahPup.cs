@@ -97,9 +97,12 @@ namespace Abilities.SecondEdition
             );
 
             Type pilotAbilityType = dockingHost.PilotInfo.AbilityType;
-            GenericAbility pilotAbility = (GenericAbility)System.Activator.CreateInstance(pilotAbilityType);
-            pilotAbility.Initialize(HostShip);
-            HostShip.PilotAbilities.Add(pilotAbility);
+            if (pilotAbilityType != null)
+            {
+                GenericAbility pilotAbility = (GenericAbility)System.Activator.CreateInstance(pilotAbilityType);
+                pilotAbility.Initialize(HostShip);
+                HostShip.PilotAbilities.Add(pilotAbility);
+            }
             HostShip.InitializeState();
 
             Roster.UpdateShipStats(HostShip);

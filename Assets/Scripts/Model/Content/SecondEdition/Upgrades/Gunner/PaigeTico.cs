@@ -118,7 +118,7 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            BombsManager.CheckBombDropAvailability(
+            BombsManager.RegisterBombDropTriggerIfAvailable(
                 HostShip,
                 TriggerTypes.OnAbilityDirect,
                 subType: UpgradeSubType.Bomb,

@@ -21,8 +21,6 @@ namespace Ship.SecondEdition.VCX100LightFreighter
 
             ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
             ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
-            ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
-            ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Title);
 
             ShipInfo.ActionIcons.RemoveActions(typeof(EvadeAction));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));

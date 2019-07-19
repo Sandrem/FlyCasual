@@ -139,8 +139,8 @@ namespace Editions
 
         public override void TimedBombActivationTime(GenericShip ship)
         {
-            ship.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailability;
-            ship.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailability;
+            ship.OnManeuverIsRevealed -= BombsManager.CheckBombDropAvailabilityGeneral;
+            ship.OnManeuverIsRevealed += BombsManager.CheckBombDropAvailabilityGeneral;
         }
 
         public override void SquadBuilderIsOpened()

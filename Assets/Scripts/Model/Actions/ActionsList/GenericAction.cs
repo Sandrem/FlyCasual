@@ -24,6 +24,7 @@ namespace ActionsList
         public string ImageUrl;
 
         public bool IsRealAction = true;
+        public bool IsCoordinatedAction = false;
 
         public bool IsRed
         {
@@ -88,6 +89,16 @@ namespace ActionsList
                 var redAction = (GenericAction)MemberwiseClone();
                 redAction.Color = ActionColor.Red;
                 return redAction;
+            }
+        }
+
+        public GenericAction AsCoordinatedAction
+        {
+            get
+            {
+                var coordinatedAction = (GenericAction)MemberwiseClone();
+                coordinatedAction.IsCoordinatedAction = true;
+                return coordinatedAction;
             }
         }
 
@@ -171,8 +182,8 @@ namespace ActionsList
             /*
             * 100 - Rotate arc to get a shot in no enemies in arc
             * 90 - Cancel crit
+            * 80 - Evade action is 1-hull
             * 50 - Focus action if has target
-            * 40 - Evade action
             * 25 - Reinforce action if there are no enemies
             * 20 - Focus action if no target
             * 10 - Focus action if Expertise is installed

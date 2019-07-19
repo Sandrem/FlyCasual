@@ -664,11 +664,17 @@ namespace SquadBuilderNS
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             DestroyChildren(contentTransform);
 
-
             if (filteredUpgradesCount > 0)
             {
                 contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
                 contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(filteredUpgradesCount * (Edition.Current.UpgradeCardSize.x * 1.5f + DISTANCE_MEDIUM) + 2 * DISTANCE_MEDIUM, 0);
+
+                foreach (UpgradeRecord upgrade in filteredUpgrades)
+                {
+                    if (upgrade.Instance is IVariableCost && Edition.Current is SecondEdition) (upgrade.Instance as IVariableCost).UpdateCost(CurrentSquadBuilderShip.Instance);
+                }
+
+                filteredUpgrades = filteredUpgrades.OrderBy(n => n.Instance.UpgradeInfo.Cost).ToList();
 
                 foreach (UpgradeRecord upgrade in filteredUpgrades)
                 {
@@ -730,8 +736,8 @@ namespace SquadBuilderNS
 
             string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgrade.UpgradeName).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-            Edition.Current.AdaptUpgradeToRules(newUpgrade);
             if (newUpgrade is IVariableCost && Edition.Current is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(CurrentSquadBuilderShip.Instance);
+            Edition.Current.AdaptUpgradeToRules(newUpgrade);
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
             script.Initialize(upgrade.UpgradeName, CurrentUpgradeSlot, newUpgrade, SelectUpgradeClicked, true);

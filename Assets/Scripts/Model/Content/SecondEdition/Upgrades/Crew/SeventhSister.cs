@@ -59,6 +59,7 @@ namespace Abilities.SecondEdition
                 var phase = Phases.StartTemporarySubPhaseNew<SeventhSisterDecistionSubPhase>(
                      $"{HostName}: You may spend 1 force to have {TargetShip.PilotInfo.PilotName} gain 1 jam or tractor token instead of stress",
                     Triggers.FinishTrigger);
+                phase.DecisionOwner = HostShip.Owner;
                 phase.TargetShip = TargetShip;
                 phase.HostShip = HostShip;
                 phase.TokenSelected = TokenSelected;
@@ -97,7 +98,7 @@ namespace Abilities.SecondEdition
 
                 DecisionViewType = DecisionViewTypes.TextButtons;
 
-                AddDecision("Jam", delegate { TokenSelected(new Tokens.JamToken(TargetShip)); });
+                AddDecision("Jam", delegate { TokenSelected(new Tokens.JamToken(TargetShip, HostShip.Owner)); });
                 AddDecision("Tractor", delegate { TokenSelected(new Tokens.TractorBeamToken(TargetShip, HostShip.Owner)); });
 
                 DefaultDecisionName = GetDecisions().First().Name;

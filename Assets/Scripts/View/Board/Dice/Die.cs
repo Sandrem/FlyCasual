@@ -116,6 +116,7 @@ public partial class Die
     public void Roll()
     {
         if (Model == null) Model = SpawnDice(Type);
+        Model.GetComponentInChildren<Rigidbody>().isKinematic = false;
         IsWaitingForNewResult = true;
         modelRollingIsFinished = false;
         Model.gameObject.SetActive(true);

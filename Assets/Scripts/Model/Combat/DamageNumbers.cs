@@ -31,6 +31,8 @@ static partial class DamageNumbers
     {
         foreach (var shipHolder in Roster.AllShips)
         {
+            if (!SavedHP.ContainsKey(shipHolder.Key)) continue;
+
             int hullChanged = SavedHP[shipHolder.Key].Hull - shipHolder.Value.State.HullCurrent;
             int shieldsChanged = SavedHP[shipHolder.Key].Shields - shipHolder.Value.State.ShieldsCurrent;
 

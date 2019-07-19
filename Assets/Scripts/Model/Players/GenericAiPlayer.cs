@@ -116,7 +116,6 @@ namespace Players
                 GenericShip targetForAttack = SelectTargetForAttack();
 
                 Selection.ThisShip.IsAttackPerformed = true;
-                Selection.ThisShip.CallAfterAttackWindow();
 
                 if (targetForAttack != null)
                 {
@@ -352,6 +351,13 @@ namespace Players
             {
                 (Phases.CurrentSubPhase as SelectShipSubPhase).AiSelectPrioritizedTarget();
             }
+        }
+
+        public override void SelectShipsForAbility()
+        {
+            base.SelectShipsForAbility();
+
+            (Phases.CurrentSubPhase as MultiSelectionSubphase).AiSelectPrioritizedTarget();
         }
 
         public override void RerollManagerIsPrepared()

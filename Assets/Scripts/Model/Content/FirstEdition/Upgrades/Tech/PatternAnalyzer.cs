@@ -7,6 +7,9 @@ namespace UpgradesList.FirstEdition
     {
         public PatternAnalyzer() : base()
         {
+            // TODO: Too many bugs reported, full rework is required
+            IsHidden = true;
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Pattern Analyzer",
                 UpgradeType.Tech,

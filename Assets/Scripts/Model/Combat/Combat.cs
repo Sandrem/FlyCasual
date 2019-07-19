@@ -557,6 +557,7 @@ public static partial class Combat
             typeof(SelectTargetForAttackSubPhase),
             delegate
             {
+                ship.CallAfterAttackWindow();
                 Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
                 callback();
             }
@@ -689,6 +690,8 @@ namespace SubPhases
 
     public class CompareResultsSubPhase : GenericSubPhase
     {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.AssignManeuver }; } }
+
         public override void Start()
         {
             Name = "Compare results";

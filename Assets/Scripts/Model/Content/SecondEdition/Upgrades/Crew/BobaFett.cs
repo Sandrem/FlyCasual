@@ -41,12 +41,18 @@ namespace Abilities.SecondEdition
 
         private void MoveToReserve()
         {
+            // Ignore if ship is controlled by AI
+            if (HostShip.Owner is Players.GenericAiPlayer) return;
+
             Messages.ShowInfo(HostShip.PilotInfo.PilotName + "has been moved to the Reserve");
             Roster.MoveToReserve(HostShip);
         }
 
         private void RegisterReturn()
         {
+            // Ignore if ship is controlled by AI
+            if (HostShip.Owner is Players.GenericAiPlayer) return;
+
             RegisterAbilityTrigger(TriggerTypes.OnSetupEnd, SetupShip);
         }
 

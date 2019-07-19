@@ -168,11 +168,13 @@ namespace Upgrade
         public virtual void PreAttachToShip(GenericShip host)
         {
             HostShip = host;
+            HostShip.UpgradeBar.InstalledUpgradesAll_System.Add(this);
             UpgradeInfo.InstallToShip(this);
         }
 
         public virtual void PreDettachFromShip()
         {
+            HostShip.UpgradeBar.InstalledUpgradesAll_System.Remove(this);
             UpgradeInfo.RemoveFromShip();
         }
 

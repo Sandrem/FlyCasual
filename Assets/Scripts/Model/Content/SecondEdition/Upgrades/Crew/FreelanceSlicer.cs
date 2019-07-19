@@ -70,7 +70,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": " + Combat.Attacker.PilotInfo.PilotName + " gains 1 Jam Token");
 
             Combat.Attacker.Tokens.AssignToken(
-                typeof(JamToken),
+                new JamToken(Combat.Attacker, HostShip.Owner),
                 PerformCustomDiceCheck
             );
         }
@@ -92,7 +92,7 @@ namespace Abilities.SecondEdition
             {
                 Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " Gain 1 Jam Token");
                 HostShip.Tokens.AssignToken(
-                    typeof(JamToken),
+                    new JamToken(HostShip, HostShip.Owner),
                     AbilityDiceCheck.ConfirmCheck
                 );
             }

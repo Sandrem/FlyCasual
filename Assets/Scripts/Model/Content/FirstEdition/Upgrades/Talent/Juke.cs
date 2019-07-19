@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Ship;
 using System.Linq;
 using Tokens;
+using ActionsList;
 
 namespace UpgradesList.FirstEdition
 {
@@ -28,21 +29,28 @@ namespace Abilities.FirstEdition
         public override void ActivateAbility()
         {
             HostShip.OnGenerateDiceModificationsOpposite += JukeActionEffect;
+            HostShip.Ai.OnGetActionPriority += IncreaceEvadePriority;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnGenerateDiceModificationsOpposite -= JukeActionEffect;
+            HostShip.Ai.OnGetActionPriority -= IncreaceEvadePriority;
         }
 
         private void JukeActionEffect(GenericShip host)
         {
-            ActionsList.GenericAction newAction = new ActionsList.JukeActionEffect()
+            GenericAction newAction = new JukeActionEffect()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
                 HostShip = host
             };
             host.AddAvailableDiceModification(newAction);
+        }
+
+        private void IncreaceEvadePriority(GenericAction action, ref int priority)
+        {
+            if (action is EvadeAction) priority = 80;
         }
     }
 }

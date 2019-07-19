@@ -209,12 +209,34 @@ namespace Bombs
             CurrentBombObject.transform.Find("Light").gameObject.SetActive(isActive);
         }
 
-        public static void CheckBombDropAvailability(GenericShip ship)
+        public static void CheckBombDropAvailabilitySystemPhase(GenericShip ship)
         {
-            CheckBombDropAvailability(ship, TriggerTypes.OnMovementActivationStart);
+            if (!ship.IsBombAlreadyDropped && HasBombsToDrop(ship))
+            {
+                ship.OnSystemsAbilityActivation += RegisterBombDropAvailabilitySystemPhase;
+            }
         }
 
-        public static void CheckBombDropAvailability(GenericShip ship, TriggerTypes triggerType, UpgradeSubType subType = UpgradeSubType.None, bool onlyDrop = false, bool isRealDrop = true)
+        private static void RegisterBombDropAvailabilitySystemPhase(GenericShip ship)
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Ask which bomb to drop",
+                TriggerType = TriggerTypes.OnMovementActivationStart,
+                TriggerOwner = ship.Owner.PlayerNo,
+                EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip)),
+                Sender = ship
+            });
+
+            ship.OnSystemsAbilityActivation -= RegisterBombDropAvailabilitySystemPhase;
+        }
+
+        public static void CheckBombDropAvailabilityGeneral(GenericShip ship)
+        {
+            RegisterBombDropTriggerIfAvailable(ship, TriggerTypes.OnMovementActivationStart);
+        }
+
+        public static void RegisterBombDropTriggerIfAvailable(GenericShip ship, TriggerTypes triggerType, UpgradeSubType subType = UpgradeSubType.None, bool onlyDrop = false, bool isRealDrop = true)
         {
             if ((!isRealDrop || !ship.IsBombAlreadyDropped) && HasBombsToDrop(ship, subType))
             {

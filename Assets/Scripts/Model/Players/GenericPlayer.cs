@@ -198,6 +198,12 @@ namespace Players
             GameController.CheckExistingCommands();
         }
 
+        public virtual void SelectShipsForAbility()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
+        }
+
         public virtual void SelectObstacleForAbility()
         {
             Roster.HighlightPlayer(PlayerNo);

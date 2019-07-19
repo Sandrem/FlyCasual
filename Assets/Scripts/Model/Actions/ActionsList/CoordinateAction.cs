@@ -71,7 +71,7 @@ namespace ActionsList
                 subphase.CoordinateActionData = CoordinateActionData;
 
                 subphase.DescriptionShort = "Coordinate Action";
-                subphase.DescriptionLong = "Select another ships.\nThey perform free action.";
+                subphase.DescriptionLong = "Select one or more other ships.\nThey will each perform an action.";
 
                 subphase.Start();
             }
@@ -187,7 +187,7 @@ namespace ActionsList
             return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo
                 && Board.CheckInRange(CoordinateActionData.CoordinateProvider, ship, 1, 2, RangeCheckReason.CoordinateAction)
                 && ship.CanBeCoordinated
-                && (!CoordinateActionData.SameActionLimit || Selection.MultiSelectedShips.Count == 0 || ship.ShipInfo.ShipName == Selection.MultiSelectedShips.First().ShipInfo.ShipName)
+                && (!CoordinateActionData.SameShipTypeLimit || Selection.MultiSelectedShips.Count == 0 || ship.ShipInfo.ShipName == Selection.MultiSelectedShips.First().ShipInfo.ShipName)
                 && CoordinateActionData.CoordinateProvider.CallCheckCanCoordinate(ship);
         }
 
@@ -221,7 +221,7 @@ namespace SubPhases
                 Selection.ThisShip.Owner.PlayerNo,
                 false,
                 "Coordinate Action",
-                "Select another ship.\nIt performs free action."
+                "Select another ship.\nIt will perform an action."
             );
         }
 
@@ -296,7 +296,7 @@ namespace SubPhases
 
         protected virtual List<GenericAction> GetPossibleActions()
         {
-            return Selection.ThisShip.GetAvailableActions();
+            return Selection.ThisShip.GetAvailableActions().Select(n => n.AsCoordinatedAction).ToList();
         }
 
         protected virtual void PerformFreeAction(object sender, System.EventArgs e)

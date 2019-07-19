@@ -74,7 +74,7 @@ namespace Abilities.FirstEdition
 
         private void AssignExtraJamToken()
         {
-            TargetShip.Tokens.AssignToken(typeof(JamToken), SelectShipSubPhase.FinishSelection);
+            TargetShip.Tokens.AssignToken(new JamToken(TargetShip, HostShip.Owner), SelectShipSubPhase.FinishSelection);
         }
 
         private bool IsShipWithoutJamAtRangeOneOfTarget(GenericShip ship)

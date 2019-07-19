@@ -34,7 +34,10 @@ namespace ActionsList
                 Phases.CurrentSubPhase.Pause();
                 var phase = Phases.StartTemporarySubPhaseNew<SubPhases.BoostPlanningSubPhase>(
                     "Boost",
-                    Phases.CurrentSubPhase.CallBack
+                    delegate {
+                        SelectedBoostTemplate = null;
+                        Phases.CurrentSubPhase.CallBack();
+                    }
                 );
                 phase.SelectedBoostHelper = SelectedBoostTemplate;
                 phase.HostAction = this;
@@ -44,6 +47,7 @@ namespace ActionsList
 
         public override void RevertActionOnFail(bool hasSecondChance = false)
         {
+            SelectedBoostTemplate = null;
             Phases.FinishSubPhase(typeof(SubPhases.BoostPlanningSubPhase));
             if (Phases.CurrentSubPhase is SubPhases.DecisionSubPhase) (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).IsForced = false;
             Phases.CurrentSubPhase.Resume();
@@ -449,7 +453,6 @@ namespace SubPhases
         public virtual void FinishBoost()
         {
             GameMode.CurrentGameMode.FinishBoost();
-            ((PreviousSubPhase as BoostPlanningSubPhase).HostAction as BoostAction).SelectedBoostTemplate = null;
         }
 
         public override void Next()

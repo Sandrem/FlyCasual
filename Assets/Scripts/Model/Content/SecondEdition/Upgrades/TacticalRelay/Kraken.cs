@@ -57,6 +57,7 @@ namespace Abilities.SecondEdition
             subphase.RequiredPlayer = HostShip.Owner.PlayerNo;
 
             subphase.Filter = FilterSelection;
+            subphase.GetAiPriority = GetAiPriority;
             subphase.MaxToSelect = 3;
             subphase.WhenDone = LeaveCalculateTokens;
 
@@ -65,6 +66,11 @@ namespace Abilities.SecondEdition
             subphase.ImageSource = HostUpgrade;
 
             subphase.Start();
+        }
+
+        private int GetAiPriority(GenericShip ship)
+        {
+            return ship.PilotInfo.Cost;
         }
 
         private bool FilterSelection(GenericShip ship)

@@ -22,15 +22,17 @@ namespace UpgradesList.FirstEdition
         public override void PreAttachToShip(GenericShip host)
         {
             base.PreAttachToShip(host);
+            host.PilotInfo.Initiative += 2;
 
-            host.State.AddPilotSkillModifier(this);
+            if (host.State != null) host.State.AddPilotSkillModifier(this);
         }
 
         public override void PreDettachFromShip()
         {
             base.PreDettachFromShip();
+            HostShip.PilotInfo.Initiative -= 2;
 
-            HostShip.State.RemovePilotSkillModifier(this);
+            if (HostShip.State != null) HostShip.State.RemovePilotSkillModifier(this);
         }
 
         public void ModifyPilotSkill(ref int pilotSkill)

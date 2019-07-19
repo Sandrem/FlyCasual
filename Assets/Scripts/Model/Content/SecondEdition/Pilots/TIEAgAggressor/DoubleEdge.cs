@@ -87,6 +87,9 @@ namespace Abilities.SecondEdition
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
+                //HACK set this here bc the bonus attack might use a weapon that grants another bonus attack (ex. Cluster Missiles)
+                HostShip.IsCannotAttackSecondTime = true;
+
                 Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishAdditionalAttack,
@@ -107,6 +110,9 @@ namespace Abilities.SecondEdition
         {
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             Selection.ThisShip.IsAttackPerformed = true;
+
+            //if additional attack was skipped, allow bonus attacks again
+            if (Selection.ThisShip.IsAttackSkipped) Selection.ThisShip.IsCannotAttackSecondTime = false;
 
             Triggers.FinishTrigger();
         }

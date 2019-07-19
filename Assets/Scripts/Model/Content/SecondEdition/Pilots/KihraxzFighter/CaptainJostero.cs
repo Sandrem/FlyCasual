@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
         private void CheckJosteroAbility(GenericShip damaged, DamageSourceEventArgs damage)
         {
             // Can we even bonus attack?
-            if (!HostShip.CanBonusAttack)
+            if (HostShip.IsCannotAttackSecondTime)
                 return;
 
             // Make sure the opposing ship is an enemy.

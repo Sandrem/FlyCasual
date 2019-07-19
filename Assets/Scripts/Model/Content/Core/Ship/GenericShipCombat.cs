@@ -33,7 +33,6 @@ namespace Ship
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
         public bool AttackIsAlwaysConsideredHit { get; set; }
-        public bool CanBonusAttack { get; set; } = true;
 
         // EVENTS
 
@@ -876,7 +875,7 @@ namespace Ship
 
         public void StartBonusAttack(Action callback, Func<GenericShip, IShipWeapon, bool, bool> bonusAttackFilter = null)
         {
-            if(!CanBonusAttack)
+            if(IsCannotAttackSecondTime)
             {
                 // We should never reach this but just in case.
                 Messages.ShowError(PilotInfo.PilotName + ": You have already performed a bonus attack!");
@@ -887,7 +886,7 @@ namespace Ship
 				this,
 				delegate
                 {
-                    if (!this.IsAttackSkipped) CanBonusAttack = false;
+                    if (!this.IsAttackSkipped) IsCannotAttackSecondTime = true;
                     callback();
                 },
 				bonusAttackFilter,

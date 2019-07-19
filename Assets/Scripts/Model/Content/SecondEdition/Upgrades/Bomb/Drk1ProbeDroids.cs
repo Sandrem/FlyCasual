@@ -4,6 +4,8 @@ using ActionsList;
 using Ship;
 using System;
 using Bombs;
+using BoardTools;
+using Movement;
 
 namespace UpgradesList.SecondEdition
 {
@@ -24,6 +26,31 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/44556cd042e536b41e7e89850e13081a.png";
+        }
+
+        public override List<ManeuverTemplate> GetDefaultDropTemplates()
+        {
+            return new List<ManeuverTemplate>()
+            {
+                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed3, isBombTemplate: true),
+                new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Right, ManeuverSpeed.Speed3, isBombTemplate: true),
+                new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Left, ManeuverSpeed.Speed3, isBombTemplate: true),
+                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Right, ManeuverSpeed.Speed3, isBombTemplate: true),
+                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Left, ManeuverSpeed.Speed3, isBombTemplate: true)
+            };
+        }
+
+        public override List<ManeuverTemplate> GetDefaultLaunchTemplates()
+        {
+            return new List<ManeuverTemplate>()
+            {
+                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Left, ManeuverSpeed.Speed3),
+                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Right, ManeuverSpeed.Speed3),
+                new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Left, ManeuverSpeed.Speed3),
+                new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Right, ManeuverSpeed.Speed3),
+                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed3)
+            };
+
         }
     }
 }
@@ -85,15 +112,8 @@ namespace Abilities.SecondEdition
                 delegate {
                     HostUpgrade.State.SpendCharge();
                     Triggers.FinishTrigger();
-                });
-
-            /*ShipFactory.SpawnRemove(
-                new Remote.Drk1ProbeDroid(HostShip.Owner.PlayerNo),
-                HostShip.GetPosition(),
-                HostShip.GetRotation()
+                }
             );
-
-            Triggers.FinishTrigger();*/
         }
     }
 }

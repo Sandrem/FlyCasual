@@ -739,10 +739,8 @@ namespace Ship
 
         public List<ManeuverTemplate> GetAvailableBombDropTemplates(GenericUpgrade upgrade)
         {
-            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>()
-            {
-                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isBombTemplate: true)
-            };
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();
+            availableTemplates.AddRange(upgrade.GetDefaultDropTemplates());
 
             OnGetAvailableBombDropTemplates?.Invoke(availableTemplates, upgrade);
 
@@ -754,6 +752,7 @@ namespace Ship
         public List<ManeuverTemplate> GetAvailableDeviceLaunchTemplates(GenericUpgrade upgrade)
         {
             List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();
+            availableTemplates.AddRange(upgrade.GetDefaultLaunchTemplates());
 
             OnGetAvailableBombLaunchTemplates?.Invoke(availableTemplates, upgrade);
 

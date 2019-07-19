@@ -24,6 +24,7 @@ namespace ActionsList
         public string ImageUrl;
 
         public bool IsRealAction = true;
+        public bool IsCoordinatedAction = false;
 
         public bool IsRed
         {
@@ -88,6 +89,16 @@ namespace ActionsList
                 var redAction = (GenericAction)MemberwiseClone();
                 redAction.Color = ActionColor.Red;
                 return redAction;
+            }
+        }
+
+        public GenericAction AsCoordinatedAction
+        {
+            get
+            {
+                var coordinatedAction = (GenericAction)MemberwiseClone();
+                coordinatedAction.IsCoordinatedAction = true;
+                return coordinatedAction;
             }
         }
 

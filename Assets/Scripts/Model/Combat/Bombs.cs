@@ -262,24 +262,30 @@ namespace Bombs
                 delegate { CheckSelectedDevice(onlyDrop); }
             );
 
-            foreach (var deviceInstalled in GetBombsToDrop(Selection.ThisShip, subType, type))
+            selectBombToDrop.DefaultDecisionName = "None";
+
+            foreach (GenericUpgrade deviceInstalled in GetBombsToDrop(Selection.ThisShip, subType, type))
             {
                 selectBombToDrop.AddDecision(
                     deviceInstalled.UpgradeInfo.Name,
                     delegate { SelectBomb(deviceInstalled); }
                 );
+
+                if (type != null && deviceInstalled.GetType() == type) selectBombToDrop.DefaultDecisionName = deviceInstalled.UpgradeInfo.Name;
             }
+
+            selectBombToDrop.IsForced = selectBombToDrop.DefaultDecisionName != "None";
 
             selectBombToDrop.AddDecision(
                 "None",
                 delegate { SelectBomb(null); }
             );
 
-            selectBombToDrop.DescriptionShort = "Select a bomb to drop";
-
-            selectBombToDrop.DefaultDecisionName = "None";
+            selectBombToDrop.DescriptionShort = "Select a device to drop";
 
             selectBombToDrop.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+
+            selectBombToDrop.IsForced = true;
 
             selectBombToDrop.Start();
         }

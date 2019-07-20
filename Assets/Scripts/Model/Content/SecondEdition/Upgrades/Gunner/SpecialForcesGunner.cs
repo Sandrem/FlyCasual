@@ -55,7 +55,8 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon
                 && Combat.ArcForShot.ArcType == ArcType.Front
-                && HostShip.ArcsInfo.GetArc<ArcSingleTurret>().Facing == ArcFacing.Rear)
+                && HostShip.ArcsInfo.GetArc<ArcSingleTurret>().Facing == ArcFacing.Rear
+                && !HostShip.IsCannotAttackSecondTime)
             {
                 HostShip.OnCombatCheckExtraAttack += RegisterExtraAttack;
             }
@@ -75,6 +76,7 @@ namespace Abilities.SecondEdition
                 HostShip,
                 delegate {
                     Selection.ThisShip.IsAttackPerformed = true;
+                    if (!Selection.ThisShip.IsAttackSkipped) Selection.ThisShip.IsCannotAttackSecondTime = true;
                     Triggers.FinishTrigger();
                 },
                 IsPrimaryTurretAttack,

@@ -70,27 +70,35 @@ public partial class Die
         Side = DieSide.Blank;
     }
 
-    public bool SetSide(DieSide side, bool isInitial = true)
-    {   
+    public bool TrySetSide(DieSide newSide, bool isInitial = true)
+    {
+        // isInitial needs to be set only on the initial roll (or when specific cards want to override the functionality to treat the roll like an initial roll)
         if (isInitial)
         {
-            Side = side;
+            Side = newSide;
             return true;
         }
 
         bool isAllowed = true;
-        // Combat.CurrentDiceRoll.
+
         // Issues: we don't know what the DiceModificationType is when we get into this base level function.
-        // isInitial needs to be set only on the initial roll (or when specific cards want to override the functionality to treat the roll like an initial roll)
-        Selection.ActiveShip.TryDiceResultModification(
-            this, Abilities.GenericAbility.DiceModificationType.Change, side, ref isAllowed);
-        if (isAllowed) {
-            Side = side;
+        Selection.ActiveShip.TryDiceResultModification
+        (
+            this,
+            Abilities.GenericAbility.DiceModificationType.Change,
+            newSide,
+            ref isAllowed
+        );
+
+        if (isAllowed)
+        {
+            Side = newSide;
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
-        
     }
 
     public DieSide Side

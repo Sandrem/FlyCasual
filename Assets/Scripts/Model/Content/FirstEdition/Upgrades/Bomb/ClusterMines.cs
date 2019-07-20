@@ -78,7 +78,7 @@ namespace SubPhases
             {
                 foreach (Die die in CurrentDiceRoll.DiceList)
                 {
-                    if (die.Side == DieSide.Crit) die.SetSide(DieSide.Success);
+                    if (die.Side == DieSide.Crit) die.TrySetSide(DieSide.Success);
                 }
 
                 SufferDamage();

@@ -402,19 +402,19 @@ public partial class DiceRoll
     {
         var changedDiceCount = 0;
         OrganizeDicePositions();
+
         foreach (Die die in DiceList)
         {
             if (die.Side == oldSide)
             {
-                
-                if (die.SetSide(newSide, false))
+                if (die.TrySetSide(newSide, isInitial: false))
                 {
                     die.SetModelSide(newSide);
+                    changedDiceCount++;
+                    if (cannotBeRerolled) die.IsRerolled = true;
+                    if (cannotBeModified) die.CannotBeModified = true;
+                    if (onlyOne) return changedDiceCount;
                 }
-                changedDiceCount++;
-                if (cannotBeRerolled) die.IsRerolled = true;
-                if (cannotBeModified) die.CannotBeModified = true;
-                if (onlyOne) return changedDiceCount;
             }
         }
 
@@ -597,7 +597,7 @@ public partial class DiceRoll
                 die.Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
 
                 DieSide face = die.GetModelFace();
-                die.SetSide(face);
+                die.TrySetSide(face);
 
                 if (die.IsWaitingForNewResult)
                 {
@@ -631,7 +631,7 @@ public partial class DiceRoll
 
             if (die.Side != sides[i])
             {
-                die.SetSide(sides[i]);
+                die.TrySetSide(sides[i]);
                 die.SetModelSide(sides[i]);
 
                 wasFixed = true;

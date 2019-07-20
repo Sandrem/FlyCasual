@@ -460,8 +460,10 @@ namespace Ship
 
         public bool TryDiceResultModification(Die die, GenericAbility.DiceModificationType modType, DieSide newResult, ref bool isAllowed)
         {
-            // (Die die, string modType, DieSide newResult, bool isAllowed)
-            if (OnTryDiceResultModification != null) OnTryDiceResultModification(die, modType, newResult, ref isAllowed);
+            if (OnTryDiceResultModification != null)
+            {
+                OnTryDiceResultModification(die, modType, newResult, ref isAllowed);
+            }
             return isAllowed;
         }
 

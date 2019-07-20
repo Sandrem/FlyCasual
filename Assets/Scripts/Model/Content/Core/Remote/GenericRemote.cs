@@ -1,4 +1,5 @@
 ﻿using Players;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +9,12 @@ using UnityEngine;
 
 namespace Remote
 {
-    public abstract class GenericRemote
+    public abstract class GenericRemote : GenericShip
     {
         public RemoteInfo RemoteInfo { get; protected set; }
-        public RemoteTokensHolder Tokens { get; protected set; }
-        public RemoteState State { get; protected set; }
-        public PlayerNo Owner { get; protected set; }
+        public new RemoteTokensHolder Tokens { get; protected set; } // Assign only Red TLs
 
-        public GenericRemote(PlayerNo owner)
+        public GenericRemote(GenericPlayer owner)
         {
             Owner = owner;
         }

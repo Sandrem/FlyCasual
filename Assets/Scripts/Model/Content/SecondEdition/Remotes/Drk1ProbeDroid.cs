@@ -9,7 +9,7 @@ namespace Remote
 {
     public class Drk1ProbeDroid : GenericRemote
     {
-        public Drk1ProbeDroid(PlayerNo owner) : base(owner)
+        public Drk1ProbeDroid(GenericPlayer owner) : base(owner)
         {
             RemoteInfo = new RemoteInfo(
                 "DRK-1 Probe Droid",

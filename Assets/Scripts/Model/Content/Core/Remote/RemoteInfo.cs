@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using Ship;
 
 namespace Remote
 {
-    public class RemoteInfo
+    public class RemoteInfo : PilotCardInfo
     {
         public string Name { get; }
 
-        public int Initiative { get; }
+        public new int Initiative { get; }
         public int Agility { get; }
         public int Hull { get; }
 
@@ -19,7 +20,7 @@ namespace Remote
         public Type Ability { get; }
         public Type SystemPhaseAbility { get; }
 
-        public RemoteInfo(string name, int initiative, int agility, int hull, string imageUrl, Type ability = null, Type systemPhaseAbility = null)
+        public RemoteInfo(string name, int initiative, int agility, int hull, string imageUrl, Type ability = null, Type systemPhaseAbility = null) : base (name, initiative, 0)
         {
             Name = name;
 

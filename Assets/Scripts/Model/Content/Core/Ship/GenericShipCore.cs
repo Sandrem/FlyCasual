@@ -6,6 +6,7 @@ using Abilities;
 using System;
 using Editions;
 using Upgrade;
+using Players;
 
 namespace Ship
 {
@@ -46,7 +47,7 @@ namespace Ship
         public ShipStateInfo State;
 
         public int ShipId { get; private set; }
-        public Players.GenericPlayer Owner { get; private set; }
+        public GenericPlayer Owner { get; protected set; }
 
         public string PilotName { get; set; }
 

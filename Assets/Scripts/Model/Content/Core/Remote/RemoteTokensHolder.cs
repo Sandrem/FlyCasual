@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using Tokens;
 using UnityEngine;
+using Ship;
 
 namespace Remote
 {
-    public class RemoteTokensHolder
+    public class RemoteTokensHolder : TokensManager
     {
-        public List<GenericToken> AssignedTokens { get; private set; } = new List<GenericToken>();
+        public RemoteTokensHolder(GenericShip host) : base(host)
+        {
 
-        public void AssignToken() { }
-        public void RemoveToken() { }
+        }
     }
 }

@@ -66,8 +66,8 @@ public static class ShipFactory {
         return newShipContainer;
 	}
 
-    public static void SpawnRemove(GenericRemote remote, Vector3 poistion, Quaternion rotation)
+    public static void SpawnRemove(GenericRemote remote, Vector3 position, Quaternion rotation)
     {
-        remote.SpawnModel(poistion, rotation);
+        remote.SpawnModel(position, rotation);
     }
 }

@@ -208,7 +208,7 @@ namespace SubPhases
 
             // TODO: get type of remote from upgrade
             ShipFactory.SpawnRemove(
-                new Drk1ProbeDroid(Selection.ThisShip.Owner.PlayerNo),
+                new Drk1ProbeDroid(Selection.ThisShip.Owner),
                 bombPosition,
                 bombRotation
             );

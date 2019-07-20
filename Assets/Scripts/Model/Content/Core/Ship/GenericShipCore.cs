@@ -46,7 +46,7 @@ namespace Ship
 
         public ShipStateInfo State;
 
-        public int ShipId { get; private set; }
+        public int ShipId { get; protected set; }
         public GenericPlayer Owner { get; protected set; }
 
         public string PilotName { get; set; }
@@ -194,11 +194,12 @@ namespace Ship
             SetShipSkin(GetModelTransform(), GetSkinTexture());
         }
 
-        private void SetId()
+        protected void SetId()
         {
             SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
 
             SetIdMarker();
+            SetSpotlightMask();
         }
 
         public void InitializeSectors()

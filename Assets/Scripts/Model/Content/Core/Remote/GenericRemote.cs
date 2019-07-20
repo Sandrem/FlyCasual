@@ -19,10 +19,20 @@ namespace Remote
             Owner = owner;
         }
 
-        public void SpawnModel(Vector3 position, Quaternion rotation)
+        public void SpawnModel(Vector3 position, int shipId,Quaternion rotation)
         {
+            ShipId = shipId;
+
             GameObject prefab = Resources.Load<GameObject>("Prefabs/Remotes/" + RemoteInfo.Name);
-            GameObject remoteModel = MonoBehaviour.Instantiate(prefab, position, rotation, BoardTools.Board.GetBoard());
+            Model = MonoBehaviour.Instantiate(prefab, position, rotation, BoardTools.Board.GetBoard());
+            ShipAllParts = Model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts").transform;
+
+            SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
+            SetRaycastTarget(true);
+            SetSpotlightMask();
+            SetShipIdText(Model);
+
+            //Roster.AddShipToLists(this);
         }
     }
 }

@@ -68,6 +68,6 @@ public static class ShipFactory {
 
     public static void SpawnRemove(GenericRemote remote, Vector3 position, Quaternion rotation)
     {
-        remote.SpawnModel(position, rotation);
+        remote.SpawnModel(position, ShipFactory.lastId++, rotation);
     }
 }

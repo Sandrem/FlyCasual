@@ -140,7 +140,7 @@ public static partial class Roster
         BoardTools.Board.SetShips();
     }
 
-    private static void AddShipToLists(GenericShip newShip)
+    public static void AddShipToLists(GenericShip newShip)
     {
         AllShips.Add(newShip.GetTag(), newShip);
         newShip.Owner.Ships.Add(newShip.GetTag(), newShip);

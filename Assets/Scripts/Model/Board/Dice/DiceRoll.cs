@@ -406,8 +406,11 @@ public partial class DiceRoll
         {
             if (die.Side == oldSide)
             {
-                die.SetSide(newSide);
-                die.SetModelSide(newSide);
+                
+                if (die.SetSide(newSide, false))
+                {
+                    die.SetModelSide(newSide);
+                }
                 changedDiceCount++;
                 if (cannotBeRerolled) die.IsRerolled = true;
                 if (cannotBeModified) die.CannotBeModified = true;

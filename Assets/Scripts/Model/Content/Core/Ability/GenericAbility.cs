@@ -404,7 +404,7 @@ namespace Abilities
 
         // DICE MODIFICATIONS
 
-        protected enum DiceModificationType
+        public enum DiceModificationType
         {
             Reroll,
             Change,

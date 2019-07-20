@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
+using Ship;
+using Conditions;
+using Tokens;
 
 namespace Ship
 {
@@ -33,43 +36,98 @@ namespace Abilities.SecondEdition
   {
     public override void ActivateAbility()
     {
-      HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += CheckAttackAbility;
-      HostShip.AfterGotNumberOfDefenceDice += CheckDefensebility;
+      GenericShip.OnAttackStartAsAttackerGlobal += CheckPadmeAbilityAttacker;
+      GenericShip.OnAttackStartAsDefenderGlobal += CheckPadmeAbilityDefender;
     }
 
     public override void DeactivateAbility()
     {
-      HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= CheckAttackAbility;
-      HostShip.AfterGotNumberOfDefenceDice -= CheckDefensebility;
+      GenericShip.OnAttackStartAsAttackerGlobal -= CheckPadmeAbilityAttacker;
+      GenericShip.OnAttackStartAsDefenderGlobal -= CheckPadmeAbilityDefender;
+      
     }
-
-    private void CheckPadmeAbility()
+    public void CheckPadmeAbilityDefender()
     {
-      // Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent)
-      //   ShotInfo shotInfo = new ShotInfo(thisShip, anotherShip, checkedWeapon)
-      if (Combat.Defender.Owner != HostShip.Owner
-          && GetFiringRangeAndShow(HostShip, Combat.Defender))
+      CheckPadmeAbility(false);
+    }
+    
+    public void CheckPadmeAbilityAttacker()
+    {
+      CheckPadmeAbility(true);
+    }
+    public void CheckPadmeAbility(bool isAttacker)
+    {
+      if (!isAttacker &&
+          Combat.Defender.Owner != HostShip.Owner && 
+          HostShip.SectorsInfo.IsShipInSector(Combat.Defender, Arcs.ArcType.Front))
       {
-        Messages.ShowInfo("Padmé Amidala: Defender can only modify 1 focus result");
-        // apply defensive focus mod limitation
+        PadmeAmidalaCondition condition = new PadmeAmidalaCondition(Combat.Defender, HostShip);
+        Combat.Defender.Tokens.AssignCondition(condition);
       }
-      if (Combat.Attacker.Owner != HostShip.Owner
-          && GetFiringRangeAndShow(HostShip, Combat.Attacker))
+      if (isAttacker &&
+          Combat.Attacker.Owner != HostShip.Owner &&
+          HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Front))
       {
-        Messages.ShowInfo("Padmé Amidala: Attacker can only modify 1 focus result");
-        // apply offensive focus mod limitation
+        PadmeAmidalaCondition condition = new PadmeAmidalaCondition(Combat.Attacker, HostShip);
+        Combat.Attacker.Tokens.AssignCondition(condition);
       }
     }
-
-    // private void CheckDefensebility(ref int count)
-    // {
-    //     if (HostShip.RevealedManeuver == null || Combat.Attacker.RevealedManeuver == null) return;
-
-    //     if (HostShip.RevealedManeuver.Speed > Combat.Attacker.RevealedManeuver.Speed)
-    //     {
-    //         Messages.ShowInfo("Ric Olie: +1 defense die");
-    //         count++;
-    //     }
-    // }
   }
+}
+
+namespace Conditions
+{
+    public class PadmeAmidalaCondition : GenericToken
+    {
+        bool FocusHasBeenModified = false;
+
+        public PadmeAmidalaCondition(GenericShip host, GenericShip source) : base(host)
+        {
+            Name = ImageName = "Debuff Token";
+            TooltipType = source.GetType();
+            Temporary = false;
+        }
+
+        public override void WhenAssigned()
+        {
+            Messages.ShowInfo("Padme Amidala: " + Host.PilotInfo.PilotName + " can only modify 1 focus result for this attack.");
+            FocusHasBeenModified = false;
+            
+            Host.OnTryDiceResultModification += CheckIfCanModifyFocus;
+
+            Host.OnAttackFinishAsDefender += RemovePadmeAmidalaCondition;
+            Host.OnAttackFinishAsAttacker += RemovePadmeAmidalaCondition;
+        }
+
+        public void CheckIfCanModifyFocus(
+          Die die, Abilities.GenericAbility.DiceModificationType modType, DieSide newResult, ref bool isAllowed
+        )
+        // Add focus modification limitation code here.
+        {
+          // set FocusHasBeenModified in some check in here
+          if (FocusHasBeenModified == true)
+          {
+            isAllowed = false;
+          }
+          else if (die.Side == DieSide.Focus)
+          {
+            FocusHasBeenModified = true;
+          }
+        }
+        public void RemovePadmeAmidalaCondition(GenericShip ship)
+        {
+            Host.Tokens.RemoveCondition(this);
+        }
+
+        public override void WhenRemoved()
+        {
+            Messages.ShowInfo("Padme Amidala: " + Host.PilotInfo.PilotName + "'s ability to modify focus results restored");
+
+            // remove focus modification limitation code here.
+            Host.OnTryDiceResultModification -= CheckIfCanModifyFocus;
+
+            Host.OnAttackFinishAsDefender -= RemovePadmeAmidalaCondition;
+            Host.OnAttackFinishAsAttacker -= RemovePadmeAmidalaCondition;
+        }
+    }
 }

@@ -8,6 +8,7 @@ using SquadBuilderNS;
 using System;
 using GameCommands;
 using Obstacles;
+using Remote;
 
 public static partial class Roster
 {
@@ -21,6 +22,7 @@ public static partial class Roster
     //Ships
 
     public static Dictionary<string, GenericShip> AllShips;
+    public static Dictionary<string, GenericShip> AllRealShips;
 
     public static Dictionary<string, GenericShip> ShipsPlayer1 { get { return Player1.Ships; } }
     public static Dictionary<string, GenericShip> ShipsPlayer2 {get { return Player2.Ships; } }
@@ -143,6 +145,7 @@ public static partial class Roster
     public static void AddShipToLists(GenericShip newShip)
     {
         AllShips.Add(newShip.GetTag(), newShip);
+        if (!(newShip is GenericRemote)) AllRealShips.Add(newShip.GetTag(), newShip);
         newShip.Owner.Ships.Add(newShip.GetTag(), newShip);
     }
 

@@ -1,4 +1,5 @@
-﻿using Players;
+﻿using Arcs;
+using Players;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,41 @@ namespace Remote
             Owner = owner;
         }
 
-        public void SpawnModel(Vector3 position, int shipId,Quaternion rotation)
+        public void SpawnModel(int shipId, Vector3 position, Quaternion rotation)
         {
             ShipId = shipId;
 
+            GeneratePilotInfo();
+            GenerateModel(position, rotation);
+            GeneratePseudoShip();
+            InitializeRosterPanel();
+
+            Roster.AddShipToLists(this);
+        }
+
+        private void GeneratePilotInfo()
+        {
+            ShipInfo = new ShipCardInfo(
+                "Remote",
+                BaseSize.None,
+                Faction.None,
+                new ShipArcsInfo(ArcType.None, 0),
+                RemoteInfo.Agility,
+                RemoteInfo.Hull,
+                0,
+                new ShipActionsInfo(),
+                new ShipUpgradesInfo()
+            );
+
+            PilotInfo = new PilotCardInfo(
+                RemoteInfo.Name,
+                RemoteInfo.Initiative,
+                0
+            );
+        }
+
+        private void GenerateModel(Vector3 position, Quaternion rotation)
+        {
             GameObject prefab = Resources.Load<GameObject>("Prefabs/Remotes/" + RemoteInfo.Name);
             Model = MonoBehaviour.Instantiate(prefab, position, rotation, BoardTools.Board.GetBoard());
             ShipAllParts = Model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts").transform;
@@ -32,7 +64,16 @@ namespace Remote
             SetSpotlightMask();
             SetShipIdText(Model);
 
-            //Roster.AddShipToLists(this);
+            // InitializeShipBase();
+        }
+
+        private void GeneratePseudoShip()
+        {
+            Damage = new Damage(this);
+            ActionBar.Initialize();
+            InitializeState();
+            InitializeSectors();
+            InitializeShipBaseArc();
         }
     }
 }

@@ -120,7 +120,7 @@ namespace Ship
             TargetLockMaxRange = 3;
         }
 
-        public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
+        public void InitializeGenericShip(PlayerNo playerNo, int shipId, Vector3 position)
         {
             Owner = Roster.GetPlayer(playerNo);
             ShipId = shipId;
@@ -134,8 +134,15 @@ namespace Ship
 
             InitializeShipModel();
 
+            InitializeRosterPanel();
+        }
+
+        protected void InitializeRosterPanel()
+        {
             InfoPanel = Roster.CreateRosterInfo(this);
             Roster.UpdateUpgradesPanel(this, this.InfoPanel);
+            Roster.SubscribeSelectionByInfoPanel(this.InfoPanel.transform.Find("ShipInfo").gameObject);
+            Roster.SubscribeUpgradesPanel(this, this.InfoPanel);
         }
 
         public virtual void InitializeUpgrades()
@@ -165,9 +172,12 @@ namespace Ship
             State.RegensCharges = PilotInfo.RegensCharges;
 
             Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
-            foreach (var maneuver in DialInfo.PrintedDial)
+            if (DialInfo != null)
             {
-                Maneuvers.Add(maneuver.Key.ToString(), maneuver.Value);
+                foreach (var maneuver in DialInfo.PrintedDial)
+                {
+                    Maneuvers.Add(maneuver.Key.ToString(), maneuver.Value);
+                }
             }
         }
 

@@ -30,9 +30,6 @@ public static class ShipFactory {
         GenericShip newShipContainer = shipConfig.Instance;
         newShipContainer.InitializeGenericShip(shipConfig.List.PlayerNo, ShipFactory.lastId++, position);
 
-        Roster.SubscribeSelectionByInfoPanel(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
-        Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);
-
         //TODO: Rework this
         newShipContainer.AfterGotNumberOfAttackDice += Rules.DistanceBonus.CheckAttackDistanceBonus;
         newShipContainer.AfterGotNumberOfDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
@@ -68,6 +65,6 @@ public static class ShipFactory {
 
     public static void SpawnRemove(GenericRemote remote, Vector3 position, Quaternion rotation)
     {
-        remote.SpawnModel(position, ShipFactory.lastId++, rotation);
+        remote.SpawnModel(ShipFactory.lastId++, position, rotation);
     }
 }

@@ -25,7 +25,7 @@ namespace Ship
     {
         public List<PrimaryWeaponClass> PrimaryWeapons = new List<PrimaryWeaponClass>();
 
-        public Damage Damage { get; private set; }
+        public Damage Damage { get; protected set; }
 
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 

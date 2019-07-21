@@ -89,7 +89,7 @@ namespace SubPhases
             bool result = false;
 
             var pilotSkillResults =
-                from n in Roster.AllShips
+                from n in Roster.AllRealShips
                 where n.Value.State.Initiative == pilotSkill
                 where n.Value.IsAttackPerformed == false
                 select n;
@@ -123,7 +123,7 @@ namespace SubPhases
             int result = int.MaxValue;
 
             var ascPilotSkills =
-                from n in Roster.AllShips
+                from n in Roster.AllRealShips
                 where n.Value.State.Initiative < pilotSkillMax
                 where n.Value.IsAttackPerformed == false
                 orderby n.Value.State.Initiative

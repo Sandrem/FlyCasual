@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Arcs;
 using BoardTools;
+using Remote;
 
 namespace Ship
 {
@@ -13,15 +14,21 @@ namespace Ship
 
         public SectorsHolder(GenericShip hostShip) : base(hostShip)
         {
-            Arcs = new List<GenericArc>()
+            Arcs = new List<GenericArc>();
+            if (!(HostShip is GenericRemote))
             {
-                new ArcBullseye(hostShip.ShipBase),
-                new ArcFront(hostShip.ShipBase),
-                new ArcRear(hostShip.ShipBase),
-                new ArcLeft(hostShip.ShipBase),
-                new ArcRight(hostShip.ShipBase),
-                new ArcFullFront(hostShip.ShipBase),
-                new ArcFullRear(hostShip.ShipBase)
+                Arcs.AddRange(
+                    new List<GenericArc>()
+                    {
+                        new ArcBullseye(hostShip.ShipBase),
+                        new ArcFront(hostShip.ShipBase),
+                        new ArcRear(hostShip.ShipBase),
+                        new ArcLeft(hostShip.ShipBase),
+                        new ArcRight(hostShip.ShipBase),
+                        new ArcFullFront(hostShip.ShipBase),
+                        new ArcFullRear(hostShip.ShipBase)
+                    }
+                );
             };
         }
 

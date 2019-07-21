@@ -90,7 +90,7 @@ namespace Conditions
 
         public override void WhenAssigned()
         {
-            Messages.ShowInfo("Padme Amidala: " + Host.PilotInfo.PilotName + " can only modify 1 focus result for this attack.");
+            Messages.ShowInfo("Padmé Amidala: " + Host.PilotInfo.PilotName + " can only modify 1 focus result for this attack.");
             FocusHasBeenModified = false;
             
             Host.OnTryDiceResultModification += CheckIfCanModifyFocus;
@@ -108,6 +108,7 @@ namespace Conditions
           if (FocusHasBeenModified == true)
           {
             isAllowed = false;
+            Messages.ShowInfo("Padmé Amidala: Die modification is prevented");
           }
           else if (die.Side == DieSide.Focus)
           {
@@ -121,7 +122,7 @@ namespace Conditions
 
         public override void WhenRemoved()
         {
-            Messages.ShowInfo("Padme Amidala: " + Host.PilotInfo.PilotName + "'s ability to modify focus results restored");
+            Messages.ShowInfo("Padmé Amidala: " + Host.PilotInfo.PilotName + "'s ability to modify focus results restored");
 
             // remove focus modification limitation code here.
             Host.OnTryDiceResultModification -= CheckIfCanModifyFocus;

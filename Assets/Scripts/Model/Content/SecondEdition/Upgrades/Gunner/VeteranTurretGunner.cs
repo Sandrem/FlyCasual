@@ -52,6 +52,8 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ShotInfo.Weapon.WeaponType != WeaponTypes.PrimaryWeapon) return;
 
+            if (HostShip.IsCannotAttackSecondTime) return;
+
             bool availableArcsArePresent = HostShip.ArcsInfo.Arcs.Any(a => a.ArcType == ArcType.SingleTurret && !a.WasUsedForAttackThisRound);
             if (availableArcsArePresent)
             {
@@ -96,6 +98,9 @@ namespace Abilities.SecondEdition
         {
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             HostShip.IsAttackPerformed = true;
+
+            //if bonus attack was skipped, allow bonus attacks again
+            if (HostShip.IsAttackSkipped) HostShip.IsCannotAttackSecondTime = false;
 
             Triggers.FinishTrigger();
         }

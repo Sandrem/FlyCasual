@@ -93,22 +93,38 @@ namespace Conditions
             Messages.ShowInfo("Padmé Amidala: " + Host.PilotInfo.PilotName + " can only modify 1 focus result for this attack.");
             FocusHasBeenModified = false;
             
-            Host.OnTryDiceResultModification += CheckIfCanModifyFocus;
+            Host.OnTryDiceResultModification += CheckIfCanChangeDie;
+            Host.OnTrySelectDie += CheckIfCanSelectDie;
 
             Host.OnAttackFinishAsDefender += RemovePadmeAmidalaCondition;
             Host.OnAttackFinishAsAttacker += RemovePadmeAmidalaCondition;
         }
 
-        public void CheckIfCanModifyFocus(
+        public void CheckIfCanChangeDie(
           Die die, Abilities.GenericAbility.DiceModificationType modType, DieSide newResult, ref bool isAllowed
         )
         // Add focus modification limitation code here.
         {
           // set FocusHasBeenModified in some check in here
-          if (FocusHasBeenModified == true)
+          if (FocusHasBeenModified == true && die.Side == DieSide.Focus)
           {
             isAllowed = false;
             Messages.ShowInfo("Padmé Amidala: Die modification is prevented");
+          }
+          else if (die.Side == DieSide.Focus)
+          {
+            FocusHasBeenModified = true;
+          }
+        }
+
+        public void CheckIfCanSelectDie(
+          Die die, ref bool isAllowed
+        )
+        {
+          if (FocusHasBeenModified == true && die.Side == DieSide.Focus)
+          {
+            isAllowed = false;
+            Messages.ShowErrorToHuman("Padmé Amidala: Unable to select focus results");
           }
           else if (die.Side == DieSide.Focus)
           {
@@ -125,7 +141,8 @@ namespace Conditions
             Messages.ShowInfo("Padmé Amidala: " + Host.PilotInfo.PilotName + "'s ability to modify focus results restored");
 
             // remove focus modification limitation code here.
-            Host.OnTryDiceResultModification -= CheckIfCanModifyFocus;
+            Host.OnTryDiceResultModification -= CheckIfCanChangeDie;
+            Host.OnTrySelectDie -= CheckIfCanSelectDie;
 
             Host.OnAttackFinishAsDefender -= RemovePadmeAmidalaCondition;
             Host.OnAttackFinishAsAttacker -= RemovePadmeAmidalaCondition;

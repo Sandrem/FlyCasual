@@ -154,6 +154,7 @@ namespace Ship
 
         public event EventHandler AfterAttackDiceModification;
         public event EventHandlerModifyDice OnTryDiceResultModification;
+        public event EventHandlerTrySelectDie OnTrySelectDie;
 
         public event EventHandler OnBombWillBeDropped;
         public event EventHandler OnBombWasDropped;
@@ -464,6 +465,12 @@ namespace Ship
             {
                 OnTryDiceResultModification(die, modType, newResult, ref isAllowed);
             }
+            return isAllowed;
+        }
+
+        public bool TrySelectDie(Die die, ref bool isAllowed)
+        {
+            if (OnTrySelectDie != null) OnTrySelectDie(die, ref isAllowed);
             return isAllowed;
         }
 

@@ -63,6 +63,7 @@ namespace Ship
         public delegate void EventHandlerCoordinateData(ref CoordinateActionData coordinateActionData);
 
         public delegate void EventHandlerModifyDice(Die die, GenericAbility.DiceModificationType modType, DieSide newResult, ref bool isAllowed);
+        public delegate void EventHandlerTrySelectDie(Die die, ref bool isAllowed);
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetMaxHull;
         public event EventHandlerForceAlignmentBool OnForceAlignmentEquipCheck;

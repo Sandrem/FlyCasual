@@ -122,7 +122,7 @@ public static partial class Phases
 
         GameIsEnded = true;
 
-        foreach (var ship in Roster.AllShips.Values)
+        foreach (var ship in Roster.AllUnits.Values)
         {
             ship.DeactivateAllAbilities();
         }

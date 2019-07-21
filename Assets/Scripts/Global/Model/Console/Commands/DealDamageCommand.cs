@@ -40,7 +40,7 @@ namespace CommandsList
 
         private void DealDamage(int shipId, int regularDamage, int criticalDamage)
         {
-            GenericShip ship = Roster.AllShips.FirstOrDefault(n => n.Key == "ShipId:" + shipId).Value;
+            GenericShip ship = Roster.AllUnits.FirstOrDefault(n => n.Key == "ShipId:" + shipId).Value;
 
             if (ship != null)
             {

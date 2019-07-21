@@ -21,7 +21,7 @@ static partial class DamageNumbers
     {
         SavedHP = new Dictionary<string, HpInfo>();
 
-        foreach (var shipHolder in Roster.AllShips)
+        foreach (var shipHolder in Roster.AllUnits)
         {
             SavedHP.Add(shipHolder.Key, new HpInfo(shipHolder.Value.State.HullCurrent, shipHolder.Value.State.ShieldsCurrent));
         }
@@ -29,7 +29,7 @@ static partial class DamageNumbers
 
     public static void ShowChangedHP()
     {
-        foreach (var shipHolder in Roster.AllShips)
+        foreach (var shipHolder in Roster.AllUnits)
         {
             if (!SavedHP.ContainsKey(shipHolder.Key)) continue;
 

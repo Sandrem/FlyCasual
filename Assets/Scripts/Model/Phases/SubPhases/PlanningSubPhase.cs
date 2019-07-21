@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using Remote;
 
 namespace SubPhases
 {
@@ -112,6 +113,8 @@ namespace SubPhases
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
+            if (ship is GenericRemote) return;
+
             if (!RulesList.IonizationRule.IsIonized(ship))
             {
                 UI.ShowDirectionMenu();

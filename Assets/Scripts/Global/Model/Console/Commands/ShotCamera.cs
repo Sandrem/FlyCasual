@@ -45,8 +45,8 @@ namespace CommandsList
 
         private void SetShotCamera(int shipId, int targetId)
         {
-            GenericShip attacker = Roster.AllShips.FirstOrDefault(n => n.Key == "ShipId:" + shipId).Value;
-            GenericShip defender = Roster.AllShips.FirstOrDefault(n => n.Key == "ShipId:" + targetId).Value;
+            GenericShip attacker = Roster.AllUnits.FirstOrDefault(n => n.Key == "ShipId:" + shipId).Value;
+            GenericShip defender = Roster.AllUnits.FirstOrDefault(n => n.Key == "ShipId:" + targetId).Value;
 
             if (attacker != null && defender != null)
             {

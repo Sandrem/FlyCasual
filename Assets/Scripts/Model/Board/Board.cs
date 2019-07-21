@@ -23,7 +23,7 @@ namespace BoardTools
         public static void SetShips()
         {
             int i = 1;
-            foreach (var ship in Roster.ShipsPlayer1.Values)
+            foreach (var ship in Roster.GetPlayer(Players.PlayerNo.Player1).Ships.Values)
             {
                 SetShipPreSetup(ship, i);
                 RegisterBoardObject(ship);
@@ -31,7 +31,7 @@ namespace BoardTools
             }
 
             i = 1;
-            foreach (var ship in Roster.ShipsPlayer2.Values)
+            foreach (var ship in Roster.GetPlayer(Players.PlayerNo.Player2).Ships.Values)
             {
                 SetShipPreSetup(ship, i);
                 RegisterBoardObject(ship);

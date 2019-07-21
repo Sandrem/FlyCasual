@@ -316,11 +316,11 @@ namespace Ship
             GenericToken token = null;
             if (tokenType != typeof(TractorBeamToken))
             {
-                token = (GenericToken)Activator.CreateInstance(tokenType, Roster.AllShips.First().Value);
+                token = (GenericToken)Activator.CreateInstance(tokenType, Roster.AllUnits.First().Value);
             }
             else
             {
-                token = (GenericToken)Activator.CreateInstance(tokenType, Roster.AllShips.First().Value, Roster.Player1);
+                token = (GenericToken)Activator.CreateInstance(tokenType, Roster.AllUnits.First().Value, Roster.Player1);
             }
             return token.TokenColor;
         }

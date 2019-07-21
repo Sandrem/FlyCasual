@@ -1,6 +1,7 @@
 ﻿using Arcs;
 using BoardTools;
 using Editions;
+using Remote;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -329,8 +330,11 @@ namespace Ship
 
         public void ToggleCollisionDetection(bool value)
         {
-            ShipAllParts.Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
-            ShipAllParts.Find("ShipBase/ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
+            if (!(this is GenericRemote))
+            {
+                ShipAllParts.Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<ObstaclesStayDetector>().checkCollisions = value;
+                ShipAllParts.Find("ShipBase/ObstaclesHitsDetector").GetComponent<ObstaclesHitsDetector>().checkCollisions = value;
+            }
         }
 
         public void ToggleColliders(bool value)

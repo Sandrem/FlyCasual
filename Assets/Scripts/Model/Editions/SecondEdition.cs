@@ -66,7 +66,7 @@ namespace Editions
             {
                 return new Dictionary<BaseSize, int>()
                 {
-                    { BaseSize.None,    0 },
+                    { BaseSize.None,    int.MaxValue },
                     { BaseSize.Small,   1 },
                     { BaseSize.Medium,  2 },
                     { BaseSize.Large,   3 }

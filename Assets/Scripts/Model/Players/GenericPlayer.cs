@@ -8,6 +8,8 @@ using GameModes;
 using SubPhases;
 using GameCommands;
 using Obstacles;
+using System.Linq;
+using Remote;
 
 public enum Faction
 {
@@ -59,7 +61,9 @@ namespace Players
 
         public GameObject PlayerInfoPanel;
 
-        public Dictionary<string, GenericShip> Ships = new Dictionary<string, GenericShip>();
+        public Dictionary<string, GenericShip> Units = new Dictionary<string, GenericShip>();
+        public Dictionary<string, GenericShip> Ships { get { return Units.Where(n => !(n.Value is GenericRemote)).ToDictionary(n => n.Key, m => m.Value); } }
+        public Dictionary<string, GenericShip> Remotes { get { return Units.Where(n => n.Value is GenericRemote).ToDictionary(n => n.Key, m => m.Value); } }
 
         public List<GenericObstacle> ChosenObstacles = new List<GenericObstacle>();
 

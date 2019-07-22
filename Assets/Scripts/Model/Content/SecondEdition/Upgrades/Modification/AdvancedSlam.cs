@@ -27,6 +27,21 @@ namespace Abilities.SecondEdition
 {
     public class AdvancedSlamAbility : Abilities.FirstEdition.AdvancedSlamAbility
     {
+        protected override void CheckSlamAction(GenericAction action)
+        {
+            if (action is SlamAction)
+            {
+                if (HostShip.IsBumped)
+                {
+                    Messages.ShowErrorToHuman("SLAM maneuver overlapped another ship, Advanced SLAM action is skipped");
+                }
+                else
+                {
+                    RegisterTrigger();
+                }
+            }
+        }
+
         protected override void PerfromFreeActionFromUpgradeBar(object sender, EventArgs e)
         {
             List<GenericAction> actions = HostShip.GetAvailableActions();

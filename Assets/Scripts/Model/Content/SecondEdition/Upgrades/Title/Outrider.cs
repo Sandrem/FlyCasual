@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
         private void CheckOutriderTokensAbility(GenericShip ship)
         {
             //to see if host ship moved thru obstacles, use HostShip.ObstaclesHit instead of HostShip.IsHitObstacles
-            //because HostShip.IsHitObstacles always returns false when HostShip.IsIgnoreObstacles = false (ex. Dash Rendar)
+            //because HostShip.IsHitObstacles always returns false when HostShip.IsIgnoreObstacles = true (ex. Dash Rendar)
             if (HostShip.ObstaclesHit.Count > 0 || HostShip.IsLandedOnObstacle)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, CheckAbility);

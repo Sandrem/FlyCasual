@@ -41,6 +41,7 @@ namespace Abilities.SecondEdition
         protected override void MarkAbilityAsUsed()
         {
             HostShip.SpendCharge();
+            if (!HostShip.IsAttackSkipped) HostShip.IsCannotAttackSecondTime = true;
         }
     }
 }

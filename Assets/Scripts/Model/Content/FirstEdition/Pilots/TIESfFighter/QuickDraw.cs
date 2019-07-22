@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
         public override void DeactivateAbility()
         {
             HostShip.OnShieldLost -= CheckAbility;
-            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
+            Phases.Events.OnCombatPhaseEnd_NoTriggers -= ClearIsAbilityUsedFlag;
         }
 
         private void CheckAbility()

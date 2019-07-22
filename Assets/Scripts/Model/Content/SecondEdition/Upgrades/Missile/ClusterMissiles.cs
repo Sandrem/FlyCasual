@@ -94,18 +94,26 @@ namespace Abilities.SecondEdition
 
         private void UseClusterMissilesAbility(object sender, System.EventArgs e)
         {
-            (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresToken = null;
+            if (!HostShip.IsCannotAttackSecondTime)
+            {
+                (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresToken = null;
 
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform a second Cluster Missiles attack");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform a second Cluster Missiles attack");
 
-            Combat.StartSelectAttackTarget(
-                HostShip,
-                FinishAdditionalAttack,
-                IsClusterMissilesShotToNeighbour,
-                HostUpgrade.UpgradeInfo.Name,
-                "You may perform a second Cluster Missiles attack",
-                HostUpgrade
-            );
+                Combat.StartSelectAttackTarget(
+                    HostShip,
+                    FinishAdditionalAttack,
+                    IsClusterMissilesShotToNeighbour,
+                    HostUpgrade.UpgradeInfo.Name,
+                    "You may perform a second Cluster Missiles attack",
+                    HostUpgrade
+                );
+            }
+            else
+            {
+                Messages.ShowErrorToHuman(HostShip.PilotInfo.PilotName + " cannot perform a second Cluster Missiles attack");
+                Triggers.FinishTrigger();
+            }
         }
 
         private bool IsClusterMissilesShotToNeighbour(GenericShip defender, IShipWeapon weapon, bool isSilent)
@@ -146,6 +154,8 @@ namespace Abilities.SecondEdition
 
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             Selection.ThisShip.IsAttackPerformed = true;
+
+            if (!Selection.ThisShip.IsAttackSkipped) Selection.ThisShip.IsCannotAttackSecondTime = true;
 
             Triggers.FinishTrigger();
         }

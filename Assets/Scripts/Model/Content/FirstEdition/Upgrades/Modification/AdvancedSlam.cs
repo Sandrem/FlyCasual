@@ -33,7 +33,7 @@ namespace Abilities.FirstEdition
             HostShip.OnActionIsPerformed -= CheckSlamAction;
         }
 
-        private void CheckSlamAction(GenericAction action)
+        protected virtual void CheckSlamAction(GenericAction action)
         {
             if (action is SlamAction)
             {
@@ -52,7 +52,7 @@ namespace Abilities.FirstEdition
             }
         }
 
-        private void RegisterTrigger()
+        protected void RegisterTrigger()
         {
             Triggers.RegisterTrigger(new Trigger()
             {

@@ -1,4 +1,5 @@
-﻿using ActionsList;
+﻿using Abilities;
+using ActionsList;
 using Arcs;
 using BoardTools;
 using Movement;
@@ -152,6 +153,8 @@ namespace Ship
         public event EventHandler OnAfterNeutralizeResults;
 
         public event EventHandler AfterAttackDiceModification;
+        public event EventHandlerModifyDice OnTryDiceResultModification;
+        public event EventHandlerTrySelectDie OnTrySelectDie;
 
         public event EventHandler OnBombWillBeDropped;
         public event EventHandler OnBombWasDropped;
@@ -454,6 +457,21 @@ namespace Ship
         public void CallAfterNumberOfDefenceDiceConfirmed(int numDefenceDice)
         {
             if (AfterNumberOfDefenceDiceConfirmed != null) AfterNumberOfDefenceDiceConfirmed(ref numDefenceDice);
+        }
+
+        public bool TryDiceResultModification(Die die, GenericAbility.DiceModificationType modType, DieSide newResult, ref bool isAllowed)
+        {
+            if (OnTryDiceResultModification != null)
+            {
+                OnTryDiceResultModification(die, modType, newResult, ref isAllowed);
+            }
+            return isAllowed;
+        }
+
+        public bool TrySelectDie(Die die, ref bool isAllowed)
+        {
+            if (OnTrySelectDie != null) OnTrySelectDie(die, ref isAllowed);
+            return isAllowed;
         }
 
         // REGEN

@@ -29,7 +29,6 @@ public static class Rules
     public static TractorBeamRule TractorBeam { get; private set; }
     public static ForceRule Force { get; private set; }
     public static ChargeRule Charge { get; private set; }
-    public static BonusAttackRule BonusAttack { get; private set; }
     public static DestructionRule Destruction { get; private set; }
 
     public static FuseRule Fuse { get; private set; }
@@ -60,7 +59,6 @@ public static class Rules
         TractorBeam = new TractorBeamRule();
         Force = new ForceRule();
         Charge = new ChargeRule();
-        BonusAttack = new BonusAttackRule();
         Destruction = new DestructionRule();
         Fuse = new FuseRule();
     }

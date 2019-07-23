@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
         private void CheckJosteroAbility(GenericShip damaged, DamageSourceEventArgs damage)
         {
             // Can we even bonus attack?
-            if (!HostShip.CanBonusAttack)
+            if (HostShip.IsCannotAttackSecondTime)
                 return;
 
             // Make sure the opposing ship is an enemy.
@@ -54,8 +54,10 @@ namespace Abilities.SecondEdition
             if (Combat.Defender == damaged || damage.DamageType == DamageTypes.ShipAttack)
                 return;
 
-            // Save the value for whether they've attacked or not.
+            // Save the value for whether we've attacked or not.
             performedRegularAttack = HostShip.IsAttackPerformed;
+
+            TargetShip = damaged;
 
             // It may be possible in the future for a non-defender to be damaged in combat so we've got to future proof here.
             if (Combat.AttackStep == CombatStep.None)
@@ -76,13 +78,30 @@ namespace Abilities.SecondEdition
 
         private void RegisterBonusAttack(object sender, System.EventArgs e)
         {
-            HostShip.StartBonusAttack(CleanupBonusAttack);
+            HostShip.StartBonusAttack(CleanupBonusAttack, IsTargetShip);
+        }
+
+        private bool IsTargetShip(GenericShip defender, IShipWeapon weapon, bool isSilent)
+        {
+            if (defender == TargetShip)
+            {
+                return true;
+            }
+            else
+            {
+                if (!isSilent) Messages.ShowErrorToHuman("Your bonus attack must be against the ship that just suffered damage");
+                return false;
+            }
         }
 
         private void CleanupBonusAttack()
         {
-            // Restore previous value of "is already attacked" flag
+            // Restore previous value of "has already attacked" flag
             HostShip.IsAttackPerformed = performedRegularAttack;
+
+            // Restore ship selection
+            Selection.ChangeActiveShip(TargetShip);
+
             Triggers.FinishTrigger();
         }
     }

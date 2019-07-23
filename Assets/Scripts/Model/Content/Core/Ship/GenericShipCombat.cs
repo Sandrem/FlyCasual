@@ -34,7 +34,6 @@ namespace Ship
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
         public bool AttackIsAlwaysConsideredHit { get; set; }
-        public bool CanBonusAttack { get; set; } = true;
 
         // EVENTS
 
@@ -892,23 +891,25 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnAfterNeutralizeResults, callback);
         }
 
-        public void StartBonusAttack(Action callback)
+        public void StartBonusAttack(Action callback, Func<GenericShip, IShipWeapon, bool, bool> bonusAttackFilter = null)
         {
-            if(!CanBonusAttack)
+            if(IsCannotAttackSecondTime)
             {
                 // We should never reach this but just in case.
                 Messages.ShowError(PilotInfo.PilotName + ": You have already performed a bonus attack!");
                 return;
             }
 
-            CanBonusAttack = false;
-
-			Combat.StartSelectAttackTarget(
+            Combat.StartSelectAttackTarget(
 				this,
-				callback,
-				null,
+				delegate
+                {
+                    if (!this.IsAttackSkipped) IsCannotAttackSecondTime = true;
+                    callback();
+                },
+				bonusAttackFilter,
                 PilotInfo.PilotName,
-				"You may perform a primary weapon attack",
+				"You may perform a bonus attack",
 				this
 			);
         }

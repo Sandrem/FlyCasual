@@ -71,7 +71,7 @@ namespace Upgrade
 
             if (DebugManager.FreeMode)
             {
-                if (!host.UpgradeBar.HasFreeSlots()) host.UpgradeBar.AddSlot(UpgradeType.Omni);
+                if (!host.UpgradeBar.HasFreeUpgradeSlot(new List<UpgradeType>(){ UpgradeType.Omni })) host.UpgradeBar.AddSlot(UpgradeType.Omni);
             }
 
             OnPreInstallUpgrade?.Invoke(upgrade);
@@ -85,7 +85,7 @@ namespace Upgrade
 
             if (DebugManager.FreeMode)
             {
-                if (HostShip.UpgradeBar.GetUpgradeSlots().Count(n => n.IsEmpty) > 1)
+                if (HostShip.UpgradeBar.GetUpgradeSlots().Count(n => n.Type == UpgradeType.Omni && n.IsEmpty) > 1)
                 {
                     HostShip.UpgradeBar.RemoveEmptySlot(UpgradeType.Omni);
                 }

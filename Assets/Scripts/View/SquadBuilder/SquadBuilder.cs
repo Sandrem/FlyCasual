@@ -641,7 +641,7 @@ namespace SquadBuilderNS
 
             List<UpgradeRecord> filteredUpgrades = null;
 
-            if (!DebugManager.FreeMode)
+            if (slot.Type != UpgradeType.Omni)
             {
                 filteredUpgrades = AllUpgrades.Where(n =>
                      n.Instance.HasType(slot.Type)

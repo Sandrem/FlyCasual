@@ -40,20 +40,26 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            Phases.Events.OnSystemsPhaseStart += CheckAbility;
+            HostShip.OnSystemsAbilityActivationGenerateListeners += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnSystemsPhaseStart -= CheckAbility;
+            HostShip.OnSystemsAbilityActivationGenerateListeners -= CheckAbility;
         }
 
-        private void CheckAbility()
+        private void CheckAbility(GenericShip ship)
         {
             if (HostUpgrade.State.Charges >= 2)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnSystemsPhaseStart, AskToUseOwnAbility);
+                HostShip.OnSystemsAbilityActivation += RegisterAbility;
             }
+        }
+
+        private void RegisterAbility(GenericShip ship)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToUseOwnAbility);
+            HostShip.OnSystemsAbilityActivation -= RegisterAbility;
         }
 
         private void AskToUseOwnAbility(object sender, EventArgs e)

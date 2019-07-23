@@ -38,20 +38,26 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            Phases.Events.OnSystemsPhaseStart += CheckForAbility;
+            HostShip.OnSystemsAbilityActivationGenerateListeners += CheckForAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnSystemsPhaseStart -= CheckForAbility;
+            HostShip.OnSystemsAbilityActivationGenerateListeners -= CheckForAbility;
         }
 
-        private void CheckForAbility()
+        private void CheckForAbility(GenericShip ship)
         {
             if (HostUpgrade.State.Charges >= 2 && HostShip.Tokens.CountTokensByType<BlueTargetLockToken>() > 0)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToUseTarkinAbility);
+                HostShip.OnSystemsAbilityActivation += RegisterAbility;
             }
+        }
+
+        private void RegisterAbility(GenericShip ship)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToUseTarkinAbility);
+            HostShip.OnSystemsAbilityActivation -= RegisterAbility;
         }
 
         private void AskToUseTarkinAbility(object sender, EventArgs e)

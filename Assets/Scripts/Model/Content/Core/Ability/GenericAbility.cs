@@ -725,13 +725,13 @@ namespace Abilities
             HostShip.FilterUndockDirection = filterUndockDirection ?? HostShip.FilterUndockDirection;
 
             Phases.Events.OnSetupStart += CheckInitialDockingAbility;
-            Phases.Events.OnSystemsPhaseStart += CheckPotentialDockingShips;
+            HostShip.OnSystemsAbilityActivationGenerateListeners += CheckPotentialDockingShips;
         }
 
         protected void DeactivateDocking()
         {
             Phases.Events.OnSetupStart -= CheckInitialDockingAbility;
-            Phases.Events.OnSystemsPhaseStart -= CheckPotentialDockingShips;
+            HostShip.OnSystemsAbilityActivationGenerateListeners -= CheckPotentialDockingShips;
         }
 
         private void CheckInitialDockingAbility()
@@ -779,7 +779,7 @@ namespace Abilities
             }
         }
 
-        private void CheckPotentialDockingShips()
+        private void CheckPotentialDockingShips(GenericShip _)
         {
             foreach (GenericShip ship in hostShip.Owner.Ships.Values)
             {

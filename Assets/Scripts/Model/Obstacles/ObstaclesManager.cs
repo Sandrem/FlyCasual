@@ -58,7 +58,7 @@ namespace Obstacles
                 Instance.AllPossibleObstacles.Add(
                     new Debris(
                         "VT49 Debris " + i,
-                        "vt49debris + i"
+                        "vt49debris" + i
                     )
                 );
             }

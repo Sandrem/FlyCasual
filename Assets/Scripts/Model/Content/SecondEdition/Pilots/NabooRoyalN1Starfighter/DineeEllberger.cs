@@ -61,7 +61,6 @@ namespace Abilities.SecondEdition
             if (HostShip.RevealedManeuver.Speed == EnemyShip.RevealedManeuver.Speed)
             {
                 Messages.ShowInfo("Dineé Ellberger: Enemy's dice cannot be modified.");
-                // Logic will go here
                 EnemyShip.OnTryAddAvailableDiceModification += UseOmegaLeaderRestriction;
                 HostShip.OnTryAddDiceModificationOpposite += UseOmegaLeaderRestriction;
                 EnemyShip.OnAttackFinish += RemoveOmegaLeaderPilotAbility;

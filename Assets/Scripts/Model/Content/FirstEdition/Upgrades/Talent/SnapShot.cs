@@ -102,31 +102,25 @@ namespace Abilities.FirstEdition
         {
             if (!IsAbilityUsed && ship.Owner.PlayerNo != HostShip.Owner.PlayerNo)
             {
-                snapShotTarget = ship;
-                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskSnapShotAbility);
+                ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, ((UpgradesList.FirstEdition.SnapShot)HostUpgrade));
+
+                if (shotInfo.InArc && shotInfo.Range <= 1)
+                {
+                    snapShotTarget = ship;
+                    RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskSnapShotAbility);
+                }
             }
         }
 
         private void AskSnapShotAbility(object sender, System.EventArgs e)
         {
-            /*((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MaxRange = 1;
-            ((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MinRange = 1;*/
-            ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, ((UpgradesList.FirstEdition.SnapShot)HostUpgrade));
-
-            if (shotInfo.InArc && shotInfo.Range <= 1)
-            {
-                AskToUseAbility(
-                    HostUpgrade.UpgradeInfo.Name,
-                    AlwaysUseByDefault,
-                    PerformSnapShot,
-                    descriptionLong: "Do you want to perform \"Snap Shot\" attack against " + snapShotTarget.PilotInfo.PilotName + "?",
-                    imageHolder: HostUpgrade
-                );
-            }
-            else
-            {
-                Triggers.FinishTrigger();
-            }
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                AlwaysUseByDefault,
+                PerformSnapShot,
+                descriptionLong: "Do you want to perform \"Snap Shot\" attack against " + snapShotTarget.PilotInfo.PilotName + "?",
+                imageHolder: HostUpgrade
+            );
         }
 
         private bool SnapShotAttackFilter(GenericShip defender, IShipWeapon weapon, bool isSilent)

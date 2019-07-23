@@ -1,6 +1,8 @@
 ﻿using Editions;
+using Remote;
 using Ship;
 using SquadBuilderNS;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,9 +29,6 @@ public static class ShipFactory {
 
         GenericShip newShipContainer = shipConfig.Instance;
         newShipContainer.InitializeGenericShip(shipConfig.List.PlayerNo, ShipFactory.lastId++, position);
-
-        Roster.SubscribeSelectionByInfoPanel(newShipContainer.InfoPanel.transform.Find("ShipInfo").gameObject);
-        Roster.SubscribeUpgradesPanel(newShipContainer, newShipContainer.InfoPanel);
 
         //TODO: Rework this
         newShipContainer.AfterGotNumberOfAttackDice += Rules.DistanceBonus.CheckAttackDistanceBonus;
@@ -63,4 +62,8 @@ public static class ShipFactory {
         return newShipContainer;
 	}
 
+    public static void SpawnRemove(GenericRemote remote, Vector3 position, Quaternion rotation)
+    {
+        remote.SpawnModel(ShipFactory.lastId++, position, rotation);
+    }
 }

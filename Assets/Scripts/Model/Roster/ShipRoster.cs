@@ -8,6 +8,7 @@ using SquadBuilderNS;
 using System;
 using GameCommands;
 using Obstacles;
+using Remote;
 
 public static partial class Roster
 {
@@ -20,7 +21,9 @@ public static partial class Roster
 
     //Ships
 
-    public static Dictionary<string, GenericShip> AllShips;
+    public static Dictionary<string, GenericShip> AllUnits;
+    public static Dictionary<string, GenericShip> AllShips { get { return AllUnits.Where(n => !(n.Value is GenericRemote)).ToDictionary(n => n.Key, m => m.Value); } }
+    public static Dictionary<string, GenericShip> AllRemotes { get { return AllUnits.Where(n => n.Value is GenericRemote).ToDictionary(n => n.Key, m => m.Value); } }
 
     public static Dictionary<string, GenericShip> ShipsPlayer1 { get { return Player1.Ships; } }
     public static Dictionary<string, GenericShip> ShipsPlayer2 {get { return Player2.Ships; } }
@@ -140,10 +143,10 @@ public static partial class Roster
         BoardTools.Board.SetShips();
     }
 
-    private static void AddShipToLists(GenericShip newShip)
+    public static void AddShipToLists(GenericShip newShip)
     {
-        AllShips.Add(newShip.GetTag(), newShip);
-        newShip.Owner.Ships.Add(newShip.GetTag(), newShip);
+        AllUnits.Add(newShip.GetTag(), newShip);
+        newShip.Owner.Units.Add(newShip.GetTag(), newShip);
     }
 
     //SHIP DESTRUCTION
@@ -164,8 +167,8 @@ public static partial class Roster
             ship.SetActive(false);
             ship.SetPosition(new Vector3(0, -100, 0));
             ship.InfoPanel.SetActive(false);
-            ship.Owner.Ships.Remove(id);
-            AllShips.Remove(id);
+            ship.Owner.Units.Remove(id);
+            AllUnits.Remove(id);
         }
     }
 
@@ -182,8 +185,8 @@ public static partial class Roster
             TogglePanelActive(ship, false);
             ship.SetDockedName(true);
             string shipIdKey = ship.Owner.Ships.First(n => n.Value == ship).Key;
-            ship.Owner.Ships.Remove(shipIdKey);
-            AllShips.Remove(shipIdKey);
+            ship.Owner.Units.Remove(shipIdKey);
+            AllUnits.Remove(shipIdKey);
         }
     }
 
@@ -194,8 +197,8 @@ public static partial class Roster
             ship.SetActive(true);
             TogglePanelActive(ship, true);
             ship.SetDockedName(false);
-            ship.Owner.Ships.Add("ShipId:" + ship.ShipId, ship);
-            AllShips.Add("ShipId:" + ship.ShipId, ship);
+            ship.Owner.Units.Add("ShipId:" + ship.ShipId, ship);
+            AllUnits.Add("ShipId:" + ship.ShipId, ship);
         }
     }
 
@@ -205,8 +208,8 @@ public static partial class Roster
         {
             ship.SetActive(true);
             ship.InfoPanel.SetActive(true);
-            ship.Owner.Ships.Add("ShipId:" + ship.ShipId, ship);
-            AllShips.Add("ShipId:" + ship.ShipId, ship);
+            ship.Owner.Units.Add("ShipId:" + ship.ShipId, ship);
+            AllUnits.Add("ShipId:" + ship.ShipId, ship);
         }
     }
 
@@ -214,9 +217,9 @@ public static partial class Roster
 
     public static GenericShip GetShipById(string id)
     {
-		if (AllShips.Any (x => x.Key == id))
+		if (AllUnits.Any (x => x.Key == id))
         {
-			return AllShips[id];
+			return AllUnits[id];
 		}
 
 		return null;
@@ -309,11 +312,11 @@ public static partial class Roster
     public static int CheckIsAnyTeamIsEliminated()
     {
         int result = 0;
-        if (ShipsPlayer1.Count == 0)
+        if (Roster.GetPlayer(PlayerNo.Player1).Ships.Count == 0)
         {
             result += 1;
         }
-        if (ShipsPlayer2.Count == 0)
+        if (Roster.GetPlayer(PlayerNo.Player2).Ships.Count == 0)
         {
             result += 2;
         }
@@ -324,7 +327,7 @@ public static partial class Roster
 
     public static void SetRaycastTargets(bool value)
     {
-        foreach (var shipHolder in AllShips)
+        foreach (var shipHolder in AllUnits)
         {
             shipHolder.Value.SetRaycastTarget(value);
         }
@@ -348,7 +351,7 @@ public static partial class Roster
     public static void AllShipsHighlightOff()
     {
         RosterAllPanelsHighlightOff();
-        foreach (var ship in AllShips)
+        foreach (var ship in AllUnits)
         {
             ship.Value.HighlightCanBeSelectedOff();
         }
@@ -368,8 +371,8 @@ public static partial class Roster
         TogglePanelActive(ship, false);
         ship.SetInReserveName(true);
 
-        AllShips.Remove("ShipId:" + ship.ShipId);
-        ship.Owner.Ships.Remove("ShipId:" + ship.ShipId);
+        AllUnits.Remove("ShipId:" + ship.ShipId);
+        ship.Owner.Units.Remove("ShipId:" + ship.ShipId);
 
         Reserve.Add(ship);
     }
@@ -380,8 +383,8 @@ public static partial class Roster
         TogglePanelActive(ship, true);
         ship.SetInReserveName(false);
 
-        AllShips.Add("ShipId:" + ship.ShipId, ship);
-        ship.Owner.Ships.Add("ShipId:" + ship.ShipId, ship);
+        AllUnits.Add("ShipId:" + ship.ShipId, ship);
+        ship.Owner.Units.Add("ShipId:" + ship.ShipId, ship);
 
         Reserve.Remove(ship);
     }

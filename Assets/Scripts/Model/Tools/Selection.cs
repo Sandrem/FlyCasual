@@ -76,7 +76,7 @@ public static class Selection {
         if (tag.StartsWith("ShipId:"))
         {
             TryUnmarkPreviousHoveredShip();
-            HoveredShip = Roster.AllShips[tag];
+            HoveredShip = Roster.AllUnits[tag];
             if ((HoveredShip != ThisShip) && (HoveredShip != AnotherShip))
             {
                 HoveredShip.HighlightAnyHovered();
@@ -106,7 +106,7 @@ public static class Selection {
     {
         bool result = false;
 
-        Ship.GenericShip ship = Roster.GetShipById(shipId);
+        GenericShip ship = Roster.GetShipById(shipId);
         if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
         {
             result = TryToChangeThisShip(shipId, mouseKeyIsPressed);
@@ -127,7 +127,7 @@ public static class Selection {
     public static bool TryToChangeAnotherShip(string shipId, int mouseKeyIsPressed = 1)
     {
         bool result = false;
-        Ship.GenericShip targetShip = Roster.GetShipById(shipId);
+        GenericShip targetShip = Roster.GetShipById(shipId);
         result = Phases.CurrentSubPhase.AnotherShipCanBeSelected(targetShip, mouseKeyIsPressed);
 
         if (result == true)
@@ -142,7 +142,7 @@ public static class Selection {
     {
         bool result = false;
 
-        Ship.GenericShip ship = Roster.GetShipById(shipId);
+        GenericShip ship = Roster.GetShipById(shipId);
 
         result = Phases.CurrentSubPhase.ThisShipCanBeSelected(ship, mouseKeyIsPressed);
 
@@ -222,7 +222,7 @@ public static class Selection {
         }
     }
 
-    private static void DeselectShip(Ship.GenericShip ship)
+    private static void DeselectShip(GenericShip ship)
     {
         ship.ToggleCollisionDetection(false);
         Roster.UnMarkShip(ship);

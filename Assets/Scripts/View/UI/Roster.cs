@@ -23,7 +23,7 @@ public static partial class Roster {
         Players = new List<GenericPlayer>();
         rosterPlayer1 = new List<GameObject>();
         rosterPlayer2 = new List<GameObject>();
-        AllShips = new Dictionary<string, GenericShip>();
+        AllUnits = new Dictionary<string, GenericShip>();
         Reserve = new List<GenericShip>();
 
         PrepareSquadrons();
@@ -281,7 +281,7 @@ public static partial class Roster {
         {
             if (item.tag != "Untagged")
             {
-                if (Roster.AllShips.ContainsKey(item.tag))
+                if (Roster.AllUnits.ContainsKey(item.tag))
                 {
                     if (Selection.TryToChangeShip(item.tag)) return;
                 }
@@ -367,7 +367,7 @@ public static partial class Roster {
         {
             if (item.tag.StartsWith("ShipId:"))
             {
-                if (Roster.AllShips.ContainsKey(item.tag))
+                if (Roster.AllUnits.ContainsKey(item.tag))
                 {
                     Selection.TryMarkShip(item.tag);
                 }
@@ -553,7 +553,7 @@ public static partial class Roster {
 
     public static void RosterAllPanelsHighlightOff()
     {
-        foreach (var ship in AllShips)
+        foreach (var ship in AllUnits)
         {
             RosterPanelHighlightOff(ship.Value);
         }

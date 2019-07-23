@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
@@ -122,9 +123,9 @@ namespace SubPhases
 
         private void CreateBombObject(Vector3 bombPosition, Quaternion bombRotation)
         {
-            GenericDeviceGameObject prefab = Resources.Load<GenericDeviceGameObject>(BombsManager.CurrentBomb.bombPrefabPath);
+            GenericDeviceGameObject prefab = Resources.Load<GenericDeviceGameObject>((BombsManager.CurrentDevice as GenericBomb).bombPrefabPath);
             BombGO = MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, Board.GetBoard());
-            BombGO.Initialize(BombsManager.CurrentBomb);
+            BombGO.Initialize(BombsManager.CurrentDevice as GenericBomb);
         }
 
         public void ShowDescription()
@@ -237,7 +238,7 @@ namespace SubPhases
             BombGO.transform.eulerAngles = angles;
 
             Roster.SetRaycastTargets(true);
-            BombsManager.CurrentBomb.ActivateBombs(new List<GenericDeviceGameObject>() { BombGO }, Phases.CurrentSubPhase.Next);
+            (BombsManager.CurrentDevice as GenericBomb).ActivateBombs(new List<GenericDeviceGameObject>() { BombGO }, Phases.CurrentSubPhase.Next);
         }
 
         private void CheckPerformRotation()

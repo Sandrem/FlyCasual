@@ -71,7 +71,7 @@ namespace CommandsList
 
         private void AssignToken(int shipId, Type tokenType, int targetShipId)
         {
-            GenericShip ship = Roster.AllShips.FirstOrDefault(n => n.Key == "ShipId:" + shipId).Value;
+            GenericShip ship = Roster.AllUnits.FirstOrDefault(n => n.Key == "ShipId:" + shipId).Value;
 
             if (ship != null)
             {
@@ -79,7 +79,7 @@ namespace CommandsList
                 {
                     if (targetShipId != -1)
                     {
-                        GenericShip targetShip = Roster.AllShips.FirstOrDefault(n => n.Key == "ShipId:" + targetShipId).Value;
+                        GenericShip targetShip = Roster.AllUnits.FirstOrDefault(n => n.Key == "ShipId:" + targetShipId).Value;
                         if (targetShip != null)
                         {
                             ActionsHolder.AcquireTargetLock(ship, targetShip, ShowMessage, ShowErrorMessage);
@@ -96,7 +96,7 @@ namespace CommandsList
                 }
                 else if (tokenType == typeof(TractorBeamToken))
                 {
-                    GenericShip targetShip = Roster.AllShips.FirstOrDefault(n => n.Key == "ShipId:" + targetShipId).Value;
+                    GenericShip targetShip = Roster.AllUnits.FirstOrDefault(n => n.Key == "ShipId:" + targetShipId).Value;
                     TractorBeamToken token = new TractorBeamToken(ship, targetShip.Owner);
                     ship.Tokens.AssignToken(token, ShowMessage);
                 }

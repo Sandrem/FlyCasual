@@ -100,7 +100,7 @@ namespace UpgradesList.SecondEdition
 
         private bool TrySelectObstacle(GenericObstacle obstacle)
         {
-            BombObstacleDistance bombOstacleDist = new BombObstacleDistance(BombsManager.CurrentBomb, obstacle);
+            BombObstacleDistance bombOstacleDist = new BombObstacleDistance(BombsManager.CurrentDevice as GenericBomb, obstacle);
             return bombOstacleDist.Range < 2;
         }
 
@@ -127,7 +127,7 @@ namespace UpgradesList.SecondEdition
 
         public override void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
         {
-            BombsManager.CurrentBomb = this;
+            BombsManager.CurrentDevice = this;
             bombObject.transform.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
 
             GameManagerScript.Wait(1, delegate { PlayDefferedSound(bombObject, callBack); });

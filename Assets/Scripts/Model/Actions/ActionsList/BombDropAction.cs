@@ -4,6 +4,9 @@ using UnityEngine;
 using BoardTools;
 using Bombs;
 using System.Linq;
+using Upgrade;
+using Remote;
+using System;
 
 namespace ActionsList
 {
@@ -19,7 +22,7 @@ namespace ActionsList
         {
             Phases.CurrentSubPhase.Pause();
 
-            BombsManager.CurrentBomb = Source as Upgrade.GenericBomb;
+            BombsManager.CurrentDevice = Source as Upgrade.GenericBomb;
             Phases.StartTemporarySubPhaseOld(
                 "Bomb drop planning",
                 typeof(SubPhases.BombDropPlanningSubPhase),
@@ -60,7 +63,14 @@ namespace SubPhases
 
             if (AvailableBombDropTemplates.Count == 1)
             {
-                ShowBombAndDropTemplate(AvailableBombDropTemplates.First());
+                if (BombsManager.CurrentDevice is GenericBomb)
+                {
+                    ShowBombAndDropTemplate(AvailableBombDropTemplates.First());
+                }
+                else if (BombsManager.CurrentDevice.UpgradeInfo.SubType == UpgradeSubType.Remote)
+                {
+                    ShowRemoteAndDropTemplate(AvailableBombDropTemplates.First());
+                }
 
                 WaitAndSelectBombPosition();
             }
@@ -113,35 +123,61 @@ namespace SubPhases
 
         private void SelectTemplate(ManeuverTemplate selectedTemplate)
         {
-            ShowBombAndDropTemplate(selectedTemplate);
+            if (BombsManager.CurrentDevice is GenericBomb)
+            {
+                ShowBombAndDropTemplate(selectedTemplate);
+            }
+            else if (BombsManager.CurrentDevice.UpgradeInfo.SubType == UpgradeSubType.Remote)
+            {
+                ShowRemoteAndDropTemplate(selectedTemplate);
+            }
+            
             DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void ShowRemoteAndDropTemplate(ManeuverTemplate bombDropTemplate)
+        {
+            bombDropTemplate.ApplyTemplate(Selection.ThisShip, Selection.ThisShip.GetBack(), Direction.Bottom);
+
+            Vector3 bombPosition = bombDropTemplate.GetFinalPosition();
+            Quaternion bombRotation = bombDropTemplate.GetFinalRotation();
+
+            // TODO: get type of remote from upgrade
+            ShipFactory.SpawnRemove(
+                new Drk1ProbeDroid(Selection.ThisShip.Owner),
+                bombPosition,
+                bombRotation
+            );
+
+            SelectedBombDropHelper = bombDropTemplate;
         }
 
         private class SelectBombDropTemplateDecisionSubPhase : DecisionSubPhase { }
 
         private void CreateBombObject(Vector3 bombPosition, Quaternion bombRotation)
         {
-            GenericDeviceGameObject prefab = Resources.Load<GenericDeviceGameObject>(BombsManager.CurrentBomb.bombPrefabPath);
-            var device = MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, BoardTools.Board.GetBoard());
-            device.Initialize(BombsManager.CurrentBomb);
-            BombObjects.Add(device);
-            
+            GenericBomb bomb = BombsManager.CurrentDevice as GenericBomb;
 
-            if (!string.IsNullOrEmpty(BombsManager.CurrentBomb.bombSidePrefabPath))
+            GenericDeviceGameObject prefab = Resources.Load<GenericDeviceGameObject>(bomb.bombPrefabPath);
+            var device = MonoBehaviour.Instantiate(prefab, bombPosition, bombRotation, Board.GetBoard());
+            device.Initialize(bomb);
+            BombObjects.Add(device);
+
+            if (!string.IsNullOrEmpty(bomb.bombSidePrefabPath))
             {
-                GenericDeviceGameObject prefabSide = Resources.Load<GenericDeviceGameObject>(BombsManager.CurrentBomb.bombSidePrefabPath);
-                var extraPiece1 = MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardTools.Board.GetBoard());
-                var extraPiece2 = MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, BoardTools.Board.GetBoard());
+                GenericDeviceGameObject prefabSide = Resources.Load<GenericDeviceGameObject>(bomb.bombSidePrefabPath);
+                var extraPiece1 = MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, Board.GetBoard());
+                var extraPiece2 = MonoBehaviour.Instantiate(prefabSide, bombPosition, bombRotation, Board.GetBoard());
                 BombObjects.Add(extraPiece1);
                 BombObjects.Add(extraPiece2);
-                extraPiece1.Initialize(BombsManager.CurrentBomb);
-                extraPiece2.Initialize(BombsManager.CurrentBomb);
+                extraPiece1.Initialize(bomb);
+                extraPiece2.Initialize(bomb);
             }
         }
 
         private void GenerateAllowedBombDropTemplates()
         {
-            List<ManeuverTemplate> allowedTemplates = Selection.ThisShip.GetAvailableBombDropTemplates(BombsManager.CurrentBomb);
+            List<ManeuverTemplate> allowedTemplates = Selection.ThisShip.GetAvailableBombDropTemplates(BombsManager.CurrentDevice);
 
             foreach (ManeuverTemplate bombDropTemplate in allowedTemplates)
             {
@@ -151,6 +187,8 @@ namespace SubPhases
 
         private void ShowBombAndDropTemplate(ManeuverTemplate bombDropTemplate)
         {
+            GenericBomb bomb = BombsManager.CurrentDevice as GenericBomb;
+
             bombDropTemplate.ApplyTemplate(Selection.ThisShip, Selection.ThisShip.GetBack(), Direction.Bottom);
 
             Vector3 bombPosition = bombDropTemplate.GetFinalPosition();
@@ -167,18 +205,18 @@ namespace SubPhases
                     case 1:
                         BombObjects[i].transform.position = bombPosition
                             + BombObjects.First().transform.TransformVector(new Vector3(
-                                BombsManager.CurrentBomb.bombSideDistanceX,
+                                bomb.bombSideDistanceX,
                                 0,
-                                BombsManager.CurrentBomb.bombSideDistanceZ
+                                bomb.bombSideDistanceZ
                             )
                         );
                         break;
                     case 2:
                         BombObjects[i].transform.position = bombPosition
                             + BombObjects.First().transform.TransformVector(new Vector3(
-                                -BombsManager.CurrentBomb.bombSideDistanceX,
+                                -bomb.bombSideDistanceX,
                                 0,
-                                BombsManager.CurrentBomb.bombSideDistanceZ
+                                bomb.bombSideDistanceZ
                             )
                         );
                         break;
@@ -200,12 +238,20 @@ namespace SubPhases
         private void SelectBombPosition()
         {
             HidePlanningTemplates();
-            BombDropExecute();
+            DeviceDropExecute();
         }
 
-        private void BombDropExecute()
+        private void DeviceDropExecute()
         {
-            BombsManager.CurrentBomb.ActivateBombs(BombObjects, FinishAction);
+            if (BombsManager.CurrentDevice is GenericBomb)
+            {
+                (BombsManager.CurrentDevice as GenericBomb).ActivateBombs(BombObjects, FinishAction);
+            }
+            else if (BombsManager.CurrentDevice.UpgradeInfo.SubType == UpgradeSubType.Remote)
+            {
+                // TODO: Activate remote
+                FinishAction();
+            }
         }
 
         private void FinishAction()

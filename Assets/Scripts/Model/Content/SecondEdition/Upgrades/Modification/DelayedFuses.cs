@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
                 HostUpgrade.UpgradeInfo.Name,
                 useByDefault: AlwaysUseByDefault,
                 useAbility: AddFuseMarker,
-                descriptionLong: $"Do you want to place a Fuse marker on {BombsManager.CurrentBomb.UpgradeInfo.Name}?",
+                descriptionLong: $"Do you want to place a Fuse marker on {BombsManager.CurrentDevice.UpgradeInfo.Name}?",
                 imageHolder: HostUpgrade,
                 requiredPlayer: HostShip.Owner.PlayerNo
             );

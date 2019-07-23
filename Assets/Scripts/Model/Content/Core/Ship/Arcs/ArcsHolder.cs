@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Remote;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,9 @@ namespace Arcs
         public ArcsHolder(GenericShip hostShip)
         {
             HostShip = hostShip;
-            Arcs = new List<GenericArc>
-            {
-                new OutOfArc(hostShip.ShipBase)
-            };
+
+            Arcs = new List<GenericArc>();
+            if (!(HostShip is GenericRemote)) Arcs.Add(new OutOfArc(hostShip.ShipBase));
         }
 
         public T GetArc<T>() where T : GenericArc

@@ -8,6 +8,8 @@ using System.Linq;
 using UnityEngine;
 using Ship;
 using Editions;
+using BoardTools;
+using Movement;
 
 namespace Upgrade
 {
@@ -53,7 +55,8 @@ namespace Upgrade
     {
         None,
         Bomb,
-        Mine
+        Mine,
+        Remote
     }
 
     public abstract class GenericUpgrade : IImageHolder
@@ -318,6 +321,21 @@ namespace Upgrade
 
             Slot.PreInstallUpgrade(newUpgrade, HostShip);
             Slot.TryInstallUpgrade(newUpgrade, HostShip);
+        }
+
+        // Default templates to drop devices
+
+        public virtual List<ManeuverTemplate> GetDefaultDropTemplates()
+        {
+            return new List<ManeuverTemplate>()
+            {
+                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isBombTemplate: true)
+            };
+        }
+
+        public virtual List<ManeuverTemplate> GetDefaultLaunchTemplates()
+        {
+            return null;
         }
     }
 

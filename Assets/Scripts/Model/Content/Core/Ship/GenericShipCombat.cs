@@ -26,7 +26,7 @@ namespace Ship
     {
         public List<PrimaryWeaponClass> PrimaryWeapons = new List<PrimaryWeaponClass>();
 
-        public Damage Damage { get; private set; }
+        public Damage Damage { get; protected set; }
 
         public DiceRoll AssignedDamageDiceroll = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Virtual);
 
@@ -756,10 +756,8 @@ namespace Ship
 
         public List<ManeuverTemplate> GetAvailableBombDropTemplates(GenericUpgrade upgrade)
         {
-            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>()
-            {
-                new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isBombTemplate: true)
-            };
+            List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();
+            availableTemplates.AddRange(upgrade.GetDefaultDropTemplates());
 
             OnGetAvailableBombDropTemplates?.Invoke(availableTemplates, upgrade);
 
@@ -768,9 +766,10 @@ namespace Ship
             return availableTemplates;
         }
 
-        public List<ManeuverTemplate> GetAvailableBombLaunchTemplates(GenericUpgrade upgrade)
+        public List<ManeuverTemplate> GetAvailableDeviceLaunchTemplates(GenericUpgrade upgrade)
         {
             List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();
+            availableTemplates.AddRange(upgrade.GetDefaultLaunchTemplates());
 
             OnGetAvailableBombLaunchTemplates?.Invoke(availableTemplates, upgrade);
 
@@ -914,14 +913,14 @@ namespace Ship
 			);
         }
 
-        public void CallBombWillBeDropped(Action callback)
+        public void CallDeviceWillBeDropped(Action callback)
         {
             if (OnBombWillBeDropped != null) OnBombWillBeDropped();
 
             Triggers.ResolveTriggers(TriggerTypes.OnBombWillBeDropped, callback);
         }
 
-        public void CallBombWasDropped(Action callback)
+        public void CallDeviceWasDropped(Action callback)
         {
             if (OnBombWasDropped != null) OnBombWasDropped();
 

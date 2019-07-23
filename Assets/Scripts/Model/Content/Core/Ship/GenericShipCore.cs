@@ -6,6 +6,7 @@ using Abilities;
 using System;
 using Editions;
 using Upgrade;
+using Players;
 
 namespace Ship
 {
@@ -45,8 +46,8 @@ namespace Ship
 
         public ShipStateInfo State;
 
-        public int ShipId { get; private set; }
-        public Players.GenericPlayer Owner { get; private set; }
+        public int ShipId { get; protected set; }
+        public GenericPlayer Owner { get; protected set; }
 
         public string PilotName { get; set; }
 
@@ -119,7 +120,7 @@ namespace Ship
             TargetLockMaxRange = 3;
         }
 
-        public void InitializeGenericShip(Players.PlayerNo playerNo, int shipId, Vector3 position)
+        public void InitializeGenericShip(PlayerNo playerNo, int shipId, Vector3 position)
         {
             Owner = Roster.GetPlayer(playerNo);
             ShipId = shipId;
@@ -133,8 +134,15 @@ namespace Ship
 
             InitializeShipModel();
 
+            InitializeRosterPanel();
+        }
+
+        protected void InitializeRosterPanel()
+        {
             InfoPanel = Roster.CreateRosterInfo(this);
             Roster.UpdateUpgradesPanel(this, this.InfoPanel);
+            Roster.SubscribeSelectionByInfoPanel(this.InfoPanel.transform.Find("ShipInfo").gameObject);
+            Roster.SubscribeUpgradesPanel(this, this.InfoPanel);
         }
 
         public virtual void InitializeUpgrades()
@@ -164,9 +172,12 @@ namespace Ship
             State.RegensCharges = PilotInfo.RegensCharges;
 
             Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
-            foreach (var maneuver in DialInfo.PrintedDial)
+            if (DialInfo != null)
             {
-                Maneuvers.Add(maneuver.Key.ToString(), maneuver.Value);
+                foreach (var maneuver in DialInfo.PrintedDial)
+                {
+                    Maneuvers.Add(maneuver.Key.ToString(), maneuver.Value);
+                }
             }
         }
 
@@ -193,11 +204,12 @@ namespace Ship
             SetShipSkin(GetModelTransform(), GetSkinTexture());
         }
 
-        private void SetId()
+        protected void SetId()
         {
             SetTagOfChildrenRecursive(Model.transform, "ShipId:" + ShipId.ToString());
 
             SetIdMarker();
+            SetSpotlightMask();
         }
 
         public void InitializeSectors()

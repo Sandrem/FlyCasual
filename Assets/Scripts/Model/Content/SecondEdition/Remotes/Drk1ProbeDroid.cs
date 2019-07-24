@@ -88,7 +88,7 @@ namespace Abilities.SecondEdition
             jointDecisionSubphase.OnNextButtonIsPressed = CallSubphaseCallback;
 
             jointDecisionSubphase.DefaultDecisionName = "Direction 1";
-            SelectDirection(1);
+            SelectDirection(1, isSilent: true);
 
             jointDecisionSubphase.Start();   
         }
@@ -98,11 +98,11 @@ namespace Abilities.SecondEdition
             DecisionSubPhase.ConfirmDecision();
         }
 
-        private void SelectDirection(int jointIndex)
+        private void SelectDirection(int jointIndex, bool isSilent = false)
         {
             (HostShip as GenericRemote).ToggleJointArrow(SelectedJointIndex, isVisible: false);
             SelectedJointIndex = jointIndex;
-            (HostShip as GenericRemote).ToggleJointArrow(SelectedJointIndex, isVisible: true);
+            if (!isSilent) (HostShip as GenericRemote).ToggleJointArrow(SelectedJointIndex, isVisible: true);
         }
 
         private void PrepareNextButton()

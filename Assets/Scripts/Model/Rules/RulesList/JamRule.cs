@@ -8,17 +8,33 @@ using Players;
 
 namespace RulesList
 {
-    public class JammedRule
+    public class JamRule
     {
         static bool RuleIsInitialized = false;
 
-        public JammedRule()
+        public static event GenericShip.EventHandlerBool2Ships OnCheckJamIsAllowed;
+        public static event GenericShip.EventHandlerBool2Ships OnCheckJamIsDisallowed;
+
+        public JamRule()
         {
             if (!RuleIsInitialized)
             {
                 GenericShip.OnTokenIsAssignedGlobal += CheckJam;
                 RuleIsInitialized = true;
             }
+        }
+
+        public bool JamIsAllowed(GenericShip ship, GenericShip target)
+        {
+            bool result = true;
+
+            int rangeBetween = target.GetRangeToShip(ship);
+            if (rangeBetween != 1) result = false;
+
+            if (result != true) OnCheckJamIsAllowed?.Invoke(ref result, ship, target);
+            if (result == true) OnCheckJamIsDisallowed?.Invoke(ref result, ship, target);
+
+            return result;
         }
 
         private bool IsJammableToken(Type tokenType)

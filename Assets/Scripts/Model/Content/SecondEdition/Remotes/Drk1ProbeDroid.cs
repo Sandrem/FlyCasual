@@ -36,12 +36,48 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnSystemsAbilityActivation += RegisterRepositionTrigger;
             GenericShip.OnPositionFinishGlobal += CheckRemoteOverlapping;
+            RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed += CanPerformTargetLock;
+            RulesList.JamRule.OnCheckJamIsAllowed += CanPerformJam;
+            HostShip.OnCheckFaceupCrit += FlipCrits;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnSystemsAbilityActivation -= RegisterRepositionTrigger;
             GenericShip.OnPositionFinishGlobal -= CheckRemoteOverlapping;
+            RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed -= CanPerformTargetLock;
+            RulesList.JamRule.OnCheckJamIsAllowed -= CanPerformJam;
+            HostShip.OnCheckFaceupCrit += FlipCrits;
+        }
+
+        private void FlipCrits(ref bool result)
+        {
+            if (result == true)
+            {
+                result = false;
+            }
+        }
+
+        private void CanPerformTargetLock(ref bool result, GenericShip ship, ITargetLockable defender)
+        {
+            if (ship.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
+
+            if (defender.GetRangeToShip(HostShip) < 4)
+            {
+                result = true;
+                return;
+            }
+        }
+
+        private void CanPerformJam(ref bool result, GenericShip ship, ITargetLockable defender)
+        {
+            if (ship.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
+
+            if (defender.GetRangeToShip(HostShip) < 2)
+            {
+                result = true;
+                return;
+            }
         }
 
         private void CheckRemoteOverlapping(GenericShip ship)

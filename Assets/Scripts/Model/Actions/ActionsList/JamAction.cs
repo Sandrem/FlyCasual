@@ -89,8 +89,8 @@ namespace SubPhases
         {
             if (Edition.Current is Editions.SecondEdition && (ship.Tokens.HasToken(typeof(ReinforceAftToken)) || ship.Tokens.HasToken(typeof(ReinforceForeToken)))) return 110;
             if (ship.Tokens.HasToken(typeof(FocusToken))) return 100;
-            if (ship.ActionBar.HasAction(typeof(ActionsList.EvadeAction)) || ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
-            if (ship.ActionBar.HasAction(typeof(ActionsList.TargetLockAction)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
+            if (ship.ActionBar.HasAction(typeof(EvadeAction)) || ship.Tokens.HasToken(typeof(EvadeToken))) return 50;
+            if (ship.ActionBar.HasAction(typeof(TargetLockAction)) || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*')) return 50;
             return 0;
         }
 
@@ -98,8 +98,9 @@ namespace SubPhases
         {
             if (ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) return false;
 
-            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
-            if (distanceInfo.Range <= 1) return true;
+            bool result = false;
+            
+            if (Rules.Jam.JamIsAllowed(Selection.ThisShip, ship)) result = true;
 
             if (Edition.Current is Editions.FirstEdition)
             {
@@ -109,7 +110,7 @@ namespace SubPhases
                 if (shotInfo.Range <= 2 && shotInfo.InPrimaryArc) return true;
             }
 
-            return false;
+            return result;
         }
 
         private void SelectJamTarget()

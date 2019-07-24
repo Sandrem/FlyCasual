@@ -65,5 +65,15 @@ public static class ShipFactory {
     public static void SpawnRemove(GenericRemote remote, Vector3 position, Quaternion rotation)
     {
         remote.SpawnModel(ShipFactory.lastId++, position, rotation);
+
+        remote.AfterGotNumberOfDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
+        remote.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
+        remote.OnShipIsRemoved += Rules.Destruction.WhenShipIsRemoved;
+
+        remote.OnTokenIsAssigned += Roster.UpdateTokensIndicator;
+        remote.OnTokenIsRemoved += Roster.UpdateTokensIndicator;
+        remote.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;
+        remote.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;
+        remote.AfterStatsAreChanged += Roster.UpdateShipStats;
     }
 }

@@ -6,6 +6,7 @@ using System;
 using Obstacles;
 using System.Linq;
 using Bombs;
+using Remote;
 
 namespace Ship
 {
@@ -17,6 +18,8 @@ namespace Ship
 
         public GenericMovement AssignedManeuver { get; private set; }
         public GenericMovement RevealedManeuver { get; set; }
+
+        public List<GenericRemote> RemotesOverlapped = new List<GenericRemote>();
 
         public bool IsIgnoreObstacles;
         public bool IsIgnoreObstaclesDuringBoost;

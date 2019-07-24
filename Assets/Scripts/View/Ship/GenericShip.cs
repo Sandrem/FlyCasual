@@ -380,7 +380,10 @@ namespace Ship
 
         public void ToggleDamaged(bool isDamaged)
         {
-            ShipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
+            if (!(this is GenericRemote))
+            {
+                ShipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "/ModelCenter/DamageParticles").gameObject.SetActive(isDamaged);
+            }
         }
 
         public void ToggleIonized(bool isIonized)

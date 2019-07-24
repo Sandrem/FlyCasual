@@ -95,5 +95,10 @@ namespace Remote
         {
             ShipAllParts.Find("ShipBase/ManeuverJoints").Find("ManeuverJoint" + jointIndex).gameObject.SetActive(isVisible);
         }
+
+        public override Vector3 GetCenter()
+        {
+            return Model.transform.TransformPoint(0, 0, 0);
+        }
     }
 }

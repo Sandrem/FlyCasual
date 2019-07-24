@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Editions;
 using Obstacles;
+using Remote;
 
 namespace Movement
 { 
@@ -119,6 +120,7 @@ namespace Movement
                 Rules.Collision.AddBump(TheShip, shipBumped);
             }
 
+            TheShip.RemotesOverlapped = new List<GenericRemote>(movementPrediction.RemotesOverlapped);
             TheShip.ObstaclesLanded = new List<GenericObstacle>(movementPrediction.LandedOnObstacles);
 
             if (movementPrediction.AsteroidsHit.Count > 0)

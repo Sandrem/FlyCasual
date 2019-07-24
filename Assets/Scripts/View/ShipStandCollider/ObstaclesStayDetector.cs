@@ -1,4 +1,6 @@
 ﻿using Obstacles;
+using Remote;
+using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +10,10 @@ public class ObstaclesStayDetector: MonoBehaviour {
     public bool checkCollisions = false;
 
     public bool OverlapsShip = false;
-    public List<Ship.GenericShip> OverlapedShips = new List<Ship.GenericShip>();
 
+    public List<GenericShip> OverlapedShips = new List<GenericShip>();
+    public List<GenericRemote> OverlapedRemotes = new List<GenericRemote>();
     public List<GenericObstacle> OverlapedAsteroids = new List<GenericObstacle>();
-
     public List<Collider> OverlapedMines = new List<Collider>();
 
     public bool OffTheBoard = false;
@@ -49,6 +51,16 @@ public class ObstaclesStayDetector: MonoBehaviour {
                     if (!OverlapedShips.Contains(Roster.GetShipById(collisionInfo.tag)))
                     {
                         OverlapedShips.Add(Roster.GetShipById(collisionInfo.tag));
+                    }
+                }
+            }
+            else if (collisionInfo.name == "RemoteCollider")
+            {
+                if (collisionInfo.tag != this.tag)
+                {
+                    if (!OverlapedRemotes.Contains(Roster.GetShipById(collisionInfo.tag) as GenericRemote))
+                    {
+                        OverlapedRemotes.Add(Roster.GetShipById(collisionInfo.tag) as GenericRemote);
                     }
                 }
             }

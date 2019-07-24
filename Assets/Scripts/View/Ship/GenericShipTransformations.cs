@@ -50,7 +50,7 @@ namespace Ship
             return Model.transform.rotation;
         }
 
-        public Vector3 GetCenter()
+        public virtual Vector3 GetCenter()
         {
             return Model.transform.TransformPoint(0, 0, -ShipBase.HALF_OF_SHIPSTAND_SIZE);
         }

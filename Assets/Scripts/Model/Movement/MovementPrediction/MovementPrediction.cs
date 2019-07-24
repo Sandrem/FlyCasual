@@ -5,6 +5,7 @@ using System;
 using Obstacles;
 using Ship;
 using Bombs;
+using Remote;
 
 namespace Movement
 {
@@ -22,7 +23,8 @@ namespace Movement
             get { return ShipsBumped.Count != 0; }
         }
 
-        public List<Ship.GenericShip> ShipsBumped = new List<Ship.GenericShip>();
+        public List<GenericShip> ShipsBumped = new List<GenericShip>();
+        public List<GenericRemote> RemotesOverlapped = new List<GenericRemote>();
         public List<GenericObstacle> AsteroidsHit = new List<GenericObstacle>();
         public List<GenericDeviceGameObject> MinesHit = new List<GenericDeviceGameObject>();
         public bool IsLandedOnAsteroid { get { return LandedOnObstacles.Count > 0; } }
@@ -127,6 +129,14 @@ namespace Movement
                                 {
                                     ShipsBumped.Add(overlapedShip);
                                 }
+                            }
+                        }
+
+                        foreach (var overlapedRemote in obstacleStayDetector.OverlapedRemotes)
+                        {
+                            if (!RemotesOverlapped.Contains(overlapedRemote))
+                            {
+                                RemotesOverlapped.Add(overlapedRemote);
                             }
                         }
 

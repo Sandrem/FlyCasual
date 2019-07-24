@@ -35,11 +35,54 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnSystemsAbilityActivation += RegisterRepositionTrigger;
+            GenericShip.OnPositionFinishGlobal += CheckRemoteOverlapping;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnSystemsAbilityActivation -= RegisterRepositionTrigger;
+            GenericShip.OnPositionFinishGlobal -= CheckRemoteOverlapping;
+        }
+
+        private void CheckRemoteOverlapping(GenericShip ship)
+        {
+            if (ship.RemotesOverlapped.Contains(HostShip))
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnPositionFinish, RollForDestruction);
+            }
+        }
+
+        private void RollForDestruction(object sender, EventArgs e)
+        {
+            PerformDiceCheck(
+                "Roll for Remote's damage",
+                DiceKind.Attack,
+                1,
+                CheckDamage,
+                Triggers.FinishTrigger
+            );
+        }
+
+        private void CheckDamage()
+        {
+            if (DiceCheckRoll.Focuses > 0)
+            {
+                Messages.ShowInfo("DRK-1 Probe Droid is destroyed");
+                HostShip.Damage.TryResolveDamage(
+                    1,
+                    0,
+                    new DamageSourceEventArgs() {
+                        DamageType = DamageTypes.CardAbility,
+                        Source = HostShip
+                    },
+                    AbilityDiceCheck.ConfirmCheck
+                );
+            }
+            else
+            {
+                Messages.ShowInfo("DRK-1 Probe Droid suffers no damage");
+                AbilityDiceCheck.ConfirmCheck();
+            }
         }
 
         private void RegisterRepositionTrigger(GenericShip ship)

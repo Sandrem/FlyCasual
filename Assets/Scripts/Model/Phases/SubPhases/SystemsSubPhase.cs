@@ -168,7 +168,7 @@ namespace SubPhases
 
         public override void SkipButton()
         {
-            foreach (GenericShip ship in Roster.GetPlayer(RequiredPlayer).Ships.Values)
+            foreach (GenericShip ship in Roster.GetPlayer(RequiredPlayer).Units.Values)
             {
                 if (ship.State.Initiative == RequiredInitiative) ship.IsSystemsAbilityInactive = true;
             }

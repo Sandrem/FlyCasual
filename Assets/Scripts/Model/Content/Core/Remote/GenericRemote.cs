@@ -105,7 +105,17 @@ namespace Remote
 
         public override Vector3 GetCenter()
         {
-            return Model.transform.TransformPoint(0, 0, 0);
+            return Model.transform.TransformPoint(0, 0, 2f);
+        }
+
+        public override Transform GetModelTransform()
+        {
+            return ShipAllParts.Find("ShipModels/DRK-1 Probe Droid/ModelCenter/Lights");
+        }
+
+        public override Vector3 GetModelCenter()
+        {
+            return GetModelTransform().position;
         }
 
         public class RemoteShipBase : GenericShipBase

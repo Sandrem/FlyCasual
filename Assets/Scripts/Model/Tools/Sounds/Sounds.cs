@@ -47,7 +47,7 @@ public static class Sounds {
     {
         for (int i = 0; i < times; i++)
         {
-            AudioSource audio = Selection.AnotherShip.Model.GetComponents<AudioSource>()[i];
+            AudioSource audio = Selection.ThisShip.Model.GetComponents<AudioSource>()[i];
             audio.volume = Options.SfxVolume;
             audio.clip = (AudioClip)Resources.Load("Sounds/" + path);
             audio.PlayDelayed(i * 0.5f);

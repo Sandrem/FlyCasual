@@ -611,7 +611,7 @@ namespace Ship
             return ShipAllParts;
         }
 
-        public Transform GetModelTransform()
+        public virtual Transform GetModelTransform()
         {
             return ShipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "/ModelCenter/Model");
         }

@@ -50,7 +50,7 @@ namespace Abilities.SecondEdition
                 HostUpgrade.UpgradeInfo.Name,
                 CheckToUseAbility,
                 ActivateOwnAbility,
-                descriptionLong: "Do you want ot gain 1 Ion Token and 1 Disarm Token? (If you do, each ship at range 0 suffers 1 damage)",
+                descriptionLong: "Do you want to gain 1 Ion Token and 1 Disarm Token? (If you do, each ship at range 0 suffers 1 damage)",
                 imageHolder: HostUpgrade
             );
         }
@@ -73,17 +73,17 @@ namespace Abilities.SecondEdition
 
         private bool CheckToUseAbility()
         {
+            ShipsR0 = Board.GetShipsAtRange(HostShip, new Vector2(0, 0), Team.Type.Any);
             return !ActionsHolder.HasTarget(HostShip) && HasMoreEnemyShipsAtR0ThanFriendly() && HasMoreEnoughHp();
-        }
-
-        private bool HasMoreEnemyShipsAtR0ThanFriendly()
-        {
-            return HostShip.State.HullCurrent + HostShip.State.ShieldsCurrent > 1;
         }
 
         private bool HasMoreEnoughHp()
         {
-            ShipsR0 = Board.GetShipsAtRange(HostShip, new Vector2(0, 0), Team.Type.Any);
+            return HostShip.State.HullCurrent + HostShip.State.ShieldsCurrent > 1;
+        }
+
+        private bool HasMoreEnemyShipsAtR0ThanFriendly()
+        {
             return (ShipsR0.Count(n => n.Owner.PlayerNo != HostShip.Owner.PlayerNo) > ShipsR0.Count(n => n.Owner.PlayerNo == HostShip.Owner.PlayerNo) - 1);
         }
 

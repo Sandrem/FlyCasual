@@ -7,6 +7,7 @@ using System;
 using GameModes;
 using BoardTools;
 using GameCommands;
+using Remote;
 
 namespace SubPhases
 {
@@ -282,7 +283,10 @@ namespace SubPhases
 
         private bool FilterShipsToPerfromAttack(GenericShip ship)
         {
-            return ship.State.Initiative == RequiredInitiative && !ship.IsAttackPerformed && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.State.Initiative == RequiredInitiative
+                && !ship.IsAttackPerformed
+                && ship.Owner.PlayerNo == RequiredPlayer
+                && !(ship is GenericRemote);
         }
 
         public override void SkipButton()

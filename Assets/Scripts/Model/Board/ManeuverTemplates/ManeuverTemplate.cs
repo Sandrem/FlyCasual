@@ -1,4 +1,5 @@
 ﻿using Movement;
+using Remote;
 using Ship;
 using System;
 using System.Collections;
@@ -45,12 +46,40 @@ namespace BoardTools
             Name = NameNoDirection + directionString;
         }
 
-        public void ApplyTemplate(GenericShip ship, Vector3 position, Direction direction)
+        public void ApplyTemplate(GenericRemote remote, int jointNumber)
         {
             if (TemplateGO == null)
             {
                 GameObject prefab = Resources.Load<GameObject>("Prefabs/ManeuverTemplates/" + TemplatePrefabName);
                 TemplateGO = GameObject.Instantiate<GameObject>(prefab,  Board.GetBoard());
+                FinisherGO = TemplateGO.transform.Find("Finish").gameObject;
+            }
+
+            TemplateGO.transform.position = remote.GetJointPosition(jointNumber);
+
+            float directionFix = (Direction == ManeuverDirection.Left) ? 180 : 0;
+
+            TemplateGO.transform.eulerAngles = remote.GetJointAngles(jointNumber) + new Vector3(0, 180, 0);
+
+            TemplateGO.transform.localEulerAngles = new Vector3(
+                TemplateGO.transform.localEulerAngles.x,
+                TemplateGO.transform.localEulerAngles.y,
+                directionFix
+            );
+
+            FinisherGO.transform.localEulerAngles = new Vector3(
+                FinisherGO.transform.localEulerAngles.x,
+                FinisherGO.transform.localEulerAngles.y,
+                directionFix
+            );
+        }
+
+        public void ApplyTemplate(GenericShip ship, Vector3 position, Direction direction)
+        {
+            if (TemplateGO == null)
+            {
+                GameObject prefab = Resources.Load<GameObject>("Prefabs/ManeuverTemplates/" + TemplatePrefabName);
+                TemplateGO = GameObject.Instantiate<GameObject>(prefab, Board.GetBoard());
                 FinisherGO = TemplateGO.transform.Find("Finish").gameObject;
             }
 

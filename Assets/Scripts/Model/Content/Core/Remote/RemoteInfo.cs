@@ -11,16 +11,12 @@ namespace Remote
     {
         public string Name { get; }
 
-        public new int Initiative { get; }
         public int Agility { get; }
         public int Hull { get; }
 
         public string ImageUrl { get; }
 
-        public Type Ability { get; }
-        public Type SystemPhaseAbility { get; }
-
-        public RemoteInfo(string name, int initiative, int agility, int hull, string imageUrl, Type ability = null, Type systemPhaseAbility = null) : base (name, initiative, 0)
+        public RemoteInfo(string name, int initiative, int agility, int hull, string imageUrl, Type abilityType = null) : base (name, initiative, 0)
         {
             Name = name;
 
@@ -30,8 +26,7 @@ namespace Remote
 
             ImageUrl = imageUrl;
 
-            Ability = ability;
-            SystemPhaseAbility = systemPhaseAbility;
+            AbilityType = abilityType;
         }
     }
 }

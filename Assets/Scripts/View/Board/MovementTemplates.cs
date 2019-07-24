@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using BoardTools;
+using Ship;
+using Remote;
+using Movement;
 
 public static class MovementTemplates {
 
@@ -46,7 +49,7 @@ public static class MovementTemplates {
         return result;
     }
 
-    public static void ApplyMovementRuler(Ship.GenericShip thisShip) {
+    public static void ApplyMovementRuler(GenericShip thisShip) {
 
         if (Selection.ThisShip.AssignedManeuver.Speed != 0)
         {
@@ -54,7 +57,7 @@ public static class MovementTemplates {
         }        
 	}
 
-    public static void ApplyMovementRuler(Ship.GenericShip thisShip, Movement.GenericMovement movement)
+    public static void ApplyMovementRuler(GenericShip thisShip, GenericMovement movement)
     {
         CurrentTemplate = GetMovementRuler(movement);
 
@@ -64,7 +67,7 @@ public static class MovementTemplates {
 
             CurrentTemplate.position = thisShip.GetPosition();
             CurrentTemplate.eulerAngles = thisShip.GetAngles() + new Vector3(0f, 90f, 0f);
-            if (movement.Direction == Movement.ManeuverDirection.Left)
+            if (movement.Direction == ManeuverDirection.Left)
             {
                 CurrentTemplate.eulerAngles = CurrentTemplate.eulerAngles + new Vector3(180f, 0f, 0f);
             }
@@ -77,7 +80,7 @@ public static class MovementTemplates {
         savedRulerRotation = CurrentTemplate.eulerAngles;
     }
 
-    public static Transform GetMovementRuler(Movement.GenericMovement movement)
+    public static Transform GetMovementRuler(GenericMovement movement)
     {
         ResetRuler();
 
@@ -86,30 +89,31 @@ public static class MovementTemplates {
         {
             switch (movement.Bearing)
             {
-                case Movement.ManeuverBearing.Straight:
+                case ManeuverBearing.Straight:
                     return Templates.Find("straight" + movement.Speed);
-                case Movement.ManeuverBearing.Bank:
+                case ManeuverBearing.Bank:
                     return Templates.Find("bank" + movement.Speed);
-                case Movement.ManeuverBearing.SegnorsLoop:
+                case ManeuverBearing.SegnorsLoop:
                     return Templates.Find("bank" + movement.Speed);
-                case Movement.ManeuverBearing.SegnorsLoopUsingTurnTemplate:
+                case ManeuverBearing.SegnorsLoopUsingTurnTemplate:
                     return Templates.Find("turn" + movement.Speed);
-                case Movement.ManeuverBearing.Turn:
+                case ManeuverBearing.Turn:
                     return Templates.Find("turn" + movement.Speed);
-                case Movement.ManeuverBearing.TallonRoll:
+                case ManeuverBearing.TallonRoll:
                     return Templates.Find("turn" + movement.Speed);
-                case Movement.ManeuverBearing.KoiogranTurn:
+                case ManeuverBearing.KoiogranTurn:
                     return Templates.Find("straight" + movement.Speed);
-                case Movement.ManeuverBearing.ReverseStraight:
-                    return Templates.Find(((movement.Direction == Movement.ManeuverDirection.Forward) ? "straight" : "bank") + movement.Speed);
-                case Movement.ManeuverBearing.Stationary:
+                case ManeuverBearing.ReverseStraight:
+                    return Templates.Find(((movement.Direction == ManeuverDirection.Forward) ? "straight" : "bank") + movement.Speed);
+                case ManeuverBearing.Stationary:
                     return null;
             }
         }
         return result;
     }
 
-    public static void HideLastMovementRuler(){
+    public static void HideLastMovementRuler()
+    {
         if (CurrentTemplate != null)
         {
             CurrentTemplate.position = savedRulerPosition;
@@ -117,7 +121,7 @@ public static class MovementTemplates {
         }
 	}
 
-    public static void ShowRange(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+    public static void ShowRange(GenericShip thisShip, GenericShip anotherShip)
     {
         ShowRangeRuler(new DistanceInfo(thisShip, anotherShip).MinDistance);
     }
@@ -159,7 +163,7 @@ public static class MovementTemplates {
         Templates.Find("RangeRulerR1").LookAt(point2);
     }
 
-    public static void CallReturnRangeRuler(Ship.GenericShip thisShip)
+    public static void CallReturnRangeRuler(GenericShip thisShip)
     {
         ReturnRangeRuler();
     }

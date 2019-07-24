@@ -45,7 +45,7 @@ namespace RulesList
         {
             List<GenericToken> tokensList = new List<GenericToken>();
 
-            foreach (var shipHolder in Roster.AllShips.Values)
+            foreach (var shipHolder in Roster.AllUnits.Values)
             {
                 ClearShipFlags(shipHolder);
                 ClearAssignedManeuvers(shipHolder);

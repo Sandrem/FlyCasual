@@ -5,6 +5,7 @@ using System.Linq;
 using Ship;
 using GameModes;
 using GameCommands;
+using Remote;
 
 namespace SubPhases
 {
@@ -49,7 +50,7 @@ namespace SubPhases
             if (success)
             {
                 UpdateHelpInfo();
-                Roster.HighlightShipsFiltered(FilterShipsToPerformAttack);
+                Roster.HighlightShipsFiltered(FilterShipsToExecuteManeuver);
 
                 IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).PerformManeuver();
@@ -164,9 +165,12 @@ namespace SubPhases
             return result;
         }
 
-        private bool FilterShipsToPerformAttack(GenericShip ship)
+        private bool FilterShipsToExecuteManeuver(GenericShip ship)
         {
-            return ship.State.Initiative == RequiredInitiative && !ship.IsManeuverPerformed && ship.Owner.PlayerNo == RequiredPlayer;
+            return ship.State.Initiative == RequiredInitiative
+                && !ship.IsManeuverPerformed
+                && ship.Owner.PlayerNo == RequiredPlayer
+                && !(ship is GenericRemote);
         }
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)

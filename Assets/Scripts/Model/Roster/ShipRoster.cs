@@ -339,7 +339,7 @@ public static partial class Roster
     {
         AllShipsHighlightOff();
 
-        foreach (GenericShip ship in Roster.AllShips.Values)
+        foreach (GenericShip ship in Roster.AllUnits.Values)
         {
             if (filter(ship))
             {

@@ -64,7 +64,7 @@ namespace SubPhases
             bool result = false;
 
             var pilotSkillResults =
-                from n in Roster.AllShips
+                from n in Roster.AllUnits
                 where n.Value.State.Initiative == pilotSkill
                 where n.Value.IsSystemsAbilityCanBeActivated == true
                 select n;
@@ -98,7 +98,7 @@ namespace SubPhases
             int result = int.MinValue;
 
             var ascPilotSkills =
-                from n in Roster.AllShips
+                from n in Roster.AllUnits
                 where n.Value.State.Initiative > pilotSkillMin
                 where n.Value.IsSystemsAbilityCanBeActivated == true
                 orderby n.Value.State.Initiative

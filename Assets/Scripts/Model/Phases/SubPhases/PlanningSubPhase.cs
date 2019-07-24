@@ -83,7 +83,14 @@ namespace SubPhases
             bool result = false;
             if ((ship.Owner.PlayerNo == RequiredPlayer) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
-                result = true;
+                if (!(ship is GenericRemote))
+                {
+                    result = true;
+                }
+                else
+                {
+                    Messages.ShowErrorToHuman("Remotes cannot be assigned a maneuver");
+                }
             }
             else
             {
@@ -102,7 +109,10 @@ namespace SubPhases
 
         private bool FilterShipsToAssignManeuver(GenericShip ship)
         {
-            return ship.AssignedManeuver == null && ship.Owner.PlayerNo == RequiredPlayer && !RulesList.IonizationRule.IsIonized(ship);
+            return ship.AssignedManeuver == null
+                && ship.Owner.PlayerNo == RequiredPlayer
+                && !RulesList.IonizationRule.IsIonized(ship)
+                && !(ship is GenericRemote);
         }
 
         public override void NextButton()

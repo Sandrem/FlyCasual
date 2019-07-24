@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Upgrade;
-using static Ship.GenericShip;
 
 namespace Ship
 {
@@ -14,7 +13,7 @@ namespace Ship
         public int Limited { get; private set; }
         public bool IsLimited { get { return Limited != 0; } }
 
-        public Type AbilityType { get; private set; }
+        public Type AbilityType { get; protected set; }
         public string AbilityText { get; private set; }
 
         public int Force { get; set; }

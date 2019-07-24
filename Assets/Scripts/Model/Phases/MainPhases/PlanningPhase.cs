@@ -26,11 +26,11 @@ namespace MainPhases
             Selection.DeselectAllShips();
 
             // Check if any ship has system ability (bombs etc)
-            foreach (GenericShip ship in Roster.AllShips.Values)
+            foreach (GenericShip ship in Roster.AllUnits.Values)
             {
                 ship.CallOnSystemsPhaseActivationGenerateListeners();
             }
-            bool anyShipHasSystemsAbility = Roster.AllShips.Values.Any(n => n.IsSystemsAbilityCanBeActivated);
+            bool anyShipHasSystemsAbility = Roster.AllUnits.Values.Any(n => n.IsSystemsAbilityCanBeActivated);
 
             if (anyShipHasSystemsAbility)
             {

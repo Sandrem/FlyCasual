@@ -309,7 +309,7 @@ namespace Ship
             }
         }
 
-        private void ActivatePilotAbilities()
+        protected void ActivatePilotAbilities()
         {
             if (PilotInfo.AbilityType != null) PilotAbilities.Add((GenericAbility)Activator.CreateInstance(PilotInfo.AbilityType));
 

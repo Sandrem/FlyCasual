@@ -29,6 +29,8 @@ namespace Remote
             GeneratePseudoShip();
             InitializeRosterPanel();
 
+            ActivatePilotAbilities();
+
             Roster.AddShipToLists(this);
         }
 
@@ -49,8 +51,11 @@ namespace Remote
             PilotInfo = new PilotCardInfo(
                 RemoteInfo.Name,
                 RemoteInfo.Initiative,
-                0
+                0,
+                abilityType: RemoteInfo.AbilityType
             );
+
+            ImageUrl = RemoteInfo.ImageUrl;
         }
 
         private void GenerateModel(Vector3 position, Quaternion rotation)
@@ -67,6 +72,16 @@ namespace Remote
             // InitializeShipBase();
         }
 
+        public Vector3 GetJointAngles(int jointIndex)
+        {
+            return ShipAllParts.Find("ShipBase/ManeuverJoints").Find("ManeuverJoint" + jointIndex).Find("Rotation").eulerAngles;
+        }
+
+        public Vector3 GetJointPosition(int jointIndex)
+        {
+            return ShipAllParts.Find("ShipBase/ManeuverJoints").Find("ManeuverJoint" + jointIndex).Find("Rotation").position;
+        }
+
         private void GeneratePseudoShip()
         {
             Damage = new Damage(this);
@@ -74,6 +89,11 @@ namespace Remote
             InitializeState();
             InitializeSectors();
             InitializeShipBaseArc();
+        }
+
+        public void ToggleJointArrow(int jointIndex, bool isVisible)
+        {
+            ShipAllParts.Find("ShipBase/ManeuverJoints").Find("ManeuverJoint" + jointIndex).gameObject.SetActive(isVisible);
         }
     }
 }

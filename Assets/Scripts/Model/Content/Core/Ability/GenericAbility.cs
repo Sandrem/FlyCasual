@@ -656,6 +656,8 @@ namespace Abilities
             }
 
             //DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
+
+            callback();
         }
 
         public void DiceModificationAdd(Action callBack, Func<int> getCount, DieSide side)

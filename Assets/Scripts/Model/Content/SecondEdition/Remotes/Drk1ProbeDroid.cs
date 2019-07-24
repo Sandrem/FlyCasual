@@ -124,7 +124,8 @@ namespace Abilities.SecondEdition
                     delegate {
                         SelectDirection(jointIndex);
                         PrepareNextButton();
-                    }
+                    },
+                    isCentered: jointIndex == 5
                 );
             }
 

@@ -22,7 +22,7 @@ namespace Ship
         public string PrefabPath { get; protected set; }
         public string TemporaryPrefabPath { get; protected set; }
 
-        private Dictionary<string, Vector3> baseEdges = new Dictionary<string, Vector3>();
+        protected Dictionary<string, Vector3> baseEdges = new Dictionary<string, Vector3>();
 
         protected Dictionary<string, Vector3> standFrontEdgePoints = new Dictionary<string, Vector3>();
         private Dictionary<string, Vector3> standFrontPoints = new Dictionary<string, Vector3>();

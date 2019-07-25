@@ -1,12 +1,9 @@
 ﻿using ActionsList;
 using Arcs;
-using BoardTools;
 using Bombs;
+using Conditions;
 using Ship;
-using System.Collections;
-using System.Collections.Generic;
 using Tokens;
-using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -37,6 +34,9 @@ namespace Abilities.SecondEdition
 {
     public class BenTeeneAbility : GenericAbility
     {
+        private RattledCondition AssignedCondition;
+        private GenericShip SufferedShip;
+
         public override void ActivateAbility()
         {
             HostShip.OnAttackFinishAsAttacker += CheckAbility;
@@ -51,10 +51,24 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ShotInfo.InArcByType(ArcType.SingleTurret))
             {
+                RemoveCondition();
                 Messages.ShowInfo("The \"Rattled\" condition has been assigned to " + Combat.Defender.PilotInfo.PilotName);
-                Combat.Defender.Tokens.AssignCondition(
-                    new Conditions.RattledCondition(Combat.Defender, HostShip)
-                );
+
+                AssignedCondition = new RattledCondition(Combat.Defender, HostShip);
+                SufferedShip = Combat.Defender;
+                Combat.Defender.Tokens.AssignCondition(AssignedCondition);
+            }
+        }
+
+        private void RemoveCondition()
+        {
+            if (SufferedShip != null)
+            {
+                Messages.ShowInfo("The \"Rattled\" condition has been removed from " + SufferedShip.PilotInfo.PilotName);
+
+                SufferedShip.Tokens.RemoveCondition(AssignedCondition);
+                SufferedShip = null;
+                AssignedCondition = null;
             }
         }
     }

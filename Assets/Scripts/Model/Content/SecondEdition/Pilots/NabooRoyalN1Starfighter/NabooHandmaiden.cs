@@ -6,12 +6,8 @@ using SubPhases;
 using Tokens;
 using Upgrade;
 using Conditions;
-using CommandsList;
-using System;
 using System.Linq;
 using ActionsList;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Ship
 {
@@ -30,8 +26,6 @@ namespace Ship
                     abilityType: typeof(NabooHandmaidenAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
-                // using UnityEngine;
-                // Avatar = new AvatarInfo(Faction.Imperial, new Vector2(71, 1));
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/ad/b6/adb64448-5777-4fd3-8311-293207d7103b/swz40_naboo-handmaiden.png";
             }
         }
@@ -193,9 +187,6 @@ namespace ActionsList
             if (HostShip.ShipInfo.ShipName == "Naboo Royal N-1 Starfighter")
             {
                 Messages.ShowInfo("Naboo Handmaiden: added evade.");
-                // Dictionary<string, string> parameters = new Dictionary<string, string>();
-                // parameters.Add("type", "evade");
-                // DiceCommand.Execute(parameters);
                 Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
                 Combat.CurrentDiceRoll.OrganizeDicePositions();
             }

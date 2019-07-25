@@ -176,10 +176,10 @@ namespace AI.Aggressor
 
         private void AdjustShipFormationToSafeZoneCenter()
         {
-            if (CenterOfBestRange < FormationWidth / 2f) CenterOfBestRange = FormationWidth / 2f + Board.BoardIntoWorld(1f);
-            if (CenterOfBestRange + FormationWidth / 2f > 91.44f) CenterOfBestRange = 91.44f - FormationWidth / 2f - Board.BoardIntoWorld(1f);
+            if (CenterOfBestRange < FormationWidth / 2f) CenterOfBestRange = FormationWidth / 2f + Board.BoardIntoWorld(2f);
+            if (CenterOfBestRange + FormationWidth / 2f > 91.44f) CenterOfBestRange = 91.44f - FormationWidth / 2f - Board.BoardIntoWorld(2f);
 
-            float centerToBoard = Board.BoardIntoWorld(-91.44f / 2f) + (Board.BoardIntoWorld(91.44f) * (CenterOfBestRange / 90f));
+            float centerToBoard = Board.BoardIntoWorld(-91.44f / 2f) + (Board.BoardIntoWorld(91.44f) * (CenterOfBestRange / 91.44f));
             float shift = centerToBoard - Board.BoardIntoWorld(FormationWidth / 2f);
 
             foreach (GenericShip ship in Roster.GetPlayer(Player).Ships.Values)

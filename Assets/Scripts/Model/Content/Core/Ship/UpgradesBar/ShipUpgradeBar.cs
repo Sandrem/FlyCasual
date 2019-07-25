@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UpgradesList;
 
 namespace Upgrade
 {
@@ -109,8 +110,8 @@ namespace Upgrade
         public List<GenericUpgrade> GetUpgradesAll()
         {
             List<GenericUpgrade> result = new List<GenericUpgrade>();
-            result.AddRange(InstalledUpgradesAll_System);
-            return InstalledUpgradesAll_System;
+            result.AddRange(InstalledUpgradesAll_System.Where(n => !n.isPlaceholder));
+            return result;
         }
 
         /**

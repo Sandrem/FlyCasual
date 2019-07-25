@@ -110,13 +110,21 @@ public class SmallCardPanel : MonoBehaviour {
 
         ShowCounter();
 
-        this.gameObject.SetActive(true);
+        try
+        {
+            this.gameObject.SetActive(true);
+        }
+        catch { }
     }
 
     private void ShowCounter()
     {
-        this.transform.Find("CountPanel").gameObject.SetActive(Count != -1);
-        this.transform.Find("CountPanel").Find("CountText").GetComponent<Text>().text = String.Format("x{0}", Count.ToString());
+        try
+        {
+            this.transform.Find("CountPanel").gameObject.SetActive(Count != -1);
+            this.transform.Find("CountPanel").Find("CountText").GetComponent<Text>().text = String.Format("x{0}", Count.ToString());
+        }
+        catch { }
     }
 
     private void SetOnClickHandler()

@@ -206,6 +206,10 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
 
     public void FinallyShow()
     {
-        if (this.gameObject != null) this.gameObject.SetActive(true);
+        try
+        {
+            this.gameObject.SetActive(true);
+        }
+        catch { }
     }
 }

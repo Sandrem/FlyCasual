@@ -103,7 +103,11 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
     public void FinallyShow()
     {
-        if (this.gameObject != null) this.gameObject.SetActive(true);
+        try
+        {
+            this.gameObject.SetActive(true);
+        }
+        catch { }
     }
 
     private void SetFromModeName()

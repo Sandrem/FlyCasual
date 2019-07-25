@@ -48,23 +48,24 @@ namespace Abilities.SecondEdition
 
         private void AskToRotateArc(object sender, EventArgs e)
         {
-            HostShip.BeforeActionIsPerformed += SpendForce;
             Selection.ChangeActiveShip(HostShip);
 
-            //TODO: Card states that you can rotate your arc, not perform a rotate arc action so you can do it while stressed
-            HostShip.AskPerformFreeAction(
-                new RotateArcAction() { Color = ActionColor.White, CanBePerformedWhileStressed = true },
-                Triggers.FinishTrigger,
-                HostUpgrade.UpgradeInfo.Name,
-                "At the start of the Engagement Phase, you may spend 1 Force to rotate your Turret Arc indicator",
-                HostUpgrade
+            AskToUseAbility(
+                "Luke Skywalker",
+                NeverUseByDefault,
+                UseLukeSkywalkerGunnerAbility,
+                descriptionLong: "Do you want to spend 1 Force to rotate your turret arc indicator?",
+                imageHolder: HostUpgrade,
+                requiredPlayer: HostShip.Owner.PlayerNo
             );
         }
 
-        private void SpendForce(GenericAction action, ref bool isFreeAction)
+        private void UseLukeSkywalkerGunnerAbility(object sender, EventArgs e)
         {
+            SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
+
             HostShip.State.Force--;
-            HostShip.BeforeActionIsPerformed -= SpendForce;
+            new RotateArcAction().DoOnlyEffect(Triggers.FinishTrigger);
         }
     }
 }

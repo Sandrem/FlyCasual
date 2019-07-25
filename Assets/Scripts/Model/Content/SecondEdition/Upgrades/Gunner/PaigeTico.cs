@@ -74,14 +74,7 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            HostShip.AskPerformFreeAction(
-                new RotateArcAction() { IsRealAction = false },
-                Triggers.FinishTrigger,
-                HostUpgrade.UpgradeInfo.Name,
-                "After you perform a primary attack, you may rotate your Turret Arc",
-                HostUpgrade,
-                isForced: true
-            );
+            new RotateArcAction().DoOnlyEffect(Triggers.FinishTrigger);
         }
 
         private void TryRegisterDestructionAbility(GenericShip ship, bool isFled)

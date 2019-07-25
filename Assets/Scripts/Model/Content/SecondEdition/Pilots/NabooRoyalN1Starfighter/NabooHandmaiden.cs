@@ -122,7 +122,8 @@ namespace Conditions
 
         public Decoyed(GenericShip host) : base(host)
         {
-            Name = ImageName = "Decoyed Condition";
+            Name = "Decoyed Condition";
+            ImageName = "Buff Token";
             Temporary = false;
             Tooltip = "https://images-cdn.fantasyflightgames.com/filer_public/7e/38/7e38aca8-b0ea-4ddc-8ec4-64efca1544c8/swz40_decoyed.png";
         }

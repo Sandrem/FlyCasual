@@ -55,6 +55,7 @@ namespace Abilities.SecondEdition
 
         private void AssignConditionToDefender(GenericShip ship)
         {
+            RemoveCondition();
             Messages.ShowInfo("Suppressive Fire has been assigned by Captain Rex");
 
             AssignedCondition = new CaptainRexCondition(Combat.Defender) { Source = HostShip };

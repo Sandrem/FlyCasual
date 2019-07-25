@@ -61,30 +61,46 @@ namespace SubPhases
 
             if (Selection.ThisShip.ArcsInfo.Arcs.Any(a => a is ArcSingleTurret))
             {
+                ArcFacing currentFacing = Selection.ThisShip.ArcsInfo.GetArc<ArcSingleTurret>().Facing;
                 foreach (ArcFacing facing in Selection.ThisShip.GetAvailableArcFacings())
                 {
-                    AddSingleTurretRotationDecision(facing);
+                    AddSingleTurretRotationDecision(facing, currentFacing);
                 }
             }
             else if (Selection.ThisShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == ArcType.DoubleTurret))
             {
-                AddDecision("Front-Rear", delegate { ChangeMobileDualArcFacing(ArcFacing.Front); });
-                AddDecision("Left-Right", delegate { ChangeMobileDualArcFacing(ArcFacing.Left); });
+                ArcDualTurretA dualTurretArc = Selection.ThisShip.ArcsInfo.GetArc<ArcDualTurretA>();
+                if (dualTurretArc.Facing != ArcFacing.Front && dualTurretArc.Facing != ArcFacing.Rear)
+                {
+                    AddDecision("Front-Rear", delegate { ChangeMobileDualArcFacing(ArcFacing.Front); });
+                    AddDecision("Rear-Front", delegate { ChangeMobileDualArcFacing(ArcFacing.Rear); });
+                }
+                if (dualTurretArc.Facing != ArcFacing.Left && dualTurretArc.Facing != ArcFacing.Right)
+                {
+                    AddDecision("Left-Right", delegate { ChangeMobileDualArcFacing(ArcFacing.Left); });
+                    AddDecision("Right-Left", delegate { ChangeMobileDualArcFacing(ArcFacing.Right); });
+                }
             }
+
+            if (decisions.Count == 1) IsForced = true;
 
             DefaultDecisionName = GetDefaultDecision();
 
             callBack();
         }
 
-        private void AddSingleTurretRotationDecision(ArcFacing facing)
+        private void AddSingleTurretRotationDecision(ArcFacing facing, ArcFacing currentFacing)
         {
+            if (facing == currentFacing) return;
+
             AddDecision(
                 facing.ToString(), 
                 delegate {
                     ChangeMobileArcFacing(facing);
                 },
                 isCentered: (facing == ArcFacing.Front || facing == ArcFacing.Rear)
+                    || (facing == ArcFacing.Left && currentFacing == ArcFacing.Right)
+                    || (facing == ArcFacing.Right && currentFacing == ArcFacing.Left)
             );
         }
 

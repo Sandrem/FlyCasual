@@ -145,18 +145,28 @@ namespace Arcs
         public void RotateArc(ArcFacing facing)
         {
             Facing = facing;
+
+            MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[facing], 0f);
+            (Host.ArcsInfo.Arcs.Find(a => a is ArcDualTurretB) as ArcDualTurretB).RotateArc(OppositeArcFacing(facing));
+
+            Editions.Edition.Current.RotateMobileFiringArc(facing);
+        }
+
+        private ArcFacing OppositeArcFacing(ArcFacing facing)
+        {
             switch (facing)
             {
                 case ArcFacing.Front:
-                    MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[ArcFacing.Front], 0f);
-                    (Host.ArcsInfo.Arcs.Find(a => a is ArcDualTurretB) as ArcDualTurretB).RotateArc(ArcFacing.Rear);
-                    break;
+                    return ArcFacing.Rear;
                 case ArcFacing.Left:
-                    MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[ArcFacing.Left], 0f);
-                    (Host.ArcsInfo.Arcs.Find(a => a is ArcDualTurretB) as ArcDualTurretB).RotateArc(ArcFacing.Right);
-                    break;
+                    return ArcFacing.Right;
+                case ArcFacing.Right:
+                    return ArcFacing.Left;
+                case ArcFacing.Rear:
+                    return ArcFacing.Front;
+                default:
+                    return ArcFacing.None;
             }
-            Editions.Edition.Current.RotateMobileFiringArc(facing);
         }
 
         public void ShowMobileArcPointer()

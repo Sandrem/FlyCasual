@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using Ship;
+using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -52,10 +53,20 @@ namespace Abilities.SecondEdition
 
         private void PerformAction(object sender, System.EventArgs e)
         {
-            Messages.ShowInfoToHuman("Greer Sonnel: you may rotate your arc");
-            //HostShip.AskPerformFreeAction(new RotateArcAction() { IsRed = false, CanBePerformedWhileStressed = true }, Triggers.FinishTrigger);
+            AskToUseAbility(
+                "Greer Sonnel",
+                NeverUseByDefault,
+                UseGreerSonnelAbility,
+                descriptionLong: "Do you want to rotate your turret arc indicator?",
+                imageHolder: HostShip
+            );
+        }
+
+        private void UseGreerSonnelAbility(object sender, EventArgs e)
+        {
+            SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
+
             new RotateArcAction().DoOnlyEffect(Triggers.FinishTrigger);
-            //Triggers.FinishTrigger();
         }
     }
 }

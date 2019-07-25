@@ -193,8 +193,8 @@ namespace SubPhases
 
             if (DescriptionShort != null) ShowDecisionDescription(DescriptionShort, DescriptionLong, ImageSource);
 
-            float defaultWindowHeight = (DescriptionLong != null) ? 190f : 90f;
-            float buttonHeight = 45 * 1.5f;
+            float defaultWindowHeight = (DescriptionLong != null) ? 190f : 70f;
+            float buttonHeight = 70f;
 
             if (decisions.Count != 0)
             {
@@ -230,8 +230,8 @@ namespace SubPhases
                             if (!decision.IsCentered)
                             {
                                 float offsetX = (currentColumn == 1) ? 7.5f : 350;
-                                
-                                button.transform.localPosition = new Vector3(offsetX, -buttonHeight * rowsUsed, 0);
+
+                                button.transform.localPosition = new Vector3(offsetX, -(buttonHeight + 5)* rowsUsed, 0);
                                 button.GetComponent<RectTransform>().sizeDelta = new Vector2(335, 67.5f);
 
                                 if (currentColumn == 1)
@@ -246,7 +246,8 @@ namespace SubPhases
                             }
                             else
                             {
-                                button.transform.localPosition = new Vector3(207.5f, -buttonHeight * rowsUsed, 0);
+                                button.transform.localPosition = new Vector3(182.5f, -(buttonHeight + 5) * rowsUsed, 0);
+                                button.GetComponent<RectTransform>().sizeDelta = new Vector2(335, 67.5f);
 
                                 rowsUsed++;
                                 currentColumn = 1;
@@ -329,11 +330,11 @@ namespace SubPhases
                         if (currentColumn == 2) rowsUsed++;
                         DecisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
                             700f,
-                            defaultWindowHeight + rowsUsed * buttonHeight
+                            defaultWindowHeight + rowsUsed * (buttonHeight + 5)
                         );
                         ButtonsHolder.GetComponent<RectTransform>().sizeDelta = new Vector3(
                             700f,
-                            defaultWindowHeight + rowsUsed * buttonHeight
+                            defaultWindowHeight + rowsUsed * (buttonHeight + 5)
                         );
                         break;
                     case DecisionViewTypes.ImagesUpgrade:

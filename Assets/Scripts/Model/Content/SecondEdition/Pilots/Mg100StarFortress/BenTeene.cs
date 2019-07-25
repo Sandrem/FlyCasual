@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
 
                 AssignedCondition = new RattledCondition(Combat.Defender, HostShip);
                 SufferedShip = Combat.Defender;
-                Combat.Defender.Tokens.AssignCondition(AssignedCondition);
+                SufferedShip.Tokens.AssignCondition(AssignedCondition);
             }
         }
 

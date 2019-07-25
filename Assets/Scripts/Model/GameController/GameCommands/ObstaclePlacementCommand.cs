@@ -17,8 +17,8 @@ namespace GameCommands
         {
             ObstaclesPlacementSubPhase.PlaceObstacle(
                  GetString("name"),
-                 new Vector3(float.Parse(GetString("positionX")), float.Parse(GetString("positionY")), float.Parse(GetString("positionZ"))),
-                 new Vector3(float.Parse(GetString("rotationX")), float.Parse(GetString("rotationY")), float.Parse(GetString("rotationZ")))
+                 new Vector3(float.Parse(GetString("positionX")), 0, float.Parse(GetString("positionZ"))),
+                 new Vector3(float.Parse(GetString("rotationX")), 0, float.Parse(GetString("rotationZ")))
              );
         }
     }

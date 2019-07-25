@@ -6,6 +6,8 @@ using SubPhases;
 using Tokens;
 using Upgrade;
 using Conditions;
+using CommandsList;
+using System;
 using System.Linq;
 using ActionsList;
 using System.Collections;
@@ -50,14 +52,11 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             Phases.Events.OnSetupEnd += RegisterNabooHandmaidenAbility;
-            // HostShip.OnAttackStartAsDefender += CheckNabooHandmaidenAbility;
         }
 
         public override void DeactivateAbility()
         {
             Phases.Events.OnSetupEnd -= RegisterNabooHandmaidenAbility;
-            // HostShip.OnDefenceStartAsAttacker -= CheckNabooHandmaidenAbility;
-            // HostShip.OnAttackStartAsDefender -= CheckNabooHandmaidenAbility;
         }
         private void RegisterNabooHandmaidenAbility()
         {
@@ -85,6 +84,12 @@ namespace Abilities.SecondEdition
 
         protected virtual void AssignDecoyed()
         {
+            // Remove decoyed from all friendly ships
+            foreach(var kvp in Roster.AllShips)
+            {
+                GenericShip ship = kvp.Value;
+                ship.Tokens.RemoveCondition(typeof(Decoyed));
+            }
             TargetShip.Tokens.AssignCondition(new Decoyed(TargetShip) { SourceUpgrade = HostUpgrade });
             SelectShipSubPhase.FinishSelection();
         }
@@ -119,39 +124,38 @@ namespace Conditions
         {
             Name = ImageName = "Decoyed Condition";
             Temporary = false;
-            // Tooltip = "https://raw.githubusercontent.com/Sandrem/xwing-data2-test/master/images/conditions/decoyed.png";
             Tooltip = "https://images-cdn.fantasyflightgames.com/filer_public/7e/38/7e38aca8-b0ea-4ddc-8ec4-64efca1544c8/swz40_decoyed.png";
         }
 
         public override void WhenAssigned()
         {
-            SubscribeToDecoyedConditionEffects();
-        }
-
-        public override void WhenRemoved()
-        {
-            UnsubscribeFromDecoyedConditionEffects();
-        }
-
-        private void SubscribeToDecoyedConditionEffects()
-        {
-            // Remove any other Decoy conditions on friendly ships
             Host.OnGenerateDiceModifications += AddDecoyedResultModification;
         }
 
-        private void UnsubscribeFromDecoyedConditionEffects()
+        public override void WhenRemoved()
         {
             Host.OnGenerateDiceModifications -= AddDecoyedResultModification;
         }
 
         private void AddDecoyedResultModification(GenericShip ship)
         {
+            foreach(var kvp in Roster.AllShips.Where(v => v.Value.PilotInfo.PilotName == "Naboo Handmaiden"))
+            {
+                RegisterDecoy(kvp.Value);
+            }
+        }
+
+        private void RegisterDecoy(GenericShip hm)
+        {
+            var name = "Decoyed: HM " + hm.ShipId;
             DecoyedAction action = new DecoyedAction()
             {
                 HostShip = Host,
-                SourceUpgrade = SourceUpgrade
+                SourceShip = hm,
+                DiceModificationName = name,
+                Name = name
             };
-            Host.AddAvailableDiceModification(action);    
+            Host.AddAvailableDiceModification(action);
         }
     }
 }
@@ -160,125 +164,76 @@ namespace ActionsList
 {
     public class DecoyedAction : GenericAction
     {
-        public GenericUpgrade SourceUpgrade;
+        public GenericShip SourceShip;
 
-        public DecoyedAction()
-        {
-            Name = DiceModificationName = "Decoyed";
-        }
+        public DecoyedAction() {}
 
         public override bool IsDiceModificationAvailable()
         {
             bool result = true;
-
             // mod only works on defense
             if (HostShip != Combat.Defender || Combat.AttackStep != CombatStep.Defence) result = false;
 
-            // handmaidens in attack arc with evades to spend
-            int handmaidens = Roster.AllShips.Count(v =>
-                v.Value.PilotInfo.PilotName == "Naboo Handmaiden"
-                && new ShotInfo(Combat.Attacker, v.Value, Combat.Attacker.PrimaryWeapons).InArc
-                && v.Value.Tokens.HasToken(typeof(EvadeToken))
-            );
-            if (handmaidens == 0) result = false;
-            Messages.ShowInfo("Handmaidens in Range: " + handmaidens);
+            // SourceShip in attack arc with evades to spend
+            if (!new ShotInfo(Combat.Attacker, SourceShip, Combat.Attacker.PrimaryWeapons).InArc
+                || !SourceShip.Tokens.HasToken(typeof(EvadeToken))) result = false;
+
             return result;
         }
 
-        private class OptimizedPrototypeDecisionSubPhase : DecisionSubPhase { }
-
         public override void ActionEffect(System.Action callBack)
         {
-            var newSubPhase = Phases.StartTemporarySubPhaseNew<OptimizedPrototypeDecisionSubPhase>(Name, callBack);
-
-            newSubPhase.DescriptionShort = "Naboo Handmaiden Decoy";
-            newSubPhase.DescriptionLong = "Do you want to spend any evades from friendly Naboo Handmaidens?";
-            newSubPhase.ImageSource = SourceUpgrade;
-
-            newSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
-            newSubPhase.ShowSkipButton = true;
-            newSubPhase.OnSkipButtonIsPressed = DontUseOptimizedPrototype;
-
-            var validHandmaidens = Roster.AllShips.Where(v => v.Value.PilotInfo.PilotName == "Naboo Handmaiden"
-                && new ShotInfo(Combat.Attacker, v.Value, Combat.Attacker.PrimaryWeapons).InArc
-                && v.Value.Tokens.HasToken(typeof(EvadeToken))
-            );
-
-            foreach(var kvp in validHandmaidens)
-            {
-                GenericShip handmaiden = kvp.Value;
-                newSubPhase.AddDecision(
-                    "Naboo Handmaiden " + handmaiden.ShipId, (s, o) => handmaiden.Tokens.SpendToken(
-                        typeof(EvadeToken), () => SpendOrAddEvade(handmaiden)
-                    )
-                );
-            }
-
-            newSubPhase.DefaultDecisionName = newSubPhase.GetDecisions().Select(d => d.Name).FirstOrDefault();
-            newSubPhase.Start();
+            SourceShip.Tokens.SpendToken(typeof(EvadeToken), () => SpendOrAddEvade());
+            callBack();
         }
 
-        private void SpendOrAddEvade(GenericShip handmaiden)
+        private void SpendOrAddEvade()
         {
             if (HostShip.ShipInfo.ShipName == "Naboo Royal N-1 Starfighter")
             {
-                Messages.ShowInfo("Naboo Handmaiden: added evade");
+                Messages.ShowInfo("Naboo Handmaiden: added evade.");
+                // Dictionary<string, string> parameters = new Dictionary<string, string>();
+                // parameters.Add("type", "evade");
+                // DiceCommand.Execute(parameters);
                 Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
+                Combat.CurrentDiceRoll.OrganizeDicePositions();
             }
             else
             {
+                Messages.ShowInfo("Naboo Handmaiden: spent evade.");
                 Combat.CurrentDiceRoll.ApplyEvade();
             }
-        }
-
-        private void DefenderSuffersDamage()
-        {
-            Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-            Triggers.RegisterTrigger(
-                new Trigger()
-                {
-                    Name = "Damage from Optimized Prototype",
-                    TriggerType = TriggerTypes.OnDamageIsDealt,
-                    TriggerOwner = Combat.Defender.Owner.PlayerNo,
-                    EventHandler = Combat.Defender.SufferDamage,
-                    EventArgs = new DamageSourceEventArgs()
-                    {
-                        Source = Combat.Attacker,
-                        DamageType = DamageTypes.CardAbility
-                    },
-                    Skippable = true
-                }
-            );
-
-            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, DecisionSubPhase.ConfirmDecision);
-        }
-
-        private void DontUseOptimizedPrototype()
-        {
-            DecisionSubPhase.ConfirmDecision();
         }
 
         public override int GetDiceModificationPriority()
         {
             int result = 0;
-
-            if (IsDiceModificationAvailable())
+            var def = Combat.CurrentDiceRoll;
+            var atk = Combat.DiceRollAttack;
+            // Different choices depending on host ship
+            if (HostShip.ShipInfo.ShipName == "Naboo Royal N-1 Starfighter")
             {
-                if (Combat.DiceRollAttack.Blanks > 0)
+                if (atk.Successes > def.Successes) result = 90;
+            }
+            else
+            {
+                if (atk.Successes > def.Successes)
                 {
-                    result = 90;
-                }
-                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
-                {
-                    result = 90;
-                }
-                else if (Combat.DiceRollAttack.Focuses > 0)
-                {
-                    result = 30;
+                    if (def.Blanks > 0)
+                    {
+                        result = 90;
+                    }
+                    else if (def.Focuses > 0
+                        && HostShip.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
+                    {
+                        result = 90;
+                    }
+                    else if (Combat.DiceRollAttack.Focuses > 0)
+                    {
+                        result = 30;
+                    }
                 }
             }
-
             return result;
         }
     }

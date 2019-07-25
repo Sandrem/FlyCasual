@@ -296,7 +296,9 @@ namespace SubPhases
                 
             }
 
-            CheckControlledModeLimits();
+            // TODO: Rework
+            //CheckControlledModeLimits();
+
             ApplySetupPositionLimits();
             SetupRangeHelper?.Invoke();
         }
@@ -377,7 +379,7 @@ namespace SubPhases
             }
         }
 
-        private Dictionary<string, float> GetSpaceBetween(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+        private Dictionary<string, float> GetSpaceBetween(GenericShip thisShip, GenericShip anotherShip)
         {
             Dictionary<string, float> result = new Dictionary<string, float>();
 
@@ -399,7 +401,8 @@ namespace SubPhases
 
             if (!isInsideStartingZone)
             {
-                if ((newBounds["maxZ"] < StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z) && (newBounds["minZ"] > StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z))
+                if ((Selection.ThisShip.Owner.PlayerNo == Players.PlayerNo.Player2 && (newBounds["maxZ"] < StartingZone.TransformPoint(0.5f, 0.5f, 0.5f).z))
+                    || (Selection.ThisShip.Owner.PlayerNo == Players.PlayerNo.Player1 && (newBounds["minZ"] > StartingZone.TransformPoint(-0.5f, -0.5f, -0.5f).z)))
                 {
                     isInsideStartingZone = true;
                 }

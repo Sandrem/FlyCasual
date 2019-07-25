@@ -94,7 +94,7 @@ namespace SubPhases
         public virtual bool AnotherShipCanBeSelected(GenericShip targetShip, int mouseKeyIsPressed)
         {
             bool result = false;
-            Messages.ShowErrorToHuman(targetShip.PilotName + "is owned by another player!");
+            Messages.ShowErrorToHuman(targetShip.PilotInfo.PilotName + " is owned by another player!");
             return result;
         }
 

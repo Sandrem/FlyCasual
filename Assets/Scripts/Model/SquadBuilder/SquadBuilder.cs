@@ -112,6 +112,7 @@ namespace SquadBuilderNS
         public string UpgradeName;
         public string UpgradeNameCanonical;
         public string UpgradeTypeName;
+        public UpgradeType UpgradeType;
         public GenericUpgrade Instance;
     }
 
@@ -254,7 +255,7 @@ namespace SquadBuilderNS
                 GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
                 if ((newUpgradeContainer.UpgradeInfo.Name != null))
                 {
-                    if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.UpgradeInfo.Name) == null)
+                    if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.UpgradeInfo.Name && n.UpgradeType == newUpgradeContainer.UpgradeInfo.UpgradeTypes.First()) == null)
                     {
                         Edition.Current.AdaptUpgradeToRules(newUpgradeContainer);
 
@@ -265,6 +266,7 @@ namespace SquadBuilderNS
                                 UpgradeName = newUpgradeContainer.UpgradeInfo.Name,
                                 UpgradeNameCanonical = newUpgradeContainer.NameCanonical,
                                 UpgradeTypeName = type.ToString(),
+                                UpgradeType = newUpgradeContainer.UpgradeInfo.UpgradeTypes.First(),
                                 Instance = newUpgradeContainer
                             });
                         }
@@ -306,10 +308,10 @@ namespace SquadBuilderNS
             slot.PreInstallUpgrade(upgrade, CurrentSquadBuilderShip.Instance);
         }
 
-        private static bool InstallUpgrade(SquadBuilderShip ship, string upgradeName)
+        private static bool InstallUpgrade(SquadBuilderShip ship, string upgradeName, UpgradeType upgradeType)
         {
-            string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgradeName).UpgradeTypeName;
-            GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
+            string upgradeTypeName = AllUpgrades.Find(n => n.UpgradeName == upgradeName && n.UpgradeType == upgradeType).UpgradeTypeName;
+            GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeTypeName));
             Edition.Current.AdaptUpgradeToRules(newUpgrade);
             if (newUpgrade is IVariableCost && Edition.Current is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
 
@@ -819,7 +821,7 @@ namespace SquadBuilderNS
                         Edition.Current.AdaptShipToRules(newShipInstance);
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
 
-                        List<string> upgradesThatCannotBeInstalled = new List<string>();
+                        Dictionary<string, string> upgradesThatCannotBeInstalled = new Dictionary<string, string>();
 
                         JSONObject upgradeJsons = pilotJson["upgrades"];
                         foreach (string upgradeType in upgradeJsons.keys)
@@ -833,23 +835,23 @@ namespace SquadBuilderNS
                                     Console.Write("Cannot find upgrade: " + upgradeRecord.str, LogTypes.Errors, true, "red");
                                 }
                                 string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
-                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName);
-                                if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeName);
+                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName, XwsToUpgradeType(upgradeType));
+                                if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeName, upgradeType);
                             }
                         }
 
                         while (upgradeJsons.Count != 0)
                         {
-                            List<string> upgradesThatCannotBeInstalledCopy = new List<string>(upgradesThatCannotBeInstalled);
+                            Dictionary<string, string> upgradesThatCannotBeInstalledCopy = new Dictionary<string, string>(upgradesThatCannotBeInstalled);
 
                             bool wasSuccess = false;
-                            foreach (var upgradeName in upgradesThatCannotBeInstalledCopy)
+                            foreach (var upgrade in upgradesThatCannotBeInstalledCopy)
                             {
-                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName);
+                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgrade.Key, XwsToUpgradeType(upgrade.Value));
                                 if (upgradeInstalledSucessfully)
                                 {
                                     wasSuccess = true;
-                                    upgradesThatCannotBeInstalled.Remove(upgradeName);
+                                    upgradesThatCannotBeInstalled.Remove(upgrade.Key);
                                 }
                             }
 
@@ -1380,7 +1382,7 @@ namespace SquadBuilderNS
         {
             if (upgradeList.Count > 0)
             {
-                InstallUpgrade(targetShip, upgradeList.First().UpgradeInfo.Name);
+                InstallUpgrade(targetShip, upgradeList.First().UpgradeInfo.Name, upgradeList.First().UpgradeInfo.UpgradeTypes.First());
                 upgradeList.Remove(upgradeList.First());
 
                 CopyUpgradesRecursive(targetShip, upgradeList);

@@ -335,7 +335,7 @@ namespace Upgrade
 
         public virtual List<ManeuverTemplate> GetDefaultLaunchTemplates()
         {
-            return null;
+            return new List<ManeuverTemplate>();
         }
     }
 

@@ -18,7 +18,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 42,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DBS32CAbility),
-                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb },
+                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.System, UpgradeType.TacticalRelay },
                 pilotTitle: "Droid Control Signal Relay"
             );
 

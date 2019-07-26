@@ -9,15 +9,11 @@ namespace UpgradesList.SecondEdition
     {
         public PatternAnalyzer() : base()
         {
-            // TODO: Too many bugs reported, full rework is required
-            IsHidden = true;
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Pattern Analyzer",
                 UpgradeType.Tech,
                 cost: 5,
-                abilityType: typeof(Abilities.SecondEdition.PatternAnalyzerAbility)//,
-                //seImageNumber: 69
+                abilityType: typeof(Abilities.SecondEdition.PatternAnalyzerAbility)
             );
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/ace963fc4fe9d97f64ab8564dc4beae7.png";

@@ -78,7 +78,10 @@ namespace Abilities.FirstEdition
 
             ToraniKuldaAbilityDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<ToraniKuldaAbilityDecisionSubPhase>(
                 "Select effect of Torani Kulda's ability",
-                Triggers.FinishTrigger
+                delegate {
+                    Selection.ThisShip = HostShip;
+                    Triggers.FinishTrigger();
+                }
             );
 
             subphase.DescriptionShort = "Torani Kulda";

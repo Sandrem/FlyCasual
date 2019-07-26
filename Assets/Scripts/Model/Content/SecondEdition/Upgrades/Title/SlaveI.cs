@@ -49,7 +49,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.AssignedManeuver.Bearing == ManeuverBearing.Bank || HostShip.AssignedManeuver.Bearing == ManeuverBearing.Turn)
             {
-                HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsManeuverSameSpeedAndBearing);
+                HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, Triggers.FinishTrigger, IsManeuverSameSpeedAndBearing);
             }
             else
             {

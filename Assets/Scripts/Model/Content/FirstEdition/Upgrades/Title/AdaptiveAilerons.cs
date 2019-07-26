@@ -125,9 +125,8 @@ namespace Abilities.FirstEdition
         private void SelectAdaptiveAileronsManeuver(object sender, EventArgs e)
         {
             HostShip.Owner.ChangeManeuver(
-                (maneuverCode) => {
-                    GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                },
+                GameMode.CurrentGameMode.AssignManeuver,
+                Triggers.FinishTrigger,
                 AdaptiveAileronsFilter
             );
         }
@@ -162,6 +161,14 @@ namespace Abilities.FirstEdition
             //ship may have flown off the board; only assign saved maneuver if ship is exists
             if (Roster.GetShipById("ShipId:" + Selection.ThisShip.ShipId) != null)
             {
+                ManeuverSelectionSubphase subphase = Phases.StartTemporarySubPhaseNew<ManeuverSelectionSubphase>(
+                    "Select a maneuver",
+                    Triggers.FinishTrigger
+                );
+                subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
+                subphase.Start();
+                subphase.IsReadyForCommands = true;
+
                 ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, SavedManeuver.ToString());
             }
             else

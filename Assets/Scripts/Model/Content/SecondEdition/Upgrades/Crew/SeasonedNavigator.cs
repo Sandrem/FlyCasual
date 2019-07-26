@@ -71,7 +71,7 @@ namespace Abilities.SecondEdition
         {
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            HostShip.Owner.ChangeManeuver(AssignManeuverWithIncreasedComplexity, IsSameSpeedNotRed);
+            HostShip.Owner.ChangeManeuver(AssignManeuverWithIncreasedComplexity, Triggers.FinishTrigger, IsSameSpeedNotRed);
         }
 
         private void AssignManeuverWithIncreasedComplexity(string maneuverCode)

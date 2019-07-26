@@ -59,7 +59,7 @@ namespace Abilities.SecondEdition
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
             Messages.ShowInfoToHuman(HostName + ": You may change the maneuver");
-            TargetShip.Owner.ChangeManeuver(ManeuverSelected, IsSameComplexityAndSpeed);
+            TargetShip.Owner.ChangeManeuver(ManeuverSelected, Triggers.FinishTrigger, IsSameComplexityAndSpeed);
         }
 
         private void ManeuverSelected(string maneuverString)

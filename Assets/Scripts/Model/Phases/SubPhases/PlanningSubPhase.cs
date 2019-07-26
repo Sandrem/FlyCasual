@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using Remote;
+using System;
+using GameModes;
 
 namespace SubPhases
 {
 
     public class PlanningSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.AssignManeuver, GameCommandTypes.PressNext }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext }; } }
 
         public override void Start()
         {
@@ -127,7 +129,7 @@ namespace SubPhases
 
             if (!RulesList.IonizationRule.IsIonized(ship))
             {
-                UI.ShowDirectionMenu();
+                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, CheckForFinish);
             }
             else
             {
@@ -136,6 +138,16 @@ namespace SubPhases
             
         }
 
+        private void CheckForFinish()
+        {
+            Roster.HighlightShipOff(Selection.ThisShip);
+
+            if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
+            {
+                UI.ShowNextButton();
+                UI.HighlightNextButton();
+            }
+        }
     }
 
 }

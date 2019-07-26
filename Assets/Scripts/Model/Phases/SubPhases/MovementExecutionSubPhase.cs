@@ -11,8 +11,6 @@ namespace SubPhases
 
     public class MovementExecutionSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.AssignManeuver }; } }
-
         public override void Start()
         {
             base.Start();

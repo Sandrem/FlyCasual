@@ -34,23 +34,8 @@ namespace ActionsList
             {
                 Phases.CurrentSubPhase.Pause();
 
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = "SLAM Planning",
-                        TriggerType = TriggerTypes.OnAbilityDirect,
-                        TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                        EventHandler = SelectSlamManeuver
-                    }
-                );
-
-                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, ExecuteSelectedManeuver);
+                Selection.ThisShip.Owner.SelectManeuver(GameMode.CurrentGameMode.AssignManeuver, ExecuteSelectedManeuver, IsSameSpeed);
             }
-        }
-
-        private void SelectSlamManeuver(object sender, System.EventArgs e)
-        {
-            Selection.ThisShip.Owner.SelectManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameSpeed);
         }
 
         private void ExecuteSelectedManeuver()

@@ -62,10 +62,15 @@ namespace Abilities.FirstEdition
             maneuverKey = HostShip.AssignedManeuver.Speed + ".F.R";
             originalColor = (HostShip.Maneuvers.ContainsKey(maneuverKey)) ? HostShip.Maneuvers[maneuverKey] : MovementComplexity.None;
             HostShip.Maneuvers[maneuverKey] = GetNewManeuverComplexity();
-            HostShip.Owner.ChangeManeuver((maneuverCode) => {
-                GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                HostShip.OnMovementFinish += RestoreManuvers;
-            }, StraightOrKoiogran);
+
+            HostShip.Owner.ChangeManeuver(
+                (maneuverCode) => {
+                    GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
+                    HostShip.OnMovementFinish += RestoreManuvers;
+                },
+                Triggers.FinishTrigger,
+                StraightOrKoiogran
+            );
         }
 
         private void RestoreManuvers(GenericShip ship)

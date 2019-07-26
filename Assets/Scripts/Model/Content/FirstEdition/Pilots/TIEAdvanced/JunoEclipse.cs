@@ -80,10 +80,14 @@ namespace Abilities.FirstEdition
                 HostShip.Maneuvers[keyMinus] = HostShip.AssignedManeuver.ColorComplexity;
             }
 
-            HostShip.Owner.ChangeManeuver((maneuverCode) => {
-                GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                HostShip.OnMovementFinish += RestoreManuvers;
-            }, StraightOrKoiogran);
+            HostShip.Owner.ChangeManeuver(
+                (maneuverCode) => {
+                    GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
+                    HostShip.OnMovementFinish += RestoreManuvers;
+                },
+                Triggers.FinishTrigger,
+                StraightOrKoiogran
+            );
         }
 
         private void RestoreManuvers(GenericShip ship)

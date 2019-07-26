@@ -92,7 +92,11 @@ namespace Abilities.SecondEdition
             if (TargetShip.AssignedManeuver != null && TargetShip.AssignedManeuver.Bearing == bearing && TargetShip.AssignedManeuver.ManeuverSpeed == speed)
             {
                 Messages.ShowInfo("Maneuver is match your guess, you can change own manevuer");
-                HostShip.Owner.ChangeManeuver(AfterManeuverIsChanged, delegate { return true; });
+                HostShip.Owner.ChangeManeuver(
+                    AfterManeuverIsChanged,
+                    Triggers.FinishTrigger, 
+                    delegate { return true; }
+                );
             }
             else
             {

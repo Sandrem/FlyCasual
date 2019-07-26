@@ -72,11 +72,6 @@ public class UI : MonoBehaviour {
         GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
     }
 
-    public static void ShowDirectionMenu()
-    {
-        DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver);
-    }
-
     public static void HideDirectionMenu()
     {
         DirectionsMenu.Hide();

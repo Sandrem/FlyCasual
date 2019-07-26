@@ -187,9 +187,9 @@ namespace Players
             return ship.Owner.PlayerNo != Phases.CurrentSubPhase.RequiredPlayer;
         }
 
-        public virtual void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null) { }
+        public virtual void ChangeManeuver(Action<string> doWithManeuverString, Action callback, Func<string, bool> filter = null) { }
 
-        public virtual void SelectManeuver(Action<string> callback, Func<string, bool> filter = null)
+        public virtual void SelectManeuver(Action<string> doWithManeuverString, Action callback, Func<string, bool> filter = null)
         {
             Phases.CurrentSubPhase.IsReadyForCommands = true;
         }

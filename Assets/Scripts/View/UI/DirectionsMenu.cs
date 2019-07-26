@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using SubPhases;
 
 public static class DirectionsMenu
 {
@@ -18,11 +19,9 @@ public static class DirectionsMenu
 
     private static GameObject DirectionsWindow;
 
-    public static void Show(Action<string> callback, Func<string, bool> filter = null)
+    public static void Show(Action<string> doWithSelectedManeuver, Action callback, Func<string, bool> filter = null)
     {
-        DeleteOldDirectionsMenu();
-
-        Callback = callback;
+        PrepareSubphase(doWithSelectedManeuver, callback);
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/DirectionsWindow", typeof(GameObject));
         DirectionsWindow = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/DirectionsPanel").transform);
@@ -38,11 +37,9 @@ public static class DirectionsMenu
         Phases.CurrentSubPhase.IsReadyForCommands = true;
     }
 
-    public static void ShowForAll(Action<string> callback, Func<string, bool> filter = null)
+    public static void ShowForAll(Action<string> doWithSelectedManeuver, Action callback, Func<string, bool> filter = null)
     {
-        DeleteOldDirectionsMenu();
-
-        Callback = callback;
+        PrepareSubphase(doWithSelectedManeuver, callback);
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/DirectionsWindow", typeof(GameObject));
         DirectionsWindow = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/DirectionsPanel").transform);
@@ -53,6 +50,40 @@ public static class DirectionsMenu
             DirectionsWindow.transform.gameObject,
             Input.mousePosition
         );
+    }
+
+    public static void FinishManeuverSelections()
+    {
+        Phases.FinishSubPhase(typeof(ManeuverSelectionSubphase));
+    }
+
+    private static void PrepareSubphase(Action<string> doWithSelectedManeuver, Action callback)
+    {
+        Triggers.RegisterTrigger(
+            new Trigger()
+            {
+                Name = "Assign Maneuver",
+                TriggerType = TriggerTypes.OnAbilityDirect,
+                TriggerOwner = Phases.CurrentSubPhase.RequiredPlayer,
+                EventHandler = delegate { StartAssignManeuverSubphase(doWithSelectedManeuver); }
+            }
+        );
+
+        Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callback);
+    }
+
+    private static void StartAssignManeuverSubphase(Action<string> doWithSelectedManeuver)
+    {
+        ManeuverSelectionSubphase subphase = Phases.StartTemporarySubPhaseNew<ManeuverSelectionSubphase>(
+            "Select a maneuver",
+            Triggers.FinishTrigger
+        );
+        subphase.RequiredPlayer = Phases.CurrentSubPhase.RequiredPlayer;
+        subphase.Start();
+
+        DeleteOldDirectionsMenu();
+
+        Callback = doWithSelectedManeuver;
     }
 
     private static void DeleteOldDirectionsMenu()
@@ -296,6 +327,20 @@ public static class DirectionsMenu
         {
             GameObject warningGO = DirectionsWindow.transform.Find("Warning").gameObject;
             warningGO.SetActive(true);
+        }
+    }
+}
+
+namespace SubPhases
+{
+    public class ManeuverSelectionSubphase : GenericSubPhase
+    {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.AssignManeuver }; } }
+
+        public override void Next()
+        {
+            Phases.CurrentSubPhase = PreviousSubPhase;
+            CallBack();
         }
     }
 }

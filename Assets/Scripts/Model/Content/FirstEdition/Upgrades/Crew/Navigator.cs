@@ -50,7 +50,7 @@ namespace Abilities.FirstEdition
 
         private void AskChangeManeuver(object sender, System.EventArgs e)
         {
-            HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsSameBearingAndDirection);
+            HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, Triggers.FinishTrigger, IsSameBearingAndDirection);
         }
 
         private bool IsSameBearingAndDirection(string maneuverString)

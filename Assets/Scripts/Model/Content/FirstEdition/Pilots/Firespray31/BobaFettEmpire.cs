@@ -51,7 +51,7 @@ namespace Abilities.FirstEdition
         {
             if (HostShip.AssignedManeuver.Bearing == ManeuverBearing.Bank)
             {
-                HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, IsBankManeuversSameSpeed);
+                HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, Triggers.FinishTrigger, IsBankManeuversSameSpeed);
             }
             else
             {

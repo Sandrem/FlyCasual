@@ -183,6 +183,7 @@ namespace Abilities.FirstEdition
                     GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
                     HostShip.OnMovementFinish += RestoreManuvers;
                 },
+                Triggers.FinishTrigger,
                 TurnOrTallonRoll
             );
         }

@@ -309,15 +309,40 @@ namespace Players
             GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateSkipButtonCommand());
         }
 
-        public override void ChangeManeuver(Action<string> callback, Func<string, bool> filter = null)
+        public override void ChangeManeuver(Action<string> doWithManeuverString, Action callback, Func<string, bool> filter = null)
         {
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
-            callback(Selection.ThisShip.AssignedManeuver.ToString());
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Assign Maneuver",
+                    TriggerType = TriggerTypes.OnAbilityDirect,
+                    TriggerOwner = this.PlayerNo,
+                    EventHandler = delegate { FinallyChangeManeuver(doWithManeuverString); }
+                }
+            );
+
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callback);
         }
 
-        public override void SelectManeuver(Action<string> callback, Func<string, bool> filter = null)
+        private void FinallyChangeManeuver(Action<string> doWithManeuverString)
         {
-            callback(Selection.ThisShip.AssignedManeuver.ToString());
+            ManeuverSelectionSubphase subphase = Phases.StartTemporarySubPhaseNew<ManeuverSelectionSubphase>(
+                "Select a maneuver",
+                Triggers.FinishTrigger
+            );
+            subphase.RequiredPlayer = this.PlayerNo;
+            subphase.Start();
+            subphase.IsReadyForCommands = true;
+
+            Phases.CurrentSubPhase.IsReadyForCommands = true;
+            doWithManeuverString(Selection.ThisShip.AssignedManeuver.ToString());
+        }
+
+        public override void SelectManeuver(Action<string> doWithManeuverString, Action callback, Func<string, bool> filter = null)
+        {
+            doWithManeuverString(Selection.ThisShip.AssignedManeuver.ToString());
+
+            callback();
         }
 
         public override void StartExtraAttack()

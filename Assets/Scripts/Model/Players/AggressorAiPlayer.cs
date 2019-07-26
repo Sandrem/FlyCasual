@@ -1,6 +1,7 @@
 ﻿using GameModes;
 using Ship;
 using SubPhases;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,10 +50,31 @@ namespace Players
 
         private void FinishAssignManeuver()
         {
-            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, AI.Aggressor.NavigationSubSystem.BestManeuver);
-            Selection.ThisShip.Ai.TimeManeuverAssigned = Time.time;
+            Triggers.RegisterTrigger(
+                new Trigger()
+                {
+                    Name = "Assign Maneuver",
+                    TriggerType = TriggerTypes.OnAbilityDirect,
+                    TriggerOwner = this.PlayerNo,
+                    EventHandler = FinallyAssignManeuver
+                }
+            );
 
-            AssignManeuverRecursive();
+            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, AssignManeuverRecursive);
+        }
+
+        private void FinallyAssignManeuver(object sender, EventArgs e)
+        {
+            ManeuverSelectionSubphase subphase = Phases.StartTemporarySubPhaseNew<ManeuverSelectionSubphase>(
+                "Select a maneuver",
+                Triggers.FinishTrigger
+            );
+            subphase.RequiredPlayer = this.PlayerNo;
+            subphase.Start();
+            subphase.IsReadyForCommands = true;
+
+            Selection.ThisShip.Ai.TimeManeuverAssigned = Time.time;
+            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, AI.Aggressor.NavigationSubSystem.BestManeuver);
         }
 
         protected override GenericShip SelectTargetForAttack()

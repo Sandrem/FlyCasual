@@ -263,26 +263,13 @@ namespace RulesList
         {
             Selection.ChangeActiveShip("ShipId:" + docked.ShipId);
 
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Assign undocking maneuver",
-                TriggerType = TriggerTypes.OnAbilityDirect,
-                TriggerOwner = docked.Owner.PlayerNo,
-                EventHandler = AskChangeManeuver
-            });
-
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, RegisterPerformManeuver);
-        }
-
-        private void AskChangeManeuver(object sender, System.EventArgs e)
-        {
             if (Editions.Edition.Current is Editions.SecondEdition)
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, FilterOnlyForward);
+                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, RegisterPerformManeuver, FilterOnlyForward);
             }
             else
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver);
+                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, RegisterPerformManeuver);
             }
         }
 

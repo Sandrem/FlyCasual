@@ -65,8 +65,7 @@ namespace SubPhases
                 return new List<GameCommandTypes>() {
                     GameCommandTypes.Decision,
                     GameCommandTypes.PressSkip,
-                    GameCommandTypes.PressNext,
-                    GameCommandTypes.AssignManeuver
+                    GameCommandTypes.PressNext
                 };
             }
         }

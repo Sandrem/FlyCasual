@@ -78,20 +78,7 @@ public class ShipMovementScript : MonoBehaviour {
 
         Selection.ThisShip.SetAssignedManeuver(MovementFromString(maneuverCode));
 
-        if (Phases.CurrentSubPhase.GetType() == typeof(PlanningSubPhase))
-        {
-            Roster.HighlightShipOff(Selection.ThisShip);
-
-            if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
-            {
-                UI.ShowNextButton();
-                UI.HighlightNextButton();
-            }
-        }
-        else
-        {
-            Triggers.FinishTrigger();
-        }
+        DirectionsMenu.FinishManeuverSelections();
     }
 
     public static void AssignManeuverSimple(int shipId, string maneuverCode)

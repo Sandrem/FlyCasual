@@ -30,20 +30,16 @@ public static class SwarmManager
 
         IsActive = true;
 
-        Triggers.RegisterTrigger(new Trigger {
-            Name = "Swarm manager",
-            TriggerType = TriggerTypes.OnAbilityDirect,
-            TriggerOwner = Phases.CurrentSubPhase.RequiredPlayer,
-            EventHandler = ShowSwarmManagerWindow
-        });
-
-        Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, delegate { Phases.FinishSubPhase(typeof(SwarmManagerSubPhase)); });
+        DirectionsMenu.ShowForAll(AssignManeuverToAllShips, CheckForFinish, AnyShipHasManeuver);
     }
 
-    private static void ShowSwarmManagerWindow(object sender, EventArgs e)
+    private static void CheckForFinish()
     {
-        Phases.StartTemporarySubPhaseNew("Swarm Manager", typeof(SwarmManagerSubPhase), delegate { });
-        DirectionsMenu.ShowForAll(AssignManeuverToAllShips, AnyShipHasManeuver);
+        if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
+        {
+            UI.ShowNextButton();
+            UI.HighlightNextButton();
+        }
     }
 
     private static void AssignManeuverToAllShips(string maneuverCode)
@@ -52,7 +48,7 @@ public static class SwarmManager
 
         GameMode.CurrentGameMode.SetSwarmManagerManeuver(maneuverCode);
 
-        Triggers.FinishTrigger();
+        DirectionsMenu.FinishManeuverSelections();
     }
 
     public static void SetManeuver(string maneuverCode)

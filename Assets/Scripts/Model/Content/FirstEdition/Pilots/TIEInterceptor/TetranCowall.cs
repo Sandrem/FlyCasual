@@ -61,10 +61,14 @@ namespace Abilities.FirstEdition
             HostShip.Maneuvers["3.F.R"] = HostShip.AssignedManeuver.ColorComplexity;
             HostShip.Maneuvers["5.F.R"] = HostShip.AssignedManeuver.ColorComplexity;
 
-            HostShip.Owner.ChangeManeuver((maneuverCode) => {
-                GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                HostShip.OnMovementFinish -= RestoreManuvers;
-            }, allowedKoiogranFilter);
+            HostShip.Owner.ChangeManeuver(
+                (maneuverCode) => {
+                    GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
+                    HostShip.OnMovementFinish -= RestoreManuvers;
+                },
+                Triggers.FinishTrigger,
+                allowedKoiogranFilter
+            );
         }
 
         private void RestoreManuvers(GenericShip ship)

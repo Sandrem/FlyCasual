@@ -56,7 +56,8 @@ namespace Abilities.SecondEdition
             HostShip.Owner.ChangeManeuver(
                 (maneuverCode) => {
                     GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
-                }, 
+                },
+                Triggers.FinishTrigger,
                 IsSpeedPlusMinus1
             );
         }

@@ -24,7 +24,7 @@ namespace Ship.SecondEdition.NantexClassStarfighter
                 "Nantex-class Starfighter",
                 BaseSize.Small,
                 Faction.Separatists,
-                new ShipArcsInfo(ArcType.Bullseye, 3), 2, 5, 0,
+                new ShipArcsInfo(ArcType.Bullseye, 3), 3, 4, 0,
                 new ShipActionsInfo(
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(EvadeAction))

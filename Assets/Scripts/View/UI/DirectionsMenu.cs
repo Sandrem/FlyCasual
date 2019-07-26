@@ -26,20 +26,29 @@ public static class DirectionsMenu
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/DirectionsWindow", typeof(GameObject));
         DirectionsWindow = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/DirectionsPanel").transform);
 
-        GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
-        CustomizeDirectionsMenu(filter);
-        CustomizeForStressed();
-        DirectionsWindow.transform.localPosition = FixMenuPosition(
-            DirectionsWindow.transform.gameObject,
-            Input.mousePosition
-        );
+        if (Selection.ThisShip.Owner is Players.HumanPlayer)
+        {
+            GameObject.Find("UI").transform.Find("ContextMenuPanel").gameObject.SetActive(false);
+            CustomizeDirectionsMenu(filter);
+            CustomizeForStressed();
+            DirectionsWindow.transform.localPosition = FixMenuPosition(
+                DirectionsWindow.transform.gameObject,
+                Input.mousePosition
+            );
+        }
+        else
+        {
+            DirectionsMenu.Hide();
+        }
 
         Phases.CurrentSubPhase.IsReadyForCommands = true;
+
+        Selection.ThisShip.Owner.AskAssignManeuver();
     }
 
     public static void ShowForAll(Action<string> doWithSelectedManeuver, Action callback, Func<string, bool> filter = null)
     {
-        PrepareSubphase(doWithSelectedManeuver, callback);
+        /*PrepareSubphase(doWithSelectedManeuver, callback);
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/DirectionsWindow", typeof(GameObject));
         DirectionsWindow = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/DirectionsPanel").transform);
@@ -49,7 +58,7 @@ public static class DirectionsMenu
         DirectionsWindow.transform.localPosition = FixMenuPosition(
             DirectionsWindow.transform.gameObject,
             Input.mousePosition
-        );
+        );*/
     }
 
     public static void FinishManeuverSelections()

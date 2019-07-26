@@ -23,9 +23,9 @@ namespace Players
             UsesHotacAiRules = true;
         }
 
-        public override void AssignManeuver()
+        public override void AssignManeuversStart()
         {
-            base.AssignManeuver();
+            base.AssignManeuversStart();
 
             foreach (var ship in Ships.Values)
             {

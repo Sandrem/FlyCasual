@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace GameCommands
 {
-    public class ActIvateAndMoveCommand : GameCommand
+    public class ActivateAndMoveCommand : GameCommand
     {
-        public ActIvateAndMoveCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public ActivateAndMoveCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
         {
 
         }

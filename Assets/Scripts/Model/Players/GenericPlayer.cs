@@ -65,6 +65,12 @@ namespace Players
         public Dictionary<string, GenericShip> Ships { get { return Units.Where(n => !(n.Value is GenericRemote)).ToDictionary(n => n.Key, m => m.Value); } }
         public Dictionary<string, GenericShip> Remotes { get { return Units.Where(n => n.Value is GenericRemote).ToDictionary(n => n.Key, m => m.Value); } }
 
+        public virtual void AskAssignManeuver()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+            GameController.CheckExistingCommands();
+        }
+
         public List<GenericObstacle> ChosenObstacles = new List<GenericObstacle>();
 
         public Dictionary<string, GenericShip> EnemyShips
@@ -102,7 +108,7 @@ namespace Players
             GameController.CheckExistingCommands();
         }
 
-        public virtual void AssignManeuver()
+        public virtual void AssignManeuversStart()
         {
             Roster.HighlightPlayer(PlayerNo);
             GameController.CheckExistingCommands();

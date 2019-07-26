@@ -5,13 +5,14 @@ using Ship;
 using Remote;
 using System;
 using GameModes;
+using GameCommands;
 
 namespace SubPhases
 {
 
     public class PlanningSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext, GameCommandTypes.SelectShipToAssignManeuver }; } }
 
         public override void Start()
         {
@@ -43,7 +44,7 @@ namespace SubPhases
             }
 
             IsReadyForCommands = true;
-            Roster.GetPlayer(RequiredPlayer).AssignManeuver();
+            Roster.GetPlayer(RequiredPlayer).AssignManeuversStart();
         }
 
         public override void Next()
@@ -129,7 +130,8 @@ namespace SubPhases
 
             if (!RulesList.IonizationRule.IsIonized(ship))
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, CheckForFinish);
+                GameCommand command = GenerateSelectShipToAssignManeuver(ship.ShipId);
+                GameMode.CurrentGameMode.ExecuteCommand(command);
             }
             else
             {
@@ -138,7 +140,7 @@ namespace SubPhases
             
         }
 
-        private void CheckForFinish()
+        public static void CheckForFinish()
         {
             Roster.HighlightShipOff(Selection.ThisShip);
 
@@ -147,6 +149,17 @@ namespace SubPhases
                 UI.ShowNextButton();
                 UI.HighlightNextButton();
             }
+        }
+
+        public static GameCommand GenerateSelectShipToAssignManeuver(int shipId)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("id", shipId.ToString());
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.SelectShipToAssignManeuver,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            );
         }
     }
 

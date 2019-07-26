@@ -22,9 +22,9 @@ namespace Players
             Avatar = "UpgradesList.FirstEdition.IG88D";
         }
 
-        public override void AssignManeuver()
+        public override void AssignManeuversStart()
         {
-            base.AssignManeuver();
+            base.AssignManeuversStart();
 
             AssignManeuverRecursive();
         }
@@ -40,7 +40,7 @@ namespace Players
             if (shipWithoutManeuver != null)
             {
                 Selection.ChangeActiveShip(shipWithoutManeuver);
-                AI.Aggressor.NavigationSubSystem.CalculateNavigation(Selection.ThisShip, FinishAssignManeuver);
+                AI.Aggressor.NavigationSubSystem.CalculateNavigation(Selection.ThisShip, OpenDirectionsUiSilent);
             }
             else
             {
@@ -48,33 +48,19 @@ namespace Players
             }
         }
 
-        private void FinishAssignManeuver()
+        private void OpenDirectionsUiSilent()
         {
-            Triggers.RegisterTrigger(
-                new Trigger()
-                {
-                    Name = "Assign Maneuver",
-                    TriggerType = TriggerTypes.OnAbilityDirect,
-                    TriggerOwner = this.PlayerNo,
-                    EventHandler = FinallyAssignManeuver
-                }
+            GameMode.CurrentGameMode.ExecuteCommand(
+                PlanningSubPhase.GenerateSelectShipToAssignManeuver(Selection.ThisShip.ShipId)
             );
-
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, AssignManeuverRecursive);
         }
 
-        private void FinallyAssignManeuver(object sender, EventArgs e)
+        public override void AskAssignManeuver()
         {
-            ManeuverSelectionSubphase subphase = Phases.StartTemporarySubPhaseNew<ManeuverSelectionSubphase>(
-                "Select a maneuver",
-                Triggers.FinishTrigger
-            );
-            subphase.RequiredPlayer = this.PlayerNo;
-            subphase.Start();
-            subphase.IsReadyForCommands = true;
-
             Selection.ThisShip.Ai.TimeManeuverAssigned = Time.time;
             ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, AI.Aggressor.NavigationSubSystem.BestManeuver);
+
+            AssignManeuverRecursive();
         }
 
         protected override GenericShip SelectTargetForAttack()

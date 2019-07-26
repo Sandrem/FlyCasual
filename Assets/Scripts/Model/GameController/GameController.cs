@@ -83,7 +83,10 @@ public static class GameController
                 command = new PressNextCommand(commandType, subPhase, parameters);
                 break;
             case GameCommandTypes.ActivateAndMove:
-                command = new ActIvateAndMoveCommand(commandType, subPhase, parameters);
+                command = new ActivateAndMoveCommand(commandType, subPhase, parameters);
+                break;
+            case GameCommandTypes.SelectShipToAssignManeuver:
+                command = new SelectShipToAssignManeuverCommand(commandType, subPhase, parameters);
                 break;
             case GameCommandTypes.DeclareAttack:
                 command = new DeclareAttackCommand(commandType, subPhase, parameters);

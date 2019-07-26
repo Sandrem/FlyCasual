@@ -204,7 +204,7 @@ namespace ActionsList
             // Different choices depending on host ship
             if (HostShip.ShipInfo.ShipName == "Naboo Royal N-1 Starfighter")
             {
-                if (atk.Successes > def.Successes) result = 90;
+                if (atk.Successes > def.Successes) result = 89;
             }
             else
             {
@@ -212,16 +212,16 @@ namespace ActionsList
                 {
                     if (def.Blanks > 0)
                     {
-                        result = 90;
+                        result = 65;
                     }
                     else if (def.Focuses > 0
                         && HostShip.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                     {
-                        result = 90;
+                        result = 65;
                     }
                     else if (Combat.DiceRollAttack.Focuses > 0)
                     {
-                        result = 30;
+                        result = 15;
                     }
                 }
             }

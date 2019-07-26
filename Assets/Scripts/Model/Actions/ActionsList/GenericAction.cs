@@ -149,6 +149,7 @@ namespace ActionsList
             * 100 - Free change limited by side if 1
             * 95 - Free rerolls limited by side
             * 90 - Free rerolls
+            * 89 - Not-free add dice with value
             * 87 - Not-Free rerolls limited by side if 1
             * 85 - Not-Free rerolls
             * 80 - Free focus to evades

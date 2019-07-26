@@ -125,12 +125,17 @@ namespace Abilities.SecondEdition
 
         private void AskToAssignTractor(object sender, System.EventArgs e)
         {
-            AskToUseAbility(
-                "Pinpoint Tractor Array",
-                NeverUseByDefault,
-                AgreeToAssignToken,
-                descriptionLong: "Do you want to gain Tractor Token to perform a Rotate action?"
-            );
+            //make sure host ship didn't die from Loose Stabilizer, hitting rocks, etc.
+            if (HostShip.IsDestroyed) Triggers.FinishTrigger();
+            else
+            {
+                AskToUseAbility(
+                    "Pinpoint Tractor Array",
+                    NeverUseByDefault,
+                    AgreeToAssignToken,
+                    descriptionLong: "Do you want to gain Tractor Token to perform a Rotate action?"
+                );
+            }
         }
 
         private void AgreeToAssignToken(object sender, System.EventArgs e)

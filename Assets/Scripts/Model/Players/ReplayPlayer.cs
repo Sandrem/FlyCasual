@@ -37,7 +37,7 @@ namespace Players
 
         public override void ChangeManeuver(Action<string> doWithManeuverString, Action callback, Func<string, bool> filter = null)
         {
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
+            DirectionsMenu.Show(doWithManeuverString, callback, filter);
             GameController.CheckExistingCommands();
         }
     }

@@ -311,30 +311,8 @@ namespace Players
 
         public override void ChangeManeuver(Action<string> doWithManeuverString, Action callback, Func<string, bool> filter = null)
         {
-            Triggers.RegisterTrigger(
-                new Trigger()
-                {
-                    Name = "Assign Maneuver",
-                    TriggerType = TriggerTypes.OnAbilityDirect,
-                    TriggerOwner = this.PlayerNo,
-                    EventHandler = delegate { FinallyChangeManeuver(doWithManeuverString); }
-                }
-            );
+            DirectionsMenu.Show(doWithManeuverString, callback, filter);
 
-            Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callback);
-        }
-
-        private void FinallyChangeManeuver(Action<string> doWithManeuverString)
-        {
-            ManeuverSelectionSubphase subphase = Phases.StartTemporarySubPhaseNew<ManeuverSelectionSubphase>(
-                "Select a maneuver",
-                Triggers.FinishTrigger
-            );
-            subphase.RequiredPlayer = this.PlayerNo;
-            subphase.Start();
-            subphase.IsReadyForCommands = true;
-
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
             doWithManeuverString(Selection.ThisShip.AssignedManeuver.ToString());
         }
 

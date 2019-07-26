@@ -1,5 +1,6 @@
 ﻿using Obstacles;
 using Ship;
+using System.Linq;
 using UnityEngine;
 
 namespace RulesList
@@ -29,7 +30,10 @@ namespace RulesList
                 ship.CallShotObstructedByMe(Combat.Attacker, ref result);
             }
 
-            if (Combat.ShotInfo.IsObstructedByObstacle && !Combat.Attacker.IsIgnoreObstacleObstructionWhenAttacking)
+            if (Combat.ShotInfo.IsObstructedByObstacle
+                && !Combat.Attacker.IsIgnoreObstacleObstructionWhenAttacking
+                && Combat.ShotInfo.ObstructedByObstacles.Any(n => !Combat.Attacker.IgnoreObstaclesList.Contains(n))
+            )
             {
                 Messages.ShowInfo("The attack is obstructed, giving the defender +1 defense die");
                 result++;

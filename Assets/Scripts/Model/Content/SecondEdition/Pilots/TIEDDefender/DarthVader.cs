@@ -15,14 +15,15 @@ namespace Ship
                     "Darth Vader",
                     6,
                     125,
+                    pilotTitle: "Black Leader",
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DarthVaderAbility),
                     force: 3,
                     extraUpgradeIcon: UpgradeType.Force
                 );
 
-                RequiredMods = new List<Type>() { typeof(VaderInDefender) };
-                ImageUrl = "https://i.imgur.com/1YLmbYQ.png";
+                RequiredMods = new List<Type>() { typeof(MyOtherRideIsSEMod) };
+                ImageUrl = "https://i.imgur.com/HFcPUIy.png";
             }
         }
     }

@@ -80,24 +80,7 @@ namespace Ship
         {
             get
             {
-                var numTractorTokens = Tokens.CountTokensByType<TractorBeamToken>();
-
-                if (Edition.Current is Editions.SecondEdition)
-                {
-                    switch (ShipBase.Size)
-                    {
-                        case BaseSize.Large:
-                            return numTractorTokens >= 3;
-                        case BaseSize.Medium:
-                            return numTractorTokens >= 2;
-                        default:
-                            return numTractorTokens >= 1;
-                    }
-                }
-                else
-                {
-                    return numTractorTokens >= 1;
-                }
+                return Tokens.CountTokensByType<TractorBeamToken>() >= Edition.Current.NegativeTokensToAffectShip[ShipBase.Size];
             }
         }
 

@@ -75,7 +75,14 @@ namespace Ship
         public bool IsHidden { get; protected set; }
 
         public bool IsStressed { get { return Tokens.HasToken<Tokens.StressToken>(); } }
-        public bool IsTractored { get { return Tokens.HasToken<Tokens.TractorBeamToken>(); } }
+
+        public bool IsTractored
+        {
+            get
+            {
+                return Tokens.CountTokensByType<TractorBeamToken>() >= Edition.Current.NegativeTokensToAffectShip[ShipBase.Size];
+            }
+        }
 
         public bool IsAttacking { get { return Combat.AttackStep == CombatStep.Attack && Combat.Attacker == this; } }
 

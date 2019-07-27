@@ -20,10 +20,10 @@ namespace RulesList
                 GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
                 RuleIsInitialized = true;
             }
-            Phases.Events.BeforeActionSubPhaseStart += CheckSkipPerformAction;
+            GenericShip.OnMovementFinishGlobal += CheckSkipPerformAction;
         }
 
-        public void CheckSkipPerformAction()
+        public void CheckSkipPerformAction(GenericShip ship)
         {
             string ShipMessageString = "";
             if (Selection.ThisShip.IsBumped

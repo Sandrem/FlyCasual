@@ -46,7 +46,12 @@ namespace ActionsList
 
         private void AssignWeaponsDisabledToken()
         {
-            Selection.ThisShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Phases.CurrentSubPhase.CallBack);
+            Selection.ThisShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), FinishSlam);
+        }
+
+        private void FinishSlam()
+        {
+            Selection.ThisShip.CallSlam(Phases.CurrentSubPhase.CallBack);
         }
 
         private void PerformSlamManeuver(object sender, System.EventArgs e)

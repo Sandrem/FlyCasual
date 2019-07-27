@@ -39,13 +39,13 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnTryAddAction += RestrictSlam;
-            HostShip.OnActionIsPerformed += LoseCharge;
+            HostShip.OnSlam += LoseCharge;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnTryAddAction -= RestrictSlam;
-            HostShip.OnActionIsPerformed -= LoseCharge;
+            HostShip.OnSlam -= LoseCharge;
         }
 
         private void RestrictSlam(GenericShip ship, GenericAction action, ref bool canBeUsed)
@@ -56,13 +56,13 @@ namespace Abilities.SecondEdition
             }
         }
 
-        private void LoseCharge(GenericAction action)
+        private void LoseCharge()
         {
-            if (action is SlamAction && HostUpgrade.State.Charges > 0)
+            if (HostUpgrade.State.Charges > 0)
             {
                 HostUpgrade.State.LoseCharge();
-                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, AskToReplaceToken);
-            };
+                RegisterAbilityTrigger(TriggerTypes.OnSlam, AskToReplaceToken);
+            }
         }
 
         private void AskToReplaceToken(object sender, System.EventArgs e)

@@ -57,11 +57,12 @@ public partial class Die
     public GameObject Model { get; private set; }
     public bool IsWaitingForNewResult { get; set; }
 
-    public Die(DiceRoll diceRoll, DiceKind type, DieSide side = DieSide.Unknown)
+    public Die(DiceRoll diceRoll, DiceKind type, DieSide side = DieSide.Unknown, bool isAdded = false)
     {
         ParentDiceRoll = diceRoll;
         Type = type;
         IsUncancelable = false;
+        IsAdded = isAdded;
         Sides = new List<DieSide>
         {
             DieSide.Blank,

@@ -126,7 +126,7 @@ namespace Abilities.SecondEdition
         private void CheckGuess(DiceRoll diceroll)
         {
             //compare number guessed to successes rolled (not added)
-            if (numberGuessed == diceroll.DiceList.Count(n => n.IsSuccess && n.IsAdded == false))
+            if (numberGuessed == diceroll.DiceList.Count(n => n.IsSuccess && !n.IsAddedResult))
             {
                 AddEvadeDie(diceroll);
             } 

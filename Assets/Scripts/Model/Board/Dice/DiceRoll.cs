@@ -84,7 +84,7 @@ public partial class DiceRoll
 
     public Die AddDice(DieSide side = DieSide.Unknown)
     {
-        Die newDice = new Die(this, Type, side, isAdded: true);
+        Die newDice = new Die(this, Type, side);
         DiceList.Add(newDice);
         return newDice;
     }

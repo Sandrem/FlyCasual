@@ -57,12 +57,11 @@ public partial class Die
     public GameObject Model { get; private set; }
     public bool IsWaitingForNewResult { get; set; }
 
-    public Die(DiceRoll diceRoll, DiceKind type, DieSide side = DieSide.Unknown, bool isAdded = false)
+    public Die(DiceRoll diceRoll, DiceKind type, DieSide side = DieSide.Unknown)
     {
         ParentDiceRoll = diceRoll;
         Type = type;
         IsUncancelable = false;
-        IsAdded = isAdded;
         Sides = new List<DieSide>
         {
             DieSide.Blank,
@@ -80,10 +79,12 @@ public partial class Die
         if (side != DieSide.Unknown)
         {
             Side = side;
+            IsAddedResult = true;
         }
         else
         {
             Side = Sides[UnityEngine.Random.Range(0, 8)];
+            IsAddedResult = false;
         }
     }
 

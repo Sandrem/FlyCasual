@@ -72,6 +72,7 @@ namespace Abilities.SecondEdition
 
             looseCargo.ObstacleGO.transform.position = dropTemplate.GetFinalPosition();
             looseCargo.ObstacleGO.transform.eulerAngles = dropTemplate.GetFinalAngles();
+            looseCargo.IsPlaced = true;
 
             GameManagerScript.Wait(
                 1,

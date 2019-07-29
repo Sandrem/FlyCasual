@@ -39,6 +39,7 @@ public enum TriggerTypes
     OnMovementStart,
     OnMovementExecuted,
     OnMovementFinish,
+    OnPositionExecuted,
     OnPositionFinish,
     
     OnFreeActionPlanned,

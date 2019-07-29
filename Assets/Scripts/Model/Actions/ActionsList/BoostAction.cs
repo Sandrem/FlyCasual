@@ -457,7 +457,7 @@ namespace SubPhases
 
         public override void Next()
         {
-            TheShip.FinishPosition(FinishBoostAnimation);
+            TheShip.ExecutePosition(FinishBoostAnimation);
         }
 
         protected virtual void FinishBoostAnimation()

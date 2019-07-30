@@ -1,10 +1,6 @@
 ﻿using Upgrade;
-using System;
-using Ship;
 using SubPhases;
 using Bombs;
-using System.Linq;
-using UnityEngine;
 using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
@@ -28,8 +24,12 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class GeniusAbility : Abilities.FirstEdition.GeniusAbility
+    public class GeniusAbility : FirstEdition.GeniusAbility
     {
+        protected override string AbilityDescription => "Do you want to drop a bomb?";
+
+        protected override UpgradeSubType BombTypeRestriction => UpgradeSubType.Bomb;
+
         protected override void StartDropBombSubphase()
         {
             Phases.StartTemporarySubPhaseOld(

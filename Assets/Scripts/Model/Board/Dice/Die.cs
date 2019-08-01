@@ -8,6 +8,7 @@ public partial class Die
     public bool IsRerolled { get; set; }
     public bool IsShowRerolledLock { get; private set; }
     public bool IsUncancelable { get; set; }
+    public bool IsAddedResult { get; set; }
 
     private bool cannotBeModified { get; set; }
     public bool CannotBeModified

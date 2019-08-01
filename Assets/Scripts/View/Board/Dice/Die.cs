@@ -79,10 +79,12 @@ public partial class Die
         if (side != DieSide.Unknown)
         {
             Side = side;
+            IsAddedResult = true;
         }
         else
         {
             Side = Sides[UnityEngine.Random.Range(0, 8)];
+            IsAddedResult = false;
         }
     }
 

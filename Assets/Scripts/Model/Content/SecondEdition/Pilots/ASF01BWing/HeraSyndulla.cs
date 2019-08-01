@@ -21,7 +21,7 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
-                RequiredMods = new List<Type>() { typeof(MyOtherRideIsSEMod) };
+                RequiredMods = new List<Type>() { typeof(PhoenixSquadronModSE) };
                 ImageUrl = "https://i.imgur.com/eh0kBr4.png";
             }
         }

@@ -23,7 +23,7 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Force
                 );
 
-                RequiredMods = new List<Type>() { typeof(MyOtherRideIsSEMod) };
+                RequiredMods = new List<Type>() { typeof(MyOtherRideIsModSE) };
                 ImageUrl = "https://i.imgur.com/Zaw8eDC.png";
                 ModelInfo.SkinName = "Green";
             }

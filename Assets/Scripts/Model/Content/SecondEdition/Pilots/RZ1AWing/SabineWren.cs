@@ -22,7 +22,7 @@ namespace Ship
                 );
 
                 RequiredMods = new List<Type>() { typeof(MyOtherRideIsSEMod) };
-                ImageUrl = "https://i.imgur.com/dqA7fpi.png";
+                ImageUrl = "https://i.imgur.com/YpP14NT.png";
                 ModelInfo.SkinName = "Green";
             }
         }

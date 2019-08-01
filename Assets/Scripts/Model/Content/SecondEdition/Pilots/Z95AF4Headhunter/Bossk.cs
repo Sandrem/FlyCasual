@@ -29,6 +29,8 @@ namespace Ship
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f5/a0/f5a0b23e-82c1-4092-98b2-7f01bd2577db/swz58_bossk.png";
 
                 ShipAbilities.Add(new Abilities.SecondEdition.PursuitCraft());
+
+                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

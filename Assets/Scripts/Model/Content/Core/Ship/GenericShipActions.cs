@@ -82,6 +82,7 @@ namespace Ship
         public static EventHandlerShipTokenBool BeforeRemovingTokenInEndPhaseGlobal;
 
         public event EventHandler OnDecloak;
+        public event EventHandler OnSlam;
 
         public event EventHandlerActionColor OnCheckActionComplexity;
 
@@ -672,6 +673,15 @@ namespace Ship
             if (OnDecloak != null) OnDecloak();
 
             Triggers.ResolveTriggers(TriggerTypes.OnDecloak, callback);
+        }
+
+        // SLAM
+
+        public void CallSlam(Action callback)
+        {
+            if (OnSlam != null) OnSlam();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnSlam, callback);
         }
 
         public ActionColor CallOnCheckActionComplexity(GenericAction action, ref ActionColor color)

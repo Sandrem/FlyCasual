@@ -28,17 +28,17 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnCanReleaseDockedShipRegular += DenyRelease;
+            ActivateDocking(FilterZ95);
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnCanReleaseDockedShipRegular -= DenyRelease;
+            DeactivateDocking();
         }
 
-        private void DenyRelease(ref bool canRelease)
+        private bool FilterZ95(GenericShip ship)
         {
-            canRelease = false;
+            return ship is Ship.SecondEdition.Z95AF4Headhunter.Z95AF4Headhunter;
         }
     }
 }

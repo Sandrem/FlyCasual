@@ -53,12 +53,26 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             Rules.Docking.Dock(FindHoundsTooth, GetThisShip);
+            HostShip.OnDocked += StartDenyUndocking;
             HostShip.OnUndocked += OnUndocked;
         }
 
         public override void DeactivateAbility()
         {
+            HostShip.OnDocked -= StartDenyUndocking;
             HostShip.OnUndocked -= OnUndocked;
+
+            if (HostShip.DockingHost != null) HostShip.DockingHost.OnCanReleaseDockedShipRegular -= DenyRelease;
+        }
+
+        private void StartDenyUndocking(GenericShip ship)
+        {
+            ship.OnCanReleaseDockedShipRegular += DenyRelease;
+        }
+
+        private void DenyRelease(ref bool canRelease)
+        {
+            canRelease = false;
         }
 
         private GenericShip GetThisShip()
@@ -87,6 +101,8 @@ namespace Abilities.SecondEdition
 
         private void OnUndocked(GenericShip dockingHost)
         {
+            dockingHost.OnCanReleaseDockedShipRegular -= DenyRelease;
+
             HostShip.PilotInfo = new PilotCardInfo(
                 dockingHost.PilotInfo.PilotName,
                 dockingHost.PilotInfo.Initiative,

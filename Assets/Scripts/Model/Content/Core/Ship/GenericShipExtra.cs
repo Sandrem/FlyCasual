@@ -25,6 +25,7 @@ namespace Ship
 
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;
+        public event EventHandlerShip OnUndockingFinish;
         public event EventHandlerShip OnAnotherShipDocked;
         public event EventHandlerShip OnAnotherShipUndocked;
 
@@ -190,22 +191,29 @@ namespace Ship
 
         public void CallDocked(GenericShip hostShip)
         {
-            if (OnDocked != null) OnDocked(hostShip);
+            OnDocked?.Invoke(hostShip);
         }
 
         public void CallUndocked(GenericShip host)
         {
-            if (OnUndocked != null) OnUndocked(host);
+            OnUndocked?.Invoke(host);
+        }
+
+        public void CallUndockingFinish(GenericShip host, Action callback)
+        {
+            OnUndockingFinish?.Invoke(host);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnUndockingFinish, callback);
         }
 
         public void CallAnotherShipDocked(GenericShip dockedShip)
         {
-            if (OnAnotherShipDocked != null) OnAnotherShipDocked(dockedShip);
+            OnAnotherShipDocked?.Invoke(dockedShip);
         }
 
         public void CallAnotherShipUndocked(GenericShip dockedShip)
         {
-            if (OnAnotherShipUndocked != null) OnAnotherShipUndocked(dockedShip);
+            OnAnotherShipUndocked?.Invoke(dockedShip);
         }
 
         public virtual bool IsAllowedForSquadBuilder()

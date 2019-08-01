@@ -327,7 +327,12 @@ namespace RulesList
                 }
             );
 
-            Triggers.ResolveTriggers(TriggerTypes.OnFreeAction, AfterUndockingFinished);
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnFreeAction,
+                delegate {
+                    Selection.ThisShip.CallUndockingFinish(Selection.ThisShip.DockingHost, AfterUndockingFinished);
+                }
+            );
         }
 
         private void PerformFreeAction(object sender, System.EventArgs e)

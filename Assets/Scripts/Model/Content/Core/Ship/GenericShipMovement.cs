@@ -96,6 +96,8 @@ namespace Ship
         public static event EventHandlerShip OnMovementFinishGlobal;
         public static event EventHandlerShip OnMovementFinishSuccessfullyGlobal;
 
+        public event EventHandlerShip OnPositionExecuted;
+        public static event EventHandlerShip OnPositionExecutedGlobal;
         public event EventHandlerShip OnPositionFinish;
         public static event EventHandlerShip OnPositionFinishGlobal;
 
@@ -195,6 +197,20 @@ namespace Ship
                 TriggerTypes.OnMovementFinish,
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
+                    Selection.ThisShip.ExecutePosition(callback);
+                }
+            );
+        }
+
+        public void ExecutePosition(System.Action callback)
+        {
+            if (OnPositionExecuted != null) OnPositionExecuted(this);
+            if (OnPositionExecutedGlobal != null) OnPositionExecutedGlobal(this);
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnPositionExecuted,
+                delegate ()
+                {
                     Selection.ThisShip.FinishPosition(callback);
                 }
             );

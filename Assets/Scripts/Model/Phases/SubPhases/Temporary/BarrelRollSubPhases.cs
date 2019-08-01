@@ -726,7 +726,7 @@ namespace SubPhases
             MovementTemplates.HideLastMovementRuler();
 
             TheShip.ToggleShipStandAndPeg(true);
-            TheShip.FinishPosition(FinishBarrelRollAnimationPart2);
+            TheShip.ExecutePosition(FinishBarrelRollAnimationPart2);
         }
 
         protected virtual void FinishBarrelRollAnimationPart2()

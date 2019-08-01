@@ -18,7 +18,7 @@ namespace RulesList
         {
             if (!RuleIsInitialized)
             {
-                GenericShip.OnMovementFinishGlobal += CheckHits;
+                GenericShip.OnPositionFinishGlobal += CheckHits;
                 RuleIsInitialized = true;
             }
         }
@@ -35,7 +35,7 @@ namespace RulesList
                     {
                         Name = "Apply effect of hit obstacle",
                         TriggerOwner = ship.Owner.PlayerNo,
-                        TriggerType = TriggerTypes.OnMovementFinish,
+                        TriggerType = TriggerTypes.OnPositionFinish,
                         EventHandler = delegate { obstacle.OnHit(ship); }
                     });
                 }

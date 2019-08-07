@@ -285,8 +285,6 @@ namespace Bombs
 
             selectBombToDrop.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
-            selectBombToDrop.IsForced = true;
-
             selectBombToDrop.Start();
         }
 

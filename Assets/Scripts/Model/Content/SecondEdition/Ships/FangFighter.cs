@@ -64,7 +64,7 @@ namespace Abilities.SecondEdition
                 Combat.AttackStep == CombatStep.Defence &&
                 Combat.Defender == HostShip &&
                 Combat.ShotInfo.Range == 1 &&
-                Combat.ShotInfo.InPrimaryArc
+                Combat.Attacker.SectorsInfo.IsShipInSector(HostShip, Arcs.ArcType.Front)
             );
         }
 

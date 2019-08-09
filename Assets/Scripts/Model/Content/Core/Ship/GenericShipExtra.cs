@@ -107,7 +107,7 @@ namespace Ship
         public event EventHandlerDualUpgrade OnAfterDualCardSideSelected;
 
         public event EventHandlerShip OnSystemsAbilityActivation;
-        public event EventHandlerShip OnSystemsAbilityActivationGenerateListeners;
+        public event EventHandlerShipRefBool OnCheckSystemsAbilityActivation;
 
         public event EventHandlerCheckRange OnCheckRange;
 
@@ -128,9 +128,11 @@ namespace Ship
             if (OnGameStart != null) OnGameStart();
         }
 
-        public void CallOnSystemsPhaseActivationGenerateListeners()
+        public bool CheckSystemsAbilityActivation()
         {
-            OnSystemsAbilityActivationGenerateListeners?.Invoke(this);
+            bool hasSystemActivation = false;
+            OnCheckSystemsAbilityActivation?.Invoke(this, ref hasSystemActivation);
+            return hasSystemActivation;
         }
 
         public void CallOnSystemsPhaseActivation(Action callback)

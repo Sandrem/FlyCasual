@@ -36,15 +36,23 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnSystemsAbilityActivation += RegisterOwnTrigger;
+            HostShip.OnCheckSystemsAbilityActivation += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnSystemsAbilityActivation -= RegisterOwnTrigger;
+            HostShip.OnCheckSystemsAbilityActivation -= CheckAbility;
+        }
+
+        private void CheckAbility(GenericShip ship, ref bool flag)
+        {
+            flag = true;
         }
 
         private void RegisterOwnTrigger(GenericShip ship)
         {
+            // Always register
             RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToPerformReposition);
         }
 

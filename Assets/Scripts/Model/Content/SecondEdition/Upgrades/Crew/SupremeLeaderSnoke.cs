@@ -37,20 +37,27 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnSystemsAbilityActivation += CheckAbility;   
+            HostShip.OnSystemsAbilityActivation += RegisterAbility;
+            HostShip.OnCheckSystemsAbilityActivation += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnSystemsAbilityActivation -= CheckAbility;
+            HostShip.OnSystemsAbilityActivation -= RegisterAbility;
+            HostShip.OnCheckSystemsAbilityActivation -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship)
+        private void RegisterAbility(GenericShip ship)
         {
             if (HostShip.State.Force > 0 && Board.GetShipsAtRange(HostShip, new Vector2(2, float.MaxValue), Team.Type.Enemy).Count > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, StartMultiSelectionSubphase);
             }
+        }
+
+        private void CheckAbility(GenericShip ship, ref bool flag)
+        {
+            if (HostShip.State.Force > 0 && Board.GetShipsAtRange(HostShip, new Vector2(2, float.MaxValue), Team.Type.Enemy).Count > 0) flag = true;
         }
 
         private void StartMultiSelectionSubphase(object sender, EventArgs e)

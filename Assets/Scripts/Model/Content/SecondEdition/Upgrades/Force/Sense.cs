@@ -1,5 +1,6 @@
 ﻿using BoardTools;
 using Ship;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
@@ -30,24 +31,27 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            HostShip.OnSystemsAbilityActivation += RegisterAbilityTriggerByShip;
+            HostShip.OnCheckSystemsAbilityActivation += RegisterAbilityTriggerByShip;
+            HostShip.OnSystemsAbilityActivation += RegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnSystemsAbilityActivation -= RegisterAbilityTriggerByShip;
+            HostShip.OnCheckSystemsAbilityActivation -= RegisterAbilityTriggerByShip;
+            HostShip.OnSystemsAbilityActivation -= RegisterAbility;
         }
 
-        private void RegisterAbilityTriggerByShip(GenericShip ship)
+        private void RegisterAbility(GenericShip ship)
         {
             if (Board.GetShipsAtRange(HostShip, new Vector2(MinRange, MaxRange), Team.Type.Enemy).Count > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, StartSelectTargetForAbility);
             }
-            else
-            {
-                Messages.ShowInfo("No ships is in range of Sense");
-            }
+        }
+
+        private void RegisterAbilityTriggerByShip(GenericShip ship, ref bool flag)
+        {
+            if (Board.GetShipsAtRange(HostShip, new Vector2(MinRange, MaxRange), Team.Type.Enemy).Count > 0) flag = true;
         }
 
         protected override void SeeAssignedManuver()

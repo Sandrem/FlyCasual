@@ -727,13 +727,15 @@ namespace Abilities
             HostShip.FilterUndockDirection = filterUndockDirection ?? HostShip.FilterUndockDirection;
 
             Phases.Events.OnSetupStart += CheckInitialDockingAbility;
-            HostShip.OnSystemsAbilityActivationGenerateListeners += CheckPotentialDockingShips;
+            HostShip.OnCheckSystemsAbilityActivation += CheckPotentialDockingShips;
+            HostShip.OnSystemsAbilityActivation += RegisterDockingShips;
         }
 
         protected void DeactivateDocking()
         {
             Phases.Events.OnSetupStart -= CheckInitialDockingAbility;
-            HostShip.OnSystemsAbilityActivationGenerateListeners -= CheckPotentialDockingShips;
+            HostShip.OnCheckSystemsAbilityActivation -= CheckPotentialDockingShips;
+            HostShip.OnSystemsAbilityActivation -= RegisterDockingShips;
         }
 
         private void CheckInitialDockingAbility()
@@ -781,7 +783,23 @@ namespace Abilities
             }
         }
 
-        private void CheckPotentialDockingShips(GenericShip _)
+        private void CheckPotentialDockingShips(GenericShip thisShip, ref bool flag)
+        {
+            foreach (GenericShip ship in hostShip.Owner.Ships.Values)
+            {
+                if (FilterDockableShips(ship))
+                {
+                    DistanceInfo distInfo = new DistanceInfo(HostShip, ship);
+                    Vector2 dockingRange = ship.GetDockingRange(HostShip);
+                    if (dockingRange.x <= distInfo.Range && distInfo.Range <= dockingRange.y)
+                    {
+                        flag = true;
+                    }
+                }
+            }
+        }
+
+        private void RegisterDockingShips(GenericShip thisShip)
         {
             foreach (GenericShip ship in hostShip.Owner.Ships.Values)
             {

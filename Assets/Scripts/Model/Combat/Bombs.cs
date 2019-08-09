@@ -210,26 +210,24 @@ namespace Bombs
             CurrentBombObject.transform.Find("Light").gameObject.SetActive(isActive);
         }
 
-        public static void CheckBombDropAvailabilitySystemPhase(GenericShip ship)
+        public static void CheckBombDropAvailabilitySystemPhase(GenericShip ship, ref bool flag)
+        {
+            if (!ship.IsBombAlreadyDropped && HasBombsToDrop(ship)) flag = true;
+        }
+
+        public static void RegisterBombDropAvailabilitySystemPhase(GenericShip ship)
         {
             if (!ship.IsBombAlreadyDropped && HasBombsToDrop(ship))
             {
-                ship.OnSystemsAbilityActivation += RegisterBombDropAvailabilitySystemPhase;
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Ask which bomb to drop",
+                    TriggerType = TriggerTypes.OnMovementActivationStart,
+                    TriggerOwner = ship.Owner.PlayerNo,
+                    EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip)),
+                    Sender = ship
+                });
             }
-        }
-
-        private static void RegisterBombDropAvailabilitySystemPhase(GenericShip ship)
-        {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "Ask which bomb to drop",
-                TriggerType = TriggerTypes.OnMovementActivationStart,
-                TriggerOwner = ship.Owner.PlayerNo,
-                EventHandler = (object sender, EventArgs e) => CreateAskBombDropSubPhase((sender as GenericShip)),
-                Sender = ship
-            });
-
-            ship.OnSystemsAbilityActivation -= RegisterBombDropAvailabilitySystemPhase;
         }
 
         public static void CheckBombDropAvailabilityGeneral(GenericShip ship)
@@ -284,8 +282,6 @@ namespace Bombs
             selectBombToDrop.DescriptionShort = "Select a device to drop";
 
             selectBombToDrop.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
-
-            selectBombToDrop.IsForced = true;
 
             selectBombToDrop.Start();
         }

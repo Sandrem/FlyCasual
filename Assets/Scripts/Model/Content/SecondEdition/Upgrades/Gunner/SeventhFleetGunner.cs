@@ -34,28 +34,28 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             GenericShip.OnAttackStartAsAttackerGlobal += CheckAbility;
-            HostShip.OnSystemsAbilityActivationGenerateListeners += CheckRestoreAbility;
+            HostShip.OnCheckSystemsAbilityActivation += CheckRestoreAbility;
+            HostShip.OnSystemsAbilityActivation += RegisterRestoreAbilityTrigger;
         }
 
         public override void DeactivateAbility()
         {
             GenericShip.OnAttackStartAsAttackerGlobal -= CheckAbility;
-            HostShip.OnSystemsAbilityActivationGenerateListeners -= CheckRestoreAbility;
-
+            HostShip.OnCheckSystemsAbilityActivation -= CheckRestoreAbility;
             HostShip.OnSystemsAbilityActivation -= RegisterRestoreAbilityTrigger;
         }
 
-        private void CheckRestoreAbility(GenericShip ship)
+        private void CheckRestoreAbility(GenericShip ship, ref bool flag)
         {
-            if (HostUpgrade.State.Charges == 0)
-            {
-                HostShip.OnSystemsAbilityActivation += RegisterRestoreAbilityTrigger;
-            }
+            if (HostUpgrade.State.Charges == 0) flag = true;
         }
 
         private void RegisterRestoreAbilityTrigger(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToRestoreAbility);
+            if (HostUpgrade.State.Charges == 0)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToRestoreAbility);
+            }
         }
 
         private void AskToRestoreAbility(object sender, EventArgs e)

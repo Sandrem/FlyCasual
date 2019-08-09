@@ -31,26 +31,27 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnSystemsAbilityActivationGenerateListeners += CheckAbility;
+            HostShip.OnCheckSystemsAbilityActivation += CheckAbility;
+            HostShip.OnSystemsAbilityActivation += RegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnSystemsAbilityActivationGenerateListeners -= CheckAbility;
+            HostShip.OnCheckSystemsAbilityActivation -= CheckAbility;
+            HostShip.OnSystemsAbilityActivation -= RegisterAbility;
         }
 
-        private void CheckAbility(GenericShip ship)
+        private void CheckAbility(GenericShip ship, ref bool flag)
         {
-            if (Board.GetShipsAtRange(HostShip, new Vector2(1,2), Team.Type.Enemy).Count > 0)
-            {
-                HostShip.OnSystemsAbilityActivation += RegisterAbility;
-            }
+            if (Board.GetShipsAtRange(HostShip, new Vector2(1, 2), Team.Type.Enemy).Count > 0) flag = true;
         }
 
         private void RegisterAbility(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskSelectShip);
-            HostShip.OnSystemsAbilityActivation -= RegisterAbility;
+            if (Board.GetShipsAtRange(HostShip, new Vector2(1, 2), Team.Type.Enemy).Count > 0)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskSelectShip);
+            }
         }
 
         private void AskSelectShip(object sender, EventArgs e)

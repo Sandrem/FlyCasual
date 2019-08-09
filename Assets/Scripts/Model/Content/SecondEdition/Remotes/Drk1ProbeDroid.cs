@@ -34,6 +34,7 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
+            HostShip.OnCheckSystemsAbilityActivation += CheckAbility;
             HostShip.OnSystemsAbilityActivation += RegisterRepositionTrigger;
             GenericShip.OnPositionFinishGlobal += CheckRemoteOverlapping;
             RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed += CanPerformTargetLock;
@@ -43,11 +44,17 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
+            HostShip.OnCheckSystemsAbilityActivation -= CheckAbility;
             HostShip.OnSystemsAbilityActivation -= RegisterRepositionTrigger;
             GenericShip.OnPositionFinishGlobal -= CheckRemoteOverlapping;
             RulesList.TargetLocksRule.OnCheckTargetLockIsAllowed -= CanPerformTargetLock;
             RulesList.JamRule.OnCheckJamIsAllowed -= CanPerformJam;
             HostShip.OnCheckFaceupCrit += FlipCrits;
+        }
+
+        private void CheckAbility(GenericShip ship, ref bool flag)
+        {
+            flag = true;
         }
 
         private void FlipCrits(ref bool result)
@@ -123,6 +130,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterRepositionTrigger(GenericShip ship)
         {
+            // Always register
             RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToPerformReposition);
         }
 

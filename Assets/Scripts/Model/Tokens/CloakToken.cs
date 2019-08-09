@@ -2,6 +2,7 @@
 using Editions;
 using Ship;
 using SubPhases;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,13 +26,21 @@ namespace Tokens
             Host.ChangeAgilityBy(+2);
             Host.OnTryPerformAttack += CannotAttackWhileCloaked;
             Host.OnSystemsAbilityActivation += RegisterAskDecloak;
+            Host.OnCheckSystemsAbilityActivation += CheckDecloak;
 
             Host.ToggleIonized(true);
             Host.ToggleCloaked(true);
         }
 
+        private void CheckDecloak(GenericShip ship, ref bool flag)
+        {
+            flag = true;
+        }
+
         private void RegisterAskDecloak(GenericShip ship)
         {
+            // Always register
+
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Decloak",
@@ -70,6 +79,7 @@ namespace Tokens
             Host.OnTryPerformAttack -= CannotAttackWhileCloaked;
             Host.OnActivationPhaseStart -= RegisterAskDecloak;
             Host.OnSystemsAbilityActivation -= RegisterAskDecloak;
+            Host.OnCheckSystemsAbilityActivation -= CheckDecloak;
 
             Host.ToggleIonized(false);
             Host.ToggleCloaked(false);

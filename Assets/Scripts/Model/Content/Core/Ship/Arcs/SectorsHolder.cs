@@ -54,13 +54,20 @@ namespace Ship
 
         public bool IsShipInSector(GenericShip anotherShip, ArcType arcType)
         {
-            GenericArc arc = Arcs.First(n => n.ArcType == arcType);
-            ShotInfoArc arcInfo = new ShotInfoArc(HostShip, anotherShip, arc);
+            GenericArc arc = Arcs.FirstOrDefault(n => n.ArcType == arcType);
+            if (arc != null)
+            {
+                ShotInfoArc arcInfo = new ShotInfoArc(HostShip, anotherShip, arc);
 
-            bool result = arcInfo.IsShotAvailable;
-            if (arcType == ArcType.Bullseye) HostShip.CallOnBullseyeArcCheck(anotherShip, ref result);
+                bool result = arcInfo.IsShotAvailable;
+                if (arcType == ArcType.Bullseye) HostShip.CallOnBullseyeArcCheck(anotherShip, ref result);
 
-            return result;
+                return result;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public int RangeToShipBySector(GenericShip anotherShip, ArcType arcType)

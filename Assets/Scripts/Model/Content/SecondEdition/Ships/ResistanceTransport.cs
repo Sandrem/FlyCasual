@@ -44,7 +44,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                 "Resistance Transport",
                 "Default",
                 new Vector3(-3.7f, 8f, 5.55f),
-                1.75f
+                2.5f
             );
 
             DialInfo = new ShipDialInfo(

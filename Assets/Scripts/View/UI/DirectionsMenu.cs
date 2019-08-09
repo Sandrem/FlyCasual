@@ -19,7 +19,7 @@ public static class DirectionsMenu
 
     private static GameObject DirectionsWindow;
 
-    public static void Show(Action<string> doWithSelectedManeuver, Action callback, Func<string, bool> filter = null)
+    public static void Show(Action<string> doWithSelectedManeuver, Action callback, Func<string, bool> filter = null, bool isRegularPlanning = false)
     {
         PrepareSubphase(doWithSelectedManeuver, callback);
 
@@ -43,7 +43,7 @@ public static class DirectionsMenu
 
         Phases.CurrentSubPhase.IsReadyForCommands = true;
 
-        Selection.ThisShip.Owner.AskAssignManeuver();
+        if (isRegularPlanning) Selection.ThisShip.Owner.AskAssignManeuver();
     }
 
     public static void ShowForAll(Action<string> doWithSelectedManeuver, Action callback, Func<string, bool> filter = null)

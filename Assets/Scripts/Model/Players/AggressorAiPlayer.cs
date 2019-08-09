@@ -44,7 +44,7 @@ namespace Players
             }
             else
             {
-                Phases.CurrentSubPhase.Next();
+                GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
             }
         }
 

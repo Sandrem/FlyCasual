@@ -809,7 +809,7 @@ namespace Abilities
                     Vector2 dockingRange = ship.GetDockingRange(HostShip);
                     if (dockingRange.x <= distInfo.Range && distInfo.Range <= dockingRange.y)
                     {
-                        ship.OnSystemsAbilityActivation += PrepareAskToDock;
+                        PrepareAskToDock(ship);
                     }
                 }
             }
@@ -817,8 +817,6 @@ namespace Abilities
 
         private void PrepareAskToDock(GenericShip ship)
         {
-            ship.OnSystemsAbilityActivation -= PrepareAskToDock;
-
             Triggers.RegisterTrigger(
                 new Trigger()
                 {

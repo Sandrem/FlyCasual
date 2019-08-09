@@ -56,6 +56,9 @@ namespace Abilities.SecondEdition
             // Remove this action from their action choices.
             HostShip.OnGenerateActions -= AddAction;
             cloakingDeviceActionEnabled = false;
+
+            //Deactvate forced decloak checks
+            Phases.Events.OnPlanningPhaseStart -= RegisterDecloakChance;
         }
 
         protected void AddAction(GenericShip ship)

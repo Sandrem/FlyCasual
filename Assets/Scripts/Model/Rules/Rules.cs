@@ -30,6 +30,7 @@ public static class Rules
     public static ForceRule Force { get; private set; }
     public static ChargeRule Charge { get; private set; }
     public static DestructionRule Destruction { get; private set; }
+    public static RemotesRule Remotes { get; private set; }
 
     public static FuseRule Fuse { get; private set; }
 
@@ -61,6 +62,7 @@ public static class Rules
         Charge = new ChargeRule();
         Destruction = new DestructionRule();
         Fuse = new FuseRule();
+        Remotes = new RemotesRule();
     }
 
     public static void FinishGame()

@@ -70,6 +70,7 @@ public static class ShipFactory {
         remote.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
         remote.OnShipIsRemoved += Rules.Destruction.WhenShipIsRemoved;
 
+        remote.BeforeTokenIsAssigned += Rules.Remotes.AllowOnlyLocks;
         remote.OnTokenIsAssigned += Roster.UpdateTokensIndicator;
         remote.OnTokenIsRemoved += Roster.UpdateTokensIndicator;
         remote.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;

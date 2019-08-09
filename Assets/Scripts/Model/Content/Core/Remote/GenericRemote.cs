@@ -33,6 +33,8 @@ namespace Remote
 
             ActivatePilotAbilities();
 
+            Board.RegisterRemote(this);
+
             Roster.AddShipToLists(this);
         }
 

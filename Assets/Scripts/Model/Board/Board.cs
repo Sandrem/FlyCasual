@@ -26,7 +26,7 @@ namespace BoardTools
             foreach (var ship in Roster.GetPlayer(Players.PlayerNo.Player1).Ships.Values)
             {
                 SetShipPreSetup(ship, i);
-                RegisterBoardObject(ship);
+                RegisterShip(ship);
                 i++;
             }
 
@@ -34,16 +34,21 @@ namespace BoardTools
             foreach (var ship in Roster.GetPlayer(Players.PlayerNo.Player2).Ships.Values)
             {
                 SetShipPreSetup(ship, i);
-                RegisterBoardObject(ship);
+                RegisterShip(ship);
                 i++;
             }
         }
 
-        private static void RegisterBoardObject(GenericShip ship)
+        private static void RegisterShip(GenericShip ship)
         {
             Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider").GetComponent<MeshCollider>());
             Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ObstaclesHitsDetector").GetComponent<BoxCollider>());
             Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<MeshCollider>());
+        }
+
+        public static void RegisterRemote(GenericShip ship)
+        {
+            Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/model/RemoteCollider").GetComponent<MeshCollider>());
         }
 
         public static void RegisterObstacle(GenericObstacle obstacle)

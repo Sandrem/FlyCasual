@@ -92,6 +92,7 @@ namespace RulesList
             // OLD
             if (Editions.Edition.Current is Editions.SecondEdition)
             {
+                hostShip.OnCheckSystemsAbilityActivation += CheckUndockAvailability;
                 hostShip.OnSystemsAbilityActivation += RegisterAskUndockSE;
             }
             else
@@ -101,9 +102,17 @@ namespace RulesList
             
         }
 
+        private void CheckUndockAvailability(GenericShip ship, ref bool flag)
+        {
+            if (ship.CheckCanReleaseDockedShipRegular()) flag = true;
+        }
+
         private void RegisterAskUndockSE(GenericShip ship)
         {
-            RegisterAskUndock(ship, TriggerTypes.OnSystemsAbilityActivation);
+            if (ship.CheckCanReleaseDockedShipRegular())
+            {
+                RegisterAskUndock(ship, TriggerTypes.OnSystemsAbilityActivation);
+            }
         }
 
         private void RegisterAskUndockFE(GenericShip ship)
@@ -115,8 +124,7 @@ namespace RulesList
         {
             if (BoardTools.Board.IsOffTheBoard(ship)) return;
 
-            bool canUndock = true;
-            ship.CallCanReleaseDockedShipRegular(ref canUndock);
+            bool canUndock = ship.CheckCanReleaseDockedShipRegular();
             if (canUndock)
             {
                 Triggers.RegisterTrigger(new Trigger()
@@ -184,6 +192,7 @@ namespace RulesList
             if (Editions.Edition.Current is Editions.SecondEdition)
             {
                 hostShip.OnSystemsAbilityActivation -= RegisterAskUndockSE;
+                hostShip.OnCheckSystemsAbilityActivation -= CheckUndockAvailability;
             }
             else
             {
@@ -317,15 +326,18 @@ namespace RulesList
 
         private void AfterUndockingManeuverIsFinished()
         {
-            Triggers.RegisterTrigger(
-                new Trigger()
-                {
-                    Name = "Action after Undocking",
-                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
-                    TriggerType = TriggerTypes.OnFreeAction,
-                    EventHandler = PerformFreeAction
-                }
-            );
+            if (!Selection.ThisShip.IsDestroyed)
+            {
+                Triggers.RegisterTrigger(
+                    new Trigger()
+                    {
+                        Name = "Action after Undocking",
+                        TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnFreeAction,
+                        EventHandler = PerformFreeAction
+                    }
+                );
+            }
 
             Triggers.ResolveTriggers(
                 TriggerTypes.OnFreeAction,

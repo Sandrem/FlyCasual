@@ -278,9 +278,11 @@ namespace Ship
             if (OnAiGetDiceModificationPriority != null) OnAiGetDiceModificationPriority(diceModification, ref priority);
         }
 
-        public void CallCanReleaseDockedShipRegular(ref bool canRelease)
+        public bool CheckCanReleaseDockedShipRegular()
         {
-            if (OnCanReleaseDockedShipRegular != null) OnCanReleaseDockedShipRegular(ref canRelease);
+            bool canRelease = true;
+            OnCanReleaseDockedShipRegular?.Invoke(ref canRelease);
+            return canRelease;
         }
 
         public void CallOffTheBoard(ref bool shouldDestroyShip, Direction direction)

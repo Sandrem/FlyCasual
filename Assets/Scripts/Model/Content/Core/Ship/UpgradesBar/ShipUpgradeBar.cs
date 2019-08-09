@@ -45,7 +45,22 @@ namespace Upgrade
         public void RemoveSlot(UpgradeType upgradeType, object grantedBy = null)
         {
             UpgradeSlot slot = UpgradeSlots.Find(n => (n.Type == upgradeType) && (n.GrantedBy == grantedBy));
-            if (slot != null) UpgradeSlots.Remove(slot);
+            if (slot != null)
+            {
+                if (slot.InstalledUpgrade != null)
+                {
+                    if (slot.InstalledUpgrade is EmptyUpgrade)
+                    {
+                        UpgradeSlot realUpgradeSlot = UpgradeSlots.Find(n => (n.InstalledUpgrade != null) && (n.InstalledUpgrade.UpgradeInfo.Name == slot.InstalledUpgrade.UpgradeInfo.Name) && (!(n.InstalledUpgrade is EmptyUpgrade)));
+                        realUpgradeSlot.RemovePreInstallUpgrade();
+                    }
+                    else
+                    {
+                        slot.RemovePreInstallUpgrade();
+                    }
+                }
+                UpgradeSlots.Remove(slot);
+            }
         }
 
         public void RemoveEmptySlot(UpgradeType upgradeType, object grantedBy = null)

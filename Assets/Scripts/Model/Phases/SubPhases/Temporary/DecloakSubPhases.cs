@@ -195,13 +195,114 @@ namespace SubPhases
             TemporaryShipBase.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
             TemporaryShipBase.transform.rotation = newBase.rotation;
 
+            GameManagerScript.Instance.StartCoroutine(
+                CheckCollisionsOfTemporaryBoostElements(FinishBoost)
+            );
+        }
+
+        protected IEnumerator CheckCollisionsOfTemporaryBoostElements(Action callback)
+        {
+            BarrelRollProblems.Clear();
+
             ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate = TheShip.GetBoosterHelper().Find(SelectedBoostHelper).GetComponentInChildren<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorMovementTemplate.TheShip = TheShip;
 
-            // TODO: Check collisions
+            TemporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
+            ObstaclesStayDetectorForced obstaclesStayDetectorNewBase = TemporaryShipBase.GetComponentInChildren<ObstaclesStayDetectorForced>();
 
-            // TODO: Check boost problems and mines
+            yield return CheckBoostTemplate(obstaclesStayDetectorMovementTemplate);
 
+            yield return CheckBoostTemplate(obstaclesStayDetectorNewBase);
+
+            if (!IsBoostTemplateColliderDataAllowed(obstaclesStayDetectorMovementTemplate) || !IsBoostTemplateNewBaseDataAllowed(obstaclesStayDetectorNewBase))
+            {
+                CancelBoost();
+            }
+            else
+            {
+                callback();
+            }
+        }
+
+        private void CancelBoost()
+        {
+            HidePlanningTemplates();
+
+            ShowInformationAboutBoostProblems();
+
+            GameModeCancelBoost();
+        }
+
+        protected virtual void GameModeCancelBoost()
+        {
+            //GameMode.CurrentGameMode.CancelBoost(BarrelRollProblems);
+
+            if (HostAction == null) HostAction = new BoostAction() { HostShip = TheShip };
+            Rules.Actions.ActionIsFailed(TheShip, HostAction, BarrelRollProblems);
+        }
+
+        private void ShowInformationAboutBoostProblems()
+        {
+            foreach (var problem in BarrelRollProblems)
+            {
+                switch (problem)
+                {
+                    case ActionFailReason.Bumped:
+                        Messages.ShowError("Boost would cause this ship to overlap another ship");
+                        break;
+                    case ActionFailReason.OffTheBoard:
+                        Messages.ShowError("Boost would cause this ship to leave the battlefield");
+                        break;
+                    case ActionFailReason.ObstacleHit:
+                        Messages.ShowError("Boost would cause this ship to overlap an obstacle");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private bool IsBoostTemplateColliderDataAllowed(ObstaclesStayDetectorForced collider)
+        {
+            if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBarrelRoll && !IsTractorBeamBarrelRoll && collider.OverlapsAsteroidNow)
+            {
+                BarrelRollProblems.Add(ActionFailReason.ObstacleHit);
+            }
+            else if (collider.OffTheBoardNow)
+            {
+                BarrelRollProblems.Add(ActionFailReason.OffTheBoard);
+            }
+
+            return BarrelRollProblems.Count == 0;
+        }
+
+        private bool IsBoostTemplateNewBaseDataAllowed(ObstaclesStayDetectorForced collider)
+        {
+            if (collider.OverlapsShipNow)
+            {
+                BarrelRollProblems.Add(ActionFailReason.Bumped);
+            }
+            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBarrelRoll && !IsTractorBeamBarrelRoll && collider.OverlapsAsteroidNow)
+            {
+                BarrelRollProblems.Add(ActionFailReason.ObstacleHit);
+            }
+            else if (collider.OffTheBoardNow)
+            {
+                BarrelRollProblems.Add(ActionFailReason.OffTheBoard);
+            }
+
+            return BarrelRollProblems.Count == 0;
+        }
+
+        private IEnumerator CheckBoostTemplate(ObstaclesStayDetectorForced obstaclesStayDetectorMovementTemplate)
+        {
+            obstaclesStayDetectorMovementTemplate.ReCheckCollisionsStart();
+
+            yield return Tools.WaitForFrames(3);
+        }
+
+        private void FinishBoost()
+        {
             HidePlanningTemplates();
 
             GameMode.CurrentGameMode.StartDecloakExecution(Selection.ThisShip);

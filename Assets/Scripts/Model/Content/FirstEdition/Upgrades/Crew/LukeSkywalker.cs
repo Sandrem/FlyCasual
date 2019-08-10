@@ -58,10 +58,10 @@ namespace Abilities.FirstEdition
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                HostShip.IsCannotAttackSecondTime = true;
-
                 HostShip.OnGenerateDiceModifications += AddLukeSkywalkerCrewAbility;
                 Phases.Events.OnCombatPhaseEnd_NoTriggers += RemoveLukeSkywalkerCrewAbility;
+
+                HostShip.IsCannotAttackSecondTime = true;
 
                 Combat.StartSelectAttackTarget(
                     HostShip,
@@ -83,6 +83,9 @@ namespace Abilities.FirstEdition
         {
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             HostShip.IsAttackPerformed = true;
+
+            //if bonus attack was skipped, allow bonus attacks again
+            if (HostShip.IsAttackSkipped) HostShip.IsCannotAttackSecondTime = false;
 
             Triggers.FinishTrigger();
         }

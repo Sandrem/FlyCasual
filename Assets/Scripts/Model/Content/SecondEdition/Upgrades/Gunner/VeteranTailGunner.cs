@@ -80,6 +80,9 @@ namespace Abilities.SecondEdition
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             HostShip.IsAttackPerformed = true;
 
+            //if bonus attack was skipped, allow bonus attacks again
+            if (HostShip.IsAttackSkipped) HostShip.IsCannotAttackSecondTime = false;
+
             Triggers.FinishTrigger();
         }
 

@@ -79,7 +79,12 @@ namespace Abilities.FirstEdition
 
                 Combat.StartSelectAttackTarget(
                     HostShip.DockingHost,
-                    Triggers.FinishTrigger,
+                    delegate {
+                        HostShip.DockingHost.IsAttackPerformed = true;
+                        //if bonus attack was skipped, allow bonus attacks again
+                        if (HostShip.DockingHost.IsAttackSkipped) HostShip.DockingHost.IsCannotAttackSecondTime = false;
+                        Triggers.FinishTrigger();
+                    },
                     IsTurretAttack,
                     HostUpgrade.UpgradeInfo.Name,
                     "You may perform additional turret attack",

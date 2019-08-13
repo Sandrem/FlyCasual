@@ -1144,6 +1144,9 @@ namespace SquadBuilderNS
                 case "mod":
                     result = UpgradeType.Modification;
                     break;
+                case "tacticalrelay":
+                    result = UpgradeType.TacticalRelay;
+                    break;
                 default:
                     string capitalizedName = upgradeXws.First().ToString().ToUpper() + upgradeXws.Substring(1);
                     result = (UpgradeType)Enum.Parse(typeof(UpgradeType), capitalizedName);

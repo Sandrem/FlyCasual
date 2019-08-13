@@ -1,4 +1,5 @@
-﻿using BoardTools;
+﻿using ActionsList;
+using BoardTools;
 using Ship;
 using System;
 using System.Linq;
@@ -16,10 +17,9 @@ namespace UpgradesList.FirstEdition
                 cost: 2,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
-                    // Hacking the range to remove this as a possible weapon when ability
-                    // is not triggered
-                    minRange: 0,
-                    maxRange: 0
+                    // Hacking the range to remove this as a possible weapon when ability is not triggered
+                    minRange: -1,
+                    maxRange: -1
                 ),
                 abilityType: typeof(Abilities.FirstEdition.SnapShotAbility)
             );
@@ -52,26 +52,40 @@ namespace Abilities.FirstEdition
 
         private void AddSnapShotRestriction()
         {
-            GenericShip ship;
-            if (Combat.Attacker.ShipId == HostShip.ShipId && Combat.ChosenWeapon is UpgradesList.FirstEdition.SnapShot)
+            if (Combat.Attacker.ShipId == HostShip.ShipId && Combat.ChosenWeapon.GetType() == HostUpgrade.GetType())
             {
-                ship = Combat.Attacker;
+                Combat.Attacker.OnTryAddAvailableDiceModification += SnapShotRestrictionForAttacker;
+                Combat.Attacker.OnAttackFinish += RemoveSnapShotRestrictionForAttacker;
 
-                ship.OnTryAddAvailableDiceModification += UseSnapShotRestriction;
-                ship.OnAttackFinish += RemoveSnapShotRestriction;
+                Combat.Defender.OnTryAddAvailableDiceModification += SnapShotRestrictionForDefender;
+                Combat.Defender.OnAttackFinish += RemoveSnapShotRestrictionForDefender;
             }
         }
 
-        private void UseSnapShotRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
+        protected virtual void SnapShotRestrictionForDefender(GenericShip ship, GenericAction action, ref bool data)
         {
-            Messages.ShowErrorToHuman("Snap Shot: The target is unable to modify dice");
-            canBeUsed = false;
+            // Do nothing
         }
 
-        private void RemoveSnapShotRestriction(GenericShip ship)
+        protected virtual void SnapShotRestrictionForAttacker(GenericShip ship, GenericAction action, ref bool canBeUsed)
         {
-            ship.OnTryAddAvailableDiceModification -= UseSnapShotRestriction;
-            ship.OnAttackFinish -= RemoveSnapShotRestriction;
+            if (action.DiceModificationTiming != DiceModificationTimingType.Opposite)
+            {
+                Messages.ShowErrorToHuman("Snap Shot: You cannot modify your attack dice");
+                canBeUsed = false;
+            }
+        }
+
+        private void RemoveSnapShotRestrictionForDefender(GenericShip ship)
+        {
+            ship.OnTryAddAvailableDiceModification -= SnapShotRestrictionForDefender;
+            ship.OnAttackFinish -= RemoveSnapShotRestrictionForDefender;
+        }
+
+        private void RemoveSnapShotRestrictionForAttacker(GenericShip ship)
+        {
+            ship.OnTryAddAvailableDiceModification -= SnapShotRestrictionForAttacker;
+            ship.OnAttackFinish -= RemoveSnapShotRestrictionForAttacker;
         }
 
         private void CleanUpSnapShotAbility()
@@ -82,9 +96,7 @@ namespace Abilities.FirstEdition
             HostShip.IsAttackSkipped = false;
             HostShip.IsCannotAttackSecondTime = false;
 
-            // TODOREVERT
-            /*((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MaxRange = 0;
-            ((UpgradesList.FirstEdition.SnapShot)HostUpgrade).MinRange = 0;*/
+            DisableWeaponRange();
         }
 
         public void AfterSnapShotAttackSubPhase()
@@ -98,31 +110,56 @@ namespace Abilities.FirstEdition
             Triggers.FinishTrigger();
         }
 
+        protected virtual void EnableWeaponRange()
+        {
+            (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = 1;
+            (HostUpgrade as IShipWeapon).WeaponInfo.MinRange = 1;
+        }
 
-        //Based on Dengar counterattack
+        private void DisableWeaponRange()
+        {
+            (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = -1;
+            (HostUpgrade as IShipWeapon).WeaponInfo.MinRange = -1;
+        }
+
         private void CheckSnapShotAbility(GenericShip ship)
         {
             if (!IsAbilityUsed && ship.Owner.PlayerNo != HostShip.Owner.PlayerNo)
             {
-                ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, ((UpgradesList.FirstEdition.SnapShot)HostUpgrade));
+                snapShotTarget = ship;
 
-                if (shotInfo.InArc && shotInfo.Range <= 1)
+                EnableWeaponRange();
+                ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, (HostUpgrade as IShipWeapon));
+
+                if (shotInfo.IsShotAvailable)
                 {
-                    snapShotTarget = ship;
                     RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskSnapShotAbility);
+                }
+                else
+                {
+                    DisableWeaponRange();
                 }
             }
         }
 
         private void AskSnapShotAbility(object sender, System.EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             AskToUseAbility(
                 HostUpgrade.UpgradeInfo.Name,
                 AlwaysUseByDefault,
                 PerformSnapShot,
+                dontUseAbility: CancelSnapShot,
                 descriptionLong: "Do you want to perform \"Snap Shot\" attack against " + snapShotTarget.PilotInfo.PilotName + "?",
                 imageHolder: HostUpgrade
             );
+        }
+
+        private void CancelSnapShot(object sender, EventArgs e)
+        {
+            DisableWeaponRange();
+            SubPhases.DecisionSubPhase.ConfirmDecision();
         }
 
         private bool SnapShotAttackFilter(GenericShip defender, IShipWeapon weapon, bool isSilent)
@@ -137,7 +174,7 @@ namespace Abilities.FirstEdition
             else if (!(weapon.GetType() == HostUpgrade.GetType()))
             {
                 if (!isSilent) Messages.ShowErrorToHuman(
-                                    string.Format("This attack must use's Snap Shot's attack dice"));
+                                    string.Format("This attack must be Snap Shot attack"));
                 result = false;
             }
 
@@ -160,7 +197,7 @@ namespace Abilities.FirstEdition
                     AfterSnapShotAttackSubPhase,
                     SnapShotAttackFilter,
                     HostUpgrade.UpgradeInfo.Name,
-                    "You may perform an additional attack against " + snapShotTarget.PilotInfo.PilotName,
+                    "You may perform a bonus Snap Shot attack against " + snapShotTarget.PilotInfo.PilotName,
                     HostUpgrade
                 );
             }

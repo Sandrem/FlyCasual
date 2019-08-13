@@ -559,6 +559,7 @@ public static partial class Combat
             {
                 ship.CallAfterAttackWindow();
                 Phases.FinishSubPhase(typeof(SelectTargetForAttackSubPhase));
+                CameraScript.RestoreCamera();
                 callback();
             }
         );

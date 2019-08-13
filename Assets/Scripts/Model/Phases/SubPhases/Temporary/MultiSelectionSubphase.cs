@@ -38,6 +38,8 @@ namespace SubPhases
                 ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
                 UI.ShowNextButton();
 
+                CameraScript.RestoreCamera();
+
                 IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).SelectShipsForAbility();
             }
@@ -127,6 +129,8 @@ namespace SubPhases
 
         public override void Next()
         {
+            Selection.HideMultiSelectionHighlight();
+
             WhenDone(FinishSubPhase);
         }
 

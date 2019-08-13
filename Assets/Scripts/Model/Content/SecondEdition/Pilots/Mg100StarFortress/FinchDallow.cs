@@ -118,6 +118,8 @@ namespace SubPhases
 
             CreateBombObject(Selection.ThisShip.GetPosition(), Selection.ThisShip.GetRotation());
 
+            CameraScript.RestoreCamera();
+
             StartDrag();
         }
 

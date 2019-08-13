@@ -56,6 +56,8 @@ namespace SubPhases
             // If not skipped
             if (Phases.CurrentSubPhase == this)
             {
+                CameraScript.RestoreCamera();
+
                 IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
             }

@@ -94,7 +94,10 @@ namespace Abilities.SecondEdition
         private void FinishAdditionalAttack()
         {
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
-            HostShip.IsAttackPerformed = true;
+            HostShip.DockingHost.IsAttackPerformed = true;
+
+            //if bonus attack was skipped, allow bonus attacks again
+            if (HostShip.DockingHost.IsAttackSkipped) HostShip.DockingHost.IsCannotAttackSecondTime = false;
 
             Triggers.FinishTrigger();
         }

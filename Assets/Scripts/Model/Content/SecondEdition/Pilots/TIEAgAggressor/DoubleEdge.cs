@@ -87,7 +87,6 @@ namespace Abilities.SecondEdition
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                //HACK set this here bc the bonus attack might use a weapon that grants another bonus attack (ex. Cluster Missiles)
                 HostShip.IsCannotAttackSecondTime = true;
 
                 Combat.StartSelectAttackTarget(

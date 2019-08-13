@@ -107,6 +107,8 @@ namespace Abilities.SecondEdition
         {
             // Restore previous value of "is already attacked" flag
             HostShip.IsAttackPerformed = performedRegularAttack;
+            //if bonus attack was skipped, allow bonus attacks again
+            if (HostShip.IsAttackSkipped) HostShip.IsCannotAttackSecondTime = false;
             Triggers.FinishTrigger();
         }
     }

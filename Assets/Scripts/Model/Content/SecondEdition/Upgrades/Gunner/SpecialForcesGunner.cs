@@ -72,11 +72,14 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + "'s bonus attack");
 
+            HostShip.IsCannotAttackSecondTime = true;
+
             Combat.StartSelectAttackTarget(
                 HostShip,
                 delegate {
                     Selection.ThisShip.IsAttackPerformed = true;
-                    if (!Selection.ThisShip.IsAttackSkipped) Selection.ThisShip.IsCannotAttackSecondTime = true;
+                    //if bonus attack was skipped, allow bonus attacks again
+                    if (Selection.ThisShip.IsAttackSkipped) Selection.ThisShip.IsCannotAttackSecondTime = false;
                     Triggers.FinishTrigger();
                 },
                 IsPrimaryTurretAttack,

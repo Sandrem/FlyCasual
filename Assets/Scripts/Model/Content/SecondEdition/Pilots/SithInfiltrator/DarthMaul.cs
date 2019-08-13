@@ -141,6 +141,9 @@ namespace Abilities.SecondEdition
                 HostShip.IsAttackPerformed = true;
             }
 
+            //if bonus attack was skipped, allow bonus attacks again
+            if (HostShip.IsAttackSkipped) HostShip.IsCannotAttackSecondTime = false;
+
             Triggers.FinishTrigger();
         }
     }

@@ -69,6 +69,8 @@ namespace Abilities.SecondEdition
 
         private void UseBosskAbility(object sender, System.EventArgs e)
         {
+            HostShip.IsCannotAttackSecondTime = true;
+
             Combat.StartSelectAttackTarget(
                 HostShip,
                 Cleanup,
@@ -83,7 +85,9 @@ namespace Abilities.SecondEdition
         private void Cleanup()
         {
             theShipAttacked = null;
-            HostShip.IsCannotAttackSecondTime = true;
+            HostShip.IsAttackPerformed = true;
+            //if bonus attack was skipped, allow bonus attacks again
+            if (HostShip.IsAttackSkipped) HostShip.IsCannotAttackSecondTime = false;
             Triggers.FinishTrigger();
         }
 

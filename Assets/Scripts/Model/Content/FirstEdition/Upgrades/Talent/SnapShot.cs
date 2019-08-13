@@ -90,6 +90,8 @@ namespace Abilities.FirstEdition
         public void AfterSnapShotAttackSubPhase()
         {
             HostShip.IsAttackPerformed = true;
+            //if bonus attack was skipped, allow bonus attacks again
+            if (HostShip.IsAttackSkipped) HostShip.IsCannotAttackSecondTime = false;
             HostShip.OnAttackFinishAsAttacker -= SetIsAbilityIsUsed;
             Selection.ChangeActiveShip(snapShotTarget);
             Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());

@@ -100,6 +100,8 @@ namespace Abilities.SecondEdition
 
                 Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform a second Cluster Missiles attack");
 
+                HostShip.IsCannotAttackSecondTime = true;
+
                 Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishAdditionalAttack,
@@ -155,7 +157,8 @@ namespace Abilities.SecondEdition
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             Selection.ThisShip.IsAttackPerformed = true;
 
-            if (!Selection.ThisShip.IsAttackSkipped) Selection.ThisShip.IsCannotAttackSecondTime = true;
+            //if bonus attack was skipped, allow bonus attacks again
+            if (Selection.ThisShip.IsAttackSkipped) Selection.ThisShip.IsCannotAttackSecondTime = false;
 
             Triggers.FinishTrigger();
         }

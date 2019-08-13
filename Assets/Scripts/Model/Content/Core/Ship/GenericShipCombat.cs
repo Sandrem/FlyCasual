@@ -899,11 +899,14 @@ namespace Ship
                 return;
             }
 
+            IsCannotAttackSecondTime = true;
+
             Combat.StartSelectAttackTarget(
 				this,
 				delegate
                 {
-                    if (!this.IsAttackSkipped) IsCannotAttackSecondTime = true;
+                    //if bonus attack was skipped, allow bonus attacks again
+                    if (IsAttackSkipped) IsCannotAttackSecondTime = false;
                     callback();
                 },
 				bonusAttackFilter,

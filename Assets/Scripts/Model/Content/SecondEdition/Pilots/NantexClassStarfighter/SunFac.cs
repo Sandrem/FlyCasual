@@ -17,6 +17,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.SunFacAbility),
                     abilityText: "while you perform a primary attack, if the defender is tractored, roll 1 additional attack die."
                 );
+
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/57/9f/579f4d25-2f04-4463-8a15-465fcd7ee83e/swz47_cards-sun-fac.png";
             }
         }
     }

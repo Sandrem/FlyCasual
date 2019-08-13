@@ -91,6 +91,8 @@ namespace Abilities.FirstEdition
                 // Plan to set IsAbilityUsed only after attack that was successfully started
                 HostShip.OnAttackStartAsAttacker += MarkAbilityAsUsed;
 
+                HostShip.IsCannotAttackSecondTime = true;
+
                 Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishExtraAttack,
@@ -114,6 +116,9 @@ namespace Abilities.FirstEdition
 
             // Set IsAbilityUsed only after attack that was successfully started
             HostShip.OnAttackStartAsAttacker -= MarkAbilityAsUsed;
+
+            //if bonus attack was skipped, allow bonus attacks again
+            if (HostShip.IsAttackSkipped) HostShip.IsCannotAttackSecondTime = false;
 
             Triggers.FinishTrigger();
         }

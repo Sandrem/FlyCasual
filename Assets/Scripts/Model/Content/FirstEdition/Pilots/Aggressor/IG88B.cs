@@ -70,6 +70,8 @@ namespace Abilities.FirstEdition
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
+                HostShip.IsCannotAttackSecondTime = true;
+
                 Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishAdditionalAttack,
@@ -90,6 +92,9 @@ namespace Abilities.FirstEdition
         {
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             Selection.ThisShip.IsAttackPerformed = true;
+
+            //if bonus attack was skipped, allow bonus attacks again
+            if (Selection.ThisShip.IsAttackSkipped) Selection.ThisShip.IsCannotAttackSecondTime = false;
 
             Triggers.FinishTrigger();
         }

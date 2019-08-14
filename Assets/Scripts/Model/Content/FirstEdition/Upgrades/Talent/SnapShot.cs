@@ -151,6 +151,10 @@ namespace Abilities.FirstEdition
                 AlwaysUseByDefault,
                 PerformSnapShot,
                 dontUseAbility: CancelSnapShot,
+                callback: delegate {
+                    Selection.ChangeActiveShip(snapShotTarget);
+                    Triggers.FinishTrigger();
+                },
                 descriptionLong: "Do you want to perform \"Snap Shot\" attack against " + snapShotTarget.PilotInfo.PilotName + "?",
                 imageHolder: HostUpgrade
             );

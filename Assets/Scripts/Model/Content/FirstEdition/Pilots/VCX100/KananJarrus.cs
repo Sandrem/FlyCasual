@@ -50,7 +50,7 @@ namespace Abilities.FirstEdition
             }
         }
 
-        protected void AskDecreaseAttack(object sender, System.EventArgs e)
+        protected virtual void AskDecreaseAttack(object sender, System.EventArgs e)
         {
             AskToUseAbility(
                 HostShip.PilotInfo.PilotName,

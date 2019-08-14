@@ -32,14 +32,26 @@ namespace Abilities.SecondEdition
     {
         protected override void CheckPilotAbility()
         {
-            bool enemy = HostShip.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo;
+            bool friendly = HostShip.Owner.PlayerNo == Combat.Defender.Owner.PlayerNo;
             bool hasForceTokens = HostShip.State.Force > 0;
-            bool inArc = Board.IsShipInArc(HostShip, Combat.Attacker);
+            // according to the rules reference FAQ, a ship is never in its own arc
+            bool inArc = Board.IsShipInArc(HostShip, Combat.Defender) && HostShip != Combat.Defender;
 
-            if (enemy && hasForceTokens && inArc)
+            if (friendly && hasForceTokens && inArc)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskDecreaseAttack);
             }
+        }
+
+        protected override void AskDecreaseAttack(object sender, System.EventArgs e)
+        {
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                AlwaysUseByDefault,
+                DecreaseAttack,
+                descriptionLong: "Do you want to spend a force token? (If you do, the attacker rolls 1 fewer attack die)",
+                imageHolder: HostShip
+            );
         }
 
         protected override void DecreaseAttack(object sender, System.EventArgs e)

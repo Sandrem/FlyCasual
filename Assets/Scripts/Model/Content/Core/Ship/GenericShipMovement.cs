@@ -197,7 +197,7 @@ namespace Ship
                 TriggerTypes.OnMovementFinish,
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
-                    Selection.ThisShip.CallPositionIsReadyToFinish(callback);
+                    callback();
                 }
             );
         }

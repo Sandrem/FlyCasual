@@ -187,7 +187,9 @@ namespace Movement
         {
             MovementTemplates.HideLastMovementRuler();
 
-            Selection.ActiveShip.CallExecuteMoving(Triggers.FinishTrigger);
+            Selection.ActiveShip.CallPositionIsReadyToFinish(delegate {
+                Selection.ActiveShip.CallExecuteMoving(Triggers.FinishTrigger);
+            });
         }
 
         protected virtual void ManeuverEndRotation(Action callBack)

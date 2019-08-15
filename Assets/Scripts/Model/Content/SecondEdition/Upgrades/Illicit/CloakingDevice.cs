@@ -81,10 +81,10 @@ namespace Abilities.SecondEdition
             // Cloaking Device from your available actions while you're cloaked by it.
             HostUpgrade.State.LoseCharge();
             Selection.ThisShip.Tokens.AssignToken(typeof(CloakToken), Phases.CurrentSubPhase.CallBack);
-            
+
+            DeactivateAbility();
             Phases.Events.OnPlanningPhaseStart += RegisterDecloakChance;
             HostShip.OnDecloak += RemoveDecloakChance;
-            DeactivateAbility();
         }
 
         private void RegisterDecloakChance()
@@ -104,7 +104,6 @@ namespace Abilities.SecondEdition
             // planning phase, regardless of how we decloaked.  It also allows the ship to take the Cloaking Device action
             // again, as long as it has a charge.
             Phases.Events.OnPlanningPhaseStart -= RegisterDecloakChance;
-
             HostShip.OnDecloak -= RemoveDecloakChance;
             ActivateAbility();
         }

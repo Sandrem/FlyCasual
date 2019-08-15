@@ -36,7 +36,7 @@ namespace Abilities.SecondEdition
             HostShip.IsIgnoreObstaclesDuringBoost = true;
             HostShip.IsIgnoreObstaclesDuringBarrelRoll = true;
 
-            HostShip.OnPositionExecuted += TryRegisterAbility;
+            HostShip.OnPositionIsReadyToFinish += TryRegisterAbility;
         }
 
         public override void DeactivateAbility()
@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
             HostShip.IsIgnoreObstaclesDuringBoost = false;
             HostShip.IsIgnoreObstaclesDuringBarrelRoll = false;
 
-            HostShip.OnPositionExecuted -= TryRegisterAbility;
+            HostShip.OnPositionIsReadyToFinish -= TryRegisterAbility;
         }
 
         private void TryRegisterAbility(GenericShip ship)
@@ -54,7 +54,7 @@ namespace Abilities.SecondEdition
                 foreach (GenericObstacle obstacle in HostShip.ObstaclesHit)
                 {
                     ObstaclesHit.Add(obstacle);
-                    RegisterAbilityTrigger(TriggerTypes.OnPositionExecuted, ActivateCollisionDetectorAbility);
+                    RegisterAbilityTrigger(TriggerTypes.OnPositionIsReadyToFinish, ActivateCollisionDetectorAbility);
                 }
             }
         }

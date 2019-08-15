@@ -96,8 +96,8 @@ namespace Ship
         public static event EventHandlerShip OnMovementFinishGlobal;
         public static event EventHandlerShip OnMovementFinishSuccessfullyGlobal;
 
-        public event EventHandlerShip OnPositionExecuted;
-        public static event EventHandlerShip OnPositionExecutedGlobal;
+        public event EventHandlerShip OnPositionIsReadyToFinish;
+        public static event EventHandlerShip OnPositionIsReadyToFinishGlobal;
         public event EventHandlerShip OnPositionFinish;
         public static event EventHandlerShip OnPositionFinishGlobal;
 
@@ -197,26 +197,26 @@ namespace Ship
                 TriggerTypes.OnMovementFinish,
                 delegate () {
                     Roster.HideAssignedManeuverDial(this);
-                    Selection.ThisShip.ExecutePosition(callback);
+                    Selection.ThisShip.CallPositionIsReadyToFinish(callback);
                 }
             );
         }
 
-        public void ExecutePosition(System.Action callback)
+        public void CallPositionIsReadyToFinish(System.Action callback)
         {
-            if (OnPositionExecuted != null) OnPositionExecuted(this);
-            if (OnPositionExecutedGlobal != null) OnPositionExecutedGlobal(this);
+            if (OnPositionIsReadyToFinish != null) OnPositionIsReadyToFinish(this);
+            if (OnPositionIsReadyToFinishGlobal != null) OnPositionIsReadyToFinishGlobal(this);
 
             Triggers.ResolveTriggers(
-                TriggerTypes.OnPositionExecuted,
+                TriggerTypes.OnPositionIsReadyToFinish,
                 delegate ()
                 {
-                    Selection.ThisShip.FinishPosition(callback);
+                    Selection.ThisShip.CallFinishPosition(callback);
                 }
             );
         }
 
-        public void FinishPosition(System.Action callback)
+        public void CallFinishPosition(System.Action callback)
         {
             if (OnPositionFinish != null) OnPositionFinish(this);
             if (OnPositionFinishGlobal != null) OnPositionFinishGlobal(this);

@@ -36,7 +36,7 @@ namespace Abilities
         protected string Description;
         protected Func<GenericShip, IShipWeapon, bool, bool> ExtraAttackFilter;
 
-        protected void RegisterCorranHornAbility()
+        protected virtual void RegisterCorranHornAbility()
         {
             if (!HostShip.Tokens.HasToken(typeof(WeaponsDisabledToken)))
             {

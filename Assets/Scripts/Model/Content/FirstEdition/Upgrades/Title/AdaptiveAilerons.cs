@@ -101,7 +101,8 @@ namespace Abilities.FirstEdition
                     UseAbility,
                     DontUseAbility,
                     descriptionLong: "Do you want to skip activation of your Adaptive Ailerons?",
-                    imageHolder: HostShip
+                    imageHolder: HostShip,
+                    showSkipButton: false
                 );
             }
             else

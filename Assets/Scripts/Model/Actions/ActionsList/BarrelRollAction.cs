@@ -33,8 +33,7 @@ namespace ActionsList
 
         public override void RevertActionOnFail(bool hasSecondChance = false)
         {
-            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-            Phases.CurrentSubPhase.Resume();
+            Phases.GoBack();
         }
 
     }

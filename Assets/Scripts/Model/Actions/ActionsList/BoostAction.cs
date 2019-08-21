@@ -48,9 +48,7 @@ namespace ActionsList
         public override void RevertActionOnFail(bool hasSecondChance = false)
         {
             SelectedBoostTemplate = null;
-            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-            if (Phases.CurrentSubPhase is SubPhases.DecisionSubPhase) (Phases.CurrentSubPhase as SubPhases.DecisionSubPhase).IsForced = false;
-            Phases.CurrentSubPhase.Resume();
+            Phases.GoBack();
         }
     }
 

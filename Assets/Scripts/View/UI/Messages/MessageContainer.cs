@@ -9,14 +9,17 @@ public class MessageContainer : MonoBehaviour {
     private Vector3 targetPosition;
     private const float MOVE_SPEED = 100;
     private bool doomed = false;
+    private float preferredHeight = 0;
 
     // Use this for initialization
     void Start() {
         
     }
 
-    public void Initialize(string text, MessageType type)
+    public float Initialize(string text, MessageType type)
     {
+        transform.gameObject.name = text;
+
         targetPosition = new Vector3(transform.position.x, 5, transform.position.z);
         transform.Find("MessageText").GetComponent<Text>().text = text;
         switch (type)
@@ -30,6 +33,15 @@ public class MessageContainer : MonoBehaviour {
             default:
                 break;
         }
+
+        preferredHeight = transform.Find("MessageText").GetComponent<Text>().preferredHeight;
+        if (preferredHeight < 50f) preferredHeight = 50f;
+        preferredHeight += 20f;
+
+        transform.GetComponent<RectTransform>().sizeDelta = new Vector2(700f, preferredHeight);
+        transform.Find("MessageText").GetComponent<RectTransform>().sizeDelta = new Vector2(700f, preferredHeight);
+
+        return preferredHeight;
     }
 	
 	// Update is called once per frame
@@ -50,8 +62,8 @@ public class MessageContainer : MonoBehaviour {
         MonoBehaviour.Destroy(this.gameObject, delaySeconds);
     }
 
-    public void ShiftTargetPosition()
+    public void ShiftTargetPosition(float messageHeight)
     {
-        targetPosition = targetPosition + new Vector3(0, 85, 0);
+        targetPosition = targetPosition + new Vector3(0, messageHeight + 10f, 0);
     }
 }

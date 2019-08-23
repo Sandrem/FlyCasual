@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public enum MessageType
 {
@@ -11,7 +12,9 @@ public enum MessageType
 
 public static class Messages{
 
-    private static List<GameObject> allMessages = new List<GameObject>();
+    private static List<GameObject> AllMessages = new List<GameObject>();
+
+    private static readonly float FreeSpace = 10f;
 
     public static void ShowError(string text, bool allowCopies = false)
     {
@@ -43,31 +46,31 @@ public static class Messages{
     {
         if (!allowCopies)
         {
-            if (allMessages.LastOrDefault() != null && allMessages.LastOrDefault().name == text) return;
-        }
-
-        Vector2 startingPosition = new Vector3(0, -75, 0);
-
-        if (allMessages.Count != 0 && allMessages.Last() != null)
-        {
-            startingPosition = allMessages.Last().transform.localPosition + new Vector3(0, -85, 0);
-        }
-
-        foreach (var message in allMessages)
-        {
-            if (message != null)
-            {
-                message.GetComponent<MessageContainer>().ShiftTargetPosition();
-            }
+            if (AllMessages.LastOrDefault() != null && AllMessages.LastOrDefault().name == text) return;
         }
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/MessagePanel", typeof(GameObject));
         GameObject MessagePanelsHolder = GameObject.Find("UI/MessagesContainer/MessagePanels");
         GameObject Message = MonoBehaviour.Instantiate(prefab, MessagePanelsHolder.transform);
+        float messageHeight = Message.GetComponent<MessageContainer>().Initialize(text, type);
+
+        Vector2 startingPosition = new Vector3(0, -messageHeight, 0);
+
+        if (AllMessages.Count != 0 && AllMessages.Last() != null)
+        {
+            startingPosition = AllMessages.Last().transform.localPosition + new Vector3(0, -(messageHeight + FreeSpace), 0);
+        }
+
+        foreach (var message in AllMessages)
+        {
+            if (message != null)
+            {
+                message.GetComponent<MessageContainer>().ShiftTargetPosition(messageHeight);
+            }
+        }
+
         Message.transform.localPosition = startingPosition;
-        Message.name = text;
-        Message.GetComponent<MessageContainer>().Initialize(text, type);
-        allMessages.Add(Message);
+        AllMessages.Add(Message);
     }
 
 }

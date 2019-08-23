@@ -10,6 +10,7 @@ using Tokens;
 using System.Linq;
 using SubPhases;
 using Upgrade;
+using Arcs;
 
 namespace Actions
 {
@@ -426,17 +427,73 @@ public static partial class ActionsHolder
         DistanceInfo distanceInfo = new DistanceInfo(thisShip, anotherShip);
         MovementTemplates.ShowRangeRuler(distanceInfo.MinDistance);
 
-        int range = distanceInfo.Range;
-        if (range < 4)
+        string messageText = "Range to target: " + RangeInfoToText(distanceInfo) +
+            "\nRange in Front sector: " + ArcRangeInfoToText(thisShip.SectorsInfo.GetSectorInfo(anotherShip, ArcType.Front)) +
+            "\nRange in Bullseye sector: " + ArcRangeInfoToText(thisShip.SectorsInfo.GetSectorInfo(anotherShip, ArcType.Bullseye));
+
+        List<ArcType> mentionedFacings = new List<ArcType>() { ArcType.None, ArcType.Front };
+
+        foreach (GenericArc arc in thisShip.ArcsInfo.Arcs)
         {
-            Messages.ShowInfo("Range to target: " + range);
+            ArcType arcType = ArcToSector(arc);
+
+            if (!mentionedFacings.Contains(arcType))
+            {
+                messageText += "\nRange in " + arc.Facing.ToString() + " sector: " + ArcRangeInfoToText(thisShip.SectorsInfo.GetSectorInfo(anotherShip, arcType));
+                mentionedFacings.Add(arcType);
+            }
+        }
+
+        Messages.ShowInfo(messageText);
+        
+        return distanceInfo.Range;
+    }
+
+    private static ArcType ArcToSector(GenericArc arc)
+    {
+        switch (arc.Facing)
+        {
+            case ArcFacing.Front:
+                return ArcType.Front;
+            case ArcFacing.Left:
+                return ArcType.Left;
+            case ArcFacing.Right:
+                return ArcType.Right;
+            case ArcFacing.Rear:
+                return ArcType.Rear;
+            case ArcFacing.FullFront:
+                return ArcType.FullFront;
+            case ArcFacing.FullRear:
+                return ArcType.FullRear;
+            case ArcFacing.Bullseye:
+                return ArcType.Bullseye;
+            default:
+                return ArcType.None;
+        }
+    }
+
+    private static string RangeInfoToText(DistanceInfo info)
+    {
+        return (info.Range < 4) ? info.Range.ToString() : "Beyond range 3";
+    }
+
+    private static string ArcRangeInfoToText(ShotInfoArc info)
+    {
+        if (info.InArc)
+        {
+            if (info.Range < 4)
+            {
+                return info.Range.ToString();
+            }
+            else
+            {
+                return "Beyond range 3";
+            }
         }
         else
         {
-            Messages.ShowError("The target is beyond range 3");
+            return "Not in arc";
         }
-        
-        return distanceInfo.Range;
     }
 
     public static bool HasTarget(GenericShip thisShip)

@@ -35,7 +35,7 @@ namespace Abilities.FirstEdition
         private static readonly List<string> ChangedManeuversCodes = new List<string>() { "1.L.B", "1.F.S", "1.R.B" };
         private Dictionary<string, MovementComplexity> SavedManeuverColors;
 
-        bool doAilerons = true;
+        bool doAilerons = false;
 
         public override void ActivateAbility()
         {
@@ -97,10 +97,10 @@ namespace Abilities.FirstEdition
             {
                 AskToUseAbility(
                     HostShip.PilotInfo.PilotName,
-                    AlwaysUseByDefault,
-                    UseAbility,
-                    DontUseAbility,
-                    descriptionLong: "Do you want to skip activation of your Adaptive Ailerons?",
+                    NeverUseByDefault,
+                    UseAilerons,
+                    DontUseAilerons,
+                    descriptionLong: "Do you want to activate your Adaptive Ailerons?",
                     imageHolder: HostShip
                 );
             }
@@ -110,14 +110,14 @@ namespace Abilities.FirstEdition
             }
         }
 
-        private void UseAbility(object sender, EventArgs e)
+        private void DontUseAilerons(object sender, EventArgs e)
         {
-            doAilerons = false;
             DecisionSubPhase.ConfirmDecision();
         }
 
-        private void DontUseAbility(object sender, EventArgs e)
+        private void UseAilerons(object sender, EventArgs e)
         {
+            doAilerons = true;
             DecisionSubPhase.ConfirmDecisionNoCallback();
             SelectAdaptiveAileronsManeuver(sender, e);
         }

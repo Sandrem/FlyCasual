@@ -59,8 +59,9 @@ namespace Abilities.SecondEdition
             Roster.HighlightPlayer(HostShip.Owner.PlayerNo);
             Selection.ChangeActiveShip(HostShip);
             performedRegularAttack = HostShip.IsAttackPerformed;
-
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
+
+            CameraScript.RestoreCamera();
 
             HostShip.AskPerformFreeAction(
                 actions, 

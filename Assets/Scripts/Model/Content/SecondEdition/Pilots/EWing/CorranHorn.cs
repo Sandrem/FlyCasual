@@ -1,8 +1,6 @@
 ﻿using Arcs;
-using BoardTools;
 using Ship;
-using System.Collections;
-using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -37,21 +35,27 @@ namespace Abilities.SecondEdition
     {
         public CorranHornAbility()
         {
-            TriggerType = TriggerTypes.OnCombatPhaseEnd;
+            TriggerType = TriggerTypes.OnEngagementInitiativeChanged;
             Description = "You may perform a bonus bullseye primary attack\nGain 1 disarm token next round";
             ExtraAttackFilter = IsBullsEyePrimary;
         }
 
         public override void ActivateAbility()
         {
-            //This is technically not the correct timing, but works for now. The combat phase should be rewritten to allow 
-            //for abilities to add extra activations 
-            Phases.Events.OnCombatPhaseEnd_Triggers += RegisterCorranHornAbility;
+            Phases.Events.OnEngagementInitiativeChanged += RegisterCorranHornAbility;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnCombatPhaseEnd_Triggers -= RegisterCorranHornAbility;
+            Phases.Events.OnEngagementInitiativeChanged -= RegisterCorranHornAbility;
+        }
+
+        protected override void RegisterCorranHornAbility()
+        {
+            if (!HostShip.Tokens.HasToken(typeof(WeaponsDisabledToken)) && Phases.CurrentSubPhase.RequiredInitiative == 0)
+            {
+                RegisterAbilityTrigger(TriggerType, UseCorranHornAbility);
+            }
         }
 
         private bool IsBullsEyePrimary(GenericShip defender, IShipWeapon weapon, bool isSilent)

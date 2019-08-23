@@ -105,6 +105,7 @@ namespace SubPhases
 
         public override void PrepareDecision(System.Action callBack)
         {
+            decisions.Clear();
             DescriptionShort = "Perform Action step";
 
             ShowSkipButton = true;

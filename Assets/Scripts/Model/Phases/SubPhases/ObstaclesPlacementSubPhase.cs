@@ -439,7 +439,7 @@ namespace SubPhases
             JSONObject parameters = new JSONObject();
             parameters.AddField("name", obstacleName);
             parameters.AddField("positionX", position.x.ToString()); parameters.AddField("positionY", "0"); parameters.AddField("positionZ", position.z.ToString());
-            parameters.AddField("rotationX", angles.x.ToString()); parameters.AddField("rotationY", "0"); parameters.AddField("rotationZ", angles.z.ToString());
+            parameters.AddField("rotationX", angles.x.ToString()); parameters.AddField("rotationY", angles.y.ToString()); parameters.AddField("rotationZ", angles.z.ToString());
             return GameController.GenerateGameCommand(
                 GameCommandTypes.ObstaclePlacement,
                 typeof(ObstaclesPlacementSubPhase),

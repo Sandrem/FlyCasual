@@ -4,8 +4,8 @@ using UnityEngine;
 
 public static class DebugManager
 {
-    public static bool ReleaseVersion;
-
+    public static bool ReleaseVersion = true;
+    
     public static bool NoCinematicCamera;
 
     public static bool FullDebug;

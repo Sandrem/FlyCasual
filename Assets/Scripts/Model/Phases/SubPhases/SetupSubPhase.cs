@@ -430,7 +430,10 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            if (inReposition && CameraScript.InputMouseIsEnabled) TryConfirmPosition(Selection.ThisShip);
+            if (inReposition && CameraScript.InputMouseIsEnabled)
+            {
+                UI.CallClickNextPhase();
+            }
         }
 
         public bool TryConfirmPosition(GenericShip ship)
@@ -479,7 +482,7 @@ namespace SubPhases
 
         public override void NextButton() {
             // Next button is only used for touch controls -- on next, try to confirm ship's position
-            if (!TryConfirmPosition(Selection.ThisShip))
+            if (Selection.ThisShip != null && !TryConfirmPosition(Selection.ThisShip))
             {
                 Console.Write("ship:" + Selection.ThisShip);
                 Console.Write("shipbase:" + Selection.ThisShip.ShipBase);

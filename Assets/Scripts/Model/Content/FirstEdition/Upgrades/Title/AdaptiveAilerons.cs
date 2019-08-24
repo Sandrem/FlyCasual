@@ -143,13 +143,14 @@ namespace Abilities.FirstEdition
         {
             if (doAilerons)
             {
+                //reset doAilerons to false for next round
+                doAilerons = false;
                 HostShip.AssignedManeuver.IsRevealDial = false;
                 HostShip.AssignedManeuver.GrantedBy = "Ailerons"; ;
                 ShipMovementScript.LaunchMovement(FinishAdaptiveAileronsAbility);
             }
             else
             {
-                doAilerons = true;
                 FinishAdaptiveAileronsAbility();
             }
         }

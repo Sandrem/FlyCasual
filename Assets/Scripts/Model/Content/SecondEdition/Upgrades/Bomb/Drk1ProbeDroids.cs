@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
                 subType: UpgradeSubType.Remote,
                 charges: 2,
                 cannotBeRecharged: true,
-                cost: 6,
+                cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Separatists),
                 abilityType: typeof(Abilities.SecondEdition.Drk1ProbeDroidsAbility)

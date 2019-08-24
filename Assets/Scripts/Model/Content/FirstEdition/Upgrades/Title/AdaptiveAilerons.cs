@@ -117,13 +117,13 @@ namespace Abilities.FirstEdition
 
         private void UseAilerons(object sender, EventArgs e)
         {
-            doAilerons = true;
             DecisionSubPhase.ConfirmDecisionNoCallback();
             SelectAdaptiveAileronsManeuver(sender, e);
         }
 
         private void SelectAdaptiveAileronsManeuver(object sender, EventArgs e)
         {
+            doAilerons = true;
             HostShip.Owner.ChangeManeuver(
                 GameMode.CurrentGameMode.AssignManeuver,
                 Triggers.FinishTrigger,

@@ -107,8 +107,10 @@ public partial class Console : MonoBehaviour {
 
             if (!DebugManager.ErrorIsAlreadyReported)
             {
-                //if (DebugManager.ReleaseVersion && Global.CurrentVersionInt == Global.LatestVersionInt) { }
-                SendReport(stackTrace);
+                if (DebugManager.ReleaseVersion && Global.CurrentVersionInt == Global.LatestVersionInt)
+                {
+                    SendReport(stackTrace);
+                }
             }
 
             IsActive = true;

@@ -143,10 +143,10 @@ namespace Abilities.FirstEdition
         {
             if (doAilerons)
             {
-                //reset doAilerons to false for next round
-                doAilerons = false;
                 HostShip.AssignedManeuver.IsRevealDial = false;
-                HostShip.AssignedManeuver.GrantedBy = "Ailerons"; ;
+                HostShip.AssignedManeuver.GrantedBy = "Ailerons";
+                HostShip.CanPerformActionsWhenBumped = true;
+                HostShip.CanPerformActionsWhenOverlapping = true;
                 ShipMovementScript.LaunchMovement(FinishAdaptiveAileronsAbility);
             }
             else
@@ -157,6 +157,9 @@ namespace Abilities.FirstEdition
 
         private void FinishAdaptiveAileronsAbility()
         {
+            doAilerons = false;
+            HostShip.CanPerformActionsWhenBumped = false;
+            HostShip.CanPerformActionsWhenOverlapping = false;
             RestoreManuverColors(HostShip);
             Phases.CurrentSubPhase.IsReadyForCommands = true;
             //ship may have flown off the board; only assign saved maneuver if ship is exists

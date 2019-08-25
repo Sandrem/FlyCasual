@@ -20,8 +20,11 @@ namespace Obstacles
 
         public override void OnHit(GenericShip ship)
         {
-            Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement, their action subphase is skipped");
-            Selection.ThisShip.IsSkipsActionSubPhase = true;
+            if (!Selection.ThisShip.CanPerformActionsWhenOverlapping)
+            {
+                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement, their action subphase is skipped");
+                Selection.ThisShip.IsSkipsActionSubPhase = true;
+            }
 
             Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement, rolling for damage");
 

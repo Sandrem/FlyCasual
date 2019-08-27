@@ -151,18 +151,20 @@ public partial class DiceRerollManager
                 options.Add(
                     "Select only blanks",
                     new List<DieSide>() {
-                    DieSide.Blank
-                    });
+                        DieSide.Blank
+                    }
+                );
             }
 
-            if ((SidesCanBeRerolled.Contains(DieSide.Focus)) && (SidesCanBeRerolled.Contains(DieSide.Blank)) && (NumberOfDiceCanBeRerolled > 1))
+            if ((SidesCanBeRerolled.Contains(DieSide.Focus)) && (SidesCanBeRerolled.Contains(DieSide.Blank)))
             {
                 options.Add(
                     "Select only blanks and focuses",
                     new List<DieSide>() {
-                    DieSide.Blank,
-                    DieSide.Focus
-                    });
+                        DieSide.Blank,
+                        DieSide.Focus
+                    }
+                );
             }
 
             int offset = 0;

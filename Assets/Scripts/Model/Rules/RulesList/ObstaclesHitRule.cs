@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using Obstacles;
 using Ship;
-using SubPhases;
+using System.Collections.Generic;
 
 namespace RulesList
 {
@@ -39,6 +38,9 @@ namespace RulesList
                         EventHandler = delegate { obstacle.OnHit(ship); }
                     });
                 }
+
+                //HACK reset ObstaclesHit to ensure each obstacle hit is only processed once per movement
+                ship.ObstaclesHit = new List<GenericObstacle>();
             }
         }
     }

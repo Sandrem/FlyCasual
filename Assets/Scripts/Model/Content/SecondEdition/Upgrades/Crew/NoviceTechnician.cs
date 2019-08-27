@@ -91,8 +91,6 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                ShowSkipButton = false;
-
                 DecisionViewType = DecisionViewTypes.ImagesDamageCard;
 
                 if (HostShip.Damage.HasFaceupCards)

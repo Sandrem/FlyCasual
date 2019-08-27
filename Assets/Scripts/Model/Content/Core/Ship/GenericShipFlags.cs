@@ -19,6 +19,7 @@ namespace Ship
 
         public bool CanPerformActionsWhileStressed { get; set; }
         public bool CanPerformActionsWhenBumped { get; set; }
+        public bool CanPerformActionsWhenOverlapping { get; set; }
         public bool CanBeCoordinated
         {
             get

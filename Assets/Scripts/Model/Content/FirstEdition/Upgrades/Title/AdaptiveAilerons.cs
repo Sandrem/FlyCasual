@@ -117,13 +117,13 @@ namespace Abilities.FirstEdition
 
         private void UseAilerons(object sender, EventArgs e)
         {
-            doAilerons = true;
             DecisionSubPhase.ConfirmDecisionNoCallback();
             SelectAdaptiveAileronsManeuver(sender, e);
         }
 
         private void SelectAdaptiveAileronsManeuver(object sender, EventArgs e)
         {
+            doAilerons = true;
             HostShip.Owner.ChangeManeuver(
                 GameMode.CurrentGameMode.AssignManeuver,
                 Triggers.FinishTrigger,
@@ -144,18 +144,22 @@ namespace Abilities.FirstEdition
             if (doAilerons)
             {
                 HostShip.AssignedManeuver.IsRevealDial = false;
-                HostShip.AssignedManeuver.GrantedBy = "Ailerons"; ;
+                HostShip.AssignedManeuver.GrantedBy = "Ailerons";
+                HostShip.CanPerformActionsWhenBumped = true;
+                HostShip.CanPerformActionsWhenOverlapping = true;
                 ShipMovementScript.LaunchMovement(FinishAdaptiveAileronsAbility);
             }
             else
             {
-                doAilerons = true;
                 FinishAdaptiveAileronsAbility();
             }
         }
 
         private void FinishAdaptiveAileronsAbility()
         {
+            doAilerons = false;
+            HostShip.CanPerformActionsWhenBumped = false;
+            HostShip.CanPerformActionsWhenOverlapping = false;
             RestoreManuverColors(HostShip);
             Phases.CurrentSubPhase.IsReadyForCommands = true;
             //ship may have flown off the board; only assign saved maneuver if ship is exists

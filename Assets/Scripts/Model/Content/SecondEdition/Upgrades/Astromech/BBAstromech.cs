@@ -49,19 +49,19 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            HostShip.OnManeuverIsRevealed += PlanAction;
+            HostShip.BeforeMovementIsExecuted += PlanAction;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnManeuverIsRevealed -= PlanAction;
+            HostShip.BeforeMovementIsExecuted -= PlanAction;
         }
 
         private void PlanAction(GenericShip host)
         {
             if (host.AssignedManeuver.ColorComplexity == Movement.MovementComplexity.Easy && HostUpgrade.State.Charges > 0)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, AskPerformAction);
+                RegisterAbilityTrigger(TriggerTypes.BeforeMovementIsExecuted, AskPerformAction);
             }
         }
 

@@ -58,7 +58,11 @@ namespace Abilities.SecondEdition
         {
             int result = 0;
 
-            if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes) result = 85;
+            if (Combat.DiceRollAttack.Successes > Combat.DiceRollDefence.Successes
+                && Combat.DiceRollDefence.Failures > 0)
+            {
+                result = 85;
+            }
 
             return result;
         }

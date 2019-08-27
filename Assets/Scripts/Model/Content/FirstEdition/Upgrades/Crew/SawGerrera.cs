@@ -62,7 +62,13 @@ namespace ActionsList
         public override bool IsDiceModificationAvailable()
         {
             bool result = false;
-            if (Combat.AttackStep == CombatStep.Attack && HostShip.State.HullCurrent > 1) result = true;
+
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                int attackFocuses = Combat.DiceRollAttack.Focuses;
+                if (attackFocuses > 0) result = true;
+            }
+
             return result;
         }
 

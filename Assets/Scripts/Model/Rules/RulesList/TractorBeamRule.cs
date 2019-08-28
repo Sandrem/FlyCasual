@@ -279,6 +279,7 @@ namespace SubPhases
         private void FinishTractorBeamMovement()
         {
             Rules.AsteroidHit.CheckHits(TheShip);
+            Rules.AsteroidLanded.CheckLandedOnObstacle(TheShip);
             Triggers.ResolveTriggers(TriggerTypes.OnMovementFinish, Next);
         }
 

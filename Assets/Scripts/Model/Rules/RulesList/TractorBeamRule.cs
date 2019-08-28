@@ -183,7 +183,7 @@ namespace SubPhases
                 "Select position",
                 typeof(BarrelRollPlanningSubPhase),
                 delegate {
-                    FinishTractorBeamMovement(stubAction);
+                    FinishTractorBeamMovement();
                 }
             );
             brPlanning.Name = "Select position";
@@ -225,7 +225,7 @@ namespace SubPhases
                 "Boost",
                 typeof(BoostPlanningSubPhase),
                 delegate {
-                    FinishTractorBeamMovement(stubAction);
+                    FinishTractorBeamMovement();
                 }
             );
             boostPlanning.HostAction = stubAction;
@@ -276,13 +276,11 @@ namespace SubPhases
             selectTractorDirection.Start();
         }
 
-        private void FinishTractorBeamMovement(GenericAction action)
+        private void FinishTractorBeamMovement()
         {
-            TheShip.CallActionIsTaken(action, delegate {
-                // ^ CallActionIsTaken to support interaction with black one, etc
-                Rules.AsteroidHit.CheckHits(TheShip);
-                Triggers.ResolveTriggers(TriggerTypes.OnMovementFinish, Next);
-            });
+            Rules.AsteroidHit.CheckHits(TheShip);
+            Rules.AsteroidLanded.CheckLandedOnObstacle(TheShip);
+            Triggers.ResolveTriggers(TriggerTypes.OnMovementFinish, Next);
         }
 
         public override void Next()

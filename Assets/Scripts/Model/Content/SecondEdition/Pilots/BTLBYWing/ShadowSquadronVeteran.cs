@@ -17,7 +17,7 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b6/ca/b6cad4cc-120c-4637-8d49-3c9dba68f6ed/swz_w5_pilot-shadow-sqd-vet.png";
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/6c/73/6c73ec27-bf29-4ace-86e9-4d03cdafa884/swz48_pilot-shadow-vet.png";
             }
         }
     }

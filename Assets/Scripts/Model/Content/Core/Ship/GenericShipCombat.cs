@@ -737,23 +737,6 @@ namespace Ship
             }
         }
 
-        public bool InPrimaryWeaponFireZone(GenericShip anotherShip, int minRange = 1, int maxRange = 3)
-        {
-            bool result = true;
-            ShotInfo shotInfo = new ShotInfo(this, anotherShip, PrimaryWeapons);
-            result = InPrimaryWeaponFireZone(shotInfo.Range, shotInfo.InPrimaryArc, minRange, maxRange);
-            return result;
-        }
-
-        public bool InPrimaryWeaponFireZone(int range, bool inArc, int minRange = 1, int maxRange = 3)
-        {
-            bool result = true;
-            if (range > maxRange) return false;
-            if (range < minRange) return false;
-            if (!inArc) return false;
-            return result;
-        }
-
         public List<ManeuverTemplate> GetAvailableBombDropTemplates(GenericUpgrade upgrade)
         {
             List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();

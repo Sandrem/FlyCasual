@@ -1,5 +1,4 @@
-﻿using System;
-using ActionsList;
+﻿using BoardTools;
 using Ship;
 using SubPhases;
 using Upgrade;
@@ -80,16 +79,18 @@ namespace Abilities.SecondEdition
             TargetShip.OnSystemsPhaseStart -= RemoveEvents;
         }
 
+        private bool FilterTargetShip(GenericShip otherShip)
+        {
+            ShotInfo shotInfo = new ShotInfo(HostShip, otherShip, HostShip.PrimaryWeapons);
 
-        private bool FilterTargetShip(GenericShip otherShip){
-            return otherShip.Owner != HostShip.Owner && HostShip.InPrimaryWeaponFireZone(otherShip, 0, 2)
-                            && otherShip.Tokens.HasToken<Tokens.TractorBeamToken>();
+            return otherShip.Owner != HostShip.Owner
+                && shotInfo.InArc
+                && shotInfo.Range <= 2
+                && otherShip.Tokens.HasToken<Tokens.TractorBeamToken>();
         }
 
         private int GetAiPriority(GenericShip otherShip) {
             return 1;
         }
-
-       
     }
 }

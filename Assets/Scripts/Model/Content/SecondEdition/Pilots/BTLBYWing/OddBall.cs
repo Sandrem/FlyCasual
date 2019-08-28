@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Odd Ball\"",
                     5,
-                    35,
+                    40,
                     isLimited: true,
                     extraUpgradeIcon: UpgradeType.Talent,
                     abilityText: "After you fully execute a red maneuver or perform a red action, if there is an enemy ship in your bullseye arc, you may acquire a lock on that ship.",

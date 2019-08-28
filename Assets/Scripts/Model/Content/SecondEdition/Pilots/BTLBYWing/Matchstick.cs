@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Matchstick\"",
                     4,
-                    34,
+                    37,
                     isLimited: true,
                     extraUpgradeIcon: UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.MatchstickAbility)

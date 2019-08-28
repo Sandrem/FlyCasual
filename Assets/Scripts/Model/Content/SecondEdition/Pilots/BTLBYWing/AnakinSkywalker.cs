@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Anakin Skywalker",
                     6,
-                    40,
+                    45,
                     isLimited: true,
                     extraUpgradeIcon: UpgradeType.Force,
                     force: 3,

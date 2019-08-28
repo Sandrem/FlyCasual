@@ -112,7 +112,7 @@ namespace Abilities.SecondEdition
 
         private bool IsAvailable()
         {
-            return Combat.AttackStep == CombatStep.Attack && !HostShip.Damage.HasFaceupCards;
+            return Combat.AttackStep == CombatStep.Attack && !HostShip.Damage.HasFaceupCards && Combat.DiceRollAttack.CriticalSuccesses > 0;
         }
 
         private int GetAiPriority()

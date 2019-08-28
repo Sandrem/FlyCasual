@@ -22,7 +22,7 @@ namespace RulesList
             }
         }
 
-        private void CheckLandedOnObstacle(GenericShip ship)
+        public void CheckLandedOnObstacle(GenericShip ship)
         {
             if (ship.IsLandedOnObstacle)
             {

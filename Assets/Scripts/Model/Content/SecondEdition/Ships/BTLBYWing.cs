@@ -34,6 +34,7 @@ namespace Ship.SecondEdition.BTLBYWing
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,
                     UpgradeType.Gunner,
+                    UpgradeType.Crew,
                     UpgradeType.Bomb,
                     UpgradeType.Astromech
                 ),

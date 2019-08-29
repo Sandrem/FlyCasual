@@ -299,9 +299,24 @@ namespace Abilities
 
             if ((Phases.CurrentSubPhase as SelectShipSubPhase) == null || (Phases.CurrentSubPhase as SelectShipSubPhase).CanMeasureRangeBeforeSelection)
             {
-                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(hostShip, ship);
+                DistanceInfo distanceInfo = new DistanceInfo(hostShip, ship);
                 if (distanceInfo.Range < minRange) return false;
                 if (distanceInfo.Range > maxRange) return false;
+            }
+
+            return result;
+        }
+
+        protected bool FilterTargetsByRangeInArc(GenericShip ship, int minRange, int maxRange)
+        {
+            bool result = true;
+
+            if ((Phases.CurrentSubPhase as SelectShipSubPhase) == null || (Phases.CurrentSubPhase as SelectShipSubPhase).CanMeasureRangeBeforeSelection)
+            {
+                ShotInfo shotInfo = new ShotInfo(hostShip, ship, hostShip.PrimaryWeapons);
+                if (!shotInfo.InArc) return false;
+                if (shotInfo.Range < minRange) return false;
+                if (shotInfo.Range > maxRange) return false;
             }
 
             return result;

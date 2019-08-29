@@ -14,6 +14,8 @@ namespace UpgradesList.SecondEdition
     {
         public AhsokaTanoGunner() : base()
         {
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Ahsoka Tano",
                 UpgradeType.Gunner,

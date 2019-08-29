@@ -56,15 +56,8 @@ namespace Abilities.SecondEdition
         {
             if (!(action is BoostAction))
             {
-                HostShip.OnActionDecisionSubphaseEnd += PerformBoostAction;
+                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, AskPerformBoostAction);
             }
-        }
-
-        private void PerformBoostAction(GenericShip ship)
-        {
-            HostShip.OnActionDecisionSubphaseEnd -= PerformBoostAction;
-
-            RegisterAbilityTrigger(TriggerTypes.OnFreeAction, AskPerformBoostAction);
         }
 
         private void AskPerformBoostAction(object sender, System.EventArgs e)

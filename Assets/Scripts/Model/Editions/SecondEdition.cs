@@ -194,7 +194,7 @@ namespace Editions
                 WeaponTypes.Turret
             };
 
-            return rangeEffectedWeaponTypes.Contains(weapon.WeaponType);
+            return rangeEffectedWeaponTypes.Contains(weapon.WeaponType) && !weapon.WeaponInfo.NoRangeBonus;
         }
 
         public override void SetShipBaseImage(GenericShip ship)

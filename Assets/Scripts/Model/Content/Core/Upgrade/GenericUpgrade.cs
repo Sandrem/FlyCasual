@@ -317,7 +317,7 @@ namespace Upgrade
 
         public void ReplaceUpgradeBy(GenericUpgrade newUpgrade)
         {
-            Roster.ReplaceUpgrade(HostShip, UpgradeInfo.Name, newUpgrade.UpgradeInfo.Name, newUpgrade.ImageUrl);
+            Roster.ReplaceUpgrade(HostShip, State.Name, newUpgrade.UpgradeInfo.Name, newUpgrade.ImageUrl);
 
             Slot.PreInstallUpgrade(newUpgrade, HostShip);
             Slot.TryInstallUpgrade(newUpgrade, HostShip);

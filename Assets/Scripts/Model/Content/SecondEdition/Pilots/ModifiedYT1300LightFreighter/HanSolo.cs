@@ -59,7 +59,15 @@ namespace Abilities.SecondEdition
 
         private int GetAiPriority()
         {
-            return 95;
+            if (HostShip.IsAttacking && Combat.DiceRollAttack.Failures > Combat.DiceRollAttack.Successes)
+            {
+                return 95;
+            }
+            else if (HostShip.IsDefending && Combat.DiceRollDefence.Failures > Combat.DiceRollDefence.Successes)
+            {
+                return 95;
+            }
+            else return 0;
         }
 
         public override void DeactivateAbility()

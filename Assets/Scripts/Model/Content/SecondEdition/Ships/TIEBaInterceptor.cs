@@ -8,6 +8,7 @@ using Arcs;
 using Movement;
 using Ship;
 using SubPhases;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -37,8 +38,7 @@ namespace Ship.SecondEdition.TIEBaInterceptor
                     UpgradeType.Missile,
                     UpgradeType.Tech,
                     UpgradeType.Modification                    
-                ),
-                abilityText: "Here is ability-text"
+                )
             );
 
             ShipAbilities.Add(new Abilities.SecondEdition.FineTunedThrusters());
@@ -103,14 +103,81 @@ namespace Abilities.SecondEdition
 {
     public class FineTunedThrusters : GenericAbility
     {
+        public override string Name { get { return "Fine-Tuned Thrusters"; } }
+
         public override void ActivateAbility()
         {
-            
+            HostShip.OnMovementFinishSuccessfully += TryRegisterTrigger;
         }
 
         public override void DeactivateAbility()
         {
-            
+            HostShip.OnMovementFinishSuccessfully -= TryRegisterTrigger;
         }
+
+        private void TryRegisterTrigger(GenericShip ship)
+        {
+            if (!HostShip.IsStrained && !HostShip.IsDepleted)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToUseOwnAbility);
+            }
+        }
+
+        private void AskToUseOwnAbility(object sender, EventArgs e)
+        {
+            SelectDebuffDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<SelectDebuffDecisionSubphase>(
+                "Select debuff subphase",
+                Triggers.FinishTrigger
+            );
+
+            subphase.DescriptionShort = "Fine-Tuned Thrusters";
+            subphase.DescriptionLong = "You may gain Strain or Deplete token to perform Lock or Barrel Roll action";
+
+            subphase.DecisionOwner = HostShip.Owner;
+            subphase.ShowSkipButton = true;
+
+            subphase.AddDecision(
+                "Gain Strain token",
+                SelectStrainToken
+            );
+
+            subphase.AddDecision(
+                "Gain Deplete token",
+                SelectDepleteToken
+            );
+
+            //TODO: subphase.DefaultDecisionName = "";
+
+            subphase.Start();
+        }
+
+        private void SelectDepleteToken(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            HostShip.Tokens.AssignToken(typeof(DepleteToken), AskToPerformAbilityAction);
+        }
+
+        private void SelectStrainToken(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            HostShip.Tokens.AssignToken(typeof(StrainToken), AskToPerformAbilityAction);
+        }
+
+        private void AskToPerformAbilityAction()
+        {
+            HostShip.AskPerformFreeAction(
+                new List<GenericAction>()
+                {
+                    new TargetLockAction(),
+                    new BarrelRollAction()
+                },
+                Triggers.FinishTrigger,
+                "Fine-Tuned Thrusters"
+            );
+        }
+
+        private class SelectDebuffDecisionSubphase : DecisionSubPhase { };
     }
 }

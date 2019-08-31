@@ -11,6 +11,7 @@ public static class Rules
     public static EndPhaseCleanupRule EndPhase { get; private set; }
     public static StressRule Stress { get; private set; }
     public static StrainRule Strain { get; private set; }
+    public static DepleteRule Deplete { get; private set; }
     public static OffTheBoardRule OffTheBoard { get; private set; }
     public static CollisionRules Collision { get; private set; }
     public static ActionsRule Actions { get; private set; }
@@ -31,7 +32,6 @@ public static class Rules
     public static ChargeRule Charge { get; private set; }
     public static DestructionRule Destruction { get; private set; }
     public static RemotesRule Remotes { get; private set; }
-
     public static FuseRule Fuse { get; private set; }
 
 
@@ -42,6 +42,7 @@ public static class Rules
         EndPhase = new EndPhaseCleanupRule();
         Stress = new StressRule();
         Strain = new StrainRule();
+        Deplete = new DepleteRule();
         OffTheBoard = new OffTheBoardRule();
         Collision = new CollisionRules();
         Actions = new ActionsRule();

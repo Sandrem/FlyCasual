@@ -118,6 +118,11 @@ namespace Ship
             get { return Tokens.HasToken<StrainToken>(); }
         }
 
+        public bool IsDepleted
+        {
+            get { return Tokens.HasToken<DepleteToken>(); }
+        }
+
         public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             return true;

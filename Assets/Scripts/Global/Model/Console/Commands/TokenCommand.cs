@@ -9,7 +9,7 @@ namespace CommandsList
 {
     public class TokenCommand : GenericCommand
     {
-        private Dictionary<string, Type> stringToType = new Dictionary<string, Type>()
+        private Dictionary<string, Type> StringToType = new Dictionary<string, Type>()
         {
             { "focus",          typeof(FocusToken)          },
             { "evade",          typeof(EvadeToken)          },
@@ -26,13 +26,14 @@ namespace CommandsList
             { "force",          typeof(ForceToken)          },
             { "charge",         typeof(ChargeToken)         },
             { "strain",         typeof(StrainToken)         },
+            { "deplete",        typeof(DepleteToken)        },
         };
 
         public TokenCommand()
         {
             Keyword = "token";
             Description =   "token assign id:<shipId> type:<type> [target:<targetShipId>]- assing token to ship\n" +
-                            "where type: focus, evade, stress, targetlock, ion, tractorbeam, jam, reinforceaft, reinforcefore, cloak, energy, calculate, force, charge, strain\n" +
+                            "where type: focus, evade, stress, targetlock, ion, tractorbeam, jam, reinforceaft, reinforcefore, cloak, energy, calculate, force, charge, strain, deplete\n" +
                             "(target is used only for targetlock type)";
 
             Console.AddAvailableCommand(this);
@@ -56,7 +57,7 @@ namespace CommandsList
             string typeString = (parameters.ContainsKey("type")) ? parameters["type"] : null;
             if (typeString != null)
             {
-                if (stringToType.ContainsKey(typeString)) tokenType = stringToType[typeString];
+                if (StringToType.ContainsKey(typeString)) tokenType = StringToType[typeString];
             }
 
             if (shipId != -1 && tokenType != null)

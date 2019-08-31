@@ -1,4 +1,10 @@
-﻿using Upgrade;
+﻿using System;
+using System.Linq;
+using BoardTools;
+using Ship;
+using SubPhases;
+using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -29,12 +35,107 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            
+            HostShip.OnCheckSystemsAbilityActivation += CheckForAbility;
+            HostShip.OnSystemsAbilityActivation += RegisterTrigger;
         }
 
         public override void DeactivateAbility()
         {
-            
+            HostShip.OnCheckSystemsAbilityActivation -= CheckForAbility;
+            HostShip.OnSystemsAbilityActivation -= RegisterTrigger;
         }
+
+        private void CheckForAbility(GenericShip ship, ref bool isAbilityActive)
+        {
+            isAbilityActive = true;
+        }
+
+        private void RegisterTrigger(GenericShip ship)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, StartSelectShip);
+        }
+
+        private void StartSelectShip(object sender, EventArgs e)
+        {
+            if (Roster.AllShips.Values.Any(n => FilterTargets(n)))
+            {
+                SelectTargetForAbility(
+                    SelectShip,
+                    FilterTargets,
+                    GetAiPriority,
+                    HostShip.Owner.PlayerNo,
+                    "Major Vonreg",
+                    "You may choose a ship in your bullseye arc to assign Strain or Deplete token to it",
+                    HostShip
+                );
+            }
+            else
+            {
+                Messages.ShowErrorToHuman("There is no ships in bullseye arc");
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void SelectShip()
+        {
+            SelectDebuffDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<SelectDebuffDecisionSubphase>(
+                "Select debuff subphase",
+                Triggers.FinishTrigger
+            );
+
+            subphase.DescriptionShort = "Major Vonreg";
+            subphase.DescriptionLong = "You may assign Strain or Deplete token to target";
+            subphase.ImageSource = HostShip;
+
+            subphase.DecisionOwner = HostShip.Owner;
+            subphase.ShowSkipButton = false;
+
+            subphase.AddDecision(
+                "Assign Strain token",
+                SelectStrainToken
+            );
+
+            subphase.AddDecision(
+                "Assign Deplete token",
+                SelectDepleteToken
+            );
+
+            subphase.DefaultDecisionName = "Assign Strain token";
+
+            subphase.Start();
+        }
+
+        private void SelectDepleteToken(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            TargetShip.Tokens.AssignToken(
+                typeof(DepleteToken),
+                Triggers.FinishTrigger
+            );
+        }
+
+        private void SelectStrainToken(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            TargetShip.Tokens.AssignToken(
+                typeof(StrainToken),
+                Triggers.FinishTrigger
+            );
+        }
+
+        private bool FilterTargets(GenericShip ship)
+        {
+            return ship.Owner.PlayerNo != HostShip.Owner.PlayerNo
+                && HostShip.SectorsInfo.IsShipInSector(ship, Arcs.ArcType.Bullseye);
+        }
+
+        private int GetAiPriority(GenericShip ship)
+        {
+            return ship.PilotInfo.Cost;
+        }
+
+        private class SelectDebuffDecisionSubphase : DecisionSubPhase { };
     }
 }

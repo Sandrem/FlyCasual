@@ -103,7 +103,7 @@ namespace Abilities.SecondEdition
 
             foreach (GenericToken token in HostShip.Tokens.GetAllTokens())
             {
-                if (!TargetShip.Tokens.HasToken(token.GetType()) && token.GetType() != typeof(BlueTargetLockToken))
+                if (!TargetShip.Tokens.HasToken(token.GetType()) && GenericToken.SupportedTokenTypes.Contains(token.GetType()))
                 {
                     subphase.AddDecision(
                         token.Name + ((token.GetType() == typeof(RedTargetLockToken)) ? " \"" + (token as RedTargetLockToken).Letter + "\"" : ""),
@@ -139,7 +139,7 @@ namespace Abilities.SecondEdition
 
             foreach (GenericToken token in TargetShip.Tokens.GetAllTokens())
             {
-                if (!HostShip.Tokens.HasToken(token.GetType()) && token.GetType() != typeof(BlueTargetLockToken) )
+                if (!HostShip.Tokens.HasToken(token.GetType()) && GenericToken.SupportedTokenTypes.Contains(token.GetType()) )
                 {
                     subphase.AddDecision(
                         token.Name + ((token.GetType() == typeof(RedTargetLockToken)) ? " \"" + (token as RedTargetLockToken).Letter + "\"" : ""),

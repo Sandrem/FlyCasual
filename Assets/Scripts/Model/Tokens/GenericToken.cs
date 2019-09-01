@@ -71,6 +71,23 @@ namespace Tokens
             Host.Tokens.RemoveToken(this, callback);
         }
 
+        public static List<Type> SupportedTokenTypes = new List<Type>()
+        {
+            typeof(CalculateToken),
+            typeof(DepleteToken),
+            typeof(EvadeToken),
+            typeof(FocusToken),
+            typeof(IonToken),
+            typeof(JamToken),
+            typeof(RedTargetLockToken),
+            typeof(ReinforceAftToken),
+            typeof(ReinforceForeToken),
+            typeof(StrainToken),
+            typeof(StressToken),
+            typeof(TractorBeamToken),
+            typeof(WeaponsDisabledToken)
+        };
+
     }
 
     //Consider two tokens to be equal if they belong to the same ship and are of the same type
@@ -96,7 +113,7 @@ namespace Tokens
             int hashHostShip = token.Host == null ? 0 : token.Host.ShipId.GetHashCode();
 
             return hashName ^ hashHostShip;
-        }
+        }        
     }
 }
 

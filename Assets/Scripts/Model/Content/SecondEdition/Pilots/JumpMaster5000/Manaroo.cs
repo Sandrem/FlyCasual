@@ -53,14 +53,7 @@ namespace Abilities.SecondEdition
         {
             get
             {
-                return new List<Type>()
-                {
-                    typeof(CalculateToken),
-                    typeof(EvadeToken),
-                    typeof(FocusToken),
-                    typeof(ReinforceForeToken),
-                    typeof(ReinforceAftToken)
-                };
+                return GenericToken.SupportedTokenTypes;
             }
         }
 

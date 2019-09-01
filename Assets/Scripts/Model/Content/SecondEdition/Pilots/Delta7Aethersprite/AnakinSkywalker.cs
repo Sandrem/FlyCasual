@@ -91,7 +91,7 @@ namespace Abilities.SecondEdition
                 int enemies = 0;
                 enemies += Board.GetShipsInBullseyeArc(HostShip, Team.Type.Enemy).Count;
                 foreach(var s in Board.GetShipsAtRange(HostShip, new Vector2(0,1), Team.Type.Enemy)) {
-                    if (Board.IsShipInArc(HostShip,s)) {
+                    if (HostShip.SectorsInfo.RangeToShipBySector(s, Arcs.ArcType.Front) <= 1) {
                         enemies++;
                     }
                 }

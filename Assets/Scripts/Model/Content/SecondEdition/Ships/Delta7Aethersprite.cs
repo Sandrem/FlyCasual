@@ -113,7 +113,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterTrigger(GenericShip ship)
         {
-            if (HostShip.State.Force > 0 && !(HostShip.IsStressed || Board.IsOffTheBoard(HostShip) || HostShip.IsBumped))
+            if (HostShip.State.Force > 0 && !(Board.IsOffTheBoard(HostShip) || HostShip.IsBumped))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskPerformRepositionAction);
             }
@@ -121,7 +121,7 @@ namespace Abilities.SecondEdition
         
         private void AskPerformRepositionAction(object sender, System.EventArgs e)
         {
-            if (HostShip.State.Force > 0)
+            if (HostShip.State.Force > 0 && !HostShip.IsStressed)
             {
                 HostShip.BeforeActionIsPerformed += PayForceCost;
 

@@ -36,7 +36,7 @@ namespace Abilities.FirstEdition
         private void PlanSwarmTacticsPilotAbility()
         {
             var trigger = RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, SwarmTacticsPilotAbility);
-            trigger.Name = $"{HostName} - {HostShip.PilotInfo.PilotName} ({HostShip.State.Initiative})";
+            trigger.Name = $"{HostName} - {HostShip.PilotInfo.PilotName} (#{HostShip.ShipId})";
         }
 
         private void SwarmTacticsPilotAbility(object sender, System.EventArgs e)

@@ -71,7 +71,17 @@ namespace Ship
         public int RangeToShipBySector(GenericShip anotherShip, ArcType arcType)
         {
             ShotInfoArc arcInfo = GetSectorInfo(anotherShip, arcType);
-            return (arcInfo != null) ? arcInfo.Range : int.MaxValue;
+            if (arcInfo != null)
+            {
+                bool result = arcInfo.IsShotAvailable;
+                if (arcType == ArcType.Bullseye) HostShip.CallOnBullseyeArcCheck(anotherShip, ref result);
+
+                return result ? arcInfo.Range : int.MaxValue;
+            }
+            else
+            {
+                return int.MaxValue;
+            }
         }
 
         public ShotInfoArc GetSectorInfo(GenericShip anotherShip, ArcType arcType)

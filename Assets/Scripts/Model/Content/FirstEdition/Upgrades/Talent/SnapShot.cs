@@ -131,7 +131,9 @@ namespace Abilities.FirstEdition
                 EnableWeaponRange();
                 ShotInfo shotInfo = new ShotInfo(HostShip, snapShotTarget, (HostUpgrade as IShipWeapon));
 
-                if (shotInfo.IsShotAvailable)
+                if (shotInfo.Range <= (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange &&
+                    shotInfo.Range >= (HostUpgrade as IShipWeapon).WeaponInfo.MinRange &&
+                    shotInfo.IsShotAvailable)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskSnapShotAbility);
                 }

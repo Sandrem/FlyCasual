@@ -620,18 +620,9 @@ public static partial class ActionsHolder
 
     public static void ReassignToken(GenericToken tokenToReassign, GenericShip fromShip, GenericShip toShip, Action callBack)
     {
-        List<Type> simpleTokens = new List<Type>() { typeof(FocusToken), typeof(EvadeToken) };
+        List<Type> lockTokens = new List<Type>() { typeof(BlueTargetLockToken), typeof(RedTargetLockToken) };
 
-        if (simpleTokens.Contains(tokenToReassign.GetType()))
-        {
-            GenericToken tokenToAssign = (GenericToken)Activator.CreateInstance(tokenToReassign.GetType(), new [] { toShip });
-            fromShip.Tokens.RemoveToken(
-                tokenToReassign.GetType(),
-                delegate {
-                    toShip.Tokens.AssignToken(tokenToAssign, callBack);
-                });
-        }
-        else
+        if (lockTokens.Contains(tokenToReassign.GetType()))
         {
             ReassignTargetLockToken(
                 (tokenToReassign as GenericTargetLockToken).Letter,
@@ -640,7 +631,15 @@ public static partial class ActionsHolder
                 callBack
             );
         }
-
+        else
+        {
+            GenericToken tokenToAssign = (GenericToken)Activator.CreateInstance(tokenToReassign.GetType(), new [] { toShip });
+            fromShip.Tokens.RemoveToken(
+                tokenToReassign.GetType(),
+                delegate {
+                    toShip.Tokens.AssignToken(tokenToAssign, callBack);
+                });
+        }
     }
 
     public static void ReassignTargetLockToken(char letter, GenericShip oldOwner, GenericShip newOwner, Action callback)

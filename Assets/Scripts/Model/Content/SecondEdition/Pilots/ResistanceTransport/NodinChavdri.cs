@@ -54,7 +54,7 @@ namespace Abilities.SecondEdition
 
         private void AskPerformActionAsRed(object sender, EventArgs e)
         {
-            List<GenericAction> actions = HostShip.ActionBar.PrintedActions.Select(n => n.AsRedAction).ToList();
+            List<GenericAction> actions = HostShip.ActionBar.AllActions.Select(n => n.AsRedAction).ToList();
             actions.ForEach(n => n.CanBePerformedWhileStressed = true);
 
             HostShip.AskPerformFreeAction(

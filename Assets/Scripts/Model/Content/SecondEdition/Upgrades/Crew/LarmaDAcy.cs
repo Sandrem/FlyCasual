@@ -61,7 +61,7 @@ namespace Abilities.SecondEdition
                 && action.Color == ActionColor.White
                 && HostShip.IsStressed)
             {
-                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Action is trated as red");
+                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Action is treated as red");
                 color = ActionColor.Red;
             }
         }

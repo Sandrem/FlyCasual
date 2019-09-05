@@ -71,7 +71,7 @@ namespace Abilities.SecondEdition
 
         private bool FilterAbilityTargets(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly, TargetTypes.This }) && FilterTargetsByRange(ship, 1, 1);
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly, TargetTypes.This }) && FilterTargetsByRange(ship, 0, 1);
         }
 
         private int GetAiAbilityPriority(GenericShip ship)

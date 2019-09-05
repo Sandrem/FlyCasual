@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
         {
             if (action.DiceModificationTiming == DiceModificationTimingType.Opposite)
             {
-                Messages.ShowErrorToHuman("Snap Shot: You cannot modify attcker's attack dice");
+                Messages.ShowErrorToHuman("Snap Shot: You cannot modify attacker's attack dice");
                 canBeUsed = false;
             }
         }

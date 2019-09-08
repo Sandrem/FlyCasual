@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
             bool IsDifferentPlayer = (HostShip.Owner.PlayerNo != Combat.Attacker.Owner.PlayerNo);
             bool InTaliArc = HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, ArcType.Bullseye);
 
-            if (IsDifferentPlayer && InTaliArc)
+            if (IsDifferentPlayer && InTaliArc && HostShip.State.Charges > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskIncreaseDefense);
             }

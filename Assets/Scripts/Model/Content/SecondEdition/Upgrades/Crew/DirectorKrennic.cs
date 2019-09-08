@@ -215,30 +215,13 @@ namespace ActionsList
             {
                 DecisionSubPhase.ConfirmDecisionNoCallback();
                 Combat.DiceRollAttack.RemoveType(side);
-                DefenderSuffersDamage();
+                DefenderLosesShield();
             }
 
-            private void DefenderSuffersDamage()
+            private void DefenderLosesShield()
             {
-                Combat.Defender.AssignedDamageDiceroll.AddDice(DieSide.Success);
-
-                Triggers.RegisterTrigger(
-                    new Trigger()
-                    {
-                        Name = "Damage from Optimized Prototype",
-                        TriggerType = TriggerTypes.OnDamageIsDealt,
-                        TriggerOwner = Combat.Defender.Owner.PlayerNo,
-                        EventHandler = Combat.Defender.SufferDamage,
-                        EventArgs = new DamageSourceEventArgs()
-                        {
-                            Source = Combat.Attacker,
-                            DamageType = DamageTypes.CardAbility
-                        },
-                        Skippable = true
-                    }
-                );
-
-                Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, Triggers.FinishTrigger);
+                Combat.Defender.LoseShield();
+                Triggers.FinishTrigger();
             }
 
             private void DontUseOptimizedPrototype()

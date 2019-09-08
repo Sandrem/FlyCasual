@@ -58,15 +58,8 @@ namespace Abilities
             private void ShieldRemove(object sender, EventArgs e)
             {
                 Messages.ShowInfoToHuman($"{Combat.Defender.PilotInfo.PilotName} had a Shield removed by Plasma Torpedoes");
-
-                Combat.Defender.Damage.SufferRegularDamage(
-                    new DamageSourceEventArgs()
-                    {
-                        Source = Combat.Attacker,
-                        DamageType = DamageTypes.CardAbility
-                    },
-                    Triggers.FinishTrigger
-                );
+                Combat.Defender.LoseShield();
+                Triggers.FinishTrigger();
             }
             private void CancelCritsFirstEffect()
             {

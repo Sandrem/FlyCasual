@@ -16,6 +16,7 @@ namespace Ship
                     42,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
+                    force: 1,
                     extraUpgradeIcon: UpgradeType.Force,
                     seImageNumber: 39
                 );

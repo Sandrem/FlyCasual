@@ -234,6 +234,8 @@ namespace Conditions
 
             if (ImmediateDeployment)
             {
+                Host.IsManeuverPerformed = true;
+
                 Host.Tokens.AssignToken(
                     typeof(WeaponsDisabledToken),
                     Triggers.FinishTrigger

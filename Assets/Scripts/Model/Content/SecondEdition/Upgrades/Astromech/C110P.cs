@@ -1,6 +1,5 @@
 ﻿using Upgrade;
 using Ship;
-using System.Collections.Generic;
 using System.Linq;
 using System;
 
@@ -10,12 +9,10 @@ namespace UpgradesList.SecondEdition
     {
         public C110P() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "C1-10P",
                 UpgradeType.Astromech,
-                cost: 2,
+                cost: 7,
                 isLimited: true,
                 charges: 2,
                 restriction: new FactionRestriction(Faction.Republic),

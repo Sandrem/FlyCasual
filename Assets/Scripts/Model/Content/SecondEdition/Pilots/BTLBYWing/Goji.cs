@@ -2,9 +2,8 @@
 using Bombs;
 using Ship;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,8 +16,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Goji\"",
                     2,
-                    32,
+                    34,
                     isLimited: true,
+                    extraUpgradeIcon: UpgradeType.Astromech,
                     abilityType: typeof(Abilities.SecondEdition.GojiAbility)
                 );
 

@@ -14,12 +14,10 @@ namespace UpgradesList.SecondEdition
     {
         public AhsokaTanoGunner() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Ahsoka Tano",
                 UpgradeType.Gunner,
-                cost: 14,
+                cost: 12,
                 isLimited: true,
                 addForce: 1,
                 abilityType: typeof(Abilities.SecondEdition.AhsokaTanoGunnerAbility),

@@ -59,8 +59,8 @@ namespace Abilities.FirstEdition
             Combat.DiceRollAttack.RemoveAllFailures();
 
             DefenderSuffersDamage(delegate {
-                GameManagerScript.Wait(2, delegate {
-                    Combat.Defender.Tokens.AssignToken(typeof(IonToken), Triggers.FinishTrigger);
+                Combat.Defender.Tokens.AssignToken(typeof(IonToken), delegate {
+                    GameManagerScript.Wait(2, Triggers.FinishTrigger);
                 });
             });
         }

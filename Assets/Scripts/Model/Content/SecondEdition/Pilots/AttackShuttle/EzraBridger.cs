@@ -14,7 +14,7 @@ namespace Ship
                     3,
                     41,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
+                    abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
                     force: 1,
                     extraUpgradeIcon: UpgradeType.Force,
                     seImageNumber: 36

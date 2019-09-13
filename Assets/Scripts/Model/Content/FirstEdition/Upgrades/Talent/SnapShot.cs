@@ -18,8 +18,8 @@ namespace UpgradesList.FirstEdition
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     // Hacking the range to remove this as a possible weapon when ability is not triggered
-                    minRange: -1,
-                    maxRange: -1
+                    minRange: 1,
+                    maxRange: 1
                 ),
                 abilityType: typeof(Abilities.FirstEdition.SnapShotAbility)
             );
@@ -118,8 +118,8 @@ namespace Abilities.FirstEdition
 
         private void DisableWeaponRange()
         {
-            (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = -1;
-            (HostUpgrade as IShipWeapon).WeaponInfo.MinRange = -1;
+            //(HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = -1;
+            //(HostUpgrade as IShipWeapon).WeaponInfo.MinRange = -1;
         }
 
         private void CheckSnapShotAbility(GenericShip ship)

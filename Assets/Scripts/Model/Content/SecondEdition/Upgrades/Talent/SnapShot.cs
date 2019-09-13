@@ -19,8 +19,8 @@ namespace UpgradesList.SecondEdition
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     // Hacking the range to remove this as a possible weapon when ability is not triggered
-                    minRange: -1,
-                    maxRange: -1
+                    minRange: 2,
+                    maxRange: 2
                 ),
                 abilityType: typeof(Abilities.SecondEdition.SnapShotAbility)
             );

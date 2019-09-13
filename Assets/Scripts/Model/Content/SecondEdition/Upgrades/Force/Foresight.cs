@@ -12,12 +12,10 @@ namespace UpgradesList.SecondEdition
     {
         public Foresight() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Foresight",
                 UpgradeType.Force,
-                cost: 2,
+                cost: 4,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     arc: Arcs.ArcType.Bullseye,
@@ -26,7 +24,7 @@ namespace UpgradesList.SecondEdition
                     minRange: -1,
                     maxRange: -1
                 ),
-                abilityType: typeof(Abilities.FirstEdition.ForesightAbility)
+                abilityType: typeof(Abilities.SecondEdition.ForesightAbility)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/7b/b1/7bb148c4-74d6-4caf-a427-0270d40488b8/swz48_cards-foresight.png";
@@ -34,7 +32,7 @@ namespace UpgradesList.SecondEdition
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class ForesightAbility : GenericAbility
     {

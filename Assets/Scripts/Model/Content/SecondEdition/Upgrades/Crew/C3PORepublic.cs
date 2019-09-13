@@ -13,8 +13,6 @@ namespace UpgradesList.SecondEdition
     {
         public C3PORepublic() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "C-3PO (Republic)",
                 UpgradeType.Crew,

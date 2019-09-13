@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -13,9 +12,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Anakin Skywalker",
                     6,
-                    45,
+                    60,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Force,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Force, UpgradeType.Astromech },
                     force: 3,
                     abilityText: "After you fully execute a maneuver, if there is an enemy ship in your standard front arc at range 0-1 or in your bullseye arc, you may spend 1 force to remove 1 stress token.",
                     abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerAbility)

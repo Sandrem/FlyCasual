@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Gorgol",
                     2,
-                    33,
+                    36,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GorgolAbility),
                     abilityText: "During the System Phase, you may gain 1 disarm token and choose a friendly ship at range 1-2. If you do, it gains 1 tractor token, then repairs 1 of its faceup Ship trait damage cards."

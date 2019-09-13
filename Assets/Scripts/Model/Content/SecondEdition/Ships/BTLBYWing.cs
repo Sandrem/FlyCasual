@@ -14,8 +14,6 @@ namespace Ship.SecondEdition.BTLBYWing
     {
         public BTLBYWing() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "BTL-B Y-wing",
@@ -34,9 +32,7 @@ namespace Ship.SecondEdition.BTLBYWing
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,
                     UpgradeType.Gunner,
-                    UpgradeType.Crew,
-                    UpgradeType.Bomb,
-                    UpgradeType.Astromech
+                    UpgradeType.Bomb                    
                 ),
                 abilityText: "<b>Plated Hull:</b> While you defend, if you are not critically damaged, change 1 crit result to a hit result."
             );

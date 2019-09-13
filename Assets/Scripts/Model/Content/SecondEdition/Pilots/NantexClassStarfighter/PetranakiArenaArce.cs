@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Petranaki Arena Arce",
                     4,
-                    36,
+                    38,
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 

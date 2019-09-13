@@ -132,22 +132,20 @@ namespace SubPhases
 
             MovementTemplates.ReturnRangeRuler();
 
-            GenericShip nearestShip = null;
+            GenericShip nearestEnemyShip = null;
             float nearestDistance = int.MaxValue;
 
-            foreach (GenericShip anotherShip in Roster.AllShips.Values)
+            foreach (GenericShip anotherShip in Selection.ThisShip.Owner.EnemyShips.Values)
             {
-                if (anotherShip == Selection.ThisShip) continue;
-
                 DistanceInfo distInfo = new DistanceInfo(Selection.ThisShip, anotherShip);
                 if (distInfo.MinDistance.DistanceReal < nearestDistance)
                 {
                     nearestDistance = distInfo.MinDistance.DistanceReal;
-                    nearestShip = anotherShip;
+                    nearestEnemyShip = anotherShip;
                 }
             }
 
-            DistanceInfo distInfoFinal = new DistanceInfo(Selection.ThisShip, nearestShip);
+            DistanceInfo distInfoFinal = new DistanceInfo(Selection.ThisShip, nearestEnemyShip);
             if (distInfoFinal.Range < 4)
             {
                 MovementTemplates.ShowRangeRuler(distInfoFinal.MinDistance);
@@ -332,7 +330,7 @@ namespace SubPhases
             }
         }
 
-        private Dictionary<string, float> GetSpaceBetween(Ship.GenericShip thisShip, Ship.GenericShip anotherShip)
+        private Dictionary<string, float> GetSpaceBetween(GenericShip thisShip, GenericShip anotherShip)
         {
             Dictionary<string, float> result = new Dictionary<string, float>();
 
@@ -383,8 +381,7 @@ namespace SubPhases
 
             if (Phases.CurrentSubPhase.GetType() == typeof(SetupShipMidgameSubPhase))
             {
-                if (!ship.ShipBase.IsInside(StartingZone))
-
+                if (!CheckIsInCorrectEdgeZone())
                 {
                     if (CameraScript.InputTouchIsEnabled)
                     {
@@ -405,12 +402,33 @@ namespace SubPhases
                 }
 
                 if (SetupFilter != null && !SetupFilter()) return false;
-
             }
 
             if (result) StopDrag();
 
             return result;
+        }
+
+        private bool CheckIsInCorrectEdgeZone()
+        {
+            if (SetupSide != Direction.All)
+            {
+                return Selection.ThisShip.ShipBase.IsInside(StartingZone);
+            }
+            else
+            {
+                List<Direction> directions = new List<Direction>() { Direction.Left, Direction.Right, Direction.Top, Direction.Bottom };
+                foreach (Direction direction in directions)
+                {
+                    Transform startZone = Board.GetStartingZone(direction);
+                    if (Selection.ThisShip.ShipBase.IsInside(startZone))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
         }
 
         public override void NextButton()

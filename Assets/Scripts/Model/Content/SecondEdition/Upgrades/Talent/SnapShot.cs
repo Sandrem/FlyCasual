@@ -8,16 +8,14 @@ using Ship;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SnapShot : GenericSpecialWeapon
+    public class SnapShot : GenericSpecialWeapon, IVariableCost
     {
         public SnapShot() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "SnapShot",
                 UpgradeType.Talent,
-                cost: 4,
+                cost: 7,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     // Hacking the range to remove this as a possible weapon when ability is not triggered
@@ -28,7 +26,19 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/0c/6b/0c6b9e6c-7c2f-4322-bcf0-f6f2fce44323/swz47_upgrade-snap-shot.png";
-        }        
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
+            {
+                {BaseSize.Small, 7},
+                {BaseSize.Medium, 8},
+                {BaseSize.Large, 9},
+            };
+
+            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
+        }
     }
 }
 

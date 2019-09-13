@@ -18,9 +18,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Broadside\"",
                     3,
-                    35,
+                    36,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Astromech },
                     abilityType: typeof(Abilities.SecondEdition.BroadsideAbility)
                 );
 

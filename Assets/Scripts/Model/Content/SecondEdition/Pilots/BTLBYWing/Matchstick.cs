@@ -1,5 +1,4 @@
 ﻿using Ship;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
@@ -16,9 +15,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Matchstick\"",
                     4,
-                    37,
+                    43,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Astromech },
                     abilityType: typeof(Abilities.SecondEdition.MatchstickAbility)
                 );
 

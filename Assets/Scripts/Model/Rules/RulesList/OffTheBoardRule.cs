@@ -8,7 +8,8 @@ public enum Direction
     Bottom,
     Left,
     Right,
-    None
+    None,
+    All
 }
 
 namespace RulesList

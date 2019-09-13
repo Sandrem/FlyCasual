@@ -1,9 +1,7 @@
 ﻿using Upgrade;
 using System.Collections.Generic;
 using Ship;
-using System.Linq;
 using BoardTools;
-using System;
 
 namespace UpgradesList.SecondEdition
 {
@@ -11,12 +9,10 @@ namespace UpgradesList.SecondEdition
     {
         public GraviticDeflection() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Gravitic Deflection",
                 UpgradeType.Talent,
-                cost: 0,
+                cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.GraviticDeflectionAbility),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.NantexClassStarfighter.NantexClassStarfighter))
             );

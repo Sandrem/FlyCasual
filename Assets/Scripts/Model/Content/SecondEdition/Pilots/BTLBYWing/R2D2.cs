@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,8 +18,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "R2-D2",
                     2,
-                    32,
+                    35,
                     isLimited: true,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Crew },
                     abilityType: typeof(Abilities.SecondEdition.R2D2PilotAbility)
                 );
 

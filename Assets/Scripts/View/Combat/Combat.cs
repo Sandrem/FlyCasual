@@ -192,6 +192,8 @@ public static partial class Combat
 
         diceModification.ActionEffect( delegate {
             ReplaysManager.ExecuteWithDelay(delegate {
+                //make sure UI/CombatDiceResultsPanel is available again
+                GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
                 ReGenerateListOfButtons(diceModification.DiceModificationTiming);
             });
         });

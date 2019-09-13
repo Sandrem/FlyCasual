@@ -118,7 +118,7 @@ namespace Ship
             }
         }
 
-        public void CallManeuverIsRevealed(System.Action callBack)
+        public void CallManeuverIsRevealed(Action callBack, Action whenSkippedCallback)
         {
             if (AssignedManeuver != null) Roster.ToggleManeuverVisibility(Selection.ThisShip, true);
 
@@ -130,7 +130,13 @@ namespace Ship
                 OnManeuverIsRevealed?.Invoke(this);
                 OnManeuverIsRevealedGlobal?.Invoke(this);
 
-                Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsRevealed, callBack);
+                Triggers.ResolveTriggers(
+                    TriggerTypes.OnManeuverIsRevealed,
+                    delegate
+                    {
+                        if (!IsManeuverSkipped) callBack(); else whenSkippedCallback();
+                    }
+                );
             }
             else // For ionized ships
             {

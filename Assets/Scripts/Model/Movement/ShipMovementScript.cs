@@ -174,11 +174,12 @@ public class ShipMovementScript : MonoBehaviour {
     private static void RevealManeuver()
     {
         Selection.ThisShip.CallManeuverIsRevealed(
-            delegate { ShipMovementScript.LaunchMovement(FinishMovementAndStartActionDecision); }
+            delegate { ShipMovementScript.LaunchMovement(FinishMovementAndStartActionDecision); },
+            FinishMovementAndStartActionDecision
         );
     }
 
-    private static void FinishMovementAndStartActionDecision()
+    public static void FinishMovementAndStartActionDecision()
     {
         GenericSubPhase actionSubPhase = new ActionSubPhase();
         actionSubPhase.PreviousSubPhase = Phases.CurrentSubPhase;

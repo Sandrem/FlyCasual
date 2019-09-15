@@ -21,8 +21,8 @@ namespace UpgradesList.SecondEdition
                     arc: Arcs.ArcType.Bullseye,
                     noRangeBonus: true,
                     // Hacking the range to remove this as a possible weapon when ability is not triggered
-                    minRange: -1,
-                    maxRange: -1
+                    minRange: 1,
+                    maxRange: 3
                 ),
                 abilityType: typeof(Abilities.SecondEdition.ForesightAbility)
             );
@@ -152,8 +152,8 @@ namespace Abilities.SecondEdition
 
         private void DisableWeaponRange()
         {
-            (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = -1;
-            (HostUpgrade as IShipWeapon).WeaponInfo.MinRange = -1;
+            //(HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = -1;
+            //(HostUpgrade as IShipWeapon).WeaponInfo.MinRange = -1;
         }
 
         private void CheckForesightAbility(GenericShip ship)

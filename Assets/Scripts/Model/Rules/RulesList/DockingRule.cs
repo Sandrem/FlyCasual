@@ -151,11 +151,11 @@ namespace RulesList
             newSubphase.Start();            
         }
 
-        private void Undock(GenericShip hostShip, GenericShip dockedShip, bool isForced = false)
+        private void Undock(GenericShip hostShip, GenericShip dockedShip, bool isEmergencyDeploy = false)
         {
             UndockingDirectionDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<UndockingDirectionDecisionSubphase>(
                 "Select direction of undocking",
-                delegate { ContinueUndocking(hostShip, dockedShip, isForced); }
+                delegate { ContinueUndocking(hostShip, dockedShip, isEmergencyDeploy); }
             );
 
             subphase.DescriptionShort = "Select direction of deployment";
@@ -179,7 +179,7 @@ namespace RulesList
             subphase.Start();
         }
 
-        private void ContinueUndocking(GenericShip hostShip, GenericShip dockedShip, bool isForced)
+        private void ContinueUndocking(GenericShip hostShip, GenericShip dockedShip, bool isEmergencyDeploy)
         {
             Roster.UndockShip(dockedShip);
             hostShip.DockedShips.Remove(dockedShip);
@@ -201,17 +201,37 @@ namespace RulesList
 
             hostShip.OnShipIsDestroyed -= CheckForcedUndocking;
 
-            if (!isForced)
+            if (!isEmergencyDeploy)
             {
                 AskAssignManeuver(hostShip, dockedShip);
             }
             else
             {
-                dockedShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), delegate {
-                    DealFacedownDamageCard(dockedShip, delegate {
-                        AskAssignManeuver(hostShip, dockedShip);
+                if (Editions.Edition.Current is Editions.FirstEdition)
+                {
+                    dockedShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), delegate
+                    {
+                        DealFacedownDamageCard(dockedShip, delegate
+                        {
+                            AskAssignManeuver(hostShip, dockedShip, true);
+                        });
                     });
-                });
+                }
+                else {
+                    dockedShip.Damage.TryResolveDamage(
+                        0, 
+                        new DamageSourceEventArgs()
+                        {
+                            Source = null,
+                            DamageType = DamageTypes.Rules
+                        }, 
+                        delegate
+                        {
+                            AskAssignManeuver(hostShip, dockedShip, true);
+                        }, 
+                        1
+                        );
+                }
             }
         }
 
@@ -268,17 +288,17 @@ namespace RulesList
             ship.Damage.DealDrawnCard(callBack);
         }
 
-        private void AskAssignManeuver(GenericShip host, GenericShip docked)
+        private void AskAssignManeuver(GenericShip host, GenericShip docked, bool isEmergencyDeploy = false)
         {
             Selection.ChangeActiveShip("ShipId:" + docked.ShipId);
 
             if (Editions.Edition.Current is Editions.SecondEdition)
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, RegisterPerformManeuver, FilterOnlyForward);
+                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, delegate { RegisterPerformManeuver(isEmergencyDeploy); }, FilterOnlyForward);
             }
             else
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, RegisterPerformManeuver);
+                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, delegate { RegisterPerformManeuver(isEmergencyDeploy); });
             }
         }
 
@@ -297,7 +317,7 @@ namespace RulesList
             return result;
         }
 
-        private void RegisterPerformManeuver()
+        private void RegisterPerformManeuver(bool isEmergencyDeploy)
         {
             Triggers.RegisterTrigger(new Trigger()
             {
@@ -309,7 +329,7 @@ namespace RulesList
 
             Triggers.ResolveTriggers(
                 TriggerTypes.OnManeuver,
-                AfterUndockingManeuverIsFinished
+                delegate { AfterUndockingManeuverIsFinished(isEmergencyDeploy); }
             );
         }
 
@@ -324,9 +344,9 @@ namespace RulesList
             Selection.ThisShip.AssignedManeuver.Perform();
         }
 
-        private void AfterUndockingManeuverIsFinished()
+        private void AfterUndockingManeuverIsFinished(bool isEmergencyDeploy)
         {
-            if (!Selection.ThisShip.IsDestroyed)
+            if (!(Selection.ThisShip.IsDestroyed || (isEmergencyDeploy && Editions.Edition.Current is Editions.SecondEdition)))
             {
                 Triggers.RegisterTrigger(
                     new Trigger()

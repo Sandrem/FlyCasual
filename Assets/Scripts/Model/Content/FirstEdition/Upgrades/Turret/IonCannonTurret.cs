@@ -58,15 +58,14 @@ namespace Abilities.FirstEdition
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
 
-            Combat.Defender.Tokens.AssignToken(
-                typeof(IonToken),
-                delegate {
-                    GameManagerScript.Wait(2, DefenderSuffersDamage);
-                }
-            );
+            DefenderSuffersDamage(delegate {
+                Combat.Defender.Tokens.AssignToken(typeof(IonToken), delegate {
+                    GameManagerScript.Wait(2, Triggers.FinishTrigger);
+                });
+            });
         }
 
-        protected void DefenderSuffersDamage()
+        protected void DefenderSuffersDamage(System.Action callback)
         {
             DamageSourceEventArgs ionWeaponDamage = new DamageSourceEventArgs()
             {
@@ -74,7 +73,7 @@ namespace Abilities.FirstEdition
                 DamageType = DamageTypes.ShipAttack
             };
 
-            Combat.Defender.Damage.TryResolveDamage(1, ionWeaponDamage, Triggers.FinishTrigger);
+            Combat.Defender.Damage.TryResolveDamage(1, ionWeaponDamage, callback);
         }
     }
 

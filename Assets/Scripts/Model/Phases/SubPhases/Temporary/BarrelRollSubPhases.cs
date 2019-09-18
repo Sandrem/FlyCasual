@@ -690,7 +690,7 @@ namespace SubPhases
 
             TheShip.SetPosition(Vector3.MoveTowards(TheShip.GetPosition(), TemporaryShipBase.transform.position, progressStep));
 
-            if (!IsTractorBeamBarrelRoll)
+            if (!IsTractorBeamBarrelRoll && !TheShip.IsLandedModel)
             {
                 TheShip.RotateModelDuringBarrelRoll(progressCurrent / progressTarget, (Direction == Direction.Left) ? -1 : 1);
                 TheShip.SetRotationHelper2Angles(new Vector3(0, progressCurrent / progressTarget * (plannedRotation - initialRotation), 0));
@@ -725,6 +725,8 @@ namespace SubPhases
             MovementTemplates.HideLastMovementRuler();
 
             TheShip.ToggleShipStandAndPeg(true);
+            if (TheShip.IsLandedModel) TheShip.TogglePeg(false);
+
             TheShip.CallPositionIsReadyToFinish(FinishBarrelRollAnimationPart2);
         }
 

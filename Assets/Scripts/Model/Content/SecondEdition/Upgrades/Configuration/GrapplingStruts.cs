@@ -94,6 +94,7 @@ namespace Abilities.SecondEdition
 
             HostShip.GetModelCenterTransform().localPosition -= new Vector3(0, 2, 0);
             HostShip.GetModelTransform().localPosition += new Vector3(0, 2, 0);
+            HostShip.IsLandedModel = true;
 
             (HostUpgrade as GenericDualUpgrade).Flip();
 
@@ -176,6 +177,9 @@ namespace Abilities.SecondEdition
 
                 HostShip.GetModelCenterTransform().localPosition += new Vector3(0, 2, 0);
                 HostShip.GetModelTransform().localPosition -= new Vector3(0, 2, 0);
+                HostShip.IsLandedModel = false;
+
+                GameManagerScript.Wait(0.5f, delegate { HostShip.TogglePeg(true); });
             }
         }
 

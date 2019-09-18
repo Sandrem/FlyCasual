@@ -90,8 +90,11 @@ namespace Abilities.SecondEdition
 
             HostShip.TogglePeg(false);
 
-            /*Animation animation = HostShip.GetModelTransform().Find("Vulture/Body").GetComponent<Animation>();
-            animation.Play("Landing");*/
+            Animation animation = HostShip.GetModelTransform().Find("Vulture/Body").GetComponent<Animation>();
+            animation.Play("Landing");
+
+            HostShip.GetModelCenterTransform().localPosition -= new Vector3(0, 2, 0);
+            HostShip.GetModelTransform().localPosition += new Vector3(0, 2, 0);
 
             (HostUpgrade as GenericDualUpgrade).Flip();
 
@@ -152,9 +155,6 @@ namespace Abilities.SecondEdition
             HostShip.ObstaclesHit.RemoveAll(n => IgnoreObstaclesList.Contains(n));
 
             (HostUpgrade as GenericDualUpgrade).Flip();
-
-            /*Animation animation = HostShip.GetModelTransform().Find("Vulture/Body").GetComponent<Animation>();
-            animation.Play("Takeoff");*/
         }
 
         private void CheckSpecialManeuvers(GenericShip ship)
@@ -164,6 +164,14 @@ namespace Abilities.SecondEdition
             if (!RevealedManeuverIs2FS() && IsOnObstacle())
             {
                 RegisterOwnTrigger();
+            }
+            else
+            {
+                Animation animation = HostShip.GetModelTransform().Find("Vulture/Body").GetComponent<Animation>();
+                animation.Play("Takeoff");
+
+                HostShip.GetModelCenterTransform().localPosition += new Vector3(0, 2, 0);
+                HostShip.GetModelTransform().localPosition -= new Vector3(0, 2, 0);
             }
         }
 

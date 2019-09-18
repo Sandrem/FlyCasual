@@ -90,8 +90,7 @@ namespace Abilities.SecondEdition
 
             HostShip.TogglePeg(false);
 
-            Animation animation = HostShip.GetModelTransform().Find("Vulture/Body").GetComponent<Animation>();
-            animation.Play("Landing");
+            PlayLandingAnimation();
 
             HostShip.GetModelCenterTransform().localPosition -= new Vector3(0, 2, 0);
             HostShip.GetModelTransform().localPosition += new Vector3(0, 2, 0);
@@ -99,6 +98,12 @@ namespace Abilities.SecondEdition
             (HostUpgrade as GenericDualUpgrade).Flip();
 
             Triggers.FinishTrigger();
+        }
+
+        protected virtual void PlayLandingAnimation()
+        {
+            Animation animation = HostShip.GetModelTransform().Find("Vulture/Body").GetComponent<Animation>();
+            animation.Play("Landing");
         }
 
         private bool ConditionsAreMet()
@@ -167,12 +172,17 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Animation animation = HostShip.GetModelTransform().Find("Vulture/Body").GetComponent<Animation>();
-                animation.Play("Takeoff");
+                PlayTakeoffAnimation();
 
                 HostShip.GetModelCenterTransform().localPosition += new Vector3(0, 2, 0);
                 HostShip.GetModelTransform().localPosition -= new Vector3(0, 2, 0);
             }
+        }
+
+        protected virtual void PlayTakeoffAnimation()
+        {
+            Animation animation = HostShip.GetModelTransform().Find("Vulture/Body").GetComponent<Animation>();
+            animation.Play("Takeoff");
         }
 
         private void RegisterOwnTrigger()

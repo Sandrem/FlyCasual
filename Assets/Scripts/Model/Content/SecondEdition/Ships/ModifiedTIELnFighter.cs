@@ -22,8 +22,6 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.ModifiedTIELnFighterAbility());
 
-                ShipAbilities.Add(new Abilities.SecondEdition.ModifiedTIELnFighterAbility());
-
                 ModelInfo = new ShipModelInfo(
                     "Modified TIE Fighter",
                     "Mining Guild",
@@ -48,11 +46,15 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.IgnoreObstacleTypes.Add(typeof(Obstacles.Asteroid));
+            HostShip.IsIgnoreObstaclesDuringBarrelRoll = true;
+            HostShip.IsIgnoreObstaclesDuringBoost = true;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.IgnoreObstacleTypes.Remove(typeof(Obstacles.Asteroid));
+            HostShip.IsIgnoreObstaclesDuringBarrelRoll = false;
+            HostShip.IsIgnoreObstaclesDuringBoost = false;
         }
     }
 }

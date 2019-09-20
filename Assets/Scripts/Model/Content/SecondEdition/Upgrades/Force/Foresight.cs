@@ -20,7 +20,6 @@ namespace UpgradesList.SecondEdition
                     attackValue: 2,
                     arc: Arcs.ArcType.Bullseye,
                     noRangeBonus: true,
-                    // Hacking the range to remove this as a possible weapon when ability is not triggered
                     minRange: 1,
                     maxRange: 3
                 ),
@@ -146,14 +145,12 @@ namespace Abilities.SecondEdition
 
         protected virtual void EnableWeaponRange()
         {
-            (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = 3;
-            (HostUpgrade as IShipWeapon).WeaponInfo.MinRange = 1;
+            // Do nothing
         }
 
         private void DisableWeaponRange()
         {
-            //(HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = -1;
-            //(HostUpgrade as IShipWeapon).WeaponInfo.MinRange = -1;
+            // Do nothing
         }
 
         private void CheckForesightAbility(GenericShip ship)
@@ -165,7 +162,10 @@ namespace Abilities.SecondEdition
                 EnableWeaponRange();
                 ShotInfo shotInfo = new ShotInfo(HostShip, foresightTarget, (HostUpgrade as IShipWeapon));
 
-                if (shotInfo.IsShotAvailable && HostShip.State.Force > 0)
+                if (shotInfo.Range <= (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange &&
+                    shotInfo.Range >= (HostUpgrade as IShipWeapon).WeaponInfo.MinRange &&
+                    shotInfo.IsShotAvailable &&
+                    HostShip.State.Force > 0)
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskForesightAbility);
                 }

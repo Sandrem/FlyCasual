@@ -38,18 +38,19 @@ namespace Abilities.SecondEdition
 
             if (ionTokens > 0)
             {
-                Combat.Defender.Tokens.AssignTokens(
-                    () => new IonToken(Combat.Defender),
-                    ionTokens,
-                    delegate
-                    {
-                        GameManagerScript.Wait(2, DefenderSuffersDamage);
-                    }
-                );
+                DefenderSuffersDamage(delegate {
+                    Combat.Defender.Tokens.AssignTokens(
+                        () => new IonToken(Combat.Defender),
+                        ionTokens,
+                        delegate {
+                            GameManagerScript.Wait(2, Triggers.FinishTrigger);
+                        }
+                    );
+                });
             }
             else
             {
-                DefenderSuffersDamage();
+                DefenderSuffersDamage(Triggers.FinishTrigger);
             }
         }
     }

@@ -77,6 +77,7 @@ namespace RulesList
         {
             ship.IsAttackPerformed = false;
             ship.IsAttackSkipped = false;
+            ship.IsManeuverSkipped = false;
             ship.IsManeuverPerformed = false;
             ship.IsSkipsActionSubPhase = false;
             ship.IsBombAlreadyDropped = false;

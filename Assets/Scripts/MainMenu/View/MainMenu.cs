@@ -184,4 +184,9 @@ public partial class MainMenu : MonoBehaviour {
         CurrentMainMenu.ChangePanel(CurrentMainMenu.PreviousPanelName);
     }
 
+    public void OpenPatreon()
+    {
+        Application.OpenURL("https://www.patreon.com/Sandrem");
+    }
+
 }

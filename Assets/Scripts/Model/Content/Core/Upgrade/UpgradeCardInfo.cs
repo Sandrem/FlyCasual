@@ -38,6 +38,7 @@ namespace Upgrade
         public int AddShields { get; private set; }
         public int AddForce { get; private set; }
         public ShipArcInfo AddArc { get; private set; }
+        public Type RemoteType { get; private set; }
 
         public UpgradeCardInfo(
             string name,
@@ -68,7 +69,8 @@ namespace Upgrade
             int addShields = 0,
             int addHull = 0,
             int addForce = 0,
-            UpgradeSubType subType = UpgradeSubType.None
+            UpgradeSubType subType = UpgradeSubType.None,
+            Type remoteType = null
         )
         {
             Name = name;
@@ -119,6 +121,7 @@ namespace Upgrade
             AddArc = addArc;
 
             SubType = subType;
+            RemoteType = remoteType;
         }
 
         public bool HasType(UpgradeType upgradeType)

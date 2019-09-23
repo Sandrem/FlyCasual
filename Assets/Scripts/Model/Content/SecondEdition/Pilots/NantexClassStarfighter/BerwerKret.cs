@@ -57,6 +57,7 @@ namespace Abilities.SecondEdition
             else
             {
                 Messages.ShowInfo("Berwer Kret: No ships that can use this ability");
+                Triggers.FinishTrigger();
             }
         }
 

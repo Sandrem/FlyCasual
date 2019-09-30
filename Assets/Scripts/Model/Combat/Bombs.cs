@@ -321,7 +321,10 @@ namespace Bombs
                 Triggers.FinishTrigger
             );
 
-            subphase.AddDecision("Drop", (o, e) => { DecisionSubPhase.ConfirmDecisionNoCallback(); DropDevice(); });
+            if (Selection.ThisShip.GetAvailableBombDropTemplates(CurrentDevice).Count != 0)
+            {
+                subphase.AddDecision("Drop", (o, e) => { DecisionSubPhase.ConfirmDecisionNoCallback(); DropDevice(); });
+            }
             subphase.AddDecision("Launch", LaunchBomb);
 
             subphase.DescriptionShort = "Select a way how to use the device";

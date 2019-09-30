@@ -2,6 +2,7 @@
 using Bombs;
 using Movement;
 using Remote;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -208,7 +209,7 @@ namespace SubPhases
 
             // TODO: get type of remote from upgrade
             ShipFactory.SpawnRemove(
-                new Drk1ProbeDroid(Selection.ThisShip.Owner),
+                (GenericRemote) Activator.CreateInstance(BombsManager.CurrentDevice.UpgradeInfo.RemoteType, Selection.ThisShip.Owner),
                 bombPosition,
                 bombRotation
             );

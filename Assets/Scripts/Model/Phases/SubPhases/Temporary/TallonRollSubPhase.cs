@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,12 +13,14 @@ namespace SubPhases
         private const float ANIMATION_SPEED = 700;
         private int direction;
 
+        private Vector3 PositionAfterRotation { get; set; }
+
         public override void Start()
         {
             Name = "Tallon Roll SubPhase";
             IsTemporary = true;
             UpdateHelpInfo();
-            StartTallonRoll();
+            StartTallonRollRotation();
         }
 
         public override void Update()
@@ -32,19 +35,53 @@ namespace SubPhases
             positionY = positionY / 90;
             Selection.ThisShip.SetHeight(positionY);
 
-            if (progressCurrent == progressTarget) EndTallonRoll();
+            if (progressCurrent == progressTarget) EndTallonRollRotation();
         }
 
-        public void StartTallonRoll()
+        public void StartTallonRollRotation()
         {
             direction = (Selection.ThisShip.AssignedManeuver.Direction == Movement.ManeuverDirection.Left) ? -1 : 1;
             progressCurrent = 0;
             progressTarget = 90;
         }
 
-        private void EndTallonRoll()
+        private void EndTallonRollRotation()
         {
-            Phases.FinishSubPhase(typeof(TallonRollSubPhase));
+            PositionAfterRotation = Selection.ThisShip.GetPosition();
+
+            TallonRollShiftSubPhase subPhase = Phases.StartTemporarySubPhaseNew<TallonRollShiftSubPhase>(
+                "Tallon Roll Shift",
+                delegate { Phases.FinishSubPhase(typeof(TallonRollSubPhase)); }
+            );
+
+            subPhase.AddDecision("Forward", delegate { ConfirmDecision(1); }, isCentered: true);
+            subPhase.AddDecision("Center", delegate { ConfirmDecision(0); }, isCentered: true);
+            subPhase.AddDecision("Backwards", delegate { ConfirmDecision(-1); }, isCentered: true);
+
+            subPhase.DescriptionShort = "Select final position";
+
+            subPhase.DecisionOwner = Selection.ThisShip.Owner;
+            subPhase.DefaultDecisionName = "Center";
+            subPhase.OnNextButtonIsPressed = FinishTallonRoll;
+
+            subPhase.Start();
+        }
+
+        private void FinishTallonRoll()
+        {
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void ConfirmDecision(int direction)
+        {
+            Vector3 shiftDirection = direction * Selection.ThisShip.GetFrontFacing();
+            Vector3 shiftAmount = shiftDirection * BoardTools.Board.BoardIntoWorld(BoardTools.Board.DISTANCE_1 / 4f);
+
+            Selection.ThisShip.SetPosition(PositionAfterRotation + shiftAmount);
+
+            DecisionSubPhase.ResetInput();
+
+            UI.ShowNextButton();
         }
 
         public override void Next()
@@ -68,5 +105,7 @@ namespace SubPhases
         }
 
     }
+
+    public class TallonRollShiftSubPhase : DecisionSubPhase {}
 
 }

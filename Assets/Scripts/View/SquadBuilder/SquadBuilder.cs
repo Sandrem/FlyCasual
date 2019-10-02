@@ -20,6 +20,7 @@ namespace SquadBuilderNS
     {
         Small4,
         Medium6,
+        Medium8,
         Large20
     }
 
@@ -116,6 +117,9 @@ namespace SquadBuilderNS
                 case FactionSize.Large20:
                     grid.constraintCount = 5;
                     break;
+                case FactionSize.Medium8:
+                    grid.constraintCount = 4;
+                    break;
                 case FactionSize.Medium6:
                     grid.constraintCount = 3;
                     break;
@@ -186,7 +190,7 @@ namespace SquadBuilderNS
                 case Faction.Scum:
                     return FactionSize.Large20;
                 case Faction.Resistance:
-                    return FactionSize.Medium6;
+                    return (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ? FactionSize.Medium8 : FactionSize.Medium6;
                 case Faction.FirstOrder:
                     return (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ? FactionSize.Medium6 : FactionSize.Small4;
                 case Faction.Republic:

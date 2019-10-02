@@ -33,12 +33,12 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            GenericShip.OnMovementFinishGlobal += CheckAbility;            
+            GenericShip.OnPositionFinishGlobal += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnMovementFinishGlobal -= CheckAbility;            
+            GenericShip.OnPositionFinishGlobal -= CheckAbility;
         }
 
         private void CheckAbility(GenericShip ship)
@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
                 if (distanceInfo.Range < 3)
                 {
                     ShipToRemoveStress = ship;
-                    RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskKananJarrusAbility);
+                    RegisterAbilityTrigger(TriggerTypes.OnPositionFinish, AskKananJarrusAbility);
                 }
             }
         }

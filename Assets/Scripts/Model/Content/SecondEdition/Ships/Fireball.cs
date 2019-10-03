@@ -50,8 +50,8 @@ namespace Ship.SecondEdition.Fireball
             ModelInfo = new ShipModelInfo(
                 "Fireball",
                 "Fireball",
-                new Vector3(-3.4f, 7.5f, 5.55f),
-                1.5f
+                new Vector3(-3.8f, 7.5f, 5.55f),
+                1.6f
             );
 
             DialInfo = new ShipDialInfo(

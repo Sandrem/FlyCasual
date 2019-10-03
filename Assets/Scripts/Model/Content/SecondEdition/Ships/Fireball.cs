@@ -36,6 +36,7 @@ namespace Ship.SecondEdition.Fireball
                     UpgradeType.Title,
                     UpgradeType.Missile,
                     UpgradeType.Illicit,
+                    UpgradeType.Astromech,
                     UpgradeType.Modification                    
                 ),
                 abilityText: "Setup: You are dealt 1 facedown damage card. After you perform a slam action, you may expose 1 damage card to remove 1 disarm token"

@@ -65,7 +65,7 @@ namespace Abilities.SecondEdition
                 "Leia Organa",
                 UseIfRedOnly,
                 DecreaseComplexityOfManeuver,
-                descriptionLong: "Do you want to spen 1 Force to resuce difficuly of revealed maneuver?",
+                descriptionLong: "Do you want to spen 1 Force to reduce difficuly of revealed maneuver?",
                 imageHolder: HostUpgrade,
                 requiredPlayer: HostShip.Owner.PlayerNo
             );

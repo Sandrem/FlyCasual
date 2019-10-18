@@ -26,21 +26,24 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGetManeuverColorDecreaseComplexity += ApplyAbility;
+            HostShip.OnManeuverIsRevealed += ApplyAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGetManeuverColorDecreaseComplexity -= ApplyAbility;
+            HostShip.OnManeuverIsRevealed -= ApplyAbility;
         }
 
-        private void ApplyAbility(GenericShip ship, ref ManeuverHolder movement)
+        private void ApplyAbility(GenericShip ship)
         {
-            if (movement.Speed == ManeuverSpeed.Speed1 || movement.Speed == ManeuverSpeed.Speed2)
+            if (HostShip.AssignedManeuver.Speed == 1 || HostShip.AssignedManeuver.Speed == 2)
             {
-                if (movement.Bearing == ManeuverBearing.Straight || movement.Bearing == ManeuverBearing.Bank || movement.Bearing == ManeuverBearing.Turn)
+                if (HostShip.AssignedManeuver.Bearing == ManeuverBearing.Straight || HostShip.AssignedManeuver.Bearing == ManeuverBearing.Bank || HostShip.AssignedManeuver.Bearing == ManeuverBearing.Turn)
                 {
-                    movement.ColorComplexity = GenericMovement.ReduceComplexity(movement.ColorComplexity);
+                    HostShip.AssignedManeuver.ColorComplexity = GenericMovement.ReduceComplexity(HostShip.AssignedManeuver.ColorComplexity);
+                    // Update revealed dial in UI
+                    Roster.UpdateAssignedManeuverDial(HostShip, HostShip.AssignedManeuver);
+                    Messages.ShowInfo("R4 Astromech: Difficulty of maneuver is reduced");
                 }
             }
         }

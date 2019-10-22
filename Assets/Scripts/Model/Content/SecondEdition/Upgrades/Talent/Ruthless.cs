@@ -137,7 +137,7 @@ namespace ActionsList
             {
                 // The team argument is relative to the ship it's measuring from, not the host of this ability, so we need to query for enemies of the defender
                 List<GenericShip> friendlyShipsAtRange1FromTarget = Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1), Team.Type.Enemy);
-                if (friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != HostShip.ShipId && n.State.HullCurrent > 0)) result = 33;
+                if (friendlyShipsAtRange1FromTarget.Any(n => n.ShipId != HostShip.ShipId && n.State.HullCurrent > 1)) result = 33;
             }
 
             return result;

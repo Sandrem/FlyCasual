@@ -143,13 +143,13 @@ namespace Abilities.SecondEdition
             if (HostShip.State.Charges < HostShip.State.MaxCharges)
             {
                 AllowRollAdditionalDie();
-                HostShip.State.Charges++;
             }
             DecisionSubPhase.ConfirmDecision();
         }
 
         private void AllowRollAdditionalDie()
         {
+            HostShip.State.Charges++;
             HostShip.AfterGotNumberOfAttackDice += RollExtraDie;
         }
 

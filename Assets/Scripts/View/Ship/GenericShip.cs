@@ -225,7 +225,8 @@ namespace Ship
 
         private string ShortenPilotName(string pilotName)
         {
-            return pilotName.Replace("Squadron", "Sq.");
+            return pilotName.Replace("Squadron", "Sq.")
+                .Replace("Station", "St.");
         }
 
         public void ShowMobileFiringArcHighlight(ArcFacing facing)

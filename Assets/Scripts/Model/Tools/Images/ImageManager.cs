@@ -39,6 +39,7 @@ public static class ImageManager
         }
         else
         {
+            Debug.Log(www.error);
             if (!web)
             {
                 File.Delete(filePath);
@@ -50,9 +51,9 @@ public static class ImageManager
         {
             texture = DownloadHandlerTexture.GetContent(www);
         }
-        catch
+        catch(Exception e)
         {
-            Debug.Log("Cannot download image: " + url);
+            Debug.Log("Cannot download image: " + url + Environment.NewLine + e.Message);
         }
 
         callback(texture);

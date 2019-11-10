@@ -192,13 +192,18 @@ namespace ActionsList
                 }
             }
 
+            // Ships that should target lock more often than they focus:
+            // Jedi with 2 or more Force
+            // Any ship with Advanced Targeting Computer
+            bool shouldPrioritizeTargetLockOverFocus =
+                Selection.ThisShip.State.Force > 1 ||
+                Selection.ThisShip.ShipAbilities.Any(a => a is Abilities.SecondEdition.AdvancedTargetingComputer) ||
+                Selection.ThisShip.UpgradeBar.HasUpgradeInstalled(typeof(UpgradesList.FirstEdition.AdvancedTargetingComputer));
 
-            if (Selection.ThisShip.State.Force > 1 && result == 0)
+            if (shouldPrioritizeTargetLockOverFocus && result == 0)
             {
-                // We have at least 2 Force and we haven't already decided to possibly perform a target lock action.
                 validTargetLockedAlready = false;
                 numTargetLockTargets = 0;
-                // Jedi with 2 or more Force should target lock more often than they focus.
                 foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(Selection.ThisShip.Owner.PlayerNo)).Ships)
                 {
                     ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, anotherShip.Value, Selection.ThisShip.PrimaryWeapons);
@@ -221,7 +226,7 @@ namespace ActionsList
                     // We don't already have a target that is in range and locked, and we have targets available.
                     result += 55;
                 }
-            }
+            }            
 
             return result;
         }

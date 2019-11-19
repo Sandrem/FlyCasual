@@ -91,6 +91,8 @@ namespace Abilities.SecondEdition
 
         private void RestorePilotSkill()
         {
+            Phases.Events.OnCombatPhaseEnd_NoTriggers -= RestorePilotSkill;
+
             HostShip.State.RemovePilotSkillModifier(HostUpgrade as IModifyPilotSkill);
 
             Messages.ShowInfo(HostShip.PilotInfo.PilotName + "'s Initiative has been restored");

@@ -178,8 +178,8 @@ namespace Upgrade
 
         public List<GenericUpgrade> GetSpecialWeaponsActive()
         {
-            return GetUpgradesAll().Where(n => 
-                n is GenericSpecialWeapon 
+            return GetUpgradesAll().Where(n =>
+                n is GenericSpecialWeapon
                 && n.State.IsFaceup
                 && (
                     ((n as GenericSpecialWeapon).WeaponInfo.UsesCharges == false)

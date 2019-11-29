@@ -146,7 +146,9 @@ namespace ActionsList
             // Find the combined maximum and minimum range of all of our ordinance that currently has charges.
             foreach (GenericUpgrade currentUpgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
-                if (currentUpgrade.HasType(UpgradeType.Missile) || currentUpgrade.HasType(UpgradeType.Torpedo) && currentUpgrade.State.Charges > 0)
+                if (currentUpgrade is IShipWeapon
+                    && (currentUpgrade.HasType(UpgradeType.Missile) || currentUpgrade.HasType(UpgradeType.Torpedo))
+                    && currentUpgrade.State.Charges > 0)
                 {
                     if (currentUpgrade.UpgradeInfo.WeaponInfo.RequiresToken == typeof(BlueTargetLockToken))
                     {

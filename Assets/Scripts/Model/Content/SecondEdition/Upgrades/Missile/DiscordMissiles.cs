@@ -11,7 +11,7 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class DiscordMissiles : GenericSpecialWeapon
+    public class DiscordMissiles : GenericUpgrade
     {
         public DiscordMissiles() : base()
         {

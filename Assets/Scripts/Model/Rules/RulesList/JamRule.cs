@@ -44,6 +44,11 @@ namespace RulesList
             {
                 return true;
             }
+            //Tractor beam tokens are not jammable, and they have no constructor with only one paramter so the call to Activator.CreateInstance() below crashes
+            if (tokenType == typeof(TractorBeamToken))
+            {
+                return false;
+            }
             // For other tokens, create a token of the type and check with the edition rules instead of checking for a fixed list of types, for future-proofing.
             var token = (GenericToken)Activator.CreateInstance(tokenType, new object[] { null });
             return Edition.Current.IsTokenCanBeDiscardedByJam(token);

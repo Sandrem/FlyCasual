@@ -50,6 +50,7 @@ namespace Abilities.SecondEdition
 
                 HostShip.OnCheckPreventDestruction -= ActivateAbility;
                 preventDestruction = true;
+                HostShip.IsDestroyed = false;
                 Roster.MoveToReserve(HostShip);
 
                 Phases.Events.OnPlanningPhaseStart += RegisterSetup;

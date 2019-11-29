@@ -63,13 +63,13 @@ namespace Abilities.FirstEdition
             }
             else
             {
-                Combat.Attacker.OnCombatCheckExtraAttack += StartCounterAttack;
+                Combat.Attacker.OnCombatDeactivation += StartCounterAttack;
             }
         }
 
         private void StartCounterAttack(GenericShip ship)
         {
-            ship.OnCombatCheckExtraAttack -= StartCounterAttack;
+            ship.OnCombatDeactivation -= StartCounterAttack;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, RegisterCombat);
         }

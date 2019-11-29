@@ -18,9 +18,8 @@ namespace UpgradesList.SecondEdition
                 cost: 7,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
-                    // Hacking the range to remove this as a possible weapon when ability is not triggered
-                    minRange: -1,
-                    maxRange: -1
+                    minRange: 2,
+                    maxRange: 2
                 ),
                 abilityType: typeof(Abilities.SecondEdition.SnapShotAbility)
             );
@@ -48,8 +47,12 @@ namespace Abilities.SecondEdition
     {
         protected override void EnableWeaponRange()
         {
-            (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = 2;
-            (HostUpgrade as IShipWeapon).WeaponInfo.MinRange = 2;
+            // Do nothing
+        }
+
+        protected override void DisableWeaponRange()
+        {
+            // Do nothing
         }
 
         protected override void SnapShotRestrictionForDefender(GenericShip ship, GenericAction action, ref bool canBeUsed)

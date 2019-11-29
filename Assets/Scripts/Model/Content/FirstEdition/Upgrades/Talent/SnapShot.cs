@@ -116,7 +116,7 @@ namespace Abilities.FirstEdition
             (HostUpgrade as IShipWeapon).WeaponInfo.MinRange = 1;
         }
 
-        private void DisableWeaponRange()
+        protected virtual void DisableWeaponRange()
         {
             (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange = -1;
             (HostUpgrade as IShipWeapon).WeaponInfo.MinRange = -1;

@@ -15,7 +15,6 @@ public class DiceStatsValues : MonoBehaviour
             foreach (var statBlock in statBlocks)
             {
                 string[] diceBlock = statBlock.Split('-');
-                Debug.Log("Row" + i + "/" + diceBlock[0]);
                 this.transform.Find("Row" + i + "/" + diceBlock[0]).GetComponent<Text>().text = diceBlock[1];
             }
         }

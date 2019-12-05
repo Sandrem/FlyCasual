@@ -127,6 +127,8 @@ public static partial class Phases
             ship.DeactivateAllAbilities();
         }
 
+        DiceStatsTracker.Update();
+
         Board.Cleanup();
     }
 

@@ -155,7 +155,7 @@ public class PlayerDiceStats
     {
         foreach (var item in playerDiceStats.DiceStats)
         {
-            DiceStats.First(n => n.DiceKind == n.DiceKind && n.DieSide == n.DieSide).Count += item.Count;
+            DiceStats.First(n => n.DiceKind == item.DiceKind && n.DieSide == item.DieSide).Count += item.Count;
         }
     }
 }

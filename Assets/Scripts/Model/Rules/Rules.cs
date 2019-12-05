@@ -70,8 +70,6 @@ public static class Rules
     {
         Docking.Initialize();
         Phases.EndGame();
-
-        DiceStatsTracker.Update();
     }
 }
 

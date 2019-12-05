@@ -11,12 +11,15 @@ public static class DiceStatsTracker
 
     public static void ReadFromString(string inputString)
     {
-        string[] playerBlocks = inputString.Split('&');
-        DiceStats = new Dictionary<PlayerNo, PlayerDiceStats>()
+        if (DiceStats == null)
         {
-            { PlayerNo.Player1, new PlayerDiceStats(PlayerNo.Player1, null, playerBlocks[0]) },
-            { PlayerNo.Player2, new PlayerDiceStats(PlayerNo.Player2, null, playerBlocks[1]) }
-        };
+            string[] playerBlocks = inputString.Split('&');
+            DiceStats = new Dictionary<PlayerNo, PlayerDiceStats>()
+            {
+                { PlayerNo.Player1, new PlayerDiceStats(PlayerNo.Player1, null, playerBlocks[0]) },
+                { PlayerNo.Player2, new PlayerDiceStats(PlayerNo.Player2, null, playerBlocks[1]) }
+            };
+        }
     }
 
     public static void Update()
@@ -26,6 +29,10 @@ public static class DiceStatsTracker
         {
             DiceStats[PlayerNo.Player1].Update(StatsViewScript.Instance.GetStats(PlayerNo.Player1));
             DiceStats[PlayerNo.Player2].Update(StatsViewScript.Instance.GetStats(PlayerNo.Player2));
+
+            string statToSave = DiceStats[PlayerNo.Player1].ToString() + "&" + DiceStats[PlayerNo.Player2].ToString();
+            PlayerPrefs.SetString("DiceStats", statToSave);
+            PlayerPrefs.Save();
         }
     }
 }

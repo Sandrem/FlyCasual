@@ -193,7 +193,7 @@ namespace SubPhases
 
         private void CheckPerformRotation()
         {
-            if (Console.IsActive || Selection.ThisShip == null) return;
+            if (Console.IsActive || Selection.ThisShip == null || Selection.ThisShip.Owner is Players.GenericAiPlayer) return;
 
             CheckResetRotation();
             if (Input.GetKey(KeyCode.LeftControl))

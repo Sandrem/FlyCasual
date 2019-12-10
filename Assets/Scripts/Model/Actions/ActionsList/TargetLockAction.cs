@@ -140,8 +140,6 @@ namespace ActionsList
             int minShipTargetRange = HostShip.TargetLockMinRange;
             int curOrdinanceMax = -1;
             int curOrdinanceMin = -1;
-            int numTargetLockTargets = 0;
-            bool validTargetLockedAlready = false;
 
             // Find the combined maximum and minimum range of all of our ordinance that currently has charges.
             foreach (GenericUpgrade currentUpgrade in Selection.ThisShip.UpgradeBar.GetUpgradesOnlyFaceup())

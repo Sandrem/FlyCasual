@@ -166,69 +166,50 @@ namespace ActionsList
             }
             // If our minimum range is less than 99, we have ordinance that is loaded and have set our min and max ranges.
             // Check all enemy ships to see if they are in range of our ordinance.
-            if (minOrdinanceRange < 99)
+            if (minOrdinanceRange < 99 && HasValidLockTargetsAndNoLockOnShipInRange(Selection.ThisShip, minOrdinanceRange, maxOrdinanceRange))
             {
-                foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(Selection.ThisShip.Owner.PlayerNo)).Ships)
+                // We have ordinance, we have targets for that ordinance, and none of them have our target lock on them.
+                result += 55;
+            }
+
+            // We have at least 2 Force and we haven't already decided to possibly perform a target lock action.
+            // Jedi with 2 or more Force should target lock more often than they focus.
+            if (Selection.ThisShip.State.Force > 1 && result == 0 && HasValidLockTargetsAndNoLockOnShipInRange(Selection.ThisShip))
+            {                
+                // We don't already have a target that is in range and locked, and we have targets available.
+                result += 55;                
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Returns true if we don't already have a target that is in range and locked, and we have targets available.
+        /// </summary>
+        public static bool HasValidLockTargetsAndNoLockOnShipInRange(GenericShip ship, int minRange = 1, int maxRange = 3)
+        {
+            var validTargetLockedAlready = false;
+            var numTargetLockTargets = 0;
+
+            foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(ship.Owner.PlayerNo)).Ships)
+            {
+                ShotInfo shotInfo = new ShotInfo(ship, anotherShip.Value, ship.PrimaryWeapons);
+                if (shotInfo.Range >= minRange && shotInfo.Range <= maxRange && shotInfo.IsShotAvailable)
                 {
-                    ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, anotherShip.Value, Selection.ThisShip.PrimaryWeapons);
-                    if ((shotInfo.Range <= maxOrdinanceRange) && (shotInfo.Range >= minOrdinanceRange) && (shotInfo.IsShotAvailable))
+                    if (!ActionsHolder.HasTargetLockOn(ship, anotherShip.Value))
                     {
-                        if (!ActionsHolder.HasTargetLockOn(Selection.ThisShip, anotherShip.Value))
-                        {
-                            // We have a target in range that doesn't have a target lock on it from us.
-                            numTargetLockTargets++;
-                        }
-                        else
-                        {
-                            // We already have a target in range that has our target lock on it.
-                            validTargetLockedAlready = true;
-                        }
+                        // We have a target in range that doesn't have a target lock on it from us.
+                        numTargetLockTargets++;
                     }
-                }
-                if (validTargetLockedAlready == false && numTargetLockTargets > 0)
-                {
-                    // We have ordinance, we have targets for that ordinance, and none of them have our target lock on them.
-                    result += 55;
+                    else
+                    {
+                        // We already have a target in range that has our target lock on it.
+                        validTargetLockedAlready = true;
+                    }
                 }
             }
 
-            // Ships that should target lock more often than they focus:
-            // Jedi with 2 or more Force
-            // Any ship with Advanced Targeting Computer
-            bool shouldPrioritizeTargetLockOverFocus =
-                Selection.ThisShip.State.Force > 1 ||
-                Selection.ThisShip.ShipAbilities.Any(a => a is Abilities.SecondEdition.AdvancedTargetingComputer) ||
-                Selection.ThisShip.UpgradeBar.HasUpgradeInstalled(typeof(UpgradesList.FirstEdition.AdvancedTargetingComputer));
-
-            if (shouldPrioritizeTargetLockOverFocus && result == 0)
-            {
-                validTargetLockedAlready = false;
-                numTargetLockTargets = 0;
-                foreach (var anotherShip in Roster.GetPlayer(Roster.AnotherPlayer(Selection.ThisShip.Owner.PlayerNo)).Ships)
-                {
-                    ShotInfo shotInfo = new ShotInfo(Selection.ThisShip, anotherShip.Value, Selection.ThisShip.PrimaryWeapons);
-                    if ((shotInfo.Range < 4) && (shotInfo.IsShotAvailable))
-                    {
-                        if (!ActionsHolder.HasTargetLockOn(Selection.ThisShip, anotherShip.Value))
-                        {
-                            // We have a target in range that doesn't have a target lock on it from us.
-                            numTargetLockTargets++;
-                        }
-                        else
-                        {
-                            // We already have a target in range that has our target lock on it.
-                            validTargetLockedAlready = true;
-                        }
-                    }
-                }
-                if (validTargetLockedAlready == false && numTargetLockTargets > 0)
-                {
-                    // We don't already have a target that is in range and locked, and we have targets available.
-                    result += 55;
-                }
-            }            
-
-            return result;
+            return (validTargetLockedAlready == false && numTargetLockTargets > 0);
         }
     }
 

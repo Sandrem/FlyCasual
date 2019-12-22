@@ -19,6 +19,7 @@ namespace Ship
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Cannon);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
 
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(FocusAction), typeof(BarrelRollAction)));
 

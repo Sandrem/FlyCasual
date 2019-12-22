@@ -77,7 +77,8 @@ namespace Abilities.SecondEdition
 
         private void RegisterAskToUseFlip(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskToFlip);
+            if (!HostShip.Damage.HasFaceupCards)
+                RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskToFlip);
         }
 
         protected void AskToFlip(object sender, EventArgs e)

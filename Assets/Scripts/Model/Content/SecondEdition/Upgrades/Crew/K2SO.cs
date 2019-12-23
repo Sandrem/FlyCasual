@@ -13,6 +13,8 @@ namespace UpgradesList.SecondEdition
     {
         public K2SO() : base()
         {
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             UpgradeInfo = new UpgradeCardInfo(
                 "K-2SO",
                 UpgradeType.Crew,

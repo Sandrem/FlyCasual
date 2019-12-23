@@ -30,7 +30,7 @@ namespace UpgradesList.SecondEdition
             IsSecondSide = true;
             AnotherSide = typeof(StabilizedSFoilsOpen);
 
-            ImageUrl = "https://i.imgur.com/aoOeJKo.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/52/d5/52d52e74-c744-40b7-ad74-c98bcb04016c/swz66_stabilized-s-foils-closed.png";
         }
     }
 
@@ -51,7 +51,7 @@ namespace UpgradesList.SecondEdition
 
             AnotherSide = typeof(StabilizedSFoilsClosed);
 
-            ImageUrl = "https://i.imgur.com/9bhQ0u7.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/64/9d/649d6f6e-8cba-404f-a00f-9a36a0076e34/swz66_stabilized-s-foils-open.png";
         }
     }
 }

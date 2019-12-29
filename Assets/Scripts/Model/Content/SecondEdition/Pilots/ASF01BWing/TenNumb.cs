@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -47,11 +48,22 @@ namespace Abilities
                     DieSide.Success,
                     payAbilityCost: PayAbilityCost
                 );
+                HostShip.OnModifyAIStressPriority += ModifyAIStressPriority;
             }
 
             public override void DeactivateAbility()
             {
                 RemoveDiceModification();
+                HostShip.OnModifyAIStressPriority -= ModifyAIStressPriority;
+            }
+
+            private void ModifyAIStressPriority(Ship.GenericShip ship, ref int value)
+            {
+                //Ten Numb likes to have at least one stress
+                var stressCount = HostShip.Tokens.CountTokensByType<StressToken>();
+                if (stressCount == 0) value = 90;
+                else if (stressCount == 1) value = 50;
+                else value = 0;
             }
 
             private bool IsDiceModificationAvailable()

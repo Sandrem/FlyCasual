@@ -16,6 +16,8 @@ namespace Ship
         {
             public GinaMoonsong() : base()
             {
+                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
                 PilotInfo = new PilotCardInfo(
                     "Gina Moonsong",
                     5,

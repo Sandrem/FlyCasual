@@ -191,6 +191,10 @@ public static partial class Combat
         Selection.ActiveShip.AddAlreadyUsedDiceModification(diceModification);
 
         diceModification.ActionEffect( delegate {
+            if (!Combat.CurrentDiceRoll.ModifiedBy.Contains(diceModification.HostShip.Owner.PlayerNo))
+            {
+                Combat.CurrentDiceRoll.ModifiedBy.Add(diceModification.HostShip.Owner.PlayerNo);
+            }
             ReplaysManager.ExecuteWithDelay(delegate {
                 //make sure UI/CombatDiceResultsPanel is available again
                 GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);

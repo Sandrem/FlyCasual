@@ -127,6 +127,9 @@ namespace Abilities.SecondEdition
 
         private bool IsDiceModificationAvailable()
         {
+            if (Combat.CurrentDiceRoll.Focuses == 0)
+                return false;
+
             if ((Combat.AttackStep == CombatStep.Attack) || (Combat.AttackStep == CombatStep.Defence))
             {
                 return BoardTools.Board

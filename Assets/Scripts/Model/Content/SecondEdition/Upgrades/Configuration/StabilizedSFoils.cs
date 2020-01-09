@@ -36,12 +36,10 @@ namespace UpgradesList.SecondEdition
     {
         public StabilizedSFoilsOpen() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Stabilized S-Foils (Open)",
                 UpgradeType.Configuration,
-                cost: 0,
+                cost: 2,
                 addActionLink: new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.ASF01BWing.ASF01BWing)),
                 abilityType: typeof(Abilities.SecondEdition.StabilizedSFoilsOpenAbility)

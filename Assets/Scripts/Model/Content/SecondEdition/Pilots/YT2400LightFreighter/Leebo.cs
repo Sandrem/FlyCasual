@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Leebo",
                     3,
-                    88,
+                    81,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeeboAbility),
                     seImageNumber: 78

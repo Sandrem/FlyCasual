@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Bandit Squadron Pilot",
                     1,
-                    23,
+                    22,
                     seImageNumber: 30
                 );
             }

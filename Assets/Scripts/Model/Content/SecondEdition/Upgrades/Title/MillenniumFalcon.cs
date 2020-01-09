@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Millennium Falcon",
                 UpgradeType.Title,
-                cost: 6,
+                cost: 3,
                 isLimited: true,
                 restrictions: new UpgradeCardRestrictions(
                     new ShipRestriction(typeof(Ship.SecondEdition.ModifiedYT1300LightFreighter.ModifiedYT1300LightFreighter)),

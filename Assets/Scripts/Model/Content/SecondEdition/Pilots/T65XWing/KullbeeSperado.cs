@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Kullbee Sperado",
                     4,
-                    48,
+                    46,
                     isLimited: true,
                     abilityType: typeof(KullbeeSperadoAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },

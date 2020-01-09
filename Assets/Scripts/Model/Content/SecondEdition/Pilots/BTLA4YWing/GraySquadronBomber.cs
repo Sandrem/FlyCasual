@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Gray Squadron Bomber",
                     2,
-                    31,
+                    30,
                     seImageNumber: 18
                 );
             }

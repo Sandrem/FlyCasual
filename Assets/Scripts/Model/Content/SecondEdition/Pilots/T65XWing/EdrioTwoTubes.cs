@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Edrio Two Tubes",
                     2,
-                    45,
+                    43,
                     isLimited: true,
                     abilityType: typeof(EdrioTwoTubesAbility),
                     extraUpgradeIcon: UpgradeType.Illicit,

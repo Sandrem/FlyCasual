@@ -16,15 +16,13 @@ namespace Ship
         {
             public RonithBlario() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Ronith Blario",
                     2,
-                    35, //TODO
+                    34,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RonithBlarioAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } 
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent } 
                 );
 
                 ModelInfo.SkinName = "Red";

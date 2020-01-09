@@ -12,12 +12,10 @@ namespace Ship
         {
             public G4RG0RVM() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "G4R-G0R V/M",
                     0,
-                    30,
+                    28,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.G4RG0RVMAbility)
                 );

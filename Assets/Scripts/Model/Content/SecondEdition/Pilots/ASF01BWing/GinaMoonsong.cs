@@ -16,12 +16,10 @@ namespace Ship
         {
             public GinaMoonsong() : base()
             {
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Gina Moonsong",
                     5,
-                    51,
+                    50,
                     isLimited: true,
                     abilityType: typeof(GinaMoonsongAbility),
                     extraUpgradeIcon: UpgradeType.Talent

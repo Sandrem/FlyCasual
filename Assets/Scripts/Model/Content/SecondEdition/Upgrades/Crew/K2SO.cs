@@ -13,12 +13,10 @@ namespace UpgradesList.SecondEdition
     {
         public K2SO() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "K-2SO",
                 UpgradeType.Crew,
-                cost: 0, //TODO
+                cost: 8,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 addActions: new List<ActionInfo> { new ActionInfo(typeof(CalculateAction)), new ActionInfo(typeof(JamAction)) },

@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Obsidian Squadron Pilot",
                     2,
-                    24,
+                    23,
                     seImageNumber: 91
                 );
             }

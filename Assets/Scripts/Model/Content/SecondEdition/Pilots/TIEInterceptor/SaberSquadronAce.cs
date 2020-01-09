@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Saber Squadron Ace",
                     4,
-                    40,
+                    36,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 105
                 );

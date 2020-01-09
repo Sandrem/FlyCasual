@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Alpha Squadron Pilot",
                     1,
-                    34,
+                    31,
                     seImageNumber: 106
                 );
             }

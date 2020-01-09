@@ -13,12 +13,10 @@ namespace Ship
         {
             public Vagabond() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "\"Vagabond\"",
                     2,
-                    40,
+                    35,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VagabondAbility),
                     extraUpgradeIcon: UpgradeType.Talent

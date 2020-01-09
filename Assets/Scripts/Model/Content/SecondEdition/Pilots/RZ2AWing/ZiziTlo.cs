@@ -13,12 +13,10 @@ namespace Ship
         {
             public ZiziTlo() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Zizi Tlo",
                     5,
-                    36, //TODO
+                    40,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZiziTloAbility),
                     charges: 1,

@@ -10,12 +10,10 @@ namespace Ship
         {
             public AlexandrKallus() : base()
             {
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Alexandr Kallus",
                     4,
-                    70, //TODO
+                    69,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AlexandrKallusAbility),
                     extraUpgradeIcon: UpgradeType.Talent

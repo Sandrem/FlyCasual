@@ -11,16 +11,15 @@ namespace Ship
         {
             public PaigeTico() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Paige Tico",
                     5,
-                    65, //TODO
+                    60,
                     isLimited: true,
                     charges: 1,
                     regensCharges: true,
-                    abilityType: typeof(Abilities.SecondEdition.PaigeTicoPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.PaigeTicoPilotAbility),
+                    extraUpgradeIcon: Upgrade.UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Cobalt";

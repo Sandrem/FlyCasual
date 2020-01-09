@@ -14,12 +14,10 @@ namespace Ship
         {
             public MornaKee() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Morna Kee",
                     4,
-                    75, //TODO
+                    75,
                     isLimited: true,
                     charges: 3,
                     abilityType: typeof(Abilities.SecondEdition.MornaKeeAbility),

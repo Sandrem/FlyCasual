@@ -14,12 +14,10 @@ namespace Ship
         {
             public LeiaOrgana() : base()
             {
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Leia Organa",
                     5,
-                    80, //TODO: correct cost
+                    79,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeiaOrganaPilotAbility),
                     extraUpgradeIcon: UpgradeType.Force,

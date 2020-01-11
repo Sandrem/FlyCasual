@@ -13,7 +13,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
             PilotInfo = new PilotCardInfo(
                 "Techno Union Bomber",
                 1,
-                26,
+                25,
                 extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb }
             );
 

@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Resitance Sympathizer",
                     2,
-                    67 //,
+                    60 //,
                     //seImageNumber: 69
                 );
 

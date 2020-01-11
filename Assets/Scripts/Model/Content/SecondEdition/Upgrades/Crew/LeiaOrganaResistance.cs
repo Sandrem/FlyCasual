@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Crew,
                     UpgradeType.Crew
                 },
-                cost: 19,
+                cost: 17,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Purple),

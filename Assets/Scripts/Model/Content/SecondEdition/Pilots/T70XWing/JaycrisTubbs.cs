@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Jaycris Tubbs",
                     1,
-                    49,
+                    48,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JaycrisTubbsAbility)//,
                     //extraUpgradeIcon: UpgradeType.Talent

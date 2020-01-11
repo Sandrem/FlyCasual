@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Temmin Wexley",
                     4,
-                    54,
+                    53,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.SnapWexleyAbility),
                     extraUpgradeIcon: UpgradeType.Talent

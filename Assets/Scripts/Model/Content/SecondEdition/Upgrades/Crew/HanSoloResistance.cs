@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Han Solo (Resistance)",
                 UpgradeType.Crew,
-                cost: 6,
+                cost: 4,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 addAction: new ActionInfo(typeof(EvadeAction), ActionColor.Red),

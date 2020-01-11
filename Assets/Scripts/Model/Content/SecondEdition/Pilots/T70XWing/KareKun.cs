@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Kare Kun",
                     4,
-                    52,
+                    51,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KareKunAbility),
                     extraUpgradeIcon: UpgradeType.Talent

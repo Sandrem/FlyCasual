@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Ello Asty",
                     5,
-                    56,
+                    55,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ElloAstyAbility),
                     extraUpgradeIcon: UpgradeType.Talent

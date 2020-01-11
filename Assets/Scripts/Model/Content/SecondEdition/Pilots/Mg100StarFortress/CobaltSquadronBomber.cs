@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cobalt Squadron Bomber",
                     1,
-                    56 //,
+                    52 //,
                     //seImageNumber: 19
                 );
 

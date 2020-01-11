@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Serissu",
                     5,
-                    40,
+                    41,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SerissuAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

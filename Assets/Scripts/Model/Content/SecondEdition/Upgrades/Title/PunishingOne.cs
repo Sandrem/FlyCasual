@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Punishing One",
                 UpgradeType.Title,
-                cost: 8,
+                cost: 5,
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.JumpMaster5000.JumpMaster5000)),
                 addSlot: new UpgradeSlot(UpgradeType.Astromech),

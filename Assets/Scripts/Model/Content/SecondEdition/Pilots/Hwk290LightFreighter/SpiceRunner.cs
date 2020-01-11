@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Spice Runner",
                     1,
-                    31,
+                    30,
                     extraUpgradeIcon: UpgradeType.Illicit,
                     factionOverride: Faction.Scum,
                     seImageNumber: 177

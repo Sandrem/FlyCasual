@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Black Sun Soldier",
                     3,
-                    27,
+                    24,
                     extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Illicit },
                     factionOverride: Faction.Scum,
                     seImageNumber: 172

@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "IG-88D",
                     4,
-                    64,
+                    63,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.IG88DAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

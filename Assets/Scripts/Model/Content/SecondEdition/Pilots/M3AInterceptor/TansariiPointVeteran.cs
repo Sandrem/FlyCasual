@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Tansarii Point Veteran",
                     3,
-                    32,
+                    29,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 189
                 );

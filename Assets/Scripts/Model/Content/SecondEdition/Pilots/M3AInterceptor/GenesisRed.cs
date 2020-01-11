@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Genesis Red",
                     4,
-                    34,
+                    31,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GenesisRedAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

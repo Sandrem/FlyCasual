@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Sarco Plank",
                     2,
-                    34,
+                    32,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SarcoPlankAbility),
                     seImageNumber: 162

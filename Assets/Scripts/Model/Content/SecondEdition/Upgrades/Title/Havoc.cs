@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Havoc",
                 UpgradeType.Title,
-                cost: 4,
+                cost: 2,
                 isLimited: true,
                 addSlots: new List<UpgradeSlot>
                 {

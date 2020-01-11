@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Avenger\"",
                     3,
-                    57,
+                    56,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AvengerAbility),
                     extraUpgradeIcon: UpgradeType.Talent //,

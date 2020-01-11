@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Major Stridan",
                     4,
-                    64,
+                    61,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MajorStridanAbility)
                 );

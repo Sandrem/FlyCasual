@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Midnight\"",
                     6,
-                    43,
+                    42,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MidnightAbility),
                     extraUpgradeIcon: UpgradeType.Talent //,

@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Recoil\"",
                     4,
-                    58,
+                    57,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RecoilAbility),
                     extraUpgradeIcon: UpgradeType.Talent

@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Muse\"",
                     2,
-                    31,
+                    30,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MuseAbility),
                     extraUpgradeIcon: UpgradeType.Talent //,

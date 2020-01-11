@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Cloaking Device",
                 UpgradeType.Illicit,
-                cost: 5,
+                cost: 4,
                 isLimited: true,
                 charges: 2,
                 restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium), 

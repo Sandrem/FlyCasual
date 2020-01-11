@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Trajectory Simulator",
                 UpgradeType.System,
-                cost: 10,
+                cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.TrajectorySimulatorAbility),
                 seImageNumber: 26
             );

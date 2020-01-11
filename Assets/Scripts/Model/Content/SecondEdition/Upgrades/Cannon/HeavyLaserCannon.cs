@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Heavy Laser Cannon",
                 UpgradeType.Cannon,
-                cost: 4,
+                cost: 5,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 4,
                     minRange: 2,

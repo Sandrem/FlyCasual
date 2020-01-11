@@ -12,7 +12,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             PilotInfo = new PilotCardInfo(
                 "Barriss Offee",
                 4,
-                39,
+                38,
                 true,
                 force: 1,
                 abilityType: typeof(Abilities.SecondEdition.BarrissOffeeAbility),

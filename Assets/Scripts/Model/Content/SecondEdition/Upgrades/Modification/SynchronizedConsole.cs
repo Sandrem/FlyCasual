@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Synchronized Console",
                 UpgradeType.Modification,
-                cost: 2,
+                cost: 1,
                 restrictions: new UpgradeCardRestrictions(
                     new FactionRestriction(Faction.Republic), 
                     new ActionBarRestriction(typeof(TargetLockAction))),

@@ -33,13 +33,13 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            HostShip.OnActivationPhaseStart += RegisterTriggerActivationPhase;
+            HostShip.OnMovementActivationStart += RegisterTriggerActivationPhase;
             HostShip.OnCombatActivation += RegisterTriggerCombatPhase;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnActivationPhaseStart -= RegisterTriggerActivationPhase;
+            HostShip.OnMovementActivationStart -= RegisterTriggerActivationPhase;
             HostShip.OnCombatActivation -= RegisterTriggerCombatPhase;
         }
 
@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
         {
             if (HostUpgrade.State.Charges > 0)
             {
-                RegisterAbilityTrigger(TriggerTypes.OnActivationPhaseStart, AskToUseAbilityActivationPhase);
+                RegisterAbilityTrigger(TriggerTypes.OnMovementActivationStart, AskToUseAbilityActivationPhase);
             }
         }
 

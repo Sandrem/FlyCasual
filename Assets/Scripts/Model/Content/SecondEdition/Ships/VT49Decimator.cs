@@ -18,6 +18,7 @@ namespace Ship.SecondEdition.VT49Decimator
 
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction)));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
+            ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction)));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(CoordinateAction), ActionColor.Red));
 
             DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn), MovementComplexity.Complex);

@@ -14,6 +14,8 @@ namespace Ship
         {
             public ColossusStationMechanic() : base()
             {
+                IsHidden = true;
+
                 PilotInfo = new PilotCardInfo(
                     "Colossus Station Mechanic",
                     2,

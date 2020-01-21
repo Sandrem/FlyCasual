@@ -18,8 +18,6 @@ namespace Ship.SecondEdition.Fireball
     {
         public Fireball() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "Fireball",
@@ -37,7 +35,8 @@ namespace Ship.SecondEdition.Fireball
                     UpgradeType.Missile,
                     UpgradeType.Illicit,
                     UpgradeType.Astromech,
-                    UpgradeType.Modification                    
+                    UpgradeType.Modification,
+                    UpgradeType.Modification
                 ),
                 abilityText: "Setup: You are dealt 1 facedown damage card. After you perform a slam action, you may expose 1 damage card to remove 1 disarm token"
             );
@@ -45,7 +44,7 @@ namespace Ship.SecondEdition.Fireball
             ShipAbilities.Add(new Abilities.SecondEdition.ExplosionWithWings());
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(ColossusStationMechanic) }
+                { Faction.Resistance, typeof(KazudaXiono) }
             };
 
             ModelInfo = new ShipModelInfo(

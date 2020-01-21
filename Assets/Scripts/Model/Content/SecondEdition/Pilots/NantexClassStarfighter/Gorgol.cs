@@ -21,7 +21,8 @@ namespace Ship
                     36,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GorgolAbility),
-                    abilityText: "During the System Phase, you may gain 1 disarm token and choose a friendly ship at range 1-2. If you do, it gains 1 tractor token, then repairs 1 of its faceup Ship trait damage cards."
+                    abilityText: "During the System Phase, you may gain 1 disarm token and choose a friendly ship at range 1-2. If you do, it gains 1 tractor token, then repairs 1 of its faceup Ship trait damage cards.",
+                    extraUpgradeIcon: UpgradeType.Modification
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/6f/a2/6fa2fb39-4c76-4d21-8f3a-6910a34a7845/swz47_cards-gorgol.png";

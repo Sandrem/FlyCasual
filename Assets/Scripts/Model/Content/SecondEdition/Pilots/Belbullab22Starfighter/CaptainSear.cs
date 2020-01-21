@@ -15,7 +15,7 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
             PilotInfo = new PilotCardInfo(
                 "Captain Sear",
                 2,
-                39,
+                45,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.CaptainSearAbility),
                 pilotTitle: "Kage Infiltrator"

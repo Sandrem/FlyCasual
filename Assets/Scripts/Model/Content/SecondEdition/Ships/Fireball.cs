@@ -18,8 +18,6 @@ namespace Ship.SecondEdition.Fireball
     {
         public Fireball() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "Fireball",
@@ -46,7 +44,7 @@ namespace Ship.SecondEdition.Fireball
             ShipAbilities.Add(new Abilities.SecondEdition.ExplosionWithWings());
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(ColossusStationMechanic) }
+                { Faction.Resistance, typeof(KazudaXiono) }
             };
 
             ModelInfo = new ShipModelInfo(

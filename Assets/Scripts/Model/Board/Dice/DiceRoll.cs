@@ -39,6 +39,7 @@ public partial class DiceRoll
     private bool isRolling;
 
     public PlayerNo PlayerNo { get; private set; }
+    public List<PlayerNo> ModifiedBy { get; private set; }
 
     public DieSide[] ResultsArray
     {
@@ -64,6 +65,7 @@ public partial class DiceRoll
         CountOfInitialRoll = number;
         CheckType = checkType;
         PlayerNo = playerNo;
+        ModifiedBy = new List<PlayerNo>();
 
         if (checkType != DiceRollCheckType.Virtual)
         {

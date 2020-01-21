@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Tel Trevura",
                     4,
-                    48,
+                    44,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TelTrevuraAbility),
                     charges: 1,

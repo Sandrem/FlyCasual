@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Virago",
                 UpgradeType.Title,
-                cost: 10,
+                cost: 8,
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.StarViper.StarViper)),
                 addSlot: new UpgradeSlot(UpgradeType.Modification),

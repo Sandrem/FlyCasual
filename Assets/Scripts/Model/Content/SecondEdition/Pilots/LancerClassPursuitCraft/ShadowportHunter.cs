@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "Shadowport Hunter",
                     2,
-                    58,
+                    56,
                     seImageNumber: 221
                 );
             }

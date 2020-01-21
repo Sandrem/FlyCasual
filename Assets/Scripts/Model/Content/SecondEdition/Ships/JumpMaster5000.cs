@@ -25,6 +25,7 @@ namespace Ship
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Torpedo);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Cannon);
 
                 IconicPilots[Faction.Scum] = typeof(Dengar);
 

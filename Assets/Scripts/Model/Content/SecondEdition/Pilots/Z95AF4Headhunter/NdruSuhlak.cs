@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "N'dru Suhlak",
                     4,
-                    31,
+                    30,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },

@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Dace Bonearm",
                     4,
-                    34,
+                    33,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DaceBonearmAbility),
                     charges: 3,

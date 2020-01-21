@@ -17,7 +17,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Bossk",
                     4,
-                    30,
+                    29,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
@@ -29,8 +29,6 @@ namespace Ship
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f5/a0/f5a0b23e-82c1-4092-98b2-7f01bd2577db/swz58_bossk.png";
 
                 ShipAbilities.Add(new Abilities.SecondEdition.PursuitCraft());
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

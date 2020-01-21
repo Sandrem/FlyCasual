@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Binayre Pirate",
                     1,
-                    24,
+                    22,
                     extraUpgradeIcon: UpgradeType.Illicit,
                     factionOverride: Faction.Scum,
                     seImageNumber: 173

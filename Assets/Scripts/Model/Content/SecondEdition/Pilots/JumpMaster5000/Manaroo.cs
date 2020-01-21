@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Manaroo",
                     3,
-                    47,
+                    45,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ManarooAbility),
                     charges: 1,

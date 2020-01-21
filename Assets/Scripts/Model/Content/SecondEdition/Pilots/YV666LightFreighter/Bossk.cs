@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Bossk",
                     4,
-                    64,
+                    62,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

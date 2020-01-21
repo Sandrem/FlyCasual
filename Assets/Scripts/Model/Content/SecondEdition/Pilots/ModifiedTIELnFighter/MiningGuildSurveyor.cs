@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Mining Guild Surveyor",
                     2,
-                    25,
+                    23,
                     extraUpgradeIcon: UpgradeType.Talent //,
                     // seImageNumber: 92
                 );

@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "Mining Guild Sentry",
                     1,
-                    24 //,
+                    22 //,
                     // seImageNumber: 92
                 );
 

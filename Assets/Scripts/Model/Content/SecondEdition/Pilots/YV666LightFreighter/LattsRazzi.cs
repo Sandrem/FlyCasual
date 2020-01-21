@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Latts Razzi",
                     3,
-                    59,
+                    57,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LattsRazziPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

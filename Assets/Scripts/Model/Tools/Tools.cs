@@ -38,6 +38,11 @@ public static partial class Tools
     {
         string result = originalString.ToLower();
 
+        if (result.Contains("("))
+        {
+            result = result.Substring(0, result.IndexOf("("));
+        }
+
         string[] signsToReplace = new string[] { " ", "\"", "/", "'", "-" };
         foreach (var sign in signsToReplace)
         {

@@ -190,13 +190,13 @@ namespace SquadBuilderNS
                 case Faction.Scum:
                     return FactionSize.Large20;
                 case Faction.Resistance:
-                    return (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ? FactionSize.Medium8 : FactionSize.Medium6;
+                    return FactionSize.Medium8;
                 case Faction.FirstOrder:
-                    return (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ? FactionSize.Medium6 : FactionSize.Small4;
+                    return FactionSize.Medium6;
                 case Faction.Republic:
-                    return (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ? FactionSize.Medium6 : FactionSize.Small4;
+                    return FactionSize.Medium6;
                 case Faction.Separatists:
-                    return (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ? FactionSize.Medium6 : FactionSize.Small4;
+                    return FactionSize.Medium6;
                 default:
                     return FactionSize.Large20;
             }

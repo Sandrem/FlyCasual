@@ -19,11 +19,10 @@ namespace Ship
                     6,
                     55,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.MajorVonregAbility)
                 );
 
-                ImageUrl = "https://i.imgur.com/567HyC6.png";
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b6/de/b6de4a15-0b5d-4c39-8a2e-c96af5dff9fe/swz62_card_major-vonreg.png";
             }
         }
     }

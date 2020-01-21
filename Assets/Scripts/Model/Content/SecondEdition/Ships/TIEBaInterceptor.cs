@@ -18,8 +18,6 @@ namespace Ship.SecondEdition.TIEBaInterceptor
     {
         public TIEBaInterceptor() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "TIE/ba Interceptor",
@@ -34,6 +32,7 @@ namespace Ship.SecondEdition.TIEBaInterceptor
                     new ActionInfo(typeof(BoostAction))
                 ),
                 new ShipUpgradesInfo(
+                    UpgradeType.Talent,
                     UpgradeType.Title,
                     UpgradeType.Missile,
                     UpgradeType.Tech,

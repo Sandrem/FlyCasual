@@ -26,8 +26,6 @@ namespace Ship
                 IconicPilots[Faction.Rebel] = typeof(LukeSkywalker);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/cf/Maneuver_t-65_x-wing.png";
-
-                OldShipTypeName = "X-wing";
             }
         }
     }

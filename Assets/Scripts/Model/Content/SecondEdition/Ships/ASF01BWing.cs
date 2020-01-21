@@ -30,8 +30,6 @@ namespace Ship
                 IconicPilots[Faction.Rebel] = typeof(BraylenStramm);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/f/ff/Maneuver_b-wing.png";
-
-                OldShipTypeName = "B-wing";
             }
         }
     }

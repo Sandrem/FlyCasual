@@ -87,20 +87,7 @@ namespace Ship
         private string shipTypeCanonical;
         public string ShipTypeCanonical
         {
-            get
-            {
-                if (!string.IsNullOrEmpty(shipTypeCanonical)) return shipTypeCanonical;
-
-                if (string.IsNullOrEmpty(OldShipTypeName))
-                {
-                    return Tools.Canonicalize(ShipInfo.ShipName);
-                }
-                else
-                {
-                    return Tools.Canonicalize(OldShipTypeName);
-                }
-            }
-            set { shipTypeCanonical = value; }
+            get { return Tools.Canonicalize(ShipInfo.ShipName); }
         }
 
         public List<GenericAbility> PilotAbilities = new List<GenericAbility>();

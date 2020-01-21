@@ -16,8 +16,6 @@ namespace Ship
                 };
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/62/Maneuver_tie_ln_fighter.png";
-
-                OldShipTypeName = "TIE Fighter";
             }
         }
     }

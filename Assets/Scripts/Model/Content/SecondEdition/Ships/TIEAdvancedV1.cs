@@ -29,8 +29,6 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.TallonRoll), MovementComplexity.Complex);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/0c/Maneuver_tie_advanced_v1.png";
-
-                OldShipTypeName = "TIE Adv. Prototype";
             }
         }
     }

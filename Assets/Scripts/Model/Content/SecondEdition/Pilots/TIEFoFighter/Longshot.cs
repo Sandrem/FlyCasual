@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Longshot\"",
                     3,
-                    32,
+                    31,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LongshotAbility),
                     extraUpgradeIcon: UpgradeType.Talent //,

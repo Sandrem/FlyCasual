@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Epsilon Squadron Cadet",
                     1,
-                    26 //,
+                    25 //,
                     //seImageNumber: 120
                 );
 

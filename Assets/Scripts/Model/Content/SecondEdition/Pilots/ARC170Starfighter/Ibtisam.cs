@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Ibtisam",
                     3,
-                    48,
+                    46,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

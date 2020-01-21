@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Hera Syndulla",
                     5,
-                    39,
+                    38,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

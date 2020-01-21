@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "\"Zeb\" Orrelios",
                     2,
-                    26,
+                    24,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
                     factionOverride: Faction.Rebel,

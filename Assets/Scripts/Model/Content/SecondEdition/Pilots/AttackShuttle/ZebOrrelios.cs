@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "\"Zeb\" Orrelios",
                     2,
-                    34,
+                    32,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
                     seImageNumber: 37

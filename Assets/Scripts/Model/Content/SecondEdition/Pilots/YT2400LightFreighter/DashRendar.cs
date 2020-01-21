@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Dash Rendar",
                     5,
-                    98,
+                    91,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DashRendarAbility),
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Crew },

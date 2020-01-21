@@ -6,6 +6,7 @@ using Actions;
 using Arcs;
 using Upgrade;
 using Ship;
+using System;
 
 namespace Ship
 {
@@ -50,6 +51,7 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice += CheckAbility;
+            HostShip.Ai.OnGetActionPriority += IncreaseAILockPriority;
 
             AddDiceModification(
                 "Advanced Targeting Computer",
@@ -65,12 +67,18 @@ namespace Abilities.SecondEdition
         public override void DeactivateAbility()
         {
             HostShip.AfterGotNumberOfAttackDice -= CheckAbility;
+            HostShip.Ai.OnGetActionPriority -= IncreaseAILockPriority;
             RemoveDiceModification();
         }
 
         private int GetAiPriority()
         {
             return 20;
+        }
+
+        private void IncreaseAILockPriority(GenericAction action, ref int priority)
+        {
+            if (action is TargetLockAction && TargetLockAction.HasValidLockTargetsAndNoLockOnShipInRange(HostShip)) priority = 55;
         }
 
         private bool IsAvailable()

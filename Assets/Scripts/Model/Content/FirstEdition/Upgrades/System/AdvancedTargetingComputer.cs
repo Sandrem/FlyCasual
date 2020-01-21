@@ -32,11 +32,18 @@ namespace Abilities.FirstEdition
         public override void ActivateAbility()
         {
             HostShip.OnGenerateDiceModifications += AdvancedTargetingComputerDiceModification;
+            HostShip.Ai.OnGetActionPriority += IncreaseAILockPriority;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnGenerateDiceModifications -= AdvancedTargetingComputerDiceModification;
+            HostShip.Ai.OnGetActionPriority -= IncreaseAILockPriority;
+        }
+
+        private void IncreaseAILockPriority(GenericAction action, ref int priority)
+        {
+            if (action is TargetLockAction && TargetLockAction.HasValidLockTargetsAndNoLockOnShipInRange(HostShip)) priority = 55;
         }
 
         private void AdvancedTargetingComputerDiceModification(GenericShip host)

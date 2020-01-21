@@ -814,7 +814,7 @@ namespace SquadBuilderNS
                 string content = File.ReadAllText(filePath);
                 JSONObject squadJson = new JSONObject(content);
 
-                if (CurrentSquadList.SquadFaction == Faction.None || XWSToFaction(squadJson["faction"].str) == CurrentSquadList.SquadFaction)
+                if (CurrentSquadList.SquadFaction == Faction.None || Edition.Current.XwsToFaction(squadJson["faction"].str) == CurrentSquadList.SquadFaction)
                 {
                     squadJson.AddField("filename", new FileInfo(filePath).Name);
                     savedSquadsJsons.Add(squadJson);

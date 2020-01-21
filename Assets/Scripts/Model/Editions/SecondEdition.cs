@@ -303,5 +303,73 @@ namespace Editions
             return RootUrlForImages + "Card_Upgrade_" + upgrade.UpgradeInfo.SEImageNumber + ((upgrade.IsSecondSide)?"b":"") + ".png";
         }
 
+        public override string FactionToXws(Faction faction)
+        {
+            string result = "";
+
+            switch (faction)
+            {
+                case Faction.Rebel:
+                    result = "rebelalliance";
+                    break;
+                case Faction.Imperial:
+                    result = "galacticempire";
+                    break;
+                case Faction.Scum:
+                    result = "scumandvillainy";
+                    break;
+                case Faction.Resistance:
+                    result = "resistance";
+                    break;
+                case Faction.FirstOrder:
+                    result = "firstorder";
+                    break;
+                case Faction.Republic:
+                    result = "galacticrepublic";
+                    break;
+                case Faction.Separatists:
+                    result = "separatistalliance";
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
+        public override Faction XwsToFaction(string factionXWS)
+        {
+            Faction result = Faction.None;
+
+            switch (factionXWS)
+            {
+                case "rebelalliance":
+                    result = Faction.Rebel;
+                    break;
+                case "galacticempire":
+                    result = Faction.Imperial;
+                    break;
+                case "scumandvillainy":
+                    result = Faction.Scum;
+                    break;
+                case "resistance":
+                    result = Faction.Resistance;
+                    break;
+                case "firstorder":
+                    result = Faction.FirstOrder;
+                    break;
+                case "galacticrepublic":
+                    result = Faction.Republic;
+                    break;
+                case "separatistalliance":
+                    result = Faction.Separatists;
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
     }
 }

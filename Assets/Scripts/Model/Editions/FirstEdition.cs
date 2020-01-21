@@ -164,5 +164,49 @@ namespace Editions
         {
             return RootUrlForImages + "upgrades/" + ImageUrls.FormatUpgradeTypes(upgrade.UpgradeInfo.UpgradeTypes) + "/" + ImageUrls.FormatName(ImageUrls.FormatUpgradeName(upgrade.UpgradeInfo.Name)) + ".png";
         }
+
+        public override string FactionToXws(Faction faction)
+        {
+            string result = "";
+
+            switch (faction)
+            {
+                case Faction.Rebel:
+                    result = "rebel";
+                    break;
+                case Faction.Imperial:
+                    result = "imperial";
+                    break;
+                case Faction.Scum:
+                    result = "scum";
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
+        }
+
+        public override Faction XwsToFaction(string factionXWS)
+        {
+            Faction result = Faction.None;
+
+            switch (factionXWS)
+            {
+                case "rebel":
+                    result = Faction.Rebel;
+                    break;
+                case "imperial":
+                    result = Faction.Imperial;
+                    break;
+                case "scum":
+                    result = Faction.Scum;
+                    break;
+                default:
+                    break;
+            }
+
+            return result;
+        }
     }
 }

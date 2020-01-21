@@ -795,7 +795,7 @@ namespace SquadBuilderNS
                 }
 
                 string factionNameXws = squadJson["faction"].str;
-                Faction faction = XWSToFaction(factionNameXws);
+                Faction faction = Edition.Current.XwsToFaction(factionNameXws);
                 squadList.SquadFaction = faction;
 
                 squadList.Points = (int) squadJson["points"].i;
@@ -929,7 +929,7 @@ namespace SquadBuilderNS
         {
             JSONObject squadJson = new JSONObject();
             squadJson.AddField("name", GetSquadList(playerNo).Name);
-            squadJson.AddField("faction", FactionToXWS(GetSquadList(playerNo).SquadFaction));
+            squadJson.AddField("faction", Edition.Current.FactionToXws(GetSquadList(playerNo).SquadFaction));
             squadJson.AddField("points", GetSquadCost(playerNo));
             squadJson.AddField("version", "0.3.0");
 
@@ -1030,74 +1030,6 @@ namespace SquadBuilderNS
             pilotJson.AddField("vendor", vendorJson);
 
             return pilotJson;
-        }
-
-        private static string FactionToXWS(Faction faction)
-        {
-            string result = "";
-
-            switch (faction)
-            {
-                case Faction.Rebel:
-                    result = "rebel";
-                    break;
-                case Faction.Imperial:
-                    result = "imperial";
-                    break;
-                case Faction.Scum:
-                    result = "scum";
-                    break;
-                case Faction.Resistance:
-                    result = "resistance";
-                    break;
-                case Faction.FirstOrder:
-                    result = "firstorder";
-                    break;
-                case Faction.Republic:
-                    result = "republic";
-                    break;
-                case Faction.Separatists:
-                    result = "separatists";
-                    break;
-                default:
-                    break;
-            }
-
-            return result;
-        }
-
-        private static Faction XWSToFaction(string factionXWS)
-        {
-            Faction result = Faction.None;
-
-            switch (factionXWS)
-            {
-                case "rebel":
-                    result = Faction.Rebel;
-                    break;
-                case "imperial":
-                    result = Faction.Imperial;
-                    break;
-                case "scum":
-                    result = Faction.Scum;
-                    break;
-                case "resistance":
-                    result = Faction.Resistance;
-                    break;
-                case "firstorder":
-                    result = Faction.FirstOrder;
-                    break;
-                case "republic":
-                    result = Faction.Republic;
-                    break;
-                case "separatists":
-                    result = Faction.Separatists;
-                    break;
-                default:
-                    break;
-            }
-
-            return result;
         }
 
         private static string UpgradeTypeToXWS(UpgradeType upgradeType)

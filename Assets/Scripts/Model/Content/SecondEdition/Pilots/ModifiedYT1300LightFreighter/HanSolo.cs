@@ -23,6 +23,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 69
                 );
+
+                PilotNameCanonical = "hansolo-modifiedyt1300lightfreighter";
             }
         }
     }

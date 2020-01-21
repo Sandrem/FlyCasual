@@ -16,6 +16,8 @@
                     seImageNumber: 49
                 );
 
+                PilotNameCanonical = "zeborrelios-tielnfighter";
+
                 ModelInfo.ModelName = "TIE Fighter Rebel";
                 ModelInfo.SkinName = "Rebel";
             }

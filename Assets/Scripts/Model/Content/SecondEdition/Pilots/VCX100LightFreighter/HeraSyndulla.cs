@@ -17,6 +17,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 73
                 );
+
+                PilotNameCanonical = "herasyndulla-vcx100lightfreighter";
             }
         }
     }

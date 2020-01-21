@@ -18,6 +18,8 @@ namespace Ship
                     //seImageNumber: 11
                 );
 
+                PilotNameCanonical = "blacksquadronace-t70xwing";
+
                 ModelInfo.SkinName = "Black One";
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/a/a7/Swz25_black-sqd-ace_a1.png";

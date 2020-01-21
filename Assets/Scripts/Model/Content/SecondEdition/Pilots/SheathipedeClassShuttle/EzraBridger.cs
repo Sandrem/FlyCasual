@@ -20,6 +20,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.ForcePower,
                     seImageNumber: 39
                 );
+
+                PilotNameCanonical = "ezrabridger-sheathipedeclassshuttle";
             }
         }
     }

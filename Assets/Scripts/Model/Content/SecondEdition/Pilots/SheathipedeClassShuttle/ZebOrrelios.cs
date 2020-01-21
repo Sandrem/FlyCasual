@@ -19,6 +19,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 40
                 );
+
+                PilotNameCanonical = "zeborrelios-sheathipedeclassshuttle";
             }
         }
     }

@@ -20,6 +20,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerAbility)
                 );
 
+                PilotNameCanonical = "anakinskywalker-btlbywing";
+
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/94/5b/945bf6ea-b339-4132-b3af-a47b53b0b9f0/swz48_pilot-anakin-skywalker.png";
             }
         }

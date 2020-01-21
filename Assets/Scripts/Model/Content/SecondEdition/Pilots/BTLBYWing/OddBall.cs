@@ -20,6 +20,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.OddBallAbility)
                 );
 
+                PilotNameCanonical = "oddball-btlbywing";
+
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/99/a7/99a78a22-4e8c-4197-a7fb-2163746daa90/swz48_pilot-odd-ball.png";
             }
         }

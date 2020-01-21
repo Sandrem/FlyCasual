@@ -194,6 +194,24 @@ namespace SquadBuilderNS
                 }
             }
 
+            foreach (PilotRecord pilotRecord in AllPilots)
+            {
+                int samePilotCount = 0;
+                foreach (PilotRecord pilotRecord2 in AllPilots)
+                {
+                    if (pilotRecord.PilotNameCanonical == pilotRecord2.PilotNameCanonical)
+                    {
+                        samePilotCount++;
+                        if (samePilotCount > 1)
+                        {
+                            Debug.LogError("Pilot ID " + pilotRecord.PilotNameCanonical + " has duplicate!");
+                            break;
+                        }
+                    }
+                }
+            }
+
+
             //Messages.ShowInfo("Unique pilots: " + AllPilots.Count(n => n.Instance.IsUnique));
         }
 

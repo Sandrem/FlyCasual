@@ -23,6 +23,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 4
                 );
+
+                PilotNameCanonical = "garvendreis-t65xwing";
             }
         }
     }

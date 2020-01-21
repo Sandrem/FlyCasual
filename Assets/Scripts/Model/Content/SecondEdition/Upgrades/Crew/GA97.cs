@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "GA-97",
                 UpgradeType.Crew,
-                cost: 8,
+                cost: 6,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 charges: 5,

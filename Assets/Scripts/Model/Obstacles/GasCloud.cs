@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Obstacles;
-using Players;
+﻿using Obstacles;
 using Ship;
+using SubPhases;
 using Tokens;
-using UnityEngine;
 
 namespace Obstacles
 {
@@ -27,7 +22,18 @@ namespace Obstacles
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
             }
 
-            Triggers.FinishTrigger();
+            Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit a gas cloud during movement, rolling for strain");
+
+            GasCloudHitCheckSubPhase newPhase = (GasCloudHitCheckSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Strain from gas cloud collision",
+                typeof(GasCloudHitCheckSubPhase),
+                delegate
+                {
+                    Phases.FinishSubPhase(typeof(GasCloudHitCheckSubPhase));
+                    Triggers.FinishTrigger();
+                });
+            newPhase.TheShip = ship;
+            newPhase.Start();
         }
 
         public override void OnLanded(GenericShip ship)
@@ -101,5 +107,41 @@ namespace ActionsList
             return result;
         }
 
+    }
+}
+
+
+namespace SubPhases
+{
+
+    public class GasCloudHitCheckSubPhase : DiceRollCheckSubPhase
+    {
+        private GenericShip prevActiveShip = Selection.ActiveShip;
+
+        public override void Prepare()
+        {
+            DiceKind = DiceKind.Attack;
+            DiceCount = 1;
+
+            AfterRoll = FinishAction;
+            Selection.ActiveShip = TheShip;
+        }
+
+        protected override void FinishAction()
+        {
+            HideDiceResultMenu();
+            Selection.ActiveShip = prevActiveShip;
+
+            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Focus || CurrentDiceRoll.DiceList[0].Side == DieSide.Success)
+            {
+                Messages.ShowErrorToHuman("The ship gains a strain token!");
+                TheShip.Tokens.AssignToken(typeof(StrainToken), CallBack);
+            }
+            else
+            {
+                Messages.ShowInfoToHuman("No strain");
+                CallBack();
+            }
+        }
     }
 }

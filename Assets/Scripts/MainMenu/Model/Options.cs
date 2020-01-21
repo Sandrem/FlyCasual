@@ -23,6 +23,7 @@ public static class Options
     public static string Edition;
     public static bool DontShowAiInfo;
     public static string AiType;
+    public static string DiceStats;
 
     public static readonly string DefaultAvatar = "UpgradesList.FirstEdition.VeteranInstincts";
 
@@ -45,8 +46,11 @@ public static class Options
         Title = PlayerPrefs.GetString("Title", "Test Pilot");
         DontShowAiInfo = PlayerPrefs.GetInt("DontShowAiInfo", 0) == 1;
         AiType = PlayerPrefs.GetString("AiType", "AI: Aggressor");
-
         Edition = PlayerPrefs.GetString("Edition", "SecondEdition");
+
+        DiceStats = PlayerPrefs.GetString("DiceStats", "AT-0|AC-0|AS-0|AE-0|AB-0|DT-0|DS-0|DE-0|DB-0&AT-0|AC-0|AS-0|AE-0|AB-0|DT-0|DS-0|DE-0|DB-0");
+        DiceStatsTracker.ReadFromString(DiceStats);
+
         MainMenu.SetEdition(Edition);
 
         ReadMods();

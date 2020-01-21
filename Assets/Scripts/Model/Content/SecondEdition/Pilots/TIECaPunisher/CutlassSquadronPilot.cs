@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "Cutlass Squadron Pilot",
                     2,
-                    38,
+                    36,
                     seImageNumber: 141
                 );
             }

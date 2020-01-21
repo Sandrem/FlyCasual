@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Night Beast",
                     2,
-                    26,
+                    25,
                     isLimited: true,
                     abilityType: typeof(NightBeastAbility),
                     seImageNumber: 88

@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Turr Phennir",
                     4,
-                    44,
+                    42,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TurrPhennirAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

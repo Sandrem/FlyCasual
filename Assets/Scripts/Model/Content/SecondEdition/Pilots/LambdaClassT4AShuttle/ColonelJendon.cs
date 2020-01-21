@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     pilotName: "Colonel Jendon",
                     initiative: 3,
-                    cost: 46,
+                    cost: 48,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ColonelJendonAbility),
                     charges: 2,

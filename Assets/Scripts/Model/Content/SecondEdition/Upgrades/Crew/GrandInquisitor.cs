@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Grand Inquisitor",
                 UpgradeType.Crew,
-                cost: 14,
+                cost: 13,
                 addForce: 1,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Imperial),

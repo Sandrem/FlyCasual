@@ -9,7 +9,7 @@
                 PilotInfo = new PilotCardInfo(
                     "Scarif Base Pilot",
                     1,
-                    41,
+                    39,
                     seImageNumber: 116
                 );
             }

@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Tomax Bren",
                     5,
-                    36,
+                    35,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TomaxBrenAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

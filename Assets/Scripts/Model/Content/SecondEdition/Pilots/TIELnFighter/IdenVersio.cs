@@ -20,7 +20,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Iden Versio",
                     4,
-                    40,
+                    41,
                     isLimited: true,
                     abilityType: typeof(IdenVersioAbility),
                     charges: 1,

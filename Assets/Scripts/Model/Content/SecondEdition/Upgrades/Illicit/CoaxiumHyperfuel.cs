@@ -10,12 +10,10 @@ namespace UpgradesList.SecondEdition
     {
         public CoaxiumHyperfuel() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Coaxium Hyperfuel",
                 UpgradeType.Illicit,
-                cost: 1,
+                cost: 2,
                 restriction: new ActionBarRestriction(typeof(SlamAction)),
                 abilityType: typeof(Abilities.SecondEdition.CoaxiumHyperfuelAbility)
             );

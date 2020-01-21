@@ -7,12 +7,10 @@ namespace UpgradesList.SecondEdition
     {
         public MagPulseWarheads() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Mag-Pulse Warheads",
                 UpgradeType.Missile,
-                cost: 4,
+                cost: 6,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 3,
                     minRange: 1,

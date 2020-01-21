@@ -15,6 +15,8 @@ namespace UpgradesList.SecondEdition
     {
         public DiscordMissiles() : base()
         {
+            IsHidden = true;
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Discord Missiles",
                 UpgradeType.Missile,

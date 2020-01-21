@@ -23,6 +23,8 @@ namespace Ship
                 );
 
                 RequiredMods = new List<Type>() { typeof(MyOtherRideIsModSE) };
+                PilotNameCanonical = "tychocelchu-t65xwing-myotherrideismod";
+
                 ImageUrl = "https://i.imgur.com/wGvWi6p.png";
             }
         }

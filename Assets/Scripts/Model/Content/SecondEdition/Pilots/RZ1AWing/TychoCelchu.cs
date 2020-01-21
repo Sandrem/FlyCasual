@@ -21,6 +21,8 @@ namespace Ship
                 );
                 
                 RequiredMods = new List<System.Type>() { typeof(FirstEditionPilotsMod) };
+                PilotNameCanonical = "tychocelchu-rz1awing-firsteditionpilotsmod";
+
                 ImageUrl = "https://i.imgur.com/lzgv9da.png";
             }
         }

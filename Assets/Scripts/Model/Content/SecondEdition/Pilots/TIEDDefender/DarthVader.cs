@@ -23,6 +23,8 @@ namespace Ship
                 );
 
                 RequiredMods = new List<Type>() { typeof(MyOtherRideIsModSE) };
+                PilotNameCanonical = "darthvader-tieddefender-myotherrideis";
+
                 ImageUrl = "https://i.imgur.com/QwUseck.png";
             }
         }

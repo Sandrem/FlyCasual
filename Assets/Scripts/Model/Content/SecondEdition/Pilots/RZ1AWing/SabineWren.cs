@@ -22,7 +22,10 @@ namespace Ship
                 );
 
                 RequiredMods = new List<Type>() { typeof(PhoenixSquadronModSE) };
+                PilotNameCanonical = "sabinewren-rz1awing-phoenixsquadronmod";
+
                 ImageUrl = "https://i.imgur.com/YpP14NT.png";
+
                 ModelInfo.SkinName = "Green";
             }
         }

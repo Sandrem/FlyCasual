@@ -23,6 +23,8 @@ namespace Ship
                 );
 
                 RequiredMods = new List<Type>() { typeof(PhoenixSquadronModSE) };
+                PilotNameCanonical = "ezrabridger-rz1awing-phoenixsquadronmod";
+
                 ImageUrl = "https://i.imgur.com/AbHl6vG.png";
             }
         }

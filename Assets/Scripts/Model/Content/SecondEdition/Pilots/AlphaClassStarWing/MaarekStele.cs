@@ -22,6 +22,8 @@ namespace Ship
                 );
 
                 RequiredMods = new List<Type>() { typeof(MyOtherRideIsModSE) };
+                PilotNameCanonical = "maarekstele-alphaclassstarwing-myotherrideismod";
+
                 ImageUrl = "https://i.imgur.com/pDPWfAz.png";
             }
         }

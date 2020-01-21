@@ -16,7 +16,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Trajectory Simulator",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 1,
                 abilityType: typeof(Abilities.FirstEdition.TrajectorySimulatorAbility)
             );

@@ -18,7 +18,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.MaceWinduAbility),
-                extraUpgradeIcon: UpgradeType.Force
+                extraUpgradeIcon: UpgradeType.ForcePower
             );
 
             ModelInfo.SkinName = "Mace Windu";

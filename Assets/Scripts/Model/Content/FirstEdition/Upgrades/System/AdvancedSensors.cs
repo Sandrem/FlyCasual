@@ -12,7 +12,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Advanced Sensors",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 3,
                 abilityType: typeof(Abilities.FirstEdition.AdvancedSensorsAbility)
             );

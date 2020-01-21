@@ -11,7 +11,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Accuracy Corrector",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 3,
                 abilityType: typeof(Abilities.FirstEdition.AccuracyCorrectorAbility)
             );

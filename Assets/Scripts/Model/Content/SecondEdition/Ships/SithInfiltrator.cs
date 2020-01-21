@@ -30,7 +30,7 @@ namespace Ship.SecondEdition.SithInfiltrator
                     UpgradeType.Cannon,
                     UpgradeType.Crew,
                     UpgradeType.Crew,
-                    UpgradeType.Bomb,
+                    UpgradeType.Device,
                     UpgradeType.TacticalRelay,
                     UpgradeType.Torpedo
                 )

@@ -31,7 +31,7 @@ namespace Ship.FirstEdition.VCX100
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Modification,
-                    UpgradeType.System,
+                    UpgradeType.Sensor,
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,
                     UpgradeType.Torpedo,

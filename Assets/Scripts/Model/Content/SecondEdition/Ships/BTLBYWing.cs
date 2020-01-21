@@ -32,7 +32,7 @@ namespace Ship.SecondEdition.BTLBYWing
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,
                     UpgradeType.Gunner,
-                    UpgradeType.Bomb                    
+                    UpgradeType.Device                    
                 ),
                 abilityText: "<b>Plated Hull:</b> While you defend, if you are not critically damaged, change 1 crit result to a hit result."
             );

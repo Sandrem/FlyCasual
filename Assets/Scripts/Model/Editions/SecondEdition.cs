@@ -371,5 +371,46 @@ namespace Editions
             return result;
         }
 
+        public override string UpgradeTypeToXws(UpgradeType upgradeType)
+        {
+            string result = "";
+
+            switch (upgradeType)
+            {
+                case UpgradeType.ForcePower:
+                    result = "force-power";
+                    break;
+                case UpgradeType.TacticalRelay:
+                    result = "tactical-relay";
+                    break;
+                default:
+                    result = upgradeType.ToString().ToLower();
+                    break;
+            }
+
+            return result;
+        }
+
+        public override UpgradeType XwsToUpgradeType(string upgradeXws)
+        {
+            UpgradeType result = UpgradeType.Astromech;
+
+            switch (upgradeXws)
+            {
+                case "force-power":
+                    result = UpgradeType.ForcePower;
+                    break;
+                case "tactical-relay":
+                    result = UpgradeType.TacticalRelay;
+                    break;
+                default:
+                    string capitalizedName = upgradeXws.First().ToString().ToUpper() + upgradeXws.Substring(1);
+                    result = (UpgradeType)Enum.Parse(typeof(UpgradeType), capitalizedName);
+                    break;
+            }
+
+            return result;
+        }
+
     }
 }

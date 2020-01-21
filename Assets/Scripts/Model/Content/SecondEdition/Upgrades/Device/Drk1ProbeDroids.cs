@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "DRK-1 Probe Droids",
-                UpgradeType.Bomb,
+                UpgradeType.Device,
                 subType: UpgradeSubType.Remote,
                 charges: 2,
                 cannotBeRecharged: true,

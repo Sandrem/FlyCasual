@@ -840,7 +840,7 @@ namespace SquadBuilderNS
                                         Console.Write("Cannot find upgrade: " + upgradeRecord.str, LogTypes.Errors, true, "red");
                                     }
                                     string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
-                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName, XwsToUpgradeType(upgradeType));
+                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName, Edition.Current.XwsToUpgradeType(upgradeType));
                                     if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeName, upgradeType);
                                 }
                             }
@@ -852,7 +852,7 @@ namespace SquadBuilderNS
                                 bool wasSuccess = false;
                                 foreach (var upgrade in upgradesThatCannotBeInstalledCopy)
                                 {
-                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgrade.Key, XwsToUpgradeType(upgrade.Value));
+                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgrade.Key, Edition.Current.XwsToUpgradeType(upgrade.Value));
                                     if (upgradeInstalledSucessfully)
                                     {
                                         wasSuccess = true;
@@ -1012,7 +1012,7 @@ namespace SquadBuilderNS
             Dictionary<string, JSONObject> upgradesDict = new Dictionary<string, JSONObject>();
             foreach (var installedUpgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
             {
-                string slotName = UpgradeTypeToXWS(installedUpgrade.UpgradeInfo.UpgradeTypes[0]);
+                string slotName = Edition.Current.UpgradeTypeToXws(installedUpgrade.UpgradeInfo.UpgradeTypes[0]);
                 if (!upgradesDict.ContainsKey(slotName))
                 {
                     JSONObject upgrade = new JSONObject();
@@ -1036,62 +1036,6 @@ namespace SquadBuilderNS
             pilotJson.AddField("vendor", vendorJson);
 
             return pilotJson;
-        }
-
-        private static string UpgradeTypeToXWS(UpgradeType upgradeType)
-        {
-            string result = "";
-
-            switch (upgradeType)
-            {
-                case UpgradeType.Talent:
-                    result = "ept";
-                    break;
-                case UpgradeType.Astromech:
-                    result = "amd";
-                    break;
-                case UpgradeType.SalvagedAstromech:
-                    result = "samd";
-                    break;
-                case UpgradeType.Modification:
-                    result = "mod";
-                    break;
-                default:
-                    result = upgradeType.ToString().ToLower();
-                    break;
-            }
-
-            return result;
-        }
-
-        private static UpgradeType XwsToUpgradeType(string upgradeXws)
-        {
-            UpgradeType result = UpgradeType.Astromech;
-
-            switch (upgradeXws)
-            {
-                case "ept":
-                    result = UpgradeType.Talent;
-                    break;
-                case "amd":
-                    result = UpgradeType.Astromech;
-                    break;
-                case "samd":
-                    result = UpgradeType.SalvagedAstromech;
-                    break;
-                case "mod":
-                    result = UpgradeType.Modification;
-                    break;
-                case "tacticalrelay":
-                    result = UpgradeType.TacticalRelay;
-                    break;
-                default:
-                    string capitalizedName = upgradeXws.First().ToString().ToUpper() + upgradeXws.Substring(1);
-                    result = (UpgradeType)Enum.Parse(typeof(UpgradeType), capitalizedName);
-                    break;
-            }
-
-            return result;
         }
 
         public static JSONObject GetSquadInJsonCompact(PlayerNo playerNo)

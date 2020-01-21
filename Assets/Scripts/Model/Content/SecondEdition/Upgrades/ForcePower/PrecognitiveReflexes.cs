@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Precognitive Reflexes",
-                UpgradeType.Force,
+                UpgradeType.ForcePower,
                 cost: 13,
                 abilityType: typeof(Abilities.SecondEdition.PrecognitiveReflexesAbility),
                 restriction: new BaseSizeRestriction(BaseSize.Small)

@@ -13,7 +13,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Adv. Targeting Computer",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 5,
                 abilityType: typeof(Abilities.FirstEdition.AdvancedTargetingComputerAbility),
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.TIEAdvanced.TIEAdvanced))

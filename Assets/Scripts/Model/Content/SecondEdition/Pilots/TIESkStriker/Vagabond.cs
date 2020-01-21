@@ -54,7 +54,7 @@ namespace Abilities.SecondEdition
         private bool HasAvailableDevice()
         {
             return HostShip.UpgradeBar
-                .GetInstalledUpgrades(UpgradeType.Bomb)
+                .GetInstalledUpgrades(UpgradeType.Device)
                 .Any(device => device.State.Charges > 0);
         }
 

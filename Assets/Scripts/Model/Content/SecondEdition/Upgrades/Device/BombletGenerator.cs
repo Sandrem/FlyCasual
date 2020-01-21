@@ -19,8 +19,8 @@ namespace UpgradesList.SecondEdition
                 "Bomblet Generator",
                 types: new List<UpgradeType>()
                 {
-                    UpgradeType.Bomb,
-                    UpgradeType.Bomb
+                    UpgradeType.Device,
+                    UpgradeType.Device
                 },
                 cost: 5,
                 charges: 2,

@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Proximity Mines",
-                UpgradeType.Bomb,
+                UpgradeType.Device,
                 cost: 6,
                 charges: 2,
                 cannotBeRecharged: true,

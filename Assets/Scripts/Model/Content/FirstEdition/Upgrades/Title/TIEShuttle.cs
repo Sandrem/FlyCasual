@@ -21,7 +21,7 @@ namespace UpgradesList.FirstEdition
                 {
                     UpgradeType.Torpedo,
                     UpgradeType.Missile,
-                    UpgradeType.Bomb
+                    UpgradeType.Device
                 },
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.TIEBomber.TIEBomber))
             );

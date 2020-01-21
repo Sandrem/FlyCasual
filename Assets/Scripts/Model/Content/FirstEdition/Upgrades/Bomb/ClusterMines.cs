@@ -16,7 +16,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Cluster Mines",
-                UpgradeType.Bomb,
+                UpgradeType.Device,
                 cost: 4
             );
 

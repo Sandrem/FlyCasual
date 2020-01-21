@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 3,
                 37,
                 force: 1,
-                extraUpgradeIcon: UpgradeType.Force
+                extraUpgradeIcon: UpgradeType.ForcePower
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b0/b3/b0b3f463-a3ea-4fe6-be69-41afed1b4110/swz32_jedi-knight.png";

@@ -14,7 +14,7 @@ namespace Ship
                     3,
                     35,
                     force: 1,
-                    extraUpgradeIcon: UpgradeType.Force,
+                    extraUpgradeIcon: UpgradeType.ForcePower,
                     seImageNumber: 102
                 );
             }

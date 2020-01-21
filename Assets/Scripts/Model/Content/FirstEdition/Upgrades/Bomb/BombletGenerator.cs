@@ -18,8 +18,8 @@ namespace UpgradesList.FirstEdition
                 "Bomblet Generator",
                 types: new List<UpgradeType>()
                 {
-                    UpgradeType.Bomb,
-                    UpgradeType.Bomb
+                    UpgradeType.Device,
+                    UpgradeType.Device
                 },
                 cost: 3,
                 isLimited: true

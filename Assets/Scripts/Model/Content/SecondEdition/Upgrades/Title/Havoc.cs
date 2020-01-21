@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 addSlots: new List<UpgradeSlot>
                 {
-                    new UpgradeSlot(UpgradeType.System),
+                    new UpgradeSlot(UpgradeType.Sensor),
                     new UpgradeSlot(UpgradeType.Astromech)
                 },
                 forbidSlot: UpgradeType.Crew,

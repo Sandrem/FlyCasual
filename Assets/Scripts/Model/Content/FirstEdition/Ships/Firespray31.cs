@@ -33,7 +33,7 @@ namespace Ship
                         UpgradeType.Title,
                         UpgradeType.Modification,
                         UpgradeType.Cannon,
-                        UpgradeType.Bomb,
+                        UpgradeType.Device,
                         UpgradeType.Crew,
                         UpgradeType.Missile
                     ),

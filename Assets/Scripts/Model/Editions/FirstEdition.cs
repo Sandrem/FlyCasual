@@ -208,5 +208,73 @@ namespace Editions
 
             return result;
         }
+
+        public override string UpgradeTypeToXws(UpgradeType upgradeType)
+        {
+            string result = "";
+
+            switch (upgradeType)
+            {
+                case UpgradeType.Talent:
+                    result = "ept";
+                    break;
+                case UpgradeType.Device:
+                    result = "bomb";
+                    break;
+                case UpgradeType.Sensor:
+                    result = "system";
+                    break;
+                case UpgradeType.Astromech:
+                    result = "amd";
+                    break;
+                case UpgradeType.SalvagedAstromech:
+                    result = "samd";
+                    break;
+                case UpgradeType.Modification:
+                    result = "mod";
+                    break;
+                default:
+                    result = upgradeType.ToString().ToLower();
+                    break;
+            }
+
+            return result;
+        }
+
+        public override UpgradeType XwsToUpgradeType(string upgradeXws)
+        {
+            UpgradeType result = UpgradeType.Astromech;
+
+            switch (upgradeXws)
+            {
+                case "ept":
+                    result = UpgradeType.Talent;
+                    break;
+                case "bomb":
+                    result = UpgradeType.Device;
+                    break;
+                case "system":
+                    result = UpgradeType.Sensor;
+                    break;
+                case "amd":
+                    result = UpgradeType.Astromech;
+                    break;
+                case "samd":
+                    result = UpgradeType.SalvagedAstromech;
+                    break;
+                case "mod":
+                    result = UpgradeType.Modification;
+                    break;
+                case "tacticalrelay":
+                    result = UpgradeType.TacticalRelay;
+                    break;
+                default:
+                    string capitalizedName = upgradeXws.First().ToString().ToUpper() + upgradeXws.Substring(1);
+                    result = (UpgradeType)Enum.Parse(typeof(UpgradeType), capitalizedName);
+                    break;
+            }
+
+            return result;
+        }
     }
 }

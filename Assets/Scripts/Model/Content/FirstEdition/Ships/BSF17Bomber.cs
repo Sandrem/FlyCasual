@@ -30,10 +30,10 @@ namespace Ship.FirstEdition.BSF17Bomber
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Modification,
-                    UpgradeType.System,
+                    UpgradeType.Sensor,
                     UpgradeType.Tech,
-                    UpgradeType.Bomb,
-                    UpgradeType.Bomb
+                    UpgradeType.Device,
+                    UpgradeType.Device
                 ),
                 subFaction: Faction.Resistance
             );

@@ -18,7 +18,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.AhsokaTanoAbility),
-                extraUpgradeIcon: UpgradeType.Force,
+                extraUpgradeIcon: UpgradeType.ForcePower,
                 pilotTitle: "\"Snips\""
             );
 

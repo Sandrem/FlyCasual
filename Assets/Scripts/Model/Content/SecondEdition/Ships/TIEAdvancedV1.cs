@@ -15,7 +15,7 @@ namespace Ship
             {
                 ShipInfo.ShipName = "TIE Advanced v1";
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Sensor);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(EvadeAction)));

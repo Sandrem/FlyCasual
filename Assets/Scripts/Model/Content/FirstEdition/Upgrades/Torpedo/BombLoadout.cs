@@ -13,7 +13,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Torpedo,
                 cost: 0,
                 feIsLimitedPerShip: true,
-                addSlot: new UpgradeSlot(UpgradeType.Bomb),
+                addSlot: new UpgradeSlot(UpgradeType.Device),
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.YWing.YWing))
             );
         }        

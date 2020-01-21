@@ -21,7 +21,7 @@ namespace Ship
                 ShipInfo.Shields = 2;
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Turret);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Bomb);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Device);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));

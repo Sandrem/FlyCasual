@@ -27,7 +27,7 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
                     new ActionInfo(typeof(BoostAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.System,
+                    UpgradeType.Sensor,
                     UpgradeType.Torpedo,
                     UpgradeType.Astromech
                 ),

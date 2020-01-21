@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Fire-Control System",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.FireControlSystemAbility),
                 seImageNumber: 25

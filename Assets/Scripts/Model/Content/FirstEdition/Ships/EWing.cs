@@ -28,7 +28,7 @@ namespace Ship.FirstEdition.EWing
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Modification,
-                    UpgradeType.System,
+                    UpgradeType.Sensor,
                     UpgradeType.Torpedo,
                     UpgradeType.Astromech
                 )

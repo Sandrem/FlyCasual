@@ -29,9 +29,9 @@ namespace Upgrade
 
     public enum UpgradeType
     {
-        Force,
+        ForcePower,
         Talent,
-        System,
+        Sensor,
         Tech,
         Turret,
         Cannon,
@@ -41,7 +41,7 @@ namespace Upgrade
         Torpedo,
         Astromech,
         SalvagedAstromech,
-        Bomb,
+        Device,
         Illicit,
         Modification,
         Title,

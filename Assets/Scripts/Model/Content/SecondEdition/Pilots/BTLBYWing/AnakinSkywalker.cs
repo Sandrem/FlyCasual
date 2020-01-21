@@ -14,7 +14,7 @@ namespace Ship
                     6,
                     60,
                     isLimited: true,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Force, UpgradeType.Astromech },
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.ForcePower, UpgradeType.Astromech },
                     force: 3,
                     abilityText: "After you fully execute a maneuver, if there is an enemy ship in your standard front arc at range 0-1 or in your bullseye arc, you may spend 1 force to remove 1 stress token.",
                     abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerAbility)

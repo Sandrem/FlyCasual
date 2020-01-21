@@ -17,7 +17,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Ion Bombs",
-                type: UpgradeType.Bomb,
+                type: UpgradeType.Device,
                 cost: 2
             );
 

@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Supernatural Reflexes",
-                UpgradeType.Force,
+                UpgradeType.ForcePower,
                 cost: 12,
                 abilityType: typeof(Abilities.SecondEdition.SupernaturalReflexesAbility),
                 restriction: new BaseSizeRestriction(BaseSize.Small),

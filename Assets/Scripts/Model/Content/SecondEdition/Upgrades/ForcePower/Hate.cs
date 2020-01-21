@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Hate",
-                UpgradeType.Force,
+                UpgradeType.ForcePower,
                 cost: 6,
                 restriction: new ForceAlignmentRestriction(ForceAlignment.Dark),
                 abilityType: typeof(Abilities.SecondEdition.HateAbility)//,

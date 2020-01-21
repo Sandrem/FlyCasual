@@ -77,5 +77,8 @@ namespace Editions
 
         public abstract string FactionToXws(Faction faction);
         public abstract Faction XwsToFaction(string factionXWS);
+
+        public abstract string UpgradeTypeToXws(UpgradeType faction);
+        public abstract UpgradeType XwsToUpgradeType(string upgradeXWS);
     }
 }

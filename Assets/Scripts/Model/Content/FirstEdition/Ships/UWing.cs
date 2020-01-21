@@ -30,7 +30,7 @@ namespace Ship.FirstEdition.UWing
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Modification,
-                    UpgradeType.System,
+                    UpgradeType.Sensor,
                     UpgradeType.Crew,
                     UpgradeType.Crew
                 ),

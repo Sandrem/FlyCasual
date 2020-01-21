@@ -13,7 +13,7 @@ namespace UpgradesList.FirstEdition
                 "TIE/x1",
                 UpgradeType.Title,
                 cost: 0,
-                addSlot: new UpgradeSlot(UpgradeType.System) { CostDecrease = 4 },
+                addSlot: new UpgradeSlot(UpgradeType.Sensor) { CostDecrease = 4 },
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.TIEAdvanced.TIEAdvanced))
             );
         }        

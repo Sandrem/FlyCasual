@@ -13,7 +13,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Ordnance Silos",
-                UpgradeType.Bomb,
+                UpgradeType.Device,
                 cost: 2,
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.BSF17Bomber.BSF17Bomber)),
                 abilityType: typeof(Abilities.FirstEdition.OrdnanceSilosAbility)
@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
         {
             foreach (var upgrade in HostShip.UpgradeBar.GetUpgradesOnlyFaceup())
             {
-                if (upgrade.HasType(UpgradeType.Bomb))
+                if (upgrade.HasType(UpgradeType.Device))
                 {
                     SetOrdnanceTokens(upgrade);
                 }

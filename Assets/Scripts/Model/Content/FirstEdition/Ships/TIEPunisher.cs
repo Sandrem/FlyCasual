@@ -29,13 +29,13 @@ namespace Ship
                     new ShipUpgradesInfo(
                         UpgradeType.Title,
                         UpgradeType.Modification,
-                        UpgradeType.System,
+                        UpgradeType.Sensor,
                         UpgradeType.Torpedo,
                         UpgradeType.Torpedo,
                         UpgradeType.Missile,
                         UpgradeType.Missile,
-                        UpgradeType.Bomb,
-                        UpgradeType.Bomb
+                        UpgradeType.Device,
+                        UpgradeType.Device
                     )
                 );
 

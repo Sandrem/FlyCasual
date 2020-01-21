@@ -23,7 +23,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerAbility),
-                extraUpgradeIcon: UpgradeType.Force
+                extraUpgradeIcon: UpgradeType.ForcePower
             );
 
             ModelInfo.SkinName = "Anakin Skywalker";

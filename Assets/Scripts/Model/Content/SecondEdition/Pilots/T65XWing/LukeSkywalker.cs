@@ -16,7 +16,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(LukeSkywalkerAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.Force,
+                    extraUpgradeIcon: UpgradeType.ForcePower,
                     seImageNumber: 2
                 );
             }

@@ -18,7 +18,7 @@ namespace Ship
             {
                 ShipInfo.ShipName = "TIE/sk Striker";
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Bomb);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Device);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
                 ShipAbilities.Add(new Abilities.FirstEdition.AdaptiveAileronsAbility());

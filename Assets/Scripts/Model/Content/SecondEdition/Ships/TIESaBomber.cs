@@ -21,7 +21,7 @@ namespace Ship
                 ShipInfo.ShipName = "TIE/sa Bomber";
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Bomb);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Device);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction), ActionColor.Red));

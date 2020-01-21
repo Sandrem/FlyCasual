@@ -10,7 +10,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Electronic Baffle",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 1,
                 abilityType: typeof(Abilities.FirstEdition.ElectronicBaffleAbility)
             );

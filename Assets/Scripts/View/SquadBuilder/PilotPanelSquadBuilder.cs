@@ -131,7 +131,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             // Show extra icons (that not present on all pilots of this ship)
             Text slotsText = this.transform.Find("SlotsInfo").GetComponent<Text>();
             for (int i = 0; i < CountUpgradeIcons(UpgradeType.Talent); i++) slotsText.text += "E";
-            for (int i = 0; i < CountUpgradeIcons(UpgradeType.Force); i++) slotsText.text += "F";
+            for (int i = 0; i < CountUpgradeIcons(UpgradeType.ForcePower); i++) slotsText.text += "F";
             if (Ship is Ship.SecondEdition.YT2400LightFreighter.YT2400LightFreighter) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Crew); i++) slotsText.text += "W";
             if (Ship.Faction != Faction.Scum) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Illicit); i++) slotsText.text += "I";
         }

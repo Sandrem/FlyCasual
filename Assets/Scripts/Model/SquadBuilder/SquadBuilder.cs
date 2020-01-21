@@ -798,7 +798,10 @@ namespace SquadBuilderNS
                 Faction faction = Edition.Current.XwsToFaction(factionNameXws);
                 squadList.SquadFaction = faction;
 
-                squadList.Points = (int) squadJson["points"].i;
+                if (squadJson.HasField("points"))
+                {
+                    squadList.Points = (int)squadJson["points"].i;
+                }
 
                 if (squadJson.HasField("pilots"))
                 {

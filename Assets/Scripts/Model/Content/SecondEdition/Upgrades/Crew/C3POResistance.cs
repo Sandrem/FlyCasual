@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
         public C3POResistance() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "C-3PO (Resistance)",
+                "C-3PO",
                 UpgradeType.Crew,
                 cost: 6,
                 isLimited: true,
@@ -26,6 +26,8 @@ namespace UpgradesList.SecondEdition
                 },
                 abilityType: typeof(Abilities.SecondEdition.C3POResistanceCrewAbility)
             );
+
+            NameCanonical = "c3po-crew";
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/a0e80bb89748e7415e945a050f82ba84.png";
         }        

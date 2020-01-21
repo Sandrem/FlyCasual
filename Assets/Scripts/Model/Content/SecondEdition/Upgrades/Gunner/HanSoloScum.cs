@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
         public HanSoloScum() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Han Solo (Scum)",
+                "Han Solo",
                 UpgradeType.Gunner,
                 cost: 10,
                 isLimited: true,
@@ -18,6 +18,8 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 seImageNumber: 163
             );
+
+            NameCanonical = "hansolo-gunner";
         }
     }
 }

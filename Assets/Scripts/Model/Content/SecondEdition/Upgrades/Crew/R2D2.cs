@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
         public R2D2Crew() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "R2-D2 (crew)",
+                "R2-D2",
                 UpgradeType.Crew,
                 cost: 10,
                 isLimited: true,
@@ -18,6 +18,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.R2D2CrewAbility),
                 seImageNumber: 91
             );
+
+            NameCanonical = "r2d2-crew";
         }        
     }
 }

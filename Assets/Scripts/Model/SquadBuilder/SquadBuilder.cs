@@ -194,23 +194,27 @@ namespace SquadBuilderNS
                 }
             }
 
-            foreach (PilotRecord pilotRecord in AllPilots)
+            // Check for unique pilot IDs
+
+            if (!DebugManager.ReleaseVersion)
             {
-                int samePilotCount = 0;
-                foreach (PilotRecord pilotRecord2 in AllPilots)
+                foreach (PilotRecord pilotRecord in AllPilots)
                 {
-                    if (pilotRecord.PilotNameCanonical == pilotRecord2.PilotNameCanonical)
+                    int samePilotCount = 0;
+                    foreach (PilotRecord pilotRecord2 in AllPilots)
                     {
-                        samePilotCount++;
-                        if (samePilotCount > 1)
+                        if (pilotRecord.PilotNameCanonical == pilotRecord2.PilotNameCanonical)
                         {
-                            Debug.LogError("Pilot ID " + pilotRecord.PilotNameCanonical + " has duplicate!");
-                            break;
+                            samePilotCount++;
+                            if (samePilotCount > 1)
+                            {
+                                Debug.LogError("Pilot ID " + pilotRecord.PilotNameCanonical + " has duplicate!");
+                                break;
+                            }
                         }
                     }
                 }
             }
-
 
             //Messages.ShowInfo("Unique pilots: " + AllPilots.Count(n => n.Instance.IsUnique));
         }
@@ -293,6 +297,26 @@ namespace SquadBuilderNS
             }
 
             AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.UpgradeInfo.Name).ToList();
+
+            if (!DebugManager.ReleaseVersion)
+            {
+                foreach (UpgradeRecord upgradeRecord in AllUpgrades)
+                {
+                    int samePilotCount = 0;
+                    foreach (UpgradeRecord upgradeRecord2 in AllUpgrades)
+                    {
+                        if (upgradeRecord.UpgradeNameCanonical == upgradeRecord2.UpgradeNameCanonical)
+                        {
+                            samePilotCount++;
+                            if (samePilotCount > 1)
+                            {
+                                Debug.LogError("Upgrade ID " + upgradeRecord.UpgradeNameCanonical + " has duplicate!");
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
 
             //Messages.ShowInfo("Upgrades: " + AllUpgrades.Count);
         }

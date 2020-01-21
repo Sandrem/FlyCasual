@@ -1,8 +1,6 @@
 ﻿using BoardTools;
 using Ship;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Upgrade;
 
@@ -59,7 +57,7 @@ namespace Abilities.SecondEdition
                 HostUpgrade.UpgradeInfo.Name,
                 HasEnemyInRange,
                 UseOwnAbility,
-                descriptionLong: "Do you want to choose another ship at range 0–1 and gain 1 stress token? (If you do, the chosen ship gains your token instead)",
+                descriptionLong: "Do you want to choose another ship at range 0–1 and gain 1 stress token and suffer 1 damage? (If you do, the chosen ship gains your token instead)",
                 imageHolder: HostUpgrade
             );
         }
@@ -74,7 +72,7 @@ namespace Abilities.SecondEdition
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
                 name: HostUpgrade.UpgradeInfo.Name,
-                description: "You may choose another ship at range 0–1 and gain 1 stress token. If you do, the chosen ship gains that ion or jam token instead.",
+                description: "You may choose another ship at range 0–1 and gain 1 stress token and suffer 1 damage. If you do, the chosen ship gains that ion or jam token instead.",
                 imageSource: HostUpgrade
             );
         }
@@ -101,6 +99,7 @@ namespace Abilities.SecondEdition
             SubPhases.SelectShipSubPhase.FinishSelectionNoCallback();
 
             Messages.ShowInfo("Static Discharge Vanes: Token is transfered to " + TargetShip.PilotInfo.PilotName);
+            Messages.ShowInfo("Static Discharge Vanes: " + HostShip.PilotInfo.PilotName + " gains 1 stress and suffers 1 damage");
 
             HostShip.Tokens.AssignToken(
                 typeof(Tokens.StressToken),
@@ -111,11 +110,32 @@ namespace Abilities.SecondEdition
                         delegate
                         {
                             HostShip.Tokens.TokenToAssign = null;
-                            Triggers.FinishTrigger();
+                            //January 2020 errata: also suffer 1 damage
+                            SufferDamage(Triggers.FinishTrigger);
                         }
                     );
                 }
             );
+        }
+
+        private void SufferDamage(Action callBack)
+        {
+            HostShip.AssignedDamageDiceroll.AddDice(DieSide.Success);
+
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Static Discharge Vanes' damage",
+                TriggerType = TriggerTypes.OnDamageIsDealt,
+                TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                EventHandler = Selection.ThisShip.SufferDamage,
+                EventArgs = new DamageSourceEventArgs()
+                {
+                    Source = this,
+                    DamageType = DamageTypes.CardAbility
+                }
+            });
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageIsDealt, callBack);
         }
 
         private bool HasEnemyInRange()

@@ -53,6 +53,10 @@ namespace Abilities.SecondEdition
             BombsAndMinesInRangeCount = 0;
             foreach (var bombHolder in BombsManager.GetBombsOnBoard().Where(n => n.Value.HostShip.Owner.PlayerNo == HostShip.Owner.PlayerNo))
             {
+                //January 2020 errata: This ability now only works with bombs
+                if (bombHolder.Value.UpgradeInfo.SubType != UpgradeSubType.Bomb)
+                    break;
+
                 if (BombsManager.IsShipInRange(Combat.Defender, bombHolder.Key, 1))
                 {
                     BombsAndMinesInRangeCount++;

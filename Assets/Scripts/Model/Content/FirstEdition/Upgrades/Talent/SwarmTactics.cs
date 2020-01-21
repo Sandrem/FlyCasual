@@ -1,7 +1,7 @@
 ﻿using Upgrade;
 using System.Collections.Generic;
 using Ship;
-using System.Linq;
+using SubPhases;
 
 namespace UpgradesList.FirstEdition
 {
@@ -35,64 +35,27 @@ namespace Abilities.FirstEdition
 
         private void PlanSwarmTacticsPilotAbility()
         {
-            Triggers.RegisterTrigger(new Trigger()
-            {
-                Name = "#" + HostShip.ShipId + ": Swarm Tactics",
-                TriggerOwner = HostShip.Owner.PlayerNo,
-                TriggerType = TriggerTypes.OnCombatPhaseStart,
-                EventHandler = SwarmTacticsPilotAbility
-            });
+            var trigger = RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, SwarmTacticsPilotAbility);
+            trigger.Name = $"{HostName} - {HostShip.PilotInfo.PilotName} (#{HostShip.ShipId})";
         }
 
         private void SwarmTacticsPilotAbility(object sender, System.EventArgs e)
         {
-            Selection.ThisShip = HostShip;
-            if (HostShip.Owner.Ships.Count > 1)
-            {
-                var phase = Phases.StartTemporarySubPhaseNew<SubPhases.SelectSwarmTacticsTargetSubPhase>(
-                    "Select target for Swarm Tactics",
-                    Triggers.FinishTrigger
-                );
-
-                phase.ImageSource = HostUpgrade;
-                phase.Start();
-            }
-            else
-            {
-                Triggers.FinishTrigger();
-            }
-        }
-
-    }
-
-}
-
-namespace SubPhases
-{
-
-    public class SelectSwarmTacticsTargetSubPhase : SelectShipSubPhase
-    {
-
-        public override void Prepare()
-        {
-            targetsAllowed.Add(TargetTypes.OtherFriendly);
-            maxRange = 1;
-            finishAction = SelectSwarmTacticsTarget;
-
-            FilterShipTargets = FilterAbilityTargets;
-            GetAiPriority = GetAiAbilityPriority;
-
-            DescriptionLong = "Select target for Swarm Tactics";
-
-            RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
-
-            UI.ShowSkipButton();
+            SelectTargetForAbility(
+                SelectSwarmTacticsTarget,
+                FilterAbilityTargets,
+                GetAiAbilityPriority,
+                HostShip.Owner.PlayerNo,
+                HostUpgrade.UpgradeInfo.Name,
+                "Select target for Swarm Tactics",
+                HostUpgrade
+            );
         }
 
         private bool FilterAbilityTargets(GenericShip ship)
         {
-            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Selection.ThisShip, ship);
-            return (distanceInfo.Range == 1) && (ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) && (ship.ShipId != Selection.ThisShip.ShipId);
+            BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, ship);
+            return (distanceInfo.Range == 1) && (ship.Owner == HostShip.Owner) && (ship.ShipId != HostShip.ShipId);
         }
 
         private int GetAiAbilityPriority(GenericShip ship)
@@ -101,21 +64,18 @@ namespace SubPhases
             if (ActionsHolder.HasTarget(ship)) result += 100;
             result += (12 - ship.State.Initiative);
 
-            if (ship.State.Initiative >= Selection.ThisShip.State.Initiative) result = 0;
+            if (ship.State.Initiative >= HostShip.State.Initiative) result = 0;
 
             return result;
         }
 
         private void SelectSwarmTacticsTarget()
         {
-            new SwarmTacticsPilotSkillModifier(TargetShip, Selection.ThisShip.State.Initiative);
+            new SwarmTacticsPilotSkillModifier(TargetShip, HostShip.State.Initiative);
             MovementTemplates.ReturnRangeRuler();
 
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
+            SelectShipSubPhase.FinishSelection();
         }
-
-        public override void RevertSubPhase() { }
 
         private class SwarmTacticsPilotSkillModifier : IModifyPilotSkill
         {
@@ -143,13 +103,5 @@ namespace SubPhases
                 Phases.Events.OnEndPhaseStart_NoTriggers -= RemoveSwarmTacticsModifieer;
             }
         }
-
-        public override void SkipButton()
-        {
-            Phases.FinishSubPhase(this.GetType());
-            CallBack();
-        }
-
     }
-
 }

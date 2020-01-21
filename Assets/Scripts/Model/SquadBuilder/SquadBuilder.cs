@@ -808,7 +808,7 @@ namespace SquadBuilderNS
                         string shipNameXws = pilotJson["ship"].str;
                         string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
 
-                        string pilotNameXws = pilotJson["name"].str;
+                        string pilotNameXws = (Edition.Current is Editions.FirstEdition) ? pilotJson["name"].str : pilotJson["id"].str;
                         if (!AllPilots.Any(n => n.PilotNameCanonical == pilotNameXws))
                         {
                             Debug.Log("Cannot find pilot: " + pilotNameXws);
@@ -823,39 +823,42 @@ namespace SquadBuilderNS
 
                         Dictionary<string, string> upgradesThatCannotBeInstalled = new Dictionary<string, string>();
 
-                        JSONObject upgradeJsons = pilotJson["upgrades"];
-                        foreach (string upgradeType in upgradeJsons.keys)
+                        if (pilotJson.HasField("upgrades"))
                         {
-                            JSONObject upgradeNames = upgradeJsons[upgradeType];
-                            foreach (JSONObject upgradeRecord in upgradeNames.list)
+                            JSONObject upgradeJsons = pilotJson["upgrades"];
+                            foreach (string upgradeType in upgradeJsons.keys)
                             {
-                                if (!AllUpgrades.Any(n => n.UpgradeNameCanonical == upgradeRecord.str))
+                                JSONObject upgradeNames = upgradeJsons[upgradeType];
+                                foreach (JSONObject upgradeRecord in upgradeNames.list)
                                 {
-                                    Debug.Log("Cannot find upgrade: " + upgradeRecord.str);
-                                    Console.Write("Cannot find upgrade: " + upgradeRecord.str, LogTypes.Errors, true, "red");
-                                }
-                                string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
-                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName, XwsToUpgradeType(upgradeType));
-                                if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeName, upgradeType);
-                            }
-                        }
-
-                        while (upgradeJsons.Count != 0)
-                        {
-                            Dictionary<string, string> upgradesThatCannotBeInstalledCopy = new Dictionary<string, string>(upgradesThatCannotBeInstalled);
-
-                            bool wasSuccess = false;
-                            foreach (var upgrade in upgradesThatCannotBeInstalledCopy)
-                            {
-                                bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgrade.Key, XwsToUpgradeType(upgrade.Value));
-                                if (upgradeInstalledSucessfully)
-                                {
-                                    wasSuccess = true;
-                                    upgradesThatCannotBeInstalled.Remove(upgrade.Key);
+                                    if (!AllUpgrades.Any(n => n.UpgradeNameCanonical == upgradeRecord.str))
+                                    {
+                                        Debug.Log("Cannot find upgrade: " + upgradeRecord.str);
+                                        Console.Write("Cannot find upgrade: " + upgradeRecord.str, LogTypes.Errors, true, "red");
+                                    }
+                                    string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
+                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName, XwsToUpgradeType(upgradeType));
+                                    if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeName, upgradeType);
                                 }
                             }
 
-                            if (!wasSuccess) break;
+                            while (upgradeJsons.Count != 0)
+                            {
+                                Dictionary<string, string> upgradesThatCannotBeInstalledCopy = new Dictionary<string, string>(upgradesThatCannotBeInstalled);
+
+                                bool wasSuccess = false;
+                                foreach (var upgrade in upgradesThatCannotBeInstalledCopy)
+                                {
+                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgrade.Key, XwsToUpgradeType(upgrade.Value));
+                                    if (upgradeInstalledSucessfully)
+                                    {
+                                        wasSuccess = true;
+                                        upgradesThatCannotBeInstalled.Remove(upgrade.Key);
+                                    }
+                                }
+
+                                if (!wasSuccess) break;
+                            }
                         }
 
                         if (pilotJson.HasField("vendor"))
@@ -968,7 +971,7 @@ namespace SquadBuilderNS
                     string shipNameXws = pilotJson["ship"].str;
                     string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
 
-                    string pilotNameXws = pilotJson["name"].str;
+                    string pilotNameXws = (Edition.Current is Editions.FirstEdition) ? pilotJson["name"].str : pilotJson["id"].str;
                     string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
 
                     result += pilotNameGeneral;
@@ -999,7 +1002,7 @@ namespace SquadBuilderNS
         private static JSONObject GenerateSquadPilot(SquadBuilderShip shipHolder)
         {
             JSONObject pilotJson = new JSONObject();
-            pilotJson.AddField("name", shipHolder.Instance.PilotNameCanonical);
+            pilotJson.AddField((Edition.Current is Editions.FirstEdition) ? "name" : "id", shipHolder.Instance.PilotNameCanonical);
             pilotJson.AddField("points", GetShipCost(shipHolder));
             pilotJson.AddField("ship", shipHolder.Instance.ShipTypeCanonical);
 

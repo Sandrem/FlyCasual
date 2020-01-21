@@ -18,7 +18,7 @@ namespace Ship
             {
                 ShipInfo.ShipName = "TIE/sk Striker";
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Bomb);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Device);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
                 ShipAbilities.Add(new Abilities.FirstEdition.AdaptiveAileronsAbility());
@@ -31,8 +31,6 @@ namespace Ship
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Easy);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/43/Maneuver_tie_striker.png";
-
-                OldShipTypeName = "TIE Striker";
             }
         }
     }

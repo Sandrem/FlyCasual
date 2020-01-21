@@ -57,7 +57,6 @@ namespace Ship
         public List<GenericShip> TwoTargetLocksOnDifferentTargetsAreAllowed = new List<GenericShip>();
         public List<GenericShip> TwoTargetLocksOnSameTargetsAreAllowed = new List<GenericShip>();
 
-        public string OldShipTypeName { get; protected set; }
 
         private string imageUrl;
         public string ImageUrl

@@ -16,7 +16,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Targeting Scrambler",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 0,
                 abilityType: typeof(Abilities.FirstEdition.TargetingScramblerAbility)
             );

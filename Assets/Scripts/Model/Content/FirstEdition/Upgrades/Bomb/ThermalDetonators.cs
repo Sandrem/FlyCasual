@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Thermal Detonators",
-                type: UpgradeType.Bomb,
+                type: UpgradeType.Device,
                 cost: 3
             );
 

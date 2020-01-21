@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
         public LeiaOrganaResistance() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Leia Organa (Resistance)",
+                "Leia Organa",
                 types: new List<UpgradeType>()
                 {
                     UpgradeType.Crew,
@@ -28,6 +28,8 @@ namespace UpgradesList.SecondEdition
                 addForce: 1,
                 abilityType: typeof(Abilities.SecondEdition.LeiaOrganaResistanceAbility)
             );
+
+            NameCanonical = "leiaorgana-resistance";
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/0a194c8c529278b471e64edc597b06fc.png";
         }        

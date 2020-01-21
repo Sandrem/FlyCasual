@@ -33,7 +33,7 @@ namespace Ship
                     new ShipUpgradesInfo(
                         UpgradeType.Title,
                         UpgradeType.Modification,
-                        UpgradeType.System,
+                        UpgradeType.Sensor,
                         UpgradeType.Missile,
                         UpgradeType.Tech
                     ),

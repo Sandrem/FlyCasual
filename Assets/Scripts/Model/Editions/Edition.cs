@@ -74,5 +74,11 @@ namespace Editions
         public virtual void RotateMobileFiringArcAlt(ArcFacing facing) { }
         public virtual void SubScribeToGenericShipEvents(GenericShip ship) { }
         public virtual void WhenIonized(GenericShip ship) { }
+
+        public abstract string FactionToXws(Faction faction);
+        public abstract Faction XwsToFaction(string factionXWS);
+
+        public abstract string UpgradeTypeToXws(UpgradeType faction);
+        public abstract UpgradeType XwsToUpgradeType(string upgradeXWS);
     }
 }

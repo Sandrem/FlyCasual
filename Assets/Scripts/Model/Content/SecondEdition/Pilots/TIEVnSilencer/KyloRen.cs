@@ -19,7 +19,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyloRenPilotAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.Force //,
+                    extraUpgradeIcon: UpgradeType.ForcePower //,
                                                         //seImageNumber: 120
                 );
 

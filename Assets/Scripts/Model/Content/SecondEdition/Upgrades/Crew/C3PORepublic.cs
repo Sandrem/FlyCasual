@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
         public C3PORepublic() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "C-3PO (Republic)",
+                "C-3PO",
                 UpgradeType.Crew,
                 cost: 8,
                 isLimited: true,
@@ -22,6 +22,8 @@ namespace UpgradesList.SecondEdition
                 addAction: new ActionInfo(typeof(CalculateAction)),
                 abilityType: typeof(Abilities.SecondEdition.C3PORepublicCrewAbility)
             );
+
+            NameCanonical = "c3po-republic";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/8b/b8/8bb8be49-b567-4a31-a17e-b8ca2b86b039/swz48_cards-c-3p0.png";
         }        

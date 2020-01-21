@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
         public LandoCalrissianScumCrew() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Lando Calrissian (Scum)",
+                "Lando Calrissian",
                 UpgradeType.Crew,
                 cost: 8,
                 isLimited: true,
@@ -19,6 +19,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumAbility),
                 seImageNumber: 159
             );
+
+            NameCanonical = "landocalrissian-crew";
         }
     }
 }

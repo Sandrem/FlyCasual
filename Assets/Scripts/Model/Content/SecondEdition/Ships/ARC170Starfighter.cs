@@ -27,8 +27,6 @@ namespace Ship
                 IconicPilots[Faction.Republic] = typeof(OddBall);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/f/f5/Maneuver_arc-170.png";
-
-                OldShipTypeName = "ARC-170";
             }
         }
     }

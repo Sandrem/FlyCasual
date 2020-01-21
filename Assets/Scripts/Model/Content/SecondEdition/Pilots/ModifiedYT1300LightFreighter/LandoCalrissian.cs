@@ -22,6 +22,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 70
                 );
+
+                PilotNameCanonical = "landocalrissian-modifiedyt1300lightfreighter";
             }
         }
     }

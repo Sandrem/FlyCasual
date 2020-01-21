@@ -19,10 +19,12 @@ namespace Ship
                     pilotTitle: "Spectre-6",
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Force, UpgradeType.Talent }
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.ForcePower, UpgradeType.Talent }
                 );
 
                 RequiredMods = new List<Type>() { typeof(PhoenixSquadronModSE) };
+                PilotNameCanonical = "ezrabridger-rz1awing-phoenixsquadronmod";
+
                 ImageUrl = "https://i.imgur.com/AbHl6vG.png";
             }
         }

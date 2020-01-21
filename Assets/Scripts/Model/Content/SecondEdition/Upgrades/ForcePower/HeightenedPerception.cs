@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Heightened Perception",
-                UpgradeType.Force,
+                UpgradeType.ForcePower,
                 cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.HeightenedPerception),
                 seImageNumber: 19

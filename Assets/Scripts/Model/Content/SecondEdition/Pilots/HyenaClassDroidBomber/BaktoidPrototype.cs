@@ -17,7 +17,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 28,
                 limited: 2,
                 abilityType: typeof(Abilities.SecondEdition.BaktoidPrototypeAbility),
-                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.System, UpgradeType.Missile, UpgradeType.Missile },
+                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Sensor, UpgradeType.Missile, UpgradeType.Missile },
                 pilotTitle: "Function over Form"
             );
             

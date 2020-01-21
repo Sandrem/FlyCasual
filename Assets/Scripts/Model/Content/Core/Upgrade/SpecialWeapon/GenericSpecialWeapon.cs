@@ -47,7 +47,7 @@ namespace Upgrade
                 {
                     weaponType = WeaponTypes.Talent;
                 }
-                else if (UpgradeInfo.HasType(UpgradeType.Force))
+                else if (UpgradeInfo.HasType(UpgradeType.ForcePower))
                 {
                     weaponType = WeaponTypes.Force;
                 }

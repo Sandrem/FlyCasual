@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Title,
                 cost: 3,
                 isLimited: true,
-                addSlot: new UpgradeSlot(UpgradeType.Bomb),
+                addSlot: new UpgradeSlot(UpgradeType.Device),
                 addAction: new ActionInfo(typeof(ReloadAction)),
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.Firespray31.Firespray31)),
                 seImageNumber: 146

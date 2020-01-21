@@ -22,6 +22,8 @@ namespace Ship
                     seImageNumber: 47
                 );
 
+                PilotNameCanonical = "sabinewren-tielnfighter";
+
                 ModelInfo.ModelName = "TIE Fighter Rebel";
                 ModelInfo.SkinName = "Rebel";
             }

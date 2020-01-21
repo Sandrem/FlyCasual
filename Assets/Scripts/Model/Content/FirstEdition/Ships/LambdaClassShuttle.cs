@@ -27,7 +27,7 @@ namespace Ship
                     ),
                     new ShipUpgradesInfo(
                         UpgradeType.Title,
-                        UpgradeType.System,
+                        UpgradeType.Sensor,
                         UpgradeType.Cannon,
                         UpgradeType.Modification,
                         UpgradeType.Crew,

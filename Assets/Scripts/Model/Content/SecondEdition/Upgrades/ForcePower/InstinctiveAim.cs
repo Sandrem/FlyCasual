@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Instinctive Aim",
-                UpgradeType.Force,
+                UpgradeType.ForcePower,
                 cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.InstinctiveAimAbility),
                 restriction: new BaseSizeRestriction(BaseSize.Small),

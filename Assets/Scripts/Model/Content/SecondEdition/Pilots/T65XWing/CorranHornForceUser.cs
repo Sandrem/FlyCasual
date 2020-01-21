@@ -20,11 +20,14 @@ namespace Ship
                     isLimited: true,
                     force: 1,
                     abilityType: typeof(CorranHornAbility),
-                    extraUpgradeIcon: UpgradeType.Force
+                    extraUpgradeIcon: UpgradeType.ForcePower
                 );
 
                 RequiredMods = new List<Type>() { typeof(MyOtherRideIsModSE) };
+                PilotNameCanonical = "corranhornforceuser-t65xwing-myotherrideismod";
+
                 ImageUrl = "https://i.imgur.com/Zaw8eDC.png";
+
                 ModelInfo.SkinName = "Green";
             }
         }

@@ -19,6 +19,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 38
                 );
+
+                PilotNameCanonical = "fennrau-sheathipedeclassshuttle";
             }
         }
     }

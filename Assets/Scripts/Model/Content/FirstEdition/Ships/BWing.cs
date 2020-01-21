@@ -27,7 +27,7 @@ namespace Ship.FirstEdition.BWing
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Modification,
-                    UpgradeType.System,
+                    UpgradeType.Sensor,
                     UpgradeType.Cannon,
                     UpgradeType.Torpedo,
                     UpgradeType.Torpedo

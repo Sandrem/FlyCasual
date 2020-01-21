@@ -18,7 +18,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GrandInquisitorAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.Force,
+                    extraUpgradeIcon: UpgradeType.ForcePower,
                     seImageNumber: 99
                 );
             }

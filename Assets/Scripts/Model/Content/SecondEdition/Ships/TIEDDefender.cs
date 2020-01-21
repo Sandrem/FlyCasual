@@ -19,7 +19,7 @@ namespace Ship
                 ShipInfo.ShipName = "TIE/D Defender";
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Sensor);
 
                 ShipInfo.Shields = 4;
 
@@ -35,8 +35,6 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn), MovementComplexity.Complex);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/18/Maneuver_tie_defender.png";
-
-                OldShipTypeName = "TIE Defender";
             }
         }
     }

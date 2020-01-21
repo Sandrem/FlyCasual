@@ -23,7 +23,10 @@ namespace Ship
                 );
 
                 RequiredMods = new List<Type>() { typeof(MyOtherRideIsModSE) };
+                PilotNameCanonical = "corranhorn-t65xwing-myotherrideismod";
+
                 ImageUrl = "https://i.imgur.com/vGutvzp.png";
+
                 ModelInfo.SkinName = "Green";
             }
         }

@@ -19,7 +19,7 @@ namespace UpgradesList.FirstEdition
                 cost: 2,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
-                addSlot: new UpgradeSlot(UpgradeType.Bomb),
+                addSlot: new UpgradeSlot(UpgradeType.Device),
                 abilityType: typeof(Abilities.FirstEdition.SabineWrenCrewAbility)
             );
 

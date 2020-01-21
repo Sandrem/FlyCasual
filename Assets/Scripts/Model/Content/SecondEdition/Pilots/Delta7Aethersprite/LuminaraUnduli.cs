@@ -17,7 +17,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.LuminaraUnduliAbility),
-                extraUpgradeIcon: UpgradeType.Force,
+                extraUpgradeIcon: UpgradeType.ForcePower,
                 pilotTitle: "Wise Protector"
             );
 

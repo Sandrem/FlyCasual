@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
         public ChewbaccaScum() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Chewbacca (Scum)",
+                "Chewbacca",
                 UpgradeType.Crew,
                 cost: 4,
                 isLimited: true,
@@ -19,6 +19,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.ChewbaccaScumCrewAbility),
                 seImageNumber: 157
             );
+
+            NameCanonical = "chewbacca-crew";
         }
     }
 }

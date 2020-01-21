@@ -33,7 +33,7 @@ namespace Ship
                         UpgradeType.Torpedo,
                         UpgradeType.Missile,
                         UpgradeType.Missile,
-                        UpgradeType.Bomb,
+                        UpgradeType.Device,
                         UpgradeType.Modification
                     )
                 );

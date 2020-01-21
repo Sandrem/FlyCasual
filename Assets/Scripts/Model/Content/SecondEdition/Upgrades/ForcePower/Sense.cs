@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Sense",
-                UpgradeType.Force,
+                UpgradeType.ForcePower,
                 cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.SenseAbility),
                 seImageNumber: 21

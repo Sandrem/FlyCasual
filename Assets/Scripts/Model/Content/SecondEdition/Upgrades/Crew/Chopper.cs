@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
         public ChopperCrew() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "\"Chopper\" (crew)",
+                "\"Chopper\"",
                 UpgradeType.Crew,
                 cost: 1,
                 isLimited: true,
@@ -21,6 +21,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.ChopperCrewAbility),
                 seImageNumber: 83
             );
+
+            NameCanonical = "chopper-crew";
         }        
     }
 }

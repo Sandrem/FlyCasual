@@ -16,8 +16,8 @@ namespace UpgradesList.FirstEdition
                 isLimited: true,
                 addSlots: new List<UpgradeSlot>()
                 {
-                    new UpgradeSlot(UpgradeType.Bomb),
-                    new UpgradeSlot(UpgradeType.Bomb)
+                    new UpgradeSlot(UpgradeType.Device),
+                    new UpgradeSlot(UpgradeType.Device)
                 },                
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.Firespray31.Firespray31))
             );

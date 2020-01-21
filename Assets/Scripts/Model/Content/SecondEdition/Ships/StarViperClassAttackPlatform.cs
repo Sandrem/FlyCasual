@@ -17,7 +17,7 @@ namespace Ship
 
                 IconicPilots[Faction.Scum] = typeof(Guri);
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Sensor);
 
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)));
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction)));
@@ -28,8 +28,6 @@ namespace Ship
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Easy);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/e/e1/Maneuver_starviper.png";
-
-                OldShipTypeName = "StarViper";
             }
         }
     }

@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Collision Detector",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.CollisionDetectorAbility),
                 charges: 2,

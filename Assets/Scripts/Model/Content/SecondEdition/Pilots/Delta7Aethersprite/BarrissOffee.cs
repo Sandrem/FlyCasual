@@ -16,7 +16,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 true,
                 force: 1,
                 abilityType: typeof(Abilities.SecondEdition.BarrissOffeeAbility),
-                extraUpgradeIcon: UpgradeType.Force,
+                extraUpgradeIcon: UpgradeType.ForcePower,
                 pilotTitle: "Conflicted Padawan"
             );
 

@@ -18,9 +18,10 @@ namespace Ship
                     63,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChewbaccaPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 69
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                PilotNameCanonical = "chewbacca-scavengedyt1300";
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/422fc30e0e10445e80b304ef2d96dc06.png";
             }

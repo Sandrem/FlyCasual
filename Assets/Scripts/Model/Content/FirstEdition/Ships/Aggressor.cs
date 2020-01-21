@@ -30,10 +30,10 @@ namespace Ship
                     new ShipUpgradesInfo(
                         UpgradeType.Title,
                         UpgradeType.Modification,
-                        UpgradeType.System,
+                        UpgradeType.Sensor,
                         UpgradeType.Cannon,
                         UpgradeType.Cannon,
-                        UpgradeType.Bomb,
+                        UpgradeType.Device,
                         UpgradeType.Illicit
                     )
                 );

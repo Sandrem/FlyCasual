@@ -20,7 +20,7 @@ namespace Ship
                     79,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeiaOrganaPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Force,
+                    extraUpgradeIcon: UpgradeType.ForcePower,
                     force: 1
                 );
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/5b/ff/5bffb367-cb6e-4b8b-948f-25a70acd3a3f/swz66_leia-organa.png";

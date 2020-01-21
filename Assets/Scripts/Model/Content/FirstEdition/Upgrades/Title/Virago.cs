@@ -18,7 +18,7 @@ namespace UpgradesList.FirstEdition
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.StarViper.StarViper)),
                 addSlots: new List<UpgradeSlot>()
                 {
-                    new UpgradeSlot(UpgradeType.System),
+                    new UpgradeSlot(UpgradeType.Sensor),
                     new UpgradeSlot(UpgradeType.Illicit)
                 }
             );

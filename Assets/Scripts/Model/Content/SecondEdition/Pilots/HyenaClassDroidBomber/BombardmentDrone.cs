@@ -16,7 +16,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 29,
                 limited: 3,
                 abilityType: typeof(Abilities.SecondEdition.BombardmentDroneAbility),
-                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.System, UpgradeType.Bomb, UpgradeType.Bomb },
+                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Sensor, UpgradeType.Device, UpgradeType.Device },
                 pilotTitle: "Time on Target"
             );
             

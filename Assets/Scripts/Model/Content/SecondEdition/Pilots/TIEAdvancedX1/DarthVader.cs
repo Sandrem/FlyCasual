@@ -19,7 +19,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(DarthVaderAbility),
                     force: 3,
-                    extraUpgradeIcon: UpgradeType.Force,
+                    extraUpgradeIcon: UpgradeType.ForcePower,
                     seImageNumber: 93
                 );
 

@@ -21,7 +21,7 @@ namespace Ship
                 ShipInfo.Shields = 2;
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Turret);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Bomb);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Device);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
@@ -44,8 +44,6 @@ namespace Ship
                 IconicPilots[Faction.Scum] = typeof(PalobGodalhi);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/8/8a/Maneuver_hwk-290.png";
-
-                OldShipTypeName = "HWK-290";
             }
         }
     }

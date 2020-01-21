@@ -15,10 +15,12 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
                     force: 1,
-                    extraUpgradeIcon: UpgradeType.Force,
+                    extraUpgradeIcon: UpgradeType.ForcePower,
                     factionOverride: Faction.Rebel,
                     seImageNumber: 46
                 );
+
+                PilotNameCanonical = "ezrabridger-tielnfighter";
 
                 ModelInfo.ModelName = "TIE Fighter Rebel";
                 ModelInfo.SkinName = "Rebel";

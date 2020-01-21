@@ -9,7 +9,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Sensor Jammer",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 4,
                 abilityType: typeof(Abilities.FirstEdition.SensorJammerAbility)
             );

@@ -16,7 +16,7 @@ namespace Ship
         {
             public AlphaClassStarWing() : base()
             {
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Sensor);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
 
                 IconicPilots[Faction.Imperial] = typeof(MajorVynder);

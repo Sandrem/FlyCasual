@@ -19,10 +19,12 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DarthVaderAbility),
                     force: 3,
-                    extraUpgradeIcon: UpgradeType.Force
+                    extraUpgradeIcon: UpgradeType.ForcePower
                 );
 
                 RequiredMods = new List<Type>() { typeof(MyOtherRideIsModSE) };
+                PilotNameCanonical = "darthvader-tieddefender-myotherrideis";
+
                 ImageUrl = "https://i.imgur.com/QwUseck.png";
             }
         }

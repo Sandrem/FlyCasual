@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Seismic Charges",
-                type: UpgradeType.Bomb,
+                type: UpgradeType.Device,
                 cost: 2
             );
 

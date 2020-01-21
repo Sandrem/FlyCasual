@@ -14,7 +14,7 @@ namespace UpgradesList.FirstEdition
                 cost: 0,          
                 addSlots: new List<UpgradeSlot>
                 {
-                    new UpgradeSlot(UpgradeType.System) {  },
+                    new UpgradeSlot(UpgradeType.Sensor) {  },
                     new UpgradeSlot(UpgradeType.SalvagedAstromech) { MustBeUnique = true }
                 },
                 forbidSlot: UpgradeType.Crew,

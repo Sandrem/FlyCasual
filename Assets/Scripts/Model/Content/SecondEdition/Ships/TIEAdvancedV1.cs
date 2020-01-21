@@ -15,7 +15,7 @@ namespace Ship
             {
                 ShipInfo.ShipName = "TIE Advanced v1";
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.System);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Sensor);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(EvadeAction)));
@@ -29,8 +29,6 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.TallonRoll), MovementComplexity.Complex);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/0c/Maneuver_tie_advanced_v1.png";
-
-                OldShipTypeName = "TIE Adv. Prototype";
             }
         }
     }

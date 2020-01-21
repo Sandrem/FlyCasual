@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Brilliant Evasion",
-                UpgradeType.Force,
+                UpgradeType.ForcePower,
                 cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.BrilliantEvasion)
                 //seImageNumber: 19

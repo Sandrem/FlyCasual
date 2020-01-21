@@ -28,6 +28,9 @@ namespace UpgradesList.SecondEdition
     {
         public PivotWingClosed() : base()
         {
+            IsHidden = true;
+            NameCanonical = "pivotwing-anotherside";
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Pivot Wing (Closed)",
                 UpgradeType.Configuration,

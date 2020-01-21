@@ -17,6 +17,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 220
                 );
+
+                PilotNameCanonical = "sabinewren-lancerclasspursuitcraft";
             }
         }
     }

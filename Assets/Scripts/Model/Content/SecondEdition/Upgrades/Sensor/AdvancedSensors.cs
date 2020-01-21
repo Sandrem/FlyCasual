@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Advanced Sensors",
-                UpgradeType.System,
+                UpgradeType.Sensor,
                 cost: 10,
                 abilityType: typeof(Abilities.SecondEdition.AdvancedSensorsAbility),
                 seImageNumber: 23

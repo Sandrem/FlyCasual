@@ -31,8 +31,8 @@ namespace Ship.FirstEdition.ScurrgH6Bomber
                     UpgradeType.Torpedo,
                     UpgradeType.Missile,
                     UpgradeType.Crew,
-                    UpgradeType.Bomb,
-                    UpgradeType.Bomb
+                    UpgradeType.Device,
+                    UpgradeType.Device
                 ),
                 factionsAll: new List<Faction>() { Faction.Rebel, Faction.Scum }
             );

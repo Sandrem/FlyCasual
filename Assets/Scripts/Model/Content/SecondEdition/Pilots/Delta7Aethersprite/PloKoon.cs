@@ -19,7 +19,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.PloKoonAbility),
-                extraUpgradeIcon: UpgradeType.Force
+                extraUpgradeIcon: UpgradeType.ForcePower
             );
 
             ModelInfo.SkinName = "Plo Koon";

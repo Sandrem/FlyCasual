@@ -36,8 +36,8 @@ namespace Ship.FirstEdition.KWing
                     UpgradeType.Torpedo,
                     UpgradeType.Missile,
                     UpgradeType.Crew,
-                    UpgradeType.Bomb,
-                    UpgradeType.Bomb
+                    UpgradeType.Device,
+                    UpgradeType.Device
                 )
             );
 

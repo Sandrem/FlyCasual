@@ -63,7 +63,7 @@ namespace ActionsList
 
         private static List<GenericUpgrade> GetReloadableUpgrades()
         {
-            return Selection.ThisShip.UpgradeBar.GetRechargableUpgrades(new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Bomb });
+            return Selection.ThisShip.UpgradeBar.GetRechargableUpgrades(new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Device });
         }
 
         public static void RestoreOneCharge()

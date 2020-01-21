@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
         public ChewbaccaResistance() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Chewbacca (Resistance)",
+                "Chewbacca",
                 UpgradeType.Crew,
                 cost: 5,
                 isLimited: true,
@@ -23,6 +23,8 @@ namespace UpgradesList.SecondEdition
                 cannotBeRecharged: false,
                 abilityType: typeof(Abilities.SecondEdition.ChewbaccaResistanceCrewAbility)
             );
+
+            NameCanonical = "chewbacca-crew-swz19";
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/3090c218acff7dc71a81e791ce15860e.png";
         }

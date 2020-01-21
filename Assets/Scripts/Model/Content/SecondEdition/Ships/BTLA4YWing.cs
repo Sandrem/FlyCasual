@@ -21,7 +21,7 @@ namespace Ship
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction), ActionColor.Red));
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Bomb);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Device);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Easy);
@@ -31,8 +31,6 @@ namespace Ship
                 IconicPilots[Faction.Scum] = typeof(DreaRenthal);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/18/Maneuver_y-wing.png";
-
-                OldShipTypeName = "Y-wing";
             }
         }
     }

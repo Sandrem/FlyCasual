@@ -32,8 +32,6 @@ namespace Ship.SecondEdition.VCX100LightFreighter
 
             ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/61/Maneuver_vcx-100.png";
 
-            OldShipTypeName = "VCX-100";
-
             ShipAbilities.Add(new Abilities.SecondEdition.TailGunnerAbility());
         }
     }

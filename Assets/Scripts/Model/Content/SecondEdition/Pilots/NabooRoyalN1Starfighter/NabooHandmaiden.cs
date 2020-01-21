@@ -20,7 +20,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Naboo Handmaiden",
                     1,
-                    44,
+                    42,
                     limited: 2,
                     abilityText: "Setup: After placing forces, assign the Decoyed condition to 1 friendly ship other than Naboo Handmaiden.",
                     abilityType: typeof(NabooHandmaidenAbility),

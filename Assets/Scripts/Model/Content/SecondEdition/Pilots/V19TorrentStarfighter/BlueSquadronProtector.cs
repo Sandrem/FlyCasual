@@ -12,7 +12,7 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
             PilotInfo = new PilotCardInfo(
                 "Blue Squadron Protector",
                 3,
-                28,
+                27,
                 extraUpgradeIcon: UpgradeType.Talent
             );
 

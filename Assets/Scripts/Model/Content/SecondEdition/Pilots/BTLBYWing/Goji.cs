@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Goji\"",
                     2,
-                    34,
+                    32,
                     isLimited: true,
                     extraUpgradeIcon: UpgradeType.Astromech,
                     abilityType: typeof(Abilities.SecondEdition.GojiAbility)

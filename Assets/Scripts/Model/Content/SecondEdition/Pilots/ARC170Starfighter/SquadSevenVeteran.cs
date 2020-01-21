@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Squad Seven Veteran",
                     3,
-                    46,
+                    44,
                     factionOverride: Faction.Republic,
                     extraUpgradeIcon: UpgradeType.Talent
                 );

@@ -1,6 +1,7 @@
 ﻿using Abilities.SecondEdition;
 using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -41,11 +42,19 @@ namespace Abilities.SecondEdition
                 DiceModificationType.Reroll,
                 2
             );
+            HostShip.OnModifyAIStressPriority += ModifyAIStressPriority;
         }
 
         public override void DeactivateAbility()
         {
             RemoveDiceModification();
+            HostShip.OnModifyAIStressPriority -= ModifyAIStressPriority;
+        }
+
+        private void ModifyAIStressPriority(Ship.GenericShip ship, ref int value)
+        {
+            //Braylen wants to always have 1 stress token
+            if (HostShip.Tokens.CountTokensByType<StressToken>() == 0) value = 90;
         }
 
         private bool IsDiceModificationAvailable()

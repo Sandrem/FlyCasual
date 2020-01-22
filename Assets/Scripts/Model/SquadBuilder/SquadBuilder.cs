@@ -196,7 +196,7 @@ namespace SquadBuilderNS
 
             // Check for unique pilot IDs
 
-            if (!DebugManager.ReleaseVersion)
+            if (!DebugManager.ReleaseVersion && !(Edition.Current is Editions.FirstEdition))
             {
                 foreach (PilotRecord pilotRecord in AllPilots)
                 {
@@ -298,7 +298,7 @@ namespace SquadBuilderNS
 
             AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.UpgradeInfo.Name).ToList();
 
-            if (!DebugManager.ReleaseVersion)
+            if (!DebugManager.ReleaseVersion && !(Edition.Current is Editions.FirstEdition))
             {
                 foreach (UpgradeRecord upgradeRecord in AllUpgrades)
                 {

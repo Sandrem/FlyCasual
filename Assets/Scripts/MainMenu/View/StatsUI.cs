@@ -20,7 +20,7 @@ public class StatsUI : MonoBehaviour {
 
     public void InitializeStatsPanel()
     {
-        CategorySelected(GameObject.Find("UI/Panels/StatsPanel/Content/CategoriesPanel/MatchesButton"));
+        CategorySelected(GameObject.Find("UI/Panels/StatsPanel/Content/CategoriesPanel/DiceButton"));
     }
 
     public void CategorySelected(GameObject categoryGO)

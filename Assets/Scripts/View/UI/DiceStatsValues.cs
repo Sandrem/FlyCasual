@@ -63,7 +63,9 @@ public class DiceStatsValues : MonoBehaviour
     private string GenerateDiceStatText(float realCount, float expectedChance, float overall)
     {
         float realChance = realCount / overall;
-        return String.Format("{0} ({1:+0.00;-0.00;0.00}%)", realCount, (realChance - expectedChance) * 100);
+        string result = "0";
+        if (overall != 0) { result = String.Format("{0} ({1:+0.00;-0.00;0.00}%)", realCount, (realChance - expectedChance) * 100); }
+        return result;
     }
 
     // Update is called once per frame

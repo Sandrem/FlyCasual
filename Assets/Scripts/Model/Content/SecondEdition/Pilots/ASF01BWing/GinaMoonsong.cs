@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
         {
             if (!HostShip.IsStressed ||
                 (HostShip.Owner.Ships.Count == 1) ||
-                (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(0, 2), Team.Type.Friendly).Count == 0))
+                (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(0, 2), Team.Type.Friendly).Count == 1))
             {
                 Triggers.FinishTrigger();
                 return;

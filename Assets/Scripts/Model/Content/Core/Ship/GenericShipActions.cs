@@ -465,6 +465,8 @@ namespace Ship
 
         public void AddAvailableDiceModification(GenericAction action)
         {
+            action.HostShip = this;
+
             if (NotAlreadyAddedSameDiceModification(action) && CanUseDiceModification(action))
             {
                 AvailableDiceModifications.Add(action);

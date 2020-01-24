@@ -277,7 +277,7 @@ namespace SquadBuilderNS
                 GenericUpgrade newUpgradeContainer = (GenericUpgrade)System.Activator.CreateInstance(type);
                 if ((newUpgradeContainer.UpgradeInfo.Name != null))
                 {
-                    if (AllUpgrades.Find(n => n.UpgradeName == newUpgradeContainer.UpgradeInfo.Name && n.UpgradeType == newUpgradeContainer.UpgradeInfo.UpgradeTypes.First()) == null)
+                    if (AllUpgrades.Find(n => n.UpgradeNameCanonical == newUpgradeContainer.NameCanonical && n.UpgradeType == newUpgradeContainer.UpgradeInfo.UpgradeTypes.First()) == null)
                     {
                         Edition.Current.AdaptUpgradeToRules(newUpgradeContainer);
 
@@ -350,9 +350,9 @@ namespace SquadBuilderNS
             slot.PreInstallUpgrade(upgrade, CurrentSquadBuilderShip.Instance);
         }
 
-        private static bool InstallUpgrade(SquadBuilderShip ship, string upgradeName, UpgradeType upgradeType)
+        private static bool InstallUpgrade(SquadBuilderShip ship, string upgradeNameCanonical, UpgradeType upgradeType)
         {
-            string upgradeTypeName = AllUpgrades.Find(n => n.UpgradeName == upgradeName && n.UpgradeType == upgradeType).UpgradeTypeName;
+            string upgradeTypeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeNameCanonical && n.UpgradeType == upgradeType).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeTypeName));
             Edition.Current.AdaptUpgradeToRules(newUpgrade);
             if (newUpgrade is IVariableCost && Edition.Current is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(ship.Instance);
@@ -881,9 +881,8 @@ namespace SquadBuilderNS
                                         Debug.Log("Cannot find upgrade: " + upgradeRecord.str);
                                         Console.Write("Cannot find upgrade: " + upgradeRecord.str, LogTypes.Errors, true, "red");
                                     }
-                                    string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
-                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeName, Edition.Current.XwsToUpgradeType(upgradeType));
-                                    if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeName, upgradeType);
+                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeRecord.str, Edition.Current.XwsToUpgradeType(upgradeType));
+                                    if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeRecord.str, upgradeType);
                                 }
                             }
 
@@ -1309,7 +1308,7 @@ namespace SquadBuilderNS
         {
             if (upgradeList.Count > 0)
             {
-                InstallUpgrade(targetShip, upgradeList.First().UpgradeInfo.Name, upgradeList.First().UpgradeInfo.UpgradeTypes.First());
+                InstallUpgrade(targetShip, upgradeList.First().NameCanonical, upgradeList.First().UpgradeInfo.UpgradeTypes.First());
                 upgradeList.Remove(upgradeList.First());
 
                 CopyUpgradesRecursive(targetShip, upgradeList);

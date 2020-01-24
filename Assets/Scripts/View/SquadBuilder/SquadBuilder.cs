@@ -738,7 +738,7 @@ namespace SquadBuilderNS
             Transform contentTransform = GameObject.Find("UI/Panels/SelectUpgradePanel/Panel/Scroll View/Viewport/Content").transform;
             GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
 
-            string upgradeType = AllUpgrades.Find(n => n.UpgradeName == upgrade.UpgradeName && n.UpgradeType == upgrade.UpgradeType).UpgradeTypeName;
+            string upgradeType = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgrade.UpgradeNameCanonical && n.UpgradeType == upgrade.UpgradeType).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
             if (newUpgrade is IVariableCost && Edition.Current is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(CurrentSquadBuilderShip.Instance);
             Edition.Current.AdaptUpgradeToRules(newUpgrade);

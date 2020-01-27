@@ -278,6 +278,63 @@ namespace SubPhases
 
         private void FinishTractorBeamMovement()
         {
+            if (Assigner == TheShip.Owner)
+            {
+                CheckObstacles();
+                return;
+            }
+
+            var selectRotateDecision = Phases.StartTemporarySubPhaseNew<DecisionSubPhase>(Name, Triggers.FinishTrigger);
+
+            selectRotateDecision.AddDecision("Left", delegate {
+                DecisionSubPhase.ConfirmDecisionNoCallback();
+                RotateTractoredShip(Direction.Left, CheckObstacles);
+            });
+
+            selectRotateDecision.AddDecision("Right", delegate {
+                DecisionSubPhase.ConfirmDecisionNoCallback();
+                RotateTractoredShip(Direction.Right, CheckObstacles);
+            });
+
+            selectRotateDecision.AddDecision("Skip", delegate {
+                DecisionSubPhase.ConfirmDecisionNoCallback();
+                CheckObstacles();
+            });
+
+            selectRotateDecision.DescriptionShort = "Tractor beam";
+            selectRotateDecision.DescriptionLong = "You may rotate tractored ship 90 degrees";
+
+            selectRotateDecision.DefaultDecisionName = selectRotateDecision.GetDecisions().First().Name; //TODO
+            selectRotateDecision.RequiredPlayer = TheShip.Owner.PlayerNo;
+            selectRotateDecision.ShowSkipButton = true;
+
+            selectRotateDecision.Start();
+        }
+
+        private void RotateTractoredShip(Direction direction, Action callback)
+        {
+            //We need to change Selection.ThisShip before rotating. Making sure that we always change back afterwards
+            var selectedShip = Selection.ThisShip;
+            Selection.ThisShip = TheShip;
+
+            Action resetSelection = () => 
+            {
+                Selection.ThisShip = selectedShip;
+                callback();
+            };
+
+            Action assignStress = () =>
+            {
+                TheShip.Tokens.AssignToken(typeof(StressToken), resetSelection);
+            };
+            
+            if (direction == Direction.Left) TheShip.Rotate90Counterclockwise(assignStress);
+            else if (direction == Direction.Right) TheShip.Rotate90Clockwise(assignStress);
+            else resetSelection();
+        }
+
+        private void CheckObstacles()
+        {
             Rules.AsteroidHit.CheckHits(TheShip);
             Rules.AsteroidLanded.CheckLandedOnObstacle(TheShip);
             Triggers.ResolveTriggers(TriggerTypes.OnMovementFinish, Next);

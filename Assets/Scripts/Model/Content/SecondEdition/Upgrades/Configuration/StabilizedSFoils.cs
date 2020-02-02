@@ -144,6 +144,7 @@ namespace Abilities.SecondEdition
         // against that ship using a cannon upgrade you have not attacked with this turn.
         
         private IShipWeapon AlreadyUsedCannon;
+        private GenericShip Defender;
 
         public override void ActivateAbility()
         {
@@ -173,11 +174,13 @@ namespace Abilities.SecondEdition
 
             if (availableCannons.Any())
             {
+                Defender = Combat.Defender;
                 AlreadyUsedCannon = Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.Cannon ? Combat.ShotInfo.Weapon : null;
                 HostShip.OnCombatCheckExtraAttack += RegisterSecondAttackTrigger;
             }
             else
             {
+                Defender = null;
                 AlreadyUsedCannon = null;
             }
         }
@@ -232,7 +235,7 @@ namespace Abilities.SecondEdition
                 Combat.StartSelectAttackTarget(
                     HostShip,
                     FinishAdditionalAttack,
-                    IsUnusedCannonShot,
+                    IsAllowedAttack,
                     HostUpgrade.UpgradeInfo.Name,
                     "You may spend your lock to perform a bonus cannon attack against the same ship",
                     HostUpgrade,
@@ -249,7 +252,14 @@ namespace Abilities.SecondEdition
         private void SpendLock(Action callback)
         {
             List<char> tlLetter = ActionsHolder.GetTargetLocksLetterPairs(HostShip, Combat.Defender);
-            HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), callback, tlLetter.First());
+            if (tlLetter.Any())
+            {
+                HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), callback, tlLetter.First());
+            }
+            else
+            {
+                callback();
+            }
         }
 
         private void FinishAdditionalAttack()
@@ -263,8 +273,14 @@ namespace Abilities.SecondEdition
             Triggers.FinishTrigger();
         }
 
-        private bool IsUnusedCannonShot(GenericShip defender, IShipWeapon weapon, bool isSilent)
+        private bool IsAllowedAttack(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
+            if (defender != Defender)
+            {
+                if (!isSilent) Messages.ShowError("Your attack must be against the same ship");
+                return false;
+            }
+
             if (weapon == AlreadyUsedCannon)
             {
                 if (!isSilent) Messages.ShowError("You must use a cannon you have not attacked with this round");

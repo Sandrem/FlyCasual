@@ -304,11 +304,31 @@ namespace SubPhases
             selectRotateDecision.DescriptionShort = "Tractor beam";
             selectRotateDecision.DescriptionLong = "You may rotate tractored ship 90 degrees";
 
-            selectRotateDecision.DefaultDecisionName = selectRotateDecision.GetDecisions().First().Name; //TODO
+            selectRotateDecision.DefaultDecisionName = SelectAIRotateDecision(TheShip);
             selectRotateDecision.RequiredPlayer = TheShip.Owner.PlayerNo;
             selectRotateDecision.ShowSkipButton = true;
 
             selectRotateDecision.Start();
+        }
+
+        private string SelectAIRotateDecision(GenericShip ship)
+        {
+            var stressPriority = ship.GetAIStressPriority();
+
+            if (!ActionsHolder.HasTarget(ship) || stressPriority >= 50)
+            {
+                var enemies = ship.SectorsInfo.GetEnemiesInAllSectors();
+                var frontPriority = enemies[Arcs.ArcFacing.Front].Sum(s => s.PilotInfo.Cost);
+                var leftPriority = enemies[Arcs.ArcFacing.Left].Sum(s => s.PilotInfo.Cost) + stressPriority;
+                var rightPriority = enemies[Arcs.ArcFacing.Right].Sum(s => s.PilotInfo.Cost) + stressPriority;
+
+                if (leftPriority > 0 && leftPriority > rightPriority && leftPriority > frontPriority)
+                    return "Left";
+                if (rightPriority > 0 && rightPriority > frontPriority)
+                    return "Right";
+            }
+
+            return "Skip";
         }
 
         private void RotateTractoredShip(Direction direction, Action callback)

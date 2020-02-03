@@ -96,7 +96,7 @@ namespace BoardTools
             DynamicGI.UpdateEnvironment();
         }
 
-        public static void SetShipPreSetup(GenericShip ship, int count = 1)
+        public static void SetShipPreSetup(GenericShip ship, int count = 1, float? rotation = null)
         {
             float distance = CalculateDistance(ship.Owner.Ships.Count);
             float side = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? -1 : 1;
@@ -111,10 +111,12 @@ namespace BoardTools
                 )
             );
 
+            if (rotation == null) rotation = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? 0 : 180;
+
             ship.SetAngles(
                 new Vector3(
                     ship.GetAngles().x,
-                    (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? 0 : 180,
+                    rotation.Value,
                     ship.GetAngles().z
                 )
             );

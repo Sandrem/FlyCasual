@@ -6,12 +6,12 @@ namespace Ship
 {
     namespace SecondEdition.ScavengedYT1300
     {
-        public class ResitanceSympathizer : ScavengedYT1300
+        public class ResistanceSympathizer : ScavengedYT1300
         {
-            public ResitanceSympathizer() : base()
+            public ResistanceSympathizer() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Resitance Sympathizer",
+                    "Resistance Sympathizer",
                     2,
                     60 //,
                     //seImageNumber: 69

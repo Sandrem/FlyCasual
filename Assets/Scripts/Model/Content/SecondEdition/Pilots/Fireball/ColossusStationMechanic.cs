@@ -14,13 +14,13 @@ namespace Ship
         {
             public ColossusStationMechanic() : base()
             {
-                IsHidden = true;
-
                 PilotInfo = new PilotCardInfo(
                     "Colossus Station Mechanic",
                     2,
                     26
                 );
+
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/533ab83e881838eb8006c8f8dcf19145.png";
             }
         }
     }

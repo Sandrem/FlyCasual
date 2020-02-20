@@ -4,12 +4,12 @@ namespace Ship
 {
     namespace SecondEdition.NantexClassStarfighter
     {
-        public class PetranakiArenaArce : NantexClassStarfighter
+        public class PetranakiArenaAce : NantexClassStarfighter
         {
-            public PetranakiArenaArce() : base()
+            public PetranakiArenaAce() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Petranaki Arena Arce",
+                    "Petranaki Arena Ace",
                     4,
                     38,
                     extraUpgradeIcon: UpgradeType.Talent

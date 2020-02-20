@@ -72,7 +72,8 @@ namespace Abilities.SecondEdition
                   HostShip.Owner.PlayerNo,
                   HostUpgrade.UpgradeInfo.Name,
                   Prompt,
-                  HostUpgrade
+                  HostUpgrade,
+                  showSkipButton: false
               );
         }
 
@@ -99,7 +100,7 @@ namespace Abilities.SecondEdition
         {
             // Listening Device: During the System Phase, if an enemy ship with the 
             // Informant upgrade is at range 0-2, flip your dial faceup.
-            if (new BoardTools.DistanceInfo(HostShip, TargetShip).Range < 3)
+            if (TargetShip != null && new DistanceInfo(HostShip, TargetShip).Range < 3)
             {
                 Messages.ShowInfo("Listening Device: " + TargetShip.PilotInfo.PilotName + " flips dial faceup");
                 Roster.ToggleManeuverVisibility(TargetShip, true);

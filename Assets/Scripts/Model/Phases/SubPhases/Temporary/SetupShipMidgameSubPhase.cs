@@ -50,12 +50,29 @@ namespace SubPhases
 
             Board.ToggleOffTheBoardHolder(false);
 
-            Board.SetShipPreSetup(ShipToSetup);
+            Board.SetShipPreSetup(ShipToSetup, 1, GetDefaulRotationForSetupSide());
 
             Roster.HighlightShipsFiltered(FilterShipsToSetup);
 
             IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).SetupShipMidgame();
+        }
+
+        private float GetDefaulRotationForSetupSide()
+        {
+            switch (SetupSide)
+            {
+                case Direction.Bottom:
+                    return 0;
+                case Direction.Left:
+                    return 90;
+                case Direction.Top:
+                    return 180;
+                case Direction.Right:
+                    return 270;
+                default:
+                    return 0;
+            }
         }
 
         public void ShowDescription()

@@ -108,7 +108,8 @@ public enum TriggerTypes
     OnBombWasDropped,
     OnBombWasLaunched,
 
-    OnUndockingFinish
+    OnUndockingFinish,
+    OnSelectDamageCardToExpose
 }
 
 public class Trigger

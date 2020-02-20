@@ -280,7 +280,15 @@ namespace Editions
 
         private void IonizedShipCanDoOnlyFocus(GenericShip ship, GenericAction action, ref bool canBePerformed)
         {
-            if (canBePerformed) canBePerformed = action is FocusAction;
+            if (canBePerformed)
+            {
+                bool canPerformActionWhileIonized = false;
+                canPerformActionWhileIonized = ship.CallCanPerformActionWhileIonized(action, canPerformActionWhileIonized);
+                if (!canPerformActionWhileIonized)
+                {
+                    canBePerformed = action is FocusAction;
+                }
+            }
         }
 
         public override bool ReinforceEffectCanBeUsed(ArcFacing facing)

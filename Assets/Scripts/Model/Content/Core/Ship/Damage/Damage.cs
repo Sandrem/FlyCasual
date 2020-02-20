@@ -92,11 +92,27 @@ namespace Ship
                 int randomIndex = UnityEngine.Random.Range(0, faceDownCards.Count);
                 GenericDamageCard randomCard = faceDownCards[randomIndex];
 
-                randomCard.Expose(callback);
+                Host.CallSelectDamageCardToExpose(randomIndex, ExposeFacedownCardByIndex, callback);
+
             }
             else
             {
                 Messages.ShowInfo("No cards to expose");
+                callback();
+            }
+        }
+
+        private void ExposeFacedownCardByIndex(int index, Action callback, bool isOverriden = false)
+        {
+            if (!isOverriden)
+            {
+                List<GenericDamageCard> faceDownCards = GetFacedownCards();
+                GenericDamageCard randomCard = faceDownCards[index];
+
+                randomCard.Expose(callback);
+            }
+            else
+            {
                 callback();
             }
         }

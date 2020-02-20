@@ -102,6 +102,7 @@ namespace Ship
         public event EventHandlerCoordinateData OnCheckCoordinateModeModification;
         public event EventHandlerShipRefBool OnCheckCanCoordinate;
 
+        public event EventHandlerActionBool OnCanPerformActionWhileIonized;
 
         // ACTIONS
 
@@ -832,6 +833,12 @@ namespace Ship
             bool result = true;
             OnCheckCanCoordinate?.Invoke(ship, ref result);
             return result;
+        }
+
+        public bool CallCanPerformActionWhileIonized(GenericAction action, bool canPerformActionsWhileIonized)
+        {
+            OnCanPerformActionWhileIonized?.Invoke(action, ref canPerformActionsWhileIonized);
+            return canPerformActionsWhileIonized;
         }
     }
 

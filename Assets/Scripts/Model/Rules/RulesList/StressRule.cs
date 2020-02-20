@@ -67,7 +67,7 @@ namespace RulesList
         {
             if (ship.Tokens.GetToken(typeof(StressToken)) != null)
             {
-                result = ship.CanPerformActionsWhileStressed || action.CanBePerformedWhileStressed || !action.IsRealAction || ship.ActionBar.ActionsThatCanbePreformedwhileStressed.Contains(action.GetType());
+                result = ship.CallCanPerformActionWhileStressed(action) || action.CanBePerformedWhileStressed || !action.IsRealAction || ship.ActionBar.ActionsThatCanbePreformedwhileStressed.Contains(action.GetType());
             }
         }
 

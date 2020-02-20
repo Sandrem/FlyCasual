@@ -18,7 +18,6 @@ namespace Ship
 
         public bool IsFreeActionSkipped { get; set; }
 
-        public bool CanPerformActionsWhileStressed { get; set; }
         public bool CanPerformActionsWhenBumped { get; set; }
         public bool CanPerformActionsWhenOverlapping { get; set; }
         public bool CanBeCoordinated

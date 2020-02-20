@@ -17,8 +17,7 @@ namespace Ship
                     56,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AvengerAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 120
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/d90d3057ead18b5df5f6de55a199a4cd.png";
@@ -54,11 +53,14 @@ namespace Abilities.SecondEdition
             var ship = Selection.ThisShip;
             Roster.HighlightPlayer(HostShip.Owner.PlayerNo);
             Selection.ChangeActiveShip(HostShip);
-            bool oldValue = HostShip.CanPerformActionsWhileStressed;
-            HostShip.CanPerformActionsWhileStressed = true;
-            //List<GenericAction> actions = Selection.ThisShip.ActionBar.AllActions;
+
+            HostShip.OnCheckCanPerformActionsWhileStressed += ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed += AlwaysAllow;
+
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
-            HostShip.CanPerformActionsWhileStressed = oldValue;
+
+            HostShip.OnCheckCanPerformActionsWhileStressed -= ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed -= AlwaysAllow;
 
             foreach (GenericAction action in actions)
             {
@@ -76,6 +78,16 @@ namespace Abilities.SecondEdition
                 "After another friendly ship is destroyed, you may perform an action, even while stressed",
                 HostShip
             );
+        }
+
+        private void ConfirmThatIsPossible(ref bool isAllowed)
+        {
+            AlwaysAllow(null, ref isAllowed);
+        }
+
+        private void AlwaysAllow(GenericAction action, ref bool isAllowed)
+        {
+            isAllowed = true;
         }
     }
 }

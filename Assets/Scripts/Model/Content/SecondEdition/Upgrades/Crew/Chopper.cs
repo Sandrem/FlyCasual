@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
 
         private void ChecksAbilityDamage(GenericAction action)
         {
-            if (HostShip.CanPerformActionsWhileStressed && HostShip.IsStressed)
+            if (HostShip.CallCanPerformActionWhileStressed(action) && HostShip.IsStressed)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, ResolveOwnAbility);
             }
@@ -56,7 +56,8 @@ namespace Abilities.SecondEdition
 
         private void TurnOffAbility(GenericShip ship)
         {
-            HostShip.CanPerformActionsWhileStressed = false;
+            HostShip.OnCheckCanPerformActionsWhileStressed -= ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed -= AlwaysAllow;
         }
 
         private void ResolveOwnAbility(object sender, EventArgs e)
@@ -109,8 +110,19 @@ namespace Abilities.SecondEdition
             if (HostShip.IsStressed)
             {
                 Messages.ShowInfo("\"Chopper\": You may perform 1 action, even while stressed");
-                HostShip.CanPerformActionsWhileStressed = true;
+                HostShip.OnCheckCanPerformActionsWhileStressed += ConfirmThatIsPossible;
+                HostShip.OnCanPerformActionWhileStressed += AlwaysAllow;
             }
+        }
+
+        private void ConfirmThatIsPossible(ref bool isAllowed)
+        {
+            AlwaysAllow(null, ref isAllowed);
+        }
+
+        private void AlwaysAllow(GenericAction action, ref bool isAllowed)
+        {
+            isAllowed = true;
         }
     }
 }

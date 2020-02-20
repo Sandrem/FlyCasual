@@ -75,14 +75,17 @@ namespace Abilities.SecondEdition
             SelectShipSubPhase.FinishSelectionNoCallback();
             Selection.ThisShip = TargetShip;
 
-            var oldValue = TargetShip.CanPerformActionsWhileStressed;
-            TargetShip.CanPerformActionsWhileStressed = true;
+            TargetShip.OnCheckCanPerformActionsWhileStressed += ConfirmThatIsPossible;
+            TargetShip.OnCanPerformActionWhileStressed += AlwaysAllow;
+
             var actions = TargetShip.GetAvailableActions();
 
             TargetShip.AskPerformFreeAction(
                 actions,
                 delegate {
-                    TargetShip.CanPerformActionsWhileStressed = oldValue;
+                    TargetShip.OnCheckCanPerformActionsWhileStressed -= ConfirmThatIsPossible;
+                    TargetShip.OnCanPerformActionWhileStressed -= AlwaysAllow;
+
                     Selection.ThisShip = HostShip;
                     TargetShip.BeforeActionIsPerformed -= PayForceCost;
                     Triggers.FinishTrigger();
@@ -113,6 +116,16 @@ namespace Abilities.SecondEdition
             priority += ship.PilotInfo.Cost;
 
             return priority;
+        }
+
+        private void ConfirmThatIsPossible(ref bool isAllowed)
+        {
+            AlwaysAllow(null, ref isAllowed);
+        }
+
+        private void AlwaysAllow(GenericAction action, ref bool isAllowed)
+        {
+            isAllowed = true;
         }
     }
 }

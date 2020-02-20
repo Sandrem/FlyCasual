@@ -282,8 +282,7 @@ namespace Editions
         {
             if (canBePerformed)
             {
-                bool canPerformActionWhileIonized = false;
-                canPerformActionWhileIonized = ship.CallCanPerformActionWhileIonized(action, canPerformActionWhileIonized);
+                bool canPerformActionWhileIonized = ship.CallCanPerformActionWhileIonized(action);
                 if (!canPerformActionWhileIonized)
                 {
                     canBePerformed = action is FocusAction;

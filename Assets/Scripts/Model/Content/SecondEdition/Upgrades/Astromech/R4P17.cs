@@ -19,7 +19,6 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.R4P17Ability),
                 restriction: new FactionRestriction(Faction.Republic)
-                //seImageNumber: ?
             );
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/9c/08/9c089203-13b7-4639-8366-2498c9fe9982/swz32_r4-p17_astromech.png";
         }
@@ -52,15 +51,18 @@ namespace Abilities.SecondEdition
             {
                 HostShip.BeforeActionIsPerformed += SpendCharge;
 
-                var oldValue = HostShip.CanPerformActionsWhileStressed;
-                HostShip.CanPerformActionsWhileStressed = true;
+                HostShip.OnCheckCanPerformActionsWhileStressed += ConfirmThatIsPossible;
+                HostShip.OnCanPerformActionWhileStressed += AlwaysAllow;
+
                 List<GenericAction> actions = HostShip.GetAvailableActions();
 
                 HostShip.AskPerformFreeAction(
                     actions, 
                     delegate
                     {
-                        HostShip.CanPerformActionsWhileStressed = oldValue;
+                        HostShip.OnCheckCanPerformActionsWhileStressed -= ConfirmThatIsPossible;
+                        HostShip.OnCanPerformActionWhileStressed -= AlwaysAllow;
+
                         HostShip.BeforeActionIsPerformed -= SpendCharge;
                         Triggers.FinishTrigger();
                     },
@@ -79,6 +81,16 @@ namespace Abilities.SecondEdition
         {
             HostUpgrade.State.SpendCharge();
             HostShip.BeforeActionIsPerformed -= SpendCharge;
+        }
+
+        private void ConfirmThatIsPossible(ref bool isAllowed)
+        {
+            AlwaysAllow(null, ref isAllowed);
+        }
+
+        private void AlwaysAllow(GenericAction action, ref bool isAllowed)
+        {
+            isAllowed = true;
         }
     }
 }

@@ -85,6 +85,8 @@ public enum TriggerTypes
     OnFaceupCritCardReadyToBeDealt,
     OnFaceupCritCardReadyToBeDealtUI,
     OnFaceupCritCardIsDealt,
+    OnSelectDamageCardToExpose,
+    OnFaceupDamageCardIsRepaired,
     OnShipIsDestroyed,
     OnShipIsRemoved,
 
@@ -108,8 +110,7 @@ public enum TriggerTypes
     OnBombWasDropped,
     OnBombWasLaunched,
 
-    OnUndockingFinish,
-    OnSelectDamageCardToExpose
+    OnUndockingFinish
 }
 
 public class Trigger

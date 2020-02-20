@@ -48,19 +48,32 @@ namespace Abilities.SecondEdition
 
         private void CheckUseAbility(GenericShip ship)
         {
-            if (ship.Tokens.CountTokensByType(typeof(StressToken)) == 1 && !ship.CanPerformActionsWhileStressed)
-            {
-                SelectedShip = ship;
-                ship.CanPerformActionsWhileStressed = true;
-                SelectedShip.OnActionIsPerformed += RemoveEffect;
-            }
+            SelectedShip = ship;
+
+            SelectedShip.OnCheckCanPerformActionsWhileStressed += ConfirmThatIsPossible;
+            SelectedShip.OnCanPerformActionWhileStressed += AllowIfOneOrLessStressTokens;
+
+            SelectedShip.OnActionIsPerformed += RemoveEffect;
         }
 
         private void RemoveEffect(GenericAction action)
         {
             SelectedShip.OnActionIsPerformed -= RemoveEffect;
-            SelectedShip.CanPerformActionsWhileStressed = false;
+
+            SelectedShip.OnCheckCanPerformActionsWhileStressed -= ConfirmThatIsPossible;
+            SelectedShip.OnCanPerformActionWhileStressed -= AllowIfOneOrLessStressTokens;
+
             SelectedShip = null;
+        }
+
+        private void ConfirmThatIsPossible(ref bool isAllowed)
+        {
+            AllowIfOneOrLessStressTokens(null, ref isAllowed);
+        }
+
+        private void AllowIfOneOrLessStressTokens(GenericAction action, ref bool isAllowed)
+        {
+            isAllowed = SelectedShip.Tokens.CountTokensByType(typeof(StressToken)) <= 1;
         }
     }
 }

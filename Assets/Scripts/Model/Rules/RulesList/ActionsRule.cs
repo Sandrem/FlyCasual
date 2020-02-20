@@ -100,7 +100,7 @@ namespace RulesList
             
             if (ship.Tokens.HasToken(typeof(StressToken)))
             {
-                if ((!ship.CanPerformActionsWhileStressed) && (!ship.GetAvailableActions().Any(n => n.CanBePerformedWhileStressed)) && (ship.ActionBar.ActionsThatCanbePreformedwhileStressed.Count == 0)) return false;
+                if ((!ship.CallCheckCanPerformActionsWhileStressed()) && (!ship.GetAvailableActions().Any(n => n.CanBePerformedWhileStressed)) && (ship.ActionBar.ActionsThatCanbePreformedwhileStressed.Count == 0)) return false;
             }
 
             return true;

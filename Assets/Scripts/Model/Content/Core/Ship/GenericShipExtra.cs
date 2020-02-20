@@ -50,6 +50,7 @@ namespace Ship
         public event EventHandlerShipRefVector OnGetDockingRange;
 
         public event EventHandlerBool OnSelectDamageCardToExpose;
+        public event EventHandlerDamageCard OnFaceupDamageCardIsRepaired;
 
         public GenericShip DockingHost;
 
@@ -390,6 +391,12 @@ namespace Ship
                 TriggerTypes.OnSelectDamageCardToExpose,
                 delegate { exposeFacedownCardByIndex.Invoke(index, callback, isOverriden); }
             );
+        }
+
+        public void CallFaceupDamageCardIsRepaired(GenericDamageCard damageCard, Action callback)
+        {
+            OnFaceupDamageCardIsRepaired?.Invoke(damageCard);
+            Triggers.ResolveTriggers(TriggerTypes.OnFaceupDamageCardIsRepaired, callback);
         }
     }
 

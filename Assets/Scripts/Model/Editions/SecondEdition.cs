@@ -225,14 +225,14 @@ namespace Editions
             ship.SetShipBaseImageSecondEdition();
         }
 
-        public override void RotateMobileFiringArc(ArcFacing facing)
+        public override void RotateMobileFiringArc(GenericArc arc, ArcFacing facing)
         {
-            Selection.ThisShip.ShowMobileFiringArcHighlight(facing);
+            arc.ShipBase.Host.ShowMobileFiringArcHighlight(facing);
         }
 
-        public override void RotateMobileFiringArcAlt(ArcFacing facing)
+        public override void RotateMobileFiringArcAlt(GenericArc arc, ArcFacing facing)
         {
-            Selection.ThisShip.ShowMobileFiringArcAltHighlight(facing);
+            arc.ShipBase.Host.ShowMobileFiringArcAltHighlight(facing);
         }
 
         public override void BarrelRollTemplatePlanning()

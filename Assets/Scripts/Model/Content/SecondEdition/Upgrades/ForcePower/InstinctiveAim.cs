@@ -14,7 +14,6 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.ForcePower,
                 cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.InstinctiveAimAbility),
-                restriction: new BaseSizeRestriction(BaseSize.Small),
                 seImageNumber: 20
             );
         }        

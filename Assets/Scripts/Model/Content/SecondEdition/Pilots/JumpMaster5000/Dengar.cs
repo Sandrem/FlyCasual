@@ -31,7 +31,7 @@ namespace Abilities.SecondEdition
     {
         protected override bool CanCounterattackUsingShotInfo(ShotInfo counterAttackInfo)
         {
-            return counterAttackInfo.InArc && HostShip.ArcsInfo.GetArc<Arcs.ArcSingleTurret>().Facing == Arcs.ArcFacing.Front;
+            return HostShip.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Front);
         }
 
         protected override bool CanUseAbility()

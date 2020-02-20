@@ -50,7 +50,10 @@ namespace Abilities.SecondEdition
 
         private void RegisterTrigger()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnBombWillBeDropped, AskToUseFinchDallowAbility);
+            if (BombsManager.CurrentDevice.UpgradeInfo.SubType == UpgradeSubType.Bomb)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnBombWillBeDropped, AskToUseFinchDallowAbility);
+            }
         }
 
         private void AskToUseFinchDallowAbility(object sender, System.EventArgs e)

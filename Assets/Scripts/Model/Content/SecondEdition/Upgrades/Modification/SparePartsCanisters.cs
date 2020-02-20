@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -108,15 +109,12 @@ namespace Abilities.SecondEdition
 
             HostUpgrade.State.SpendCharge();
 
-            ManeuverTemplate dropTemplate = new ManeuverTemplate(ManeuverBearing.Straight, ManeuverDirection.Forward, ManeuverSpeed.Speed1, isBombTemplate: true);
-            dropTemplate.ApplyTemplate(HostShip, HostShip.GetBack(), Direction.Bottom);
-
             Debris spareParts = new Debris("Spare Parts", "spareparts");
             spareParts.Spawn("Spare Parts " + HostShip.ShipId, Board.GetBoard());
             ObstaclesManager.AddObstacle(spareParts);
 
-            spareParts.ObstacleGO.transform.position = dropTemplate.GetFinalPosition();
-            spareParts.ObstacleGO.transform.eulerAngles = dropTemplate.GetFinalAngles();
+            spareParts.ObstacleGO.transform.position = HostShip.GetBack();
+            spareParts.ObstacleGO.transform.eulerAngles = HostShip.GetAngles() + new Vector3(0, 180, 0);
             spareParts.IsPlaced = true;
 
             GameManagerScript.Wait(
@@ -124,7 +122,6 @@ namespace Abilities.SecondEdition
                 delegate
                 {
                     Messages.ShowInfo("Spare Parts are dropped");
-                    dropTemplate.DestroyTemplate();
                     BreakAllLocksRecursive(Callback);
                 }
             );

@@ -51,12 +51,12 @@ namespace Abilities.SecondEdition
 
         private void ConfirmThatIsPossible(ref bool isAllowed)
         {
-            CheckTwoOrFewerStress(null, ref isAllowed);
+            isAllowed = (HostShip.Tokens.CountTokensByType<Tokens.StressToken>() <= 2) && HostShip.Damage.HasFaceupCards;
         }
 
         private void CheckTwoOrFewerStress(GenericAction action, ref bool isAllowed)
         {
-            isAllowed = (HostShip.Tokens.CountTokensByType<Tokens.StressToken>() <= 2);
+            isAllowed = (HostShip.Tokens.CountTokensByType<Tokens.StressToken>() <= 2) && (action.IsCritCancelAction);
         }
 
         private void CheckSecondRepair(GenericDamageCard damageCard)

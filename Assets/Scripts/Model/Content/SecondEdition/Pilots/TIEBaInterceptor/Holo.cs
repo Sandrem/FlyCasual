@@ -35,6 +35,8 @@ namespace Abilities.SecondEdition
 
     public class HoloAbility : GenericAbility
     {
+        private GenericToken SelectedToken;
+
         public override void ActivateAbility()
         {
             Phases.Events.OnCombatPhaseStart_Triggers += CheckAbility;
@@ -52,15 +54,59 @@ namespace Abilities.SecondEdition
             if (tokensCount > 0)
             {
                 int filteredShipsCount = Board.GetShipsAtRange(HostShip, new Vector2(0, 2), Team.Type.Friendly).Count(n => n.ShipId != HostShip.ShipId);
-                
+
                 if (filteredShipsCount > 0)
                 {
-                    RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskToSelectShipToTransferToken);
+                    RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskToSelectToken);
                 }
             }
         }
 
-        private void AskToSelectShipToTransferToken(object sender, EventArgs e)
+        private void AskToSelectToken(object sender, EventArgs e)
+        {
+            var ownTokens = HostShip.Tokens.GetAllTokens().Where(n => n.GetType() != typeof(BlueTargetLockToken))
+                .Distinct(new TokenComparer())
+                .ToList();
+
+            if (ownTokens.Any())
+            {
+                TokenSelectionSubphase subphase = (TokenSelectionSubphase)Phases.StartTemporarySubPhaseNew(
+                    Name,
+                    typeof(TokenSelectionSubphase),
+                    Triggers.FinishTrigger
+                );
+
+                subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
+                subphase.DescriptionLong = "Select token to transfer";
+                subphase.ImageSource = HostShip;
+
+                ownTokens.ForEach(token =>
+                {
+                    subphase.AddDecision(
+                        token.Name,
+                        delegate {
+                            SelectedToken = token;
+                            DecisionSubPhase.ConfirmDecisionNoCallback();
+                            AskToSelectShipToTransferToken();
+                        }
+                    );
+                });
+
+                subphase.RequiredPlayer = HostShip.Owner.PlayerNo;
+                subphase.ShowSkipButton = false;
+
+                subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
+
+                subphase.Start();
+            }
+            else
+            {
+                Messages.ShowError("No tokens to transfer");
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void AskToSelectShipToTransferToken()
         {
             SelectTargetForAbility(
                 AskWhatTokenToTransfer,
@@ -68,25 +114,29 @@ namespace Abilities.SecondEdition
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
                 name: HostShip.PilotInfo.PilotName,
-                description: "Select a friendly ship to transfer your token",
+                description: "Select another friendly ship to transfer your token",
                 imageSource: HostShip
             );
         }
 
         private void AskWhatTokenToTransfer()
         {
-            Messages.ShowInfo("Done!");
-            SelectShipSubPhase.FinishSelection();
+            SelectShipSubPhase.FinishSelectionNoCallback();
+
+            //TODO: TLs
+            HostShip.Tokens.TransferToken(SelectedToken.GetType(), TargetShip, Triggers.FinishTrigger);
         }
 
         private bool FilterTargets(GenericShip ship)
         {
-            return FilterTargetsByRange(ship, 0, 2) && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo;
+            return FilterTargetsByRange(ship, 0, 2) && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo && ship.ShipId != HostShip.ShipId;
         }
 
         private int GetAiPriority(GenericShip ship)
         {
             return -ship.PilotInfo.Cost;
         }
+
+        private class TokenSelectionSubphase : DecisionSubPhase { }
     }
 }

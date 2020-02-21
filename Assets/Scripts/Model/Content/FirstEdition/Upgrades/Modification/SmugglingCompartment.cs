@@ -16,7 +16,7 @@ namespace UpgradesList.FirstEdition
                 feIsLimitedPerShip: true,
                 addSlots: new List<UpgradeSlot>
                 {
-                    new UpgradeSlot(UpgradeType.Crew),
+                    new UpgradeSlot(UpgradeType.Illicit),
                     new UpgradeSlot(UpgradeType.Modification) { MaxCost = 3 }
                 },
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.YT1300.YT1300), typeof(Ship.FirstEdition.YT2400.YT2400))

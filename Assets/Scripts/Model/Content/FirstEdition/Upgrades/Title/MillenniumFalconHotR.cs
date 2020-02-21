@@ -20,8 +20,7 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.MillenniumFalconHotRAbility)
             );
 
-            // TODOREVERT
-            // NameCanonical = "millenniumfalcon-swx57";
+            NameCanonical = "millenniumfalcon-swx57";
         }        
     }
 }

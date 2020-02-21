@@ -154,14 +154,68 @@ namespace Abilities.SecondEdition
 
         private void DealDamageToItself(object sender, EventArgs e)
         {
-            HostShip.SufferHullDamage(
-                false,
-                new DamageSourceEventArgs
-                {
-                    Source = HostShip,
-                    DamageType = DamageTypes.CardAbility
-                }
-            );
+            if (!HostShip.UpgradeBar.HasUpgradeInstalled(typeof(UpgradesList.SecondEdition.KazsFireball)))
+            {
+                HostShip.SufferHullDamage(
+                    false,
+                    new DamageSourceEventArgs
+                    {
+                        Source = HostShip,
+                        DamageType = DamageTypes.CardAbility
+                    }
+                );
+            }
+            else
+            {
+                ShowShipCrits();
+            }
         }
+
+        protected void ShowShipCrits()
+        {
+            SelectShipCritDecision subphase = (SelectShipCritDecision)Phases.StartTemporarySubPhaseNew(
+                "Select Damage Card",
+                typeof(SelectShipCritDecision),
+                Triggers.FinishTrigger
+            );
+
+            List<GenericDamageCard> ownDeck = DamageDecks.GetDamageDeck(HostShip.Owner.PlayerNo).Deck;
+            foreach (var card in ownDeck.Where(n => n.Type == CriticalCardType.Ship))
+            {
+                Decision existingDecision = subphase.GetDecisions().Find(n => n.Name == card.Name);
+                if (existingDecision == null)
+                {
+                    subphase.AddDecision(card.Name, delegate { SelectDamageCard(card); }, card.ImageUrl, 1);
+                }
+                else
+                {
+                    existingDecision.SetCount(existingDecision.Count + 1);
+                }
+            }
+
+            subphase.DecisionViewType = DecisionViewTypes.ImagesDamageCard;
+
+            subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
+
+            subphase.DescriptionShort = "Kaz's Fireball: Select Damage Card";
+
+            subphase.RequiredPlayer = HostShip.Owner.PlayerNo;
+
+            subphase.Start();
+        }
+
+        protected void SelectDamageCard(GenericDamageCard damageCard)
+        {
+            Messages.ShowInfo(damageCard.Name + " has been selected");
+
+            DamageDeck ownDeck = DamageDecks.GetDamageDeck(HostShip.Owner.PlayerNo);
+            ownDeck.RemoveFromDamageDeck(damageCard);
+            ownDeck.ReShuffleDeck();
+
+            Combat.CurrentCriticalHitCard = damageCard;
+            HostShip.Damage.DealDrawnCard(DecisionSubPhase.ConfirmDecision);
+        }
+
+        protected class SelectShipCritDecision : DecisionSubPhase { };
     }
 }

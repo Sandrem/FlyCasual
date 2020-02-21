@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using ActionsList;
+using Ship;
 using SubPhases;
 using System;
 using Tokens;
@@ -24,8 +25,6 @@ namespace Abilities.FirstEdition
 {
     public class ContrabandCyberneticsAbility : GenericAbility
     {
-        private bool CanPerformActionsWhileStressedOriginal;
-
         public override void ActivateAbility()
         {
             HostShip.OnMovementActivationStart += RegisterTrigger;
@@ -91,15 +90,24 @@ namespace Abilities.FirstEdition
 
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " allows " + HostShip.PilotInfo.PilotName + " to perform actions and red maneuvers even while stressed");
 
-            CanPerformActionsWhileStressedOriginal = HostShip.CanPerformActionsWhileStressed;
-            HostShip.CanPerformActionsWhileStressed = true;
-
+            HostShip.OnCheckCanPerformActionsWhileStressed += ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed += AllowRedActionsWhileStressed;
             HostShip.OnTryCanPerformRedManeuverWhileStressed += AllowRedManeuversWhileStressed;
 
             FinishAbility();
         }
 
         private void AllowRedManeuversWhileStressed(ref bool isAllowed)
+        {
+            isAllowed = true;
+        }
+
+        private void ConfirmThatIsPossible(ref bool isAllowed)
+        {
+            isAllowed = true;
+        }
+
+        private void AllowRedActionsWhileStressed(GenericAction action, ref bool isAllowed)
         {
             isAllowed = true;
         }
@@ -113,7 +121,8 @@ namespace Abilities.FirstEdition
         {
             Phases.Events.OnEndPhaseStart_NoTriggers -= DeactivateContrabandCyberneticsAbility;
 
-            HostShip.CanPerformActionsWhileStressed = CanPerformActionsWhileStressedOriginal;
+            HostShip.OnCheckCanPerformActionsWhileStressed -= ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed -= AllowRedActionsWhileStressed;
             HostShip.OnTryCanPerformRedManeuverWhileStressed -= AllowRedManeuversWhileStressed;
         }
     }

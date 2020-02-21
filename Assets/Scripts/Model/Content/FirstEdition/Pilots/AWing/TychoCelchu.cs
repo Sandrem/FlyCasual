@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ActionsList;
+using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -29,12 +30,24 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.CanPerformActionsWhileStressed = true;
+            HostShip.OnCheckCanPerformActionsWhileStressed += ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed += AlwaysAllow;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.CanPerformActionsWhileStressed = false;
+            HostShip.OnCanPerformActionWhileStressed -= AlwaysAllow;
+            HostShip.OnCheckCanPerformActionsWhileStressed -= ConfirmThatIsPossible;
+        }
+
+        private void ConfirmThatIsPossible(ref bool isAllowed)
+        {
+            AlwaysAllow(null, ref isAllowed);
+        }
+
+        private void AlwaysAllow(GenericAction action, ref bool isAllowed)
+        {
+            isAllowed = true;
         }
     }
 }

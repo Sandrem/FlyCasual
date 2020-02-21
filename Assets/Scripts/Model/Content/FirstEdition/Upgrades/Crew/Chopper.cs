@@ -26,13 +26,17 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.CanPerformActionsWhileStressed = true;
+            HostShip.OnCheckCanPerformActionsWhileStressed += ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed += AlwaysAllow;
+
             HostShip.BeforeActionIsPerformed += CheckIfShipIsStressed;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.CanPerformActionsWhileStressed = false;
+            HostShip.OnCheckCanPerformActionsWhileStressed -= ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed -= AlwaysAllow;
+
             HostShip.BeforeActionIsPerformed -= CheckIfShipIsStressed;
         }
 
@@ -70,6 +74,16 @@ namespace Abilities.FirstEdition
                 Phases.CurrentSubPhase.Resume();
                 Triggers.FinishTrigger();
             });
+        }
+
+        private void ConfirmThatIsPossible(ref bool isAllowed)
+        {
+            AlwaysAllow(null, ref isAllowed);
+        }
+
+        private void AlwaysAllow(GenericAction action, ref bool isAllowed)
+        {
+            isAllowed = true;
         }
     }
 }

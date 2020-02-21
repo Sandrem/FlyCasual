@@ -49,6 +49,9 @@ namespace Ship
 
         public event EventHandlerShipRefVector OnGetDockingRange;
 
+        public event EventHandlerBool OnSelectDamageCardToExpose;
+        public event EventHandlerDamageCard OnFaceupDamageCardIsRepaired;
+
         public GenericShip DockingHost;
 
         public Type ShipRuleType = typeof(Editions.FirstEdition);
@@ -376,6 +379,24 @@ namespace Ship
             Vector2 dockingRange = new Vector2(0, 0);
             OnGetDockingRange?.Invoke(carrier, ref dockingRange);
             return dockingRange;
+        }
+
+        // Expose Damage Cards
+        public void CallSelectDamageCardToExpose(int index, Action<int, Action, bool> exposeFacedownCardByIndex, Action callback)
+        {
+            bool isOverriden = false;
+            OnSelectDamageCardToExpose?.Invoke(ref isOverriden);
+
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnSelectDamageCardToExpose,
+                delegate { exposeFacedownCardByIndex.Invoke(index, callback, isOverriden); }
+            );
+        }
+
+        public void CallFaceupDamageCardIsRepaired(GenericDamageCard damageCard, Action callback)
+        {
+            OnFaceupDamageCardIsRepaired?.Invoke(damageCard);
+            Triggers.ResolveTriggers(TriggerTypes.OnFaceupDamageCardIsRepaired, callback);
         }
     }
 

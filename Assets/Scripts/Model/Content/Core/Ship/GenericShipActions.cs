@@ -102,6 +102,9 @@ namespace Ship
         public event EventHandlerCoordinateData OnCheckCoordinateModeModification;
         public event EventHandlerShipRefBool OnCheckCanCoordinate;
 
+        public event EventHandlerActionBool OnCanPerformActionWhileIonized;
+        public event EventHandlerActionBool OnCanPerformActionWhileStressed;
+        public event EventHandlerBool OnCheckCanPerformActionsWhileStressed;
 
         // ACTIONS
 
@@ -832,6 +835,28 @@ namespace Ship
             bool result = true;
             OnCheckCanCoordinate?.Invoke(ship, ref result);
             return result;
+        }
+
+        public bool CallCanPerformActionWhileIonized(GenericAction action)
+        {
+            bool canPerformActionsWhileIonized = false;
+            OnCanPerformActionWhileIonized?.Invoke(action, ref canPerformActionsWhileIonized);
+            return canPerformActionsWhileIonized;
+        }
+
+        public bool CallCanPerformActionWhileStressed(GenericAction action)
+        {
+            bool canPerformActionsWhileStressed = false;
+            OnCanPerformActionWhileStressed?.Invoke(action, ref canPerformActionsWhileStressed);
+            return canPerformActionsWhileStressed;
+        }
+
+        // Only notify to don't skip action step
+        public bool CallCheckCanPerformActionsWhileStressed()
+        {
+            bool canPerformActionsWhileStressed = false;
+            OnCheckCanPerformActionsWhileStressed?.Invoke(ref canPerformActionsWhileStressed);
+            return canPerformActionsWhileStressed;
         }
     }
 

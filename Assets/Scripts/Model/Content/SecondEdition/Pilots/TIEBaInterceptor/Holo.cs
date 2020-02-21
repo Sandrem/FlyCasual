@@ -123,8 +123,7 @@ namespace Abilities.SecondEdition
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            //TODO: TLs
-            HostShip.Tokens.TransferToken(SelectedToken.GetType(), TargetShip, Triggers.FinishTrigger);
+            ActionsHolder.ReassignToken(SelectedToken, HostShip, TargetShip, Triggers.FinishTrigger);
         }
 
         private bool FilterTargets(GenericShip ship)

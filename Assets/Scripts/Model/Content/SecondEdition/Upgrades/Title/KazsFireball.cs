@@ -35,12 +35,12 @@ namespace Abilities.SecondEdition
 
     // You can perform actions on damage cards even while ionized.
 
+    // Important: First ability is coded directly in Fireball's ship ability
+
     public class KazsFireballAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
-            // TODO: Ability 1
-
             HostShip.OnCanPerformActionWhileIonized += CanPerformActionsFromDamageCardsWhileIonized;
         }
 

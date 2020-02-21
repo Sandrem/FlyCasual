@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SubPhases;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -29,6 +32,7 @@ namespace Abilities.SecondEdition
 {
     // Before you expose 1 of your damage cards, you may look at your facedown damage cards,
     // choose 1, and expose that card instead.
+
     public class R1J5PilotAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -54,9 +58,50 @@ namespace Abilities.SecondEdition
 
         private void ShowFacedownDamageCardsToSelect(object sender, EventArgs e)
         {
-            Messages.ShowInfo("Here you should select a damage card");
-
-            Triggers.FinishTrigger();
+            ShowShipCrits();
         }
+
+        protected void ShowShipCrits()
+        {
+            SelectShipCritDecision subphase = (SelectShipCritDecision)Phases.StartTemporarySubPhaseNew(
+                "Select Damage Card",
+                typeof(SelectShipCritDecision),
+                Triggers.FinishTrigger
+            );
+
+            foreach (var card in HostShip.Damage.DamageCards)
+            {
+                Decision existingDecision = subphase.GetDecisions().Find(n => n.Name == card.Name);
+                if (existingDecision == null)
+                {
+                    subphase.AddDecision(card.Name, delegate { SelectDamageCard(card); }, card.ImageUrl, 1);
+                }
+                else
+                {
+                    existingDecision.SetCount(existingDecision.Count + 1);
+                }
+            }
+
+            subphase.DecisionViewType = DecisionViewTypes.ImagesDamageCard;
+
+            subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
+
+            subphase.DescriptionShort = "R1-J5: Select Damage Card to Expose";
+
+            subphase.RequiredPlayer = HostShip.Owner.PlayerNo;
+
+            subphase.Start();
+        }
+
+        protected void SelectDamageCard(GenericDamageCard damageCard)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
+            Messages.ShowInfo(damageCard.Name + " has been selected");
+
+            damageCard.Expose(Triggers.FinishTrigger);
+        }
+
+        protected class SelectShipCritDecision : DecisionSubPhase { };
     }
 }

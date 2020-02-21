@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
                 cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.FirstOrder),
-                abilityType: typeof(Abilities.SecondEdition.CaptainPhasmaAbility)
+                abilityType: typeof(Abilities.SecondEdition.CaptainPhasmaCrewAbility)
             );
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/784566afc8c540d5e392689865207059.png";
@@ -27,7 +27,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class CaptainPhasmaAbility : GenericAbility
+    public class CaptainPhasmaCrewAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

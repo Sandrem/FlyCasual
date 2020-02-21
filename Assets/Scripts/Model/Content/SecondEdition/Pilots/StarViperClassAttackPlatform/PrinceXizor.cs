@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Players;
 using Ship;
 using SubPhases;
 using System;
@@ -71,6 +72,13 @@ namespace Abilities.SecondEdition
             DistanceInfo distInfo = new DistanceInfo(HostShip, ship);
             if (distInfo.Range > 1) return false;
 
+            result = CheckInArcRequirements(ship);
+
+            return result;
+        }
+
+        protected virtual bool CheckInArcRequirements(GenericShip ship)
+        {
             foreach (GenericArc arc in Combat.Attacker.ArcsInfo.Arcs)
             {
                 ShotInfoArc shotInfoArcDefender = new ShotInfoArc(Combat.Attacker, HostShip, arc);
@@ -81,7 +89,7 @@ namespace Abilities.SecondEdition
                 }
             }
 
-            return result;
+            return false;
         }
 
         private void AskToRedirect(object sender, EventArgs e)
@@ -93,8 +101,14 @@ namespace Abilities.SecondEdition
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
                 "Select another friendly ship to redirect one damage result",
-                HostShip
+                HostShip,
+                showSkipButton: IsShowSkipButton()
             );
+        }
+
+        protected virtual bool IsShowSkipButton()
+        {
+            return true;
         }
 
         private void RedirectTargetIsSelected()
@@ -120,7 +134,7 @@ namespace Abilities.SecondEdition
             var subphase = Phases.StartTemporarySubPhaseNew<HitOrCritDecisionSubphase>("Prince Xizor", Triggers.FinishTrigger);
 
             subphase.DescriptionShort = "Prince Xizor";
-            subphase.DescriptionLong = "Suffer Hit or Crit result instead of Prince Xizor?";
+            subphase.DescriptionLong = "Suffer Hit or Crit result instead of " + HostShip.PilotInfo.PilotName + "?";
             subphase.ImageSource = HostShip;
 
             subphase.AddDecision(

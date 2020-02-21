@@ -300,7 +300,14 @@ namespace SubPhases
 
                             break;
                         case DecisionViewTypes.ImagesDamageCard:
-                            button.transform.localPosition = new Vector3(15 * (i + 1) + i * ImagesDamageCardSize.x, 0, 0);
+
+                            if (currentColumn == 6)
+                            {
+                                currentColumn = 1;
+                                rowsUsed++;
+                            }
+
+                            button.transform.localPosition = new Vector3(15 * (currentColumn) + (currentColumn-1) * ImagesDamageCardSize.x, rowsUsed * -ImagesDamageCardSize.y - 15 * rowsUsed, 0);
 
                             script = button.GetComponent<SmallCardPanel>();
                             script.Initialize(
@@ -313,6 +320,8 @@ namespace SubPhases
                                 DecisionViewTypes.ImagesDamageCard,
                                 decision.Count
                             );
+
+                            currentColumn++;
 
                             break;
                         default:
@@ -348,12 +357,12 @@ namespace SubPhases
                         break;
                     case DecisionViewTypes.ImagesDamageCard:
                         DecisionPanel.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            Mathf.Max(700f, decisions.Count * ImagesDamageCardSize.x + (decisions.Count + 1) * 15),
-                            defaultWindowHeight + ImagesDamageCardSize.y + 10
+                            Mathf.Max(700f, Mathf.Min(decisions.Count, 5) * ImagesDamageCardSize.x + (Mathf.Min(decisions.Count, 5) + 1) * 15),
+                            defaultWindowHeight + ImagesDamageCardSize.y * (rowsUsed + 1) + 10 * (rowsUsed + 1)
                         );
                         ButtonsHolder.GetComponent<RectTransform>().sizeDelta = new Vector3(
-                            decisions.Count * ImagesDamageCardSize.x + (decisions.Count + 1) * 15,
-                            defaultWindowHeight + ImagesDamageCardSize.y + 15
+                            Mathf.Min(decisions.Count, 5) * ImagesDamageCardSize.x + (Mathf.Min(decisions.Count, 5) + 1) * 15,
+                            defaultWindowHeight + ImagesDamageCardSize.y * (rowsUsed + 1) + 15 * (rowsUsed + 1)
                         );
                         break;
                     default:

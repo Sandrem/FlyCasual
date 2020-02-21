@@ -149,7 +149,7 @@ namespace Arcs
             MobileArcPointer.localEulerAngles = new Vector3(0f, MobileArcRotationValues[facing], 0f);
             (Host.ArcsInfo.Arcs.Find(a => a is ArcDualTurretB) as ArcDualTurretB).RotateArc(OppositeArcFacing(facing));
 
-            Editions.Edition.Current.RotateMobileFiringArc(facing);
+            Editions.Edition.Current.RotateMobileFiringArc(this, facing);
         }
 
         private ArcFacing OppositeArcFacing(ArcFacing facing)

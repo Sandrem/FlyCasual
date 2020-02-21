@@ -70,8 +70,8 @@ namespace Editions
         public virtual void AdaptPilotToRules(GenericShip ship) { }
         public virtual void AdaptUpgradeToRules(GenericUpgrade upgrade) { }
         public virtual void AdaptArcsToRules(GenericShip ship) { }
-        public virtual void RotateMobileFiringArc(ArcFacing facing) { }
-        public virtual void RotateMobileFiringArcAlt(ArcFacing facing) { }
+        public virtual void RotateMobileFiringArc(GenericArc arc, ArcFacing facing) { }
+        public virtual void RotateMobileFiringArcAlt(GenericArc arc, ArcFacing facing) { }
         public virtual void SubScribeToGenericShipEvents(GenericShip ship) { }
         public virtual void WhenIonized(GenericShip ship) { }
 

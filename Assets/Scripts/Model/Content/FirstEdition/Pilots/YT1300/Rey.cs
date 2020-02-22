@@ -18,7 +18,7 @@ namespace Ship
                     45,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ReyPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Missile
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Missile }
                 );
 
                 ShipInfo.ArcInfo.Arcs.ForEach(a => a.Firepower = 3);

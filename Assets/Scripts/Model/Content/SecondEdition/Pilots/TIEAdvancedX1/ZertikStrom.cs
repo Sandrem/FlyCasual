@@ -19,7 +19,6 @@ namespace Ship
                     41,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZertikStromAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 96
                 );
             }

@@ -55,7 +55,7 @@ namespace Upgrade
         {
             foreach (UpgradeType upgrade in UpgradeSlots)
             {
-                if (!ship.ShipInfo.UpgradeIcons.Upgrades.Contains(upgrade)) return false;
+                if (!ship.UpgradeBar.GetUpgradeSlots().Any(slot => slot.Type == upgrade)) return false;
             }
 
             return true;

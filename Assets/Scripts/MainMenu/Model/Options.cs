@@ -24,6 +24,10 @@ public static class Options
     public static bool DontShowAiInfo;
     public static string AiType;
     public static string DiceStats;
+    public static bool FullScreen;
+    public static bool ShowFps;
+    public static int Quality;
+    public static string Resolution;
 
     public static readonly string DefaultAvatar = "UpgradesList.FirstEdition.VeteranInstincts";
 
@@ -47,6 +51,10 @@ public static class Options
         DontShowAiInfo = PlayerPrefs.GetInt("DontShowAiInfo", 0) == 1;
         AiType = PlayerPrefs.GetString("AiType", "AI: Aggressor");
         Edition = PlayerPrefs.GetString("Edition", "SecondEdition");
+        FullScreen = PlayerPrefs.GetInt("FullScreen", 1) == 1;
+        ShowFps = PlayerPrefs.GetInt("ShowFps", 0) == 1;
+        Resolution = PlayerPrefs.GetString("Resolution", Screen.currentResolution.ToString());
+        Quality = PlayerPrefs.GetInt("Quality", 4);
 
         DiceStats = PlayerPrefs.GetString("DiceStats", "AT-0|AC-0|AS-0|AE-0|AB-0|DT-0|DS-0|DE-0|DB-0&AT-0|AC-0|AS-0|AE-0|AB-0|DT-0|DS-0|DE-0|DB-0");
         DiceStatsTracker.ReadFromString(DiceStats);
@@ -126,6 +134,12 @@ public static class Options
     public static void ChangeParameterValue(string parameter, bool value)
     {
         PlayerPrefs.SetInt(parameter, (value) ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public static void ChangeParameterValue(string parameter, int value)
+    {
+        PlayerPrefs.SetInt(parameter, value);
         PlayerPrefs.Save();
     }
 

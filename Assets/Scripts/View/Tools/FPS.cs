@@ -32,7 +32,7 @@ public class FPS : MonoBehaviour {
         if (timeleft <= 0.0)
         {
             // display two fractional digits (f2 format)
-            GetComponent<Text>().text = "FPS - " + (accum / frames).ToString("f2");
+            GetComponent<Text>().text = "FPS: " + (accum / frames).ToString("f2");
             timeleft = updateInterval;
             accum = 0.0f;
             frames = 0f;

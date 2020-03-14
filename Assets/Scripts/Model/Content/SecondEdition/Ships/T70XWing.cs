@@ -20,6 +20,8 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
 
+                DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.IntegratedSFoilsOpen));
+
                 ShipInfo.DefaultShipFaction = Faction.Resistance;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
 

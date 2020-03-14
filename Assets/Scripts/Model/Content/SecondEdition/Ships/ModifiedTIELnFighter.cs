@@ -26,7 +26,7 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "Modified TIE Fighter",
-                    "Mining Guild",
+                    "Mining Guild Yellow",
                     new Vector3(-3.7f, 7.8f, 5.55f),
                     1.75f
                 );

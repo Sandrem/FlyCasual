@@ -849,7 +849,15 @@ namespace SquadBuilderNS
 
                 Text descriptionText = SquadListRecord.transform.Find("Description").GetComponent<Text>();
                 RectTransform descriptionRectTransform = SquadListRecord.transform.Find("Description").GetComponent<RectTransform>();
-                descriptionText.text = squadList["description"].str.Replace("\\\"", "\"");
+                if (squadList.HasField("description"))
+                {
+                    descriptionText.text = squadList["description"].str.Replace("\\\"", "\"");
+                }
+                else
+                {
+                    descriptionText.text = "No description";
+                }
+                
                 float descriptionPreferredHeight = descriptionText.preferredHeight;
                 descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, descriptionPreferredHeight);
 
@@ -1002,14 +1010,7 @@ namespace SquadBuilderNS
         // NOT USED
         private static bool IsGenerationOfSquadsRequired()
         {
-            string directoryPath = Application.persistentDataPath + "/" + Edition.Current.Name + "/RandomAiSquadrons/";
-
-            foreach (var squadName in Edition.Current.PreGeneratedAiSquadrons.Keys)
-            {
-                if (!File.Exists(directoryPath + squadName + ".json")) return true;
-            }
-
-            return false;
+            return true;
         }
 
         private static void CreatePreGeneratedRandomAiSquads()

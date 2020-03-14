@@ -42,7 +42,7 @@ namespace Abilities
         public GenericShip HostShip
         {
             get { return hostShip; }
-            private set { hostShip = value; }
+            protected set { hostShip = value; }
         }
 
         private GenericUpgrade hostUpgrade;

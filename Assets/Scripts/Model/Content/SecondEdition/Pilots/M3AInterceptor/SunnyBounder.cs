@@ -31,7 +31,9 @@ namespace Abilities.SecondEdition
         {
             if (Combat.CurrentDiceRoll.DiceList.All(die => die.Side == Combat.CurrentDiceRoll.DiceList.First().Side))
             {
-                HostShip.AddAvailableDiceModification(new ActionsList.FirstEdition.SunnyBounderAbilityAction(() => { IsAbilityUsed = true; }));
+                HostShip.AddAvailableDiceModification(
+                    new ActionsList.FirstEdition.SunnyBounderAbilityAction(() => { IsAbilityUsed = true; HostShip = HostShip; })
+                );
             }
         }
     }

@@ -160,7 +160,7 @@ public partial class Console : MonoBehaviour {
             jsonData.AddField("p2squad", "None");
         }
 
-        var request = new UnityWebRequest("http://flycasual.azurewebsites.net/api/errorreport", "POST");
+        var request = new UnityWebRequest("http://flycasualapi.sandrem.space/api/errorreport", "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData.ToString());
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();

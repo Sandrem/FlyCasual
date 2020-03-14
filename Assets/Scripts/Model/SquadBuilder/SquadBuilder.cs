@@ -342,7 +342,20 @@ namespace SquadBuilderNS
 
         private static SquadBuilderShip AddPilotToSquad(GenericShip ship, PlayerNo playerNo)
         {
-            return GetSquadList(playerNo).AddShip(ship);
+            var squadBuilderShip = GetSquadList(playerNo).AddShip(ship);
+
+            foreach (var upgradeType in ship.DefaultUpgrades)
+            {
+                var upgrade = (GenericUpgrade)Activator.CreateInstance(upgradeType);
+
+                List<UpgradeSlot> slots = FindFreeSlots(squadBuilderShip, upgrade.UpgradeInfo.UpgradeTypes);
+                if (slots.Count != 0)
+                {
+                    slots[0].PreInstallUpgrade(upgrade, ship);
+                }
+            }
+
+            return squadBuilderShip;
         }
 
         private static void InstallUpgrade(UpgradeSlot slot, GenericUpgrade upgrade)

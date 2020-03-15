@@ -85,7 +85,8 @@ namespace Tokens
             typeof(StrainToken),
             typeof(StressToken),
             typeof(TractorBeamToken),
-            typeof(WeaponsDisabledToken)
+            typeof(WeaponsDisabledToken),
+            typeof(CloakToken)
         };
 
     }

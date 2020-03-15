@@ -17,7 +17,8 @@ namespace Ship
                     1,
                     29,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.R1J5PilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.R1J5PilotAbility),
+                    extraUpgradeIcon: UpgradeType.Crew
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();

@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,7 +15,7 @@ namespace Ship
                     33,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JarekYeagerAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Astromech }
                 );
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/cc580fd073ea51094b881e37775ef1f0.png";

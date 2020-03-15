@@ -34,7 +34,6 @@ namespace Ship.SecondEdition.Fireball
                     UpgradeType.Title,
                     UpgradeType.Missile,
                     UpgradeType.Illicit,
-                    UpgradeType.Astromech,
                     UpgradeType.Modification,
                     UpgradeType.Modification
                 ),

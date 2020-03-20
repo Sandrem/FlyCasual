@@ -36,9 +36,10 @@ namespace Abilities.SecondEdition
             HostShip.OnShipIsDestroyed -= RegisterAbility;
         }
 
-        private void RegisterAbility(GenericShip ship, bool flag)
+        private void RegisterAbility(GenericShip ship, bool isFled)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, DealDamage);
+            if (!isFled)
+                RegisterAbilityTrigger(TriggerTypes.OnShipIsDestroyed, DealDamage);
         }
         
         private void DealDamage(object sender, System.EventArgs e)

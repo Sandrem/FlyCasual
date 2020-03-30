@@ -87,7 +87,7 @@ namespace Players
             GameMode.CurrentGameMode.ExecuteCommand(command);
         }
 
-        //TODOL Don't skip attack of all PS ships if one cannot attack (Biggs interaction)
+        //TODO: Don't skip attack of all PS ships if one cannot attack (Biggs interaction)
 
         public override void PerformAttack()
         {

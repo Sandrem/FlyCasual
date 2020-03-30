@@ -20,6 +20,7 @@ namespace Ship
         public GenericMovement RevealedManeuver { get; set; }
 
         public List<GenericRemote> RemotesOverlapped = new List<GenericRemote>();
+        public List<GenericRemote> RemotesMovedThrough = new List<GenericRemote>();
 
         public bool IsIgnoreObstacles;
         public bool IsIgnoreObstaclesDuringBoost;

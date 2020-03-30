@@ -120,6 +120,7 @@ namespace Movement
                 Rules.Collision.AddBump(TheShip, shipBumped);
             }
 
+            TheShip.RemotesMovedThrough = new List<GenericRemote>(movementPrediction.RemotesMovedThrough);
             TheShip.RemotesOverlapped = new List<GenericRemote>(movementPrediction.RemotesOverlapped);
             TheShip.ObstaclesLanded = new List<GenericObstacle>(movementPrediction.LandedOnObstacles);
 

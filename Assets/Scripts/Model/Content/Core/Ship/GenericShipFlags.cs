@@ -6,6 +6,7 @@ namespace Ship
 {
     public partial class GenericShip
     {
+        public virtual bool HasCombatActivation { get { return !IsAttackPerformed; } }
         public bool IsSetupPerformed { get; set; }
         public bool IsManeuverPerformed { get; set; }
         public bool IsAttackPerformed { get; set; }

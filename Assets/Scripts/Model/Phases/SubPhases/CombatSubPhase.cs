@@ -78,7 +78,7 @@ namespace SubPhases
             if (DebugManager.DebugPhases) Debug.Log("Attack time for: " + RequiredPlayer + ", skill " + RequiredInitiative);
 
             UpdateHelpInfo();
-            Roster.HighlightShipsFiltered(FilterShipsToPerfromAttack);
+            Roster.HighlightShipsFiltered(FilterShipsToPerformAttack);
 
             IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).PerformAttack();
@@ -90,9 +90,9 @@ namespace SubPhases
             bool result = false;
 
             var pilotSkillResults =
-                from n in Roster.AllShips
+                from n in Roster.AllUnits
                 where n.Value.State.Initiative == pilotSkill
-                where n.Value.IsAttackPerformed == false
+                where n.Value.HasCombatActivation
                 select n;
 
             if (pilotSkillResults.Count() > 0)
@@ -124,9 +124,9 @@ namespace SubPhases
             int result = int.MaxValue;
 
             var ascPilotSkills =
-                from n in Roster.AllShips
+                from n in Roster.AllUnits
                 where n.Value.State.Initiative < pilotSkillMax
-                where n.Value.IsAttackPerformed == false
+                where n.Value.HasCombatActivation
                 orderby n.Value.State.Initiative
                 select n;
 
@@ -209,7 +209,7 @@ namespace SubPhases
                     Name = "Select a target to attack",
                     TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnSelectTargetForAttackStart_System,
-                    EventHandler = StartSelectTarget
+                    EventHandler = StartCombatActivation
                 }
             );
 
@@ -219,16 +219,24 @@ namespace SubPhases
             );
         }
 
-        private static void StartSelectTarget(object sender, System.EventArgs e)
+        private static void StartCombatActivation(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.CallCombatActivation(
-                delegate () {
-                    Combat.StartSelectAttackTarget(
-                        Selection.ThisShip,
-                        Triggers.FinishTrigger
-                    );
-                }
-            );
+            Selection.ThisShip.CallCombatActivation(StartTargetSelection);
+        }
+
+        private static void StartTargetSelection()
+        {
+            if (!(Selection.ThisShip is GenericRemote))
+            {
+                Combat.StartSelectAttackTarget(
+                    Selection.ThisShip,
+                    Triggers.FinishTrigger
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         private bool FilterShipsToAttack(GenericShip ship)
@@ -281,12 +289,11 @@ namespace SubPhases
             return result;
         }
 
-        private bool FilterShipsToPerfromAttack(GenericShip ship)
+        private bool FilterShipsToPerformAttack(GenericShip ship)
         {
             return ship.State.Initiative == RequiredInitiative
-                && !ship.IsAttackPerformed
-                && ship.Owner.PlayerNo == RequiredPlayer
-                && !(ship is GenericRemote);
+                && ship.HasCombatActivation
+                && ship.Owner.PlayerNo == RequiredPlayer;
         }
 
         public override void SkipButton()
@@ -367,7 +374,7 @@ namespace SubPhases
             }
             else
             {
-                Roster.HighlightShipsFiltered(FilterShipsToPerfromAttack);
+                Roster.HighlightShipsFiltered(FilterShipsToPerformAttack);
 
                 IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).PerformAttack();

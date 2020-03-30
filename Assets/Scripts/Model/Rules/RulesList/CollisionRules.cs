@@ -60,6 +60,10 @@ namespace RulesList
                 }
             }
             ship.ShipsBumped = new List<GenericShip>();
+
+            // Clear remotes bumps too
+            ship.RemotesOverlapped = new List<Remote.GenericRemote>();
+            ship.RemotesMovedThrough = new List<Remote.GenericRemote>();
         }
 
         public void CanPerformAttack(ref bool result, List<string> stringList)

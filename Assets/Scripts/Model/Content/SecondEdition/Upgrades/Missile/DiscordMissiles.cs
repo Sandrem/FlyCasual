@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -15,8 +16,6 @@ namespace UpgradesList.SecondEdition
     {
         public DiscordMissiles() : base()
         {
-            IsHidden = true;
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Discord Missiles",
                 UpgradeType.Missile,
@@ -75,7 +74,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterOwnAbilityTrigger()
         {
-            Phases.Events.OnEndPhaseStart_Triggers -= RegisterOwnAbilityTrigger;
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterOwnAbilityTrigger;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskToUseOwnAbility);
         }

@@ -22,6 +22,26 @@ namespace Remote
                 typeof(Abilities.SecondEdition.Drk1ProbeDroidAbility)
             );
         }
+
+        public override Dictionary<string, Vector3> BaseEdges
+        {
+            get
+            {
+                return new Dictionary<string, Vector3>()
+                {
+                    { "R0", new Vector3(-1.03f, 0f, -0.235f) },
+                    { "R1", new Vector3(-1.795f, 0f, 0.318f) },
+                    { "R2", new Vector3(-2.39f, 0f, 2.34f) },
+                    { "R3", new Vector3(-2.126f, 0f, 3.123f) },
+                    { "R4", new Vector3(-0.459f, 0f, 4.34f) },
+                    { "R5", new Vector3(0.482f, 0f, 4.34f) },
+                    { "R6", new Vector3(2.146f, 0f, 3.105f) },
+                    { "R7", new Vector3(2.4f, 0f, 2.196f) },
+                    { "R8", new Vector3(1.76f, 0f, 0.3f) },
+                    { "R9", new Vector3(0.994f, 0f, -0.25f) }
+                };
+            }
+        }
     }
 }
 

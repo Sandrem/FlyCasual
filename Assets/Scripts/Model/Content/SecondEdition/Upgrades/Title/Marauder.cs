@@ -1,6 +1,5 @@
 ﻿using Arcs;
 using Ship;
-using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
@@ -30,71 +29,53 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnGenerateDiceModifications += MarauderDiceAbility;
+            AddDiceModification(
+                HostUpgrade.UpgradeInfo.Name,
+                IsDiceModificationAvailable,
+                GetDiceModificationAiPriority,
+                DiceModificationType.Reroll,
+                1
+            );
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGenerateDiceModifications -= MarauderDiceAbility;
+            RemoveDiceModification();
         }
 
-        public void MarauderDiceAbility(GenericShip ship)
+        public bool IsDiceModificationAvailable()
         {
-            ship.AddAvailableDiceModification(new MarauderAbilityAction());
+            bool result = false;
+            if (Combat.AttackStep == CombatStep.Attack
+                && Combat.ShotInfo.InArcByType(ArcType.Rear)
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
+            {
+                result = true;
+            }
+            return result;
         }
 
-        private class MarauderAbilityAction : ActionsList.GenericAction
+        public int GetDiceModificationAiPriority()
         {
-            public MarauderAbilityAction()
-            {
-                Name = DiceModificationName = "Marauder ship ability";
-                IsReroll = true;
-            }
+            int result = 0;
 
-            public override void ActionEffect(System.Action callBack)
+            if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSpecialWeapon) != null)
             {
-                DiceRerollManager diceRerollManager = new DiceRerollManager
+                if (Combat.DiceRollAttack.Blanks > 0)
                 {
-                    NumberOfDiceCanBeRerolled = 1,
-                    CallBack = callBack
-                };
-                diceRerollManager.Start();
-            }
-
-            public override bool IsDiceModificationAvailable()
-            {
-                bool result = false;
-                if (Combat.AttackStep == CombatStep.Attack
-                    && Combat.ShotInfo.InArcByType(ArcType.Rear)
-                    && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
-                {
-                    result = true;
+                    result = 90;
                 }
-                return result;
-            }
-
-            public override int GetDiceModificationPriority()
-            {
-                int result = 0;
-
-                if (Combat.AttackStep == CombatStep.Attack && (Combat.ChosenWeapon as Upgrade.GenericSpecialWeapon) != null)
+                else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
                 {
-                    if (Combat.DiceRollAttack.Blanks > 0)
-                    {
-                        result = 90;
-                    }
-                    else if (Combat.DiceRollAttack.Focuses > 0 && Combat.Attacker.GetDiceModificationsGenerated().Count(n => n.IsTurnsAllFocusIntoSuccess) == 0)
-                    {
-                        result = 90;
-                    }
-                    else if (Combat.DiceRollAttack.Focuses > 0)
-                    {
-                        result = 30;
-                    }
+                    result = 90;
                 }
-
-                return result;
+                else if (Combat.DiceRollAttack.Focuses > 0)
+                {
+                    result = 30;
+                }
             }
+
+            return result;
         }
     }
 }

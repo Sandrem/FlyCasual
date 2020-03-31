@@ -65,10 +65,10 @@ namespace BoardTools
 
         private static void SetPlaymat(string playmatName)
         {
-            LoadSceneFromResources("TableClassic");
+            LoadSceneFromResources("SpaceStationScene");
 
             Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
-            GameObject.Find("SceneHolder/TableClassic/Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;
+            GameObject.Find("SceneHolder/SpaceStationScene/TableClassic/Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;
 
             RenderSettings.fog = false;
         }

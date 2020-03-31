@@ -54,7 +54,7 @@ namespace Abilities.SecondEdition
 
         private void CheckSensorBlindspot(ref int count)
         {
-            if (Combat.ShotInfo.Range < 2) count -= 2;
+            if (Combat.ChosenWeapon.WeaponType == Ship.WeaponTypes.PrimaryWeapon && Combat.ShotInfo.Range < 2) count -= 2;
         }
     }
 }

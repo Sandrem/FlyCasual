@@ -131,10 +131,10 @@ namespace Abilities.SecondEdition
 
         private void StartHitCritDecisionSubphase()
         {
-            var subphase = Phases.StartTemporarySubPhaseNew<HitOrCritDecisionSubphase>("Prince Xizor", Triggers.FinishTrigger);
+            var subphase = Phases.StartTemporarySubPhaseNew<HitOrCritDecisionSubphase>(HostName, Triggers.FinishTrigger);
 
-            subphase.DescriptionShort = "Prince Xizor";
-            subphase.DescriptionLong = "Suffer Hit or Crit result instead of " + HostShip.PilotInfo.PilotName + "?";
+            subphase.DescriptionShort = HostName;
+            subphase.DescriptionLong = "Suffer Hit or Crit result instead of " + HostName + "?";
             subphase.ImageSource = HostShip;
 
             subphase.AddDecision(

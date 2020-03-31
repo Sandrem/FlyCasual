@@ -21,6 +21,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 107
                 );
+
+                ModelInfo.SkinName = "White Death";
             }
         }
     }

@@ -11,6 +11,8 @@
                     4,
                     18
                 );
+
+                ModelInfo.SkinName = "Gamma Squadron";
             }
         }
     }

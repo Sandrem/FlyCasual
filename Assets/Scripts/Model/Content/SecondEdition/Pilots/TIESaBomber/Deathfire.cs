@@ -22,6 +22,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.DeathfireAbility),
                     seImageNumber: 110
                 );
+
+                ModelInfo.SkinName = "Gamma Squadron";
             }
         }
     }

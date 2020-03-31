@@ -16,6 +16,8 @@ namespace Ship
                     abilityType: typeof(Abilities.FirstEdition.TomaxBrenAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                ModelInfo.SkinName = "White Death";
             }
         }
     }

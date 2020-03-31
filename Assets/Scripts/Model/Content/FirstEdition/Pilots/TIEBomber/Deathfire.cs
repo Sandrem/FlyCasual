@@ -19,6 +19,8 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DeathfireAbility)
                 );
+
+                ModelInfo.SkinName = "Gamma Squadron";
             }
         }
     }

@@ -14,6 +14,8 @@ namespace Ship
                     19,
                     extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                ModelInfo.SkinName = "Gamma Squadron";
             }
         }
     }

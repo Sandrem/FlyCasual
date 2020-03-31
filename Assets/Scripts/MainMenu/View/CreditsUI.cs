@@ -17,7 +17,7 @@ public static class CreditsUI {
         { "2D Art", "xwingtmgphotography, Matthew Cohen, Andreas Bazylewsi, Andrew McCarthy" },
         { "Music", "Daniel (Affordable Audio 4 Everyone), Robson Cozendey" },
         { "Fonts", "Pixel Sagas \"Rebellion\", \"Strike Fighter\" (Daniel Zadorozny, Iconian Fonts), xwing-miniatures-font (geordanr)" },
-        { "Additional assets", "Skybox Volume 2: Nebula (Hedgehog Team), Simple Table Glass (Quadrante Studio), sFuture Modules PRO Space and Ground (Sami Lehtonen)" },
+        { "Additional assets", "Skybox Volume 2: Nebula (Hedgehog Team), Simple Table Glass (Quadrante Studio), sFuture Modules PRO Space and Ground (Sami Lehtonen), Sci Fi Doors (MASH Virtual)" },
         { "Testing", "djeknemesis2012, LiquidLogic" },
         { "Thanks for support", "Rick Servello, Spencer Loper, Landon, Dual Torpedoes, Vittorio Rosa, GregFromParis#42, Charlie King, Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug, John Snape, Bryan Froh, Ross Kushnereit, David Gausebeck, Alan Michael, Brian Hall, Byron Harder, shaun p kelleher, James Campbell, Willy Fortin, Spqan x" },
     };

@@ -329,9 +329,12 @@ namespace Editions
             return RootUrlForImages + "Card_Pilot_" + ship.PilotInfo.SEImageNumber + ".png";
         }
 
-        public override string GetUpgradeImageUrl(GenericUpgrade upgrade)
+        public override string GetUpgradeImageUrl(GenericUpgrade upgrade, string filename = null)
         {
-            return RootUrlForImages + "Card_Upgrade_" + upgrade.UpgradeInfo.SEImageNumber + ((upgrade.IsSecondSide)?"b":"") + ".png";
+            return RootUrlForImages
+                + "Card_Upgrade_" + upgrade.UpgradeInfo.SEImageNumber
+                + ((upgrade.IsSecondSide)?"b":"")
+                + ".png";
         }
 
         public override string FactionToXws(Faction faction)

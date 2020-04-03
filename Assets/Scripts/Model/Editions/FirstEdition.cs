@@ -160,9 +160,12 @@ namespace Editions
             return RootUrlForImages + "pilots/" + ImageUrls.FormatFaction(ship.SubFaction) + "/" + ImageUrls.FormatShipType(ship.ShipInfo.ShipName) + "/" + (filename ?? (ImageUrls.FormatName(ship.PilotInfo.PilotName) + ".png"));
         }
 
-        public override string GetUpgradeImageUrl(GenericUpgrade upgrade)
+        public override string GetUpgradeImageUrl(GenericUpgrade upgrade, string filename = null)
         {
-            return RootUrlForImages + "upgrades/" + ImageUrls.FormatUpgradeTypes(upgrade.UpgradeInfo.UpgradeTypes) + "/" + ImageUrls.FormatName(ImageUrls.FormatUpgradeName(upgrade.UpgradeInfo.Name)) + ".png";
+            return RootUrlForImages
+                + "upgrades/" + ImageUrls.FormatUpgradeTypes(upgrade.UpgradeInfo.UpgradeTypes)
+                + "/" + ImageUrls.FormatName(filename ?? ImageUrls.FormatUpgradeName(upgrade.UpgradeInfo.Name))
+                + ".png";
         }
 
         public override string FactionToXws(Faction faction)

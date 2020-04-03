@@ -64,7 +64,7 @@ namespace Editions
         public abstract void SquadBuilderIsOpened();
         public abstract bool IsTokenCanBeDiscardedByJam(GenericToken token);
         public abstract string GetPilotImageUrl(GenericShip ship, string filename);
-        public abstract string GetUpgradeImageUrl(GenericUpgrade upgrade);
+        public abstract string GetUpgradeImageUrl(GenericUpgrade upgrade, string filename = null);
 
         public virtual void AdaptShipToRules(GenericShip ship) { }
         public virtual void AdaptPilotToRules(GenericShip ship) { }

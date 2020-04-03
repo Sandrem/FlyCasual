@@ -18,9 +18,8 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.GhostV2Ability)
             );
 
-            // TODOREVERT
-            // NameCanonical = "ghost-swx72";
-            // ImageUrl = ImageUrls.GetImageUrl(this, NameCanonical + ".png");
+            NameCanonical = "ghost-swx72";
+            ImageUrl = ImageUrls.GetImageUrl(this, NameCanonical);
         }        
     }
 }

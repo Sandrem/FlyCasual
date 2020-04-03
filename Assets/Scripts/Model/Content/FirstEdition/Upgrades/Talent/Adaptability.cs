@@ -15,8 +15,7 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.AdaptabilityIncreaseAbility)
             );
 
-            // TODOREVERT
-            // ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Elite/adaptability-increase.png";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Elite/adaptability-increase.png";
 
             AnotherSide = typeof(AdaptabilityDecrease);
         }
@@ -33,8 +32,7 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.AdaptabilityDecreaseAbility)
             );
 
-            // TODOREVERT
-            // ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Elite/adaptability-decrease.png";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Elite/adaptability-decrease.png";
 
             AnotherSide = typeof(AdaptabilityIncrease);
         }

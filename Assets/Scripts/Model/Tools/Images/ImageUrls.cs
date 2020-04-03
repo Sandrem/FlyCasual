@@ -17,7 +17,7 @@ public static class ImageUrls
 
     public static string GetImageUrl(GenericUpgrade upgrade, string filename = null)
     {
-        return Edition.Current.GetUpgradeImageUrl(upgrade);
+        return Edition.Current.GetUpgradeImageUrl(upgrade, filename);
     }
 
     public static string GetImageUrlOld(GenericUpgrade upgrade, string filename = null)
@@ -65,6 +65,9 @@ public static class ImageUrls
                 break;
             case UpgradeType.Talent:
                 name += "Elite";
+                break;
+            case UpgradeType.Sensor:
+                name += "System";
                 break;
             default:
                 name += type.ToString ();

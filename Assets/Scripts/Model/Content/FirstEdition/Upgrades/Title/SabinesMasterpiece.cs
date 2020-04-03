@@ -26,8 +26,7 @@ namespace UpgradesList.FirstEdition
                 }
             );
 
-            // TODOREVERT
-            // ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/sabines-masterpiece.png";
+            ImageUrl = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/upgrades/Title/sabines-masterpiece.png";
         }
     }
 }

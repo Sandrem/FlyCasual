@@ -19,8 +19,7 @@ namespace UpgradesList.FirstEdition
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.TIEAdvanced.TIEAdvanced))
             );
 
-            // TODOREVERT
-            // ImageUrl = ImageUrls.GetImageUrl(this, "advanced-targeting-computer.png");
+            ImageUrl = ImageUrls.GetImageUrl(this, "advanced-targeting-computer");
         }
     }
 }

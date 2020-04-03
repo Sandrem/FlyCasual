@@ -1308,20 +1308,35 @@ namespace SquadBuilderNS
 
         public static void CopyCurrentShip()
         {
-            GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(CurrentSquadBuilderShip.Instance.GetType().ToString()));
-            Edition.Current.AdaptShipToRules(newShip);
-            Edition.Current.AdaptPilotToRules(newShip);
+            if (UniquePilotsLimitIsNotExceeded(CurrentSquadBuilderShip.Instance))
+            {
+                GenericShip newShip = (GenericShip)Activator.CreateInstance(Type.GetType(CurrentSquadBuilderShip.Instance.GetType().ToString()));
+                Edition.Current.AdaptShipToRules(newShip);
+                Edition.Current.AdaptPilotToRules(newShip);
 
-            SquadBuilderShip squadBuilderShip = CurrentSquadList.AddShip(newShip);
-            List<GenericUpgrade> copyUpgradesList = new List<GenericUpgrade>(CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradesAll());
-            CopyUpgradesRecursive(squadBuilderShip, copyUpgradesList);
+                SquadBuilderShip squadBuilderShip = CurrentSquadList.AddShip(newShip);
+                List<GenericUpgrade> copyUpgradesList = new List<GenericUpgrade>(CurrentSquadBuilderShip.Instance.UpgradeBar.GetUpgradesAll());
+                CopyUpgradesRecursive(squadBuilderShip, copyUpgradesList);
+            }
+            else
+            {
+                Messages.ShowInfo(CurrentSquadBuilderShip.Instance.PilotInfo.PilotName + " is not copied due to unique cards limit");
+            }
         }
 
         private static void CopyUpgradesRecursive(SquadBuilderShip targetShip, List<GenericUpgrade> upgradeList)
         {
             if (upgradeList.Count > 0)
             {
-                InstallUpgrade(targetShip, upgradeList.First().NameCanonical, upgradeList.First().UpgradeInfo.UpgradeTypes.First());
+                if (UniqueUpgradesLimitIsNotExceeded(upgradeList.First()))
+                {
+                    InstallUpgrade(targetShip, upgradeList.First().NameCanonical, upgradeList.First().UpgradeInfo.UpgradeTypes.First());
+                }
+                else
+                {
+                    Messages.ShowInfo(upgradeList.First().UpgradeInfo.Name + " is not copied due to unique cards limit");
+                }
+                
                 upgradeList.Remove(upgradeList.First());
 
                 CopyUpgradesRecursive(targetShip, upgradeList);
@@ -1330,6 +1345,43 @@ namespace SquadBuilderNS
             {
                 UpdateSquadCostForPilotMenu(GetCurrentSquadCost());
             }
+        }
+
+        private static bool UniqueUpgradesLimitIsNotExceeded(GenericUpgrade upgradeToCopy)
+        {
+            if (!upgradeToCopy.UpgradeInfo.IsLimited) return true;
+
+            int sameUpgradePresent = 0;
+
+            foreach (var shipConfig in SquadBuilder.CurrentSquadList.GetShips())
+            {
+                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
+                {
+                    if (GetCleanName(upgrade.UpgradeInfo.Name) == GetCleanName(upgradeToCopy.UpgradeInfo.Name))
+                    {
+                        sameUpgradePresent++;
+                    } 
+                }
+            }
+
+            return sameUpgradePresent < upgradeToCopy.UpgradeInfo.Limited;
+        }
+
+        private static bool UniquePilotsLimitIsNotExceeded(GenericShip pilotToCopy)
+        {
+            if (!pilotToCopy.PilotInfo.IsLimited) return true;
+
+            int samePilotPresent = 0;
+
+            foreach (var shipConfig in SquadBuilder.CurrentSquadList.GetShips())
+            {
+                if (shipConfig.Instance.PilotInfo.PilotName == pilotToCopy.PilotInfo.PilotName)
+                {
+                    samePilotPresent++;
+                }
+            }
+
+            return samePilotPresent < pilotToCopy.PilotInfo.Limited;
         }
 
         public static void SetDefaultObstacles()

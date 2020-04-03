@@ -64,7 +64,7 @@ namespace SubPhases
 
             int asteroidCount = 1;
 
-            for (int i = 1; i < 3; i++)
+            for (int i = 2; i > 0; i--)
             {
                 foreach (GenericObstacle obstacle in Roster.GetPlayer(i).ChosenObstacles)
                 {

@@ -23,7 +23,7 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
-                ModelInfo.SkinName = "Red";
+                ModelInfo.SkinName = "Nera Dantels";
             }
         }
     }

@@ -11,7 +11,7 @@ namespace UpgradesList.FirstEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Twin Ion Engine Mk. II",
                 UpgradeType.Modification,
-                cost: 2,
+                cost: 1,
                 abilityType: typeof(Abilities.FirstEdition.TwinIonEngineMkIIAbility)
             );
 

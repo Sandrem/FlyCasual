@@ -63,7 +63,7 @@ namespace Obstacles
                 );
             }
 
-            for (int i = 1; i < 4; i++)
+            for (int i = 1; i < 7; i++)
             {
                 Instance.AllPossibleObstacles.Add(
                     new GasCloud(

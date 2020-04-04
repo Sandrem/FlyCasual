@@ -212,9 +212,6 @@ public class TallonRollHelper
         {
             List<GenericShip> overlappedShips = TemporaryShipBases[i].GetComponentInChildren<ObstaclesStayDetectorForced>().OverlappedShipsNow;
             bool isPositionAllowed = !overlappedShips.Where(n => n.ShipId != Ship.ShipId).Any();
-
-            Debug.Log(i + " " + isPositionAllowed);
-
             IsPositionAllowed.Add(i, isPositionAllowed);
         }
     }

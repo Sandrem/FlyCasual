@@ -6,40 +6,46 @@ using Upgrade;
 using Ship;
 using System.Linq;
 using SubPhases;
+using SubPhases.SecondEdition;
 using Bombs;
-using SubPhases.FirstEdition;
 
-namespace UpgradesList.FirstEdition
+namespace UpgradesList.SecondEdition
 {
-    public class ClusterMines : GenericContactMineFE
+    public class ClusterMines : GenericContactMineSE
     {
         public ClusterMines() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Cluster Mines",
                 UpgradeType.Device,
-                cost: 4
+                cost: 8,
+                charges: 1,
+                cannotBeRecharged: true,
+                subType: UpgradeSubType.Mine
             );
+
+            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/c27f0dcda78915239450bedf5b931d86.png";
 
             bombPrefabPath = "Prefabs/Bombs/ClusterMinesCentral";
 
             bombSidePrefabPath = "Prefabs/Bombs/ClusterMinesSide";
             bombSideDistanceX = 4.05f;
             bombSideDistanceZ = 0.1264f;
-
-            IsDiscardedAfterDropped = true;
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)
         {
             Selection.ActiveShip = ship;
-            Phases.StartTemporarySubPhaseOld(
+
+            ClusterMinesCheckSubPhase subphase = Phases.StartTemporarySubPhaseNew<ClusterMinesCheckSubPhase>(
                 "Damage from " + UpgradeInfo.Name,
-                typeof(ClusterMinesCheckSubPhase),
                 delegate {
                     Phases.FinishSubPhase(typeof(ClusterMinesCheckSubPhase));
                     callBack();
-                });
+                }
+            );
+            subphase.HostUpgrade = this;
+            subphase.Start();
         }
 
         public override void PlayDetonationAnimSound(GenericDeviceGameObject bombObject, Action callBack)
@@ -51,16 +57,14 @@ namespace UpgradesList.FirstEdition
 
             GameManagerScript.Wait(1, delegate { callBack(); });
         }
-
     }
-
 }
 
-namespace SubPhases.FirstEdition
+namespace SubPhases.SecondEdition
 {
-
     public class ClusterMinesCheckSubPhase : DiceRollCheckSubPhase
     {
+        public GenericUpgrade HostUpgrade;
 
         public override void Prepare()
         {
@@ -77,11 +81,6 @@ namespace SubPhases.FirstEdition
             CurrentDiceRoll.RemoveAllFailures();
             if (!CurrentDiceRoll.IsEmpty)
             {
-                foreach (Die die in CurrentDiceRoll.DiceList)
-                {
-                    if (die.Side == DieSide.Crit) die.TrySetSide(DieSide.Success);
-                }
-
                 SufferDamage();
             }
             else
@@ -93,22 +92,21 @@ namespace SubPhases.FirstEdition
 
         private void SufferDamage()
         {
-            Messages.ShowInfo("Cluster Mines: The attacked ship suffered damage");
+            Messages.ShowInfo("Cluster Mines: " + Selection.ActiveShip.PilotInfo.PilotName + " suffers damage.");
 
-            DamageSourceEventArgs clustermineDamage = new DamageSourceEventArgs()
+            DamageSourceEventArgs clusterMinesDamage = new DamageSourceEventArgs()
             {
-                Source = "Cluster Mines",
+                Source = HostUpgrade,
                 DamageType = DamageTypes.BombDetonation
             };
 
-            Selection.ActiveShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, clustermineDamage, CallBack);
+            Selection.ActiveShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, clusterMinesDamage, CallBack);
         }
 
         private void NoDamage()
         {
-            Messages.ShowInfoToHuman("The attacked ship suffered no damage");
+            Messages.ShowInfo("Cluster Mines: " + Selection.ActiveShip.PilotInfo.PilotName + " suffers no damage.");
             CallBack();
         }
     }
-
 }

@@ -175,6 +175,8 @@ public partial class Console : MonoBehaviour {
             (text == "ServerDisconnected due to error: Timeout") ||
             text.StartsWith("Screen position out of view frustum")) return true;
 
+        if (text == "SerializedObject target has been destroyed.") return true;
+
         return false;
     }
 

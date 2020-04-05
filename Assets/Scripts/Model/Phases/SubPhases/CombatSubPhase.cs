@@ -300,30 +300,82 @@ namespace SubPhases
         {
             if ((Selection.ThisShip == null) || (Selection.ThisShip.IsAttackPerformed))
             {
-                // If no ship is selected or selected ship already performed attack
-                // skip combat for all player's ships with current PS
-
-                List<GenericShip> shipsToSkipCombat = new List<GenericShip>();
-
-                foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
+                if (TargetsArAvailable())
                 {
-                    if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
-                    {
-                        shipsToSkipCombat.Add(shipHolder.Value);
-                    }
+                    AskToConfirmSkip();
                 }
-
-                SkipCombatByShips(shipsToSkipCombat, Next);
+                else
+                {
+                    SkipCombatByShipsWithCurrentInitiative();
+                }
             }
             else
             {
-                // If selected ship can attack - skip attack only for this ship
-
                 GenericShip skippedShip = Selection.ThisShip;
                 AfterSkippedCombatActivation(skippedShip);
                 skippedShip.CallCombatDeactivation(CheckNext);
             }
+        }
 
+        private static bool TargetsArAvailable()
+        {
+            foreach (var ship in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships.Values)
+            {
+                if (ship.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative && !ship.IsAttackPerformed)
+                {
+                    bool hasTarget = ActionsHolder.HasTarget(ship);
+                    if (hasTarget) return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void AskToConfirmSkip()
+        {
+            AskToConfirmSkipSubphase subphase = Phases.StartTemporarySubPhaseNew<AskToConfirmSkipSubphase>(
+                "Ask to confirm skip",
+                delegate { }
+            );
+
+            subphase.DescriptionShort = "Are you sure?";
+            subphase.DescriptionLong = "Some ships has targets to attack";
+
+            subphase.AddDecision("Confirm", ConfirmSkip);
+            subphase.AddDecision("Cancel", CancelSkip);
+
+            subphase.ShowSkipButton = false;
+
+            subphase.Start();
+        }
+
+        private void ConfirmSkip(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            SkipCombatByShipsWithCurrentInitiative();
+        }
+
+        private void CancelSkip(object sender, EventArgs e)
+        {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            Next();
+        }
+
+        private class AskToConfirmSkipSubphase : DecisionSubPhase { };
+
+        private void SkipCombatByShipsWithCurrentInitiative()
+        {
+            List<GenericShip> shipsToSkipCombat = new List<GenericShip>();
+
+            foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
+            {
+                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
+                {
+                    shipsToSkipCombat.Add(shipHolder.Value);
+                }
+            }
+
+            SkipCombatByShips(shipsToSkipCombat, Next);
         }
 
         private void SkipCombatByShips(List<GenericShip> shipsToSkipCombat, Action callback)

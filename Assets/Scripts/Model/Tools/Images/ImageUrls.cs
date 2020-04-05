@@ -69,6 +69,9 @@ public static class ImageUrls
             case UpgradeType.Sensor:
                 name += "System";
                 break;
+            case UpgradeType.Device:
+                name += "Bomb";
+                break;
             default:
                 name += type.ToString ();
                 break;

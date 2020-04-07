@@ -73,7 +73,7 @@ namespace Abilities.SecondEdition
             ManeuverHolder movementStruct = new ManeuverHolder(maneuverString);
 
             return movementStruct.ColorComplexity == TargetShip.AssignedManeuver.ColorComplexity
-                && movementStruct.SpeedInt == TargetShip.AssignedManeuver.Speed;
+                && movementStruct.SpeedIntUnsigned == TargetShip.AssignedManeuver.Speed;
         }
     }
 }

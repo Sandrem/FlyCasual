@@ -189,7 +189,7 @@ namespace AI.Aggressor
                     n.Bearing == ManeuverBearing.Turn
                     && n.Direction == ManeuverDirection.Left
                 )
-                .OrderBy(n => n.SpeedInt)
+                .OrderBy(n => n.SpeedIntUnsigned)
                 .FirstOrDefault();
             bestTurnManeuvers.Add(bestTurnManeuver.ToString());
 
@@ -198,7 +198,7 @@ namespace AI.Aggressor
                     n.Bearing == ManeuverBearing.Turn
                     && n.Direction == ManeuverDirection.Right
                 )
-                .OrderBy(n => n.SpeedInt)
+                .OrderBy(n => n.SpeedIntUnsigned)
                 .FirstOrDefault();
             bestTurnManeuvers.Add(bestTurnManeuver.ToString());
 

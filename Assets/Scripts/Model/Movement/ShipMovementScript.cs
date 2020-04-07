@@ -93,45 +93,45 @@ public class ShipMovementScript : MonoBehaviour {
 
         if (movementStruct.Bearing == Movement.ManeuverBearing.Straight)
         {
-            result = new Movement.StraightMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.StraightMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.KoiogranTurn)
         {
-            result = new Movement.KoiogranTurnMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.KoiogranTurnMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.Turn)
         {
-            result = new Movement.TurnMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.TurnMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.Bank)
         {
-            result = new Movement.BankMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.BankMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.SegnorsLoop)
         {
-            result = new Movement.SegnorsLoopMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.SegnorsLoopMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.SegnorsLoopUsingTurnTemplate)
         {
-            result = new Movement.SegnorsLoopUsingTurnTemplateMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.SegnorsLoopUsingTurnTemplateMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.TallonRoll)
         {
-            result = new Movement.TallonRollMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.TallonRollMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.Stationary)
         {
-            result = new Movement.StationaryMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+            result = new Movement.StationaryMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
         }
         else if (movementStruct.Bearing == Movement.ManeuverBearing.ReverseStraight)
         {
             if (movementStruct.Direction == Movement.ManeuverDirection.Forward)
             {
-                result = new Movement.ReverseStraightMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+                result = new Movement.ReverseStraightMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
             }
             else
             {
-                result = new Movement.ReverseBankMovement(movementStruct.SpeedInt, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
+                result = new Movement.ReverseBankMovement(movementStruct.SpeedIntUnsigned, movementStruct.Direction, movementStruct.Bearing, movementStruct.ColorComplexity);
             }
         }
 

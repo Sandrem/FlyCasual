@@ -1061,10 +1061,10 @@ namespace SquadBuilderNS
         {
             GenericShip ship = (MainMenu.CurrentMainMenu.PreviousPanelName == "SelectPilotPanel") ? AllShips.Find(n => n.ShipName == CurrentShip).Instance : CurrentSquadBuilderShip.Instance;
 
-            Text shipNameText = GameObject.Find("UI/Panels/ShipInfoPanel/Content/LargerPanel/ShipTypeText").GetComponent<Text>();
+            Text shipNameText = GameObject.Find("UI/Panels/ShipInfoPanel/Content/TopPanel/ShipTypeText").GetComponent<Text>();
             shipNameText.text = ship.ShipInfo.ShipName;
 
-            Text sizeText = GameObject.Find("UI/Panels/ShipInfoPanel/Content/LargerPanel/ShipSizeText").GetComponent<Text>();
+            Text sizeText = GameObject.Find("UI/Panels/ShipInfoPanel/Content/TopPanel/ShipSizeText").GetComponent<Text>();
             switch (ship.ShipInfo.BaseSize)
             {
                 case BaseSize.Small:
@@ -1080,8 +1080,17 @@ namespace SquadBuilderNS
                     break;
             }
 
-            Text descriptionText = GameObject.Find("UI/Panels/ShipInfoPanel/Content/LargerPanel/ShipDescriptionText").GetComponent<Text>();
-            descriptionText.text = ship.ShipInfo.Description;
+            Transform parentTransform = GameObject.Find("UI/Panels").transform
+                .Find("ShipInfoPanel")
+                .Find("Content")
+                .Find("CenterPanel");
+
+            GameObject oldDial = parentTransform.Find("ManeuversDialView")?.gameObject;
+            if (oldDial != null) GameObject.Destroy(oldDial);
+
+            GameObject dial = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/UI/ManeuversDial/ManeuversDialView"), parentTransform);
+            dial.name = "ManeuversDialView";
+            dial.GetComponent<ManeuversDialView>().Initialize(ship.DialInfo.PrintedDial, isDisabled: true);
         }
 
         private static void ShowLoadingContentStub(string panelType)

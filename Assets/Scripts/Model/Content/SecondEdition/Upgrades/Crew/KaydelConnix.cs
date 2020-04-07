@@ -113,7 +113,7 @@ namespace Abilities.SecondEdition
 
             ManeuverHolder movementStruct = new ManeuverHolder(maneuverString);
 
-            if (movementStruct.SpeedInt == Selection.ThisShip.AssignedManeuver.Speed + 1
+            if (movementStruct.SpeedIntUnsigned == Selection.ThisShip.AssignedManeuver.Speed + 1
                 && (movementStruct.Bearing == ManeuverBearing.Straight
                     || movementStruct.Bearing == ManeuverBearing.Bank
                     || movementStruct.Bearing == ManeuverBearing.Turn

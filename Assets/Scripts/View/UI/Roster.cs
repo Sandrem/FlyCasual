@@ -64,7 +64,7 @@ public static partial class Roster {
 
         GameObject shipTypeGO = newPanel.transform.Find("ShipInfo/ShipTypeText").gameObject;
         shipTypeGO.GetComponent<Text>().text = newShip.ShipInfo.ShipName;
-        Tooltips.AddTooltip(shipTypeGO, newShip.ManeuversImageUrl);
+        TooltipSpecial.AddTooltip(shipTypeGO, (Transform transform) => { ShowDial(newShip, transform); });
         SubscribeSelectionByInfoPanel(shipTypeGO);
 
         //Mark
@@ -88,6 +88,15 @@ public static partial class Roster {
         newPanel.transform.Find("ShipInfo").gameObject.SetActive(true);
 
         return newPanel;
+    }
+
+    private static void ShowDial(GenericShip ship, Transform transform)
+    {
+        Debug.Log(ship.ShipInfo.ShipName);
+
+        GameObject dial = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/UI/ManeuversDial/ManeuversDialView"), transform);
+        dial.name = "SpecialTooltip";
+        dial.GetComponent<ManeuversDialView>().Initialize(ship.DialInfo.PrintedDial, isDisabled: true);
     }
 
     public static void UpdateDamageIndicators(GenericShip ship, GameObject panel)

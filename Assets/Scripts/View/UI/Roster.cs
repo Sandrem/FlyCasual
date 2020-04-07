@@ -92,8 +92,6 @@ public static partial class Roster {
 
     private static void ShowDial(GenericShip ship, Transform transform)
     {
-        Debug.Log(ship.ShipInfo.ShipName);
-
         GameObject dial = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/UI/ManeuversDial/ManeuversDialView"), transform);
         dial.name = "SpecialTooltip";
         dial.GetComponent<ManeuversDialView>().Initialize(ship.DialInfo.PrintedDial, isDisabled: true);

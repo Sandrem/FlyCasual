@@ -38,6 +38,9 @@ namespace Movement
             MovementTemplates.HideLastMovementRuler();
             TheShip.ResetRotationHelpers();
 
+            // Important! Fixes final position according to prediction - otherwise animation can cause another final position
+            TheShip.SetPositionInfo(movementPrediction.FinalPositionInfo);
+
             (Phases.CurrentSubPhase as SubPhases.BoostExecutionSubPhase).FinishBoost();
         }
     }

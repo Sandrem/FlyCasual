@@ -181,6 +181,9 @@ namespace Movement
             // TODO: Use Selection.ActiveShip instead of TheShip
             Selection.ActiveShip = TheShip;
 
+            // Important! Fixes final position according to prediction - otherwise animation can cause another final position
+            TheShip.SetPositionInfo(movementPrediction.FinalPositionInfo);
+
             ManeuverEndRotation(FinishManeuverExecution);
         }
 

@@ -26,21 +26,22 @@ namespace Players
         {
             base.AssignManeuversStart();
 
-            AssignManeuverRecursive();
+            CalculateNavigation();
         }
 
-        private void AssignManeuverRecursive()
+        private void CalculateNavigation()
         {
-            GenericShip shipWithoutManeuver = Ships.Values
-                .OrderBy(n => BoardTools.Board.DistanceToNearestEnemy(n))
-                .OrderBy(n => n.State.Initiative)
-                .Where(n => !n.State.IsIonized)
-                .FirstOrDefault(n => n.AssignedManeuver == null);
+            AI.Aggressor.NavigationSubSystem.CalculateNavigation(AssignManeuversRecursive);
+        }
+
+        private void AssignManeuversRecursive()
+        {
+            GenericShip shipWithoutManeuver = AI.Aggressor.NavigationSubSystem.GetNextShipWithoutAssignedManeuver();
 
             if (shipWithoutManeuver != null)
             {
                 Selection.ChangeActiveShip(shipWithoutManeuver);
-                AI.Aggressor.NavigationSubSystem.CalculateNavigation(Selection.ThisShip, OpenDirectionsUiSilent);
+                OpenDirectionsUiSilent();
             }
             else
             {
@@ -58,9 +59,8 @@ namespace Players
         public override void AskAssignManeuver()
         {
             Selection.ThisShip.Ai.TimeManeuverAssigned = Time.time;
-            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, AI.Aggressor.NavigationSubSystem.BestManeuver);
 
-            AssignManeuverRecursive();
+            AI.Aggressor.NavigationSubSystem.AssignPlannedManeuver(Selection.ThisShip, AssignManeuversRecursive);
         }
 
         protected override GenericShip SelectTargetForAttack()

@@ -1,4 +1,5 @@
 ﻿using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,21 +11,46 @@ namespace AI.Aggressor
         public GenericShip Ship { get; private set; }
         public ShipPositionInfo RealPositionInfo { get; private set; }
         public ShipPositionInfo VirtualPositionInfo { get; private set; }
+        public string ManeuverCode { get; set; }
+        private Dictionary<string, NavigationResult> NavigationResults;
+        public float ManeuverCodeAssignedTime { get; set; }
 
         public VirtualShipInfo(GenericShip ship)
         {
             Ship = ship;
-            RealPositionInfo = VirtualPositionInfo = new ShipPositionInfo(ship.GetPosition(), ship.GetAngles());
+            RealPositionInfo = new ShipPositionInfo(ship.GetPosition(), ship.GetAngles());
         }
 
-        public void UpdateVirtualPositionInfo(ShipPositionInfo virtualPositionInfo)
+        public void UpdateVirtualPositionInfo(ShipPositionInfo virtualPositionInfo, string maneuverCode)
         {
             VirtualPositionInfo = virtualPositionInfo;
+            ManeuverCode = maneuverCode;
+        }
+
+        public void UpdateNavigationResults(Dictionary<string, NavigationResult> navigationResults)
+        {
+            NavigationResults = navigationResults;
         }
 
         public void UpdatePositionInfo(ShipPositionInfo positionInfo)
         {
             RealPositionInfo = VirtualPositionInfo = positionInfo;
+        }
+
+        public bool RequiresFinalPositionPrediction()
+        {
+            return ManeuverCode == null && NavigationResults == null;
+        }
+
+        public bool RequiresManeuverAssignment()
+        {
+            return ManeuverCode == null;
+        }
+
+        public void SetManeuverCode(string maneuverCode)
+        {
+            ManeuverCode = maneuverCode;
+            ManeuverCodeAssignedTime = Time.realtimeSinceStartup;
         }
     }
 
@@ -52,9 +78,9 @@ namespace AI.Aggressor
             }
         }
 
-        public void SetVirtualPositionInfo(GenericShip ship, ShipPositionInfo virtualPositionInfo)
+        public void SetVirtualPositionInfo(GenericShip ship, ShipPositionInfo virtualPositionInfo, string maneuverCode)
         {
-            Ships[ship].UpdateVirtualPositionInfo(virtualPositionInfo);
+            Ships[ship].UpdateVirtualPositionInfo(virtualPositionInfo, maneuverCode);
         }
 
         public void UpdatePositionInfo(GenericShip ship)
@@ -105,11 +131,6 @@ namespace AI.Aggressor
             }
         }
 
-        public bool IsVirtualPositionReady(GenericShip ship)
-        {
-            return Ships[ship].VirtualPositionInfo != Ships[ship].RealPositionInfo;
-        }
-
         public void RemoveCollisionsExcept(GenericShip exceptShip)
         {
             foreach (GenericShip ship in Ships.Keys)
@@ -134,6 +155,16 @@ namespace AI.Aggressor
                 ship.SetPosition(ship.GetPosition() - new Vector3(0, +100, 0));
                 ship.GetShipAllPartsTransform().position = savedModelPosition;
             }
+        }
+
+        public bool RequiresFinalPositionPrediction(GenericShip ship)
+        {
+            return Ships[ship].RequiresFinalPositionPrediction();
+        }
+
+        public bool RequiresManeuverAssignment(GenericShip ship)
+        {
+            return Ships[ship].RequiresManeuverAssignment();
         }
     }
 }

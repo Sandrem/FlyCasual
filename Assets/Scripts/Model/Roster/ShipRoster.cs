@@ -389,7 +389,7 @@ public static partial class Roster
         Reserve.Remove(ship);
     }
 
-    public static void ToggleStatusPanel(PlayerNo playerNo, bool isActive)
+    public static void ToggleCalculatingStatus(PlayerNo playerNo, bool isActive)
     {
         Roster.GetPlayer(playerNo).PlayerInfoPanel.transform.Find("StatusPanel").gameObject.SetActive(isActive);
     }

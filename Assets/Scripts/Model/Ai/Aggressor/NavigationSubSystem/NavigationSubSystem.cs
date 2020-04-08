@@ -81,7 +81,7 @@ namespace AI.Aggressor
                 .OrderBy(n => n.State.Initiative)
                 .ToList();
 
-            foreach (GenericShip ship in shipsSorted)
+            /*foreach (GenericShip ship in shipsSorted)
             {
                 //Generate virtual positions if they are not present
                 if (!VirtualBoard.IsVirtualPositionReady(ship))
@@ -91,7 +91,9 @@ namespace AI.Aggressor
                 }
 
                 if (IsActivationBeforeCurrentShip(ship)) VirtualBoard.SwitchToVirtualPosition(ship);
-            }
+            }*/
+
+            yield return true;
         }
 
         private static IEnumerator PredictSimpleManeuver(GenericShip ship)
@@ -112,8 +114,12 @@ namespace AI.Aggressor
             ship.SetAssignedManeuver(movement, isSilent: true);
             movement.Initialize();
             movement.IsSimple = true;
+
             CurrentSimpleMovementPrediction = new MovementPrediction(movement);
-            yield return CurrentSimpleMovementPrediction.CalculateMovementPredicition();
+            CurrentSimpleMovementPrediction.GenerateFinalShipStand();
+            CurrentSimpleMovementPrediction.CalculateOnlyFinalPosition();
+            yield return true;
+
             if (isTemporaryManeuverAdded)
             {
                 ship.Maneuvers.Remove(temporyManeuver);
@@ -143,16 +149,19 @@ namespace AI.Aggressor
                 movement.IsSimple = true;
 
                 CurrentMovementPrediction = new MovementPrediction(movement);
-                yield return CurrentMovementPrediction.CalculateMovementPredicition();
+                CurrentMovementPrediction.GenerateFinalShipStand();
+                CurrentMovementPrediction.CalculateOnlyFinalPosition();
 
                 VirtualBoard.SetVirtualPositionInfo(CurrentShip, CurrentMovementPrediction.FinalPositionInfo);
-                VirtualBoard.SwitchToVirtualPosition(CurrentShip);
-                yield return CheckNextTurnRecursive(GetShortestTurnManeuvers());
+                //VirtualBoard.SwitchToVirtualPosition(CurrentShip);
+                //yield return CheckNextTurnRecursive(GetShortestTurnManeuvers());
 
-                yield return ProcessMovementPredicition();
+                //yield return ProcessMovementPredicition();
 
-                VirtualBoard.SwitchToRealPosition(CurrentShip);
+                //VirtualBoard.SwitchToRealPosition(CurrentShip);
             }
+
+            yield return true;
         }
 
         private static IEnumerator CheckNextTurnRecursive(List<string> turnManeuvers)
@@ -168,14 +177,23 @@ namespace AI.Aggressor
                 CurrentShip.SetAssignedManeuver(movement, isSilent: true);
                 movement.Initialize();
                 movement.IsSimple = true;
+
                 CurrentTurnMovementPrediction = new MovementPrediction(movement);
-                yield return CurrentTurnMovementPrediction.CalculateMovementPredicition();
+                CurrentTurnMovementPrediction.GenerateFinalShipStand();
+                CurrentTurnMovementPrediction.CalculateOnlyFinalPosition();
+                yield return true;
 
                 NextTurnNavigationResults.Add(new NavigationResult()
                 {
                     isOffTheBoard = CurrentTurnMovementPrediction.IsOffTheBoard,
-                    obstaclesHit = CurrentMovementPrediction.AsteroidsHit.Count
+                    obstaclesHit = CurrentTurnMovementPrediction.AsteroidsHit.Count
                 });
+
+                /*NextTurnNavigationResults.Add(new NavigationResult()
+                {
+                    isOffTheBoard = false,
+                    obstaclesHit = 0
+                });*/
             }
             VirtualBoard.ReturnCollisionsExcept(CurrentShip);
         }
@@ -304,7 +322,7 @@ namespace AI.Aggressor
                 //Debug.Log(result.Key + ": " + result.Value.Priority);
             }
 
-            int bestNavigationIdePriority = NavigationResults.Values.Max(n => n.Priority);
+            /*int bestNavigationIdePriority = NavigationResults.Values.Max(n => n.Priority);
             var bestNavigationIdeas = NavigationResults.Where(n => n.Value.Priority == bestNavigationIdePriority).ToDictionary(n => n.Key, m => m.Value);
 
             if (bestNavigationIdeas.Any(n => n.Value.movement.Direction == ManeuverDirection.Forward))
@@ -316,8 +334,10 @@ namespace AI.Aggressor
                 BestManeuver = bestNavigationIdeas.First().Key;
             }
 
-            VirtualBoard.SetVirtualPositionInfo(CurrentShip, bestNavigationIdeas[BestManeuver].FinalPositionInfo);
+            VirtualBoard.SetVirtualPositionInfo(CurrentShip, bestNavigationIdeas[BestManeuver].FinalPositionInfo);*/
             //Debug.Log("PREFERED RESULT: " + BestManeuver);
+
+            BestManeuver = "2.F.S";
         }
 
         private static bool IsActivationBeforeCurrentShip(GenericShip ship)

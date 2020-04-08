@@ -83,6 +83,32 @@ namespace Movement
             return result;
         }
 
+        public override GameObject[] PlanFinalPosition()
+        {
+            GameObject[] result = new GameObject[1];
+
+            float distance = (TheShip.ShipBase.GetShipBaseDistance() + Speed * GetMovement1());
+            Vector3 position = TheShip.GetPosition();
+
+            position = Vector3.MoveTowards(position, position + TheShip.TransformDirection(Vector3.forward), distance);
+
+            GameObject prefab = (GameObject)Resources.Load(TheShip.ShipBase.TemporaryPrefabPath, typeof(GameObject));
+            GameObject ShipStand = MonoBehaviour.Instantiate(prefab, position, TheShip.GetRotation(), BoardTools.Board.GetBoard());
+
+            Renderer[] renderers = ShipStand.GetComponentsInChildren<Renderer>();
+            if (!DebugManager.DebugMovementShowTempBases)
+            {
+                foreach (var render in renderers)
+                {
+                    render.enabled = false;
+                }
+            }
+
+            result[0] = ShipStand;
+
+            return result;
+        }
+
         public override void AdaptSuccessProgress()
         {
             ProgressTarget *= movementPrediction.SuccessfullMovementProgress;

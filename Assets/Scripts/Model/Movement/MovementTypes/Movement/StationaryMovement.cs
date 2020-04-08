@@ -51,6 +51,11 @@ namespace Movement
             return result;
         }
 
+        public override GameObject[] PlanFinalPosition()
+        {
+            return PlanMovement();
+        }
+
         public override void AdaptSuccessProgress() { }
 
     }

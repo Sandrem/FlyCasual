@@ -207,6 +207,7 @@ namespace Movement
         }
 
         public abstract GameObject[] PlanMovement();
+        public abstract GameObject[] PlanFinalPosition();
 
         public override string ToString()
         {

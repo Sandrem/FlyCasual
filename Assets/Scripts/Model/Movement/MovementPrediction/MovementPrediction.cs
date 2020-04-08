@@ -42,12 +42,18 @@ namespace Movement
             CurrentMovement = movement;
 
             Selection.ThisShip.ToggleColliders(false);
-            GenerateShipStands();
         }
 
         public IEnumerator CalculateMovementPredicition()
         {
             yield return UpdateColisionDetectionAlt();
+        }
+
+        public void CalculateOnlyFinalPosition()
+        {
+            FinalPosition = generatedShipStands[generatedShipStands.Length-1].transform.position;
+            FinalAngles = generatedShipStands[generatedShipStands.Length - 1].transform.eulerAngles;
+            FinalPositionInfo = new ShipPositionInfo(FinalPosition, FinalAngles);
         }
 
         public MovementPrediction(GenericMovement movement, Action callBack)
@@ -62,9 +68,14 @@ namespace Movement
             Game.Movement.FuncsToUpdate.Add(UpdateColisionDetection);
         }
 
-        private void GenerateShipStands()
+        public void GenerateShipStands()
         {
             generatedShipStands = CurrentMovement.PlanMovement();
+        }
+
+        public void GenerateFinalShipStand()
+        {
+            generatedShipStands = CurrentMovement.PlanFinalPosition();
         }
 
         private IEnumerator UpdateColisionDetectionAlt()

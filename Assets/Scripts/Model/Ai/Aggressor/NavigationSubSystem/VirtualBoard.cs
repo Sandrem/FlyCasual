@@ -12,7 +12,7 @@ namespace AI.Aggressor
         public ShipPositionInfo RealPositionInfo { get; private set; }
         public ShipPositionInfo VirtualPositionInfo { get; private set; }
         public string PlannedManeuverCode { get; set; }
-        private Dictionary<string, NavigationResult> NavigationResults;
+        public Dictionary<string, NavigationResult> NavigationResults { get; private set; }
         public float ManeuverCodeAssignedTime { get; set; }
 
         private bool SimpleManeuverPredictionIsReady;

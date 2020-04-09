@@ -89,5 +89,28 @@ namespace AI.Aggressor
             //distance is 0..10
             Priority += (10 - (int)distanceToNearestEnemy) * 10;
         }
+
+        public override string ToString()
+        {
+            string result = "";
+
+            result += Priority + " = ";
+
+            result += "distance:" + distanceToNearestEnemy + " ";
+            result += "distanceShot:" + distanceToNearestEnemyInShotRange + " ";
+            result += "angle:" + angleToNearestEnemy + " ";
+
+            if (isOffTheBoard) result += "OffBoard ";
+            if (isLandedOnObstacle) result += "LandedOnObstacle ";
+            if (isBumped) result += "Bumped ";
+            
+
+            if (enemiesInShotRange > 0) result += "enemiesToShoot:" + enemiesInShotRange + " ";
+
+            if (obstaclesHit > 0) result += "obstaclesHit:" + obstaclesHit + " ";
+            if (minesHit > 0) result += "minesHit:" + obstaclesHit + " ";
+
+            return result;
+        }
     }
 }

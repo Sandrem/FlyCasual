@@ -18,6 +18,7 @@ namespace AI.Aggressor
 
         public float distanceToNearestEnemy;
         public float distanceToNearestEnemyInShotRange;
+        public float angleToNearestEnemy;
 
         public bool isOffTheBoardNextTurn;
         public bool isHitAsteroidNextTurn;

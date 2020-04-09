@@ -11,9 +11,14 @@ namespace AI.Aggressor
         public GenericShip Ship { get; private set; }
         public ShipPositionInfo RealPositionInfo { get; private set; }
         public ShipPositionInfo VirtualPositionInfo { get; private set; }
-        public string ManeuverCode { get; set; }
+        public string PlannedManeuverCode { get; set; }
         private Dictionary<string, NavigationResult> NavigationResults;
         public float ManeuverCodeAssignedTime { get; set; }
+
+        private bool SimpleManeuverPredictionIsReady;
+        private bool AllFinalPositionsAreKnown { get { return NavigationResults != null; } }
+
+        private bool VirtualPositionWithCollisionsIsReady;
 
         public VirtualShipInfo(GenericShip ship)
         {
@@ -21,10 +26,11 @@ namespace AI.Aggressor
             RealPositionInfo = new ShipPositionInfo(ship.GetPosition(), ship.GetAngles());
         }
 
-        public void UpdateVirtualPositionInfo(ShipPositionInfo virtualPositionInfo, string maneuverCode)
+        public void UpdateSimpleManeuverPrediction(ShipPositionInfo virtualPositionInfo, string maneuverCode)
         {
             VirtualPositionInfo = virtualPositionInfo;
-            ManeuverCode = maneuverCode;
+            PlannedManeuverCode = maneuverCode;
+            SimpleManeuverPredictionIsReady = true;
         }
 
         public void UpdateNavigationResults(Dictionary<string, NavigationResult> navigationResults)
@@ -32,25 +38,34 @@ namespace AI.Aggressor
             NavigationResults = navigationResults;
         }
 
-        public void UpdatePositionInfo(ShipPositionInfo positionInfo)
+        public void Clear(ShipPositionInfo positionInfo)
         {
             RealPositionInfo = VirtualPositionInfo = positionInfo;
+
+            SimpleManeuverPredictionIsReady = false;
+            NavigationResults = null;
+            VirtualPositionWithCollisionsIsReady = false;
         }
 
         public bool RequiresFinalPositionPrediction()
         {
-            return ManeuverCode == null && NavigationResults == null;
+            return !SimpleManeuverPredictionIsReady && !AllFinalPositionsAreKnown;
         }
 
         public bool RequiresManeuverAssignment()
         {
-            return ManeuverCode == null;
+            return PlannedManeuverCode == null;
         }
 
-        public void SetManeuverCode(string maneuverCode)
+        public void SetPlannedManeuverCode(string maneuverCode)
         {
-            ManeuverCode = maneuverCode;
+            PlannedManeuverCode = maneuverCode;
             ManeuverCodeAssignedTime = Time.realtimeSinceStartup;
+        }
+
+        public bool RequiresCollisionPrediction()
+        {
+            return VirtualPositionWithCollisionsIsReady == false;
         }
     }
 
@@ -80,12 +95,12 @@ namespace AI.Aggressor
 
         public void SetVirtualPositionInfo(GenericShip ship, ShipPositionInfo virtualPositionInfo, string maneuverCode)
         {
-            Ships[ship].UpdateVirtualPositionInfo(virtualPositionInfo, maneuverCode);
+            Ships[ship].UpdateSimpleManeuverPrediction(virtualPositionInfo, maneuverCode);
         }
 
         public void UpdatePositionInfo(GenericShip ship)
         {
-            Ships[ship].UpdatePositionInfo(new ShipPositionInfo(ship.GetPosition(), ship.GetAngles()));
+            Ships[ship].Clear(new ShipPositionInfo(ship.GetPosition(), ship.GetAngles()));
         }
 
         public void SwitchToVirtualPosition(GenericShip ship)
@@ -157,6 +172,11 @@ namespace AI.Aggressor
             }
         }
 
+        public bool RequiresCollisionPrediction(GenericShip ship)
+        {
+            return Ships[ship].RequiresCollisionPrediction();
+        }
+
         public bool RequiresFinalPositionPrediction(GenericShip ship)
         {
             return Ships[ship].RequiresFinalPositionPrediction();
@@ -165,6 +185,11 @@ namespace AI.Aggressor
         public bool RequiresManeuverAssignment(GenericShip ship)
         {
             return Ships[ship].RequiresManeuverAssignment();
+        }
+
+        public void UpdateNavigationResults(GenericShip ship, Dictionary<string, NavigationResult> navigationResults)
+        {
+            Ships[ship].UpdateNavigationResults(navigationResults);
         }
     }
 }

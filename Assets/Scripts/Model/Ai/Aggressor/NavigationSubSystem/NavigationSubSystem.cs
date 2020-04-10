@@ -149,13 +149,17 @@ namespace AI.Aggressor
                 VirtualBoard.SetVirtualPositionInfo(ship, prediction.FinalPositionInfo, prediction.CurrentMovement.ToString());
                 VirtualBoard.SwitchToVirtualPosition(ship);
 
+                float minDistanceToEnemyShip, minDistanceToNearestEnemyInShotRange, minAngle;
+                int enemiesInShotRange;
+                ProcessHeavyGeometryCalculations(ship, out minDistanceToEnemyShip, out minDistanceToNearestEnemyInShotRange, out minAngle, out enemiesInShotRange);
+
                 NavigationResult result = new NavigationResult()
                 {
                     movement = prediction.CurrentMovement,
-                    distanceToNearestEnemy = GetMinDistanceToEnemyShip(ship),
-                    distanceToNearestEnemyInShotRange = GetMinDistanceToEnemyShipInShotRange(ship),
-                    angleToNearestEnemy = GetAngleToNearestEnemy(ship),
-                    enemiesInShotRange = GetEnemiesInShotRange(ship),
+                    distanceToNearestEnemy = minDistanceToEnemyShip,
+                    distanceToNearestEnemyInShotRange = minDistanceToNearestEnemyInShotRange,
+                    angleToNearestEnemy = minAngle,
+                    enemiesInShotRange = enemiesInShotRange,
                     isBumped = prediction.IsBumped,
                     isLandedOnObstacle = prediction.IsLandedOnAsteroid,
                     isOffTheBoard = prediction.IsOffTheBoard,
@@ -179,78 +183,10 @@ namespace AI.Aggressor
             VirtualBoard.UpdateNavigationResults(ship, navigationResults);
         }
 
-        private static float GetMinDistanceToEnemyShip(GenericShip ship)
-        {
-            float minDistanceToEnemyShip = float.MaxValue;
-
-            foreach (GenericShip enemyShip in ship.Owner.EnemyShips.Values)
-            {
-                DistanceInfo distInfo = new DistanceInfo(ship, enemyShip);
-                if (distInfo.MinDistance.DistanceReal < minDistanceToEnemyShip)
-                {
-                    minDistanceToEnemyShip = distInfo.MinDistance.DistanceReal;
-                }
-            }
-
-            return minDistanceToEnemyShip;
-        }
-
-        private static float GetMinDistanceToEnemyShipInShotRange(GenericShip ship)
-        {
-            float minDistanceToNearestEnemyInShotRange = 0;
-
-            foreach (GenericShip enemyShip in ship.Owner.EnemyShips.Values)
-            {
-                ShotInfo shotInfo = new ShotInfo(ship, enemyShip, ship.PrimaryWeapons.First());
-                if (shotInfo.IsShotAvailable)
-                {
-                    if (minDistanceToNearestEnemyInShotRange < shotInfo.DistanceReal)
-                    {
-                        minDistanceToNearestEnemyInShotRange = shotInfo.DistanceReal;
-                    }
-                }
-            }
-
-            return minDistanceToNearestEnemyInShotRange;
-        }
-
-        private static float GetAngleToNearestEnemy(GenericShip ship)
-        {
-            float minAngle = float.MaxValue;
-
-            foreach (GenericShip enemyShip in ship.Owner.EnemyShips.Values)
-            {
-                Vector3 forward = ship.GetFrontFacing();
-                Vector3 toEnemyShip = enemyShip.GetCenter() - ship.GetCenter();
-
-                float angle = Mathf.Abs(Vector3.SignedAngle(forward, toEnemyShip, Vector3.down));
-
-                if (angle < minAngle) minAngle = angle;
-            }
-
-            return minAngle;
-        }
-
-        private static int GetEnemiesInShotRange(GenericShip ship)
-        {
-            int enemiesInShotRange = 0;
-
-            foreach (GenericShip enemyShip in ship.Owner.EnemyShips.Values)
-            {
-                ShotInfo shotInfo = new ShotInfo(ship, enemyShip, ship.PrimaryWeapons.First());
-                if (shotInfo.IsShotAvailable)
-                {
-                    enemiesInShotRange++;
-                }
-            }
-
-            return enemiesInShotRange;
-        }
-
         private static List<GenericShip> GenerateOrderOfActivation()
         {
             OrderOfActivation = 0;
-            
+
             List<GenericShip> orderOfActivation = new List<GenericShip>();
 
             List<GenericShip> AllShips = new List<GenericShip>(Roster.AllShips.Values.ToList());
@@ -365,11 +301,14 @@ namespace AI.Aggressor
                 {
                     yield return CheckNextTurnRecursive(ship);
 
-                    CurrentNavigationResult.distanceToNearestEnemy = GetMinDistanceToEnemyShip(ship);
-                    CurrentNavigationResult.distanceToNearestEnemyInShotRange = GetMinDistanceToEnemyShipInShotRange(ship);
-                    CurrentNavigationResult.angleToNearestEnemy = GetAngleToNearestEnemy(ship);
-                    CurrentNavigationResult.enemiesInShotRange = GetEnemiesInShotRange(ship);
-                    CurrentNavigationResult.angleToNearestEnemy = GetAngleToNearestEnemy(ship);
+                    float minDistanceToEnemyShip, minDistanceToNearestEnemyInShotRange, minAngle;
+                    int enemiesInShotRange;
+                    ProcessHeavyGeometryCalculations(ship, out minDistanceToEnemyShip, out minDistanceToNearestEnemyInShotRange, out minAngle, out enemiesInShotRange);
+
+                    CurrentNavigationResult.distanceToNearestEnemy = minDistanceToEnemyShip;
+                    CurrentNavigationResult.distanceToNearestEnemyInShotRange = minDistanceToNearestEnemyInShotRange;
+                    CurrentNavigationResult.angleToNearestEnemy = minAngle;
+                    CurrentNavigationResult.enemiesInShotRange = enemiesInShotRange;
                 }
 
                 CurrentNavigationResult.CalculatePriority();
@@ -405,6 +344,38 @@ namespace AI.Aggressor
 
             VirtualBoard.Ships[ship].SetPlannedManeuverCode(maneuverToCheck.Key, ++OrderOfActivation);
             ship.ClearAssignedManeuver();
+        }
+
+        private static void ProcessHeavyGeometryCalculations(GenericShip ship, out float minDistanceToEnemyShip, out float minDistanceToNearestEnemyInShotRange, out float minAngle, out int enemiesInShotRange)
+        {
+            minDistanceToEnemyShip = float.MaxValue;
+            minDistanceToNearestEnemyInShotRange = 0;
+            minAngle = float.MaxValue;
+            enemiesInShotRange = 0;
+            foreach (GenericShip enemyShip in ship.Owner.EnemyShips.Values)
+            {
+                DistanceInfo distInfo = new DistanceInfo(ship, enemyShip);
+                if (distInfo.MinDistance.DistanceReal < minDistanceToEnemyShip)
+                {
+                    minDistanceToEnemyShip = distInfo.MinDistance.DistanceReal;
+                }
+
+                ShotInfo shotInfo = new ShotInfo(ship, enemyShip, ship.PrimaryWeapons.First());
+                if (shotInfo.IsShotAvailable)
+                {
+                    enemiesInShotRange++;
+
+                    if (minDistanceToNearestEnemyInShotRange < shotInfo.DistanceReal)
+                    {
+                        minDistanceToNearestEnemyInShotRange = shotInfo.DistanceReal;
+                    }
+                }
+
+                Vector3 forward = ship.GetFrontFacing();
+                Vector3 toEnemyShip = enemyShip.GetCenter() - ship.GetCenter();
+                float angle = Mathf.Abs(Vector3.SignedAngle(forward, toEnemyShip, Vector3.down));
+                if (angle < minAngle) minAngle = angle;
+            }
         }
 
         private static void SetVirtualPositionsForShipsWithPreviousActivations(List<GenericShip> orderOfActivation)
@@ -562,6 +533,22 @@ namespace AI.Aggressor
         private static void RestoreRealBoard()
         {
             VirtualBoard.RestoreBoard();
+        }
+
+        private static float GetMinDistanceToEnemyShip(GenericShip ship)
+        {
+            float minDistanceToEnemyShip = float.MaxValue;
+
+            foreach (GenericShip enemyShip in ship.Owner.EnemyShips.Values)
+            {
+                DistanceInfo distInfo = new DistanceInfo(ship, enemyShip);
+                if (distInfo.MinDistance.DistanceReal < minDistanceToEnemyShip)
+                {
+                    minDistanceToEnemyShip = distInfo.MinDistance.DistanceReal;
+                }
+            }
+
+            return minDistanceToEnemyShip;
         }
     }
 }

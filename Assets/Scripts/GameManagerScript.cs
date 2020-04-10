@@ -37,8 +37,6 @@ public class GameManagerScript : MonoBehaviour {
         Triggers.Initialize();
         DamageDecks.Initialize();
 
-        AI.Aggressor.NavigationSubSystem.Initialize();
-
         CheckRemoteSettings();
 
         GameMode.CurrentGameMode.StartBattle();

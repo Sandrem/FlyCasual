@@ -10,10 +10,9 @@ using UnityEngine;
 
 /*
  *  TODO:
- *  Correct order of activation
+ *
  *  Angle to enemy ship
  *  Left/Right turn checks
- *  Prediction of enemy ship
  * 
  */
 
@@ -29,6 +28,8 @@ namespace AI.Aggressor
             get { return VirtualBoards[CurrentPlayer.PlayerNo]; }
             set { VirtualBoards[CurrentPlayer.PlayerNo] = value; }
         }
+
+        private static int OrderOfActivation;
 
         public static void CalculateNavigation(Action callback)
         {
@@ -244,21 +245,20 @@ namespace AI.Aggressor
 
         private static List<GenericShip> GenerateOrderOfActivation()
         {
+            OrderOfActivation = 0;
+            
             List<GenericShip> orderOfActivation = new List<GenericShip>();
 
             List<GenericShip> AllShips = new List<GenericShip>(Roster.AllShips.Values.ToList());
-
-            //                .OrderByDescending(n => n.Owner.PlayerNo == Phases.PlayerWithInitiative)
-            //                .OrderBy(n => n.State.Initiative)
 
             while (AllShips.Count > 0)
             {
                 int lowestInitiative = AllShips.Min(n => n.State.Initiative);
 
-                //TODO: Player Initiative
-                //TODO: Distance to nearest enemy
                 GenericShip shipToActivate = AllShips
                     .Where(n => n.State.Initiative == lowestInitiative)
+                    .OrderBy(n => GetMinDistanceToEnemyShip(n))
+                    .OrderByDescending(n => n.Owner.PlayerNo == Phases.PlayerWithInitiative)
                     .First();
 
                 orderOfActivation.Add(shipToActivate);
@@ -285,21 +285,23 @@ namespace AI.Aggressor
         {
             while (orderOfActivation.Count > 0)
             {
+                SetVirtualPositionsForShipsWithPreviousActivations(orderOfActivation);
+
                 GenericShip ship = orderOfActivation.First();
                 orderOfActivation.Remove(ship);
 
                 if (ship.Owner.PlayerNo == CurrentPlayer.PlayerNo)
                 {
-                    yield return FindBestManeuver(ship, orderOfActivation);
+                    yield return FindBestManeuver(ship);
                 }
                 else
                 {
-                    yield return UpdateManeuverOfEnemyShip();
+                    yield return PredictCollisionDetectionOfEnemyShip(ship);
                 }
             }
         }
 
-        private static IEnumerator FindBestManeuver(GenericShip ship, List<GenericShip> orderOfActivation)
+        private static IEnumerator FindBestManeuver(GenericShip ship)
         {
             Selection.ChangeActiveShip(ship);
 
@@ -311,8 +313,6 @@ namespace AI.Aggressor
 
             int bestPriority = int.MinValue;
             KeyValuePair<string, NavigationResult> maneuverToCheck = new KeyValuePair<string, NavigationResult>();
-
-            SetVirtualPositionsForShipsWithPreviousActivations(orderOfActivation);
 
             do
             {
@@ -393,7 +393,8 @@ namespace AI.Aggressor
                 Console.Write("Maneuver is chosen: " + maneuverToCheck.Key, LogTypes.AI);
             }
 
-            VirtualBoard.Ships[ship].SetPlannedManeuverCode(maneuverToCheck.Key);
+            VirtualBoard.Ships[ship].SetPlannedManeuverCode(maneuverToCheck.Key, ++OrderOfActivation);
+            ship.ClearAssignedManeuver();
         }
 
         private static void SetVirtualPositionsForShipsWithPreviousActivations(List<GenericShip> orderOfActivation)
@@ -407,10 +408,46 @@ namespace AI.Aggressor
             }
         }
 
-        private static IEnumerator UpdateManeuverOfEnemyShip()
+        private static IEnumerator PredictCollisionDetectionOfEnemyShip(GenericShip ship)
         {
-            // Just check maneuver collisions
-            yield return true;
+            Selection.ThisShip = ship;
+
+            GenericMovement savedMovement = ship.AssignedManeuver;
+
+            // Decide what maneuvers to use as temporary
+            string temporyManeuver = (ship.State.IsIonized) ? "1.F.S" : "2.F.S";
+            bool isTemporaryManeuverAdded = false;
+            if (!ship.HasManeuver(temporyManeuver))
+            {
+                isTemporaryManeuverAdded = true;
+                ship.Maneuvers.Add(temporyManeuver, MovementComplexity.Easy);
+            }
+            GenericMovement movement = ShipMovementScript.MovementFromString(temporyManeuver);
+
+            // Check maneuver
+            ship.SetAssignedManeuver(movement, isSilent: true);
+            movement.Initialize();
+            movement.IsSimple = true;
+
+            MovementPrediction prediction = new MovementPrediction(movement);
+            prediction.GenerateShipStands();
+            yield return prediction.CalculateMovementPredicition();
+
+            if (isTemporaryManeuverAdded)
+            {
+                ship.Maneuvers.Remove(temporyManeuver);
+            }
+
+            if (savedMovement != null)
+            {
+                ship.SetAssignedManeuver(savedMovement, isSilent: true);
+            }
+            else
+            {
+                ship.ClearAssignedManeuver();
+            }
+
+            VirtualBoard.SetVirtualPositionInfo(ship, prediction.FinalPositionInfo, temporyManeuver);
         }
 
         /*private static IEnumerator CheckNextTurnRecursive(List<string> turnManeuvers)
@@ -469,7 +506,15 @@ namespace AI.Aggressor
         {
             return Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships.Values
                 .Where(n => n.AssignedManeuver == null && !n.State.IsIonized)
-                .OrderBy(n => VirtualBoard.Ships[n].ManeuverCodeAssignedTime)
+                .OrderBy(n => VirtualBoard.Ships[n].OrderToActivate)
+                .FirstOrDefault();
+        }
+
+        public static GenericShip GetNextShipWithoutFinishedManeuver()
+        {
+            return Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships.Values
+                .Where(n => !n.IsManeuverPerformed)
+                .OrderBy(n => VirtualBoard.Ships[n].OrderToActivate)
                 .FirstOrDefault();
         }
 

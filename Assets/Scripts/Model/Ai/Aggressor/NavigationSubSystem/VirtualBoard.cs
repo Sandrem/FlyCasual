@@ -13,7 +13,7 @@ namespace AI.Aggressor
         public ShipPositionInfo VirtualPositionInfo { get; private set; }
         public string PlannedManeuverCode { get; set; }
         public Dictionary<string, NavigationResult> NavigationResults { get; private set; }
-        public float ManeuverCodeAssignedTime { get; set; }
+        public int OrderToActivate { get; set; }
 
         private bool SimpleManeuverPredictionIsReady;
         private bool AllFinalPositionsAreKnown { get { return NavigationResults != null; } }
@@ -57,10 +57,10 @@ namespace AI.Aggressor
             return PlannedManeuverCode == null;
         }
 
-        public void SetPlannedManeuverCode(string maneuverCode)
+        public void SetPlannedManeuverCode(string maneuverCode, int order)
         {
             PlannedManeuverCode = maneuverCode;
-            ManeuverCodeAssignedTime = Time.realtimeSinceStartup;
+            OrderToActivate = order;
         }
 
         public bool RequiresCollisionPrediction()

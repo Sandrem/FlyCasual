@@ -54,6 +54,15 @@ namespace Movement
             FinalPosition = generatedShipStands[generatedShipStands.Length-1].transform.position;
             FinalAngles = generatedShipStands[generatedShipStands.Length - 1].transform.eulerAngles;
             FinalPositionInfo = new ShipPositionInfo(FinalPosition, FinalAngles);
+
+            if (!DebugManager.DebugMovementDestroyTempBasesLater)
+            {
+                DestroyGeneratedShipStands();
+            }
+            else
+            {
+                GameManagerScript.Wait(2, DestroyGeneratedShipStands);
+            }
         }
 
         public MovementPrediction(GenericMovement movement, Action callBack)

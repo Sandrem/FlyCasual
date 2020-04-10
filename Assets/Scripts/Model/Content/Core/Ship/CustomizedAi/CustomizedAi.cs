@@ -12,8 +12,6 @@ namespace Ship
     {
         public GenericShip Host { get; private set; }
 
-        public float TimeManeuverAssigned { get; set; }
-
         public delegate void EventHandlerShipWeaponInt(GenericShip targetShip, IShipWeapon weapon, ref int priority);
         public delegate void EventHandlerArcFacingInt(ArcFacing facing, ref int priority);
         public delegate void EventHandlerActionInt(GenericAction action, ref int priority);

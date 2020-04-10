@@ -22,9 +22,9 @@ public static class DebugManager
 
     public static bool NoReplayCreation; // = true;
 
-    public static bool DebugMovementShowTempBases = true;
-    public static bool DebugMovementDestroyTempBasesLater = true;
-    public static bool DebugMovementShowPlanning = true;
+    public static bool DebugMovementShowTempBases; // = true;
+    public static bool DebugMovementDestroyTempBasesLater; // = true;
+    public static bool DebugMovementShowPlanning; // = true;
 
     public static bool FreeMode;
 

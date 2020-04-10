@@ -48,9 +48,9 @@ namespace AI.Aggressor
             Priority -= obstaclesHit * 2000;
             Priority -= minesHit * 2000;
 
-            if (isHitAsteroidNextTurn) Priority -= 1000;
+            if (isHitAsteroidNextTurn) Priority -= 500;
 
-            if (isBumped) Priority -= 1000;
+            if (isBumped) Priority -= 500;
 
             if (Selection.ThisShip.Damage.HasCrit(typeof(DamageDeckCardSE.LooseStabilizer)) && movement.Bearing != ManeuverBearing.Straight)
             {
@@ -86,8 +86,11 @@ namespace AI.Aggressor
                     break;
             }
 
-            //distance is 0..10
+            //distance is 0..10, result 0..100
             Priority += (10 - (int)distanceToNearestEnemy) * 10;
+
+            //angle is 0..180, result 0..180
+            Priority += (180 - Mathf.RoundToInt(angleToNearestEnemy));
         }
 
         public override string ToString()

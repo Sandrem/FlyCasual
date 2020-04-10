@@ -222,9 +222,19 @@ namespace AI.Aggressor
 
         private static float GetAngleToNearestEnemy(GenericShip ship)
         {
-            // TODO: Needs to rotate ship if enemy is on tail
+            float minAngle = float.MaxValue;
 
-            return 0;
+            foreach (GenericShip enemyShip in ship.Owner.EnemyShips.Values)
+            {
+                Vector3 forward = ship.GetFrontFacing();
+                Vector3 toEnemyShip = enemyShip.GetCenter() - ship.GetCenter();
+
+                float angle = Mathf.Abs(Vector3.SignedAngle(forward, toEnemyShip, Vector3.down));
+
+                if (angle < minAngle) minAngle = angle;
+            }
+
+            return minAngle;
         }
 
         private static int GetEnemiesInShotRange(GenericShip ship)
@@ -361,6 +371,7 @@ namespace AI.Aggressor
                 result.distanceToNearestEnemyInShotRange = GetMinDistanceToEnemyShipInShotRange(ship);
                 result.angleToNearestEnemy = GetAngleToNearestEnemy(ship);
                 result.enemiesInShotRange = GetEnemiesInShotRange(ship);
+                result.angleToNearestEnemy = GetAngleToNearestEnemy(ship);
 
                 result.CalculatePriority();
 

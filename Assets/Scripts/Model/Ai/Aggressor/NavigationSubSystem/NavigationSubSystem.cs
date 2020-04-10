@@ -8,14 +8,6 @@ using Players;
 using Ship;
 using UnityEngine;
 
-/*
- *  TODO:
- *
- *  Angle to enemy ship
- *  Left/Right turn checks
- * 
- */
-
 namespace AI.Aggressor
 {
     public static class NavigationSubSystem
@@ -30,6 +22,8 @@ namespace AI.Aggressor
         }
 
         private static int OrderOfActivation;
+
+        private static NavigationResult CurrentNavigationResult;
 
         public static void CalculateNavigation(Action callback)
         {
@@ -349,7 +343,7 @@ namespace AI.Aggressor
                 VirtualBoard.SetVirtualPositionInfo(ship, prediction.FinalPositionInfo, prediction.CurrentMovement.ToString());
                 VirtualBoard.SwitchToVirtualPosition(ship);
 
-                NavigationResult result = new NavigationResult()
+                CurrentNavigationResult = new NavigationResult()
                 {
                     movement = prediction.CurrentMovement,
                     isBumped = prediction.IsBumped,
@@ -367,20 +361,25 @@ namespace AI.Aggressor
                     VirtualBoard.SwitchToVirtualPosition(enemyShip);
                 }
 
-                result.distanceToNearestEnemy = GetMinDistanceToEnemyShip(ship);
-                result.distanceToNearestEnemyInShotRange = GetMinDistanceToEnemyShipInShotRange(ship);
-                result.angleToNearestEnemy = GetAngleToNearestEnemy(ship);
-                result.enemiesInShotRange = GetEnemiesInShotRange(ship);
-                result.angleToNearestEnemy = GetAngleToNearestEnemy(ship);
+                if (!prediction.IsOffTheBoard)
+                {
+                    yield return CheckNextTurnRecursive(ship);
 
-                result.CalculatePriority();
+                    CurrentNavigationResult.distanceToNearestEnemy = GetMinDistanceToEnemyShip(ship);
+                    CurrentNavigationResult.distanceToNearestEnemyInShotRange = GetMinDistanceToEnemyShipInShotRange(ship);
+                    CurrentNavigationResult.angleToNearestEnemy = GetAngleToNearestEnemy(ship);
+                    CurrentNavigationResult.enemiesInShotRange = GetEnemiesInShotRange(ship);
+                    CurrentNavigationResult.angleToNearestEnemy = GetAngleToNearestEnemy(ship);
+                }
+
+                CurrentNavigationResult.CalculatePriority();
 
                 if (DebugManager.DebugAiNavigation)
                 {
-                    Console.Write("After reevaluation priority is changed to " + result.ToString(), LogTypes.AI);
+                    Console.Write("After reevaluation priority is changed to " + CurrentNavigationResult.ToString(), LogTypes.AI);
                 }
 
-                VirtualBoard.Ships[ship].NavigationResults[maneuverToCheck.Key] = result;
+                VirtualBoard.Ships[ship].NavigationResults[maneuverToCheck.Key] = CurrentNavigationResult;
 
                 bestPriority = VirtualBoard.Ships[ship].NavigationResults.Max(n => n.Value.Priority);
                 if (DebugManager.DebugAiNavigation)
@@ -461,38 +460,40 @@ namespace AI.Aggressor
             VirtualBoard.SetVirtualPositionInfo(ship, prediction.FinalPositionInfo, temporyManeuver);
         }
 
-        /*private static IEnumerator CheckNextTurnRecursive(List<string> turnManeuvers)
+        private static IEnumerator CheckNextTurnRecursive(GenericShip ship)
         {
-            NextTurnNavigationResults = new List<NavigationResult>();
+            VirtualBoard.RemoveCollisionsExcept(ship);
 
-            VirtualBoard.RemoveCollisionsExcept(CurrentShip);
-            foreach (string turnManeuver in turnManeuvers)
+            bool HasAnyManeuverWithoutOffBoardFinish = false;
+            bool HasAnyManeuverWithoutAsteroidCollision = false;
+
+            foreach (string turnManeuver in GetShortestTurnManeuvers(ship))
             {
                 GenericMovement movement = ShipMovementScript.MovementFromString(turnManeuver);
-                if (movement.Bearing == ManeuverBearing.Stationary) continue;
 
-                CurrentShip.SetAssignedManeuver(movement, isSilent: true);
+                ship.SetAssignedManeuver(movement, isSilent: true);
                 movement.Initialize();
                 movement.IsSimple = true;
 
-                CurrentTurnMovementPrediction = new MovementPrediction(movement);
-                CurrentTurnMovementPrediction.GenerateShipStands();
-                yield return CurrentTurnMovementPrediction.CalculateMovementPredicition();
+                MovementPrediction prediction = new MovementPrediction(movement);
+                prediction.GenerateShipStands();
+                yield return prediction.CalculateMovementPredicition();
 
-                NextTurnNavigationResults.Add(new NavigationResult()
-                {
-                    isOffTheBoard = CurrentTurnMovementPrediction.IsOffTheBoard,
-                    obstaclesHit = CurrentTurnMovementPrediction.AsteroidsHit.Count
-                });
+                if (!CurrentNavigationResult.isOffTheBoard) HasAnyManeuverWithoutOffBoardFinish = true;
+                if (CurrentNavigationResult.obstaclesHit == 0) HasAnyManeuverWithoutAsteroidCollision = true;
             }
-            VirtualBoard.ReturnCollisionsExcept(CurrentShip);
-        }*/
 
-        /*private static List<string> GetShortestTurnManeuvers()
+            CurrentNavigationResult.isOffTheBoardNextTurn = !HasAnyManeuverWithoutOffBoardFinish;
+            CurrentNavigationResult.isHitAsteroidNextTurn = !HasAnyManeuverWithoutAsteroidCollision;
+
+            VirtualBoard.ReturnCollisionsExcept(ship);
+        }
+
+        private static List<string> GetShortestTurnManeuvers(GenericShip ship)
         {
             List<string> bestTurnManeuvers = new List<string>();
 
-            ManeuverHolder bestTurnManeuver = CurrentShip.GetManeuverHolders()
+            ManeuverHolder bestTurnManeuver = ship.GetManeuverHolders()
                 .Where(n =>
                     n.Bearing == ManeuverBearing.Turn
                     && n.Direction == ManeuverDirection.Left
@@ -501,7 +502,7 @@ namespace AI.Aggressor
                 .FirstOrDefault();
             bestTurnManeuvers.Add(bestTurnManeuver.ToString());
 
-            bestTurnManeuver = CurrentShip.GetManeuverHolders()
+            bestTurnManeuver = ship.GetManeuverHolders()
                 .Where(n =>
                     n.Bearing == ManeuverBearing.Turn
                     && n.Direction == ManeuverDirection.Right
@@ -511,7 +512,7 @@ namespace AI.Aggressor
             bestTurnManeuvers.Add(bestTurnManeuver.ToString());
 
             return bestTurnManeuvers;
-        }*/
+        }
 
         public static GenericShip GetNextShipWithoutAssignedManeuver()
         {

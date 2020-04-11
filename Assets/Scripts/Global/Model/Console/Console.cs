@@ -177,6 +177,8 @@ public partial class Console : MonoBehaviour {
 
         if (text == "SerializedObject target has been destroyed.") return true;
 
+        if (text == "Material doesn't have a color property '_Color'") return true;
+
         return false;
     }
 

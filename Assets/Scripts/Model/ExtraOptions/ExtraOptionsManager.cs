@@ -42,6 +42,8 @@ namespace ExtraOptions
             ExtraOptions = new Dictionary<Type, ExtraOption>();
             foreach (Type type in namespaceIEnum)
             {
+                if (type.MemberType == MemberTypes.NestedType) continue;
+
                 ExtraOption newExtraOption = (ExtraOption)System.Activator.CreateInstance(type);
                 ExtraOptions.Add(type, newExtraOption);
                 ExtraOptionToggleIsActive(newExtraOption.ToString(), PlayerPrefs.GetInt("extraOptions/" + newExtraOption.ToString(), 0) == 1);

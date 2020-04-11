@@ -161,6 +161,11 @@ namespace SubPhases
                 parameters.ToString()
             );
         }
+
+        public override void Resume()
+        {
+            CheckForFinish();
+        }
     }
 
 }

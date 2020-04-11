@@ -28,6 +28,8 @@ public static class DebugManager
 
     public static bool FreeMode;
 
+    public static bool ManualCollisionPrediction;
+
     public static bool DebugAiNavigation; // = true;
 
     public static bool ErrorIsAlreadyReported { get; set; }

@@ -77,6 +77,7 @@ public static partial class Roster {
         //Assigned Maneuver Dial
         GameObject maneuverDial = newPanel.transform.Find("AssignedManeuverDial").gameObject;
         SubscribeShowManeuverByHover(maneuverDial);
+        SubscribeShowPredictionByClick(maneuverDial);
         maneuverDial.transform.localPosition = (rosterPanelOwner == PlayerNo.Player1) ? new Vector3(320, -5, 0) : new Vector3(-120, -5, 0);
 
         //Tags
@@ -158,6 +159,22 @@ public static partial class Roster {
         entry.eventID = EventTriggerType.PointerClick;
         entry.callback.AddListener((data) => { SelectShipByRosterClick((PointerEventData)data); });
         trigger.triggers.Add(entry);
+    }
+
+    public static void SubscribeShowPredictionByClick(GameObject panel)
+    {
+        EventTrigger trigger = panel.GetComponent<EventTrigger>();
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = EventTriggerType.PointerClick;
+        entry.callback.AddListener((data) => { ShowPredictionByClick((PointerEventData)data); });
+        trigger.triggers.Add(entry);
+    }
+
+    private static void ShowPredictionByClick(PointerEventData data)
+    {
+        GenericShip ship = GetShipByUiPointerData(data);
+
+        ExtraOptions.ExtraOptionsList.ShowManeuverPrediction.ShowPrediction(ship);
     }
 
     private static void AddToRoster(GenericShip newShip, GameObject newPanel)
@@ -284,17 +301,27 @@ public static partial class Roster {
     // RMB is not supported
     public static void SelectShipByRosterClick(PointerEventData data)
     {
+        Selection.TryToChangeShip("ShipId:" + GetShipByUiPointerData(data).ShipId);
+        UI.HideTemporaryMenus();
+    }
+
+    private static GenericShip GetShipByUiPointerData(PointerEventData data)
+    {
+        GenericShip result = null;
+
         foreach (var item in data.hovered)
         {
             if (item.tag != "Untagged")
             {
                 if (Roster.AllUnits.ContainsKey(item.tag))
                 {
-                    if (Selection.TryToChangeShip(item.tag)) return;
+                    result = Roster.GetShipById(item.tag);
+                    break;
                 }
             }
         }
-        UI.HideTemporaryMenus();
+
+        return result;
     }
 
     public static void ShowAssignedManeuverByHover(PointerEventData data)

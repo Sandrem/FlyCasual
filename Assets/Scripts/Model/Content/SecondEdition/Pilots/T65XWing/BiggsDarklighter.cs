@@ -20,6 +20,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.BiggsDarklighterAbility),
                     seImageNumber: 7
                 );
+
+                ModelInfo.SkinName = "Biggs Darklighter";
             }
         }
     }

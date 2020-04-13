@@ -23,6 +23,8 @@ namespace Ship
                     abilityType: typeof(JekPorkinsAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                ModelInfo.SkinName = "Jek Porkins";
             }
         }
     }

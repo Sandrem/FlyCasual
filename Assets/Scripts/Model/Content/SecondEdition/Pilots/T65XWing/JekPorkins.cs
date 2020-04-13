@@ -19,6 +19,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 5
                 );
+
+                ModelInfo.SkinName = "Jek Porkins";
             }
         }
     }

@@ -21,6 +21,8 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(BiggsDarklighterAbility)
                 );
+
+                ModelInfo.SkinName = "Biggs Darklighter";
             }
         }
     }

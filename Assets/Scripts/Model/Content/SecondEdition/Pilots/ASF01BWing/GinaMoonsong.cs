@@ -25,6 +25,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
+                ModelInfo.SkinName = "Gina Moonsong";
+
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/32/8a/328a4f31-c01e-4966-a418-59c6fd42739e/swz66_gina-moonsong.png";
             }
         }

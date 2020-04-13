@@ -19,6 +19,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 1
                 );
+
+                ModelInfo.SkinName = "Wedge Antilles";
             }
         }
     }

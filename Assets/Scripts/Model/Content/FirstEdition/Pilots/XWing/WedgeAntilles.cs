@@ -23,6 +23,8 @@ namespace Ship
                     abilityType: typeof(WedgeAntillesAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                ModelInfo.SkinName = "Wedge Antilles";
             }
         }
     }

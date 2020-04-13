@@ -16,6 +16,8 @@ namespace Ship
                     40,
                     seImageNumber: 11
                 );
+
+                ModelInfo.SkinName = "Blue";
             }
         }
     }

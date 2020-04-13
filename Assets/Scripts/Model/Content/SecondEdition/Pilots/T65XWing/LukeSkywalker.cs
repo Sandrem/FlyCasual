@@ -19,6 +19,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.ForcePower,
                     seImageNumber: 2
                 );
+
+                ModelInfo.SkinName = "Luke Skywalker";
             }
         }
     }

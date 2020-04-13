@@ -23,6 +23,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 3
                 );
+
+                ModelInfo.SkinName = "Thane Kyrell";
             }
         }
     }

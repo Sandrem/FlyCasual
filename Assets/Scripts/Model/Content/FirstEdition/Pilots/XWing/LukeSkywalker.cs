@@ -18,6 +18,8 @@ namespace Ship
                     abilityType: typeof(LukeSkywalkerAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                ModelInfo.SkinName = "Luke Skywalker";
             }
         }
     }

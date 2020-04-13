@@ -26,7 +26,14 @@ namespace Players
         {
             base.AssignManeuversStart();
 
-            CalculateNavigation();
+            if (!DebugManager.DebugStraightToCombat)
+            {
+                CalculateNavigation();
+            }
+            else
+            {
+                AssignManeuversRecursive();
+            }
         }
 
         private void CalculateNavigation()
@@ -36,7 +43,7 @@ namespace Players
 
         private void AssignManeuversRecursive()
         {
-            GenericShip shipWithoutManeuver = AI.Aggressor.NavigationSubSystem.GetNextShipWithoutAssignedManeuver();
+            GenericShip shipWithoutManeuver = (!DebugManager.DebugStraightToCombat) ? AI.Aggressor.NavigationSubSystem.GetNextShipWithoutAssignedManeuver() : GetNextShipWithoutAssignedManeuver();
 
             if (shipWithoutManeuver != null)
             {
@@ -49,6 +56,13 @@ namespace Players
             }
         }
 
+        private GenericShip GetNextShipWithoutAssignedManeuver()
+        {
+            return Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships.Values
+                .Where(n => n.AssignedManeuver == null && !n.State.IsIonized)
+                .FirstOrDefault();
+        }
+
         private void OpenDirectionsUiSilent()
         {
             GameMode.CurrentGameMode.ExecuteCommand(
@@ -58,7 +72,15 @@ namespace Players
 
         public override void AskAssignManeuver()
         {
-            AI.Aggressor.NavigationSubSystem.AssignPlannedManeuver(Selection.ThisShip, AssignManeuversRecursive);
+            if (!DebugManager.DebugStraightToCombat)
+            {
+                AI.Aggressor.NavigationSubSystem.AssignPlannedManeuver(Selection.ThisShip, AssignManeuversRecursive);
+            }
+            else
+            {
+                ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, "2.F.S");
+                AssignManeuversRecursive();
+            }
         }
 
         protected override GenericShip SelectTargetForAttack()
@@ -123,7 +145,7 @@ namespace Players
             Roster.HighlightPlayer(PlayerNo);
             GameController.CheckExistingCommands();
 
-            GenericShip nextShip = AI.Aggressor.NavigationSubSystem.GetNextShipWithoutFinishedManeuver();
+            GenericShip nextShip = (!DebugManager.DebugStraightToCombat) ? AI.Aggressor.NavigationSubSystem.GetNextShipWithoutFinishedManeuver() : GetNextShipWithoutFinishedManeuver();
             if (nextShip != null)
             {
                 Selection.ChangeActiveShip("ShipId:" + nextShip.ShipId);
@@ -133,6 +155,13 @@ namespace Players
             {
                 Phases.Next();
             }
+        }
+
+        private static GenericShip GetNextShipWithoutFinishedManeuver()
+        {
+            return Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships.Values
+                .Where(n => !n.IsManeuverPerformed)
+                .FirstOrDefault();
         }
     }
 }

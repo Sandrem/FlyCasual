@@ -55,7 +55,7 @@ namespace SubPhases
                 }
                 else
                 {
-                    FinishPhase();
+                    FinishSetupPhase();
                 }
             }
 
@@ -67,6 +67,20 @@ namespace SubPhases
                 IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
+        }
+
+        private void FinishSetupPhase()
+        {
+            if (DebugManager.DebugStraightToCombat)
+            {
+                foreach (GenericShip ship in Roster.AllShips.Values)
+                {
+                    float direction = (ship.Owner.PlayerNo == Players.PlayerNo.Player1) ? 1f : -1f;
+                    ship.SetPosition(ship.GetPosition() + new Vector3(0, 0, direction * Board.BoardIntoWorld(30f)));
+                }
+            }
+
+            FinishPhase();
         }
 
         private bool GetNextActivation(int pilotSkill)

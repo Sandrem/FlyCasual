@@ -153,6 +153,56 @@ namespace Players
 
             GameMode.CurrentGameMode.ExecuteServerCommand(DiceRoll.GenerateSyncDiceCommand());
         }
+
+        public override void AssignManeuversStart()
+        {
+            base.AssignManeuversStart();
+
+            if (DebugManager.DebugStraightToCombat)
+            {
+                AssignManeuversRecursive();
+            }
+        }
+
+        private void AssignManeuversRecursive()
+        {
+            GenericShip shipWithoutManeuver = GetNextShipWithoutAssignedManeuver();
+
+            if (shipWithoutManeuver != null)
+            {
+                Selection.ChangeActiveShip(shipWithoutManeuver);
+                OpenDirectionsUiSilent();
+            }
+            else
+            {
+                GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
+            }
+        }
+
+        private GenericShip GetNextShipWithoutAssignedManeuver()
+        {
+            return Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).Ships.Values
+                .Where(n => n.AssignedManeuver == null && !n.State.IsIonized)
+                .FirstOrDefault();
+        }
+
+        private void OpenDirectionsUiSilent()
+        {
+            GameMode.CurrentGameMode.ExecuteCommand(
+                PlanningSubPhase.GenerateSelectShipToAssignManeuver(Selection.ThisShip.ShipId)
+            );
+        }
+
+        public override void AskAssignManeuver()
+        {
+            base.AskAssignManeuver();
+
+            if (DebugManager.DebugStraightToCombat)
+            {
+                ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, "2.F.S");
+                AssignManeuversRecursive();
+            }
+        }
     }
 
 }

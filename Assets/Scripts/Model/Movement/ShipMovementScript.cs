@@ -163,7 +163,14 @@ public class ShipMovementScript : MonoBehaviour {
 
         UI.HideContextMenu();
 
-        Selection.ThisShip.CallMovementActivationStart(ReadyRoRevealManeuver);
+        if (!DebugManager.DebugStraightToCombat)
+        {
+            Selection.ThisShip.CallMovementActivationStart(ReadyRoRevealManeuver);
+        }
+        else
+        {
+            FinishMovementAndStartActionDecision();
+        }
     }
 
     private static void ReadyRoRevealManeuver()

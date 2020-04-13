@@ -11,6 +11,7 @@ namespace ExtraOptions
     {
         public string Name;
         public string Description;
+        public bool IsAvailable = true;
 
         private bool isOn;
         public bool IsOn
@@ -45,8 +46,11 @@ namespace ExtraOptions
                 if (type.MemberType == MemberTypes.NestedType) continue;
 
                 ExtraOption newExtraOption = (ExtraOption)System.Activator.CreateInstance(type);
-                ExtraOptions.Add(type, newExtraOption);
-                ExtraOptionToggleIsActive(newExtraOption.ToString(), PlayerPrefs.GetInt("extraOptions/" + newExtraOption.ToString(), 0) == 1);
+                if (newExtraOption.IsAvailable)
+                {
+                    ExtraOptions.Add(type, newExtraOption);
+                    ExtraOptionToggleIsActive(newExtraOption.ToString(), PlayerPrefs.GetInt("extraOptions/" + newExtraOption.ToString(), 0) == 1);
+                }
             }
         }
 

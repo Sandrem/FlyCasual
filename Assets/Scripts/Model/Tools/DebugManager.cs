@@ -17,6 +17,7 @@ public static class DebugManager
     public static bool DebugNoSquadPointsLimit;
 
     public static bool DebugNoCombat;
+    public static bool DebugStraightToCombat;
 
     public static bool NoObstaclesSetup;
 

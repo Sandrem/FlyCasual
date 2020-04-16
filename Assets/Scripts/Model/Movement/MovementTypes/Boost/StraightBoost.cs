@@ -15,10 +15,10 @@ namespace Movement
 
         public override void Perform()
         {
+            base.Perform();
+
             ProgressTarget = SetProgressTarget();
             AnimationSpeed = Options.ManeuverSpeed * SetAnimationSpeed();
-
-            Initialize();
 
             //Temporary
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

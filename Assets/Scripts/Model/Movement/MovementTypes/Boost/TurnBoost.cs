@@ -12,7 +12,7 @@ namespace Movement
 
         public override void Perform()
         {
-            Initialize();
+            base.Perform();
 
             //Temporary
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

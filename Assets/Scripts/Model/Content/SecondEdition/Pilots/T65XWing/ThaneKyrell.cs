@@ -54,10 +54,9 @@ namespace ActionsList.SecondEdition
 {
     public class ThaneKyrellDiceModificationSE : GenericAction
     {
-        public ThaneKyrellDiceModificationSE()
-        {
-            Name = DiceModificationName = "Thane Kyrell's ability";
-        }
+        public override string Name => HostShip.PilotInfo.PilotName;
+        public override string DiceModificationName => HostShip.PilotInfo.PilotName;
+        public override string ImageUrl => HostShip.ImageUrl;
 
         public override bool IsDiceModificationAvailable()
         {
@@ -73,7 +72,7 @@ namespace ActionsList.SecondEdition
             Triggers.RegisterTrigger(
                 new Trigger()
                 {
-                    Name = "Thane Kyrell's ability",
+                    Name = DiceModificationName,
                     TriggerOwner = HostShip.Owner.PlayerNo,
                     TriggerType = TriggerTypes.OnAbilityDirect,
                     EventHandler = StartSubphase

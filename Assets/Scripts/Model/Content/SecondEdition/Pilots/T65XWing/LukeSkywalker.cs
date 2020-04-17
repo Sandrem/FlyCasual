@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
             if (HostShip.State.Force < HostShip.State.MaxForce)
             {
                 HostShip.State.Force++;
-                Messages.ShowInfo("Luke Skywalker recovered 1 Force");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " recovered 1 Force");
             }
         }
     }

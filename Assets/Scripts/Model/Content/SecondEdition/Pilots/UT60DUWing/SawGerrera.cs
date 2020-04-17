@@ -53,15 +53,15 @@ namespace Abilities.SecondEdition
         {
             public SawGarreraAction() : base(1, 2, true, RerollTypeEnum.AttackDice)
             {
-                Name = DiceModificationName = "Saw Garrera's ability";
+                Name = DiceModificationName = "Saw Garrera";
+                ImageUrl = new Ship.SecondEdition.UT60DUWing.SawGerrera().ImageUrl;
             }
 
             public override bool IsDiceModificationAvailable()
             {
-                if (Combat.Attacker.Damage.IsDamaged())
-                    return base.IsDiceModificationAvailable();
-                else
-                    return false;
+                bool result = false;
+                if (Combat.Attacker.Damage.IsDamaged()) result = base.IsDiceModificationAvailable();
+                return result;
             }
         }
     }

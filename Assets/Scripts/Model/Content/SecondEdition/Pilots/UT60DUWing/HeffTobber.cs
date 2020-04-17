@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
 
             Triggers.RegisterTrigger(new Trigger()
             {
-                Name = "Heff Tobber's ability",
+                Name = HostShip.PilotInfo.PilotName,
                 TriggerType = TriggerTypes.OnMovementFinish,
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = UseHeffTobberAbility

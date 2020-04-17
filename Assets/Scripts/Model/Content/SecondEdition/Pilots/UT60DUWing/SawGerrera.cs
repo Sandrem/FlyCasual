@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
         {
             public SawGarreraAction() : base(1, 2, true, RerollTypeEnum.AttackDice)
             {
-                Name = DiceModificationName = "Saw Garrera";
+                Name = DiceModificationName = "Saw Gerrera";
                 ImageUrl = new Ship.SecondEdition.UT60DUWing.SawGerrera().ImageUrl;
             }
 

@@ -32,6 +32,11 @@ namespace Abilities.SecondEdition
 {
     public class KyleKatarnAbility : Abilities.FirstEdition.KyleKatarnAbility
     {
+        protected override string GenerateAbilityString()
+        {
+            return "Choose another ship in arc to assign 1 of your Focus tokens to it";
+        }
+
         protected override bool FilterAbilityTarget(GenericShip ship)
         {
             return

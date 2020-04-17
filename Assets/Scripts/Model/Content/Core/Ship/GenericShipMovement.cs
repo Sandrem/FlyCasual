@@ -128,7 +128,7 @@ namespace Ship
             if (AssignedManeuver != null && AssignedManeuver.IsRevealDial)
             {
                 // Make a new copy of AssignedManeuver, so changes to it doesn't affect RevealedManeuver
-                RevealedManeuver = ShipMovementScript.MovementFromString(AssignedManeuver.ToString());
+                RevealedManeuver = ShipMovementScript.CopyMovement(AssignedManeuver);
 
                 OnManeuverIsRevealed?.Invoke(this);
                 OnManeuverIsRevealedGlobal?.Invoke(this);

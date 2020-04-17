@@ -8,6 +8,7 @@ using System.Linq;
 using SubPhases;
 using System;
 using GameCommands;
+using Movement;
 
 public class ShipMovementScript : MonoBehaviour {
 
@@ -138,9 +139,15 @@ public class ShipMovementScript : MonoBehaviour {
         return result;
     }
 
-    public static Movement.GenericMovement MovementFromString(string parameters, Ship.GenericShip ship = null)
+    public static GenericMovement CopyMovement(GenericMovement maneuver)
     {
-        Movement.ManeuverHolder movementStruct = new Movement.ManeuverHolder(parameters, ship);
+        ManeuverHolder movementStruct = new ManeuverHolder(maneuver.ManeuverSpeed, maneuver.Direction, maneuver.Bearing, maneuver.ColorComplexity);
+        return MovementFromStruct(movementStruct);
+    }
+
+    public static GenericMovement MovementFromString(string parameters, GenericShip ship = null)
+    {
+        ManeuverHolder movementStruct = new ManeuverHolder(parameters, ship);
         return MovementFromStruct(movementStruct);
     }
 

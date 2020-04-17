@@ -27,7 +27,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class NorraWexleyARC170Ability : Abilities.FirstEdition.NorraWexleyARC170Ability
+    public class NorraWexleyARC170Ability : GenericAbility
     {
         public override void ActivateAbility()
         {
@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
 
             if (Combat.AttackStep == CombatStep.Defence && Combat.Defender == HostShip && enemyShipsAtRangeOne > 0)
             {
-                Messages.ShowInfo("Norra Wexley gains 1 Evade die because at least one enemy is at range 1 of her");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " gains 1 Evade die because at least one enemy is at range 1 of her");
                 roll.AddDice(DieSide.Success).ShowWithoutRoll();
                 roll.OrganizeDicePositions();
             }

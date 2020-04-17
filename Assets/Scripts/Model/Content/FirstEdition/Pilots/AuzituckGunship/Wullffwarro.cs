@@ -22,6 +22,7 @@ namespace Ship
         }
     }
 }
+
 namespace Abilities.FirstEdition
 {
     public class WullffwarroAbility : GenericAbility
@@ -38,7 +39,11 @@ namespace Abilities.FirstEdition
 
         private void CheckWullffwarroAbility(ref int value)
         {
-            if ((HostShip.State.ShieldsCurrent == 0) && (HostShip.State.HullCurrent < HostShip.State.HullMax)) value++;
+            if ((HostShip.State.ShieldsCurrent == 0) && (HostShip.State.HullCurrent < HostShip.State.HullMax))
+            {
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is damaged, gains +1 attack die");
+                value++;
+            }
         }
     }
 }

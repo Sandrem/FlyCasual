@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
 
         public void KrassisTrelixPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new KrassisTrelixAction());
+            ship.AddAvailableDiceModificationOwn(new KrassisTrelixAction());
         }
 
         private class KrassisTrelixAction : ActionsList.GenericAction

@@ -44,7 +44,7 @@ namespace Abilities.FirstEdition
 
         private void AddLowhhrickAbility(GenericShip ship)
         {
-            Combat.Defender.AddAvailableDiceModification(new DiceModificationAction() { HostShip = this.HostShip });
+            Combat.Defender.AddAvailableDiceModification(new DiceModificationAction(), HostShip);
         }
 
         private class DiceModificationAction : ActionsList.GenericAction

@@ -95,7 +95,7 @@ namespace Abilities.SecondEdition
                 ImageUrl = HostShip.ImageUrl,
                 HostShip = HostShip
             };
-            host.AddAvailableDiceModification(newAction);
+            host.AddAvailableDiceModificationOwn(newAction);
         }
 
         public void DeactivateCommandeMalarusAbility()

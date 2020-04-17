@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
 
         private void AddLukeSkywalkerPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new LukeSkywalkerAction());
+            ship.AddAvailableDiceModificationOwn(new LukeSkywalkerAction());
         }
 
         private class LukeSkywalkerAction : ActionsList.GenericAction

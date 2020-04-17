@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
 
         protected virtual void AddThaneKyrellAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ThaneKyrellDiceModificationSE() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new ThaneKyrellDiceModificationSE());
         }
     }
 }

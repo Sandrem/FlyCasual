@@ -43,14 +43,14 @@ namespace Abilities.SecondEdition
 
         private void AddFinnDiceModifications(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(
+            ship.AddAvailableDiceModificationOwn(
                 new FinnTransportPodDiceModificationBlank() {
                     HostShip = HostShip,
                     ImageUrl = HostShip.ImageUrl
                 }
             );
 
-            ship.AddAvailableDiceModification(
+            ship.AddAvailableDiceModificationOwn(
                 new FinnTransportPodDiceModificationFocus() {
                     HostShip = HostShip,
                     ImageUrl = HostShip.ImageUrl

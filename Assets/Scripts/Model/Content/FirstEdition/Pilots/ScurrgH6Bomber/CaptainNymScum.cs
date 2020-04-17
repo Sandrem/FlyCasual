@@ -54,7 +54,7 @@ namespace Abilities.FirstEdition
 
             if (Combat.ShotInfo.IsObstructedByBombToken)
             {
-                Combat.Defender.AddAvailableDiceModification(new CaptainNymObstructionBonus());
+                Combat.Defender.AddAvailableDiceModification(new CaptainNymObstructionBonus(), HostShip);
             }
         }
 

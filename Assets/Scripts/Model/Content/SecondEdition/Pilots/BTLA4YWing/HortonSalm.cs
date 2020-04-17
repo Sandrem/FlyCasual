@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
 
         public void HortonSalmPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new HortonSalmActionSE() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new HortonSalmActionSE());
         }
 
         private class HortonSalmActionSE : ActionsList.GenericAction

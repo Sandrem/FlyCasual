@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void AddRearAdmiralChiraneauPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.FirstEdition.RearAdmiralChiraneauAction());
+            ship.AddAvailableDiceModificationOwn(new ActionsList.FirstEdition.RearAdmiralChiraneauAction());
         }
     }
 }

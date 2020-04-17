@@ -47,7 +47,7 @@ namespace Abilities.FirstEdition
 
         public void HortonSalmPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new HortonSalmAction());
+            ship.AddAvailableDiceModificationOwn(new HortonSalmAction());
         }
 
         private class HortonSalmAction : ActionsList.GenericAction

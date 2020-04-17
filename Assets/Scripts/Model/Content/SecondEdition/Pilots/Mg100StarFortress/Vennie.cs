@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
 
         private void AddVennieAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new VennieDiceModification());
+            ship.AddAvailableDiceModificationOwn(new VennieDiceModification());
         }
 
         private class VennieDiceModification : GenericAction

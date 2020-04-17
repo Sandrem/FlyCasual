@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
 
         public void AddDiceModification(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ReyAction(ship));
+            ship.AddAvailableDiceModificationOwn(new ReyAction(ship));
         }
 
         private class ReyAction : ActionsList.GenericAction

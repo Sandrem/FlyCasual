@@ -108,7 +108,7 @@ namespace Abilities.FirstEdition
 
         public void AddLukeSkywalkerCrewAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.LukeSkywalkerCrewAction());
+            ship.AddAvailableDiceModificationOwn(new ActionsList.LukeSkywalkerCrewAction());
         }
 
         public void RemoveLukeSkywalkerCrewAbility()

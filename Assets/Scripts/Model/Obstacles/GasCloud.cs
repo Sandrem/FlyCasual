@@ -53,7 +53,7 @@ namespace Obstacles
                 HostShip = ship,
                 HostObstacle = this
             };
-            ship.AddAvailableDiceModification(newAction);
+            ship.AddAvailableDiceModificationOwn(newAction);
         }
     }
 }

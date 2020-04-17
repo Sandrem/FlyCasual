@@ -97,7 +97,7 @@ namespace ActionsList
 
         private void AddRageCondition(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(this);
+            ship.AddAvailableDiceModificationOwn(this);
         }
 
 

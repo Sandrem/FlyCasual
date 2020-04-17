@@ -44,7 +44,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.FirstEdition.JessPavaActionEffect();
             newAction.HostShip = host;
             newAction.ImageUrl = host.ImageUrl;
-            host.AddAvailableDiceModification(newAction);
+            host.AddAvailableDiceModificationOwn(newAction);
         }
     }
 }

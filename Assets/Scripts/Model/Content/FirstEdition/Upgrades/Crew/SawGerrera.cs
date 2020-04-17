@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.SawGerreraCrewDiceModification();
             newAction.ImageUrl = HostShip.ImageUrl;
             newAction.HostShip = HostShip;
-            host.AddAvailableDiceModification(newAction);
+            host.AddAvailableDiceModificationOwn(newAction);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Abilities.FirstEdition
         {
             if (!Combat.ShotInfo.InPrimaryArc)
             {
-                HostShip.AddAvailableDiceModification(new ActionsList.AllianceOverhaulDiceModification());
+                HostShip.AddAvailableDiceModificationOwn(new ActionsList.AllianceOverhaulDiceModification());
             }
         }
     }

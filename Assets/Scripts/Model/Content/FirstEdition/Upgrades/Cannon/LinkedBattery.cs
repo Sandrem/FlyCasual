@@ -36,7 +36,7 @@ namespace Abilities.FirstEdition
 
         public void CheckLinkedBatteryAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.LinkedBatteryAction()
+            ship.AddAvailableDiceModificationOwn(new ActionsList.LinkedBatteryAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
                 HostShip = HostShip

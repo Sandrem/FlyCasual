@@ -52,10 +52,10 @@ namespace Abilities.SecondEdition
                 {
                     ship.AddAvailableDiceModification(
                         new K2B4DiceModification() {
-                            HostShip = ship,
                             ImageUrl = HostUpgrade.ImageUrl,
                             UpgradeSource = HostUpgrade
-                        }
+                        },
+                        HostShip
                     );
                 }
             }

@@ -51,7 +51,7 @@ namespace Abilities.FirstEdition
                 Name = this.HostShip.PilotInfo.PilotName + "'s Ability",
                 DiceModificationName = this.HostShip.PilotInfo.PilotName + "'s Ability"
             };
-            ship.AddAvailableDiceModification(newAction);
+            ship.AddAvailableDiceModificationOwn(newAction);
         }
 
         private class NorraWexleyYWingAction : ActionsList.GenericAction

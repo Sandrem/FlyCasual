@@ -149,7 +149,7 @@ namespace Conditions
                 DiceModificationName = name,
                 Name = name
             };
-            Host.AddAvailableDiceModification(action);
+            Host.AddAvailableDiceModificationOwn(action);
         }
     }
 }

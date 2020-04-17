@@ -42,7 +42,7 @@ namespace Abilities
                     Source = HostUpgrade
                 };
 
-                host.AddAvailableDiceModification(action);
+                host.AddAvailableDiceModificationOwn(action);
             }
         }
     }

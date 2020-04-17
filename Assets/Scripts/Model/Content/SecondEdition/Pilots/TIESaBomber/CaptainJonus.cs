@@ -42,7 +42,7 @@ namespace Abilities.SecondEdition
 
         private void AddCaptainJonusAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableDiceModification(new CaptainJonusAction() { HostShip = this.HostShip });
+            Combat.Attacker.AddAvailableDiceModificationOwn(new CaptainJonusAction());
         }
 
         private class CaptainJonusAction : FriendlyRerollAction

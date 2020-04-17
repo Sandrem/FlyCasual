@@ -35,7 +35,7 @@ namespace Abilities.FirstEdition
 
         private void AddAccuracyCorrectorAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new AccuracyCorrectorAction());
+            ship.AddAvailableDiceModificationOwn(new AccuracyCorrectorAction());
         }
     }
 }

@@ -185,7 +185,7 @@ namespace Conditions
                 SourceUpgrade = SourceUpgrade
             };
 
-            Host.AddAvailableDiceModification(action);
+            Host.AddAvailableDiceModificationOwn(action);
         }
     }
 }

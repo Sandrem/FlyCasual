@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
 
         private void AddDreaRenthalAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableDiceModification(new DiceModificationAction() { HostShip = Roster.GetShipById("ShipId:" + this.HostShip.ShipId) });
+            Combat.Attacker.AddAvailableDiceModification(new DiceModificationAction(), HostShip);
         }
 
         private class DiceModificationAction : ActionsList.GenericAction

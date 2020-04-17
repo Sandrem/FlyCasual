@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
 
         private void AddSabinebility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new SabineWrenDiceModification());
+            ship.AddAvailableDiceModificationOwn(new SabineWrenDiceModification());
         }
 
         private class SabineWrenDiceModification : GenericAction

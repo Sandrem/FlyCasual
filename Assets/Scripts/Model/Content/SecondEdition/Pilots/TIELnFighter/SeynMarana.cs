@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
 
         protected virtual void AddSeynMaranaAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new SeynMaranaDiceModificationSE() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new SeynMaranaDiceModificationSE());
         }
     }
 }

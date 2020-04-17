@@ -42,20 +42,23 @@ namespace Abilities.FirstEdition
 
         private void AddOmegaAceAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new OmegaAceAbilityAction());
+            ship.AddAvailableDiceModificationOwn(new OmegaAceDiceModification());
         }
     }
 }
 
 namespace ActionsList
 {
-    public class OmegaAceAbilityAction : GenericAction
+    public class OmegaAceDiceModification : GenericAction
     {
-        private System.Action actionCallback;
-        public OmegaAceAbilityAction()
-        {
-            Name = DiceModificationName = "\"Omega Ace\" ability";
+        public override string Name => HostShip.PilotInfo.PilotName;
+        public override string DiceModificationName => HostShip.PilotInfo.PilotName;
+        public override string ImageUrl => HostShip.ImageUrl;
 
+        private System.Action ActionCallback;
+
+        public OmegaAceDiceModification()
+        {
             TokensSpend.Add(typeof(BlueTargetLockToken));
             TokensSpend.Add(typeof(FocusToken));
         }
@@ -83,29 +86,29 @@ namespace ActionsList
         {
             if (ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                this.actionCallback = callBack;
-                payTargetLock();
+                this.ActionCallback = callBack;
+                PayTargetLock();
             }
         }
 
-        private void payTargetLock()
+        private void PayTargetLock()
         {
             List<char> targetLockLetters = ActionsHolder.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
-            Combat.Attacker.Tokens.SpendToken(typeof(BlueTargetLockToken), payFocus, targetLockLetters.First());
+            Combat.Attacker.Tokens.SpendToken(typeof(BlueTargetLockToken), PayFocus, targetLockLetters.First());
         }
 
-        private void payFocus()
+        private void PayFocus()
         {
-            Combat.Attacker.Tokens.SpendToken(typeof(FocusToken), execute);
+            Combat.Attacker.Tokens.SpendToken(typeof(FocusToken), Execute);
         }
 
-        private void execute()
+        private void Execute()
         {
             Combat.CurrentDiceRoll.ChangeAll(DieSide.Blank, DieSide.Crit);
             Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Crit);
             Combat.CurrentDiceRoll.ChangeAll(DieSide.Success, DieSide.Crit);
             Combat.CurrentDiceRoll.OrganizeDicePositions();
-            this.actionCallback();
+            this.ActionCallback();
         }
 
     }

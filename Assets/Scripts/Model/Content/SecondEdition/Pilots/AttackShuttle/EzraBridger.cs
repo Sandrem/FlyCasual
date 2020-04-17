@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
         private void AddEzraBridgerPilotAbilitySE(GenericShip ship)
         {
             EzraBridgerActionSE newAction = new EzraBridgerActionSE() { HostShip = this.HostShip };
-            ship.AddAvailableDiceModification(newAction);
+            ship.AddAvailableDiceModificationOwn(newAction);
         }
 
         private class EzraBridgerActionSE : ActionsList.GenericAction

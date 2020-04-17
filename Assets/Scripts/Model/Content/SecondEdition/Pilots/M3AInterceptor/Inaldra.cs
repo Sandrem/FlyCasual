@@ -30,7 +30,7 @@ namespace Abilities.SecondEdition
     {
         protected override void AddInaldraAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new InaldraActionSE() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new InaldraActionSE());
         }
     }
 }

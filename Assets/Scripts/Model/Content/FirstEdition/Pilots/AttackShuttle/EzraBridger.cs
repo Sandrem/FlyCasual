@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
 
         private void AddEzraBridgerPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new EzraBridgerAction());
+            ship.AddAvailableDiceModificationOwn(new EzraBridgerAction());
         }
 
         private class EzraBridgerAction : ActionsList.GenericAction

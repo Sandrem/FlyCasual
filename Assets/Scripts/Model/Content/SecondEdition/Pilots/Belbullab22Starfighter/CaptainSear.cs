@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
                 CaptainSearShip = HostShip
 
             };
-            ship.AddAvailableDiceModification(newAction);
+            ship.AddAvailableDiceModificationOwn(newAction);
         }
 
         private class CaptainSearDiceModification : GenericAction

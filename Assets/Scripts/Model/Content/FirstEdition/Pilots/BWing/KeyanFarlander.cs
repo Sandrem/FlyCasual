@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
 
         private void AddKeyanFarlanderAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new KeyanFarlanderAction() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new KeyanFarlanderAction());
         }
 
         private class KeyanFarlanderAction : ActionsList.GenericAction

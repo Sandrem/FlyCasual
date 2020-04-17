@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
                 HostShip = HostShip,
                 DoDiceModification = DoTreacherousDiceModification
             };
-            HostShip.AddAvailableDiceModification(newAction);
+            HostShip.AddAvailableDiceModificationOwn(newAction);
         }
 
         private void DoTreacherousDiceModification(Action action)

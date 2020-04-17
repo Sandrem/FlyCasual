@@ -44,7 +44,7 @@ namespace Abilities.FirstEdition
                 HostShip = host,
                 Source = HostUpgrade
             };
-            host.AddAvailableDiceModification(newAction);
+            host.AddAvailableDiceModificationOwn(newAction);
         }
 
         public bool IsGuidanceChipsAbilityUsed()

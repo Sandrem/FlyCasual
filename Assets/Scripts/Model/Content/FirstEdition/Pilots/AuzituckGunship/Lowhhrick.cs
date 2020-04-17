@@ -85,23 +85,7 @@ namespace Abilities.FirstEdition
             {
                 int result = 0;
 
-                // TODORESTORE
-
-                /*if (Combat.AttackStep == CombatStep.Attack)
-                {
-                    int attackFocuses = Combat.DiceRollAttack.FocusesNotRerolled;
-                    int attackBlanks = Combat.DiceRollAttack.BlanksNotRerolled;
-
-                    //if (Combat.Attacker.HasToken(typeof(Tokens.FocusToken)))
-                    if (Combat.Attacker.GetAvailableActionEffectsList().Count(n => n.IsTurnsAllFocusIntoSuccess) > 0)
-                    {
-                        if (attackBlanks > 0) result = 90;
-                    }
-                    else
-                    {
-                        if (attackBlanks + attackFocuses > 0) result = 90;
-                    }
-                }*/
+                // TODO: AI is needed
 
                 return result;
             }

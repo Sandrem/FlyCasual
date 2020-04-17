@@ -30,8 +30,6 @@ namespace Abilities.SecondEdition
     //While you defend, if the attacker modified any attack dice, you may roll an additional defense die.
     public class AlexandrKallusAbility : GenericAbility
     {
-        GenericShip attackingShip;
-
         public override void ActivateAbility()
         {
             HostShip.AfterGotNumberOfDefenceDice += CheckAbility;
@@ -46,7 +44,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.AttackStep == CombatStep.Defence && Combat.DiceRollAttack.ModifiedBy.Contains(Combat.Attacker.Owner.PlayerNo))
             {
-                Messages.ShowInfo(HostName + " rolls an additional defense die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " rolls an additional defense die");
                 value++;
             }
         }

@@ -147,7 +147,9 @@ namespace SubPhases
         public static GameCommand GenerateDecisionCommand(string decisionName)
         {
             JSONObject parameters = new JSONObject();
+            decisionName = decisionName.Replace("\"", "\\\"");
             parameters.AddField("name", decisionName);
+
             return GameController.GenerateGameCommand(
                 GameCommandTypes.Decision,
                 Phases.CurrentSubPhase.GetType(),

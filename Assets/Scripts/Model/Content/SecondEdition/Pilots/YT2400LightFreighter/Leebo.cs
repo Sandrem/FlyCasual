@@ -70,11 +70,14 @@ namespace Abilities.SecondEdition
                     Name = "Assign calculate to Leebo.",
                     TriggerType = TriggerTypes.OnAttackFinish,
                     TriggerOwner = HostShip.Owner.PlayerNo,
-                    EventHandler = delegate {
-                        HostShip.Tokens.AssignToken(new Tokens.CalculateToken(HostShip), Triggers.FinishTrigger);
-                    }
+                    EventHandler = AssignCalculateToken
                 });
             }
+        }
+        private void AssignCalculateToken(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo("Calculate token is assigned to " + HostShip.PilotInfo.PilotName);
+            HostShip.Tokens.AssignToken(new Tokens.CalculateToken(HostShip), Triggers.FinishTrigger);
         }
     }
 }

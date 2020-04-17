@@ -18,8 +18,7 @@ namespace Ship
                     30,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MuseAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 120
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/8/81/Swz18_a1_muse.png";

@@ -31,7 +31,7 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             AddDiceModification(
-                "TN-3465",
+                HostShip.PilotInfo.PilotName,
                 IsDiceModificationAvailable,
                 GetDiceModificationAiPriority,
                 DiceModificationType.Change,

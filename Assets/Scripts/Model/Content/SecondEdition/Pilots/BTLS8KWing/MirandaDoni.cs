@@ -67,5 +67,21 @@ namespace Abilities.SecondEdition
 
             selectMirandaDoniSubPhase.Start();
         }
+
+        protected override string GetDefaultDecision()
+        {
+            string result = "No";
+
+            if (HostShip.State.ShieldsCurrent == 0)
+            {
+                result = "Roll 1 fewer die to recover 1 shield";
+            }
+            else
+            {
+                result = "Spend 1 shield to roll 1 extra die";
+            }
+
+            return result;
+        }
     }
 }

@@ -56,6 +56,8 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Charges == 0) return false;
 
+            if (Combat.CurrentDiceRoll.Focuses == 0) return false;
+
             GenericShip currentShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
 
             if (currentShip.Owner.PlayerNo != HostShip.Owner.PlayerNo) return false;

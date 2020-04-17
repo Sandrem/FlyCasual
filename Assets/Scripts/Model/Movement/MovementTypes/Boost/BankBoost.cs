@@ -39,7 +39,7 @@ namespace Movement
             TheShip.ResetRotationHelpers();
 
             // Important! Fixes final position according to prediction - otherwise animation can cause another final position
-            TheShip.SetPositionInfo(movementPrediction.FinalPositionInfo);
+            TheShip.SetPositionInfo(FinalPositionInfo);
 
             (Phases.CurrentSubPhase as SubPhases.BoostExecutionSubPhase).FinishBoost();
         }

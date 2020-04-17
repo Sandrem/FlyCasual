@@ -5,6 +5,7 @@ using System;
 using Editions;
 using Obstacles;
 using Remote;
+using Ship;
 
 namespace Movement
 { 
@@ -52,6 +53,9 @@ namespace Movement
         public bool IsSimple;
 
         public int RotationEndDegrees = 0;
+
+        //Only for boosts
+        public ShipPositionInfo FinalPositionInfo;
 
         public GenericMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color)
         {

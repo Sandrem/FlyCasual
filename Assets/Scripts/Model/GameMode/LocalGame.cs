@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using GameCommands;
 using Actions;
+using Ship;
 
 namespace GameModes
 {
@@ -115,9 +116,9 @@ namespace GameModes
             (Phases.CurrentSubPhase as BoostPlanningSubPhase).TryConfirmBoostPosition();
         }
 
-        public override void StartBoostExecution()
+        public override void StartBoostExecution(ShipPositionInfo finalPositionInfo)
         {
-            (Phases.CurrentSubPhase as BoostPlanningSubPhase).StartBoostExecution();
+            (Phases.CurrentSubPhase as BoostPlanningSubPhase).StartBoostExecution(finalPositionInfo);
         }
 
         public override void FinishBoost()

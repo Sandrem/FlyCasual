@@ -7,6 +7,7 @@ using Players;
 using UnityEngine.UI;
 using GameCommands;
 using Actions;
+using Ship;
 
 namespace GameModes
 { 
@@ -109,9 +110,9 @@ namespace GameModes
             }
         }
 
-        public override void StartBoostExecution()
+        public override void StartBoostExecution(ShipPositionInfo finalPositionInfo)
         {
-            Network.PerformBoost();
+            //Network.PerformBoost();
         }
 
         public override void FinishBoost()

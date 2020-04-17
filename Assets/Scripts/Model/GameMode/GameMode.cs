@@ -5,6 +5,7 @@ using System;
 using GameCommands;
 using Actions;
 using System.Collections.Generic;
+using Ship;
 
 namespace GameModes
 { 
@@ -37,7 +38,7 @@ namespace GameModes
         public abstract void FinishDecloak();
 
         public abstract void TryConfirmBoostPosition(string selectedBoostHelper);
-        public abstract void StartBoostExecution();
+        public abstract void StartBoostExecution(ShipPositionInfo finalPositionInfo);
         public abstract void CancelBoost(List<ActionFailReason> boostProblems);
         public abstract void FinishBoost();
 

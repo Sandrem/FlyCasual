@@ -19,8 +19,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyloRenPilotAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.ForcePower //,
-                                                        //seImageNumber: 120
+                    extraUpgradeIcon: UpgradeType.ForcePower
                 );
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/71dbde337b9ff5aab897781d40d8f653.png";

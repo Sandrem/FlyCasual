@@ -66,7 +66,7 @@ namespace Abilities.SecondEdition
             LockedShip = GetLockedShip();
             if (LockedShip == null)
             {
-                Messages.ShowError("\"Dutch\" Vander doesn't have any locked targets!");
+                Messages.ShowError(HostShip.PilotInfo.PilotName + " doesn't have any locked targets!");
                 Triggers.FinishTrigger();
                 return;
             }

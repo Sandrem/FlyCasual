@@ -52,11 +52,14 @@ namespace Abilities.SecondEdition
 
         private class HortonSalmActionSE : ActionsList.GenericAction
         {
+            public override string Name => HostShip.PilotInfo.PilotName;
+            public override string DiceModificationName => HostShip.PilotInfo.PilotName;
+            public override string ImageUrl => HostShip.ImageUrl;
+
             int numFriendlyShips = 0;
 
             public HortonSalmActionSE()
             {
-                Name = DiceModificationName = "Horton Salm's ability";
                 IsReroll = true;
             }
 

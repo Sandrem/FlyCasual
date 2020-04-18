@@ -65,7 +65,7 @@ namespace Abilities.SecondEdition
                     HostName,
                     NeverUseByDefault,
                     DropBomb,
-                    descriptionLong: "Do you want to drop an additional bomb?",
+                    descriptionLong: "Do you want to drop an additional device?",
                     imageHolder: HostShip
                 );
             }

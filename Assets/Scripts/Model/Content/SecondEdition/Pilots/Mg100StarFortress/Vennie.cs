@@ -18,13 +18,12 @@ namespace Ship
                     2,
                     56,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.VennieAbility) //,
-                    //seImageNumber: 19
+                    abilityType: typeof(Abilities.SecondEdition.VennieAbility)
                 );
 
                 ModelInfo.SkinName = "Crimson";
 
-                ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/7/7d/Swz18_vennie_a3.png";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/0d494986a24e6c55efae066a43161b0d.png";
             }
         }
     }
@@ -47,14 +46,17 @@ namespace Abilities.SecondEdition
 
         private void AddVennieAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModificationOwn(new VennieDiceModification());
+            ship.AddAvailableDiceModificationOwn(new VennieDiceModification() 
+            {
+                ImageUrl = HostShip.ImageUrl
+            });
         }
 
         private class VennieDiceModification : GenericAction
         {
             public VennieDiceModification()
             {
-                Name = DiceModificationName = "Vennie's ability";
+                Name = DiceModificationName = "Vennie";
             }
 
             public override void ActionEffect(System.Action callBack)

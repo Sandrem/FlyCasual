@@ -37,7 +37,11 @@ namespace Abilities.FirstEdition
 
         private void CheckPureSabaccAbility(ref int value)
         {
-            if (HostShip.Damage.DamageCards.Count <= 1) value++;
+            if (HostShip.Damage.DamageCards.Count <= 1)
+            {
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + "'s ability grants +1 attack die");
+                value++;
+            }
         }
     }
 }

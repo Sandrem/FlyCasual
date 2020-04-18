@@ -67,7 +67,7 @@ namespace Abilities.SecondEdition
 
             DamageSourceEventArgs countdownDamage = new DamageSourceEventArgs
             {
-                Source = "Countdown's ability",
+                Source = HostShip,
                 DamageType = DamageTypes.CardAbility
             };
 

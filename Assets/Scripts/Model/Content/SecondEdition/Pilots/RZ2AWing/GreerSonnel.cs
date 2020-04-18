@@ -18,8 +18,7 @@ namespace Ship
                     36,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GreerSonnelAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,
-                                                                                                        //seImageNumber: 19
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
                 );
 
                 ModelInfo.SkinName = "Red";
@@ -54,7 +53,7 @@ namespace Abilities.SecondEdition
         private void PerformAction(object sender, System.EventArgs e)
         {
             AskToUseAbility(
-                "Greer Sonnel",
+                HostShip.PilotInfo.PilotName,
                 NeverUseByDefault,
                 UseGreerSonnelAbility,
                 descriptionLong: "Do you want to rotate your turret arc indicator?",

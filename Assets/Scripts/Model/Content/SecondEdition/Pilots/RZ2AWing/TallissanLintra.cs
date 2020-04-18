@@ -24,8 +24,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.TallissanLintraAbility),
                     charges: 1,
                     regensCharges: true,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,
-                    //seImageNumber: 19
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
                 );
 
                 ModelInfo.SkinName = "Blue";

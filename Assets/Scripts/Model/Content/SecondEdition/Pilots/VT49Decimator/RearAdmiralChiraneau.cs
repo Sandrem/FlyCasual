@@ -42,6 +42,8 @@ namespace ActionsList.SecondEdition
 {
     public class RearAdmiralChiraneauAction : ActionsList.FirstEdition.RearAdmiralChiraneauAction
     {
+        public override string ImageUrl => new Ship.SecondEdition.VT49Decimator.RearAdmiralChiraneau().ImageUrl;
+
         public override bool IsDiceModificationAvailable()
         {
             if (Combat.AttackStep != CombatStep.Attack)

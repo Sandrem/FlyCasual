@@ -49,9 +49,12 @@ namespace ActionsList.FirstEdition
 {
     public class RearAdmiralChiraneauAction : GenericAction
     {
+        public override string ImageUrl => new Ship.FirstEdition.VT49Decimator.RearAdmiralChiraneau().ImageUrl;
+
         public RearAdmiralChiraneauAction()
         {
-            Name = DiceModificationName = "Rear Admiral Chiraneau's ability";
+            Name = DiceModificationName = "Rear Admiral Chiraneau";
+            
             IsTurnsOneFocusIntoSuccess = true;
         }
 

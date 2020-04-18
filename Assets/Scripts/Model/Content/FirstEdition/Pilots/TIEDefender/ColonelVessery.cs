@@ -60,6 +60,7 @@ namespace Abilities.FirstEdition
 
         private void UseColonelVesseryAbility(object sender, System.EventArgs e)
         {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " gains a Lock on the defender");
             ActionsHolder.AcquireTargetLock(Combat.Attacker, Combat.Defender, SubPhases.DecisionSubPhase.ConfirmDecision, SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }

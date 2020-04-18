@@ -68,7 +68,7 @@ namespace Abilities.SecondEdition
             abilityAction = action;
             Triggers.RegisterTrigger(new Trigger()
             {
-                Name = "Lieutenant Sai's ability",
+                Name = HostShip.PilotInfo.PilotName + "'s ability",
                 TriggerType = TriggerTypes.OnActionIsPerformed,
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = AbilityTakeFreeAction

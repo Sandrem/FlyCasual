@@ -33,7 +33,7 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             AddDiceModification(
-                "Rose Tico",
+                HostShip.PilotInfo.PilotName,
                 () => { return true; },
                 () => { return 90; },
                 DiceModificationType.Reroll,

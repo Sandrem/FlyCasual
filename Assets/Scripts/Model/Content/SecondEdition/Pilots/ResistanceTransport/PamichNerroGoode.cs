@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) <= 2)
             {
-                Messages.ShowInfo("Pamich Nerro Goode: Red maneuver is allowed");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Red maneuver is allowed");
                 isAllowed = true;
             }
         }

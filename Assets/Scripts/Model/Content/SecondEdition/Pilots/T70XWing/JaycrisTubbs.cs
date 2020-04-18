@@ -18,12 +18,8 @@ namespace Ship
                     1,
                     48,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.JaycrisTubbsAbility)//,
-                    //extraUpgradeIcon: UpgradeType.Talent
-                    //seImageNumber: 93
+                    abilityType: typeof(Abilities.SecondEdition.JaycrisTubbsAbility)
                 );
-
-                //ModelInfo.SkinName = "Black One";
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/5f3abacb9a081f5a3ca42f7a30da0e6c.png";
             }

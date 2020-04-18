@@ -93,7 +93,7 @@ namespace Abilities.SecondEdition
                     HostShip,
                     FinishAdditionalAttack,
                     IsAnotherWeapon,
-                    "\"Double Edge\"",
+                    HostShip.PilotInfo.PilotName,
                     "You may perform a bonus attack using different weapon",
                     HostShip
                 );

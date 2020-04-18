@@ -53,7 +53,7 @@ namespace Abilities.FirstEdition
                     HostShip.PilotInfo.PilotName,
                     AlwaysUseByDefault,
                     UseAbility,
-                    descriptionLong: "Do you want to receive 1 Stress Token to remove Weapons Disabled Token?",
+                    descriptionLong: "Do you want to receive 1 Stress Token to remove Disarm Token?",
                     imageHolder: HostShip
                 );
             }
@@ -65,6 +65,8 @@ namespace Abilities.FirstEdition
 
         private void UseAbility(object sender, System.EventArgs e)
         {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " recieved Stress token instead of Disarm Token");
+
             HostShip.Tokens.RemoveToken(
                 typeof(WeaponsDisabledToken),
                 delegate

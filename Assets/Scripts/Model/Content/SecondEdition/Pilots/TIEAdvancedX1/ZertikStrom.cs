@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
                     Triggers.RegisterTrigger(
                         new Trigger()
                         {
-                            Name = "Zertik Strom's Ability",
+                            Name = HostShip.PilotInfo.PilotName + "'s Ability",
                             TriggerOwner = HostShip.Owner.PlayerNo,
                             TriggerType = TriggerTypes.OnEndPhaseStart,
                             EventHandler = delegate

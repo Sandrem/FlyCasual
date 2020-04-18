@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
         {
             public MajorVermeilAction()
             {
-                Name = DiceModificationName = "Major Vermeil's ability";
+                Name = DiceModificationName = "Major Vermeil";
 
                 IsTurnsOneFocusIntoSuccess = true;
             }

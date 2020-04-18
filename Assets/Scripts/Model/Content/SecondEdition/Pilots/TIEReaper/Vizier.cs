@@ -68,7 +68,7 @@ namespace Abilities.SecondEdition
         {
             if (action is CoordinateAction && RestrictedAbilityIsActivated)
             {
-                Messages.ShowInfo("\"Vizier\" skips their Perform Action step");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " skips their Perform Action step");
                 HostShip.IsSkipsActionSubPhase = true;
             }
         }

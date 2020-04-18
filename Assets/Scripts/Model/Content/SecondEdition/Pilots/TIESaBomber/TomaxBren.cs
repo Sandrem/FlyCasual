@@ -63,11 +63,11 @@ namespace Abilities.SecondEdition
         private void ShowEliteUpgradeToRecharge(object sender, System.EventArgs e)
         {
             var phase = Phases.StartTemporarySubPhaseNew<TomaxBrenDecisionSubphase>(
-                "Tomax Bren's ability",
+                HostShip.PilotInfo.PilotName,
                 Triggers.FinishTrigger
             );
 
-            phase.DescriptionShort = "Tomax Bren";
+            phase.DescriptionShort = HostShip.PilotInfo.PilotName;
             phase.DescriptionLong = "You may recover a charge:";
             phase.ImageSource = HostShip;
 

@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
 
             subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
 
-            subphase.DescriptionShort = "R1-J5: Select Damage Card to Expose";
+            subphase.DescriptionShort = HostShip.PilotInfo.PilotName + ": Select Damage Card to Expose";
 
             subphase.RequiredPlayer = HostShip.Owner.PlayerNo;
 

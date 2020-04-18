@@ -75,6 +75,7 @@ namespace Abilities.SecondEdition
 
         private void WampaAddAttackDice(ref int value)
         {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 attack die");
             value++;
             HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= WampaAddAttackDice;
         }

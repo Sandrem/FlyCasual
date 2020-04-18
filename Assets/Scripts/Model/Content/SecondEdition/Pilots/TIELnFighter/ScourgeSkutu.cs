@@ -32,7 +32,7 @@ namespace Abilities.SecondEdition
     {
         protected override void SendExtraDiceMessage()
         {
-            Messages.ShowInfo("The defender is in your bullseye arc, you roll an additional attack die");
+            Messages.ShowInfo("The defender is in your bullseye arc, " + HostShip.PilotInfo.PilotName + " rolls an additional attack die");
         }
 
         protected override void CheckConditions()

@@ -26,6 +26,8 @@ namespace Abilities.FirstEdition
 {
     public class NightBeastAbility : GenericAbility
     {
+        protected virtual string AbilityDescription => "After you execute a green maneuver, you may perform a Focus action";
+
         public override void ActivateAbility()
         {
             HostShip.OnMovementFinish += NightBeastPilotAbility;
@@ -45,7 +47,7 @@ namespace Abilities.FirstEdition
                 Triggers.RegisterTrigger(
                     new Trigger()
                     {
-                        Name = "Night Beast: Free Focus action",
+                        Name = HostShip.PilotInfo.PilotName + ": Free Focus action",
                         TriggerOwner = ship.Owner.PlayerNo,
                         TriggerType = TriggerTypes.OnMovementFinish,
                         EventHandler = PerformFreeFocusAction
@@ -60,7 +62,7 @@ namespace Abilities.FirstEdition
                 new ActionsList.FocusAction(),
                 Triggers.FinishTrigger,
                 HostShip.PilotInfo.PilotName,
-                "After you fully execute a blue maneuver, you may perform a Focus action",
+                AbilityDescription,
                 HostShip
             );
         }

@@ -52,6 +52,7 @@ namespace Abilities.SecondEdition
 
         private void OnCombatAssignFocus(object sender, EventArgs e)
         {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has an enemy ship in Bullseye arc and gains Focus token");
             HostShip.Tokens.AssignToken(typeof(FocusToken), Triggers.FinishTrigger);
         }
     }

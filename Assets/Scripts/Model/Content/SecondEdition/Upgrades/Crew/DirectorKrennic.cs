@@ -90,7 +90,7 @@ namespace Conditions
                 Source = SourceUpgrade
             };
 
-            Host.AddAvailableDiceModification(action);
+            Host.AddAvailableDiceModificationOwn(action);
         }
     }
 }

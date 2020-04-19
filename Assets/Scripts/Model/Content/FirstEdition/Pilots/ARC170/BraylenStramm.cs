@@ -66,7 +66,7 @@ namespace Abilities.FirstEdition
         private void UseBraylenStrammAbility(object sender, System.EventArgs e)
         {
             Phases.StartTemporarySubPhaseOld(
-                "Braylen Stramm Ability: Try to remove stress",
+                HostShip.PilotInfo.PilotName + ": Try to remove stress",
                 typeof(SubPhases.BraylenStrammCheckSubPhase),
                 delegate {
                     //We have a BraylenStrammCheckSubPhase open, so finish it

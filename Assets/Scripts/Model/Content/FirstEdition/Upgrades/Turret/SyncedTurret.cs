@@ -44,7 +44,7 @@ namespace Abilities.FirstEdition
 
         private void AddSyncedTurretAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new SyncedTurretAction() { Source = HostUpgrade });
+            ship.AddAvailableDiceModificationOwn(new SyncedTurretAction() { Source = HostUpgrade });
         }
 
         private class SyncedTurretAction : ActionsList.GenericAction

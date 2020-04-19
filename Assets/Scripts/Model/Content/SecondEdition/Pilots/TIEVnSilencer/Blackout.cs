@@ -14,8 +14,7 @@ namespace Ship
                     63,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TestPilotBlackoutAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 120
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/c5659b210e13b4e11fdd5f1396f2847c.png";

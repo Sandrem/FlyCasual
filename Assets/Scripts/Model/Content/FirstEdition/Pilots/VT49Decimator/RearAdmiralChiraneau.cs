@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void AddRearAdmiralChiraneauPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.FirstEdition.RearAdmiralChiraneauAction());
+            ship.AddAvailableDiceModificationOwn(new ActionsList.FirstEdition.RearAdmiralChiraneauAction());
         }
     }
 }
@@ -49,9 +49,12 @@ namespace ActionsList.FirstEdition
 {
     public class RearAdmiralChiraneauAction : GenericAction
     {
+        public override string ImageUrl => new Ship.FirstEdition.VT49Decimator.RearAdmiralChiraneau().ImageUrl;
+
         public RearAdmiralChiraneauAction()
         {
-            Name = DiceModificationName = "Rear Admiral Chiraneau's ability";
+            Name = DiceModificationName = "Rear Admiral Chiraneau";
+            
             IsTurnsOneFocusIntoSuccess = true;
         }
 

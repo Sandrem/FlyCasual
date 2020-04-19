@@ -16,13 +16,12 @@ namespace Ship
                     1,
                     54,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.CatAbility) //,
-                    //seImageNumber: 19
+                    abilityType: typeof(Abilities.SecondEdition.CatAbility)
                 );
 
                 ModelInfo.SkinName = "Cobalt";
 
-                ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/e/e6/StarFortress_Cat.png";
+                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/b386dc25736682ebc785b15551de903b.png";
             }
         }
     }

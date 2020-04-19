@@ -41,14 +41,14 @@ namespace Abilities.SecondEdition
 
         private void AddSerissuAbility(GenericShip ship)
         {
-            Combat.Defender.AddAvailableDiceModification(new SerissuAction() { HostShip = this.HostShip });
+            Combat.Defender.AddAvailableDiceModification(new SerissuAction() { ImageUrl = HostShip.ImageUrl }, HostShip);
         }
 
         protected class SerissuAction : FriendlyRerollAction
         {
             public SerissuAction() : base(1, 1, true, RerollTypeEnum.DefenseDice)
             {
-                Name = DiceModificationName = "Serissu's ability";
+                Name = DiceModificationName = "Serissu";
             }
         }
     }

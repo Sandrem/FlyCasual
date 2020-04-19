@@ -37,7 +37,7 @@ namespace Abilities.SecondEdition
                 && !Combat.Defender.Tokens.HasGreenTokens()
                 && (Combat.DiceRollAttack.Focuses > 0 || Combat.DiceRollAttack.Blanks > 0))
             {
-                ship.AddAvailableDiceModification(new MajorVermeilAction
+                ship.AddAvailableDiceModificationOwn(new MajorVermeilAction
                 {
                     ImageUrl = HostShip.ImageUrl,
                     HostShip = HostShip

@@ -79,7 +79,7 @@ namespace Abilities.FirstEdition
             selectMirandaDoniSubPhase.Start();
         }
 
-        protected string GetDefaultDecision()
+        protected virtual string GetDefaultDecision()
         {
             string result = "No";
 

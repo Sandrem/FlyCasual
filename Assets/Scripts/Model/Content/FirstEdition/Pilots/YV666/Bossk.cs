@@ -55,7 +55,9 @@ namespace Abilities.FirstEdition
                 typeof(DecisionSubPhase),
                 Triggers.FinishTrigger);
 
-            decisionSubPhase.DescriptionShort = "Bossk: Would you like to cancel 1 critical result to add 2 success results?";
+            decisionSubPhase.DescriptionShort = HostShip.PilotInfo.PilotName;
+            decisionSubPhase.DescriptionLong = "Would you like to cancel 1 critical result to add 2 success results?";
+            decisionSubPhase.ImageSource = HostShip;
 
             decisionSubPhase.AddDecision("Yes", ConvertCriticalsToSuccesses);
             decisionSubPhase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); }
@@ -77,7 +79,7 @@ namespace Abilities.FirstEdition
             Combat.DiceRollAttack.DiceList.Remove(
                 Combat.DiceRollAttack.DiceList.First(die => die.Side == DieSide.Crit));
 
-            Messages.ShowInfoToHuman("Bossk: Changed one critical result into two success results");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Changed one critical result into two success results");
             DecisionSubPhase.ConfirmDecision();
             Phases.CurrentSubPhase.Resume();
         }

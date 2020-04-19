@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
                 Source = HostUpgrade
             };
 
-            host.AddAvailableDiceModification(action);
+            host.AddAvailableDiceModificationOwn(action);
         }
     }
 }
@@ -76,7 +76,7 @@ namespace ActionsList
 
         private void ProtonTorpedoesAddDiceModification(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(this);
+            ship.AddAvailableDiceModificationOwn(this);
         }
 
         public override bool IsDiceModificationAvailable()

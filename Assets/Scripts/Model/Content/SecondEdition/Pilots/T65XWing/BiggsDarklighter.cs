@@ -31,6 +31,8 @@ namespace Abilities.SecondEdition
 {
     public class BiggsDarklighterAbility : GenericAbility
     {
+        public override string Name => HostShip.PilotInfo.PilotName;
+
         private GenericShip curToDamage;
         private DamageSourceEventArgs curDamageInfo;
 
@@ -78,7 +80,7 @@ namespace Abilities.SecondEdition
 
             DamageSourceEventArgs drawtheirfireDamage = new DamageSourceEventArgs()
             {
-                Source = "Biggs Darklighter's Ability",
+                Source = Name,
                 DamageType = DamageTypes.CardAbility
             };
 
@@ -97,20 +99,20 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger
             );
 
-            selectBiggsDarklighterSubPhase.DescriptionShort = "Biggs Darklighter";
+            selectBiggsDarklighterSubPhase.DescriptionShort = Name;
             selectBiggsDarklighterSubPhase.DescriptionLong = "You may suffer 1 Hit or Crit damage to cancel 1 matching result";
             selectBiggsDarklighterSubPhase.ImageSource = HostShip;
 
             if (curToDamage.AssignedDamageDiceroll.RegularSuccesses > 0)
             {
-                selectBiggsDarklighterSubPhase.AddDecision("Redirect Hit damage.", delegate { PreventDamage(DieSide.Success); });
-                selectBiggsDarklighterSubPhase.AddTooltip("Redirect Hit damage.", HostShip.ImageUrl);
+                selectBiggsDarklighterSubPhase.AddDecision("Redirect Hit damage", delegate { PreventDamage(DieSide.Success); });
+                selectBiggsDarklighterSubPhase.AddTooltip("Redirect Hit damage", HostShip.ImageUrl);
             }
 
             if (curToDamage.AssignedDamageDiceroll.CriticalSuccesses > 0)
             {
-                selectBiggsDarklighterSubPhase.AddDecision("Redirect Crit damage.", delegate { PreventDamage(DieSide.Crit); });
-                selectBiggsDarklighterSubPhase.AddTooltip("Redirect Crit damage.", HostShip.ImageUrl);
+                selectBiggsDarklighterSubPhase.AddDecision("Redirect Crit damage", delegate { PreventDamage(DieSide.Crit); });
+                selectBiggsDarklighterSubPhase.AddTooltip("Redirect Crit damage", HostShip.ImageUrl);
             }
 
             selectBiggsDarklighterSubPhase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); });
@@ -128,12 +130,12 @@ namespace Abilities.SecondEdition
             {
                 if (curToDamage.AssignedDamageDiceroll.RegularSuccesses > 0)
                 {
-                    result = "Redirect Hit damage.";
+                    result = "Redirect Hit damage";
                 }
 
                 if (curToDamage.AssignedDamageDiceroll.CriticalSuccesses > 0)
                 {
-                    result = "Redirect Crit damage.";
+                    result = "Redirect Crit damage";
                 }
 
             }

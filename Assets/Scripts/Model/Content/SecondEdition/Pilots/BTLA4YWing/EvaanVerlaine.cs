@@ -1,6 +1,8 @@
 ﻿using Abilities.SecondEdition;
+using Conditions;
 using Ship;
 using SubPhases;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +66,7 @@ namespace Abilities.SecondEdition
                 GetAiAbilityPriority,
                 HostShip.Owner.PlayerNo,
                 HostShip.PilotInfo.PilotName,
-                "Choose a ship to increase it's agility value",
+                "Choose a ship to protect",
                 HostShip
             );
         }
@@ -76,21 +78,58 @@ namespace Abilities.SecondEdition
 
         private int GetAiAbilityPriority(GenericShip ship)
         {
-            // I don't know how good of a metric this is?
-            return ship.PilotInfo.Cost * ship.State.Agility;
+            return ship.PilotInfo.Cost;
         }
 
         protected void IncreaseAgilityValue()
         {
-            TargetShip.ChangeAgilityBy(+1);
-            Phases.Events.OnEndPhaseStart_NoTriggers += DecreaseAgilityValue;
+            EvaanVerlaineCondition condition = new EvaanVerlaineCondition(TargetShip, HostShip);
+            TargetShip.Tokens.AssignCondition(condition);
+
             SelectShipSubPhase.FinishSelection();
         }
+    }
+}
 
-        protected void DecreaseAgilityValue()
+namespace Conditions
+{
+    public class EvaanVerlaineCondition : GenericToken
+    {
+        private GenericShip AbilitySourceShip;
+
+        public EvaanVerlaineCondition(GenericShip host, GenericShip source) : base(host)
         {
-            TargetShip.ChangeAgilityBy(-1);
-            Phases.Events.OnEndPhaseStart_NoTriggers -= DecreaseAgilityValue;
+            Name = ImageName = "Buff Token";
+            TooltipType = source.GetType();
+            Temporary = false;
+            AbilitySourceShip = source;
+        }
+
+        public override void WhenAssigned()
+        {
+            Messages.ShowInfo(AbilitySourceShip.PilotInfo.PilotName + " protects " + Host.PilotInfo.PilotName);
+
+            Host.AfterGotNumberOfDefenceDice += IncreaseNumber;
+
+            Phases.Events.OnEndPhaseStart_NoTriggers += RemoveThisCondition;
+        }
+
+        private void IncreaseNumber(ref int count)
+        {
+            Messages.ShowInfo(AbilitySourceShip.PilotInfo.PilotName + "'s protection: " + Host.PilotInfo.PilotName + " rolls 1 additional defense die");
+            count++;
+        }
+
+        public void RemoveThisCondition()
+        {
+            Host.Tokens.RemoveCondition(this);
+        }
+
+        public override void WhenRemoved()
+        {
+            Host.AfterGotNumberOfDefenceDice -= IncreaseNumber;
+
+            Phases.Events.OnEndPhaseStart_NoTriggers += RemoveThisCondition;
         }
     }
 }

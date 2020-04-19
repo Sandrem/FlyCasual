@@ -67,6 +67,8 @@ namespace Abilities.SecondEdition
         {
             bool result = false;
 
+            if (ship.Owner.PlayerNo != HostShip.Owner.PlayerNo) return false;
+
             if (ship.ShipId == HostShip.ShipId) return false;
 
             DistanceInfo distInfo = new DistanceInfo(HostShip, ship);

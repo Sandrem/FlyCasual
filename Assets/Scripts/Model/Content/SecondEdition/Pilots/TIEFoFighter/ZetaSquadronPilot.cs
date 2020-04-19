@@ -11,8 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Zeta Squadron Pilot",
                     2,
-                    26 //,
-                    //seImageNumber: 120
+                    26
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c0/af/c0afde49-7f44-4c59-8051-cc4140a04be0/swz26_a1_zeta-pilot.png";

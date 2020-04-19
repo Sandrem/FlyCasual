@@ -21,7 +21,6 @@ namespace Ship
                     charges: 1,
                     regensCharges: true,
                     extraUpgradeIcon: UpgradeType.Talent
-                    //seImageNumber: 93
                 );
 
                 ModelInfo.SkinName = "Black One";

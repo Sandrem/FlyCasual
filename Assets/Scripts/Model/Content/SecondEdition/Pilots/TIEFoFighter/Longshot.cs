@@ -15,8 +15,7 @@ namespace Ship
                     31,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LongshotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 120
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/a6/a3/a6a34b16-16d8-43f7-b250-0e8dd9299a5f/swz26_a1_longshot.png";
@@ -44,7 +43,7 @@ namespace Abilities.SecondEdition
             ShotInfo shotInformation = new ShotInfo(Combat.Attacker, Combat.Defender, Combat.ChosenWeapon);
             if (shotInformation.Range == 3)
             {
-                Messages.ShowInfo("\"Longshot\" is attacking at range 3 and gains +1 attack die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is attacking at range 3 and gains +1 attack die");
                 result++;
             }
         }

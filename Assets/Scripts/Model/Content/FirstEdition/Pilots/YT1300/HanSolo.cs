@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
 
         public void HanSoloPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new HanSoloAction());
+            ship.AddAvailableDiceModificationOwn(new HanSoloAction());
         }
 
         private class HanSoloAction : ActionsList.GenericAction

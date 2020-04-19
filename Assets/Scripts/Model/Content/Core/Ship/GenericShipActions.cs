@@ -429,7 +429,7 @@ namespace Ship
             foreach (var token in Tokens.GetAllTokens())
             {
                 GenericAction action = token.GetAvailableEffects();
-                if (action != null) AddAvailableDiceModification(action);
+                if (action != null) AddAvailableDiceModificationOwn(action);
             }
 
             if (OnGenerateDiceModifications != null) OnGenerateDiceModifications(this);
@@ -466,8 +466,16 @@ namespace Ship
 
         // ADD DICE MODIFICATION TO A LIST
 
-        public void AddAvailableDiceModification(GenericAction action)
+        //Only for own dice modifications
+        public void AddAvailableDiceModificationOwn(GenericAction action)
         {
+            AddAvailableDiceModification(action, this);
+        }
+
+        //Can be used for own and aura-like dice modifications
+        public void AddAvailableDiceModification(GenericAction action, GenericShip sourceShip)
+        {
+            action.HostShip = sourceShip;
             if (NotAlreadyAddedSameDiceModification(action) && CanUseDiceModification(action))
             {
                 AvailableDiceModifications.Add(action);

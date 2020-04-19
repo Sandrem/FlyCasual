@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
             if (Combat.Attacker.State.Initiative > HostShip.Damage.DamageCards.Count)
             {
                 count++;
-                Messages.ShowInfo("Initiative of attacker is higher than the number of damage cards Kazuda Xiono has, Kazuda Xiono rolls +1 defense die");
+                Messages.ShowInfo("Initiative of attacker is higher than the number of damage cards " + HostShip.PilotInfo.PilotName + " has, " + HostShip.PilotInfo.PilotName + " rolls +1 defense die");
             }
         }
 
@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
             if (Combat.Defender.State.Initiative > HostShip.Damage.DamageCards.Count)
             {
                 count++;
-                Messages.ShowInfo("Initiative of defender is higher than the number of damage cards Kazuda Xiono has, Kazuda Xiono rolls +1 attack die");
+                Messages.ShowInfo("Initiative of defender is higher than the number of damage cards " + HostShip.PilotInfo.PilotName + " has, " + HostShip.PilotInfo.PilotName + " rolls +1 attack die");
             }
         }
     }

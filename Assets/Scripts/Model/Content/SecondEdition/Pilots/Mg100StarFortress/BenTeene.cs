@@ -54,7 +54,7 @@ namespace Abilities.SecondEdition
                 RemoveCondition();
                 Messages.ShowInfo("The \"Rattled\" condition has been assigned to " + Combat.Defender.PilotInfo.PilotName);
 
-                AssignedCondition = new RattledCondition(Combat.Defender, HostShip);
+                AssignedCondition = new RattledCondition(Combat.Defender);
                 SufferedShip = Combat.Defender;
                 SufferedShip.Tokens.AssignCondition(AssignedCondition);
             }
@@ -78,10 +78,10 @@ namespace Conditions
 {
     public class RattledCondition : GenericToken
     {
-        public RattledCondition(GenericShip host, GenericShip source) : base(host)
+        public RattledCondition(GenericShip host) : base(host)
         {
             Name = ImageName = "Debuff Token";
-            TooltipType = source.GetType();
+            Tooltip = "https://i.imgur.com/GQqIKOn.png";
             Temporary = false;
         }
 
@@ -136,7 +136,8 @@ namespace Conditions
         {
             GenericAction action = new RattledRepairAction()
             {
-                HostShip = Host
+                HostShip = Host,
+                ImageUrl = Tooltip
             };
             Host.AddAvailableAction(action);
         }
@@ -150,8 +151,7 @@ namespace ActionsList
     {
         public RattledRepairAction()
         {
-            Name = DiceModificationName = "\"Rattled\" has been repaired. Discarding the \"Rattled\" condition.";
-            ImageUrl = new Ship.SecondEdition.Mg100StarFortress.BenTeene().ImageUrl;
+            Name = DiceModificationName = "Discard \"Rattled\"";
         }
 
         public override void ActionTake()

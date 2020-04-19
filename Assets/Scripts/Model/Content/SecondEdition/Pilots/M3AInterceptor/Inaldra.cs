@@ -30,7 +30,7 @@ namespace Abilities.SecondEdition
     {
         protected override void AddInaldraAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new InaldraActionSE() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new InaldraActionSE() { ImageUrl = HostShip.ImageUrl });
         }
     }
 }
@@ -41,7 +41,7 @@ namespace ActionsList.SecondEdition
     {
         public InaldraActionSE()
         {
-            Name = DiceModificationName = "Inaldra's ability";
+            Name = DiceModificationName = "Inaldra";
         }
 
         public override void ActionEffect(Action callBack)
@@ -57,7 +57,7 @@ namespace ActionsList.SecondEdition
 
             DamageSourceEventArgs inaldraRerollDmg = new DamageSourceEventArgs()
             {
-                Source = "Inaldra Reroll Damage",
+                Source = "Inaldra Reroll",
                 DamageType = DamageTypes.CardAbility
             };
 

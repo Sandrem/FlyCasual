@@ -29,7 +29,7 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             AddDiceModification(
-                "Koshka Frost",
+                HostShip.PilotInfo.PilotName,
                 IsAvailable,
                 GetPriority,
                 DiceModificationType.Reroll,

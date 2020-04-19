@@ -77,7 +77,7 @@ namespace ActionsList
 
         private void MarksmanshipAddDiceModification(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(this);
+            ship.AddAvailableDiceModificationOwn(this);
         }
 
         private void MarksmanshipUnSubscribeToFiceModification()

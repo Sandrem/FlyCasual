@@ -44,14 +44,21 @@ namespace Abilities.SecondEdition
 
         private void AddDreaRenthalAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableDiceModification(new DiceModificationAction() { HostShip = Roster.GetShipById("ShipId:" + this.HostShip.ShipId) });
+            Combat.Attacker.AddAvailableDiceModification
+            (
+                new DiceModificationAction()
+                {
+                    ImageUrl = HostShip.ImageUrl
+                },
+                HostShip
+            );
         }
 
         private class DiceModificationAction : ActionsList.GenericAction
         {
             public DiceModificationAction()
             {
-                Name = DiceModificationName = "Drea Renthal's ability";
+                Name = DiceModificationName = "Drea Renthal";
                 IsReroll = true;
             }
 

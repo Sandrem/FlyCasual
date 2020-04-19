@@ -44,7 +44,10 @@ namespace Abilities.SecondEdition
 
         protected virtual void AddSeynMaranaAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new SeynMaranaDiceModificationSE() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new SeynMaranaDiceModificationSE()
+            {
+                ImageUrl = HostShip.ImageUrl
+            }); ;
         }
     }
 }
@@ -73,7 +76,7 @@ namespace ActionsList.SecondEdition
 
             DamageSourceEventArgs SeynMaranaDamage = new DamageSourceEventArgs()
             {
-                Source = "Seyn Marana's Ability",
+                Source = HostShip,
                 DamageType = DamageTypes.CardAbility
             };
 

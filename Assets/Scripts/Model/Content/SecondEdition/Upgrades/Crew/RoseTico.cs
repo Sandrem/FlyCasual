@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
                 HostShip = host,
                 ImageUrl = HostUpgrade.ImageUrl
             };
-            host.AddAvailableDiceModification(diceModification);
+            host.AddAvailableDiceModificationOwn(diceModification);
         }
     }
 }

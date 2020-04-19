@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
             SelectShipSubPhase.FinishSelectionNoCallback();
             AsajjVentressAbilityDecisionSubPhaseSE subphase = (AsajjVentressAbilityDecisionSubPhaseSE)
                 Phases.StartTemporarySubPhaseNew(
-                "Choose effect of Asajj Ventress' ability.",
+                "Choose effect of " + HostShip.PilotInfo.PilotName + "' ability.",
                 typeof(AsajjVentressAbilityDecisionSubPhaseSE),
                 Triggers.FinishTrigger
             );

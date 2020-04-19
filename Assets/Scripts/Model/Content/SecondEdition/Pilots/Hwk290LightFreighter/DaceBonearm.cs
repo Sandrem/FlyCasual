@@ -84,7 +84,7 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            Messages.ShowInfo("Dace Bonearm's ability has been activated");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + "'s ability has been activated");
 
             for (int i = 0; i < 3; i++)
             {

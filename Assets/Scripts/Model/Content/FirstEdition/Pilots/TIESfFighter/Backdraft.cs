@@ -39,7 +39,7 @@ namespace Abilities.FirstEdition
 
         private void AddBackdraftAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new BackdraftAbilityAction());
+            ship.AddAvailableDiceModificationOwn(new BackdraftAbilityAction());
         }
     }
 }

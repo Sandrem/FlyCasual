@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
                 HostShip = host,
                 Source = HostUpgrade
             };
-            host.AddAvailableDiceModification(newAction);
+            host.AddAvailableDiceModificationOwn(newAction);
         }
 
         public void StartAbility(Action callback)

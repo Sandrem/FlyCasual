@@ -38,15 +38,15 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnTokenIsAssigned += RegisterSoontirFelAbility;
+            HostShip.OnTokenIsAssigned += RegisterK2SOAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnTokenIsAssigned -= RegisterSoontirFelAbility;
+            HostShip.OnTokenIsAssigned -= RegisterK2SOAbility;
         }
 
-        private void RegisterSoontirFelAbility(GenericShip ship, Type tokenType)
+        private void RegisterK2SOAbility(GenericShip ship, Type tokenType)
         {
             if (tokenType == typeof(StressToken))
             {
@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
 
         private void AssignToken(object sender, EventArgs e)
         {
-            Messages.ShowInfo("K-2SO: Calculate Token is assigned");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Calculate Token is assigned");
             HostShip.Tokens.AssignToken(typeof(CalculateToken), Triggers.FinishTrigger);
         }
     }

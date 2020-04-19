@@ -59,7 +59,7 @@ namespace Abilities.SecondEdition
             if (TargetsForAbilityExist(FilterAbilityTarget))
             {
                 Selection.ChangeActiveShip(HostShip);
-                Messages.ShowInfoToHuman("IG-88A Ability: Select a ship to transfer a calculate token to");
+                Messages.ShowInfoToHuman(HostShip.PilotInfo.PilotName + ": Select a ship to transfer a calculate token to");
 
                 SelectTargetForAbility(
                     TransferCalculate,

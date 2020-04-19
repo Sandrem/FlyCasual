@@ -56,7 +56,7 @@ namespace Abilities.FirstEdition
                 ImageUrl = HostUpgrade.ImageUrl,
                 Source = HostUpgrade
             };
-            host.AddAvailableDiceModification(action);
+            host.AddAvailableDiceModificationOwn(action);
         }
     }
 }
@@ -74,7 +74,7 @@ namespace ActionsList
 
         private void AdvancedProtonTorpedoesAddDiceModification(Ship.GenericShip ship)
         {
-            ship.AddAvailableDiceModification(this);
+            ship.AddAvailableDiceModificationOwn(this);
         }
 
         public override bool IsDiceModificationAvailable()

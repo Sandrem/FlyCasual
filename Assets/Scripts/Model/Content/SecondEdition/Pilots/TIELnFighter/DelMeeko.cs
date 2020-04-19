@@ -46,14 +46,19 @@ namespace Abilities.SecondEdition
 
         private void AddDelMeekoAbility(GenericShip ship)
         {
-            Combat.Defender.AddAvailableDiceModification(new DelMeekoAction() { HostShip = this.HostShip });
+            Combat.Defender.AddAvailableDiceModification(
+                new DelMeekoAction() {
+                    ImageUrl = HostShip.ImageUrl
+                },
+                HostShip
+            );
         }
 
         private class DelMeekoAction : FriendlyRerollAction
         {
             public DelMeekoAction() : base(1, 2, true, RerollTypeEnum.DefenseDice)
             {
-                Name = DiceModificationName = "Del Meeko's ability";
+                Name = DiceModificationName = "Del Meeko";
             }
 
             public override bool IsDiceModificationAvailable()

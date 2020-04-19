@@ -78,7 +78,7 @@ namespace Abilities.FirstEdition
         private void StartRollDiceSubphase()
         {
             PerformDiceCheck(
-                "Jek Porkins: Facedown damage card on hit",
+                HostShip.PilotInfo.PilotName + ": Facedown damage card on hit",
                 DiceKind.Attack,
                 1,
                 FinishAction,

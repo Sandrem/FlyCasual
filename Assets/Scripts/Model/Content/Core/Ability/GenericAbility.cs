@@ -526,7 +526,15 @@ namespace Abilities
                     },
                     IsReroll = modificationType == DiceModificationType.Reroll,
                 };
-                ship.AddAvailableDiceModification(diceModification);
+
+                if (!isGlobal)
+                {
+                    ship.AddAvailableDiceModificationOwn(diceModification);
+                }
+                else
+                {
+                    ship.AddAvailableDiceModification(diceModification, HostShip);
+                }
             };
             
             if (!isGlobal)

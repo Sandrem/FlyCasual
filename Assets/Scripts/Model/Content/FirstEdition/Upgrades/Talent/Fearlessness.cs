@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
                 ImageUrl = HostUpgrade.ImageUrl,
                 HostShip = HostShip
             };
-            HostShip.AddAvailableDiceModification(newAction);
+            HostShip.AddAvailableDiceModificationOwn(newAction);
         }
 
     }

@@ -58,7 +58,7 @@ namespace Abilities.FirstEdition
         private void ShowDecision(object sender, EventArgs e)
         {
             CritToDealDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<CritToDealDecisionSubPhase>(
-                "Ability of Maarek Stele",
+                HostShip.PilotInfo.PilotName,
                 Triggers.FinishTrigger
             );
 

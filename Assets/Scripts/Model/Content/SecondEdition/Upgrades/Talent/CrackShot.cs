@@ -45,7 +45,7 @@ namespace Abilities.SecondEdition
                 HostShip = host,
                 Source = this.HostUpgrade
             };
-            host.AddAvailableDiceModification(newAction);
+            host.AddAvailableDiceModificationOwn(newAction);
         }
     }
 }

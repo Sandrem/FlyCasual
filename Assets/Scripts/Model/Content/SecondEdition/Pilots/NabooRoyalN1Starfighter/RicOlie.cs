@@ -49,7 +49,7 @@ namespace Abilities.SecondEdition
 
             if (HostShip.RevealedManeuver.Speed > Combat.Defender.RevealedManeuver.Speed)
             {
-                Messages.ShowInfo("Ric Olie: +1 attack die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 attack die");
                 count++;
             }
         }
@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
 
             if (HostShip.RevealedManeuver.Speed > Combat.Attacker.RevealedManeuver.Speed)
             {
-                Messages.ShowInfo("Ric Olie: +1 defense die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 defense die");
                 count++;
             }
         }

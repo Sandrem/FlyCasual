@@ -15,8 +15,7 @@ namespace Ship
                     42,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MidnightAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 120
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/56/94/56940164-d919-4b04-8303-f39357555fad/swz18_a1_midnight.png";
@@ -66,7 +65,7 @@ namespace Abilities.SecondEdition
 
         private void UseOmegaLeaderRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            Messages.ShowErrorToHuman("\"Midnight\": The target is unable to modify dice");
+            Messages.ShowErrorToHuman(HostShip.PilotInfo.PilotName + ": The target is unable to modify dice");
             canBeUsed = false;
         }
 

@@ -39,7 +39,7 @@ namespace Abilities.SecondEdition
 
         private void AddMunitionsFailsafeAbility(GenericShip ship)
         {
-            HostShip.AddAvailableDiceModification(new MunitionsFailsafeAction() { HostShip = this.HostShip });
+            HostShip.AddAvailableDiceModificationOwn(new MunitionsFailsafeAction());
         }
 
         private class MunitionsFailsafeAction : GenericAction

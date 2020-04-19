@@ -33,7 +33,7 @@ namespace Abilities.SecondEdition
     {
         protected override void AddRearAdmiralChiraneauPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.SecondEdition.RearAdmiralChiraneauAction() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new ActionsList.SecondEdition.RearAdmiralChiraneauAction());
         }
     }
 }
@@ -42,6 +42,8 @@ namespace ActionsList.SecondEdition
 {
     public class RearAdmiralChiraneauAction : ActionsList.FirstEdition.RearAdmiralChiraneauAction
     {
+        public override string ImageUrl => new Ship.SecondEdition.VT49Decimator.RearAdmiralChiraneau().ImageUrl;
+
         public override bool IsDiceModificationAvailable()
         {
             if (Combat.AttackStep != CombatStep.Attack)

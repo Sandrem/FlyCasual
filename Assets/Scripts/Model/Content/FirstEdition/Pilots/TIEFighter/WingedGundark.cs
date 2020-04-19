@@ -37,7 +37,7 @@ namespace Abilities.FirstEdition
 
         private void WingedGundarkPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new WingedGundarkAction());
+            ship.AddAvailableDiceModificationOwn(new WingedGundarkAction());
         }
 
         private class WingedGundarkAction : ActionsList.GenericAction

@@ -45,7 +45,7 @@ namespace Abilities.FirstEdition
                 && !(Combat.Defender.Tokens.HasToken<EvadeToken>() || Combat.Defender.Tokens.HasToken<FocusToken>())
                 && (Combat.DiceRollAttack.Focuses > 0 || Combat.DiceRollAttack.Blanks > 0))
             {
-                ship.AddAvailableDiceModification(new MajorVermeilAction
+                ship.AddAvailableDiceModificationOwn(new MajorVermeilAction
                 {
                     ImageUrl = HostShip.ImageUrl,
                     HostShip = HostShip
@@ -57,7 +57,7 @@ namespace Abilities.FirstEdition
         {
             public MajorVermeilAction()
             {
-                Name = DiceModificationName = "Major Vermeil's ability";
+                Name = DiceModificationName = "Major Vermeil";
 
                 IsTurnsOneFocusIntoSuccess = true;
             }

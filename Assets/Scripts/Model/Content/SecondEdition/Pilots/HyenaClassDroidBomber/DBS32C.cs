@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             Selection.ChangeActiveShip(HostShip);
 
             AskToUseAbility(
-                "DBS-32C",
+                HostShip.PilotInfo.PilotName,
                 NeverUseByDefault,
                 UseDbs32cAbility,
                 descriptionLong: "You may spend 1 calculate token to coordinate ship with Networked Calculations ability",
@@ -84,7 +84,7 @@ namespace Abilities.SecondEdition
             HostShip.AskPerformFreeAction(
                 new CoordinateAction(),
                 FinishAbility,
-                descriptionShort: "DBS-32C",
+                descriptionShort: HostShip.PilotInfo.PilotName,
                 isForced: true
             );
         }

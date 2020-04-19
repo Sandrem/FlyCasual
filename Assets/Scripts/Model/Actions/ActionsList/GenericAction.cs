@@ -19,9 +19,9 @@ namespace ActionsList
 {
     public class GenericAction
     {
-        public string Name;
-        public string DiceModificationName;
-        public string ImageUrl;
+        public virtual string Name { get; set; }
+        public virtual string DiceModificationName { get; set; }
+        public virtual string ImageUrl { get; set; }
 
         public bool IsRealAction = true;
         public bool IsCoordinatedAction = false;

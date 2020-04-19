@@ -30,13 +30,13 @@ namespace Abilities.FirstEdition
         public override void ActivateAbility()
         {
             HostShip.OnAttackStartAsAttacker += RegisterEpsilonLeaderAbility;
-            HostShip.OnAttackFinishAsAttacker += RemoveEpsilonLeaderAbility;
+            HostShip.OnAttackFinishAsAttacker += RemoveZetaLeaderAbility;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnAttackStartAsAttacker -= RegisterEpsilonLeaderAbility;
-            HostShip.OnAttackFinishAsAttacker -= RemoveEpsilonLeaderAbility;
+            HostShip.OnAttackFinishAsAttacker -= RemoveZetaLeaderAbility;
         }
 
         private void RegisterEpsilonLeaderAbility()
@@ -74,7 +74,7 @@ namespace Abilities.FirstEdition
             HostShip.Tokens.AssignToken(typeof(StressToken), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
 
-        private void RemoveEpsilonLeaderAbility(GenericShip genericShip)
+        private void RemoveZetaLeaderAbility(GenericShip genericShip)
         {
             // At the end of combat phase, need to remove attack value increase
             if (IsAbilityUsed)

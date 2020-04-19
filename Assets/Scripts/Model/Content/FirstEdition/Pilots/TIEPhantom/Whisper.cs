@@ -27,6 +27,9 @@ namespace Abilities.FirstEdition
 {
     public class WhisperAbility : GenericAbility
     {
+        protected virtual string DescriptionLong => "Do you want to gain 1 Focus Token?";
+        protected virtual string TokenIsAssignedMessage => " gains Focus token";
+
         public override void ActivateAbility()
         {
             HostShip.OnAttackHitAsAttacker += RegisterWhisperAbility;
@@ -55,7 +58,7 @@ namespace Abilities.FirstEdition
                     HostShip.PilotInfo.PilotName,
                     AlwaysUseByDefault,
                     AssignToken,
-                    descriptionLong: "Do you want to gain 1 Evade Token?",
+                    descriptionLong: DescriptionLong,
                     imageHolder: HostShip,
                     showAlwaysUseOption: true
                 );
@@ -68,6 +71,7 @@ namespace Abilities.FirstEdition
 
         private void AssignToken(object sender, System.EventArgs e)
         {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + TokenIsAssignedMessage);
             HostShip.Tokens.AssignToken(GetTokenType(), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }

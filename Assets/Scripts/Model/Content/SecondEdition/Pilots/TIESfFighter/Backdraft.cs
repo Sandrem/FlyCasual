@@ -16,8 +16,7 @@ namespace Ship
                     39,
                     isLimited: true,
                     extraUpgradeIcon: UpgradeType.Talent,
-                    abilityType: typeof(Abilities.SecondEdition.BackdraftAbility) //,
-                        //seImageNumber: 120
+                    abilityType: typeof(Abilities.SecondEdition.BackdraftAbility)
                 );
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/a/ac/Swz18_backdraft_a3.png";

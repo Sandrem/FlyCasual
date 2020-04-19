@@ -41,14 +41,16 @@ namespace Abilities.FirstEdition
 
         private void AddSabinebility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new SabineWrenDiceModification());
+            ship.AddAvailableDiceModificationOwn(new SabineWrenDiceModification() {
+                ImageUrl = HostShip.ImageUrl
+            });
         }
 
         private class SabineWrenDiceModification : GenericAction
         {
             public SabineWrenDiceModification()
             {
-                Name = DiceModificationName = "Sabine Wren's ability";
+                Name = DiceModificationName = "Sabine Wren";
             }
 
             public override void ActionEffect(System.Action callBack)

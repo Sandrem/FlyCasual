@@ -41,7 +41,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void AddInaldraAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.FirstEdition.InaldraAction() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new ActionsList.FirstEdition.InaldraAction());
         }
     }
 }

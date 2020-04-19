@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
             if (TargetsForAbilityExist(FilterAbilityTarget))
             {
                 Selection.ChangeActiveShip(HostShip);
-                Messages.ShowInfoToHuman("Captain Kagi: Select a target for his ability");
+                Messages.ShowInfoToHuman(HostShip.PilotInfo.PilotName + ": Select a target for ability");
 
                 SelectTargetForAbility(
                     SelectAbilityTarget,

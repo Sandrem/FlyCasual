@@ -76,7 +76,7 @@ namespace Abilities.FirstEdition
                     HostShip,
                     FinishAdditionalAttack,
                     IsCannonShot,
-                    "IG-88B",
+                    HostShip.PilotInfo.PilotName,
                     "You may perform a cannon attack",
                     HostShip
                 );

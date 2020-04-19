@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
                 HostShip = host,
                 ImageUrl = host.ImageUrl
             };
-            host.AddAvailableDiceModification(actionPilot);
+            host.AddAvailableDiceModificationOwn(actionPilot);
         }
     }
 }

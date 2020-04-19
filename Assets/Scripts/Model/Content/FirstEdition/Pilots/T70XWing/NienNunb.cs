@@ -82,6 +82,7 @@ namespace Abilities.FirstEdition
 
         private void RemoveStress(object sender, System.EventArgs e)
         {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " discarded Stress token");
             HostShip.Tokens.RemoveToken(typeof(StressToken), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }

@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
 
         private void ManglerCannonAddDiceModification(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ManglerCannonAction()
+            ship.AddAvailableDiceModificationOwn(new ManglerCannonAction()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
                 HostShip = HostShip,

@@ -38,7 +38,11 @@ namespace Abilities.FirstEdition
 
         private void IncreaseDefenceDiceNumber(ref int diceNumber)
         {
-            if (HostShip.Tokens.HasToken(typeof(WeaponsDisabledToken))) diceNumber++;
+            if (HostShip.Tokens.HasToken(typeof(WeaponsDisabledToken)))
+            {
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has Disarm token and rolls 1 additional defense die");
+                diceNumber++;
+            }
         }
     }
 }

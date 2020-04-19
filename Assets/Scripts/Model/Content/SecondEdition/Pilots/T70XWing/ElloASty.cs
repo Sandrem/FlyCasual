@@ -18,7 +18,6 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ElloAstyAbility),
                     extraUpgradeIcon: UpgradeType.Talent
-                //seImageNumber: 93
                 );
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/f77180ae05fd919a0dff2225380246a6.png";
@@ -31,9 +30,6 @@ namespace Abilities.SecondEdition
 {
     public class ElloAstyAbility : Abilities.FirstEdition.ElloAstyAbility
     {
-        //private const string LEFT_TALON_ROLL = "3.L.E";
-        //private const string RIGHT_TALON_ROLL = "3.R.E";
-
         public override void ActivateAbility()
         {
             HostShip.AfterGetManeuverColorDecreaseComplexity += CheckElloAstyAbility;

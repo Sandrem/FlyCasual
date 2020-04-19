@@ -95,10 +95,9 @@ namespace Abilities.FirstEdition
             ActionsList.GenericAction newAction = new ActionsList.AgentKallusDiceModification()
             {
                 ImageUrl = HostUpgrade.ImageUrl,
-                HostShip = host,
                 AgentKallusSelectedTarget = AgentKallusSelectedTarget
             };
-            host.AddAvailableDiceModification(newAction);
+            host.AddAvailableDiceModificationOwn(newAction);
         }
 
         private GenericShip GetEnemyPilotWithHighestSkill()

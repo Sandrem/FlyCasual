@@ -73,7 +73,7 @@ namespace Abilities.FirstEdition
 
         private void AddSharaBeyActionEffect(Ship.GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new ActionsList.SharaBeyAction()
+            ship.AddAvailableDiceModificationOwn(new ActionsList.SharaBeyAction()
             {
                 HostShip = HostShip
             });

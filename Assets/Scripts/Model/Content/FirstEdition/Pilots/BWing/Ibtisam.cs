@@ -46,7 +46,7 @@ namespace Abilities.FirstEdition
 
         private void AddIbtisamAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new IbtisamAction() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new IbtisamAction());
         }
 
         private class IbtisamAction : ActionsList.GenericAction

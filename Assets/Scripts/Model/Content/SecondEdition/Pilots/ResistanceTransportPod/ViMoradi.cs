@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
         {
             Triggers.RegisterTrigger(new Trigger()
             {
-                Name = "Vi Moradi decision",
+                Name = HostShip.PilotInfo.PilotName,
                 TriggerType = TriggerTypes.OnSetupEnd,
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = SelectViMoradiTarget
@@ -62,7 +62,7 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger
             );
 
-            subphase.DescriptionShort = "Vi Moradi";
+            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
             subphase.DescriptionLong = "Assign the Compromising Intel condition to 1 enemy ship";
             subphase.ImageSource = HostShip;
 
@@ -84,7 +84,7 @@ namespace Abilities.SecondEdition
 
         protected virtual void SelectTarget(GenericShip targetShip)
         {
-            Messages.ShowInfo("Vi Moradi has Compromising Intel on " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ")");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " has Compromising Intel on " + targetShip.PilotInfo.PilotName + " (" + targetShip.ShipId + ")");
 
             ViMoradiAbilitySelectedTarget = targetShip;
             ViMoradiAbilitySelectedTarget.Tokens.AssignCondition(

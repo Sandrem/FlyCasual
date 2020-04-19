@@ -42,14 +42,15 @@ namespace Abilities.SecondEdition
 
         private void AddCaptainJonusAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableDiceModification(new CaptainJonusAction() { HostShip = this.HostShip });
+            Combat.Attacker.AddAvailableDiceModification(new CaptainJonusAction(), HostShip);
         }
 
         private class CaptainJonusAction : FriendlyRerollAction
         {
             public CaptainJonusAction() : base(2, 1, true, RerollTypeEnum.AttackDice)
             {
-                Name = DiceModificationName = "Captain Jonus's ability";
+                Name = DiceModificationName = "Captain Jonus";
+                ImageUrl = new Ship.SecondEdition.TIESaBomber.CaptainJonus().ImageUrl;
                 IsReroll = true;
             }
 

@@ -221,6 +221,10 @@ public static class Tooltips {
         {
             return "ImagePilot";
         }
+        else if (sprite.rect.height > 500 && sprite.rect.width < 400)
+        {
+            return "ImagePilot";
+        }
         else if (sprite.rect.height > 290 && sprite.rect.width < 210)
         {
             return "ImageUpgradeFE";

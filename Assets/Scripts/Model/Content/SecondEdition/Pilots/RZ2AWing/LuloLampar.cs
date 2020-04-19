@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.IsStressed && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
-                Messages.ShowInfo("L'ulo L'ampar is stressed and gains +1 attack die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is stressed and gains +1 attack die");
                 result++;
             }
         }
@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.IsStressed)
             {
-                Messages.ShowInfo("L'ulo L'ampar is stressed and gains -1 defense die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is stressed and gains -1 defense die");
                 result--;
             }
         }

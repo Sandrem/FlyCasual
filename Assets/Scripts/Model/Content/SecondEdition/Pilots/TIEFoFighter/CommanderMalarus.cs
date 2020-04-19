@@ -19,8 +19,7 @@ namespace Ship
                     charges: 2,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CommanderMalarusAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 120
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/d2/Swz26_a1_malarus.png";
@@ -95,7 +94,7 @@ namespace Abilities.SecondEdition
                 ImageUrl = HostShip.ImageUrl,
                 HostShip = HostShip
             };
-            host.AddAvailableDiceModification(newAction);
+            host.AddAvailableDiceModificationOwn(newAction);
         }
 
         public void DeactivateCommandeMalarusAbility()
@@ -161,8 +160,10 @@ namespace SubPhases
 
         private void UseCommanderMalarusAbility(object sender, System.EventArgs e)
         {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
             CommanderMalarusAbility.ActivateCommandeMalarusAbility();
-            ConfirmDecision();
+            Triggers.FinishTrigger();
         }
 
         private void DontCommanderMalarusAbility(object sender, System.EventArgs e)
@@ -179,17 +180,18 @@ namespace ActionsList
 
     public class CommanderMalarusDiceModification : GenericAction
     {
+        public override string Name => HostShip.PilotInfo.PilotName;
+        public override string DiceModificationName => HostShip.PilotInfo.PilotName;
+        public override string ImageUrl => HostShip.ImageUrl;
 
         public CommanderMalarusDiceModification()
         {
-            Name = DiceModificationName = "Commander Malarus";
-
             IsTurnsAllFocusIntoSuccess = true;
         }
 
         public override bool IsDiceModificationAvailable()
         {
-            return true;
+            return Combat.CurrentDiceRoll.Focuses != 0;
         }
 
         public override int GetDiceModificationPriority()

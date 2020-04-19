@@ -80,7 +80,7 @@ namespace Abilities.SecondEdition
 
         private void TargetIsSelected()
         {
-            Messages.ShowInfo("Dalan Oberos: " + TargetShip.PilotInfo.PilotName + " is selected");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": " + TargetShip.PilotInfo.PilotName + " is selected");
 
             HostShip.SpendCharge();
             TargetShip.LoseShield();

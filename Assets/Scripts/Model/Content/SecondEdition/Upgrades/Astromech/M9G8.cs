@@ -45,9 +45,9 @@ namespace Abilities.SecondEdition
             Combat.Defender.AddAvailableDiceModification(
                 new M9G8EnemyDiceModification()
                 {
-                    HostShip = Combat.Attacker,
                     GrantedBy = HostShip
-                }
+                },
+                Combat.Attacker
             );
         }
 
@@ -55,9 +55,9 @@ namespace Abilities.SecondEdition
         {
             Combat.Attacker.AddAvailableDiceModification(
                 new M9G8FriendlyDiceModification() {
-                    HostShip = Combat.Attacker,
                     GrantedBy = HostShip
-                }
+                },
+                Combat.Attacker
             );
         }
 

@@ -40,7 +40,7 @@ namespace Abilities.FirstEdition
 
         private void AddPoeDameronPilotAbility(GenericShip ship)
         {
-            ship.AddAvailableDiceModification(new PoeDameronAction() { HostShip = HostShip });
+            ship.AddAvailableDiceModificationOwn(new PoeDameronAction());
         }
 
         private class PoeDameronAction : ActionsList.GenericAction

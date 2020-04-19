@@ -63,7 +63,7 @@ namespace Abilities.SecondEdition
                     FilterTargets,
                     GetAiPriority,
                     HostShip.Owner.PlayerNo,
-                    "Major Vonreg",
+                    HostShip.PilotInfo.PilotName,
                     "You may choose a ship in your bullseye arc to assign Strain or Deplete token to it",
                     HostShip
                 );
@@ -82,7 +82,7 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger
             );
 
-            subphase.DescriptionShort = "Major Vonreg";
+            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
             subphase.DescriptionLong = "You may assign Strain or Deplete token to target";
             subphase.ImageSource = HostShip;
 

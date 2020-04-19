@@ -46,22 +46,22 @@ namespace Abilities.SecondEdition
 
         private void AddSawGarreraAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableDiceModification(new SawGarreraAction() { HostShip = this.HostShip });
+            Combat.Attacker.AddAvailableDiceModificationOwn(new SawGarreraAction());
         }
 
         private class SawGarreraAction : FriendlyRerollAction
         {
             public SawGarreraAction() : base(1, 2, true, RerollTypeEnum.AttackDice)
             {
-                Name = DiceModificationName = "Saw Garrera's ability";
+                Name = DiceModificationName = "Saw Gerrera";
+                ImageUrl = new Ship.SecondEdition.UT60DUWing.SawGerrera().ImageUrl;
             }
 
             public override bool IsDiceModificationAvailable()
             {
-                if (Combat.Attacker.Damage.IsDamaged())
-                    return base.IsDiceModificationAvailable();
-                else
-                    return false;
+                bool result = false;
+                if (Combat.Attacker.Damage.IsDamaged()) result = base.IsDiceModificationAvailable();
+                return result;
             }
         }
     }

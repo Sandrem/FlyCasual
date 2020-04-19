@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = "Rexler Brath exposes facedown card.",
+                    Name = HostShip.PilotInfo.PilotName + " exposes facedown card",
                     TriggerType = TriggerTypes.OnAttackHit,
                     TriggerOwner = Combat.Defender.Owner.PlayerNo,
                     EventHandler = delegate {

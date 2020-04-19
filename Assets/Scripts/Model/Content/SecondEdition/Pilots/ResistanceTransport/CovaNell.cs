@@ -50,12 +50,12 @@ namespace Abilities.SecondEdition
             {
                 if (Combat.AttackStep == CombatStep.Defence)
                 {
-                    Messages.ShowInfo("Cova Nell: +1 defense die");
+                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 defense die");
                     count++;
                 }
                 else if (Combat.AttackStep == CombatStep.Attack && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
                 {
-                    Messages.ShowInfo("Cova Nell: +1 attack die");
+                    Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 attack die");
                     count++;
                 }
             }

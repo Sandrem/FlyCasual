@@ -15,10 +15,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JophSeastrikerAbility),
                     extraUpgradeIcon: UpgradeType.Talent
-                //seImageNumber: 93
                 );
-
-                //ModelInfo.SkinName = "Black One";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/90/fc/90fc30fb-db99-46cb-8761-89b6536286eb/swz25_joph_a1.png";
             }
@@ -48,6 +45,7 @@ namespace Abilities.SecondEdition
 
         private void GetEvadeToken(object sender, System.EventArgs e)
         {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " gains Evade token");
             HostShip.Tokens.AssignToken(typeof(Tokens.EvadeToken), Triggers.FinishTrigger);
         }
     }

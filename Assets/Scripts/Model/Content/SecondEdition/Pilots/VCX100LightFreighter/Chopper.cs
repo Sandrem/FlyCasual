@@ -37,7 +37,7 @@ namespace Abilities.SecondEdition
             {
                 GenericShip shipToAssignStress = shipsToAssignStress[0];
                 shipsToAssignStress.Remove(shipToAssignStress);
-                Messages.ShowErrorToHuman(shipToAssignStress.PilotInfo.PilotName + " is at range 0 of \"Chopper\" and gains a jam token");
+                Messages.ShowErrorToHuman(shipToAssignStress.PilotInfo.PilotName + " is at range 0 of " + HostShip.PilotInfo.PilotName + " and gains 2 jam tokens");
                 shipToAssignStress.Tokens.AssignTokens(() => new JamToken(shipToAssignStress, HostShip.Owner), 2, AssignStressTokenRecursive);
             }
             else

@@ -43,12 +43,12 @@ namespace Abilities.SecondEdition
         {
             if (Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.Range == 1)
             {
-                Messages.ShowInfo("Talonbane Cobra is attacking at range 1, gaining +1 attack die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is attacking at range 1, gaining +1 attack die");
                 diceCount++;
             }
             if (Combat.AttackStep == CombatStep.Defence && Combat.ShotInfo.Range == 3)
             {
-                Messages.ShowInfo("Talonbane Cobra is defending at range 3, gaining +1 defense die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is defending at range 3, gaining +1 defense die");
                 diceCount++;
             }
         }

@@ -44,7 +44,7 @@ namespace Abilities.FirstEdition
                 ImageUrl = HostUpgrade.ImageUrl,
                 HostShip = HostShip
             };
-            host.AddAvailableDiceModification(attackDiceModification);
+            host.AddAvailableDiceModificationOwn(attackDiceModification);
 
             GenericAction defenceDiceModification = new FirstOrderVanguardDefenceActionEffect()
             {
@@ -52,7 +52,7 @@ namespace Abilities.FirstEdition
                 HostShip = HostShip,
                 Source = HostUpgrade
             };
-            host.AddAvailableDiceModification(defenceDiceModification);
+            host.AddAvailableDiceModificationOwn(defenceDiceModification);
         }
     }
 }

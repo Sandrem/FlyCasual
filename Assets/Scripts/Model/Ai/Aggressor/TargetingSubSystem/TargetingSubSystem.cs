@@ -91,6 +91,11 @@ namespace AI.Aggressor
             // Results
 
             float potentialDamage = potentialHits - potentialEvades;
+
+            float targetHP = TargetShip.State.HullCurrent + TargetShip.State.ShieldsCurrent;
+            float damageImpact = potentialDamage / targetHP;
+            if (targetHP < potentialDamage) damageImpact *= 2;
+            
             float potentialCrits = attackDiceThrown * criticalHitsModifier;
             float shipCost = TargetShip.PilotInfo.Cost;
 
@@ -117,7 +122,7 @@ namespace AI.Aggressor
             }
             else
             {
-                int priority = (int)(potentialDamage * 1000f + potentialCrits * 100f + shipCost);
+                int priority = (int)(damageImpact * 1000f + potentialCrits * 100f + shipCost);
                 CurrentShip.Ai.CallGetWeaponPriority(TargetShip, Weapon, ref priority);
                 Priority = priority;
             }

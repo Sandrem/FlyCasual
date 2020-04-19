@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
         {
             if (Combat.ShotInfo.Range < 2)
             {
-                Messages.ShowInfo("DBS-404: Attacker rolls +1 attack die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Attacker rolls +1 attack die");
                 count++;
             }
         }
@@ -71,7 +71,7 @@ namespace Abilities.SecondEdition
 
         private void SufferSelfDamage(object sender, EventArgs e)
         {
-            Messages.ShowInfo("DBS-404: Suffers critical damage");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Suffers critical damage");
 
             HostShip.Damage.TryResolveDamage(
                 0,

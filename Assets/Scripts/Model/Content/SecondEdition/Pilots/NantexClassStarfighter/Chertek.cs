@@ -33,7 +33,7 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             AddDiceModification(
-                "Chertek",
+                HostShip.PilotInfo.PilotName,
                 IsAvailable,
                 GetAiPriority,
                 DiceModificationType.Reroll,

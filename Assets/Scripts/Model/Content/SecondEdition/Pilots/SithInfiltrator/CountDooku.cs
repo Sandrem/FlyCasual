@@ -110,7 +110,7 @@ namespace Abilities.SecondEdition
                 subphase.DecisionOwner = HostShip.Owner;
                 subphase.ShowSkipButton = true;
 
-                subphase.DescriptionShort = "Count Dooku";
+                subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
                 subphase.DescriptionLong = "You can spend a force token to remove a red or a blue token from your ship";
                 subphase.ImageSource = HostShip;
 

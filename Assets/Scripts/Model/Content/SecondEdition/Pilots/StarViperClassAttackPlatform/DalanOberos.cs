@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
 
             subphase.DecisionOwner = HostShip.Owner;
 
-            subphase.DescriptionShort = "Dalan Oberos";
+            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
             subphase.DescriptionLong = "Do you want to gain a Stress Token to rotate the ship?";
             subphase.ImageSource = HostShip;
 

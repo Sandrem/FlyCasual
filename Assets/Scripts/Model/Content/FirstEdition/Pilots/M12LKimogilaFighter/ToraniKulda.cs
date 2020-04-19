@@ -77,15 +77,15 @@ namespace Abilities.FirstEdition
             Selection.ThisShip = (GenericShip)sender;
 
             ToraniKuldaAbilityDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<ToraniKuldaAbilityDecisionSubPhase>(
-                "Select effect of Torani Kulda's ability",
+                "Select effect of " + HostShip.PilotInfo.PilotName + "'s ability",
                 delegate {
                     Selection.ThisShip = HostShip;
                     Triggers.FinishTrigger();
                 }
             );
 
-            subphase.DescriptionShort = "Torani Kulda";
-            subphase.DescriptionLong = Selection.ThisShip.ShipId + ": " + "Select effect of Torani Kulda's ability";
+            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
+            subphase.DescriptionLong = Selection.ThisShip.ShipId + ": " + "Select effect of " + HostShip.PilotInfo.PilotName + "'s ability";
             subphase.ImageSource = HostShip;
 
             subphase.Start();

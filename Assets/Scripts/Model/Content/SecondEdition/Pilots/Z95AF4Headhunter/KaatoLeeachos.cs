@@ -107,7 +107,7 @@ namespace Abilities.SecondEdition
 
             public override void PrepareDecision(Action callBack)
             {
-                DescriptionShort = "Ka'ato Leeachos";
+                DescriptionShort = HostShip.PilotInfo.PilotName;
                 DescriptionLong = TargetShip.PilotInfo.PilotName + ": " + "Select token to transfer to Kaato.";
                 ImageSource = HostShip;
 

@@ -54,7 +54,7 @@ namespace Abilities.SecondEdition
 
         private void AskToChangeManeuver(object sender, EventArgs e)
         {
-            var subphase = Phases.StartTemporarySubPhaseNew<IG88DDecisionSubphase>("IG88D", Triggers.FinishTrigger);
+            var subphase = Phases.StartTemporarySubPhaseNew<IG88DDecisionSubphase>(HostShip.PilotInfo.PilotName, Triggers.FinishTrigger);
 
             subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
             subphase.DescriptionLong = "You may use another template of the same speed and direction";

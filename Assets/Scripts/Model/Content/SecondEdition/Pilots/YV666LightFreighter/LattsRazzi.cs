@@ -82,7 +82,7 @@ namespace Abilities.SecondEdition
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            Messages.ShowInfo("Latts Razzi causes " + TargetShip.PilotInfo.PilotName + " to gain a Tractor Beam token");
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " causes " + TargetShip.PilotInfo.PilotName + " to gain a Tractor Beam token");
 
             List<char> tlLetter = ActionsHolder.GetTargetLocksLetterPairs(HostShip, TargetShip);
             HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), ApplyAbility, tlLetter.First());

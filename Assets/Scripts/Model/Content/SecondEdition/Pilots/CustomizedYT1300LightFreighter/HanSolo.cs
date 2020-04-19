@@ -100,7 +100,7 @@ namespace Abilities.SecondEdition
             if (UseAbility && Combat.ShotInfo.IsObstructedByObstacle)
             {
                 count++;
-                Messages.ShowInfo("The attack against Han Solo is obstructed, Han rolls +1 defense die");
+                Messages.ShowInfo("The attack against " + HostShip.PilotInfo.PilotName + " is obstructed, " + HostShip.PilotInfo.PilotName + " rolls +1 defense die");
                 UseAbility = false;
             }
         }
@@ -110,7 +110,7 @@ namespace Abilities.SecondEdition
             if (UseAbility && Combat.ShotInfo.IsObstructedByObstacle && Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 count++;
-                Messages.ShowInfo("Han Solo's attack is obstructed, Han rolls +1 attack die");
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + "'s attack is obstructed, " + HostShip.PilotInfo.PilotName + " rolls +1 attack die");
                 UseAbility = false;
             }
         }

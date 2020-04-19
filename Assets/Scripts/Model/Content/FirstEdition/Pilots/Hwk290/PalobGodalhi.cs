@@ -54,7 +54,7 @@ namespace Abilities.FirstEdition
             if (TargetsForAbilityExist(FilterAbilityTarget))
             {
                 Selection.ChangeActiveShip(HostShip);
-                Messages.ShowInfoToHuman("Palob Godalhi: Select a ship to remove Focus/Evade token from");
+                Messages.ShowInfoToHuman(HostShip.PilotInfo.PilotName + ": Select a ship to remove Focus/Evade token from");
 
                 SelectTargetForAbility(
                     SelectAbilityTarget,
@@ -209,7 +209,7 @@ namespace Abilities.FirstEdition
                     callback
                 );
 
-                whichToken.DescriptionShort = "Palog Godalhi";
+                whichToken.DescriptionShort = HostShip.PilotInfo.PilotName;
                 whichToken.DescriptionLong = "Take which type of Token?";
                 whichToken.ImageSource = HostShip;
 

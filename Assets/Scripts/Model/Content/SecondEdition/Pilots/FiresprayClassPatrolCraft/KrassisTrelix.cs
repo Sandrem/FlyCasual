@@ -35,7 +35,7 @@ namespace Abilities.SecondEdition
             HostShip.OnGameStart += ChangeSpecialWeaponsRestrictions;
 
             AddDiceModification(
-                "Krassis Trelix",
+                HostShip.PilotInfo.PilotName,
                 IsDiceModificationAvailable,
                 GetAiPriority,
                 DiceModificationType.Reroll,

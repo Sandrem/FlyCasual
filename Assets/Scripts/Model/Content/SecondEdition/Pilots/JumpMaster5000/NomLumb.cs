@@ -75,7 +75,7 @@ namespace Abilities.SecondEdition
         private void AskWhatArcToUse(object sender, EventArgs e)
         {
             NomLumbArcRotationSubphase subphase = Phases.StartTemporarySubPhaseNew<NomLumbArcRotationSubphase>(
-                "Nom Lumb: Arc Rotation Decision",
+                HostShip.PilotInfo.PilotName + ": Arc Rotation Decision",
                 Triggers.FinishTrigger
             );
 

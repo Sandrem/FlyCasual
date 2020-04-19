@@ -60,23 +60,23 @@ namespace Abilities.SecondEdition
 
             if (HostShip.RevealedManeuver.Speed == EnemyShip.RevealedManeuver.Speed)
             {
-                Messages.ShowInfo("Dineé Ellberger: Enemy's dice cannot be modified.");
-                EnemyShip.OnTryAddAvailableDiceModification += UseOmegaLeaderRestriction;
-                HostShip.OnTryAddDiceModificationOpposite += UseOmegaLeaderRestriction;
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Enemy's dice cannot be modified.");
+                EnemyShip.OnTryAddAvailableDiceModification += UseDiceRestriction;
+                HostShip.OnTryAddDiceModificationOpposite += UseDiceRestriction;
                 EnemyShip.OnAttackFinish += RemoveOmegaLeaderPilotAbility;
             }
         }
 
-        private void UseOmegaLeaderRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseDiceRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
         {
-            Messages.ShowErrorToHuman("\"Dineé Ellberger\": Enemy's dice cannot be modified.");
+            Messages.ShowErrorToHuman(HostShip.PilotInfo.PilotName + ": Enemy's dice cannot be modified.");
             canBeUsed = false;
         }
 
         private void RemoveOmegaLeaderPilotAbility(GenericShip ship)
         {
-            ship.OnTryAddAvailableDiceModification -= UseOmegaLeaderRestriction;
-            HostShip.OnTryAddDiceModificationOpposite -= UseOmegaLeaderRestriction;
+            ship.OnTryAddAvailableDiceModification -= UseDiceRestriction;
+            HostShip.OnTryAddDiceModificationOpposite -= UseDiceRestriction;
             ship.OnAttackFinish -= RemoveOmegaLeaderPilotAbility;
         }
     }

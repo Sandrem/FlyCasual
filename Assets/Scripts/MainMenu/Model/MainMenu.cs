@@ -73,7 +73,24 @@ public partial class MainMenu : MonoBehaviour {
 
     public static void SetBackground()
     {
-        Sprite background = (Options.BackgroundImage != "_RANDOM") ? Resources.Load<Sprite>("Sprites/Backgrounds/MainMenu/" + Options.BackgroundImage) : GetRandomMenuBackground();
+        Sprite background = null;
+
+        if (Options.BackgroundImage != "_RANDOM")
+        {
+            background = Resources.Load<Sprite>("Sprites/Backgrounds/MainMenu/" + Options.BackgroundImage);
+            if (background == null)
+            {
+                //Background is not present anymore, switch to Random
+                background = GetRandomMenuBackground();
+                Options.BackgroundImage = "_RANDOM";
+                PlayerPrefs.SetString("BackgroundImage", "_RANDOM");
+            }
+        }
+        else
+        {
+            background = GetRandomMenuBackground();
+        }
+
         GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = background;
     }
 

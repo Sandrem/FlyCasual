@@ -175,7 +175,9 @@ namespace GameModes
         public override void ReturnToMainMenu()
         {
             Phases.EndGame();
+            LoadingScreen.Show();
             SceneManager.LoadScene("MainMenu");
+            LoadingScreen.NextSceneIsReady(delegate { });
         }
 
         public override void QuitToDesktop()

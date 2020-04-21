@@ -131,7 +131,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     //[ClientRpc]
     private void RpcGetSquadList()
     {
-        GameMode.CurrentGameMode = new NetworkGame();
+        /*GameMode.CurrentGameMode = new NetworkGame();
 
         Global.ToggelLoadingScreen(true);
 
@@ -143,7 +143,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
             SquadBuilder.SwitchPlayers();
         }
 
-        Network.FinishTask();
+        Network.FinishTask();*/
     }
 
     //[Command]
@@ -540,7 +540,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     //[ClientRpc]
     private void RpcReturnToMainMenu(bool isServerSurrendered)
     {
-        Phases.EndGame();
+        /*Phases.EndGame();
 
         // For opponent
         if (IsServer != isServerSurrendered)
@@ -554,7 +554,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
                 SceneManager.LoadScene("MainMenu");
                 Global.ToggelLoadingScreen(false);
             });
-        }
+        }*/
     }
 
     // Quit to desktop
@@ -568,7 +568,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
     //[ClientRpc]
     private void RpcQuitToDesktop(bool isServerSurrendered)
     {
-        Phases.EndGame();
+        /*Phases.EndGame();
 
         // For opponent
         if (IsServer != isServerSurrendered)
@@ -579,7 +579,7 @@ public partial class NetworkPlayerController : MonoBehaviour //TODONETWORK: Netw
         {
             Global.ToggelLoadingScreen(true);
             Network.Disconnect(Application.Quit);
-        }
+        }*/
     }
 
 }

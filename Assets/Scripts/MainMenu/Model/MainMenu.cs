@@ -102,21 +102,6 @@ public partial class MainMenu : MonoBehaviour {
         return spritesList[UnityEngine.Random.Range(0, spritesList.Count)];
     }
 
-    public static Sprite GetRandomSplashScreen()
-    {
-        List<Sprite> spritesArray = new List<Sprite>();
-        spritesArray.AddRange(
-            Resources.LoadAll<Sprite>("Sprites/Backgrounds/MainMenu/")
-                .Where(n => n.name != "_RANDOM")
-                .ToList()
-        );
-        spritesArray.AddRange(
-            Resources.LoadAll<Sprite>("Sprites/Backgrounds/SplashScreens/")
-                .ToList()
-        );
-        return spritesArray[UnityEngine.Random.Range(0, spritesArray.Count)];
-    }
-
     private void PrepareUpdateChecker()
     {
         RemoteSettings.Completed += CheckUpdateNotification;
@@ -285,14 +270,6 @@ public partial class MainMenu : MonoBehaviour {
     {
         Options.Title = inputText.text;
         Options.ChangeParameterValue("Title", inputText.text);
-    }
-
-    public static void ResetAiInformation()
-    {
-        GameObject.Find("GlobalUI/OpponentSquad").transform.Find("AiInformation").gameObject.SetActive(false);
-        GameObject.Find("GlobalUI/OpponentSquad").transform.Find("StartPanel").gameObject.SetActive(false);
-
-        GameObject.Find("GlobalUI/OpponentSquad/LoadingInfoPanel").gameObject.SetActive(true);
     }
 
     public static void ShowAiInformation()

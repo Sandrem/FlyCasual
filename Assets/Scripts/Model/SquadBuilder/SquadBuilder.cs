@@ -539,7 +539,7 @@ namespace SquadBuilderNS
 
         public static void SwitchToBattleScene()
         {
-            Global.ToggelLoadingScreen(true);
+            LoadingScreen.Show();
             LoadBattleScene();
         }
 

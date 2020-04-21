@@ -57,16 +57,7 @@ public class Global : MonoBehaviour {
             });
         }
 
-        ToggelLoadingScreen(false);
-        Phases.StartPhases();
-    }
-
-    public static void ToggelLoadingScreen(bool isActive)
-    {
-        Transform loadingScreen = GameObject.Find("GlobalUI").transform.Find("OpponentSquad");
-        if (isActive) loadingScreen.GetComponent<Image>().sprite = MainMenu.GetRandomSplashScreen();
-        if (loadingScreen != null) loadingScreen.gameObject.SetActive(isActive);
-        if (isActive) MainMenu.ResetAiInformation();
+        LoadingScreen.NextSceneIsReady(Phases.StartPhases);
     }
 
     public static Scene ActiveScene

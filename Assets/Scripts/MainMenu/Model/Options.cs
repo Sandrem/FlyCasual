@@ -28,6 +28,7 @@ public static class Options
     public static bool ShowFps;
     public static int Quality;
     public static string Resolution;
+    public static int DisplayId;
 
     public static readonly string DefaultAvatar = "UpgradesList.FirstEdition.VeteranInstincts";
 
@@ -51,10 +52,15 @@ public static class Options
         DontShowAiInfo = PlayerPrefs.GetInt("DontShowAiInfo", 0) == 1;
         AiType = PlayerPrefs.GetString("AiType", "AI: Aggressor");
         Edition = PlayerPrefs.GetString("Edition", "SecondEdition");
-        FullScreen = PlayerPrefs.GetInt("FullScreen", 1) == 1;
         ShowFps = PlayerPrefs.GetInt("ShowFps", 0) == 1;
         Resolution = PlayerPrefs.GetString("Resolution", Screen.currentResolution.ToString());
-        
+
+        FullScreen = PlayerPrefs.GetInt("FullScreen", 1) == 1;
+        Screen.fullScreen = FullScreen;
+
+        DisplayId = PlayerPrefs.GetInt("DisplayId", 0);
+        if (DisplayId < 0 || DisplayId >= Display.displays.Count()) Display.displays[DisplayId].Activate();
+
         Quality = PlayerPrefs.GetInt("Quality", 2);
         if (Quality > 2) Quality = 2;
 

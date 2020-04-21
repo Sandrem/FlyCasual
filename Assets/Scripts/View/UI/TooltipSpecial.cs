@@ -95,18 +95,18 @@ public static class TooltipSpecial
         float windowPositionX = 0;
         float windowPositionY = 0;
 
-        if (mousePositionX + imageWidth + 25f > Screen.width)
+        if (mousePositionX + imageWidth / 2f + 25f > Screen.width)
         {
-            windowPositionX = mousePositionX - imageWidth - 25f;
+            windowPositionX = mousePositionX - imageWidth / 2f - 25f;
         }
         else
         {
             windowPositionX = mousePositionX + 25f;
         }
 
-        if ((Screen.height - mousePositionY) + imageHeight > Screen.height)
+        if ((Screen.height - mousePositionY) + imageHeight / 2f > Screen.height)
         {
-            windowPositionY = imageHeight;
+            windowPositionY = imageHeight / 2f;
         }
         else
         {

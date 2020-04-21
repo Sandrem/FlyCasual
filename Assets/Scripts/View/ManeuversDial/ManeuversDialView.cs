@@ -13,6 +13,9 @@ public class ManeuversDialView : MonoBehaviour
 
     public GameObject ManeuverIconsHolder;
 
+    public float Height;
+    public float Width;
+
     private Dictionary<ManeuverHolder, MovementComplexity> DialToShow;
     private bool IsDisabled;
 
@@ -255,6 +258,8 @@ public class ManeuversDialView : MonoBehaviour
     private void SetFinalSize()
     {
         RectTransform rect = this.transform.GetComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(CalculateWidth(), IconSize * Rows);
+        Width = CalculateWidth();
+        Height = IconSize * Rows;
+        rect.sizeDelta = new Vector2(Width, Height);
     }
 }

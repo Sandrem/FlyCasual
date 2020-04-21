@@ -95,7 +95,9 @@ public static partial class Roster {
     {
         GameObject dial = GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/UI/ManeuversDial/ManeuversDialView"), transform);
         dial.name = "SpecialTooltip";
-        dial.GetComponent<ManeuversDialView>().Initialize(ship.DialInfo.PrintedDial, isDisabled: true);
+        ManeuversDialView dialView = dial.GetComponent<ManeuversDialView>();
+        dialView.Initialize(ship.DialInfo.PrintedDial, isDisabled: true);
+        transform.GetComponent<RectTransform>().sizeDelta = new Vector2(dialView.Width, dialView.Height);
     }
 
     public static void UpdateDamageIndicators(GenericShip ship, GameObject panel)

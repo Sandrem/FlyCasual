@@ -53,8 +53,9 @@ public class ManeuversDialView : MonoBehaviour
             SetRowWidth(newIconsRow);
         }
 
-        SetIconsHolderHeight();
+        UpdateRowsCount();
 
+        SetIconsHolderHeight();
         SetFinalSize();
     }
 
@@ -104,11 +105,6 @@ public class ManeuversDialView : MonoBehaviour
     private void CreateReverseIcons(int i, Transform transform)
     {
         if (i >= 0) return;
-
-        if (DialToShow.Any(n => n.Key.Bearing == ManeuverBearing.ReverseStraight) && !DialToShow.Any(n => n.Key.Bearing == ManeuverBearing.Stationary))
-        {
-            Rows--;
-        }
 
         List<string> reverseKeys = new List<string>() { ".L.V", ".F.V", ".R.V" };
 
@@ -240,6 +236,14 @@ public class ManeuversDialView : MonoBehaviour
     private float CalculateWidth()
     {
         return (ColumnsSpecial == 0) ? IconSize * 6 + SpaceSize : IconSize * 6 + SpaceSize + IconSize * ColumnsSpecial;
+    }
+
+    private void UpdateRowsCount()
+    {
+        if (DialToShow.Any(n => n.Key.Bearing == ManeuverBearing.ReverseStraight) && !DialToShow.Any(n => n.Key.Bearing == ManeuverBearing.Stationary))
+        {
+            Rows--;
+        }
     }
 
     private void SetIconsHolderHeight()

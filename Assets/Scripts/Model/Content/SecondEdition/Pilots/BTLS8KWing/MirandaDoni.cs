@@ -29,7 +29,7 @@ namespace Abilities.SecondEdition
     {
         protected override void CheckConditions()
         {
-            if (!IsAbilityUsed && Combat.ChosenWeapon.WeaponType == Ship.WeaponTypes.PrimaryWeapon)
+            if (Combat.ChosenWeapon.WeaponType == Ship.WeaponTypes.PrimaryWeapon)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnShotStart, StartQuestionSubphase);
             }

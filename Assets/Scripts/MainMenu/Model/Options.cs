@@ -54,7 +54,9 @@ public static class Options
         FullScreen = PlayerPrefs.GetInt("FullScreen", 1) == 1;
         ShowFps = PlayerPrefs.GetInt("ShowFps", 0) == 1;
         Resolution = PlayerPrefs.GetString("Resolution", Screen.currentResolution.ToString());
-        Quality = PlayerPrefs.GetInt("Quality", 4);
+        
+        Quality = PlayerPrefs.GetInt("Quality", 2);
+        if (Quality > 2) Quality = 2;
 
         DiceStats = PlayerPrefs.GetString("DiceStats", "AT-0|AC-0|AS-0|AE-0|AB-0|DT-0|DS-0|DE-0|DB-0&AT-0|AC-0|AS-0|AE-0|AB-0|DT-0|DS-0|DE-0|DB-0");
         DiceStatsTracker.ReadFromString(DiceStats);

@@ -20,10 +20,8 @@ public class OptionsUI : MonoBehaviour {
     private static readonly List<string> QualityNames = new List<string>()
     {
         "Fast",
-        "Simple",
         "Good",
-        "Beautiful",
-        "Fantastic"
+        "Beautiful"
     };
 
     private void Start()
@@ -394,7 +392,7 @@ public class OptionsUI : MonoBehaviour {
     {
         int qualityLevel = Options.Quality;
 
-        qualityLevel = Mathf.Clamp(qualityLevel + change, 0, 4);
+        qualityLevel = Mathf.Clamp(qualityLevel + change, 0, 2);
 
         Options.Quality = qualityLevel;
         Options.ChangeParameterValue("Quality", qualityLevel);

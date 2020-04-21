@@ -151,15 +151,18 @@ public class ManeuversDialView : MonoBehaviour
             CreateEmptyButton(i + ".L.R", transform);
         }
 
-        if (DialToShow.Any(n => n.Key.Bearing == ManeuverBearing.KoiogranTurn && n.Key.SpeedIntSigned == i))
+        if (DialToShow.Any(n => n.Key.Bearing == ManeuverBearing.KoiogranTurn))
         {
-            CreateButton(DialToShow.First(n => n.Key.Bearing == ManeuverBearing.KoiogranTurn), transform);
-        }
-        else
-        {
-            if (DialToShow.Any(n => n.Key.SpeedIntSigned == i && (n.Key.Bearing == ManeuverBearing.SegnorsLoop || n.Key.Bearing == ManeuverBearing.TallonRoll)))
+            if (DialToShow.Any(n => n.Key.Bearing == ManeuverBearing.KoiogranTurn && n.Key.SpeedIntSigned == i))
             {
-                CreateEmptyButton(i + ".F.R", transform);
+                CreateButton(DialToShow.First(n => n.Key.Bearing == ManeuverBearing.KoiogranTurn), transform);
+            }
+            else
+            {
+                if (DialToShow.Any(n => n.Key.SpeedIntSigned == i && (n.Key.Bearing == ManeuverBearing.SegnorsLoop || n.Key.Bearing == ManeuverBearing.TallonRoll)))
+                {
+                    CreateEmptyButton(i + ".F.R", transform);
+                }
             }
         }
 

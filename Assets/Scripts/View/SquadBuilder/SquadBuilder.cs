@@ -274,7 +274,7 @@ namespace SquadBuilderNS
 
         public static void PilotSelectedIsClicked(GenericShip ship)
         {
-            AddPilotToSquad(ship, CurrentPlayer);
+            AddPilotToSquad(ship, CurrentPlayer, isFromUi: true);
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
 

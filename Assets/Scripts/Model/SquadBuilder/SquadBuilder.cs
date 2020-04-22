@@ -340,18 +340,21 @@ namespace SquadBuilderNS
             UpdateSquadCostForPilotsMenu(GetCurrentSquadCost());
         }
 
-        private static SquadBuilderShip AddPilotToSquad(GenericShip ship, PlayerNo playerNo)
+        private static SquadBuilderShip AddPilotToSquad(GenericShip ship, PlayerNo playerNo, bool isFromUi = false)
         {
             var squadBuilderShip = GetSquadList(playerNo).AddShip(ship);
 
-            foreach (var upgradeType in ship.DefaultUpgrades)
+            if (isFromUi)
             {
-                var upgrade = (GenericUpgrade)Activator.CreateInstance(upgradeType);
-
-                List<UpgradeSlot> slots = FindFreeSlots(squadBuilderShip, upgrade.UpgradeInfo.UpgradeTypes);
-                if (slots.Count != 0)
+                foreach (var upgradeType in ship.DefaultUpgrades)
                 {
-                    slots[0].PreInstallUpgrade(upgrade, ship);
+                    var upgrade = (GenericUpgrade)Activator.CreateInstance(upgradeType);
+
+                    List<UpgradeSlot> slots = FindFreeSlots(squadBuilderShip, upgrade.UpgradeInfo.UpgradeTypes);
+                    if (slots.Count != 0)
+                    {
+                        slots[0].PreInstallUpgrade(upgrade, ship);
+                    }
                 }
             }
 

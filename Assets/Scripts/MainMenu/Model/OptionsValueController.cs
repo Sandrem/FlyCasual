@@ -6,11 +6,12 @@ using UnityEngine.UI;
 public class OptionsValueController : MonoBehaviour
 {
     private float uiScale;
+    public string OptionName;
 
     public void Start()
     {
         uiScale = GameObject.Find("UI").transform.localScale.x;
-        SetValue(PlayerPrefs.GetFloat(this.transform.Find("Text").GetComponent<Text>().text, 0.25f));
+        SetValue(PlayerPrefs.GetFloat(OptionName, 0.25f));
     }
 
     public void UpdateProgressByClick()
@@ -21,8 +22,7 @@ public class OptionsValueController : MonoBehaviour
 
         Console.Write("MyWidth: " + myWidth + " LocCursorX: " + localCursorX + " Percent: " + percentage);
 
-        string optionName = this.transform.Find("Text").GetComponent<Text>().text;
-        if (optionName.Contains("Speed"))
+        if (OptionName.Contains("Speed"))
         {
             if (percentage < 0.05f) percentage = 0.05f;
         }
@@ -38,7 +38,7 @@ public class OptionsValueController : MonoBehaviour
 
     public void SetValue(float percentage)
     {
-        Options.ChangeParameterValue(this.transform.Find("Text").GetComponent<Text>().text, percentage);
+        Options.ChangeParameterValue(OptionName, percentage);
 
         float myWidth = this.transform.Find("PanelHitDetection").GetComponent<RectTransform>().rect.width;
         this.transform.Find("ValueList/PanelValue").GetComponent<RectTransform>().sizeDelta = new Vector2(myWidth * percentage, 100);

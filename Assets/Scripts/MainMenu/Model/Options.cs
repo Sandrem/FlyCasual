@@ -44,8 +44,8 @@ public static class Options
         CheckVersionUrl = PlayerPrefs.GetString("CheckVersionUrl", "http://sandrem.freeasphost.net/data/currentversion.txt");
         MusicVolume = PlayerPrefs.GetFloat("Music Volume", 0.25f);
         SfxVolume = PlayerPrefs.GetFloat("SFX Volume", 0.25f);
-        AnimationSpeed = PlayerPrefs.GetFloat("Animations Speed", 0.25f);
-        ManeuverSpeed = PlayerPrefs.GetFloat("Maneuver Speed", 0.25f);
+        AnimationSpeed = PlayerPrefs.GetFloat("Animation Speed V2", 0.25f);
+        ManeuverSpeed = PlayerPrefs.GetFloat("Maneuver Speed V2", 0.25f);
         Avatar = PlayerPrefs.GetString("Avatar", Options.DefaultAvatar);
         NickName = PlayerPrefs.GetString("NickName", "Unknown Pilot");
         Title = PlayerPrefs.GetString("Title", "Test Pilot");
@@ -122,10 +122,10 @@ public static class Options
             case "SFX Volume":
                 SfxVolume = value;
                 break;
-            case "Animations Speed":
+            case "Animation Speed V2":
                 AnimationSpeed = value;
                 break;
-            case "Maneuver Speed":
+            case "Maneuver Speed V2":
                 ManeuverSpeed = value;
                 break;
             default:

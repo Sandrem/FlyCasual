@@ -36,6 +36,8 @@ namespace ActionsList
         {
             bool result = false;
 
+            if (Combat.CurrentDiceRoll.Count == 0) return false;
+
             if (Combat.AttackStep == (RerollType == RerollTypeEnum.AttackDice ? CombatStep.Attack : CombatStep.Defence))
             {
                 var friendlyShip = RerollType == RerollTypeEnum.AttackDice ? Combat.Attacker : Combat.Defender;

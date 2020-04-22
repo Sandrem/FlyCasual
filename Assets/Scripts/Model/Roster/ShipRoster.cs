@@ -312,11 +312,11 @@ public static partial class Roster
     public static int CheckIsAnyTeamIsEliminated()
     {
         int result = 0;
-        if (Roster.GetPlayer(PlayerNo.Player1).Ships.Count == 0)
+        if (Roster.GetPlayer(PlayerNo.Player1).Ships.Count == 0 && !Roster.Reserve.Any(n => n.Owner.PlayerNo == PlayerNo.Player1))
         {
             result += 1;
         }
-        if (Roster.GetPlayer(PlayerNo.Player2).Ships.Count == 0)
+        if (Roster.GetPlayer(PlayerNo.Player2).Ships.Count == 0 && !Roster.Reserve.Any(n => n.Owner.PlayerNo == PlayerNo.Player2))
         {
             result += 2;
         }

@@ -684,7 +684,7 @@ namespace SubPhases
 
         private void DoBarrelRollAnimation()
         {
-            float progressStep = 2.5f * Time.deltaTime * Options.AnimationSpeed;
+            float progressStep = Time.deltaTime * 0.2f * (0.5f + Options.AnimationSpeed * 10f);
             progressStep = Mathf.Min(progressStep, progressTarget - progressCurrent);
             progressCurrent += progressStep;
 

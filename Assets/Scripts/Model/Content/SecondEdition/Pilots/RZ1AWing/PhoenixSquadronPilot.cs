@@ -17,8 +17,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 22
                 );
-                
-                ModelInfo.SkinName = "Blue";
+
+                ModelInfo.SkinName = "Phoenix Squadron";
             }
         }
     }

@@ -23,7 +23,7 @@ namespace Ship
                 RequiredMods.Add(typeof(PhoenixSquadronMod));
                 ImageUrl = "https://i.imgur.com/xPe8HQo.png";
 
-                ModelInfo.SkinName = "Blue";
+                ModelInfo.SkinName = "Phoenix Squadron";
             }
         }
     }

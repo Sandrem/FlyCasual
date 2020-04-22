@@ -15,6 +15,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 159
                 );
+
+                ModelInfo.SkinName = "Skull Squadron";
             }
         }
     }

@@ -26,6 +26,8 @@ namespace Ship
 
                 ImageUrl = "https://i.imgur.com/YpP14NT.png";
 
+                ModelInfo.SkinName = "Phoenix Squadron";
+
                 ModelInfo.SkinName = "Green";
             }
         }

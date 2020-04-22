@@ -25,6 +25,8 @@ namespace Ship
                 RequiredMods = new List<Type>() { typeof(PhoenixSquadronModSE) };
                 PilotNameCanonical = "ezrabridger-rz1awing-phoenixsquadronmod";
 
+                ModelInfo.SkinName = "Phoenix Squadron";
+
                 ImageUrl = "https://i.imgur.com/AbHl6vG.png";
             }
         }

@@ -40,7 +40,7 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "Protectorate Starfighter",
-                    "Protectorate Starfighter"
+                    "Zealous Recruit"
                 );
 
                 DialInfo = new ShipDialInfo(

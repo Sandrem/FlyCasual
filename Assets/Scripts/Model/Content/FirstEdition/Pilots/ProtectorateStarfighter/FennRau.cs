@@ -16,6 +16,8 @@ namespace Ship
                     abilityType: typeof(Abilities.FirstEdition.FennRauScumAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                ModelInfo.SkinName = "Skull Squadron";
             }
         }
     }

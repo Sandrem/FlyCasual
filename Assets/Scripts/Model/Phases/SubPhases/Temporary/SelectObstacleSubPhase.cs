@@ -106,7 +106,7 @@ namespace SubPhases
             if (!EventSystem.current.IsPointerOverGameObject() &&
                 (Input.touchCount == 0 || !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)))
             {
-                if (Input.GetKeyUp(KeyCode.Mouse0))
+                if (Input.GetKeyUp(KeyCode.Mouse0) || (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began))
                 {
                     RaycastHit hitInfo = new RaycastHit();
                     if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))

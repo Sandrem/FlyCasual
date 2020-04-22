@@ -28,7 +28,7 @@ namespace Movement
 
         protected override float SetAnimationSpeed()
         {
-            return 1;
+            return 1f;
         }
 
         public override GameObject[] PlanMovement()

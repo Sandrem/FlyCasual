@@ -160,24 +160,25 @@ public class CameraScript : MonoBehaviour {
         CheckChangeMode();
 
         //Don't move camera while "Select a maneuver" window is shown - fixes problem with touch input
-        if (DirectionsMenu.IsVisible) return;
-
-        if (InputTouchIsEnabled)
+        if (DirectionsMenu.IsVisible)
         {
-            CamRotateZoomByTouch();
-            CamMoveByTouch();
-        }
+            if (InputTouchIsEnabled)
+            {
+                CamRotateZoomByTouch();
+                CamMoveByTouch();
+            }
 
-        if (InputMouseIsEnabled)
-        {
-            CamMoveByMouse();
-            CamZoomByMouseScroll();
-            CamRotateByMouse();
-        }
+            if (InputMouseIsEnabled)
+            {
+                CamMoveByMouse();
+                CamZoomByMouseScroll();
+                CamRotateByMouse();
+            }
 
-        if (InputAxisAreEnabled)
-        {
-            CamMoveByAxis();
+            if (InputAxisAreEnabled)
+            {
+                CamMoveByAxis();
+            }
         }
 
         CamClampPosition();

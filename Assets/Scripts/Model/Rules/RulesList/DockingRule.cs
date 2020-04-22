@@ -379,6 +379,8 @@ namespace RulesList
 
         private void AfterUndockingFinished()
         {
+            GenericShip undockedShip = Selection.ThisShip;
+
             if (!Selection.ThisShip.DockingHost.IsDestroyed)
             {
                 Selection.ChangeActiveShip("ShipId:" + Selection.ThisShip.DockingHost.ShipId);
@@ -387,6 +389,8 @@ namespace RulesList
             {
                 Selection.ThisShip = Selection.ThisShip.DockingHost;
             }
+
+            undockedShip.DockingHost = null;
 
             Triggers.FinishTrigger();
         }

@@ -51,7 +51,10 @@ namespace Abilities.SecondEdition
 
         private void RegisterLoseCharge(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnSystemsPhaseStart, LoseCharge);
+            if (ship.DockingHost == null)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnSystemsPhaseStart, LoseCharge);
+            }
         }
 
         private void LoseCharge(object sender, System.EventArgs e)

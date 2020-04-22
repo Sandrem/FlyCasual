@@ -83,7 +83,7 @@ namespace Abilities.SecondEdition
                 ownTokens.ForEach(token =>
                 {
                     subphase.AddDecision(
-                        token.Name,
+                        (token is RedTargetLockToken) ? token.Name + " \"" + (token as RedTargetLockToken).Letter + "\"" : token.Name,
                         delegate {
                             SelectedToken = token;
                             DecisionSubPhase.ConfirmDecisionNoCallback();

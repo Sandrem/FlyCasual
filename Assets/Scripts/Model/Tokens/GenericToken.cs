@@ -113,7 +113,9 @@ namespace Tokens
 
             int hashHostShip = token.Host == null ? 0 : token.Host.ShipId.GetHashCode();
 
-            return hashName ^ hashHostShip;
+            int hashLetter = (token is GenericTargetLockToken) ? (token as GenericTargetLockToken).Letter.GetHashCode() : 1;
+
+            return hashName ^ hashHostShip ^ hashLetter;
         }        
     }
 }

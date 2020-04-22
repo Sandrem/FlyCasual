@@ -38,6 +38,7 @@ public static class LoadingScreen
         "Don't install too many upgrades on a ship",
         "Bring the right obstacles for your list and a plan on how to use them",
         "Fly a ship according to its role: Jouster, Flanker, Tank, Support",
+        "An extra ship is always better value than a couple of upgrades",
 
         // Sun Tzu
         "If you know the enemy and know yourself, you need not fear the result of a hundred battles",
@@ -58,6 +59,7 @@ public static class LoadingScreen
         "To save/load squads: click SQUADS in squad builder",
         "To activate Skip button: press SPACE",
         "You can import/export squads from popular squad builders in XWS format",
+        "To see ID-numbers of ships: hold ALT",
 
         // Development
         "Please report bugs on GitHub, with screenshots",

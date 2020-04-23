@@ -44,7 +44,7 @@ namespace Ship
                     "Alpha-class Star Wing",
                     "Gray",
                     new Vector3(-4, 8, 5.5f),
-                    1.5f
+                    1.8f
                 );
 
                 DialInfo = new ShipDialInfo(

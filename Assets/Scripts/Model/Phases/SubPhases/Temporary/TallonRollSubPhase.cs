@@ -187,6 +187,11 @@ public class TallonRollHelper
                 Board.GetBoard()
             );
 
+            foreach (Renderer renderer in temporaryShipBase.GetComponentsInChildren<Renderer>())
+            {
+                renderer.enabled = false;
+            }
+
             TemporaryShipBases.Add(i, temporaryShipBase);
         }
     }

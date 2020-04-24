@@ -76,11 +76,22 @@ namespace Abilities.SecondEdition
         {
             Phases.Events.OnCombatPhaseStart_Triggers -= RegisterOwnAbilityTrigger;
 
-            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskToUseOwnAbility);
+            Triggers.RegisterTrigger
+            (
+                new Trigger()
+                {
+                    Name = HostShip.ShipId + ": " + HostUpgrade.UpgradeInfo.Name,
+                    TriggerType = TriggerTypes.OnCombatPhaseStart,
+                    EventHandler = AskToUseOwnAbility,
+                    TriggerOwner = HostShip.Owner.PlayerNo
+                }
+            );
         }
 
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             AskToUseAbility(
                 HostUpgrade.UpgradeInfo.Name,
                 NeverUseByDefault,
@@ -110,7 +121,14 @@ namespace Abilities.SecondEdition
         private void FinishRemoteDeployment()
         {
             HostUpgrade.State.SpendCharge();
-            HostShip.Tokens.SpendToken(typeof(CalculateToken), Triggers.FinishTrigger);
+            HostShip.Tokens.SpendToken(typeof(CalculateToken), FinishAbility);
+        }
+
+        private void FinishAbility()
+        {
+            Selection.DeselectThisShip();
+
+            Triggers.FinishTrigger();
         }
     }
 }

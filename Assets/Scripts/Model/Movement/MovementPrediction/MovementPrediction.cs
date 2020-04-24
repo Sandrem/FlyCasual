@@ -88,6 +88,8 @@ namespace Movement
         {
             generatedShipStands = CurrentMovement.PlanMovement();
 
+            CurrentMovement.FinalPositionInfo = new ShipPositionInfo(generatedShipStands.Last().transform.position, generatedShipStands.Last().transform.eulerAngles);
+
             if (CurrentMovement.RotationEndDegrees != 0)
             {
                 Vector3 centerOfTempBase = generatedShipStands.Last().transform.TransformPoint(new Vector3(0, 0, -Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
@@ -192,10 +194,6 @@ namespace Movement
                         }
 
                         finalPositionFound = true;
-
-                        FinalPosition = generatedShipStands[i].transform.position;
-                        FinalAngles = generatedShipStands[i].transform.eulerAngles;
-                        FinalPositionInfo = new ShipPositionInfo(FinalPosition, FinalAngles);
 
                         //break;
                     }

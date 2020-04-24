@@ -54,7 +54,7 @@ namespace Movement
         {
             if (CurrentMovement.RotationEndDegrees != 0)
             {
-                Vector3 centerOfTempBase = generatedShipStands[generatedShipStands.Length - 1].transform.TransformPoint(new Vector3(0, 0, -0.5f));
+                Vector3 centerOfTempBase = generatedShipStands[generatedShipStands.Length - 1].transform.TransformPoint(new Vector3(0, 0, -Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
                 generatedShipStands[generatedShipStands.Length - 1].transform.RotateAround(centerOfTempBase, new Vector3(0, 1, 0), CurrentMovement.RotationEndDegrees);
             }
 
@@ -90,7 +90,7 @@ namespace Movement
 
             if (CurrentMovement.RotationEndDegrees != 0)
             {
-                Vector3 centerOfTempBase = generatedShipStands.Last().transform.TransformPoint(new Vector3(0, 0, -0.5f));
+                Vector3 centerOfTempBase = generatedShipStands.Last().transform.TransformPoint(new Vector3(0, 0, -Selection.ThisShip.ShipBase.HALF_OF_SHIPSTAND_SIZE));
                 generatedShipStands.Last().transform.RotateAround(centerOfTempBase, new Vector3(0, 1, 0), CurrentMovement.RotationEndDegrees);
             }
         }

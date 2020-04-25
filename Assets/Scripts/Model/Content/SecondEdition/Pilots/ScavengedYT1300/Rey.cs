@@ -44,15 +44,14 @@ namespace Abilities.SecondEdition
 
         public void AddDiceModification(GenericShip ship)
         {
-            ship.AddAvailableDiceModificationOwn(new ReyAction(ship));
+            ship.AddAvailableDiceModificationOwn(new ReyAction(ship) { ImageUrl = HostShip.ImageUrl });
         }
 
         private class ReyAction : ActionsList.GenericAction
         {
             public ReyAction(GenericShip ship)
             {
-                Name = DiceModificationName = HostShip.PilotInfo.PilotName;
-                ImageUrl = HostShip.ImageUrl;
+                Name = DiceModificationName = "Rey";
 
                 TokensSpend.Add(typeof(ForceToken));
                 HostShip = ship;

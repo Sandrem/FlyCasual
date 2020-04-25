@@ -23,6 +23,8 @@ namespace Ship
                 );
 
                 ImageUrl = "https://i.imgur.com/wfPdYgB.png";
+
+                PilotNameCanonical = "gideonhask-xiclasslightshuttle";
             }
         }
     }

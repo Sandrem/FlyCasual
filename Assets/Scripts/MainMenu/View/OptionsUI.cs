@@ -364,65 +364,93 @@ public class OptionsUI : MonoBehaviour {
         Button buttonQualityMore = panel.transform.Find("QualityComboboxPanel/ComboboxHolder/ButtonMore").GetComponent<Button>();
         buttonQualityMore.onClick.AddListener(delegate { ChangeQuality(qualityText, +1); });
 
-        Console.Write("Resolution: " + Options.Resolution);
-        Console.Write("Available Resolutions: " + Screen.resolutions.Length);
-        string resolution = Options.Resolution;
-        Text resolutionText = panel.transform.Find("ResolutionComboboxPanel/ComboboxHolder/InputBox/Text").GetComponent<Text>();
-        if (!HasSupportOfResolution(resolution)) resolution = GetAllResolutions().Last().ToString();
-        resolutionText.text = resolution;
-        Button buttonResolutionLess = panel.transform.Find("ResolutionComboboxPanel/ComboboxHolder/ButtonLess").GetComponent<Button>();
-        buttonResolutionLess.onClick.AddListener(delegate { ChangeResolution(resolutionText, -1); });
-        Button buttonResolutionMore = panel.transform.Find("ResolutionComboboxPanel/ComboboxHolder/ButtonMore").GetComponent<Button>();
-        buttonResolutionMore.onClick.AddListener(delegate { ChangeResolution(resolutionText, +1); });
+        try
+        {
+            Console.Write("Resolution: " + Options.Resolution);
+            Console.Write("Available Resolutions: " + Screen.resolutions.Length);
+            string resolution = Options.Resolution;
+            Text resolutionText = panel.transform.Find("ResolutionComboboxPanel/ComboboxHolder/InputBox/Text").GetComponent<Text>();
+            if (!HasSupportOfResolution(resolution)) resolution = GetAllResolutions().Last().ToString();
+            resolutionText.text = resolution;
+            Button buttonResolutionLess = panel.transform.Find("ResolutionComboboxPanel/ComboboxHolder/ButtonLess").GetComponent<Button>();
+            buttonResolutionLess.onClick.AddListener(delegate { ChangeResolution(resolutionText, -1); });
+            Button buttonResolutionMore = panel.transform.Find("ResolutionComboboxPanel/ComboboxHolder/ButtonMore").GetComponent<Button>();
+            buttonResolutionMore.onClick.AddListener(delegate { ChangeResolution(resolutionText, +1); });
+        }
+        catch (Exception)
+        {
+            Messages.ShowError("Error during creation of list of available resolutions");
+        }
 
-        Console.Write("Monitors: " + Display.displays.Count());
-        int displayId = Options.DisplayId;
-        Text displayIdText = panel.transform.Find("DisplayComboboxPanel/ComboboxHolder/InputBox/Text").GetComponent<Text>();
-        displayIdText.text = "Monitor " + (displayId+1);
-        Button buttonDisplayLess = panel.transform.Find("DisplayComboboxPanel/ComboboxHolder/ButtonLess").GetComponent<Button>();
-        buttonDisplayLess.onClick.AddListener(delegate { ChangeDisplay(ref displayId, -1, displayIdText); });
-        Button buttonDisplayMore = panel.transform.Find("DisplayComboboxPanel/ComboboxHolder/ButtonMore").GetComponent<Button>();
-        buttonDisplayMore.onClick.AddListener(delegate { ChangeDisplay(ref displayId, +1, displayIdText); });
+        try
+        {
+            Console.Write("Monitors: " + Display.displays.Count());
+            int displayId = Options.DisplayId;
+            Text displayIdText = panel.transform.Find("DisplayComboboxPanel/ComboboxHolder/InputBox/Text").GetComponent<Text>();
+            displayIdText.text = "Monitor " + (displayId + 1);
+            Button buttonDisplayLess = panel.transform.Find("DisplayComboboxPanel/ComboboxHolder/ButtonLess").GetComponent<Button>();
+            buttonDisplayLess.onClick.AddListener(delegate { ChangeDisplay(ref displayId, -1, displayIdText); });
+            Button buttonDisplayMore = panel.transform.Find("DisplayComboboxPanel/ComboboxHolder/ButtonMore").GetComponent<Button>();
+            buttonDisplayMore.onClick.AddListener(delegate { ChangeDisplay(ref displayId, +1, displayIdText); });
+        }
+        catch (Exception)
+        {
+            Messages.ShowError("Error during creation of list of available monitors");
+        }
     }
 
     private void ChangeDisplay(ref int displayId, int change, Text displayIdText)
     {
-        displayId += change;
-        Console.Write(displayId.ToString());
-        
-        if (displayId < 0 || displayId >= Display.displays.Count())
+        try
         {
-            Console.Write("Monitor: Out of Range");
-            displayId -= change;
+            displayId += change;
+            Console.Write(displayId.ToString());
+
+            if (displayId < 0 || displayId >= Display.displays.Count())
+            {
+                Console.Write("Monitor: Out of Range");
+                displayId -= change;
+            }
+            else
+            {
+                Options.DisplayId = displayId;
+                Options.ChangeParameterValue("DisplayId", displayId);
+
+                displayIdText.text = "Monitor " + (displayId + 1);
+
+                Console.Write("Activated Monitor " + (displayId + 1));
+
+                PlayerPrefs.SetInt("UnitySelectMonitor", displayId);
+            }
+
+            Messages.ShowInfo("Restart to apply change of monitor");
         }
-        else
+        catch (Exception)
         {
-            Options.DisplayId = displayId;
-            Options.ChangeParameterValue("DisplayId", displayId);
-
-            displayIdText.text = "Monitor " + (displayId + 1);
-
-            Console.Write("Activated Monitor " + (displayId + 1));
-
-            PlayerPrefs.SetInt("UnitySelectMonitor", displayId);
+            Messages.ShowError("Error during changing of monitor");
         }
-
-        Messages.ShowInfo("Restart to apply change of monitor");
     }
 
     private void ChangeResolution(Text resolutionText, int change)
     {
-        Resolution[] availableResolutions = GetAllResolutions();
-        if (HasSupportOfResolution(resolutionText.text))
+        try
         {
-            Resolution currentResolution = availableResolutions.FirstOrDefault(n => n.ToString() == resolutionText.text);
-            int currentIndex = Array.IndexOf(availableResolutions, currentResolution);
-            int newIndex = Mathf.Clamp(currentIndex + change, 0, availableResolutions.Length - 1);
+            Resolution[] availableResolutions = GetAllResolutions();
+            if (HasSupportOfResolution(resolutionText.text))
+            {
+                Resolution currentResolution = availableResolutions.FirstOrDefault(n => n.ToString() == resolutionText.text);
+                int currentIndex = Array.IndexOf(availableResolutions, currentResolution);
+                int newIndex = Mathf.Clamp(currentIndex + change, 0, availableResolutions.Length - 1);
 
-            Resolution newResolution = availableResolutions[newIndex];
-            resolutionText.text = newResolution.ToString();
-            Options.ChangeParameterValue("Resolution", newResolution.ToString());
-            Screen.SetResolution(newResolution.width, newResolution.height, Options.FullScreen, newResolution.refreshRate);
+                Resolution newResolution = availableResolutions[newIndex];
+                resolutionText.text = newResolution.ToString();
+                Options.ChangeParameterValue("Resolution", newResolution.ToString());
+                Screen.SetResolution(newResolution.width, newResolution.height, Options.FullScreen, newResolution.refreshRate);
+            }
+        }
+        catch (Exception)
+        {
+            Messages.ShowError("Error during changing of resolution");
         }
     }
 

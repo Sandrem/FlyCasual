@@ -113,6 +113,7 @@ namespace SubPhases
                 execution.TheShip = TheShip;
                 execution.IsTractorBeamBoost = IsTractorBeamBarrelRoll;
                 execution.SelectedBoostHelper = SelectedBoostHelper;
+                execution.FinalPositionInfo = new ShipPositionInfo(TemporaryShipBase.transform.position, TemporaryShipBase.transform.eulerAngles);
                 execution.Start();
             }
             else

@@ -34,6 +34,7 @@ public static class Network
     public static void CreateMatch(string roomName, string password)
     {
         Messages.ShowInfo("Create Match");
+        NetworkManager.singleton.StartHost();
     }
 
     internal static void RevertSubPhase()
@@ -49,6 +50,7 @@ public static class Network
     public static void BrowseMatches()
     {
         Messages.ShowInfo("Browse Matches");
+        NetworkManager.singleton.StartClient();
     }
 
     internal static void GenerateRandom(Vector2 vector2, int v, Action<int[]> storePlayerWithInitiative, Action finishTrigger)
@@ -64,6 +66,7 @@ public static class Network
     public static void CancelWaitingForOpponent()
     {
         Messages.ShowInfo("Cancel Waiting For Opponent");
+        NetworkManager.singleton.StopHost();
     }
 
     public static void FinishTask()

@@ -133,6 +133,8 @@ public partial class MainMenu : MonoBehaviour {
         Console.Write("Network game is prepared", LogTypes.GameCommands, true, "aqua");
 
         Network.CreateMatch(roomName, password);
+
+        ChangePanel("WaitingForOpponentsPanel");
     }
 
     public void BrowseMatches()
@@ -150,6 +152,7 @@ public partial class MainMenu : MonoBehaviour {
     public void CancelWaitingForOpponent()
     {
         Network.CancelWaitingForOpponent();
+        ChangePanel("MainMenuPanel");
     }
 
     public void StartSquadBuilerMode(string modeName)

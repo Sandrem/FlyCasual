@@ -10,16 +10,16 @@ namespace CommandsList
         public NetworkCommand()
         {
             Keyword = "network";
-            Description = "network finish - finish current network task";
+            Description = "network chatmessage text:<text> - send chat message";
 
             Console.AddAvailableCommand(this);
         }
 
         public override void Execute(Dictionary<string, string> parameters)
         {
-            if (parameters.ContainsKey("finish"))
+            if (parameters.ContainsKey("chatmessage"))
             {
-                Network.FinishTask();
+                Network.SendChatMessage(parameters["text"]);
             }
             else
             {

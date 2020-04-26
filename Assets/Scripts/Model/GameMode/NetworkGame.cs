@@ -112,7 +112,7 @@ namespace GameModes
 
         public override void StartBoostExecution(ShipPositionInfo finalPositionInfo)
         {
-            //Network.PerformBoost();
+            Network.PerformBoost();
         }
 
         public override void FinishBoost()
@@ -130,7 +130,7 @@ namespace GameModes
 
         public override void SetSwarmManagerManeuver(string maneuverCode)
         {
-            Network.SetSwarmManagerManeuver(maneuverCode);
+            //OldNetwork.SetSwarmManagerManeuver(maneuverCode);
         }
 
         public override void GenerateDamageDeck(PlayerNo playerNo, int seed)

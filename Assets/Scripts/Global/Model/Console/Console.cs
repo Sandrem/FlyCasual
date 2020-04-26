@@ -186,7 +186,7 @@ public partial class Console : MonoBehaviour {
     {
         if (string.IsNullOrEmpty(inputText)) return;
 
-        List<string> blocks = inputText.ToLower().Split(' ').ToList();
+        List<string> blocks = inputText.Split(' ').ToList();
         string keyword = blocks.FirstOrDefault();
         blocks.RemoveAt(0);
 

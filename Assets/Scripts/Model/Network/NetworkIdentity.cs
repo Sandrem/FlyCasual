@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using SquadBuilderNS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,15 @@ public class NetworkIdentity : NetworkBehaviour
 
     private void Awake()
     {
-        Network.CurrentPlayer = this;
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Start()
+    {
+        if (this.hasAuthority)
+        {
+            Network.CurrentPlayer = this;
+        }
     }
 
     [Command]
@@ -28,4 +37,48 @@ public class NetworkIdentity : NetworkBehaviour
     {
         Messages.ShowInfo(message);
     }
+
+    [Command]
+    public void CmdStartNetworkGame()
+    {
+        Messages.ShowInfo("CmdStartNetworkGame");
+        RpcStartNetworkGame();
+    }
+
+    [ClientRpc]
+    private void RpcStartNetworkGame()
+    {
+        Messages.ShowInfo("RpcStartNetworkGame");
+        SquadBuilder.StartNetworkGame();
+    }
+
+    [Command]
+    public void CmdBattleIsReady()
+    {
+        Messages.ShowInfo("CmdBattleIsReady");
+        RpcBattleIsReady();
+    }
+
+    [ClientRpc]
+    private void RpcBattleIsReady()
+    {
+        Messages.ShowInfo("RpcBattleIsReady");
+        Global.BattleIsReady();
+    }
+
+    [Command]
+    public void CmdSyncSquads()
+    {
+        Messages.ShowInfo("CmdSyncSquads");
+        RpcSyncSquads();
+    }
+
+    [ClientRpc]
+    private void RpcSyncSquads()
+    {
+        Messages.ShowInfo("RpcSyncSquads");
+        SquadBuilder.CreateDummySquads();
+    }
+
+    
 }

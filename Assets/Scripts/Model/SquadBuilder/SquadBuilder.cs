@@ -531,7 +531,8 @@ namespace SquadBuilderNS
 
             Console.Write("Network game is started", LogTypes.GameCommands, true, "aqua");
 
-            Network.StartNetworkGame();
+            GameMode.CurrentGameMode = new NetworkGame();
+            SwitchToBattleScene();
         }
 
         public static void StartLocalGame()
@@ -548,26 +549,28 @@ namespace SquadBuilderNS
 
         public static void SaveAutosaveSquadConfigurations()
         {
-            for (int i = 0; i < 2; i++)
+            if (!DebugManager.DebugNetworkSingleDevice)
             {
-                SaveSquadron(GetSquadList(Tools.IntToPlayer(i+1)), "Autosave (Player " + (i+1) + ")", delegate {
-                    foreach (var squad in SquadLists)
-                    {
-                        squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+                for (int i = 0; i < 2; i++)
+                {
+                    SaveSquadronToFile(GetSquadList(Tools.IntToPlayer(i + 1)), "Autosave (Player " + (i + 1) + ")", delegate { });
+                }
+            }
 
-                        JSONObject playerInfoJson = new JSONObject();
-                        playerInfoJson.AddField("NickName", Options.NickName);
-                        playerInfoJson.AddField("Title", Options.Title);
-                        playerInfoJson.AddField("Avatar", Options.Avatar);
-                        squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
-                    }
-                });
+            foreach (var squad in SquadLists)
+            {
+                squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+
+                JSONObject playerInfoJson = new JSONObject();
+                playerInfoJson.AddField("NickName", Options.NickName);
+                playerInfoJson.AddField("Title", Options.Title);
+                playerInfoJson.AddField("Avatar", Options.Avatar);
+                squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
             }
         }
 
         public static void LoadBattleScene()
         {
-            MainMenu.ShowAiInformation();
             SceneManager.LoadScene("Battle");
         }
 
@@ -1391,6 +1394,17 @@ namespace SquadBuilderNS
         {
             CurrentSquadList.SetDefaultObstacles();
             ShowChosenObstaclesPanel();
+        }
+
+        public static void CreateDummySquads()
+        {
+            string jsonP1 = "{\"name\":\"My Squadron\",\"faction\":\"rebelalliance\",\"points\":62,\"version\":\"0.3.0\",\"pilots\":[{\"id\":\"lukeskywalker\",\"points\":62,\"ship\":\"t65xwing\",\"upgrades\":{},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Luke Skywalker\"}}}],\"obstacles\":[\"coreasteroid5\",\"core2asteroid5\",\"core2asteroid4\"],\"description\":\"Luke Skywalker\"}";
+            string jsonP2 = "{\"name\":\"My Squadron\",\"faction\":\"galacticempire\",\"points\":67,\"version\":\"0.3.0\",\"pilots\":[{\"id\":\"darthvader\",\"points\":67,\"ship\":\"tieadvancedx1\",\"upgrades\":{},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Blue\"}}}],\"obstacles\":[\"coreasteroid5\",\"core2asteroid5\",\"core2asteroid4\"],\"description\":\"Darth Vader\"}";
+
+            SquadBuilder.CreateSquadFromImportedJson("P1", jsonP1, PlayerNo.Player1, delegate { });
+            SquadBuilder.CreateSquadFromImportedJson("P2", jsonP2, PlayerNo.Player2, delegate { });
+
+            SquadBuilder.SaveAutosaveSquadConfigurations();
         }
     }
 }

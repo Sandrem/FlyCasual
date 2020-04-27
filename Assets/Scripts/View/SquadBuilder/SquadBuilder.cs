@@ -951,7 +951,7 @@ namespace SquadBuilderNS
             GameObject.Find("UI/Panels/SaveSquadronPanel/Panel/Name/InputField").GetComponent<InputField>().text = CurrentSquadList.Name;
         }
 
-        public static void SaveSquadron(SquadList squadList, string squadName, Action callback)
+        public static void SaveSquadronToFile(SquadList squadList, string squadName, Action callback)
         {
             squadList.Name = CleanFileName(squadName);
 

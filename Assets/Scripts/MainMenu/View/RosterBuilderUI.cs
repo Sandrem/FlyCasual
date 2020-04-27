@@ -124,7 +124,7 @@ public class RosterBuilderUI : MonoBehaviour {
         string squadName = GameObject.Find("UI/Panels/SaveSquadronPanel/Panel/Name/InputField").GetComponent<InputField>().text;
         if (squadName == "") squadName = "Unnamed squadron";
 
-        SquadBuilder.SaveSquadron(SquadBuilder.CurrentSquadList, squadName, SquadBuilder.ReturnToSquadBuilder);
+        SquadBuilder.SaveSquadronToFile(SquadBuilder.CurrentSquadList, squadName, SquadBuilder.ReturnToSquadBuilder);
     }
 
     public void StartBattle()

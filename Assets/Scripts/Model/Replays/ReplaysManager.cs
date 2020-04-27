@@ -60,7 +60,7 @@ public static class ReplaysManager
 
     public static bool ShouldBeRecorded(GameCommand command)
     {
-        if (DebugManager.NoReplayCreation) return false;
+        if (DebugManager.DebugNetworkSingleDevice) return false;
 
         bool result = true;
 

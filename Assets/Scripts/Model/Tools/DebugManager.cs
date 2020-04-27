@@ -6,6 +6,8 @@ public static class DebugManager
 {
     public static bool ReleaseVersion = false;
 
+    public static bool DebugNetworkSingleDevice = true;
+
     public static bool NoCinematicCamera;
 
     public static bool FullDebug;
@@ -20,8 +22,6 @@ public static class DebugManager
     public static bool DebugStraightToCombat;
 
     public static bool NoObstaclesSetup;
-
-    public static bool NoReplayCreation; // = true;
 
     public static bool DebugMovementShowTempBases; // = true;
     public static bool DebugMovementDestroyTempBasesLater; // = true;

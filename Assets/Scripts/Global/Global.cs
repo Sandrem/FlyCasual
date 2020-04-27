@@ -37,7 +37,7 @@ public class Global : MonoBehaviour {
     {
         if ((Roster.Player2 is Players.HotacAiPlayer) && (!Options.DontShowAiInfo))
         {
-            MainMenu.ShowAiInformationContinue();
+            MainMenu.ShowLoadingScreenNetworkContinue();
         }
         else
         {

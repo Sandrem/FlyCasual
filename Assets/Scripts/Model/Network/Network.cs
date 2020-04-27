@@ -21,15 +21,7 @@ public static class Network
         get { return CurrentPlayer.IsServer; }
     }
 
-    public static void SendChatMessage(string message)
-    {
-        CurrentPlayer.CmdSendChatMessage(message);
-    }
-
-    public static void SendCommand(GameCommand command)
-    {
-        Messages.ShowInfo("Send Command");
-    }
+    // Match creation
 
     public static void CreateMatch(string roomName, string password)
     {
@@ -37,24 +29,9 @@ public static class Network
         NetworkManager.singleton.StartHost();
     }
 
-    internal static void RevertSubPhase()
-    {
-        throw new NotImplementedException();
-    }
-
-    internal static void AssignManeuver(int shipId, string maneuverCode)
-    {
-        throw new NotImplementedException();
-    }
-
     public static void BrowseMatches()
     {
         Messages.ShowInfo("Browse Matches");
-    }
-
-    internal static void GenerateRandom(Vector2 vector2, int v, Action<int[]> storePlayerWithInitiative, Action finishTrigger)
-    {
-        throw new NotImplementedException();
     }
 
     public static void JoinCurrentRoomByParameters(string password)
@@ -62,6 +39,13 @@ public static class Network
         Messages.ShowInfo("Join Current Room By Parameters");
 
         NetworkManager.singleton.StartClient();
+
+        // StartNetworkGame();
+    }
+
+    public static void SyncSquads()
+    {
+        CurrentPlayer.CmdSyncSquads();
     }
 
     public static void CancelWaitingForOpponent()
@@ -70,14 +54,35 @@ public static class Network
         NetworkManager.singleton.StopHost();
     }
 
-    public static void FinishTask()
-    {
-        Messages.ShowInfo("Finish Task");
-    }
-
     public static void StartNetworkGame()
     {
         Messages.ShowInfo("Start Network Game");
+
+        CurrentPlayer.CmdStartNetworkGame();
+    }
+
+    public static void BattleIsReady()
+    {
+        Messages.ShowInfo("Battle Is Ready");
+
+        CurrentPlayer.CmdBattleIsReady();
+    }
+
+    // Game Interaction
+
+    public static void SendCommand(GameCommand command)
+    {
+        Messages.ShowInfo("Send Command");
+    }
+
+    public static void RevertSubPhase()
+    {
+        throw new NotImplementedException();
+    }
+
+    public static void AssignManeuver(int shipId, string maneuverCode)
+    {
+        throw new NotImplementedException();
     }
 
     public static void SelectTargetShip(int shipId)
@@ -128,6 +133,23 @@ public static class Network
     public static void SyncDecks(int playerNo, int seed)
     {
         Messages.ShowInfo("Sync Decks");
+    }
+
+    // Misc
+
+    public static void SendChatMessage(string message)
+    {
+        CurrentPlayer.CmdSendChatMessage(message);
+    }
+
+    public static void GenerateRandom(Vector2 vector2, int v, Action<int[]> storePlayerWithInitiative, Action finishTrigger)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static void FinishTask()
+    {
+        Messages.ShowInfo("Finish Task");
     }
 
     public static void ReturnToMainMenu()

@@ -1,6 +1,9 @@
 ﻿using GameCommands;
 using Mirror;
+using Players;
+using SquadBuilderNS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,9 +41,21 @@ public static class Network
     {
         Messages.ShowInfo("Join Current Room By Parameters");
 
+        Global.Instance.StartCoroutine(JoinRoomCoroutine());
+    }
+
+    private static IEnumerator JoinRoomCoroutine()
+    {
         NetworkManager.singleton.StartClient();
 
-        // StartNetworkGame();
+        yield return new WaitForSeconds(3f);
+
+        SendSquadToServer(SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString());
+    }
+
+    private static void SendSquadToServer(string squadString)
+    {
+        CurrentPlayer.CmdSendSquadToServer(squadString);
     }
 
     public static void SyncSquads()

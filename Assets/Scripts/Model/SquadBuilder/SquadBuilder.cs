@@ -1406,5 +1406,13 @@ namespace SquadBuilderNS
 
             SquadBuilder.SaveAutosaveSquadConfigurations();
         }
+
+        public static void LoadBothSquadsFromJson(string squad1String, string squad2String)
+        {
+            CreateSquadFromImportedJson("Server", squad1String, PlayerNo.Player1, delegate { });
+            CreateSquadFromImportedJson("Client", squad2String, PlayerNo.Player2, delegate { });
+
+            SaveAutosaveSquadConfigurations();
+        }
     }
 }

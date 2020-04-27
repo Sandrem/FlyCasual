@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Players;
 
 public class NetworkIdentity : NetworkBehaviour
 {
@@ -80,5 +81,21 @@ public class NetworkIdentity : NetworkBehaviour
         SquadBuilder.CreateDummySquads();
     }
 
-    
+    [Command]
+    public void CmdSendSquadToServer(string squadString)
+    {
+        RpcSendFinalSquadsToClients
+        (
+            SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString(),
+            squadString
+        );
+
+        RpcStartNetworkGame();
+    }
+
+    [ClientRpc]
+    private void RpcSendFinalSquadsToClients(string squad1String, string squad2String)
+    {
+        SquadBuilder.LoadBothSquadsFromJson(squad1String, squad2String);
+    }
 }

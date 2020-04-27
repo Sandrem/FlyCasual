@@ -49,13 +49,17 @@ public class RosterBuilderUI : MonoBehaviour {
     {
         if (SquadBuilder.ValidateCurrentPlayersRoster())
         {
-            if (!SquadBuilder.IsVsAiGame)
+            if (SquadBuilder.IsVsAiGame)
             {
-                NextPlayerOpen();
+                MainMenu.CurrentMainMenu.ChangePanel("AiDecisionPanel");
+            }
+            else if (SquadBuilder.IsNetworkGame)
+            {
+                MainMenu.CurrentMainMenu.ChangePanel("MultiplayerDecisionPanel");
             }
             else
             {
-                MainMenu.CurrentMainMenu.ChangePanel("AiDecisionPanel");
+                NextPlayerOpen();
             }
         }
     }

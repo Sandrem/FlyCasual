@@ -152,7 +152,7 @@ public partial class MainMenu : MonoBehaviour {
     public void CancelWaitingForOpponent()
     {
         Network.CancelWaitingForOpponent();
-        ChangePanel("MainMenuPanel");
+        ChangePanel("MultiplayerDecisionPanel");
     }
 
     public void StartSquadBuilerMode(string modeName)

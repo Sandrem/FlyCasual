@@ -5,19 +5,26 @@ using UnityEngine.UI;
 
 public class CountdownToRoomsRefresh : MonoBehaviour {
 
+    static float coundownStarted;
+    static int currentCount;
+
     int countdownStart = 30;
-    float coundownStarted;
-    int currentCount;
     public bool isActive;
     Text countdownText;
 
 	// Use this for initialization
 	public void Start()
     {
-        coundownStarted = Time.time;
-        currentCount = 0;
         isActive = true;
         countdownText = transform.GetComponent<Text>();
+
+        Reset();
+    }
+
+    public static void Reset()
+    {
+        coundownStarted = Time.time;
+        currentCount = 0;
     }
 	
 	// Update is called once per frame
@@ -30,7 +37,7 @@ public class CountdownToRoomsRefresh : MonoBehaviour {
             if (currentCount == countdownStart)
             {
                 isActive = false;
-                Network.BrowseMatches();
+                MainMenu.CurrentMainMenu.BrowseMatches();
             }
         }
 	}

@@ -50,7 +50,6 @@ public static class Network
     public static void BrowseMatches()
     {
         Messages.ShowInfo("Browse Matches");
-        NetworkManager.singleton.StartClient();
     }
 
     internal static void GenerateRandom(Vector2 vector2, int v, Action<int[]> storePlayerWithInitiative, Action finishTrigger)
@@ -61,6 +60,8 @@ public static class Network
     public static void JoinCurrentRoomByParameters(string password)
     {
         Messages.ShowInfo("Join Current Room By Parameters");
+
+        NetworkManager.singleton.StartClient();
     }
 
     public static void CancelWaitingForOpponent()

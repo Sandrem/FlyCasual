@@ -20,8 +20,7 @@ public partial class MainMenu : MonoBehaviour {
     public static MainMenu CurrentMainMenu;
 
     private Faction CurrentAvatarsFaction = Faction.Rebel;
-
-    // Use this for initialization
+    
     void Start ()
     {
         MigrationsManager.PerformMigrations();
@@ -139,7 +138,17 @@ public partial class MainMenu : MonoBehaviour {
 
     public void BrowseMatches()
     {
+        StartCoroutine(BrowseMatchesAsync());
+    }
+
+    private IEnumerator BrowseMatchesAsync()
+    {
+        BrowseNetworkRoomsUI.Instance.ShowLoading();
         Network.BrowseMatches();
+
+        yield return new WaitForSeconds(3);
+
+        BrowseNetworkRoomsUI.Instance.ShowRooms();
     }
 
     public void JoinMatch(GameObject panel)

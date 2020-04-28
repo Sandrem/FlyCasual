@@ -36,14 +36,18 @@ namespace SquadBuilderNS
 
     public class SquadList
     {
-        private List<SquadBuilderShip> Ships;
-        public Faction SquadFaction;
+        public string Name;
+
         public Type PlayerType;
         public PlayerNo PlayerNo;
-        public string Name;
-        public JSONObject SavedConfiguration;
+
+        public Faction SquadFaction;
+        private List<SquadBuilderShip> Ships;
         public int Points;
+        
         public List<GenericObstacle> ChosenObstacles;
+
+        public JSONObject SavedConfiguration;
 
         public SquadList(PlayerNo playerNo)
         {
@@ -556,7 +560,10 @@ namespace SquadBuilderNS
                     SaveSquadronToFile(GetSquadList(Tools.IntToPlayer(i + 1)), "Autosave (Player " + (i + 1) + ")", delegate { });
                 }
             }
+        }
 
+        public static void GenerateSavedConfigurationsLocal()
+        {
             foreach (var squad in SquadLists)
             {
                 squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
@@ -993,13 +1000,15 @@ namespace SquadBuilderNS
 
         public static JSONObject GetSquadInJson(PlayerNo playerNo)
         {
+            SquadList squadList = GetSquadList(playerNo);
+
             JSONObject squadJson = new JSONObject();
-            squadJson.AddField("name", GetSquadList(playerNo).Name);
-            squadJson.AddField("faction", Edition.Current.FactionToXws(GetSquadList(playerNo).SquadFaction));
+            squadJson.AddField("name", squadList.Name);
+            squadJson.AddField("faction", Edition.Current.FactionToXws(squadList.SquadFaction));
             squadJson.AddField("points", GetSquadCost(playerNo));
             squadJson.AddField("version", "0.3.0");
 
-            List<SquadBuilderShip> playerShipConfigs = GetSquadList(playerNo).GetShips().ToList();
+            List<SquadBuilderShip> playerShipConfigs = squadList.GetShips().ToList();
             JSONObject[] squadPilotsArrayJson = new JSONObject[playerShipConfigs.Count];
             for (int i = 0; i < squadPilotsArrayJson.Length; i++)
             {
@@ -1009,9 +1018,9 @@ namespace SquadBuilderNS
             squadJson.AddField("pilots", squadPilotsJson);
 
             JSONObject squadObstalesArrayJson = new JSONObject(JSONObject.Type.ARRAY);
-            for (int i = 0; i < GetSquadList(playerNo).ChosenObstacles.Count; i++)
+            for (int i = 0; i < squadList.ChosenObstacles.Count; i++)
             {
-                squadObstalesArrayJson.Add(GetSquadList(playerNo).ChosenObstacles[i].ShortName);
+                squadObstalesArrayJson.Add(squadList.ChosenObstacles[i].ShortName);
             }
 
             squadJson.AddField("obstacles", squadObstalesArrayJson);
@@ -1396,23 +1405,34 @@ namespace SquadBuilderNS
             ShowChosenObstaclesPanel();
         }
 
-        public static void CreateDummySquads()
+        public static void PrepareOnlineMatchLists(int playerInt, string playerName, string title, string avatar, string squadString)
         {
-            string jsonP1 = "{\"name\":\"My Squadron\",\"faction\":\"rebelalliance\",\"points\":62,\"version\":\"0.3.0\",\"pilots\":[{\"id\":\"lukeskywalker\",\"points\":62,\"ship\":\"t65xwing\",\"upgrades\":{},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Luke Skywalker\"}}}],\"obstacles\":[\"coreasteroid5\",\"core2asteroid5\",\"core2asteroid4\"],\"description\":\"Luke Skywalker\"}";
-            string jsonP2 = "{\"name\":\"My Squadron\",\"faction\":\"galacticempire\",\"points\":67,\"version\":\"0.3.0\",\"pilots\":[{\"id\":\"darthvader\",\"points\":67,\"ship\":\"tieadvancedx1\",\"upgrades\":{},\"vendor\":{\"Sandrem.FlyCasual\":{\"skin\":\"Blue\"}}}],\"obstacles\":[\"coreasteroid5\",\"core2asteroid5\",\"core2asteroid4\"],\"description\":\"Darth Vader\"}";
+            PlayerNo playerNo = Tools.IntToPlayer(playerInt);
+            SquadList squadList = GetSquadList(playerNo);
 
-            SquadBuilder.CreateSquadFromImportedJson("P1", jsonP1, PlayerNo.Player1, delegate { });
-            SquadBuilder.CreateSquadFromImportedJson("P2", jsonP2, PlayerNo.Player2, delegate { });
+            if (Network.IsServer)
+            {
+                squadList.PlayerType = (playerNo == PlayerNo.Player1) ? typeof(HumanPlayer) : typeof(NetworkOpponentPlayer);
+            }
+            else
+            {
+                squadList.PlayerType = (playerNo == PlayerNo.Player1) ? typeof(NetworkOpponentPlayer) : typeof(HumanPlayer);
+            }
 
-            SquadBuilder.SaveAutosaveSquadConfigurations();
-        }
+            CreateSquadFromImportedJson(
+                "Squad" + playerNo,
+                squadString,
+                playerNo,
+                delegate { }
+            );
 
-        public static void LoadBothSquadsFromJson(string squad1String, string squad2String)
-        {
-            CreateSquadFromImportedJson("Server", squad1String, PlayerNo.Player1, delegate { });
-            CreateSquadFromImportedJson("Client", squad2String, PlayerNo.Player2, delegate { });
+            squadList.SavedConfiguration = GetSquadInJson(playerNo);
 
-            SaveAutosaveSquadConfigurations();
+            JSONObject playerInfoJson = new JSONObject();
+            playerInfoJson.AddField("NickName", playerName);
+            playerInfoJson.AddField("Title", title);
+            playerInfoJson.AddField("Avatar", avatar);
+            squadList.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
         }
     }
 }

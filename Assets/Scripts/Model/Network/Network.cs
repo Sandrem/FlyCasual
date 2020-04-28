@@ -50,17 +50,18 @@ public static class Network
 
         yield return new WaitForSeconds(3f);
 
-        SendSquadToServer(SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString());
+        SendClientInfoToServer();
     }
 
-    private static void SendSquadToServer(string squadString)
+    private static void SendClientInfoToServer()
     {
-        CurrentPlayer.CmdSendSquadToServer(squadString);
-    }
-
-    public static void SyncSquads()
-    {
-        CurrentPlayer.CmdSyncSquads();
+        CurrentPlayer.CmdSendSquadToServer
+        (
+            Options.NickName,
+            Options.Title,
+            Options.Avatar,
+            SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString()
+        );
     }
 
     public static void CancelWaitingForOpponent()

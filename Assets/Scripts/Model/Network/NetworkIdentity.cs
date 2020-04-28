@@ -50,6 +50,7 @@ public class NetworkIdentity : NetworkBehaviour
     private void RpcStartNetworkGame()
     {
         Messages.ShowInfo("RpcStartNetworkGame");
+
         SquadBuilder.StartNetworkGame();
     }
 
@@ -68,25 +69,23 @@ public class NetworkIdentity : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSyncSquads()
+    public void CmdSendSquadToServer(string playerName, string title, string avatar, string squadString)
     {
-        Messages.ShowInfo("CmdSyncSquads");
-        RpcSyncSquads();
-    }
-
-    [ClientRpc]
-    private void RpcSyncSquads()
-    {
-        Messages.ShowInfo("RpcSyncSquads");
-        SquadBuilder.CreateDummySquads();
-    }
-
-    [Command]
-    public void CmdSendSquadToServer(string squadString)
-    {
-        RpcSendFinalSquadsToClients
+        RpcSendPlayerInfoToClients
         (
-            SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString(),
+            1,
+            Options.NickName,
+            Options.Title,
+            Options.Avatar,
+            SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString()
+        );
+
+        RpcSendPlayerInfoToClients
+        (
+            2,
+            playerName,
+            title,
+            avatar,
             squadString
         );
 
@@ -94,8 +93,15 @@ public class NetworkIdentity : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcSendFinalSquadsToClients(string squad1String, string squad2String)
+    private void RpcSendPlayerInfoToClients(int playerNo, string playerName, string title, string avatar, string squadString)
     {
-        SquadBuilder.LoadBothSquadsFromJson(squad1String, squad2String);
+        SquadBuilder.PrepareOnlineMatchLists
+        (
+            playerNo,
+            playerName,
+            title,
+            avatar,
+            squadString
+        );
     }
 }

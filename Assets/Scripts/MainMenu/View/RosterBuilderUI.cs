@@ -135,6 +135,8 @@ public class RosterBuilderUI : MonoBehaviour {
 
             if (!SquadBuilder.IsNetworkGame)
             {
+                SquadBuilder.GenerateSavedConfigurationsLocal();
+
                 GameController.StartBattle();
             }
             else

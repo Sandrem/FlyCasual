@@ -11,7 +11,6 @@ namespace CommandsList
         {
             Keyword = "network";
             Description = "network chat t:<text> - send chat message\n" +
-                "network squads - prepare squads\n" +
                 "network start - start network game\n" +
                 "network ready - ready network game";
 
@@ -23,10 +22,6 @@ namespace CommandsList
             if (parameters.ContainsKey("chat"))
             {
                 Network.SendChatMessage(parameters["t"]);
-            }
-            if (parameters.ContainsKey("squads"))
-            {
-                Network.SyncSquads();
             }
             if (parameters.ContainsKey("start"))
             {

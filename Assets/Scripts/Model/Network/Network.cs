@@ -55,7 +55,7 @@ public static class Network
 
     private static void SendClientInfoToServer()
     {
-        CurrentPlayer.CmdSendSquadToServer
+        CurrentPlayer.CmdSyncAndStartGame
         (
             Options.NickName,
             Options.Title,
@@ -168,6 +168,8 @@ public static class Network
     public static void FinishTask()
     {
         Messages.ShowInfo("Finish Task");
+
+        CurrentPlayer.CmdFinishTask();
     }
 
     public static void ReturnToMainMenu()

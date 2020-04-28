@@ -81,7 +81,7 @@ public class NetworkIdentity : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSendSquadToServer(string playerName, string title, string avatar, string squadString)
+    public void CmdSyncAndStartGame(string playerName, string title, string avatar, string squadString)
     {
         RpcSendPlayerInfoToClients
         (
@@ -102,6 +102,12 @@ public class NetworkIdentity : NetworkBehaviour
         );
 
         RpcStartNetworkGame();
+
+        new NetworkTask
+        (
+            "Load Battle Scene",
+            RpcBattleIsReady
+        );
     }
 
     [ClientRpc]
@@ -115,5 +121,11 @@ public class NetworkIdentity : NetworkBehaviour
             avatar,
             squadString
         );
+    }
+
+    [Command]
+    public void CmdFinishTask()
+    {
+        NetworkTask.CurrentTask.FinishOne();
     }
 }

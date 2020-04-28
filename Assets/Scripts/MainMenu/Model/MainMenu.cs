@@ -155,7 +155,7 @@ public partial class MainMenu : MonoBehaviour {
     {
         //Messages.ShowInfo("Joining room...");
         string password = panel.transform.Find("Password").GetComponentInChildren<InputField>().text;
-        Network.JoinCurrentRoomByParameters(password);
+        Network.JoinRoom(password);
     }
 
     public void CancelWaitingForOpponent()

@@ -37,7 +37,7 @@ public static class Network
         Messages.ShowInfo("Browse Matches");
     }
 
-    public static void JoinCurrentRoomByParameters(string password)
+    public static void JoinRoom(string password)
     {
         Messages.ShowInfo("Join Current Room By Parameters");
 
@@ -68,20 +68,6 @@ public static class Network
     {
         Messages.ShowInfo("Cancel Waiting For Opponent");
         NetworkManager.singleton.StopHost();
-    }
-
-    public static void StartNetworkGame()
-    {
-        Messages.ShowInfo("Start Network Game");
-
-        CurrentPlayer.CmdStartNetworkGame();
-    }
-
-    public static void BattleIsReady()
-    {
-        Messages.ShowInfo("Battle Is Ready");
-
-        CurrentPlayer.CmdBattleIsReady();
     }
 
     // Game Interaction

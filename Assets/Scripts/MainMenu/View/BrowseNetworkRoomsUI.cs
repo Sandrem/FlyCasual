@@ -51,7 +51,7 @@ public class BrowseNetworkRoomsUI : MonoBehaviour
             newRoom.transform.localPosition = new Vector3(newRoom.transform.localPosition.x, -20f * (i + 1) - 100f * i, newRoom.transform.localPosition.z);
 
             newRoom.GetComponentInChildren<Button>().onClick.AddListener(
-                delegate { Network.JoinCurrentRoomByParameters(null);
+                delegate { Network.JoinRoom(null);
             });
         }
     }

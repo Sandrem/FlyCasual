@@ -10,9 +10,7 @@ namespace CommandsList
         public NetworkCommand()
         {
             Keyword = "network";
-            Description = "network chat t:<text> - send chat message\n" +
-                "network start - start network game\n" +
-                "network ready - ready network game";
+            Description = "network chat t:<text> - send chat message";
 
             Console.AddAvailableCommand(this);
         }
@@ -22,14 +20,6 @@ namespace CommandsList
             if (parameters.ContainsKey("chat"))
             {
                 Network.SendChatMessage(parameters["t"]);
-            }
-            if (parameters.ContainsKey("start"))
-            {
-                Network.StartNetworkGame();
-            }
-            if (parameters.ContainsKey("ready"))
-            {
-                Network.BattleIsReady();
             }
             else
             {

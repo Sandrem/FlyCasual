@@ -51,26 +51,12 @@ public class NetworkIdentity : NetworkBehaviour
         Messages.ShowInfo(message);
     }
 
-    [Command]
-    public void CmdStartNetworkGame()
-    {
-        Messages.ShowInfo("CmdStartNetworkGame");
-        RpcStartNetworkGame();
-    }
-
     [ClientRpc]
     private void RpcStartNetworkGame()
     {
         Messages.ShowInfo("RpcStartNetworkGame");
 
         SquadBuilder.StartNetworkGame();
-    }
-
-    [Command]
-    public void CmdBattleIsReady()
-    {
-        Messages.ShowInfo("CmdBattleIsReady");
-        RpcBattleIsReady();
     }
 
     [ClientRpc]

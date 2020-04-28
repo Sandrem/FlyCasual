@@ -28,6 +28,18 @@ public class NetworkIdentity : NetworkBehaviour
     }
 
     [Command]
+    public void CmdSendCommand(string commandline)
+    {
+        RpcSendCommand(commandline);
+    }
+
+    [ClientRpc]
+    public void RpcSendCommand(string commandline)
+    {
+        GameController.SendCommand(GameController.GenerateGameCommand(commandline, true));
+    }
+
+    [Command]
     public void CmdSendChatMessage(string message)
     {
         RpcSendChatMessage(message);

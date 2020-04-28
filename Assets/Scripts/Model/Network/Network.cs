@@ -89,6 +89,8 @@ public static class Network
     public static void SendCommand(GameCommand command)
     {
         Messages.ShowInfo("Send Command");
+
+        CurrentPlayer.CmdSendCommand(command.ToString());
     }
 
     public static void RevertSubPhase()

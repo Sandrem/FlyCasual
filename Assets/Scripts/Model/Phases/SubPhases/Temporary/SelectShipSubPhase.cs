@@ -239,10 +239,15 @@ namespace SubPhases
         {
             JSONObject parameters = new JSONObject();
             parameters.AddField("id", ship.ShipId.ToString());
-            GameController.SendCommand(
-                GameCommandTypes.SelectShip,
-                Phases.CurrentSubPhase.GetType(),
-                parameters.ToString()
+
+            GameMode.CurrentGameMode.ExecuteCommand
+            (
+                GameController.GenerateGameCommand
+                (
+                    GameCommandTypes.SelectShip,
+                    Phases.CurrentSubPhase.GetType(),
+                    parameters.ToString()
+                )
             );
         }
 
@@ -250,21 +255,12 @@ namespace SubPhases
         {
             GenericShip ship = Roster.GetShipById("ShipId:" + shipId);
 
-            (Phases.CurrentSubPhase as SelectShipSubPhase).IsReadyForCommands = false;
-
             (Phases.CurrentSubPhase as SelectShipSubPhase).TargetShip = ship;
 
             UI.HideNextButton();
             if (ship != Selection.ThisShip) MovementTemplates.ShowRange(Selection.ThisShip, ship);
 
-            if (!Network.IsNetworkGame)
-            {
-                (Phases.CurrentSubPhase as SelectShipSubPhase).InvokeFinish();
-            }
-            else
-            {
-                Network.SelectTargetShip(ship.ShipId);
-            }
+            (Phases.CurrentSubPhase as SelectShipSubPhase).InvokeFinish();
         }
 
         protected virtual void CancelShipSelection()

@@ -91,7 +91,7 @@ namespace Abilities.SecondEdition
         {
             SetAbilityManeuvers();
             HostShip.OnMovementExecuted += CleanUpMovements;
-            HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, Triggers.FinishTrigger, IsManeuverSameBearing);
+            HostShip.Owner.ChangeManeuver(ShipMovementScript.SendAssignManeuverCommand, Triggers.FinishTrigger, IsManeuverSameBearing);
         }
 
         private bool IsManeuverSameBearing(string maneuverString)

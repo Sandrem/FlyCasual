@@ -84,7 +84,7 @@ namespace Abilities.SecondEdition
                 HostShip.OnMovementFinish += ClearAbility;
             }
 
-            GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
+            ShipMovementScript.SendAssignManeuverCommand(maneuverCode);
         }
 
         private bool IsSameSpeedNotRed(string maneuverString)

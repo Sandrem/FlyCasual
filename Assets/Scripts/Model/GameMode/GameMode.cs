@@ -21,8 +21,6 @@ namespace GameModes
 
         public abstract void RevertSubPhase();
 
-        public abstract void AssignManeuver(string maneuverCode);
-
         public abstract void GiveInitiativeToRandomPlayer();
 
         public abstract void StartBattle();

@@ -125,7 +125,7 @@ namespace Abilities.FirstEdition
         {
             doAilerons = true;
             HostShip.Owner.ChangeManeuver(
-                GameMode.CurrentGameMode.AssignManeuver,
+                ShipMovementScript.SendAssignManeuverCommand,
                 Triggers.FinishTrigger,
                 AdaptiveAileronsFilter
             );
@@ -173,7 +173,7 @@ namespace Abilities.FirstEdition
                 subphase.Start();
                 subphase.IsReadyForCommands = true;
 
-                ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, SavedManeuver.ToString());
+                ShipMovementScript.SendAssignManeuverCommand(SavedManeuver.ToString());
             }
             else
             {

@@ -501,9 +501,9 @@ namespace AI.Aggressor
                 .FirstOrDefault();
         }
 
-        public static void AssignPlannedManeuver(GenericShip ship, Action callBack)
+        public static void AssignPlannedManeuver(Action callBack)
         {
-            ShipMovementScript.SendAssignManeuverCommand(ship.ShipId, VirtualBoard.Ships[ship].PlannedManeuverCode);
+            ShipMovementScript.SendAssignManeuverCommand(VirtualBoard.Ships[Selection.ThisShip].PlannedManeuverCode);
             callBack();
         }
 

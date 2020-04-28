@@ -98,11 +98,6 @@ public static class Network
         throw new NotImplementedException();
     }
 
-    public static void AssignManeuver(int shipId, string maneuverCode)
-    {
-        throw new NotImplementedException();
-    }
-
     public static void SelectTargetShip(int shipId)
     {
         Messages.ShowInfo("Select Target Ship");

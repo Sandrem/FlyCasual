@@ -74,11 +74,11 @@ namespace Players
         {
             if (!DebugManager.DebugStraightToCombat)
             {
-                AI.Aggressor.NavigationSubSystem.AssignPlannedManeuver(Selection.ThisShip, AssignManeuversRecursive);
+                AI.Aggressor.NavigationSubSystem.AssignPlannedManeuver(AssignManeuversRecursive);
             }
             else
             {
-                ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, "2.F.S");
+                ShipMovementScript.SendAssignManeuverCommand("2.F.S");
                 AssignManeuversRecursive();
             }
         }

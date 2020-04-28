@@ -30,11 +30,6 @@ namespace GameModes
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
         }
 
-        public override void AssignManeuver(string maneuverCode)
-        {
-            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, maneuverCode);
-        }
-
         public override void GiveInitiativeToRandomPlayer()
         {
             if (ReplaysManager.Mode == ReplaysMode.Write)

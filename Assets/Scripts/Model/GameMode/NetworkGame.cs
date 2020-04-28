@@ -30,11 +30,6 @@ namespace GameModes
             Network.RevertSubPhase();
         }
 
-        public override void AssignManeuver(string maneuverCode)
-        {
-            Network.AssignManeuver(Selection.ThisShip.ShipId, maneuverCode);
-        }
-
         public override void GiveInitiativeToRandomPlayer()
         {
             if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.GiveInitiativeToRandomPlayer");

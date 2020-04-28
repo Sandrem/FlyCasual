@@ -47,7 +47,7 @@ namespace Abilities.FirstEdition
         {
             if (HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Easy || HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Complex)
             {
-                HostShip.Owner.ChangeManeuver(GameMode.CurrentGameMode.AssignManeuver, Triggers.FinishTrigger, IsSameComplexity);
+                HostShip.Owner.ChangeManeuver(ShipMovementScript.SendAssignManeuverCommand, Triggers.FinishTrigger, IsSameComplexity);
             }
             else
             {

@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -24,32 +25,33 @@ public static class Network
         get { return CurrentPlayer.IsServer; }
     }
 
+    public static string ServerUri { get; set; } = "tcp4://127.0.0.1";
+
     // Match creation
 
     public static void CreateMatch(string roomName, string password)
     {
-        Messages.ShowInfo("Create Match");
         NetworkManager.singleton.StartHost();
     }
 
     public static void BrowseMatches()
     {
-        Messages.ShowInfo("Browse Matches");
+        // Messages.ShowInfo("Browse Matches");
     }
 
     public static void JoinRoom(string password)
     {
-        Messages.ShowInfo("Join Current Room By Parameters");
-
         Global.Instance.StartCoroutine(JoinRoomCoroutine());
     }
 
     private static IEnumerator JoinRoomCoroutine()
     {
-        NetworkManager.singleton.StartClient();
+        Uri uri = new Uri(Network.ServerUri);
+        NetworkManager.singleton.StartClient(uri);
 
         yield return new WaitForSeconds(3f);
 
+        // TODO: When connected
         SendClientInfoToServer();
     }
 
@@ -66,7 +68,6 @@ public static class Network
 
     public static void CancelWaitingForOpponent()
     {
-        Messages.ShowInfo("Cancel Waiting For Opponent");
         NetworkManager.singleton.StopHost();
     }
 
@@ -74,19 +75,12 @@ public static class Network
 
     public static void SendCommand(GameCommand command)
     {
-        Messages.ShowInfo("Send Command");
-
         CurrentPlayer.CmdSendCommand(command.ToString());
     }
 
     public static void RevertSubPhase()
     {
         throw new NotImplementedException();
-    }
-
-    public static void SelectTargetShip(int shipId)
-    {
-        Messages.ShowInfo("Select Target Ship");
     }
 
     public static void TryConfirmBarrelRoll(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition)
@@ -131,8 +125,6 @@ public static class Network
 
     public static void SyncDecks(PlayerNo playerNo, int seed)
     {
-        Messages.ShowInfo("Sync Decks");
-
         if (IsServer) CurrentPlayer.CmdSendCommand
         (
             DamageDecks.GenerateDeckShuffleCommand(playerNo, seed).ToString()
@@ -153,18 +145,16 @@ public static class Network
 
     public static void FinishTask()
     {
-        Messages.ShowInfo("Finish Task");
-
         CurrentPlayer.CmdFinishTask();
     }
 
     public static void ReturnToMainMenu()
     {
-        Messages.ShowInfo("Return To Main Menu");
+        // Messages.ShowInfo("Return To Main Menu");
     }
 
     public static void QuitToDesktop()
     {
-        Messages.ShowInfo("Quit To Desktop");
+        // Messages.ShowInfo("Quit To Desktop");
     }
 }

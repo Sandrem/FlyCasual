@@ -38,7 +38,7 @@ public class BrowseNetworkRoomsUI : MonoBehaviour
 
     private void ShowListofRooms()
     {
-        int roomsCount = 3;
+        int roomsCount = 1;
 
         RectTransform parentRect = RoomListPanel.transform.GetComponent<RectTransform>();
         parentRect.sizeDelta = new Vector2(parentRect.sizeDelta.x, 120f * (roomsCount) + 20f);

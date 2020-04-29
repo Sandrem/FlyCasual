@@ -16,8 +16,6 @@ namespace GameCommands
 
         public override void Execute()
         {
-            Messages.ShowInfo("Assign Maneuver: " + GetString("maneuver"));
-
             ShipMovementScript.AssignManeuver(
                 int.Parse(GetString("id")),
                 GetString("maneuver")

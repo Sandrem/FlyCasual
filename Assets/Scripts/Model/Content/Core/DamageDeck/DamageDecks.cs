@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GameModes;
 using Players;
 using Editions;
+using GameCommands;
 
 public static class DamageDecks
 {
@@ -36,6 +37,19 @@ public static class DamageDecks
     public static void DrawDamageCard(PlayerNo playerNo, bool isFaceup, Action<EventArgs> doWithDamageCard, EventArgs e)
     {
         GetDamageDeck(playerNo).DrawDamageCard(isFaceup, doWithDamageCard, e);
+    }
+
+    public static GameCommand GenerateDeckShuffleCommand(PlayerNo playerNo, int seed)
+    {
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("player", playerNo.ToString());
+        parameters.AddField("seed", seed.ToString());
+
+        return GameController.GenerateGameCommand(
+            GameCommandTypes.DamageDecksSync,
+            null,
+            parameters.ToString()
+        );
     }
 }
 

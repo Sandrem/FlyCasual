@@ -9,6 +9,8 @@ namespace GameCommands
 {
     public class DamageDeckSyncCommand : GameCommand
     {
+        protected override bool IsPreparationCommand => true;
+
         public DamageDeckSyncCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
         {
 
@@ -16,7 +18,6 @@ namespace GameCommands
 
         public override void Execute()
         {
-            GameController.ConfirmCommand();
             DamageDecks.GetDamageDeck((PlayerNo)Enum.Parse(typeof(PlayerNo), GetString("player"))).ShuffleDeck(int.Parse(GetString("seed")));
         }
     }

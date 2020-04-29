@@ -129,9 +129,14 @@ public static class Network
         Messages.ShowInfo("Cancel Boost");
     }
 
-    public static void SyncDecks(int playerNo, int seed)
+    public static void SyncDecks(PlayerNo playerNo, int seed)
     {
         Messages.ShowInfo("Sync Decks");
+
+        if (IsServer) CurrentPlayer.CmdSendCommand
+        (
+            DamageDecks.GenerateDeckShuffleCommand(playerNo, seed).ToString()
+        );
     }
 
     // Misc

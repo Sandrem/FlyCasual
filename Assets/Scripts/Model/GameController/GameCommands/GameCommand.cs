@@ -41,6 +41,7 @@ namespace GameCommands
         public Type SubPhase { get; private set; }
         public string RawParameters { get; private set; }
         public JSONObject Parameters { get; private set; }
+        protected virtual bool IsPreparationCommand { get; }
 
         public GameCommand(GameCommandTypes type, Type subPhase, string rawParameters)
         {
@@ -83,25 +84,28 @@ namespace GameCommands
         {
             SubPhases.GenericSubPhase subphase = Phases.CurrentSubPhase;
 
-            if (subphase == null)
+            if (!IsPreparationCommand || ReplaysManager.Mode == ReplaysMode.Read)
             {
-                Console.Write(Type + " command is skipped (subphase is null)", LogTypes.GameCommands, false, "aqua");
-                return;
-            }
-            else if (subphase.GetType() != SubPhase)
-            {
-                Console.Write(Type + " command is skipped: subphase is " + subphase + " instead of " + SubPhase, LogTypes.GameCommands, false, "aqua");
-                return;
-            }
-            else if (!subphase.AllowedGameCommandTypes.Contains(Type) && Type != GameCommandTypes.ConfirmCrit)
-            {
-                Console.Write(Type + " command is skipped: " + subphase + " doesn't support this type of commands", LogTypes.GameCommands, false, "aqua");
-                return;
-            }
-            else if (!subphase.IsReadyForCommands)
-            {
-                Console.Write(Type + " command is skipped: " + subphase + " is not ready for commands", LogTypes.GameCommands, false, "aqua");
-                return;
+                if (subphase == null)
+                {
+                    Console.Write(Type + " command is skipped (subphase is null)", LogTypes.GameCommands, false, "aqua");
+                    return;
+                }
+                else if (subphase.GetType() != SubPhase)
+                {
+                    Console.Write(Type + " command is skipped: subphase is " + subphase + " instead of " + SubPhase, LogTypes.GameCommands, false, "aqua");
+                    return;
+                }
+                else if (!subphase.AllowedGameCommandTypes.Contains(Type) && Type != GameCommandTypes.ConfirmCrit)
+                {
+                    Console.Write(Type + " command is skipped: " + subphase + " doesn't support this type of commands", LogTypes.GameCommands, false, "aqua");
+                    return;
+                }
+                else if (!subphase.IsReadyForCommands)
+                {
+                    Console.Write(Type + " command is skipped: " + subphase + " is not ready for commands", LogTypes.GameCommands, false, "aqua");
+                    return;
+                }
             }
 
             Console.Write("Command is executed: " + Type, LogTypes.GameCommands, true, "aqua");

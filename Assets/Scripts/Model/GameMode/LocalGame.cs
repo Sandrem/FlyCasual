@@ -140,20 +140,14 @@ namespace GameModes
 
         private void SyncDamageDeckSeed(PlayerNo playerNo, int seed)
         {
+            // TODO: Move to player types
+
             if (ReplaysManager.Mode == ReplaysMode.Write)
             {
-                JSONObject parameters = new JSONObject();
-                parameters.AddField("player", playerNo.ToString());
-                parameters.AddField("seed", seed.ToString());
-
-                GameController.SendCommand(
-                    GameCommandTypes.DamageDecksSync,
-                    null,
-                    parameters.ToString()
+                GameController.SendCommand
+                (
+                    DamageDecks.GenerateDeckShuffleCommand(playerNo, seed)
                 );
-
-                Console.Write("Command is executed: " + GameCommandTypes.DamageDecksSync, LogTypes.GameCommands, true, "aqua");
-                GameController.GetCommand().Execute();
             }
             else if (ReplaysManager.Mode == ReplaysMode.Read)
             {
@@ -162,6 +156,8 @@ namespace GameModes
                 if (command.Type == GameCommandTypes.DamageDecksSync)
                 {
                     Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
+
+                    GameController.ConfirmCommand();
                     command.Execute();
                 }
             }

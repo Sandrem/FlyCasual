@@ -130,7 +130,7 @@ namespace GameModes
 
         public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
         {
-            Network.SyncDecks(Tools.PlayerToInt(playerNo), seed);
+            Network.SyncDecks(playerNo, seed);
         }
 
         public override void ReturnToMainMenu()

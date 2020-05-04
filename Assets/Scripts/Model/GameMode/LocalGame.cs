@@ -65,52 +65,6 @@ namespace GameModes
             Global.BattleIsReady();
         }
 
-        // BARREL ROLL
-
-        public override void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition)
-        {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).ConfirmBarrelRollPosition();
-        }
-
-        public override void StartBarrelRollExecution()
-        {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartRepositionExecution();
-        }
-
-        public override void FinishBarrelRoll()
-        {
-            (Phases.CurrentSubPhase as BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
-        }
-
-        public override void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
-        {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll(barrelRollProblems);
-        }
-
-        // DECLOAK
-
-        public override void StartDecloakExecution(Ship.GenericShip ship)
-        {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartRepositionExecution();
-        }
-
-        public override void FinishDecloak()
-        {
-            (Phases.CurrentSubPhase as DecloakBarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
-        }
-
-        public override void CancelDecloak(List<ActionFailReason> decloakProblems)
-        {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelBarrelRoll(decloakProblems);
-        }
-
-        // Swarm Manager
-
-        public override void SetSwarmManagerManeuver(string maneuverCode)
-        {
-            SwarmManager.SetManeuver(maneuverCode);
-        }
-
         public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
         {
             SyncDamageDeckSeed(playerNo, seed);

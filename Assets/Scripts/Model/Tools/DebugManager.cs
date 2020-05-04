@@ -6,7 +6,7 @@ public static class DebugManager
 {
     public static bool ReleaseVersion = false;
 
-    public static bool DebugNetworkSingleDevice; // = true;
+    public static bool DebugNetworkSingleDevice = true;
 
     public static bool NoCinematicCamera;
 

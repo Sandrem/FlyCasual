@@ -79,6 +79,12 @@ public static class Network
         CurrentPlayer.CmdSendCommand(command.ToString());
     }
 
+    //Command that is executed only if server sent it - avoids duplication of commands
+    public static void SendServerCommand(GameCommand command)
+    {
+        if (IsServer) CurrentPlayer.CmdSendCommand(command.ToString());
+    }
+
     public static void RevertSubPhase()
     {
         throw new NotImplementedException();

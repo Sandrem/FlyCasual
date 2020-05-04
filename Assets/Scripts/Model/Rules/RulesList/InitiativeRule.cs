@@ -50,16 +50,17 @@ namespace RulesList
             }
             else
             {
-                GameMode.CurrentGameMode.GiveInitiativeToRandomPlayer();
+                int randomPlayer = UnityEngine.Random.Range(1, 3);
+                GameMode.CurrentGameMode.GiveInitiativeToPlayer(randomPlayer);
             }
         }
 
-        public static void SendInitiativeDecisionOwnerCommand(int randomPlayer)
+        public static GameCommand GenerateInitiativeDecisionOwnerCommand(int randomPlayer)
         {
             JSONObject parameters = new JSONObject();
             parameters.AddField("player", Tools.IntToPlayer(randomPlayer).ToString());
 
-            GameController.SendCommand(
+            return GameController.GenerateGameCommand(
                 GameCommandTypes.SyncPlayerWithInitiative,
                 null,
                 parameters.ToString()

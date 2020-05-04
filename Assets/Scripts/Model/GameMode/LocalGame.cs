@@ -30,18 +30,14 @@ namespace GameModes
             (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
         }
 
-        public override void GiveInitiativeToRandomPlayer()
-        {
-            int randomPlayer = UnityEngine.Random.Range(1, 3);
-
-            GiveInitiativeToPlayer(randomPlayer);
-        }
-
         public override void GiveInitiativeToPlayer(int playerNo)
         {
             if (ReplaysManager.Mode == ReplaysMode.Write)
             {
-                RulesList.InitiativeRule.SendInitiativeDecisionOwnerCommand(playerNo);
+                GameController.SendCommand
+                (
+                    RulesList.InitiativeRule.GenerateInitiativeDecisionOwnerCommand(playerNo)
+                );
             }
             else if (ReplaysManager.Mode == ReplaysMode.Read)
             {

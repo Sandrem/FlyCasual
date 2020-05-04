@@ -40,19 +40,20 @@ public static partial class Roster
         {
             foreach (var squad in SquadBuilder.SquadLists)
             {
-                JSONObject parameters = new JSONObject();
-                parameters.AddField("player", squad.PlayerNo.ToString());
-                parameters.AddField("type", squad.PlayerType.ToString());
-
                 squad.SavedConfiguration["description"].str = squad.SavedConfiguration["description"].str.Replace("\n", "");
-                parameters.AddField("list", squad.SavedConfiguration);
 
-                GameController.SendCommand(
-                    GameCommandTypes.SquadsSync,
-                    null,
-                    parameters.ToString()
+                GameController.SendCommand
+                (
+                    GenerateSyncSquadCommand
+                    (
+                        squad.PlayerNo.ToString(),
+                        squad.PlayerType.ToString(),
+                        Options.Title,
+                        Options.Avatar,
+                        squad.SavedConfiguration.ToString()
+                    )
                 );
-            };
+            }
         }
         else if (ReplaysManager.Mode == ReplaysMode.Read)
         {
@@ -63,6 +64,21 @@ public static partial class Roster
         {
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    public static GameCommand GenerateSyncSquadCommand(string playerName, string playerType, string title, string avatar, string squadString)
+    {
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("player", playerName);
+        parameters.AddField("type", playerType);
+        parameters.AddField("title", title);
+        parameters.AddField("list", JSONObject.Create(squadString));
+
+        return GameController.GenerateGameCommand(
+            GameCommandTypes.SquadsSync,
+            null,
+            parameters.ToString()
+        );
     }
 
     //PLAYERS CREATION

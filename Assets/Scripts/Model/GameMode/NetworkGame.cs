@@ -30,20 +30,12 @@ namespace GameModes
             Network.RevertSubPhase();
         }
 
-        public override void GiveInitiativeToRandomPlayer()
-        {
-            if (DebugManager.DebugNetwork) UI.AddTestLogEntry("NetworkGame.GiveInitiativeToRandomPlayer");
-            Network.GenerateRandom(
-                new Vector2(1, 2),
-                1,
-                StorePlayerWithInitiative,
-                Triggers.FinishTrigger
-            );
-        }
-
         public override void GiveInitiativeToPlayer(int playerNo)
         {
-            Messages.ShowInfo("GiveInitiativeToPlayer");
+            Network.SendServerCommand
+            (
+                RulesList.InitiativeRule.GenerateInitiativeDecisionOwnerCommand(playerNo)
+            );
         }
 
         private static void StorePlayerWithInitiative(int[] randomHolder)

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Mirror;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace CommandsList
 {
@@ -11,7 +13,8 @@ namespace CommandsList
         {
             Keyword = "network";
             Description = "network chat t:<text> - send chat message\n" +
-                "network server tcp4://127.0.0.1 - set server uri";
+                "network server tcp4://127.0.0.1 - set server uri\n" +
+                "network hud - show/hide network hud";
 
             Console.AddAvailableCommand(this);
         }
@@ -21,6 +24,10 @@ namespace CommandsList
             if (parameters.ContainsKey("chat"))
             {
                 Network.SendChatMessage(parameters["t"]);
+            }
+            if (parameters.ContainsKey("hud"))
+            {
+                GameObject.Find("Network").GetComponent<NetworkManagerHUD>().enabled = !GameObject.Find("Network").GetComponent<NetworkManagerHUD>().enabled;
             }
             if (parameters.ContainsKey("server"))
             {

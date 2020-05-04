@@ -84,36 +84,6 @@ public static class Network
         throw new NotImplementedException();
     }
 
-    public static void TryConfirmBarrelRoll(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition)
-    {
-        Messages.ShowInfo("Try Confirm Barrel Roll");
-    }
-
-    public static void PerformBarrelRoll()
-    {
-        Messages.ShowInfo("Perform Barrel Roll");
-    }
-
-    public static void CancelBarrelRoll()
-    {
-        Messages.ShowInfo("Cancel Barrel Roll");
-    }
-
-    public static void PerformDecloak()
-    {
-        Messages.ShowInfo("Perform Decloak");
-    }
-
-    public static void CancelDecloak()
-    {
-        Messages.ShowInfo("Cancel Decloak");
-    }
-
-    public static void CancelBoost()
-    {
-        Messages.ShowInfo("Cancel Boost");
-    }
-
     public static void SyncDecks(PlayerNo playerNo, int seed)
     {
         if (IsServer) CurrentPlayer.CmdSendCommand

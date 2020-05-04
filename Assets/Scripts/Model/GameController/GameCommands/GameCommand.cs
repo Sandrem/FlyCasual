@@ -80,7 +80,7 @@ namespace GameCommands
             return json.ToString();
         }
 
-        public void TryExecute()
+        public virtual void TryExecute()
         {
             SubPhases.GenericSubPhase subphase = Phases.CurrentSubPhase;
 

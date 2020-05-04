@@ -15,9 +15,13 @@ namespace GameCommands
 
         }
 
+        public override void TryExecute()
+        {
+            GameInitializer.TryExecute(this);
+        }
+
         public override void Execute()
         {
-            GameController.ConfirmCommand();
             SquadList playerList = SquadBuilder.SquadLists.First(n => n.PlayerNo == (PlayerNo)Enum.Parse(typeof(PlayerNo), GetString("player")));
             playerList.SavedConfiguration = (JSONObject)GetParameter("list");
             playerList.PlayerType = System.Type.GetType(GetString("type"));

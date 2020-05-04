@@ -41,6 +41,11 @@ namespace GameModes
             );
         }
 
+        public override void GiveInitiativeToPlayer(int playerNo)
+        {
+            Messages.ShowInfo("GiveInitiativeToPlayer");
+        }
+
         private static void StorePlayerWithInitiative(int[] randomHolder)
         {
             Phases.PlayerWithInitiative = Tools.IntToPlayer(randomHolder[0]);

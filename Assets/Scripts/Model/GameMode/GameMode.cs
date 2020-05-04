@@ -22,6 +22,7 @@ namespace GameModes
         public abstract void RevertSubPhase();
 
         public abstract void GiveInitiativeToRandomPlayer();
+        public abstract void GiveInitiativeToPlayer(int playerNo);
 
         public abstract void StartBattle();
 

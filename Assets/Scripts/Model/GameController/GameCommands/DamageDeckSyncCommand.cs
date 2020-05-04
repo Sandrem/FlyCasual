@@ -16,6 +16,11 @@ namespace GameCommands
 
         }
 
+        public override void TryExecute()
+        {
+            GameInitializer.TryExecute(this);
+        }
+
         public override void Execute()
         {
             DamageDecks.GetDamageDeck((PlayerNo)Enum.Parse(typeof(PlayerNo), GetString("player"))).ShuffleDeck(int.Parse(GetString("seed")));

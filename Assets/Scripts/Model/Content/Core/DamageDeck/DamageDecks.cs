@@ -5,6 +5,7 @@ using GameModes;
 using Players;
 using Editions;
 using GameCommands;
+using UnityEngine;
 
 public static class DamageDecks
 {
@@ -15,7 +16,7 @@ public static class DamageDecks
         get { return damadeDecks != null; }
     }
 
-    public static void Initialize()
+    public static IEnumerator Initialize()
     {
         damadeDecks = new List<DamageDeck>
         {
@@ -23,9 +24,16 @@ public static class DamageDecks
             new DamageDeck(PlayerNo.Player2)
         };
 
+        GameInitializer.SetState(typeof(DamageDeckSyncCommand));
+
         foreach (DamageDeck deck in damadeDecks)
         {
             deck.ShuffleFirstTime();
+        }
+
+        while (GameInitializer.AcceptsCommandType == typeof(DamageDeckSyncCommand) && GameInitializer.CommandsReceived < 2)
+        {
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -67,7 +75,7 @@ public class DamageDeck
 
     public void ShuffleFirstTime()
     {
-        Random random = new Random();
+        System.Random random = new System.Random();
         GameMode.CurrentGameMode.GenerateDamageDeck(PlayerNo, random.Next());
     }
 
@@ -129,7 +137,7 @@ public class DamageDeck
     public void ShuffleDeck(int seed)
     {
         Seed = seed;
-        Random random = new Random(seed);
+        System.Random random = new System.Random(seed);
 
         int n = Deck.Count;
         for (int i = 0; i < n; i++)

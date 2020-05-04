@@ -18,7 +18,7 @@ public static partial class Roster {
     private static int SHIP_PANEL_HEIGHT = 110;
     private static int SPACE_BETWEEN_PANELS = 5;
 
-    public static void Initialize()
+    public static IEnumerator Initialize()
     {
         Players = new List<GenericPlayer>();
         rosterPlayer1 = new List<GameObject>();
@@ -26,7 +26,7 @@ public static partial class Roster {
         AllUnits = new Dictionary<string, GenericShip>();
         Reserve = new List<GenericShip>();
 
-        PrepareSquadrons();
+        yield return PrepareSquadrons();
         CreatePlayers();
         SpawnAllShips();
         SetPlayerCustomization();

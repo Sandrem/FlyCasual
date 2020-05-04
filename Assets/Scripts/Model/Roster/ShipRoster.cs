@@ -32,8 +32,10 @@ public static partial class Roster
 
     // SQUADRONS
 
-    private static void PrepareSquadrons()
+    private static IEnumerator PrepareSquadrons()
     {
+        GameInitializer.SetState(typeof(SquadsSyncCommand));
+
         if (ReplaysManager.Mode == ReplaysMode.Write)
         {
             foreach (var squad in SquadBuilder.SquadLists)
@@ -50,24 +52,17 @@ public static partial class Roster
                     null,
                     parameters.ToString()
                 );
-
-                Console.Write("Command is executed: " + GameCommandTypes.SquadsSync, LogTypes.GameCommands, true, "aqua");
-                GameController.GetCommand().Execute();
             };
         }
         else if (ReplaysManager.Mode == ReplaysMode.Read)
         {
-            for (int i = 0; i < 2; i++)
-            {
-                GameCommand command = GameController.GetCommand();
-                if (command.Type == GameCommandTypes.SquadsSync)
-                {
-                    Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
-                    command.Execute();
-                }
-            }
+            GameController.CheckExistingCommands();
         }
 
+        while (GameInitializer.AcceptsCommandType == typeof(SquadsSyncCommand) && GameInitializer.CommandsReceived < 2)
+        {
+            yield return new WaitForEndOfFrame();
+        }
     }
 
     //PLAYERS CREATION

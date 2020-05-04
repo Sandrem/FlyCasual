@@ -19,6 +19,11 @@ public class GameManagerScript : MonoBehaviour {
 
     void Start()
     {
+        StartCoroutine(StartGameCoroutine());
+    }
+
+    private IEnumerator StartGameCoroutine()
+    {
         Instance = this;
 
         SetApplicationParameters();
@@ -29,13 +34,13 @@ public class GameManagerScript : MonoBehaviour {
         Phases.Initialize();
         Rules.Initialize();
         Board.Initialize();
-        Roster.Initialize();
+        yield return Roster.Initialize();
         Selection.Initialize();
         BombsManager.Initialize();
         ActionsHolder.Initialize();
         Combat.Initialize();
         Triggers.Initialize();
-        DamageDecks.Initialize();
+        yield return DamageDecks.Initialize();
 
         CheckRemoteSettings();
 

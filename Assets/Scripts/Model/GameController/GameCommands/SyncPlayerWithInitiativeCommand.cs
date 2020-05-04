@@ -15,10 +15,13 @@ namespace GameCommands
 
         }
 
+        public override void TryExecute()
+        {
+            GameInitializer.TryExecute(this);
+        }
+
         public override void Execute()
         {
-            GameController.ConfirmCommand();
-
             Phases.PlayerWithInitiative = (PlayerNo)Enum.Parse(typeof(PlayerNo), GetString("player"));
             Triggers.FinishTrigger();
         }

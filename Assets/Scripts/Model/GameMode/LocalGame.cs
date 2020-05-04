@@ -104,28 +104,6 @@ namespace GameModes
             (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelBarrelRoll(decloakProblems);
         }
 
-        // BOOST
-
-        public override void TryConfirmBoostPosition(string selectedBoostHelper)
-        {
-            (Phases.CurrentSubPhase as BoostPlanningSubPhase).TryConfirmBoostPosition();
-        }
-
-        public override void StartBoostExecution(ShipPositionInfo finalPositionInfo)
-        {
-            (Phases.CurrentSubPhase as BoostPlanningSubPhase).StartBoostExecution(finalPositionInfo);
-        }
-
-        public override void FinishBoost()
-        {
-            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-        }
-
-        public override void CancelBoost(List<ActionFailReason> boostProblems)
-        {
-            (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost(boostProblems);
-        }
-
         // Swarm Manager
 
         public override void SetSwarmManagerManeuver(string maneuverCode)

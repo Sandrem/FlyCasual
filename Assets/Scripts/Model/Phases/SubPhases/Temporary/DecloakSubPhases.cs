@@ -339,11 +339,6 @@ namespace SubPhases
 
     public class DecloakBoostExecutionSubPhase : BoostExecutionSubPhase
     {
-        public override void FinishBoost()
-        {
-            GameMode.CurrentGameMode.FinishBoost();
-        }
-
         protected override void FinishBoostAnimation()
         {
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;

@@ -231,7 +231,7 @@ namespace SubPhases
             boostPlanning.HostAction = stubAction;
             InitializeBostPlanning(boostPlanning);
             Phases.UpdateHelpInfo();
-            boostPlanning.TryPerformBoost();
+            boostPlanning.TryConfirmBoostPosition();
         }
 
         private void StartSelectTemplateSubphase()

@@ -35,11 +35,6 @@ namespace GameModes
         public abstract void CancelDecloak(List<ActionFailReason> decloakProblems);
         public abstract void FinishDecloak();
 
-        public abstract void TryConfirmBoostPosition(string selectedBoostHelper);
-        public abstract void StartBoostExecution(ShipPositionInfo finalPositionInfo);
-        public abstract void CancelBoost(List<ActionFailReason> boostProblems);
-        public abstract void FinishBoost();
-
         public abstract void SetSwarmManagerManeuver(string maneuverCode);
 
         public abstract void ReturnToMainMenu();

@@ -1,6 +1,7 @@
 ﻿using GameCommands;
 using Mirror;
 using Players;
+using Ship;
 using SquadBuilderNS;
 using System;
 using System.Collections;
@@ -106,16 +107,6 @@ public static class Network
     public static void CancelDecloak()
     {
         Messages.ShowInfo("Cancel Decloak");
-    }
-
-    public static void TryConfirmBoostPosition(string selectedBoostHelper)
-    {
-        Messages.ShowInfo("Try Confirm Boost Position");
-    }
-
-    public static void PerformBoost()
-    {
-        Messages.ShowInfo("Perform Boost");
     }
 
     public static void CancelBoost()

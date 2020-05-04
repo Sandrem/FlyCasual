@@ -95,32 +95,6 @@ namespace GameModes
             Network.CancelDecloak();
         }
 
-        // BOOST
-
-        public override void TryConfirmBoostPosition(string selectedBoostHelper)
-        {
-            if (Selection.ThisShip.Owner.GetType() == typeof(Players.HumanPlayer))
-            {
-                Network.TryConfirmBoostPosition(selectedBoostHelper);
-            }
-        }
-
-        public override void StartBoostExecution(ShipPositionInfo finalPositionInfo)
-        {
-            Network.PerformBoost();
-        }
-
-        public override void FinishBoost()
-        {
-            Network.FinishTask();
-        }
-
-        public override void CancelBoost(List<ActionFailReason> boostProblems)
-        {
-            // TODONETWORK - pass
-            Network.CancelBoost();
-        }
-
         // Swarm Manager
 
         public override void SetSwarmManagerManeuver(string maneuverCode)

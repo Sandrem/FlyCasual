@@ -10,7 +10,7 @@ namespace SubPhases
 
     public class DiceRollCombatSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.DiceModification, GameCommandTypes.SyncDiceRerollSelected, GameCommandTypes.SyncDiceResults }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SyncDiceRerollSelected, GameCommandTypes.SyncDiceResults }; } }
 
         protected DiceKind diceType;
         protected int diceCount;
@@ -33,7 +33,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
+            
 
             if (Combat.AttackStep == CombatStep.Attack)
             {
@@ -73,7 +73,7 @@ namespace SubPhases
             CurentDiceRoll = diceRoll;
             Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
 
-            Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Opposite);
+            Combat.DiceModifications.Next();
         }
 
         protected virtual void FinishAction()
@@ -140,6 +140,82 @@ namespace SubPhases
                 closeButton.onClick.AddListener(delegate { CallBack(); });
             }
             closeButton.gameObject.SetActive(isActive);
+        }
+
+    }
+
+    public class AttackDiceRollCombatSubPhase : DiceRollCombatSubPhase
+    {
+        public override void Prepare()
+        {
+            CanBePaused = true;
+
+            diceType = DiceKind.Attack;
+            diceCount = Combat.Attacker.GetNumberOfAttackDice(Combat.Defender);
+
+            checkResults = CheckResults;
+        }
+
+        protected override void CheckResults(DiceRoll diceRoll)
+        {
+            Selection.ActiveShip = Selection.ThisShip;
+
+            Combat.CurrentDiceRoll = diceRoll;
+            Combat.DiceRollAttack = diceRoll;
+
+            Combat.Attacker.CallCheckCancelCritsFirst();
+            Combat.Defender.CallCheckCancelCritsFirst();
+
+            base.CheckResults(diceRoll);
+        }
+
+        public override void Pause()
+        {
+            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
+        }
+
+        public override void Resume()
+        {
+            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
+        }
+
+        public override void Next()
+        {
+            CurentDiceRoll.RemoveDiceModels();
+            Phases.CurrentSubPhase = PreviousSubPhase;
+
+            Combat.DiceModifications.Next();
+        }
+    }
+
+    public class DefenseDiceRollCombatSubPhase : DiceRollCombatSubPhase
+    {
+        public override void Prepare()
+        {
+            diceType = DiceKind.Defence;
+            diceCount = Combat.Defender.GetNumberOfDefenceDice(Combat.Attacker);
+
+            checkResults = CheckResults;
+
+            new DiceCompareHelper(Combat.DiceRollAttack);
+        }
+
+        protected override void CheckResults(DiceRoll diceRoll)
+        {
+            Selection.ActiveShip = Selection.AnotherShip;
+
+            Combat.CurrentDiceRoll = diceRoll;
+            Combat.DiceRollDefence = diceRoll;
+
+            base.CheckResults(diceRoll);
+        }
+
+        public override void Next()
+        {
+            CurentDiceRoll.RemoveDiceModels();
+            Phases.CurrentSubPhase = PreviousSubPhase;
+
+            Combat.DiceModifications.Next();
         }
 
     }

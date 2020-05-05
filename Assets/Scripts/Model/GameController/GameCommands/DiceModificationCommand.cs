@@ -18,15 +18,9 @@ namespace GameCommands
         {
             string diceModificationNameFixed = GetString("name");
             string diceModificationName = diceModificationNameFixed.Replace('_', '"');
-            if (diceModificationName == "OK")
-            {
-                Combat.ConfirmDiceResultsClient();
-            }
-            else
-            {
-                if (ReplaysManager.Mode == ReplaysMode.Read) Messages.ShowInfo(diceModificationName);
-                Combat.UseDiceModification(diceModificationName);
-            }
+
+            if (ReplaysManager.Mode == ReplaysMode.Read) Messages.ShowInfo(diceModificationName);
+            Combat.DiceModifications.UseDiceModification(diceModificationName);
         }
     }
 

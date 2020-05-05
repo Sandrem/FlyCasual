@@ -150,6 +150,14 @@ public partial class DiceRoll
         private set { }
     }
 
+    public void MarkAsModifiedBy(PlayerNo playerNo)
+    {
+        if (!Combat.CurrentDiceRoll.ModifiedBy.Contains(playerNo))
+        {
+            Combat.CurrentDiceRoll.ModifiedBy.Add(playerNo);
+        }
+    }
+
     public int Focuses
     {
         get { return DiceList.Count(n => (n.Side == DieSide.Focus)); }
@@ -810,45 +818,18 @@ public partial class DiceRoll
 
     public void RollInDice(Action callBack)
     {
-        this.callBack = delegate { TryUnblockButtons(this); callBack(); };
+        // TODO:RESTORE
+
+        /*this.callBack = delegate { TryUnblockButtons(this); callBack(); };
 
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
 
         Die newDie = AddDice();
 
         newDie.RandomizeRotation();
-        BeforeRollAdditionalPreparedDice();
+        BeforeRollAdditionalPreparedDice();*/
     }
 
-    private void BlockButtons()
-    {
-        ToggleDiceModificationsPanel(false);
-    }
-
-    public void UnblockButtons()
-    {
-        ToggleDiceModificationsPanel(true);
-    }
-
-    public void TryUnblockButtons(DiceRoll diceRoll)
-    {
-        UnblockButtons();
-    }
-
-    private void ToggleDiceModificationsPanel(bool isActive)
-    {
-        GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
-
-        if (isActive)
-        {
-            Combat.ToggleConfirmDiceResultsButton(true);
-            Combat.ShowDiceModificationButtons(DiceModificationTimingType.Normal);
-        }
-        else
-        {
-            Combat.HideDiceModificationButtons();
-        }
-    }
 
     public DieSide FindDieToChange(DieSide destinationSide)
     {

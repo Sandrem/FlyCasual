@@ -222,8 +222,10 @@ namespace Players
         {
             base.UseDiceModifications(type);
 
+            // TODO:RESTORE
+
             Action FinalEffect = null;
-            switch (type)
+            /*switch (type)
             {
                 case DiceModificationTimingType.Normal:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
@@ -243,7 +245,7 @@ namespace Players
                     break;
                 default:
                     break;
-            }
+            }*/
 
             Selection.ActiveShip.GenerateDiceModifications(type);
             List<GenericAction> availableDiceModifications = Selection.ActiveShip.GetDiceModificationsGenerated();
@@ -270,7 +272,7 @@ namespace Players
                     Messages.ShowInfo("The AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
 
                     GameManagerScript.Wait(1, delegate {
-                        GameCommand command = Combat.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
+                        GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
                         GameMode.CurrentGameMode.ExecuteCommand(command);
                     });
                 }
@@ -281,7 +283,7 @@ namespace Players
                 if (type == DiceModificationTimingType.Normal)
                 {
                     GameManagerScript.Wait(1, delegate {
-                        GameCommand command = Combat.GenerateDiceModificationCommand("OK");
+                        GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand("OK");
                         GameMode.CurrentGameMode.ExecuteCommand(command);
                     });
                 }

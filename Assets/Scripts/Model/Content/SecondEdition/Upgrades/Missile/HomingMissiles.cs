@@ -87,7 +87,7 @@ namespace Abilities.SecondEdition
 
         private void SkipDice()
         {
-            Combat.SkipDiceRolls = true;
+            Combat.SkipAttackDiceRollsAndHit = true;
             Triggers.FinishTrigger();
         }
     }

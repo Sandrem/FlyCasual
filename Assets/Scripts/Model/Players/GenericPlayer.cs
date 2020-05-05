@@ -131,7 +131,6 @@ namespace Players
             Phases.CurrentSubPhase.IsReadyForCommands = true;
 
             Roster.HighlightPlayer(PlayerNo);
-            Combat.ShowDiceModificationButtons(type);
             GameController.CheckExistingCommands();
         }
 

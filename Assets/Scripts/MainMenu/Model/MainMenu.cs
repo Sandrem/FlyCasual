@@ -128,7 +128,7 @@ public partial class MainMenu : MonoBehaviour {
         string password = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Password").GetComponentInChildren<InputField>().text;
 
         GameController.Initialize();
-        ReplaysManager.Initialize(ReplaysMode.Write);
+        ReplaysManager.TryInitialize(ReplaysMode.Write);
         Console.Write("Network game is prepared", LogTypes.GameCommands, true, "aqua");
 
         Network.CreateMatch(roomName, password);

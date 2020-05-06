@@ -18,12 +18,13 @@ public static class GameController
     public static void StartBattle(ReplaysMode mode = ReplaysMode.Write)
     {
         GameController.Initialize();
-        ReplaysManager.Initialize(mode);
+        if (ReplaysManager.TryInitialize(mode))
+        {
+            if (mode == ReplaysMode.Read) MainMenu.CurrentMainMenu.InitializeSquadBuilder("Replay");
 
-        if (mode == ReplaysMode.Read) MainMenu.CurrentMainMenu.InitializeSquadBuilder("Replay");
-
-        Console.Write("Game is started", LogTypes.GameCommands, true, "aqua");
-        SquadBuilder.StartLocalGame();
+            Console.Write("Game is started", LogTypes.GameCommands, true, "aqua");
+            SquadBuilder.StartLocalGame();
+        }
     }
 
     public static void SendCommand(GameCommand command)

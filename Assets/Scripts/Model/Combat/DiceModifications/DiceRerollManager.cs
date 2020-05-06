@@ -1,5 +1,5 @@
-﻿using GameModes;
-using Ship;
+﻿using Ship;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ public partial class DiceRerollManager
     public bool IsTrueReroll = true;
     public bool IsForcedFullReroll = false;
 
-    public System.Action CallBack;
+    public Action CallBack;
 
     public DiceRerollManager()
     {
@@ -45,7 +45,7 @@ public partial class DiceRerollManager
     {
         if (IsTrueReroll)
         {
-            if (OnMaxDiceRerollAllowed != null) OnMaxDiceRerollAllowed(ref NumberOfDiceCanBeRerolled);
+            OnMaxDiceRerollAllowed?.Invoke(ref NumberOfDiceCanBeRerolled);
         }
 
         if (SidesCanBeRerolled == null)
@@ -60,12 +60,14 @@ public partial class DiceRerollManager
         }
     }
 
-    private void SwitchToDiceRerollsPanel(bool isReverse = false)
+    private void SwitchToDiceRerollsPanel()
     {
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
         {
-            ToggleDiceModificationsPanel(isReverse);
-            ToggleDiceRerollsPanel(!isReverse);
+            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew<DiceRerollSubphase>("Dice Reroll", DoCallback);
+            ToggleDiceModificationsPanel(false);
+            ToggleDiceRerollsPanel(true);
+            subphase.Start();
         }
     }
 
@@ -209,6 +211,8 @@ public partial class DiceRerollManager
         Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel/Confirm").GetComponent<Button>();
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(ConfirmRerollButtonIsPressed);
+
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
         closeButton.gameObject.SetActive(true);
     }
 
@@ -299,7 +303,12 @@ public partial class DiceRerollManager
         Combat.CurrentDiceRoll.ToggleRerolledLocks(false);
         if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) ToggleDiceModificationsPanel(true);
 
-        if (CallBack!=null) CallBack();
+        Phases.CurrentSubPhase.Next();
+    }
+
+    private void DoCallback()
+    {
+        if (CallBack != null) CallBack();
     }
 
     private void MarkAsFakeReroll()
@@ -310,4 +319,12 @@ public partial class DiceRerollManager
         }
     }
 
+}
+
+namespace SubPhases
+{
+    public class DiceRerollSubphase : DiceModificationSubphase
+    {
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SyncDiceResults, GameCommandTypes.SyncDiceRerollSelected  }; } }
+    }
 }

@@ -531,7 +531,7 @@ namespace SquadBuilderNS
         public static void StartNetworkGame()
         {
             GameController.Initialize();
-            ReplaysManager.Initialize(ReplaysMode.Write);
+            ReplaysManager.TryInitialize(ReplaysMode.Write);
 
             Console.Write("Network game is started", LogTypes.GameCommands, true, "aqua");
 

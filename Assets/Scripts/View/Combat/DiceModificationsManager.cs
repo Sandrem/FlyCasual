@@ -36,8 +36,9 @@ public partial class DiceModificationsManager
         HideDiceModificationsButtonsList();
 
         float offset = 0;
-
         Vector3 position = Vector3.zero;
+        AvailableDiceModifications = new Dictionary<string, GenericAction>();
+
         foreach (var actionEffect in Selection.ActiveShip.GetDiceModificationsGenerated())
         {
             AvailableDiceModifications.Add(actionEffect.Name, actionEffect);

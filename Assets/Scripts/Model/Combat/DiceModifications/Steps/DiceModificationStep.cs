@@ -22,6 +22,9 @@ public class DiceModificationStep : IDiceRollStep
 
     public void Start()
     {
+        Combat.Attacker.ClearAlreadyUsedDiceModifications();
+        Combat.Defender.ClearAlreadyUsedDiceModifications();
+
         Combat.DiceModifications.AvailableDiceModifications = new Dictionary<string, GenericAction>();
 
         IsExecuted = true;
@@ -59,9 +62,6 @@ public class DiceModificationStep : IDiceRollStep
 
     public void Finish()
     {
-        Combat.Attacker.ClearAlreadyUsedDiceModifications();
-        Combat.Defender.ClearAlreadyUsedDiceModifications();
-
         // For Heavy Laser Cannon
         if (CombatStep == CombatStep.Attack && StepOwner == PlayerRole.Attacker) Combat.Attacker.CallAfterAttackDiceModification();
 

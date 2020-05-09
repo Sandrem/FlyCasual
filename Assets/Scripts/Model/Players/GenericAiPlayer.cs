@@ -222,37 +222,27 @@ namespace Players
         {
             base.UseDiceModifications(type);
 
-            // TODO:RESTORE
-
-            Action FinalEffect = null;
-            /*switch (type)
+            switch (type)
             {
                 case DiceModificationTimingType.Normal:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = Phases.CurrentSubPhase.CallBack;
                     break;
                 case DiceModificationTimingType.AfterRolled:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = Combat.SwitchToRegularDiceModifications;
                     break;
                 case DiceModificationTimingType.Opposite:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
-                    FinalEffect = Combat.SwitchToAfterRolledDiceModifications;
                     break;
                 case DiceModificationTimingType.CompareResults:
                     Selection.ActiveShip = Combat.Attacker;
-                    FinalEffect = Combat.CompareResultsAndDealDamage;
                     break;
                 default:
                     break;
-            }*/
-
-            Selection.ActiveShip.GenerateDiceModifications(type);
-            List<GenericAction> availableDiceModifications = Selection.ActiveShip.GetDiceModificationsGenerated();
+            }
 
             Dictionary<GenericAction, int> actionsPriority = new Dictionary<GenericAction, int>();
 
-            foreach (var diceModification in availableDiceModifications)
+            foreach (var diceModification in Combat.DiceModifications.AvailableDiceModifications.Values)
             {
                 int priority = diceModification.GetDiceModificationPriority();
                 Selection.ActiveShip.CallOnAiGetDiceModificationPriority(diceModification, ref priority);
@@ -269,7 +259,6 @@ namespace Players
                 if (prioritizedActionEffect.Value > 0)
                 {
                     isActionEffectTaken = true;
-                    Messages.ShowInfo("The AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
 
                     GameManagerScript.Wait(1, delegate {
                         GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
@@ -280,17 +269,10 @@ namespace Players
 
             if (!isActionEffectTaken)
             {
-                if (type == DiceModificationTimingType.Normal)
-                {
-                    GameManagerScript.Wait(1, delegate {
-                        GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand("OK");
-                        GameMode.CurrentGameMode.ExecuteCommand(command);
-                    });
-                }
-                else
-                {
-                    FinalEffect.Invoke();
-                }
+                GameManagerScript.Wait(1, delegate {
+                    GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand("OK");
+                    GameMode.CurrentGameMode.ExecuteCommand(command);
+                });
             }
         }
 

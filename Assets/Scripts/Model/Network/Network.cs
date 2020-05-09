@@ -96,6 +96,8 @@ public static class Network
         (
             DamageDecks.GenerateDeckShuffleCommand(playerNo, seed).ToString()
         );
+
+        GameController.CheckExistingCommands();
     }
 
     // Misc

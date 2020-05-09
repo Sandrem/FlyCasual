@@ -15,6 +15,7 @@ using UnityEngine;
 public static class Network
 {
     public static NetworkIdentity CurrentPlayer { get; set; }
+    public static NetworkConnectionAttemptHandler ConnectionAttempt { get; set; }
 
     public static bool IsNetworkGame
     {
@@ -42,8 +43,12 @@ public static class Network
 
     public static void JoinRoom(string password)
     {
+        ConnectionAttempt = GameObject.FindObjectOfType<NetworkConnectionAttemptHandler>();
+
         Uri uri = new Uri(Network.ServerUri);
         NetworkManager.singleton.StartClient(uri);
+
+        ConnectionAttempt.StartAttempt();
     }
 
     public static void SendClientInfoToServer()

@@ -122,6 +122,8 @@ public class NetworkIdentity : NetworkBehaviour
 
         if (this.hasAuthority)
         {
+            Network.ConnectionAttempt.StopAtempt();
+
             Network.CurrentPlayer = this;
 
             Network.SendClientInfoToServer();

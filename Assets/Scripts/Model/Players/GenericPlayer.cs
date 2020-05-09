@@ -64,32 +64,16 @@ namespace Players
         public Dictionary<string, GenericShip> Units = new Dictionary<string, GenericShip>();
         public Dictionary<string, GenericShip> Ships { get { return Units.Where(n => !(n.Value is GenericRemote)).ToDictionary(n => n.Key, m => m.Value); } }
         public Dictionary<string, GenericShip> Remotes { get { return Units.Where(n => n.Value is GenericRemote).ToDictionary(n => n.Key, m => m.Value); } }
+        public List<GenericObstacle> ChosenObstacles = new List<GenericObstacle>();
+        public Dictionary<string, GenericShip> EnemyShips { get { return AnotherPlayer.Ships; } }
+        public GenericPlayer AnotherPlayer { get { return Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo)); } }
+        public int Id { get { return (PlayerNo == PlayerNo.Player1) ? 1 : 2; } }
 
         public virtual void AskAssignManeuver()
         {
             Roster.HighlightPlayer(PlayerNo);
             GameController.CheckExistingCommands();
         }
-
-        public List<GenericObstacle> ChosenObstacles = new List<GenericObstacle>();
-
-        public Dictionary<string, GenericShip> EnemyShips
-        {
-            get
-            {
-                return AnotherPlayer.Ships;
-            }
-        }
-
-        public GenericPlayer AnotherPlayer
-        {
-            get
-            {
-                return Roster.GetPlayer(Roster.AnotherPlayer(PlayerNo));
-            }
-        }
-
-        public int Id { get { return (PlayerNo == PlayerNo.Player1) ? 1 : 2; } }
 
         public void SetPlayerNo(PlayerNo playerNo)
         {
@@ -128,7 +112,6 @@ namespace Players
 
         public virtual void UseDiceModifications(DiceModificationTimingType type)
         {
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
             GameController.CheckExistingCommands();
         }
 

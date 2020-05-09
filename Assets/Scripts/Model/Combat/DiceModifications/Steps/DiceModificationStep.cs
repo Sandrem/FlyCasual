@@ -50,6 +50,7 @@ public class DiceModificationStep : IDiceRollStep
         Combat.DiceModifications.ShowDiceModificationButtons(diceModifications);
 
         Roster.HighlightPlayer(Selection.ActiveShip.Owner.PlayerNo);
+        Phases.CurrentSubPhase.IsReadyForCommands = true;
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
 
         // TODO: Skip non-vital steps

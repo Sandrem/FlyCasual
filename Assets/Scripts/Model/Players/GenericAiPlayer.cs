@@ -126,7 +126,7 @@ namespace Players
                     Messages.ShowInfo("Attacking with " + Combat.ChosenWeapon.Name);
 
                     GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true, Combat.ChosenWeapon);
-                    if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
+                    if (command != null) GameMode.CurrentGameMode.ExecuteServerCommand(command);
                 }
                 else
                 {

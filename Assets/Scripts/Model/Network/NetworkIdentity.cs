@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Players;
+using UnityEngine;
 
 public class NetworkIdentity : NetworkBehaviour
 {
@@ -113,5 +114,17 @@ public class NetworkIdentity : NetworkBehaviour
     public void CmdFinishTask()
     {
         NetworkTask.CurrentTask.FinishOne();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if (this.hasAuthority)
+        {
+            Network.CurrentPlayer = this;
+
+            Network.SendClientInfoToServer();
+        }
     }
 }

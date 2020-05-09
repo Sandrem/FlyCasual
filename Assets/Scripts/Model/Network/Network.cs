@@ -42,21 +42,11 @@ public static class Network
 
     public static void JoinRoom(string password)
     {
-        Global.Instance.StartCoroutine(JoinRoomCoroutine());
-    }
-
-    private static IEnumerator JoinRoomCoroutine()
-    {
         Uri uri = new Uri(Network.ServerUri);
         NetworkManager.singleton.StartClient(uri);
-
-        yield return new WaitForSeconds(3f);
-
-        // TODO: When connected
-        SendClientInfoToServer();
     }
 
-    private static void SendClientInfoToServer()
+    public static void SendClientInfoToServer()
     {
         CurrentPlayer.CmdSyncAndStartGame
         (

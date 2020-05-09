@@ -296,7 +296,6 @@ public partial class DiceRerollManager
         DiceRerollManager.CurrentDiceRerollManager = null;
 
         Combat.CurrentDiceRoll.ToggleRerolledLocks(false);
-        if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) ToggleDiceModificationsPanel(true);
 
         Phases.CurrentSubPhase.Next();
     }

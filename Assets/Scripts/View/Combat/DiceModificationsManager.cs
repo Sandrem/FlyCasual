@@ -70,12 +70,14 @@ public partial class DiceModificationsManager
     public void ShowDiceModificationsUiEmpty()
     {
         GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
+        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").gameObject.SetActive(true);
         HideAllButtons();
     }
 
     public void HideDiceModificationsUi()
     {
         GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
+        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").gameObject.SetActive(false);
     }
 
     public void HideAllButtons()
@@ -100,6 +102,7 @@ public partial class DiceModificationsManager
 
     private static bool ShowOnlyForHuman()
     {
+        Console.Write(Selection.ActiveShip.Owner.GetType().ToString());
         return Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer);
     }
 }

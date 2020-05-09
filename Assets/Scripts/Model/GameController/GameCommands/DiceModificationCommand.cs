@@ -19,7 +19,7 @@ namespace GameCommands
             string diceModificationNameFixed = GetString("name");
             string diceModificationName = diceModificationNameFixed.Replace('_', '"');
 
-            if (ReplaysManager.Mode == ReplaysMode.Read) Messages.ShowInfo(diceModificationName);
+            if (diceModificationName != "OK") Messages.ShowInfoToOpponent(diceModificationName, allowCopies:true);
             Combat.DiceModifications.UseDiceModification(diceModificationName);
         }
     }

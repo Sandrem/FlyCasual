@@ -9,15 +9,24 @@ public class DiceModificationStep : IDiceRollStep
 {
     public CombatStep CombatStep { get; private set; }
     public PlayerRole StepOwner { get; private set; }
+    public DiceModificationTimingType DiceModificationTiming { get; private set; }
+    public bool IsVital { get; private set; }
 
     public Type SubphaseType { get; private set; }
     public bool IsExecuted { get; set; }
 
-    public DiceModificationStep(CombatStep combatStep, PlayerRole stepOwner, Type subphaseType)
+    public DiceModificationStep(CombatStep combatStep, PlayerRole stepOwner, DiceModificationTimingType timing, Type subphaseType)
     {
         CombatStep = combatStep;
         StepOwner = stepOwner;
         SubphaseType = subphaseType;
+        DiceModificationTiming = timing;
+        IsVital = IsVitalStep();
+    }
+
+    private bool IsVitalStep()
+    {
+        return DiceModificationTiming == DiceModificationTimingType.Normal && CombatStep != CombatStep.CompareResults;
     }
 
     public void Start()
@@ -44,25 +53,24 @@ public class DiceModificationStep : IDiceRollStep
 
     public void ShowDiceModifications()
     {
-        Selection.ActiveShip.GenerateDiceModifications(DiceModificationTimingType.Normal);
+        Selection.ActiveShip.GenerateDiceModifications(DiceModificationTiming);
         List<GenericAction> diceModifications = Selection.ActiveShip.GetDiceModificationsGenerated();
 
         Combat.DiceModifications.ShowDiceModificationButtons(diceModifications);
 
         Roster.HighlightPlayer(Selection.ActiveShip.Owner.PlayerNo);
         Phases.CurrentSubPhase.IsReadyForCommands = true;
-        Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
 
-        // TODO: Skip non-vital steps
-
-        /*if (diceModifications.Count > 0)
+        if (diceModifications.Count > 0 || IsVital)
         {
-
+            IsVital = true;
+            Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTiming);
         }
         else
         {
+            Combat.DiceModifications.HideAllButtons();
             ReplaysManager.ExecuteWithDelay(Phases.CurrentSubPhase.Next);
-        }*/
+        }
     }
 
     public void WhenFinish()

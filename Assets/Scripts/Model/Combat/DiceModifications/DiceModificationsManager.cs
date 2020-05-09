@@ -18,15 +18,17 @@ public partial class DiceModificationsManager
         DiceModificationSteps = new List<IDiceRollStep>()
         {
             new StartDiceRollStep(typeof(AttackDiceRollCombatSubPhase)),
-            // new DiceModificationStep(CombatStep.Attack, PlayerRole.Defender, typeof(DiceModificationAttackByDefenderSubphase)),
-            new DiceModificationStep(CombatStep.Attack, PlayerRole.Attacker, typeof(DiceModificationAttackByAttackerSubphase)),
+            new DiceModificationStep(CombatStep.Attack, PlayerRole.Attacker, DiceModificationTimingType.AfterRolled, typeof(DiceModificationAttackByDefenderSubphase)),
+            new DiceModificationStep(CombatStep.Attack, PlayerRole.Defender, DiceModificationTimingType.Opposite, typeof(DiceModificationAttackByDefenderSubphase)),
+            new DiceModificationStep(CombatStep.Attack, PlayerRole.Attacker, DiceModificationTimingType.Normal, typeof(DiceModificationAttackByAttackerSubphase)),
             new FinishDiceRollStep(typeof(AttackDiceRollCombatSubPhase)),
             new StartDiceRollStep(typeof(DefenseDiceRollCombatSubPhase)),
-            // new DiceModificationStep(CombatStep.Defense, PlayerRole.Attacker, typeof(DiceModificationDefenseByAttackerSubphase)),
-            new DiceModificationStep(CombatStep.Defence, PlayerRole.Defender, typeof(DiceModificationDefenseByDefenderSubphase)),
+            new DiceModificationStep(CombatStep.Defence, PlayerRole.Defender, DiceModificationTimingType.AfterRolled, typeof(DiceModificationDefenseByAttackerSubphase)),
+            new DiceModificationStep(CombatStep.Defence, PlayerRole.Attacker, DiceModificationTimingType.Opposite, typeof(DiceModificationDefenseByAttackerSubphase)),
+            new DiceModificationStep(CombatStep.Defence, PlayerRole.Defender, DiceModificationTimingType.Normal, typeof(DiceModificationDefenseByDefenderSubphase)),
+            new DiceModificationStep(CombatStep.CompareResults, PlayerRole.Attacker, DiceModificationTimingType.CompareResults, typeof(DiceModificationCompareResultsByAttackerSubphase)),
+            new DiceModificationStep(CombatStep.CompareResults, PlayerRole.Defender, DiceModificationTimingType.CompareResults, typeof(DiceModificationCompareResultsByDefenderSubphase)),
             new FinishDiceRollStep(typeof(DefenseDiceRollCombatSubPhase)),
-            // new DiceModificationStep(CombatStep.CompareResults, PlayerRole.Defender, typeof(DiceModificationCompareResultsByDefenderSubphase)),
-            // new DiceModificationStep(CombatStep.CompareResults, PlayerRole.Attacker, typeof(DiceModificationCompareResultsByAttackerSubphase))
             new CompareAndDealDamageDiceStep(),
         };
     }

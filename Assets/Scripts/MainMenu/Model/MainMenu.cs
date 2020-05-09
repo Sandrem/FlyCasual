@@ -136,8 +136,6 @@ public partial class MainMenu : MonoBehaviour {
         ChangePanel("WaitingForOpponentsPanel");
     }
 
-
-
     public void JoinRoomByIp(Text ipText)
     {
         Network.ServerUri = "tcp4://" + ipText.text;

@@ -1,45 +1,26 @@
 ﻿using ActionsList;
 using GameCommands;
 using GameModes;
-using Ship;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public partial class DiceModificationsManager
 {
-    public void HideDiceModificationsButtonsList()
-    {
-        foreach (Transform transform in GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").transform)
-        {
-            if (transform.name != "Confirm") GameObject.Destroy(transform.gameObject);
-        }
-        HideOkButton();
-    }
-
-    public void ShowDiceModificationsUi()
-    {
-        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
-        HideDiceModificationsButtonsList();
-    }
-
-    public void HideDiceModificationsUi()
-    {
-        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
-    }
-
     public void ShowDiceModificationButtons(List<GenericAction> diceModifications)
     {
-        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
+        ShowDiceModificationsUiEmpty();
+        CreateDiceModificationButtons(diceModifications);
+        CreateOkButton();
+    }
 
-        HideDiceModificationsButtonsList();
-
+    private void CreateDiceModificationButtons(List<GenericAction> diceModifications)
+    {
         float offset = 0;
         Vector3 position = Vector3.zero;
         AvailableDiceModifications = new Dictionary<string, GenericAction>();
 
-        foreach (var actionEffect in Selection.ActiveShip.GetDiceModificationsGenerated())
+        foreach (var actionEffect in diceModifications)
         {
             AvailableDiceModifications.Add(actionEffect.Name, actionEffect);
 
@@ -48,17 +29,17 @@ public partial class DiceModificationsManager
 
             offset = 65;
         }
-
-        ShowOkButton();
     }
 
     public static void CreateDiceModificationsButton(GenericAction actionEffect, Vector3 position)
     {
         GameObject prefab = (GameObject)Resources.Load("Prefabs/GenericButton", typeof(GameObject));
         GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel"));
+        newButton.GetComponent<RectTransform>().localPosition = position;
+
         newButton.name = "Button" + actionEffect.DiceModificationName;
         newButton.transform.GetComponentInChildren<Text>().text = actionEffect.DiceModificationName;
-        newButton.GetComponent<RectTransform>().localPosition = position;
+        
         newButton.GetComponent<Button>().onClick.AddListener(
             delegate {
                 GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand(actionEffect.DiceModificationName);
@@ -66,12 +47,12 @@ public partial class DiceModificationsManager
             }
         );
         Tooltips.AddTooltip(newButton, actionEffect.ImageUrl);
-        newButton.GetComponent<Button>().interactable = true;
 
-        newButton.SetActive(Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer));
+        newButton.GetComponent<Button>().interactable = true;
+        newButton.SetActive(ShowOnlyForHuman());
     }
 
-    private void ShowOkButton()
+    private void CreateOkButton()
     {
         Button closeButton = GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
         closeButton.onClick.RemoveAllListeners();
@@ -81,12 +62,44 @@ public partial class DiceModificationsManager
                 GameMode.CurrentGameMode.ExecuteCommand(command);
             }
         );
-        closeButton.gameObject.SetActive(true);
+        closeButton.gameObject.SetActive(ShowOnlyForHuman());
+    }
+
+    // Subs
+
+    public void ShowDiceModificationsUiEmpty()
+    {
+        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
+        HideAllButtons();
+    }
+
+    public void HideDiceModificationsUi()
+    {
+        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
+    }
+
+    public void HideAllButtons()
+    {
+        HideDiceModificationsButtonsList();
+        HideOkButton();
+    }
+
+    public void HideDiceModificationsButtonsList()
+    {
+        foreach (Transform transform in GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").transform)
+        {
+            if (transform.name != "Confirm") GameObject.Destroy(transform.gameObject);
+        }
     }
 
     private void HideOkButton()
     {
         Button closeButton = GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
         closeButton.gameObject.SetActive(false);
+    }
+
+    private static bool ShowOnlyForHuman()
+    {
+        return Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer);
     }
 }

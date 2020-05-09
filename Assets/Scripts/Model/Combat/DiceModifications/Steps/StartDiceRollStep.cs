@@ -20,7 +20,7 @@ public class StartDiceRollStep : IDiceRollStep
     {
         IsExecuted = true;
 
-        Combat.DiceModifications.ShowDiceModificationsUi();
+        Combat.DiceModifications.ShowDiceModificationsUiEmpty();
 
         GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew(
             SubphaseType.Name,
@@ -31,8 +31,5 @@ public class StartDiceRollStep : IDiceRollStep
         subphase.Start();
     }
 
-    public void Finish()
-    {
-
-    }
+    public void WhenFinish() { }
 }

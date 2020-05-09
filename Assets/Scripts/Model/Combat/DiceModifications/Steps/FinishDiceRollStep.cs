@@ -21,8 +21,5 @@ public class FinishDiceRollStep : IDiceRollStep
         Phases.FinishSubPhase(SubphaseType);
     }
 
-    public void Finish()
-    {
-
-    }
+    public void WhenFinish() { }
 }

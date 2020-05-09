@@ -22,12 +22,12 @@ public class DiceModificationStep : IDiceRollStep
 
     public void Start()
     {
+        IsExecuted = true;
+
         Combat.Attacker.ClearAlreadyUsedDiceModifications();
         Combat.Defender.ClearAlreadyUsedDiceModifications();
 
         Combat.DiceModifications.AvailableDiceModifications = new Dictionary<string, GenericAction>();
-
-        IsExecuted = true;
 
         Selection.ActiveShip = (StepOwner == PlayerRole.Attacker) ? Selection.ThisShip : Selection.AnotherShip;
 
@@ -48,7 +48,11 @@ public class DiceModificationStep : IDiceRollStep
         List<GenericAction> diceModifications = Selection.ActiveShip.GetDiceModificationsGenerated();
 
         Combat.DiceModifications.ShowDiceModificationButtons(diceModifications);
+
+        Roster.HighlightPlayer(Selection.ActiveShip.Owner.PlayerNo);
         Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTimingType.Normal);
+
+        // TODO: Skip non-vital steps
 
         /*if (diceModifications.Count > 0)
         {
@@ -60,7 +64,7 @@ public class DiceModificationStep : IDiceRollStep
         }*/
     }
 
-    public void Finish()
+    public void WhenFinish()
     {
         // For Heavy Laser Cannon
         if (CombatStep == CombatStep.Attack && StepOwner == PlayerRole.Attacker) Combat.Attacker.CallAfterAttackDiceModification();
@@ -68,7 +72,7 @@ public class DiceModificationStep : IDiceRollStep
         // DiceCompareHelper.currentDiceCompareHelper.Close();
         // MovementTemplates.ReturnRangeRuler();
 
-        // For HotShot gunner
+        // TODO: For HotShot gunner
         // Defender.CallAfterModifyDefenseDiceStep(delegate { Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase)); });
 
         IsExecuted = true;

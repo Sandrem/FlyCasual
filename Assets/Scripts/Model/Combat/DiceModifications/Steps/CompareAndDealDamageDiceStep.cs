@@ -24,7 +24,7 @@ public class CompareAndDealDamageDiceStep : IDiceRollStep
         Combat.CancelHitsByDefenceDice();
     }
 
-    public void Finish()
+    public void WhenFinish()
     {
         Phases.FinishSubPhase(typeof(CompareResultsSubPhase));
     }

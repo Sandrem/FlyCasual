@@ -203,6 +203,11 @@ namespace Players
                 AssignManeuversRecursive();
             }
         }
+
+        public override void SyncDiceRerollSelected()
+        {
+            GameMode.CurrentGameMode.ExecuteCommand(DiceRerollManager.GenerateConfirmRerollCommand());
+        }
     }
 
 }

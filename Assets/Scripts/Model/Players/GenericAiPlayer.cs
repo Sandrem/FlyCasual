@@ -443,5 +443,10 @@ namespace Players
         }
 
         protected virtual void PerformActionFromList(List<GenericAction> actionsList) { }
+
+        public override void SyncDiceRerollSelected()
+        {
+            GameMode.CurrentGameMode.ExecuteCommand(DiceRerollManager.GenerateConfirmRerollCommand());
+        }
     }
 }

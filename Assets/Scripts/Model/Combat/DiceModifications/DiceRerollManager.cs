@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using GameCommands;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -62,13 +63,10 @@ public partial class DiceRerollManager
 
     private void SwitchToDiceRerollsPanel()
     {
-        if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
-        {
-            GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew<DiceRerollSubphase>("Dice Reroll", DoCallback);
-            ToggleDiceModificationsPanel(false);
-            ToggleDiceRerollsPanel(true);
-            subphase.Start();
-        }
+        GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew<DiceRerollSubphase>("Dice Reroll", DoCallback);
+        ToggleDiceModificationsPanel(false);
+        ToggleDiceRerollsPanel(ShowOnlyForHuman());
+        subphase.Start();
     }
 
     private void DoDefaultSelection()
@@ -144,46 +142,43 @@ public partial class DiceRerollManager
 
     private void GenerateSelectionButtons()
     {
-        if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer))
+        Dictionary<string, List<DieSide>> options = new Dictionary<string, List<DieSide>>();
+
+        if (SidesCanBeRerolled.Contains(DieSide.Blank))
         {
-            Dictionary<string, List<DieSide>> options = new Dictionary<string, List<DieSide>>();
+            options.Add(
+                "Select only blanks",
+                new List<DieSide>() {
+                    DieSide.Blank
+                }
+            );
+        }
 
-            if (SidesCanBeRerolled.Contains(DieSide.Blank))
-            {
-                options.Add(
-                    "Select only blanks",
-                    new List<DieSide>() {
-                        DieSide.Blank
-                    }
-                );
-            }
+        if ((SidesCanBeRerolled.Contains(DieSide.Focus)) && (SidesCanBeRerolled.Contains(DieSide.Blank)))
+        {
+            options.Add(
+                "Select only blanks and focuses",
+                new List<DieSide>() {
+                    DieSide.Blank,
+                    DieSide.Focus
+                }
+            );
+        }
 
-            if ((SidesCanBeRerolled.Contains(DieSide.Focus)) && (SidesCanBeRerolled.Contains(DieSide.Blank)))
+        int offset = 0;
+        foreach (var option in options)
+        {
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/GenericButton", typeof(GameObject));
+            GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel"));
+            newButton.name = "Button" + option.Key;
+            newButton.transform.GetComponentInChildren<Text>().text = option.Key;
+            newButton.GetComponent<RectTransform>().localPosition = new Vector3(0, -offset, 0);
+            newButton.GetComponent<Button>().onClick.AddListener(delegate
             {
-                options.Add(
-                    "Select only blanks and focuses",
-                    new List<DieSide>() {
-                        DieSide.Blank,
-                        DieSide.Focus
-                    }
-                );
-            }
-
-            int offset = 0;
-            foreach (var option in options)
-            {
-                GameObject prefab = (GameObject)Resources.Load("Prefabs/GenericButton", typeof(GameObject));
-                GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel"));
-                newButton.name = "Button" + option.Key;
-                newButton.transform.GetComponentInChildren<Text>().text = option.Key;
-                newButton.GetComponent<RectTransform>().localPosition = new Vector3(0, -offset, 0);
-                newButton.GetComponent<Button>().onClick.AddListener(delegate
-                {
-                    SelectDiceByFilter(option.Value, NumberOfDiceCanBeRerolled);
-                });
-                newButton.SetActive(true);
-                offset += 65;
-            }
+                SelectDiceByFilter(option.Value, NumberOfDiceCanBeRerolled);
+            });
+            newButton.SetActive(ShowOnlyForHuman());
+            offset += 65;
         }
     }
 
@@ -208,7 +203,7 @@ public partial class DiceRerollManager
 
     public void ShowConfirmButton()
     {
-        Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel/Confirm").GetComponent<Button>();
+        Button closeButton = GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel").Find("Confirm").GetComponent<Button>();
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(ConfirmRerollButtonIsPressed);
 
@@ -220,7 +215,7 @@ public partial class DiceRerollManager
     {
         GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
 
-        if (!isActive) Combat.DiceModifications.HideDiceModificationsButtonsList();
+        if (!isActive) Combat.DiceModifications.HideAllButtons();
     }
 
     private void ToggleDiceRerollsPanel(bool isActive)
@@ -317,6 +312,33 @@ public partial class DiceRerollManager
         {
             die.IsRerolled = false;
         }
+    }
+
+    private bool ShowOnlyForHuman()
+    {
+        return Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer);
+    }
+
+    public static GameCommand GenerateConfirmRerollCommand()
+    {
+        JSONObject[] diceRerollSelectedArray = new JSONObject[DiceRoll.CurrentDiceRoll.DiceList.Count];
+        for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
+        {
+            bool isSelected = DiceRoll.CurrentDiceRoll.DiceList[i].IsSelected;
+            string isSelectedText = isSelected.ToString();
+            JSONObject isSelectedJson = new JSONObject();
+            isSelectedJson.AddField("selected", isSelectedText);
+            diceRerollSelectedArray[i] = isSelectedJson;
+        }
+        JSONObject diceRerollSelected = new JSONObject(diceRerollSelectedArray);
+        JSONObject parameters = new JSONObject();
+        parameters.AddField("dice", diceRerollSelected);
+
+        return GameController.GenerateGameCommand(
+            GameCommandTypes.SyncDiceRerollSelected,
+            Phases.CurrentSubPhase.GetType(),
+            parameters.ToString()
+        );
     }
 
 }

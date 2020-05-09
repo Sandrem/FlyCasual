@@ -106,15 +106,19 @@ public static class Selection {
     {
         bool result = false;
 
-        GenericShip ship = Roster.GetShipById(shipId);
-        if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
+        if (Phases.CurrentSubPhase != null)
         {
-            result = TryToChangeThisShip(shipId, mouseKeyIsPressed);
+            GenericShip ship = Roster.GetShipById(shipId);
+            if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
+            {
+                result = TryToChangeThisShip(shipId, mouseKeyIsPressed);
+            }
+            else
+            {
+                result = TryToChangeAnotherShip(shipId, mouseKeyIsPressed);
+            }
         }
-        else
-        {
-            result = TryToChangeAnotherShip(shipId, mouseKeyIsPressed);
-        }
+
         return result;
     }
 

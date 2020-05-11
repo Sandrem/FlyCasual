@@ -349,7 +349,7 @@ namespace SubPhases
 
         public Func<ITargetLockable, bool> FilterTargetLockableTargets { get; set; }
 
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.SelectObstacle, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.SelectObstacle, GameCommandTypes.PressSkip, GameCommandTypes.CancelShipSelection }; } }
 
         public override void ProcessClick()
         {

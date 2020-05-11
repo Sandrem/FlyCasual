@@ -21,7 +21,7 @@ namespace SubPhases
 
     public class SelectShipSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressSkip, GameCommandTypes.CancelShipSelection }; } }
 
         protected List<TargetTypes> targetsAllowed = new List<TargetTypes>();
         protected int minRange = 0;

@@ -10,7 +10,7 @@ namespace SubPhases
 {
     public class SelectTargetForAttackSubPhase : SelectShipSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip, GameCommandTypes.CancelShipSelection }; } }
 
         public override void Prepare()
         {

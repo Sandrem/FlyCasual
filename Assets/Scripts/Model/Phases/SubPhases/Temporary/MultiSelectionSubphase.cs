@@ -15,7 +15,7 @@ namespace SubPhases
 
         public GenericAction HostAction { get; set; }
 
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressNext }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressNext, GameCommandTypes.CancelShipSelection }; } }
 
         public Func<GenericShip, int> GetAiPriority;
 

@@ -335,12 +335,6 @@ public partial class DiceRoll
         }
     }
 
-    public void RandomizeAndRerollSelected()
-    {
-        if (DebugManager.DebugNetwork) UI.AddTestLogEntry("DiceRoll.RerollSelected");
-        Network.GenerateRandom(new Vector2(0, 360), SelectedCount * 3, SetSelectedDiceInitialRotation, RerollPreparedDice);
-    }
-
     public void ToggleRerolledLocks(bool isActive)
     {
         foreach (var dice in DiceList)

@@ -19,8 +19,6 @@ namespace GameModes
 
         public abstract void ExecuteServerCommand(GameCommand command);
 
-        public abstract void RevertSubPhase();
-
         public abstract void GiveInitiativeToPlayer(int playerNo);
 
         public abstract void StartBattle();
@@ -29,5 +27,10 @@ namespace GameModes
         public abstract void QuitToDesktop();
 
         public abstract void GenerateDamageDeck(PlayerNo playerNo, int seed);
+
+        internal void ExecuteServerCommand(object generateCancelShipSelectionCommand)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

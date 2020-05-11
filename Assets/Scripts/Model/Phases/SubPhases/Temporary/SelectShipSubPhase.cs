@@ -8,6 +8,7 @@ using System.Linq;
 using Players;
 using UnityEngine.UI;
 using ActionsList;
+using GameCommands;
 
 namespace SubPhases
 {
@@ -265,7 +266,15 @@ namespace SubPhases
 
         protected virtual void CancelShipSelection()
         {
-            GameMode.CurrentGameMode.RevertSubPhase();
+            GameMode.CurrentGameMode.ExecuteServerCommand(GenerateCancelShipSelectionCommand());
+        }
+
+        private GameCommand GenerateCancelShipSelectionCommand()
+        {
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.CancelShipSelection,
+                Phases.CurrentSubPhase.GetType()
+            );
         }
 
         public void CallRevertSubPhase()

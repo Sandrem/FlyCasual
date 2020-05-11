@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Players;
 using UnityEngine;
+using SubPhases;
 
 public class NetworkIdentity : NetworkBehaviour
 {
@@ -55,15 +56,12 @@ public class NetworkIdentity : NetworkBehaviour
     [ClientRpc]
     private void RpcStartNetworkGame()
     {
-        Messages.ShowInfo("RpcStartNetworkGame");
-
         SquadBuilder.StartNetworkGame();
     }
 
     [ClientRpc]
     private void RpcBattleIsReady()
     {
-        Messages.ShowInfo("RpcBattleIsReady");
         Global.BattleIsReady();
     }
 

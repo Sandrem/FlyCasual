@@ -30,7 +30,8 @@ public enum GameCommandTypes
     SelectObstacle,
     BombPlacement,
     MoveObstacle,
-    SelectShipToAssignManeuver
+    SelectShipToAssignManeuver,
+    CancelShipSelection
 }
 
 namespace GameCommands

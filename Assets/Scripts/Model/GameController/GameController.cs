@@ -137,6 +137,9 @@ public static class GameController
             case GameCommandTypes.MoveObstacle:
                 command = new MoveObstacleCommand(commandType, subPhase, parameters);
                 break;
+            case GameCommandTypes.CancelShipSelection:
+                command = new CancelShipSelectionCommand(commandType, subPhase, parameters);
+                break;
             default:
                 Console.Write("Constructor for GameCommand is not found", LogTypes.Errors, true, "red");
                 break;

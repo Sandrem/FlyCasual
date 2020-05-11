@@ -25,11 +25,6 @@ namespace GameModes
             if (Network.IsServer) Network.SendCommand(command);
         }
 
-        public override void RevertSubPhase()
-        {
-            Network.RevertSubPhase();
-        }
-
         public override void GiveInitiativeToPlayer(int playerNo)
         {
             Network.SendServerCommand

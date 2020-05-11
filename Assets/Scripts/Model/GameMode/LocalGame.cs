@@ -25,11 +25,6 @@ namespace GameModes
             GameController.SendCommand(command);
         }
 
-        public override void RevertSubPhase()
-        {
-            (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
-        }
-
         public override void GiveInitiativeToPlayer(int playerNo)
         {
             if (ReplaysManager.Mode == ReplaysMode.Write)

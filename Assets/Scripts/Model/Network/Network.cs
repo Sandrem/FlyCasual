@@ -1,15 +1,11 @@
 ﻿using GameCommands;
 using Mirror;
 using Players;
-using Ship;
 using SquadBuilderNS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public static class Network
@@ -80,11 +76,6 @@ public static class Network
         if (IsServer) CurrentPlayer.CmdSendCommand(command.ToString());
     }
 
-    public static void RevertSubPhase()
-    {
-        throw new NotImplementedException();
-    }
-
     public static void SyncDecks(PlayerNo playerNo, int seed)
     {
         if (IsServer) CurrentPlayer.CmdSendCommand
@@ -100,11 +91,6 @@ public static class Network
     public static void SendChatMessage(string message)
     {
         CurrentPlayer.CmdSendChatMessage(message);
-    }
-
-    public static void GenerateRandom(Vector2 vector2, int v, Action<int[]> storePlayerWithInitiative, Action finishTrigger)
-    {
-        throw new NotImplementedException();
     }
 
     public static void FinishTask()

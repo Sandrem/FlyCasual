@@ -81,7 +81,11 @@ namespace SubPhases
             HideSubphaseDescription();
 
             RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
-            if (!IsRandomSetupSelected[RequiredPlayer]) ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+            if (!IsRandomSetupSelected[RequiredPlayer])
+            {
+                Board.HighlightOfStartingZoneOn();
+                ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+            }
 
             IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).PlaceObstacle();
@@ -392,6 +396,7 @@ namespace SubPhases
 
         private void SelectObstacle(GenericObstacle obstacle)
         {
+            Board.HighlightOfStartingZoneOff();
             Board.ToggleOffTheBoardHolder(true);
             ChosenObstacle = obstacle;
             UI.HideSkipButton();

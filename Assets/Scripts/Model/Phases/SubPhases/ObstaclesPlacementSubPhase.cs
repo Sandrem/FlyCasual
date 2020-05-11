@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using System;
 using GameModes;
 using GameCommands;
+using System.Globalization;
 
 namespace SubPhases
 {
@@ -437,9 +438,17 @@ namespace SubPhases
         private GameCommand GeneratePlaceObstacleCommand(string obstacleName, Vector3 position, Vector3 angles)
         {
             JSONObject parameters = new JSONObject();
+
             parameters.AddField("name", obstacleName);
-            parameters.AddField("positionX", position.x.ToString()); parameters.AddField("positionY", "0"); parameters.AddField("positionZ", position.z.ToString());
-            parameters.AddField("rotationX", angles.x.ToString()); parameters.AddField("rotationY", angles.y.ToString()); parameters.AddField("rotationZ", angles.z.ToString());
+            
+            parameters.AddField("positionX", position.x.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("positionY", "0");
+            parameters.AddField("positionZ", position.z.ToString(CultureInfo.InvariantCulture));
+
+            parameters.AddField("rotationX", angles.x.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("rotationY", angles.y.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("rotationZ", angles.z.ToString(CultureInfo.InvariantCulture));
+
             return GameController.GenerateGameCommand(
                 GameCommandTypes.ObstaclePlacement,
                 typeof(ObstaclesPlacementSubPhase),

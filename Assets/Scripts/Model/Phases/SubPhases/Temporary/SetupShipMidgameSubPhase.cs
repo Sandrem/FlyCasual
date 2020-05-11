@@ -7,6 +7,7 @@ using BoardTools;
 using GameModes;
 using GameCommands;
 using System;
+using System.Globalization;
 
 namespace SubPhases
 {
@@ -111,9 +112,17 @@ namespace SubPhases
         public static GameCommand GeneratePlaceShipCommand(int shipId, Vector3 position, Vector3 angles)
         {
             JSONObject parameters = new JSONObject();
+
             parameters.AddField("id", shipId.ToString());
-            parameters.AddField("positionX", position.x.ToString()); parameters.AddField("positionY", position.y.ToString()); parameters.AddField("positionZ", position.z.ToString());
-            parameters.AddField("rotationX", angles.x.ToString()); parameters.AddField("rotationY", angles.y.ToString()); parameters.AddField("rotationZ", angles.z.ToString());
+
+            parameters.AddField("positionX", position.x.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("positionY", position.y.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("positionZ", position.z.ToString(CultureInfo.InvariantCulture));
+
+            parameters.AddField("rotationX", angles.x.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("rotationY", angles.y.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("rotationZ", angles.z.ToString(CultureInfo.InvariantCulture));
+
             return GameController.GenerateGameCommand(
                 GameCommandTypes.ShipPlacement,
                 typeof(SetupShipMidgameSubPhase),

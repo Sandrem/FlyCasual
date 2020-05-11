@@ -352,11 +352,14 @@ public static partial class Roster
     {
         AllShipsHighlightOff();
 
-        foreach (GenericShip ship in Roster.AllUnits.Values)
+        if (GetPlayer(Phases.CurrentSubPhase.RequiredPlayer) is HumanPlayer)
         {
-            if (filter(ship))
+            foreach (GenericShip ship in Roster.AllUnits.Values)
             {
-                RosterPanelHighlightOn(ship);
+                if (filter(ship))
+                {
+                    RosterPanelHighlightOn(ship);
+                }
             }
         }
     }

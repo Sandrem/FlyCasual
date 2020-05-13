@@ -277,13 +277,13 @@ public static class Combat
 
     // DEFENCE
 
-    public static void PerformDefence()
+    public static void PerformDefence(Action callback)
     {
         AttackStep = CombatStep.Defence;
 
         Selection.ActiveShip = Defender;
 
-        CallDefenceStartEvents(DefenceDiceRoll);
+        CallDefenceStartEvents(callback);
     }
 
     public static void CallDefenceStartEvents(Action callback)
@@ -292,12 +292,6 @@ public static class Combat
         Defender.CallDefenceStartAsDefender();
 
         Triggers.ResolveTriggers(TriggerTypes.OnDefenseStart, callback);
-    }
-
-    private static void DefenceDiceRoll()
-    {
-        Selection.ActiveShip = Selection.AnotherShip;
-        Phases.StartTemporarySubPhaseOld("Defence dice roll", typeof(DefenseDiceRollCombatSubPhase));
     }
 
     public static void CancelHitsByDefenceDice()

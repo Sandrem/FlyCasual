@@ -18,6 +18,18 @@ public class FinishDiceRollStep : IDiceRollStep
     {
         IsExecuted = true;
 
+        if (Combat.AttackStep == CombatStep.Attack)
+        {
+            Combat.PerformDefence(Next);
+        }
+        else
+        {
+            Next();
+        }
+    }
+
+    private void Next()
+    {
         Phases.FinishSubPhase(SubphaseType);
     }
 

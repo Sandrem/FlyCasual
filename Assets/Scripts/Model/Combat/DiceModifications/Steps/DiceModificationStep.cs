@@ -33,6 +33,8 @@ public class DiceModificationStep : IDiceRollStep
     {
         IsExecuted = true;
 
+        if (CombatStep == CombatStep.CompareResults) Combat.AttackStep = CombatStep.CompareResults;
+
         Combat.Attacker.ClearAlreadyUsedDiceModifications();
         Combat.Defender.ClearAlreadyUsedDiceModifications();
 

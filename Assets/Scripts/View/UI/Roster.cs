@@ -303,7 +303,16 @@ public static partial class Roster {
     // RMB is not supported
     public static void SelectShipByRosterClick(PointerEventData data)
     {
-        Selection.TryToChangeShip("ShipId:" + GetShipByUiPointerData(data).ShipId);
+        GenericShip shipByPanel = GetShipByUiPointerData(data);
+        if (shipByPanel != null)
+        {
+            Selection.TryToChangeShip("ShipId:" + shipByPanel.ShipId);
+        }
+        else
+        {
+            Messages.ShowError("Error: ship is not found");
+        }
+
         UI.HideTemporaryMenus();
     }
 

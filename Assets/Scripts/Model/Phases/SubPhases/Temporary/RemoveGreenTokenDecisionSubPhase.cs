@@ -1,6 +1,7 @@
 ﻿using Ship;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 
 namespace SubPhases
@@ -36,6 +37,9 @@ namespace SubPhases
             }
 
             PrepareCustomDecisions();
+
+            DefaultDecisionName = decisions.First().Name;
+
             callBack();
         }
 

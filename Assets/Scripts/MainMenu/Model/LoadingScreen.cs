@@ -70,7 +70,7 @@ public static class LoadingScreen
         "No, the AI doesn't look at your dials",
 
         // Specially for FFG
-        "You defenitely need to buy more miniatures",
+        "You definitely need to buy more miniatures",
 
         // Quotes
         "Try spinning - that's a good trick",

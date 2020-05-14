@@ -116,8 +116,9 @@ namespace SubPhases
             //Combat.DiceRollAttack.OrganizeDicePositions();
 
             var damageCardSubPhase = Phases.StartTemporarySubPhaseNew<SelectDamageCardDecisionSubPhase>(Name, Triggers.FinishTrigger);
+            damageCardSubPhase.DecisionOwnerPilot = HostShip;
             damageCardSubPhase.RegisterDamageCardHandler(HandleDamageCard);
-            damageCardSubPhase.withDamageCards = Combat.Defender;
+            damageCardSubPhase.DamageCardsOwner = Combat.Defender;
             damageCardSubPhase.Start();
         }
 

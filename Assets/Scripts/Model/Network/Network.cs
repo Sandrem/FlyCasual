@@ -100,11 +100,25 @@ public static class Network
 
     public static void ReturnToMainMenu()
     {
-        // Messages.ShowInfo("Return To Main Menu");
+        if (CurrentPlayer != null)
+        {
+            CurrentPlayer.CmdPlayerIsDisconnected(IsServer);
+        }
+        else
+        {
+            Global.ReturnToMainMenu();
+        }
     }
 
     public static void QuitToDesktop()
     {
-        // Messages.ShowInfo("Quit To Desktop");
+        if (CurrentPlayer != null)
+        {
+            CurrentPlayer.CmdPlayerIsDisconnected(IsServer);
+        }
+        else
+        {
+            Application.Quit();
+        }
     }
 }

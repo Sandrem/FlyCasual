@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Analytics;
+using UnityEngine.SceneManagement;
 
 public class Global : MonoBehaviour {
 
@@ -81,6 +82,19 @@ public class Global : MonoBehaviour {
         Undefined,
         MainMenu,
         Battle
+    }
+
+    public static void ReturnToMainMenu()
+    {
+        Phases.EndGame();
+        LoadingScreen.Show();
+        SceneManager.LoadScene("MainMenu");
+        LoadingScreen.NextSceneIsReady(delegate { });
+    }
+
+    public static void ShowAnotherPlayerDisconnected()
+    {
+        UI.ShowGameResults(Roster.GetOpponent().NickName + " is disconnected");
     }
 
 }

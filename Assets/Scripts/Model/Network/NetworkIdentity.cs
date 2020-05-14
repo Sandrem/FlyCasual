@@ -130,4 +130,34 @@ public class NetworkIdentity : NetworkBehaviour
             }
         }
     }
+
+    [Command]
+    public void CmdPlayerIsDisconnected(bool isServerDisconnected)
+    {
+        RpcPlayerIsDisconnected(isServerDisconnected);
+    }
+
+    [ClientRpc]
+    private void RpcPlayerIsDisconnected(bool isServerDisconnected)
+    {
+        if (Network.IsServer != isServerDisconnected)
+        {
+            Phases.EndGame();
+            Global.ShowAnotherPlayerDisconnected();
+        }
+        else
+        {
+
+            if (Network.IsServer)
+            {
+                NetworkManager.singleton.StopServer();
+            }
+            else
+            {
+                NetworkManager.singleton.StopClient();
+            }
+
+            Global.ReturnToMainMenu();
+        }
+    }
 }

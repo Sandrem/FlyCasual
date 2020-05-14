@@ -1,29 +1,17 @@
 ﻿using GameCommands;
+using Mirror;
+using Players;
+using SquadBuilderNS;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.Networking.Match;
-using UnityEngine.Networking.Types;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public static partial class Network
+public static class Network
 {
-    public static NetworkPlayerController CurrentPlayer;
-
-    public static bool ReadyToStartMatch;
-
-    public static NetworkExecuteWithCallback LastNetworkCallback;
-
-    public static string AllShipNames;
-
-    public static JSONObject SquadJsons;
-
-    /*public static MatchInfoSnapshot SelectedMatchSnapshot;
-    public static MatchInfo CurrentMatch;*/
+    public static NetworkIdentity CurrentPlayer { get; set; }
+    public static NetworkConnectionAttemptHandler ConnectionAttempt { get; set; }
 
     public static bool IsNetworkGame
     {
@@ -35,481 +23,102 @@ public static partial class Network
         get { return CurrentPlayer.IsServer; }
     }
 
-    private class RoomInfo
+    public static string ServerUri { get; set; } = "tcp4://127.0.0.1";
+
+    // Match creation
+
+    public static void CreateMatch(string roomName, string password)
     {
-        public string RoomName { get; private set; }
-        public int CurrentVersionInt { get; private set; }
-        public bool IsAnyModOn { get; private set; }
-        public string RuleSet { get; private set; }
-
-        public RoomInfo(string roomName, bool simple = false)
-        {
-            if (simple)
-            {
-                SimpleInitialization(roomName);
-            }
-            else
-            {
-                InitializationWithParameters(roomName);
-            }
-        }
-
-        public void SimpleInitialization(string roomName)
-        {
-            RoomName = roomName;
-            CurrentVersionInt = Global.CurrentVersionInt;
-            IsAnyModOn = Mods.ModsManager.IsAnyModOn;
-            RuleSet = Editions.Edition.Current.Name;
-        }
-
-        public void InitializationWithParameters(string roomName)
-        {
-            string[] info = roomName.Split('|');
-            RoomName = info[0];
-
-            if (info.Length > 1 && info[1].Contains("V:"))
-            {
-                CurrentVersionInt = int.Parse(info[1].Substring(2));
-            }
-
-            if (info.Length > 2 && info[2].Contains("M:"))
-            {
-                IsAnyModOn = bool.Parse(info[2].Substring(2));
-            }
-
-            if (info.Length > 3 && info[3].Contains("R:"))
-            {
-                RuleSet = info[3].Substring(2);
-            }
-        }
-
-        public override string ToString()
-        {
-            return RoomName + "|V:" + CurrentVersionInt.ToString() + "|M:" + IsAnyModOn.ToString() + "|R:" + RuleSet;
-        }
+        NetworkManager.singleton.StartHost();
     }
 
-    // COMMANDS
+    public static void BrowseMatches()
+    {
+        // Messages.ShowInfo("Browse Matches");
+    }
+
+    public static void JoinRoom(string password)
+    {
+        ConnectionAttempt = GameObject.FindObjectOfType<NetworkConnectionAttemptHandler>();
+
+        Uri uri = new Uri(Network.ServerUri);
+        NetworkManager.singleton.StartClient(uri);
+
+        ConnectionAttempt.StartAttempt();
+    }
+
+    public static void SendClientInfoToServer()
+    {
+        CurrentPlayer.CmdSyncAndStartGame
+        (
+            Options.NickName,
+            Options.Title,
+            Options.Avatar,
+            SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString()
+        );
+    }
+
+    public static void CancelWaitingForOpponent()
+    {
+        NetworkManager.singleton.StopHost();
+    }
+
+    // Game Interaction
 
     public static void SendCommand(GameCommand command)
     {
         CurrentPlayer.CmdSendCommand(command.ToString());
     }
 
-    // SQUAD LISTS
-
-    public static void ImportSquad(string squadList, bool isServer)
+    //Command that is executed only if server sent it - avoids duplication of commands
+    public static void SendServerCommand(GameCommand command)
     {
-        string squadName = (isServer) ? "Server" : "Client";
-        JSONObject squadListJson = new JSONObject(squadList);
-        SquadJsons.AddField(squadName, squadListJson);
+        if (IsServer) CurrentPlayer.CmdSendCommand(command.ToString());
     }
 
-    public static void StoreSquadList(string localSquadList, bool isServer)
+    public static void SyncDecks(PlayerNo playerNo, int seed)
     {
-        CurrentPlayer.CmdStoreSquadList(localSquadList.ToString(), isServer);
+        if (IsServer) CurrentPlayer.CmdSendCommand
+        (
+            DamageDecks.GenerateDeckShuffleCommand(playerNo, seed).ToString()
+        );
+
+        GameController.CheckExistingCommands();
     }
 
-    // TESTS
+    // Misc
 
-    public static void Test()
+    public static void SendChatMessage(string message)
     {
-        CurrentPlayer.CmdTest();
+        CurrentPlayer.CmdSendChatMessage(message);
     }
-
-    public static void UpdateAllShipNames(string text)
-    {
-        CurrentPlayer.CmdUpdateAllShipNames(text);
-    }
-
-    public static void CallBacksTest()
-    {
-        CurrentPlayer.CmdCallBacksTest();
-    }
-
-    // CALLBACKS
 
     public static void FinishTask()
     {
-        string taskName = (LastNetworkCallback != null) ? LastNetworkCallback.TaskName : "undefined";
-        Console.Write("Client finished task: " + taskName, LogTypes.Network);
         CurrentPlayer.CmdFinishTask();
-    }
-
-    public static void ServerFinishTask()
-    {
-        LastNetworkCallback.ServerFinishTask();
-    }
-
-    // SELECT SHIP
-
-    public static void RevertSubPhase()
-    {
-        if (IsServer) CurrentPlayer.CmdRevertSubPhase();
-    }
-
-    // TOOLS
-
-    public static void ShowMessage(string text)
-    {
-        CurrentPlayer.CmdShowMessage(text);
-    }
-
-    // BATTLE START
-
-    public static void StartNetworkGame()
-    {
-        CurrentPlayer.CmdStartNetworkGame();
-    }
-
-    // ASSING MANEUVER
-
-    public static void AssignManeuver(int shipId, string maneuverCode)
-    {
-        CurrentPlayer.CmdAssignManeuver(shipId, maneuverCode);
-    }
-
-    // PERFORM BARREL ROLL
-
-    public static void PerformBarrelRoll()
-    {
-        if (IsServer) CurrentPlayer.CmdPerformBarrelRoll();
-    }
-
-    public static void CancelBarrelRoll()
-    {
-        if (IsServer) CurrentPlayer.CmdCancelBarrelRoll();
-    }
-
-    // PERFORM DECLOAK
-
-    public static void PerformDecloak()
-    {
-        if (IsServer) CurrentPlayer.CmdPerformDecloak();
-    }
-
-    public static void CancelDecloak()
-    {
-        if (IsServer) CurrentPlayer.CmdCancelDecloak();
-    }
-
-    // PERFORM BOOST
-
-    public static void PerformBoost()
-    {
-        if (IsServer) CurrentPlayer.CmdPerformBoost();
-    }
-
-    public static void CancelBoost()
-    {
-        if (IsServer) CurrentPlayer.CmdCancelBoost();
-    }
-
-    // SELECT TARGET SHIP
-
-    public static void SelectTargetShip(int targetId)
-    {
-        CurrentPlayer.CmdSelectTargetShip(targetId);
-    }
-
-    // BARREL ROLL PLANNING
-
-    public static void TryConfirmBarrelRoll(string templateName, Vector3 shipPosition, Vector3 movementTemplatePosition)
-    {
-        CurrentPlayer.CmdTryConfirmBarrelRoll(templateName, shipPosition, movementTemplatePosition);
-    }
-
-    // DECLOAK PLANNING
-
-    public static void TryConfirmDecloak(Vector3 shipPosition, string decloakHelper, Vector3 movementTemplatePosition, Vector3 movementTemplateAngles)
-    {
-        CurrentPlayer.CmdTryConfirmDecloak(shipPosition, decloakHelper, movementTemplatePosition, movementTemplateAngles);
-    }
-
-    // BOOST PLANNING
-
-    public static void TryConfirmBoostPosition(string SelectedBoostHelper)
-    {
-        CurrentPlayer.CmdTryConfirmBoostPosition(SelectedBoostHelper);
-    }
-
-    // DICE SELECTION SYNC
-
-    public static void SyncSelectedDiceAndReroll()
-    {
-        if (IsServer) CurrentPlayer.CmdSyncSelectedDiceAndReroll();
-    }
-
-    // SWARM MANAGER
-
-    public static void SetSwarmManagerManeuver(string maneuverCode)
-    {
-        CurrentPlayer.CmdSetSwarmManagerManeuver(maneuverCode);
-    }
-
-    // 0.3.2 UI
-
-    public static void CreateMatch(string roomName, string password)
-    {
-        /*ToggleCreateMatchButtons(false);
-
-        roomName = roomName.Replace('|', ' '); // Remove info separator
-        roomName = new RoomInfo(roomName, true).ToString();
-
-        NetworkManager.singleton.SetMatchHost("us1-mm.unet.unity3d.com", NetworkManager.singleton.matchPort, true);
-        NetworkManager.singleton.StartMatchMaker();
-        NetworkManager.singleton.matchMaker.CreateMatch(roomName, 2, true, password, "", "", 0, 0, OnInternetMatchCreate);*/
-    }
-
-    private static void ToggleCreateMatchButtons(bool isActive)
-    {
-        GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/CreateRoomButton").SetActive(isActive);
-        GameObject.Find("UI/Panels/CreateMatchPanel/ControlsPanel/BackButton").SetActive(isActive);
-    }
-
-    /*private static void OnInternetMatchCreate(bool success, string extendedInfo, MatchInfo matchInfo)
-    {
-        if (success)
-        {
-            string roomName = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Name").GetComponentInChildren<InputField>().text;
-
-            GameObject WaitingForOpponentPanelGO = GameObject.Find("UI/Panels").transform.Find("WaitingForOpponentsPanel").gameObject;
-            WaitingForOpponentPanelGO.transform.Find("Panel").Find("NameText").GetComponent<Text>().text = roomName;
-            MainMenu.CurrentMainMenu.ChangePanel(WaitingForOpponentPanelGO);
-
-            CurrentMatch = matchInfo;
-
-            NetworkServer.Listen(CurrentMatch, 9000);
-            NetworkManager.singleton.StartHost(CurrentMatch);
-        }
-        else
-        {
-            Messages.ShowError("Match creation failed.");
-
-            ToggleCreateMatchButtons(true);
-        }
-    }*/
-
-    public static void BrowseMatches()
-    {
-        /*ToggleNoRoomsMessage(false);
-        ToggleBrowseRoomsControls(false);
-        ToggleLoadingMessage(true);
-
-        NetworkManager.singleton.SetMatchHost("us1-mm.unet.unity3d.com", NetworkManager.singleton.matchPort, true);
-        NetworkManager.singleton.StartMatchMaker();
-        NetworkManager.singleton.matchMaker.ListMatches(0, int.MaxValue, "", false, 0, 0, OnInternetMatchList);*/
-    }
-
-    /*private static void OnInternetMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> matches)
-    {
-        ToggleLoadingMessage(false);
-        ToggleBrowseRoomsControls(true);
-
-        if (success)
-        {
-            if (matches.Any(n => new RoomInfo(n.name).CurrentVersionInt == Global.CurrentVersionInt && new RoomInfo(n.name).RuleSet == Editions.Edition.Current.Name))
-            {
-                ToggleNoRoomsMessage(false);
-                //Messages.ShowInfo("A list of matches was returned");
-                ShowListOfRooms(matches);
-            }
-            else
-            {
-                ToggleNoRoomsMessage(true);
-                //Messages.ShowError("No matches in requested room!");
-            }
-        }
-        else
-        {
-            Messages.ShowError("Cannot connect to match maker.\nCheck your network connection.");
-        }
-    }*/
-
-    private static void ToggleNoRoomsMessage(bool isActive)
-    {
-        GameObject noRooms = GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("NoRooms").gameObject;
-        noRooms.SetActive(isActive);
-        if (isActive) noRooms.GetComponentInChildren<CountdownToRoomsRefresh>().Start();
-    }
-
-    private static void ToggleBrowseRoomsControls(bool isActive)
-    {
-        GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("ControlsPanel").gameObject.SetActive(isActive);
-    }
-
-    private static void ToggleBrowseRooms(bool isActive)
-    {
-        GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").gameObject.SetActive(isActive);
-    }
-
-    private static void ToggleLoadingMessage(bool isActive)
-    {
-        GameObject.Find("UI/Panels/BrowseRoomsPanel").transform.Find("LoadingMessage").gameObject.SetActive(isActive);
-    }
-
-    /*public static void ShowListOfRooms(List<MatchInfoSnapshot> matchesList)
-    {
-        float FREE_SPACE = 10f;
-        float MATCH_PANEL_HEIGHT = 90;
-
-        ClearRoomsList();
-
-        GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/MatchPanel", typeof(GameObject));
-        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").Find("Scroll View/Viewport/Content").gameObject;
-
-        RectTransform matchsPanelRectTransform = MatchsPanel.GetComponent<RectTransform>();
-        matchsPanelRectTransform.sizeDelta = new Vector2(matchsPanelRectTransform.sizeDelta.x, matchesList.Count*MATCH_PANEL_HEIGHT + (matchesList.Count + 1) * FREE_SPACE);
-
-        Vector3 currentPosition = new Vector3(matchsPanelRectTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, MatchsPanel.transform.localPosition.z);
-
-        foreach (var match in matchesList)
-        {
-            RoomInfo roomInfo = new RoomInfo(match.name);
-
-            if (roomInfo.CurrentVersionInt != Global.CurrentVersionInt) continue;
-            if (roomInfo.RuleSet != Editions.Edition.Current.Name) continue;
-
-            GameObject MatchRecord;
-
-            MatchRecord = MonoBehaviour.Instantiate(prefab, MatchsPanel.transform);
-            MatchRecord.transform.localPosition = currentPosition;
-            MatchRecord.name = match.networkId.ToString();
-
-            MatchRecord.transform.Find("Name").GetComponent<Text>().text = roomInfo.RoomName;
-            MatchRecord.transform.Find("Lock").gameObject.SetActive(match.isPrivate);
-            MatchRecord.transform.Find("Join").gameObject.SetActive(match.currentSize == 1);
-
-            MatchRecord.transform.Find("Join").GetComponent<Button>().onClick.AddListener(delegate { ClickJoinRoom(match); });
-
-            currentPosition = new Vector3(currentPosition.x, currentPosition.y - 90 - FREE_SPACE, currentPosition.z);
-        }
-    }*/
-
-    public static void ClearRoomsList()
-    {
-        GameObject MatchsPanel = GameObject.Find("UI/Panels").transform.Find("BrowseRoomsPanel").Find("Scroll View/Viewport/Content").gameObject;
-        foreach (Transform matchRecord in MatchsPanel.transform)
-        {
-            GameObject.Destroy(matchRecord.gameObject);            
-        }
-    }
-
-    /*public static void ClickJoinRoom(MatchInfoSnapshot match)
-    {
-        //Messages.ShowInfo("Joining room...");
-        //SelectedMatchSnapshot = match;
-
-        if (!match.isPrivate)
-        {
-            JoinCurrentRoomByParameters();
-        }
-        else
-        {
-            GameObject JoinPrivateMatchPanelGO = GameObject.Find("UI/Panels").transform.Find("JoinPrivateMatchPanel").gameObject;
-            JoinPrivateMatchPanelGO.transform.Find("Panel").Find("Name").Find("InputField").GetComponent<InputField>().text = new RoomInfo(match.name).RoomName;
-            MainMenu.CurrentMainMenu.ChangePanel(JoinPrivateMatchPanelGO);
-        }
-    }*/
-
-    public static void JoinCurrentRoomByParameters(string password = "")
-    {
-        /*if (!SelectedMatchSnapshot.isPrivate) ToggleBrowseRooms(false); else ToggleJoinPrivateMatchButtons(false);
-
-        NetworkManager.singleton.matchMaker.JoinMatch(SelectedMatchSnapshot.networkId, password, "", "", 0, 0, OnJoinInternetMatch);*/
-    }
-
-    private static void ToggleJoinPrivateMatchButtons(bool isActive)
-    {
-        GameObject.Find("UI/Panels/JoinPrivateMatchPanel/ControlsPanel/JoinMatchButton").SetActive(isActive);
-        GameObject.Find("UI/Panels/JoinPrivateMatchPanel/ControlsPanel/BackButton").SetActive(isActive);
-    }
-
-    /*private static void OnJoinInternetMatch(bool success, string extendedInfo, MatchInfo matchInfo)
-    {
-        if (success)
-        {
-            CurrentMatch = matchInfo;
-            NetworkManager.singleton.StartClient(CurrentMatch);
-
-            //Messages.ShowInfo("Successfully joined match");
-
-            Network.ReadyToStartMatch = true;
-        }
-        else
-        {
-            if (SelectedMatchSnapshot.isPrivate)
-            {
-                Messages.ShowError("Unable to join the match.\nThe password is invalid.");
-                ToggleJoinPrivateMatchButtons(true);
-                //ToggleBrowseRooms(true);
-            }
-            else
-            {
-                Messages.ShowError("Unable to join the match.");
-                BrowseMatches();
-            }
-        }
-    }*/
-
-    public static void CancelWaitingForOpponent()
-    {
-        /*NetworkServer.Shutdown();
-        NetworkManager.singleton.StopHost();
-        NetworkManager.singleton.StopMatchMaker();*/
-    }
-
-    public static void Disconnect(Action callback)
-    {
-        /*NetworkManager.singleton.matchMaker.DestroyMatch(CurrentMatch.networkId, 0, delegate { DisconnectPart2(callback); });*/
-    }
-
-    private static void DisconnectPart2(Action callback)
-    {
-        /*if (IsServer)
-        {
-            NetworkServer.Shutdown();
-            NetworkManager.singleton.StopHost();
-            NetworkManager.singleton.StopMatchMaker();
-        }
-        else
-        {
-            NetworkManager.singleton.StopClient();
-            NetworkManager.singleton.StopMatchMaker();
-        }
-
-        callback();*/
-    }
-
-    public static void SyncDecks(int playerNo, int seed)
-    {
-        if (IsServer) CurrentPlayer.CmdSyncDecks(playerNo, seed);
     }
 
     public static void ReturnToMainMenu()
     {
-        // if online match in progress
         if (CurrentPlayer != null)
         {
-            CurrentPlayer.CmdReturnToMainMenu(IsServer);
+            CurrentPlayer.CmdPlayerIsDisconnected(IsServer);
         }
-        else // if opponent already had surrender
+        else
         {
-            SceneManager.LoadScene("MainMenu");
+            Global.ReturnToMainMenu();
         }
     }
 
     public static void QuitToDesktop()
     {
-        // if online match in progress
         if (CurrentPlayer != null)
         {
-            CurrentPlayer.CmdQuitToDesktop(IsServer);
+            CurrentPlayer.CmdPlayerIsDisconnected(IsServer);
         }
-        else // if opponent already had surrender
+        else
         {
             Application.Quit();
         }
     }
-
 }

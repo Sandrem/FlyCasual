@@ -180,7 +180,7 @@ namespace Abilities.FirstEdition
 
             HostShip.Owner.ChangeManeuver(
                 (maneuverCode) => {
-                    GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
+                    ShipMovementScript.SendAssignManeuverCommand(maneuverCode);
                     HostShip.OnMovementFinish += RestoreManuvers;
                 },
                 Triggers.FinishTrigger,

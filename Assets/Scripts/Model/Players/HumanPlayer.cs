@@ -199,9 +199,14 @@ namespace Players
 
             if (DebugManager.DebugStraightToCombat)
             {
-                ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, "2.F.S");
+                ShipMovementScript.SendAssignManeuverCommand("2.F.S");
                 AssignManeuversRecursive();
             }
+        }
+
+        public override void SyncDiceRerollSelected()
+        {
+            GameMode.CurrentGameMode.ExecuteCommand(DiceRerollManager.GenerateConfirmRerollCommand());
         }
     }
 

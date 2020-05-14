@@ -10,7 +10,7 @@ namespace SubPhases
 {
     public class SelectTargetForAttackSubPhase : SelectShipSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.DeclareAttack, GameCommandTypes.PressSkip, GameCommandTypes.CancelShipSelection }; } }
 
         public override void Prepare()
         {
@@ -70,7 +70,7 @@ namespace SubPhases
         private void ExtraAttackTargetSelected()
         {
             GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
-            if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
+            if (command != null) GameMode.CurrentGameMode.ExecuteServerCommand(command);
         }
 
         public override void RevertSubPhase() { }

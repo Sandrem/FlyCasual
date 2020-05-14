@@ -42,6 +42,14 @@ public static class Messages{
         }
     }
 
+    public static void ShowInfoToOpponent(string text, bool allowCopies = false)
+    {
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() != typeof(Players.HumanPlayer))
+        {
+            ShowMessage(text, MessageType.Info, allowCopies);
+        }
+    }
+
     private static void ShowMessage(string text, MessageType type, bool allowCopies = false)
     {
         if (!allowCopies)

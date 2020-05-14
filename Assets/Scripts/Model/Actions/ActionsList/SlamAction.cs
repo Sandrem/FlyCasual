@@ -41,7 +41,7 @@ namespace ActionsList
             {
                 Phases.CurrentSubPhase.Pause();
 
-                Selection.ThisShip.Owner.SelectManeuver(GameMode.CurrentGameMode.AssignManeuver, ExecuteSelectedManeuver, IsSameSpeed);
+                Selection.ThisShip.Owner.SelectManeuver(ShipMovementScript.SendAssignManeuverCommand, ExecuteSelectedManeuver, IsSameSpeed);
             }
         }
 

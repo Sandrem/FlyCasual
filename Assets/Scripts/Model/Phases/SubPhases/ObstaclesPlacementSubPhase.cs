@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using System;
 using GameModes;
 using GameCommands;
+using System.Globalization;
 
 namespace SubPhases
 {
@@ -80,7 +81,11 @@ namespace SubPhases
             HideSubphaseDescription();
 
             RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
-            if (!IsRandomSetupSelected[RequiredPlayer]) ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+            if (!IsRandomSetupSelected[RequiredPlayer])
+            {
+                Board.HighlightOfStartingZoneOn();
+                ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
+            }
 
             IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).PlaceObstacle();
@@ -391,6 +396,7 @@ namespace SubPhases
 
         private void SelectObstacle(GenericObstacle obstacle)
         {
+            Board.HighlightOfStartingZoneOff();
             Board.ToggleOffTheBoardHolder(true);
             ChosenObstacle = obstacle;
             UI.HideSkipButton();
@@ -437,9 +443,17 @@ namespace SubPhases
         private GameCommand GeneratePlaceObstacleCommand(string obstacleName, Vector3 position, Vector3 angles)
         {
             JSONObject parameters = new JSONObject();
+
             parameters.AddField("name", obstacleName);
-            parameters.AddField("positionX", position.x.ToString()); parameters.AddField("positionY", "0"); parameters.AddField("positionZ", position.z.ToString());
-            parameters.AddField("rotationX", angles.x.ToString()); parameters.AddField("rotationY", angles.y.ToString()); parameters.AddField("rotationZ", angles.z.ToString());
+            
+            parameters.AddField("positionX", position.x.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("positionY", "0");
+            parameters.AddField("positionZ", position.z.ToString(CultureInfo.InvariantCulture));
+
+            parameters.AddField("rotationX", angles.x.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("rotationY", angles.y.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("rotationZ", angles.z.ToString(CultureInfo.InvariantCulture));
+
             return GameController.GenerateGameCommand(
                 GameCommandTypes.ObstaclePlacement,
                 typeof(ObstaclesPlacementSubPhase),

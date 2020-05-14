@@ -126,7 +126,7 @@ namespace Players
                     Messages.ShowInfo("Attacking with " + Combat.ChosenWeapon.Name);
 
                     GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true, Combat.ChosenWeapon);
-                    if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
+                    if (command != null) GameMode.CurrentGameMode.ExecuteServerCommand(command);
                 }
                 else
                 {
@@ -222,35 +222,27 @@ namespace Players
         {
             base.UseDiceModifications(type);
 
-            Action FinalEffect = null;
             switch (type)
             {
                 case DiceModificationTimingType.Normal:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = Phases.CurrentSubPhase.CallBack;
                     break;
                 case DiceModificationTimingType.AfterRolled:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Attacker : Combat.Defender;
-                    FinalEffect = Combat.SwitchToRegularDiceModifications;
                     break;
                 case DiceModificationTimingType.Opposite:
                     Selection.ActiveShip = (Combat.AttackStep == CombatStep.Attack) ? Combat.Defender : Combat.Attacker;
-                    FinalEffect = Combat.SwitchToAfterRolledDiceModifications;
                     break;
                 case DiceModificationTimingType.CompareResults:
                     Selection.ActiveShip = Combat.Attacker;
-                    FinalEffect = Combat.CompareResultsAndDealDamage;
                     break;
                 default:
                     break;
             }
 
-            Selection.ActiveShip.GenerateDiceModifications(type);
-            List<GenericAction> availableDiceModifications = Selection.ActiveShip.GetDiceModificationsGenerated();
-
             Dictionary<GenericAction, int> actionsPriority = new Dictionary<GenericAction, int>();
 
-            foreach (var diceModification in availableDiceModifications)
+            foreach (var diceModification in Combat.DiceModifications.AvailableDiceModifications.Values)
             {
                 int priority = diceModification.GetDiceModificationPriority();
                 Selection.ActiveShip.CallOnAiGetDiceModificationPriority(diceModification, ref priority);
@@ -267,10 +259,9 @@ namespace Players
                 if (prioritizedActionEffect.Value > 0)
                 {
                     isActionEffectTaken = true;
-                    Messages.ShowInfo("The AI uses \"" + prioritizedActionEffect.Key.Name + "\"");
 
                     GameManagerScript.Wait(1, delegate {
-                        GameCommand command = Combat.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
+                        GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
                         GameMode.CurrentGameMode.ExecuteCommand(command);
                     });
                 }
@@ -278,17 +269,10 @@ namespace Players
 
             if (!isActionEffectTaken)
             {
-                if (type == DiceModificationTimingType.Normal)
-                {
-                    GameManagerScript.Wait(1, delegate {
-                        GameCommand command = Combat.GenerateDiceModificationCommand("OK");
-                        GameMode.CurrentGameMode.ExecuteCommand(command);
-                    });
-                }
-                else
-                {
-                    FinalEffect.Invoke();
-                }
+                GameManagerScript.Wait(1, delegate {
+                    GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand("OK");
+                    GameMode.CurrentGameMode.ExecuteCommand(command);
+                });
             }
         }
 
@@ -441,5 +425,10 @@ namespace Players
         }
 
         protected virtual void PerformActionFromList(List<GenericAction> actionsList) { }
+
+        public override void SyncDiceRerollSelected()
+        {
+            GameMode.CurrentGameMode.ExecuteCommand(DiceRerollManager.GenerateConfirmRerollCommand());
+        }
     }
 }

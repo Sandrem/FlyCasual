@@ -18,7 +18,7 @@ namespace GameCommands
         public override void Execute()
         {
             Selection.ChangeActiveShip("ShipId:" + int.Parse(GetString("id")));
-            DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, PlanningSubPhase.CheckForFinish, isRegularPlanning: true);
+            DirectionsMenu.Show(ShipMovementScript.SendAssignManeuverCommand, PlanningSubPhase.CheckForFinish, isRegularPlanning: true);
         }
     }
 

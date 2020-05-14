@@ -31,7 +31,7 @@ namespace Players
             {
                 if (ship.State.IsIonized) continue;
 
-                ShipMovementScript.SendAssignManeuverCommand(ship.ShipId, "2.F.S");
+                ShipMovementScript.SendAssignManeuverCommand("2.F.S");
             }
             GameMode.CurrentGameMode.ExecuteCommand(UI.GenerateNextButtonCommand());
         }

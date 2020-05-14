@@ -46,7 +46,7 @@ public static class SwarmManager
     {
         IsActive = false;
 
-        GameMode.CurrentGameMode.SetSwarmManagerManeuver(maneuverCode);
+        // GameMode.CurrentGameMode.SetSwarmManagerManeuver(maneuverCode);
 
         DirectionsMenu.FinishManeuverSelections();
     }

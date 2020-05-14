@@ -294,11 +294,11 @@ namespace RulesList
 
             if (Editions.Edition.Current is Editions.SecondEdition)
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, delegate { RegisterPerformManeuver(isEmergencyDeploy); }, FilterOnlyForward);
+                DirectionsMenu.Show(ShipMovementScript.SendAssignManeuverCommand, delegate { RegisterPerformManeuver(isEmergencyDeploy); }, FilterOnlyForward);
             }
             else
             {
-                DirectionsMenu.Show(GameMode.CurrentGameMode.AssignManeuver, delegate { RegisterPerformManeuver(isEmergencyDeploy); });
+                DirectionsMenu.Show(ShipMovementScript.SendAssignManeuverCommand, delegate { RegisterPerformManeuver(isEmergencyDeploy); });
             }
         }
 

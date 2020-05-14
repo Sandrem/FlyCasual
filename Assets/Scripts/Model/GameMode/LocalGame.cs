@@ -25,117 +25,24 @@ namespace GameModes
             GameController.SendCommand(command);
         }
 
-        public override void RevertSubPhase()
-        {
-            (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
-        }
-
-        public override void AssignManeuver(string maneuverCode)
-        {
-            ShipMovementScript.SendAssignManeuverCommand(Selection.ThisShip.ShipId, maneuverCode);
-        }
-
-        public override void GiveInitiativeToRandomPlayer()
+        public override void GiveInitiativeToPlayer(int playerNo)
         {
             if (ReplaysManager.Mode == ReplaysMode.Write)
             {
-                int randomPlayer = UnityEngine.Random.Range(1, 3);
-
-                JSONObject parameters = new JSONObject();
-                parameters.AddField("player", Tools.IntToPlayer(randomPlayer).ToString());
-
-                GameController.SendCommand(
-                    GameCommandTypes.SyncPlayerWithInitiative,
-                    null,
-                    parameters.ToString()
+                GameController.SendCommand
+                (
+                    RulesList.InitiativeRule.GenerateInitiativeDecisionOwnerCommand(playerNo)
                 );
-
-                Console.Write("Command is executed: " + GameCommandTypes.SyncPlayerWithInitiative, LogTypes.GameCommands, true, "aqua");
-                GameController.GetCommand().Execute();
             }
             else if (ReplaysManager.Mode == ReplaysMode.Read)
             {
-                GameCommand command = GameController.GetCommand();
-
-                if (command.Type == GameCommandTypes.SyncPlayerWithInitiative)
-                {
-                    Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
-                    command.Execute();
-                }
+                GameController.CheckExistingCommands();
             }
         }
 
         public override void StartBattle()
         {
             Global.BattleIsReady();
-        }
-
-        // BARREL ROLL
-
-        public override void TryConfirmBarrelRollPosition(string templateName, Vector3 shipBasePosition, Vector3 movementTemplatePosition)
-        {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).ConfirmBarrelRollPosition();
-        }
-
-        public override void StartBarrelRollExecution()
-        {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).StartRepositionExecution();
-        }
-
-        public override void FinishBarrelRoll()
-        {
-            (Phases.CurrentSubPhase as BarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
-        }
-
-        public override void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
-        {
-            (Phases.CurrentSubPhase as BarrelRollPlanningSubPhase).CancelBarrelRoll(barrelRollProblems);
-        }
-
-        // DECLOAK
-
-        public override void StartDecloakExecution(Ship.GenericShip ship)
-        {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).StartRepositionExecution();
-        }
-
-        public override void FinishDecloak()
-        {
-            (Phases.CurrentSubPhase as DecloakBarrelRollExecutionSubPhase).FinishBarrelRollAnimation();
-        }
-
-        public override void CancelDecloak(List<ActionFailReason> decloakProblems)
-        {
-            (Phases.CurrentSubPhase as DecloakPlanningSubPhase).CancelBarrelRoll(decloakProblems);
-        }
-
-        // BOOST
-
-        public override void TryConfirmBoostPosition(string selectedBoostHelper)
-        {
-            (Phases.CurrentSubPhase as BoostPlanningSubPhase).TryConfirmBoostPosition();
-        }
-
-        public override void StartBoostExecution(ShipPositionInfo finalPositionInfo)
-        {
-            (Phases.CurrentSubPhase as BoostPlanningSubPhase).StartBoostExecution(finalPositionInfo);
-        }
-
-        public override void FinishBoost()
-        {
-            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
-        }
-
-        public override void CancelBoost(List<ActionFailReason> boostProblems)
-        {
-            (Phases.CurrentSubPhase as BoostPlanningSubPhase).CancelBoost(boostProblems);
-        }
-
-        // Swarm Manager
-
-        public override void SetSwarmManagerManeuver(string maneuverCode)
-        {
-            SwarmManager.SetManeuver(maneuverCode);
         }
 
         public override void GenerateDamageDeck(PlayerNo playerNo, int seed)
@@ -145,39 +52,24 @@ namespace GameModes
 
         private void SyncDamageDeckSeed(PlayerNo playerNo, int seed)
         {
+            // TODO: Move to player types
+
             if (ReplaysManager.Mode == ReplaysMode.Write)
             {
-                JSONObject parameters = new JSONObject();
-                parameters.AddField("player", playerNo.ToString());
-                parameters.AddField("seed", seed.ToString());
-
-                GameController.SendCommand(
-                    GameCommandTypes.DamageDecksSync,
-                    null,
-                    parameters.ToString()
+                GameController.SendCommand
+                (
+                    DamageDecks.GenerateDeckShuffleCommand(playerNo, seed)
                 );
-
-                Console.Write("Command is executed: " + GameCommandTypes.DamageDecksSync, LogTypes.GameCommands, true, "aqua");
-                GameController.GetCommand().Execute();
             }
             else if (ReplaysManager.Mode == ReplaysMode.Read)
             {
-                GameCommand command = GameController.GetCommand();
-
-                if (command.Type == GameCommandTypes.DamageDecksSync)
-                {
-                    Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
-                    command.Execute();
-                }
+                GameController.CheckExistingCommands();
             }
         }
 
         public override void ReturnToMainMenu()
         {
-            Phases.EndGame();
-            LoadingScreen.Show();
-            SceneManager.LoadScene("MainMenu");
-            LoadingScreen.NextSceneIsReady(delegate { });
+            Global.ReturnToMainMenu();
         }
 
         public override void QuitToDesktop()

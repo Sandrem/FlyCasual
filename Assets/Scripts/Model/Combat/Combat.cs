@@ -10,6 +10,12 @@ using GameCommands;
 using Upgrade;
 using Arcs;
 
+public enum PlayerRole
+{
+    Attacker,
+    Defender
+}
+
 public enum CombatStep
 {
     None,
@@ -35,7 +41,7 @@ public enum DamageTypes
     Console
 }
 
-public static partial class Combat
+public static class Combat
 {
 
     public static DiceRoll DiceRollAttack;
@@ -64,7 +70,9 @@ public static partial class Combat
 
     public static GenericArc ArcForShot;
 
-    public static bool SkipDiceRolls;
+    public static bool SkipAttackDiceRollsAndHit;
+
+    public static DiceModificationsManager DiceModifications;
 
     public static void Initialize()
     {
@@ -263,44 +271,19 @@ public static partial class Combat
 
         Attacker.ShowAttackAnimationAndSound();
 
-        Triggers.ResolveTriggers(TriggerTypes.OnShotStart, AttackDiceRoll);
-    }
-
-    private static void AttackDiceRoll()
-    {
-        if (!SkipDiceRolls)
-        {
-            Selection.ActiveShip = Selection.ThisShip;
-            Phases.StartTemporarySubPhaseOld("Attack dice roll", typeof(AttackDiceRollCombatSubPhase));
-        }
-        else
-        {
-            Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase));
-            DiceRollAttack = new DiceRoll(DiceKind.Attack, 0, DiceRollCheckType.Combat, Attacker.Owner.PlayerNo);
-            AttackHit();
-        }
-    }
-
-    public static void ConfirmAttackDiceResults()
-    {
-        Attacker.ClearAlreadyUsedDiceModifications();
-        Defender.ClearAlreadyUsedDiceModifications();
-        Attacker.CallAfterAttackDiceModification();
-        HideDiceResultMenu();
-        Phases.FinishSubPhase(typeof(AttackDiceRollCombatSubPhase));
-
-        PerformDefence();
+        DiceModifications = new DiceModificationsManager();
+        Triggers.ResolveTriggers(TriggerTypes.OnShotStart, DiceModifications.StartAttack);
     }
 
     // DEFENCE
 
-    public static void PerformDefence()
+    public static void PerformDefence(Action callback)
     {
         AttackStep = CombatStep.Defence;
 
         Selection.ActiveShip = Defender;
 
-        CallDefenceStartEvents(DefenceDiceRoll);
+        CallDefenceStartEvents(callback);
     }
 
     public static void CallDefenceStartEvents(Action callback)
@@ -311,43 +294,9 @@ public static partial class Combat
         Triggers.ResolveTriggers(TriggerTypes.OnDefenseStart, callback);
     }
 
-    private static void DefenceDiceRoll()
-    {
-        Selection.ActiveShip = Selection.AnotherShip;
-        Phases.StartTemporarySubPhaseOld("Defence dice roll", typeof(DefenceDiceRollCombatSubPhase));
-    }
-
-    // COMPARE RESULTS
-
-    public static void ConfirmDefenceDiceResults()
-    {
-        HideDiceModificationButtons();
-        ToggleConfirmDiceResultsButton(false);
-
-        Attacker.ClearAlreadyUsedDiceModifications();
-        Defender.ClearAlreadyUsedDiceModifications();
-
-        AttackStep = CombatStep.CompareResults;
-
-        Combat.Attacker.Owner.UseDiceModifications(DiceModificationTimingType.CompareResults);
-    }
-
-    public static void CompareResultsAndDealDamage()
-    {
-        Attacker.ClearAlreadyUsedDiceModifications();
-        Defender.ClearAlreadyUsedDiceModifications();
-        DiceCompareHelper.currentDiceCompareHelper.Close();
-        HideDiceResultMenu();
-        Phases.FinishSubPhase(typeof(DefenceDiceRollCombatSubPhase));
-
-        MovementTemplates.ReturnRangeRuler();
-
-        Defender.CallAfterModifyDefenseDiceStep(delegate { Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase)); });
-    }
-
     public static void CancelHitsByDefenceDice()
     {
-        if (SkipDiceRolls) return;
+        if (SkipAttackDiceRollsAndHit) return;
 
         int crits = DiceRollAttack.CriticalSuccesses;
         DiceRollAttack.CancelHitsByDefence(DiceRollDefence.Successes);
@@ -396,7 +345,7 @@ public static partial class Combat
         }
     }
 
-    private static void AttackHit()
+    public static void AttackHit()
     {
         hitsCounter++;
 
@@ -420,6 +369,10 @@ public static partial class Combat
     private static void AfterShotIsPerformed()
     {
         Phases.FinishSubPhase(typeof(CompareResultsSubPhase));
+    }
+
+    public static void AfterAllDiceModificationsAreDone()
+    {
         CheckTwinAttack();
     }
 
@@ -525,7 +478,7 @@ public static partial class Combat
         ExtraAttackFilter = null;
         IsAttackAlreadyCalled = false;
         PayExtraAttackCost = null;
-        SkipDiceRolls = false;
+        SkipAttackDiceRollsAndHit = false;
     }
 
     public static void FinishCombatSubPhase()
@@ -535,7 +488,8 @@ public static partial class Combat
 
     // Extra Attacks
 
-    public static void StartSelectAttackTarget(
+    public static void StartSelectAttackTarget
+    (
         GenericShip ship,
         Action callback,
         Func<GenericShip, IShipWeapon, bool, bool> extraAttackFilter = null,
@@ -570,7 +524,6 @@ public static partial class Combat
 
         newAttackSubphase.Start();
     }
-
 }
 
 namespace SubPhases
@@ -625,109 +578,6 @@ namespace SubPhases
             CallBack();
         }
 
-    }
-
-    public class AttackDiceRollCombatSubPhase : DiceRollCombatSubPhase
-    {
-        public override void Prepare()
-        {
-            CanBePaused = true;
-
-            diceType = DiceKind.Attack;
-            diceCount = Combat.Attacker.GetNumberOfAttackDice(Combat.Defender);
-
-            checkResults = CheckResults;
-            CallBack = Combat.ConfirmAttackDiceResults;
-        }
-
-        protected override void CheckResults(DiceRoll diceRoll)
-        {
-            Selection.ActiveShip = Selection.ThisShip;
-
-            Combat.CurrentDiceRoll = diceRoll;
-            Combat.DiceRollAttack = diceRoll;
-
-            Combat.Attacker.CallCheckCancelCritsFirst();
-            Combat.Defender.CallCheckCancelCritsFirst();
-
-            base.CheckResults(diceRoll);
-        }
-
-        public override void Pause()
-        {
-            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
-        }
-
-        public override void Resume()
-        {
-            GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
-        }
-    }
-
-    public class DefenceDiceRollCombatSubPhase : DiceRollCombatSubPhase
-    {
-        public override void Prepare()
-        {
-            diceType = DiceKind.Defence;
-            diceCount = Combat.Defender.GetNumberOfDefenceDice(Combat.Attacker);
-
-            checkResults = CheckResults;
-            CallBack = Combat.ConfirmDefenceDiceResults;
-
-            new DiceCompareHelper(Combat.DiceRollAttack);
-        }
-
-        protected override void CheckResults(DiceRoll diceRoll)
-        {
-            Selection.ActiveShip = Selection.AnotherShip;
-
-            Combat.CurrentDiceRoll = diceRoll;
-            Combat.DiceRollDefence = diceRoll;
-
-            base.CheckResults(diceRoll);
-        }
-
-    }
-
-    public class CompareResultsSubPhase : GenericSubPhase
-    {
-        public override void Start()
-        {
-            Name = "Compare results";
-            UpdateHelpInfo();
-
-            Initialize();
-        }
-
-        public override void Initialize()
-        {
-            DealDamage();
-        }
-
-        private void DealDamage()
-        {
-            if (DebugManager.DebugPhases) Debug.Log("Deal Damage!");
-            Combat.CancelHitsByDefenceDice();
-        }
-
-        public override void Next()
-        {
-            Phases.CurrentSubPhase = PreviousSubPhase;
-            UpdateHelpInfo();
-            Phases.CurrentSubPhase.Resume();
-        }
-
-        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
-        {
-            bool result = false;
-            return result;
-        }
-
-        public override bool AnotherShipCanBeSelected(GenericShip anotherShip, int mouseKeyIsPressed)
-        {
-            bool result = false;
-            return result;
-        }
     }
 
     public class AttackExecutionSubphase : GenericSubPhase

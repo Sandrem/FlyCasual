@@ -20,8 +20,7 @@ public partial class MainMenu : MonoBehaviour {
     public static MainMenu CurrentMainMenu;
 
     private Faction CurrentAvatarsFaction = Faction.Rebel;
-
-    // Use this for initialization
+    
     void Start ()
     {
         MigrationsManager.PerformMigrations();
@@ -129,27 +128,46 @@ public partial class MainMenu : MonoBehaviour {
         string password = GameObject.Find("UI/Panels/CreateMatchPanel/Panel/Password").GetComponentInChildren<InputField>().text;
 
         GameController.Initialize();
-        ReplaysManager.Initialize(ReplaysMode.Write);
+        ReplaysManager.TryInitialize(ReplaysMode.Write);
         Console.Write("Network game is prepared", LogTypes.GameCommands, true, "aqua");
 
         Network.CreateMatch(roomName, password);
+
+        ChangePanel("WaitingForOpponentsPanel");
+    }
+
+    public void JoinRoomByIp(Text ipText)
+    {
+        Network.ServerUri = "tcp4://" + ipText.text;
+        Network.JoinRoom(null);
     }
 
     public void BrowseMatches()
     {
+        StartCoroutine(BrowseMatchesAsync());
+    }
+
+    private IEnumerator BrowseMatchesAsync()
+    {
+        BrowseNetworkRoomsUI.Instance.ShowLoading();
         Network.BrowseMatches();
+
+        yield return new WaitForSeconds(3);
+
+        BrowseNetworkRoomsUI.Instance.ShowRooms();
     }
 
     public void JoinMatch(GameObject panel)
     {
         //Messages.ShowInfo("Joining room...");
         string password = panel.transform.Find("Password").GetComponentInChildren<InputField>().text;
-        Network.JoinCurrentRoomByParameters(password);
+        Network.JoinRoom(password);
     }
 
     public void CancelWaitingForOpponent()
     {
         Network.CancelWaitingForOpponent();
+        ChangePanel("MultiplayerDecisionPanel");
     }
 
     public void StartSquadBuilerMode(string modeName)
@@ -272,28 +290,28 @@ public partial class MainMenu : MonoBehaviour {
         Options.ChangeParameterValue("Title", inputText.text);
     }
 
-    public static void ShowAiInformation()
+    public static void ShowLoadingScreenNetwork()
     {
         if ((SquadBuilder.GetSquadList(PlayerNo.Player2).PlayerType == typeof(HotacAiPlayer)) && (!Options.DontShowAiInfo))
         {
-            GameObject.Find("GlobalUI/OpponentSquad").transform.Find("AiInformation").gameObject.SetActive(true);
-            GameObject.Find("GlobalUI/OpponentSquad/AiInformation").transform.Find("ToggleBlock").gameObject.SetActive(false);
+            GameObject.Find("GlobalUI/LoadingScreen").transform.Find("AiInformation").gameObject.SetActive(true);
+            GameObject.Find("GlobalUI/LoadingScreen/AiInformation").transform.Find("ToggleBlock").gameObject.SetActive(false);
         }
     }
 
-    public static void ShowAiInformationContinue()
+    public static void ShowLoadingScreenNetworkContinue()
     {
-        GameObject.Find("GlobalUI/OpponentSquad/LoadingInfoPanel").gameObject.SetActive(false);
+        GameObject.Find("GlobalUI/LoadingScreen/LoadingInfoPanel").gameObject.SetActive(false);
 
-        GameObject.Find("GlobalUI/OpponentSquad/AiInformation").transform.Find("ToggleBlock").gameObject.SetActive(true);
-        GameObject.Find("GlobalUI/OpponentSquad").transform.Find("StartPanel").gameObject.SetActive(true);
+        GameObject.Find("GlobalUI/LoadingScreen/AiInformation").transform.Find("ToggleBlock").gameObject.SetActive(true);
+        GameObject.Find("GlobalUI/LoadingScreen").transform.Find("StartPanel").gameObject.SetActive(true);
 
-        Button startButton = GameObject.Find("GlobalUI/OpponentSquad/StartPanel/StartButton").GetComponent<Button>();
+        Button startButton = GameObject.Find("GlobalUI/LoadingScreen/StartPanel/StartButton").GetComponent<Button>();
         startButton.onClick.RemoveAllListeners();
         startButton.onClick.AddListener(delegate
         {
             Options.DontShowAiInfo = true;
-            Options.ChangeParameterValue("DontShowAiInfo", GameObject.Find("GlobalUI/OpponentSquad/AiInformation/ToggleBlock/DontShowAgain").GetComponent<Toggle>().isOn);
+            Options.ChangeParameterValue("DontShowAiInfo", GameObject.Find("GlobalUI/LoadingScreen/AiInformation/ToggleBlock/DontShowAgain").GetComponent<Toggle>().isOn);
             Global.StartBattle();
         });
     }

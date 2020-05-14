@@ -20,7 +20,7 @@ public static class ReplaysManager
     public static ReplaysMode Mode { get; private set; }
     private static string FilePath;
 
-    public static void Initialize(ReplaysMode mode)
+    public static bool TryInitialize(ReplaysMode mode)
     {
         Mode = mode;
 
@@ -33,19 +33,30 @@ public static class ReplaysManager
         if (Mode == ReplaysMode.Write)
         {
             File.Delete(FilePath);
+            return true;
         }
-        else if (Mode == ReplaysMode.Read)
+        else // if (Mode == ReplaysMode.Read)
         {
-            string[] commands = File.ReadAllLines(FilePath);
-            
-            foreach (var line in commands)
+            if (File.Exists(FilePath))
             {
-                JSONObject json = new JSONObject(line);
-                GameController.SendCommand(
-                    (GameCommandTypes) Enum.Parse(typeof(GameCommandTypes), json["command"].str),
-                    System.Type.GetType(json["subphase"].str),
-                    json["parameters"].ToString()
-                );
+                string[] commands = File.ReadAllLines(FilePath);
+
+                foreach (var line in commands)
+                {
+                    JSONObject json = new JSONObject(line);
+                    GameController.SendCommand(
+                        (GameCommandTypes)Enum.Parse(typeof(GameCommandTypes), json["command"].str),
+                        System.Type.GetType(json["subphase"].str),
+                        json["parameters"].ToString()
+                    );
+                }
+
+                return true;
+            }
+            else
+            {
+                Messages.ShowError("Replay file is not present");
+                return false;
             }
         }
     }
@@ -60,7 +71,7 @@ public static class ReplaysManager
 
     public static bool ShouldBeRecorded(GameCommand command)
     {
-        if (DebugManager.NoReplayCreation) return false;
+        if (DebugManager.DebugNetworkSingleDevice) return false;
 
         bool result = true;
 

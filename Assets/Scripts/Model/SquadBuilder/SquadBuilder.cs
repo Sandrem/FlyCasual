@@ -36,14 +36,18 @@ namespace SquadBuilderNS
 
     public class SquadList
     {
-        private List<SquadBuilderShip> Ships;
-        public Faction SquadFaction;
+        public string Name;
+
         public Type PlayerType;
         public PlayerNo PlayerNo;
-        public string Name;
-        public JSONObject SavedConfiguration;
+
+        public Faction SquadFaction;
+        private List<SquadBuilderShip> Ships;
         public int Points;
+        
         public List<GenericObstacle> ChosenObstacles;
+
+        public JSONObject SavedConfiguration;
 
         public SquadList(PlayerNo playerNo)
         {
@@ -527,11 +531,12 @@ namespace SquadBuilderNS
         public static void StartNetworkGame()
         {
             GameController.Initialize();
-            ReplaysManager.Initialize(ReplaysMode.Write);
+            ReplaysManager.TryInitialize(ReplaysMode.Write);
 
             Console.Write("Network game is started", LogTypes.GameCommands, true, "aqua");
 
-            Network.StartNetworkGame();
+            GameMode.CurrentGameMode = new NetworkGame();
+            SwitchToBattleScene();
         }
 
         public static void StartLocalGame()
@@ -548,26 +553,31 @@ namespace SquadBuilderNS
 
         public static void SaveAutosaveSquadConfigurations()
         {
-            for (int i = 0; i < 2; i++)
+            if (!DebugManager.DebugNetworkSingleDevice)
             {
-                SaveSquadron(GetSquadList(Tools.IntToPlayer(i+1)), "Autosave (Player " + (i+1) + ")", delegate {
-                    foreach (var squad in SquadLists)
-                    {
-                        squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+                for (int i = 0; i < 2; i++)
+                {
+                    SaveSquadronToFile(GetSquadList(Tools.IntToPlayer(i + 1)), "Autosave (Player " + (i + 1) + ")", delegate { });
+                }
+            }
+        }
 
-                        JSONObject playerInfoJson = new JSONObject();
-                        playerInfoJson.AddField("NickName", Options.NickName);
-                        playerInfoJson.AddField("Title", Options.Title);
-                        playerInfoJson.AddField("Avatar", Options.Avatar);
-                        squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
-                    }
-                });
+        public static void GenerateSavedConfigurationsLocal()
+        {
+            foreach (var squad in SquadLists)
+            {
+                squad.SavedConfiguration = GetSquadInJson(squad.PlayerNo);
+
+                JSONObject playerInfoJson = new JSONObject();
+                playerInfoJson.AddField("NickName", Options.NickName);
+                playerInfoJson.AddField("Title", Options.Title);
+                playerInfoJson.AddField("Avatar", Options.Avatar);
+                squad.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
             }
         }
 
         public static void LoadBattleScene()
         {
-            MainMenu.ShowAiInformation();
             SceneManager.LoadScene("Battle");
         }
 
@@ -990,13 +1000,15 @@ namespace SquadBuilderNS
 
         public static JSONObject GetSquadInJson(PlayerNo playerNo)
         {
+            SquadList squadList = GetSquadList(playerNo);
+
             JSONObject squadJson = new JSONObject();
-            squadJson.AddField("name", GetSquadList(playerNo).Name);
-            squadJson.AddField("faction", Edition.Current.FactionToXws(GetSquadList(playerNo).SquadFaction));
+            squadJson.AddField("name", squadList.Name);
+            squadJson.AddField("faction", Edition.Current.FactionToXws(squadList.SquadFaction));
             squadJson.AddField("points", GetSquadCost(playerNo));
             squadJson.AddField("version", "0.3.0");
 
-            List<SquadBuilderShip> playerShipConfigs = GetSquadList(playerNo).GetShips().ToList();
+            List<SquadBuilderShip> playerShipConfigs = squadList.GetShips().ToList();
             JSONObject[] squadPilotsArrayJson = new JSONObject[playerShipConfigs.Count];
             for (int i = 0; i < squadPilotsArrayJson.Length; i++)
             {
@@ -1006,9 +1018,9 @@ namespace SquadBuilderNS
             squadJson.AddField("pilots", squadPilotsJson);
 
             JSONObject squadObstalesArrayJson = new JSONObject(JSONObject.Type.ARRAY);
-            for (int i = 0; i < GetSquadList(playerNo).ChosenObstacles.Count; i++)
+            for (int i = 0; i < squadList.ChosenObstacles.Count; i++)
             {
-                squadObstalesArrayJson.Add(GetSquadList(playerNo).ChosenObstacles[i].ShortName);
+                squadObstalesArrayJson.Add(squadList.ChosenObstacles[i].ShortName);
             }
 
             squadJson.AddField("obstacles", squadObstalesArrayJson);
@@ -1391,6 +1403,36 @@ namespace SquadBuilderNS
         {
             CurrentSquadList.SetDefaultObstacles();
             ShowChosenObstaclesPanel();
+        }
+
+        public static void PrepareOnlineMatchLists(int playerInt, string playerName, string title, string avatar, string squadString)
+        {
+            PlayerNo playerNo = Tools.IntToPlayer(playerInt);
+            SquadList squadList = GetSquadList(playerNo);
+
+            if (Network.IsServer)
+            {
+                squadList.PlayerType = (playerNo == PlayerNo.Player1) ? typeof(HumanPlayer) : typeof(NetworkOpponentPlayer);
+            }
+            else
+            {
+                squadList.PlayerType = (playerNo == PlayerNo.Player1) ? typeof(NetworkOpponentPlayer) : typeof(HumanPlayer);
+            }
+
+            CreateSquadFromImportedJson(
+                "Squad" + playerNo,
+                squadString,
+                playerNo,
+                delegate { }
+            );
+
+            squadList.SavedConfiguration = GetSquadInJson(playerNo);
+
+            JSONObject playerInfoJson = new JSONObject();
+            playerInfoJson.AddField("NickName", playerName);
+            playerInfoJson.AddField("Title", title);
+            playerInfoJson.AddField("Avatar", avatar);
+            squadList.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
         }
     }
 }

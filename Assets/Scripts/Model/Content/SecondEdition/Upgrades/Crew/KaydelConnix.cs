@@ -72,7 +72,7 @@ namespace Abilities.SecondEdition
             HostShip.Owner.ChangeManeuver(
                 (maneuverCode) => { 
                     Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Maneuver was changed");
-                    GameMode.CurrentGameMode.AssignManeuver(maneuverCode);
+                    ShipMovementScript.SendAssignManeuverCommand(maneuverCode);
                     HostShip.OnMovementFinish += RestoreManuvers;
                 },
                 Triggers.FinishTrigger,

@@ -77,7 +77,7 @@ public partial class MainMenu : MonoBehaviour {
                 CreditsUI.InitializePanel();
                 break;
             case "BrowseRoomsPanel":
-                Network.BrowseMatches();
+                BrowseMatches();
                 break;
             case "SelectFactionPanel":
                 SquadBuilder.SetCurrentPlayerFaction(Faction.None);

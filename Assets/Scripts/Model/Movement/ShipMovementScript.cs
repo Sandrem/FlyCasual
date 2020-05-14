@@ -60,15 +60,19 @@ public class ShipMovementScript : MonoBehaviour {
 
     //Assignment and launch of execution of meneuver
 
-    public static void SendAssignManeuverCommand(int shipId, string maneuverCode)
+    public static void SendAssignManeuverCommand(string maneuverCode)
     {
         JSONObject parameters = new JSONObject();
-        parameters.AddField("id", shipId.ToString());
+        parameters.AddField("id", Selection.ThisShip.ShipId.ToString());
         parameters.AddField("maneuver", maneuverCode);
-        GameController.SendCommand(
-            GameCommandTypes.AssignManeuver,
-            Phases.CurrentSubPhase.GetType(),
-            parameters.ToString()
+
+        GameMode.CurrentGameMode.ExecuteCommand(
+            GameController.GenerateGameCommand
+            (
+                GameCommandTypes.AssignManeuver,
+                Phases.CurrentSubPhase.GetType(),
+                parameters.ToString()
+            )
         );
     }
 

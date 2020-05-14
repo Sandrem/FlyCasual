@@ -218,17 +218,12 @@ namespace SubPhases
             if (SelectedBoostHelper != null)
             {
                 (HostAction as BoostAction).SelectedBoostTemplate = SelectedBoostHelper;
-                TryPerformBoost();
+                TryConfirmBoostPosition();
             }
             else
             {
                 CancelBoost(new List<ActionFailReason>() { ActionFailReason.NoTemplateAvailable});
             }
-        }
-
-        public void TryPerformBoost()
-        {
-            GameMode.CurrentGameMode.TryConfirmBoostPosition(SelectedBoostHelper);
         }
 
         private void ShowBoosterHelper()
@@ -276,11 +271,6 @@ namespace SubPhases
             MonoBehaviour.Destroy(ShipStand);
 
             Roster.SetRaycastTargets(true);
-        }
-
-        public void TryConfirmBoostPositionNetwork(string selectedBoostHelper)
-        {
-            TryConfirmBoostPosition();
         }
 
         public void TryConfirmBoostPosition(System.Action<bool> canBoostCallback = null)
@@ -335,11 +325,11 @@ namespace SubPhases
                 obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
                     .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
                     .ForEach(TheShip.ObstaclesHit.Add);
-                GameMode.CurrentGameMode.StartBoostExecution(shipPositionInfo);
+                StartBoostExecution(shipPositionInfo);
             }
             else
             {
-                GameMode.CurrentGameMode.CancelBoost(boostProblems);
+                CancelBoost(boostProblems);
             }
         }
 
@@ -456,7 +446,7 @@ namespace SubPhases
 
         public virtual void FinishBoost()
         {
-            GameMode.CurrentGameMode.FinishBoost();
+            Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
         }
 
         public override void Next()

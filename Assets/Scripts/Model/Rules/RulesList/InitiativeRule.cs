@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using Players;
 using GameModes;
+using GameCommands;
 
 namespace RulesList
 {
@@ -34,23 +35,36 @@ namespace RulesList
 
         private static void DetermineOwnerOfDecisionTrigger(object sender, System.EventArgs e)
         {
+            GameInitializer.SetState(typeof(SyncPlayerWithInitiativeCommand));
+
             int costP1 = Roster.GetPlayer(PlayerNo.Player1).SquadCost;
             int costP2 = Roster.GetPlayer(PlayerNo.Player2).SquadCost;
 
             if (costP1 < costP2)
             {
-                Phases.PlayerWithInitiative = PlayerNo.Player1;
-                Triggers.FinishTrigger();
+                GameMode.CurrentGameMode.GiveInitiativeToPlayer(1);
             }
             else if (costP1 > costP2)
             {
-                Phases.PlayerWithInitiative = PlayerNo.Player2;
-                Triggers.FinishTrigger();
+                GameMode.CurrentGameMode.GiveInitiativeToPlayer(2);
             }
             else
             {
-                GameMode.CurrentGameMode.GiveInitiativeToRandomPlayer();
+                int randomPlayer = UnityEngine.Random.Range(1, 3);
+                GameMode.CurrentGameMode.GiveInitiativeToPlayer(randomPlayer);
             }
+        }
+
+        public static GameCommand GenerateInitiativeDecisionOwnerCommand(int randomPlayer)
+        {
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("player", Tools.IntToPlayer(randomPlayer).ToString());
+
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.SyncPlayerWithInitiative,
+                null,
+                parameters.ToString()
+            );
         }
 
         public static void DeterminePlayerWithInitiative()

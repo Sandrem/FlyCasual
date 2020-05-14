@@ -259,7 +259,7 @@ public class UI : MonoBehaviour {
     public static void ClickDeclareTarget()
     {
         GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, Selection.AnotherShip.ShipId);
-        if (command != null) GameMode.CurrentGameMode.ExecuteCommand(command);
+        if (command != null) GameMode.CurrentGameMode.ExecuteServerCommand(command);
     }
 
     public static void CheckFiringRangeAndShow()

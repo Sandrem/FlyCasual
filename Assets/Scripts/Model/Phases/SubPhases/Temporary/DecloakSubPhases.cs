@@ -87,16 +87,6 @@ namespace SubPhases
             }
         }
 
-        protected override void GameModeStartRepositionExecution()
-        {
-            GameMode.CurrentGameMode.StartDecloakExecution(Selection.ThisShip);
-        }
-
-        protected override void GameModeCancelReposition()
-        {
-            GameMode.CurrentGameMode.CancelDecloak(BarrelRollProblems);
-        }
-
         protected override void StartRepositionExecutionSubphase()
         {
             Pause();
@@ -306,7 +296,7 @@ namespace SubPhases
         {
             HidePlanningTemplates();
 
-            GameMode.CurrentGameMode.StartDecloakExecution(Selection.ThisShip);
+            StartRepositionExecution();
         }
 
         private void HidePlanningTemplates()
@@ -331,19 +321,14 @@ namespace SubPhases
             Selection.ThisShip.CallDecloak(CallBack);
         }
 
-        protected override void GameModeFinishReposition()
+        protected override void FinishReposition()
         {
-            GameMode.CurrentGameMode.FinishDecloak();
+            FinishBarrelRollAnimation();
         }
     }
 
     public class DecloakBoostExecutionSubPhase : BoostExecutionSubPhase
     {
-        public override void FinishBoost()
-        {
-            GameMode.CurrentGameMode.FinishBoost();
-        }
-
         protected override void FinishBoostAnimation()
         {
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;

@@ -8,6 +8,7 @@ using System.Linq;
 using Players;
 using UnityEngine.UI;
 using ActionsList;
+using GameCommands;
 
 namespace SubPhases
 {
@@ -20,7 +21,7 @@ namespace SubPhases
 
     public class SelectShipSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressSkip }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressSkip, GameCommandTypes.CancelShipSelection }; } }
 
         protected List<TargetTypes> targetsAllowed = new List<TargetTypes>();
         protected int minRange = 0;
@@ -239,10 +240,15 @@ namespace SubPhases
         {
             JSONObject parameters = new JSONObject();
             parameters.AddField("id", ship.ShipId.ToString());
-            GameController.SendCommand(
-                GameCommandTypes.SelectShip,
-                Phases.CurrentSubPhase.GetType(),
-                parameters.ToString()
+
+            GameMode.CurrentGameMode.ExecuteCommand
+            (
+                GameController.GenerateGameCommand
+                (
+                    GameCommandTypes.SelectShip,
+                    Phases.CurrentSubPhase.GetType(),
+                    parameters.ToString()
+                )
             );
         }
 
@@ -250,26 +256,25 @@ namespace SubPhases
         {
             GenericShip ship = Roster.GetShipById("ShipId:" + shipId);
 
-            (Phases.CurrentSubPhase as SelectShipSubPhase).IsReadyForCommands = false;
-
             (Phases.CurrentSubPhase as SelectShipSubPhase).TargetShip = ship;
 
             UI.HideNextButton();
             if (ship != Selection.ThisShip) MovementTemplates.ShowRange(Selection.ThisShip, ship);
 
-            if (!Network.IsNetworkGame)
-            {
-                (Phases.CurrentSubPhase as SelectShipSubPhase).InvokeFinish();
-            }
-            else
-            {
-                Network.SelectTargetShip(ship.ShipId);
-            }
+            (Phases.CurrentSubPhase as SelectShipSubPhase).InvokeFinish();
         }
 
         protected virtual void CancelShipSelection()
         {
-            GameMode.CurrentGameMode.RevertSubPhase();
+            GameMode.CurrentGameMode.ExecuteServerCommand(GenerateCancelShipSelectionCommand());
+        }
+
+        private GameCommand GenerateCancelShipSelectionCommand()
+        {
+            return GameController.GenerateGameCommand(
+                GameCommandTypes.CancelShipSelection,
+                Phases.CurrentSubPhase.GetType()
+            );
         }
 
         public void CallRevertSubPhase()

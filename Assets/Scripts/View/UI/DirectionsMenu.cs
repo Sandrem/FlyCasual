@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using SubPhases;
+using Ship;
 
 public static class DirectionsMenu
 {
@@ -362,6 +363,18 @@ namespace SubPhases
         {
             Phases.CurrentSubPhase = PreviousSubPhase;
             CallBack();
+        }
+
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
+        {
+            bool result = false;
+            return result;
+        }
+
+        public override bool AnotherShipCanBeSelected(GenericShip anotherShip, int mouseKeyIsPressed)
+        {
+            bool result = false;
+            return result;
         }
     }
 }

@@ -57,6 +57,11 @@ namespace ActionsList
             IsTurnsOneFocusIntoSuccess = false;
         }
 
+        public override bool IsDiceModificationAvailable()
+        {
+            return base.IsDiceModificationAvailable() && Combat.CurrentDiceRoll.HasResult(DieSide.Success);
+        }
+
         public override int GetDiceModificationPriority()
         {
             int result = 0;

@@ -484,7 +484,10 @@ namespace SubPhases
         public void ShowDecisionWindowUI()
         {
             WasDecisionButtonPressed = false;
-            GameObject.Find("UI/DecisionPanelHolder").transform.Find("DecisionsPanel").gameObject.SetActive(true);
+            foreach (Transform transform in GameObject.Find("UI/DecisionPanelHolder").transform)
+            {
+                transform.gameObject.SetActive(true);
+            }
         }
 
         public void ShowDecisionDescription(string title, string description, IImageHolder imageSource = null)

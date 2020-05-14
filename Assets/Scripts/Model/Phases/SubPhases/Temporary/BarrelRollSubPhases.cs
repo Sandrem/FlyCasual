@@ -135,12 +135,7 @@ namespace SubPhases
             SyncCollisions(TemporaryBaseCollider);
             DestroyTemporaryElements();
 
-            GameModeStartRepositionExecution();
-        }
-
-        protected virtual void GameModeStartRepositionExecution()
-        {
-            GameMode.CurrentGameMode.StartBarrelRollExecution();
+            StartRepositionExecution();
         }
 
         public void StartRepositionExecution()
@@ -335,12 +330,7 @@ namespace SubPhases
             DestroyTemporaryElements(isAll: true);
             ShowInformationAboutProblems();
 
-            GameModeCancelReposition();
-        }
-
-        protected virtual void GameModeCancelReposition()
-        {
-            GameMode.CurrentGameMode.CancelBarrelRoll(BarrelRollProblems);
+            WhenCancelBarrelRollWithProblems(BarrelRollProblems);
         }
 
         private void ShowInformationAboutProblems()
@@ -543,7 +533,7 @@ namespace SubPhases
 
         protected class BarrelRollPositionDecisionSubPhase : DecisionSubPhase { }
 
-        public void CancelBarrelRoll(List<ActionFailReason> barrelRollProblems)
+        public void WhenCancelBarrelRollWithProblems(List<ActionFailReason> barrelRollProblems)
         {
             if (HostAction == null) HostAction = new BarrelRollAction() { HostShip = TheShip };
             Rules.Actions.ActionIsFailed(TheShip, HostAction, barrelRollProblems);
@@ -700,13 +690,13 @@ namespace SubPhases
             if (progressCurrent >= progressTarget)
             {
                 performingAnimation = false;
-                GameModeFinishReposition();
+                FinishReposition();
             }
         }
 
-        protected virtual void GameModeFinishReposition()
+        protected virtual void FinishReposition()
         {
-            GameMode.CurrentGameMode.FinishBarrelRoll();
+            FinishBarrelRollAnimation();
         }
 
         public void FinishBarrelRollAnimation()

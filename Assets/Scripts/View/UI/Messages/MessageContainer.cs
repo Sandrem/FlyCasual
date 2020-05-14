@@ -39,7 +39,7 @@ public class MessageContainer : MonoBehaviour {
         preferredHeight += 20f;
 
         transform.GetComponent<RectTransform>().sizeDelta = new Vector2(700f, preferredHeight);
-        transform.Find("MessageText").GetComponent<RectTransform>().sizeDelta = new Vector2(700f, preferredHeight);
+        transform.Find("MessageText").GetComponent<RectTransform>().sizeDelta = new Vector2(670f, preferredHeight);
 
         return preferredHeight;
     }

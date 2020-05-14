@@ -379,7 +379,8 @@ public class OptionsUI : MonoBehaviour {
         }
         catch (Exception)
         {
-            Messages.ShowError("Error during creation of list of available resolutions");
+            Text resolutionText = panel.transform.Find("ResolutionComboboxPanel/ComboboxHolder/InputBox/Text").GetComponent<Text>();
+            resolutionText.text = "Default";
         }
 
         try

@@ -53,7 +53,7 @@ public class CameraScript : MonoBehaviour {
     private const float SENSITIVITY_MOVE = 0.125f;
     private const float SENSITIVITY_TURN = 5;
     private const float SENSITIVITY_ZOOM = 5;
-    private const float MOUSE_MOVE_START_OFFSET = 5f;
+    private const float MOUSE_MOVE_START_OFFSET = 1f;
     private const float BORDER_SQUARE = 18f;
     private const float MAX_HEIGHT = 8f;
     private const float MIN_HEIGHT = 1.5f;

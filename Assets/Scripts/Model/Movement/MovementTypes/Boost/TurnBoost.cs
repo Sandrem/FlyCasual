@@ -10,13 +10,15 @@ namespace Movement
         {
         }
 
-        public override void Perform()
+        public override IEnumerator Perform()
         {
             Initialize();
 
             //Temporary
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.FuncsToUpdate.Add(UpdateBoost);
+
+            yield return true;
         }
 
         private bool UpdateBoost()

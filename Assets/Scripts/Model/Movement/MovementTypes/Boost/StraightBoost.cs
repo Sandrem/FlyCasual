@@ -13,7 +13,7 @@ namespace Movement
 
         }
 
-        public override void Perform()
+        public override IEnumerator Perform()
         {
             ProgressTarget = SetProgressTarget();
             AnimationSpeed = Options.ManeuverSpeed * SetAnimationSpeed();
@@ -23,6 +23,8 @@ namespace Movement
             //Temporary
             GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
             Game.Movement.FuncsToUpdate.Add(UpdateBoost);
+
+            yield return true;
         }
 
         private bool UpdateBoost()

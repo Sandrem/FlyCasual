@@ -10,6 +10,7 @@ using ActionsList;
 using Actions;
 using Bombs;
 using Ship;
+using Movement;
 
 namespace ActionsList
 {
@@ -390,6 +391,8 @@ namespace SubPhases
         public bool IsTractorBeamBoost;
         public ShipPositionInfo FinalPositionInfo;
 
+        private GenericMovement BoostMovement;
+
         public override void Start()
         {
             Name = "Boost execution";
@@ -403,44 +406,48 @@ namespace SubPhases
         {
             Rules.Collision.ClearBumps(TheShip);
 
-            Movement.GenericMovement boostMovement;
             switch (SelectedBoostHelper)
             {
                 case "Straight 1":
-                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.None);
+                    BoostMovement = new StraightBoost(1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.None);
                     break;
                 case "Bank 1 Left":
-                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Bank, Movement.MovementComplexity.None);
+                    BoostMovement = new BankBoost(1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.None);
                     break;
                 case "Bank 1 Right":
-                    boostMovement = new Movement.BankBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Bank, Movement.MovementComplexity.None);
+                    BoostMovement = new BankBoost(1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.None);
                     break;
                 case "Turn 1 Right":
-                    boostMovement = new Movement.TurnBoost(1, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Turn, Movement.MovementComplexity.None);
+                    BoostMovement = new TurnBoost(1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.None);
                     break;
                 case "Turn 1 Left":
-                    boostMovement = new Movement.TurnBoost(1, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Turn, Movement.MovementComplexity.None);
+                    BoostMovement = new TurnBoost(1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.None);
                     break;
                 case "Straight 2":
-                    boostMovement = new Movement.StraightBoost(2, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.None);
+                    BoostMovement = new StraightBoost(2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.None);
                     break;
                 case "Bank 2 Left":
-                    boostMovement = new Movement.BankBoost(2, Movement.ManeuverDirection.Left, Movement.ManeuverBearing.Bank, Movement.MovementComplexity.None);
+                    BoostMovement = new BankBoost(2, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.None);
                     break;
                 case "Bank 2 Right":
-                    boostMovement = new Movement.BankBoost(2, Movement.ManeuverDirection.Right, Movement.ManeuverBearing.Bank, Movement.MovementComplexity.None);
+                    BoostMovement = new BankBoost(2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.None);
                     break;
                 default:
-                    boostMovement = new Movement.StraightBoost(1, Movement.ManeuverDirection.Forward, Movement.ManeuverBearing.Straight, Movement.MovementComplexity.None);
+                    BoostMovement = new StraightBoost(1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.None);
                     break;
             }
 
-            boostMovement.FinalPositionInfo = FinalPositionInfo;
-            boostMovement.TheShip = TheShip;
+            BoostMovement.FinalPositionInfo = FinalPositionInfo;
+            BoostMovement.TheShip = TheShip;
 
-            MovementTemplates.ApplyMovementRuler(TheShip, boostMovement);
+            MovementTemplates.ApplyMovementRuler(TheShip, BoostMovement);
 
-            boostMovement.Perform();
+            GameManagerScript.Instance.StartCoroutine(BoostExecutionCoroutine());
+        }
+
+        private IEnumerator BoostExecutionCoroutine()
+        {
+            yield return BoostMovement.Perform();
             if (!IsTractorBeamBoost) Sounds.PlayFly(TheShip);
         }
 

@@ -90,9 +90,8 @@ namespace AI.Aggressor
             movement.Initialize();
             movement.IsSimple = true;
 
-            MovementPrediction prediction = new MovementPrediction(movement);
-            prediction.GenerateFinalShipStand();
-            prediction.CalculateOnlyFinalPosition();
+            MovementPrediction prediction = new MovementPrediction(ship, movement);
+            prediction.CalculateOnlyFinalPositionIgnoringCollisions();
 
             if (isTemporaryManeuverAdded)
             {
@@ -142,9 +141,8 @@ namespace AI.Aggressor
                 movement.Initialize();
                 movement.IsSimple = true;
 
-                MovementPrediction prediction = new MovementPrediction(movement);
-                prediction.GenerateFinalShipStand();
-                prediction.CalculateOnlyFinalPosition();
+                MovementPrediction prediction = new MovementPrediction(ship, movement);
+                prediction.CalculateOnlyFinalPositionIgnoringCollisions();
 
                 VirtualBoard.SetVirtualPositionInfo(ship, prediction.FinalPositionInfo, prediction.CurrentMovement.ToString());
                 VirtualBoard.SwitchToVirtualPosition(ship);
@@ -272,8 +270,7 @@ namespace AI.Aggressor
                 movement.Initialize();
                 movement.IsSimple = true;
 
-                MovementPrediction prediction = new MovementPrediction(movement);
-                prediction.GenerateShipStands();
+                MovementPrediction prediction = new MovementPrediction(ship, movement);
                 yield return prediction.CalculateMovementPredicition();
 
                 VirtualBoard.SetVirtualPositionInfo(ship, prediction.FinalPositionInfo, prediction.CurrentMovement.ToString());
@@ -410,8 +407,7 @@ namespace AI.Aggressor
             movement.Initialize();
             movement.IsSimple = true;
 
-            MovementPrediction prediction = new MovementPrediction(movement);
-            prediction.GenerateShipStands();
+            MovementPrediction prediction = new MovementPrediction(ship, movement);
             yield return prediction.CalculateMovementPredicition();
 
             if (isTemporaryManeuverAdded)
@@ -446,8 +442,7 @@ namespace AI.Aggressor
                 movement.Initialize();
                 movement.IsSimple = true;
 
-                MovementPrediction prediction = new MovementPrediction(movement);
-                prediction.GenerateShipStands();
+                MovementPrediction prediction = new MovementPrediction(ship, movement);
                 yield return prediction.CalculateMovementPredicition();
 
                 if (!CurrentNavigationResult.isOffTheBoard) HasAnyManeuverWithoutOffBoardFinish = true;

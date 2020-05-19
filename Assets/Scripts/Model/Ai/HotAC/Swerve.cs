@@ -44,7 +44,7 @@ namespace AI
 
                     Selection.ThisShip.SetAssignedManeuver(newMovementAttempt);
                     newMovementAttempt.Initialize();
-                    movementPrediction = new MovementPrediction(newMovementAttempt, CheckSwerveAlternativePrediction);
+                    //movementPrediction = new MovementPrediction(newMovementAttempt, CheckSwerveAlternativePrediction);
                 }
             }
             else

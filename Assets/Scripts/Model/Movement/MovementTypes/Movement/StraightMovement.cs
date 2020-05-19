@@ -13,12 +13,12 @@ namespace Movement
 
         }
 
-        public override void Perform()
+        public override IEnumerator Perform()
         {
-            base.Perform();
             Initialize();
 
-            movementPrediction = new MovementPrediction(this, TheShip.Owner.AfterShipMovementPrediction);
+            movementPrediction = new MovementPrediction(TheShip, this);
+            yield return movementPrediction.CalculateMovementPredicition();
         }
 
         protected override float SetProgressTarget()

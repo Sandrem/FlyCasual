@@ -341,7 +341,13 @@ namespace RulesList
             Selection.ThisShip.IsHitObstacles = false;
             Selection.ThisShip.MinesHit = new List<GenericDeviceGameObject>();
 
-            Selection.ThisShip.AssignedManeuver.Perform();
+            GameManagerScript.Instance.StartCoroutine(PerformAssignedManeuverCoroutine());
+        }
+
+        private IEnumerator PerformAssignedManeuverCoroutine()
+        {
+            yield return Selection.ThisShip.AssignedManeuver.Perform();
+            Selection.ThisShip.Owner.AfterShipMovementPrediction();
         }
 
         private void AfterUndockingManeuverIsFinished(bool isEmergencyDeploy)

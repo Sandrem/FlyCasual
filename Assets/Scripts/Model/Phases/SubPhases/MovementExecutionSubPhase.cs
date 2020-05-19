@@ -52,7 +52,13 @@ namespace SubPhases
 
         private void PerformAssignedManeuver()
         {
-            Selection.ThisShip.AssignedManeuver.Perform();
+            GameManagerScript.Instance.StartCoroutine(PerformAssignedManeuverCoroutine());
+        }
+
+        private IEnumerator PerformAssignedManeuverCoroutine()
+        {
+            yield return Selection.ThisShip.AssignedManeuver.Perform();
+            Selection.ThisShip.Owner.AfterShipMovementPrediction();
         }
 
         public override void Next()

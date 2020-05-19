@@ -21,12 +21,6 @@ namespace Movement
 
         }
 
-        public override void Perform()
-        {
-            base.Perform();
-            Initialize();
-        }
-
         public override void Initialize()
         {
             base.Initialize();

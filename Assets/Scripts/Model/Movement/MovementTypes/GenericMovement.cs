@@ -21,22 +21,16 @@ namespace Movement
         public ManeuverBearing Bearing { get; set; }
         public MovementComplexity ColorComplexity { get; set; }
 
-        private Ship.GenericShip theShip;
-        public Ship.GenericShip TheShip {
-            get {
-                return theShip ?? Selection.ThisShip;
-            }
-            set {
-                theShip = value;
-            }
+        private GenericShip theShip;
+        public GenericShip TheShip
+        {
+            get { return theShip ?? Selection.ThisShip; }
+            set { theShip = value; }
         }
 
         public bool IsBasicManeuver
         {
-            get
-            {
-                return Bearing == ManeuverBearing.Straight || Bearing == ManeuverBearing.Bank || Bearing == ManeuverBearing.Turn;
-            }
+            get { return Bearing == ManeuverBearing.Straight || Bearing == ManeuverBearing.Bank || Bearing == ManeuverBearing.Turn; }
         }
 
         public bool IsAdvancedManeuver
@@ -53,9 +47,10 @@ namespace Movement
         public bool IsSimple;
 
         public int RotationEndDegrees = 0;
+        public bool HasRotationInTheEnd { get { return RotationEndDegrees != 0; } }
 
-        //Only for boosts
         public ShipPositionInfo FinalPositionInfo;
+        public ShipPositionInfo FinalPositionInfoBeforeRotation;
 
         public GenericMovement(int speed, ManeuverDirection direction, ManeuverBearing bearing, MovementComplexity color)
         {
@@ -105,10 +100,7 @@ namespace Movement
             return maneuverSpeed;
         }
 
-        public virtual void Perform()
-        {
-            ProgressCurrent = 0f;
-        }
+        public abstract IEnumerator Perform();
 
         public virtual void LaunchShipMovement()
         {
@@ -186,7 +178,7 @@ namespace Movement
             Selection.ActiveShip = TheShip;
 
             // Important! Fixes final position according to prediction - otherwise animation can cause another final position
-            TheShip.SetPositionInfo(FinalPositionInfo);
+            TheShip.SetPositionInfo(FinalPositionInfoBeforeRotation);
 
             ManeuverEndRotation(FinishManeuverExecution);
         }

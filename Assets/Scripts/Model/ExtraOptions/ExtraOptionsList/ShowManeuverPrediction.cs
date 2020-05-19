@@ -73,8 +73,7 @@ namespace ExtraOptions
                 Ship.SetAssignedManeuver(movement, isSilent: true);
                 movement.Initialize();
 
-                MovementPrediction = new MovementPrediction(movement);
-                MovementPrediction.GenerateShipStands();
+                MovementPrediction = new MovementPrediction(Ship, movement);
                 yield return MovementPrediction.CalculateMovementPredicition();
             }
 
@@ -84,8 +83,8 @@ namespace ExtraOptions
 
                 FakeShip = GameObject.Instantiate<GameObject>(
                     Ship.Model,
-                    MovementPrediction.FinalPosition,
-                    new Quaternion() { eulerAngles = MovementPrediction.FinalAngles },
+                    MovementPrediction.FinalPositionInfo.Position,
+                    new Quaternion() { eulerAngles = MovementPrediction.FinalPositionInfo.Angles },
                     Ship.Model.transform.parent
                 );
 

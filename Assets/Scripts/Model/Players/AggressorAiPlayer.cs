@@ -102,6 +102,10 @@ namespace Players
             {
                 int priority = action.GetActionPriority();
                 Selection.ThisShip.Ai.CallGetActionPriority(action, ref priority);
+
+                //Do not perform red action if this is not rotate arc action
+                if (action.IsRed && !(action is ActionsList.RotateArcAction)) priority = int.MinValue;
+
                 actionsPriority.Add(action, priority);
             }
 

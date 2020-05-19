@@ -24,7 +24,7 @@ namespace Ship
                 RequiredMods = new List<Type>() { typeof(PhoenixSquadronModSE) };
                 PilotNameCanonical = "herasyndulla-rz1awing-phoenixsquadronmod";
 
-                ModelInfo.SkinName = "Phoenix Squadron";
+                ModelInfo.SkinName = "Hera Syndulla";
 
                 ImageUrl = "https://i.imgur.com/kIxZ2u1.png";
             }

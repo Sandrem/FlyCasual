@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
 
         private void AddSawGarreraAbility(GenericShip ship)
         {
-            Combat.Attacker.AddAvailableDiceModificationOwn(new SawGarreraAction());
+            Combat.Attacker.AddAvailableDiceModification(new SawGarreraAction(), HostShip);
         }
 
         private class SawGarreraAction : FriendlyRerollAction

@@ -59,7 +59,11 @@ public static class Options
         Screen.fullScreen = FullScreen;
 
         DisplayId = PlayerPrefs.GetInt("DisplayId", 0);
-        if (DisplayId < 0 || DisplayId >= Display.displays.Count()) Display.displays[DisplayId].Activate();
+        if (DisplayId < 0 || DisplayId >= Display.displays.Count())
+        {
+            DisplayId = 0;
+            ChangeParameterValue("DisplayId", 0);
+        }
 
         Quality = PlayerPrefs.GetInt("Quality", 2);
         if (Quality > 2) Quality = 2;

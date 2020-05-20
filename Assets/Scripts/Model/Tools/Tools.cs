@@ -55,6 +55,8 @@ public static partial class Tools
             result = result.Replace("advanced", "adv");
         }
 
+        result = result.Replace("é", "e");
+
         return result;
     }
 

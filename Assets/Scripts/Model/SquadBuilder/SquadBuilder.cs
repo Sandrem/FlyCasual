@@ -877,17 +877,23 @@ namespace SquadBuilderNS
                     foreach (JSONObject pilotJson in pilotJsons.list)
                     {
                         string shipNameXws = pilotJson["ship"].str;
-                        string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
+
+                        string shipNameGeneral = "";
+                        ShipRecord shipRecord = AllShips.FirstOrDefault(n => n.ShipNameCanonical == shipNameXws);
+                        if (shipRecord == null)
+                        {
+                            Messages.ShowError("Cannot find ship: " + shipNameXws);
+                        }
+
+                        shipNameGeneral = shipRecord.ShipName;
 
                         string pilotNameXws = (Edition.Current is Editions.FirstEdition) ? pilotJson["name"].str : pilotJson["id"].str;
-                        if (!AllPilots.Any(n => n.PilotNameCanonical == pilotNameXws))
+                        PilotRecord pilotRecord = AllPilots.FirstOrDefault(n => n.PilotNameCanonical == pilotNameXws && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
+                        if (pilotRecord == null)
                         {
-                            Debug.Log("Cannot find pilot: " + pilotNameXws);
-                            Console.Write("Cannot find pilot: " + pilotNameXws, LogTypes.Errors, true, "red");
+                            Messages.ShowError("Cannot find pilot: " + pilotNameXws);
                         }
-                        string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
-
-                        PilotRecord pilotRecord = AllPilots.Find(n => n.PilotName == pilotNameGeneral && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
+                        
                         GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
                         Edition.Current.AdaptShipToRules(newShipInstance);
                         SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
@@ -897,37 +903,41 @@ namespace SquadBuilderNS
                         if (pilotJson.HasField("upgrades"))
                         {
                             JSONObject upgradeJsons = pilotJson["upgrades"];
-                            foreach (string upgradeType in upgradeJsons.keys)
+                            if (upgradeJsons.keys != null)
                             {
-                                JSONObject upgradeNames = upgradeJsons[upgradeType];
-                                foreach (JSONObject upgradeRecord in upgradeNames.list)
+                                foreach (string upgradeType in upgradeJsons.keys)
                                 {
-                                    if (!AllUpgrades.Any(n => n.UpgradeNameCanonical == upgradeRecord.str))
+                                    JSONObject upgradeNames = upgradeJsons[upgradeType];
+                                    foreach (JSONObject upgradeRecord in upgradeNames.list)
                                     {
-                                        Debug.Log("Cannot find upgrade: " + upgradeRecord.str);
-                                        Console.Write("Cannot find upgrade: " + upgradeRecord.str, LogTypes.Errors, true, "red");
-                                    }
-                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeRecord.str, Edition.Current.XwsToUpgradeType(upgradeType));
-                                    if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeRecord.str, upgradeType);
-                                }
-                            }
+                                        UpgradeRecord newUpgradeRecord = AllUpgrades.FirstOrDefault(n => n.UpgradeNameCanonical == upgradeRecord.str);
+                                        if (newUpgradeRecord == null)
+                                        {
+                                            Messages.ShowError("Cannot find upgrade: " + upgradeRecord.str);
+                                        }
 
-                            while (upgradeJsons.Count != 0)
-                            {
-                                Dictionary<string, string> upgradesThatCannotBeInstalledCopy = new Dictionary<string, string>(upgradesThatCannotBeInstalled);
-
-                                bool wasSuccess = false;
-                                foreach (var upgrade in upgradesThatCannotBeInstalledCopy)
-                                {
-                                    bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgrade.Key, Edition.Current.XwsToUpgradeType(upgrade.Value));
-                                    if (upgradeInstalledSucessfully)
-                                    {
-                                        wasSuccess = true;
-                                        upgradesThatCannotBeInstalled.Remove(upgrade.Key);
+                                        bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgradeRecord.str, Edition.Current.XwsToUpgradeType(upgradeType));
+                                        if (!upgradeInstalledSucessfully) upgradesThatCannotBeInstalled.Add(upgradeRecord.str, upgradeType);
                                     }
                                 }
 
-                                if (!wasSuccess) break;
+                                while (upgradeJsons.Count != 0)
+                                {
+                                    Dictionary<string, string> upgradesThatCannotBeInstalledCopy = new Dictionary<string, string>(upgradesThatCannotBeInstalled);
+
+                                    bool wasSuccess = false;
+                                    foreach (var upgrade in upgradesThatCannotBeInstalledCopy)
+                                    {
+                                        bool upgradeInstalledSucessfully = InstallUpgrade(newShip, upgrade.Key, Edition.Current.XwsToUpgradeType(upgrade.Value));
+                                        if (upgradeInstalledSucessfully)
+                                        {
+                                            wasSuccess = true;
+                                            upgradesThatCannotBeInstalled.Remove(upgrade.Key);
+                                        }
+                                    }
+
+                                    if (!wasSuccess) break;
+                                }
                             }
                         }
 

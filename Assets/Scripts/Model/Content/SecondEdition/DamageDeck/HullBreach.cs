@@ -13,7 +13,7 @@ namespace DamageDeckCardSE
         {
             Name = "Hull Breach";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://i.imgur.com/6CnuFDH.png";
+            ImageUrl = "https://i.imgur.com/7kMiJdl.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -47,4 +47,15 @@ namespace DamageDeckCardSE
 
     }
 
+}
+
+namespace Tokens
+{
+    public class HullBreachCritToken : CritToken
+    {
+        public HullBreachCritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/7kMiJdl.png";
+        }
+    }
 }

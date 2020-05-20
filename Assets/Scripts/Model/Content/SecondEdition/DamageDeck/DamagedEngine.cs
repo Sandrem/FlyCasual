@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace DamageDeckCardSE
         {
             Name = "Damaged Engine";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://i.imgur.com/1sYXXBQ.png";
+            ImageUrl = "https://i.imgur.com/5EbccV2.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -42,6 +43,17 @@ namespace DamageDeckCardSE
                     movement.ColorComplexity = Movement.GenericMovement.IncreaseComplexity(movement.ColorComplexity);
                 }
             }
+        }
+    }
+}
+
+namespace Tokens
+{
+    public class DamagedEngineSECritToken : CritToken
+    {
+        public DamagedEngineSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/5EbccV2.png";
         }
     }
 }

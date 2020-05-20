@@ -225,13 +225,17 @@ public static class Tooltips {
         {
             return "ImagePilot";
         }
+        else if (sprite.rect.height == 612 && sprite.rect.width == 432)
+        {
+            return "DamageCardSE";
+        }
         else if (sprite.rect.height > 290 && sprite.rect.width < 210)
         {
             return "ImageUpgradeFE";
         }
         else
         {
-            return "ImageUpgradeSE";
+            return "ImagePilot";
         }
     }
 

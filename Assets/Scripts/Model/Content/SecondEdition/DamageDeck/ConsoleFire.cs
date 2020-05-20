@@ -10,7 +10,7 @@ namespace DamageDeckCardSE
     {
         public ConsoleFire()
         {
-            ImageUrl = "https://i.imgur.com/4E167ut.png";
+            ImageUrl = "https://i.imgur.com/Q1Te8M5.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -58,5 +58,16 @@ namespace DamageDeckCardSE
 
     }
 
+}
+
+namespace Tokens
+{
+    public class ConsoleFireSECritToken : CritToken
+    {
+        public ConsoleFireSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/Q1Te8M5.png";
+        }
+    }
 }
 

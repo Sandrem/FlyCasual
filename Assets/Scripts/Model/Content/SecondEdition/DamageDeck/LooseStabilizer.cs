@@ -13,7 +13,7 @@ namespace DamageDeckCardSE
         {
             Name = "Loose Stabilizer";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://i.imgur.com/bgNok6v.png";
+            ImageUrl = "https://i.imgur.com/GQsqgWs.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -72,5 +72,16 @@ namespace DamageDeckCardSE
             DiscardEffect();
             Triggers.FinishTrigger();
         }    
+    }
+}
+
+namespace Tokens
+{
+    public class LooseStabilizerSECritToken : CritToken
+    {
+        public LooseStabilizerSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/GQsqgWs.png";
+        }
     }
 }

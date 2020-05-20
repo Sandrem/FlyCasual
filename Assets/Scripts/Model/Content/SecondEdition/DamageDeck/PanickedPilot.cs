@@ -13,7 +13,7 @@ namespace DamageDeckCardSE
         {
             Name = "Panicked Pilot";
             Type = CriticalCardType.Pilot;
-            ImageUrl = "https://i.imgur.com/6CwPwE8.png";
+            ImageUrl = "https://i.imgur.com/kMiMVyg.jpg";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,7 @@ namespace DamageDeckCardSE
         {
             Name = "Weapons Failure";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://i.imgur.com/RyNw8Pj.png";
+            ImageUrl = "https://i.imgur.com/GmoA8km.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -44,4 +45,15 @@ namespace DamageDeckCardSE
 
     }
 
+}
+
+namespace Tokens
+{
+    public class WeaponsFailureSECritToken : CritToken
+    {
+        public WeaponsFailureSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/GmoA8km.png";
+        }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ship;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace DamageDeckCardSE
             Name = "Structural Damage";
             Type = CriticalCardType.Ship;
             CancelDiceResults.Add(DieSide.Success);
-            ImageUrl = "https://i.imgur.com/75pYBvA.png";
+            ImageUrl = "https://i.imgur.com/jINTEHu.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -42,4 +43,15 @@ namespace DamageDeckCardSE
         }
     }
 
+}
+
+namespace Tokens
+{
+    public class StructuralDamageSECritToken : CritToken
+    {
+        public StructuralDamageSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/jINTEHu.png";
+        }
+    }
 }

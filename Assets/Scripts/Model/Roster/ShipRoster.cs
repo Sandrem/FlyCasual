@@ -393,8 +393,11 @@ public static partial class Roster
 
     public static void HighlightShipOff(GenericShip ship)
     {
-        ship.HighlightCanBeSelectedOff();
-        RosterPanelHighlightOff(ship);
+        if (ship != null)
+        {
+            ship.HighlightCanBeSelectedOff();
+            RosterPanelHighlightOff(ship);
+        }
     }
 
     // RESERVE

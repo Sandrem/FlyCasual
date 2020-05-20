@@ -14,7 +14,7 @@ namespace DamageDeckCardSE
         {
             Name = "Wounded Pilot";
             Type = CriticalCardType.Pilot;
-            ImageUrl = "https://i.imgur.com/BIla4b2.jpg";
+            ImageUrl = "https://i.imgur.com/t8QRIOh.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -112,4 +112,15 @@ namespace SubPhases
         }
     }
 
+}
+
+namespace Tokens
+{
+    public class WoundedPilotCritToken : CritToken
+    {
+        public WoundedPilotCritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/t8QRIOh.png";
+        }
+    }
 }

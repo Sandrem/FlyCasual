@@ -13,7 +13,7 @@ namespace DamageDeckCardSE
         {
             Name = "Stunned Pilot";
             Type = CriticalCardType.Pilot;
-            ImageUrl = "https://i.imgur.com/8AYYtxB.png";
+            ImageUrl = "https://i.imgur.com/Se6krBQ.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -60,5 +60,16 @@ namespace DamageDeckCardSE
 
     }
 
+}
+
+namespace Tokens
+{
+    public class StunnedPilotSECritToken : CritToken
+    {
+        public StunnedPilotSECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/Se6krBQ.png";
+        }
+    }
 }
 

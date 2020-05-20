@@ -14,7 +14,7 @@ namespace DamageDeckCardSE
         {
             Name = "Damaged Sensor Array";
             Type = CriticalCardType.Ship;
-            ImageUrl = "https://i.imgur.com/RObgVXh.png";
+            ImageUrl = "https://i.imgur.com/CjBmc82.png";
         }
 
         public override void ApplyEffect(object sender, EventArgs e)
@@ -47,4 +47,15 @@ namespace DamageDeckCardSE
 
     }
 
+}
+
+namespace Tokens
+{
+    public class DamagedSensorArraySECritToken : CritToken
+    {
+        public DamagedSensorArraySECritToken(GenericShip host) : base(host)
+        {
+            Tooltip = "https://i.imgur.com/CjBmc82.png";
+        }
+    }
 }

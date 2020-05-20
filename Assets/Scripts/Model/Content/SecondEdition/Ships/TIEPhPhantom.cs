@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
 {
     public class StygiumArray : GenericAbility
     {
-        public override string Name { get { return "Stygium Array"; } }
+        public override string Name { get { return "Stygium Array (ID:" + HostShip.ShipId + ")"; } }
 
         public override void ActivateAbility()
         {
@@ -80,6 +80,8 @@ namespace Abilities.SecondEdition
 
         private void AskToCloak(object sender, System.EventArgs e)
         {
+            Selection.ChangeActiveShip(HostShip);
+
             AskToUseAbility(
                 "Stygium Array",
                 NeverUseByDefault,

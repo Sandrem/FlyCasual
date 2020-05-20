@@ -14,6 +14,8 @@ namespace Ship
         {
             public TIEInterceptor() : base()
             {
+                ShipInfo.ShipName = "TIE/in Interceptor";
+
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AutoThrustersAbility());

@@ -209,29 +209,21 @@ public static class Tooltips {
 
     private static string GetNameOfImagePanelBySize(Sprite sprite)
     {
-        if (sprite.rect.height > 650)
+        if (sprite.rect.height > 290 && sprite.rect.width < 210)
         {
-            return "ImagePilot";
-        }
-        else if (sprite.rect.width > 650)
-        {
-            return "ImageUpgradeSE";
-        }
-        else if (sprite.rect.height > 400 && sprite.rect.width < 310)
-        {
-            return "ImagePilot";
-        }
-        else if (sprite.rect.height > 500 && sprite.rect.width < 400)
-        {
-            return "ImagePilot";
+            return "ImageUpgradeFE";
         }
         else if (sprite.rect.height == 612 && sprite.rect.width == 432)
         {
             return "DamageCardSE";
         }
-        else if (sprite.rect.height > 290 && sprite.rect.width < 210)
+        else if (sprite.rect.height > sprite.rect.width)
         {
-            return "ImageUpgradeFE";
+            return "ImagePilot";
+        }
+        else if (sprite.rect.width > sprite.rect.height)
+        {
+            return "ImageUpgradeSE";
         }
         else
         {

@@ -172,6 +172,14 @@ public partial class MainMenu : MonoBehaviour {
 
     public void StartSquadBuilerMode(string modeName)
     {
+        ChangePanel("LoadingCardsStubPanel");
+        Global.Instance.StartCoroutine(InitializeSquadBuilderCoroutine(modeName));
+    }
+
+    private IEnumerator InitializeSquadBuilderCoroutine(string modeName)
+    {
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForEndOfFrame();
         InitializeSquadBuilder(modeName);
         ChangePanel("SelectFactionPanel");
     }

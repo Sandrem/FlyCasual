@@ -632,6 +632,8 @@ public static partial class Roster {
         if (maneuver == null) return;
 
         GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
+        Image dialImage = maneuverDial.transform.Find("Holder").GetComponent<Image>();
+        dialImage.sprite = Resources.Load<Sprite>("Sprites/Dials/" + Editions.Edition.Current.NameShort + "/Flipped");
 
         Text maneuverSpeed = maneuverDial.transform.Find("Holder").Find("ManeuverSpeed").GetComponent<Text>();
         maneuverSpeed.text = maneuver.Speed.ToString();
@@ -660,6 +662,16 @@ public static partial class Roster {
         if (isVisible) UpdateAssignedManeuverDial(ship, ship.AssignedManeuver);
 
         GameObject maneuverDial = ship.InfoPanel.transform.Find("AssignedManeuverDial").gameObject;
+        Image dialImage = maneuverDial.transform.Find("Holder").GetComponent<Image>();
+        if (isVisible)
+        {
+            dialImage.sprite = Resources.Load<Sprite>("Sprites/Dials/" + Editions.Edition.Current.NameShort + "/Flipped");
+        }
+        else
+        {
+            dialImage.sprite = Resources.Load<Sprite>("Sprites/Dials/" + Editions.Edition.Current.NameShort + "/" + ship.Faction.ToString());
+        }
+
         maneuverDial.transform.Find("Holder").Find("ManeuverSpeed").gameObject.SetActive(isVisible);
         maneuverDial.transform.Find("Holder").Find("ManeuverBearing").gameObject.SetActive(isVisible);
     }

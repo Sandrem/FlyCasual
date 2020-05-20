@@ -33,5 +33,8 @@ public class FinishDiceRollStep : IDiceRollStep
         Phases.FinishSubPhase(SubphaseType);
     }
 
-    public void WhenFinish() { }
+    public void WhenFinish(Action callback)
+    {
+        callback();
+    }
 }

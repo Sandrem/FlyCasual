@@ -78,7 +78,8 @@ public partial class DiceModificationsManager
         }
         else if (diceModificationName == "OK")
         {
-            ReplaysManager.ExecuteWithDelay(Phases.CurrentSubPhase.Next);
+            HideAllButtons();
+            ReplaysManager.ExecuteWithDelay(ConfirmDiceResults);
         }
         else
         {
@@ -88,8 +89,7 @@ public partial class DiceModificationsManager
 
     public void ConfirmDiceResults()
     {
-        HideAllButtons();
-        CurrentDiceModificationStep.WhenFinish();
+        CurrentDiceModificationStep.WhenFinish(Phases.CurrentSubPhase.Next);
     }
 
     public void RefreshButtonsList()

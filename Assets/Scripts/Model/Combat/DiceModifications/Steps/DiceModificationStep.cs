@@ -71,24 +71,29 @@ public class DiceModificationStep : IDiceRollStep
         else
         {
             Combat.DiceModifications.HideAllButtons();
-            ReplaysManager.ExecuteWithDelay(Phases.CurrentSubPhase.Next);
+            ReplaysManager.ExecuteWithDelay(Combat.DiceModifications.ConfirmDiceResults);
         }
     }
 
-    public void WhenFinish()
+    public void WhenFinish(Action callback)
     {
         // For Heavy Laser Cannon
-        if (CombatStep == CombatStep.Attack && StepOwner == PlayerRole.Attacker) Combat.Attacker.CallAfterAttackDiceModification();
-
-        // DiceCompareHelper.currentDiceCompareHelper.Close();
-        // MovementTemplates.ReturnRangeRuler();
-
-        // TODO: For HotShot gunner
-        // Defender.CallAfterModifyDefenseDiceStep(delegate { Phases.StartTemporarySubPhaseOld("Compare results", typeof(CompareResultsSubPhase)); });
+        if (CombatStep == CombatStep.Attack && StepOwner == PlayerRole.Attacker && DiceModificationTiming == DiceModificationTimingType.Normal)
+        {
+            Combat.Attacker.CallAfterAttackDiceModification();
+        }
 
         IsExecuted = true;
 
-        Phases.FinishSubPhase(SubphaseType);
+        // For Hotshot Gunner
+        if (CombatStep == CombatStep.Defence && StepOwner == PlayerRole.Defender && DiceModificationTiming == DiceModificationTimingType.Normal)
+        {
+            Combat.Defender.CallAfterModifyDefenseDiceStep(callback);
+        }
+        else
+        {
+            callback();
+        }
     }
 }
 

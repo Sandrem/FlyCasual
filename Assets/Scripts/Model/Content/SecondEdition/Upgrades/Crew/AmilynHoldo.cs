@@ -118,6 +118,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
+                Phases.GoBack();
                 Messages.ShowInfoToHuman("Amilyn Holdo: No tokens to transfer to the target");
                 SelectTokenToReassignFromTarget();
             }
@@ -154,6 +155,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
+                Phases.GoBack();
                 Messages.ShowInfoToHuman("Amilyn Holdo: No tokens to transfer from the target");
                 Triggers.FinishTrigger();
             }

@@ -66,6 +66,7 @@ namespace Abilities.SecondEdition
         private void UseAbility(object sender, EventArgs e)
         {
             HostShip.State.Force--;
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": " + TargetShip.PilotInfo.PilotName + " gains Focus token");
             TargetShip.Tokens.AssignToken(new Tokens.FocusToken(TargetShip), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }

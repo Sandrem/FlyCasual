@@ -35,19 +35,29 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnSystemsAbilityActivation += CheckRegenerationAbility;
+            HostShip.OnCheckSystemsAbilityActivation += CheckAbility;
             HostShip.BeforeTokenIsAssigned += CheckTokenProtection;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnSystemsAbilityActivation -= CheckRegenerationAbility;
+            HostShip.OnCheckSystemsAbilityActivation -= CheckAbility;
             HostShip.BeforeTokenIsAssigned -= CheckTokenProtection;
+        }
+
+        private void CheckAbility(GenericShip ship, ref bool isAbilityActive)
+        {
+            isAbilityActive = ((HostShip.State.ShieldsCurrent < HostShip.State.ShieldsMax) && (HostUpgrade.State.Charges > 0));
         }
 
         private void CheckTokenProtection(GenericShip ship, Type type)
         {
             if (!HostShip.IsStressed && HostUpgrade.State.Charges > 0
-                && type != typeof(Tokens.RedTargetLockToken) && type != typeof(Tokens.BlueTargetLockToken))
+                && type != typeof(Tokens.RedTargetLockToken)
+                && type != typeof(Tokens.BlueTargetLockToken)
+                && type != typeof(Tokens.StressToken)
+            )
             {
                 RegisterAbilityTrigger(TriggerTypes.OnBeforeTokenIsAssigned, AskToReplaceToken);
             }
@@ -82,7 +92,7 @@ namespace Abilities.SecondEdition
 
         private void CheckRegenerationAbility(GenericShip ship)
         {
-            if (HostShip.State.ShieldsCurrent < HostShip.State.ShieldsMax && HostUpgrade.State.Charges > 0)
+            if ((HostShip.State.ShieldsCurrent < HostShip.State.ShieldsMax) && (HostUpgrade.State.Charges > 0))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToRegen);
             }

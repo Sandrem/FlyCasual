@@ -49,7 +49,10 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.Tokens.HasToken<ReinforceForeToken>() || HostShip.Tokens.HasToken<ReinforceAftToken>())
             {
-                RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, AskAbility);
+                if (HostShip.State.Charges > 0)
+                {
+                    RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, AskAbility);
+                }
             }
         }
 

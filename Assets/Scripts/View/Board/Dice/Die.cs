@@ -46,7 +46,7 @@ public partial class Die
     private static Vector3 rotationFocus = new Vector3(40f, -63f, 40f);
     private static Vector3 rotationBlank = new Vector3(-40f, 0f, -45f);
 
-    private static Vector3 positionGround = new Vector3(0, -3.763676f, 0);
+    private static Vector3 positionGround = new Vector3(0, -14.763676f, 0);
 
     private static bool modelRollingIsFinished;
     private static float RollingIsFinishedTimePassed;
@@ -113,6 +113,7 @@ public partial class Die
     {
         if (Model == null) Model = SpawnDice(Type);
         Model.transform.Find("Dice").transform.eulerAngles = new Vector3(rotationAngles.x, rotationAngles.y, rotationAngles.z);
+        Model.transform.Find("Dice").GetComponentInChildren<Rigidbody>().angularVelocity = new Vector3(rotationAngles.x, rotationAngles.y, rotationAngles.z);
     }
 
     public void Roll()

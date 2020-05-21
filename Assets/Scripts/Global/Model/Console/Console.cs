@@ -113,7 +113,15 @@ public partial class Console : MonoBehaviour {
                 }
             }
 
-            IsActive = true;
+            if (ErrorReporter.Instance != null)
+            {
+                ErrorReporter.ShowError(logString + "\n\n" + stackTrace);
+            }
+            else
+            {
+                IsActive = true;
+            }
+
             Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");
         }
     }

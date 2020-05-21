@@ -28,7 +28,6 @@ namespace Tokens
             Host.OnSystemsAbilityActivation += RegisterAskDecloak;
             Host.OnCheckSystemsAbilityActivation += CheckDecloak;
 
-            Host.ToggleIonized(true);
             Host.ToggleCloaked(true);
         }
 
@@ -81,7 +80,6 @@ namespace Tokens
             Host.OnSystemsAbilityActivation -= RegisterAskDecloak;
             Host.OnCheckSystemsAbilityActivation -= CheckDecloak;
 
-            Host.ToggleIonized(false);
             Host.ToggleCloaked(false);
         }
 

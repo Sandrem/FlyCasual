@@ -395,7 +395,14 @@ namespace Ship
 
         public void ToggleCloaked(bool isTransparent)
         {
-            foreach (Transform transform in GetModelTransform())
+            ToggleCloakedRecursive(GetModelTransform(), isTransparent);
+
+            ShipAllParts.Find("ShipBase/ShipPeg").gameObject.SetActive(!isTransparent);
+        }
+
+        private void ToggleCloakedRecursive(Transform parentTransform, bool isTransparent)
+        {
+            foreach (Transform transform in parentTransform)
             {
                 Renderer renderer = transform.GetComponent<Renderer>();
                 if (renderer != null)
@@ -403,7 +410,7 @@ namespace Ship
                     renderer.material.shader = (isTransparent) ? Shader.Find("VR/SpatialMapping/Occlusion") : Shader.Find("Standard");
                 }
 
-                ShipAllParts.Find("ShipBase/ShipPeg").gameObject.SetActive(!isTransparent);
+                ToggleCloakedRecursive(transform, isTransparent);
             }
         }
 

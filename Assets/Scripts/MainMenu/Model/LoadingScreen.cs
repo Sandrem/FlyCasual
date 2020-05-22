@@ -86,7 +86,7 @@ public static class LoadingScreen
         IsReady = false;
 
         Transform loadingScreen = GameObject.Find("GlobalUI").transform.Find("LoadingScreen");
-        loadingScreen.GetComponent<Image>().sprite = GetRandomSplashScreen();
+        loadingScreen.transform.Find("BackgroundImage").GetComponent<Image>().sprite = GetRandomSplashScreen();
 
         Text LoadingText = loadingScreen.Find("LoadingInfoPanel").GetComponentInChildren<Text>();
         if (loadingScreen != null) loadingScreen.gameObject.SetActive(true);

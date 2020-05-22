@@ -24,8 +24,8 @@ namespace RulesList
             {
                 if (eliminatedTeam < 3)
                 {
-                    UI.AddTestLogEntry("Player " + Roster.AnotherPlayer(eliminatedTeam) + " Wins!");
-                    UI.ShowGameResults("Player " + Roster.AnotherPlayer(eliminatedTeam) + " Wins!");
+                    UI.AddTestLogEntry(GetPlayerName(Roster.AnotherPlayer(eliminatedTeam)) + " Wins!");
+                    UI.ShowGameResults(GetPlayerName(Roster.AnotherPlayer(eliminatedTeam)) + " Wins!");
                 }
                 else
                 {
@@ -36,6 +36,18 @@ namespace RulesList
                 if (DebugManager.ReleaseVersion) AnalyticsEvent.GameOver();
 
                 Rules.FinishGame();
+            }
+        }
+
+        private string GetPlayerName(int playerNo)
+        {
+            if (Roster.GetPlayer(1).NickName != Roster.GetPlayer(2).NickName)
+            {
+                return Roster.GetPlayer(playerNo).NickName;
+            }
+            else
+            {
+                return "Player " + playerNo;
             }
         }
     }

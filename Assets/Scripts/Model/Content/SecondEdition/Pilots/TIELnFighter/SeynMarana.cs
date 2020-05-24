@@ -72,7 +72,6 @@ namespace ActionsList.SecondEdition
         public override void ActionEffect(Action callBack)
         {
             Combat.CurrentDiceRoll.RemoveAll();
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
 
             DamageSourceEventArgs SeynMaranaDamage = new DamageSourceEventArgs()
             {

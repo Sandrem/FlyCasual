@@ -68,7 +68,7 @@ namespace Abilities.SecondEdition
 
         private void PayAbilityCost()
         {
-            for (int i = 0; i < DiceRoll.CurrentDiceRoll.WasSelectedCount; i++)
+            for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceWereSelectedForRerollCount; i++)
             {
                 HostUpgrade.State.SpendCharge();
             }

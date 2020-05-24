@@ -38,29 +38,29 @@ public class DieResultEventArg: EventArgs
 
 public partial class Die
 {
-    private DiceRoll ParentDiceRoll;
-    private DiceKind Type;
+    private DiceRoll ParentDiceRoll { get; set; }
+    private DiceKind Type { get; set; }
 
-    private static Vector3 rotationCrit = new Vector3(325f, 120f, 135f);
-    private static Vector3 rotationSuccess = new Vector3(330f, 120f, 40f);
-    private static Vector3 rotationFocus = new Vector3(40f, -63f, 40f);
-    private static Vector3 rotationBlank = new Vector3(-40f, 0f, -45f);
+    private static Vector3 ROTATION_CRIT { get; set; } = new Vector3(325f, 120f, 135f);
+    private static Vector3 ROTATION_SUCCESS { get; set; } = new Vector3(330f, 120f, 40f);
+    private static Vector3 ROTATION_FOCUS { get; set; } = new Vector3(40f, -63f, 40f);
+    private static Vector3 ROTATION_BLANK { get; set; } = new Vector3(-40f, 0f, -45f);
 
-    private static Vector3 positionGround = new Vector3(0, -14.763676f, 0);
+    private static Vector3 POSITION_GROUND { get; set; } = new Vector3(0, -14.763676f, 0);
 
-    private static bool modelRollingIsFinished;
-    private static float RollingIsFinishedTimePassed;
-    private static readonly float RollingIsFinishedTimePassedNeeded = 1f;
+    private static bool ModelRollingIsFinished { get; set; }
+    private static float RollingIsFinishedTimePassed { get; set; }
+    private static readonly float TIME_TO_FINISH_ROLLING = 1f;
 
-    private static int diceIDcounter;
+    private static int DiceIDCounter { get; set; }
 
     public GameObject Model { get; private set; }
     public bool IsWaitingForNewResult { get; set; }
 
-    public Die(DiceRoll diceRoll, DiceKind type, DieSide side = DieSide.Unknown)
+    public Die(DiceRoll diceRoll, DiceKind diceKind, DieSide side = DieSide.Unknown)
     {
         ParentDiceRoll = diceRoll;
-        Type = type;
+        Type = diceKind;
         IsUncancelable = false;
         Sides = new List<DieSide>
         {
@@ -73,8 +73,8 @@ public partial class Die
             DieSide.Success
         };
 
-        if (type == DiceKind.Attack) Sides.Add(DieSide.Crit);
-        if (type == DiceKind.Defence) Sides.Add(DieSide.Blank);
+        if (Type == DiceKind.Attack) Sides.Add(DieSide.Crit);
+        if (Type == DiceKind.Defence) Sides.Add(DieSide.Blank);
 
         if (side != DieSide.Unknown)
         {
@@ -93,27 +93,32 @@ public partial class Die
         GameObject prefabDiceType = (type == DiceKind.Attack) ? DiceManager.DiceAttack : DiceManager.DiceDefence;
         Transform diceSpawningPoint = ParentDiceRoll.SpawningPoint;
         GameObject model = MonoBehaviour.Instantiate(prefabDiceType, diceSpawningPoint.transform.position, prefabDiceType.transform.rotation, diceSpawningPoint.transform);
-        model.name = "DiceN" + diceIDcounter++;
+        model.name = "DiceN" + DiceIDCounter++;
         return model;
     }
 
     public void RandomizeRotation()
     {
+        if (Model == null) Model = SpawnDice(Type);
         SetInitialRotation(new Vector3(UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360), UnityEngine.Random.Range(0, 360)));
+        SetInitialRotationForce(new Vector3(UnityEngine.Random.Range(-100, 100), UnityEngine.Random.Range(-100, 100), UnityEngine.Random.Range(-100, 100)));
     }
 
     public void ShowWithoutRoll()
     {
         if (Model == null) Model = SpawnDice(Type);
         Model.gameObject.SetActive(true);
-        Model.transform.Find("Dice").transform.localPosition = positionGround;
+        Model.transform.Find("Dice").transform.localPosition = POSITION_GROUND;
     }
 
     public void SetInitialRotation(Vector3 rotationAngles)
     {
-        if (Model == null) Model = SpawnDice(Type);
         Model.transform.Find("Dice").transform.eulerAngles = new Vector3(rotationAngles.x, rotationAngles.y, rotationAngles.z);
-        Model.transform.Find("Dice").GetComponentInChildren<Rigidbody>().angularVelocity = new Vector3(rotationAngles.x, rotationAngles.y, rotationAngles.z);
+    }
+
+    public void SetInitialRotationForce(Vector3 rotationForce)
+    {
+        Model.transform.Find("Dice").GetComponentInChildren<Rigidbody>().angularVelocity = new Vector3(rotationForce.x, rotationForce.y, rotationForce.z);
     }
 
     public void Roll()
@@ -121,11 +126,11 @@ public partial class Die
         if (Model == null) Model = SpawnDice(Type);
         Model.GetComponentInChildren<Rigidbody>().isKinematic = false;
         IsWaitingForNewResult = true;
-        modelRollingIsFinished = false;
+        ModelRollingIsFinished = false;
         Model.gameObject.SetActive(true);
         Model.transform.Find("Dice").GetComponent<Rigidbody>().isKinematic = false;
 
-        DiceManager.CallDiceRolled(this, new DieRollEventArg(ParentDiceRoll.PlayerNo, Type));
+        DiceManager.CallDiceRolled(this, new DieRollEventArg(ParentDiceRoll.Owner, Type));
     }
 
     public void Reroll()
@@ -145,16 +150,16 @@ public partial class Die
         switch (newSide)
         {
             case DieSide.Success:
-                Model.transform.Find("Dice").localEulerAngles = rotationSuccess;
+                Model.transform.Find("Dice").localEulerAngles = ROTATION_SUCCESS;
                 break;
             case DieSide.Crit:
-                Model.transform.Find("Dice").localEulerAngles = rotationCrit;
+                Model.transform.Find("Dice").localEulerAngles = ROTATION_CRIT;
                 break;
             case DieSide.Focus:
-                Model.transform.Find("Dice").localEulerAngles = rotationFocus;
+                Model.transform.Find("Dice").localEulerAngles = ROTATION_FOCUS;
                 break;
             case DieSide.Blank:
-                Model.transform.Find("Dice").localEulerAngles = rotationBlank;
+                Model.transform.Find("Dice").localEulerAngles = ROTATION_BLANK;
                 break;
         }
     }
@@ -237,21 +242,21 @@ public partial class Die
 
     public bool IsModelRollingFinished()
     {
-        if (!modelRollingIsFinished)
+        if (!ModelRollingIsFinished)
         {
             Vector3 velocity = Model.GetComponentInChildren<Rigidbody>().velocity;
             bool isModelRollingNow = (velocity != Vector3.zero);
 
             RollingIsFinishedTimePassed = (isModelRollingNow) ? 0 : RollingIsFinishedTimePassed + Time.deltaTime;
 
-            if (RollingIsFinishedTimePassed >= RollingIsFinishedTimePassedNeeded)
+            if (RollingIsFinishedTimePassed >= TIME_TO_FINISH_ROLLING)
             {
-                modelRollingIsFinished = true;
+                ModelRollingIsFinished = true;
                 RollingIsFinishedTimePassed = 0;
             }
         }
 
-        return modelRollingIsFinished;
+        return ModelRollingIsFinished;
     }
 
 }

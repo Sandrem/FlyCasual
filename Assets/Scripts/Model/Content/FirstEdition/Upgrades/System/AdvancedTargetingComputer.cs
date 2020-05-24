@@ -95,8 +95,7 @@ namespace ActionsList
         {
             if (ActionsHolder.HasTargetLockOn(Combat.Attacker, Combat.Defender))
             {
-                Combat.CurrentDiceRoll.AddDice(DieSide.Crit).ShowWithoutRoll();
-                Combat.CurrentDiceRoll.OrganizeDicePositions();
+                Combat.CurrentDiceRoll.AddDiceAndShow(DieSide.Crit);
 
                 targetLockLetters = ActionsHolder.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
                 foreach (char targetLockLetter in targetLockLetters)

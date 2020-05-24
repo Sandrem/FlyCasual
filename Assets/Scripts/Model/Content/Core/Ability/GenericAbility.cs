@@ -704,10 +704,7 @@ namespace Abilities
                 side = AttackDieSides[index];
             }
 
-            for (int i = 0; i < getCount(); i++)
-                Combat.CurrentDiceRoll.AddDice(side).ShowWithoutRoll();
-
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
+            for (int i = 0; i < getCount(); i++) Combat.CurrentDiceRoll.AddDiceAndShow(side);
 
             callBack();
         }

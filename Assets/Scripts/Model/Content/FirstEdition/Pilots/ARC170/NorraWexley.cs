@@ -62,9 +62,7 @@ namespace Abilities.FirstEdition
                 char targetLockPair = GetTargetLockTokenLetterOnAnotherShip();
                 if (targetLockPair != ' ')
                 {
-                    Combat.CurrentDiceRoll.AddDice(DieSide.Focus).ShowWithoutRoll();
-                    Combat.CurrentDiceRoll.OrganizeDicePositions();
-
+                    Combat.CurrentDiceRoll.AddDiceAndShow(DieSide.Focus);
                     HostShip.Tokens.SpendToken(typeof(BlueTargetLockToken), callBack, targetLockPair);
                 }
                 else

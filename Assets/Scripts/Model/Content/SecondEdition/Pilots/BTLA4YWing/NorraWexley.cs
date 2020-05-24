@@ -50,8 +50,7 @@ namespace Abilities.SecondEdition
             if (Combat.AttackStep == CombatStep.Defence && Combat.Defender == HostShip && enemyShipsAtRangeOne > 0)
             {
                 Messages.ShowInfo(HostShip.PilotInfo.PilotName + " gains 1 Evade die because at least one enemy is at range 1 of her");
-                roll.AddDice(DieSide.Success).ShowWithoutRoll();
-                roll.OrganizeDicePositions();
+                roll.AddDiceAndShow(DieSide.Success);
             }
         }
     }

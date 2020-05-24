@@ -69,7 +69,6 @@ namespace ActionsList
             }
 
             Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
 
             HostShip.Tokens.SpendToken(
                 typeof(FocusToken),

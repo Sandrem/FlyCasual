@@ -94,10 +94,8 @@ namespace CommandsList
         {
             for (int i = 0; i < count; i++)
             {
-                Die newDie = DiceRoll.CurrentDiceRoll.AddDice(newDieSide);
-                newDie.ShowWithoutRoll();
+                DiceRoll.CurrentDiceRoll.AddDiceAndShow(newDieSide);
             }
-            DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
         }
     }
 }

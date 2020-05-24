@@ -136,8 +136,7 @@ namespace Abilities.SecondEdition
         private void AddEvadeDie(DiceRoll diceroll)
         {
             Messages.ShowInfo("C-3PO: added evade for correct guess");
-            diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
-            diceroll.OrganizeDicePositions();
+            diceroll.AddDiceAndShow(DieSide.Success);
         }
     }
 }

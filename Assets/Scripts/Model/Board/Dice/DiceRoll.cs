@@ -7,225 +7,50 @@ using System.Linq;
 using UnityEngine;
 using Players;
 
-public enum DiceRollCheckType
-{
-    Combat,
-    Check,
-    Virtual
-}
-
 public partial class DiceRoll
 {
-    public List<Die> DiceList { get; private set; }
+    // INITIALIZE
 
-    public List<Die> DiceRerolled { get; private set; } = new List<Die>();
-
-    public DiceKind Type { get; private set; }
-
-    public DiceRollCheckType CheckType { get; private set; }
-
-    public static DiceRoll CurrentDiceRoll;
-
-    public bool CancelCritsFirst;
-
-    public Transform SpawningPoint;
-    public Transform FinalPositionPoint;
-
-    public int CountOfInitialRoll { get; private set; }
-    public int Count { get { return DiceList.Count; } }
-
-    private DelegateDiceroll callBack;
-
-    private bool isRolling;
-
-    public PlayerNo PlayerNo { get; private set; }
-    public List<PlayerNo> ModifiedBy { get; private set; }
-
-    public DieSide[] ResultsArray
-    {
-        get { return this.DiceList.Select(n => n.Side).ToArray();}
-    }
-
-    public DieSide WorstResult
-    {
-        get
-        {
-            if (Blanks > 0) return DieSide.Blank;
-            if (Focuses > 0) return DieSide.Focus;
-            if (RegularSuccesses > 0) return DieSide.Success;
-            if (CriticalSuccesses > 0) return DieSide.Crit;
-
-            return DieSide.Unknown;
-        }
-    }
-
-    public DiceRoll(DiceKind type, int number, DiceRollCheckType checkType, PlayerNo playerNo = PlayerNo.PlayerNone)
+    public DiceRoll(DiceKind type, int countOfInitialRoll, DiceRollCheckType checkType, PlayerNo owner = PlayerNo.PlayerNone)
     {
         Type = type;
-        CountOfInitialRoll = number;
+        CountOfInitialRoll = countOfInitialRoll;
         CheckType = checkType;
-        PlayerNo = playerNo;
-        ModifiedBy = new List<PlayerNo>();
+        Owner = owner;
 
-        if (checkType != DiceRollCheckType.Virtual)
-        {
-            SetSpawningPoint();
-        }
+        if (checkType != DiceRollCheckType.Virtual) { SetDiceSpawningPoint(); }
 
         GenerateDiceRoll();
     }
 
+    private void SetDiceSpawningPoint()
+    {
+        SpawningPoint = (CheckType == DiceRollCheckType.Combat) ? GameManagerScript.Instance.PrefabsList.CombatDiceSpawningPoint : GameManagerScript.Instance.PrefabsList.CheckDiceSpawningPoint;
+        FinalPositionPoint = (CheckType == DiceRollCheckType.Combat) ? GameManagerScript.Instance.PrefabsList.CombatDiceField : GameManagerScript.Instance.PrefabsList.CheckDiceField;
+    }
+
     private void GenerateDiceRoll()
     {
-        DiceList = new List<Die>();
-        for (int i = 0; i < CountOfInitialRoll; i++)
-        {
-            AddDice();
-        }
+        for (int i = 0; i < CountOfInitialRoll; i++) AddDice();
     }
 
     public Die AddDice(DieSide side = DieSide.Unknown)
     {
-        Die newDice = new Die(this, Type, side);
+        Die newDice = new Die(this, this.Type);
         DiceList.Add(newDice);
         return newDice;
     }
 
-    private void SetSpawningPoint()
-    {
-        //Temporary
-        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-
-        switch (CheckType)
-        {
-            case DiceRollCheckType.Combat:
-                SpawningPoint = Game.PrefabsList.CombatDiceSpawningPoint;
-                FinalPositionPoint = Game.PrefabsList.CombatDiceField;
-                break;
-            case DiceRollCheckType.Check:
-                SpawningPoint = Game.PrefabsList.CheckDiceSpawningPoint;
-                FinalPositionPoint = Game.PrefabsList.CheckDiceField;
-                break;
-            default:
-                break;
-        }
-    }
-
-    public bool IsEmpty
-    {
-        get
-        {
-            return DiceList.Count == 0;
-        }
-    }
-
-    public int Successes { get { return DiceList.Count(n => ((n.Side == DieSide.Success) || (n.Side == DieSide.Crit))); } }
-
-    public int Failures { get { return DiceList.Count(n => ((n.Side == DieSide.Blank) || (n.Side == DieSide.Focus))); } }
-
-    public int SuccessesCancelable
-    {
-        get
-        {
-            return DiceList.Count(n => ((n.Side == DieSide.Success) || (n.Side == DieSide.Crit)) && (n.IsUncancelable == false));
-        }
-        private set { }
-    }
-
-    public int RegularSuccesses
-    {
-        get
-        {
-            return DiceList.Count(n => (n.Side == DieSide.Success));
-        }
-        private set { }
-    }
-
-    public int CriticalSuccesses
-    {
-        get
-        {
-            return DiceList.Count(n => (n.Side == DieSide.Crit));
-        }
-        private set { }
-    }
-
-    public void MarkAsModifiedBy(PlayerNo playerNo)
-    {
-        if (!Combat.CurrentDiceRoll.ModifiedBy.Contains(playerNo))
-        {
-            Combat.CurrentDiceRoll.ModifiedBy.Add(playerNo);
-        }
-    }
-
-    public int Focuses
-    {
-        get { return DiceList.Count(n => (n.Side == DieSide.Focus)); }
-        private set { }
-    }
-
-    public int FocusesNotRerolled
-    {
-        get { return DiceList.Count(n => ((n.Side == DieSide.Focus) && (n.IsRerolled == false))); }
-        private set { }
-    }
-
-    public int Blanks
-    {
-        get { return DiceList.Count(n => (n.Side == DieSide.Blank)); }
-        private set { }
-    }
-
-    public int BlanksNotRerolled
-    {
-        get { return DiceList.Count(n => ((n.Side == DieSide.Blank) && (n.IsRerolled == false))); }
-        private set { }
-    }
-
-    public int CanBeModified
-    {
-        get { return DiceList.Count(n => n.CannotBeModified == false); }
-        private set { }
-    }
-
-    public int CannotBeModified
-    {
-        get { return DiceList.Count(n => n.CannotBeModified == true); }
-        private set { }
-    }
-
-    public int NotRerolled
-    {
-        get { return DiceList.Count(n => (n.IsRerolled == false)); }
-        private set { }
-    }
-
-    public List<Die> Selected
-    {
-        get { return DiceList.Where(n => (n.IsSelected)).ToList(); }
-        private set { }
-    }
-
-    public int WasSelectedCount { get; private set; }
-
-    public int SelectedCount
-    {
-        get { return DiceList.Count(n => (n.IsSelected)); }
-        private set { }
-    }
+    // ROLL
 
     public void Roll(DelegateDiceroll callBack)
     {
         DiceRoll.CurrentDiceRoll = this;
-
-        this.callBack = callBack;
+        this.CallBack = callBack;
 
         if (!ShouldSkipToSync())
         {
-            foreach (Die die in DiceList)
-            {
-                die.RandomizeRotation();
-            }
+            foreach (Die die in DiceList) die.RandomizeRotation();
             RollPreparedDice();
         }
         else
@@ -234,397 +59,57 @@ public partial class DiceRoll
         }
     }
 
-    private bool ShouldSkipToSync()
-    {
-        return (ReplaysManager.Mode == ReplaysMode.Read) || (Network.IsNetworkGame && !Network.IsServer);
-    }
-
-    private void SetDiceInitialRotation(int[] randomHolder)
-    {
-        int counter = 0;
-        foreach (Die die in DiceList)
-        {
-            die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter+1], randomHolder[counter+2]));
-            counter += 3;
-        }
-    }
-
-    private void SetAdditionalDiceInitialRotation(int[] randomHolder)
-    {
-        int counter = 0;
-        foreach (Die die in DiceList)
-        {
-            if (die.Model == null || !die.Model.activeSelf)
-            {
-                die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter + 1], randomHolder[counter + 2]));
-                counter += 3;
-            }
-        }
-    }
-
-    private void SetSelectedDiceInitialRotation(int[] randomHolder)
-    {
-        int counter = 0;
-        foreach (Die die in DiceList.Where(n => n.IsSelected))
-        {
-            die.SetInitialRotation(new Vector3(randomHolder[counter], randomHolder[counter + 1], randomHolder[counter + 2]));
-            counter += 3;
-        }
-    }
-
     private void RollPreparedDice()
     {
-        foreach (Die die in DiceList)
-        {
-            die.Roll();
-        }
-
-        CalculateResults();
+        foreach (Die die in DiceList) die.Roll();
+        GameManagerScript.Instance.StartCoroutine(CalculateResultsCororutine());
     }
 
-    private void BeforeRollAdditionalPreparedDice()
+    public IEnumerator CalculateResultsCororutine()
     {
-        Selection.ActiveShip.CallDiceAboutToBeRolled(RollAdditionalPreparedDice);
+        Phases.CurrentSubPhase.IsReadyForCommands = false;
+
+        yield return new WaitForSeconds(1);
+        yield return CheckDiceMovementFinish();
+        yield return new WaitForSeconds(1);
+        CalculateWaitedResults();
     }
 
-    private void RollAdditionalPreparedDice()
+    private IEnumerator CheckDiceMovementFinish()
     {
-        foreach (Die die in DiceList)
-        {
-            if (die.Model == null || !die.Model.activeSelf) die.Roll();
-        }
-
-        CalculateResults();
-    }
-
-    private void RerollPreparedDice()
-    {
-        WasSelectedCount = SelectedCount;
-
-        DiceRerolled = DiceList.Where(n => n.IsSelected).ToList();
-        foreach (Die die in DiceRerolled)
-        {
-            die.Reroll();
-        }
-
-        CalculateResults();
-    }
-
-    public void RerollSelected(DelegateDiceroll callBack)
-    {
-        DiceRoll.CurrentDiceRoll = this;
-
-        this.callBack = callBack;
-
-        if (!ShouldSkipToSync())
-        {
-            foreach (Die die in DiceList)
-            {
-                if (die.IsSelected)
-                {
-                    die.RandomizeRotation();
-                }
-            }
-            RerollPreparedDice();
-        }
-        else
-        {
-            CurrentDiceRoll.DeselectDice();
-
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
-        }
-    }
-
-    public void ToggleRerolledLocks(bool isActive)
-    {
-        foreach (var dice in DiceList)
-        {
-            dice.ToggleRerolledLock(isActive);
-        }
-    }
-
-    public void ApplyFocus()
-    {
-        ChangeAll(DieSide.Focus, DieSide.Success);
-
-        OrganizeDicePositions();
-    }
-
-    public void ApplyCalculate()
-    {
-        ChangeOne(DieSide.Focus, DieSide.Success);
-
-        OrganizeDicePositions();
-    }
-
-    public void ApplyEvade()
-    {
-        Edition.Current.EvadeDiceModification(this);
-
-        OrganizeDicePositions();
-    }
-
-	public int Change(DieSide oldSide, DieSide newSide, int count, bool cannotBeRerolled = false, bool cannotBeModified = false)
-	{
-        var changedDiceCount = 0;
-        if (count == 0) // change all
-        {
-            changedDiceCount += ChangeDice(oldSide, newSide, false, cannotBeRerolled, cannotBeModified);
-        }
-        else
-        {
-            count = Math.Min(count, DiceList.Count(n => n.Side == oldSide));
-            for (int i = 0; i < count; i++)
-            {
-                changedDiceCount += ChangeDice(oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
-            }
-		}
-
-		UpdateDiceCompareHelperPrediction();
-        return changedDiceCount;
-    }
-
-    public void ChangeOne(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)
-    {
-        ChangeDice(oldSide, newSide, true, cannotBeRerolled, cannotBeModified);
-        UpdateDiceCompareHelperPrediction();
-    }
-
-    public void ChangeWorstResultTo(DieSide newSide)
-    {
-        ChangeDice(WorstResult, newSide, true);
-        UpdateDiceCompareHelperPrediction();
-    }
-
-    public void ChangeAll(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)
-    {
-        ChangeDice(oldSide, newSide, false, cannotBeRerolled, cannotBeModified);
-        UpdateDiceCompareHelperPrediction();
-    }
-
-    private int ChangeDice(DieSide oldSide, DieSide newSide, bool onlyOne, bool cannotBeRerolled = false, bool cannotBeModified = false)
-    {
-        var changedDiceCount = 0;
-        OrganizeDicePositions();
-
-        foreach (Die die in DiceList)
-        {
-            if (die.Side == oldSide)
-            {
-                if (die.TrySetSide(newSide, isInitial: false))
-                {
-                    die.SetModelSide(newSide);
-                    changedDiceCount++;
-                    if (cannotBeRerolled) die.IsRerolled = true;
-                    if (cannotBeModified) die.CannotBeModified = true;
-                    if (onlyOne) return changedDiceCount;
-                }
-            }
-        }
-
-        return changedDiceCount;
-    }
-
-    private DieSide CancelHit(bool CancelByDefence, bool dryRun)
-    {
-        DieSide cancelFirst = DieSide.Unknown;
-        DieSide cancelLast = DieSide.Unknown;
-        DieSide cancelResult = DieSide.Unknown;
-
-        if (!CancelCritsFirst)
-        {
-            cancelFirst = DieSide.Success;
-            cancelLast = DieSide.Crit;
-        }
-        else
-        {
-            cancelFirst = DieSide.Crit;
-            cancelLast = DieSide.Success;
-        }
-
-        if (!CancelType(cancelFirst, CancelByDefence, dryRun))
-        {
-            if (CancelType(cancelLast, CancelByDefence, dryRun))
-            {
-                cancelResult = cancelLast;
-            }
-        }
-        else
-        {
-            cancelResult = cancelFirst;
-        }
-        return cancelResult;
-    }
-
-    public void RemoveAllFailures()
-    {
-        List<Die> dice = new List<Die>(DiceList);
-
-        foreach (Die die in dice)
-        {
-            if ((die.Side == DieSide.Blank) || (die.Side == DieSide.Focus))
-            {
-                DiceList.Remove(die);
-            }
-        }
-    }
-
-    //Used to clean the diceboard before adding other dice [ Accuracy corrector ]
-    public void RemoveAll()
-    {
-        RemoveDiceModels();
-        DiceList = new List<Die>();
-    }
-
-    public bool RemoveType(DieSide type)
-    {
-        // Select a die that matches the type, prioritize those that aren't uncancellable
-        var die = this.DiceList
-            .OrderBy(d => d.IsUncancelable)
-            .FirstOrDefault(d => d.Side == type);
-        if (die != null)
-        {
-            die.Cancel();
-            die.RemoveModel();
-            this.DiceList.Remove(die);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    private bool CancelType(DieSide type, bool CancelByDefence, bool dryRun)
-    {
-        bool found = false;
-        foreach (Die die in this.DiceList)
-        {
-            if (die.Side == type)
-            {
-                //Cancel dice if it's not a defence cancel or it is and the die is cancellable
-                if ((!CancelByDefence) || (!die.IsUncancelable)) {
-                    die.Cancel();
-                    found = true;
-                    return found;
-                }
-            }
-        }
-        return found;
-    }
-
-    public void CancelHits(int numToCancel)
-    {
-        for (int i = 0; i < numToCancel; i++)
-        {
-            CancelHit(false, false); //Generic cancel, not a test
-        }
-    }
-
-    public Dictionary<string,int> CancelHitsByDefence(int countToCancel, bool dryRun = false)
-    {
-        Dictionary<string, int> results = new Dictionary<string, int>();
-        results["crits"] = 0;
-        results["hits"] = 0;
-
-        for (int i = 0; i < countToCancel; i++)
-        {
-            DieSide result = CancelHit(true, dryRun); //Cancel by defence dice 
-            switch(result)
-            {
-                case DieSide.Success: { results["hits"]++; break; }
-                case DieSide.Crit: { results["crits"]++; break; }                
-            }
-        }
-        return results;
-    }
-
-    public void CancelAllResults()
-    {
-        List<Die> diceListCopy = new List<Die>(DiceList);
-
-        foreach (var die in diceListCopy)
-        {
-            die.Cancel();
-        }
-    }
-
-    public void CalculateResults()
-    {
-        isRolling = true;
-
-        GameManagerScript.Wait(1, StartWaitingForFinish);
-        GameManagerScript.Wait(5, CalculateWaitedResults);
-    }
-
-    private void StartWaitingForFinish()
-    {
-        // TODO: Rewrite
-        GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();
-        Game.Movement.FuncsToUpdate.Add(CheckDiceMovementFinish);
-    }
-
-    private bool CheckDiceMovementFinish()
-    {
-        bool result = false;
-
-        if (isRolling)
-        {
-            int diceStillRolling = DiceList.Count;
-            foreach (var die in DiceList)
-            {
-                if (die.IsModelRollingFinished()) diceStillRolling--;
-            }
-
-            if (diceStillRolling == 0)
-            {
-                CalculateWaitedResults();
-                result = true;
-            }
-        }
-        else
-        {
-            result = true;
-        }
-
-        return result;
+        int diceStillRolling = DiceList.Count;
+        foreach (var die in DiceList) if (die.IsModelRollingFinished()) diceStillRolling--;
+        yield return diceStillRolling == 0;
     }
 
     private void CalculateWaitedResults()
     {
-        if (isRolling)
+        foreach (Die die in DiceList)
         {
-            isRolling = false;
+            die.Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
 
-            foreach (Die die in DiceList)
+            DieSide face = die.GetModelFace();
+            die.TrySetSide(face);
+
+            if (die.IsWaitingForNewResult)
             {
-                die.Model.GetComponentInChildren<Rigidbody>().isKinematic = true;
-
-                DieSide face = die.GetModelFace();
-                die.TrySetSide(face);
-
-                if (die.IsWaitingForNewResult)
-                {
-                    die.IsWaitingForNewResult = false;
-                    DiceManager.CallDiceResult(this, new DieResultEventArg(PlayerNo, Type, die.Side));
-                }
+                die.IsWaitingForNewResult = false;
+                DiceManager.CallDiceResult(this, new DieResultEventArg(Owner, Type, die.Side));
             }
-
-            if (IsDiceFacesVisibilityWrong())
-            {
-                OrganizeDicePositions();
-            }
-
-            UpdateDiceCompareHelperPrediction();
-
-            Roster.GetPlayer(Players.PlayerNo.Player1).SyncDiceResults(); // Server synchs dice
         }
+
+        if (IsDiceFacesVisibilityWrong())
+        {
+            OrganizeDicePositions();
+        }
+
+        UpdateDiceCompareHelperPrediction();
+
+        Roster.GetPlayer(PlayerNo.Player1).SyncDiceResults(); // Syrver synchs dice
     }
 
     public static void SyncDiceResults(List<DieSide> sides)
     {
-        Phases.CurrentSubPhase.IsReadyForCommands = false;
-
         bool wasFixed = false;
 
         for (int i = 0; i < DiceRoll.CurrentDiceRoll.DiceList.Count; i++)
@@ -647,183 +132,143 @@ public partial class DiceRoll
         ReplaysManager.ExecuteWithDelay(CurrentDiceRoll.ExecuteCallback);
     }
 
-    public void ExecuteCallback()
+    private void ExecuteCallback()
     {
-        callBack(this);
+        CallBack(this);
     }
 
-    public void RemoveDiceModels()
+    // ROLL IN
+
+    public void RollInDice(DelegateDiceroll callBack)
+    {
+        CallBack = callBack;
+        Die newDie = AddDice();
+
+        if (!ShouldSkipToSync())
+        {
+            newDie.RandomizeRotation();
+            Selection.ActiveShip.CallDiceAboutToBeRolled(RollAdditionalPreparedDice);
+        }
+        else
+        {
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
+        }
+    }
+
+    private void RollAdditionalPreparedDice()
     {
         foreach (Die die in DiceList)
         {
-            die.RemoveModel();
+            if (die.Model == null || !die.Model.activeSelf) die.Roll();
+        }
+
+        GameManagerScript.Instance.StartCoroutine(CalculateResultsCororutine());
+    }
+
+    // REROLL
+
+    public void RerollSelected(DelegateDiceroll callBack)
+    {
+        DiceRoll.CurrentDiceRoll = this;
+        this.CallBack = callBack;
+
+        if (!ShouldSkipToSync())
+        {
+            foreach (Die die in DiceList) if (die.IsSelected) die.RandomizeRotation();
+            RerollPreparedDice();
+        }
+        else
+        {
+            CurrentDiceRoll.DeselectAll();
+            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
         }
     }
 
-    public void OrganizeDicePositions()
+    private void RerollPreparedDice()
     {
-        for (int i = 0; i < DiceList.Count; i++)
-        {
-            if (DiceList[i].Model == null) continue;
+        DiceWereSelectedForRerollCount = SelectedCount;
+        DiceRerolled = DiceList.Where(n => n.IsSelected).ToList();
+        foreach (Die die in DiceRerolled) die.Reroll();
+        GameManagerScript.Instance.StartCoroutine(CalculateResultsCororutine());
+    }
 
-            DiceList[i].SetPosition(FinalPositionPoint.position + DiceManager.DicePositions[DiceList.Count-1][i]);
-            if (DiceList[i].IsDiceFaceVisibilityWrong())
+    public void ToggleRerolledLocks(bool isActive)
+    {
+        foreach (var dice in DiceList) dice.ToggleRerolledLock(isActive);
+    }
+
+    // DICE MODIFICATIONS
+
+    public void ApplyEvade()
+    {
+        Edition.Current.EvadeDiceModification(this);
+        OrganizeDicePositions();
+    }
+
+    public void AddDiceAndShow(DieSide dieSide)
+    {
+        AddDice(dieSide).ShowWithoutRoll();
+        OrganizeDicePositions();
+    }
+
+    public int Change(DieSide oldSide, DieSide newSide, int count = 0, bool cannotBeRerolled = false, bool cannotBeModified = false)
+	{
+        var changedDiceCount = 0;
+        if (count == 0) // = change all
+        {
+            changedDiceCount += ChangeAll(oldSide, newSide, cannotBeRerolled, cannotBeModified);
+        }
+        else
+        {
+            changedDiceCount = Math.Min(count, DiceList.Count(n => n.Side == oldSide));
+            for (int i = 0; i < changedDiceCount; i++) ChangeOne(oldSide, newSide, cannotBeRerolled, cannotBeModified);
+		}
+
+        OrganizeDicePositions();
+        return changedDiceCount;
+    }
+
+    public int ChangeAll(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)
+    {
+        int changedCount = ChangeDice(oldSide, newSide, false, cannotBeRerolled, cannotBeModified);
+        return changedCount;
+    }
+
+    public void ChangeOne(DieSide oldSide, DieSide newSide, bool cannotBeRerolled = false, bool cannotBeModified = false)
+    {
+        ChangeDice(oldSide, newSide, onlyOne: true, cannotBeRerolled, cannotBeModified);
+    }
+
+    public void ChangeWorstResultTo(DieSide newSide)
+    {
+        ChangeDice(WorstResult, newSide, true);
+    }
+
+    private int ChangeDice(DieSide oldSide, DieSide newSide, bool onlyOne, bool cannotBeRerolled = false, bool cannotBeModified = false)
+    {
+        OrganizeDicePositions();
+
+        var changedDiceCount = 0;
+        foreach (Die die in DiceList)
+        {
+            if (die.Side == oldSide)
             {
-                DiceList[i].SetModelSide(DiceList[i].Side);
-            }
-        }
-
-        UpdateDiceCompareHelperPrediction();
-    }
-
-    public bool IsDiceFacesVisibilityWrong()
-    {
-        bool result = false;
-
-        foreach (var dice in DiceList)
-        {
-            bool isDiceWrong = dice.IsDiceFaceVisibilityWrong();
-            if (isDiceWrong)
-            {
-                result = isDiceWrong;
-            }
-        }
-
-        return result;
-    }
-
-    private int GetSelectedNumber()
-    {
-        int result = 0;
-
-        foreach (var dice in DiceList)
-        {
-            if (dice.IsSelected) result++;
-        }
-
-        return result;
-    }
-
-    public void SelectAll()
-    {
-        foreach (var dice in DiceList)
-        {
-            dice.ToggleSelected(true);
-        }
-    }
-
-    public string CanDieBeSelected(Die die, ref bool canSelect)
-    {
-        if (die.CannotBeModified)
-        {
-            canSelect = false;
-            return "This die cannot be modified";
-        }
-
-        if (die.IsRerolled)
-        {
-            canSelect = false;
-            return "Each die can only be re-rolled once";
-        }
-
-        if (DiceRerollManager.CurrentDiceRerollManager.NumberOfDiceCanBeRerolled == GetSelectedNumber())
-        {
-            canSelect = false;
-            return "Only " + DiceRerollManager.CurrentDiceRerollManager.NumberOfDiceCanBeRerolled + " dice can be selected";
-        }
-
-        if (!DiceRerollManager.CurrentDiceRerollManager.SidesCanBeRerolled.Contains(die.Side))
-        {
-            canSelect = false;
-            return "Dice with this result cannot be rerolled";
-        }
-        Selection.ActiveShip.TrySelectDie(die, ref canSelect);
-        return "";
-    }
-
-    public void SelectBySides(List<DieSide> dieSides, int maxCanBeSelected)
-    {
-        DeselectDice();
-
-        int alreadySelected = 0;
-
-        if (alreadySelected < maxCanBeSelected)
-        {
-            foreach (var dieSide in dieSides)
-            {
-                //from blanks to focuses
-                foreach (var die in DiceList)
+                if (die.TrySetSide(newSide, isInitial: false))
                 {
-                    if (die.Side == dieSide)
-                    {
-                        bool canSelect = true;
-                        CanDieBeSelected(die, ref canSelect);
-                        if (canSelect)
-                        {
-                            die.ToggleSelected(true);
-                            alreadySelected++;
-                        }
-                        if (alreadySelected == maxCanBeSelected)
-                        {
-                            return;
-                        }
-                    }
+                    die.SetModelSide(newSide);
+                    changedDiceCount++;
+
+                    UpdateDiceCompareHelperPrediction();
+
+                    if (cannotBeRerolled) die.IsRerolled = true;
+                    if (cannotBeModified) die.CannotBeModified = true;
+                    if (onlyOne) return changedDiceCount;
                 }
             }
         }
+
+        return changedDiceCount;
     }
-
-    private void DeselectDice()
-    {
-        foreach (var dice in DiceList)
-        {
-            dice.ToggleSelected(false);
-        }
-    }
-
-    public void TrySelectDiceByModel(GameObject diceModel)
-    {
-        foreach (var die in DiceList)
-        {
-            if (die.Model.name == diceModel.transform.parent.name)
-            {
-                if (die.IsSelected)
-                {
-                    die.ToggleSelected(false);
-                    return;
-                }
-
-                // Check If the Die Is Selectable. Show Error Message if exists.
-                bool canSelect = true;
-                string message = CanDieBeSelected(die, ref canSelect);
-                if (canSelect) die.ToggleSelected(true);
-                else if (message.Length > 0) Messages.ShowErrorToHuman(message);
-            }
-        }
-    }
-
-    public void UpdateDiceCompareHelperPrediction()
-    {
-        if (DiceCompareHelper.currentDiceCompareHelper != null && DiceCompareHelper.currentDiceCompareHelper.IsActive())
-        {
-            DiceCompareHelper.currentDiceCompareHelper.ShowCancelled(this);
-        }
-    }
-
-    public void RollInDice(Action callBack)
-    {
-        // TODO:RESTORE
-
-        /*this.callBack = delegate { TryUnblockButtons(this); callBack(); };
-
-        if (Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer)) BlockButtons();
-
-        Die newDie = AddDice();
-
-        newDie.RandomizeRotation();
-        BeforeRollAdditionalPreparedDice();*/
-    }
-
 
     public DieSide FindDieToChange(DieSide destinationSide)
     {
@@ -849,7 +294,8 @@ public partial class DiceRoll
                 if (Successes > 0) return DieSide.Success;
                 if (Focuses > 0) return DieSide.Focus;
                 if (Blanks > 0) return DieSide.Blank;
-            } else
+            }
+            else
             {
                 if (Focuses > 0) return DieSide.Focus;
                 if (Successes > 0) return DieSide.Success;
@@ -859,9 +305,237 @@ public partial class DiceRoll
         return DieSide.Unknown; // We never should get here
     }
 
-    public bool HasResult(DieSide side)
+    // CANCELLATION
+
+    public Dictionary<string, int> CancelHitsByDefence(int countToCancel, bool dryRun = false)
     {
-        return DiceList.Any(n => n.Side == side);
+        Dictionary<string, int> results = new Dictionary<string, int>
+        {
+            ["crits"] = 0,
+            ["hits"] = 0
+        };
+
+        for (int i = 0; i < countToCancel; i++)
+        {
+            DieSide result = CancelHit(isCancelByDefenceDice:true, dryRun);
+            switch (result)
+            {
+                case DieSide.Success: { results["hits"]++; break; }
+                case DieSide.Crit: { results["crits"]++; break; }
+            }
+        }
+        return results;
+    }
+
+    public void CancelHitsSpecial(int numToCancel)
+    {
+        for (int i = 0; i < numToCancel; i++) CancelHit(isCancelByDefenceDice: false, dryRun: false);
+    }
+
+    private DieSide CancelHit(bool isCancelByDefenceDice, bool dryRun)
+    {;
+        DieSide cancelFirst = (!CancelCritsFirst) ? DieSide.Success : DieSide.Crit;
+        DieSide cancelLast = (!CancelCritsFirst) ? DieSide.Crit : DieSide.Success;
+        DieSide cancelResult = DieSide.Unknown;
+
+        if (!CancelType(cancelFirst, isCancelByDefenceDice, dryRun))
+        {
+            if (CancelType(cancelLast, isCancelByDefenceDice, dryRun))
+            {
+                cancelResult = cancelLast;
+            }
+        }
+        else
+        {
+            cancelResult = cancelFirst;
+        }
+        return cancelResult;
+    }
+
+    private bool CancelType(DieSide type, bool CancelByDefence, bool dryRun)
+    {
+        bool found = false;
+        foreach (Die die in DiceList)
+        {
+            if (die.Side == type)
+            {
+                //Cancel dice if it's not a defence cancel or it is and the die is cancellable
+                if ((!CancelByDefence) || (!die.IsUncancelable))
+                {
+                    die.Cancel();
+                    found = true;
+                    return found;
+                }
+            }
+        }
+        return found;
+    }
+
+    public void RemoveAllFailures()
+    {
+        List<Die> diceCopy = new List<Die>(DiceList);
+        foreach (Die die in diceCopy) if (die.IsFailure) DiceList.Remove(die);
+    }
+
+    // Used to clean the diceboard before adding other dice [ Accuracy corrector ]
+    public void RemoveAll()
+    {
+        RemoveDiceModels();
+        DiceList = new List<Die>();
+    }
+
+    public void RemoveDiceModels()
+    {
+        foreach (Die die in DiceList) die.RemoveModel();
+    }
+
+    public bool RemoveType(DieSide type)
+    {
+        // Select a die that matches the type, prioritize those that aren't uncancellable
+        Die dieToCancel = DiceList
+            .OrderBy(d => d.IsUncancelable)
+            .FirstOrDefault(d => d.Side == type);
+
+        if (dieToCancel != null)
+        {
+            dieToCancel.Cancel();
+            dieToCancel.RemoveModel();
+            DiceList.Remove(dieToCancel);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void CancelAllResults()
+    {
+        List<Die> diceListCopy = new List<Die>(DiceList);
+        foreach (var die in diceListCopy) die.Cancel();
+    }
+
+    // VIEW
+
+    public void OrganizeDicePositions()
+    {
+        for (int i = 0; i < DiceList.Count; i++)
+        {
+            if (DiceList[i].Model == null) continue;
+
+            DiceList[i].SetPosition(FinalPositionPoint.position + DiceManager.DicePositions[DiceList.Count-1][i]);
+            if (DiceList[i].IsDiceFaceVisibilityWrong()) DiceList[i].SetModelSide(DiceList[i].Side);
+        }
+
+        UpdateDiceCompareHelperPrediction();
+    }
+
+    public void UpdateDiceCompareHelperPrediction()
+    {
+        if (DiceCompareHelper.currentDiceCompareHelper != null && DiceCompareHelper.currentDiceCompareHelper.IsActive())
+        {
+            DiceCompareHelper.currentDiceCompareHelper.ShowCancelled(this);
+        }
+    }
+
+    public bool IsDiceFacesVisibilityWrong()
+    {
+        foreach (var dice in DiceList) if (dice.IsDiceFaceVisibilityWrong()) return true;
+        return false;
+    }
+
+    // SELECTION
+
+    public void SelectAll()
+    {
+        foreach (var dice in DiceList) dice.ToggleSelected(true);
+    }
+
+    private void DeselectAll()
+    {
+        foreach (var dice in DiceList) dice.ToggleSelected(false);
+    }
+
+    private bool CanDieBeSelected(Die die, ref string error)
+    {
+        bool canSelect = true;
+
+        if (die.CannotBeModified)
+        {
+            canSelect = false;
+            error = "This die cannot be modified";
+        }
+        else if (die.IsRerolled)
+        {
+            canSelect = false;
+            error = "Each die can only be re-rolled once";
+        }
+        else if (DiceRerollManager.CurrentDiceRerollManager.NumberOfDiceCanBeRerolled == SelectedCount)
+        {
+            canSelect = false;
+            error = "Only " + DiceRerollManager.CurrentDiceRerollManager.NumberOfDiceCanBeRerolled + " dice can be selected";
+        }
+        else if (!DiceRerollManager.CurrentDiceRerollManager.SidesCanBeRerolled.Contains(die.Side))
+        {
+            canSelect = false;
+            error = "Dice with this result cannot be rerolled";
+        }
+
+        Selection.ActiveShip.TrySelectDie(die, ref canSelect);
+        return canSelect;
+    }
+
+    public void SelectBySides(List<DieSide> dieSides, int maxCanBeSelected)
+    {
+        DeselectAll();
+
+        int alreadySelected = 0;
+
+        if (alreadySelected < maxCanBeSelected)
+        {
+            foreach (var dieSide in dieSides)
+            {
+                //from blanks to focuses
+                foreach (var die in DiceList)
+                {
+                    if (die.Side == dieSide)
+                    {
+                        string selectionErrors = "";
+                        bool canSelect = CanDieBeSelected(die, ref selectionErrors);
+                        if (canSelect)
+                        {
+                            die.ToggleSelected(true);
+                            alreadySelected++;
+                        }
+                        if (alreadySelected == maxCanBeSelected)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void TrySelectDiceByModel(GameObject diceModel)
+    {
+        foreach (var die in DiceList)
+        {
+            if (die.Model.name == diceModel.transform.parent.name)
+            {
+                if (die.IsSelected)
+                {
+                    die.ToggleSelected(false);
+                    return;
+                }
+
+                // Check If the Die Is Selectable. Show Error Message if exists.
+                string errors = "";
+                bool canSelect = CanDieBeSelected(die, ref errors);
+                if (canSelect) die.ToggleSelected(true);
+                else if (errors.Length > 0) Messages.ShowErrorToHuman(errors);
+            }
+        }
     }
 
     public static GameCommand GenerateSyncDiceCommand()
@@ -884,5 +558,13 @@ public partial class DiceRoll
             Phases.CurrentSubPhase.GetType(),
             parameters.ToString()
         );
+    }
+
+    public void MarkAsModifiedBy(PlayerNo playerNo)
+    {
+        if (!Combat.CurrentDiceRoll.ModifiedByPlayers.Contains(playerNo))
+        {
+            Combat.CurrentDiceRoll.ModifiedByPlayers.Add(playerNo);
+        }
     }
 }

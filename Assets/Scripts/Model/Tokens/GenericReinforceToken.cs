@@ -33,8 +33,7 @@ namespace Tokens
                 if (Editions.Edition.Current.ReinforceEffectCanBeUsed(Facing))
                 {
                     Messages.ShowInfo("Reinforce has added an Evade result");
-                    diceroll.AddDice(DieSide.Success).ShowWithoutRoll();
-                    diceroll.OrganizeDicePositions();
+                    diceroll.AddDiceAndShow(DieSide.Success);
                 }
             }
         }

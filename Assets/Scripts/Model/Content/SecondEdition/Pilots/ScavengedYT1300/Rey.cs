@@ -60,12 +60,7 @@ namespace Abilities.SecondEdition
             public override void ActionEffect(System.Action callBack)
             {
                 Combat.CurrentDiceRoll.ChangeOne(DieSide.Blank, DieSide.Success);
-                Combat.CurrentDiceRoll.OrganizeDicePositions();
-
-                HostShip.Tokens.SpendToken(
-                    typeof(ForceToken),
-                    callBack
-                );
+                HostShip.Tokens.SpendToken(typeof(ForceToken), callBack);
             }
 
             public override bool IsDiceModificationAvailable()

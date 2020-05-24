@@ -19,7 +19,7 @@ namespace ActionsList
 
         public override void ActionEffect(System.Action callBack)
         {
-            Combat.CurrentDiceRoll.ApplyFocus();
+            Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Success);
             Selection.ActiveShip.Tokens.SpendToken(typeof(Tokens.FocusToken), callBack);
         }
 

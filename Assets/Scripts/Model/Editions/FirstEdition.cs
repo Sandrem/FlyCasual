@@ -90,7 +90,7 @@ namespace Editions
 
         public override void EvadeDiceModification(DiceRoll diceRoll)
         {
-            diceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
+            diceRoll.AddDiceAndShow(DieSide.Success);
         }
 
         public override bool IsWeaponHaveRangeBonus(IShipWeapon weapon)

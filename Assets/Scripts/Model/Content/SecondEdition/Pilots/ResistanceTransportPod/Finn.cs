@@ -83,8 +83,7 @@ namespace ActionsList
         {
             HostShip.AddAlreadyUsedDiceModification(new FinnTransportPodDiceModificationFocus() { HostShip = HostShip });
 
-            Combat.CurrentDiceRoll.AddDice(DieSide.Blank).ShowWithoutRoll();
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
+            Combat.CurrentDiceRoll.AddDiceAndShow(DieSide.Blank);
 
             callBack();
         }
@@ -111,8 +110,7 @@ namespace ActionsList
         {
             HostShip.AddAlreadyUsedDiceModification(new FinnTransportPodDiceModificationBlank() { HostShip = HostShip });
 
-            Combat.CurrentDiceRoll.AddDice(DieSide.Focus).ShowWithoutRoll();
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
+            Combat.CurrentDiceRoll.AddDiceAndShow(DieSide.Focus);
 
             HostShip.Tokens.AssignToken(typeof(Tokens.StrainToken), callBack);
         }

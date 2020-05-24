@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public partial class Die
-{    
+{
+    public DieSide Side { get; private set; }
+    private List<DieSide> Sides { get; set; }
+    public bool IsSuccess { get { return Side == DieSide.Success || Side == DieSide.Crit; } }
+    public bool IsFailure { get { return Side == DieSide.Blank || Side == DieSide.Focus; } }
     public bool IsSelected { get; private set; }
     public bool IsRerolled { get; set; }
     public bool IsShowRerolledLock { get; private set; }
@@ -23,22 +27,6 @@ public partial class Die
             ToggleRerolledLock(IsRerolled || value); // Show the "already rerolled lock" for now. TODO: custom icon?
         }
     }
-
-    public bool IsSuccess
-    {
-        get
-        {
-            if (Side == DieSide.Success || Side == DieSide.Crit)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-    }
-
 
     public void ToggleSelected(bool isSelected)
     {
@@ -101,17 +89,4 @@ public partial class Die
             return false;
         }
     }
-
-    public DieSide Side
-    {
-        get;
-        private set;
-    }
-
-    private List<DieSide> Sides
-    {
-        get;
-        set;
-    }
-
 }

@@ -115,10 +115,7 @@ namespace Abilities.SecondEdition
             private void AllowToAddEvade(object sender, EventArgs e)
             {
                 Messages.ShowInfo("K2-B4: Attacker decided to allow the defender to add Evade result");
-
-                Combat.DiceRollDefence.AddDice(DieSide.Success).ShowWithoutRoll();
-                Combat.DiceRollDefence.OrganizeDicePositions();
-
+                Combat.DiceRollDefence.AddDiceAndShow(DieSide.Success);
                 DecisionSubPhase.ConfirmDecision();
             }
 

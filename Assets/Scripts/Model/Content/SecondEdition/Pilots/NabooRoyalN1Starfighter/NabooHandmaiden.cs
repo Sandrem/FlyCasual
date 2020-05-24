@@ -186,8 +186,7 @@ namespace ActionsList
             if (HostShip.ShipInfo.ShipName == "Naboo Royal N-1 Starfighter")
             {
                 Messages.ShowInfo("Naboo Handmaiden: added evade.");
-                Combat.CurrentDiceRoll.AddDice(DieSide.Success).ShowWithoutRoll();
-                Combat.CurrentDiceRoll.OrganizeDicePositions();
+                Combat.CurrentDiceRoll.AddDiceAndShow(DieSide.Success);
             }
             else
             {

@@ -42,7 +42,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(ref int value)
         {
-            if (Combat.AttackStep == CombatStep.Defence && Combat.DiceRollAttack.ModifiedBy.Contains(Combat.Attacker.Owner.PlayerNo))
+            if (Combat.AttackStep == CombatStep.Defence && Combat.DiceRollAttack.ModifiedByPlayers.Contains(Combat.Attacker.Owner.PlayerNo))
             {
                 Messages.ShowInfo(HostShip.PilotInfo.PilotName + " rolls an additional defense die");
                 value++;

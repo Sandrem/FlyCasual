@@ -107,7 +107,6 @@ namespace ActionsList
             Combat.CurrentDiceRoll.ChangeAll(DieSide.Blank, DieSide.Crit);
             Combat.CurrentDiceRoll.ChangeAll(DieSide.Focus, DieSide.Crit);
             Combat.CurrentDiceRoll.ChangeAll(DieSide.Success, DieSide.Crit);
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
             this.ActionCallback();
         }
 

@@ -55,8 +55,7 @@ namespace Abilities.FirstEdition
 
             public override void ActionEffect(System.Action callBack)
             {
-                Combat.CurrentDiceRoll.AddDice(DieSide.Focus).ShowWithoutRoll();
-                Combat.CurrentDiceRoll.OrganizeDicePositions();
+                Combat.CurrentDiceRoll.AddDiceAndShow(DieSide.Focus);
                 callBack();
             }
 

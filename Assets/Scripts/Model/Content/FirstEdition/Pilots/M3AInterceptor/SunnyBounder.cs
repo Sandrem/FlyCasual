@@ -76,8 +76,7 @@ namespace ActionsList.FirstEdition
         public override void ActionEffect(System.Action callBack)
         {
             abilityIsUsed();
-            Combat.CurrentDiceRoll.AddDice(Combat.CurrentDiceRoll.DiceList.First().Side).ShowWithoutRoll();
-            Combat.CurrentDiceRoll.OrganizeDicePositions();
+            Combat.CurrentDiceRoll.AddDiceAndShow(Combat.CurrentDiceRoll.DiceList.First().Side);
             callBack();
         }
     }

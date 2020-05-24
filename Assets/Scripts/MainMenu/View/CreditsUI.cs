@@ -14,12 +14,12 @@ public static class CreditsUI {
     {
         { "Programming", "Sandrem, Rune-b, Azrapse, Matthew Blanchard, GeneralVryth, bwakefield27, thordurk91, Conzar, deakolt, Galaxy613, TheChiefMoose, YannickBgn, Evan Lundell, Fabio Macal, SirHaplo, Nick Buonarota (NickyDaB), rats3g, tetrarchangel, Andrew Matheny, Jimmy5910, jamorbal, pappnase99, Stephen Wangner, jychuah, jtg15, vladamex, xNyer, Ryan Praska, savagerose, Krumok, Tron, mikethetike, tinydantser, belk, XPav, DejaFu, bitsai, joshhightower, Andrew Nickell, barraudl, randy-ja" },
         { "3D Art", "TerranCmdr, Izaak94, Darksaber, DTM, Warb Null, Rob, Gambler, Nim the Netrunner, Gremlyn, Morvana, FabioOtto, Grediel, Cherrybomb67, Smight, Voiceoftheforce, flipdark95, JonnieLP, Atherin, Captain Tributon, JackJohn2942, danielnavax90s, abdyla" },
-        { "2D Art", "xwingtmgphotography, Matthew Cohen, Andreas Bazylewsi, Andrew McCarthy, Odanan, Andrew Lippens, Davish_Krail" },
+        { "2D Art", "xwingtmgphotography, Matthew Cohen, Brimhorn Battalion, Andreas Bazylewsi, Andrew McCarthy, Odanan, Andrew Lippens, Davish_Krail" },
         { "Music", "Daniel (Affordable Audio 4 Everyone), Robson Cozendey" },
         { "Fonts", "Pixel Sagas \"Rebellion\", \"Strike Fighter\" (Daniel Zadorozny, Iconian Fonts), xwing-miniatures-font (geordanr)" },
         { "Additional assets", "Skybox Volume 2: Nebula (Hedgehog Team), Simple Table Glass (Quadrante Studio), sFuture Modules PRO Space and Ground (Sami Lehtonen), Sci Fi Doors (MASH Virtual)" },
-        { "Testing", "djeknemesis2012, LiquidLogic" },
-        { "Thanks for support", "Andy Selby, Emmanuel Broto, Phillip Manwaring, Arik Roshanzamir, Andrew Ballentine, Kent, Scott Milam, John T. Harrison IV, Rick Servello, Spencer Loper, Landon, Dual Torpedoes, Vittorio Rosa, GregFromParis#42, Charlie King, Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug, John Snape, Bryan Froh, Ross Kushnereit, David Gausebeck, Alan Michael, Brian Hall, Byron Harder, shaun p kelleher, James Campbell, Willy Fortin, Spqan x" },
+        { "Testing", "djeknemesis2012, LiquidLogic, doji" },
+        { "Thanks for support", "Andy Selby, Emmanuel Broto, Phillip Manwaring, Arik Roshanzamir, Andrew Ballentine, Kent, Scott Milam, John T. Harrison IV, Rick Servello, Spencer Loper, Landon, Dual Torpedoes, Vittorio Rosa, GregFromParis#42, Charlie King, Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug, John Snape, Bryan Froh, Ross Kushnereit, David Gausebeck, Alan Michael, Brian Hall, Byron Harder, shaun p kelleher, James Campbell, Willy Fortin, Spqan x, Shawn Mason, X-Wing Tavern Wars, Phillip Manwaring, Andrew Ballentine " },
     };
 
     public static void InitializePanel()

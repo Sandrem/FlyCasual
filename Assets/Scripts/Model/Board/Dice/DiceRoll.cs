@@ -36,7 +36,7 @@ public partial class DiceRoll
 
     public Die AddDice(DieSide side = DieSide.Unknown)
     {
-        Die newDice = new Die(this, this.Type);
+        Die newDice = new Die(this, this.Type, side);
         DiceList.Add(newDice);
         return newDice;
     }
@@ -102,8 +102,10 @@ public partial class DiceRoll
         {
             OrganizeDicePositions();
         }
-
-        UpdateDiceCompareHelperPrediction();
+        else
+        {
+            UpdateDiceCompareHelperPrediction();
+        }
 
         Roster.GetPlayer(PlayerNo.Player1).SyncDiceResults(); // Syrver synchs dice
     }
@@ -127,7 +129,14 @@ public partial class DiceRoll
             }
         }
 
-        if (wasFixed) DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
+        if (wasFixed)
+        {
+            DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
+        }
+        else
+        {
+            DiceRoll.CurrentDiceRoll.UpdateDiceCompareHelperPrediction();
+        }
 
         ReplaysManager.ExecuteWithDelay(CurrentDiceRoll.ExecuteCallback);
     }
@@ -246,8 +255,6 @@ public partial class DiceRoll
 
     private int ChangeDice(DieSide oldSide, DieSide newSide, bool onlyOne, bool cannotBeRerolled = false, bool cannotBeModified = false)
     {
-        OrganizeDicePositions();
-
         var changedDiceCount = 0;
         foreach (Die die in DiceList)
         {
@@ -262,10 +269,12 @@ public partial class DiceRoll
 
                     if (cannotBeRerolled) die.IsRerolled = true;
                     if (cannotBeModified) die.CannotBeModified = true;
-                    if (onlyOne) return changedDiceCount;
+                    if (onlyOne) break;
                 }
             }
         }
+
+        OrganizeDicePositions();
 
         return changedDiceCount;
     }

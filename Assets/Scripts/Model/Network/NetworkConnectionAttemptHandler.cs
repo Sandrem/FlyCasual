@@ -18,7 +18,7 @@ public class NetworkConnectionAttemptHandler : MonoBehaviour
         IsTracking = true;
     }
 
-    public void StopAtempt()
+    public void StopAttempt()
     {
         IsTracking = false;
     }
@@ -34,10 +34,10 @@ public class NetworkConnectionAttemptHandler : MonoBehaviour
         }
     }
 
-    private void AbortAttempt()
+    public void AbortAttempt()
     {
         NetworkManager.singleton.StopClient();
-        Messages.ShowError("Connection failed");
+        Messages.ShowError("Connection attempt is failed");
         IsTracking = false;
         BottomPanel.SetActive(true);
         IpInput.interactable = true;

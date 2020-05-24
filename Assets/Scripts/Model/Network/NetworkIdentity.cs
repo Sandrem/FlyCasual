@@ -56,6 +56,7 @@ public class NetworkIdentity : NetworkBehaviour
     [ClientRpc]
     private void RpcStartNetworkGame()
     {
+        Network.ConnectionIsEstablished = true;
         SquadBuilder.StartNetworkGame();
     }
 
@@ -68,31 +69,38 @@ public class NetworkIdentity : NetworkBehaviour
     [Command]
     public void CmdSyncAndStartGame(string playerName, string title, string avatar, string squadString)
     {
-        RpcSendPlayerInfoToClients
-        (
-            1,
-            Options.NickName,
-            Options.Title,
-            Options.Avatar,
-            SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString()
-        );
+        if (!Network.ConnectionIsEstablished)
+        {
+            RpcSendPlayerInfoToClients
+            (
+                1,
+                Options.NickName,
+                Options.Title,
+                Options.Avatar,
+                SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString()
+            );
 
-        RpcSendPlayerInfoToClients
-        (
-            2,
-            playerName,
-            title,
-            avatar,
-            squadString
-        );
+            RpcSendPlayerInfoToClients
+            (
+                2,
+                playerName,
+                title,
+                avatar,
+                squadString
+            );
 
-        RpcStartNetworkGame();
+            RpcStartNetworkGame();
 
-        new NetworkTask
-        (
-            "Load Battle Scene",
-            RpcBattleIsReady
-        );
+            new NetworkTask
+            (
+                "Load Battle Scene",
+                RpcBattleIsReady
+            );
+        }
+        else
+        {
+            RpcDisconnectExtraClient();
+        }
     }
 
     [ClientRpc]
@@ -108,6 +116,16 @@ public class NetworkIdentity : NetworkBehaviour
         );
     }
 
+    [ClientRpc]
+    private void RpcDisconnectExtraClient()
+    {
+        if (!Network.ConnectionIsEstablished)
+        {
+            Messages.ShowError("Sorry, the host have already found an opponent");
+            Network.ConnectionAttempt.AbortAttempt();
+        }
+    }
+
     [Command]
     public void CmdFinishTask()
     {
@@ -120,7 +138,7 @@ public class NetworkIdentity : NetworkBehaviour
 
         if (this.hasAuthority)
         {
-            if (Network.ConnectionAttempt != null) Network.ConnectionAttempt.StopAtempt();
+            if (Network.ConnectionAttempt != null) Network.ConnectionAttempt.StopAttempt();
 
             Network.CurrentPlayer = this;
 

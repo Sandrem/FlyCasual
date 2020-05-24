@@ -12,6 +12,7 @@ public static class Network
 {
     public static NetworkIdentity CurrentPlayer { get; set; }
     public static NetworkConnectionAttemptHandler ConnectionAttempt { get; set; }
+    public static bool ConnectionIsEstablished { get; set; }
 
     public static bool IsNetworkGame
     {
@@ -29,6 +30,7 @@ public static class Network
 
     public static void CreateMatch(string roomName, string password)
     {
+        ConnectionIsEstablished = false;
         NetworkManager.singleton.StartHost();
     }
 
@@ -39,6 +41,7 @@ public static class Network
 
     public static void JoinRoom(string password)
     {
+        ConnectionIsEstablished = false;
         ConnectionAttempt = GameObject.FindObjectOfType<NetworkConnectionAttemptHandler>();
 
         Uri uri = new Uri(Network.ServerUri);

@@ -74,7 +74,7 @@ public partial class Console : MonoBehaviour {
         if (logEntry.CalculatedPrefferedHeight == 0)
         {
             newLogEntry.GetComponent<RectTransform>().sizeDelta = new Vector2(
-                Screen.width - LOG_ENTRY_MARGIN,
+                newLogEntry.GetComponent<RectTransform>().sizeDelta.x,
                 0
             );
 
@@ -87,8 +87,8 @@ public partial class Console : MonoBehaviour {
         }
 
         newLogEntry.GetComponent<RectTransform>().sizeDelta = new Vector2(
-            Screen.width - 2 * LOG_ENTRY_MARGIN,
-            prefferedHeight
+            newLogEntry.GetComponent<RectTransform>().sizeDelta.x,
+            prefferedHeight * 1.25f
         );
 
         newLogEntry.transform.localPosition = new Vector3(newLogEntry.transform.localPosition.x, -(LOG_ENTRY_MARGIN + totalLogEntryHeight));

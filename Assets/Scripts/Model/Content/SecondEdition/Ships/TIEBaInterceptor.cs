@@ -145,7 +145,7 @@ namespace Abilities.SecondEdition
                 SelectDepleteToken
             );
 
-            //TODO: subphase.DefaultDecisionName = "";
+            subphase.DefaultDecisionName = "";
 
             subphase.Start();
         }

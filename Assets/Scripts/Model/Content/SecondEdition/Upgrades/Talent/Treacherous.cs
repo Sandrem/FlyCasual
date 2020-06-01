@@ -49,7 +49,6 @@ namespace Abilities.SecondEdition
             {
                 ImageUrl = HostUpgrade.ImageUrl,
                 HostShip = HostShip,
-                Source = HostUpgrade,
                 DoDiceModification = DoTreacherousDiceModification
             };
             HostShip.AddAvailableDiceModificationOwn(newAction);
@@ -173,9 +172,7 @@ namespace ActionsList
 
         public override bool IsDiceModificationAvailable()
         {
-            return Combat.AttackStep == CombatStep.Attack
-                && Combat.ShotInfo.ObstructedByShips.Count > 0
-                && Source.State.Charges > 0;
+            return Combat.AttackStep == CombatStep.Attack && Combat.ShotInfo.ObstructedByShips.Count > 0;
         }
     }
 

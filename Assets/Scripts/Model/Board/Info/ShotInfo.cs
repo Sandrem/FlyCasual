@@ -125,7 +125,11 @@ namespace BoardTools
 
                     IsShotAvailable = true;
 
-                    if (!(arc is ArcBullseye)) ShotAvailableFromArcs.Add(arc);
+                    if (!(arc is ArcBullseye)
+                        || (Weapon.WeaponInfo.ArcRestrictions.Count > 0 && Weapon.WeaponInfo.ArcRestrictions.Contains(ArcType.Bullseye)))
+                    {
+                        ShotAvailableFromArcs.Add(arc);
+                    }
                 }
 
                 if (NearestFailedDistance == null)

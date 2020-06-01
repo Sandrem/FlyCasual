@@ -624,7 +624,10 @@ public static partial class Roster {
 
     public static void UnMarkShip(GenericShip ship)
     {
-        ship.InfoPanel.transform.Find("Mark").GetComponent<Canvas>().enabled = false;
+        if (ship != null && ship.InfoPanel != null)
+        {
+            ship.InfoPanel.transform.Find("Mark").GetComponent<Canvas>().enabled = false;
+        }
     }
 
     public static void UpdateAssignedManeuverDial(GenericShip ship, Movement.GenericMovement maneuver)

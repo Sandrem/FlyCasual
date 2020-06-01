@@ -436,7 +436,9 @@ namespace Ship
 
         public Transform GetSelectionProjector()
         {
-            return ShipAllParts.Find("ShipBase").Find("SelectionProjector");
+            Transform result = null;
+            if (ShipAllParts != null) result = ShipAllParts.Find("ShipBase").Find("SelectionProjector");
+            return result;
         }
 
         public Transform GetMultiSelectionProjector()
@@ -479,8 +481,7 @@ namespace Ship
 
         public void HighlightSelectedOff()
         {
-            Transform projector = GetSelectionProjector();
-            projector.gameObject.SetActive(false);
+            GetSelectionProjector()?.gameObject?.SetActive(false);
         }
 
         public void HighlightCanBeSelectedOn()

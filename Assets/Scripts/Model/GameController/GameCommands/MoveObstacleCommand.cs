@@ -22,7 +22,7 @@ namespace GameCommands
                 new Vector3
                 (
                     float.Parse(GetString("positionX"), CultureInfo.InvariantCulture),
-                    float.Parse(GetString("positionY"), CultureInfo.InvariantCulture),
+                    float.Parse("0"),
                     float.Parse(GetString("positionZ"), CultureInfo.InvariantCulture)
                 ),
                 new Vector3

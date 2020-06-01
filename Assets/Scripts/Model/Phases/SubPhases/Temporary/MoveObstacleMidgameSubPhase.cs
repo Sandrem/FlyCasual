@@ -9,6 +9,7 @@ using GameCommands;
 using System;
 using Obstacles;
 using Players;
+using System.Globalization;
 
 namespace SubPhases
 {
@@ -63,6 +64,8 @@ namespace SubPhases
 
             Board.ToggleObstaclesHolder(true);
             Roster.SetRaycastTargets(false);
+
+            ObstaclesManager.SetObstaclesCollisionDetectionQuality(CollisionDetectionQuality.Low);
 
             IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).MoveObstacleMidgame();
@@ -353,8 +356,13 @@ namespace SubPhases
         {
             JSONObject parameters = new JSONObject();
             parameters.AddField("name", obstacleName);
-            parameters.AddField("positionX", position.x.ToString()); parameters.AddField("positionY", position.y.ToString()); parameters.AddField("positionZ", position.z.ToString());
-            parameters.AddField("rotationX", angles.x.ToString()); parameters.AddField("rotationY", angles.y.ToString()); parameters.AddField("rotationZ", angles.z.ToString());
+            parameters.AddField("positionX", position.x.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("positionY", "0");
+            parameters.AddField("positionZ", position.z.ToString(CultureInfo.InvariantCulture));
+
+            parameters.AddField("rotationX", angles.x.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("rotationY", angles.y.ToString(CultureInfo.InvariantCulture));
+            parameters.AddField("rotationZ", angles.z.ToString(CultureInfo.InvariantCulture));
             return GameController.GenerateGameCommand(
                 GameCommandTypes.MoveObstacle,
                 typeof(MoveObstacleMidgameSubPhase),
@@ -388,6 +396,7 @@ namespace SubPhases
 
             Board.ToggleObstaclesHolder(false);
             Roster.SetRaycastTargets(true);
+            ObstaclesManager.SetObstaclesCollisionDetectionQuality(CollisionDetectionQuality.High);
 
             Action callback = Phases.CurrentSubPhase.CallBack;
             Phases.CurrentSubPhase = Phases.CurrentSubPhase.PreviousSubPhase;

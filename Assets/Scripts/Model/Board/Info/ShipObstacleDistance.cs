@@ -16,10 +16,13 @@ namespace BoardTools
 
         public ShipObstacleDistance(GenericShip ship, GenericObstacle obstacle)
         {
+            CollisionDetectionQuality currentQuality = ObstaclesManager.CollisionDetectionQuality;
+            ObstaclesManager.SetObstaclesCollisionDetectionQuality(CollisionDetectionQuality.Low);
             Ship = ship;
             Obstacle = obstacle;
 
             if (!CheckDistanceSimple()) CheckDistanceAdvanced();
+            ObstaclesManager.SetObstaclesCollisionDetectionQuality(currentQuality);
         }
 
         private bool CheckDistanceSimple()

@@ -56,6 +56,8 @@ namespace SubPhases
                 if (player.PlayerType == PlayerType.Ai) IsRandomSetupSelected[player.PlayerNo] = true;
             }
 
+            ObstaclesManager.SetObstaclesCollisionDetectionQuality(CollisionDetectionQuality.Low);
+
             Next();
         }
 
@@ -96,6 +98,7 @@ namespace SubPhases
             HideSubphaseDescription();
 
             Board.ToggleObstaclesHolder(false);
+            ObstaclesManager.SetObstaclesCollisionDetectionQuality(CollisionDetectionQuality.High);
 
             GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartSetupPhase);
             (subphase as NotificationSubPhase).TextToShow = "Setup";
@@ -398,7 +401,9 @@ namespace SubPhases
         {
             Board.HighlightOfStartingZoneOff();
             Board.ToggleOffTheBoardHolder(true);
+            
             ChosenObstacle = obstacle;
+
             UI.HideSkipButton();
 
             if (CameraScript.InputTouchIsEnabled && !IsRandomSetupSelected[RequiredPlayer])

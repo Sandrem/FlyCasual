@@ -8,6 +8,7 @@ using System.Linq;
 using Ship;
 using System;
 using Tokens;
+using Remote;
 
 public static partial class Roster {
 
@@ -64,7 +65,10 @@ public static partial class Roster {
 
         GameObject shipTypeGO = newPanel.transform.Find("ShipInfo/ShipTypeText").gameObject;
         shipTypeGO.GetComponent<Text>().text = newShip.ShipInfo.ShipName;
-        TooltipSpecial.AddTooltip(shipTypeGO, (Transform transform) => { ShowDial(newShip, transform); });
+        if (!(newShip is GenericRemote))
+        {
+            TooltipSpecial.AddTooltip(shipTypeGO, (Transform transform) => { ShowDial(newShip, transform); });
+        }
         SubscribeSelectionByInfoPanel(shipTypeGO);
 
         //Mark

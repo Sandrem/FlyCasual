@@ -557,7 +557,15 @@ namespace SquadBuilderNS
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    SaveSquadronToFile(GetSquadList(Tools.IntToPlayer(i + 1)), "Autosave (Player " + (i + 1) + ")", delegate { });
+                    try
+                    {
+                        SaveSquadronToFile(GetSquadList(Tools.IntToPlayer(i + 1)), "Autosave (Player " + (i + 1) + ")", delegate { });
+                    }
+                    catch (Exception)
+                    {
+                        DebugManager.DebugNetworkSingleDevice = true;
+                    }
+                    
                 }
             }
         }

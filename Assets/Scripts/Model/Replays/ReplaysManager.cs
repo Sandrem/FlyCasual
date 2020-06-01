@@ -65,7 +65,14 @@ public static class ReplaysManager
     {
         if (ShouldBeRecorded(command))
         {
-            File.AppendAllText(FilePath, command.ToString() + "\n");
+            try
+            {
+                File.AppendAllText(FilePath, command.ToString() + "\n");
+            }
+            catch (Exception)
+            {
+                DebugManager.DebugNetworkSingleDevice = true;
+            }
         }
     }
 

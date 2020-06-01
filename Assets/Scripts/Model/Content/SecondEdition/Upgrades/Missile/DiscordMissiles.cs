@@ -90,16 +90,23 @@ namespace Abilities.SecondEdition
 
         private void AskToUseOwnAbility(object sender, EventArgs e)
         {
-            Selection.ChangeActiveShip(HostShip);
+            if (HostShip.Tokens.HasToken(typeof(CalculateToken)))
+            {
+                Selection.ChangeActiveShip(HostShip);
 
-            AskToUseAbility(
-                HostUpgrade.UpgradeInfo.Name,
-                NeverUseByDefault,
-                StartRemoteDeployment,
-                descriptionLong: "Do you want to launch 1 Buzz Droid Swarm?",
-                imageHolder: HostUpgrade,
-                requiredPlayer: HostShip.Owner.PlayerNo
-            );
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    NeverUseByDefault,
+                    StartRemoteDeployment,
+                    descriptionLong: "Do you want to launch 1 Buzz Droid Swarm?",
+                    imageHolder: HostUpgrade,
+                    requiredPlayer: HostShip.Owner.PlayerNo
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }            
         }
 
         private void StartRemoteDeployment(object sender, EventArgs e)

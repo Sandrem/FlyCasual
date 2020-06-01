@@ -48,7 +48,7 @@ namespace Abilities.SecondEdition
 
         private void Ability(object sender, EventArgs e)
         {
-            if (TargetsForAbilityExist(FilterAbilityTarget))
+            if (HostShip.Tokens.HasToken<Tokens.CalculateToken>() && TargetsForAbilityExist(FilterAbilityTarget))
             {
                 Messages.ShowInfoToHuman(HostName + ": Select a ship to transfer 1 calculate token to");
 

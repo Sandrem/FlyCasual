@@ -28,6 +28,7 @@ namespace SubPhases
                 AddDecision(
                     "Discard " + kv.Key.ToLower(),
                     delegate {
+                        Messages.ShowInfo(Selection.ThisShip.PilotInfo.PilotName + " discarded " + kv.Key.ToLower());
                         Selection.ThisShip.Tokens.RemoveToken(
                             kv.Value.GetType(),
                             DecisionSubPhase.ConfirmDecision
@@ -73,6 +74,7 @@ namespace SubPhases
                 AddDecision(
                     "Spend " + kv.Key.ToLower(),
                     delegate {
+                        Messages.ShowInfo(HostShip.PilotInfo.PilotName + " spent " + kv.Key.ToLower());
                         HostShip.Tokens.SpendToken(
                             kv.Value.GetType(),
                             DecisionSubPhase.ConfirmDecision

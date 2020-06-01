@@ -64,6 +64,8 @@ namespace SubPhases
 
         private void SufferDamage(object sender, System.EventArgs e)
         {
+            Messages.ShowInfo("Torani Kulda's ability: " + Selection.ThisShip.PilotInfo.PilotName + " decided to suffer 1 damage");
+
             DamageSourceEventArgs toranikuldaDamage = new DamageSourceEventArgs()
             {
                 Source = "Torani Kulda",

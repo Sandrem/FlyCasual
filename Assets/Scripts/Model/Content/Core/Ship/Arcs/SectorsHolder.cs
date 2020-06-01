@@ -57,7 +57,7 @@ namespace Ship
             ShotInfoArc arcInfo = GetSectorInfo(anotherShip, arcType);
             if (arcInfo != null)
             {
-                bool result = arcInfo.IsShotAvailable;
+                bool result = arcInfo.InArc;
                 if (arcType == ArcType.Bullseye) HostShip.CallOnBullseyeArcCheck(anotherShip, ref result);
 
                 return result;

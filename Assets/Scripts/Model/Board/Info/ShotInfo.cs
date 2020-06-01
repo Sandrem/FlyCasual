@@ -49,11 +49,6 @@ namespace BoardTools
         //EVENTS
         public delegate void EventHandlerShipShipWeaponInt(GenericShip thisShip, GenericShip anotherShip, IShipWeapon chosenWeapon, ref int range);
 
-        internal bool InArcByType(object bullseye)
-        {
-            throw new NotImplementedException();
-        }
-
         public static event EventHandlerShipShipWeaponInt OnRangeIsMeasured;
 
         /// <summary>

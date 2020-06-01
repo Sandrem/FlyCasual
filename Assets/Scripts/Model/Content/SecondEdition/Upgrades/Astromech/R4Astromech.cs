@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
                     movement.ColorComplexity = GenericMovement.ReduceComplexity(movement.ColorComplexity);
                     // Update revealed dial in UI
                     Roster.UpdateAssignedManeuverDial(HostShip, HostShip.AssignedManeuver);
-                    Messages.ShowInfo("R4 Astromech: Difficulty of maneuver is reduced");
+                    Messages.ShowInfoToHuman("R4 Astromech: Difficulty of maneuvers is reduced");
                 }
             }
         }

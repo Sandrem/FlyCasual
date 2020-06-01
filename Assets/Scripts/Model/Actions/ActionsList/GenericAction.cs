@@ -204,6 +204,7 @@ namespace ActionsList
                     callback();
                 }
             );
+            Phases.CurrentSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
             ActionTake();
         }
 

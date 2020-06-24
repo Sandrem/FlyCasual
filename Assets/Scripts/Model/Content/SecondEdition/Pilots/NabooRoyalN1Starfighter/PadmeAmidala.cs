@@ -5,29 +5,38 @@ using Upgrade;
 using Ship;
 using Conditions;
 using Tokens;
+using Mods.ModsList;
+using Mods;
 
 namespace Ship
 {
-  namespace SecondEdition.NabooRoyalN1Starfighter
-  {
-    public class PadmeAmidala : NabooRoyalN1Starfighter
+    namespace SecondEdition.NabooRoyalN1Starfighter
     {
-      public PadmeAmidala() : base()
-      {
-        PilotInfo = new PilotCardInfo(
-            "Padmé Amidala",
-            4,
-            45,
-            isLimited: true,
-            abilityText: "While an enemy ship in your [Front Arc] defends or performs an attack, that ship can modify only 1 [Focus] result (other results can still be modified).",
-            abilityType: typeof(PadmeAmidalaAbility),
-            extraUpgradeIcon: UpgradeType.Talent
-        );
+        public class PadmeAmidala : NabooRoyalN1Starfighter
+        {
+            public PadmeAmidala() : base()
+            {
+                PilotInfo = new PilotCardInfo(
+                    "Padmé Amidala",
+                    4,
+                    45,
+                    isLimited: true,
+                    abilityText: "While an enemy ship in your [Front Arc] defends or performs an attack, that ship can modify only 1 [Focus] result (other results can still be modified).",
+                    abilityType: typeof(PadmeAmidalaAbility),
+                    extraUpgradeIcon: UpgradeType.Talent
+                );
 
-        ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/80/40/8040bcab-ebc0-487e-8dff-bd69da7311dd/swz40_padme-amidala.png";
-      }
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/80/40/8040bcab-ebc0-487e-8dff-bd69da7311dd/swz40_padme-amidala.png";
+
+                if (ModsManager.Mods[typeof(LimitedEditionNabooRoyalN1StarfighterMod)].IsOn)
+                {
+                    ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e8/c1/e8c1866f-a83a-469f-b2c0-a144c166fced/swzp02_padme-amidala.jpg";
+                    ModelInfo.SkinName = "Silver";
+
+                }
+            }
+        }
     }
-  }
 }
 
 namespace Abilities.SecondEdition

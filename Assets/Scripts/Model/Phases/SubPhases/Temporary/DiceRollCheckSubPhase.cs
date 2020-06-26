@@ -48,6 +48,12 @@ namespace SubPhases
             checkResults(diceroll);
         }
 
+        protected virtual void CheckResults(DiceRoll diceRoll)
+        {
+            CurrentDiceRoll = diceRoll;
+            PrepareConfirmation();
+        }
+
         public void PrepareConfirmation()
         {
             Phases.CurrentSubPhase.IsReadyForCommands = true;
@@ -67,17 +73,6 @@ namespace SubPhases
             closeButton.onClick.AddListener(PressConfirmButton);
 
             closeButton.gameObject.SetActive(true);
-        }
-
-        public void CalculateDice()
-        {
-            CheckResults(DiceRoll.CurrentDiceRoll);
-        }
-
-        protected virtual void CheckResults(DiceRoll diceRoll)
-        {
-            CurrentDiceRoll = diceRoll;
-            PrepareConfirmation();
         }
 
         protected virtual void FinishAction()

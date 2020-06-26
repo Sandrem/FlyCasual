@@ -24,6 +24,8 @@ namespace GameCommands
                 correctSides.Add(side);
             }
             DiceRoll.SyncDiceResults(correctSides);
+
+            Phases.CurrentSubPhase.IsReadyForCommands = false;
         }
     }
 

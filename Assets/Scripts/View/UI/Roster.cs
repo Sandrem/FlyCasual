@@ -308,14 +308,7 @@ public static partial class Roster {
     public static void SelectShipByRosterClick(PointerEventData data)
     {
         GenericShip shipByPanel = GetShipByUiPointerData(data);
-        if (shipByPanel != null)
-        {
-            Selection.TryToChangeShip("ShipId:" + shipByPanel.ShipId);
-        }
-        else
-        {
-            Messages.ShowError("Error: ship is not found");
-        }
+        if (shipByPanel != null) Selection.TryToChangeShip("ShipId:" + shipByPanel.ShipId);
 
         UI.HideTemporaryMenus();
     }

@@ -23,6 +23,8 @@ public static class DirectionsMenu
 
     public static void Show(Action<string> doWithSelectedManeuver, Action callback, Func<string, bool> filter = null, bool isRegularPlanning = false)
     {
+        UI.HideNextButton();
+
         PrepareSubphase(doWithSelectedManeuver, callback);
 
         GameObject prefab = (GameObject)Resources.Load("Prefabs/UI/DirectionsWindow", typeof(GameObject));

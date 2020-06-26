@@ -33,7 +33,7 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             AddDiceModification(
-                HostShip.PilotInfo.PilotName,
+                "Lando Calrissian",
                 IsDiceModificationAvailable,
                 GetAiPriority,
                 DiceModificationType.Reroll,

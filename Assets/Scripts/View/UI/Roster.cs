@@ -270,7 +270,7 @@ public static partial class Roster {
 
             rosterPlayer = rosterPlayer
                 .OrderByDescending(x => x.transform.Find("ShipInfo/ShipPilotSkillText").GetComponent<Text>().text)
-                .ThenBy(x => x.transform.Find("ShipInfo/ShipId").GetComponent<Text>().text)
+                .ThenBy(x => int.Parse(x.transform.Find("ShipInfo/ShipId").GetComponent<Text>().text))
                 .ToList();
 
             float offset = 5;

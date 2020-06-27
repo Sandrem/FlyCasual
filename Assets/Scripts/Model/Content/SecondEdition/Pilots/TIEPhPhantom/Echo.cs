@@ -22,6 +22,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 132
                 );
+
+                ModelInfo.SkinName = "Echo";
             }
         }
     }

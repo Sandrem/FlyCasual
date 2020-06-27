@@ -314,7 +314,7 @@ namespace Ship
         public static TokenColors GetTokenColorByType(Type tokenType)
         {
             GenericToken token = null;
-            if (tokenType != typeof(TractorBeamToken))
+            if (tokenType != typeof(TractorBeamToken) && tokenType != typeof(JamToken))
             {
                 token = (GenericToken)Activator.CreateInstance(tokenType, Roster.AllUnits.First().Value);
             }

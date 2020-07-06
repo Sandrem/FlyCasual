@@ -24,10 +24,10 @@ public class CompareAndDealDamageDiceStep : IDiceRollStep
         Combat.CancelHitsByDefenceDice();
     }
 
-    public void WhenFinish(Action callback)
+    public void WhenFinish()
     {
         Phases.FinishSubPhase(typeof(CompareResultsSubPhase));
-        callback();
+        Phases.CurrentSubPhase.Next();
     }
 }
 

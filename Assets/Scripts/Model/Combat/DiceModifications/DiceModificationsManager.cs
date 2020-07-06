@@ -89,7 +89,7 @@ public partial class DiceModificationsManager
 
     public void ConfirmDiceResults()
     {
-        CurrentDiceModificationStep.WhenFinish(Phases.CurrentSubPhase.Next);
+        CurrentDiceModificationStep.WhenFinish();
     }
 
     public void RefreshButtonsList()
@@ -115,6 +115,7 @@ public partial class DiceModificationsManager
     {
         CreateEmptyAttackDiceRoll();
         Phases.StartTemporarySubPhaseOld(typeof(CompareResultsSubPhase).Name, typeof(CompareResultsSubPhase));
+        Phases.CurrentSubPhase.CallBack = Combat.AfterAllDiceModificationsAreDone;
         Combat.AttackHit();
     }
 

@@ -31,8 +31,8 @@ public class StartDiceRollStep : IDiceRollStep
         subphase.Start();
     }
 
-    public void WhenFinish(Action callback)
+    public void WhenFinish()
     {
-        callback();
+        Phases.CurrentSubPhase.Next();
     }
 }

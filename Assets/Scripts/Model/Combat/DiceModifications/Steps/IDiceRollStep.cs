@@ -6,5 +6,5 @@ public interface IDiceRollStep
     bool IsExecuted { get; set; }
 
     void Start();
-    void WhenFinish(Action callback);
+    void WhenFinish();
 }

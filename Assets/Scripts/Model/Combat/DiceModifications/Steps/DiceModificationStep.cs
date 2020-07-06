@@ -75,7 +75,7 @@ public class DiceModificationStep : IDiceRollStep
         }
     }
 
-    public void WhenFinish(Action callback)
+    public void WhenFinish()
     {
         // For Heavy Laser Cannon
         if (CombatStep == CombatStep.Attack && StepOwner == PlayerRole.Attacker && DiceModificationTiming == DiceModificationTimingType.Normal)
@@ -88,11 +88,11 @@ public class DiceModificationStep : IDiceRollStep
         // For Hotshot Gunner
         if (CombatStep == CombatStep.Defence && StepOwner == PlayerRole.Defender && DiceModificationTiming == DiceModificationTimingType.Normal)
         {
-            Combat.Defender.CallAfterModifyDefenseDiceStep(callback);
+            Combat.Defender.CallAfterModifyDefenseDiceStep(Phases.CurrentSubPhase.Next);
         }
         else
         {
-            callback();
+            Phases.CurrentSubPhase.Next();
         }
     }
 }

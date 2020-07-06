@@ -49,7 +49,7 @@ namespace Abilities.SecondEdition
         {
             Phases.Events.OnSetupStart -= TryRegisterOwnTrigger;
             Phases.Events.OnRoundStart -= CheckCharges;
-            HostShip.OnShipIsRemoved -= DeployImmediately;
+            HostShip.OnShipIsReadyToBeRemoved -= DeployImmediately;
         }
 
         private void TryRegisterOwnTrigger()
@@ -140,7 +140,7 @@ namespace Abilities.SecondEdition
             TargetShip.Tokens.AssignCondition(AssignedCondition);
 
             Phases.Events.OnRoundStart += CheckCharges;
-            HostShip.OnShipIsRemoved += DeployImmediately;
+            HostShip.OnShipIsReadyToBeRemoved += DeployImmediately;
 
             Triggers.FinishTrigger();
         }
@@ -149,11 +149,11 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfo("It's The Resistance: Deployment");
             Phases.Events.OnRoundStart -= CheckCharges;
-            HostShip.OnShipIsRemoved -= DeployImmediately;
+            HostShip.OnShipIsReadyToBeRemoved -= DeployImmediately;
 
             AssignedCondition.ImmediateDeployment = true;
             AssignedCondition.PreviousCurrentShip = Selection.ThisShip;
-            RegisterAbilityTrigger(TriggerTypes.OnShipIsRemoved, AssignedCondition.SetupShip);
+            RegisterAbilityTrigger(TriggerTypes.OnShipIsReadyToBeRemoved, AssignedCondition.SetupShip);
         }
 
         private void CheckCharges()
@@ -162,7 +162,7 @@ namespace Abilities.SecondEdition
             {
                 Messages.ShowInfo("It's The Resistance: Deployment");
                 Phases.Events.OnRoundStart -= CheckCharges;
-                HostShip.OnShipIsRemoved -= DeployImmediately;
+                HostShip.OnShipIsReadyToBeRemoved -= DeployImmediately;
 
                 RegisterAbilityTrigger(TriggerTypes.OnRoundStart, AssignedCondition.SetupShip);
             }

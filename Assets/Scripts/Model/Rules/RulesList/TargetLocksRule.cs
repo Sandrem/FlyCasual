@@ -16,7 +16,7 @@ namespace RulesList
             Triggers.RegisterTrigger(new Trigger
             {
                 Name = "Remove tokens from destroyed ship",
-                TriggerType = TriggerTypes.OnShipIsRemoved,
+                TriggerType = TriggerTypes.OnShipIsReadyToBeRemoved,
                 TriggerOwner = ship.Owner.PlayerNo,
                 EventHandler = DoRemoveTargetLocksOnDestruction,
                 Sender = ship

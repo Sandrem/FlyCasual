@@ -88,6 +88,7 @@ public enum TriggerTypes
     OnSelectDamageCardToExpose,
     OnFaceupDamageCardIsRepaired,
     OnShipIsDestroyed,
+    OnShipIsReadyToBeRemoved,
     OnShipIsRemoved,
 
     OnBombIsDetonated,

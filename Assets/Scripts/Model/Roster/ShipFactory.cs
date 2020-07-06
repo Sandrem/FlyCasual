@@ -42,7 +42,7 @@ public static class ShipFactory {
         newShipContainer.OnGenerateDiceModifications += Rules.Force.AddForceAction;
         newShipContainer.OnRoundEnd += Rules.Force.RegenerateForce;
         newShipContainer.OnRoundEnd += Rules.Charge.RegenerateCharge;
-        newShipContainer.OnShipIsRemoved += Rules.Destruction.WhenShipIsRemoved;
+        newShipContainer.OnShipIsRemoved_System += Rules.Destruction.WhenShipIsRemoved;
         newShipContainer.OnActionIsPerformed_System += Rules.Actions.ActionColorCheck;
         newShipContainer.OnActionIsPerformed += Rules.Actions.CheckLinkedAction;
         newShipContainer.AfterGotNumberOfDefenceDice += Rules.Strain.CheckForStrainedDebuff;
@@ -71,7 +71,7 @@ public static class ShipFactory {
 
         remote.AfterGotNumberOfDefenceDice += Rules.DistanceBonus.CheckDefenceDistanceBonus;
         remote.OnPositionFinish += Rules.OffTheBoard.CheckOffTheBoard;
-        remote.OnShipIsRemoved += Rules.Destruction.WhenShipIsRemoved;
+        remote.OnShipIsRemoved_System += Rules.Destruction.WhenShipIsRemoved;
 
         remote.BeforeTokenIsAssigned += Rules.Remotes.AllowOnlyLocks;
         remote.OnTokenIsAssigned += Roster.UpdateTokensIndicator;

@@ -111,8 +111,9 @@ namespace Ship
         public event EventHandlerShipRefBool OnCheckPreventDestruction;
         public event EventHandlerShipBool OnShipIsDestroyed;
         public static event EventHandlerShipBool OnShipIsDestroyedGlobal;
-        public event EventHandlerShip OnShipIsRemoved;
-        public static event EventHandlerShip OnShipIsRemovedGlobal;
+        public event EventHandlerShip OnShipIsReadyToBeRemoved;
+        public event EventHandlerShip OnShipIsRemoved_System;
+        public static event EventHandlerShip OnShipIsReadyToBeRemovedGlobal;
 
         public event EventHandler AfterAttackWindow;
 
@@ -712,8 +713,15 @@ namespace Ship
 
         private void RemoveDestroyedShip(Action callback)
         {
-            OnShipIsRemoved?.Invoke(this);
-            OnShipIsRemovedGlobal?.Invoke(this);
+            OnShipIsReadyToBeRemoved?.Invoke(this);
+            OnShipIsReadyToBeRemovedGlobal?.Invoke(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnShipIsReadyToBeRemoved, delegate{ RemoveDestroyedShip_System(callback); });
+        }
+
+        private void RemoveDestroyedShip_System(Action callback)
+        {
+            OnShipIsRemoved_System?.Invoke(this);
 
             Triggers.ResolveTriggers(TriggerTypes.OnShipIsRemoved, callback);
         }

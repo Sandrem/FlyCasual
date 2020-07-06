@@ -8,10 +8,12 @@ namespace MainPhases
 
     public class CombatPhase : GenericPhase
     {
+        public static int LastInitiative { get; set; }
 
         public override void StartPhase()
         {
             Name = "Combat Phase";
+            ResetLastInitiative();
 
             if (Phases.Events.HasOnCombatPhaseStartEvents)
             {
@@ -23,6 +25,11 @@ namespace MainPhases
             {
                 StartCombatStartSubPhase();
             }
+        }
+
+        private static void ResetLastInitiative()
+        {
+            LastInitiative = int.MaxValue;
         }
 
         private void StartCombatStartSubPhase()

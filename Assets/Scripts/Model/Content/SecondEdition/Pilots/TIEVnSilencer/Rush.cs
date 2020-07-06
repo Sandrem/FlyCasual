@@ -1,6 +1,9 @@
 ﻿using ActionsList;
+using MainPhases;
 using Ship;
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -42,13 +45,51 @@ namespace Abilities.SecondEdition
 
         private void ApplyInitiative(GenericShip ship)
         {
-            HostShip.OnDamageCardIsDealt -= ApplyInitiative;
+            if (IsMissedWindowOfAttack()) UpdateCombatInitiativeForOneActivation();
+
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Initiative is set to 6");
             HostShip.State.AddPilotSkillModifier(this);
+            HostShip.OnDamageCardIsDealt -= ApplyInitiative;
+        }
+
+        private bool IsMissedWindowOfAttack()
+        {
+            return !HostShip.IsAttackPerformed
+                && Phases.CurrentPhase is CombatPhase
+                && CombatPhase.LastInitiative >= HostShip.State.CombatActivationAtInitiative;
+        }
+
+        private void UpdateCombatInitiativeForOneActivation()
+        {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " will have combat activation after all ships at Initiative " + CombatPhase.LastInitiative);
+
+            // Disable combat acivations for this ship until change of initiative
+            HostShip.State.CombatActivationAtInitiative = 0;
+            Phases.Events.OnEngagementInitiativeIsReadyToChange += WaitForLastShipToAddNewCombatActivation;
+        }
+
+        private void WaitForLastShipToAddNewCombatActivation(ref bool stopInitiativeChange)
+        {
+            Phases.Events.OnEngagementInitiativeIsReadyToChange -= WaitForLastShipToAddNewCombatActivation;
+
+            stopInitiativeChange = true;
+            Phases.CurrentSubPhase.RequiredInitiative = CombatPhase.LastInitiative;
+            Phases.CurrentSubPhase.RequiredPlayer = HostShip.Owner.PlayerNo;
+
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " delayed combat activation");
+            HostShip.State.CombatActivationAtInitiative = CombatPhase.LastInitiative;
+            HostShip.AfterAttackWindow += RestoreCombatInitiativeToDefault;
+        }
+
+        private void RestoreCombatInitiativeToDefault()
+        {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + " will have combat activations as usual");
+            HostShip.AfterAttackWindow -= RestoreCombatInitiativeToDefault;
+            HostShip.State.CombatActivationAtInitiative = -1;
         }
 
         public void ModifyPilotSkill(ref int pilotSkill)
         {
-            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": Iniative is set to 6");
             pilotSkill = 6;
         }
     }

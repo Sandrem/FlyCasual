@@ -1,4 +1,5 @@
-﻿using SubPhases;
+﻿using MainPhases;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Linq;
 public class PhaseEvents
 {
     public delegate void EventHandler();
+    public delegate void EventHandlerBool(ref bool flag);
     public event EventHandler OnGameStart;
     public event EventHandler OnSetupStart;
     public event EventHandler OnSetupEnd;
@@ -27,6 +29,7 @@ public class PhaseEvents
     public event EventHandler OnRoundEnd;
     public event EventHandler OnGameEnd;
     public event EventHandler OnEngagementInitiativeChanged;
+    public event EventHandlerBool OnEngagementInitiativeIsReadyToChange;
 
     public bool HasOnActivationPhaseEnd { get { return OnActivationPhaseEnd_Triggers != null; } }
     public bool HasOnCombatPhaseStartEvents { get { return OnCombatPhaseStart_Triggers != null; } }
@@ -167,8 +170,15 @@ public class PhaseEvents
         if (OnGameEnd != null) OnGameEnd();
     }
 
+    public void CallEngagementInitiativeIsReadyToChange(ref bool stopInitiativeChange)
+    {
+        if (OnEngagementInitiativeIsReadyToChange != null) OnEngagementInitiativeIsReadyToChange(ref stopInitiativeChange);
+    }
+
     public void CallEngagementInitiativeChanged(Action callback)
     {
+        CombatPhase.LastInitiative = Phases.CurrentSubPhase.RequiredInitiative;
+
         if (OnEngagementInitiativeChanged != null) OnEngagementInitiativeChanged();
 
         Triggers.ResolveTriggers(TriggerTypes.OnEngagementInitiativeChanged, callback);

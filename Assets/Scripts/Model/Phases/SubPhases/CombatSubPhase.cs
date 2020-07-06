@@ -45,31 +45,18 @@ namespace SubPhases
             Selection.DeselectAllShips();
 
             // Try to get any pilot with same inititative, that didn't perform attack
-            bool success = GetNextActivation(RequiredInitiative);
+            bool hasShipsToBeActivated = GetNextActivation(RequiredInitiative);
 
-            if (success)
+            // You can stop change of initiative here and add additional step of activation
+            if (!hasShipsToBeActivated) Phases.Events.CallEngagementInitiativeIsReadyToChange(ref hasShipsToBeActivated);
+
+            if (hasShipsToBeActivated)
             {
                 ReadyForCombatActivation();
             }
             else
             {
                 ChangeInitiative();
-            }
-        }
-
-        private void ChangeInitiative()
-        {
-            //Just decrement to pass through all possible Initiative values (SE Han Solo Rebel Gunner, for example)
-            //RequiredInitiative = GetNextPilotSkill(RequiredInitiative);
-            RequiredInitiative--;
-
-            if (RequiredInitiative != -1)
-            {
-                Phases.Events.CallEngagementInitiativeChanged(Next);
-            }
-            else
-            {
-                Phases.Events.CallEngagementInitiativeChanged(FinishPhase);
             }
         }
 
@@ -84,20 +71,19 @@ namespace SubPhases
             Roster.GetPlayer(RequiredPlayer).PerformAttack();
         }
 
-        private bool GetNextActivation(int pilotSkill)
+        private bool GetNextActivation(int initiative)
         {
-
             bool result = false;
 
             var pilotSkillResults =
                 from n in Roster.AllUnits
-                where n.Value.State.Initiative == pilotSkill
+                where n.Value.State.CombatActivationAtInitiative == initiative
                 where n.Value.HasCombatActivation
                 select n;
 
             if (pilotSkillResults.Count() > 0)
             {
-                RequiredInitiative = pilotSkill;
+                RequiredInitiative = initiative;
 
                 var playerNoResults =
                     from n in pilotSkillResults
@@ -119,23 +105,18 @@ namespace SubPhases
             return result;
         }
 
-        private int GetNextPilotSkill(int pilotSkillMax)
+        private void ChangeInitiative()
         {
-            int result = int.MaxValue;
+            RequiredInitiative--;
 
-            var ascPilotSkills =
-                from n in Roster.AllUnits
-                where n.Value.State.Initiative < pilotSkillMax
-                where n.Value.HasCombatActivation
-                orderby n.Value.State.Initiative
-                select n;
-
-            if (ascPilotSkills.Count() > 0)
+            if (RequiredInitiative != -1)
             {
-                result = ascPilotSkills.Last().Value.State.Initiative;
+                Phases.Events.CallEngagementInitiativeChanged(Next);
             }
-
-            return result;
+            else
+            {
+                Phases.Events.CallEngagementInitiativeChanged(FinishPhase);
+            }
         }
 
         public override void FinishPhase()
@@ -164,7 +145,7 @@ namespace SubPhases
         {
             bool result = false;
 
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredInitiative) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.CombatActivationAtInitiative == RequiredInitiative) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
             {
                 if (ship.IsAttackPerformed)
                 {
@@ -291,7 +272,7 @@ namespace SubPhases
 
         private bool FilterShipsToPerformAttack(GenericShip ship)
         {
-            return ship.State.Initiative == RequiredInitiative
+            return ship.State.CombatActivationAtInitiative == RequiredInitiative
                 && ship.HasCombatActivation
                 && ship.Owner.PlayerNo == RequiredPlayer;
         }
@@ -300,7 +281,7 @@ namespace SubPhases
         {
             if ((Selection.ThisShip == null) || (Selection.ThisShip.IsAttackPerformed))
             {
-                if (TargetsArAvailable())
+                if (TargetsAreAvailable())
                 {
                     AskToConfirmSkip();
                 }
@@ -317,11 +298,11 @@ namespace SubPhases
             }
         }
 
-        private static bool TargetsArAvailable()
+        private static bool TargetsAreAvailable()
         {
             foreach (var ship in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships.Values)
             {
-                if (ship.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative && !ship.IsAttackPerformed)
+                if (ship.State.CombatActivationAtInitiative == Phases.CurrentSubPhase.RequiredInitiative && !ship.IsAttackPerformed)
                 {
                     bool hasTarget = ActionsHolder.HasTarget(ship);
                     if (hasTarget) return true;
@@ -369,7 +350,7 @@ namespace SubPhases
 
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
-                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
+                if (shipHolder.Value.State.CombatActivationAtInitiative == Phases.CurrentSubPhase.RequiredInitiative)
                 {
                     shipsToSkipCombat.Add(shipHolder.Value);
                 }
@@ -410,6 +391,7 @@ namespace SubPhases
 
         private void AfterSkippedCombatActivation(GenericShip ship)
         {
+            ship.CallAfterAttackWindow();
             ship.IsAttackPerformed = true;
 
             Selection.DeselectThisShip();
@@ -420,7 +402,7 @@ namespace SubPhases
 
         private void CheckNext()
         {
-            if (Roster.GetPlayer(RequiredPlayer).Ships.Count(n => n.Value.State.Initiative == RequiredInitiative && !n.Value.IsAttackPerformed) == 0)
+            if (Roster.GetPlayer(RequiredPlayer).Ships.Count(n => n.Value.State.CombatActivationAtInitiative == RequiredInitiative && !n.Value.IsAttackPerformed) == 0)
             {
                 Next();
             }

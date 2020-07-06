@@ -49,6 +49,20 @@ namespace Ship
             Roster.UpdateShipStats(HostShip);
         }
 
+        private int combatActivationAtInitiative = -1;
+        public int CombatActivationAtInitiative
+        {
+            get
+            {
+                return (combatActivationAtInitiative == -1) ? Initiative : combatActivationAtInitiative;
+            }
+
+            set
+            {
+                combatActivationAtInitiative = value;
+            }
+        }
+
         public int Firepower { get; set; }
 
         private int agility;

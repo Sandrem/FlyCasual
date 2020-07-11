@@ -11,9 +11,9 @@ public class Global : MonoBehaviour {
 
     private static bool isAlreadyInitialized;
 
-    public static string CurrentVersion = "1.2";
-    public static int CurrentVersionInt = 101020000;
-    public static int LatestVersionInt = 101020000;
+    public static string CurrentVersion = "1.3";
+    public static int CurrentVersionInt = 101030000;
+    public static int LatestVersionInt = 101030000;
 
     void Awake()
     {

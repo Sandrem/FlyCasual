@@ -214,19 +214,46 @@ public class CameraScript : MonoBehaviour {
         if (Console.IsActive || Input.GetKey(KeyCode.LeftControl)) return;
         float runScale = (Input.GetKey(KeyCode.LeftShift)) ? 3 : 1;
 
-        float x = 0;
-        if (Input.GetKey(KeyCode.A)) x += -1f;
-        if (Input.GetKey(KeyCode.D)) x += 1f;
+        float x = GetXMovement();
         if (x != 0) x = x * SENSITIVITY_MOVE * runScale;
 
-        float y = 0;
-        if (Input.GetKey(KeyCode.S)) y += -1f;
-        if (Input.GetKey(KeyCode.W)) y += 1f;
+        float y = GetYMovement();
         if (y != 0) y = y * SENSITIVITY_MOVE * runScale;
 
         if ((x != 0) || (y != 0)) WhenViewChanged();
         transform.Translate (x, y, 0);
 	}
+
+    private float GetXMovement()
+    {
+        float result = 0f;
+        if (DebugManager.AlternativeCameraControls)
+        {
+            result += Mathf.Clamp(Input.GetAxis("Horizontal"), -1f, 1f);
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) result += -1f;
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) result += 1f;
+        }
+        return result;
+    }
+
+    private float GetYMovement()
+    {
+        float result = 0f;
+        if (DebugManager.AlternativeCameraControls)
+        {
+            result += Mathf.Clamp(Input.GetAxis("Vertical"), -1f, 1f);
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) result += -1f;
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) result += 1f;
+        }
+        return result;
+    }
+
 
     private void CamMoveByMouse()
     {

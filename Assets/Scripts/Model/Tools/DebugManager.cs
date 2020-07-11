@@ -8,6 +8,8 @@ public static class DebugManager
 
     public static bool DebugNetworkSingleDevice;
 
+    public static bool AlternativeCameraControls;
+
     public static bool NoCinematicCamera;
 
     public static bool FullDebug;

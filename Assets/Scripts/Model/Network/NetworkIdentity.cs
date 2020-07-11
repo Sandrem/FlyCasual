@@ -67,39 +67,46 @@ public class NetworkIdentity : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSyncAndStartGame(string playerName, string title, string avatar, string squadString)
+    public void CmdSyncAndStartGame(string playerName, string title, string avatar, string squadString, string clientAppVersion)
     {
-        if (!Network.ConnectionIsEstablished)
+        if (clientAppVersion == Global.CurrentVersion)
         {
-            RpcSendPlayerInfoToClients
-            (
-                1,
-                Options.NickName,
-                Options.Title,
-                Options.Avatar,
-                SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString()
-            );
+            if (!Network.ConnectionIsEstablished)
+            {
+                RpcSendPlayerInfoToClients
+                (
+                    1,
+                    Options.NickName,
+                    Options.Title,
+                    Options.Avatar,
+                    SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString()
+                );
 
-            RpcSendPlayerInfoToClients
-            (
-                2,
-                playerName,
-                title,
-                avatar,
-                squadString
-            );
+                RpcSendPlayerInfoToClients
+                (
+                    2,
+                    playerName,
+                    title,
+                    avatar,
+                    squadString
+                );
 
-            RpcStartNetworkGame();
+                RpcStartNetworkGame();
 
-            new NetworkTask
-            (
-                "Load Battle Scene",
-                RpcBattleIsReady
-            );
+                new NetworkTask
+                (
+                    "Load Battle Scene",
+                    RpcBattleIsReady
+                );
+            }
+            else
+            {
+                RpcDisconnectExtraClient("Sorry, the host have already found an opponent");
+            }
         }
         else
         {
-            RpcDisconnectExtraClient();
+            RpcDisconnectExtraClient("Sorry, the host uses another version of the game: " + Global.CurrentVersion);
         }
     }
 
@@ -117,11 +124,11 @@ public class NetworkIdentity : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcDisconnectExtraClient()
+    private void RpcDisconnectExtraClient(string message)
     {
         if (!Network.ConnectionIsEstablished)
         {
-            Messages.ShowError("Sorry, the host have already found an opponent");
+            Messages.ShowError(message);
             Network.ConnectionAttempt.AbortAttempt();
         }
     }

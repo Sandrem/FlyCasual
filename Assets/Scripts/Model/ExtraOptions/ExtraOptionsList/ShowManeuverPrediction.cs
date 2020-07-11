@@ -18,11 +18,15 @@ namespace ExtraOptions
             private static GameObject FakeShip;
             private static GenericShip Ship;
             private static MovementPrediction MovementPrediction;
+            public override bool IsAllowedOnline => false;
+            public static ShowManeuverPrediction Instance;
 
             public ShowManeuverPrediction()
             {
                 Name = "Show Maneuver Prediction";
-                Description = "Click on your ship's assigned dial during Planning Phase to see prediction of it's final position and collisions";
+                Description = "Click on your ship's assigned dial during Planning Phase to see prediction of it's final position and collisions. (Disabled in online mode)";
+                
+                Instance = this;
             }
 
             protected override void Activate()
@@ -35,9 +39,9 @@ namespace ExtraOptions
                 DebugManager.ManualCollisionPrediction = false;
             }
 
-            public static void ShowPrediction(GenericShip ship)
+            public void ShowPrediction(GenericShip ship)
             {
-                if (DebugManager.ManualCollisionPrediction && Phases.CurrentSubPhase is SubPhases.PlanningSubPhase)
+                if (IsAllowed() && DebugManager.ManualCollisionPrediction && Phases.CurrentSubPhase is SubPhases.PlanningSubPhase)
                 {
                     StartSubPhase();
                     GameManagerScript.Instance.StartCoroutine(DoPredictionCoroutine(ship));

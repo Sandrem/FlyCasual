@@ -180,7 +180,7 @@ public static partial class Roster {
     {
         GenericShip ship = GetShipByUiPointerData(data);
 
-        ExtraOptions.ExtraOptionsList.ShowManeuverPrediction.ShowPrediction(ship);
+        ExtraOptions.ExtraOptionsList.ShowManeuverPrediction.Instance.ShowPrediction(ship);
     }
 
     private static void AddToRoster(GenericShip newShip, GameObject newPanel)

@@ -147,11 +147,13 @@ public partial class Console : MonoBehaviour {
     IEnumerator UploadCustomReport(string stackTrace)
     {
         JSONObject jsonData = new JSONObject();
-        jsonData.AddField("name", Options.NickName);
+        jsonData.AddField("rowKey", Guid.NewGuid().ToString());
+        jsonData.AddField("partitionKey", "CrashReport");
+        jsonData.AddField("playerName", Options.NickName);
         jsonData.AddField("description", "No description");
         jsonData.AddField("p1pilot", (Selection.ThisShip != null) ? Selection.ThisShip.PilotInfo.PilotName : "None");
         jsonData.AddField("p2pilot", (Selection.AnotherShip != null) ? Selection.AnotherShip.PilotInfo.PilotName : "None");
-        jsonData.AddField("stacktrace", stackTrace);
+        jsonData.AddField("stackTrace", stackTrace.Replace("\n", "NEWLINE"));
         jsonData.AddField("trigger", (Triggers.CurrentTrigger != null) ? Triggers.CurrentTrigger.Name : "None");
         jsonData.AddField("subphase", (Phases.CurrentSubPhase != null) ? Phases.CurrentSubPhase.GetType().ToString() : "None");
         jsonData.AddField("scene", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
@@ -168,7 +170,17 @@ public partial class Console : MonoBehaviour {
             jsonData.AddField("p2squad", "None");
         }
 
-        var request = new UnityWebRequest("http://flycasualapi.sandrem.space/api/errorreport", "POST");
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Battle")
+        {
+            jsonData.AddField("replay", ReplaysManager.GetReplayContent().Replace("\"", "\\\""));
+        }
+        else
+        {
+            jsonData.AddField("replay", "None");
+        }        
+
+        var request = new UnityWebRequest("https://flycasualdataserver.azurewebsites.net/api/crashreports/create", "POST");
+        Debug.Log(jsonData.ToString());
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData.ToString());
         request.uploadHandler = (UploadHandler)new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();

@@ -105,5 +105,22 @@ public static class ReplaysManager
             GameManagerScript.Wait(seconds, delegate { callback(); });
         }
     }
+
+    public static string GetReplayContent()
+    {
+        FilePath = Application.persistentDataPath + "/" + Edition.Current.Name + "/Replays";
+        if (!Directory.Exists(FilePath)) Directory.CreateDirectory(FilePath);
+        FilePath += "/LastReplay.replay";
+
+        if (File.Exists(FilePath))
+        {
+            string[] commands = File.ReadAllLines(FilePath);
+            return string.Join("NEWLINE", commands);
+        }
+        else
+        {
+            return "None";
+        }
+    }
 }
 

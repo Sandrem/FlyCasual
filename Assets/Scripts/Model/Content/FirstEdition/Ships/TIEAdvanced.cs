@@ -32,8 +32,7 @@ namespace Ship
                         UpgradeType.Title,
                         UpgradeType.Modification,
                         UpgradeType.Missile
-                    ),
-                    icon: 'A'
+                    )
                 );
 
                 IconicPilots = new Dictionary<Faction, System.Type> {
@@ -83,7 +82,7 @@ namespace Ship
                     "TIE-Fire", 2
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/8/85/MI_TIE-ADVANCED.png";
+                ShipIconLetter = 'A';
 
                 HotacManeuverTable = new AI.TIEAdvancedTable();
             }

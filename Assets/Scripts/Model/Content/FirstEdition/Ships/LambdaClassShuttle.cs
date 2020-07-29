@@ -73,7 +73,7 @@ namespace Ship
                     "Slave1-Fire", 3
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c3/MI_LAMBDA-SHUTTLE.png";
+                ShipIconLetter = 'l';
 
                 HotacManeuverTable = new AI.LambdaShuttleTable();
             }

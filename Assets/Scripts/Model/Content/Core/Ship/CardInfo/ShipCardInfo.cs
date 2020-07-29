@@ -19,7 +19,6 @@ namespace Ship
         public ShipActionsInfo ActionIcons { get; private set; }
         public ShipUpgradesInfo UpgradeIcons { get; private set; }
 
-        public char Icon { get; private set; }
         public List<Faction> FactionsAll { get; set; }
 
         public Faction SubFaction { get; set; }
@@ -27,7 +26,7 @@ namespace Ship
         public string Description { get; set; }
         public string AbilityText { get; private set; }
 
-        public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, char icon = ' ', Faction subFaction = Faction.None, List<Faction> factionsAll = null, string description = null, string abilityText = "")
+        public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, Faction subFaction = Faction.None, List<Faction> factionsAll = null, string description = null, string abilityText = "")
         {
             ShipName = shipName;
             BaseSize = baseSize;
@@ -43,8 +42,6 @@ namespace Ship
 
             ActionIcons = actionIcons;
             UpgradeIcons = upgradeIcons;
-
-            Icon = icon;
 
             FactionsAll = (factionsAll != null) ? factionsAll : new List<Faction>() { faction };
 

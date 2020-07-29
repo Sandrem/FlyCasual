@@ -82,7 +82,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                 "XWing-Laser", 3
             );
 
-            //ManeuversImageUrl
+            ShipIconLetter = '>';
         }
     }
 }

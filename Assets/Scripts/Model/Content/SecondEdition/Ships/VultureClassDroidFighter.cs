@@ -93,7 +93,7 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
             // TODO: AI Table
             HotacManeuverTable = new AI.EscapeCraftTable();
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/9/97/Maneuver_vulture_droid.png";
+            ShipIconLetter = '_';
         }
     }
 }

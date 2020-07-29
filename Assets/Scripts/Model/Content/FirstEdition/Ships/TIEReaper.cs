@@ -79,7 +79,7 @@ namespace Ship
                     "TIE-Fire", 3
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/a/a7/Swx75_a3_dial.png";
+                ShipIconLetter = 'V';
 
                 HotacManeuverTable = new AI.TIEReaperTable();
             }

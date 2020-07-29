@@ -73,7 +73,7 @@ namespace Ship.SecondEdition.EscapeCraft
 
             HotacManeuverTable = new AI.EscapeCraftTable();
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/20/Maneuver_escape_craft.png";
+            ShipIconLetter = 'X';
         }
     }
 }

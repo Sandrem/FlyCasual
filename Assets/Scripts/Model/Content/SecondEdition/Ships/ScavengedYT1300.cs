@@ -56,7 +56,8 @@ namespace Ship.SecondEdition.ScavengedYT1300
 
             IconicPilots[Faction.Resistance] = typeof(HanSolo);
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/c9/Maneuver_scavenged_yt1300.png";
+            ShipIconLetter = 'Y';
+
             HotacManeuverTable = new AI.ScavengedYT1300Table();
         }
     }

@@ -78,7 +78,7 @@ namespace Ship.FirstEdition.SheathipedeClassShuttle
                 "XWing-Laser", 2
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/30/Maneuver_Card_-_Sheathipede-class_Shuttle.png";
+            ShipIconLetter = '%';
 
             HotacManeuverTable = new AI.SheathipedeShuttleTable();
         }

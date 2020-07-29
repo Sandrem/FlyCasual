@@ -14,7 +14,7 @@ namespace Ship
         {
             public Mg100StarFortress() : base()
             {
-                ShipInfo.ShipName = "MG-100 Star Fortress";
+                ShipInfo.ShipName = "MG-100 StarFortress";
 
                 ShipInfo.DefaultShipFaction = Faction.Resistance;
                 ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };

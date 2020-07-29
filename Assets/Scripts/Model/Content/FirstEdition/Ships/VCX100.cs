@@ -85,7 +85,7 @@ namespace Ship.FirstEdition.VCX100
                 "Falcon-Fire", 4
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/cf/MR_VCX-100.png";
+            ShipIconLetter = 'G';
 
             HotacManeuverTable = new AI.VCX100Table();
         }

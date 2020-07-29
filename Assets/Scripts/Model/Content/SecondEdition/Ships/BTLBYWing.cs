@@ -80,7 +80,7 @@ namespace Ship.SecondEdition.BTLBYWing
 
             ShipAbilities.Add(new Abilities.SecondEdition.PlatedHull());
 
-            //ManeuversImageUrl
+            ShipIconLetter = ':';
         }
     }
 }

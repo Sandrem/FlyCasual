@@ -76,7 +76,7 @@ namespace Ship.FirstEdition.BWing
                 "XWing-Laser", 2
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/32/MR_B-WING.png";
+            ShipIconLetter = 'B';
 
             HotacManeuverTable = new AI.BWingTable();
         }

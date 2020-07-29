@@ -32,7 +32,6 @@ namespace Ship
                         UpgradeType.Title,
                         UpgradeType.Modification
                     ),
-                    icon: 'F',
                     factionsAll: new List<Faction>() { Faction.Imperial, Faction.Rebel }
                 );
 
@@ -84,7 +83,7 @@ namespace Ship
                     "TIE-Fire", 2
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/f/f3/MI_TIE-FIGHTER.png";
+                ShipIconLetter = 'F';
 
                 HotacManeuverTable = new AI.TIEFighterTable();
             }

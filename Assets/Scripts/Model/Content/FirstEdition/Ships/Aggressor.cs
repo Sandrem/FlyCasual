@@ -80,7 +80,7 @@ namespace Ship
                     "Slave1-Fire", 3
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/2/22/MS_AGGRESSOR-ASSAULT-FIGHTER.png";
+                ShipIconLetter = 'i';
 
                 HotacManeuverTable = new AI.AggressorTable();
             }

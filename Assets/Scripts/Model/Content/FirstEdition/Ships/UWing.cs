@@ -34,7 +34,6 @@ namespace Ship.FirstEdition.UWing
                     UpgradeType.Crew,
                     UpgradeType.Crew
                 ),
-                icon: 'u',
                 description: "The UT-60D U-wing starfighter/support craft also known as the UT-60D, or U-wing, was a transport/gunship model manufactured by Incom Corporation and used by the Alliance to Restore the Republic during the Galactic Civil War. Used to drop troops into battle, and provide cover fire for them, U-wings were pivotal in transport and protection of the Rebel Alliance's ground forces during the Battle of Scarif."
             );
 
@@ -80,7 +79,7 @@ namespace Ship.FirstEdition.UWing
                 "Falcon-Fire", 3
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/c/c5/MR_U-WING.png";
+            ShipIconLetter = 'u';
 
             HotacManeuverTable = new AI.UWingTable();
 

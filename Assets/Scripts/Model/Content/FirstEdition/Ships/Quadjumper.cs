@@ -79,7 +79,7 @@ namespace Ship
                     "XWing-Laser", 2
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/4/4d/MS_QUADJUMPER.png";
+                ShipIconLetter = 'q';
 
                 HotacManeuverTable = new AI.QuadjumperTable();
             }

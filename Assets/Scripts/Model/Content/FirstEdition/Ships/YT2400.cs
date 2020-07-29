@@ -81,7 +81,7 @@ namespace Ship.FirstEdition.YT2400
                 "Falcon-Fire", 2
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/5/57/MR_YT-2400.png";
+            ShipIconLetter = 'o';
 
             HotacManeuverTable = new AI.YT2400Table();
         }

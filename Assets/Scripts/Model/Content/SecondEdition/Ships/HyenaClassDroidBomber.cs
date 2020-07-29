@@ -92,7 +92,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 "TIE-Fire", 2
             );
 
-            // ManeuversImageUrl
+            ShipIconLetter = '=';
         }
     }
 }

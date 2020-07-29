@@ -88,7 +88,7 @@ namespace Ship
                     "TIE-Fire", 2
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/f/ff/MI_TIE-SF-FIGHTER.png";
+                ShipIconLetter = 'S';
 
                 HotacManeuverTable = new AI.TIESFTable();
             }

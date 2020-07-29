@@ -80,7 +80,7 @@ namespace Ship
                     "Slave1-Fire", 4
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/7/74/MI_UPSILON.PNG";
+                ShipIconLetter = 'U';
 
                 HotacManeuverTable = new AI.UpsilonShuttleTable();
             }

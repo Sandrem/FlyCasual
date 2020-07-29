@@ -74,7 +74,7 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 "XWing-Laser", 3
             );
 
-            //ManeuversImageUrl
+            ShipIconLetter = '?';
         }
     }
 }

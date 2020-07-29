@@ -85,7 +85,7 @@ namespace Ship.SecondEdition.SithInfiltrator
             // TODO: HotAC AI
             HotacManeuverTable = new AI.Jumpmaster5000Table();
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/9/9d/Maneuver_-_sith_infiltrator.png";
+            ShipIconLetter = ']';
         }
     }
 }

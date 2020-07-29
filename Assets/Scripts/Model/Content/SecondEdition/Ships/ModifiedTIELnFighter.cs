@@ -31,7 +31,7 @@ namespace Ship
                     1.75f
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/7/7a/Maneuver_modified_tie_ln_fighter.png";
+                ShipIconLetter = 'C';
 
                 HotacManeuverTable = new AI.ModifiedTIELnFighterTable();
             }

@@ -78,7 +78,7 @@ namespace Ship.FirstEdition.AuzituckGunship
                 "XWing-Laser", 2
             );
 
-            // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
+            ShipIconLetter = '@';
 
             HotacManeuverTable = new AI.AuzituckGunshipTable();
         }

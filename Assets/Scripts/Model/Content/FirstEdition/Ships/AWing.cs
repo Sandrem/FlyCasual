@@ -76,7 +76,7 @@ namespace Ship.FirstEdition.AWing
                 "XWing-Laser", 2
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/0/0c/MR_A-WING.png";
+            ShipIconLetter = 'A';
 
             HotacManeuverTable = new AI.AWingTable();
         }

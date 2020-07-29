@@ -77,7 +77,7 @@ namespace Ship.FirstEdition.KWing
                 "XWing-Laser", 2
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/95/MR_K-WING.png";
+            ShipIconLetter = 'k';
 
             HotacManeuverTable = new AI.KWingTable();
         }

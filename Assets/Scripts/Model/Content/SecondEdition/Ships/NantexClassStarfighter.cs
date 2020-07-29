@@ -89,7 +89,7 @@ namespace Ship.SecondEdition.NantexClassStarfighter
                 "TIE-Fire", 2
             );
 
-            // ManeuversImageUrl
+            ShipIconLetter = ';';
         }
     }
 }

@@ -83,7 +83,7 @@ namespace Ship
                     "Slave1-Fire", 3
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/b/be/MS_YV-666-FREIGHTER.png";
+                ShipIconLetter = 't';
 
                 HotacManeuverTable = new AI.YV666Table();
             }

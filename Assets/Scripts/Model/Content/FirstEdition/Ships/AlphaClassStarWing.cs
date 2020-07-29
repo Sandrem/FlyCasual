@@ -78,6 +78,8 @@ namespace Ship
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/d/d9/20171223_151405.jpg";
 
+                ShipIconLetter = '&';
+
                 HotacManeuverTable = new AI.AlphaClassStarWingTable();
             }
         }

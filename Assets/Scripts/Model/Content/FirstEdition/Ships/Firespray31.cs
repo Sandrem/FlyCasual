@@ -36,8 +36,7 @@ namespace Ship
                         UpgradeType.Device,
                         UpgradeType.Crew,
                         UpgradeType.Missile
-                    ),
-                    icon: 'f'
+                    )
                 );
                 ShipInfo.FactionsAll.Add(Faction.Scum);
 
@@ -83,7 +82,7 @@ namespace Ship
                     "Slave1-Fire", 3
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/0/0d/MI_FIRESPRAY-31.png";
+                ShipIconLetter = 'f';
 
                 HotacManeuverTable = new AI.Firespray31Table();
             }

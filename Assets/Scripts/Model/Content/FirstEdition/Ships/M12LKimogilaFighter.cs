@@ -84,7 +84,7 @@ namespace Ship
                     "XWing-Laser", 3
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/e/e7/Screenshot_2017-12-15_at_1.31.03_PM.png";
+                ShipIconLetter = 'K';
 
                 HotacManeuverTable = new AI.M12LKimogilaTable();
             }

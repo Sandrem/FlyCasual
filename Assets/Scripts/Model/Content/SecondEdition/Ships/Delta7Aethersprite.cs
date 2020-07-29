@@ -88,7 +88,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             // TODO: AI
             HotacManeuverTable = new AI.EscapeCraftTable();
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/f/f3/Maneuver_delta-7_aethersprite.png";
+            ShipIconLetter = '\\';
         }
     }
 }

@@ -92,7 +92,7 @@ namespace Ship
 
         public bool IsDefending { get { return Combat.AttackStep == CombatStep.Defence && Combat.Defender == this; } }
 
-        public char ShipIconLetter { get; protected set; }
+        public char ShipIconLetter { get; protected set; } = '*';
 
         public List<Type> RequiredMods { get; set; }
 

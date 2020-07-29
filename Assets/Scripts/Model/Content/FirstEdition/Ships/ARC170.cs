@@ -79,7 +79,7 @@ namespace Ship.FirstEdition.ARC170
                 "XWing-Laser", 2
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/2/2f/MR_ARC-170.png";
+            ShipIconLetter = 'C';
 
             HotacManeuverTable = new AI.Arc170Table();
         }

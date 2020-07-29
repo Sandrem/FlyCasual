@@ -83,7 +83,7 @@ namespace Ship
                     "Slave1-Fire", 3
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/f/f5/MS_LANCER-CLASS.png";
+                ShipIconLetter = 'L';
 
                 HotacManeuverTable = new AI.LancerPursuitCraftTable();
             }

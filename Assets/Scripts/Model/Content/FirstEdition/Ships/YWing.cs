@@ -31,7 +31,6 @@ namespace Ship.FirstEdition.YWing
                     UpgradeType.Torpedo,
                     UpgradeType.Astromech
                 ),
-                icon: 'y',
                 factionsAll: new List<Faction>() { Faction.Rebel, Faction.Scum }
             );
 
@@ -77,7 +76,7 @@ namespace Ship.FirstEdition.YWing
                 "XWing-Laser", 3
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/18/MR_Y-WING.png";
+            ShipIconLetter = 'y';
 
             HotacManeuverTable = new AI.YWingTable();
         }

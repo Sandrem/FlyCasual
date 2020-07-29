@@ -79,7 +79,7 @@ namespace Ship.FirstEdition.BSF17Bomber
                 "Falcon-Fire", 2
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/0/04/20171223_152404.jpg";
+            ShipIconLetter = 'Z';
 
             HotacManeuverTable = new AI.BSF17BomberTable();
         }

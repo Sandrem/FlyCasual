@@ -81,7 +81,7 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
             //TODO: AI
             HotacManeuverTable = new AI.EscapeCraftTable();
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/7/72/Maneuver_v-19_torrent.png";
+            ShipIconLetter = '^';
         }
     }
 }

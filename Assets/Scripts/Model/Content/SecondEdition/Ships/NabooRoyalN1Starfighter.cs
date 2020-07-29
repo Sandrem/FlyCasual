@@ -81,7 +81,7 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
 
             ShipAbilities.Add(new Abilities.SecondEdition.FullThrottle());
 
-            //ManeuversImageUrl
+            ShipIconLetter = '<';
         }
     }
 }

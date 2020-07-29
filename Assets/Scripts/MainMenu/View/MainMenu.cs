@@ -129,6 +129,9 @@ public partial class MainMenu : MonoBehaviour {
             case "BrowseObstaclesPanel":
                 SquadBuilder.ShowBrowseObstaclesPanel();
                 break;
+            case "BrowsePopularSquadsPanel":
+                PopularSquads.LoadPopularSquads();
+                break;
         }
     }
 

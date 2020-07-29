@@ -31,7 +31,6 @@ namespace Ship.FirstEdition.XWing
                     UpgradeType.Torpedo,
                     UpgradeType.Astromech
                 ),
-                icon: 'x',
                 description: "The Incom T-65 X-wing starfighter was the primary all-purpose starfighter of the Rebel Alliance and its successor governments. Known for its versatility and exceptional combat performance, it was a favorite with Rebel and New Republic pilots. Possessing deflector shields, a hyperdrive, an R2 astromech for repairs and navigation, and a complement of proton torpedoes, the X-wing allowed the Rebellion to launch raids in Imperial space with improved odds of a successful mission."
             );
 
@@ -78,9 +77,9 @@ namespace Ship.FirstEdition.XWing
                 "XWing-Laser", 3
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
-
             HotacManeuverTable = new AI.XWingTable();
+
+            ShipIconLetter = 'x';
         }
     }
 }

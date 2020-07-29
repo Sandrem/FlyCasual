@@ -82,7 +82,7 @@ namespace Ship.FirstEdition.ScurrgH6Bomber
                 "XWing-Laser", 2
             );
 
-            // ManeuversImageUrl = "https://vignette1.wikia.nocookie.net/xwing-miniatures/images/3/3d/MR_T65-X-WING.png";
+            ShipIconLetter = 'H';
 
             HotacManeuverTable = new AI.ScurrgH6BomberTable();
         }

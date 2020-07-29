@@ -75,7 +75,7 @@ namespace Ship.FirstEdition.AttackShuttle
                 "XWing-Laser", 3
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/1/12/MR_ATTACK-SHUTTLE.png";
+            ShipIconLetter = 'g';
 
             HotacManeuverTable = new AI.AttackShuttleTable();
         }

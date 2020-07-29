@@ -81,7 +81,7 @@ namespace Ship
                     "Slave1-Fire", 2
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/9/90/MS_JUMPMASTER-5000.png";
+                ShipIconLetter = 'p';
 
                 HotacManeuverTable = new AI.Jumpmaster5000Table();
             }

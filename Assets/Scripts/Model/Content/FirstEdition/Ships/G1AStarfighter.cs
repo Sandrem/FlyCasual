@@ -78,7 +78,7 @@ namespace Ship
                     "XWing-Laser", 3
                 );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/6/67/MS_G-1A-STARFIGHTER.png";
+                ShipIconLetter = 'n';
 
                 HotacManeuverTable = new AI.G1AStarfighterTable();
             }

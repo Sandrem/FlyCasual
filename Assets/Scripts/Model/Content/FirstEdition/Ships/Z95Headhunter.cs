@@ -73,7 +73,7 @@ namespace Ship.FirstEdition.Z95Headhunter
                 "XWing-Laser", 2
             );
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures/images/3/39/MR_Z-95.png";
+            ShipIconLetter = 'z';
 
             HotacManeuverTable = new AI.Z95Table();
         }

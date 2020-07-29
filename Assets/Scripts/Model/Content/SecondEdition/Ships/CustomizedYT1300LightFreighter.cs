@@ -45,7 +45,7 @@ namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
 
             HotacManeuverTable = new AI.YT1300Table();
 
-            ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/06/Maneuver_customized_yt1300.png";
+            ShipIconLetter = 'W';
         }
     }
 }

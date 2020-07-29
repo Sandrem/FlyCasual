@@ -274,7 +274,7 @@ namespace SquadBuilderNS
 
         public static void PilotSelectedIsClicked(GenericShip ship)
         {
-            AddPilotToSquad(ship, CurrentPlayer, isFromUi: true);
+            AddPilotToSquad(ship, GetSquadList(CurrentPlayer), isFromUi: true);
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
         }
 
@@ -871,7 +871,7 @@ namespace SquadBuilderNS
                 SquadListRecord.name = squadList["filename"].str;
 
                 SquadListRecord.transform.Find("DeleteButton").GetComponent<Button>().onClick.AddListener(delegate { DeleteSavedSquadAndRefresh(SquadListRecord.name); });
-                SquadListRecord.transform.Find("LoadButton").GetComponent<Button>().onClick.AddListener(delegate { LoadSavedSquadAndReturn(SquadListRecord.name); });
+                SquadListRecord.transform.Find("LoadButton").GetComponent<Button>().onClick.AddListener(delegate { LoadSavedSquadAndReturn(GetSavedSquadJson(SquadListRecord.name)); });
             }
 
             OrganizePanels(contentTransform, FREE_SPACE);
@@ -979,14 +979,16 @@ namespace SquadBuilderNS
         {
             string filename = "";
             var json = GetRandomAiSquad(out filename);
-            SetPlayerSquadFromImportedJson(
-                filename,
+            SetPlayerSquadFromImportedJson
+            (
                 json,
-                CurrentPlayer,
-                delegate {
+                GetSquadList(CurrentPlayer),
+                delegate
+                {
                     SetAiType(Options.AiType);
                     callback();
-                });
+                }
+            );
         }
 
         private static JSONObject GetRandomAiSquad(out string filename)

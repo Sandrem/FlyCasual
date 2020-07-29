@@ -132,6 +132,9 @@ public partial class MainMenu : MonoBehaviour {
             case "BrowsePopularSquadsPanel":
                 PopularSquads.LoadPopularSquads();
                 break;
+            case "BrowsePopularSquadsVariantsPanel":
+                PopularSquads.LoadPopularSquadsVariants();
+                break;
         }
     }
 

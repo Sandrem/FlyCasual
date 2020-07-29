@@ -138,7 +138,7 @@ public static partial class Roster
 
         foreach (var squadList in SquadBuilder.SquadLists)
         {
-            SquadBuilder.SetPlayerSquadFromImportedJson(squadList.Name, squadList.SavedConfiguration, squadList.PlayerNo, delegate { });
+            SquadBuilder.SetPlayerSquadFromImportedJson(squadList.SavedConfiguration, SquadBuilder.GetSquadList(squadList.PlayerNo), delegate { });
 
             if (Roster.GetPlayer(squadList.PlayerNo).PlayerType != PlayerType.Ai)
             {

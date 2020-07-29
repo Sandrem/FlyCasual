@@ -21,10 +21,10 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void Import()
     {
-        SquadBuilder.CreateSquadFromImportedJson(
-            "",
+        SquadBuilder.CreateSquadFromImportedJson
+        (
             GameObject.Find("UI/Panels/ImportExportPanel/Content/InputField").GetComponent<InputField>().text,
-            SquadBuilder.CurrentPlayer,
+            SquadBuilder.GetSquadList(SquadBuilder.CurrentPlayer),
             delegate { MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel"); }
         );
     }

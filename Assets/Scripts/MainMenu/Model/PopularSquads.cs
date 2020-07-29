@@ -14,10 +14,26 @@ namespace SquadBuilderNS
     {
         public const float FREE_SPACE = 25f;
         private static JSONObject Data;
+        private static JSONObject VariantsData;
+        public static int SelectedSquadId { get; private set; }
 
         public static void LoadPopularSquads()
         {
+            ClearPage("BrowsePopularSquadsPanel");
             Global.Instance.StartCoroutine(LoadPopularArchetypesAsync());
+        }
+
+        private static void ClearPage(string pageName)
+        {
+            GameObject archetypesPanel = GameObject.Find("UI/Panels").transform.Find(pageName).Find("Scroll View/Viewport/Content").gameObject;
+            RectTransform contentTransform = archetypesPanel.GetComponent<RectTransform>();
+            foreach (Transform transform in contentTransform.transform)
+            {
+                GameObject.Destroy(transform.gameObject);
+            }
+
+            GameObject loadingPanel = GameObject.Find("UI/Panels").transform.Find(pageName).Find("Loading").gameObject;
+            loadingPanel.SetActive(true);
         }
 
         public static IEnumerator LoadPopularArchetypesAsync()
@@ -25,17 +41,16 @@ namespace SquadBuilderNS
             UnityWebRequest www;
             www = UnityWebRequest.Get("https://flycasualdataserver.azurewebsites.net/api/populararchetypes");
             yield return www.SendWebRequest();
-            Debug.Log(www.downloadHandler.text);
 
             Data = new JSONObject(www.downloadHandler.text);
 
-            HideLoadingStub();
+            HideLoadingStub("BrowsePopularSquadsPanel");
             ShowListOfArchetypes();
         }
 
-        private static void HideLoadingStub()
+        private static void HideLoadingStub(string pageName)
         {
-            GameObject loadingPanel = GameObject.Find("UI/Panels").transform.Find("BrowsePopularSquadsPanel").Find("Loading").gameObject;
+            GameObject loadingPanel = GameObject.Find("UI/Panels").transform.Find(pageName).Find("Loading").gameObject;
             loadingPanel.SetActive(false);
         }
 
@@ -53,7 +68,7 @@ namespace SquadBuilderNS
             }
 
             archetypesPanelRectTransform.sizeDelta = new Vector2(archetypesPanelRectTransform.sizeDelta.x, 0);
-            GameObject.Find("UI/Panels").transform.Find("ModsPanel").Find("Scroll View").GetComponentInChildren<ScrollRect>().verticalNormalizedPosition = 0f;
+            GameObject.Find("UI/Panels").transform.Find("BrowsePopularSquadsPanel").Find("Scroll View").GetComponentInChildren<ScrollRect>().verticalNormalizedPosition = 0f;
 
             foreach (JSONObject archetype in Data.list)
             {
@@ -83,10 +98,18 @@ namespace SquadBuilderNS
                 if (shipIcons.Length > 5)
                 {
                     shipIcons = shipIcons.Insert((shipIcons.Length - shipIcons.Length % 2) / 2, "\n");
-                    Debug.Log(shipIcons);
                     archetypeRecord.transform.Find("Ships").GetComponent<Text>().fontSize = 90; // 150 for 1 row
                 }
                 archetypeRecord.transform.Find("Ships").GetComponent<Text>().text = shipIcons;
+
+                archetypeRecord.transform.Find("LoadButton").GetComponent<Button>().onClick.AddListener
+                (
+                    () =>
+                    {
+                        SelectedSquadId = int.Parse(archetype["id"].str);
+                        MainMenu.CurrentMainMenu.ChangePanel("BrowsePopularSquadsVariantsPanel"); 
+                    }
+                ); ;
             }
         }
 
@@ -110,6 +133,110 @@ namespace SquadBuilderNS
                     return '.';
                 default:
                     return ' ';
+            }
+        }
+
+        public static void LoadPopularSquadsVariants()
+        {
+            ClearPage("BrowsePopularSquadsVariantsPanel");
+
+            Global.Instance.StartCoroutine(LoadPopularSquadsVariantsAsync());
+        }
+
+        public static IEnumerator LoadPopularSquadsVariantsAsync()
+        {
+            UnityWebRequest www;
+            www = UnityWebRequest.Get("https://flycasualdataserver.azurewebsites.net/api/ArchetypeVariants/" + SelectedSquadId);
+            yield return www.SendWebRequest();
+
+            VariantsData = new JSONObject(www.downloadHandler.text);
+
+            HideLoadingStub("BrowsePopularSquadsVariantsPanel");
+            ShowListOfArchetypesVariants();
+        }
+
+        public static void ShowListOfArchetypesVariants()
+        {
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/SavedSquadronPanel", typeof(GameObject));
+            GameObject archetypesPanel = GameObject.Find("UI/Panels").transform.Find("BrowsePopularSquadsVariantsPanel").Find("Scroll View/Viewport/Content").gameObject;
+
+            RectTransform contentTransform = archetypesPanel.GetComponent<RectTransform>();
+            Vector3 currentPosition = new Vector3(contentTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, archetypesPanel.transform.localPosition.z);
+
+            foreach (Transform transform in contentTransform.transform)
+            {
+                GameObject.Destroy(transform.gameObject);
+            }
+
+            List<string> existingLists = new List<string>();
+
+            foreach (var squadJson in VariantsData.list)
+            {
+                SquadList squadList = new SquadList(Players.PlayerNo.PlayerNone);
+                
+                JSONObject squadJsonFixed = new JSONObject(squadJson["json"].str);
+                if (existingLists.Contains(squadJsonFixed.ToString())) continue;
+                existingLists.Add(squadJsonFixed.ToString());
+
+                SquadBuilder.SetPlayerSquadFromImportedJson(squadJsonFixed, squadList, delegate { });
+
+                GameObject SquadListRecord;
+
+                SquadListRecord = MonoBehaviour.Instantiate(prefab, contentTransform);
+
+                SquadListRecord.transform.Find("Name").GetComponent<Text>().text = "Example"; //squadList["name"].str;
+
+                Text descriptionText = SquadListRecord.transform.Find("Description").GetComponent<Text>();
+                RectTransform descriptionRectTransform = SquadListRecord.transform.Find("Description").GetComponent<RectTransform>();
+                if (squadJson.HasField("json"))
+                {
+                    descriptionText.text = SquadBuilder.GetDescriptionOfSquadJson(squadJsonFixed); //.Replace("\\\"", "\"");
+                }
+                else
+                {
+                    descriptionText.text = "No description";
+                }
+
+                float descriptionPreferredHeight = descriptionText.preferredHeight;
+                descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, descriptionPreferredHeight);
+
+                //SquadListRecord.transform.Find("PointsValue").GetComponent<Text>().text = squadList["points"].i.ToString();
+
+                SquadListRecord.GetComponent<RectTransform>().sizeDelta = new Vector2(
+                    SquadListRecord.GetComponent<RectTransform>().sizeDelta.x,
+                    15 + 70 + 10 + descriptionPreferredHeight + 10 + 55 + 10
+                );
+
+                //SquadListRecord.name = squadList["filename"].str;
+
+                SquadListRecord.transform.Find("DeleteButton").gameObject.SetActive(false);
+                SquadListRecord.transform.Find("LoadButton").GetComponent<Button>().onClick.AddListener(delegate { SquadBuilder.LoadSavedSquadAndReturn(squadJsonFixed); });
+            }
+
+            OrganizePanels(contentTransform, FREE_SPACE);
+        }
+
+        private static void OrganizePanels(Transform contentTransform, float freeSpace)
+        {
+            float totalHeight = 0;
+            foreach (Transform transform in contentTransform)
+            {
+                if (transform.name != "DestructionIsPlanned")
+                {
+                    totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
+                }
+            }
+            RectTransform contRect = contentTransform.GetComponent<RectTransform>();
+            contRect.sizeDelta = new Vector2(contRect.sizeDelta.x, totalHeight + 25);
+
+            totalHeight = 25;
+            foreach (Transform transform in contentTransform)
+            {
+                if (transform.name != "DestructionIsPlanned")
+                {
+                    transform.localPosition = new Vector2(transform.localPosition.x, -totalHeight);
+                    totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
+                }
             }
         }
     }

@@ -157,8 +157,11 @@ namespace SquadBuilderNS
         public static void ClearShipsOfPlayer(PlayerNo playerNo)
         {
             SquadList squadList = GetSquadList(playerNo);
-            squadList.ClearShips();
-            squadList.Name = GetDefaultNameForSquad(playerNo);
+            if (squadList != null)
+            {
+                squadList.ClearShips();
+                squadList.Name = GetDefaultNameForSquad(playerNo);
+            }
         }
 
         private static void GenerateListOfShips()
@@ -344,9 +347,9 @@ namespace SquadBuilderNS
             UpdateSquadCostForPilotsMenu(GetCurrentSquadCost());
         }
 
-        private static SquadBuilderShip AddPilotToSquad(GenericShip ship, PlayerNo playerNo, bool isFromUi = false)
+        private static SquadBuilderShip AddPilotToSquad(GenericShip ship, SquadList squadList, bool isFromUi = false)
         {
-            var squadBuilderShip = GetSquadList(playerNo).AddShip(ship);
+            var squadBuilderShip = squadList.AddShip(ship);
 
             if (isFromUi)
             {
@@ -844,27 +847,25 @@ namespace SquadBuilderNS
 
         // IMPORT / EXPORT
 
-        public static void CreateSquadFromImportedJson(string name, string jsonString, PlayerNo playerNo, Action callback)
+        public static void CreateSquadFromImportedJson(string jsonString, SquadList squadList, Action callback)
         {
             JSONObject squadJson = new JSONObject(jsonString);
             //LogImportedSquad(squadJson);
 
-            SetPlayerSquadFromImportedJson(
-                name,
+            SetPlayerSquadFromImportedJson
+            (
                 squadJson,
-                playerNo,
+                squadList,
                 callback
             );
         }
 
-        public static void SetPlayerSquadFromImportedJson(string name, JSONObject squadJson, PlayerNo playerNo, Action callBack)
+        public static void SetPlayerSquadFromImportedJson(JSONObject squadJson, SquadList squadList, Action callBack)
         {
-            ClearShipsOfPlayer(playerNo);
+            ClearShipsOfPlayer(squadList.PlayerNo);
 
             try
             {
-                SquadList squadList = GetSquadList(playerNo);
-
                 if (squadJson.HasField("name"))
                 {
                     squadList.Name = squadJson["name"].str;
@@ -904,7 +905,7 @@ namespace SquadBuilderNS
                         
                         GenericShip newShipInstance = (GenericShip)Activator.CreateInstance(Type.GetType(pilotRecord.PilotTypeName));
                         Edition.Current.AdaptShipToRules(newShipInstance);
-                        SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, playerNo);
+                        SquadBuilderShip newShip = AddPilotToSquad(newShipInstance, squadList);
 
                         Dictionary<string, string> upgradesThatCannotBeInstalled = new Dictionary<string, string>();
 
@@ -986,8 +987,8 @@ namespace SquadBuilderNS
             }
             catch (Exception)
             {
-                Messages.ShowError("An error occurred during the creation of squadron '" + name + "'");
-                ClearShipsOfPlayer(playerNo);
+                Messages.ShowError("An error occurred during the creation of squadron");
+                ClearShipsOfPlayer(squadList.PlayerNo);
                 //throw;
             }
         }
@@ -1047,7 +1048,7 @@ namespace SquadBuilderNS
             return squadJson;
         }
 
-        private static string GetDescriptionOfSquadJson(JSONObject squadJson)
+        public static string GetDescriptionOfSquadJson(JSONObject squadJson)
         {
             string result = "";
 
@@ -1071,15 +1072,22 @@ namespace SquadBuilderNS
                         result += " (" + shipNameGeneral + ")";
                     }
 
-                    JSONObject upgradeJsons = pilotJson["upgrades"];
-                    foreach (string upgradeType in upgradeJsons.keys)
+                    if (pilotJson.HasField("upgrades"))
                     {
-                        JSONObject upgradeNames = upgradeJsons[upgradeType];
-                        foreach (JSONObject upgradeRecord in upgradeNames.list)
+                        try
                         {
-                            string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
-                            result += " + " + upgradeName;
+                            JSONObject upgradeJsons = pilotJson["upgrades"];
+                            foreach (string upgradeType in upgradeJsons.keys)
+                            {
+                                JSONObject upgradeNames = upgradeJsons[upgradeType];
+                                foreach (JSONObject upgradeRecord in upgradeNames.list)
+                                {
+                                    string upgradeName = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgradeRecord.str).UpgradeName;
+                                    result += " + " + upgradeName;
+                                }
+                            }
                         }
+                        catch (Exception) {}
                     }
                 }
             }
@@ -1231,10 +1239,9 @@ namespace SquadBuilderNS
             BrowseSavedSquads();
         }
 
-        private static void LoadSavedSquadAndReturn(string fileName)
+        public static void LoadSavedSquadAndReturn(JSONObject squadJson)
         {
-            JSONObject squadJson = GetSavedSquadJson(fileName);
-            SetPlayerSquadFromImportedJson(fileName, squadJson, CurrentPlayer, ReturnToSquadBuilder);
+            SetPlayerSquadFromImportedJson(squadJson, GetSquadList(CurrentPlayer), ReturnToSquadBuilder);
         }
 
         public static void SetDefaultPlayerNames()
@@ -1283,7 +1290,7 @@ namespace SquadBuilderNS
         private static void ReGenerateSquadOfPlayer(PlayerNo playerNo, Action callback)
         {
             JSONObject playerJson = GetSquadList(playerNo).SavedConfiguration;
-            SetPlayerSquadFromImportedJson("", playerJson, playerNo, callback);
+            SetPlayerSquadFromImportedJson(playerJson, GetSquadList(playerNo), callback);
         }
 
         public static void SetAiType(string aiName)
@@ -1437,10 +1444,10 @@ namespace SquadBuilderNS
                 squadList.PlayerType = (playerNo == PlayerNo.Player1) ? typeof(NetworkOpponentPlayer) : typeof(HumanPlayer);
             }
 
-            CreateSquadFromImportedJson(
-                "Squad" + playerNo,
+            CreateSquadFromImportedJson
+            (
                 squadString,
-                playerNo,
+                GetSquadList(playerNo),
                 delegate { }
             );
 

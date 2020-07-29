@@ -65,7 +65,7 @@ namespace Obstacles
                 Instance.AllPossibleObstacles.Add(
                     new Debris(
                         "VT49 Debris " + i,
-                        "vt49debris" + i
+                        "vt49decimatordebris" + i
                     )
                 );
             }
@@ -106,6 +106,7 @@ namespace Obstacles
 
         public static GenericObstacle GetPossibleObstacle(string obstacleShortName)
         {
+            obstacleShortName = obstacleShortName.Replace("vt49debris", "vt49decimatordebris"); // Pre 1.4
             return Instance.AllPossibleObstacles.First(n => n.ShortName == obstacleShortName);
         }
 

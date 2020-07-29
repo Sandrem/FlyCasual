@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Editions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,16 @@ namespace SquadBuilderNS
         public static void LoadPopularSquads()
         {
             ClearPage("BrowsePopularSquadsPanel");
-            Global.Instance.StartCoroutine(LoadPopularArchetypesAsync());
+
+            if (Edition.Current is Editions.SecondEdition)
+            {
+                Global.Instance.StartCoroutine(LoadPopularArchetypesAsync());
+            }
+            else
+            {
+                Messages.ShowError("Only for Second Edition");
+            }
+            
         }
 
         private static void ClearPage(string pageName)
@@ -200,7 +210,7 @@ namespace SquadBuilderNS
                 float descriptionPreferredHeight = descriptionText.preferredHeight;
                 descriptionRectTransform.sizeDelta = new Vector2(descriptionRectTransform.sizeDelta.x, descriptionPreferredHeight);
 
-                //SquadListRecord.transform.Find("PointsValue").GetComponent<Text>().text = squadList["points"].i.ToString();
+                SquadListRecord.transform.Find("PointsValue").GetComponent<Text>().text = squadList.Points.ToString();
 
                 SquadListRecord.GetComponent<RectTransform>().sizeDelta = new Vector2(
                     SquadListRecord.GetComponent<RectTransform>().sizeDelta.x,

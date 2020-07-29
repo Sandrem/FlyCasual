@@ -14,9 +14,12 @@ namespace SquadBuilderNS
     public static class PopularSquads
     {
         public const float FREE_SPACE = 25f;
+        public static string LastChosenFaction { get; set; }
+        public static int SelectedSquadId { get; private set; }
+
         private static JSONObject Data;
         private static JSONObject VariantsData;
-        public static int SelectedSquadId { get; private set; }
+        
 
         public static void LoadPopularSquads()
         {
@@ -30,13 +33,13 @@ namespace SquadBuilderNS
             {
                 Messages.ShowError("Only for Second Edition");
             }
-            
         }
 
         private static void ClearPage(string pageName)
         {
             GameObject archetypesPanel = GameObject.Find("UI/Panels").transform.Find(pageName).Find("Scroll View/Viewport/Content").gameObject;
             RectTransform contentTransform = archetypesPanel.GetComponent<RectTransform>();
+            contentTransform.localPosition = new Vector3(contentTransform.localPosition.x, 0, contentTransform.localPosition.z);
             foreach (Transform transform in contentTransform.transform)
             {
                 GameObject.Destroy(transform.gameObject);
@@ -56,6 +59,7 @@ namespace SquadBuilderNS
 
             HideLoadingStub("BrowsePopularSquadsPanel");
             ShowListOfArchetypes();
+            SetFaction(LastChosenFaction);
         }
 
         private static void HideLoadingStub(string pageName)
@@ -121,6 +125,21 @@ namespace SquadBuilderNS
                     }
                 ); ;
             }
+        }
+
+        public static void SetFaction(string factionChar)
+        {
+            LastChosenFaction = factionChar;
+
+            GameObject archetypesPanel = GameObject.Find("UI/Panels").transform.Find("BrowsePopularSquadsPanel").Find("Scroll View/Viewport/Content").gameObject;
+            RectTransform contentTransform = archetypesPanel.GetComponent<RectTransform>();
+
+            foreach (Transform squadPanel in contentTransform.transform)
+            {
+                squadPanel.gameObject.SetActive(factionChar == "All" || squadPanel.Find("Faction").GetComponent<Text>().text == factionChar);
+            }
+
+            OrganizePanels(contentTransform, FREE_SPACE);
         }
 
         private static char FactionToChar(string faction)
@@ -200,7 +219,7 @@ namespace SquadBuilderNS
                 RectTransform descriptionRectTransform = SquadListRecord.transform.Find("Description").GetComponent<RectTransform>();
                 if (squadJson.HasField("json"))
                 {
-                    descriptionText.text = SquadBuilder.GetDescriptionOfSquadJson(squadJsonFixed); //.Replace("\\\"", "\"");
+                    descriptionText.text = SquadBuilder.GetDescriptionOfSquadJson(squadJsonFixed).Replace("\\\"", "\"");
                 }
                 else
                 {
@@ -217,8 +236,6 @@ namespace SquadBuilderNS
                     15 + 70 + 10 + descriptionPreferredHeight + 10 + 55 + 10
                 );
 
-                //SquadListRecord.name = squadList["filename"].str;
-
                 SquadListRecord.transform.Find("DeleteButton").gameObject.SetActive(false);
                 SquadListRecord.transform.Find("LoadButton").GetComponent<Button>().onClick.AddListener(delegate { SquadBuilder.LoadSavedSquadAndReturn(squadJsonFixed); });
             }
@@ -228,6 +245,8 @@ namespace SquadBuilderNS
 
         private static void OrganizePanels(Transform contentTransform, float freeSpace)
         {
+            contentTransform.localPosition = new Vector3(contentTransform.localPosition.x, 0, contentTransform.localPosition.z);
+
             float totalHeight = 0;
             foreach (Transform transform in contentTransform)
             {
@@ -244,8 +263,11 @@ namespace SquadBuilderNS
             {
                 if (transform.name != "DestructionIsPlanned")
                 {
-                    transform.localPosition = new Vector2(transform.localPosition.x, -totalHeight);
-                    totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
+                    if (transform.gameObject.activeSelf)
+                    {
+                        transform.localPosition = new Vector2(transform.localPosition.x, -totalHeight);
+                        totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
+                    }
                 }
             }
         }

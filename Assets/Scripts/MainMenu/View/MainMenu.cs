@@ -130,6 +130,7 @@ public partial class MainMenu : MonoBehaviour {
                 SquadBuilder.ShowBrowseObstaclesPanel();
                 break;
             case "BrowsePopularSquadsPanel":
+                if (previousPanelName == "SquadOptionsPanel") PopularSquads.LastChosenFaction = "All";
                 PopularSquads.LoadPopularSquads();
                 break;
             case "BrowsePopularSquadsVariantsPanel":
@@ -195,6 +196,11 @@ public partial class MainMenu : MonoBehaviour {
     public void OpenPatreon()
     {
         Application.OpenURL("https://www.patreon.com/Sandrem");
+    }
+
+    public void SetFaction(string factionChar)
+    {
+        PopularSquads.SetFaction(factionChar);
     }
 
 }

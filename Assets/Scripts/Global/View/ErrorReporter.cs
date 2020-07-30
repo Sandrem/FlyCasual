@@ -27,8 +27,14 @@ public class ErrorReporter : MonoBehaviour
 
     private void OpenReplayLocationButtonEffect()
     {
-        
-        Process.Start(Application.persistentDataPath + "/Second Edition/Replays");
+        try
+        {
+            Process.Start(Application.persistentDataPath + "/Second Edition/Replays");
+        }
+        catch (Exception)
+        {
+            Messages.ShowError("Cannot open file location");
+        }
     }
 
     private void ReportButtonEffect()

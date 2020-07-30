@@ -79,7 +79,7 @@ namespace Ship.FirstEdition.EWing
                 "XWing-Laser", 3
             );
 
-            ShipIconLetter = 'E';
+            ShipIconLetter = 'e';
 
             HotacManeuverTable = new AI.EWingTable();
         }

@@ -79,7 +79,7 @@ namespace Ship.FirstEdition.ARC170
                 "XWing-Laser", 2
             );
 
-            ShipIconLetter = 'C';
+            ShipIconLetter = 'c';
 
             HotacManeuverTable = new AI.Arc170Table();
         }

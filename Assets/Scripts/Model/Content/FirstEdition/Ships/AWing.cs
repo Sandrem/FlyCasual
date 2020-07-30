@@ -76,7 +76,7 @@ namespace Ship.FirstEdition.AWing
                 "XWing-Laser", 2
             );
 
-            ShipIconLetter = 'A';
+            ShipIconLetter = 'a';
 
             HotacManeuverTable = new AI.AWingTable();
         }

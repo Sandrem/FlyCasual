@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Berwer Kret",
                     5,
-                    40,
+                    36,
                     isLimited: true,
                     extraUpgradeIcon: UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.BerwerKretAbility),

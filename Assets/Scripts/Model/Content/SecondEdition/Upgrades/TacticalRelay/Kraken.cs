@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Kraken",
                 UpgradeType.TacticalRelay,
-                cost: 10,
+                cost: 11,
                 isLimited: true,
                 isSolitary: true,
                 addAction: new ActionInfo(typeof(CalculateAction), ActionColor.White, this),

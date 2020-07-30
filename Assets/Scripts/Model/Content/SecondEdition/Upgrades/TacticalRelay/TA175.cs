@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "TA-175",
                 UpgradeType.TacticalRelay,
-                cost: 9,
+                cost: 11,
                 isLimited: true,
                 isSolitary: true,
                 restriction: new FactionRestriction(Faction.Separatists),

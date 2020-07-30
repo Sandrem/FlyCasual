@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Chertek",
                     4,
-                    39,
+                    34,
                     isLimited: true,
                     extraUpgradeIcon: UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.ChertekAbility),

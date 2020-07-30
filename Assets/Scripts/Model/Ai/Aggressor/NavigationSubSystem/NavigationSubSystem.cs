@@ -499,7 +499,7 @@ namespace AI.Aggressor
         public static void AssignPlannedManeuver(Action callBack)
         {
             ShipMovementScript.SendAssignManeuverCommand(VirtualBoard.Ships[Selection.ThisShip].PlannedManeuverCode);
-            callBack();
+            GameManagerScript.Wait(0.2f, delegate { callBack(); });
         }
 
         // Low Priority

@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Rexler Brath",
                     5,
-                    81,
+                    79,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RexlerBrathAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

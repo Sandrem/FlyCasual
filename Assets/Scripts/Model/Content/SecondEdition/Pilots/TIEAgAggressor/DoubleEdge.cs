@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Double Edge\"",
                     2,
-                    29,
+                    28,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DoubleEdgeAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

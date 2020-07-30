@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Fifth Brother",
                 UpgradeType.Gunner,
-                cost: 11,
+                cost: 12,
                 isLimited: true,
                 addForce: 1,
                 restriction: new FactionRestriction(Faction.Imperial),

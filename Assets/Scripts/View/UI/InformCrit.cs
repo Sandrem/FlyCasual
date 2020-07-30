@@ -109,7 +109,6 @@ public static class InformCrit
             NetworkAnyPlayerConfirmedCrit = true;
 
             Phases.CurrentSubPhase.IsReadyForCommands = true;
-            GameController.CheckExistingCommands();
         }
         else
         {

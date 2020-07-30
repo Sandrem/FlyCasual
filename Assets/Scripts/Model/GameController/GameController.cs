@@ -38,7 +38,7 @@ public static class GameController
             ReplaysManager.RecordCommand(command);
         }
 
-        command.TryExecute();
+        // command.TryExecute();
     }
 
     public static void SendCommand(GameCommandTypes commandType, Type subPhase, string parameters = null)
@@ -152,12 +152,6 @@ public static class GameController
         return command;
     }
 
-    public static void CheckExistingCommands()
-    {
-        GameCommand command = GameController.GetCommand();
-        if (command != null) command.TryExecute();
-    }
-
     public static GameCommand GetCommand()
     {
         return (CommandsReceived.Count > 0) ? CommandsReceived.First() : null;
@@ -166,6 +160,22 @@ public static class GameController
     public static void ConfirmCommand()
     {
         CommandsReceived.RemoveAt(0);
+    }
+
+    public static void WaitForCommand()
+    {
+        GameCommand command = GameController.GetCommand();
+        if (command != null)
+        {
+            // Console.Write("=> Execute");
+            command.TryExecute();
+        }
+        else
+        {
+            // Console.Write("=> Wait");
+        }
+
+        GameManagerScript.Wait(0.1f, WaitForCommand);
     }
 
 }

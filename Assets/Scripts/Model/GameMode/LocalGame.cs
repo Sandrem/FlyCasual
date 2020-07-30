@@ -36,7 +36,7 @@ namespace GameModes
             }
             else if (ReplaysManager.Mode == ReplaysMode.Read)
             {
-                GameController.CheckExistingCommands();
+                // GameController.WaitForCommand();
             }
         }
 
@@ -63,7 +63,7 @@ namespace GameModes
             }
             else if (ReplaysManager.Mode == ReplaysMode.Read)
             {
-                GameController.CheckExistingCommands();
+                // GameController.WaitForCommand();
             }
         }
 

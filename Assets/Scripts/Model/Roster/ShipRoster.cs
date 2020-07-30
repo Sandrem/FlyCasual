@@ -72,12 +72,10 @@ public static partial class Roster
                     )
                 );
             }
-
-            GameController.CheckExistingCommands();
         }
         else if (ReplaysManager.Mode == ReplaysMode.Read)
         {
-            GameController.CheckExistingCommands();
+            
         }
 
         while (GameInitializer.AcceptsCommandType == typeof(SquadsSyncCommand) && GameInitializer.CommandsReceived < 2)

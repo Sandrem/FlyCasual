@@ -102,7 +102,6 @@ namespace SubPhases
             UI.ShowSkipButton();
 
             IsReadyForCommands = true;
-            GameController.CheckExistingCommands();
         }
 
     }

@@ -19,26 +19,9 @@ namespace Players
             Name = "Replay";
         }
 
-        public override void SyncDiceRerollSelected()
-        {
-            GameController.CheckExistingCommands();
-        }
-
-        public override void RerollManagerIsPrepared()
-        {
-            base.RerollManagerIsPrepared();
-            GameController.CheckExistingCommands();
-        }
-
-        public override void ConfirmDiceCheck()
-        {
-            GameController.CheckExistingCommands();
-        }
-
         public override void ChangeManeuver(Action<string> doWithManeuverString, Action callback, Func<string, bool> filter = null)
         {
             DirectionsMenu.Show(doWithManeuverString, callback, filter);
-            GameController.CheckExistingCommands();
         }
     }
 

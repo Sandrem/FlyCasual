@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
-    public class VeteranTurretGunner : GenericUpgrade
+    public class VeteranTurretGunner : GenericUpgrade, IVariableCost
     {
         public VeteranTurretGunner() : base()
         {
@@ -21,6 +21,18 @@ namespace UpgradesList.SecondEdition
                 restriction: new ActionBarRestriction(typeof(RotateArcAction)),
                 seImageNumber: 52
             );
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
+            {
+                {BaseSize.Small, 12},
+                {BaseSize.Medium, 9},
+                {BaseSize.Large, 7},
+            };
+
+            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
         }
     }
 }

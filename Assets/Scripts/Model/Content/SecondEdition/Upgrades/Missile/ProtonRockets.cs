@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Proton Rockets",
                 UpgradeType.Missile,
-                cost: 7,
+                cost: 6,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 5,
                     minRange: 1,

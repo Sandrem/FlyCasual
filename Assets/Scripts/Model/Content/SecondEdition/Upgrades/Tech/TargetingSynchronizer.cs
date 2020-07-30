@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Targeting Synchronizer",
                 UpgradeType.Tech,
-                cost: 6,
+                cost: 4,
                 restriction: new ActionBarRestriction(typeof(TargetLockAction)),
                 abilityType: typeof(Abilities.SecondEdition.TargetingSynchronizerAbility)
             );

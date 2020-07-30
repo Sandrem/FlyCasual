@@ -6,7 +6,7 @@ using ActionsList;
 
 namespace UpgradesList.SecondEdition
 {
-    public class PassiveSensors : GenericUpgrade
+    public class PassiveSensors : GenericUpgrade, IVariableCost
     {
         public PassiveSensors() : base()
         {
@@ -20,6 +20,22 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/08a980b359fb73dbcb9a315e94d505f0.png";
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
+            {
+                {0, 2},
+                {1, 2},
+                {2, 2},
+                {3, 2},
+                {4, 2},
+                {5, 4},
+                {6, 6}
+            };
+
+            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

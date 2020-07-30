@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Crack Shot",
                 UpgradeType.Talent,
-                cost: 1,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.CrackShotAbility),
                 charges: 1,
                 seImageNumber: 1

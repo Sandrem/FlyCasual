@@ -2,10 +2,11 @@
 using Ship;
 using ActionsList;
 using System;
+using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
-    public class AgileGunner : GenericUpgrade
+    public class AgileGunner : GenericUpgrade, IVariableCost
     {
         public AgileGunner() : base()
         {
@@ -16,6 +17,18 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.AgileGunnerAbility),
                 seImageNumber: 162
             );
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
+                {
+                    {BaseSize.Small, 7},
+                    {BaseSize.Medium, 6},
+                    {BaseSize.Large, 5},
+                };
+
+            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
         }
     }
 }

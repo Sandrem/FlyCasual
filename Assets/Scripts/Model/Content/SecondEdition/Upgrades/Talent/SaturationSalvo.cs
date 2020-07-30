@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Saturation Salvo",
                 UpgradeType.Talent,
-                cost: 5,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.SaturationSalvoAbility),
                 restriction: new ActionBarRestriction(typeof(ReloadAction)),
                 seImageNumber: 14

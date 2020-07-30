@@ -89,22 +89,22 @@ namespace GameCommands
             {
                 if (subphase == null)
                 {
-                    Console.Write(Type + " command is skipped (subphase is null)", LogTypes.GameCommands, false, "aqua");
+                    //Debug.Log(Type + " command is skipped (subphase is null)");
                     return;
                 }
                 else if (subphase.GetType() != SubPhase)
                 {
-                    Console.Write(Type + " command is skipped: subphase is " + subphase + " instead of " + SubPhase, LogTypes.GameCommands, false, "aqua");
+                    //Debug.Log(Type + " command is skipped: subphase is " + subphase + " instead of " + SubPhase);
                     return;
                 }
                 else if (!subphase.AllowedGameCommandTypes.Contains(Type) && Type != GameCommandTypes.ConfirmCrit)
                 {
-                    Console.Write(Type + " command is skipped: " + subphase + " doesn't support this type of commands", LogTypes.GameCommands, false, "aqua");
+                    //Debug.Log(Type + " command is skipped: " + subphase + " doesn't support this type of commands");
                     return;
                 }
                 else if (!subphase.IsReadyForCommands)
                 {
-                    Console.Write(Type + " command is skipped: " + subphase + " is not ready for commands", LogTypes.GameCommands, false, "aqua");
+                    //Debug.Log(Type + " command is skipped: " + subphase + " is not ready for commands");
                     return;
                 }
             }
@@ -113,8 +113,6 @@ namespace GameCommands
 
             GameController.ConfirmCommand();
             Execute();
-
-            GameController.CheckExistingCommands();
         }
 
         public abstract void Execute();

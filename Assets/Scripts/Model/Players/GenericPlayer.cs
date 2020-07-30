@@ -72,7 +72,6 @@ namespace Players
         public virtual void AskAssignManeuver()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public void SetPlayerNo(PlayerNo playerNo)
@@ -83,42 +82,36 @@ namespace Players
         public virtual void SetupShip()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void SetupBomb()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void AssignManeuversStart()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void PerformManeuver()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void PerformAttack()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void UseDiceModifications(DiceModificationTimingType type)
         {
-            GameController.CheckExistingCommands();
+            Roster.HighlightPlayer(PlayerNo);
         }
 
         public virtual void TakeDecision()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void AfterShipMovementPrediction()
@@ -185,31 +178,26 @@ namespace Players
         public virtual void SelectShipForAbility()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void SelectShipsForAbility()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void SelectObstacleForAbility()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void SetupShipMidgame()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void MoveObstacleMidgame()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public float AveragePilotSkillOfRemainingShips()
@@ -242,33 +230,24 @@ namespace Players
         public virtual void PlaceObstacle()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void PerformSystemsActivation()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
         }
 
         public virtual void SyncDiceResults()
         {
             Phases.CurrentSubPhase.IsReadyForCommands = true;
-
-            GameController.CheckExistingCommands();
         }
 
-        public virtual void SyncDiceRerollSelected()
-        {
-            GameController.CheckExistingCommands();
-        }
+        public virtual void SyncDiceRerollSelected() { }
 
         public virtual void InformAboutCrit()
         {
             InformCrit.ShowPanelVisible();
             InformCrit.DisableConfirmButton();
-
-            GameController.CheckExistingCommands();
         }
 
         public virtual void DiceCheckConfirm()

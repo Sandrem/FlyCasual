@@ -31,8 +31,6 @@ namespace GameModes
             (
                 RulesList.InitiativeRule.GenerateInitiativeDecisionOwnerCommand(playerNo)
             );
-
-            GameController.CheckExistingCommands();
         }
 
         private static void StorePlayerWithInitiative(int[] randomHolder)

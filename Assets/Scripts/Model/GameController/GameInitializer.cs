@@ -14,6 +14,8 @@ public static class GameInitializer
     {
         AcceptsCommandType = state;
         CommandsReceived = 0;
+
+        GameController.WaitForCommand();
     }
 
     public static void TryExecute(GameCommand command)
@@ -27,8 +29,6 @@ public static class GameInitializer
             CommandsReceived++;
 
             if (command.GetType() == typeof(SyncPlayerWithInitiativeCommand)) AcceptsCommandType = null;
-
-            GameController.CheckExistingCommands();
         }
         else
         {

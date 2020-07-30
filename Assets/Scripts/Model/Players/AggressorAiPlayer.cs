@@ -139,7 +139,6 @@ namespace Players
         public override void SetupShip()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
 
             AI.Aggressor.DeploymentSubSystem.SetupShip();
         }
@@ -147,7 +146,6 @@ namespace Players
         public override void PerformManeuver()
         {
             Roster.HighlightPlayer(PlayerNo);
-            GameController.CheckExistingCommands();
 
             GenericShip nextShip = (!DebugManager.DebugStraightToCombat) ? AI.Aggressor.NavigationSubSystem.GetNextShipWithoutFinishedManeuver() : GetNextShipWithoutFinishedManeuver();
             if (nextShip != null)

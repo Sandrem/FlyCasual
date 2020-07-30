@@ -60,7 +60,6 @@ public partial class DiceModificationsManager
 
     public void UseDiceModification(string diceModificationName)
     {
-        Phases.CurrentSubPhase.IsReadyForCommands = false;
         Tooltips.EndTooltip();
 
         if (AvailableDiceModifications.ContainsKey(diceModificationName))

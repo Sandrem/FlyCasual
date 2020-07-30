@@ -201,7 +201,6 @@ namespace SquadBuilderNS
             GameObject archetypesPanel = GameObject.Find("UI/Panels").transform.Find("BrowsePopularSquadsVariantsPanel").Find("Scroll View/Viewport/Content").gameObject;
 
             RectTransform contentTransform = archetypesPanel.GetComponent<RectTransform>();
-            Vector3 currentPosition = new Vector3(contentTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, archetypesPanel.transform.localPosition.z);
 
             foreach (Transform transform in contentTransform.transform)
             {
@@ -261,7 +260,7 @@ namespace SquadBuilderNS
             float totalHeight = 0;
             foreach (Transform transform in contentTransform)
             {
-                if (transform.name != "DestructionIsPlanned")
+                if (transform.gameObject.activeSelf && transform.name != "DestructionIsPlanned")
                 {
                     totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
                 }
@@ -272,13 +271,10 @@ namespace SquadBuilderNS
             totalHeight = 25;
             foreach (Transform transform in contentTransform)
             {
-                if (transform.name != "DestructionIsPlanned")
+                if (transform.gameObject.activeSelf && transform.name != "DestructionIsPlanned")
                 {
-                    if (transform.gameObject.activeSelf)
-                    {
-                        transform.localPosition = new Vector2(transform.localPosition.x, -totalHeight);
-                        totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
-                    }
+                    transform.localPosition = new Vector2(transform.localPosition.x, -totalHeight);
+                    totalHeight += transform.GetComponent<RectTransform>().sizeDelta.y + freeSpace;
                 }
             }
         }

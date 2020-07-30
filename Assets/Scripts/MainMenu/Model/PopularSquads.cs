@@ -74,7 +74,6 @@ namespace SquadBuilderNS
             GameObject archetypesPanel = GameObject.Find("UI/Panels").transform.Find("BrowsePopularSquadsPanel").Find("Scroll View/Viewport/Content").gameObject;
 
             RectTransform archetypesPanelRectTransform = archetypesPanel.GetComponent<RectTransform>();
-            Vector3 currentPosition = new Vector3(archetypesPanelRectTransform.sizeDelta.x / 2 + FREE_SPACE, -FREE_SPACE, archetypesPanel.transform.localPosition.z);
 
             foreach (Transform transform in archetypesPanel.transform)
             {
@@ -89,12 +88,10 @@ namespace SquadBuilderNS
                 GameObject archetypeRecord;
 
                 archetypeRecord = MonoBehaviour.Instantiate(prefab, archetypesPanel.transform);
-                archetypeRecord.transform.localPosition = currentPosition;
                 archetypeRecord.name = archetype["name"].str;
 
                 archetypeRecord.transform.Find("Name").GetComponent<Text>().text = archetype["name"].str;
 
-                currentPosition = new Vector3(currentPosition.x, currentPosition.y - 120f - FREE_SPACE, currentPosition.z);
                 archetypesPanelRectTransform.sizeDelta = new Vector2(archetypesPanelRectTransform.sizeDelta.x, archetypesPanelRectTransform.sizeDelta.y + 120f + FREE_SPACE);
 
                 string factionText = FactionToChar(archetype["faction"].str.ToLower()).ToString();

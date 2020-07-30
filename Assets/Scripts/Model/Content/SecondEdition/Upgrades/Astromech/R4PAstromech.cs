@@ -12,11 +12,10 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R4-P Astromech",
                 UpgradeType.Astromech,
-                cost: 4,
+                cost: 2,
                 charges: 2,
                 abilityType: typeof(Abilities.SecondEdition.R4PAstromechAbility),
                 restriction: new FactionRestriction(Faction.Republic)
-                //seImageNumber: ?
             );
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f2/b0/f2b08b38-29fa-4be1-b96d-c09a5ac4bc7c/swz32_r4-p_astromech.png";
         }

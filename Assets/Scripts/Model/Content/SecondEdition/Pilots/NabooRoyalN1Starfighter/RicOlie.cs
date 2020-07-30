@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Ric Olie",
                     5,
-                    42,
+                    45,
                     isLimited: true,
                     abilityText: "When you defend or perform a primary attack, if the maneuver you revealed is greater than the enemy ship’s maneuver, roll 1 additional die.",
                     abilityType: typeof(RicOlieAbility),

@@ -675,7 +675,11 @@ namespace SquadBuilderNS
 
                 foreach (UpgradeRecord upgrade in filteredUpgrades)
                 {
-                    if (upgrade.Instance is IVariableCost && Edition.Current is SecondEdition) (upgrade.Instance as IVariableCost).UpdateCost(CurrentSquadBuilderShip.Instance);
+                    if (upgrade.Instance is IVariableCost && Edition.Current is SecondEdition)
+                    {
+                        (upgrade.Instance as IVariableCost).UpdateCost(CurrentSquadBuilderShip.Instance);
+                        if (upgrade.Instance.UpgradeInfo.Cost == int.MaxValue) upgrade.Instance.IsHidden = true;
+                    }
                 }
 
                 filteredUpgrades = filteredUpgrades.OrderBy(n => n.Instance.UpgradeInfo.Cost).ToList();
@@ -740,7 +744,11 @@ namespace SquadBuilderNS
 
             string upgradeType = AllUpgrades.Find(n => n.UpgradeNameCanonical == upgrade.UpgradeNameCanonical && n.UpgradeType == upgrade.UpgradeType).UpgradeTypeName;
             GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
-            if (newUpgrade is IVariableCost && Edition.Current is SecondEdition) (newUpgrade as IVariableCost).UpdateCost(CurrentSquadBuilderShip.Instance);
+            if (newUpgrade is IVariableCost && Edition.Current is SecondEdition)
+            {
+                (newUpgrade as IVariableCost).UpdateCost(CurrentSquadBuilderShip.Instance);
+                if (newUpgrade.UpgradeInfo.Cost == int.MaxValue) newUpgrade.IsHidden = true;
+            }
             Edition.Current.AdaptUpgradeToRules(newUpgrade);
 
             UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();

@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
             PilotInfo = new PilotCardInfo(
                 "\"Swoop\"",
                 3,
-                31,
+                28,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.SwoopAbility),
                 extraUpgradeIcon: UpgradeType.Talent

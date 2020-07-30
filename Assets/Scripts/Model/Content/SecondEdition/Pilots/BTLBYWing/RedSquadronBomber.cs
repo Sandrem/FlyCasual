@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Red Squadron Bomber",
                     2,
-                    30,
+                    29,
                     extraUpgradeIcon: UpgradeType.Astromech
                 );
 

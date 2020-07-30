@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Holo\"",
                     5,
-                    54,
+                    53,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HoloAbility)
                 );

@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Chewbacca",
                     4,
-                    71,
+                    70,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChewbaccaRebelPilotAbility),
                     charges: 1,

@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Wild Space Fringer",
                     1,
-                    77,
+                    72,
                     extraUpgradeIcon: Upgrade.UpgradeType.Crew,
                     seImageNumber: 79
                 );

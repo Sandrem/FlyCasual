@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Miranda Doni",
                     4,
-                    42,
+                    40,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MirandaDoniAbility),
                     seImageNumber: 62

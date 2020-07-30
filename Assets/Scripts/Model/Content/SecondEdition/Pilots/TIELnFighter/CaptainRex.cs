@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Captain Rex",
                     2,
-                    30,
+                    29,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainRexPilotAbility),
                     factionOverride: Faction.Rebel,

@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Rogue Squadron Escort",
                     4,
-                    53,
+                    51,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 52
                 );

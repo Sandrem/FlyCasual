@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Han Solo",
                     6,
-                    80,
+                    79,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloRebelPilotAbility),
                     charges: 1,

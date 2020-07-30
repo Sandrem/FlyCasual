@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Han Solo",
                 UpgradeType.Gunner,
-                cost: 14,
+                cost: 12,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.HanSoloRebelGunnerAbility),

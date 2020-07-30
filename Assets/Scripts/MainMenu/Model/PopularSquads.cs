@@ -58,8 +58,15 @@ namespace SquadBuilderNS
             Data = new JSONObject(www.downloadHandler.text);
 
             HideLoadingStub("BrowsePopularSquadsPanel");
-            ShowListOfArchetypes();
-            SetFaction(LastChosenFaction);
+            if (Data.list != null)
+            {
+                ShowListOfArchetypes();
+                SetFaction(LastChosenFaction);
+            }
+            else
+            {
+                Messages.ShowError("Cannot load data");
+            }
         }
 
         private static void HideLoadingStub(string pageName)
@@ -178,7 +185,14 @@ namespace SquadBuilderNS
             VariantsData = new JSONObject(www.downloadHandler.text);
 
             HideLoadingStub("BrowsePopularSquadsVariantsPanel");
-            ShowListOfArchetypesVariants();
+            if (VariantsData.list != null)
+            {
+                ShowListOfArchetypesVariants();
+            }
+            else
+            {
+                Messages.ShowError("Cannot load data");
+            }
         }
 
         public static void ShowListOfArchetypesVariants()

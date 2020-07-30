@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Edon Kappehl",
                     3,
-                    60,
+                    58,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EdonKappehlAbility),
                     pilotTitle: "Crimson Hailstorm"

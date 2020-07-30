@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Chewbacca",
                     4,
-                    63,
+                    61,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChewbaccaPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent

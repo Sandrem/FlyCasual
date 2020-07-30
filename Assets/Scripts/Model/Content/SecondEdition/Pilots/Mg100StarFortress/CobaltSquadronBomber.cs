@@ -13,8 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cobalt Squadron Bomber",
                     1,
-                    52 //,
-                    //seImageNumber: 19
+                    51
                 );
 
                 ModelInfo.SkinName = "Cobalt";

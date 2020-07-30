@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Joph Seastriker",
                     3,
-                    51,
+                    49,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JophSeastrikerAbility),
                     extraUpgradeIcon: UpgradeType.Talent

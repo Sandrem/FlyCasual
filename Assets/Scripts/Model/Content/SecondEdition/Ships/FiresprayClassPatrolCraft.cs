@@ -17,6 +17,7 @@ namespace Ship
                 ShipInfo.BaseSize = BaseSize.Medium;
 
                 ShipInfo.FactionsAll.Remove(Faction.Imperial);
+                ShipInfo.FactionsAll.Add(Faction.Separatists);
                 ShipInfo.DefaultShipFaction = Faction.Scum;
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
@@ -26,6 +27,7 @@ namespace Ship
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReinforceAction), ActionColor.Red));
 
                 IconicPilots[Faction.Scum] = typeof(KrassisTrelix);
+                IconicPilots.Add(Faction.Separatists, typeof(JangoFett));
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn), MovementComplexity.Normal);
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn), MovementComplexity.Normal);

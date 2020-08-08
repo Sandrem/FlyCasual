@@ -88,6 +88,8 @@ namespace Ship.SecondEdition.TIERbHeavy
                 "TIE-Fire", 2
             );
 
+            DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.ManeuverAssistMGK300));
+
             ShipAbilities.Add(new Abilities.SecondEdition.RotatingCannons());
         }
     }

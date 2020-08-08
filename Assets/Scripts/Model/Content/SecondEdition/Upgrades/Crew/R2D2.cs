@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility()
         {
-            if (HostShip.Damage.IsDamaged() && HostShip.State.ShieldsCurrent == 0)
+            if (HostShip.Damage.IsDamaged && HostShip.State.ShieldsCurrent == 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnEndPhaseStart, AskToUseOwnAbility);
             }

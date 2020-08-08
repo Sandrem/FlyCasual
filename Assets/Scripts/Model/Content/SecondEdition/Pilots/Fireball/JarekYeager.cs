@@ -42,7 +42,7 @@ namespace Abilities.SecondEdition
 
         private void CheckRedManeuversWhileStressed(ref bool isAllowed)
         {
-            if (HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) <= 2 && HostShip.Damage.IsDamaged())
+            if (HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) <= 2 && HostShip.Damage.IsDamaged)
             {
                 bool isCriticallyDamaged = HostShip.Damage.HasFaceupCards;
                 bool isAdvancedManeuver = HostShip.AssignedManeuver != null && HostShip.AssignedManeuver.IsAdvancedManeuver;

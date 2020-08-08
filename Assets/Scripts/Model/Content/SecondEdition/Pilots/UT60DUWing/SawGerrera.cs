@@ -60,7 +60,7 @@ namespace Abilities.SecondEdition
             public override bool IsDiceModificationAvailable()
             {
                 bool result = false;
-                if (Combat.Attacker.Damage.IsDamaged()) result = base.IsDiceModificationAvailable();
+                if (Combat.Attacker.Damage.IsDamaged) result = base.IsDiceModificationAvailable();
                 return result;
             }
         }

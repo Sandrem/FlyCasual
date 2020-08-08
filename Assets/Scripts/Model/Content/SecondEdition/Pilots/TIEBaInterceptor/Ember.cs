@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
         {
             if (ship == Combat.Defender &&  Combat.Attacker != null && Combat.Attacker.ShipId == HostShip.ShipId)
             {
-                if (ship.Damage.IsDamaged() || Board.GetShipsAtRange(ship, new Vector2(0, 1), Team.Type.Friendly).Count(n => n.Damage.IsDamaged()) > 0)
+                if (ship.Damage.IsDamaged || Board.GetShipsAtRange(ship, new Vector2(0, 1), Team.Type.Friendly).Count(n => n.Damage.IsDamaged) > 0)
                 {
                     if (action.TokensSpend.Contains(typeof(FocusToken)) || action.TokensSpend.Contains(typeof(CalculateToken)))
                     {

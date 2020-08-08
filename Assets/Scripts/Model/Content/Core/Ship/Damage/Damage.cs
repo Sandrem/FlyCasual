@@ -31,10 +31,7 @@ namespace Ship
             return DamageCards.Where(n => !n.IsFaceup).ToList();
         }
 
-        public bool IsDamaged()
-        {
-            return DamageCards.Count > 0;
-        }
+        public bool IsDamaged => DamageCards.Count > 0;
 
         public int CountAssignedDamage()
         {

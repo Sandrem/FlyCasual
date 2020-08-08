@@ -40,7 +40,7 @@ namespace Abilities.SecondEdition
 
         private void CheckWullffwarroAbility(ref int value)
         {
-            if (HostShip.Damage.IsDamaged())
+            if (HostShip.Damage.IsDamaged)
             {
                 Messages.ShowInfo(HostShip.PilotInfo.PilotName + " is damaged, gains +1 attack die");
                 value++;

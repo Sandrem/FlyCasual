@@ -58,7 +58,7 @@ namespace Abilities.SecondEdition
             if (Combat.AttackStep != CombatStep.Attack) return false;
             if (Combat.Attacker.Owner.PlayerNo != HostShip.Owner.PlayerNo) return false;
             if (Combat.Attacker.ShipBase.Size != BaseSize.Small && Combat.Attacker.ShipId != HostShip.ShipId) return false;
-            if (!Combat.Defender.Damage.IsDamaged()) return false;
+            if (!Combat.Defender.Damage.IsDamaged) return false;
             if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) return false;
             if (new DistanceInfo(Combat.Attacker, HostShip).Range > 2) return false;
 

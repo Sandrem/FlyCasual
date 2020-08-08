@@ -8,6 +8,7 @@ using Players;
 using System.Linq;
 using ActionsList;
 using BoardTools;
+using Arcs;
 
 namespace Abilities
 {
@@ -131,7 +132,7 @@ namespace Abilities
         /// <summary>
         /// Register trigger of ability
         /// </summary>
-        protected Trigger RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null, bool isSkippable = false)
+        public Trigger RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null, bool isSkippable = false)
         {
             var trigger = new Trigger()
             {
@@ -244,12 +245,12 @@ namespace Abilities
 
         // SELECT SHIP AS TARGET OF ABILITY
 
-        protected GenericShip TargetShip;
+        public GenericShip TargetShip;
 
         /// <summary>
         /// Starts "Select ship for ability" subphase
         /// </summary>
-        protected void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true, Action callback = null)
+        public void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true, Action callback = null)
         {
             if (callback == null) callback = Triggers.FinishTrigger;
 
@@ -293,7 +294,7 @@ namespace Abilities
             return result;
         }
 
-        protected bool FilterTargetsByRange(GenericShip ship, int minRange, int maxRange)
+        public bool FilterTargetsByRange(GenericShip ship, int minRange, int maxRange)
         {
             bool result = true;
 
@@ -307,7 +308,7 @@ namespace Abilities
             return result;
         }
 
-        protected bool FilterTargetsByRangeInArc(GenericShip ship, int minRange, int maxRange)
+        public bool FilterTargetsByRangeInArc(GenericShip ship, int minRange, int maxRange)
         {
             bool result = true;
 
@@ -315,6 +316,21 @@ namespace Abilities
             {
                 ShotInfo shotInfo = new ShotInfo(hostShip, ship, hostShip.PrimaryWeapons);
                 if (!shotInfo.InArc) return false;
+                if (shotInfo.Range < minRange) return false;
+                if (shotInfo.Range > maxRange) return false;
+            }
+
+            return result;
+        }
+
+        public bool FilterTargetsByRangeInSpecificArc(GenericShip ship, int minRange, int maxRange, ArcType arcType)
+        {
+            bool result = true;
+
+            if ((Phases.CurrentSubPhase as SelectShipSubPhase) == null || (Phases.CurrentSubPhase as SelectShipSubPhase).CanMeasureRangeBeforeSelection)
+            {
+                ShotInfo shotInfo = new ShotInfo(hostShip, ship, hostShip.PrimaryWeapons);
+                if (!shotInfo.InArcByType(arcType)) return false;
                 if (shotInfo.Range < minRange) return false;
                 if (shotInfo.Range > maxRange) return false;
             }

@@ -1,6 +1,7 @@
 ﻿using Arcs;
 using Movement;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,7 +16,8 @@ namespace Ship
                     4,
                     42,
                     abilityType: typeof(Abilities.SecondEdition.RampagePilotAbility),
-                    isLimited: true
+                    isLimited: true,
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://i.imgur.com/cPVLRxm.png";

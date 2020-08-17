@@ -24,9 +24,9 @@ namespace UpgradesList.SecondEdition
         {
             Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
             {
-                {0, int.MaxValue},
-                {1, int.MaxValue},
-                {2, int.MaxValue},
+                {0, 6},
+                {1, 9},
+                {2, 12},
                 {3, 15},
                 {4, 18},
                 {5, 21},

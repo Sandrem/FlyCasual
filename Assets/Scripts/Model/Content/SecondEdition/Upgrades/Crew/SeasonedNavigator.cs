@@ -1,7 +1,6 @@
 ﻿using Ship;
 using Upgrade;
 using System.Collections.Generic;
-using GameModes;
 using Movement;
 
 namespace UpgradesList.SecondEdition
@@ -29,7 +28,9 @@ namespace UpgradesList.SecondEdition
                 {3, 5},
                 {4, 6},
                 {5, 7},
-                {6, 8}
+                {6, 8},
+                {7, 9},
+                {8, 10}
             };
 
             UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];

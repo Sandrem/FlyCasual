@@ -1,6 +1,4 @@
-﻿using Actions;
-using ActionsList;
-using Ship;
+﻿using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
@@ -19,6 +17,7 @@ namespace Ship
                     76,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeeboAbility),
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 78
                 );
 

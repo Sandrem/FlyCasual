@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Separatist Predator",
                     4,
-                    50
+                    40
                 );
             }
         }

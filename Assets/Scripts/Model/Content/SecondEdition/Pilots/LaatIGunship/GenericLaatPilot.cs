@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Generic Laat Pilot",
                     2,
-                    50
+                    40
                 );
             }
         }

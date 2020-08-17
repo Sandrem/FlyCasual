@@ -45,7 +45,7 @@ namespace Ship.SecondEdition.TIERbHeavy
 
             ModelInfo = new ShipModelInfo(
                 "TIE Heavy",
-                "Blue",
+                "Default",
                 new Vector3(-3.73f, 7.9f, 5.55f),
                 2.3f
             );

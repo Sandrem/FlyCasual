@@ -77,8 +77,13 @@ namespace Abilities.SecondEdition
         private void DoAttack(object sender, System.EventArgs e)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            Combat.StartSelectAttackTarget(HostShip, Triggers.FinishTrigger, abilityName: "Attack", description: "Select target");
+            GenericShip AttackerBeforeAbility = Combat.Attacker;
+            GenericShip DefenderBeforeAbility = Combat.Defender;
+            Combat.StartSelectAttackTarget(HostShip, () => {
+                Combat.Attacker = AttackerBeforeAbility;
+                Combat.Defender = DefenderBeforeAbility;
+                Triggers.FinishTrigger();
+            }, abilityName: "Attack", description: "Select target");
         }
 
         private void DropBomb(object sender, System.EventArgs e)

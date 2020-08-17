@@ -22,6 +22,8 @@ namespace Ship
                     abilityType: typeof(Abilities.FirstEdition.AsajjVentressPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
+
+                ModelInfo.SkinName = "Asajj";
             }
         }
     }

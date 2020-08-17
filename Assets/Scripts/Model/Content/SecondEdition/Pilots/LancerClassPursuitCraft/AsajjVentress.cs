@@ -24,6 +24,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.ForcePower,
                     seImageNumber: 219
                 );
+
+                ModelInfo.SkinName = "Asajj";
             }
         }
     }

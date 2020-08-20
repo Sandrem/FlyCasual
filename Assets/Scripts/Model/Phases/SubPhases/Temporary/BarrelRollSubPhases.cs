@@ -370,7 +370,11 @@ namespace SubPhases
             {
                 BarrelRollProblems.Add(ActionFailReason.Bumped);
             }
-            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBarrelRoll && !IsTractorBeamBarrelRoll && collider.OverlapsAsteroidNow)
+            else if (!TheShip.IsIgnoreObstacles 
+                && !TheShip.IsIgnoreObstaclesDuringBarrelRoll 
+                && !IsTractorBeamBarrelRoll 
+                && collider.OverlapsAsteroidNow
+                && !TheShip.IgnoreObstacleTypes.Contains(typeof(Asteroid)))
             {
                 BarrelRollProblems.Add(ActionFailReason.ObstacleHit);
             }

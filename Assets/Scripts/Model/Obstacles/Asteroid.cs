@@ -20,6 +20,10 @@ namespace Obstacles
 
         public override void OnHit(GenericShip ship)
         {
+            if (Selection.ThisShip.IgnoreObstacleTypes.Contains(typeof(Asteroid))) {
+                return;
+            }
+
             if (!Selection.ThisShip.CanPerformActionsWhenOverlapping)
             {
                 Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement, their action subphase is skipped");

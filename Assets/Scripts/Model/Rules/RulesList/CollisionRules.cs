@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Ship;
+using Editions;
 
 namespace RulesList
 {
@@ -68,7 +69,10 @@ namespace RulesList
 
         public void CanPerformAttack(ref bool result, List<string> stringList)
         {
-            if ((Selection.ThisShip.IsBumped) && (Selection.ThisShip.ShipsBumped.Contains(Selection.AnotherShip)) && (Selection.AnotherShip.ShipsBumped.Contains(Selection.ThisShip)))
+            if (!Edition.Current.CanAttackBumpedTarget && 
+                Selection.ThisShip.IsBumped && 
+                Selection.ThisShip.ShipsBumped.Contains(Selection.AnotherShip) && 
+                Selection.AnotherShip.ShipsBumped.Contains(Selection.ThisShip))
             {
                 if (!Selection.ThisShip.CanAttackBumpedTarget(Selection.AnotherShip))
                 {

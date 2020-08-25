@@ -33,18 +33,11 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.PrimaryWeapons.ForEach(n => n.WeaponInfo.MinRange = 0);
-            HostShip.OnCanAttackBumpedTarget += CanAttack;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.PrimaryWeapons.ForEach(n => n.WeaponInfo.MinRange = 1);
-            HostShip.OnCanAttackBumpedTarget -= CanAttack;
-        }
-
-        private void CanAttack(ref bool canAttack, GenericShip attacker, GenericShip defender)
-        {
-            canAttack = true;
         }
 
     }

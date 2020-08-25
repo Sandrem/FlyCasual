@@ -32,7 +32,6 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.PrimaryWeapons.ForEach(n => n.WeaponInfo.MinRange = 0);
-            HostShip.OnCanAttackBumpedTarget += CanAttack;
 
             HostShip.AfterGotNumberOfAttackDice += CheckBonusDice;
             HostShip.OnAttackHitAsAttacker += CheckSelfDamage;
@@ -41,15 +40,9 @@ namespace Abilities.SecondEdition
         public override void DeactivateAbility()
         {
             HostShip.PrimaryWeapons.ForEach(n => n.WeaponInfo.MinRange = 1);
-            HostShip.OnCanAttackBumpedTarget -= CanAttack;
 
             HostShip.AfterGotNumberOfAttackDice -= CheckBonusDice;
             HostShip.OnAttackHitAsAttacker -= CheckSelfDamage;
-        }
-
-        private void CanAttack(ref bool canAttack, GenericShip attacker, GenericShip defender)
-        {
-            canAttack = true;
         }
 
         private void CheckBonusDice(ref int count)

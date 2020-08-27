@@ -18,11 +18,12 @@ namespace Ship
                     "Gideon Hask",
                     4,
                     40,
+                    pilotTitle: "Merciless Hard-Liner",
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GideonHaskXiClassLightShuttleAbility)
                 );
 
-                ImageUrl = "https://i.imgur.com/wfPdYgB.png";
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fc/47/fc47d552-1b3f-4281-8a0e-5ced929d7ec8/swz69_a1_ship_hask.png";
 
                 PilotNameCanonical = "gideonhask-xiclasslightshuttle";
             }

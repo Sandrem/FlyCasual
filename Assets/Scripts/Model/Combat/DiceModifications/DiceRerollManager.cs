@@ -18,6 +18,7 @@ public partial class DiceRerollManager
     public bool IsOpposite;
     public bool IsTrueReroll = true;
     public bool IsForcedFullReroll = false;
+    public bool IsForcedModification = false;
 
     public Action CallBack;
 
@@ -189,7 +190,7 @@ public partial class DiceRerollManager
 
     private void StartPlayerInteraction()
     {
-        if (!IsForcedFullReroll)
+        if (!(IsForcedFullReroll || IsForcedModification))
         {
             Selection.ActiveShip.Owner.RerollManagerIsPrepared();
         }

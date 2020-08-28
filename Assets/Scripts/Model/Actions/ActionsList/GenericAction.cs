@@ -46,6 +46,7 @@ namespace ActionsList
 
         public bool IsTurnsOneFocusIntoSuccess;
         public bool IsTurnsAllFocusIntoSuccess;
+        public bool IsForced;
 
         public bool CanBeUsedFewTimes;
 

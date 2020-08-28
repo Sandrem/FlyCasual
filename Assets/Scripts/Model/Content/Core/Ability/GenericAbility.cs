@@ -461,7 +461,8 @@ namespace Abilities
             Action<Action<bool>> payAbilityCost = null,
             Action payAbilityPostCost = null,
             bool isTrueReroll = true,
-            bool isForcedFullReroll = false
+            bool isForcedFullReroll = false,
+            bool isForcedModification = false
         )
         {
             AddDiceModification(
@@ -477,7 +478,8 @@ namespace Abilities
                 payAbilityCost,
                 payAbilityPostCost,
                 isTrueReroll,
-                isForcedFullReroll
+                isForcedFullReroll,
+                isForcedModification
             );
         }
 
@@ -497,7 +499,8 @@ namespace Abilities
             Action<Action<bool>> payAbilityCost = null,
             Action payAbilityPostCost = null,
             bool isTrueReroll = true,
-            bool isForcedFullReroll = false
+            bool isForcedFullReroll = false,
+            bool isForcedModification = false
         )
         {
             if (sidesCanBeSelected == null) sidesCanBeSelected = new List<DieSide>() { DieSide.Blank, DieSide.Focus, DieSide.Success, DieSide.Crit };
@@ -514,6 +517,7 @@ namespace Abilities
                     Source = HostUpgrade,
                     CheckDiceModificationAvailable = isAvailable,
                     GenerateDiceModificationAiPriority = aiPriority,
+                    IsForced = isForcedModification,
                     DoDiceModification = (Action callback) =>
                     {
                         if (payAbilityCost == null) payAbilityCost = payCallback => payCallback(true);
@@ -534,7 +538,8 @@ namespace Abilities
                                     sideCanBeChangedTo,
                                     timing,
                                     isTrueReroll,
-                                    isForcedFullReroll
+                                    isForcedFullReroll,
+                                    isForcedModification
                                 );
                             }
                             else callback();
@@ -613,13 +618,14 @@ namespace Abilities
             DieSide newSide,
             DiceModificationTimingType timing,
             bool isTrueReroll = true,
-            bool isForcedFullReroll = false
+            bool isForcedFullReroll = false,
+            bool isForcedModification = false
         )
         {
             switch (modificationType)
             {
                 case DiceModificationType.Reroll:
-                    DiceModificationReroll(callback, getCount, sidesCanBeSelected, timing, isTrueReroll, isForcedFullReroll);
+                    DiceModificationReroll(callback, getCount, sidesCanBeSelected, timing, isTrueReroll, isForcedFullReroll, isForcedModification);
                     break;
                 case DiceModificationType.Change:
                     DiceModificationChange(callback, getCount, sidesCanBeSelected, newSide);
@@ -660,7 +666,7 @@ namespace Abilities
             }
         }
 
-        private void DiceModificationReroll(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing, bool isTrueReroll = true, bool isForcedFullReroll = false)
+        private void DiceModificationReroll(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing, bool isTrueReroll = true, bool isForcedFullReroll = false, bool isForcedModification = false)
         {
             int diceCount = getCount();
 
@@ -673,6 +679,7 @@ namespace Abilities
                     IsOpposite = timing == DiceModificationTimingType.Opposite,
                     IsTrueReroll = isTrueReroll,
                     IsForcedFullReroll = isForcedFullReroll,
+                    IsForcedModification = isForcedModification,
                     CallBack = callback
                 };
                 diceRerollManager.Start();

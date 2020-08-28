@@ -94,7 +94,7 @@ public partial class DiceModificationsManager
         }
     }
 
-    private void HideOkButton()
+    public void HideOkButton()
     {
         Button closeButton = GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").Find("Confirm").GetComponent<Button>();
         closeButton.gameObject.SetActive(false);

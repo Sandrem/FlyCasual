@@ -54,9 +54,8 @@ namespace Abilities.SecondEdition
 
         private void CheckAbility(GenericShip ship)
         {
-            if (Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon
-                && (Combat.ArcForShot.ArcType == ArcType.Front || Combat.ArcForShot.ArcType == ArcType.SingleTurret)
-            )
+            if ((Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.PrimaryWeapon && Combat.ArcForShot.ArcType == ArcType.Front) 
+                || Combat.ShotInfo.Weapon.WeaponType == WeaponTypes.Turret)
             {
                 HostShip.DockingHost.OnCombatCheckExtraAttack += RegisterSecondAttackTrigger;
             }

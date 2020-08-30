@@ -126,6 +126,19 @@ namespace Ship
             get { return Tokens.HasToken<DepleteToken>(); }
         }
 
+        public bool IsReinforcedAgainstShip(GenericShip attacker)
+        {
+            if (Tokens.HasToken<ReinforceAftToken>()
+                && Edition.Current.DefenderIsReinforcedAgainstAttacker(Arcs.ArcFacing.FullRear, this, attacker))
+                return true;
+
+            if (Tokens.HasToken<ReinforceForeToken>()
+                && Edition.Current.DefenderIsReinforcedAgainstAttacker(Arcs.ArcFacing.FullFront, this, attacker))
+                return true;
+
+            return false;
+        }
+
         public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             return true;

@@ -54,6 +54,7 @@ namespace Ship
         public event EventHandlerShip OnActionIsSkipped;
         public event EventHandlerActionBool BeforeActionIsPerformed;
         public event EventHandlerAction OnActionIsPerformed;
+        public static event EventHandlerAction OnActionIsPerformedGlobal;
         public event EventHandlerAction OnActionIsPerformed_System;
 
         public event EventHandlerShipType OnTokenIsAssigned;
@@ -212,6 +213,8 @@ namespace Ship
                 delegate
                 {
                     OnActionIsPerformed?.Invoke(action);
+
+                    OnActionIsPerformedGlobal?.Invoke(action);
 
                     Triggers.ResolveTriggers(TriggerTypes.OnActionIsPerformed, callBack);
                 }

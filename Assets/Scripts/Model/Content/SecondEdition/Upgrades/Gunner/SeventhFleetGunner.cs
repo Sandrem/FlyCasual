@@ -107,9 +107,16 @@ namespace Abilities.SecondEdition
                 "Seventh Fleet Gunner (ID:" + HostShip.ShipId + ")",
                 NeverUseByDefault,
                 UseGunnerAbility,
+                DontUseGunnerAbility,
                 descriptionLong: "You may spend charge to allow the attaker to roll 1 additional die, to a maximum of 4",
                 imageHolder: HostUpgrade
             );
+        }
+
+        private void DontUseGunnerAbility(object sender, EventArgs e)
+        {
+            Selection.ChangeActiveShip(Combat.Attacker);
+            Triggers.FinishTrigger();
         }
 
         private void UseGunnerAbility(object sender, EventArgs e)

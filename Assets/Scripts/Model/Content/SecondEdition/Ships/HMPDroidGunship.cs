@@ -32,7 +32,11 @@ namespace Ship.SecondEdition.HMPDroidGunship
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Cannon,
+                    UpgradeType.Cannon,
                     UpgradeType.Missile,
+                    UpgradeType.Missile,
+                    UpgradeType.Device,
+                    UpgradeType.TacticalRelay,
                     UpgradeType.Modification,
                     UpgradeType.Configuration
                 )

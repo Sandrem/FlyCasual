@@ -67,6 +67,7 @@ public class DiceModificationStep : IDiceRollStep
 
         if (diceModifications.Count > 0 || IsVital)
         {
+            if (diceModifications.Any(m => m.IsForced)) Combat.DiceModifications.HideOkButton();
             IsVital = true;
             Selection.ActiveShip.Owner.UseDiceModifications(DiceModificationTiming);
         }

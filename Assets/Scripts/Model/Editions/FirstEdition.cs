@@ -24,6 +24,7 @@ namespace Editions
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Combat"; } }
         public override Color MovementEasyColor { get { return Color.green; } }
+        public override bool CanAttackBumpedTarget { get { return false; } }
         public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Normal; } }
         public override string PathToSavedSquadrons { get { return "SavedSquadrons"; } }
 

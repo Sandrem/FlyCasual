@@ -45,7 +45,6 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.PrimaryWeapons.ForEach(n => n.WeaponInfo.MinRange = 0);
-            HostShip.OnCanAttackBumpedTarget += CanAttack;
 
             HostShip.OnActionIsReadyToBeFailed += CheckAbility;
         }
@@ -53,16 +52,10 @@ namespace Abilities.SecondEdition
         public override void DeactivateAbility()
         {
             HostShip.PrimaryWeapons.ForEach(n => n.WeaponInfo.MinRange = 1);
-            HostShip.OnCanAttackBumpedTarget -= CanAttack;
 
             HostShip.OnActionIsReadyToBeFailed += CheckAbility;
         }
-
-        private void CanAttack(ref bool canAttack, GenericShip attacker, GenericShip defender)
-        {
-            canAttack = true;
-        }
-
+        
         private void CheckAbility(GenericAction action, List<ActionFailReason> failReasons, ref bool isDefaultFailOverwritten)
         {
             // TODO: Real fail reasons

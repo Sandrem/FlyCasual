@@ -11,7 +11,7 @@ namespace RulesList
         {
             if (Combat.ShotInfo.Range <= 1 && Edition.Current.IsWeaponHaveRangeBonus(Combat.ChosenWeapon))
             {
-                Messages.ShowInfo("Range 1 is applying a distance bonus of +1 attack die");
+                Messages.ShowInfo("Range " + Combat.ShotInfo.Range + " is applying a distance bonus of +1 attack die");
                 result++;
             }
         }

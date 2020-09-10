@@ -61,13 +61,13 @@ namespace Abilities.SecondEdition
         private bool IsBullsEyePrimary(GenericShip defender, IShipWeapon weapon, bool isSilent)
         {
             bool result = false;
-            if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon && HostShip.SectorsInfo.IsShipInSector(defender, ArcType.Bullseye))
+            if (weapon.WeaponType == WeaponTypes.PrimaryWeapon && HostShip.SectorsInfo.IsShipInSector(defender, ArcType.Bullseye))
             {
                 result = true;
             }
             else
             {
-                if(Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon)
+                if (weapon.WeaponType != WeaponTypes.PrimaryWeapon)
                 {
                     if (!isSilent) Messages.ShowError("This attack must be performed with the primary weapon");
                 }

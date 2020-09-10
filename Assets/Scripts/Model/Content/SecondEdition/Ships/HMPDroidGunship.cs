@@ -6,6 +6,8 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using Ship;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -43,6 +45,8 @@ namespace Ship.SecondEdition.HMPDroidGunship
             );
 
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(ReloadAction), typeof(CalculateAction), ActionColor.Red));
+
+            ShipAbilities.Add(new Abilities.SecondEdition.NetworkedAimAbility());
 
             IconicPilots = new Dictionary<Faction, System.Type> {
                 { Faction.Separatists, typeof(SeparatistPredator) }
@@ -89,5 +93,65 @@ namespace Ship.SecondEdition.HMPDroidGunship
                 "XWing-Laser", 3
             );
         }
+    }
+}
+
+
+namespace Abilities.SecondEdition
+{
+    //You cannot spend your locks to reroll attack dice.
+    //While you perform an attack, you may reroll a number of attack dice up to the number of friendly locks on the defender
+    public class NetworkedAimAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnAttackStartAsAttacker += SetTargetLockCannotBeUsed;
+            HostShip.OnAttackFinishAsAttacker += SetTargetLockCanBeUsed;
+
+            AddDiceModification(
+                "Networked Aim",
+                IsAvailable,
+                GetAiPriority,
+                DiceModificationType.Reroll,
+                GetRerollCount);
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackStartAsAttacker -= SetTargetLockCannotBeUsed;
+            HostShip.OnAttackFinishAsAttacker -= SetTargetLockCanBeUsed;
+
+            RemoveDiceModification();
+        }
+
+        private int GetRerollCount()
+        {
+            return Combat.Defender.Tokens
+                .GetTokens<RedTargetLockToken>('*')
+                .Count(token => (token.OtherTargetLockTokenOwner as GenericShip)?.Owner == HostShip.Owner);
+        }
+
+        private int GetAiPriority()
+        {
+            return 90;
+        }
+
+        private bool IsAvailable()
+        {
+            return Combat.AttackStep == CombatStep.Attack
+                && Combat.Attacker == HostShip
+                && GetRerollCount() > 0;
+        }
+
+        private void SetTargetLockCanBeUsed(GenericShip ship)
+        {
+            HostShip.Tokens.GetTokens<BlueTargetLockToken>('*').ForEach(targetLock => targetLock.CanBeUsed = true);
+        }
+
+        private void SetTargetLockCannotBeUsed()
+        {
+            HostShip.Tokens.GetTokens<BlueTargetLockToken>('*').ForEach(targetLock => targetLock.CanBeUsed = false);
+        }
+
     }
 }

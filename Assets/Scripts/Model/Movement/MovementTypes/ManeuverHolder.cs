@@ -44,7 +44,8 @@ namespace Movement
         None,
         Easy,
         Normal,
-        Complex
+        Complex,
+        Purple
     }
 
     public struct ManeuverHolder

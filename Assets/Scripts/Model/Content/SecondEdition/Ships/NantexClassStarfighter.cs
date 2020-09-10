@@ -122,8 +122,9 @@ namespace Abilities.SecondEdition
 
         private void AskToAssignTractor(object sender, System.EventArgs e)
         {
-            //make sure host ship didn't die from Loose Stabilizer, hitting rocks, etc.
-            if (HostShip.IsDestroyed) Triggers.FinishTrigger();
+            //make sure host ship can perform a rotate action, and didn't die from Loose Stabilizer, hitting rocks, etc.
+            if (HostShip.IsDestroyed || !HostShip.CanPerformAction(new RotateArcAction())) 
+                Triggers.FinishTrigger(); 
             else
             {
                 AskToUseAbility(

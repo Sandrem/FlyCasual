@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
         private List<GenericUpgrade> GetUpgradesSpentCharges()
         {
             return HostShip.UpgradeBar.GetUpgradesAll()
-                .Where(upgrade => upgrade.State.UsesCharges && upgrade.State.Charges < upgrade.State.MaxCharges)
+                .Where(upgrade => upgrade.State.UsesCharges && !upgrade.UpgradeInfo.CannotBeRecharged && upgrade.State.Charges < upgrade.State.MaxCharges)
                 .ToList();            
         }
 

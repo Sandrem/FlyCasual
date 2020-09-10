@@ -297,18 +297,19 @@ namespace Editions
             return false;
         }
 
+        public override bool DefenderIsReinforcedAgainstAttacker(ArcFacing facing, GenericShip defender, GenericShip attacker)
+        {
+            bool inFullFrontArc = defender.SectorsInfo.IsShipInSector(attacker, ArcType.FullFront);
+            bool inFullRearArc = defender.SectorsInfo.IsShipInSector(attacker, ArcType.FullRear);
+
+            return (facing == ArcFacing.FullFront) ? inFullFrontArc && !inFullRearArc : !inFullFrontArc && inFullRearArc;
+        }
+
         public override bool ReinforcePostCombatEffectCanBeUsed(ArcFacing facing)
         {
             if (Combat.DiceRollAttack.Successes <= 1) return false;
 
-            bool result = false;
-
-            bool inFullFrontArc = Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, ArcType.FullFront);
-            bool inFullRearArc = Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, ArcType.FullRear);
-
-            result = (facing == ArcFacing.FullFront) ? inFullFrontArc && !inFullRearArc : !inFullFrontArc && inFullRearArc;
-
-            return result;
+            return DefenderIsReinforcedAgainstAttacker(facing, Combat.Defender, Combat.Attacker);
         }
 
         public override void TimedBombActivationTime(GenericShip ship)

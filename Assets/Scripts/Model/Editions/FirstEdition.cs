@@ -124,14 +124,16 @@ namespace Editions
             ActionsList.ReloadAction.FlipFaceupRecursive();
         }
 
-        public override bool ReinforceEffectCanBeUsed(ArcFacing facing)
+        public override bool DefenderIsReinforcedAgainstAttacker(ArcFacing facing, GenericShip defender, GenericShip attacker)
         {
-            bool result = false;
 
             ArcType arcType = (facing == ArcFacing.FullFront) ? ArcType.FullFront : ArcType.FullRear;
-            result = Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, arcType);
+            return defender.SectorsInfo.IsShipInSector(attacker, arcType);
+        }
 
-            return result;
+        public override bool ReinforceEffectCanBeUsed(ArcFacing facing)
+        {
+            return DefenderIsReinforcedAgainstAttacker(facing, Combat.Defender, Combat.Attacker);
         }
 
         public override bool ReinforcePostCombatEffectCanBeUsed(ArcFacing facing)

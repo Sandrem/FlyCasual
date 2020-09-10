@@ -64,6 +64,13 @@ namespace ActionsList
         {
             int result = 0;
 
+            int additionalDamageReduction = Combat.Defender.IsReinforcedAgainstShip(Combat.Attacker) ? 1 : 0;
+
+            //Don't use if there are already enough hits to kill the defender
+            if (Combat.DiceRollAttack.Successes - (Combat.DiceRollDefence.Successes + additionalDamageReduction)
+                >= Combat.Defender.State.HullCurrent + Combat.Defender.State.ShieldsCurrent)
+                return result;
+                        
             if (Combat.DiceRollDefence.Successes <= Combat.DiceRollAttack.Successes) result = 100;
 
             return result;

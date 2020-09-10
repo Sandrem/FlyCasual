@@ -1,4 +1,6 @@
 ﻿using SubPhases;
+using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using Upgrade;
 
@@ -40,58 +42,46 @@ namespace Abilities.SecondEdition
 
         private void RegisterAbilityTrigger()
         {
-            if (GetHardpointWithSpentCharges() != null)
+            if (GetUpgradesSpentCharges().Any())
             {
-                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskUseQuinnJastAbility);
+                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, UseQuinnJastAbility);
             }
         }
 
-        private void AskUseQuinnJastAbility(object sender, System.EventArgs e)
+        private List<GenericUpgrade> GetUpgradesSpentCharges()
         {
-            AskToUseAbility(
-                HostShip.PilotInfo.PilotName,
-                NeverUseByDefault,
-                UseQuinnJastAbility,
-                descriptionLong: "Do you want to gain 1 Disarm Token to recover 1 Charge on 1 of your equipped upgrades?",
-                imageHolder: HostShip
-            );
-        }
-
-        private GenericUpgrade GetHardpointWithSpentCharges()
-        {
-            foreach (GenericUpgrade upgrade in HostShip.UpgradeBar.GetUpgradesAll())
-            {
-                if
-                (
-                    upgrade.HasType(UpgradeType.Missile) ||
-                    upgrade.HasType(UpgradeType.Cannon) ||
-                    upgrade.HasType(UpgradeType.Torpedo)
-                )
-                {
-                    if (upgrade.State.UsesCharges && upgrade.State.Charges < upgrade.State.MaxCharges)
-                    {
-                        return upgrade;
-                    }
-                }
-            }
-
-            return null;
+            return HostShip.UpgradeBar.GetUpgradesAll()
+                .Where(upgrade => upgrade.State.UsesCharges && !upgrade.UpgradeInfo.CannotBeRecharged && upgrade.State.Charges < upgrade.State.MaxCharges)
+                .ToList();            
         }
 
         private void UseQuinnJastAbility(object sender, System.EventArgs e)
         {
-            GenericUpgrade spentUpgrade = GetHardpointWithSpentCharges();
+            var upgrades = GetUpgradesSpentCharges();
 
-            if (spentUpgrade != null)
-            {
-                HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), () => {
-                    spentUpgrade.State.RestoreCharge();
-                    DecisionSubPhase.ConfirmDecision();
+            if (upgrades.Any()) {
+
+                var phase = Phases.StartTemporarySubPhaseNew<DecisionSubPhase>(
+                    HostName + ": Select upgrade to recover 1 charge",
+                    Triggers.FinishTrigger);
+
+                phase.DescriptionShort = HostName;
+                phase.DescriptionShort = HostName + ": Gain 1 Disarm token to recover 1 charge on an upgrade";
+                phase.DecisionViewType = DecisionViewTypes.ImagesUpgrade;
+
+                upgrades.ForEach(upgrade =>
+                {
+                    phase.AddDecision(upgrade.UpgradeInfo.Name, delegate {
+                        DecisionSubPhase.ConfirmDecisionNoCallback();
+                        upgrade.State.RestoreCharge();
+                        HostShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Triggers.FinishTrigger);
+                    }, upgrade.ImageUrl);
                 });
-            }
-            else
-            {
-                DecisionSubPhase.ConfirmDecision();
+
+                phase.DefaultDecisionName = phase.GetDecisions().First().Name;
+                phase.ShowSkipButton = true;
+
+                phase.Start();
             }
         }
     }

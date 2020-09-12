@@ -43,8 +43,11 @@ namespace Abilities.SecondEdition
 
             foreach (GenericShip ship in Roster.AllShips.Values)
             {
-                ShotInfoArc inArcCheck = new ShotInfoArc(HostShip, ship, Combat.ArcForShot);
-                if (inArcCheck.InArc) shipsInAttackArc.Add(ship);
+                if (ship.IsTractored)
+                {
+                    ShotInfoArc inArcCheck = new ShotInfoArc(Combat.Attacker, ship, Combat.ArcForShot);
+                    if (inArcCheck.InArc) shipsInAttackArc.Add(ship);
+                }
             }
 
             return shipsInAttackArc.Count;

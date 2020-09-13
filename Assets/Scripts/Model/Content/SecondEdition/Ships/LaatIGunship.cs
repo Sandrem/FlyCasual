@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Abilities.SecondEdition;
 using Actions;
 using ActionsList;
 using Arcs;
+using BoardTools;
 using Movement;
 using Ship;
-using SubPhases;
-using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -36,13 +35,19 @@ namespace Ship.SecondEdition.LaatIGunship
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Crew,
+                    UpgradeType.Gunner,
+                    UpgradeType.Missile,
                     UpgradeType.Missile,
                     UpgradeType.Modification
                 )
             );
 
+            ShipInfo.Charges = 2;
+            ShipInfo.RegensCharges = true;
+            ShipAbilities.Add(new FireConvergenceAbility());
+
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(GenericLaatPilot) }
+                { Faction.Republic, typeof(P212thBattalionPilot) }
             };
 
             ModelInfo = new ShipModelInfo(
@@ -83,6 +88,62 @@ namespace Ship.SecondEdition.LaatIGunship
                 },
                 "Falcon-Fire", 2
             );
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    //When a friendly ship performs a non-turret attack, if the defender is in your turret arc, you may spend 1 charge.
+    //If you do, the attacker rerolls up to 2 attack dice
+    public class FireConvergenceAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            AddDiceModification(
+                "Fire Convergence",
+                IsAvailable,
+                AiPriority,
+                DiceModificationType.Reroll,
+                2,
+                isGlobal: true,
+                payAbilityCost: SpendCharge
+            );
+        }
+
+        public override void DeactivateAbility()
+        {
+            RemoveDiceModification();
+        }
+
+        protected virtual bool IsAvailable()
+        {
+            return HostShip.State.Charges > 0
+                && Combat.AttackStep == CombatStep.Attack
+                && Combat.Attacker.Owner == HostShip.Owner
+                && Combat.ChosenWeapon.WeaponType != WeaponTypes.Turret
+                && HasEnemyInTurretArc(HostShip, Combat.Defender);
+        }
+        private bool HasEnemyInTurretArc(GenericShip ship, GenericShip enemyShip)
+        {
+            var turretArcs = ship.ArcsInfo.Arcs.Where(arc => arc is ArcSingleTurret || arc is ArcDualTurretA || arc is ArcDualTurretB);
+            return turretArcs.Any(arc => new ShotInfoArc(ship, enemyShip, arc).InArc);
+        }
+
+        private int AiPriority()
+        {
+            return 81; //slightly higher than TL
+        }
+
+        private void SpendCharge(Action<bool> callback)
+        {
+            if (HostShip.State.Charges > 0)
+            {
+                HostShip.SpendCharge();
+                callback(true);
+            }
+            else
+                callback(false);
         }
     }
 }

@@ -15,6 +15,8 @@ namespace Ship
         public int Agility { get; set; }
         public int Hull { get; set; }
         public int Shields { get; set; }
+        public int Charges { get; set; }
+        public bool RegensCharges { get; set; }
 
         public ShipActionsInfo ActionIcons { get; private set; }
         public ShipUpgradesInfo UpgradeIcons { get; private set; }

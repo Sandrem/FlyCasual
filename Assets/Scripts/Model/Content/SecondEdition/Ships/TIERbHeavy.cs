@@ -32,6 +32,7 @@ namespace Ship.SecondEdition.TIERbHeavy
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Cannon,
+                    UpgradeType.Cannon,
                     UpgradeType.Configuration,
                     UpgradeType.Modification
                 )

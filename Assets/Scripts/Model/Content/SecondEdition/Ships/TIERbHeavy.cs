@@ -40,7 +40,7 @@ namespace Ship.SecondEdition.TIERbHeavy
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(RotateArcAction), typeof(CalculateAction), ActionColor.Red));
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Imperial, typeof(Rampage) }
+                { Faction.Imperial, typeof(CardiaAcademyPilot) }
             };
 
             ModelInfo = new ShipModelInfo(
@@ -87,8 +87,6 @@ namespace Ship.SecondEdition.TIERbHeavy
                 },
                 "TIE-Fire", 2
             );
-
-            DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.ManeuverAssistMGK300));
 
             ShipAbilities.Add(new Abilities.SecondEdition.RotatingCannons());
         }

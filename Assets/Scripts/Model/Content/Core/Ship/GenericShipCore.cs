@@ -157,8 +157,8 @@ namespace Ship
 
             State.MaxForce = PilotInfo.Force;
 
-            State.MaxCharges = PilotInfo.Charges;
-            State.RegensCharges = PilotInfo.RegensCharges;
+            State.MaxCharges = PilotInfo.Charges > 0 ? PilotInfo.Charges : ShipInfo.Charges;
+            State.RegensCharges = PilotInfo.RegensCharges || ShipInfo.RegensCharges;
 
             Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
             if (DialInfo != null)

@@ -18,6 +18,8 @@ namespace Ship.SecondEdition.NimbusClassVWing
     {
         public NimbusClassVWing() : base()
         {
+            IsHidden = true;
+
             ShipInfo = new ShipCardInfo
             (
                 "Nimbus-class V-Wing",

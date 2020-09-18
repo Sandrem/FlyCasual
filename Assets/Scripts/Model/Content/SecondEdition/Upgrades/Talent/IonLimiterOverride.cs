@@ -42,9 +42,12 @@ namespace Abilities.SecondEdition
 
         public override AbilityPart Action => new AskToPerformAction
         (
-            actionType: typeof(BarrelRollAction),
-            actionColor: ActionColor.Red,
-            canBePerformedWhileStressed: true,
+            actionInfo: new Parameters.ActionInfo
+            (
+                actionType: typeof(BarrelRollAction),
+                actionColor: ActionColor.Red,
+                canBePerformedWhileStressed: true
+            ),
             afterAction: new RollDiceAction
             (
                 diceType: DiceKind.Attack,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Players;
+using Ship;
 
 public static partial class Tools
 {
@@ -67,6 +68,16 @@ public static partial class Tools
             frameCount--;
             yield return null;
         }
+    }
+
+    public static bool IsSameTeam(GenericShip ship1, GenericShip ship2)
+    {
+        return ship1.Owner.PlayerNo == ship2.Owner.PlayerNo;
+    }
+
+    public static bool IsAnotherTeam(GenericShip ship1, GenericShip ship2)
+    {
+        return ship1.Owner.PlayerNo != ship2.Owner.PlayerNo;
     }
 
 }

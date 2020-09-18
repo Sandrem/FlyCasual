@@ -1,5 +1,7 @@
-﻿using Arcs;
+﻿using Abilities.Parameters;
+using Arcs;
 using Movement;
+using System;
 using Tokens;
 using Upgrade;
 
@@ -38,9 +40,12 @@ namespace Abilities.SecondEdition
 
         public override AbilityPart Action => new SelectShipAction
         (
-            name: "\"Rampage\"",
-            description: "Choose a ship to assign it 1 strain token (2 if you are damaged)",
-            imageSource: HostShip,
+            abilityDescription: new AbilityDescription
+            (
+                name: "\"Rampage\"",
+                description: "Choose a ship to assign it 1 strain token (2 if you are damaged)",
+                imageSource: HostShip
+            ),
             filter: new SelectShipFilter
             (
                 minRange: 0,
@@ -50,10 +55,29 @@ namespace Abilities.SecondEdition
             action: new AssignTokenOnTargetAction
             (
                 tokenType: typeof(StrainToken),
-                getCount: GetCountOfStrainTokens
+                getCount: GetCountOfStrainTokens,
+                showMessage: GetMessageToShow
             ),
-            aiPriority: AiSelectShipPriority.Enemy
+            aiSelectShipPlan: new AiSelectShipPlan
+            (
+                aiSelectShipTeamPriority: AiSelectShipTeamPriority.Enemy,
+                aiSelectShipSpecial: AiSelectShipSpecial.Agile
+            )
         );
+
+        private string GetMessageToShow()
+        {
+            string message = "\"Rampage\": ";
+            if (GetCountOfStrainTokens() == 1)
+            {
+                message += "Strain token is assigned to " + TargetShip.PilotInfo.PilotName;
+            }
+            else
+            {
+                message += "2 strain tokens are assigned to " + TargetShip.PilotInfo.PilotName;
+            }
+            return message;
+        }
 
         public int GetCountOfStrainTokens()
         {

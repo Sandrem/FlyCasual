@@ -8,17 +8,19 @@ namespace Abilities
         private TriggeredAbility Ability;
         public Type TokenType { get; }
         public Func<int> GetCount { get; }
+        public Func<string> GetMessage { get; }
 
-        public AssignTokenOnTargetAction(Type tokenType, Func<int> getCount)
+        public AssignTokenOnTargetAction(Type tokenType, Func<int> getCount, Func<string> showMessage)
         {
             TokenType = tokenType;
             GetCount = getCount;
+            GetMessage = showMessage;
         }
 
         public override void DoAction(TriggeredAbility ability)
         {
             Ability = ability;
-            // TODO: Add notification
+            Messages.ShowInfo(GetMessage());
             ability.TargetShip.Tokens.AssignTokens(CreateToken, GetCount(), Triggers.FinishTrigger);
         }
 

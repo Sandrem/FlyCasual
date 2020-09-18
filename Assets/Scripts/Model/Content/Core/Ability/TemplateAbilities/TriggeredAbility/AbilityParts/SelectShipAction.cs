@@ -1,4 +1,5 @@
-﻿using Arcs;
+﻿using Abilities.Parameters;
+using Arcs;
 using Ship;
 using SubPhases;
 using UnityEngine;
@@ -10,20 +11,16 @@ namespace Abilities
         private TriggeredAbility Ability;
         public SelectShipFilter Filter { get; }
         public AbilityPart Action { get; }
-        public AiSelectShipPriority AiPriority { get; }
-        public string Name { get; }
-        public string Description { get; }
-        public IImageHolder ImageSource { get; }
+        public AiSelectShipPlan AiSelectShipPlan { get; }
+        public AbilityDescription AbilityDescription { get; }
         public bool ShowSkipButton { get; }
 
-        public SelectShipAction(string name, string description, IImageHolder imageSource, SelectShipFilter filter, AbilityPart action, AiSelectShipPriority aiPriority)
+        public SelectShipAction(AbilityDescription abilityDescription, SelectShipFilter filter, AbilityPart action, AiSelectShipPlan aiSelectShipPlan)
         {
-            Name = name;
-            Description = description;
-            ImageSource = imageSource;
+            AbilityDescription = abilityDescription;
             Filter = filter;
             Action = action;
-            AiPriority = aiPriority;
+            AiSelectShipPlan = aiSelectShipPlan;
             ShowSkipButton = true;
         }
 
@@ -31,16 +28,23 @@ namespace Abilities
         {
             Ability = ability;
 
-            ability.SelectTargetForAbility(
-                WhenSelected,
-                FilterTargets,
-                GetAiPriority,
-                ability.HostShip.Owner.PlayerNo,
-                Name,
-                Description,
-                ImageSource,
-                ShowSkipButton
-            );
+            if (ability.TargetsForAbilityExist(FilterTargets))
+            {
+                ability.SelectTargetForAbility(
+                    WhenSelected,
+                    FilterTargets,
+                    GetAiSelectShipPriority,
+                    ability.HostShip.Owner.PlayerNo,
+                    AbilityDescription.Name,
+                    AbilityDescription.Description,
+                    AbilityDescription.ImageSource,
+                    ShowSkipButton
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         private void WhenSelected()
@@ -49,62 +53,14 @@ namespace Abilities
             this.Action.DoAction(Ability);
         }
 
-        private int GetAiPriority(GenericShip ship)
+        private int GetAiSelectShipPriority(GenericShip ship)
         {
-            switch (AiPriority)
-            {
-                case AiSelectShipPriority.Enemy:
-                    if (Ability.TargetShip.Owner.PlayerNo != Ability.HostShip.Owner.PlayerNo)
-                    {
-                        return Ability.TargetShip.PilotInfo.Cost;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                case AiSelectShipPriority.Friendly:
-                    if (Ability.TargetShip.Owner.PlayerNo == Ability.HostShip.Owner.PlayerNo)
-                    {
-                        return Ability.TargetShip.PilotInfo.Cost;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                default:
-                    Debug.Log("Error: No AiPriorty handling for this ability");
-                    return 0;
-            }
+            return AiSelectShipPlan.GetAiSelectShipPriority(ship, Ability.HostShip);
         }
 
         private bool FilterTargets(GenericShip ship)
         {
             return Filter.FilterTargets(Ability, ship);
         }
-    }
-
-    public class SelectShipFilter
-    {
-        public int MinRange { get; }
-        public int MaxRange { get; }
-        public ArcType InArcType { get; }
-
-        public SelectShipFilter(int minRange, int maxRange, ArcType inArcType)
-        {
-            MinRange = minRange;
-            MaxRange = maxRange;
-            InArcType = inArcType;
-        }
-
-        public bool FilterTargets(TriggeredAbility ability, GenericShip ship)
-        {
-            return ability.FilterTargetsByRangeInSpecificArc(ship, MinRange, MaxRange, InArcType);
-        }
-    }
-
-    public enum AiSelectShipPriority
-    {
-        Enemy,
-        Friendly
     }
 }

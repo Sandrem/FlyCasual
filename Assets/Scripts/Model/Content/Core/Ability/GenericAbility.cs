@@ -341,7 +341,7 @@ namespace Abilities
         /// <summary>
         /// Checks if ships that can be selected by abilities are present
         /// </summary>
-        protected bool TargetsForAbilityExist(Func<GenericShip, bool> filter)
+        public bool TargetsForAbilityExist(Func<GenericShip, bool> filter)
         {
             return Roster.AllShips.Values.FirstOrDefault(n => filter(n)) != null;
         }

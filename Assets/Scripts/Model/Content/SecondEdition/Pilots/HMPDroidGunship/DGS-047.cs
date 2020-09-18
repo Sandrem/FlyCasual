@@ -1,4 +1,5 @@
-﻿using Arcs;
+﻿using Abilities.Parameters;
+using Arcs;
 using Ship;
 using Tokens;
 
@@ -36,6 +37,12 @@ namespace Abilities.SecondEdition
             targetShip: GetDefender,
             action: new AskAquireLockAction
             (
+                description: new AbilityDescription
+                (
+                    name: "DGS-047",
+                    description: "Do you want to acquire a lock on defender?",
+                    imageSource: HostShip
+                ),
                 targetShip: GetDefender,
                 showMessage: GetLockMessageToShow,
                 action: new SectorCheckAction

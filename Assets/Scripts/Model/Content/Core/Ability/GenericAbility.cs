@@ -158,7 +158,7 @@ namespace Abilities
         /// <summary>
         /// Shows "Take a decision" window for ability with Yes / No / [Always] buttons
         /// </summary>
-        protected void AskToUseAbility(string descriptionShort, Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string descriptionLong = null, IImageHolder imageHolder = null, bool showSkipButton = true, PlayerNo requiredPlayer = PlayerNo.PlayerNone)
+        public void AskToUseAbility(string descriptionShort, Func<bool> useByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, Action callback = null, bool showAlwaysUseOption = false, string descriptionLong = null, IImageHolder imageHolder = null, bool showSkipButton = true, PlayerNo requiredPlayer = PlayerNo.PlayerNone)
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -224,7 +224,7 @@ namespace Abilities
         /// <summary>
         /// Use in AskToUseAbility to always use ability by AI
         /// </summary>
-        protected bool AlwaysUseByDefault()
+        public bool AlwaysUseByDefault()
         {
             return true;
         }

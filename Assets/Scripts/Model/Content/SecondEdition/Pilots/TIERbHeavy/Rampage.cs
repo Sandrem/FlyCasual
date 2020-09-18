@@ -1,6 +1,7 @@
 ﻿using Abilities.Parameters;
 using Arcs;
 using Movement;
+using Ship;
 using System;
 using Tokens;
 using Upgrade;
@@ -52,9 +53,10 @@ namespace Abilities.SecondEdition
                 maxRange: 1,
                 inArcType: ArcType.SingleTurret
             ),
-            action: new AssignTokenOnTargetAction
+            action: new AssignTokenAction
             (
                 tokenType: typeof(StrainToken),
+                targetShip: GetChosenTarget,
                 getCount: GetCountOfStrainTokens,
                 showMessage: GetMessageToShow
             ),
@@ -64,6 +66,11 @@ namespace Abilities.SecondEdition
                 aiSelectShipSpecial: AiSelectShipSpecial.Agile
             )
         );
+
+        private GenericShip GetChosenTarget()
+        {
+            return TargetShip;
+        }
 
         private string GetMessageToShow()
         {

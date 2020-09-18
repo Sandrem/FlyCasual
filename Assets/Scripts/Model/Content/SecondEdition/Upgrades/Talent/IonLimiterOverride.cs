@@ -4,6 +4,7 @@ using Tokens;
 using Ship;
 using Movement;
 using Actions;
+using System;
 
 namespace UpgradesList.SecondEdition
 {
@@ -51,9 +52,22 @@ namespace Abilities.SecondEdition
             afterAction: new RollDiceAction
             (
                 diceType: DiceKind.Attack,
-                onHit: new AssignTokenAction(tokenType: typeof(StrainToken)),
-                onCrit: new AssignTokenAction(tokenType: typeof(IonToken))
+                onHit: new AssignTokenAction
+                (
+                    tokenType: typeof(StrainToken),
+                    targetShip: GetThisShip
+                ),
+                onCrit: new AssignTokenAction
+                (
+                    tokenType: typeof(IonToken),
+                    targetShip: GetThisShip
+                )
             )
         );
+
+        private GenericShip GetThisShip()
+        {
+            return HostShip;
+        }
     }
 }

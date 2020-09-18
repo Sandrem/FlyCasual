@@ -52,7 +52,7 @@ namespace Ship.SecondEdition.LaatIGunship
 
             ModelInfo = new ShipModelInfo(
                 "LAAT Gunship",
-                "Default",
+                "212th Battalion",
                 new Vector3(-4f, 8.65f, 5.55f),
                 2.3f
             );

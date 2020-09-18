@@ -16,7 +16,8 @@ namespace SubPhases
     {
         This,
         OtherFriendly,
-        Enemy
+        Enemy,
+        Any
     }
 
     public class SelectShipSubPhase : GenericSubPhase

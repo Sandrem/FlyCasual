@@ -21,7 +21,7 @@ namespace Abilities
         {
             Ability = ability;
             Messages.ShowInfo(GetMessage());
-            ability.TargetShip.Tokens.AssignTokens(CreateToken, GetCount(), Triggers.FinishTrigger);
+            Ability.TargetShip.Tokens.AssignTokens(CreateToken, GetCount(), Triggers.FinishTrigger);
         }
 
         private GenericToken CreateToken()

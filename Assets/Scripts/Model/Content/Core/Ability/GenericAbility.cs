@@ -323,14 +323,18 @@ namespace Abilities
             return result;
         }
 
-        public bool FilterTargetsByRangeInSpecificArc(GenericShip ship, int minRange, int maxRange, ArcType arcType)
+        public bool FilterTargetsByParameters(GenericShip ship, int minRange, int maxRange, ArcType arcType, TargetTypes targetTypes, Type tokenType = null)
         {
             bool result = true;
 
             if ((Phases.CurrentSubPhase as SelectShipSubPhase) == null || (Phases.CurrentSubPhase as SelectShipSubPhase).CanMeasureRangeBeforeSelection)
             {
+                if (!Tools.CheckShipsTeam(ship, hostShip, targetTypes)) return false;
+
+                if (tokenType != null && !ship.Tokens.HasToken(tokenType, '*')) return false;
+
                 ShotInfo shotInfo = new ShotInfo(hostShip, ship, hostShip.PrimaryWeapons);
-                if (!shotInfo.InArcByType(arcType)) return false;
+                if (arcType != ArcType.None && !shotInfo.InArcByType(arcType)) return false;
                 if (shotInfo.Range < minRange) return false;
                 if (shotInfo.Range > maxRange) return false;
             }

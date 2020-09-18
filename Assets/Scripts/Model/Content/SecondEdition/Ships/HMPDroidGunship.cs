@@ -49,7 +49,7 @@ namespace Ship.SecondEdition.HMPDroidGunship
             ShipAbilities.Add(new Abilities.SecondEdition.NetworkedAimAbility());
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(SeparatistPredator) }
+                { Faction.Separatists, typeof(BaktoidDrone) }
             };
 
             ModelInfo = new ShipModelInfo(

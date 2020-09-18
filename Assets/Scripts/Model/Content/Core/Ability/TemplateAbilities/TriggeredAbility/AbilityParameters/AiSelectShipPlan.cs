@@ -5,12 +5,15 @@ namespace Abilities.Parameters
 {
     public enum AiSelectShipTeamPriority
     {
-        Enemy
+        Enemy,
+        Friendly
     }
 
     public enum AiSelectShipSpecial
     {
-        Agile
+        None,
+        Agile,
+        Worst
     }
 
     public class AiSelectShipPlan
@@ -18,7 +21,7 @@ namespace Abilities.Parameters
         public AiSelectShipTeamPriority AiSelectShipTeamPriority { get; }
         public AiSelectShipSpecial AiSelectShipSpecial { get; }
 
-        public AiSelectShipPlan(AiSelectShipTeamPriority aiSelectShipTeamPriority, AiSelectShipSpecial aiSelectShipSpecial)
+        public AiSelectShipPlan(AiSelectShipTeamPriority aiSelectShipTeamPriority, AiSelectShipSpecial aiSelectShipSpecial = AiSelectShipSpecial.None)
         {
             AiSelectShipTeamPriority = aiSelectShipTeamPriority;
             AiSelectShipSpecial = aiSelectShipSpecial;
@@ -26,12 +29,15 @@ namespace Abilities.Parameters
 
         public int GetAiSelectShipPriority(GenericShip possibleTagetShip, GenericShip sourceShip)
         {
-            int priority = possibleTagetShip.PilotInfo.Cost;
+            int priority = GetInitialPriorityByCost(possibleTagetShip);
 
             switch (AiSelectShipTeamPriority)
             {
                 case AiSelectShipTeamPriority.Enemy:
                     if (Tools.IsSameTeam(possibleTagetShip, sourceShip)) return -1;
+                    break;
+                case AiSelectShipTeamPriority.Friendly:
+                    if (Tools.IsAnotherTeam(possibleTagetShip, sourceShip)) return -1;
                     break;
                 default:
                     break;
@@ -47,6 +53,11 @@ namespace Abilities.Parameters
             }
 
             return priority;
+        }
+
+        private int GetInitialPriorityByCost(GenericShip possibleTagetShip)
+        {
+            return (AiSelectShipSpecial == AiSelectShipSpecial.Worst) ? 100 - possibleTagetShip.PilotInfo.Cost : possibleTagetShip.PilotInfo.Cost;
         }
     }
 }

@@ -1,11 +1,8 @@
 ﻿using Arcs;
 using BoardTools;
 using Ship;
-using SubPhases;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -16,6 +13,8 @@ namespace Ship
         {
             public MerlCobben() : base()
             {
+                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
                 PilotInfo = new PilotCardInfo(
                     "Merl Cobben",
                     1,

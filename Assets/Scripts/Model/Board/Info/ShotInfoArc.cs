@@ -136,7 +136,7 @@ namespace BoardTools
                 IsShotAvailable = true;
             }
 
-            if (Arc.ArcType != ArcType.None)
+            if (Arc.ArcType != ArcType.None && Ship1 != Ship2)
             {
                 InArc = true;
             }

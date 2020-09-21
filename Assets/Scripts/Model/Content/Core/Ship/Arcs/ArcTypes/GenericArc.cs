@@ -47,6 +47,16 @@ namespace Arcs
         public bool WasUsedForAttackThisRound { get; set; }
         public bool CannotBeUsedForAttackThisRound { get; set; }
 
+        public bool IsTurretArc
+        {
+            get
+            {
+                return ArcType == ArcType.DoubleTurret
+                    || ArcType == ArcType.SingleTurret
+                    || ArcType == ArcType.TurretPrimaryWeapon;
+            }
+        }
+
         public GenericArc(GenericShipBase shipBase)
         {
             ShipBase = shipBase;

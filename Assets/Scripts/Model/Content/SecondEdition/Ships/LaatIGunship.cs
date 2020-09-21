@@ -101,7 +101,7 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             AddDiceModification(
-                "Fire Convergence",
+                "Fire Convergence (" + HostShip.ShipId + ")",
                 IsAvailable,
                 AiPriority,
                 DiceModificationType.Reroll,
@@ -121,12 +121,12 @@ namespace Abilities.SecondEdition
             return HostShip.State.Charges > 0
                 && Combat.AttackStep == CombatStep.Attack
                 && Combat.Attacker.Owner == HostShip.Owner
-                && Combat.ChosenWeapon.WeaponType != WeaponTypes.Turret
+                && !Combat.ArcForShot.IsTurretArc
                 && HasEnemyInTurretArc(HostShip, Combat.Defender);
         }
         private bool HasEnemyInTurretArc(GenericShip ship, GenericShip enemyShip)
         {
-            var turretArcs = ship.ArcsInfo.Arcs.Where(arc => arc is ArcSingleTurret || arc is ArcDualTurretA || arc is ArcDualTurretB);
+            var turretArcs = ship.ArcsInfo.Arcs.Where(arc => arc.IsTurretArc);
             return turretArcs.Any(arc => new ShotInfoArc(ship, enemyShip, arc).InArc);
         }
 

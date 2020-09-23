@@ -3,11 +3,11 @@ using Ship;
 
 namespace Abilities
 {
-    public class AfterYouPerfromAttack : TriggerForAbility
+    public class AfterYouPerformAttack : TriggerForAbility
     {
         private TriggeredAbility Ability;
 
-        public AfterYouPerfromAttack() {}
+        public AfterYouPerformAttack() {}
 
         public override void Register(TriggeredAbility ability)
         {

@@ -29,7 +29,7 @@ namespace Abilities.SecondEdition
 {
     public class DGS047Ability : TriggeredAbility
     {
-        public override TriggerForAbility Trigger => new AfterYouPerfromAttack();
+        public override TriggerForAbility Trigger => new AfterYouPerformAttack();
 
         public override AbilityPart Action => new SectorCheckAction
         (

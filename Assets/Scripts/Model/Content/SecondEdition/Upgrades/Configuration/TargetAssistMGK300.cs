@@ -14,6 +14,8 @@ namespace UpgradesList.SecondEdition
     {
         public TargetAssistMGK300() : base()
         {
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Target-Assist MGK-300",
                 UpgradeType.Configuration,

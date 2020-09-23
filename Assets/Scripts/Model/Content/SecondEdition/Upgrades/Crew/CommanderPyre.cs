@@ -11,12 +11,10 @@ namespace UpgradesList.SecondEdition
     {
         public CommanderPyre() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Commander Pyre",
                 UpgradeType.Crew,
-                cost: 5, //TODO
+                cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.FirstOrder),
                 abilityType: typeof(Abilities.SecondEdition.CommanderPyreAbility)

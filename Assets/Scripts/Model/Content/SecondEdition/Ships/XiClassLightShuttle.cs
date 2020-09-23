@@ -18,8 +18,6 @@ namespace Ship.SecondEdition.XiClassLightShuttle
     {
         public XiClassLightShuttle() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "Xi-class Light Shuttle",
@@ -34,8 +32,10 @@ namespace Ship.SecondEdition.XiClassLightShuttle
                 ),
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
+                    UpgradeType.Tech,
+                    UpgradeType.Tech,
                     UpgradeType.Crew,
-                    UpgradeType.Illicit,
+                    UpgradeType.Crew,
                     UpgradeType.Modification
                 )
             );

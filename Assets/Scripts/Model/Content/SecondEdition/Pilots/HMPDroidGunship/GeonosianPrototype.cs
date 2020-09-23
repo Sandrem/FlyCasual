@@ -1,6 +1,8 @@
 ﻿using Ship;
 using System;
+using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,8 +15,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Geonosian Prototype",
                     2,
-                    40,
+                    35,
                     limited: 2,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Cannon, UpgradeType.Cannon },
                     abilityType: typeof(Abilities.SecondEdition.GeonosianPrototypeAbility)
                 );
 

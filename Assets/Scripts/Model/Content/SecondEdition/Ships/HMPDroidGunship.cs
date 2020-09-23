@@ -17,8 +17,6 @@ namespace Ship.SecondEdition.HMPDroidGunship
     {
         public HMPDroidGunship() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "HMP Droid Gunship",
@@ -33,11 +31,8 @@ namespace Ship.SecondEdition.HMPDroidGunship
                 ),
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
-                    UpgradeType.Cannon,
-                    UpgradeType.Cannon,
                     UpgradeType.Missile,
                     UpgradeType.Missile,
-                    UpgradeType.Device,
                     UpgradeType.TacticalRelay,
                     UpgradeType.Modification,
                     UpgradeType.Configuration

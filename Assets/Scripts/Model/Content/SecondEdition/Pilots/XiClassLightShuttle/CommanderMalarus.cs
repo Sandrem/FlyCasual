@@ -14,9 +14,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Commander Malarus",
                     5,
-                    44,
+                    43,
                     pilotTitle: "Vindictive Taskmaster",
                     isLimited: true,
+                    extraUpgradeIcon: Upgrade.UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.CommanderMalarusXiClassLightShuttleAbility)
                 );
 

@@ -1,7 +1,9 @@
 ﻿using Abilities.Parameters;
 using Arcs;
 using Ship;
+using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,8 +16,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "DGS-047",
                     1,
-                    38,
+                    35,
                     isLimited: true,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Crew, UpgradeType.Device },
                     abilityType: typeof(Abilities.SecondEdition.DGS047Ability)
                 );
 

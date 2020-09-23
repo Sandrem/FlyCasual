@@ -9,12 +9,10 @@ namespace UpgradesList.SecondEdition
     {
         public Yoda() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Yoda",
                 UpgradeType.Crew,
-                cost: 10, //TODO
+                cost: 15,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Republic),
                 addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Purple),

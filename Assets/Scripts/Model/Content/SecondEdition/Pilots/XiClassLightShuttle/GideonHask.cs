@@ -20,6 +20,7 @@ namespace Ship
                     40,
                     pilotTitle: "Merciless Hard-Liner",
                     isLimited: true,
+                    extraUpgradeIcon: Upgrade.UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.GideonHaskXiClassLightShuttleAbility)
                 );
 

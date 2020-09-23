@@ -43,6 +43,12 @@ namespace Abilities.SecondEdition
 
         public override AbilityPart Action => new AskToPerformAction
         (
+            description: new Parameters.AbilityDescription
+            (
+                name: "",
+                description: "",
+                HostUpgrade
+            ),
             actionInfo: new Parameters.ActionInfo
             (
                 actionType: typeof(BarrelRollAction),

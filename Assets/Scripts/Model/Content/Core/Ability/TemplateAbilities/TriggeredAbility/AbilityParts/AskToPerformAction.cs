@@ -6,14 +6,16 @@ namespace Abilities
     public class AskToPerformAction : AbilityPart
     {
         private TriggeredAbility Ability;
+        private readonly AbilityDescription Description;
         private readonly ActionInfo ActionInfo;
 
         public Type ActionType { get; }
         public AbilityPart AfterAction { get; }
 
-        public AskToPerformAction(ActionInfo actionInfo, AbilityPart afterAction = null
+        public AskToPerformAction(AbilityDescription description, ActionInfo actionInfo, AbilityPart afterAction = null
         )
         {
+            Description = description;
             ActionInfo = actionInfo;
             AfterAction = afterAction;
         }
@@ -25,12 +27,24 @@ namespace Abilities
             Ability.HostShip.AskPerformFreeAction
             (
                 ActionInfo.GenerateAction(),
-                delegate { AfterAction.DoAction(ability); },
-                "Description short",
-                "Description long",
-                (IImageHolder) Ability.HostReal,
+                Finish,
+                Description.Name,
+                Description.Description,
+                Description.ImageSource,
                 false
             );
+        }
+
+        private void Finish()
+        {
+            if (AfterAction != null)
+            {
+                AfterAction.DoAction(Ability);
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
     }
 }

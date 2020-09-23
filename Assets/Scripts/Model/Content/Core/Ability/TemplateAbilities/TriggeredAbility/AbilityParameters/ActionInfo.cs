@@ -11,7 +11,7 @@ namespace Abilities.Parameters
         public ActionColor ActionColor { get; }
         public bool CanBePerformedWhileStressed { get; }
 
-        public ActionInfo(Type actionType, ActionColor actionColor, bool canBePerformedWhileStressed = false)
+        public ActionInfo(Type actionType, ActionColor actionColor = ActionColor.White, bool canBePerformedWhileStressed = false)
         {
             ActionType = actionType;
             ActionColor = actionColor;

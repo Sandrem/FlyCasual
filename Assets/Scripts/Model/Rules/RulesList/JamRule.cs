@@ -58,7 +58,7 @@ namespace RulesList
         {
             if (tokenType == typeof(JamToken))
             {
-                if (ship.Tokens.HasGreenTokens() || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*'))
+                if (ship.Tokens.HasGreenTokens || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*'))
                 {
                     RegisterJammedDecisionTrigger(ship);
                 }

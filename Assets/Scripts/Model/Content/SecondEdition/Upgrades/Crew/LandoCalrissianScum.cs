@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
 
         private void PayAbilityCost(Action<bool> callback)
         {
-            if (HostShip.Tokens.HasGreenTokens())
+            if (HostShip.Tokens.HasGreenTokens)
             {
                 LandoCalrissianScumAbilityDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<LandoCalrissianScumAbilityDecisionSubPhase>(
                     "Lando Calrissian: Select green token to spend",
@@ -72,7 +72,7 @@ namespace Abilities.SecondEdition
 
         private bool IsAvailable()
         {
-            return HostShip.Tokens.HasGreenTokens();
+            return HostShip.Tokens.HasGreenTokens;
         }
 
         public override void DeactivateAbility()

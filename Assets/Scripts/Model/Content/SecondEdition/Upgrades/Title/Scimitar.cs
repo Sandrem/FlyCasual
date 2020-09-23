@@ -89,7 +89,7 @@ namespace Abilities.SecondEdition
 
         private int GetAiPriority(GenericShip ship)
         {
-            return ((ship.Tokens.HasGreenTokens() || ship.Tokens.HasTokenByColor(Tokens.TokenColors.Blue)) ? 100 : 0) + ship.PilotInfo.Cost; 
+            return ((ship.Tokens.HasGreenTokens || ship.Tokens.HasTokenByColor(Tokens.TokenColors.Blue)) ? 100 : 0) + ship.PilotInfo.Cost; 
         }
 
         private void RegisterAskToCloakAbility()

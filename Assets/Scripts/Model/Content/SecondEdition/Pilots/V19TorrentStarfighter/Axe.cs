@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterTrigger(GenericShip ship)
         {
-            if (HostShip.Tokens.HasGreenTokens())
+            if (HostShip.Tokens.HasGreenTokens)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackFinish, AskAbility);
             }
@@ -67,7 +67,7 @@ namespace Abilities.SecondEdition
         {
             var result = 0;
 
-            if (!ship.Tokens.HasGreenTokens()) result += 100;
+            if (!ship.Tokens.HasGreenTokens) result += 100;
 
             result += ship.PilotInfo.Cost;
 

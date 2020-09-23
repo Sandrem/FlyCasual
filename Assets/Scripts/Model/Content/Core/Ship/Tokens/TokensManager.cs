@@ -22,10 +22,7 @@ namespace Ship
             return AssignedTokens;
         }
 
-        public bool HasGreenTokens()
-        {
-            return HasTokenByColor(TokenColors.Green);
-        }
+        public bool HasGreenTokens => HasTokenByColor(TokenColors.Green);
 
         public bool HasTokenByColor(TokenColors tokensColor)
         {

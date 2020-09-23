@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
         protected override bool FilterTargetByArcAndTokens(GenericShip ship)
         {
             bool inFrontArcOfEnemy = ship.SectorsInfo.IsShipInSector(HostShip, ArcType.Front);
-            return inFrontArcOfEnemy && ship.Tokens.HasGreenTokens();
+            return inFrontArcOfEnemy && ship.Tokens.HasGreenTokens;
         }
 
         protected override void DiscardTokens()

@@ -7,8 +7,6 @@ namespace UpgradesList.SecondEdition
     {
         public SyncedLaserCannons() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Synced Laser Cannons",
                 types: new List<UpgradeType>()
@@ -16,7 +14,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Cannon,
                     UpgradeType.Cannon
                 },
-                cost: 6, //TODO
+                cost: 6,
                 weaponInfo: new SyncedLaserCannonsWeaponInfo(this)                
             );
 

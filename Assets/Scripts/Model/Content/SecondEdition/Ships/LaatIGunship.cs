@@ -17,8 +17,6 @@ namespace Ship.SecondEdition.LaatIGunship
     {
         public LaatIGunship() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "LAAT/i Gunship",
@@ -35,6 +33,8 @@ namespace Ship.SecondEdition.LaatIGunship
                 new ShipUpgradesInfo(
                     UpgradeType.Title,
                     UpgradeType.Crew,
+                    UpgradeType.Crew,
+                    UpgradeType.Gunner,
                     UpgradeType.Gunner,
                     UpgradeType.Missile,
                     UpgradeType.Missile,

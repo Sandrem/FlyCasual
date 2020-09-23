@@ -1,6 +1,8 @@
 ﻿using Abilities.Parameters;
 using SubPhases;
+using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,6 +17,7 @@ namespace Ship
                     3,
                     42,
                     isLimited: true,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Crew, UpgradeType.Device },
                     abilityType: typeof(Abilities.SecondEdition.DGS286Ability)
                 );
 

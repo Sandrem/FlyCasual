@@ -9,6 +9,8 @@ namespace Abilities
     public class AfterManeuver : TriggerForAbility
     {
         private TriggeredAbility Ability;
+        private Type HasToken;
+
         public int MinSpeed { get; }
         public int MaxSpeed { get; }
         public MovementComplexity Complexity { get; }
@@ -24,7 +26,8 @@ namespace Abilities
             bool onlyIfFullyExecuted = false,
             bool onlyIfPartialExecuted = false,
             bool onlyIfMovedThroughFriendlyShip = false,
-            ManeuverBearing onlyIfBearing = ManeuverBearing.None
+            ManeuverBearing onlyIfBearing = ManeuverBearing.None,
+            Type hasToken = null
         )
         {
             ManeuverHolder minSpeedHolder = new ManeuverHolder() { Speed = minSpeed };
@@ -37,6 +40,7 @@ namespace Abilities
             OnlyIfPartialExecuted = onlyIfPartialExecuted;
             OnlyIfMovedThroughFriendlyShip = onlyIfMovedThroughFriendlyShip;
             OnlyIfBearing = onlyIfBearing;
+            HasToken = hasToken;
         }
 
         public override void Register(TriggeredAbility ability)
@@ -59,6 +63,7 @@ namespace Abilities
                 && (OnlyIfPartialExecuted == false || (OnlyIfPartialExecuted && ship.IsBumped))
                 && (OnlyIfMovedThroughFriendlyShip == false || (OnlyIfMovedThroughFriendlyShip && ship.ShipsMovedThrough.Any(n => n.Owner.PlayerNo == Ability.HostShip.Owner.PlayerNo)))
                 && BearingIsCorrect()
+                && ((HasToken == null) || (Ability.HostShip.Tokens.HasToken((HasToken), '*')))
             )
             {
                 Ability.RegisterAbilityTrigger

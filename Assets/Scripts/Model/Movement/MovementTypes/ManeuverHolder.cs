@@ -36,7 +36,9 @@ namespace Movement
         Stationary,
         ReverseStraight,
         ReverseBank,
-        SegnorsLoopUsingTurnTemplate
+        SegnorsLoopUsingTurnTemplate,
+        SideslipBank,
+        SideslipTurn
     }
 
     public enum MovementComplexity
@@ -132,8 +134,14 @@ namespace Movement
                 case "B":
                     bearing = ManeuverBearing.Bank;
                     break;
+                case "b":
+                    bearing = ManeuverBearing.SideslipBank;
+                    break;
                 case "T":
                     bearing = ManeuverBearing.Turn;
+                    break;
+                case "t":
+                    bearing = ManeuverBearing.SideslipTurn;
                     break;
                 case "V":
                     bearing = ManeuverBearing.ReverseStraight;
@@ -271,8 +279,14 @@ namespace Movement
                 case ManeuverBearing.Bank:
                     maneuverString += "B";
                     break;
+                case ManeuverBearing.SideslipBank:
+                    maneuverString += "b";
+                    break;
                 case ManeuverBearing.Turn:
                     maneuverString += "T";
+                    break;
+                case ManeuverBearing.SideslipTurn:
+                    maneuverString += "t";
                     break;
                 case ManeuverBearing.KoiogranTurn:
                     maneuverString += "R";

@@ -1,6 +1,8 @@
 ﻿using Movement;
 using Ship;
+using System;
 using System.Linq;
+using UnityEngine;
 
 namespace Abilities
 {
@@ -13,6 +15,7 @@ namespace Abilities
         public bool OnlyIfFullyExecuted { get; }
         public bool OnlyIfPartialExecuted { get; }
         public bool OnlyIfMovedThroughFriendlyShip { get; }
+        public ManeuverBearing OnlyIfBearing { get; }
 
         public AfterManeuver(
             ManeuverSpeed minSpeed = ManeuverSpeed.Speed0,
@@ -20,7 +23,8 @@ namespace Abilities
             MovementComplexity complexity = MovementComplexity.None,
             bool onlyIfFullyExecuted = false,
             bool onlyIfPartialExecuted = false,
-            bool onlyIfMovedThroughFriendlyShip = false
+            bool onlyIfMovedThroughFriendlyShip = false,
+            ManeuverBearing onlyIfBearing = ManeuverBearing.None
         )
         {
             ManeuverHolder minSpeedHolder = new ManeuverHolder() { Speed = minSpeed };
@@ -32,6 +36,7 @@ namespace Abilities
             OnlyIfFullyExecuted = onlyIfFullyExecuted;
             OnlyIfPartialExecuted = onlyIfPartialExecuted;
             OnlyIfMovedThroughFriendlyShip = onlyIfMovedThroughFriendlyShip;
+            OnlyIfBearing = onlyIfBearing;
         }
 
         public override void Register(TriggeredAbility ability)
@@ -53,6 +58,7 @@ namespace Abilities
                 && (OnlyIfFullyExecuted == false || (OnlyIfFullyExecuted && ship.CheckSuccessOfManeuver()))
                 && (OnlyIfPartialExecuted == false || (OnlyIfPartialExecuted && ship.IsBumped))
                 && (OnlyIfMovedThroughFriendlyShip == false || (OnlyIfMovedThroughFriendlyShip && ship.ShipsMovedThrough.Any(n => n.Owner.PlayerNo == Ability.HostShip.Owner.PlayerNo)))
+                && BearingIsCorrect()
             )
             {
                 Ability.RegisterAbilityTrigger
@@ -61,6 +67,29 @@ namespace Abilities
                     delegate { Ability.Action.DoAction(Ability); }
                 );
             }
+        }
+
+        private bool BearingIsCorrect()
+        {
+            bool result = false;
+
+            if (OnlyIfBearing == ManeuverBearing.None)
+            {
+                result = true;
+            }
+            else
+            {
+                if (OnlyIfBearing == ManeuverBearing.SideslipAny)
+                {
+                    result = (Ability.HostShip.AssignedManeuver.Bearing == ManeuverBearing.SideslipBank || Ability.HostShip.AssignedManeuver.Bearing == ManeuverBearing.SideslipTurn);
+                }
+                else
+                {
+                    result = OnlyIfBearing == Ability.HostShip.AssignedManeuver.Bearing;
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Ship;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Upgrade;
 
 namespace Abilities
@@ -12,9 +13,17 @@ namespace Abilities
 
         public override void ActivateAbility()
         {
+            if (StoredAbilities.Count == 0)
+            {
+                foreach (Type ability in CombinedAbilities)
+                {
+                    StoredAbilities.Add((GenericAbility)Activator.CreateInstance(ability));
+                }
+            }
+
             foreach (GenericAbility ability in StoredAbilities)
             {
-                ability.ActivateAbility();
+                ability.Initialize(Selection.ThisShip);
             }
         }
 
@@ -28,10 +37,14 @@ namespace Abilities
 
         public override void Initialize(GenericShip hostShip)
         {
-            foreach (Type ability in CombinedAbilities)
+            if (StoredAbilities.Count == 0)
             {
-                StoredAbilities.Add((GenericAbility)Activator.CreateInstance(ability));
+                foreach (Type ability in CombinedAbilities)
+                {
+                    StoredAbilities.Add((GenericAbility)Activator.CreateInstance(ability));
+                }
             }
+
             foreach (GenericAbility ability in StoredAbilities)
             {
                 ability.Initialize(hostShip);
@@ -40,6 +53,8 @@ namespace Abilities
 
         public override void InitializeForSquadBuilder(GenericShip hostShip)
         {
+            HostShip = HostUpgrade.HostShip;
+
             foreach (GenericAbility ability in StoredAbilities)
             {
                 ability.InitializeForSquadBuilder(hostShip);
@@ -48,6 +63,17 @@ namespace Abilities
 
         public override void InitializeForSquadBuilder(GenericUpgrade hostUpgrade)
         {
+            HostUpgrade = hostUpgrade;
+            HostShip = HostUpgrade.HostShip;
+
+            if (StoredAbilities.Count == 0)
+            {
+                foreach (Type ability in CombinedAbilities)
+                {
+                    StoredAbilities.Add((GenericAbility)Activator.CreateInstance(ability));
+                }
+            }
+
             foreach (GenericAbility ability in StoredAbilities)
             {
                 ability.InitializeForSquadBuilder(hostUpgrade);

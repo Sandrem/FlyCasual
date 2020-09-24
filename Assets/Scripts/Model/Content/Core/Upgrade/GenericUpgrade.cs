@@ -243,6 +243,7 @@ namespace Upgrade
         {
             foreach (var ability in UpgradeAbilities)
             {
+                ability.InitializeForSquadBuilder(this);
                 ability.ActivateAbility();
             }
         }

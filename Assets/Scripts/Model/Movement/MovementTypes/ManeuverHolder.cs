@@ -38,7 +38,8 @@ namespace Movement
         ReverseBank,
         SegnorsLoopUsingTurnTemplate,
         SideslipBank,
-        SideslipTurn
+        SideslipTurn,
+        SideslipAny
     }
 
     public enum MovementComplexity

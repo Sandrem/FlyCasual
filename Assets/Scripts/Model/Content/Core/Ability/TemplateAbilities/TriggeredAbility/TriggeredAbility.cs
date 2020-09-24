@@ -1,4 +1,6 @@
-﻿namespace Abilities
+﻿using UnityEngine;
+
+namespace Abilities
 {
     public abstract class TriggeredAbility : TemplateAbility
     {

@@ -46,15 +46,10 @@ namespace Abilities
             protected set { hostShip = value; }
         }
 
-        private GenericUpgrade hostUpgrade;
         /// <summary>
         /// Upgrade that is host of ability
         /// </summary>
-        public GenericUpgrade HostUpgrade
-        {
-            get { return hostUpgrade; }
-            private set { hostUpgrade = value; }
-        }
+        public GenericUpgrade HostUpgrade { get; set; }
 
         /// <summary>
         /// Name of host (ship or upgrade)

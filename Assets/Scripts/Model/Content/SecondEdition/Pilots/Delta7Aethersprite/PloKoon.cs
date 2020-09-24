@@ -124,7 +124,7 @@ namespace Abilities.SecondEdition
             {
                 DecisionSubPhase.ConfirmDecisionNoCallback();
                 SelectShipSubPhase.FinishSelection();
-            });
+            }, HostShip.Owner);
         }
 
         private int GetAiAbilityPriority(GenericShip ship)

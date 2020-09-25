@@ -154,7 +154,7 @@ namespace SubPhases
                                 linkedActionName = "<color=red>" + linkedActionName + "</color>";
                                 break;
                             case Actions.ActionColor.Purple:
-                                linkedActionName = "<color=purple>" + linkedActionName + "</purple>";
+                                linkedActionName = "<color=purple>" + linkedActionName + "</color>";
                                 break;
                             default:
                                 break;

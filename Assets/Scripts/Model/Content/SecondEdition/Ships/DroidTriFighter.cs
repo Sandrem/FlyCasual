@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Actions;
 using ActionsList;
 using Arcs;
@@ -12,6 +13,8 @@ namespace Ship.SecondEdition.DroidTriFighter
     {
         public DroidTriFighter() : base()
         {
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
             ShipInfo = new ShipCardInfo
             (
                 "Droid Tri-Fighter",

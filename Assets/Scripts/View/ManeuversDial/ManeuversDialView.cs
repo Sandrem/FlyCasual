@@ -223,6 +223,9 @@ public class ManeuversDialView : MonoBehaviour
             case MovementComplexity.Complex:
                 result = Color.red;
                 break;
+            case MovementComplexity.Purple:
+                result = new Color(0.5f, 0, 0.5f);
+                break;
             default:
                 break;
         }

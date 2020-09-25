@@ -307,6 +307,11 @@ public static class DirectionsMenu
             maneuverColor = Color.red;
             if (Selection.ThisShip != null && Selection.ThisShip.IsStressed) button.transform.Find("RedBackground").gameObject.SetActive(true);
         }
+        if (maneuverData.Value == MovementComplexity.Purple)
+        {
+            maneuverColor = new Color(0.5f, 0, 0.5f);
+            if (Selection.ThisShip != null && Selection.ThisShip.State.Force < 1) button.transform.Find("RedBackground").gameObject.SetActive(true);
+        }
         button.GetComponentInChildren<Text>().color = maneuverColor;
     }
 

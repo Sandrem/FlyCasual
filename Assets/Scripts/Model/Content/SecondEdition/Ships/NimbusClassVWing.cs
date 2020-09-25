@@ -18,7 +18,7 @@ namespace Ship.SecondEdition.NimbusClassVWing
     {
         public NimbusClassVWing() : base()
         {
-            IsHidden = true;
+            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
             ShipInfo = new ShipCardInfo
             (
@@ -43,7 +43,7 @@ namespace Ship.SecondEdition.NimbusClassVWing
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(TargetLockAction)));
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(GenericVWingPilot) }
+                { Faction.Republic, typeof(WilhuffTarkin) }
             };
 
             ModelInfo = new ShipModelInfo(

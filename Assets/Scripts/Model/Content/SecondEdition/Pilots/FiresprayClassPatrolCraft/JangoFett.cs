@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using System;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -8,6 +10,8 @@ namespace Ship
         {
             public JangoFett() : base()
             {
+                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
                 PilotInfo = new PilotCardInfo(
                     "Jango Fett",
                     6,

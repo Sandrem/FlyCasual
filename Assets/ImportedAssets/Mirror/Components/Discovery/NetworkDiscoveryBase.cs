@@ -13,7 +13,7 @@ namespace Mirror.Discovery
     /// <summary>
     /// Base implementation for Network Discovery.  Extend this component
     /// to provide custom discovery with game specific data
-    /// <see cref="NetworkDiscovery"/> for a sample implementation
+    /// <see cref="NetworkDiscovery">NetworkDiscovery</see> for a sample implementation
     /// </summary>
     [DisallowMultipleComponent]
     [HelpURL("https://mirror-networking.com/docs/Components/NetworkDiscovery.html")]
@@ -29,7 +29,7 @@ namespace Mirror.Discovery
 
         [SerializeField]
         [Tooltip("The UDP port the server will listen for multi-cast messages")]
-        int serverBroadcastListenPort = 47777;
+        protected int serverBroadcastListenPort = 47777;
 
         [SerializeField]
         [Tooltip("Time in seconds between multi-cast messages")]
@@ -62,11 +62,10 @@ namespace Mirror.Discovery
         /// </summary>
         public virtual void Start()
         {
-            // headless mode? then start advertising
-            if (NetworkManager.isHeadless)
-            {
-                AdvertiseServer();
-            }
+            // Server mode? then start advertising
+#if UNITY_SERVER
+            AdvertiseServer();
+#endif
         }
 
         // Ensure the ports are cleared no matter when Game/Unity UI exits

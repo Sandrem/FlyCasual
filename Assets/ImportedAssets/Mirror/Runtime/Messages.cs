@@ -61,6 +61,11 @@ namespace Mirror
         public void Serialize(NetworkWriter writer) { }
     }
 
+    // Deprecated 5/2/2020
+    /// <summary>
+    /// Obsolete: Removed as a security risk. Use <see cref="NetworkServer.RemovePlayerForConnection(NetworkConnection, bool)">NetworkServer.RemovePlayerForConnection</see> instead.
+    /// </summary>
+    [Obsolete("Removed as a security risk. Use NetworkServer.RemovePlayerForConnection(NetworkConnection conn, bool keepAuthority = false) instead")]
     public struct RemovePlayerMessage : IMessageBase
     {
         public void Deserialize(NetworkReader reader) { }
@@ -199,16 +204,43 @@ namespace Mirror
     #region Internal System Messages
     public struct SpawnMessage : IMessageBase
     {
+        /// <summary>
+        /// netId of new or existing object
+        /// </summary>
         public uint netId;
+        /// <summary>
+        /// Is the spawning object the local player. Sets ClientScene.localPlayer
+        /// </summary>
         public bool isLocalPlayer;
+        /// <summary>
+        /// Sets hasAuthority on the spawned object
+        /// </summary>
         public bool isOwner;
+        /// <summary>
+        /// The id of the scene object to spawn
+        /// </summary>
         public ulong sceneId;
+        /// <summary>
+        /// The id of the prefab to spawn
+        /// <para>If sceneId != 0 then it is used instead of assetId</para>
+        /// </summary>
         public Guid assetId;
+        /// <summary>
+        /// Local position
+        /// </summary>
         public Vector3 position;
+        /// <summary>
+        /// Local rotation
+        /// </summary>
         public Quaternion rotation;
+        /// <summary>
+        /// Local scale
+        /// </summary>
         public Vector3 scale;
-        // the serialized component data
-        // -> ArraySegment to avoid unnecessary allocations
+        /// <summary>
+        /// The serialized component data
+        /// <remark>ArraySegment to avoid unnecessary allocations</remark>
+        /// </summary>
         public ArraySegment<byte> payload;
 
         public void Deserialize(NetworkReader reader)

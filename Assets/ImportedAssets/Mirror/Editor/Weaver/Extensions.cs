@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Mono.CecilX;
 
 namespace Mirror.Weaver
@@ -6,6 +8,22 @@ namespace Mirror.Weaver
     public static class Extensions
     {
         public static bool IsDerivedFrom(this TypeDefinition td, TypeReference baseClass)
+        {
+            return IsDerivedFrom(td, baseClass.FullName);
+        }
+
+        // removes <T> from class names (if any generic parameters)
+        internal static string StripGenericParametersFromClassName(string className)
+        {
+            int index = className.IndexOf('<');
+            if (index != -1)
+            {
+                return className.Substring(0, index);
+            }
+            return className;
+        }
+
+        public static bool IsDerivedFrom(this TypeDefinition td, string baseClassFullName)
         {
             if (!td.IsClass)
                 return false;
@@ -16,17 +34,14 @@ namespace Mirror.Weaver
             {
                 string parentName = parent.FullName;
 
-                // strip generic parameters
-                int index = parentName.IndexOf('<');
-                if (index != -1)
-                {
-                    parentName = parentName.Substring(0, index);
-                }
+                // strip generic <T> parameters from class name (if any)
+                parentName = StripGenericParametersFromClassName(parentName);
 
-                if (parentName == baseClass.FullName)
+                if (parentName == baseClassFullName)
                 {
                     return true;
                 }
+
                 try
                 {
                     parent = parent.Resolve().BaseType;
@@ -88,6 +103,16 @@ namespace Mirror.Weaver
             return true;
         }
 
+        public static bool IsArraySegment(this TypeReference td)
+        {
+            return td.FullName.StartsWith("System.ArraySegment`1", System.StringComparison.Ordinal);
+        }
+
+        public static bool IsList(this TypeReference td)
+        {
+            return td.FullName.StartsWith("System.Collections.Generic.List`1", System.StringComparison.Ordinal);
+        }
+
         public static bool CanBeResolved(this TypeReference parent)
         {
             while (parent != null)
@@ -116,10 +141,15 @@ namespace Mirror.Weaver
         }
 
 
-        // Given a method of a generic class such as ArraySegment<T>.get_Count,
-        // and a generic instance such as ArraySegment<int>
-        // Creates a reference to the specialized method  ArraySegment<int>.get_Count
-        // Note that calling ArraySegment<T>.get_Count directly gives an invalid IL error
+        /// <summary>
+        /// Given a method of a generic class such as ArraySegment`T.get_Count,
+        /// and a generic instance such as ArraySegment`int
+        /// Creates a reference to the specialized method  ArraySegment`int`.get_Count
+        /// <para> Note that calling ArraySegment`T.get_Count directly gives an invalid IL error </para>
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="instanceType"></param>
+        /// <returns></returns>
         public static MethodReference MakeHostInstanceGeneric(this MethodReference self, GenericInstanceType instanceType)
         {
             MethodReference reference = new MethodReference(self.Name, self.ReturnType, instanceType)
@@ -150,15 +180,11 @@ namespace Mirror.Weaver
 
         public static bool HasCustomAttribute(this ICustomAttributeProvider attributeProvider, TypeReference attribute)
         {
-            foreach (CustomAttribute ca in attributeProvider.CustomAttributes)
-            {
-                if (ca.AttributeType.FullName == attribute.FullName)
-                    return true;
-            }
-            return false;
+            // Linq allocations don't matter in weaver
+            return attributeProvider.CustomAttributes.Any(attr => attr.AttributeType.FullName == attribute.FullName);
         }
 
-        public static T GetField<T>(this CustomAttribute ca, string field, T def)
+        public static T GetField<T>(this CustomAttribute ca, string field, T defaultValue)
         {
             foreach (CustomAttributeNamedArgument customField in ca.Fields)
             {
@@ -168,17 +194,130 @@ namespace Mirror.Weaver
                 }
             }
 
-            return def;
+            return defaultValue;
         }
 
         public static MethodDefinition GetMethod(this TypeDefinition td, string methodName)
         {
-            foreach (MethodDefinition md in td.Methods)
+            // Linq allocations don't matter in weaver
+            return td.Methods.FirstOrDefault(method => method.Name == methodName);
+        }
+
+        public static MethodDefinition GetMethodWith1Arg(this TypeDefinition tr, string methodName, TypeReference argType)
+        {
+            return tr.GetMethods(methodName).Where(m =>
+                m.Parameters.Count == 1
+             && m.Parameters[0].ParameterType.FullName == argType.FullName
+            ).FirstOrDefault();
+        }
+
+        public static List<MethodDefinition> GetMethods(this TypeDefinition td, string methodName)
+        {
+            // Linq allocations don't matter in weaver
+            return td.Methods.Where(method => method.Name == methodName).ToList();
+        }
+
+        public static MethodDefinition GetMethodInBaseType(this TypeDefinition td, string methodName)
+        {
+            TypeDefinition typedef = td;
+            while (typedef != null)
             {
-                if (md.Name == methodName)
-                    return md;
+                foreach (MethodDefinition md in typedef.Methods)
+                {
+                    if (md.Name == methodName)
+                        return md;
+                }
+
+                try
+                {
+                    TypeReference parent = typedef.BaseType;
+                    typedef = parent?.Resolve();
+                }
+                catch (AssemblyResolutionException)
+                {
+                    // this can happen for plugins.
+                    break;
+                }
             }
+
             return null;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="td"></param>
+        /// <param name="methodName"></param>
+        /// <param name="stopAt"></param>
+        /// <returns></returns>
+        public static bool HasMethodInBaseType(this TypeDefinition td, string methodName, TypeReference stopAt)
+        {
+            TypeDefinition typedef = td;
+            while (typedef != null)
+            {
+                if (typedef.FullName == stopAt.FullName)
+                    break;
+
+                foreach (MethodDefinition md in typedef.Methods)
+                {
+                    if (md.Name == methodName)
+                        return true;
+                }
+
+                try
+                {
+                    TypeReference parent = typedef.BaseType;
+                    typedef = parent?.Resolve();
+                }
+                catch (AssemblyResolutionException)
+                {
+                    // this can happen for plugins.
+                    break;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Finds public fields in type and base type
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public static IEnumerable<FieldDefinition> FindAllPublicFields(this TypeReference variable)
+        {
+            return FindAllPublicFields(variable.Resolve());
+        }
+
+        /// <summary>
+        /// Finds public fields in type and base type
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public static IEnumerable<FieldDefinition> FindAllPublicFields(this TypeDefinition typeDefinition)
+        {
+            while (typeDefinition != null)
+            {
+                foreach (FieldDefinition field in typeDefinition.Fields)
+                {
+                    if (field.IsStatic || field.IsPrivate)
+                        continue;
+
+                    if (field.IsNotSerialized)
+                        continue;
+
+                    yield return field;
+                }
+
+                try
+                {
+                    typeDefinition = typeDefinition.BaseType.Resolve();
+                }
+                catch
+                {
+                    break;
+                }
+            }
         }
     }
 }

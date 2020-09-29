@@ -26,6 +26,22 @@ namespace Mirror
             InitServer();
         }
 
+        void OnEnable()
+        {
+            foreach (Transport transport in transports)
+            {
+                transport.enabled = true;
+            }
+        }
+
+        void OnDisable()
+        {
+            foreach (Transport transport in transports)
+            {
+                transport.enabled = false;
+            }
+        }
+
         public override bool Available()
         {
             // available if any of the transports is available
@@ -64,7 +80,7 @@ namespace Mirror
                     return;
                 }
             }
-            throw new Exception("No transport suitable for this platform");
+            throw new ArgumentException("No transport suitable for this platform");
         }
 
         public override void ClientConnect(Uri uri)
@@ -85,7 +101,7 @@ namespace Mirror
                     }
                 }
             }
-            throw new Exception("No transport suitable for this platform");
+            throw new ArgumentException("No transport suitable for this platform");
         }
 
         public override bool ClientConnected()

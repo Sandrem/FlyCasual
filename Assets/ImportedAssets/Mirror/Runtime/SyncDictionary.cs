@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 namespace Mirror
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class SyncIDictionary<TKey, TValue> : IDictionary<TKey, TValue>, SyncObject
+    public abstract class SyncIDictionary<TKey, TValue> : IDictionary<TKey, TValue>, SyncObject, IReadOnlyDictionary<TKey, TValue>
     {
         public delegate void SyncDictionaryChanged(Operation op, TKey key, TValue item);
 
@@ -38,6 +38,14 @@ namespace Mirror
         // so we need to skip them
         int changesAhead;
 
+        public void Reset()
+        {
+            IsReadOnly = false;
+            changes.Clear();
+            changesAhead = 0;
+            objects.Clear();
+        }
+
         protected virtual void SerializeKey(NetworkWriter writer, TKey item) { }
         protected virtual void SerializeItem(NetworkWriter writer, TValue item) { }
         protected virtual TKey DeserializeKey(NetworkReader reader) => default;
@@ -48,6 +56,10 @@ namespace Mirror
         public ICollection<TKey> Keys => objects.Keys;
 
         public ICollection<TValue> Values => objects.Values;
+
+        IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys => objects.Keys;
+
+        IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values => objects.Values;
 
         // throw away all the changes
         // this should be called after a successfull sync

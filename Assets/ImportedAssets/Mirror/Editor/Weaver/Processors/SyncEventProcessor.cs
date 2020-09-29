@@ -1,10 +1,12 @@
-// all the SyncEvent code from NetworkBehaviourProcessor in one place
 using System.Collections.Generic;
 using Mono.CecilX;
 using Mono.CecilX.Cil;
 
 namespace Mirror.Weaver
 {
+    /// <summary>
+    /// Processes SyncEvents in NetworkBehaviour
+    /// </summary>
     public static class SyncEventProcessor
     {
         public static MethodDefinition ProcessEventInvoke(TypeDefinition td, EventDefinition ed)
@@ -21,88 +23,88 @@ namespace Mirror.Weaver
             }
             if (eventField == null)
             {
-                Weaver.Error($"{td} not found. Did you declare the event?");
+                Weaver.Error($"event field not found for {ed.Name}. Did you declare it as an event?", ed);
                 return null;
             }
 
-            MethodDefinition cmd = new MethodDefinition("InvokeSyncEvent" + ed.Name, MethodAttributes.Family |
+            MethodDefinition cmd = new MethodDefinition(Weaver.InvokeRpcPrefix + ed.Name, MethodAttributes.Family |
                     MethodAttributes.Static |
                     MethodAttributes.HideBySig,
-                    Weaver.voidType);
+                    WeaverTypes.voidType);
 
-            ILProcessor cmdWorker = cmd.Body.GetILProcessor();
-            Instruction label1 = cmdWorker.Create(OpCodes.Nop);
-            Instruction label2 = cmdWorker.Create(OpCodes.Nop);
+            ILProcessor worker = cmd.Body.GetILProcessor();
+            Instruction label1 = worker.Create(OpCodes.Nop);
+            Instruction label2 = worker.Create(OpCodes.Nop);
 
-            NetworkBehaviourProcessor.WriteClientActiveCheck(cmdWorker, ed.Name, label1, "Event");
+            NetworkBehaviourProcessor.WriteClientActiveCheck(worker, ed.Name, label1, "Event");
 
             // null event check
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldarg_0));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Castclass, td));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldfld, eventField));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Brtrue, label2));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Ret));
-            cmdWorker.Append(label2);
+            worker.Append(worker.Create(OpCodes.Ldarg_0));
+            worker.Append(worker.Create(OpCodes.Castclass, td));
+            worker.Append(worker.Create(OpCodes.Ldfld, eventField));
+            worker.Append(worker.Create(OpCodes.Brtrue, label2));
+            worker.Append(worker.Create(OpCodes.Ret));
+            worker.Append(label2);
 
             // setup reader
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldarg_0));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Castclass, td));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Ldfld, eventField));
+            worker.Append(worker.Create(OpCodes.Ldarg_0));
+            worker.Append(worker.Create(OpCodes.Castclass, td));
+            worker.Append(worker.Create(OpCodes.Ldfld, eventField));
 
             // read the event arguments
             MethodReference invoke = Resolvers.ResolveMethod(eventField.FieldType, Weaver.CurrentAssembly, "Invoke");
-            if (!NetworkBehaviourProcessor.ProcessNetworkReaderParameters(invoke.Resolve(), cmdWorker, false))
+            if (!NetworkBehaviourProcessor.ReadArguments(invoke.Resolve(), worker, RemoteCallType.SyncEvent))
                 return null;
 
             // invoke actual event delegate function
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Callvirt, invoke));
-            cmdWorker.Append(cmdWorker.Create(OpCodes.Ret));
+            worker.Append(worker.Create(OpCodes.Callvirt, invoke));
+            worker.Append(worker.Create(OpCodes.Ret));
 
             NetworkBehaviourProcessor.AddInvokeParameters(cmd.Parameters);
 
             return cmd;
         }
 
-        public static MethodDefinition ProcessEventCall(TypeDefinition td, EventDefinition ed, CustomAttribute ca)
+        public static MethodDefinition ProcessEventCall(TypeDefinition td, EventDefinition ed, CustomAttribute syncEventAttr)
         {
             MethodReference invoke = Resolvers.ResolveMethod(ed.EventType, Weaver.CurrentAssembly, "Invoke");
-            MethodDefinition evt = new MethodDefinition("Call" + ed.Name, MethodAttributes.Public |
+            MethodDefinition evt = new MethodDefinition(Weaver.SyncEventPrefix + ed.Name, MethodAttributes.Public |
                     MethodAttributes.HideBySig,
-                    Weaver.voidType);
+                    WeaverTypes.voidType);
             // add paramters
             foreach (ParameterDefinition pd in invoke.Parameters)
             {
                 evt.Parameters.Add(new ParameterDefinition(pd.Name, ParameterAttributes.None, pd.ParameterType));
             }
 
-            ILProcessor evtWorker = evt.Body.GetILProcessor();
-            Instruction label = evtWorker.Create(OpCodes.Nop);
+            ILProcessor worker = evt.Body.GetILProcessor();
+            Instruction label = worker.Create(OpCodes.Nop);
 
-            NetworkBehaviourProcessor.WriteSetupLocals(evtWorker);
+            NetworkBehaviourProcessor.WriteSetupLocals(worker);
 
-            NetworkBehaviourProcessor.WriteServerActiveCheck(evtWorker, ed.Name, label, "Event");
+            NetworkBehaviourProcessor.WriteServerActiveCheck(worker, ed.Name, label, "Event");
 
-            NetworkBehaviourProcessor.WriteCreateWriter(evtWorker);
+            NetworkBehaviourProcessor.WriteCreateWriter(worker);
 
             // write all the arguments that the user passed to the syncevent
-            if (!NetworkBehaviourProcessor.WriteArguments(evtWorker, invoke.Resolve(), false))
+            if (!NetworkBehaviourProcessor.WriteArguments(worker, invoke.Resolve(), RemoteCallType.SyncEvent))
                 return null;
 
             // invoke interal send and return
             // this
-            evtWorker.Append(evtWorker.Create(OpCodes.Ldarg_0));
-            evtWorker.Append(evtWorker.Create(OpCodes.Ldtoken, td));
+            worker.Append(worker.Create(OpCodes.Ldarg_0));
+            worker.Append(worker.Create(OpCodes.Ldtoken, td));
             // invokerClass
-            evtWorker.Append(evtWorker.Create(OpCodes.Call, Weaver.getTypeFromHandleReference));
-            evtWorker.Append(evtWorker.Create(OpCodes.Ldstr, ed.Name));
+            worker.Append(worker.Create(OpCodes.Call, WeaverTypes.getTypeFromHandleReference));
+            worker.Append(worker.Create(OpCodes.Ldstr, ed.Name));
             // writer
-            evtWorker.Append(evtWorker.Create(OpCodes.Ldloc_0));
-            evtWorker.Append(evtWorker.Create(OpCodes.Ldc_I4, ca.GetField("channel", 0)));
-            evtWorker.Append(evtWorker.Create(OpCodes.Call, Weaver.sendEventInternal));
+            worker.Append(worker.Create(OpCodes.Ldloc_0));
+            worker.Append(worker.Create(OpCodes.Ldc_I4, syncEventAttr.GetField("channel", 0)));
+            worker.Append(worker.Create(OpCodes.Call, WeaverTypes.sendEventInternal));
 
-            NetworkBehaviourProcessor.WriteRecycleWriter(evtWorker);
+            NetworkBehaviourProcessor.WriteRecycleWriter(worker);
 
-            evtWorker.Append(evtWorker.Create(OpCodes.Ret));
+            worker.Append(worker.Create(OpCodes.Ret));
 
             return evt;
         }
@@ -112,44 +114,42 @@ namespace Mirror.Weaver
             // find events
             foreach (EventDefinition ed in td.Events)
             {
-                CustomAttribute ca = ed.GetCustomAttribute(Weaver.SyncEventType.FullName);
+                CustomAttribute syncEventAttr = ed.GetCustomAttribute(WeaverTypes.SyncEventType.FullName);
 
-                if (ca != null)
+                if (syncEventAttr != null)
                 {
-                    if (!ed.Name.StartsWith("Event"))
-                    {
-                        Weaver.Error($"{ed} must start with Event.  Consider renaming it to Event{ed.Name}");
-                        return;
-                    }
-
-                    if (ed.EventType.Resolve().HasGenericParameters)
-                    {
-                        Weaver.Error($"{ed} must not have generic parameters.  Consider creating a new class that inherits from {ed.EventType} instead");
-                        return;
-                    }
-
-                    events.Add(ed);
-                    MethodDefinition eventFunc = ProcessEventInvoke(td, ed);
-                    if (eventFunc == null)
-                    {
-                        return;
-                    }
-
-                    td.Methods.Add(eventFunc);
-                    eventInvocationFuncs.Add(eventFunc);
-
-                    Weaver.DLog(td, "ProcessEvent " + ed);
-
-                    MethodDefinition eventCallFunc = ProcessEventCall(td, ed, ca);
-                    td.Methods.Add(eventCallFunc);
-
-                    // original weaver compares .Name, not EventDefinition.
-                    Weaver.WeaveLists.replaceEvents[ed.Name] = eventCallFunc;
-
-                    Weaver.DLog(td, "  Event: " + ed.Name);
-                    break;
+                    ProcessEvent(td, events, eventInvocationFuncs, ed, syncEventAttr);
                 }
             }
+        }
+
+        static void ProcessEvent(TypeDefinition td, List<EventDefinition> events, List<MethodDefinition> eventInvocationFuncs, EventDefinition ed, CustomAttribute syncEventAttr)
+        {
+            if (ed.EventType.Resolve().HasGenericParameters)
+            {
+                Weaver.Error($"{ed.Name} must not have generic parameters.  Consider creating a new class that inherits from {ed.EventType} instead", ed);
+                return;
+            }
+
+            events.Add(ed);
+            MethodDefinition eventFunc = ProcessEventInvoke(td, ed);
+            if (eventFunc == null)
+            {
+                return;
+            }
+
+            td.Methods.Add(eventFunc);
+            eventInvocationFuncs.Add(eventFunc);
+
+            Weaver.DLog(td, "ProcessEvent " + ed);
+
+            MethodDefinition eventCallFunc = ProcessEventCall(td, ed, syncEventAttr);
+            td.Methods.Add(eventCallFunc);
+
+            // original weaver compares .Name, not EventDefinition.
+            Weaver.WeaveLists.replaceEvents[ed.FullName] = eventCallFunc;
+
+            Weaver.DLog(td, "  Event: " + ed.Name);
         }
     }
 }

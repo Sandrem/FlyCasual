@@ -1,5 +1,4 @@
-﻿using BoardTools;
-using Upgrade;
+﻿using Upgrade;
 
 namespace Ship
 {
@@ -19,8 +18,6 @@ namespace Ship
                                                          // seImageNumber: 92
                 );
 
-                // Ability
-
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d5/af/d5af765f-4c49-4209-98a8-e76f52bf9608/swz23_ahhav.png";
             }
         }
@@ -33,19 +30,30 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.AfterGotNumberOfAttackDice += RegisterAhhavAbility;
+            HostShip.AfterGotNumberOfAttackDice += RegisterAhhavAttackAbility;
+            HostShip.AfterGotNumberOfDefenceDice += RegisterAhhavDefenceAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.AfterGotNumberOfAttackDice -= RegisterAhhavAbility;
+            HostShip.AfterGotNumberOfAttackDice -= RegisterAhhavAttackAbility;
+            HostShip.AfterGotNumberOfDefenceDice -= RegisterAhhavDefenceAbility;
         }
 
-        private void RegisterAhhavAbility(ref int result)
+        private void RegisterAhhavAttackAbility(ref int result)
         {
-            if (Combat.Defender.ShipInfo.BaseSize > Combat.Attacker.ShipInfo.BaseSize)
+            if (Combat.Attacker == HostShip && Combat.Defender.ShipInfo.BaseSize > Combat.Attacker.ShipInfo.BaseSize)
             {
                 Messages.ShowInfo("Ahhav is attacking a larger ship and gains +1 attack die");
+                result++;
+            }
+        }
+
+        private void RegisterAhhavDefenceAbility(ref int result)
+        {
+            if (Combat.Defender == HostShip && Combat.Attacker.ShipInfo.BaseSize > Combat.Defender.ShipInfo.BaseSize)
+            {
+                Messages.ShowInfo("Ahhav is defending against a larger ship and gains +1 defence die");
                 result++;
             }
         }

@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Wilhuff Tarkin",
                     3,
-                    40,
+                    36,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WilhuffTarkinAbility),
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent } 

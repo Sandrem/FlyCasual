@@ -122,13 +122,9 @@ namespace Abilities.SecondEdition
                 && Combat.AttackStep == CombatStep.Attack
                 && Combat.Attacker.Owner == HostShip.Owner
                 && !Combat.ArcForShot.IsTurretArc
-                && HasEnemyInTurretArc(HostShip, Combat.Defender);
+                && HostShip.ArcsInfo.HasShipInTurretArc(Combat.Defender);
         }
-        private bool HasEnemyInTurretArc(GenericShip ship, GenericShip enemyShip)
-        {
-            var turretArcs = ship.ArcsInfo.Arcs.Where(arc => arc.IsTurretArc);
-            return turretArcs.Any(arc => new ShotInfoArc(ship, enemyShip, arc).InArc);
-        }
+        
 
         private int AiPriority()
         {

@@ -109,6 +109,7 @@ namespace Ship
         public static event EventHandlerShipBomb OnAfterSufferBombEffect;
 
         public event EventHandlerShipRefBool OnCheckPreventDestruction;
+        public static event EventHandlerShipRefBool OnCheckPreventDestructionGlobal;
         public event EventHandlerShipBool OnShipIsDestroyed;
         public static event EventHandlerShipBool OnShipIsDestroyedGlobal;
         public event EventHandlerShip OnShipIsReadyToBeRemoved;
@@ -637,6 +638,8 @@ namespace Ship
                 bool preventDestruction = false;
 
                 OnCheckPreventDestruction?.Invoke(this, ref preventDestruction);
+
+                OnCheckPreventDestructionGlobal?.Invoke(this, ref preventDestruction);
 
                 if (!preventDestruction)
                 {

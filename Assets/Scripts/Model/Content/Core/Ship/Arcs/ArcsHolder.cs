@@ -1,4 +1,5 @@
-﻿using Remote;
+﻿using BoardTools;
+using Remote;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,11 @@ namespace Arcs
         public bool HasArc(ArcType arcType)
         {
             return HostShip.ShipInfo.ArcInfo.Arcs.Any(a => a.ArcType == arcType);
+        }
+        public bool HasShipInTurretArc(GenericShip targetShip)
+        {
+            var turretArcs = HostShip.ArcsInfo.Arcs.Where(arc => arc.IsTurretArc);
+            return turretArcs.Any(arc => new ShotInfoArc(HostShip, targetShip, arc).InArc);
         }
 
     }

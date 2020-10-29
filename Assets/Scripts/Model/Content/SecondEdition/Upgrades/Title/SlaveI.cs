@@ -17,7 +17,10 @@ namespace UpgradesList.SecondEdition
                 cost: 5,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Torpedo),
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft)),
+                restrictions: new UpgradeCardRestrictions(
+                    new ShipRestriction(typeof(Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft)),
+                    new FactionRestriction(Faction.Scum)
+                ),
                 abilityType: typeof(Abilities.SecondEdition.SlaveIAbility),
                 seImageNumber: 154
             );

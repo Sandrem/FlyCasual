@@ -18,7 +18,10 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Device),
                 addAction: new ActionInfo(typeof(ReloadAction)),
-                restriction: new ShipRestriction(typeof(Ship.FirstEdition.Firespray31.Firespray31)),
+                restrictions: new UpgradeCardRestrictions(
+                    new ShipRestriction(typeof(Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft)),
+                    new FactionRestriction(Faction.Scum)
+                ),
                 seImageNumber: 146
             );
         }        

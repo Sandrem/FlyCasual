@@ -15,7 +15,10 @@ namespace UpgradesList.SecondEdition
                 cost: 6,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Gunner),
-                restriction: new ShipRestriction(typeof(Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft)),
+                restrictions: new UpgradeCardRestrictions(
+                    new ShipRestriction(typeof(Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft)),
+                    new FactionRestriction(Faction.Scum)
+                ),
                 abilityType: typeof(Abilities.SecondEdition.MarauderAbility),
                 seImageNumber: 150
             );

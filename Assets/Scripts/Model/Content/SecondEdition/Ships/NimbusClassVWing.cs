@@ -43,7 +43,7 @@ namespace Ship.SecondEdition.NimbusClassVWing
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(TargetLockAction)));
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(WilhuffTarkin) }
+                { Faction.Republic, typeof(Contrail) }
             };
 
             ModelInfo = new ShipModelInfo(

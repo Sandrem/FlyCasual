@@ -77,6 +77,8 @@ namespace Ship
         public string ManeuversImageUrl { get; protected set; }
 
         public bool IsHidden { get; protected set; }
+        public bool IsHiddenSquadbuilderOnly { get; protected set; }
+        
 
         public bool IsStressed { get { return Tokens.HasToken<Tokens.StressToken>(); } }
 

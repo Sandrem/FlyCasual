@@ -226,6 +226,7 @@ namespace SquadBuilderNS
                     n.PilotShip == shipRecord
                     && n.PilotFaction == faction
                     && n.Instance.GetType().ToString().Contains(Edition.Current.NameShort)
+                    && !n.Instance.IsHiddenSquadbuilderOnly
                 )
                 .OrderByDescending(n => n.PilotSkill).
                 OrderByDescending(n => n.Instance.PilotInfo.Cost).

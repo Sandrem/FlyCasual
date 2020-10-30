@@ -13,6 +13,8 @@ namespace Ship
         {
             public WilhuffTarkin() : base()
             {
+                IsHiddenSquadbuilderOnly = true;
+
                 PilotInfo = new PilotCardInfo(
                     "Wilhuff Tarkin",
                     3,

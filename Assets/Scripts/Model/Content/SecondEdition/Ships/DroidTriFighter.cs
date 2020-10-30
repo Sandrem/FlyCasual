@@ -41,7 +41,7 @@ namespace Ship.SecondEdition.DroidTriFighter
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(CalculateAction), ActionColor.Red));
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(DisT81) }
+                { Faction.Separatists, typeof(SeparatistInterceptor) }
             };
 
             ModelInfo = new ShipModelInfo(

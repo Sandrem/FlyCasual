@@ -37,4 +37,45 @@ namespace SubPhases
             // implement in your subclass
         }
     }
+
+    public class RemoveRedTokenDecisionSubPhase : DecisionSubPhase
+    {
+        public override void PrepareDecision(Action callBack)
+        {
+            Dictionary<string, GenericToken> tokens = new Dictionary<string, GenericToken>();
+
+            foreach (GenericToken token in Selection.ThisShip.Tokens.GetAllTokens())
+            {
+                if (token.TokenColor == TokenColors.Red) tokens[token.Name] = token;
+            }
+
+            foreach (KeyValuePair<string, GenericToken> kv in tokens)
+            {
+                AddDecision(
+                    "Discard " + kv.Key.ToLower(),
+                    delegate {
+                        Selection.ThisShip.Tokens.RemoveToken(
+                            kv.Value.GetType(),
+                            DoCustomFinishDecision
+                        );
+                    }
+                );
+            }
+
+            AddDecision("None", delegate { DecisionSubPhase.ConfirmDecision(); });
+
+            PrepareCustomDecisions();
+            callBack();
+        }
+
+        public virtual void DoCustomFinishDecision()
+        {
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        public virtual void PrepareCustomDecisions()
+        {
+            // implement in your subclass
+        }
+    }
 }

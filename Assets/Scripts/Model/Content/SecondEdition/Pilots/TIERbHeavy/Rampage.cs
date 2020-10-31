@@ -17,7 +17,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Rampage\"",
                     4,
-                    42,
+                    39,
                     abilityType: typeof(Abilities.SecondEdition.RampagePilotAbility),
                     isLimited: true,
                     extraUpgradeIcon: UpgradeType.Talent

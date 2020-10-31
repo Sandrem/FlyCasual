@@ -14,8 +14,6 @@ namespace Ship.SecondEdition.TIERbHeavy
     {
         public TIERbHeavy() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "TIE/rb Heavy",
@@ -33,8 +31,9 @@ namespace Ship.SecondEdition.TIERbHeavy
                     UpgradeType.Title,
                     UpgradeType.Cannon,
                     UpgradeType.Cannon,
-                    UpgradeType.Configuration,
-                    UpgradeType.Modification
+                    UpgradeType.Modification,
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 )
             );
 

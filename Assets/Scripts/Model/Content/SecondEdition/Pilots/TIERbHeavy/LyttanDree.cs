@@ -14,10 +14,9 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Lyttan Dree",
                     3,
-                    36,
+                    37,
                     abilityType: typeof(Abilities.SecondEdition.LyttanDreePilotAbility),
-                    isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent
+                    isLimited: true
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/6f/37/6f375dcd-61b2-407d-bb3f-0c01cf9491ae/swz67_lyttan-dree.png";

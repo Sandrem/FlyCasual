@@ -33,6 +33,7 @@ public static class Rules
     public static DestructionRule Destruction { get; private set; }
     public static RemotesRule Remotes { get; private set; }
     public static FuseRule Fuse { get; private set; }
+    public static PurpleManeuversRule PurpleManeuvers { get; private set; }
 
 
     public static void Initialize()
@@ -64,6 +65,7 @@ public static class Rules
         Destruction = new DestructionRule();
         Fuse = new FuseRule();
         Remotes = new RemotesRule();
+        PurpleManeuvers = new PurpleManeuversRule();
     }
 
     public static void FinishGame()

@@ -46,6 +46,11 @@ namespace SubPhases
                     Selection.ThisShip.SetAssignedManeuver(new StraightMovement(2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal));
                 }
             }
+            else if (Selection.ThisShip.AssignedManeuver.ColorComplexity == MovementComplexity.Purple && Selection.ThisShip.State.Force == 0)
+            {
+                Messages.ShowErrorToHuman(Selection.ThisShip.PilotInfo.PilotName + " attempted to perform a purple maneuver while doesn't have force tokens: it will instead perform a white straight 2");
+                Selection.ThisShip.SetAssignedManeuver(new StraightMovement(2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal));
+            }
 
             Selection.ThisShip.CallBeforeMovementIsExecuted(PerformAssignedManeuver);
         }

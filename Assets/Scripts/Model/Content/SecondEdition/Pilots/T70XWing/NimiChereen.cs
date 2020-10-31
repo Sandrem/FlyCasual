@@ -10,15 +10,12 @@ namespace Ship
         {
             public NimiChereen() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Nimi Chereen",
                     2,
-                    44,
+                    49,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.NimiChereenAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.NimiChereenAbility)
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c3/49/c349eef1-f13a-4c31-9b73-73dab884af41/swz68_nimi-chereen.png";

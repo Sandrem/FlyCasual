@@ -14,8 +14,7 @@ namespace Ship
                     "Black Squadron Ace",
                     4,
                     47,
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                    //seImageNumber: 11
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 PilotNameCanonical = "blacksquadronace-t70xwing";

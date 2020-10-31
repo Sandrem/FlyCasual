@@ -14,8 +14,7 @@ namespace Ship
                     "Red Squadron Expert",
                     3,
                     44,
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                    //seImageNumber: 11
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Red";

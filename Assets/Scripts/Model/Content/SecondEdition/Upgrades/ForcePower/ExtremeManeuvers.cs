@@ -7,29 +7,31 @@ using Actions;
 
 namespace UpgradesList.SecondEdition
 {
-    public class Daredevil : GenericUpgrade
+    public class ExtremeManeuvers : GenericUpgrade
     {
-        public Daredevil() : base()
+        public ExtremeManeuvers() : base()
         {
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             UpgradeInfo = new UpgradeCardInfo(
-                "Daredevil",
-                UpgradeType.Talent,
+                "Extreme Maneuvers",
+                UpgradeType.ForcePower,
                 cost: 2,
-                abilityType: typeof(Abilities.SecondEdition.DareDevilAbility),
+                abilityType: typeof(Abilities.SecondEdition.ExtremeManeuversAbility),
                 restrictions: new UpgradeCardRestrictions(
                     new BaseSizeRestriction(BaseSize.Small),
-                    new ActionBarRestriction(typeof(BoostAction), ActionColor.White)
-                ),
-                seImageNumber: 2
+                    new ActionBarRestriction(typeof(BoostAction))
+                )
             );
+
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/5f/dd/5fdda9e7-dea9-4188-aaf1-e06446b38e45/swz79_extreme-maneuvers.png";
         }
     }
 }
 
 namespace Abilities.SecondEdition
 {
-    //While you perform a white boost action, you may treat it as red to use the 1 left turn or 1 right turn template instead.
-    public class DareDevilAbility : GenericAbility
+    public class ExtremeManeuversAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
@@ -43,11 +45,8 @@ namespace Abilities.SecondEdition
 
         private void ChangeBoostTemplates(List<BoostMove> availableMoves, GenericAction action)
         {
-            if (action.Color == ActionColor.White)
-            {
-                availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.LeftTurn1, isRed: true));
-                availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.RightTurn1, isRed: true));
-            }
+            availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.LeftTurn1, isPurple: true));
+            availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.RightTurn1, isPurple: true));
         }
     }
 }

@@ -59,12 +59,14 @@ namespace ActionsList
         public string Name { get; private set; }
         public ActionsHolder.BoostTemplates Template;
         public bool IsRed;
+        public bool IsPurple;
         public bool IsForced { get; private set; }
 
-        public BoostMove(ActionsHolder.BoostTemplates template, bool isRed = false, bool isForced = false)
+        public BoostMove(ActionsHolder.BoostTemplates template, bool isRed = false, bool isPurple = false, bool isForced = false)
         {
             Template = template;
             IsRed = isRed;
+            IsPurple = isPurple;
             IsForced = isForced;
 
             switch (template)
@@ -175,13 +177,23 @@ namespace SubPhases
 
             foreach (var move in AvailableBoostMoves)
             {
+                ActionColor color = ActionColor.White;
+                if (move.IsRed)
+                {
+                    color = ActionColor.Red;
+                }
+                else if (move.IsPurple)
+                {
+                    color = ActionColor.Purple;
+                }
+
                 selectBoostTemplateDecisionSubPhase.AddDecision(
                     move.Name,
                     delegate {
                         SelectTemplate(move);
                         DecisionSubPhase.ConfirmDecision();
                     },
-                    color: (move.IsRed) ? ActionColor.Red: ActionColor.White,
+                    color: color,
                     isCentered: move.Template == ActionsHolder.BoostTemplates.Straight1
                 );
             }
@@ -204,7 +216,13 @@ namespace SubPhases
                 HostAction.Color = ActionColor.Red;
                 TheShip.OnActionIsPerformed += ResetActionColor;
             }
-                
+
+            if (move.IsPurple && !HostAction.IsPurple)
+            {
+                HostAction.Color = ActionColor.Purple;
+                TheShip.OnActionIsPerformed += ResetActionColor;
+            }
+
             SelectedBoostHelper = move.Name;
         }
 

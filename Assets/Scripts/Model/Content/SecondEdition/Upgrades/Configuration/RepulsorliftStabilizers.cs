@@ -12,6 +12,8 @@ namespace UpgradesList.SecondEdition
     {
         public RepulsorliftStabilizersInactive() : base()
         {
+            IsHidden = true; // Temporary Hidden
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Repulsorlift Stabilizers (Inactive)",
                 UpgradeType.Configuration,

@@ -4,6 +4,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using Ship;
 using UnityEngine;
 using Upgrade;
 
@@ -99,12 +100,46 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            
+            HostShip.OnCheckSystemsAbilityActivation += CheckAbility;
+            HostShip.OnSystemsAbilityActivation += RegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
-            
+            HostShip.OnCheckSystemsAbilityActivation -= CheckAbility;
+            HostShip.OnSystemsAbilityActivation -= RegisterAbility;
+        }
+
+        private void CheckAbility(GenericShip ship, ref bool flag)
+        {
+            flag = true;
+        }
+
+        private void RegisterAbility(GenericShip ship)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToPerformPurpleReposition);
+        }
+
+        private void AskToPerformPurpleReposition(object sender, EventArgs e)
+        {
+            if (HostShip.State.Force > 0)
+            {
+                HostShip.AskPerformFreeAction(
+                    new List<GenericAction>() {
+                        new BarrelRollAction(){ HostShip = HostShip, Color = ActionColor.Purple },
+                        new BoostAction(){ HostShip = HostShip, Color = ActionColor.Purple }
+                    },
+                    Triggers.FinishTrigger,
+                    descriptionShort: "Intuitive Controls",
+                    descriptionLong: "You may perform a purple barrel roll or boost action",
+                    imageHolder: HostShip
+                );
+            }
+            else
+            {
+                Messages.ShowError("No force tokens left");
+                Triggers.FinishTrigger();
+            }
         }
     }
 }

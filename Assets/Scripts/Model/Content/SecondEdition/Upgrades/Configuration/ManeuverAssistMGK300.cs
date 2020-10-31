@@ -11,12 +11,10 @@ namespace UpgradesList.SecondEdition
     {
         public ManeuverAssistMGK300() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Maneuver-Assist MGK-300",
                 UpgradeType.Configuration,
-                cost: 0,
+                cost: 2,
                 addActions: new List<ActionInfo>()
                 {
                     new ActionInfo(typeof(CalculateAction)),

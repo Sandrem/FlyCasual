@@ -17,11 +17,11 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Ion Limiter Override",
                 UpgradeType.Talent,
-                cost: 1,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.IonLimiterOverrideAbility)
             );
 
-            ImageUrl = "https://i.imgur.com/hZ329OH.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/a5/d9/a5d987e9-ec4c-4a99-828b-c498799a7d6c/swz67_ion-limiter-overdrive.png";
         }
 
         public override bool IsAllowedForShip(GenericShip ship)

@@ -13,12 +13,10 @@ namespace Ship
         {
             public MerlCobben() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Merl Cobben",
                     1,
-                    33,
+                    32,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MerlCobbenAbility),
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent } 

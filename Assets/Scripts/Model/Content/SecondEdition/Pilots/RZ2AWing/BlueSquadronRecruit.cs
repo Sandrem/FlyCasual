@@ -12,8 +12,7 @@ namespace Ship
                     "Blue Squadron Recruit",
                     1,
                     32,
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         //seImageNumber: 19
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Blue";

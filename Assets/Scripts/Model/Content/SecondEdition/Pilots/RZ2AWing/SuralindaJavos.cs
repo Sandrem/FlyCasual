@@ -15,12 +15,10 @@ namespace Ship
         {
             public SuralindaJavos() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Suralinda Javos",
                     3,
-                    35,
+                    33,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SuralindaJavosAbility),
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } 

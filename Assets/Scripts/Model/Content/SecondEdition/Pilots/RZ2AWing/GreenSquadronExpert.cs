@@ -13,8 +13,7 @@ namespace Ship
                     "Green Squadron Expert",
                     3,
                     34,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } //,
-                                                         //seImageNumber: 19
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
                 );
 
                 ModelInfo.SkinName = "Green";

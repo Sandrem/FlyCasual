@@ -15,6 +15,7 @@ namespace Ship.SecondEdition.DroidTriFighter
                 5,
                 45,
                 limited: 2,
+                extraUpgradeIcon: Upgrade.UpgradeType.Talent,
                 abilityType: typeof(Abilities.SecondEdition.PhlacArphoccPrototypeAbility)
             );
 

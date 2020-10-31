@@ -15,6 +15,7 @@ namespace Ship.SecondEdition.DroidTriFighter
                 3,
                 36,
                 true,
+                extraUpgradeIcon: Upgrade.UpgradeType.Talent,
                 abilityType: typeof(Abilities.SecondEdition.Dis347Ability)
             );
 

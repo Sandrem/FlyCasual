@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SubPhases;
+using Ship;
 
 namespace MainPhases
 {
 
     public class ActivationPhase : GenericPhase
     {
+        public GenericShip ActivationShip {get; set;}
 
         public override void StartPhase()
         {

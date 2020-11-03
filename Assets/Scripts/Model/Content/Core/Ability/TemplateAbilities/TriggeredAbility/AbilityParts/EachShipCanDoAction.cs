@@ -17,7 +17,7 @@ namespace Abilities
         private ConditionsBlock Conditions;
         private AbilityDescription AbilityDescription;
 
-        private List<GenericShip> AlreadyActivatedShips = new List<GenericShip>();
+        private List<GenericShip> ShipsThatCanBeActivated = new List<GenericShip>();
 
         public EachShipCanDoAction(
             Action<GenericShip, Action> eachShipAction,
@@ -34,18 +34,29 @@ namespace Abilities
         public override void DoAction(TriggeredAbility ability)
         {
             Ability = ability;
-            AlreadyActivatedShips = new List<GenericShip>();
+            ShipsThatCanBeActivated = Ability.GetTargetsForAbility(FilterTargets);
 
             StartSelection();
         }
 
+        private bool FilterTargets(GenericShip ship)
+        {
+            ConditionArgs args = new ConditionArgs()
+            {
+                ShipToCheck = ship,
+                ShipAbilityHost = Ability.HostShip
+            };
+
+            return Conditions.Passed(args);
+        }
+
         private void StartSelection()
         {
-            if (Ability.TargetsForAbilityExist(FilterTargets))
+            if (ShipsThatCanBeActivated.Count > 0)
             {
                 Ability.SelectTargetForAbility(
                     WhenShipIsSelected,
-                    FilterTargets,
+                    GetAlreadyFilteredTargets,
                     GetAiPriority,
                     Ability.HostShip.Owner.PlayerNo,
                     AbilityDescription.Name,
@@ -61,6 +72,11 @@ namespace Abilities
             }
         }
 
+        private bool GetAlreadyFilteredTargets(GenericShip ship)
+        {
+            return ShipsThatCanBeActivated.Contains(ship);
+        }
+
         private void WhenShipIsSelected()
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
@@ -72,17 +88,6 @@ namespace Abilities
             Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, StartSelection);
         }
 
-        private bool FilterTargets(GenericShip ship)
-        {
-            ConditionArgs args = new ConditionArgs()
-            {
-                ShipToCheck = ship,
-                ShipAbilityHost = Ability.HostShip
-            };
-
-            return Conditions.Passed(args) && !AlreadyActivatedShips.Contains(ship);
-        }
-
         private int GetAiPriority(GenericShip ship)
         {
             return 0;
@@ -90,7 +95,7 @@ namespace Abilities
 
         private void DoEachShipActon(object sender, EventArgs e)
         {
-            AlreadyActivatedShips.Add(Ability.TargetShip);
+            ShipsThatCanBeActivated.Remove(Ability.TargetShip);
             EachShipAction(Ability.TargetShip, Triggers.FinishTrigger);
         }
 

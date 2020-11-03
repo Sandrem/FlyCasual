@@ -340,9 +340,15 @@ namespace Abilities
         /// <summary>
         /// Checks if ships that can be selected by abilities are present
         /// </summary>
+
+        public List<GenericShip> GetTargetsForAbility(Func<GenericShip, bool> filter)
+        {
+            return Roster.AllShips.Values.Where(n => filter(n)).ToList();
+        }
+
         public bool TargetsForAbilityExist(Func<GenericShip, bool> filter)
         {
-            return Roster.AllShips.Values.FirstOrDefault(n => filter(n)) != null;
+            return GetTargetsForAbility(filter).Count > 0;
         }
 
         private void SelectShipForAbility(Action selectTargetAction)

@@ -1,6 +1,7 @@
 ﻿using Ship;
 using System;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Abilities
 {
@@ -8,6 +9,7 @@ namespace Abilities
     {
         public GenericShip ShipToCheck { get; set; }
         public GenericShip ShipAbilityHost { get; set; }
+        public GenericUpgrade UpgradeToCheck { get; set; }
     }
 
     public abstract class Condition

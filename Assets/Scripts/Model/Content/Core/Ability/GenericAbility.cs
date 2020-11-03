@@ -318,7 +318,7 @@ namespace Abilities
             return result;
         }
 
-        public bool FilterTargetsByParameters(GenericShip ship, int minRange, int maxRange, ArcType arcType, TargetTypes targetTypes, Type tokenType = null)
+        public bool FilterTargetsByParameters(GenericShip ship, int minRange, int maxRange, ArcType arcType, TargetTypes targetTypes, Type tokenType = null, List<Type> shipTypesOnly = null)
         {
             bool result = true;
 
@@ -332,6 +332,20 @@ namespace Abilities
                 if (arcType != ArcType.None && !shotInfo.InArcByType(arcType)) return false;
                 if (shotInfo.Range < minRange) return false;
                 if (shotInfo.Range > maxRange) return false;
+
+                if (shipTypesOnly != null)
+                {
+                    bool meetsShipTypeCondition = false;
+                    foreach (Type shipType in shipTypesOnly)
+                    {
+                        if (ship.GetType().IsSubclassOf(shipType))
+                        {
+                            meetsShipTypeCondition = true;
+                            break;
+                        }
+                    }
+                    if (!meetsShipTypeCondition) return false;
+                }
             }
 
             return result;

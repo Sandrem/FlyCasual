@@ -50,6 +50,7 @@ namespace Abilities
         private void WhenSelected()
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
+            this.Action.TargetUpgrade = TargetUpgrade;
             this.Action.DoAction(Ability);
         }
 

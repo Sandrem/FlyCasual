@@ -532,6 +532,12 @@ public static partial class Roster {
             upgradeNamePanel.SetActive(true);
             index++;
         }
+        for (int i = index; i < 11; i++)
+        {
+            GameObject upgradeNamePanel = newPanel.transform.Find("ShipInfo/UpgradesBar/Upgrade" + index).gameObject;
+            upgradeNamePanel.GetComponent<Text>().text = "";
+            upgradeNamePanel.SetActive(false);
+        }
         OrganizeRosters();
     }
 

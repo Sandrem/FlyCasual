@@ -239,6 +239,12 @@ namespace Upgrade
             ActivateAbility();
         }
 
+        public void DettachFromShip()
+        {
+            State = null;
+            DeactivateAbility();
+        }
+
         public void ActivateAbility()
         {
             foreach (var ability in UpgradeAbilities)

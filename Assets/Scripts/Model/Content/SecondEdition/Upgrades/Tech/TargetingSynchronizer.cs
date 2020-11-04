@@ -38,16 +38,16 @@ namespace Abilities.SecondEdition
             GenericShip.OnModifyWeaponAttackRequirementGlobal -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, GenericSpecialWeapon weapon, ref Type tokenType, bool isSilent)
+        private void CheckAbility(GenericShip ship, GenericSpecialWeapon weapon, ref List<Type> tokenTypes, bool isSilent)
         {
-            if (tokenType == typeof(BlueTargetLockToken)
+            if (tokenTypes.Contains(typeof(BlueTargetLockToken))
                 && ship.Owner.PlayerNo == HostShip.Owner.PlayerNo
                 && IsInRangeFromOneToTwo(HostShip, ship)
                 && ActionsHolder.HasTargetLockOn(HostShip, Selection.AnotherShip)
             )
             {
                 if (!isSilent) Messages.ShowInfo(string.Format("{0}: {1} ignores attack requirement", HostUpgrade.UpgradeInfo.Name, ship.PilotInfo.PilotName));
-                tokenType = null;
+                tokenTypes = null;
             }
         }
 

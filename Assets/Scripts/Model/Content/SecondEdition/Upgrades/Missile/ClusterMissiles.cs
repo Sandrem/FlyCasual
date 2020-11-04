@@ -1,5 +1,6 @@
 ﻿using BoardTools;
 using Ship;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
@@ -96,7 +97,7 @@ namespace Abilities.SecondEdition
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresToken = null;
+                (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresTokens = null;
 
                 Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform a second Cluster Missiles attack");
 
@@ -152,7 +153,7 @@ namespace Abilities.SecondEdition
 
         private void FinishAdditionalAttack()
         {
-            (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresToken = typeof(BlueTargetLockToken);
+            (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresTokens = new List<Type>() { typeof(BlueTargetLockToken) };
 
             // If attack is skipped, set this flag, otherwise regular attack can be performed second time
             Selection.ThisShip.IsAttackPerformed = true;

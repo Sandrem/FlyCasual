@@ -46,22 +46,31 @@ namespace Abilities.SecondEdition
             HostShip.OnModifyWeaponAttackRequirement -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, GenericSpecialWeapon weapon, ref Type tokenType, bool isSilent)
+        private void CheckAbility(GenericShip ship, GenericSpecialWeapon weapon, ref List<Type> tokenTypes, bool isSilent)
         {
-            if (ConditionsAreMet(tokenType))
+            if (ConditionsAreMet(tokenTypes))
             {
                 if (!isSilent) Messages.ShowInfo(string.Format("{0} ignores attack requirement", ship.PilotInfo.PilotName));
-                tokenType = null;
+                tokenTypes = null;
             }
         }
 
-        private bool ConditionsAreMet(Type tokenType)
+        private bool ConditionsAreMet(List<Type> tokenTypes)
         {
-            return SupportedTokenTypes.Contains(tokenType)
-                && HostShip.Owner.Ships.Values.Any(
-                    n => ActionsHolder.HasTargetLockOn(n, Selection.AnotherShip)
-                    && n.ShipAbilities.Any(a => a is NetworkedCalculationsAbility)
-                );
+            foreach (Type tokenType in tokenTypes)
+            {
+                if (SupportedTokenTypes.Contains(tokenType)
+                    && HostShip.Owner.Ships.Values.Any(
+                        n => ActionsHolder.HasTargetLockOn(n, Selection.AnotherShip)
+                        && n.ShipAbilities.Any(a => a is NetworkedCalculationsAbility)
+                    )
+                )
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

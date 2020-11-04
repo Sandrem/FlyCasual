@@ -45,7 +45,7 @@ namespace Upgrade
         public int AttackValue { get; set; }
         public int MinRange { get; set; }
         public int MaxRange { get; set; }
-        public Type RequiresToken { get; set; }
+        public List<Type> RequiresTokens { get; set; }
         public Type SpendsToken { get; private set; }
         public int Charges { get; private set; }
         public bool Discard { get; private set; }
@@ -55,12 +55,12 @@ namespace Upgrade
         public bool UsesCharges { get { return Charges > 0; } }
         public virtual bool NoRangeBonus { get; protected set; }
 
-        public SpecialWeaponInfo(int attackValue, int minRange, int maxRange, Type requiresToken = null, Type spendsToken = null, int charges = 0, bool discard = false, bool twinAttack = false, bool canShootOutsideArc = false, ArcType arc = ArcType.Front, bool noRangeBonus = false)
+        public SpecialWeaponInfo(int attackValue, int minRange, int maxRange, List<Type> requiresTokens = null, Type requiresToken = null, Type spendsToken = null, int charges = 0, bool discard = false, bool twinAttack = false, bool canShootOutsideArc = false, ArcType arc = ArcType.Front, bool noRangeBonus = false)
         {
             AttackValue = attackValue;
             MinRange = minRange;
             MaxRange = maxRange;
-            RequiresToken = requiresToken;
+            RequiresTokens = (requiresToken != null) ? new List<Type>() { requiresToken } : requiresTokens;
             SpendsToken = spendsToken;
             Discard = discard;
             Charges = charges;

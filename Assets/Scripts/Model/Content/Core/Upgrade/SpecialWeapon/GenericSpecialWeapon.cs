@@ -81,26 +81,43 @@ namespace Upgrade
             if (range < MinRangeUpdated) return false;
             if (range > MaxRangeUpdated) return false;
 
-            Type tokenRequirement = HostShip.GetWeaponAttackRequirement(this, isSilent: true);
-
-            if (tokenRequirement == typeof(BlueTargetLockToken))
-            {
-                List<GenericToken> waysToPay = new List<GenericToken>();
-
-                List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(HostShip, targetShip);
-                GenericToken targetLockToken = HostShip.Tokens.GetToken(typeof(BlueTargetLockToken), letters.FirstOrDefault());
-                if (targetLockToken != null) waysToPay.Add(targetLockToken);
-
-                HostShip.CallOnGenerateAvailableAttackPaymentList(waysToPay);
-
-                if (waysToPay.Count == 0) return false;
-            }
-            else if (tokenRequirement != null)
-            {
-                if (!HostShip.Tokens.HasToken(tokenRequirement)) return false;
-            }
+            if (!AreTokenRequirementsMet(targetShip)) return false;
 
             return result;
+        }
+
+        private bool AreTokenRequirementsMet(GenericShip targetShip)
+        {
+            List<Type> tokenRequirements = HostShip.GetWeaponAttackRequirement(this, isSilent: true);
+
+            if (tokenRequirements != null)
+            {
+                foreach (Type tokenRequirement in tokenRequirements)
+                {
+                    if (tokenRequirement == typeof(BlueTargetLockToken))
+                    {
+                        List<GenericToken> waysToPay = new List<GenericToken>();
+
+                        List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(HostShip, targetShip);
+                        GenericToken targetLockToken = HostShip.Tokens.GetToken(typeof(BlueTargetLockToken), letters.FirstOrDefault());
+                        if (targetLockToken != null) waysToPay.Add(targetLockToken);
+
+                        HostShip.CallOnGenerateAvailableAttackPaymentList(waysToPay);
+
+                        if (waysToPay.Count != 0) return true;
+                    }
+                    else
+                    {
+                        if (HostShip.Tokens.HasToken(tokenRequirement)) return true;
+                    }
+                }
+            }
+            else
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public virtual void PayAttackCost(Action callBack)
@@ -127,9 +144,9 @@ namespace Upgrade
 
         private void PayTokenCost(Action callBack)
         {
-            Type tokenRequirement = HostShip.GetWeaponAttackRequirement(this, isSilent: false);
+            List<Type> tokenRequirements = HostShip.GetWeaponAttackRequirement(this, isSilent: false);
 
-            if (tokenRequirement == typeof(BlueTargetLockToken))
+            if (tokenRequirements.Contains(typeof(BlueTargetLockToken)))
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
@@ -152,19 +169,26 @@ namespace Upgrade
                     else
                     {
                         callBack();
-                     }
+                    }
                 }
                 else
                 {
-                    PayAttackCostDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<PayAttackCostDecisionSubPhase>(
-                        "Choose how to pay attack cost",
-                        callBack
-                    );
-                    subphase.Weapon = this;
-                    subphase.Start();
+                    if (WeaponInfo.SpendsToken != null)
+                    {
+                        PayAttackCostDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<PayAttackCostDecisionSubPhase>(
+                            "Choose how to pay attack cost",
+                            callBack
+                        );
+                        subphase.Weapon = this;
+                        subphase.Start();
+                    }
+                    else
+                    {
+                        callBack();
+                    }
                 }
             }
-            else if (tokenRequirement == typeof(FocusToken) && WeaponInfo.SpendsToken == typeof(FocusToken))
+            else if (tokenRequirements.Contains(typeof(FocusToken)) && WeaponInfo.SpendsToken == typeof(FocusToken))
             {
                 Combat.Attacker.Tokens.SpendToken(typeof(FocusToken), callBack);
             }
@@ -192,8 +216,11 @@ namespace SubPhases
             List<GenericToken> waysToPay = new List<GenericToken>();
 
             List<char> letters = ActionsHolder.GetTargetLocksLetterPairs(Combat.Attacker, Combat.Defender);
-            GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
-            if (targetLockToken != null) waysToPay.Add(targetLockToken);
+            if (letters.Count > 0)
+            {
+                GenericToken targetLockToken = Combat.Attacker.Tokens.GetToken(typeof(BlueTargetLockToken), letters.First());
+                if (targetLockToken != null) waysToPay.Add(targetLockToken);
+            }
 
             Combat.Attacker.CallOnGenerateAvailableAttackPaymentList(waysToPay);
 
@@ -210,6 +237,14 @@ namespace SubPhases
                 {
                     AddDecision(
                         "Focus token",
+                        delegate {
+                            PayCost(wayToPay);
+                        });
+                }
+                else if (wayToPay.GetType() == typeof(CalculateToken))
+                {
+                    AddDecision(
+                        "Calculate token",
                         delegate {
                             PayCost(wayToPay);
                         });

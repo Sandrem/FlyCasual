@@ -148,7 +148,7 @@ namespace ActionsList
                     && (currentUpgrade.HasType(UpgradeType.Missile) || currentUpgrade.HasType(UpgradeType.Torpedo))
                     && currentUpgrade.State.Charges > 0)
                 {
-                    if (currentUpgrade.UpgradeInfo.WeaponInfo.RequiresToken == typeof(BlueTargetLockToken))
+                    if (currentUpgrade.UpgradeInfo.WeaponInfo.RequiresTokens.Contains(typeof(BlueTargetLockToken)))
                     {
                         curOrdinanceMax = currentUpgrade.UpgradeInfo.WeaponInfo.MaxRange;
                         curOrdinanceMin = currentUpgrade.UpgradeInfo.WeaponInfo.MinRange;

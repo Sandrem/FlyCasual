@@ -351,9 +351,9 @@ namespace Ship
             if (OnAtLeastOneCritWasCancelledByDefender != null) OnAtLeastOneCritWasCancelledByDefender();
         }
 
-        public Type GetWeaponAttackRequirement(GenericSpecialWeapon weapon, bool isSilent)
+        public List<Type> GetWeaponAttackRequirement(GenericSpecialWeapon weapon, bool isSilent)
         {
-            Type tokenTypeAttackRequirement = weapon.WeaponInfo.RequiresToken;
+            List<Type> tokenTypeAttackRequirement = weapon.WeaponInfo.RequiresTokens;
 
             GenericShip.OnModifyWeaponAttackRequirementGlobal?.Invoke(this, weapon, ref tokenTypeAttackRequirement, isSilent);
             OnModifyWeaponAttackRequirement?.Invoke(this, weapon, ref tokenTypeAttackRequirement, isSilent);

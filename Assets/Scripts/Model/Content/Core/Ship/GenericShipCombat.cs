@@ -130,6 +130,9 @@ namespace Ship
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
         public event EventHandlerDecloakTemplates OnGetAvailableDecloakTemplates;
         public event EventHandlerBoostTemplates OnGetAvailableBoostTemplates;
+        public event EventHandlerRefString OnUpdateChosenBoostTemplate;
+        public event EventHandlerRefManeuverTemplate OnUpdateChosenBarrelRollTemplate;
+        public event EventHandlerMovement OnUpdateChosenSlamTemplate;
 
         public event EventHandlerDiceroll OnImmediatelyAfterRolling;
         public event EventHandlerDiceroll OnImmediatelyAfterReRolling;
@@ -804,6 +807,21 @@ namespace Ship
             OnGetAvailableBoostTemplates?.Invoke(availableMoves, action);
 
             return availableMoves;
+        }
+
+        public void CallUpdateChosenBoostTemplate(ref string boosterTemplateName)
+        {
+            OnUpdateChosenBoostTemplate?.Invoke(ref boosterTemplateName);
+        }
+
+        public void CallUpdateChosenBarrelRollTemplate(ref ManeuverTemplate barrelRollTemplate)
+        {
+            OnUpdateChosenBarrelRollTemplate(ref barrelRollTemplate);
+        }
+
+        public void CallUpdateChosenSlamTemplate(GenericMovement movement)
+        {
+            OnUpdateChosenSlamTemplate(movement);
         }
 
         public bool AreWeaponsDisabled()

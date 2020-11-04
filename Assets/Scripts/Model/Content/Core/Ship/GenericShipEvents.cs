@@ -3,6 +3,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using BoardTools;
+using Movement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,6 +47,9 @@ namespace Ship
         public delegate void EventHandlerBarrelRollTemplates(List<ManeuverTemplate> availableTemplates);
         public delegate void EventHandlerDecloakTemplates(List<ManeuverTemplate> availableTemplates);
         public delegate void EventHandlerBoostTemplates(List<BoostMove> availableTemplates, GenericAction action);
+        public delegate void EventHandlerRefString(ref string name);
+        public delegate void EventHandlerRefManeuverTemplate(ref ManeuverTemplate maneuverTemplate);
+        public delegate void EventHandlerMovement(GenericMovement movement);
         public delegate void EventHandlerDiceroll(DiceRoll diceroll);
         public delegate void EventHandlerTokensList(List<Tokens.GenericToken> tokens);
         public delegate void EventHandlerShipWeaponTypeBool(GenericShip ship, GenericSpecialWeapon weapon, ref List<Type> tokenTypes, bool isSilent);

@@ -431,6 +431,23 @@ namespace Movement
             return result;
         }
 
+        public bool TryIncreaseSpeed()
+        {
+            bool isIncreased = false;
+
+            if (Speed < 3 && Bearing != ManeuverBearing.Straight)
+            {
+                Speed++;
+                isIncreased = true;
+            }
+            else if (Speed < 5 && Bearing == ManeuverBearing.Straight)
+            {
+                Speed++;
+                isIncreased = true;
+            }
+
+            return isIncreased;
+        }
     }
 
 }

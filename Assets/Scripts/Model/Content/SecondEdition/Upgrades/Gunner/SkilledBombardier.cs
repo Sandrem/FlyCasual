@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
             {
                 ManeuverSpeed reducedSpeed = availableTemplate.Speed - 1;
                 ManeuverTemplate reducedSpeedTemplate = new ManeuverTemplate(availableTemplate.Bearing, availableTemplate.Direction, reducedSpeed, isBombTemplate: true);
-                if (reducedSpeedTemplate.ValidTemplate()
+                if (reducedSpeedTemplate.IsValidTemplate()
                     && !availableTemplates.Any(t => t.Name == reducedSpeedTemplate.Name)
                     && !AddedTemplates.Any(t => t.Name == reducedSpeedTemplate.Name)
                     )
@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
 
                 ManeuverSpeed increasedSpeed = availableTemplate.Speed + 1;
                 ManeuverTemplate increasedSpeedTemplate = new ManeuverTemplate(availableTemplate.Bearing, availableTemplate.Direction, increasedSpeed, isBombTemplate: true);
-                if (increasedSpeedTemplate.ValidTemplate()
+                if (increasedSpeedTemplate.IsValidTemplate()
                     && !availableTemplates.Any(t => t.Name == increasedSpeedTemplate.Name)
                     && !AddedTemplates.Any(t => t.Name == increasedSpeedTemplate.Name)
                     )

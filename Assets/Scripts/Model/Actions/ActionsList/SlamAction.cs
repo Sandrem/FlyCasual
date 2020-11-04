@@ -10,6 +10,7 @@ namespace ActionsList
     public class SlamAction : GenericAction
     {
         private bool canBePerformedAsFreeAction = false;
+        public override bool CanBePerformedAsAFreeAction { get { return canBePerformedAsFreeAction; } }
 
         public SlamAction()
         {
@@ -22,15 +23,6 @@ namespace ActionsList
             this.canBePerformedAsFreeAction = canBePerformedAsFreeAction;
         }
 
-
-        public override bool CanBePerformedAsAFreeAction
-        {
-            get
-            {
-                return canBePerformedAsFreeAction;
-            }
-        }
-
         public override void ActionTake()
         {
             if (Selection.ThisShip.Owner.UsesHotacAiRules)
@@ -41,13 +33,20 @@ namespace ActionsList
             {
                 Phases.CurrentSubPhase.Pause();
 
-                Selection.ThisShip.Owner.SelectManeuver(ShipMovementScript.SendAssignManeuverCommand, ExecuteSelectedManeuver, IsSameSpeed);
+                Selection.ThisShip.Owner.SelectManeuver(
+                    ShipMovementScript.SendAssignManeuverCommand,
+                    ExecuteSelectedManeuver,
+                    IsSameSpeed
+                );
             }
         }
 
         private void ExecuteSelectedManeuver()
         {
             Selection.ThisShip.AssignedManeuver.IsRevealDial = false;
+
+            Selection.ThisShip.CallUpdateChosenSlamTemplate(Selection.ThisShip.AssignedManeuver);
+
             ShipMovementScript.LaunchMovement(AssignWeaponsDisabledToken);
         }
 

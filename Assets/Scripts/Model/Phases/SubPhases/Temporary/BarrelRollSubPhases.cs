@@ -106,6 +106,8 @@ namespace SubPhases
 
         public virtual void PerfromTemplatePlanning()
         {
+            Selection.ThisShip.CallUpdateChosenBarrelRollTemplate(ref SelectedTemplate);
+
             Edition.Current.BarrelRollTemplatePlanning();
         }
 

@@ -145,7 +145,7 @@ namespace BoardTools
             TemplateGO = null;
         }
 
-        public bool ValidTemplate()
+        public bool IsValidTemplate()
         {
             bool result = true;
 
@@ -175,6 +175,30 @@ namespace BoardTools
             }
 
             return result;
+        }
+
+        public bool TryIncreaseSpeed()
+        {
+            Speed++;
+
+            string bearingString = Bearing.ToString();
+            string speedString = Speed.ToString().Replace("Speed", "");
+            TemplatePrefabName = bearingString + speedString + ((IsSideTemplate) ? "Alt" : "");
+
+            if (IsValidTemplate())
+            {
+                return true;
+            }
+            else
+            {
+                Speed--;
+
+                bearingString = Bearing.ToString();
+                speedString = Speed.ToString().Replace("Speed", "");
+                TemplatePrefabName = bearingString + speedString + ((IsSideTemplate) ? "Alt" : "");
+
+                return false;
+            }
         }
     }
 }

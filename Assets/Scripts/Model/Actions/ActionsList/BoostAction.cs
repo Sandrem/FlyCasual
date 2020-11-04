@@ -236,6 +236,8 @@ namespace SubPhases
         {
             if (SelectedBoostHelper != null)
             {
+                TheShip.CallUpdateChosenBoostTemplate(ref SelectedBoostHelper);
+
                 (HostAction as BoostAction).SelectedBoostTemplate = SelectedBoostHelper;
                 TryConfirmBoostPosition();
             }
@@ -249,9 +251,13 @@ namespace SubPhases
         {
             TheShip.GetBoosterHelper().Find(SelectedBoostHelper).gameObject.SetActive(true);
 
+            Debug.Log(SelectedBoostHelper);
+
             Transform newBase = TheShip.GetBoosterHelper().Find(SelectedBoostHelper + "/Finisher/BasePosition");
             ShipStand.transform.position = new Vector3(newBase.position.x, 0, newBase.position.z);
             ShipStand.transform.rotation = newBase.rotation;
+
+            Debug.Log(TheShip.GetBoosterHelper().Find(SelectedBoostHelper).name);
 
             obstaclesStayDetectorMovementTemplate = TheShip.GetBoosterHelper().Find(SelectedBoostHelper).GetComponentInChildren<ObstaclesStayDetectorForced>();
             obstaclesStayDetectorMovementTemplate.TheShip = TheShip;
@@ -449,6 +455,12 @@ namespace SubPhases
                     break;
                 case "Bank 2 Right":
                     BoostMovement = new BankBoost(2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.None);
+                    break;
+                case "Turn 2 Right":
+                    BoostMovement = new TurnBoost(2, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.None);
+                    break;
+                case "Turn 2 Left":
+                    BoostMovement = new TurnBoost(2, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.None);
                     break;
                 default:
                     BoostMovement = new StraightBoost(1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.None);

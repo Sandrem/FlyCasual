@@ -185,7 +185,15 @@ namespace Abilities
         /// <summary>
         /// Shows "Take a decision" window for ability with Yes / No buttons to Opponent
         /// </summary>
-        protected void AskOpponent(Func<bool> aiUseByDefault, EventHandler useAbility, EventHandler dontUseAbility = null, string infoText = null, bool showSkipButton = true)
+        protected void AskOpponent(
+            Func<bool> aiUseByDefault,
+            EventHandler useAbility,
+            EventHandler dontUseAbility = null,
+            string descriptionShort = null,
+            string descriptionLong = null,
+            IImageHolder imageSource = null,
+            bool showSkipButton = true
+        )
         {
             if (dontUseAbility == null) dontUseAbility = DontUseAbility;
 
@@ -195,7 +203,9 @@ namespace Abilities
                 Triggers.FinishTrigger
             );
 
-            opponentDecision.DescriptionShort = infoText ?? "Allow to use " + Name + "?";
+            opponentDecision.DescriptionShort = descriptionShort ?? "Allow to use " + Name + "?";
+            opponentDecision.DescriptionLong = descriptionLong ?? null;
+            opponentDecision.ImageSource = imageSource ?? null;
 
             opponentDecision.RequiredPlayer = Roster.AnotherPlayer(HostShip.Owner.PlayerNo);
 

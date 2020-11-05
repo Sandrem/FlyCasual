@@ -78,7 +78,7 @@ namespace Abilities.SecondEdition
         private void PlaceTokenOnCard(Type tokenType)
         {
             StoredTokens[tokenType]++;
-            HostUpgrade.NamePostfix = $"F:{StoredTokens[typeof(FocusToken)]} E:{StoredTokens[typeof(EvadeToken)]}";
+            HostUpgrade.NamePostfix = $"(F:{StoredTokens[typeof(FocusToken)]} E:{StoredTokens[typeof(EvadeToken)]})";
             Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
 
             DecisionSubPhase.ConfirmDecision();
@@ -122,7 +122,7 @@ namespace Abilities.SecondEdition
             DecisionSubPhase.ConfirmDecisionNoCallback();
             
             StoredTokens[type]--;
-            HostUpgrade.NamePostfix = $"F:{StoredTokens[typeof(FocusToken)]} E:{StoredTokens[typeof(EvadeToken)]}";
+            HostUpgrade.NamePostfix = $"(F:{StoredTokens[typeof(FocusToken)]} E:{StoredTokens[typeof(EvadeToken)]})";
             Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
 
             HostShip.Tokens.AssignToken(type, Triggers.FinishTrigger);

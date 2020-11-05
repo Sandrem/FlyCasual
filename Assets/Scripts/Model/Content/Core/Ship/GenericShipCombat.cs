@@ -171,6 +171,8 @@ namespace Ship
 
         public event EventHandlerShipRefInt OnShotObstructedByMe;
 
+        public event EventHandlerShipRefBool OnTargetForAttackIsAllowed;
+
         // TRIGGERS
 
         public void CallOnActivationPhaseStart()
@@ -988,6 +990,11 @@ namespace Ship
         public void CallShotObstructedByMe(GenericShip attacker, ref int count)
         {
             OnShotObstructedByMe?.Invoke(attacker, ref count);
+        }
+
+        public void CallTargetForAttackIsAllowed(GenericShip target, ref bool isAllowed)
+        {
+            OnTargetForAttackIsAllowed?.Invoke(target, ref isAllowed);
         }
     }
 

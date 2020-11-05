@@ -192,7 +192,13 @@ public static class Combat
 
         MovementTemplates.ReturnRangeRuler();
 
-        if (ChosenWeapon != null && Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent))
+        bool isAttackAllowedByAbilities = true;
+        Selection.ThisShip.CallTargetForAttackIsAllowed(Selection.AnotherShip, ref isAttackAllowedByAbilities);
+
+        if (isAttackAllowedByAbilities
+            && ChosenWeapon != null
+            && Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent)
+        )
         {
             if (!DebugManager.NoCinematicCamera)
             {

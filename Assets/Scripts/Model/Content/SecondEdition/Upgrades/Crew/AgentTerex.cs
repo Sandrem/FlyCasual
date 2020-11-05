@@ -17,6 +17,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Crew,
                 cost: 6,
                 restriction: new FactionRestriction(Faction.FirstOrder),
+                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.AgentTerexCrewAbility)
             );
 

@@ -20,6 +20,7 @@ namespace UpgradesList.SecondEdition
                 addForce: 1,
                 addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Purple),
                 restriction: new FactionRestriction(Faction.Republic, Faction.Separatists),
+                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.ChancellorPalpatineAbility)
             );
 

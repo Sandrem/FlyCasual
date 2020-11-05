@@ -93,6 +93,7 @@ namespace Abilities.SecondEdition
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
+            HostUpgrade.State.SpendCharge();
             ActionsHolder.AcquireTargetLock(TargetShip, LastMovedShip, AssignStress, AssignStress);
         }
 

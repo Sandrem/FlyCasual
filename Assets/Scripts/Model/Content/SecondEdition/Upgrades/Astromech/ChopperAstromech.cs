@@ -72,7 +72,7 @@ namespace Abilities.SecondEdition
             return HostShip
                 .UpgradeBar
                 .GetUpgradesAll()
-                .Where(u => u.State.UsesCharges && !u.UpgradeInfo.RegensCharges)
+                .Where(u => u.State.UsesCharges && u.UpgradeInfo.RegensChargesCount == 0)
                 .ToList();
         }
 

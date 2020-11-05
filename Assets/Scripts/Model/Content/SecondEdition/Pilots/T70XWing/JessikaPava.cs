@@ -70,7 +70,7 @@ namespace ActionsList.SecondEdition
             GenericUpgrade astromechUpgrade = HostShip.UpgradeBar.GetInstalledUpgrade(UpgradeType.Astromech);
             if (astromechUpgrade != null)
             {
-                if (astromechUpgrade.State.Charges > 0 & !astromechUpgrade.UpgradeInfo.RegensCharges) return astromechUpgrade;
+                if (astromechUpgrade.State.Charges > 0 && astromechUpgrade.UpgradeInfo.RegensChargesCount == 0) return astromechUpgrade;
             }
 
             return null;

@@ -83,5 +83,17 @@ namespace Upgrade
                 Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
             }
         }
+
+        public void RestoreCharges(int count)
+        {
+            if (Charges < MaxCharges && !HostUpgrade.UpgradeInfo.CannotBeRecharged)
+            {
+                if (Charges == 0) Roster.ShowUpgradeAsActive(HostShip, HostUpgrade.UpgradeInfo.Name);
+
+                Charges = Math.Min(Charges + count, MaxCharges);
+
+                Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Abilities;
 using Actions;
 using ActionsList;
-using Arcs;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace Upgrade
         public bool IsSolitary { get; private set; }
         public List<Type> AbilityTypes { get; private set; }
         public int Charges { get; private set; }
-        public bool RegensCharges { get; private set; }
+        public int RegensChargesCount { get; private set; }
         public bool CannotBeRecharged { get; private set; }
         public int SEImageNumber { get; private set; }
         public UpgradeCardRestrictions Restrictions { get; private set; }
@@ -53,6 +52,7 @@ namespace Upgrade
             UpgradeCardRestrictions restrictions = null,
             int charges = 0,
             bool regensCharges = false,
+            int regensChargesCount = 0,
             bool cannotBeRecharged = false,
             int seImageNumber = 0,
             SpecialWeaponInfo weaponInfo = null,
@@ -76,7 +76,6 @@ namespace Upgrade
             Name = name;
             Cost = cost;
             Charges = charges;
-            RegensCharges = regensCharges;
             CannotBeRecharged = cannotBeRecharged;
             SEImageNumber = seImageNumber;
             WeaponInfo = weaponInfo;
@@ -88,6 +87,9 @@ namespace Upgrade
 
             Limited = (isLimited) ? 1 : 0;
             if (limited != 0) Limited = limited;
+
+            if (regensCharges) { RegensChargesCount = 1; }
+            else { RegensChargesCount = regensChargesCount; }
 
             FeIsLimitedPerShip = feIsLimitedPerShip;
 

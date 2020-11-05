@@ -14,7 +14,7 @@ namespace Ship
 {
     namespace SecondEdition.RZ2AWing
     {
-        public class RZ2AWing : FirstEdition.AWing.AWing
+        public class RZ2AWing : FirstEdition.AWing.AWing, AWing
         {
             public RZ2AWing() : base()
             {

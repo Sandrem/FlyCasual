@@ -818,7 +818,7 @@ namespace Ship
 
         public void CallUpdateChosenBarrelRollTemplate(ref ManeuverTemplate barrelRollTemplate)
         {
-            OnUpdateChosenBarrelRollTemplate(ref barrelRollTemplate);
+            OnUpdateChosenBarrelRollTemplate?.Invoke(ref barrelRollTemplate);
         }
 
         public void CallUpdateChosenSlamTemplate(GenericMovement movement)

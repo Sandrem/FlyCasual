@@ -823,17 +823,14 @@ namespace Ship
 
         public void CallUpdateChosenSlamTemplate(GenericMovement movement)
         {
-            OnUpdateChosenSlamTemplate(movement);
+            OnUpdateChosenSlamTemplate?.Invoke(movement);
         }
 
         public bool AreWeaponsDisabled()
         {
-            bool result = Tokens.HasToken(typeof(Tokens.WeaponsDisabledToken));
+            bool result = Tokens.HasToken(typeof(WeaponsDisabledToken));
 
-            if (result == true)
-            {
-                if (OnWeaponsDisabledCheck != null) OnWeaponsDisabledCheck(ref result);
-            }
+            if (result == true) OnWeaponsDisabledCheck?.Invoke(ref result);
 
             return result;
         }

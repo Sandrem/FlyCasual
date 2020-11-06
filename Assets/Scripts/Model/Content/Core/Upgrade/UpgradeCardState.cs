@@ -86,11 +86,16 @@ namespace Upgrade
 
         public void RestoreCharges(int count)
         {
-            if (Charges < MaxCharges && !HostUpgrade.UpgradeInfo.CannotBeRecharged)
+            if (!HostUpgrade.UpgradeInfo.CannotBeRecharged)
             {
-                if (Charges == 0) Roster.ShowUpgradeAsActive(HostShip, HostUpgrade.UpgradeInfo.Name);
-
-                Charges = Math.Min(Charges + count, MaxCharges);
+                if (HostUpgrade.UpgradeInfo.RegensChargesCount > 0)
+                {
+                    Charges = Math.Min(Charges + count, MaxCharges);
+                }
+                else if (HostUpgrade.UpgradeInfo.RegensChargesCount < 0)
+                {
+                    Charges = Math.Max(Charges + count, 0);
+                }
 
                 Roster.UpdateUpgradesPanel(HostShip, HostShip.InfoPanel);
             }

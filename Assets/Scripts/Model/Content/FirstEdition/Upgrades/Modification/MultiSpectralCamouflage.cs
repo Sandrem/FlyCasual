@@ -41,10 +41,10 @@ namespace Abilities.FirstEdition
             GenericShip.OnTokenIsAssignedGlobal += RegisterMultiSpectralCamouflageAbility;
         }
 
-        private void RegisterMultiSpectralCamouflageAbility(GenericShip ship, Type tokenType)
+        private void RegisterMultiSpectralCamouflageAbility(GenericShip ship, GenericToken token)
         {
             // Trigger only when a ship receives a BlueTargetLockToken
-            if (tokenType != typeof(BlueTargetLockToken)) return;
+            if (token.GetType() != typeof(BlueTargetLockToken)) return;
 
             BlueTargetLockToken assignedBlueLock = (BlueTargetLockToken)ship.Tokens.GetToken(typeof(BlueTargetLockToken), '*');
             TargetLockLetter = assignedBlueLock.Letter;
@@ -54,9 +54,9 @@ namespace Abilities.FirstEdition
 
             // Make sure Host Ship only has one red target lock
             int redTargetLockCount = 0;
-            foreach (GenericToken token in HostShip.Tokens.GetAllTokens())
+            foreach (GenericToken anotherToken in HostShip.Tokens.GetAllTokens())
             {
-                if (token is RedTargetLockToken)
+                if (anotherToken is RedTargetLockToken)
                 {
                     redTargetLockCount += 1;
                 }

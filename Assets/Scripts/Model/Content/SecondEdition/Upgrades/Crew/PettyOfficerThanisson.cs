@@ -30,7 +30,7 @@ namespace Abilities.SecondEdition
     public class PettyOfficerThanissonCrewAbility : GenericAbility
     {
         private GenericShip ShipWithToken;
-        private System.Type token;
+        private GenericToken Token;
 
         public override void ActivateAbility()
         {
@@ -42,23 +42,23 @@ namespace Abilities.SecondEdition
             GenericShip.OnTokenIsAssignedGlobal -= PettyOfficerThanissonEffect;
         }
 
-        private void PettyOfficerThanissonEffect(GenericShip ship, System.Type tokenType)
+        private void PettyOfficerThanissonEffect(GenericShip ship, GenericToken token)
         {
-            TokenColors tokenColor = TokensManager.GetTokenColorByType(tokenType);
+            TokenColors tokenColor = token.TokenColor;
 
             //During the Activation or Engagement Phase, after an enemy ship in your "arc standard
             //front" at range 0-1 gains a red or orange token, if you are not stressed, you may gain 1 stress 
             //token. If you do, that ship gains 1 additional token of the type that it gained.          
             if ((Phases.CurrentPhase is MainPhases.ActivationPhase || Phases.CurrentPhase is MainPhases.CombatPhase) 
                 && (tokenColor == TokenColors.Red || tokenColor == TokenColors.Orange)
-                && tokenType != typeof(RedTargetLockToken)
+                && token.GetType() != typeof(RedTargetLockToken)
                 && !HostShip.Tokens.HasToken(typeof(StressToken))
                 && ship.Owner.PlayerNo != HostShip.Owner.PlayerNo
                 && HostShip.SectorsInfo.IsShipInSector(ship, ArcType.Front)
                 && HostShip.SectorsInfo.RangeToShipBySector(ship, ArcType.Front) <= 1)
             {
                 ShipWithToken = ship;
-                token = tokenType;
+                Token = token;
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, ShowDecision);
             }
         }
@@ -71,7 +71,7 @@ namespace Abilities.SecondEdition
                     HostUpgrade.UpgradeInfo.Name,
                     ShouldUseAbility,
                     UseAbility,
-                    descriptionLong: "Do you want to gain a Stress Token to assign an additional " + token.Name + " to " + ShipWithToken.PilotInfo.PilotName + "?",
+                    descriptionLong: "Do you want to gain a Stress Token to assign an additional " + Token.Name + " to " + ShipWithToken.PilotInfo.PilotName + "?",
                     imageHolder: HostUpgrade
                 );
             } 
@@ -91,15 +91,15 @@ namespace Abilities.SecondEdition
             DecisionSubPhase.ConfirmDecisionNoCallback();
          
             HostShip.Tokens.AssignToken(
-                typeof(StressToken), delegate { AssignExtraToken(token); }
+                typeof(StressToken), delegate { AssignExtraToken(Token.GetType()); }
             );
         }
 
         private void AssignExtraToken(System.Type tokenToAssign)
         {
-            if(token == typeof(TractorBeamToken))
+            if (Token is TractorBeamToken)
             {
-                GenericToken tractorToken = new Tokens.TractorBeamToken(ShipWithToken, HostShip.Owner);
+                GenericToken tractorToken = new TractorBeamToken(ShipWithToken, HostShip.Owner);
                 ShipWithToken.Tokens.AssignToken(tractorToken, Triggers.FinishTrigger);
             } 
             else 

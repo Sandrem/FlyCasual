@@ -60,7 +60,7 @@ namespace Ship
         public event EventHandlerShipType OnTokenIsAssigned;
         public event EventHandlerShipType BeforeTokenIsAssigned;
         public static event EventHandlerShipType BeforeTokenIsAssignedGlobal;
-        public static event EventHandlerShipType OnTokenIsAssignedGlobal;
+        public static event EventHandlerShipToken OnTokenIsAssignedGlobal;
         public event EventHandlerShipType OnTokenIsSpent;
         public static event EventHandlerShipType OnTokenIsSpentGlobal;
         public event EventHandlerShipType OnTokenIsRemoved;
@@ -578,7 +578,7 @@ namespace Ship
             TokensChangePanel.CreateTokensChangePanel(this, token, isAssigned: true);
 
             OnTokenIsAssigned?.Invoke(this, token.GetType());
-            OnTokenIsAssignedGlobal?.Invoke(this, token.GetType());
+            OnTokenIsAssignedGlobal?.Invoke(this, token);
 
             Tokens.TokenToAssign = null;
 

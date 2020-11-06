@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
             GenericShip.OnTokenIsAssignedGlobal -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, Type tokenType)
+        private void CheckAbility(GenericShip ship, GenericToken token)
         {
             // To avoid infinite loop
             if (IsAbilityUsed) return;
@@ -52,8 +52,7 @@ namespace Abilities.SecondEdition
 
             if (ActionsHolder.HasTargetLockOn(HostShip, ship)) return;
 
-            TokenColors tokenColor = TokensManager.GetTokenColorByType(tokenType);
-            if (tokenColor != TokenColors.Red && tokenColor != TokenColors.Orange) return;
+            if (token.TokenColor != TokenColors.Red && token.TokenColor != TokenColors.Orange) return;
 
             DistanceInfo distInfo = new DistanceInfo(HostShip, ship);
             if (distInfo.Range == 1 || distInfo.Range == 2)

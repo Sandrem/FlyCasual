@@ -7,6 +7,7 @@ using Movement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -38,6 +39,7 @@ namespace Ship
         public delegate void EventHandlerShipTargetLockable(GenericShip ship, ITargetLockable target);
         public delegate void EventHandlerTargetLockableType(ITargetLockable target, System.Type type);
         public delegate void EventHandlerShipType(GenericShip ship, System.Type type);
+        public delegate void EventHandlerShipToken(GenericShip ship, GenericToken token);
         public delegate void EventHandlerShipTypeBool(GenericShip ship, System.Type type, ref bool data);
         public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement.ManeuverHolder movement);
         public delegate void EventHandlerShipCritArgs(GenericShip ship, GenericDamageCard crit, EventArgs e = null);

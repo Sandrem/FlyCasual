@@ -54,9 +54,9 @@ namespace RulesList
             return Edition.Current.IsTokenCanBeDiscardedByJam(token);
         }
 
-        private void CheckJam(GenericShip ship, System.Type tokenType)
+        private void CheckJam(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(JamToken))
+            if (token is JamToken)
             {
                 if (ship.Tokens.HasGreenTokens || ship.Tokens.HasToken(typeof(BlueTargetLockToken), '*'))
                 {
@@ -65,7 +65,7 @@ namespace RulesList
             }
             else
             {
-                if (ship.Tokens.HasToken(typeof(JamToken)) && IsJammableToken(tokenType))
+                if (ship.Tokens.HasToken(typeof(JamToken)) && IsJammableToken(token.GetType()))
                 {
                     RegisterJammedDecisionTrigger(ship);
                 }

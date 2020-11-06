@@ -48,13 +48,13 @@ namespace Abilities.SecondEdition
             GenericShip.OnTokenIsAssignedGlobal -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, Type tokenType)
+        private void CheckAbility(GenericShip ship, GenericToken token)
         {
             if (HostShip.State.Charges < 3) return;
 
             if (ship.Owner.PlayerNo == HostShip.Owner.PlayerNo) return;
 
-            if (tokenType != typeof(IonToken)) return;
+            if (token.GetType() != typeof(IonToken)) return;
 
             DistanceInfo distInfo = new DistanceInfo(HostShip, ship);
             if (distInfo.Range < 4)

@@ -44,13 +44,13 @@ namespace Abilities.SecondEdition
             GenericShip.OnTokenIsAssignedGlobal -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, System.Type tokenType)
+        private void CheckAbility(GenericShip ship, GenericToken token)
         {
             if (Phases.CurrentPhase.GetType() != typeof(MainPhases.ActivationPhase)
                 && Phases.CurrentPhase.GetType() != typeof(MainPhases.CombatPhase)
             ) return;
 
-            if (tokenType != typeof(StressToken)) return;
+            if (token.GetType() != typeof(StressToken)) return;
 
             if (HostShip.State.Charges == 0) return;
 

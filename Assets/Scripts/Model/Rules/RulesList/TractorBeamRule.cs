@@ -27,9 +27,9 @@ namespace RulesList
             }
         }
 
-        private void CheckForTractorBeam(GenericShip ship, Type tokenType)
+        private void CheckForTractorBeam(GenericShip ship, GenericToken token)
         {
-            if (tokenType != typeof(TractorBeamToken)) 
+            if (!(token is TractorBeamToken)) 
             {
                 return;
             }
@@ -38,8 +38,7 @@ namespace RulesList
 
             if (IsTractorBeamReposition(ship))
             {
-                TractorBeamToken token = (TractorBeamToken)ship.Tokens.GetToken(typeof(TractorBeamToken));
-                token.Assigner.PerformTractorBeamReposition(ship);
+                (token as TractorBeamToken).Assigner.PerformTractorBeamReposition(ship);
             }
         }
 

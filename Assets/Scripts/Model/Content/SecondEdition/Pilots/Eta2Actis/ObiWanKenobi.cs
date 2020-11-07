@@ -24,7 +24,7 @@ namespace Ship.SecondEdition.Eta2Actis
                 extraUpgradeIcon: UpgradeType.ForcePower
             );
 
-            ModelInfo.SkinName = "Red";
+            ModelInfo.SkinName = "Blue";
 
             PilotNameCanonical = "obiwankenobi-eta2actis";
 

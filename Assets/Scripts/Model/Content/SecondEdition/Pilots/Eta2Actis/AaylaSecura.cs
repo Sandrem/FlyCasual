@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.Eta2Actis
                 extraUpgradeIcon: UpgradeType.ForcePower
             );
 
-            ModelInfo.SkinName = "Green";
+            ModelInfo.SkinName = "Blue";
 
             PilotNameCanonical = "aaylasecura-eta2actis";
 

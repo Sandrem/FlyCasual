@@ -19,10 +19,10 @@ public static class DebugManager
     public static bool DebugAllDamageIsCrits;
 
     public static bool DebugNoSquadPointsLimit;
+    public static bool NoDefaultAiSquads;
 
     public static bool DebugNoCombat;
     public static bool DebugStraightToCombat;
-
     public static bool NoObstaclesSetup;
 
     public static bool DebugMovementShowTempBases; // = true;

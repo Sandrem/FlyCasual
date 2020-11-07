@@ -988,16 +988,25 @@ namespace SquadBuilderNS
         {
             string filename = "";
             var json = GetRandomAiSquad(out filename);
-            SetPlayerSquadFromImportedJson
-            (
-                json,
-                GetSquadList(CurrentPlayer),
-                delegate
-                {
-                    SetAiType(Options.AiType);
-                    callback();
-                }
-            );
+            if (json != null)
+            {
+                SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
+
+                SetPlayerSquadFromImportedJson
+                (
+                    json,
+                    GetSquadList(CurrentPlayer),
+                    delegate
+                    {
+                        SetAiType(Options.AiType);
+                        callback();
+                    }
+                );
+            }
+            else
+            {
+                Messages.ShowError("Squadrons for AI aren't found");
+            }
         }
 
         private static JSONObject GetRandomAiSquad(out string filename)
@@ -1005,33 +1014,42 @@ namespace SquadBuilderNS
             string directoryPath = Application.persistentDataPath + "/" + Edition.Current.Name + "/RandomAiSquadrons";
             if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
 
-            CreatePreGeneratedRandomAiSquads();
+            ManagePreGeneratedRandomAiSquads();
 
             string[] filePaths = Directory.GetFiles(directoryPath);
-            int randomFileIndex = UnityEngine.Random.Range(0, filePaths.Length);
+            if (filePaths.Length != 0)
+            {
+                int randomFileIndex = UnityEngine.Random.Range(0, filePaths.Length);
 
-            string content = File.ReadAllText(filePaths[randomFileIndex]);
-            JSONObject squadJson = new JSONObject(content);
+                string content = File.ReadAllText(filePaths[randomFileIndex]);
+                JSONObject squadJson = new JSONObject(content);
 
-            filename = Path.GetFileName(filePaths[randomFileIndex]);
+                filename = Path.GetFileName(filePaths[randomFileIndex]);
 
-            return squadJson;
+                return squadJson;
+            }
+            else
+            {
+                filename = null;
+                return null;
+            }
         }
 
-        // NOT USED
-        private static bool IsGenerationOfSquadsRequired()
-        {
-            return true;
-        }
-
-        private static void CreatePreGeneratedRandomAiSquads()
+        private static void ManagePreGeneratedRandomAiSquads()
         {
             string directoryPath = Application.persistentDataPath + "/" + Edition.Current.Name + "/RandomAiSquadrons";
 
             foreach (var squadron in Edition.Current.PreGeneratedAiSquadrons)
             {
                 string filePath = directoryPath + "/" + squadron.Key + ".json";
-                File.WriteAllText(filePath, squadron.Value);
+                if (!DebugManager.NoDefaultAiSquads)
+                {
+                    File.WriteAllText(filePath, squadron.Value);
+                }
+                else
+                {
+                    if (File.Exists(filePath)) File.Delete(filePath);
+                }
             }
         }
 

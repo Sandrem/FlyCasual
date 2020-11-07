@@ -72,7 +72,6 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void NextPlayerRandomAi()
     {
-        SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
         SquadBuilder.SetRandomAiSquad(StartBattle);
     }
 

@@ -6,8 +6,8 @@
         {
             public NoDefaultAiSquadronsExtraOption()
             {
-                Name = "No Default Ai Squadrons";
-                Description = "Use only own custom squad lists for \"Vs Random Ai Squadron\" mode.\n" +
+                Name = "No Default AI Squadrons";
+                Description = "Use only own custom squadrons for \"Vs Random AI Squadron\" mode.\n" +
                     "(Folder path (Windows): %userprofile%\\AppData\\LocalLow\\Sandrem\\Fly Casual\\Second Edition\\RandomAiSquadrons)\n" +
                     "(Folder path (MacOS): ~/Library/Application Support/unity.Sandrem.X-Wing TMG Simulator/Second Edition/RandomAiSquadrons)";
             }

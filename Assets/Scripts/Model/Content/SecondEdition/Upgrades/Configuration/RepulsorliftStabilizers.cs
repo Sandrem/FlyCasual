@@ -4,7 +4,7 @@ using System;
 using SubPhases;
 using System.Collections.Generic;
 using Movement;
-using UnityEngine;
+using System.Linq;
 
 namespace UpgradesList.SecondEdition
 {
@@ -12,8 +12,6 @@ namespace UpgradesList.SecondEdition
     {
         public RepulsorliftStabilizersInactive() : base()
         {
-            IsHidden = true; // Temporary Hidden
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Repulsorlift Stabilizers (Inactive)",
                 UpgradeType.Configuration,
@@ -41,7 +39,7 @@ namespace UpgradesList.SecondEdition
                 "Repulsorlift Stabilizers (Active)",
                 UpgradeType.Configuration,
                 cost: 3,
-                //restriction: new ShipRestriction(typeof(Ship.SecondEdition.HMPDroidGunship.HMPDroidGunship)),
+                restriction: new ShipRestriction(typeof(Ship.SecondEdition.HMPDroidGunship.HMPDroidGunship)),
                 abilityType: typeof(Abilities.SecondEdition.RepulsorliftStabilizersActiveAbility)
             );
 
@@ -57,6 +55,8 @@ namespace Abilities.SecondEdition
 {
     public class RepulsorliftStabilizersInactiveAbility : GenericAbility
     {
+        public bool JustFlipped { get; set; }
+
         public override void ActivateAbility()
         {
             HostShip.AfterGetManeuverColorDecreaseComplexity += ApplyAbility;
@@ -76,13 +76,20 @@ namespace Abilities.SecondEdition
                 movement.ColorComplexity = GenericMovement.ReduceComplexity(movement.ColorComplexity);
                 // Update revealed dial in UI
                 Roster.UpdateAssignedManeuverDial(HostShip, HostShip.AssignedManeuver);
-                Messages.ShowInfoToHuman("Repulsorlift Stabilizers (Active): Difficulty of straight maneuvers is reduced");
+                Messages.ShowInfoToHuman("Repulsorlift Stabilizers (Inactive): Difficulty of straight maneuvers is reduced");
             }
         }
 
         private void RegisterTrigger(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToFlip);
+            if (!JustFlipped)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToFlip);
+            }
+            else
+            {
+                JustFlipped = false;
+            }
         }
 
         private void AskToFlip(object sender, EventArgs e)
@@ -103,83 +110,89 @@ namespace Abilities.SecondEdition
         }
     }
 
-    public class RepulsorliftStabilizersActiveAbility : CombinedAbility
+    public class RepulsorliftStabilizersActiveAbility : GenericAbility
     {
-        public override List<Type> CombinedAbilities => new List<Type>()
+        public override void ActivateAbility()
         {
-            typeof(RepulsorliftStabilizersActiveSideslipAbility),
-            typeof(RepulsorliftStabilizersActiveFlipAbility),
-            typeof(RepulsorliftStabilizersActiveMandatoryFlipAbility)
-        };
-
-        private class RepulsorliftStabilizersActiveSideslipAbility : TriggeredAbility
-        {
-            public override TriggerForAbility Trigger => new AfterYourRevealManeuver
-            (
-                ifBank: true,
-                ifTurn: true
-            );
-
-            public override AbilityPart Action => new ChangeManeuverAction
-            (
-                changeToSideslip: true
-            );
+            HostShip.OnManeuverIsRevealed += CheckRevealedManeuved;
+            HostShip.OnMovementFinishSuccessfully += RegisterMovementFinishTrigger;
+            HostShip.OnMovementFinish += CheckMovementType;
         }
 
-        private class RepulsorliftStabilizersActiveFlipAbility : GenericAbility
+        public override void DeactivateAbility()
         {
-            public override void ActivateAbility()
-            {
-                HostShip.OnMovementFinishSuccessfully += RegisterTrigger;
-            }
+            HostShip.OnManeuverIsRevealed -= CheckRevealedManeuved;
+            HostShip.OnMovementFinishSuccessfully -= RegisterMovementFinishTrigger;
+            HostShip.OnMovementFinish -= CheckMovementType;
+        }
 
-            public override void DeactivateAbility()
+        private void CheckRevealedManeuved(GenericShip ship)
+        {
+            if (ship.RevealedManeuver != null
+            )
             {
-                HostShip.OnMovementFinishSuccessfully -= RegisterTrigger;
-            }
-
-            private void RegisterTrigger(GenericShip ship)
-            {
-                if (HostShip.AssignedManeuver.Bearing != ManeuverBearing.SideslipBank
-                    && HostShip.AssignedManeuver.Bearing != ManeuverBearing.SideslipTurn)
+                if (ship.RevealedManeuver.Bearing == ManeuverBearing.Bank)
                 {
-                    RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToFlip);
+                    GenericMovement movement = new SideslipBankMovement(
+                        HostShip.RevealedManeuver.Speed,
+                        HostShip.RevealedManeuver.Direction,
+                        ManeuverBearing.SideslipBank,
+                        HostShip.RevealedManeuver.ColorComplexity
+                    );
+
+                    Messages.ShowInfo("Maneuver is changed to Sideslip");
+                    HostShip.SetAssignedManeuver(movement);
+                }
+                else if (ship.RevealedManeuver.Bearing == ManeuverBearing.Turn)
+                {
+                    GenericMovement movement = new SideslipTurnMovement(
+                        HostShip.RevealedManeuver.Speed,
+                        HostShip.RevealedManeuver.Direction,
+                        ManeuverBearing.SideslipTurn,
+                        HostShip.RevealedManeuver.ColorComplexity
+                    );
+
+                    Messages.ShowInfo("Maneuver is changed to Sideslip");
+                    HostShip.SetAssignedManeuver(movement);
                 }
             }
+        }
 
-            private void AskToFlip(object sender, EventArgs e)
+        private void RegisterMovementFinishTrigger(GenericShip ship)
+        {
+            if (HostShip.AssignedManeuver.Bearing != ManeuverBearing.SideslipBank
+                && HostShip.AssignedManeuver.Bearing != ManeuverBearing.SideslipTurn)
             {
-                AskToUseAbility(
-                    HostUpgrade.UpgradeInfo.Name,
-                    NeverUseByDefault,
-                    DoFlipSide,
-                    descriptionLong: "Do you want to flip this card?",
-                    imageHolder: HostUpgrade
-                );
-            }
-
-            protected void DoFlipSide(object sender, EventArgs e)
-            {
-                (HostUpgrade as GenericDualUpgrade).Flip();
-                DecisionSubPhase.ConfirmDecision();
+                RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskToFlip);
             }
         }
 
-        private class RepulsorliftStabilizersActiveMandatoryFlipAbility : TriggeredAbility
+        private void AskToFlip(object sender, EventArgs e)
         {
-            public override TriggerForAbility Trigger => new AfterManeuver
-            (
-                onlyIfBearing: ManeuverBearing.SideslipAny
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                DoFlipSide,
+                descriptionLong: "Do you want to flip this card?",
+                imageHolder: HostUpgrade
             );
+        }
 
-            public override AbilityPart Action => new FlipCardAction
-            (
-                GetThisUpgrade
-            );
+        protected void DoFlipSide(object sender, EventArgs e)
+        {
+            (HostUpgrade as GenericDualUpgrade).Flip();
+            DecisionSubPhase.ConfirmDecision();
+        }
 
-            private GenericDualUpgrade GetThisUpgrade()
+        private void CheckMovementType(GenericShip ship)
+        {
+            if (ship.AssignedManeuver.Bearing == ManeuverBearing.SideslipBank
+                || ship.AssignedManeuver.Bearing == ManeuverBearing.SideslipTurn)
             {
-                return HostUpgrade as GenericDualUpgrade;
+                (HostUpgrade as GenericDualUpgrade).Flip();
+                ((HostShip.UpgradeBar.GetInstalledUpgrade(UpgradeType.Configuration) as UpgradesList.SecondEdition.RepulsorliftStabilizersInactive)
+                    .UpgradeAbilities.First() as RepulsorliftStabilizersInactiveAbility)
+                    .JustFlipped = true;
             }
         }
     }

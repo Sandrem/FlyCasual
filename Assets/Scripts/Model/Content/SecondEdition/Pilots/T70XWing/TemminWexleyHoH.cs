@@ -22,6 +22,8 @@ namespace Ship
 
                 PilotNameCanonical = "temminwexley-swz68";
 
+                ModelInfo.SkinName = "Green (HoH)";
+
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/2c/81/2c81e32f-8c0d-4d26-a9b5-e6bfbe9dab0e/swz68_temmin-wexley.png";
             }
         }

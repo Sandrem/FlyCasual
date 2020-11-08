@@ -342,12 +342,21 @@ public class UI : MonoBehaviour {
         else if (pressCancel) ClickSkipPhase();
     }
 
-    public static void AssignManeuverButtonPressed()
+    public static void AssignManeuverButtonPressed(string buttonName)
     {
-        HideDirectionMenu();
+        string maneuverCode = buttonName;
+        //OLD: EventSystem.current.currentSelectedGameObject.name;
 
-        string maneuverCode = EventSystem.current.currentSelectedGameObject.name;
-        DirectionsMenu.Callback(maneuverCode);
+        if (maneuverCode.Split('.').Length == 3)
+        {
+            HideDirectionMenu();
+
+            DirectionsMenu.Callback(maneuverCode);
+        }
+        else
+        {
+            Messages.ShowError($"Error: maneuver button is required, but name of pressed UI element: \"{maneuverCode}\"");
+        }
     }
 
     public void RestartMatch()

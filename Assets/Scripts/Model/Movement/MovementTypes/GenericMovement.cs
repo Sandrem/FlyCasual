@@ -259,6 +259,12 @@ namespace Movement
                 case ManeuverBearing.ReverseStraight:
                     maneuverString += "V";
                     break;
+                case ManeuverBearing.SideslipBank:
+                    maneuverString += "b";
+                    break;
+                case ManeuverBearing.SideslipTurn:
+                    maneuverString += "t";
+                    break;
                 default:
                     break;
             }

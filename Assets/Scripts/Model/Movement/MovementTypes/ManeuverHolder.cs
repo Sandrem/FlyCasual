@@ -73,6 +73,11 @@ namespace Movement
         public ManeuverHolder(string parameters, Ship.GenericShip ship = null)
         {
             string[] arrParameters = parameters.Split('.');
+            if (arrParameters.Length < 3)
+            {
+                Console.Write($"Error: maneuverCode is invalid, only {arrParameters.Length} blocks. String: \"{parameters}\"", LogTypes.Errors, isBold: true, color: "Red");
+                Messages.ShowError($"Error: maneuverCode is invalid, only {arrParameters.Length} blocks. String: \"{parameters}\"");
+            }
 
             ManeuverSpeed speed = ManeuverSpeed.Speed1;
 
@@ -96,6 +101,10 @@ namespace Movement
                 case "5":
                     speed = ManeuverSpeed.Speed5;
                     break;
+                default:
+                    Console.Write($"Error: Speed in maneuverCode is invalid, \"{arrParameters[0]}\"", LogTypes.Errors, isBold: true, color: "Red");
+                    Messages.ShowError($"Error: Speed in maneuverCode is invalid, \"{arrParameters[0]}\"");
+                    break;
             }
 
             ManeuverDirection direction = ManeuverDirection.Forward;
@@ -113,6 +122,10 @@ namespace Movement
                     break;
                 case "S":
                     direction = ManeuverDirection.Stationary;
+                    break;
+                default:
+                    Console.Write($"Error: Direction in maneuverCode is invalid, \"{arrParameters[1]}\"", LogTypes.Errors, isBold: true, color: "Red");
+                    Messages.ShowError($"Error: Direction in maneuverCode is invalid, \"{arrParameters[1]}\"");
                     break;
             }
 
@@ -146,6 +159,10 @@ namespace Movement
                     break;
                 case "V":
                     bearing = ManeuverBearing.ReverseStraight;
+                    break;
+                default:
+                    Console.Write($"Error: Bearing in maneuverCode is invalid, \"{arrParameters[2]}\"", LogTypes.Errors, isBold: true, color: "Red");
+                    Messages.ShowError($"Error: Bearing in maneuverCode is invalid, \"{arrParameters[2]}\"");
                     break;
             }
 

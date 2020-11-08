@@ -150,7 +150,9 @@ public static class DirectionsMenu
 
                     SetManeuverColor(button, maneuverData);
                     button.SetActive(true);
-                    button.GetComponent<Button>().onClick.AddListener(UI.AssignManeuverButtonPressed);
+                    button.GetComponent<Button>().onClick.AddListener(
+                        delegate { UI.AssignManeuverButtonPressed(button.name); }
+                    );
 
                     GameObject number = DirectionsWindow.transform.Find("Numbers").Find("Speed" + maneuverSpeed).Find("Number").gameObject;
                     number.SetActive(true);
@@ -193,7 +195,9 @@ public static class DirectionsMenu
 
                 SetManeuverColor(button, new KeyValuePair<string, MovementComplexity>(maneuverCode, MovementComplexity.Normal));
                 button.SetActive(true);
-                button.GetComponent<Button>().onClick.AddListener(UI.AssignManeuverButtonPressed);
+                button.GetComponent<Button>().onClick.AddListener(
+                    delegate { UI.AssignManeuverButtonPressed(button.name); }
+                );
 
                 GameObject number = DirectionsWindow.transform.Find("Numbers").Find("Speed" + maneuverSpeed).Find("Number").gameObject;
                 number.SetActive(true);

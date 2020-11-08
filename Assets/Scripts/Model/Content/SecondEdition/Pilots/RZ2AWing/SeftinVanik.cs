@@ -26,7 +26,7 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
                 );
 
-                ModelInfo.SkinName = "New Republic";
+                ModelInfo.SkinName = "Green (HoH)";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/73/ef/73ef0cdc-deb6-451d-a76c-0b3d9ef147ec/swz68_seftin-vanik.png";
             }

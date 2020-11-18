@@ -55,7 +55,10 @@ namespace Abilities.SecondEdition
 
         private void CheckConditions()
         {
-            if (HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Front) && HostUpgrade.State.Charges > 0)
+            if (HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Front)
+                && (Combat.ChosenWeapon.GetType() == HostUpgrade.GetType())
+                && HostUpgrade.State.Charges > 0
+            )
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskToUseCharges);
             }

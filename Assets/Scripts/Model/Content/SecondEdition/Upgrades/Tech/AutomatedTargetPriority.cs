@@ -1,5 +1,6 @@
 ﻿using BoardTools;
 using Ship;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using Tokens;
@@ -112,6 +113,8 @@ namespace Abilities.SecondEdition
 
         private void GainToken(object sender, EventArgs e)
         {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
             Messages.ShowInfo("Automated Target Priority: Calculate token is gained");
             StoredTokens--;
 

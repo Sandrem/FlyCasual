@@ -725,10 +725,16 @@ namespace Abilities
             int diceCount = getCount();
             for (int i = 0; i < diceCount; i++)
             {
-                Die die = DiceRoll.CurrentDiceRoll.DiceList.Where(d => sidesCanBeSelected.Contains(d.Side)).First();
-
-                DiceRoll.CurrentDiceRoll.DiceList.Remove(die);
-                die.RemoveModel();
+                Die die = DiceRoll.CurrentDiceRoll.DiceList.Where(d => sidesCanBeSelected.Contains(d.Side)).FirstOrDefault();
+                if (die != null)
+                {
+                    DiceRoll.CurrentDiceRoll.DiceList.Remove(die);
+                    die.RemoveModel();
+                }
+                else
+                {
+                    break;
+                }
             }
 
             //DiceRoll.CurrentDiceRoll.OrganizeDicePositions();

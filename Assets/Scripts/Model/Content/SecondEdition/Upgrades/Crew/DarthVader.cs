@@ -75,7 +75,8 @@ namespace Abilities.SecondEdition
 
         private int GetAiAbilityPriority(GenericShip ship)
         {
-            return 100;
+            // Select only enemy ships by cost
+            return (ship.Owner.PlayerNo != HostShip.Owner.PlayerNo) ? ship.PilotInfo.Cost : -1;
         }
 
         private void SelectAbilityTarget()

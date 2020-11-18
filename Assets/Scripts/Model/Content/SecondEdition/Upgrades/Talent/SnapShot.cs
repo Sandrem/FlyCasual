@@ -19,7 +19,8 @@ namespace UpgradesList.SecondEdition
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     minRange: 2,
-                    maxRange: 2
+                    maxRange: 2,
+                    noRangeBonus: true
                 ),
                 abilityType: typeof(Abilities.SecondEdition.SnapShotAbility)
             );

@@ -24,7 +24,8 @@ namespace UpgradesList.SecondEdition
                     minRange: 1,
                     maxRange: 1,
                     arc: ArcType.SingleTurret,
-                    requiresToken: typeof(BlueTargetLockToken)
+                    requiresToken: typeof(BlueTargetLockToken),
+                    noRangeBonus: true
                 ),
                 addArc: new ShipArcInfo(ArcType.SingleTurret),
                 addAction: new ActionInfo(typeof(RotateArcAction)),

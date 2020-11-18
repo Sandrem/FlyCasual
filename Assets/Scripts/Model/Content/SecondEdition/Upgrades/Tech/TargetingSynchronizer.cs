@@ -47,7 +47,7 @@ namespace Abilities.SecondEdition
             )
             {
                 if (!isSilent) Messages.ShowInfo(string.Format("{0}: {1} ignores attack requirement", HostUpgrade.UpgradeInfo.Name, ship.PilotInfo.PilotName));
-                tokenTypes = null;
+                tokenTypes.Remove(typeof(BlueTargetLockToken));
             }
         }
 

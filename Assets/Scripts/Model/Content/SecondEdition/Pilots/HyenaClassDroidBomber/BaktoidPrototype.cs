@@ -51,7 +51,7 @@ namespace Abilities.SecondEdition
             if (ConditionsAreMet(tokenTypes))
             {
                 if (!isSilent) Messages.ShowInfo(string.Format("{0} ignores attack requirement", ship.PilotInfo.PilotName));
-                tokenTypes = null;
+                tokenTypes = new List<Type>();
             }
         }
 

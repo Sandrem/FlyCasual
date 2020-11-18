@@ -97,7 +97,7 @@ namespace Abilities.SecondEdition
         {
             if (!HostShip.IsCannotAttackSecondTime)
             {
-                (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresTokens = null;
+                (HostUpgrade as UpgradesList.SecondEdition.ClusterMissiles).WeaponInfo.RequiresTokens = new List<Type>();
 
                 Messages.ShowInfo(HostShip.PilotInfo.PilotName + " can perform a second Cluster Missiles attack");
 

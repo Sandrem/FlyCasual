@@ -90,7 +90,7 @@ namespace Upgrade
         {
             List<Type> tokenRequirements = HostShip.GetWeaponAttackRequirement(this, isSilent: true);
 
-            if (tokenRequirements != null)
+            if (tokenRequirements.Count > 0)
             {
                 foreach (Type tokenRequirement in tokenRequirements)
                 {
@@ -146,7 +146,7 @@ namespace Upgrade
         {
             List<Type> tokenRequirements = HostShip.GetWeaponAttackRequirement(this, isSilent: false);
 
-            if (tokenRequirements != null && tokenRequirements.Contains(typeof(BlueTargetLockToken)))
+            if (tokenRequirements.Contains(typeof(BlueTargetLockToken)))
             {
                 List<GenericToken> waysToPay = new List<GenericToken>();
 
@@ -188,7 +188,7 @@ namespace Upgrade
                     }
                 }
             }
-            else if (tokenRequirements != null && tokenRequirements.Contains(typeof(FocusToken)) && WeaponInfo.SpendsToken == typeof(FocusToken))
+            else if (tokenRequirements.Contains(typeof(FocusToken)) && WeaponInfo.SpendsToken == typeof(FocusToken))
             {
                 Combat.Attacker.Tokens.SpendToken(typeof(FocusToken), callBack);
             }

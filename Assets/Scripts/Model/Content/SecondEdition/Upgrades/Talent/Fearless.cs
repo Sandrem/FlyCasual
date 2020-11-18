@@ -54,7 +54,7 @@ namespace ActionsList
 
             if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) return false;
 
-            if (!Combat.ShotInfo.InPrimaryArc) return false;
+            if (!Combat.ChosenWeapon.WeaponInfo.ArcRestrictions.Contains(Arcs.ArcType.Front)) return false;
 
             if (Combat.ShotInfo.Range != 1) return false;
 

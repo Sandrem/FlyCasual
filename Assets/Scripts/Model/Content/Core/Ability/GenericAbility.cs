@@ -660,7 +660,7 @@ namespace Abilities
                     DiceModificationChange(callback, getCount, sidesCanBeSelected, newSide);
                     break;
                 case DiceModificationType.Cancel:
-                    DiceModificationCancel(callback, sidesCanBeSelected, timing);
+                    DiceModificationCancel(callback, getCount, sidesCanBeSelected, timing);
                     break;
                 case DiceModificationType.Add:
                     DiceModificationAdd(callback, getCount, newSide);
@@ -720,12 +720,13 @@ namespace Abilities
             }
         }
 
-        private void DiceModificationCancel(Action callback, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing)
+        private void DiceModificationCancel(Action callback, Func<int> getCount, List<DieSide> sidesCanBeSelected, DiceModificationTimingType timing)
         {
-            List<Die> diceToCancel = DiceRoll.CurrentDiceRoll.DiceList.Where(d => sidesCanBeSelected.Contains(d.Side)).ToList();
-
-            foreach (Die die in diceToCancel)
+            int diceCount = getCount();
+            for (int i = 0; i < diceCount; i++)
             {
+                Die die = DiceRoll.CurrentDiceRoll.DiceList.Where(d => sidesCanBeSelected.Contains(d.Side)).First();
+
                 DiceRoll.CurrentDiceRoll.DiceList.Remove(die);
                 die.RemoveModel();
             }

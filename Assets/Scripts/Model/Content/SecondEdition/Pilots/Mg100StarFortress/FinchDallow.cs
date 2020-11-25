@@ -22,7 +22,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Finch Dallow",
                     4,
-                    58,
+                    56,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FinchDallowAbility)
                 );

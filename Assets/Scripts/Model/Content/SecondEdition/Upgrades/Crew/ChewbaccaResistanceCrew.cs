@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Chewbacca",
                 UpgradeType.Crew,
-                cost: 5,
+                cost: 4,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 charges: ChewbaccaFullChargeValue,

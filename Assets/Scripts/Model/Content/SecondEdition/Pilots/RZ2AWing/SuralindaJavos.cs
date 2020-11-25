@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Suralinda Javos",
                     3,
-                    33,
+                    35,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SuralindaJavosAbility),
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } 

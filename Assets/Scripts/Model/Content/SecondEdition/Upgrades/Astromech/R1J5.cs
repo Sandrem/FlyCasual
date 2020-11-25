@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 "R1-J5",
                 UpgradeType.Astromech,
                 charges: 3,
-                cost: 6,
+                cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.R1J5AstromechAbility)

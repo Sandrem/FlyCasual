@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Overdrive Thruster",
                 UpgradeType.Modification,
-                cost: 0,
+                cost: 2,
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.T70XWing.T70XWing)),
                 abilityType: typeof(Abilities.SecondEdition.OverdriveThrusterAbility)
@@ -28,13 +28,13 @@ namespace UpgradesList.SecondEdition
         {
             Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
             {
-                {0, 0},
-                {1, 1},
-                {2, 2},
-                {3, 3},
-                {4, 4},
-                {5, 5},
-                {6, 6}
+                {0, 2},
+                {1, 3},
+                {2, 4},
+                {3, 5},
+                {4, 6},
+                {5, 7},
+                {6, 8}
             };
 
             UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];

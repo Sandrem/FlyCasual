@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Resistance Sympathizer",
                     2,
-                    59
+                    58
                 );
 
                 ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/28411b84c1b15f0bfa9928f2206e44f5.png";

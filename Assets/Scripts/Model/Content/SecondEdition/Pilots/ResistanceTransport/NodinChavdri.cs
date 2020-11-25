@@ -17,7 +17,7 @@ namespace Ship.SecondEdition.ResistanceTransport
             PilotInfo = new PilotCardInfo(
                 "Nodin Chavdri",
                 2,
-                36,
+                35,
                 isLimited: true,
                 abilityType: typeof(NodinChavdriGoodeAbility)
             );

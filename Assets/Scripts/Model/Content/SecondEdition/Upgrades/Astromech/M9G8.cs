@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "M9-G8",
                 UpgradeType.Astromech,
-                cost: 7,
+                cost: 6,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.M9G8Ability),
                 restriction: new FactionRestriction(Faction.Resistance)

@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Paige Tico",
                     5,
-                    58,
+                    56,
                     isLimited: true,
                     charges: 1,
                     regensCharges: true,

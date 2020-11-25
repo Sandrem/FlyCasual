@@ -20,7 +20,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Seftin Vanik",
                     5,
-                    36,
+                    37,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SeftinVanikAbility),
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }

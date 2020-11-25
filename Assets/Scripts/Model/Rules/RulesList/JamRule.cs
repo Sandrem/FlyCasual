@@ -29,7 +29,18 @@ namespace RulesList
             bool result = true;
 
             int rangeBetween = target.GetRangeToShip(ship);
-            if (rangeBetween != 1) result = false;
+            bool isInBullseyeArc = ship.SectorsInfo.IsShipInSector(target, Arcs.ArcType.Bullseye);
+            if (rangeBetween == 1 ||
+                (rangeBetween == 2 && isInBullseyeArc))
+            {
+                // November 2020 rule changes
+                // Target is allowed
+            }
+            else
+            {
+                result = false;
+            }
+            
 
             if (result != true) OnCheckJamIsAllowed?.Invoke(ref result, ship, target);
             if (result == true) OnCheckJamIsDisallowed?.Invoke(ref result, ship, target);

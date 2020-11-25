@@ -19,6 +19,8 @@ namespace SubPhases
     {
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ObstaclePlacement, GameCommandTypes.PressSkip, GameCommandTypes.PressNext }; } }
 
+        private bool IsRangeRulerNeeded { get {return Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).GetType() == typeof(HumanPlayer); } }
+
         public static GenericObstacle ChosenObstacle;
         private float MinBoardEdgeDistance;
         private float MinObstaclesDistance;
@@ -79,7 +81,6 @@ namespace SubPhases
 
         public override void Next()
         {
-            IsLocked = true;
             HideSubphaseDescription();
 
             RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
@@ -89,6 +90,7 @@ namespace SubPhases
                 ShowSubphaseDescription(Name, "Obstacles cannot be placed at Range 1 of each other, or at Range 1-2 of an edge of the play area.");
             }
 
+            IsLocked = false;
             IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).PlaceObstacle();
         }
@@ -275,7 +277,7 @@ namespace SubPhases
                 }
             }
 
-            if (IsShiftRequired)
+            if (IsShiftRequired && IsRangeRulerNeeded)
             {
                 MovementTemplates.ShowRangeRulerR2(fromEdge, toObstacle);
             }
@@ -339,7 +341,7 @@ namespace SubPhases
                 }
             }
 
-            if (IsPlacementBlocked && isBlockedByAnotherObstacle)
+            if (IsPlacementBlocked && isBlockedByAnotherObstacle && IsRangeRulerNeeded)
             {
                 MovementTemplates.ShowRangeRulerR1(fromObstacle, toObstacle);
             }
@@ -428,8 +430,10 @@ namespace SubPhases
 
         private bool TryToPlaceObstacle()
         {
-            if (IsEnteredPlacementZone && !IsPlacementBlocked)
+            if (IsEnteredPlacementZone && !IsPlacementBlocked && !IsLocked)
             {
+                IsLocked = true;
+
                 GameCommand command = GeneratePlaceObstacleCommand(
                     ChosenObstacle.Name,
                     ChosenObstacle.ObstacleGO.transform.position,
@@ -441,6 +445,7 @@ namespace SubPhases
             else
             {
                 Messages.ShowError("The obstacle cannot be placed");
+                IsLocked = false;
                 return false;
             }
         }
@@ -468,8 +473,6 @@ namespace SubPhases
 
         public static void PlaceObstacle(string obstacleName,  Vector3 position, Vector3 angles)
         {
-            Phases.CurrentSubPhase.IsReadyForCommands = false;
-
             ChosenObstacle = ObstaclesManager.GetChosenObstacle(obstacleName);
             ChosenObstacle.ObstacleGO.transform.position = position;
             ChosenObstacle.ObstacleGO.transform.eulerAngles = angles;
@@ -499,6 +502,7 @@ namespace SubPhases
         public override void SkipButton()
         {
             IsRandomSetupSelected[RequiredPlayer] = true;
+            
             PlaceRandom();
         }
 

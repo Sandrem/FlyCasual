@@ -24,6 +24,8 @@ namespace SubPhases
         public Transform StartingZone { get; protected set; }
         private bool IsInsideStartingZone;
 
+        private bool IsLocked;
+
         private TouchObjectPlacementHandler touchObjectPlacementHandler = new TouchObjectPlacementHandler();
 
         public override void Start()
@@ -65,6 +67,7 @@ namespace SubPhases
                 UpdateHelpInfo();
                 Roster.HighlightShipsFiltered(FilterShipsToSetup);
 
+                IsLocked = false;
                 IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).SetupShip();
             }
@@ -207,6 +210,8 @@ namespace SubPhases
 
         public override void Update()
         {
+            if (IsLocked) return;
+
             if (inReposition)  {
                 if (CameraScript.InputMouseIsEnabled) PerformDrag();
                 if (CameraScript.InputTouchIsEnabled) PerformTouchDragRotate();
@@ -520,13 +525,14 @@ namespace SubPhases
 
         public override void ProcessClick()
         {
-            if (inReposition && CameraScript.InputMouseIsEnabled)
+            if (inReposition && !IsLocked && CameraScript.InputMouseIsEnabled)
             {
+                IsLocked = true;
                 UI.CallClickNextPhase();
             }
         }
 
-        public bool TryConfirmPosition(GenericShip ship)
+        public bool IsPositionAllowed(GenericShip ship)
         {
             bool result = true;
 
@@ -557,8 +563,6 @@ namespace SubPhases
                     result = false;
                 }
             }
-
-            if (result) StopDrag();
 
             return result;
         }
@@ -601,14 +605,22 @@ namespace SubPhases
             return result;
         }
 
-        public override void NextButton() {
+        public override void NextButton()
+        {
+            IsLocked = true;
+
             // Next button is only used for touch controls -- on next, try to confirm ship's position
-            if (Selection.ThisShip != null && !TryConfirmPosition(Selection.ThisShip))
+            if (Selection.ThisShip != null)
             {
-                Console.Write("ship:" + Selection.ThisShip);
-                Console.Write("shipbase:" + Selection.ThisShip.ShipBase);
-                // Wait for confirmation again if positioning failed
-                UI.ShowNextButton();
+                if (IsPositionAllowed(Selection.ThisShip))
+                {
+                    StopDrag();
+                }
+                else
+                {
+                    IsLocked = false;
+                    UI.ShowNextButton();
+                }
             }
         }
 

@@ -114,7 +114,7 @@ namespace Players
         {
             base.PlaceObstacle();
 
-            SubPhases.ObstaclesPlacementSubPhase subphase = Phases.CurrentSubPhase as SubPhases.ObstaclesPlacementSubPhase;
+            ObstaclesPlacementSubPhase subphase = Phases.CurrentSubPhase as ObstaclesPlacementSubPhase;
             if (subphase.IsRandomSetupSelected[this.PlayerNo])
             {
                 if (subphase.IsRandomSetupSelected[Roster.AnotherPlayer(this.PlayerNo)])
@@ -128,7 +128,6 @@ namespace Players
             }
             else
             {
-                SubPhases.ObstaclesPlacementSubPhase.IsLocked = false;
                 if (!Network.IsNetworkGame) UI.ShowSkipButton("Random");
             }
         }

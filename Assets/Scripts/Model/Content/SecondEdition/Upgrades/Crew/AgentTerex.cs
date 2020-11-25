@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Agent Terex",
                 UpgradeType.Crew,
-                cost: 6,
+                cost: 7,
                 restriction: new FactionRestriction(Faction.FirstOrder),
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.AgentTerexCrewAbility)
@@ -37,7 +37,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Agent Terex (Cyborg)",
                 UpgradeType.Crew,
-                cost: 6,
+                cost: 7,
                 addAction: new Actions.ActionInfo(typeof(Abilities.SecondEdition.AgentTerexCyborgAction)),
                 abilityType: typeof(Abilities.SecondEdition.AgentTerexCyborgAbility)
             );

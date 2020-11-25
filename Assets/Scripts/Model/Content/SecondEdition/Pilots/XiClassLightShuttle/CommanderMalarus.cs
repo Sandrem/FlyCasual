@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Commander Malarus",
                     5,
-                    43,
+                    45,
                     pilotTitle: "Vindictive Taskmaster",
                     isLimited: true,
                     extraUpgradeIcon: Upgrade.UpgradeType.Talent,

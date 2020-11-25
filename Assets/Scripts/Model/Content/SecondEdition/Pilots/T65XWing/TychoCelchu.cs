@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Tycho Celchu",
                     5,
-                    50,
+                    47,
                     pilotTitle: "Master of Stress",
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TychoCelchuAbility),

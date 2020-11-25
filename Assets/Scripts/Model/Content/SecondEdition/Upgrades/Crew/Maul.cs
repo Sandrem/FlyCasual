@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Maul",
                 UpgradeType.Crew,
-                cost: 12,
+                cost: 10,
                 isLimited: true,
                 addForce: 1,
                 restriction: new FactionRestriction(Faction.Scum, Faction.Rebel),

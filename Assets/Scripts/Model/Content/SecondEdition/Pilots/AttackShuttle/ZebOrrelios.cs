@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.AttackShuttle
     {
@@ -12,6 +14,7 @@
                     32,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
+                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 37
                 );
             }

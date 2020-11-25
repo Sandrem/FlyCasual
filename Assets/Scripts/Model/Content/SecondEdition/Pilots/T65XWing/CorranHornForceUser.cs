@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Corran Horn (Force user)",
                     5,
-                    63,
+                    61,
                     pilotTitle: "Tenacious Investigator",
                     isLimited: true,
                     force: 1,

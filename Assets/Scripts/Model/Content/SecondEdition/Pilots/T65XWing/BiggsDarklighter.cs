@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Biggs Darklighter",
                     3,
-                    48,
+                    47,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BiggsDarklighterAbility),
                     seImageNumber: 7

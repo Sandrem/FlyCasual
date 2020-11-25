@@ -21,7 +21,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Arvel Crynyd",
                     3,
-                    34,
+                    32,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ArvelCrynydAbility),
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent },

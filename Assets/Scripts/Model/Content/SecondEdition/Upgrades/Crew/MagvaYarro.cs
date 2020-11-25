@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Magva Yarro",
                 UpgradeType.Crew,
-                cost: 8,
+                cost: 7,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.MagvaYarroCrewAbility),

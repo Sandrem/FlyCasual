@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Selfless",
                 UpgradeType.Talent,
-                cost: 3,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.SelflessAbility),
                 restriction: new FactionRestriction(Faction.Rebel),
                 seImageNumber: 15

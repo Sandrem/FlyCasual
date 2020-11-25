@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Cavern Angels Zealot",
                     1,
-                    39,
+                    38,
                     extraUpgradeIcon: UpgradeType.Illicit,
                     seImageNumber: 12
                 );

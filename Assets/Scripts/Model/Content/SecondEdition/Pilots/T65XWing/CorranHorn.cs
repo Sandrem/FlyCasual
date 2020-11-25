@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Corran Horn",
                     5,
-                    55,
+                    53,
                     pilotTitle: "Tenacious Investigator",
                     isLimited: true,
                     abilityType: typeof(CorranHornAbility),

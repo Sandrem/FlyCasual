@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Red Squadron Veteran",
                     3,
-                    41,
+                    40,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 10
                 );

@@ -1,5 +1,6 @@
 ﻿using Ship;
 using SubPhases;
+using System.Collections.Generic;
 using System.Linq;
 using Tokens;
 using Upgrade;
@@ -15,10 +16,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Joy Rekkoff",
                     4,
-                    52,
+                    47,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JoyRekkoffAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
                     seImageNumber: 157
                 );
             }

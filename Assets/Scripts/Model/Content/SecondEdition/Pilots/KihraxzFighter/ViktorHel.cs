@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Viktor Hel",
                     4,
-                    44,
+                    43,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ViktorHelAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

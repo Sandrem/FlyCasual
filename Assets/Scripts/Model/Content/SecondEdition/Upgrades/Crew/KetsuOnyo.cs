@@ -12,11 +12,12 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
             "Ketsu Onyo",
             UpgradeType.Crew,
-                cost: 5,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.KetsuOnyoAbility),
                 seImageNumber: 134,
                 isLimited: true,
-                restriction: new FactionRestriction(Faction.Scum));
+                restriction: new FactionRestriction(Faction.Scum)
+            );
         }
     }
 }

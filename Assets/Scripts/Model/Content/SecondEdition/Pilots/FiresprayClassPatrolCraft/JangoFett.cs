@@ -19,7 +19,7 @@ namespace Ship
                     90,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JangoFettAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Crew },
                     factionOverride: Faction.Separatists
                 );
 

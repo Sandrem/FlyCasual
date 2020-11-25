@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -12,7 +13,7 @@ namespace Ship
                     "Skull Squadron Pilot",
                     4,
                     47,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
                     seImageNumber: 159
                 );
 

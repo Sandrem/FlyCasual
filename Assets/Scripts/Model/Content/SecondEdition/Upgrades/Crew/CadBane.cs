@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Cad Bane",
                 UpgradeType.Crew,
-                cost: 4,
+                cost: 3,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.CadBaneCrewAbility),

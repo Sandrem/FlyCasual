@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,7 +15,7 @@ namespace Ship
                     86,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.BobaFettScumAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
                     seImageNumber: 149
                 );
 

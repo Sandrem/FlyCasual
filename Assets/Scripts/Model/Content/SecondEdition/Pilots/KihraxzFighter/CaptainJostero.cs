@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Captain Jostero",
                     3,
-                    42,
+                    41,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainJosteroAbility),
                     seImageNumber: 194

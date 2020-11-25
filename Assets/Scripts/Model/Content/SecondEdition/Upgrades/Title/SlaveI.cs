@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Slave I",
                 UpgradeType.Title,
-                cost: 5,
+                cost: 6,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Torpedo),
                 restrictions: new UpgradeCardRestrictions(

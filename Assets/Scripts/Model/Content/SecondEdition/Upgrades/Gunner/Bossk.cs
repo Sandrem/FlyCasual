@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Bossk",
                 UpgradeType.Gunner,
-                cost: 9,
+                cost: 8,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.BosskGunnerAbility),

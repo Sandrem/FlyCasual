@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.FangFighter
     {
@@ -10,6 +12,7 @@
                     "Zealous Recruit",
                     1,
                     41,
+                    extraUpgradeIcon: UpgradeType.Modification,
                     seImageNumber: 160
                 );
             }

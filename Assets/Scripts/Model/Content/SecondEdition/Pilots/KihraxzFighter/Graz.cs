@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Graz",
                     4,
-                    46,
+                    45,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GrazAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

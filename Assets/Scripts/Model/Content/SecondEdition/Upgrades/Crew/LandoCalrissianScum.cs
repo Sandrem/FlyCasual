@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Lando Calrissian",
                 UpgradeType.Crew,
-                cost: 8,
+                cost: 6,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumAbility),

@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.FiresprayClassPatrolCraft
     {
@@ -10,6 +12,7 @@
                     "Bounty Hunter",
                     2,
                     62,
+                    extraUpgradeIcon: UpgradeType.Crew,
                     seImageNumber: 154
                 );
 

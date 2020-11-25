@@ -1,4 +1,5 @@
 ﻿using Ship;
+using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
@@ -16,7 +17,7 @@ namespace Ship
                     72,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KathScarletAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Crew },
                     seImageNumber: 151
                 );
 

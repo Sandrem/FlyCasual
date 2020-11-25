@@ -13,12 +13,10 @@ namespace UpgradesList.SecondEdition
     {
         public JangoFett() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Jango Fett",
                 UpgradeType.Crew,
-                cost: 4,
+                cost: 7,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Separatists, Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.JangoFettCrewAbility)

@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -14,7 +15,7 @@ namespace Ship
                     54,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KadSolusAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
                     seImageNumber: 158
                 );
 

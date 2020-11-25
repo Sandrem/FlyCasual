@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Talonbane Cobra",
                     5,
-                    50,
+                    48,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TalonbaneCobraAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

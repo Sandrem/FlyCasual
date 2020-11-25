@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Latts Razzi",
                 UpgradeType.Crew,
-                cost: 7,
+                cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.LattsRazziCrewAbility),

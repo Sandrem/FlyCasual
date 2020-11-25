@@ -131,7 +131,19 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             Text slotsText = this.transform.Find("SlotsInfo").GetComponent<Text>();
             for (int i = 0; i < CountUpgradeIcons(UpgradeType.Talent); i++) slotsText.text += "E";
             for (int i = 0; i < CountUpgradeIcons(UpgradeType.ForcePower); i++) slotsText.text += "F";
-            if (Ship is Ship.SecondEdition.YT2400LightFreighter.YT2400LightFreighter) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Crew); i++) slotsText.text += "W";
+
+            if (Ship is Ship.SecondEdition.YT2400LightFreighter.YT2400LightFreighter
+                || (Ship is Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft && Ship.Faction == Faction.Scum)
+            )
+            {
+                for (int i = 0; i < CountUpgradeIcons(UpgradeType.Crew); i++) slotsText.text += "W";
+            }
+
+            if (Ship is Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft && Ship.Faction == Faction.Scum)
+            {
+                for (int i = 0; i < CountUpgradeIcons(UpgradeType.Modification); i++) slotsText.text += "m";
+            }
+
             if (Ship.Faction != Faction.Scum) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Illicit); i++) slotsText.text += "I";
         }
     }

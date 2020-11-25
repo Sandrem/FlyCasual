@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Black Sun Ace",
                     3,
-                    40,
+                    38,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 195
                 );

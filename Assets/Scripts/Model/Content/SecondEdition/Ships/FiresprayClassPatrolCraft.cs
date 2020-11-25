@@ -21,6 +21,7 @@ namespace Ship
                 ShipInfo.DefaultShipFaction = Faction.Scum;
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
+                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew); // Boba Fett (Scum) doesn't have crew
 
                 ShipInfo.ActionIcons.RemoveActions(typeof(EvadeAction));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction)));

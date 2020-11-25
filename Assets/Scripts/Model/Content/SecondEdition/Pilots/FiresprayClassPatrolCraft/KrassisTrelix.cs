@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -16,7 +17,7 @@ namespace Ship
                     65,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KrassisTrelixAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Crew },
                     seImageNumber: 153
                 );
 

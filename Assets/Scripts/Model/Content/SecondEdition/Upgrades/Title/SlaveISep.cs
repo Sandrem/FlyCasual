@@ -12,12 +12,10 @@ namespace UpgradesList.SecondEdition
     {
         public SlaveISep() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Slave I",
                 UpgradeType.Title,
-                cost: 5,
+                cost: 3,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Gunner),
                 restrictions: new UpgradeCardRestrictions(

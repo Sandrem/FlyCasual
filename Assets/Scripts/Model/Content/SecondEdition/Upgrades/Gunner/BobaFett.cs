@@ -11,12 +11,10 @@ namespace UpgradesList.SecondEdition
     {
         public BobaFettGunner() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Boba Fett",
                 UpgradeType.Gunner,
-                cost: 5,
+                cost: 6,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum, Faction.Separatists),
                 abilityType: typeof(Abilities.SecondEdition.BobaFettGunnerAbility)

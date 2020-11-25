@@ -68,7 +68,6 @@ public static class ImageManager
         }
         else
         {
-            DeleteCachedImageByEdition(url, typeof(FirstEdition));
             DeleteCachedImageByEdition(url, typeof(SecondEdition));
         }
     }

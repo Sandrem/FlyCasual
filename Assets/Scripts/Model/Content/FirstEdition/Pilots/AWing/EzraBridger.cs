@@ -20,7 +20,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
-                RequiredMods.Add(typeof(PhoenixSquadronMod));
+                IsHidden = true;
+
                 ImageUrl = "https://i.imgur.com/xPe8HQo.png";
 
                 ModelInfo.SkinName = "Phoenix Squadron";

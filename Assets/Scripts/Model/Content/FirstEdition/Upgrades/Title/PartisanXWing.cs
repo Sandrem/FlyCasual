@@ -22,7 +22,8 @@ namespace UpgradesList.FirstEdition
                 restriction: new ShipRestriction(typeof(Ship.FirstEdition.XWing.XWing))
             );
 
-            FromMod = typeof(PartisanXWingMod);
+            IsHidden = true;
+
             ImageUrl = "https://i.imgur.com/tkAl2Io.png";
         }
 

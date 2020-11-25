@@ -22,8 +22,6 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.DutchVanderAbility)
                 );
-
-                if ((ModsManager.Mods[typeof(EliteYWingPilotsMod)].IsOn)) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Talent);
             }
         }
     }

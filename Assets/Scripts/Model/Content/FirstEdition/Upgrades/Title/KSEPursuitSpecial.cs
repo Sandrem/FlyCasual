@@ -19,7 +19,8 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.KSEPursuitSpecialAbility)
             );
 
-            FromMod = typeof(FiresprayFix);
+            IsHidden = true;
+
             ImageUrl = "https://i.imgur.com/TmDkcUR.png";
         }        
     }

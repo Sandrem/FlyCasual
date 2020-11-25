@@ -18,7 +18,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
-                RequiredMods.Add(typeof(PhoenixSquadronMod));
+                IsHidden = true;
+
                 ImageUrl = "https://i.imgur.com/gcK261Z.png";
             }
         }

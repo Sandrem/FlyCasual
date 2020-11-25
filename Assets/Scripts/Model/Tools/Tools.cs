@@ -52,12 +52,6 @@ public static partial class Tools
             result = result.Replace(sign, "");
         }
 
-        if (Editions.Edition.Current is Editions.FirstEdition)
-        {
-            result = result.Replace("adv.", "adv");
-            result = result.Replace("advanced", "adv");
-        }
-
         result = result.Replace("é", "e");
 
         return result;

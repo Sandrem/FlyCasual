@@ -10,7 +10,6 @@
                 Description = "Darth Vader as TIE Defender pilot\n" +
                               "Maarek Stele as Alpha-class Star Wing pilot\n" +
                               "Corran Horn (with and without Force) and Tycho Celchu as X-Wing pilots";
-                EditionType = typeof(Editions.SecondEdition);
             }
         }
     }

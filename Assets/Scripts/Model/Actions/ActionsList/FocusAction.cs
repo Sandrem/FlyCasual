@@ -25,7 +25,7 @@ namespace ActionsList
 
         public override bool IsDiceModificationAvailable()
         {
-            return Edition.Current is Editions.FirstEdition || Combat.CurrentDiceRoll.Focuses != 0;
+            return Combat.CurrentDiceRoll.Focuses != 0;
         }
 
         public override int GetDiceModificationPriority()

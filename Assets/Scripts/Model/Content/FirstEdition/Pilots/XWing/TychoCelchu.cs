@@ -20,7 +20,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
-                RequiredMods.Add(typeof(MyOtherRideIsMod));
+                IsHidden = true;
+
                 ImageUrl = "https://i.imgur.com/imayMBg.png";
             }
         }

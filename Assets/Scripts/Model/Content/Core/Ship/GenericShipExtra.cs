@@ -54,9 +54,6 @@ namespace Ship
 
         public GenericShip DockingHost;
 
-        public Type ShipRuleType = typeof(Editions.FirstEdition);
-        public Type PilotRuleType = typeof(Editions.FirstEdition);
-
         public List<GenericShip> TwoTargetLocksOnDifferentTargetsAreAllowed = new List<GenericShip>();
         public List<GenericShip> TwoTargetLocksOnSameTargetsAreAllowed = new List<GenericShip>();
 

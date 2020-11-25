@@ -44,22 +44,11 @@ namespace Abilities.FirstEdition
 
         private void CheckTIEx7Ability(GenericShip ship)
         {
-            string abilityName = "";
-            if (Editions.Edition.Current is Editions.FirstEdition)
-            {
-                if (ship.IsHitObstacles) return;
-                abilityName = "TIE/x7";
-            }
-            else
-            {
-                abilityName = "Full Throttle";
-            }
-
             if (ship.AssignedManeuver.Speed > 2)
             {
                 Triggers.RegisterTrigger(new Trigger()
                 {
-                    Name = abilityName,
+                    Name = "Full Throttle",
                     TriggerType = TriggerTypes.OnMovementFinish,
                     TriggerOwner = HostShip.Owner.PlayerNo,
                     EventHandler = AskTIEx7Ability,

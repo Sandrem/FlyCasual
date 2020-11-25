@@ -20,7 +20,9 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
-                RequiredMods.Add(typeof(MyOtherRideIsMod));
+
+                IsHidden = false;
+
                 ImageUrl = "https://i.imgur.com/V6m7JN9.png";
 
                 ModelInfo.SkinName = "Dark Blue";

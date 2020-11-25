@@ -203,7 +203,7 @@ namespace SquadBuilderNS
 
             // Check for unique pilot IDs
 
-            if (!DebugManager.ReleaseVersion && !(Edition.Current is Editions.FirstEdition))
+            if (!DebugManager.ReleaseVersion)
             {
                 foreach (PilotRecord pilotRecord in AllPilots)
                 {
@@ -305,7 +305,7 @@ namespace SquadBuilderNS
 
             AllUpgrades = AllUpgrades.OrderBy(n => n.Instance.UpgradeInfo.Name).ToList();
 
-            if (!DebugManager.ReleaseVersion && !(Edition.Current is Editions.FirstEdition))
+            if (!DebugManager.ReleaseVersion)
             {
                 foreach (UpgradeRecord upgradeRecord in AllUpgrades)
                 {
@@ -868,7 +868,7 @@ namespace SquadBuilderNS
         {
             ClearShipsOfPlayer(squadList.PlayerNo);
 
-            try
+            //try
             {
                 if (squadJson.HasField("name"))
                 {
@@ -900,7 +900,7 @@ namespace SquadBuilderNS
 
                         shipNameGeneral = shipRecord.ShipName;
 
-                        string pilotNameXws = (Edition.Current is Editions.FirstEdition) ? pilotJson["name"].str : pilotJson["id"].str;
+                        string pilotNameXws = pilotJson["id"].str;
                         PilotRecord pilotRecord = AllPilots.FirstOrDefault(n => n.PilotNameCanonical == pilotNameXws && n.PilotShip.ShipName == shipNameGeneral && n.PilotFaction == faction);
                         if (pilotRecord == null)
                         {
@@ -989,12 +989,12 @@ namespace SquadBuilderNS
 
                 callBack();
             }
-            catch (Exception)
+            /*catch (Exception)
             {
                 Messages.ShowError("An error occurred during the creation of squadron");
                 ClearShipsOfPlayer(squadList.PlayerNo);
                 //throw;
-            }
+            }*/
         }
 
         /*private static void LogImportedSquad(JSONObject squadJson)
@@ -1066,7 +1066,7 @@ namespace SquadBuilderNS
                     string shipNameXws = pilotJson["ship"].str;
                     string shipNameGeneral = AllShips.Find(n => n.ShipNameCanonical == shipNameXws).ShipName;
 
-                    string pilotNameXws = (Edition.Current is Editions.FirstEdition) ? pilotJson["name"].str : pilotJson["id"].str;
+                    string pilotNameXws = pilotJson["id"].str;
                     string pilotNameGeneral = AllPilots.Find(n => n.PilotNameCanonical == pilotNameXws).PilotName;
 
                     result += pilotNameGeneral;
@@ -1104,7 +1104,7 @@ namespace SquadBuilderNS
         private static JSONObject GenerateSquadPilot(SquadBuilderShip shipHolder)
         {
             JSONObject pilotJson = new JSONObject();
-            pilotJson.AddField((Edition.Current is Editions.FirstEdition) ? "name" : "id", shipHolder.Instance.PilotNameCanonical);
+            pilotJson.AddField("id", shipHolder.Instance.PilotNameCanonical);
             pilotJson.AddField("points", GetShipCost(shipHolder));
             pilotJson.AddField("ship", shipHolder.Instance.ShipTypeCanonical);
 

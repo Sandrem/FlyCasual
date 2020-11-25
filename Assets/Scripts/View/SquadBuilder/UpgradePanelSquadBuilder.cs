@@ -65,7 +65,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     private void SetSlotImage()
     {
         string slotTypeName = UpgradeName.Substring(5, UpgradeName.Length - 5);
-        string editionName = (Edition.Current is FirstEdition) ? "FirstEdition" : "SecondEdition";
+        string editionName = "SecondEdition";
         Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/UpgradeSlots/" + editionName + "/" + slotTypeName, typeof(Sprite));
         this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().sprite = sprite;
 
@@ -132,7 +132,6 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         try
         {
             this.transform.Find("UpgradeInfo").GetComponent<Text>().text = UpgradeName;
-            if (Edition.Current is FirstEdition) this.transform.Find("CostInfo").GetComponent<Text>().text = Upgrade.UpgradeInfo.Cost.ToString();
 
             ReadyToShow();
         }
@@ -144,29 +143,18 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         Text modText = this.transform.Find("FromModInfo").GetComponent<Text>();
         Text costText = this.transform.Find("CostInfo").GetComponent<Text>();
 
-        if (Edition.Current is FirstEdition)
+        if (Upgrade.FromMod != null)
         {
-            if (Upgrade.FromMod != null)
-            {
-                Mod mod = (Mod)Activator.CreateInstance(Upgrade.FromMod);
-                this.transform.Find("FromModInfo").GetComponent<Text>().text = mod.Name;
-            }
+            Mod mod = (Mod)Activator.CreateInstance(Upgrade.FromMod);
+            modText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(418, 0);
+            modText.transform.localPosition = new Vector3(129, -325, 0);
+            modText.text = mod.Name;
         }
-        else if (Edition.Current is SecondEdition)
-        {
-            if (Upgrade.FromMod != null)
-            {
-                Mod mod = (Mod)Activator.CreateInstance(Upgrade.FromMod);
-                modText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(418, 0);
-                modText.transform.localPosition = new Vector3(129, -325, 0);
-                modText.text = mod.Name;
-            }
 
-            costText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(418, 0);
-            costText.alignment = TextAnchor.MiddleRight;
-            costText.fontSize = 50;
-            costText.text = Upgrade.UpgradeInfo.Cost.ToString();
-        }
+        costText.transform.GetComponent<RectTransform>().sizeDelta = new Vector2(418, 0);
+        costText.alignment = TextAnchor.MiddleRight;
+        costText.fontSize = 50;
+        costText.text = Upgrade.UpgradeInfo.Cost.ToString();
     }
 
     private void SetOnClickHandler()

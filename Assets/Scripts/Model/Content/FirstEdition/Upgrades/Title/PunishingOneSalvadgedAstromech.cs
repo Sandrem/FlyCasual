@@ -19,7 +19,8 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.PunishingOneAbility)
             );
 
-            FromMod = typeof(PunishingOneSalvadgedAstromechMod);
+            IsHidden = true;
+
             ImageUrl = "https://i.imgur.com/9unI9tE.png";
         }        
     }

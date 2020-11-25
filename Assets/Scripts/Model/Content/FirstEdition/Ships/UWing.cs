@@ -20,7 +20,7 @@ namespace Ship.FirstEdition.UWing
             ShipInfo = new ShipCardInfo
             (
                 "U-wing",
-                (ModsManager.Mods[typeof(UWingSmallBaseMod)].IsOn) ? BaseSize.Small : BaseSize.Large,
+                BaseSize.Large,
                 Faction.Rebel,
                 new ShipArcsInfo(ArcType.Front, 3), 1, 4, 4,
                 new ShipActionsInfo(

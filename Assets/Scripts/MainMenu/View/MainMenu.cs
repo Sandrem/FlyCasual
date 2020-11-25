@@ -177,9 +177,9 @@ public partial class MainMenu : MonoBehaviour {
 
         switch (editionName)
         {
-            case "FirstEdition":
+            /*case "FirstEdition":
                 new FirstEdition();
-                break;
+                break;*/
             case "SecondEdition":
                 new SecondEdition();
                 break;

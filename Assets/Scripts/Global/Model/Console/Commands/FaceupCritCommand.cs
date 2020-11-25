@@ -11,24 +11,7 @@ namespace CommandsList
 {
     public class CritCardCommand : GenericCommand
     {
-        private Dictionary<string, Type> stringToTypeFE = new Dictionary<string, Type>()
-        {
-            { "blindedpilot",       typeof(DamageDeckCardFE.BlindedPilot)        },
-            { "consolefire",        typeof(DamageDeckCardFE.ConsoleFire)         },
-            { "damagedcockpit",     typeof(DamageDeckCardFE.DamagedCockpit)      },
-            { "damagedengine",      typeof(DamageDeckCardFE.DamagedEngine)       },
-            { "damagedsensorarray", typeof(DamageDeckCardFE.DamagedSensorArray)  },
-            { "directhit",          typeof(DamageDeckCardFE.DirectHit)           },
-            { "loosestabilizer",    typeof(DamageDeckCardFE.LooseStabilizer)     },
-            { "majorexplosion",     typeof(DamageDeckCardFE.MajorExplosion)      },
-            { "majorhullbreach",    typeof(DamageDeckCardFE.MajorHullBreach)     },
-            { "shakenpilot",        typeof(DamageDeckCardFE.ShakenPilot)         },
-            { "structuraldamage",   typeof(DamageDeckCardFE.StructuralDamage)    },
-            { "stunnedpilot",       typeof(DamageDeckCardFE.StunnedPilot)        },
-            { "thrustcontrolfire",  typeof(DamageDeckCardFE.ThrustControlFire)   },
-            { "weaponsfailure",     typeof(DamageDeckCardFE.WeaponsFailure)      }
-        };
-        private Dictionary<string, Type> stringToTypeSE = new Dictionary<string, Type>()
+        private Dictionary<string, Type> stringToType = new Dictionary<string, Type>()
         {
             { "blindedpilot",       typeof(DamageDeckCardSE.BlindedPilot)        },
             { "consolefire",        typeof(DamageDeckCardSE.ConsoleFire)         },
@@ -45,16 +28,6 @@ namespace CommandsList
             { "weaponsfailure",     typeof(DamageDeckCardSE.WeaponsFailure)      },
             { "woundedpilot",       typeof(DamageDeckCardSE.WoundedPilot)        }
         };
-
-        private Dictionary<string, Type> stringToType
-        {
-            get
-            {
-                return Editions.Edition.Current is Editions.FirstEdition
-                    ? stringToTypeFE
-                    : stringToTypeSE;
-            }
-        }
 
         public CritCardCommand()
         {

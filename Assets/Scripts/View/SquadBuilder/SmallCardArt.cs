@@ -60,11 +60,6 @@ public class SmallCardArt : MonoBehaviour {
                 if (!textureIsScaled) TextureScale.Bilinear(newTexture, 503, 700);
                 imageRect = new Rect(0, 0, 503, 205);
             }
-            else if (Edition.Current is FirstEdition)
-            {
-                if (!textureIsScaled) TextureScale.Bilinear(newTexture, 300, 418);
-                imageRect = new Rect(0, 0, 298, 124);
-            }
         }
         else if (imageSource is GenericUpgrade)
         {

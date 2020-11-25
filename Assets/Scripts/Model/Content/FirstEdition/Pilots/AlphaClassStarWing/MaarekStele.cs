@@ -20,7 +20,8 @@ namespace Ship
 
                 ModelInfo.SkinName = "Red";
 
-                RequiredMods.Add(typeof(MyOtherRideIsMod));
+                IsHidden = true;
+
                 ImageUrl = "https://i.imgur.com/SFGZXbc.png";
             }
         }

@@ -102,14 +102,6 @@ namespace SubPhases
             
             if (Rules.Jam.JamIsAllowed(Selection.ThisShip, ship)) result = true;
 
-            if (Edition.Current is Editions.FirstEdition)
-            {
-                if (ship.Tokens.HasToken(typeof(JamToken))) return false;
-
-                BoardTools.ShotInfo shotInfo = new BoardTools.ShotInfo(Selection.ThisShip, ship, Selection.ThisShip.PrimaryWeapons);
-                if (shotInfo.Range <= 2 && shotInfo.InPrimaryArc) return true;
-            }
-
             return result;
         }
 

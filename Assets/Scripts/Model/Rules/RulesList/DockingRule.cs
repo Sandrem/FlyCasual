@@ -207,31 +207,19 @@ namespace RulesList
             }
             else
             {
-                if (Editions.Edition.Current is Editions.FirstEdition)
-                {
-                    dockedShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), delegate
+                dockedShip.Damage.TryResolveDamage(
+                    0, 
+                    new DamageSourceEventArgs()
                     {
-                        DealFacedownDamageCard(dockedShip, delegate
-                        {
-                            AskAssignManeuver(hostShip, dockedShip, true);
-                        });
-                    });
-                }
-                else {
-                    dockedShip.Damage.TryResolveDamage(
-                        0, 
-                        new DamageSourceEventArgs()
-                        {
-                            Source = null,
-                            DamageType = DamageTypes.Rules
-                        }, 
-                        delegate
-                        {
-                            AskAssignManeuver(hostShip, dockedShip, true);
-                        }, 
-                        1
-                        );
-                }
+                        Source = null,
+                        DamageType = DamageTypes.Rules
+                    }, 
+                    delegate
+                    {
+                        AskAssignManeuver(hostShip, dockedShip, true);
+                    }, 
+                    1
+                );
             }
         }
 

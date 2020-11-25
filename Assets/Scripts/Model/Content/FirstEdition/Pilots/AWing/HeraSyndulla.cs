@@ -20,7 +20,8 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
-                RequiredMods.Add(typeof(PhoenixSquadronMod));
+                IsHidden = true;
+
                 ImageUrl = "https://i.imgur.com/4zfSMcc.png";
 
                 ModelInfo.SkinName = "Hera Syndulla";

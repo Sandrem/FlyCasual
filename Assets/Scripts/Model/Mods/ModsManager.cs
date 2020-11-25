@@ -11,13 +11,11 @@ namespace Mods
     {
         public string Name;
         public string Description;
-        public Type EditionType = typeof(Editions.FirstEdition);
-
         public bool IsOn;
 
         public bool IsAvailable()
         {
-            return IsOn && EditionType == Editions.Edition.Current.GetType();
+            return IsOn;
         }
     }
 
@@ -28,7 +26,7 @@ namespace Mods
 
         public static Dictionary<Type, Mod> GetAllMods()
         {
-            return Mods.Where(m => m.Value.EditionType == Editions.Edition.Current.GetType()).ToDictionary(n => n.Key, n => n.Value);
+            return Mods;
         }
 
         public static bool IsAnyModOn

@@ -1067,7 +1067,7 @@ namespace SquadBuilderNS
 
             foreach (Transform imagePanel in panelGO.transform)
             {
-                string editionName = (Edition.Current is FirstEdition) ? "FirstEdition" : "SecondEdition";
+                string editionName = "SecondEdition";
                 Sprite sprite = (Sprite)Resources.Load("Sprites/SquadBuiler/Factions/" + editionName + "/" + imagePanel.name, typeof(Sprite));
                 imagePanel.GetComponent<Image>().sprite = sprite;
             }

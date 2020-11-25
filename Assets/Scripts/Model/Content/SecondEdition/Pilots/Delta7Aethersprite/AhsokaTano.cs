@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             PilotInfo = new PilotCardInfo(
                 "Ahsoka Tano",
                 3,
-                44,
+                43,
                 true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.AhsokaTanoAbility),

@@ -21,7 +21,7 @@ namespace Ship.SecondEdition.Eta2Actis
                 true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.ShaakTiAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower
+                extraUpgradeIcon: UpgradeType.Talent
             );
 
             ModelInfo.SkinName = "Red";

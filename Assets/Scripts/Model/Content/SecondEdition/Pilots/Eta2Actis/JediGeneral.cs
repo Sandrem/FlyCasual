@@ -12,9 +12,8 @@ namespace Ship.SecondEdition.Eta2Actis
             PilotInfo = new PilotCardInfo(
                 "Jedi General",
                 4,
-                40,
-                force: 2,
-                extraUpgradeIcon: UpgradeType.ForcePower
+                41,
+                force: 2
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b4/8d/b48d787d-96db-4955-9a58-5c8aa3ab9035/swz79_jedi-general.png";

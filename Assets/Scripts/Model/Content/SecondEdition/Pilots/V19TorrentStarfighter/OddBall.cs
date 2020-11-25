@@ -17,7 +17,7 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
             PilotInfo = new PilotCardInfo(
                 "\"Odd Ball\"",
                 5,
-                31,
+                30,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
                 extraUpgradeIcon: UpgradeType.Talent

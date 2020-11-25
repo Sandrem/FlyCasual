@@ -17,11 +17,11 @@ namespace Ship.SecondEdition.Eta2Actis
             PilotInfo = new PilotCardInfo(
                 "Anakin Skywalker",
                 6,
-                62,
+                56,
                 true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerActisAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower
+                extraUpgradeIcon: UpgradeType.Talent
             );
 
             ModelInfo.SkinName = "Yellow";

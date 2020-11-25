@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "R2-D2",
                     2,
-                    32,
+                    31,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Crew },
                     abilityType: typeof(Abilities.SecondEdition.R2D2PilotAbility)

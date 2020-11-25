@@ -16,10 +16,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Odd Ball\"",
                     5,
-                    40,
+                    32,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent } 
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 PilotNameCanonical = "oddball-nimbusclassvwing";

@@ -24,12 +24,12 @@ namespace UpgradesList.SecondEdition
         {
             Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
             {
-                {0, 6},
-                {1, 9},
-                {2, 12},
-                {3, 15},
-                {4, 18},
-                {5, 21},
+                {0, 4},
+                {1, 4},
+                {2, 8},
+                {3, 12},
+                {4, 16},
+                {5, 20},
                 {6, 24}
             };
 

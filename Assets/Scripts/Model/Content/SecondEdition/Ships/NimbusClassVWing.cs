@@ -18,8 +18,6 @@ namespace Ship.SecondEdition.NimbusClassVWing
     {
         public NimbusClassVWing() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "Nimbus-class V-Wing",
@@ -33,8 +31,7 @@ namespace Ship.SecondEdition.NimbusClassVWing
                     new ActionInfo(typeof(BoostAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
-                    UpgradeType.Missile,
+                    UpgradeType.Astromech,
                     UpgradeType.Modification,
                     UpgradeType.Configuration
                 )

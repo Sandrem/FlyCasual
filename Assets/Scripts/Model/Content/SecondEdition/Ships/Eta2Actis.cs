@@ -14,8 +14,6 @@ namespace Ship.SecondEdition.Eta2Actis
     {
         public Eta2Actis() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "Eta-2 Actis",
@@ -30,10 +28,10 @@ namespace Ship.SecondEdition.Eta2Actis
                     new ActionInfo(typeof(BoostAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
-                    UpgradeType.Modification,
-                    UpgradeType.Configuration,
-                    UpgradeType.Astromech
+                    UpgradeType.ForcePower,
+                    UpgradeType.Cannon,
+                    UpgradeType.Astromech,
+                    UpgradeType.Modification
                 )
             );
 

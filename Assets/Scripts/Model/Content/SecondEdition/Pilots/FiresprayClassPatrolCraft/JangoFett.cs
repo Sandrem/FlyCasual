@@ -11,12 +11,10 @@ namespace Ship
         {
             public JangoFett() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Jango Fett",
                     6,
-                    90,
+                    79,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JangoFettAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Crew },

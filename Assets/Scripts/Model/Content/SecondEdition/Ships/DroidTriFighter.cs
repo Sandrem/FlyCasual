@@ -13,8 +13,6 @@ namespace Ship.SecondEdition.DroidTriFighter
     {
         public DroidTriFighter() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "Droid Tri-Fighter",
@@ -29,7 +27,8 @@ namespace Ship.SecondEdition.DroidTriFighter
                     new ActionInfo(typeof(BoostAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
+                    UpgradeType.Sensor,
+                    UpgradeType.Missile,
                     UpgradeType.Modification,
                     UpgradeType.Configuration
                 )

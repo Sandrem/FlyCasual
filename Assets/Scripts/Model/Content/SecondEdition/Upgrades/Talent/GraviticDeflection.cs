@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Gravitic Deflection",
                 UpgradeType.Talent,
-                cost: 5,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.GraviticDeflectionAbility),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.NantexClassStarfighter.NantexClassStarfighter))
             );

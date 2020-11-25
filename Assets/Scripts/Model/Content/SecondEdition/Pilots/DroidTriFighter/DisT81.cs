@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
+using Upgrade;
 
 namespace Ship.SecondEdition.DroidTriFighter
 {
@@ -15,9 +16,9 @@ namespace Ship.SecondEdition.DroidTriFighter
             PilotInfo = new PilotCardInfo(
                 "DIS-T81",
                 4,
-                38,
+                40,
                 true,
-                extraUpgradeIcon: Upgrade.UpgradeType.Talent,
+                extraUpgradeIcon: UpgradeType.Talent,
                 abilityType: typeof(Abilities.SecondEdition.DisT81Ability)
             );
 

@@ -3,6 +3,7 @@ using SubPhases;
 using System;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship.SecondEdition.DroidTriFighter
 {
@@ -13,9 +14,9 @@ namespace Ship.SecondEdition.DroidTriFighter
             PilotInfo = new PilotCardInfo(
                 "Phlac-Arphocc Prototype",
                 5,
-                45,
+                41,
                 limited: 2,
-                extraUpgradeIcon: Upgrade.UpgradeType.Talent,
+                extraUpgradeIcon: UpgradeType.Talent,
                 abilityType: typeof(Abilities.SecondEdition.PhlacArphoccPrototypeAbility)
             );
 

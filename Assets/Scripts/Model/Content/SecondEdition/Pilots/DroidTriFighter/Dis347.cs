@@ -3,6 +3,7 @@ using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.DroidTriFighter
 {
@@ -13,9 +14,9 @@ namespace Ship.SecondEdition.DroidTriFighter
             PilotInfo = new PilotCardInfo(
                 "DIS-347",
                 3,
-                36,
+                38,
                 true,
-                extraUpgradeIcon: Upgrade.UpgradeType.Talent,
+                extraUpgradeIcon: UpgradeType.Talent,
                 abilityType: typeof(Abilities.SecondEdition.Dis347Ability)
             );
 

@@ -21,7 +21,7 @@ namespace Ship
                     70,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BobaFettSeparatistAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Crew },
+                    extraUpgradeIcon: UpgradeType.Crew,
                     factionOverride: Faction.Separatists
                 );
 

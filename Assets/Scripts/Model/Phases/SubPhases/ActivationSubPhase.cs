@@ -14,6 +14,8 @@ namespace SubPhases
     {
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.ActivateAndMove, GameCommandTypes.HotacSwerve, GameCommandTypes.HotacFreeTargetLock }; } }
 
+        private bool IsLocked;
+
         public override void Start()
         {
             base.Start();
@@ -52,6 +54,7 @@ namespace SubPhases
                 UpdateHelpInfo();
                 Roster.HighlightShipsFiltered(FilterShipsToExecuteManeuver);
 
+                IsLocked = false;
                 IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).PerformManeuver();
             }
@@ -136,16 +139,28 @@ namespace SubPhases
 
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
-            bool result = false;
+            bool result = true;
 
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (ship.State.Initiative == RequiredInitiative) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if (IsLocked)
             {
-                result = true;
+                result = false;
             }
-            else
+            else if (ship.Owner.PlayerNo != RequiredPlayer)
             {
-                Messages.ShowErrorToHuman("This ship cannot be selected, the ship must be owned by " + RequiredPlayer + " and have a pilot skill of " + RequiredInitiative);
+                Messages.ShowErrorToHuman("This ship cannot be selected, the ship must be owned by " + RequiredPlayer);
+                result = false;
             }
+            else if (ship.State.Initiative != RequiredInitiative)
+            {
+                Messages.ShowErrorToHuman("This ship cannot be selected, the ship must have Initiative " + RequiredInitiative);
+                result = false;
+            }
+            else if (Roster.GetPlayer(RequiredPlayer).GetType() != typeof(Players.HumanPlayer))
+            {
+                Messages.ShowErrorToHuman("Ships cannot be selected: it is not your turn");
+                result = false;
+            }
+
             return result;
         }
 
@@ -175,9 +190,11 @@ namespace SubPhases
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
-            if (!ship.IsManeuverPerformed)
+            if (!ship.IsManeuverPerformed && !IsLocked)
             {
                 ship.IsManeuverPerformed = true;
+                IsLocked = true;
+
                 GameCommand command = ShipMovementScript.GenerateActivateAndMoveCommand(Selection.ThisShip.ShipId);
                 GameMode.CurrentGameMode.ExecuteCommand(command);
             }

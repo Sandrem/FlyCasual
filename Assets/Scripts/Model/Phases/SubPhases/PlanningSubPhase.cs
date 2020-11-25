@@ -14,6 +14,8 @@ namespace SubPhases
     {
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext, GameCommandTypes.SelectShipToAssignManeuver }; } }
 
+        private static bool IsLocked;
+
         public override void Start()
         {
             base.Start();
@@ -35,6 +37,7 @@ namespace SubPhases
         private void PlayerAssignsManeuvers()
         {
             UpdateHelpInfo();
+
             if (!(Roster.GetPlayer(RequiredPlayer) is Players.GenericAiPlayer)) Roster.HighlightShipsFiltered(FilterShipsToAssignManeuver);
 
             if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
@@ -43,6 +46,7 @@ namespace SubPhases
                 UI.HighlightNextButton();
             }
 
+            IsLocked = false;
             IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).AssignManeuversStart();
         }
@@ -97,7 +101,7 @@ namespace SubPhases
             }
             else
             {
-                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " cannot be selected: it is owned by the wrong player");
+                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " cannot be selected: it is owned by the another player");
             }
             return result;
         }
@@ -126,10 +130,12 @@ namespace SubPhases
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
-            if (ship is GenericRemote) return;
+            if (ship is GenericRemote || IsLocked) return;
 
             if (!RulesList.IonizationRule.IsIonized(ship))
             {
+                IsLocked = true;
+
                 GameCommand command = GenerateSelectShipToAssignManeuver(ship.ShipId);
                 GameMode.CurrentGameMode.ExecuteCommand(command);
             }
@@ -137,12 +143,12 @@ namespace SubPhases
             {
                 Messages.ShowError("This ship is ionized. A maneuver cannot be assigned to it");
             }
-            
         }
 
         public static void CheckForFinish()
         {
             Roster.HighlightShipOff(Selection.ThisShip);
+            IsLocked = false;
 
             if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
             {

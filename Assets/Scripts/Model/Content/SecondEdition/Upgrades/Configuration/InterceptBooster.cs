@@ -11,8 +11,6 @@ namespace UpgradesList.SecondEdition
     {
         public InterceptBoosterAttached() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Intercept Booster (Attached)",
                 UpgradeType.Configuration,

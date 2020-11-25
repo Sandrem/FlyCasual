@@ -9,8 +9,6 @@ namespace UpgradesList.SecondEdition
     {
         public PrecisionIonEngine() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Precision Ion Engine",
                 UpgradeType.Modification,

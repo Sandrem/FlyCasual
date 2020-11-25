@@ -9,8 +9,6 @@ namespace UpgradesList.SecondEdition
     {
         public FalseTransponderCodes() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "False Transponder Codes",
                 UpgradeType.Illicit,

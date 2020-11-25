@@ -11,8 +11,6 @@ namespace UpgradesList.SecondEdition
     {
         public Alpha3BBesh() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Alpha-3B \"Besh\"",
                 UpgradeType.Configuration,

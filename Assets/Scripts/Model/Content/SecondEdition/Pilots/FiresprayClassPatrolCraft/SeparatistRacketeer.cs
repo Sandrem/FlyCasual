@@ -10,8 +10,6 @@ namespace Ship
         {
             public SeparatistRacketeer() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Separatist Racketeer",
                     2,

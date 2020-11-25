@@ -12,8 +12,6 @@ namespace Ship.SecondEdition.Eta2Actis
     {
         public ShaakTi()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             PilotInfo = new PilotCardInfo(
                 "Shaak Ti",
                 4,

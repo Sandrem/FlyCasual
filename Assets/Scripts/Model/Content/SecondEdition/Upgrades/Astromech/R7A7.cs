@@ -11,8 +11,6 @@ namespace UpgradesList.SecondEdition
     {
         public R7A7() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "R7-A7",
                 UpgradeType.Astromech,

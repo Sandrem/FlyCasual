@@ -9,8 +9,6 @@ namespace UpgradesList.SecondEdition
     {
         public WeaponsSystemsOfficer() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Weapons Systems Officer",
                 UpgradeType.Gunner,

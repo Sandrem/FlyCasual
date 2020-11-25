@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Admiral Sloane",
                 UpgradeType.Crew,
-                cost: 9,
+                cost: 12,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.AdmiralSloaneCrewAbility),

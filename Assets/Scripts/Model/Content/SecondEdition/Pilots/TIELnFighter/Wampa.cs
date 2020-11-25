@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Wampa\"",
                     1,
-                    29,
+                    28,
                     isLimited: true,
                     abilityType: typeof(WampaAbility),
                     charges: 1,

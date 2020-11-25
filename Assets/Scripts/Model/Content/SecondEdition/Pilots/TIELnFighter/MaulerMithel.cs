@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Mauler\" Mithel",
                     5,
-                    31,
+                    30,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.MaulerMithelAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Grand Moff Tarkin",
                 UpgradeType.Crew,
-                cost: 6,
+                cost: 4,
                 isLimited: true,                
                 restrictions: new UpgradeCardRestrictions(
                     new FactionRestriction(Faction.Imperial), 

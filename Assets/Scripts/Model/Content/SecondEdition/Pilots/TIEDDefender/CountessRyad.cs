@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Countess Ryad",
                     4,
-                    80,
+                    79,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CountessRyadAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

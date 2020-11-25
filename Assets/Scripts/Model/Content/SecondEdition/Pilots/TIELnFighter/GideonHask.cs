@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Gideon Hask",
                     4,
-                    30,
+                    29,
                     isLimited: true,
                     abilityType: typeof(ScourgeAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

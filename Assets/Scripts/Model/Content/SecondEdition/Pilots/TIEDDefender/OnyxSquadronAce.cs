@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Onyx Squadron Ace",
                     4,
-                    74,
+                    73,
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 125
                 );

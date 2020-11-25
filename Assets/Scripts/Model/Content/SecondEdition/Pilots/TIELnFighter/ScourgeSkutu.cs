@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Scourge\" Skutu",
                     5,
-                    31,
+                    30,
                     isLimited: true,
                     abilityType: typeof(ScourgeSkutuAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

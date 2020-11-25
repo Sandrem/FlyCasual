@@ -10,8 +10,6 @@ namespace UpgradesList.SecondEdition
     {
         public Patience() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Patience",
                 UpgradeType.ForcePower,

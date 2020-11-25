@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "GNK \"Gonk\" Droid",
                 UpgradeType.Crew,
-                cost: 10,
+                cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.GonkCrewAbility),
                 charges: 1,
                 seImageNumber: 43

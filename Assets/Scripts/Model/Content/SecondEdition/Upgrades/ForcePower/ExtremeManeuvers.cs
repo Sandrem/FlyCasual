@@ -11,12 +11,10 @@ namespace UpgradesList.SecondEdition
     {
         public ExtremeManeuvers() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Extreme Maneuvers",
                 UpgradeType.ForcePower,
-                cost: 2,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.ExtremeManeuversAbility),
                 restrictions: new UpgradeCardRestrictions(
                     new BaseSizeRestriction(BaseSize.Small),

@@ -23,9 +23,9 @@ namespace UpgradesList.SecondEdition
         {
             Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
                 {
-                    {BaseSize.Small, 7},
-                    {BaseSize.Medium, 6},
-                    {BaseSize.Large, 5},
+                    {BaseSize.Small, 6},
+                    {BaseSize.Medium, 5},
+                    {BaseSize.Large, 4},
                 };
 
             UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];

@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Coaxium Hyperfuel",
                 UpgradeType.Illicit,
-                cost: 2,
+                cost: 1,
                 restriction: new ActionBarRestriction(typeof(SlamAction)),
                 abilityType: typeof(Abilities.SecondEdition.CoaxiumHyperfuelAbility)
             );

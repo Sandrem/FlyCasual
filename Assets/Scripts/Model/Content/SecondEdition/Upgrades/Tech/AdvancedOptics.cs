@@ -12,9 +12,8 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Advanced Optics",
                 UpgradeType.Tech,
-                cost: 4,
-                abilityType: typeof(Abilities.SecondEdition.AdvancedOpticsAbility)//,
-                                                                               //seImageNumber: 69
+                cost: 5,
+                abilityType: typeof(Abilities.SecondEdition.AdvancedOpticsAbility)
             );
 
             ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/e77e204e6b7164f6a1d945b20a0c4359.png";

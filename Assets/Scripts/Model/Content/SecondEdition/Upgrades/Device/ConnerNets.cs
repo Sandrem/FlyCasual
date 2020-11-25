@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Conner Nets",
                 UpgradeType.Device,
-                cost: 5,
+                cost: 3,
                 charges: 1,
                 cannotBeRecharged: true,
                 subType: UpgradeSubType.Mine,

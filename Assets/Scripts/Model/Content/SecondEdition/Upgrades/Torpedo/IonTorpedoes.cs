@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Ion Torpedoes",
                 UpgradeType.Torpedo,
-                cost: 5,
+                cost: 4,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 4,
                     minRange: 2,

@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Proton Bombs",
                 type: UpgradeType.Device,
-                cost: 5,
+                cost: 4,
                 charges: 2,
                 subType: UpgradeSubType.Bomb,
                 seImageNumber: 65

@@ -22,7 +22,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Device,
                     UpgradeType.Device
                 },
-                cost: 5,
+                cost: 2,
                 charges: 2,
                 abilityType: typeof(Abilities.SecondEdition.BombletGeneratorAbility),
                 subType: UpgradeSubType.Bomb,

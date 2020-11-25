@@ -13,10 +13,8 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Brilliant Evasion",
                 UpgradeType.ForcePower,
-                cost: 3,
-                abilityType: typeof(Abilities.SecondEdition.BrilliantEvasion)
-                //seImageNumber: 19
-                
+                cost: 2,
+                abilityType: typeof(Abilities.SecondEdition.BrilliantEvasion)                
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d0/a4/d0a49094-b246-4345-9f65-846b070e9fc6/swz34_brilliant-evasion.png";

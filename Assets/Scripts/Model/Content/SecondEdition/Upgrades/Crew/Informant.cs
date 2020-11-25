@@ -1,14 +1,9 @@
 using Ship;
 using Upgrade;
-using UnityEngine;
 using SubPhases;
 using Conditions;
-using System.Linq;
 using Tokens;
 using BoardTools;
-using ActionsList;
-using System;
-using Actions;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Informant",
                 UpgradeType.Crew,
-                cost: 5,
+                cost: 4,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.InformantAbility),
                 seImageNumber: 44

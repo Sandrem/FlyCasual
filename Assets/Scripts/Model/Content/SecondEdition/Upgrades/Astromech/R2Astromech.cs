@@ -26,9 +26,9 @@ namespace UpgradesList.SecondEdition
             Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
             {
                 {0, 3},
-                {1, 5},
-                {2, 7},
-                {3, 9}
+                {1, 4},
+                {2, 5},
+                {3, 8}
             };
 
             UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];

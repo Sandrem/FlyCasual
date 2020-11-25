@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Ion Missiles",
                 UpgradeType.Missile,
-                cost: 3,
+                cost: 2,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 3,
                     minRange: 2,

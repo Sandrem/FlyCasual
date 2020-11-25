@@ -132,15 +132,15 @@ namespace Editions
             switch (faction)
             {
                 case Faction.Rebel:
-                    return 23;
+                    return 22;
                 case Faction.Imperial:
-                    return 23;
+                    return 22;
                 case Faction.Scum:
-                    return (HasYv666InSquad()) ? 6 : 23;
+                    return (HasYv666InSquad()) ? 6 : 22;
                 case Faction.Resistance:
-                    return 32;
+                    return 26;
                 case Faction.FirstOrder:
-                    return 28;
+                    return 25;
                 case Faction.Republic:
                     return 25;
                 case Faction.Separatists:

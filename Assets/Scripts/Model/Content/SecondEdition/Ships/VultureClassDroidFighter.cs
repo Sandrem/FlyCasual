@@ -30,7 +30,6 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                     new ActionInfo(typeof(BarrelRollAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Missile,
                     UpgradeType.Modification,
                     UpgradeType.Configuration

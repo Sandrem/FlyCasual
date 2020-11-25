@@ -23,7 +23,6 @@ namespace Ship.FirstEdition.Z95Headhunter
                     new ActionInfo(typeof(TargetLockAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Missile
                 )

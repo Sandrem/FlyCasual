@@ -28,7 +28,6 @@ namespace Ship.FirstEdition.ARC170
                     new ActionInfo(typeof(TargetLockAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Torpedo,
                     UpgradeType.Crew,

@@ -28,7 +28,6 @@ namespace Ship.SecondEdition.NantexClassStarfighter
                     new ActionInfo(typeof(EvadeAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Talent
                 ),
                 abilityText: "<b>Pinpoint Tractor Array:</b> You cannot rotate your turret indicator in your rear sector. After you execute a maneuver, you main gain 1 tractor token to perform a rotate turret indicator action."

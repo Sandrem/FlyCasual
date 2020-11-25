@@ -30,7 +30,6 @@ namespace Ship.SecondEdition.HMPDroidGunship
                     new ActionInfo(typeof(ReloadAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Missile,
                     UpgradeType.Missile,
                     UpgradeType.TacticalRelay,

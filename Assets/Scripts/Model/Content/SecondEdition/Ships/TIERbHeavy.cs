@@ -28,7 +28,6 @@ namespace Ship.SecondEdition.TIERbHeavy
                     new ActionInfo(typeof(RotateArcAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Cannon,
                     UpgradeType.Cannon,
                     UpgradeType.Modification,

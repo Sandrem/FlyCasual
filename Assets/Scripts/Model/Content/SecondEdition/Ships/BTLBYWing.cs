@@ -27,7 +27,6 @@ namespace Ship.SecondEdition.BTLBYWing
                     new ActionInfo(typeof(ReloadAction), ActionColor.Red)
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,

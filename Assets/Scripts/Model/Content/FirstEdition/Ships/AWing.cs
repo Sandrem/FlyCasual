@@ -26,7 +26,6 @@ namespace Ship.FirstEdition.AWing
                     new ActionInfo(typeof(BoostAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Missile
                 )

@@ -31,7 +31,6 @@ namespace Ship.SecondEdition.LaatIGunship
                     new ActionInfo(typeof(ReloadAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Crew,
                     UpgradeType.Crew,
                     UpgradeType.Gunner,

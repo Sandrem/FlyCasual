@@ -28,7 +28,6 @@ namespace Ship
                         new ActionInfo(typeof(BarrelRollAction))
                     ),
                     new ShipUpgradesInfo(
-                        UpgradeType.Title,
                         UpgradeType.Torpedo,
                         UpgradeType.Torpedo,
                         UpgradeType.Missile,

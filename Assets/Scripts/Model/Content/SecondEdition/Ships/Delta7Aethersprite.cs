@@ -30,7 +30,6 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                     new ActionInfo(typeof(BoostAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Configuration,
                     UpgradeType.Astromech

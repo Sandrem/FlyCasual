@@ -28,7 +28,6 @@ namespace Ship.FirstEdition.UWing
                     new ActionInfo(typeof(TargetLockAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Sensor,
                     UpgradeType.Crew,

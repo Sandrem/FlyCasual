@@ -27,7 +27,6 @@ namespace Ship.SecondEdition.EscapeCraft
                     new ActionInfo(typeof(CoordinateAction), ActionColor.Red)
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Crew
                 )

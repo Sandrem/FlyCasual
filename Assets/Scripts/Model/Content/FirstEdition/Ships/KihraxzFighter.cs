@@ -24,7 +24,6 @@ namespace Ship.FirstEdition.KihraxzFighter
                     new ActionInfo(typeof(TargetLockAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Missile,
                     UpgradeType.Illicit

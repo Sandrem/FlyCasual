@@ -28,7 +28,6 @@ namespace Ship
                         new ActionInfo(typeof(CloakAction))
                     ),
                     new ShipUpgradesInfo(
-                        UpgradeType.Title,
                         UpgradeType.Modification,
                         UpgradeType.Sensor,
                         UpgradeType.Crew

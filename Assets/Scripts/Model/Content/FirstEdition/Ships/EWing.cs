@@ -26,7 +26,6 @@ namespace Ship.FirstEdition.EWing
                     new ActionInfo(typeof(EvadeAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Sensor,
                     UpgradeType.Torpedo,

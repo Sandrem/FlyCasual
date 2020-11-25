@@ -27,7 +27,6 @@ namespace Ship
                         new ActionInfo(typeof(BoostAction))
                     ),
                     new ShipUpgradesInfo(
-                        UpgradeType.Title,
                         UpgradeType.Modification,
                         UpgradeType.Sensor,
                         UpgradeType.Torpedo,

@@ -29,7 +29,6 @@ namespace Ship
                         new ActionInfo(typeof(ReloadAction))
                     ),
                     new ShipUpgradesInfo(
-                        UpgradeType.Title,
                         UpgradeType.Torpedo,
                         UpgradeType.Missile,
                         UpgradeType.Modification

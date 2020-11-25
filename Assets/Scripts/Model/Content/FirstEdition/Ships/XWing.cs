@@ -26,7 +26,6 @@ namespace Ship.FirstEdition.XWing
                     new ActionInfo(typeof(TargetLockAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Torpedo,
                     UpgradeType.Astromech

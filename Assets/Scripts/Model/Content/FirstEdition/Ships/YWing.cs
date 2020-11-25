@@ -24,7 +24,6 @@ namespace Ship.FirstEdition.YWing
                     new ActionInfo(typeof(TargetLockAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,

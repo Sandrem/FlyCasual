@@ -26,7 +26,6 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                     new ActionInfo(typeof(BarrelRollAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Missile,
                     UpgradeType.Modification
                 )

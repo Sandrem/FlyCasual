@@ -29,7 +29,6 @@ namespace Ship
                         new ActionInfo(typeof(TargetLockAction))
                     ),
                     new ShipUpgradesInfo(
-                        UpgradeType.Title,
                         UpgradeType.Modification,
                         UpgradeType.Missile
                     )

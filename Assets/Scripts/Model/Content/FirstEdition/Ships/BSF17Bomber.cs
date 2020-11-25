@@ -28,7 +28,6 @@ namespace Ship.FirstEdition.BSF17Bomber
                     new ActionInfo(typeof(TargetLockAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Sensor,
                     UpgradeType.Tech,

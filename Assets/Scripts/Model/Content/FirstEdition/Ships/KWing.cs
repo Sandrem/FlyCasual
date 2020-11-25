@@ -29,7 +29,6 @@ namespace Ship.FirstEdition.KWing
                     new ActionInfo(typeof(SlamAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,

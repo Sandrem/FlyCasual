@@ -28,7 +28,6 @@ namespace Ship.FirstEdition.AuzituckGunship
                     new ActionInfo(typeof(ReinforceAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Modification,
                     UpgradeType.Crew,
                     UpgradeType.Crew

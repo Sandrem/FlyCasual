@@ -29,7 +29,6 @@ namespace Ship
                         new ActionInfo(typeof(BarrelRollAction))
                     ),
                     new ShipUpgradesInfo(
-                        UpgradeType.Title,
                         UpgradeType.Modification
                     ),
                     factionsAll: new List<Faction>() { Faction.Imperial, Faction.Rebel }

@@ -31,7 +31,6 @@ namespace Ship.SecondEdition.XiClassLightShuttle
                     new ActionInfo(typeof(JamAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
                     UpgradeType.Tech,
                     UpgradeType.Tech,
                     UpgradeType.Crew,

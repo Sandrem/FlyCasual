@@ -18,7 +18,7 @@ namespace GameCommands
         {
             int shipId = int.Parse(GetString("id"));
 
-            Console.Write($"Combat activation of : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+            Console.Write($"\nCombat activation of : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
 
             CombatSubPhase.DoCombatActivation(shipId);
         }

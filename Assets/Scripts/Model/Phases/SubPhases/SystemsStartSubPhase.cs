@@ -17,6 +17,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Console.Write($"\nSystems Phase (Round:{Phases.RoundCounter})", isBold: true, color: "orange");
+
             Phases.Events.CallSystemsPhaseStartTrigger();
         }
 

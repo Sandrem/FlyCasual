@@ -14,7 +14,7 @@ namespace GameCommands
         {
             int shipId = int.Parse(GetString("id"));
 
-            Console.Write($"System activation of : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+            Console.Write($"\nSystem activation of : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
             SystemsSubPhase.DoSystemActivation(shipId);
         }
     }

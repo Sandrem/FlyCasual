@@ -45,6 +45,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Console.Write($"\nSetup Phase", isBold: true, color: "orange");
+
             ShowObstaclesHolder();
 
             MinBoardEdgeDistance = Board.BoardIntoWorld(2 * Board.RANGE_1);

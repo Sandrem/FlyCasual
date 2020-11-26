@@ -30,6 +30,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Console.Write($"\nPlanning Phase (Round:{Phases.RoundCounter})", isBold: true, color: "orange");
+
             Roster.AllShipsHighlightOff();
             PlayerAssignsManeuvers();
         }

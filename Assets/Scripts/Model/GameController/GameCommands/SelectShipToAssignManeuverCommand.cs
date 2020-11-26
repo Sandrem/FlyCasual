@@ -19,7 +19,7 @@ namespace GameCommands
         {
             int shipId = int.Parse(GetString("id"));
 
-            Console.Write($"Ship is selected to assign a maneuver: {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+            Console.Write($"\nShip is selected to assign a maneuver: {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
 
             Selection.ChangeActiveShip("ShipId:" + shipId);
             DirectionsMenu.Show(ShipMovementScript.SendAssignManeuverCommand, PlanningSubPhase.CheckForFinish, isRegularPlanning: true);

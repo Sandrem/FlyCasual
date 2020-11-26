@@ -17,6 +17,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Console.Write($"\nMovement Activation Phase (Round:{Phases.RoundCounter})", isBold: true, color: "orange");
+
             Phases.Events.CallActivationPhaseStartTrigger();
         }
 

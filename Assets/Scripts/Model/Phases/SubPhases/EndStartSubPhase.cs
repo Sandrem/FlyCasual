@@ -15,6 +15,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Console.Write($"\nEnd Phase (Round:{Phases.RoundCounter})", isBold: true, color: "orange");
+
             Phases.Events.CallEndPhaseTrigger(EndRound);
         }
 

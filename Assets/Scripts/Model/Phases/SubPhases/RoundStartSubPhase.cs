@@ -17,6 +17,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Console.Write($"\nROUND IS STARTED: {Phases.RoundCounter+1}", isBold: true, color: "orange");
+
             InformAboutNewRoundStart();
 
             Phases.Events.CallRoundStartTrigger(delegate { Phases.FinishSubPhase(this.GetType()); });

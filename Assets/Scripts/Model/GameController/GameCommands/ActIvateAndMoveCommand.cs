@@ -13,7 +13,7 @@ namespace GameCommands
         {
             int shipId = int.Parse(GetString("id"));
 
-            Console.Write($"Movement activation of : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+            Console.Write($"\nMovement activation of : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
 
             ShipMovementScript.ActivateAndMove(shipId);
         }

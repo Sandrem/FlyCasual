@@ -19,6 +19,8 @@ namespace SubPhases
 
         public override void Initialize()
         {
+            Console.Write($"\nCombat Activation Phase (Round:{Phases.RoundCounter})", isBold: true, color: "orange");
+
             Phases.Events.CallCombatPhaseStartTrigger();
         }
 

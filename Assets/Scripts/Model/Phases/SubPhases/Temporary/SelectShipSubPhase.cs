@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using GameModes;
 using Ship;
 using System;
 using System.Linq;
 using Players;
-using UnityEngine.UI;
 using ActionsList;
 using GameCommands;
 
@@ -23,6 +21,8 @@ namespace SubPhases
     public class SelectShipSubPhase : GenericSubPhase
     {
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SelectShip, GameCommandTypes.PressSkip, GameCommandTypes.CancelShipSelection }; } }
+
+        public bool IsLocked { get; set; }
 
         protected List<TargetTypes> targetsAllowed = new List<TargetTypes>();
         protected int minRange = 0;
@@ -61,6 +61,7 @@ namespace SubPhases
                 CameraScript.RestoreCamera();
 
                 IsReadyForCommands = true;
+                IsLocked = false;
                 Roster.GetPlayer(RequiredPlayer).SelectShipForAbility();
             }
         }
@@ -162,6 +163,9 @@ namespace SubPhases
                     {
                         if (mouseKeyIsPressed == 1)
                         {
+                            if (IsLocked) return false;
+                            IsLocked = true;
+
                             SendSelectShipCommand(ship);
                         }
                         else if (mouseKeyIsPressed == 2)
@@ -179,6 +183,9 @@ namespace SubPhases
                 }
                 else
                 {
+                    if (IsLocked) return false;
+                    IsLocked = true;
+
                     Messages.ShowErrorToHuman("You cannot select this friendly ship");
                     Selection.ThisShip.CallActionTargetIsWrong(HostAction, ship, CancelShipSelection);
                 }
@@ -196,10 +203,16 @@ namespace SubPhases
                 {
                     if (FilterShipTargets(anotherShip))
                     {
+                        if (IsLocked) return false;
+                        IsLocked = true;
+
                         SendSelectShipCommand(anotherShip);
                     }
                     else
                     {
+                        if (IsLocked) return false;
+                        IsLocked = true;
+
                         Messages.ShowErrorToHuman("You cannot select this enemy ship");
                         Selection.ThisShip.CallActionTargetIsWrong(HostAction, anotherShip, CancelShipSelection);
                     }
@@ -226,8 +239,10 @@ namespace SubPhases
 
         private void TryToSelectThisShip()
         {
-            if (FilterShipTargets(Selection.ThisShip))
+            if (FilterShipTargets(Selection.ThisShip) && !IsLocked)
             {
+                IsLocked = true;
+
                 SendSelectShipCommand(Selection.ThisShip);
             }
             else
@@ -281,6 +296,7 @@ namespace SubPhases
         public void CallRevertSubPhase()
         {
             RevertSubPhase();
+            IsLocked = false;
         }
 
         public virtual void RevertSubPhase()

@@ -16,6 +16,30 @@ namespace GameCommands
 
         public override void Execute()
         {
+            string diceResults = "";
+            foreach (DieSide dieSide in DiceRoll.CurrentDiceRoll.ResultsArray)
+            {
+                switch (dieSide)
+                {
+                    case DieSide.Blank:
+                        diceResults += "blank";
+                        break;
+                    case DieSide.Focus:
+                        diceResults += "eye ";
+                        break;
+                    case DieSide.Success:
+                        diceResults += (DiceRoll.CurrentDiceRoll.Type == DiceKind.Attack) ? "hit " : "evade ";
+                        break;
+                    case DieSide.Crit:
+                        diceResults += "crit ";
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+            Console.Write($"Dice results are confirmed: {diceResults}");
             (Phases.CurrentSubPhase as DiceRollCheckSubPhase).Confirm();
         }
     }

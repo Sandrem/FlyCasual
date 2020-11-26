@@ -16,13 +16,19 @@ namespace GameCommands
 
         public override void Execute()
         {
+            string diceToText = "";
+
             List<bool> selectedDice = new List<bool>();
             JSONObject jsonHolder1 = (JSONObject)GetParameter("dice");
             foreach (var dieInfo in jsonHolder1.list)
             {
                 bool isSelected = bool.Parse(dieInfo["selected"].str);
                 selectedDice.Add(isSelected);
+                diceToText += isSelected + " ";
             }
+
+            Console.Write($"Dice are selected for reroll: {diceToText}");
+
             DiceRerollManager.SyncDiceRerollSelected(selectedDice);
         }
     }

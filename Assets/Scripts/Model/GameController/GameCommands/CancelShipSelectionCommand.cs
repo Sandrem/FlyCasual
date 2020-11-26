@@ -1,9 +1,5 @@
 ﻿using SubPhases;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
 
 namespace GameCommands
 {
@@ -19,10 +15,6 @@ namespace GameCommands
             if ((Phases.CurrentSubPhase is SelectShipSubPhase))
             {
                 (Phases.CurrentSubPhase as SelectShipSubPhase).CallRevertSubPhase();
-            }
-            else
-            {
-                //
             }
         }
     }

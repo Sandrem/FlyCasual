@@ -16,10 +16,12 @@ namespace GameCommands
 
         public override void Execute()
         {
-            ShipMovementScript.AssignManeuver(
-                int.Parse(GetString("id")),
-                GetString("maneuver")
-            );
+            int shipId = int.Parse(GetString("id"));
+            string maneuverCode = GetString("maneuver");
+
+            Console.Write($"Maneuver is assigned: \"{maneuverCode}\" for {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+
+            ShipMovementScript.AssignManeuver(shipId, maneuverCode);
         }
     }
 

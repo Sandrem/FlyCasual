@@ -16,7 +16,11 @@ namespace GameCommands
 
         public override void Execute()
         {
-            DecisionSubPhase.ExecuteDecision(GetString("name"));
+            string decisionName = GetString("name");
+
+            Console.Write($"Decision is taken: {decisionName}");
+
+            DecisionSubPhase.ExecuteDecision(decisionName);
         }
     }
 

@@ -29,14 +29,13 @@ public static class GameController
 
     public static void SendCommand(GameCommand command)
     {
+        Console.Write($"Command is received: {command.GetType().ToString().Replace("GameCommands.","")}", isBold: true, color: "cyan");
         CommandsReceived.Add(command);
 
         if (ReplaysManager.Mode == ReplaysMode.Write)
         {
             ReplaysManager.RecordCommand(command);
         }
-
-        // command.TryExecute();
     }
 
     public static void SendCommand(GameCommandTypes commandType, Type subPhase, string parameters = null)
@@ -111,12 +110,6 @@ public static class GameController
             case GameCommandTypes.PressSkip:
                 command = new PressSkipCommand(commandType, subPhase, parameters);
                 break;
-            case GameCommandTypes.HotacSwerve:
-                command = new HotacSwerveCommand(commandType, subPhase, parameters);
-                break;
-            case GameCommandTypes.HotacFreeTargetLock:
-                command = new HotacFreeTargetLockCommand(commandType, subPhase, parameters);
-                break;
             case GameCommandTypes.SyncPlayerWithInitiative:
                 command = new SyncPlayerWithInitiativeCommand(commandType, subPhase, parameters);
                 break;
@@ -141,8 +134,6 @@ public static class GameController
             default:
                 break;
         }
-
-        string receivedString = (isRpc) ? " (rpc)": "";
 
         return command;
     }

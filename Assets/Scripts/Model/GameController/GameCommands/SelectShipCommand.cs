@@ -16,7 +16,11 @@ namespace GameCommands
 
         public override void Execute()
         {
-            SelectShipSubPhase.SelectShip(int.Parse(GetString("id")));
+            int shipId = int.Parse(GetString("id"));
+
+            Console.Write($"Ship is selected : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+
+            SelectShipSubPhase.SelectShip(shipId);
         }
     }
 

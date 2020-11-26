@@ -16,6 +16,7 @@ namespace GameCommands
 
         public override void Execute()
         {
+            Console.Write("Button \"Next\" is used");
             UI.NextButtonEffect();
         }
     }

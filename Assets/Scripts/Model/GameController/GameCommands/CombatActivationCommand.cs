@@ -16,7 +16,11 @@ namespace GameCommands
 
         public override void Execute()
         {
-            CombatSubPhase.DoCombatActivation(int.Parse(GetString("id")));
+            int shipId = int.Parse(GetString("id"));
+
+            Console.Write($"Combat activation of : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+
+            CombatSubPhase.DoCombatActivation(shipId);
         }
     }
 

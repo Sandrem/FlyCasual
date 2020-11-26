@@ -22,9 +22,14 @@ namespace GameCommands
 
         public override void Execute()
         {
-            SquadList playerList = SquadBuilder.SquadLists.First(n => n.PlayerNo == (PlayerNo)Enum.Parse(typeof(PlayerNo), GetString("player")));
+            PlayerNo playerNo = (PlayerNo)Enum.Parse(typeof(PlayerNo), GetString("player"));
+            string playerType = GetString("type");
+
+            Console.Write($"Squad for Player {Tools.PlayerToInt(playerNo)} ({playerType}) is ready");
+
+            SquadList playerList = SquadBuilder.SquadLists.First(n => n.PlayerNo == playerNo);
             playerList.SavedConfiguration = (JSONObject)GetParameter("list");
-            playerList.PlayerType = System.Type.GetType(GetString("type"));
+            playerList.PlayerType = System.Type.GetType(playerType);
         }
     }
 

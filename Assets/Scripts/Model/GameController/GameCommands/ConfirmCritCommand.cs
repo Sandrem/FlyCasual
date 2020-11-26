@@ -17,7 +17,13 @@ namespace GameCommands
         public override void Execute()
         {
             Phases.CurrentSubPhase.IsReadyForCommands = false;
-            ReplaysManager.ExecuteWithDelay(InformCrit.ConfirmCrit, 3);
+            ReplaysManager.ExecuteWithDelay(
+                delegate {
+                    Console.Write("Critical damage card is confirmed");
+                    InformCrit.ConfirmCrit();
+                },
+                3
+            );
         }
     }
 

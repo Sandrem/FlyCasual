@@ -16,9 +16,13 @@ namespace GameCommands
 
         public override void Execute()
         {
+            string obstacleName = GetString("name");
+
+            Console.Write($"Obstacle is moved: {obstacleName}");
+
             MoveObstacleMidgameSubPhase.PlaceObstacle
             (
-                GetString("name"),
+                obstacleName,
                 new Vector3
                 (
                     float.Parse(GetString("positionX"), CultureInfo.InvariantCulture),

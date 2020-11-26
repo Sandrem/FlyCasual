@@ -18,14 +18,20 @@ namespace GameCommands
         {
             Phases.CurrentSubPhase.IsReadyForCommands = false;
 
+            string diceToText = "";
+
             List<DieSide> correctSides = new List<DieSide>();
             JSONObject jsonHolder = (JSONObject)GetParameter("sides");
             foreach (var dieInfo in jsonHolder.list)
             {
                 DieSide side = (DieSide)Enum.Parse(typeof(DieSide), dieInfo["side"].str);
                 correctSides.Add(side);
+
+                diceToText += side + " ";
             }
             DiceRoll.SyncDiceResults(correctSides);
+
+            Console.Write($"Dice results are synchronized: {diceToText}");
 
             Phases.CurrentSubPhase.IsReadyForCommands = true;
         }

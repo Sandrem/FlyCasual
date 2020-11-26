@@ -28,9 +28,5 @@ public static class GameInitializer
 
             if (command.GetType() == typeof(SyncPlayerWithInitiativeCommand)) AcceptsCommandType = null;
         }
-        else
-        {
-            //
-        }
     }
 }

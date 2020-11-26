@@ -171,26 +171,7 @@ namespace AI
 
         public static void GenerateSwerveCommand(int shipId, string maneuverCode)
         {
-            JSONObject parameters = new JSONObject();
-            parameters.AddField("id", shipId.ToString());
-            parameters.AddField("maneuver", maneuverCode);
-            GameCommand command = new HotacSwerveCommand(
-                GameCommandTypes.HotacSwerve,
-                typeof(SubPhases.ActivationSubPhase),
-                parameters.ToString()
-            );
-
-            ReplaysManager.RecordCommand(command);
-
-            parameters = new JSONObject();
-            parameters.AddField("id", shipId.ToString());
-            command = new AssignManeuverCommand(
-                GameCommandTypes.ActivateAndMove,
-                typeof(SubPhases.ActivationSubPhase),
-                parameters.ToString()
-            );
-
-            ReplaysManager.RecordCommand(command);
+            //
         }
     }
 }

@@ -17,7 +17,11 @@ namespace GameCommands
 
         public override void Execute()
         {
-            Selection.ChangeActiveShip("ShipId:" + int.Parse(GetString("id")));
+            int shipId = int.Parse(GetString("id"));
+
+            Console.Write($"Ship is selected to assign a maneuver: {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+
+            Selection.ChangeActiveShip("ShipId:" + shipId);
             DirectionsMenu.Show(ShipMovementScript.SendAssignManeuverCommand, PlanningSubPhase.CheckForFinish, isRegularPlanning: true);
         }
     }

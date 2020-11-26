@@ -22,8 +22,6 @@ public enum GameCommandTypes
     ConfirmCrit,
     ConfirmDiceCheck,
     PressSkip,
-    HotacSwerve,
-    HotacFreeTargetLock,
     SyncPlayerWithInitiative,
     SystemActivation,
     CombatActivation,
@@ -110,6 +108,7 @@ namespace GameCommands
             }
 
             GameController.ConfirmCommand();
+            Console.Write($"Command is executed: {this.GetType().ToString().Replace("GameCommands.", "")}", isBold: true, color: "cyan");
             Execute();
         }
 

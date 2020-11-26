@@ -17,8 +17,12 @@ namespace GameCommands
 
         public override void Execute()
         {
-            if (Phases.CurrentSubPhase is SelectObstacleSubPhase) SelectObstacleSubPhase.ConfirmSelectionOfObstacle(GetString("name"));
-            else if (Phases.CurrentSubPhase is SelectTargetLockableSubPhase) SelectTargetLockableSubPhase.ConfirmSelectionOfObstacle(GetString("name"));
+            string obstacleName = GetString("name");
+
+            Console.Write($"Obstacle is chosen: {obstacleName}");
+
+            if (Phases.CurrentSubPhase is SelectObstacleSubPhase) SelectObstacleSubPhase.ConfirmSelectionOfObstacle(obstacleName);
+            else if (Phases.CurrentSubPhase is SelectTargetLockableSubPhase) SelectTargetLockableSubPhase.ConfirmSelectionOfObstacle(obstacleName);
         }
     }
 

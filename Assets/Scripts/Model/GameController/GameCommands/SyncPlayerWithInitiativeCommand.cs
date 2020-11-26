@@ -23,6 +23,9 @@ namespace GameCommands
         public override void Execute()
         {
             Phases.PlayerWithInitiative = (PlayerNo)Enum.Parse(typeof(PlayerNo), GetString("player"));
+
+            Console.Write($"Player with Initiative: Player {Tools.PlayerToInt(Phases.PlayerWithInitiative)}");
+
             Triggers.FinishTrigger();
         }
     }

@@ -19,10 +19,14 @@ namespace GameCommands
         public override void Execute()
         {
             Combat.ChosenWeapon = GetWeaponByName(GetString("weapon"));
+            int attackerId = int.Parse(GetString("id"));
+            int defenderId = int.Parse(GetString("target"));
+
+            Console.Write($"Attack is declared: {Roster.GetShipById("ShipId:" + attackerId).PilotInfo.PilotName} (ID:{attackerId}) attacks {Roster.GetShipById("ShipId:" + defenderId).PilotInfo.PilotName} (ID:{defenderId})");
 
             Combat.DeclareIntentToAttack(
-                int.Parse(GetString("id")),
-                int.Parse(GetString("target")),
+                attackerId,
+                defenderId,
                 bool.Parse(GetString("weaponIsAlreadySelected"))
             );
         }

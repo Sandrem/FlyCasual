@@ -60,14 +60,14 @@ namespace Players
             {
                 isTargetLockPerformed = true;
 
-                JSONObject parameters = new JSONObject();
+                /*JSONObject parameters = new JSONObject();
                 parameters.AddField("id", ship.ShipId.ToString());
                 parameters.AddField("target", anotherShip.ShipId.ToString());
                 GameController.SendCommand(
                     GameCommandTypes.HotacFreeTargetLock,
                     Phases.CurrentSubPhase.GetType(),
                     parameters.ToString()
-                );
+                );*/
 
                 PerformManeuverOfShip(ship);
             }

@@ -15,6 +15,8 @@ namespace GameCommands
 
         public override void Execute()
         {
+            Console.Write("Bomb is placed");
+
             PlaceBombTokenSubphase.FinishBombPlacement
             (
                 new Vector3

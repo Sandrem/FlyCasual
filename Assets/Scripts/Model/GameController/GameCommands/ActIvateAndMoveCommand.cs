@@ -1,9 +1,4 @@
-﻿using SubPhases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using System;
 
 namespace GameCommands
 {
@@ -16,9 +11,11 @@ namespace GameCommands
 
         public override void Execute()
         {
-            ShipMovementScript.ActivateAndMove(
-                int.Parse(GetString("id"))
-            );
+            int shipId = int.Parse(GetString("id"));
+
+            Console.Write($"Movement activation of : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+
+            ShipMovementScript.ActivateAndMove(shipId);
         }
     }
 

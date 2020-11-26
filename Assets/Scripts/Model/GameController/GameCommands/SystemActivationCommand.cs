@@ -1,9 +1,5 @@
 ﻿using SubPhases;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
 
 namespace GameCommands
 {
@@ -16,7 +12,10 @@ namespace GameCommands
 
         public override void Execute()
         {
-            SystemsSubPhase.DoSystemActivation(int.Parse(GetString("id")));
+            int shipId = int.Parse(GetString("id"));
+
+            Console.Write($"System activation of : {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+            SystemsSubPhase.DoSystemActivation(shipId);
         }
     }
 

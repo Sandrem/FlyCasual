@@ -17,9 +17,13 @@ namespace GameCommands
 
         public override void Execute()
         {
+            int shipId = int.Parse(GetString("id"));
+
+            Console.Write($"Ship is placed on the board: {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
+
             SetupSubPhase.PlaceShip
             (
-                int.Parse(GetString("id")),
+                shipId,
                 new Vector3
                 (
                     float.Parse(GetString("positionX"), CultureInfo.InvariantCulture),

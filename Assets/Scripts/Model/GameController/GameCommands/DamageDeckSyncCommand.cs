@@ -23,7 +23,12 @@ namespace GameCommands
 
         public override void Execute()
         {
-            DamageDecks.GetDamageDeck((PlayerNo)Enum.Parse(typeof(PlayerNo), GetString("player"))).ShuffleDeck(int.Parse(GetString("seed")));
+            int seed = int.Parse(GetString("seed"));
+            PlayerNo playerNo = (PlayerNo)Enum.Parse(typeof(PlayerNo), GetString("player"));
+
+            Console.Write($"Damage deck of Player {Tools.PlayerToInt(playerNo)} is shuffled (Seed: {seed})");
+
+            DamageDecks.GetDamageDeck(playerNo).ShuffleDeck(seed);
         }
     }
 

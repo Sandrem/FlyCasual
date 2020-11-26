@@ -212,6 +212,7 @@ public static class Combat
         }
         else
         {
+            CombatSubPhase.IsLocked = false;
             IsAttackAlreadyCalled = false;
             Roster.GetPlayer(Phases.CurrentPhasePlayer).OnTargetNotLegalForAttack();
         }

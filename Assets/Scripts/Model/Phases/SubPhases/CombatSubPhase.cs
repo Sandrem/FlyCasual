@@ -15,6 +15,7 @@ namespace SubPhases
     public class CombatSubPhase : GenericSubPhase
     {
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.CombatActivation, GameCommandTypes.PressSkip }; } }
+        public static bool IsLocked;
 
         public override void Start()
         {
@@ -67,6 +68,7 @@ namespace SubPhases
             UpdateHelpInfo();
             Roster.HighlightShipsFiltered(FilterShipsToPerformAttack);
 
+            IsLocked = false;
             IsReadyForCommands = true;
             Roster.GetPlayer(RequiredPlayer).PerformAttack();
         }
@@ -164,9 +166,13 @@ namespace SubPhases
 
         public override void DoSelectThisShip(GenericShip ship, int mouseKeyIsPressed)
         {
-            Roster.HighlightShipsFiltered(FilterShipsToAttack);
+            if (!IsLocked)
+            {
+                IsLocked = true;
 
-            GameMode.CurrentGameMode.ExecuteCommand(GenerateCombatActivationCommand(ship.ShipId));
+                Roster.HighlightShipsFiltered(FilterShipsToAttack);
+                GameMode.CurrentGameMode.ExecuteCommand(GenerateCombatActivationCommand(ship.ShipId));
+            }
         }
 
         public static GameCommand GenerateCombatActivationCommand(int shipId)
@@ -182,6 +188,8 @@ namespace SubPhases
 
         public static void DoCombatActivation(int shipId)
         {
+            IsLocked = false;
+
             Selection.ChangeActiveShip("ShipId:" + shipId);
 
             Triggers.RegisterTrigger(
@@ -279,6 +287,8 @@ namespace SubPhases
 
         public override void SkipButton()
         {
+            IsLocked = true;
+
             if ((Selection.ThisShip == null) || (Selection.ThisShip.IsAttackPerformed))
             {
                 if (TargetsAreAvailable())
@@ -419,8 +429,10 @@ namespace SubPhases
         {
             if (mouseKeyIsPressed == 1)
             {
-                if (Selection.ThisShip.IsAttackPerformed != true)
+                if (Selection.ThisShip.IsAttackPerformed != true && !IsLocked)
                 {
+                    IsLocked = true;
+
                     UI.CheckFiringRangeAndShow();
                     UI.ClickDeclareTarget();
                 }

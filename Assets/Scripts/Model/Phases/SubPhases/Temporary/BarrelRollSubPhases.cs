@@ -157,7 +157,7 @@ namespace SubPhases
             }
             else
             {
-                Console.Write("No available templates for Barrel Roll!", LogTypes.Errors, true, "red");
+                //
             }
         }
 

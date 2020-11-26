@@ -204,7 +204,6 @@ public static partial class Triggers
 
     public static void RegisterTrigger(Trigger trigger)
     {
-        Console.Write(trigger.Name + " is registered", LogTypes.Triggers);
         if (NewLevelIsRequired())
         {
             CreateTriggerInNewLevel(trigger);
@@ -217,15 +216,6 @@ public static partial class Triggers
 
     public static void ResolveTriggers(TriggerTypes triggerType, Action callBack = null)
     {
-        if (callBack != null)
-        {
-            Console.Write(triggerType.ToString(), LogTypes.Triggers, true, "yellow");
-        }
-        else
-        {
-            Console.Write(triggerType + " is resolved again", LogTypes.Triggers, false, "yellow");
-        }
-
         if (triggerType == TriggerTypes.OnDamageIsDealt && callBack != null) DamageNumbers.UpdateSavedHP();
 
         StackLevel currentLevel = GetCurrentLevel();
@@ -268,7 +258,6 @@ public static partial class Triggers
     public static void FireTrigger(Trigger trigger)
     {
         CurrentTrigger = trigger;
-        Console.Write(trigger.Name + " is fired", LogTypes.Triggers);
         trigger.Fire();
     }
 
@@ -282,8 +271,6 @@ public static partial class Triggers
         }
 
         Trigger currentTrigger = currentStackLevel.GetCurrentTrigger();
-
-        Console.Write(currentTrigger.Name + " is finished", LogTypes.Triggers);
 
         currentStackLevel.RemoveTrigger(currentTrigger);
         currentStackLevel.IsActive = false;
@@ -320,7 +307,7 @@ public static partial class Triggers
 
         if (GetCurrentLevel() == null)
         {
-            Console.Write("Callback, stack is empty\n", LogTypes.Triggers, true);
+            //
         }
         else
         {
@@ -330,7 +317,6 @@ public static partial class Triggers
                 triggerTypesInStack += level.TriggerType;
                 if (level != TriggersStack.Last()) triggerTypesInStack += ", ";
             }
-            Console.Write("Callback, stack level is " + (GetCurrentLevel().level + 1 + ": " + triggerTypesInStack), LogTypes.Triggers, true);
         }
 
         callBack();

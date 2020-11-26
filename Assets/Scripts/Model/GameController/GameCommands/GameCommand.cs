@@ -109,8 +109,6 @@ namespace GameCommands
                 }
             }
 
-            Console.Write("Command is executed: " + Type, LogTypes.GameCommands, true, "aqua");
-
             GameController.ConfirmCommand();
             Execute();
         }

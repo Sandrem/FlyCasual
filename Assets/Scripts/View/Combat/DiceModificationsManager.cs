@@ -113,7 +113,6 @@ public partial class DiceModificationsManager
 
     private static bool ShowOnlyForHuman()
     {
-        Console.Write(Selection.ActiveShip.Owner.GetType().ToString());
         return Selection.ActiveShip.Owner.GetType() == typeof(Players.HumanPlayer);
     }
 }

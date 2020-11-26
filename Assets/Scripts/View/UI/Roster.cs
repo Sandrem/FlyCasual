@@ -490,7 +490,6 @@ public static partial class Roster {
             GameObject prefab = (GameObject)Resources.Load("Prefabs/TokenPanel", typeof(GameObject));
             GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
             Sprite tokenSprite = Resources.Load<Sprite>("Sprites/Tokens/" + token.ImageName);
-            if (tokenSprite == null) Console.Write("Token's image was not found: " + token.ImageName, LogTypes.Errors, true, "red");
             tokenPanel.GetComponentInChildren<Image>().sprite = tokenSprite;
             tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
             tokenPanel.name = token.Name;

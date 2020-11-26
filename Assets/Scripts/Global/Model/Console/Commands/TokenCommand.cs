@@ -111,12 +111,12 @@ namespace CommandsList
 
         private void ShowMessage()
         {
-            Console.Write("Token command is resolved", LogTypes.Everything, true);
+            Console.Write("Token command is resolved", true);
         }
 
         private void ShowErrorMessage()
         {
-            Console.Write("Token command is not resolved - error occured", LogTypes.Everything, true, "red");
+            Console.Write("Token command is not resolved - error occured", true, "red");
         }
     }
 }

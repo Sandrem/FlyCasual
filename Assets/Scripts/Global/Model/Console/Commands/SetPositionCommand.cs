@@ -56,7 +56,7 @@ namespace CommandsList
 
         private void ShowMessage()
         {
-            Console.Write("SetPosition command is resolved", LogTypes.Everything, true);
+            Console.Write("SetPosition command is resolved", true);
         }
     }
 }

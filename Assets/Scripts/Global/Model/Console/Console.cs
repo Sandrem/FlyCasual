@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System.Linq;
 using System.Reflection;
 using System;
@@ -9,28 +8,16 @@ using UnityEngine.Analytics;
 using UnityEngine.Networking;
 using SquadBuilderNS;
 
-public enum LogTypes
-{
-    Everything,
-    Errors,
-    GameCommands,
-    Triggers,
-    AI,
-    Network
-}
-
 public partial class Console : MonoBehaviour {
 
     public class LogEntry
     {
         public string Text;
-        public LogTypes Type;
         public float CalculatedPrefferedHeight;
 
-        public LogEntry(string text, LogTypes logType)
+        public LogEntry(string text)
         {
             Text = text;
-            Type = logType;
         }
     }
 
@@ -40,9 +27,6 @@ public partial class Console : MonoBehaviour {
         get { return logs; }
         private set { logs = value; }
     }
-
-    private static LogTypes currentLogTypeToShow;
-    private static List<LogTypes> logsList = new List<LogTypes>() { LogTypes.Everything, LogTypes.Errors, LogTypes.Triggers, LogTypes.AI, LogTypes.Network };
 
     private static Dictionary<string, GenericCommand> availableCommands;
     public static Dictionary<string, GenericCommand> AvailableCommands
@@ -79,10 +63,9 @@ public partial class Console : MonoBehaviour {
     private static void InitializeLogs()
     {
         Logs = new List<LogEntry>();
-        currentLogTypeToShow = LogTypes.Everything;
     }
 
-    public static void Write(string text, LogTypes logType = LogTypes.Everything, bool isBold = false, string color = "")
+    public static void Write(string text, bool isBold = false, string color = "")
     {
         if (Logs == null) InitializeLogs();
 
@@ -90,13 +73,10 @@ public partial class Console : MonoBehaviour {
         if (isBold) logString = "<b>" + logString + "</b>";
         if (color != "") logString = "<color="+ color + ">" + logString + "</color>";
 
-        LogEntry logEntry = new LogEntry(logString + "\n", logType);
+        LogEntry logEntry = new LogEntry(logString + "\n");
         Logs.Add(logEntry);
 
-        if (currentLogTypeToShow == logType || currentLogTypeToShow == LogTypes.Everything)
-        {
-            ShowLogEntry(logEntry);
-        }
+        ShowLogEntry(logEntry);
     }
 
     private void ProcessUnityLog(string logString, string stackTrace, LogType type)
@@ -122,7 +102,7 @@ public partial class Console : MonoBehaviour {
                 IsActive = true;
             }
 
-            Write("\n" + logString + "\n\n" + stackTrace, LogTypes.Errors, true, "red");
+            Write("\n" + logString + "\n\n" + stackTrace, true, "red");
         }
     }
 
@@ -224,7 +204,7 @@ public partial class Console : MonoBehaviour {
         }
         else
         {
-            Console.Write("Unknown command, enter \"help\" to see list of commands", LogTypes.Everything, false, "red");
+            Console.Write("Unknown command, enter \"help\" to see list of commands", color: "red");
         }
     }
 

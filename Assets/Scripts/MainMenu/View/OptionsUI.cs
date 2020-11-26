@@ -342,20 +342,14 @@ public class OptionsUI : MonoBehaviour {
         GameObject prefab = (GameObject)Resources.Load(prefabPath, typeof(GameObject));
         GameObject panel = Instantiate(prefab, parentTransform);
 
-        Console.Write("Fullscreen: " + Options.FullScreen.ToString());
         Toggle fullscreen = panel.transform.Find("FullscreenCheckboxPanel/ToggleHolder/Toggle").GetComponent<Toggle>();
         fullscreen.isOn = Options.FullScreen;
-        Console.Write("Fullscreen toggle: " + fullscreen.isOn);
         fullscreen.onValueChanged.AddListener(ChangeFullscreen);
 
-        Console.Write("Fps: " + Options.ShowFps.ToString());
         Toggle fps = panel.transform.Find("FpsCheckboxPanel/ToggleHolder/Toggle").GetComponent<Toggle>();
         fps.isOn = Options.ShowFps;
-        Console.Write("Fps toggle: " + fps.isOn);
         fps.onValueChanged.AddListener(ChangeFps);
 
-        Console.Write("Quality int: " + Options.Quality);
-        Console.Write("Quality: " + QualityNames[Options.Quality]);
         int qualityLevel = Options.Quality;
         Text qualityText = panel.transform.Find("QualityComboboxPanel/ComboboxHolder/InputBox/Text").GetComponent<Text>();
         qualityText.text = QualityNames[qualityLevel];
@@ -366,8 +360,6 @@ public class OptionsUI : MonoBehaviour {
 
         try
         {
-            Console.Write("Resolution: " + Options.Resolution);
-            Console.Write("Available Resolutions: " + Screen.resolutions.Length);
             string resolution = Options.Resolution;
             Text resolutionText = panel.transform.Find("ResolutionComboboxPanel/ComboboxHolder/InputBox/Text").GetComponent<Text>();
             if (!HasSupportOfResolution(resolution)) resolution = GetAllResolutions().Last().ToString();
@@ -385,7 +377,6 @@ public class OptionsUI : MonoBehaviour {
 
         try
         {
-            Console.Write("Monitors: " + Display.displays.Count());
             int displayId = Options.DisplayId;
             Text displayIdText = panel.transform.Find("DisplayComboboxPanel/ComboboxHolder/InputBox/Text").GetComponent<Text>();
             displayIdText.text = "Monitor " + (displayId + 1);
@@ -405,11 +396,9 @@ public class OptionsUI : MonoBehaviour {
         try
         {
             displayId += change;
-            Console.Write(displayId.ToString());
 
             if (displayId < 0 || displayId >= Display.displays.Count())
             {
-                Console.Write("Monitor: Out of Range");
                 displayId -= change;
             }
             else
@@ -418,8 +407,6 @@ public class OptionsUI : MonoBehaviour {
                 Options.ChangeParameterValue("DisplayId", displayId);
 
                 displayIdText.text = "Monitor " + (displayId + 1);
-
-                Console.Write("Activated Monitor " + (displayId + 1));
 
                 PlayerPrefs.SetInt("UnitySelectMonitor", displayId);
             }

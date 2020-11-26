@@ -194,7 +194,6 @@ namespace Ship
         {
             if (!(this is IMovableWings))
             {
-                Console.Write("Ship doesn't have movable wings!", LogTypes.Errors, true, "red");
                 return;
             }
 

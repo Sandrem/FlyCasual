@@ -23,15 +23,12 @@ public static class GameController
         {
             if (mode == ReplaysMode.Read) MainMenu.CurrentMainMenu.InitializeSquadBuilder("Replay");
 
-            Console.Write("Game is started", LogTypes.GameCommands, true, "aqua");
             SquadBuilder.StartLocalGame();
         }
     }
 
     public static void SendCommand(GameCommand command)
     {
-        Console.Write("Command is received: " + command.Type, LogTypes.GameCommands, false, "aqua");
-
         CommandsReceived.Add(command);
 
         if (ReplaysManager.Mode == ReplaysMode.Write)
@@ -142,13 +139,10 @@ public static class GameController
                 command = new CancelShipSelectionCommand(commandType, subPhase, parameters);
                 break;
             default:
-                Console.Write("Constructor for GameCommand is not found", LogTypes.Errors, true, "red");
                 break;
         }
 
         string receivedString = (isRpc) ? " (rpc)": "";
-
-        Console.Write("Command is generated" + receivedString + ": " + command.Type, LogTypes.GameCommands, false, "aqua");
 
         return command;
     }

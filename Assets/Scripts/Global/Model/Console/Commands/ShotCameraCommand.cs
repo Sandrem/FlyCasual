@@ -7,9 +7,9 @@ using UnityEngine;
 
 namespace CommandsList
 {
-    public class ShotCamera : GenericCommand
+    public class ShotCameraCommand : GenericCommand
     {
-        public ShotCamera()
+        public ShotCameraCommand()
         {
             Keyword = "shotcamera";
             Description =   "Moves camera to show ship's shot:\n" +
@@ -85,7 +85,7 @@ namespace CommandsList
 
         private void ShowMessage()
         {
-            Console.Write("ShotCamera command is resolved", LogTypes.Everything, true);
+            Console.Write("ShotCamera command is resolved", true);
         }
     }
 }

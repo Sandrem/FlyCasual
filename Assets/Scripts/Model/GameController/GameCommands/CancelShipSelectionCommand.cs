@@ -22,7 +22,7 @@ namespace GameCommands
             }
             else
             {
-                Console.Write("Error during CancelShipSelection command execution. Current subphase is " + Phases.CurrentSubPhase.ToString(), color: "red");
+                //
             }
         }
     }

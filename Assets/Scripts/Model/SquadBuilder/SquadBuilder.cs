@@ -540,8 +540,6 @@ namespace SquadBuilderNS
             GameController.Initialize();
             ReplaysManager.TryInitialize(ReplaysMode.Write);
 
-            Console.Write("Network game is started", LogTypes.GameCommands, true, "aqua");
-
             GameMode.CurrentGameMode = new NetworkGame();
             SwitchToBattleScene();
         }

@@ -23,12 +23,9 @@ namespace Migrations
     {
         public static void PerformMigrations()
         {
-            Console.Write("Migration Manager is called");
-
             int activeVersion = GetActiveVersion();
             if (activeVersion == Global.CurrentVersionInt)
             {
-                Console.Write("Migrations are not needed: version is actual");
                 return;
             }
 
@@ -49,8 +46,6 @@ namespace Migrations
             {
                 plannedMigration.DoMigration();
             }
-
-            Console.Write("All migrations are finished");
         }
 
         private static int GetActiveVersion()

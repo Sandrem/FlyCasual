@@ -66,7 +66,6 @@ namespace ActionsList
         {
             get
             {
-                if (host == null) Console.Write(Name + " tries to get Host value, but it was not set", LogTypes.Errors, true, "red");
                 return host;
             }
             set { host = value; }
@@ -77,7 +76,6 @@ namespace ActionsList
         {
             get
             {
-                if (source == null) Console.Write(Name + " tries to get Source value, but it was not set", LogTypes.Errors, true, "red");
                 return source;
             }
             set { source = value; }

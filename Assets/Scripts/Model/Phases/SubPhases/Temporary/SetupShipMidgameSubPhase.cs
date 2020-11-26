@@ -463,8 +463,6 @@ namespace SubPhases
             // Next button is only used for touch controls -- on next, try to confirm ship's position
             if (!TryConfirmPosition(Selection.ThisShip))
             {
-                Console.Write("ship:" + Selection.ThisShip);
-                Console.Write("shipbase:" + Selection.ThisShip.ShipBase);
                 // Wait for confirmation again if positioning failed
                 UI.ShowNextButton();
             }

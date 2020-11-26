@@ -20,8 +20,6 @@ public class OptionsValueController : MonoBehaviour
         float localCursorX = Input.mousePosition.x - this.transform.position.x;
         float percentage = (localCursorX + 0.5f * myWidth) / myWidth;
 
-        Console.Write("MyWidth: " + myWidth + " LocCursorX: " + localCursorX + " Percent: " + percentage);
-
         if (OptionName.Contains("Speed"))
         {
             if (percentage < 0.05f) percentage = 0.05f;

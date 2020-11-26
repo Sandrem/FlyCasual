@@ -60,7 +60,7 @@ namespace CommandsList
 
         private void ShowMessage()
         {
-            Console.Write("DealDamage command is resolved", LogTypes.Everything, true);
+            Console.Write("DealDamage command is resolved", true);
         }
     }
 }

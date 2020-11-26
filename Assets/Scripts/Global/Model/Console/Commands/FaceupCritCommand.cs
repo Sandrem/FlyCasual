@@ -100,7 +100,7 @@ namespace CommandsList
 
         private void ShowMessage()
         {
-            Console.Write("FaceupCrit command is resolved", LogTypes.Everything, true);
+            Console.Write("FaceupCrit command is resolved", true);
         }
 
     }

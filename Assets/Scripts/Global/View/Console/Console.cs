@@ -48,7 +48,7 @@ public partial class Console : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (IsActive) ShowNextLog();
+            if (IsActive) Show();
         }
     }
 
@@ -104,22 +104,7 @@ public partial class Console : MonoBehaviour {
         ConsoleWindow.GetComponentInChildren<ScrollRect>().verticalNormalizedPosition = 0f;
     }
 
-    private void ShowNextLog()
-    {
-        int currentIndex = logsList.IndexOf(currentLogTypeToShow);
-        if (currentIndex != logsList.Count - 1)
-        {
-            currentLogTypeToShow = logsList[currentIndex + 1];
-        }
-        else
-        {
-            currentLogTypeToShow = logsList[0];
-        }
-
-        ShowFilteredByType(currentLogTypeToShow);
-    }
-
-    private void ShowFilteredByType(LogTypes type)
+    private void Show()
     {
         foreach (Transform oldRecord in ConsoleOutput.transform)
         {
@@ -127,8 +112,7 @@ public partial class Console : MonoBehaviour {
             totalLogEntryHeight = 0;
         }
 
-        List<LogEntry> logEntriesToShow = (type == LogTypes.Everything) ? Logs : Logs.Where(n => n.Type == type).ToList();
-        foreach (var filteredRecord in logEntriesToShow)
+        foreach (var filteredRecord in Logs)
         {
             ShowLogEntry(filteredRecord);
         }

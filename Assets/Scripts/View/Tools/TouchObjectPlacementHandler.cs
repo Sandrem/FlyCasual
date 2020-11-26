@@ -74,8 +74,6 @@ public class TouchObjectPlacementHandler
             float distanceFromObject = (GetObjectLocation() - new Vector3(hit.point.x, 0f, hit.point.z)).magnitude;
             bool touchOverObject = (distanceFromObject <= GetDistanceThreshold());
         
-            if (Console.IsActive) Console.Write("distance from object:" + distanceFromObject, LogTypes.Errors, true, "cyan"); //TODO: remove logs when things are dialed in
-
             if (touchDownLastUpdate && !draggingObjectLastUpdate)
             {
                 // Don't move if touch was down last update but wasn't on the object
@@ -156,7 +154,6 @@ public class TouchObjectPlacementHandler
             return ChosenShip.GetCenter();
         }
         else {
-            Console.Write("Tried to move an obstacle or ship by touch but no obstacle or ship was selected", LogTypes.Errors, true, "red");
             return Vector3.zero;
         }
     }

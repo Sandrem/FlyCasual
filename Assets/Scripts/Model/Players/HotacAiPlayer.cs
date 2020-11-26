@@ -38,12 +38,9 @@ namespace Players
 
         public override void ActivateShip(GenericShip ship)
         {
-            Console.Write(ship.PilotInfo.PilotName + " (" + ship.ShipId + ") is activated to perform maneuver", LogTypes.AI);
-
             GenericShip anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true, inArcAndRange: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship, ignoreCollided: true);
             if (anotherShip == null) anotherShip = FindNearestEnemyShip(ship);
-            Console.Write("Nearest enemy is " + ship.PilotInfo.PilotName + " (" + ship.ShipId + ")", LogTypes.AI);
 
             // TODO: remove null variant
 
@@ -90,7 +87,6 @@ namespace Players
                 if (Selection.ThisShip.AssignedManeuver.movementPrediction.IsOffTheBoard)
                 {
                     leaveMovementAsIs = false;
-                    Console.Write("Ship predicts off the board maneuver!", LogTypes.AI);
                     AvoidOffTheBoard();
                 }
                 else
@@ -98,22 +94,18 @@ namespace Players
                     if (Selection.ThisShip.AssignedManeuver.movementPrediction.AsteroidsHit.Count != 0)
                     {
                         leaveMovementAsIs = false;
-                        Console.Write("Ship predicts collision with asteroid!", LogTypes.AI);
                         Swerve();
                     }
                 }
 
                 if (leaveMovementAsIs)
                 {
-                    Console.Write("Ship executes selected maneuver\n", LogTypes.AI, true);
-
                     AI.Swerve.GenerateSwerveCommand(Selection.ThisShip.ShipId, Selection.ThisShip.AssignedManeuver.ToString());
                     Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
                 }
             }
             else
             {
-                Console.Write("Ship is ionized and doesn't select maneuver\n", LogTypes.AI, true);
                 Selection.ThisShip.AssignedManeuver.LaunchShipMovement();
             }
         }

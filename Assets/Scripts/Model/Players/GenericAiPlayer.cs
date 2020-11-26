@@ -93,8 +93,6 @@ namespace Players
         {
             base.PerformAttack();
 
-            Console.Write("AI is going to perform attack", LogTypes.AI);
-
             GenericShip attacker = GetShipThatCanAttack();
 
             if (attacker != null)
@@ -121,8 +119,6 @@ namespace Players
                 {
                     Selection.ThisShip.IsAttackPerformed = true;
 
-                    Console.Write(Selection.ThisShip.PilotName + " attacks target " + targetForAttack.PilotName + ".\n", LogTypes.AI, true, "yellow");
-
                     Messages.ShowInfo("Attacking with " + Combat.ChosenWeapon.Name);
 
                     GameCommand command = Combat.GenerateIntentToAttackCommand(Selection.ThisShip.ShipId, targetForAttack.ShipId, true, Combat.ChosenWeapon);
@@ -130,7 +126,6 @@ namespace Players
                 }
                 else
                 {
-                    Console.Write("The attack has been skipped.\n", LogTypes.AI, true, "yellow");
                     OnTargetNotLegalForAttack();
                 }
             }
@@ -151,7 +146,6 @@ namespace Players
                 {
                     if (!shipHolder.Value.IsAttackPerformed)
                     {
-                        Console.Write(shipHolder.Value.PilotInfo.PilotName + "(" + shipHolder.Value.ShipId + ") is selected as attacker", LogTypes.AI);
                         return shipHolder.Value;
                     }
                 }
@@ -314,8 +308,6 @@ namespace Players
             if (targetForAttack != null)
             {
                 Selection.ThisShip.IsAttackPerformed = true;
-
-                Console.Write("Ship attacks target\n", LogTypes.AI, true, "yellow");
 
                 Selection.AnotherShip = targetForAttack;
                 Combat.TryPerformAttack(isSilent: true);

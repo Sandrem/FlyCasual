@@ -49,8 +49,6 @@ namespace AI
             }
             else
             {
-                Console.Write("Ship doesn't see alternatives to the asteroid collision", LogTypes.AI, false, "yellow");
-
                 Selection.ThisShip.SetAssignedManeuver(originalMovement);
                 LaunchMovementFinally();
             }
@@ -67,7 +65,6 @@ namespace AI
             if ((movementPrediction.AsteroidsHit.Count == 0) && (!movementPrediction.IsOffTheBoard))
             {
                 if (DebugManager.DebugAI) Debug.Log("And it works!");
-                Console.Write("Ship found maneuver to avoid asteroid collision\n", LogTypes.AI, true, "yellow");
 
                 alternativeManeuvers = new List<ManeuverHolder>();
 

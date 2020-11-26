@@ -31,11 +31,6 @@ namespace AI.Aggressor
 
             ConfigureVirtualBoards();
 
-            if (DebugManager.DebugAiNavigation)
-            {
-                Console.Write("Navigation calculations are started", LogTypes.AI, isBold: true);
-            }
-
             GameManagerScript.Instance.StartCoroutine
             (
                 StartCalculations(callback)
@@ -165,11 +160,6 @@ namespace AI.Aggressor
                 };
                 result.CalculatePriority();
 
-                if (DebugManager.DebugAiNavigation)
-                {
-                    Console.Write("", LogTypes.AI);
-                }
-
                 navigationResults.Add(maneuver.Key, result);
 
                 VirtualBoard.SwitchToRealPosition(ship);
@@ -205,15 +195,11 @@ namespace AI.Aggressor
 
             if (DebugManager.DebugAiNavigation)
             {
-                Console.Write("", LogTypes.AI);
-                Console.Write("Order of activation is predicted:", LogTypes.AI, isBold: true);
-
                 string orderOfActivationText = "";
                 foreach (GenericShip ship in orderOfActivation)
                 {
                     orderOfActivationText += (ship.ShipId + ", ");
                 }
-                Console.Write(orderOfActivationText, LogTypes.AI);
             }
 
             return orderOfActivation;
@@ -243,12 +229,6 @@ namespace AI.Aggressor
         {
             Selection.ChangeActiveShip(ship);
 
-            if (DebugManager.DebugAiNavigation)
-            {
-                Console.Write("", LogTypes.AI);
-                Console.Write("Best maneuver calculations for " + ship.ShipId, LogTypes.AI, isBold: true);
-            }
-
             int bestPriority = int.MinValue;
             KeyValuePair<string, NavigationResult> maneuverToCheck = new KeyValuePair<string, NavigationResult>();
 
@@ -258,11 +238,6 @@ namespace AI.Aggressor
 
                 bestPriority = VirtualBoard.Ships[ship].NavigationResults.Max(n => n.Value.Priority);
                 maneuverToCheck = VirtualBoard.Ships[ship].NavigationResults.Where(n => n.Value.Priority == bestPriority).First();
-
-                if (DebugManager.DebugAiNavigation)
-                {
-                    Console.Write("Current best maneuver is " + maneuverToCheck.Key + " with priority " + maneuverToCheck.Value.ToString(), LogTypes.AI);
-                }
 
                 GenericMovement movement = ShipMovementScript.MovementFromString(maneuverToCheck.Key);
 
@@ -310,18 +285,9 @@ namespace AI.Aggressor
 
                 CurrentNavigationResult.CalculatePriority();
 
-                if (DebugManager.DebugAiNavigation)
-                {
-                    Console.Write("After reevaluation priority is changed to " + CurrentNavigationResult.ToString(), LogTypes.AI);
-                }
-
                 VirtualBoard.Ships[ship].NavigationResults[maneuverToCheck.Key] = CurrentNavigationResult;
 
                 bestPriority = VirtualBoard.Ships[ship].NavigationResults.Max(n => n.Value.Priority);
-                if (DebugManager.DebugAiNavigation)
-                {
-                    Console.Write("Highest priority of all maneuvers is " + bestPriority, LogTypes.AI);
-                }
 
                 VirtualBoard.SwitchToRealPosition(ship);
 
@@ -333,11 +299,6 @@ namespace AI.Aggressor
                 }
 
             } while (maneuverToCheck.Value.Priority != bestPriority);
-
-            if (DebugManager.DebugAiNavigation)
-            {
-                Console.Write("Maneuver is chosen: " + maneuverToCheck.Key, LogTypes.AI);
-            }
 
             VirtualBoard.Ships[ship].SetPlannedManeuverCode(maneuverToCheck.Key, ++OrderOfActivation);
             ship.ClearAssignedManeuver();

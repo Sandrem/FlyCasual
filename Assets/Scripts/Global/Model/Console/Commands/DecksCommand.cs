@@ -19,7 +19,7 @@ namespace CommandsList
         {
             if (!DamageDecks.Initialized)
             {
-                Console.Write("\nDamage decks are not initalized yet!", LogTypes.Everything, true, "red");
+                Console.Write("\nDamage decks are not initalized yet!", true, "red");
             }
             else
             {
@@ -29,16 +29,16 @@ namespace CommandsList
 
         private void ShowDecks()
         {
-            Console.Write("\nPlayer1 Deck:", LogTypes.Everything, true, "green");
+            Console.Write("\nPlayer1 Deck:", true, "green");
             foreach (var card in DamageDecks.GetDamageDeck(Players.PlayerNo.Player1).Deck)
             {
-                Console.Write(card.Name, LogTypes.Everything, false, "green");
+                Console.Write(card.Name, false, "green");
             }
 
-            Console.Write("\nPlayer2 Deck:", LogTypes.Everything, true, "green");
+            Console.Write("\nPlayer2 Deck:", true, "green");
             foreach (var card in DamageDecks.GetDamageDeck(Players.PlayerNo.Player2).Deck)
             {
-                Console.Write(card.Name, LogTypes.Everything, false, "green");
+                Console.Write(card.Name, false, "green");
             }
         }
     }

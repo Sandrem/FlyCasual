@@ -22,8 +22,6 @@ public static class GameInitializer
     {
         if (command.GetType() == AcceptsCommandType)
         {
-            Console.Write("Command is executed: " + command.Type, LogTypes.GameCommands, true, "aqua");
-
             GameController.ConfirmCommand();
             command.Execute();
             CommandsReceived++;
@@ -32,7 +30,7 @@ public static class GameInitializer
         }
         else
         {
-            Console.Write("Command is not executed: wrong type of initialization command", LogTypes.GameCommands, true, "aqua");
+            //
         }
     }
 }

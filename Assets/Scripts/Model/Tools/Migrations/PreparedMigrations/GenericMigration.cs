@@ -15,14 +15,10 @@ namespace Migrations
 
         public void DoMigration()
         {
-            Console.Write("Migration for " + Version + " is started");
-
             DeleteOldImages();
-
             CustomMigration();
 
             PlayerPrefs.SetInt("LastMigrationVersion", Version);
-            Console.Write("Migration for " + Version + " is finished");
         }
 
         private void DeleteOldImages()
@@ -36,7 +32,6 @@ namespace Migrations
                 GenericShip ship = (GenericShip)Activator.CreateInstance(pilot.CardType);
 
                 ImageManager.DeleteCachedImage(ship.ImageUrl, pilot.RuleType);
-                Console.Write(ship.PilotInfo.PilotName + "'s image is deleted from image cache");
             }
         }
 

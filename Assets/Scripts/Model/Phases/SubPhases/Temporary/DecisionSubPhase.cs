@@ -170,21 +170,17 @@ namespace SubPhases
                 Decision decision = (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions().FirstOrDefault(n => n.Name == decisionName);
                 if (decision == null)
                 {
-                    Console.Write("Cannot find decision name: " + decisionName, LogTypes.Errors, true, "red");
-
                     string alldecisions = null;
                     foreach (var singleDecision in (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions())
                     {
                         alldecisions += singleDecision.Name + " ";
                     }
-                    Console.Write("Available decisions: " + alldecisions, LogTypes.Errors, true, "red");
 
                     Decision altDecision = (Phases.CurrentSubPhase as DecisionSubPhase).GetDecisions().FirstOrDefault(n => n.Name.Contains(decisionName));
 
                     if (altDecision != null)
                     {
                         decision = altDecision;
-                        Console.Write("Similar decision is taken: " + altDecision.Name);
                     }
                 }
 

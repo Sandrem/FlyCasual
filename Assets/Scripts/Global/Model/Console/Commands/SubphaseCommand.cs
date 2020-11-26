@@ -57,7 +57,7 @@ namespace CommandsList
             }
             else
             {
-                Console.Write("Phases are not initialized yet!", LogTypes.Everything, true, "red");
+                Console.Write("Phases are not initialized yet!", true, "red");
             }
         }
 
@@ -69,13 +69,13 @@ namespace CommandsList
             }
             else
             {
-                Console.Write("Phases are not initialized yet!", LogTypes.Everything, true, "red");
+                Console.Write("Phases are not initialized yet!", true, "red");
             }
         }
 
         private void ShowCurrentSubphase()
         {
-            Console.Write("\nCurrent subphase: " + Phases.CurrentSubPhase.GetType().ToString(), LogTypes.Everything, true);
+            Console.Write("\nCurrent subphase: " + Phases.CurrentSubPhase.GetType().ToString(), true);
 
             Console.Write("\nPrevious subphases: " + Phases.CurrentSubPhase.GetType().ToString());
             if (Phases.CurrentSubPhase.PreviousSubPhase != null) ShowPreviousSubphasesRecursive(Phases.CurrentSubPhase, 10);
@@ -102,7 +102,7 @@ namespace CommandsList
             }
             else
             {
-                Console.Write("Phases are not initialized yet!", LogTypes.Everything, true, "red");
+                Console.Write("Phases are not initialized yet!", true, "red");
             }
         }
 
@@ -114,7 +114,7 @@ namespace CommandsList
             }
             else
             {
-                Console.Write("Phases are not initialized yet!", LogTypes.Everything, true, "red");
+                Console.Write("Phases are not initialized yet!", true, "red");
             }
         }
 
@@ -126,7 +126,7 @@ namespace CommandsList
             }
             else
             {
-                Console.Write("Phases are not initialized yet!", LogTypes.Everything, true, "red");
+                Console.Write("Phases are not initialized yet!", true, "red");
             }
         }
 
@@ -138,7 +138,7 @@ namespace CommandsList
             }
             else
             {
-                Console.Write("Phases are not initialized yet!", LogTypes.Everything, true, "red");
+                Console.Write("Phases are not initialized yet!", true, "red");
             }
         }
     }

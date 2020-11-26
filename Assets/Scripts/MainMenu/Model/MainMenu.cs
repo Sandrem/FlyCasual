@@ -129,7 +129,6 @@ public partial class MainMenu : MonoBehaviour {
 
         GameController.Initialize();
         ReplaysManager.TryInitialize(ReplaysMode.Write);
-        Console.Write("Network game is prepared", LogTypes.GameCommands, true, "aqua");
 
         Network.CreateMatch(roomName, password);
 

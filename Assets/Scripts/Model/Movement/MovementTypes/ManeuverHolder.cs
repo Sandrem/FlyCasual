@@ -75,7 +75,6 @@ namespace Movement
             string[] arrParameters = parameters.Split('.');
             if (arrParameters.Length < 3)
             {
-                Console.Write($"Error: maneuverCode is invalid, only {arrParameters.Length} blocks. String: \"{parameters}\"", LogTypes.Errors, isBold: true, color: "Red");
                 Messages.ShowError($"Error: maneuverCode is invalid, only {arrParameters.Length} blocks. String: \"{parameters}\"");
             }
 
@@ -102,7 +101,6 @@ namespace Movement
                     speed = ManeuverSpeed.Speed5;
                     break;
                 default:
-                    Console.Write($"Error: Speed in maneuverCode is invalid, \"{arrParameters[0]}\"", LogTypes.Errors, isBold: true, color: "Red");
                     Messages.ShowError($"Error: Speed in maneuverCode is invalid, \"{arrParameters[0]}\"");
                     break;
             }
@@ -124,7 +122,6 @@ namespace Movement
                     direction = ManeuverDirection.Stationary;
                     break;
                 default:
-                    Console.Write($"Error: Direction in maneuverCode is invalid, \"{arrParameters[1]}\"", LogTypes.Errors, isBold: true, color: "Red");
                     Messages.ShowError($"Error: Direction in maneuverCode is invalid, \"{arrParameters[1]}\"");
                     break;
             }
@@ -161,7 +158,6 @@ namespace Movement
                     bearing = ManeuverBearing.ReverseStraight;
                     break;
                 default:
-                    Console.Write($"Error: Bearing in maneuverCode is invalid, \"{arrParameters[2]}\"", LogTypes.Errors, isBold: true, color: "Red");
                     Messages.ShowError($"Error: Bearing in maneuverCode is invalid, \"{arrParameters[2]}\"");
                     break;
             }
@@ -175,7 +171,7 @@ namespace Movement
 
             if (!ship.Maneuvers.ContainsKey(parameters))
             {
-                Console.Write("<b>Ship " + ship.ShipInfo.ShipName + " doesn't have maneuver " + parameters + "</b>", LogTypes.Errors, true, "red");
+                //
             }
             ColorComplexity = ship.Maneuvers[parameters];
             ColorComplexity = ship.GetColorComplexityOfManeuver(this);
@@ -188,7 +184,7 @@ namespace Movement
             Ship.GenericShip ship = Roster.GetShipById(shipTag) ?? Selection.ThisShip;
             if (!ship.Maneuvers.ContainsKey(parameters))
             {
-                Console.Write(ship.ShipInfo.ShipName + " doesn't have " + parameters + " maneuver!", LogTypes.Errors, true, "red");
+                //
             }
             else
             {

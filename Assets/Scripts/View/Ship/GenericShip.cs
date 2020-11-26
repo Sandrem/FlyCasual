@@ -63,10 +63,6 @@ namespace Ship
                 GameObject newModel = MonoBehaviour.Instantiate(modelPrefab, newShip.transform.Find("RotationHelper/RotationHelper2/ShipAllParts/ShipModels"));
                 newModel.name = SpecialModel ?? FixTypeName(ModelInfo.ModelName);
             }
-            else
-            {
-                Console.Write("<b>Missing model: " + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "</b>", LogTypes.Errors, true, "red");
-            }
 
             SetShipIdText(newShip);
 

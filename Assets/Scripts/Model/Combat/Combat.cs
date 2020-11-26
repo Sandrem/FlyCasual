@@ -202,7 +202,7 @@ public static class Combat
         {
             if (!DebugManager.NoCinematicCamera)
             {
-                CommandsList.ShotCamera.ShowShotCamera(Selection.ThisShip, Selection.AnotherShip);
+                CommandsList.ShotCameraCommand.ShowShotCamera(Selection.ThisShip, Selection.AnotherShip);
                 GameManagerScript.Wait(3, StartLegalAttack);
             }
             else

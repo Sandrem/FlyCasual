@@ -30,12 +30,12 @@ namespace CommandsList
 
         private void ShowGeneralHelp()
         {
-            Console.Write("\nAvailable commands:", LogTypes.Everything, true);
+            Console.Write("\nAvailable commands:", true);
             foreach (var command in Console.AvailableCommands)
             {
                 Console.Write(command.Key);
             }
-            Console.Write("\nhelp <command> - show description of command", LogTypes.Everything, true);
+            Console.Write("\nhelp <command> - show description of command", true);
         }
 
         private void ShowHelpForCommand(string command)

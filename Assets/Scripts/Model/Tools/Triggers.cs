@@ -257,6 +257,8 @@ public static partial class Triggers
 
     public static void FireTrigger(Trigger trigger)
     {
+        Console.Write($"Trigger {trigger.Name} is fired ({trigger.TriggerType})", color: "yellow");
+
         CurrentTrigger = trigger;
         trigger.Fire();
     }

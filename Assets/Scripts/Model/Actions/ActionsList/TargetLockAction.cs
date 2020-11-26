@@ -386,6 +386,9 @@ namespace SubPhases
         {
             if (FilterTargetLockableTargets(obstacle))
             {
+                if (IsLocked) return;
+                IsLocked = true;
+
                 ConfirmSelectionOfObstacle(obstacle);
             }
             else

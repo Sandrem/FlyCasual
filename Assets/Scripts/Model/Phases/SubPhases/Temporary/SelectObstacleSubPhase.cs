@@ -19,6 +19,7 @@ namespace SubPhases
 
         private static Action<GenericObstacle> SelectTargetAction;
         private Func<GenericObstacle, bool> FilterTargets;
+        private bool IsLocked;
 
         public override void Start()
         {
@@ -129,6 +130,9 @@ namespace SubPhases
         {
             if (FilterTargets(obstacle))
             {
+                if (IsLocked) return;
+                IsLocked = true;
+
                 ConfirmSelectionOfObstacle(obstacle);
             }
             else

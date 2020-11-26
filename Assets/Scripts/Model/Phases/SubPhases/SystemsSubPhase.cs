@@ -12,6 +12,7 @@ namespace SubPhases
     public class SystemsSubPhase : GenericSubPhase
     {
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SystemActivation, GameCommandTypes.PressSkip }; } }
+        private bool IsLocked;
 
         public override void Start()
         {
@@ -53,6 +54,7 @@ namespace SubPhases
                 UpdateHelpInfo();
                 Roster.HighlightShipsFiltered(FilterShipsWithActiveDevice);
 
+                IsLocked = false;
                 IsReadyForCommands = true;
                 Roster.GetPlayer(RequiredPlayer).PerformSystemsActivation();
             }
@@ -141,6 +143,9 @@ namespace SubPhases
         {
             if (ship.IsSystemsAbilityCanBeActivated)
             {
+                if (IsLocked) return;
+                IsLocked = true;
+
                 GameMode.CurrentGameMode.ExecuteCommand(GenerateSystemActivationCommand(Selection.ThisShip.ShipId));
             }
             else

@@ -8,6 +8,7 @@ using UnityEngine;
 
 public static class GameController
 {
+    private static readonly float COMMANDS_CHECK_DELAY = 0.01f;
     public static List<GameCommand> CommandsReceived { get; private set; }
 
     public static void Initialize()
@@ -175,7 +176,7 @@ public static class GameController
             // Console.Write("=> Wait");
         }
 
-        GameManagerScript.Wait(0.1f, WaitForCommand);
+        GameManagerScript.Wait(COMMANDS_CHECK_DELAY, WaitForCommand);
     }
 
 }

@@ -8,11 +8,15 @@ using UnityEngine.UI;
 
 public partial class DiceModificationsManager
 {
+    public static bool IsLocked { get; set; }
+
     public void ShowDiceModificationButtons(List<GenericAction> diceModifications)
     {
         ShowDiceModificationsUiEmpty();
         CreateDiceModificationButtons(diceModifications);
         CreateOkButton();
+
+        DiceModificationsManager.IsLocked = false;
     }
 
     private void CreateDiceModificationButtons(List<GenericAction> diceModifications)
@@ -43,6 +47,9 @@ public partial class DiceModificationsManager
         
         newButton.GetComponent<Button>().onClick.AddListener(
             delegate {
+                if (DiceModificationsManager.IsLocked) return;
+                DiceModificationsManager.IsLocked = true;
+
                 GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand(actionEffect.DiceModificationName);
                 GameMode.CurrentGameMode.ExecuteCommand(command);
             }
@@ -59,6 +66,9 @@ public partial class DiceModificationsManager
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(
             delegate {
+                if (DiceModificationsManager.IsLocked) return;
+                DiceModificationsManager.IsLocked = true;
+
                 GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand("OK");
                 GameMode.CurrentGameMode.ExecuteCommand(command);
             }

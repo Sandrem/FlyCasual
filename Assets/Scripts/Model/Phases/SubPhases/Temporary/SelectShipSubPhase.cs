@@ -7,6 +7,7 @@ using System.Linq;
 using Players;
 using ActionsList;
 using GameCommands;
+using UnityEngine;
 
 namespace SubPhases
 {
@@ -338,6 +339,7 @@ namespace SubPhases
             base.Resume();
 
             ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
+            IsLocked = false;
         }
 
     }

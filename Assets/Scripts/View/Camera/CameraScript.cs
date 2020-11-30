@@ -129,6 +129,7 @@ public class CameraScript : MonoBehaviour {
         VirtualCamera = VirtualCameraHolder.Find("VirtualCamera");
 
         ChangeMode(CameraModes.Free);
+        IsCinematic = false;
         SetDefaultCameraPosition();
 
         InputTouchIsEnabled = Input.touchSupported && !Input.mousePresent;

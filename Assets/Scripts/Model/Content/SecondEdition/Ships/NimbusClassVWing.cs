@@ -14,7 +14,7 @@ using Upgrade;
 
 namespace Ship.SecondEdition.NimbusClassVWing
 {
-    public class NimbusClassVWing : GenericShip
+    public class NimbusClassVWing : GenericShip, TIE
     {
         public NimbusClassVWing() : base()
         {

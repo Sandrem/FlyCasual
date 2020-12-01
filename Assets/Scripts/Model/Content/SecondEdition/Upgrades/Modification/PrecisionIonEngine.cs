@@ -2,6 +2,7 @@
 using Ship;
 using SubPhases;
 using Movement;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -22,6 +23,9 @@ namespace UpgradesList.SecondEdition
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
+            Debug.Log(ship is TIE);
+            Debug.Log(ship.ShipInfo.Agility);
+
             return ship is TIE
                 && ship.ShipInfo.Agility == 3;
         }

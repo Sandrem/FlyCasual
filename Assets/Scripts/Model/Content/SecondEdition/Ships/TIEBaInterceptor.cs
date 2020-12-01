@@ -14,7 +14,7 @@ using Upgrade;
 
 namespace Ship.SecondEdition.TIEBaInterceptor
 {
-    public class TIEBaInterceptor : GenericShip
+    public class TIEBaInterceptor : GenericShip, TIE
     {
         public TIEBaInterceptor() : base()
         {

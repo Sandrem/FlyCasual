@@ -4,7 +4,7 @@ namespace Ship
 {
     namespace SecondEdition.TIELnFighter
     {
-        public class TIELnFighter : FirstEdition.TIEFighter.TIEFighter
+        public class TIELnFighter : FirstEdition.TIEFighter.TIEFighter, TIE
         {
             public TIELnFighter() : base()
             {

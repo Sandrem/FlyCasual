@@ -32,7 +32,7 @@ namespace Ship.SecondEdition.TIEBaInterceptor
                     new ActionInfo(typeof(BoostAction))
                 ),
                 new ShipUpgradesInfo(
-                    UpgradeType.Title,
+                    UpgradeType.Talent,
                     UpgradeType.Missile,
                     UpgradeType.Tech,
                     UpgradeType.Modification                    

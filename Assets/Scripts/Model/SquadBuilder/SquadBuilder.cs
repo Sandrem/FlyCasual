@@ -385,7 +385,7 @@ namespace SquadBuilderNS
             }
 
             List<UpgradeSlot> slots = FindFreeSlots(ship, newUpgrade.UpgradeInfo.UpgradeTypes);
-            if (slots.Count != 0)
+            if (slots.Count >= newUpgrade.UpgradeInfo.UpgradeTypes.Count)
             {
                 slots[0].PreInstallUpgrade(newUpgrade, ship.Instance);
                 return true;

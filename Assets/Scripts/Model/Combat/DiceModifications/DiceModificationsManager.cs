@@ -93,7 +93,10 @@ public partial class DiceModificationsManager
 
     public void RefreshButtonsList()
     {
-        (CurrentDiceModificationStep as DiceModificationStep).ShowDiceModifications();
+        if (CurrentDiceModificationStep is DiceModificationStep)
+        {
+            (CurrentDiceModificationStep as DiceModificationStep).ShowDiceModifications();
+        }
     }
 
     public static GameCommand GenerateDiceModificationCommand(string diceModificationName)

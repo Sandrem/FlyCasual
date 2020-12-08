@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Patience",
                 UpgradeType.ForcePower,
-                cost: 1,
+                cost: 2,
                 restriction: new ForceAlignmentRestriction(ForceAlignment.Light),
                 abilityType: typeof(Abilities.SecondEdition.PatienceAbility)
             );

@@ -53,14 +53,25 @@ namespace Abilities.SecondEdition
 
         private void JamIt(object sender, EventArgs e)
         {
-            Messages.ShowInfo($"False Transponder Codes: {ObjectForAbility.PilotInfo.PilotName} is Jammed");
+            if (ObjectForAbility is GenericShip)
+            {
+                Messages.ShowInfo($"False Transponder Codes: {ObjectForAbility.PilotInfo.PilotName} is Jammed");
 
-            HostUpgrade.State.LoseCharge();
+                HostUpgrade.State.LoseCharge();
 
-            ObjectForAbility.Tokens.AssignToken(
-                new JamToken(ObjectForAbility, HostShip.Owner),
-                Triggers.FinishTrigger
-            );
+                ObjectForAbility.Tokens.AssignToken(
+                    new JamToken(ObjectForAbility, HostShip.Owner),
+                    Triggers.FinishTrigger
+                );
+            }
+            else
+            {
+                Messages.ShowInfo($"False Transponder Codes: non-ship object is Jammed");
+
+                HostUpgrade.State.LoseCharge();
+                Triggers.FinishTrigger();
+            }
+            
         }
     }
 }

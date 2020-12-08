@@ -67,7 +67,7 @@ namespace Abilities.SecondEdition
 
             List<GenericAction> actions = Selection.ThisShip.GetAvailableActions();
             List<GenericAction> whiteActionBarActionsAsRed = actions
-                .Where(n => !n.IsRed)
+                .Where(n => n.Color == Actions.ActionColor.White)
                 .Select(n => n.AsRedAction)
                 .ToList();
 

@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
         {
             List<GenericAction> actions = HostShip.GetAvailableActions();
             List<GenericAction> whiteActionBarActionsAsRed = actions
-                .Where(n => n.IsInActionBar && !n.IsRed)
+                .Where(n => n.IsInActionBar && n.Color == ActionColor.White)
                 .Select(n => n.AsRedAction)
                 .ToList();
 

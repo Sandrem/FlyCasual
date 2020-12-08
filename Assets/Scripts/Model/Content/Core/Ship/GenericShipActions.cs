@@ -129,7 +129,7 @@ namespace Ship
 
         public List<GenericAction> GetAvailableActionsWhiteOnly()
         {
-            return GetAvailableActions().Where(a => !a.IsRed).ToList();
+            return GetAvailableActions().Where(a => a.Color == ActionColor.White).ToList();
         }
 
         private GenericAction GetActionAsRed(GenericAction action)
@@ -161,7 +161,7 @@ namespace Ship
 
             GenerateAvailableActionsList();
 
-            foreach (GenericAction action in AvailableActionsList.Where(n => !n.IsRed))
+            foreach (GenericAction action in AvailableActionsList.Where(n => n.Color == ActionColor.White))
             {
                 redActions.Add(GetActionAsRed(action));
             }
@@ -338,7 +338,7 @@ namespace Ship
         {
             if (CanPerformAction(action))
             {
-                if (!AvailableActionsList.Any(n => n.Name == action.Name && n.IsRed == action.IsRed))
+                if (!AvailableActionsList.Any(n => n.Name == action.Name && n.Color == action.Color))
                 {
                     AvailableActionsList.Add(action);
                 }
@@ -349,7 +349,7 @@ namespace Ship
         {
             if (CanPerformFreeAction(action))
             {
-                if (!AvailableFreeActionsList.Any(n => n.Name == action.Name && n.IsRed == action.IsRed))
+                if (!AvailableFreeActionsList.Any(n => n.Name == action.Name && n.Color == action.Color))
                 {
                     AvailableFreeActionsList.Add(action);
                 }

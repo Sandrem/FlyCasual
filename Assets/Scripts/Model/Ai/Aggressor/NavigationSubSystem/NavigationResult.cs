@@ -39,16 +39,18 @@ namespace AI.Aggressor
                 return;
             }
 
-            if (isLandedOnObstacle) Priority -= 10000;
+            if (isLandedOnObstacle) Priority -= 20000;
 
-            if (isOffTheBoardNextTurn) Priority -= 20000;
+            if (isOffTheBoardNextTurn) Priority -= 40000;
 
             Priority += enemiesInShotRange * 1000;
 
-            Priority -= obstaclesHit * 2000;
             Priority -= minesHit * 2000;
 
-            if (isHitAsteroidNextTurn) Priority -= 500;
+            int asteroidAvoidPriority = (BoardTools.Board.DistanceToRange(distanceToNearestEnemy) < 4) ? 1 : 10;
+
+            Priority -= obstaclesHit * 2000 * asteroidAvoidPriority;
+            if (isHitAsteroidNextTurn) Priority -= 1000 * asteroidAvoidPriority;
 
             if (isBumped) Priority -= 500;
 

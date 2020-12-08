@@ -39,6 +39,11 @@ namespace BoardTools
             }
         }
 
+        public static int DistanceToRange(float distance)
+        {
+            return Mathf.Max(1, Mathf.CeilToInt(distance / DISTANCE_INTO_RANGE));
+        }
+
         private static void RegisterShip(GenericShip ship)
         {
             Objects.Add(ship.GetShipAllPartsTransform().Find("ShipBase/ShipBaseCollider").GetComponent<MeshCollider>());

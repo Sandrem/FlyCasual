@@ -31,7 +31,7 @@ namespace BoardTools
             NearestPointObstacle = Obstacle.ObstacleGO.transform.position;
             DistanceReal = Vector3.Distance(NearestPointShip, NearestPointObstacle);
 
-            Range = Mathf.Max(1, Mathf.CeilToInt(DistanceReal / Board.DISTANCE_INTO_RANGE));
+            Range = Board.DistanceToRange(DistanceReal);
 
             if (Range == 1) return true;
             if (Range > 4) return true;
@@ -48,7 +48,7 @@ namespace BoardTools
             NearestPointShip = shipCollider.ClosestPoint(NearestPointObstacle);
 
             DistanceReal = Vector3.Distance(NearestPointShip, NearestPointObstacle);
-            Range = Mathf.Max(1, Mathf.CeilToInt(DistanceReal / Board.DISTANCE_INTO_RANGE));
+            Range = Board.DistanceToRange(DistanceReal);
         }
     }
 }

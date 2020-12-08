@@ -31,8 +31,7 @@ namespace BoardTools
         public static readonly float DISTANCE_1 = 4f;
         public static readonly float RANGE_1 = 10f;
 
-        //TODO: Rework
-        public static readonly float DISTANCE_INTO_RANGE = 3.28f / 3f;
+        private static readonly float DISTANCE_INTO_RANGE = 3.28f / 3f;
 
         public static void Initialize()
         {

@@ -26,7 +26,7 @@ namespace BoardTools
             {
                 float distanceBetween = Vector3.Distance(bombPoint, Obstacle.ObstacleGO.transform.position);
 
-                Range = Mathf.Max(1, Mathf.CeilToInt(distanceBetween / Board.DISTANCE_INTO_RANGE));
+                Range = Board.DistanceToRange(distanceBetween);
 
                 if (Range == 1) return true;
                 if (Range > 4) return true;
@@ -48,7 +48,7 @@ namespace BoardTools
                 if (distanceBetweenEdges < minDistance) minDistance = distanceBetweenEdges;
             }
             
-            Range = Mathf.Max(1, Mathf.CeilToInt(minDistance / Board.DISTANCE_INTO_RANGE));
+            Range = Board.DistanceToRange(minDistance);
         }
     }
 }

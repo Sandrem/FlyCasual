@@ -28,7 +28,7 @@ namespace BoardTools
                         return 0;
                 }
 
-                return Mathf.Max(1, Mathf.CeilToInt(DistanceReal / Board.DISTANCE_INTO_RANGE));
+                return Board.DistanceToRange(DistanceReal);
             }
         }
 

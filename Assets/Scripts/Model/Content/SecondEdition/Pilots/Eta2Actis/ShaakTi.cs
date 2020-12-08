@@ -94,14 +94,14 @@ namespace Abilities.SecondEdition
         private void KeepEvade(Action callback)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
-            KeepToken(HostShip.Tokens.GetToken<EvadeToken>());
+            KeepToken(TargetShip.Tokens.GetToken<EvadeToken>());
             callback();
         }
 
         private void KeepFocus(Action callback)
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
-            KeepToken(HostShip.Tokens.GetToken<FocusToken>());
+            KeepToken(TargetShip.Tokens.GetToken<FocusToken>());
             callback();
         }
 

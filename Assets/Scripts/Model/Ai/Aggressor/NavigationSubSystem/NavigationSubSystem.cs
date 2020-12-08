@@ -169,6 +169,7 @@ namespace AI.Aggressor
 
             ship.ClearAssignedManeuver();
             VirtualBoard.UpdateNavigationResults(ship, navigationResults);
+            Selection.DeselectThisShip();
         }
 
         private static List<GenericShip> GenerateOrderOfActivation()
@@ -302,6 +303,7 @@ namespace AI.Aggressor
 
             VirtualBoard.Ships[ship].SetPlannedManeuverCode(maneuverToCheck.Key, ++OrderOfActivation);
             ship.ClearAssignedManeuver();
+            Selection.DeselectThisShip();
         }
 
         private static void ProcessHeavyGeometryCalculations(GenericShip ship, out float minDistanceToEnemyShip, out float minDistanceToNearestEnemyInShotRange, out float minAngle, out int enemiesInShotRange)
@@ -460,7 +462,7 @@ namespace AI.Aggressor
         public static void AssignPlannedManeuver(Action callBack)
         {
             ShipMovementScript.SendAssignManeuverCommand(VirtualBoard.Ships[Selection.ThisShip].PlannedManeuverCode);
-            GameManagerScript.Wait(0.2f, delegate { callBack(); });
+            GameManagerScript.Wait(0.2f, delegate { Selection.DeselectThisShip(); callBack(); });
         }
 
         // Low Priority

@@ -203,8 +203,7 @@ public class TallonRollHelper
             ObstaclesStayDetectorForced detector = temporaryShipBase.transform.Find("ShipBase").Find("ObstaclesStayDetector").gameObject.AddComponent<ObstaclesStayDetectorForced>();
 
             detector.ReCheckCollisionsStart();
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
             detector.ReCheckCollisionsFinish();
         }
     }

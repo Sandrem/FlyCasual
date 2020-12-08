@@ -152,16 +152,14 @@ namespace Abilities.SecondEdition
             RelocateToFrontGuides();
 
             collisionDetector.ReCheckCollisionsStart();
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
             bool canBePlacedFront = NoCollisionsWithObjects(collisionDetector);
             collisionDetector.ReCheckCollisionsFinish();
 
             RelocateToRearGuides();
 
             collisionDetector.ReCheckCollisionsStart();
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
             bool canBePlacedRear = NoCollisionsWithObjects(collisionDetector);
             collisionDetector.ReCheckCollisionsFinish();
 

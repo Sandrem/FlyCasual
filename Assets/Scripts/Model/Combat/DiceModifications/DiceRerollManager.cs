@@ -214,6 +214,7 @@ public partial class DiceRerollManager
 
     private void ToggleDiceModificationsPanel(bool isActive)
     {
+        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
         GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel").gameObject.SetActive(isActive);
 
         if (!isActive) Combat.DiceModifications.HideAllButtons();
@@ -221,6 +222,7 @@ public partial class DiceRerollManager
 
     private void ToggleDiceRerollsPanel(bool isActive)
     {
+        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
         GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceRerollsPanel").gameObject.SetActive(isActive);
 
         if (!isActive)

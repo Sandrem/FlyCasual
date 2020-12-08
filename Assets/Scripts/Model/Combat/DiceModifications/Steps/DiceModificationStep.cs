@@ -123,6 +123,16 @@ namespace SubPhases
             bool result = false;
             return result;
         }
+
+        public override void Pause()
+        {
+            Combat.DiceModifications.HideDiceModificationsUi();
+        }
+
+        public override void Resume()
+        {
+            Combat.DiceModifications.RefreshButtonsList();
+        }
     }
 
     public class DiceModificationAttackByDefenderSubphase : DiceModificationSubphase { }

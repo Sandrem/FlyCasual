@@ -51,8 +51,11 @@ namespace Abilities.SecondEdition
         {
             if (tokenCount < 2) //We can only keep up to two focus tokens in Second Edition
             {
-                if (token is FocusToken) remove = false;
-                tokenCount++;
+                if (token is FocusToken)
+                {
+                    tokenCount++;
+                    remove = false;
+                }
             }
             else
             {

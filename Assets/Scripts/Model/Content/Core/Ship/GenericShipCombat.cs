@@ -36,6 +36,7 @@ namespace Ship
         public bool CanAttackBumpedTargetAlways { get; set; }
         public bool IgnoressBombDetonationEffect { get; set; }
         public bool AttackIsAlwaysConsideredHit { get; set; }
+        public int DiceRolledLastAttack { get; set; }
 
         // EVENTS
 
@@ -427,14 +428,13 @@ namespace Ship
 
             result = Combat.ChosenWeapon.WeaponInfo.AttackValue;
 
-            if (AfterGotNumberOfAttackDice != null) AfterGotNumberOfAttackDice(ref result);
+            AfterGotNumberOfAttackDice?.Invoke(ref result);
             if (Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
-                if (AfterGotNumberOfPrimaryWeaponAttackDice != null) AfterGotNumberOfPrimaryWeaponAttackDice(ref result);
+                AfterGotNumberOfPrimaryWeaponAttackDice?.Invoke(ref result);
             }
 
-
-            if (AfterGotNumberOfAttackDiceCap != null) AfterGotNumberOfAttackDiceCap(ref result);
+            AfterGotNumberOfAttackDiceCap?.Invoke(ref result);
 
             if (result < 0) result = 0;
             return result;

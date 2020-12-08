@@ -62,6 +62,7 @@ namespace Abilities.SecondEdition
             if (Combat.Attacker.ShipBase.Size != BaseSize.Small && Combat.Attacker.ShipId != HostShip.ShipId) return false;
             if (!Combat.Defender.Damage.IsDamaged) return false;
             if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon) return false;
+            if (Combat.Attacker.DiceRolledLastAttack > 2) return false;
             if (new DistanceInfo(Combat.Attacker, HostShip).Range > 2) return false;
 
             return true;

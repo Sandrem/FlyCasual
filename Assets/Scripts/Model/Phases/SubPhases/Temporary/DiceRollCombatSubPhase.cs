@@ -152,6 +152,7 @@ namespace SubPhases
 
             diceType = DiceKind.Attack;
             diceCount = Combat.Attacker.GetNumberOfAttackDice(Combat.Defender);
+            Combat.Attacker.DiceRolledLastAttack = diceCount;
 
             checkResults = CheckResults;
         }

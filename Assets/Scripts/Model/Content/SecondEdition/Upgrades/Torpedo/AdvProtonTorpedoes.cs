@@ -23,6 +23,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.AdvProtonTorpedoesAbility),
                 seImageNumber: 33
             );
+
+            NameCanonical = "advprotontorpedoes";
         }        
     }
 }

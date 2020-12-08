@@ -8,12 +8,12 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class LandosMilleniumFalcon : GenericUpgrade
+    public class LandosMillenniumFalcon : GenericUpgrade
     {
-        public LandosMilleniumFalcon() : base()
+        public LandosMillenniumFalcon() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Lando's Millenium Falcon",
+                "Lando's Millennium Falcon",
                 UpgradeType.Title,
                 cost: 3,
                 isLimited: true,

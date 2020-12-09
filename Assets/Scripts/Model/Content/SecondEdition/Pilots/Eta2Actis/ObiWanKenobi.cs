@@ -109,7 +109,7 @@ namespace Abilities.SecondEdition
 
         private void CheckSecondPartOfConditions(object sender, EventArgs e)
         {
-            if (TriggedShip.Tokens.HasTokenByColor(TokenColors.Red) && HostShip.State.Force > 0)
+            if (HostShip.State.Force > 0)
             {
                 AskToUseObiWanKenobisAbility();
             }

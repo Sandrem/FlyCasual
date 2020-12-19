@@ -3,8 +3,6 @@ using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using Upgrade;
 
 namespace Abilities
 {
@@ -26,7 +24,7 @@ namespace Abilities
             AbilityDescription description = null)
         {
             EachShipAction = eachShipAction;
-            OnFinish = onFinish;
+            OnFinish = onFinish ?? Triggers.FinishTrigger;
             Conditions = conditions;
             AbilityDescription = description;
         }
@@ -68,7 +66,7 @@ namespace Abilities
             }
             else
             {
-                Triggers.FinishTrigger();
+                OnFinish();
             }
         }
 

@@ -47,7 +47,7 @@ public static class ShipFactory {
         newShipContainer.OnActionIsPerformed_System += Rules.Actions.ActionColorCheck;
         newShipContainer.OnActionIsPerformed += Rules.Actions.CheckLinkedAction;
         newShipContainer.AfterGotNumberOfDefenceDice += Rules.Strain.CheckForStrainedDebuff;
-        newShipContainer.AfterGotNumberOfPrimaryWeaponAttackDice += Rules.Deplete.CheckForDepletedDebuff;
+        newShipContainer.AfterGotNumberOfAttackDice += Rules.Deplete.CheckForDepletedDebuff;
         newShipContainer.OnAttackFinishAsDefender += Rules.Strain.TryRemoveAppliedStrainTokenAfterAttack;
         newShipContainer.OnAttackFinishAsAttacker += Rules.Deplete.TryRemoveDepleteTokenAfterAttack;
         newShipContainer.OnMovementExecuted += Rules.Strain.TryRemoveStrainTokenAfterManeuver;

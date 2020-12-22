@@ -21,24 +21,7 @@ namespace ActionsList
 
         public override void ActionTake()
         {
-            Edition.Current.ReloadAction();
-        }
-
-        public static void FlipFaceupRecursive()
-        {
-            GenericUpgrade discardedUpgrade = null;
-
-            List<GenericUpgrade> discardedUpgrades = Selection.ThisShip.UpgradeBar.GetUpgradesOnlyDiscarded();
-            if (discardedUpgrades.Count != 0) discardedUpgrade = discardedUpgrades.FirstOrDefault(n => n.HasType(UpgradeType.Missile) || n.HasType(UpgradeType.Torpedo));
-
-            if (discardedUpgrade != null)
-            {
-                discardedUpgrade.FlipFaceup(FlipFaceupRecursive);
-            }
-            else
-            {
-                AssignTokenAndFinish();
-            }
+            RestoreCharge();
         }
 
         public override int GetActionPriority()
@@ -53,7 +36,7 @@ namespace ActionsList
             return Selection.ThisShip.UpgradeBar.GetRechargableUpgrades(new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Device });
         }
 
-        public static void RestoreOneCharge()
+        public void RestoreCharge()
         {
             List<GenericUpgrade> rechargableUpgrades = GetReloadableUpgrades();
 
@@ -63,8 +46,7 @@ namespace ActionsList
             }
             else if (rechargableUpgrades.Count == 1)
             {
-                rechargableUpgrades[0].State.RestoreCharge();
-                Messages.ShowInfo(Selection.ThisShip.PilotInfo.PilotName + " recharges 1 charge of " + rechargableUpgrades[0].UpgradeInfo.Name + " and gains a Disarmed token");
+                RechargeUpgrade(rechargableUpgrades[0]);
                 AssignTokenAndFinish();
             }
             else
@@ -84,7 +66,12 @@ namespace ActionsList
 
             foreach (GenericUpgrade upgrade in GetReloadableUpgrades())
             {
-                subphase.AddDecision(upgrade.UpgradeInfo.Name, delegate { RechargeUpgrade(upgrade); }, upgrade.ImageUrl, upgrade.State.Charges);
+                subphase.AddDecision(
+                    upgrade.UpgradeInfo.Name,
+                    delegate { RechargeUpgradeAndFinish(upgrade); },
+                    upgrade.ImageUrl,
+                    upgrade.State.Charges
+                );
             }
 
             subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
@@ -92,17 +79,25 @@ namespace ActionsList
             subphase.Start();
         }
 
-        protected static void AssignTokenAndFinish()
+        private static void RechargeUpgradeAndFinish(GenericUpgrade upgrade)
         {
-            Selection.ThisShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Phases.CurrentSubPhase.CallBack);
+            RechargeUpgrade(upgrade);
+
+            DecisionSubPhase.ConfirmDecision();
         }
 
         private static void RechargeUpgrade(GenericUpgrade upgrade)
         {
-            upgrade.State.RestoreCharge();
-            Messages.ShowInfo("Reload: One charge of \"" + upgrade.UpgradeInfo.Name + "\" is restored");
+            int count = upgrade.HostShip.GetReloadChargesCount(upgrade);
+            upgrade.State.RestoreCharges(count);
 
-            DecisionSubPhase.ConfirmDecision();
+            string chargesText = (count == 1) ? "1 Charge" : $"{count} Charges";
+            Messages.ShowInfo($"Reload: {chargesText} of {upgrade.UpgradeInfo.Name} is restored");
+        }
+
+        protected static void AssignTokenAndFinish()
+        {
+            Selection.ThisShip.Tokens.AssignToken(typeof(WeaponsDisabledToken), Phases.CurrentSubPhase.CallBack);
         }
 
         public class ReloadDecisionSubphase : DecisionSubPhase { }

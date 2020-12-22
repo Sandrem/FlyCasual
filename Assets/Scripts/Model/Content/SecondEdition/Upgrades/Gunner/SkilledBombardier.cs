@@ -29,13 +29,13 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplatesModifications += SkilledBombardierTemplate;
+            HostShip.OnGetAvailableBombDropTemplatesTwoConditions += SkilledBombardierTemplate;
             HostShip.OnGetAvailableBombLaunchTemplatesModifications += SkilledBombardierTemplate;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplatesModifications -= SkilledBombardierTemplate;
+            HostShip.OnGetAvailableBombDropTemplatesTwoConditions -= SkilledBombardierTemplate;
             HostShip.OnGetAvailableBombLaunchTemplatesModifications -= SkilledBombardierTemplate;
         }
 

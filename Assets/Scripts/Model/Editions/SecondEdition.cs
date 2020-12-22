@@ -247,11 +247,6 @@ namespace Editions
             (Phases.CurrentSubPhase as DecloakPlanningSubPhase).PerfromTemplatePlanningSecondEdition();
         }
 
-        public override void ReloadAction()
-        {
-            ActionsList.ReloadAction.RestoreOneCharge();
-        }
-
         public override void SquadBuilderIsOpened()
         {
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");

@@ -58,7 +58,6 @@ namespace Editions
         public abstract void SetShipBaseImage(GenericShip ship);
         public abstract void BarrelRollTemplatePlanning();
         public abstract void DecloakTemplatePlanning();
-        public abstract void ReloadAction();
         public abstract bool DefenderIsReinforcedAgainstAttacker(ArcFacing facing, GenericShip defender, GenericShip attacker);
         public abstract bool ReinforceEffectCanBeUsed(ArcFacing facing);
         public abstract bool ReinforcePostCombatEffectCanBeUsed(ArcFacing facing);

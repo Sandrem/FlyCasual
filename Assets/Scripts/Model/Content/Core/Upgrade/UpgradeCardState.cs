@@ -88,11 +88,11 @@ namespace Upgrade
         {
             if (!HostUpgrade.UpgradeInfo.CannotBeRecharged)
             {
-                if (HostUpgrade.UpgradeInfo.RegensChargesCount > 0)
+                if (count > 0)
                 {
                     Charges = Math.Min(Charges + count, MaxCharges);
                 }
-                else if (HostUpgrade.UpgradeInfo.RegensChargesCount < 0)
+                else if (count < 0)
                 {
                     Charges = Math.Max(Charges + count, 0);
                 }

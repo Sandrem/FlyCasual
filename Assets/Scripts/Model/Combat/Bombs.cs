@@ -23,10 +23,14 @@ namespace Bombs
         Straight_1,
         Bank_1_Left,
         Bank_1_Right,
-        Straight_2,
-        Straight_3,
         Turn_1_Left,
         Turn_1_Right,
+        Straight_2,
+        Bank_2_Left,
+        Bank_2_Right,
+        Straight_3,
+        Bank_3_Left,
+        Bank_3_Right,
         Turn_3_Left,
         Turn_3_Right
     }
@@ -37,6 +41,7 @@ namespace Bombs
         public static GenericDeviceGameObject CurrentBombObject { get; set; }
         public static GenericShip DetonatedShip { get; set; }
         public static bool DetonationIsAllowed { get; set; }
+        public static ManeuverTemplate LastManeuverTemplateUsed { get; set; }
 
         private static List<Vector3> generatedBombPoints = new List<Vector3>();
         private static Dictionary<GenericDeviceGameObject, GenericBomb> bombsList;
@@ -168,7 +173,7 @@ namespace Bombs
 
         private static void ResolveRemoveModelTriggers()
         {
-            if (OnBombIsRemoved != null) OnBombIsRemoved(CurrentDevice as GenericBomb, CurrentBombObject);
+            OnBombIsRemoved?.Invoke(CurrentDevice as GenericBomb, CurrentBombObject);
 
             Triggers.ResolveTriggers(TriggerTypes.OnBombIsRemoved, RemoveModel);
         }
@@ -186,7 +191,7 @@ namespace Bombs
 
             Rules.Fuse.CheckForRemoveFuseInsteadOfDetonating(CurrentBombObject);
 
-            if (OnCheckPermissionToDetonate != null) OnCheckPermissionToDetonate(CurrentDevice as GenericBomb, DetonatedShip);
+            OnCheckPermissionToDetonate?.Invoke(CurrentDevice as GenericBomb, DetonatedShip);
 
             Triggers.ResolveTriggers(TriggerTypes.OnCheckPermissionToDetonate, delegate { CheckPermissionToDetonate(callback); });
         }
@@ -257,7 +262,7 @@ namespace Bombs
             BombDecisionSubPhase selectBombToDrop = (BombDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 "Select a device to drop",
                 typeof(BombDecisionSubPhase),
-                delegate { CheckSelectedDevice(onlyDrop); }
+                delegate { DropSelectedDevice(onlyDrop); }
             );
 
             selectBombToDrop.DefaultDecisionName = "None";
@@ -294,7 +299,7 @@ namespace Bombs
 
         private class BombDecisionSubPhase : DecisionSubPhase { }
 
-        private static void CheckSelectedDevice(bool onlyDrop)
+        public static void DropSelectedDevice(bool onlyDrop)
         {
             if (CurrentDevice != null)
             {
@@ -328,9 +333,7 @@ namespace Bombs
             subphase.AddDecision("Launch", LaunchBomb);
 
             subphase.DescriptionShort = "Select a way how to use the device";
-
             subphase.DefaultDecisionName = "Drop";
-
             subphase.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
             subphase.Start();

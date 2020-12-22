@@ -124,8 +124,11 @@ namespace Ship
         public event EventHandlerShip OnAttackFinishAsDefender;
         public static event EventHandlerShip OnAttackFinishGlobal;
 
-        public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplates;
-        public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplatesModifications;
+        public event EventHandlerUpgradeRefInt OnGetReloadChargesCount;
+        public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplatesTwoConditions;
+        public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplatesOneCondition;
+        public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplatesNoConditions;
+        public event EventHandlerBombDropTemplates OnGetAvailableBombDropTemplatesForbid;
         public event EventHandlerBombDropTemplates OnGetAvailableBombLaunchTemplates;
         public event EventHandlerBombDropTemplates OnGetAvailableBombLaunchTemplatesModifications;
         public event EventHandlerBarrelRollTemplates OnGetAvailableBarrelRollTemplates;
@@ -166,6 +169,7 @@ namespace Ship
         public event EventHandler OnBombWillBeDropped;
         public event EventHandler OnBombWasDropped;
         public event EventHandler OnBombWasLaunched;
+        public event EventHandler OnCheckDropOfSecondDevice;
 
         public event EventHandelerWeaponRange OnUpdateWeaponRange;
         public static event EventHandelerWeaponRange OnUpdateWeaponRangeGlobal;
@@ -755,14 +759,23 @@ namespace Ship
             }
         }
 
+        public int GetReloadChargesCount(GenericUpgrade upgrade)
+        {
+            int count = 1;
+            OnGetReloadChargesCount?.Invoke(upgrade, ref count);
+            return count;
+        }
+
         public List<ManeuverTemplate> GetAvailableBombDropTemplates(GenericUpgrade upgrade)
         {
             List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();
             availableTemplates.AddRange(upgrade.GetDefaultDropTemplates());
 
-            OnGetAvailableBombDropTemplates?.Invoke(availableTemplates, upgrade);
+            OnGetAvailableBombDropTemplatesTwoConditions?.Invoke(availableTemplates, upgrade);
+            OnGetAvailableBombDropTemplatesOneCondition?.Invoke(availableTemplates, upgrade);
+            OnGetAvailableBombDropTemplatesNoConditions?.Invoke(availableTemplates, upgrade);
 
-            OnGetAvailableBombDropTemplatesModifications?.Invoke(availableTemplates, upgrade);
+            OnGetAvailableBombDropTemplatesForbid?.Invoke(availableTemplates, upgrade);
 
             return availableTemplates;
         }
@@ -938,9 +951,19 @@ namespace Ship
 
         public void CallDeviceWasDropped(Action callback)
         {
-            if (OnBombWasDropped != null) OnBombWasDropped();
+            OnBombWasDropped?.Invoke();
 
-            Triggers.ResolveTriggers(TriggerTypes.OnBombWasDropped, callback);
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnBombWasDropped,
+                delegate { CallCheckDropOfSecondDevice(callback); }
+            );
+        }
+
+        public void CallCheckDropOfSecondDevice(Action callback)
+        {
+            OnCheckDropOfSecondDevice?.Invoke();
+
+            Triggers.ResolveTriggers(TriggerTypes.OnCheckDropOfSecondDevice, callback);
         }
 
         public void CallBombWasLaunched(Action callback)

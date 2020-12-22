@@ -34,30 +34,32 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplates += SolSixxaTemplate;
+            HostShip.OnGetAvailableBombDropTemplatesTwoConditions += SolSixxaTemplate;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplates -= SolSixxaTemplate;
+            HostShip.OnGetAvailableBombDropTemplatesTwoConditions -= SolSixxaTemplate;
         }
 
         protected virtual void SolSixxaTemplate(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)
         {
-            List<ManeuverTemplate> newTemplates = new List<ManeuverTemplate>()
+            if (availableTemplates.Any(n => n.Bearing == ManeuverBearing.Straight && n.Speed == ManeuverSpeed.Speed1))
             {
-                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Right, ManeuverSpeed.Speed1, isBombTemplate: true),
-                new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Left, ManeuverSpeed.Speed1, isBombTemplate: true),
-            };
-
-            foreach (ManeuverTemplate newTemplate in newTemplates)
-            {
-                if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+                List<ManeuverTemplate> newTemplates = new List<ManeuverTemplate>()
                 {
-                    availableTemplates.Add(newTemplate);
+                    new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Right, ManeuverSpeed.Speed1, isBombTemplate: true),
+                    new ManeuverTemplate(ManeuverBearing.Turn, ManeuverDirection.Left, ManeuverSpeed.Speed1, isBombTemplate: true),
+                };
+
+                foreach (ManeuverTemplate newTemplate in newTemplates)
+                {
+                    if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+                    {
+                        availableTemplates.Add(newTemplate);
+                    }
                 }
             }
-
         }
     }
 }

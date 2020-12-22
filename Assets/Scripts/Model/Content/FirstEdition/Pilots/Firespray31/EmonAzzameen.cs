@@ -35,12 +35,12 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplates += AddEmonAzzameenTemplates;
+            HostShip.OnGetAvailableBombDropTemplatesTwoConditions += AddEmonAzzameenTemplates;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplates -= AddEmonAzzameenTemplates;
+            HostShip.OnGetAvailableBombDropTemplatesTwoConditions -= AddEmonAzzameenTemplates;
         }
 
         private void AddEmonAzzameenTemplates(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)

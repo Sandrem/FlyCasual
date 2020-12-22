@@ -31,12 +31,12 @@ namespace Abilities.FirstEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplates += BombardierTemplate;
+            HostShip.OnGetAvailableBombDropTemplatesNoConditions += BombardierTemplate;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplates -= BombardierTemplate;
+            HostShip.OnGetAvailableBombDropTemplatesNoConditions -= BombardierTemplate;
         }
 
         private void BombardierTemplate(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)

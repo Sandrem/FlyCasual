@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Movement;
 using ActionsList;
 using Actions;
-using Arcs;
 using Upgrade;
-using Ship;
-using Bombs;
 using BoardTools;
 using System.Linq;
 
@@ -49,27 +45,35 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplates += AddNimbleBomberTemplates;
+            HostShip.OnGetAvailableBombDropTemplatesOneCondition += AddNimbleBomberTemplates;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplates -= AddNimbleBomberTemplates;
+            HostShip.OnGetAvailableBombDropTemplatesOneCondition -= AddNimbleBomberTemplates;
         }
 
         private void AddNimbleBomberTemplates(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade)
         {
-            List<ManeuverTemplate> newTemplates = new List<ManeuverTemplate>()
-            {
-                new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Right, ManeuverSpeed.Speed1, isBombTemplate: true),
-                new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Left, ManeuverSpeed.Speed1, isBombTemplate: true),
-            };
+            List<ManeuverTemplate> templatesCopy = new List<ManeuverTemplate>(availableTemplates);
 
-            foreach (ManeuverTemplate newTemplate in newTemplates)
+            foreach (ManeuverTemplate existingTemplate in templatesCopy)
             {
-                if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+                if (existingTemplate.Bearing == ManeuverBearing.Straight && existingTemplate.Direction == ManeuverDirection.Forward)
                 {
-                    availableTemplates.Add(newTemplate);
+                    List<ManeuverTemplate> newTemplates = new List<ManeuverTemplate>()
+                    {
+                        new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Right, existingTemplate.Speed, isBombTemplate: true),
+                        new ManeuverTemplate(ManeuverBearing.Bank, ManeuverDirection.Left, existingTemplate.Speed, isBombTemplate: true),
+                    };
+
+                    foreach (ManeuverTemplate newTemplate in newTemplates)
+                    {
+                        if (!availableTemplates.Any(t => t.Name == newTemplate.Name))
+                        {
+                            availableTemplates.Add(newTemplate);
+                        }
+                    }
                 }
             }
 

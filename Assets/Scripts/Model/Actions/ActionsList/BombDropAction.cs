@@ -46,7 +46,6 @@ namespace SubPhases
         List<ManeuverTemplate> AvailableBombDropTemplates = new List<ManeuverTemplate>();
         public ManeuverTemplate SelectedBombDropHelper;
         private List<GenericDeviceGameObject> BombObjects = new List<GenericDeviceGameObject>();
-        private bool inReposition;
 
         public override void Start()
         {
@@ -123,6 +122,8 @@ namespace SubPhases
 
         private void SelectTemplate(ManeuverTemplate selectedTemplate)
         {
+            BombsManager.LastManeuverTemplateUsed = selectedTemplate;
+
             if (BombsManager.CurrentDevice is GenericBomb)
             {
                 ShowBombAndDropTemplate(selectedTemplate);

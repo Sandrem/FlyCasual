@@ -68,7 +68,7 @@ namespace Ship
         public delegate void EventHandlerActionShip(GenericAction action, GenericShip wrongTarget);
         public delegate void EventHandlerCoordinateData(ref CoordinateActionData coordinateActionData);
         public delegate void EventHandlerDamageCard(GenericDamageCard damageCard);
-
+        public delegate void EventHandlerUpgradeRefInt(GenericUpgrade upgrade, ref int count);
         public delegate void EventHandlerModifyDice(Die die, GenericAbility.DiceModificationType modType, DieSide newResult, ref bool isAllowed);
         public delegate void EventHandlerTrySelectDie(Die die, ref bool isAllowed);
         public event EventHandlerShip AfterStatsAreChanged;

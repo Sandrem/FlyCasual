@@ -28,7 +28,6 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    // Temporary implementation. If in the future other abilities manipulate range bonus this will need to change.
     public class GrandInquisitorAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -41,6 +40,9 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnAttackStartAsAttacker -= RegisterInquisitorAttackAbility;
             HostShip.OnAttackStartAsDefender -= RegisterInquisitorDefenseAbility;
+
+            Rules.DistanceBonus.OnCheckAllowRangeOneBonus -= ApplyRangeOneBonus;
+            Rules.DistanceBonus.OnCheckPreventRangeOneBonus -= PreventRangeOneBonus;
         }
 
         private void RegisterInquisitorAttackAbility()
@@ -85,26 +87,30 @@ namespace Abilities.SecondEdition
 
         private void UseInquisitorAttackAbility(object sender, EventArgs e)
         {
-            HostShip.AfterGotNumberOfAttackDice += IncreaseAttackDice;
+            Rules.DistanceBonus.OnCheckAllowRangeOneBonus += ApplyRangeOneBonus;
             HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
         }
 
         private void UseInquisitorDefenseAbility(object sender, EventArgs e)
         {
-            Combat.Attacker.AfterGotNumberOfAttackDice += DecreaseAttackDice;
+            Rules.DistanceBonus.OnCheckPreventRangeOneBonus += PreventRangeOneBonus;
             HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
         }
 
-        private void IncreaseAttackDice(ref int result)
+        private void ApplyRangeOneBonus(ref bool isActive)
         {
-            result++;
-            HostShip.AfterGotNumberOfAttackDice -= IncreaseAttackDice;
+            Rules.DistanceBonus.OnCheckAllowRangeOneBonus -= ApplyRangeOneBonus;
+
+            Messages.ShowInfo($"{HostShip.PilotInfo.PilotName}: Range 1 bonus is applied");
+            isActive = true;
         }
 
-        private void DecreaseAttackDice(ref int result)
+        private void PreventRangeOneBonus(ref bool isActive)
         {
-            result--;
-            Combat.Attacker.AfterGotNumberOfAttackDice -= DecreaseAttackDice;
+            Rules.DistanceBonus.OnCheckAllowRangeOneBonus -= PreventRangeOneBonus;
+
+            Messages.ShowInfo($"{HostShip.PilotInfo.PilotName}: Range 1 bonus is prevented");
+            isActive = false;
         }
     }
 }

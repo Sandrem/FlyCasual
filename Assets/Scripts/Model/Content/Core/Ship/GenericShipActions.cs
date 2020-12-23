@@ -641,9 +641,18 @@ namespace Ship
 
         public void CallFinishSpendToken(Type type, Action callback)
         {
-            if (OnTokenIsSpent != null) OnTokenIsSpent(this, type);
+            OnTokenIsSpent?.Invoke(this, type);
 
-            if (OnTokenIsSpentGlobal != null) OnTokenIsSpentGlobal(this, type);
+            OnTokenIsSpentGlobal?.Invoke(this, type);
+
+            if (Combat.SpentTokens.ContainsKey(this))
+            {
+                Combat.SpentTokens[this].Add(type);
+            }
+            else
+            {
+                Combat.SpentTokens.Add(this, new List<Type>() { type });
+            }
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsSpent, callback);
         }

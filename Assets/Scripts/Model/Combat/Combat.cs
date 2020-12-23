@@ -9,6 +9,7 @@ using SubPhases;
 using GameCommands;
 using Upgrade;
 using Arcs;
+using Tokens;
 
 public enum PlayerRole
 {
@@ -73,6 +74,8 @@ public static class Combat
     public static bool SkipAttackDiceRollsAndHit;
 
     public static DiceModificationsManager DiceModifications;
+
+    public static Dictionary<GenericShip, List<Type>> SpentTokens { get; private set; } = new Dictionary<GenericShip, List<Type>>();
 
     public static void Initialize()
     {
@@ -223,6 +226,7 @@ public static class Combat
         UI.HideSkipButton();
         Roster.AllShipsHighlightOff();
 
+        SpentTokens = new Dictionary<GenericShip, List<Type>>();
         SetArcAsUsedForAttack();
         DeclareAttackerAndDefender();
         ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);

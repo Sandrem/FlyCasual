@@ -57,9 +57,14 @@ namespace Abilities.SecondEdition
         protected override void SeeAssignedManuver()
         {
             DistanceInfo distInfo = new DistanceInfo(HostShip, TargetShip);
-            if (distInfo.Range > 1) { HostShip.State.Force--; }
-
-            base.SeeAssignedManuver();
+            if (distInfo.Range > 1)
+            {
+                HostShip.State.SpendForce(1, base.SeeAssignedManuver);
+            }
+            else
+            {
+                base.SeeAssignedManuver();
+            }
         }
     }
 }

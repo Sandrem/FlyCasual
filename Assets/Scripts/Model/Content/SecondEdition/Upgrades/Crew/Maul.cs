@@ -127,7 +127,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Force < HostShip.State.MaxForce)
             {
-                HostShip.State.Force++;
+                HostShip.State.RestoreForce();
                 HostShip.Tokens.AssignToken(new Tokens.StressToken(HostShip), SubPhases.DecisionSubPhase.ConfirmDecision);
             }
             else

@@ -85,16 +85,14 @@ namespace Abilities.SecondEdition
 
         private void UseInquisitorAttackAbility(object sender, EventArgs e)
         {
-            HostShip.State.Force--;
             HostShip.AfterGotNumberOfAttackDice += IncreaseAttackDice;
-            DecisionSubPhase.ConfirmDecision();
+            HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
         }
 
         private void UseInquisitorDefenseAbility(object sender, EventArgs e)
         {
-            HostShip.State.Force--;
             Combat.Attacker.AfterGotNumberOfAttackDice += DecreaseAttackDice;
-            DecisionSubPhase.ConfirmDecision();
+            HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
         }
 
         private void IncreaseAttackDice(ref int result)

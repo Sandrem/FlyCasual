@@ -58,8 +58,7 @@ namespace Abilities.SecondEdition
             {
                 Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
                 Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
-                Combat.Attacker.State.Force--;
-                callBack();
+                Combat.Attacker.State.SpendForce(1, callBack);
             }
 
             public override bool IsDiceModificationAvailable()

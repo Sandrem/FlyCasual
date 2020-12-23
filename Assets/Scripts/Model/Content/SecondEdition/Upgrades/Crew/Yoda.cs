@@ -90,10 +90,13 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Force > 0 && targetShip.State.Force < targetShip.State.MaxForce)
             {
-                HostShip.State.Force--;
-                targetShip.State.Force++;
+                targetShip.State.RestoreForce();
+                HostShip.State.SpendForce(1, SubPhases.DecisionSubPhase.ConfirmDecision);
             }
-            SubPhases.DecisionSubPhase.ConfirmDecision();
+            else
+            {
+                SubPhases.DecisionSubPhase.ConfirmDecision();
+            }
         }
     }
 }

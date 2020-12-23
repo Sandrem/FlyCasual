@@ -107,27 +107,31 @@ namespace Abilities.SecondEdition
         private void UseGunnerAbility(object sender, System.EventArgs e)
         {
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
-            HostShip.State.Force--;
-
             if (!HostShip.IsCannotAttackSecondTime)
             {
                 IsSecondAttackActive = true;
 
                 HostShip.IsCannotAttackSecondTime = true;
 
-                Combat.StartSelectAttackTarget(
-                    HostShip,
-                    FinishAdditionalAttack,
-                    IsUnusedTurretArcShot,
-                    HostUpgrade.UpgradeInfo.Name,
-                    "You may perform a bonus turret arc attack using another turret arc",
-                    HostUpgrade
+                HostShip.State.SpendForce(
+                    1,
+                    delegate
+                    {
+                        Combat.StartSelectAttackTarget(
+                            HostShip,
+                            FinishAdditionalAttack,
+                            IsUnusedTurretArcShot,
+                            HostUpgrade.UpgradeInfo.Name,
+                            "You may perform a bonus turret arc attack using another turret arc",
+                            HostUpgrade
+                        );
+                    }
                 );
             }
             else
             {
                 Messages.ShowErrorToHuman(string.Format("{0} cannot attack an additional time", HostShip.PilotInfo.PilotName));
-                Triggers.FinishTrigger();
+                HostShip.State.SpendForce(1, Triggers.FinishTrigger);
             }
         }
 

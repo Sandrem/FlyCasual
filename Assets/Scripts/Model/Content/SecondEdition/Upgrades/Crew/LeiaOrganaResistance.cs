@@ -75,8 +75,6 @@ namespace Abilities.SecondEdition
 
         private void DecreaseComplexityOfManeuver(object sender, EventArgs e)
         {
-            HostShip.State.Force--;
-
             Selection.ThisShip.AssignedManeuver.ColorComplexity = GenericMovement.ReduceComplexity(Selection.ThisShip.AssignedManeuver.ColorComplexity);
 
             // Update revealed dial in UI
@@ -84,7 +82,7 @@ namespace Abilities.SecondEdition
 
             Messages.ShowInfo("Leia Organa: Difficulty of maneuver is reduced");
 
-            DecisionSubPhase.ConfirmDecision();
+            HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
         }
 
         private bool UseIfRedOnly()

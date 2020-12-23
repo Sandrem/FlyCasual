@@ -77,13 +77,20 @@ namespace Abilities.SecondEdition
 
         private void AddCriticalResult(object sender, EventArgs e)
         {
-            HostShip.State.Force -= 2;
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
             Combat.DiceRollAttack.AddDice(DieSide.Crit);
 
             Messages.ShowInfoToHuman(HostShip.PilotInfo.PilotName + ": Critical hit result was added");
 
-            DecisionSubPhase.ConfirmDecision();
-            Phases.CurrentSubPhase.Resume();
+            HostShip.State.SpendForce(
+                2,
+                delegate
+                {
+                    Triggers.FinishTrigger();
+                    Phases.CurrentSubPhase.Resume();
+                }
+            );
         }
     }
 }

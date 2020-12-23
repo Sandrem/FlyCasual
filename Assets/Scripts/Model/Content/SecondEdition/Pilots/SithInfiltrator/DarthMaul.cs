@@ -105,8 +105,7 @@ namespace Abilities.SecondEdition
 
         private void PayAttackCost(Action callback)
         {
-            HostShip.State.Force -= 2;
-            callback();
+            HostShip.State.SpendForce(2, callback);
         }
 
         private bool IsAllowedAttack(GenericShip defender, IShipWeapon weapon, bool isSilent)

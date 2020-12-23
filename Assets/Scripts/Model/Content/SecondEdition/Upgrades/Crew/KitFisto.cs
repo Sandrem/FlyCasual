@@ -67,17 +67,22 @@ namespace Abilities.SecondEdition
         private void AskToPerformRedEvadeAction()
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
-
-            HostShip.State.Force--;
-
+            
             Selection.ChangeActiveShip(TargetShip);
-            TargetShip.AskPerformFreeAction(
-                new EvadeAction() { Color = ActionColor.Red },
-                Triggers.FinishTrigger,
-                descriptionShort: "Kit Fisto",
-                descriptionLong: "You must perform red Evade action",
-                imageHolder: HostUpgrade,
-                isForced: true
+
+            HostShip.State.SpendForce(
+                1,
+                delegate
+                {
+                    TargetShip.AskPerformFreeAction(
+                        new EvadeAction() { Color = ActionColor.Red },
+                        Triggers.FinishTrigger,
+                        descriptionShort: "Kit Fisto",
+                        descriptionLong: "You must perform red Evade action",
+                        imageHolder: HostUpgrade,
+                        isForced: true
+                    );
+                }
             );
         }
 

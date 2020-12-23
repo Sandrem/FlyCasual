@@ -56,9 +56,8 @@ namespace Abilities.SecondEdition
 
         protected override void DecreaseAttack(object sender, System.EventArgs e)
         {
-            HostShip.State.Force--;
             RegisterDecreaseNumberOfAttackDice();
-            SubPhases.DecisionSubPhase.ConfirmDecision();
+            HostShip.State.SpendForce(1, SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 }

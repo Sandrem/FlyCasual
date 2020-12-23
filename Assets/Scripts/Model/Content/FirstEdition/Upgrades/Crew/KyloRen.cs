@@ -148,6 +148,8 @@ namespace Abilities.FirstEdition
 
         private void SelectDamageCard(GenericDamageCard damageCard)
         {
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+
             Messages.ShowInfo("Kylo Ren selected  " + damageCard.Name);
 
             AssignedDamageCard = damageCard;
@@ -157,12 +159,13 @@ namespace Abilities.FirstEdition
             opponentDamageDeck.ReShuffleDeck();
             AssignConditions(TargetShip);
 
-            SpendExtra();
-
-            DecisionSubPhase.ConfirmDecision();
+            SpendExtra(Triggers.FinishTrigger);
         }
 
-        protected virtual void SpendExtra() {}
+        protected virtual void SpendExtra(Action callback) 
+        {
+            callback();
+        }
 
         private void AssignConditions(GenericShip ship)
         {

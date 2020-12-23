@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using Ship;
+using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -88,7 +89,12 @@ namespace Abilities.SecondEdition
         {
             HostShip.BeforeActionIsPerformed -= PayForceToken;
 
-            HostShip.State.Force--;
+            RegisterAbilityTrigger(TriggerTypes.BeforeActionIsPerformed, SpendForce);
+        }
+
+        private void SpendForce(object sender, EventArgs e)
+        {
+            HostShip.State.SpendForce(1, Triggers.FinishTrigger);
         }
 
         private void DeregisterDebuffEvents(GenericShip ship)

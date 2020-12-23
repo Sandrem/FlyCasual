@@ -64,8 +64,10 @@ namespace Abilities.SecondEdition
         {
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            HostShip.State.Force--;
-            new RotateArcAction().DoOnlyEffect(Triggers.FinishTrigger);
+            HostShip.State.SpendForce(
+                1,
+                delegate { new RotateArcAction().DoOnlyEffect(Triggers.FinishTrigger); }
+            );
         }
     }
 }

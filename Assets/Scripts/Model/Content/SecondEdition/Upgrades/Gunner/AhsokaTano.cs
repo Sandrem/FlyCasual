@@ -75,17 +75,21 @@ namespace Abilities.SecondEdition
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            HostShip.State.Force--;
-
             Selection.ChangeActiveShip(TargetShip);
 
-            TargetShip.AskPerformFreeAction(
-                new FocusAction() { Color = Actions.ActionColor.Red, CanBePerformedWhileStressed = true },
-                FinishAbility,
-                descriptionShort: HostUpgrade.UpgradeInfo.Name,
-                descriptionLong: "You may perfrom a red Focus action even while stressed",
-                imageHolder: HostUpgrade,
-                isForced: true
+            HostShip.State.SpendForce(
+                1,
+                delegate
+                {
+                    TargetShip.AskPerformFreeAction(
+                        new FocusAction() { Color = Actions.ActionColor.Red, CanBePerformedWhileStressed = true },
+                        FinishAbility,
+                        descriptionShort: HostUpgrade.UpgradeInfo.Name,
+                        descriptionLong: "You may perfrom a red Focus action even while stressed",
+                        imageHolder: HostUpgrade,
+                        isForced: true
+                    );
+                }
             );
         }
 

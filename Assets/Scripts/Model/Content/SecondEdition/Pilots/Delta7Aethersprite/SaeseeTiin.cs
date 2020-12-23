@@ -64,8 +64,17 @@ namespace Abilities.SecondEdition
 
         private void ManeuverSelected(string maneuverString)
         {
-            if (maneuverString != TargetShip.AssignedManeuver.ToString()) HostShip.State.Force--;
-            ShipMovementScript.SendAssignManeuverCommand(maneuverString);
+            if (maneuverString != TargetShip.AssignedManeuver.ToString())
+            {
+                HostShip.State.SpendForce(
+                    1,
+                    delegate { ShipMovementScript.SendAssignManeuverCommand(maneuverString); }
+                );
+            }
+            else
+            {
+                ShipMovementScript.SendAssignManeuverCommand(maneuverString);
+            }
         }
 
         private bool IsSameComplexityAndSpeed(string maneuverString)

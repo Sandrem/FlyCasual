@@ -64,19 +64,18 @@ namespace Abilities.SecondEdition
         protected override void AssignConditionToAttacker(object sender, System.EventArgs e)
         {
             Sounds.PlayShipSound("Ill-Show-You-The-Dark-Side");
-            HostShip.State.Force--;
 
             if (AssignedDamageCard == null)
             {
                 // If condition is not in play - select card to assign
-                ShowPilotCrits();
+                HostShip.State.SpendForce(1, ShowPilotCrits);
             }
             else
             {
                 // If condition is in play - reassing only
                 RemoveConditions(ShipWithCondition);
                 AssignConditions(Combat.Attacker);
-                DecisionSubPhase.ConfirmDecision();
+                HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
             }
         }
 

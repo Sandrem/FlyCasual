@@ -37,9 +37,9 @@ namespace Abilities.SecondEdition
             return HostShip.State.Force > 0;
         }
 
-        protected override void SpendExtra()
+        protected override void SpendExtra(Action callback)
         {
-            HostShip.State.Force--;
+            HostShip.State.SpendForce(1, callback);
         }
     }
 }

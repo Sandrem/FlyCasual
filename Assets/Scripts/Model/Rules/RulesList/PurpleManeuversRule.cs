@@ -25,8 +25,7 @@ namespace RulesList
 
         public static void CheckStress(object sender, System.EventArgs e)
         {
-            Selection.ThisShip.State.Force--;
-            Triggers.FinishTrigger();
+            Selection.ThisShip.State.SpendForce(1, Triggers.FinishTrigger);
         }
     }
 }

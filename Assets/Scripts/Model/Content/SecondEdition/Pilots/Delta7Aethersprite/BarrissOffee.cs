@@ -90,9 +90,8 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Force > 0)
             {
-                HostShip.State.Force--;
                 IsAbilityUsed = true;
-                callback(true);
+                HostShip.State.SpendForce(1, delegate { callback(true); });
             }
             else
             {

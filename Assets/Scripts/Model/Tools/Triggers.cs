@@ -106,6 +106,7 @@ public enum TriggerTypes
     OnAfterDiscard,
     OnAfterFlipFaceUp,
     OnSystemsAbilityActivation,
+    OnForceTokensAreSpent,
 
     OnBombWillBeDropped,
     OnBombWasDropped,

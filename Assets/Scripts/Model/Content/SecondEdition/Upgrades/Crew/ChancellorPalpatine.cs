@@ -119,9 +119,11 @@ namespace Abilities.SecondEdition
 
         private void AssignStress(object sender, EventArgs e)
         {
-            HostShip.State.Force--;
             Messages.ShowInfo("Attacker gains 1 stress from Chancellor Palpatine");
-            Combat.Attacker.Tokens.AssignToken(typeof(Tokens.StressToken), DecisionSubPhase.ConfirmDecision);
+            HostShip.State.SpendForce(
+                1, 
+                delegate { Combat.Attacker.Tokens.AssignToken(typeof(Tokens.StressToken), DecisionSubPhase.ConfirmDecision); }
+            );
         }
     }
 
@@ -189,7 +191,7 @@ namespace Abilities.SecondEdition
             private void RecoverForce(object sender, EventArgs e)
             {
                 if (TargetShip.State.Force < TargetShip.State.MaxForce)
-                    TargetShip.State.Force++;
+                    TargetShip.State.RestoreForce();
                 else
                     Messages.ShowErrorToHuman("Ship is not able to recover Force");
 

@@ -3,6 +3,7 @@ using Upgrade;
 using System.Linq;
 using BoardTools;
 using ActionsList;
+using System;
 
 namespace UpgradesList.SecondEdition
 {
@@ -60,7 +61,7 @@ namespace Abilities.SecondEdition
 
             Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": You may spend 1 Force to perform an action");
 
-            HostShip.BeforeActionIsPerformed += SpendForce;
+            HostShip.BeforeActionIsPerformed += RegisterSpendForce;
             HostShip.OnActionIsPerformed += RemoveSpendForce;
 
             HostShip.AskPerformFreeAction(
@@ -72,14 +73,19 @@ namespace Abilities.SecondEdition
             );
         }
 
-        private void SpendForce(GenericAction action, ref bool isFreeAction)
+        private void RegisterSpendForce(GenericAction action, ref bool isFreeAction)
         {
-            HostShip.State.Force--;
+            RegisterAbilityTrigger(TriggerTypes.BeforeActionIsPerformed, DoSpenForce);
+        }
+
+        private void DoSpenForce(object sender, EventArgs e)
+        {
+            HostShip.State.SpendForce(1, Triggers.FinishTrigger);
         }
 
         private void RemoveSpendForce(GenericAction action)
         {
-            HostShip.BeforeActionIsPerformed -= SpendForce;
+            HostShip.BeforeActionIsPerformed -= RegisterSpendForce;
             HostShip.OnActionIsPerformed -= RemoveSpendForce;
         }
 

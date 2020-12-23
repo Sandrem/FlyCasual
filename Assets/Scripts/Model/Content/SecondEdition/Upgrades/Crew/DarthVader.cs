@@ -83,8 +83,6 @@ namespace Abilities.SecondEdition
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
 
-            HostShip.State.Force--;
-
             var tokenTypes = TargetShip.Tokens
                 .GetAllTokens().Where(t => t.TokenColor == Tokens.TokenColors.Green)
                 .Select(t => new { Name = t.Name, Type = t.GetType() })
@@ -116,11 +114,11 @@ namespace Abilities.SecondEdition
                 decisionSubPhase.DefaultDecisionName = decisionSubPhase.GetDecisions().First(d => d.Name != "No").Name;
                 decisionSubPhase.RequiredPlayer = TargetShip.Owner.PlayerNo;
 
-                decisionSubPhase.Start();
+                HostShip.State.SpendForce(1, decisionSubPhase.Start);
             }
             else
             {
-                AssignDamage();
+                HostShip.State.SpendForce(1, AssignDamage);
             }
         }
 

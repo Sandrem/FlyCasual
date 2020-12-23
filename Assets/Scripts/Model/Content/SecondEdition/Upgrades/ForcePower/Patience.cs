@@ -77,7 +77,7 @@ namespace Abilities.SecondEdition
                 typeof(Tokens.DepleteToken),
                 delegate
                 {
-                    if (HostShip.State.Force < HostShip.State.MaxForce) HostShip.State.Force++;
+                    if (HostShip.State.Force < HostShip.State.MaxForce) HostShip.State.RestoreForce();
                     Triggers.FinishTrigger();
                 }
             );

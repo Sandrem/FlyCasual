@@ -76,11 +76,13 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Force > 0)
             {
-                HostShip.State.Force--;
-                TargetShip.Tokens.TokenToAssign = token; 
+                TargetShip.Tokens.TokenToAssign = token;
+                HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
             }
-            DecisionSubPhase.ConfirmDecision();
-
+            else
+            {
+                DecisionSubPhase.ConfirmDecision();
+            }
         }
 
         protected class SeventhSisterDecistionSubPhase : DecisionSubPhase

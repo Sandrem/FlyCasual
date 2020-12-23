@@ -75,14 +75,17 @@ namespace Abilities.SecondEdition
         {
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            HostShip.State.Force--;
-
-            HostShip.AskPerformFreeAction(
-                HostShip.GetAvailableActions(),
-                Triggers.FinishTrigger,
-                HostShip.PilotInfo.PilotName,
-                "After you perform an attack that hits, you may spend 1 Force to perform an action",
-                HostShip
+            HostShip.State.SpendForce(
+                1,
+                delegate {
+                    HostShip.AskPerformFreeAction(
+                         HostShip.GetAvailableActions(),
+                         Triggers.FinishTrigger,
+                         HostShip.PilotInfo.PilotName,
+                         "After you perform an attack that hits, you may spend 1 Force to perform an action",
+                         HostShip
+                     );
+                }
             );
         }
 
@@ -136,8 +139,10 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            HostShip.State.Force--;
-            HostShip.Tokens.RemoveToken(token, Phases.CurrentSubPhase.CallBack);
+            HostShip.State.SpendForce(
+                1,
+                delegate { HostShip.Tokens.RemoveToken(token, Phases.CurrentSubPhase.CallBack); }
+            );
         }
 
         private void FinishAbility()

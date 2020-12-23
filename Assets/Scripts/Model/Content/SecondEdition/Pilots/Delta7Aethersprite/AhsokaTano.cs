@@ -100,8 +100,14 @@ namespace Abilities.SecondEdition
 
         private void PayForceCost(GenericAction action, ref bool isFreeAction)
         {
-            HostShip.State.Force--;
             TargetShip.BeforeActionIsPerformed -= PayForceCost;
+
+            RegisterAbilityTrigger(TriggerTypes.BeforeActionIsPerformed, SpendForce);
+        }
+
+        private void SpendForce(object sender, EventArgs e)
+        {
+            HostShip.State.SpendForce(1, Triggers.FinishTrigger);
         }
 
         private bool FilterTargets(GenericShip ship)

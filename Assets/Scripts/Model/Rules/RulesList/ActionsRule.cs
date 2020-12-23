@@ -40,12 +40,26 @@ namespace RulesList
                 });
             }
 
-            if (color == ActionColor.Purple) Selection.ThisShip.State.Force--;
+            if (color == ActionColor.Purple)
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Spend force after purple action",
+                    TriggerType = TriggerTypes.OnActionIsPerformed_System,
+                    TriggerOwner = Selection.ThisShip.Owner.PlayerNo,
+                    EventHandler = SpendForce
+                });
+            }
         }
 
         private void GetStress(object sender, System.EventArgs e)
         {
             Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), Triggers.FinishTrigger);
+        }
+
+        private void SpendForce(object sender, EventArgs e)
+        {
+            Selection.ThisShip.State.SpendForce(1, Triggers.FinishTrigger);
         }
 
         public void CheckLinkedAction(GenericAction action)

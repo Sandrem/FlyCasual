@@ -277,7 +277,7 @@ namespace Ship
         private void InitializeForce()
         {
             OnGameStart -= InitializeForce;
-            State.Force = State.MaxForce;
+            State.InitializeForceTokens(State.MaxForce);
         }
 
         private void PrepareChargesInitialization()

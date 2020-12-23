@@ -97,8 +97,10 @@ namespace SubPhases
 
         private void RecieveStress(object sender, System.EventArgs e)
         {
-            Selection.ActiveShip.State.Force--;
-            Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), DecisionSubPhase.ConfirmDecision);
+            Selection.ActiveShip.State.SpendForce(
+                1,
+                delegate { Selection.ThisShip.Tokens.AssignToken(typeof(StressToken), DecisionSubPhase.ConfirmDecision); }
+            );
         }
     }
 }

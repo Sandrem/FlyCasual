@@ -119,12 +119,21 @@ namespace Abilities.SecondEdition
 
         private void TransferToken(Type tokenType, GenericShip fromShip, GenericShip toShip)
         {
-            HostShip.State.Force--;
-            fromShip.Tokens.TransferToken(tokenType, toShip, () =>
-            {
-                DecisionSubPhase.ConfirmDecisionNoCallback();
-                SelectShipSubPhase.FinishSelection();
-            }, HostShip.Owner);
+            HostShip.State.SpendForce(
+                1,
+                delegate
+                {
+                    fromShip.Tokens.TransferToken(
+                        tokenType,
+                        toShip,
+                        () => {
+                            DecisionSubPhase.ConfirmDecisionNoCallback();
+                            SelectShipSubPhase.FinishSelection();
+                        },
+                        HostShip.Owner
+                    );
+                }
+            );
         }
 
         private int GetAiAbilityPriority(GenericShip ship)

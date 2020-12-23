@@ -149,9 +149,7 @@ namespace SubPhases
 
         public override void DoCustomFinishDecision()
         {
-            AbilityHostShip.State.Force--;
-
-            base.DoCustomFinishDecision();
+            AbilityHostShip.State.SpendForce(1, base.DoCustomFinishDecision);
         }
     }
 }

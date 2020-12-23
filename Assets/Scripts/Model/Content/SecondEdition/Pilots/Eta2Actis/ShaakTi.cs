@@ -62,33 +62,37 @@ namespace Abilities.SecondEdition
 
         private void SelectFocusOrEvadeToken(GenericShip ship, Action callback)
         {
-            HostShip.State.Force--;
-
-            if (TargetShip.Tokens.HasToken<FocusToken>() && TargetShip.Tokens.HasToken<EvadeToken>())
-            {
-                AskToUseAbility(
-                    "Choose token to keep",
-                    AlwaysUseByDefault,
-                    useAbility: delegate { KeepFocus(callback); },
-                    dontUseAbility: delegate { KeepEvade(callback); },
-                    descriptionLong: "Do you want to keep Focus token (otherwise Evade token will be kept)",
-                    showSkipButton: false,
-                    requiredPlayer: HostShip.Owner.PlayerNo
-                );
-            }
-            else
-            {
-                if (TargetShip.Tokens.HasToken<FocusToken>())
+            HostShip.State.SpendForce(
+                1,
+                delegate
                 {
-                    KeepToken(TargetShip.Tokens.GetToken<FocusToken>());
-                }
-                else if (TargetShip.Tokens.HasToken<EvadeToken>())
-                {
-                    KeepToken(TargetShip.Tokens.GetToken<EvadeToken>());
-                }
+                    if (TargetShip.Tokens.HasToken<FocusToken>() && TargetShip.Tokens.HasToken<EvadeToken>())
+                    {
+                        AskToUseAbility(
+                            "Choose token to keep",
+                            AlwaysUseByDefault,
+                            useAbility: delegate { KeepFocus(callback); },
+                            dontUseAbility: delegate { KeepEvade(callback); },
+                            descriptionLong: "Do you want to keep Focus token (otherwise Evade token will be kept)",
+                            showSkipButton: false,
+                            requiredPlayer: HostShip.Owner.PlayerNo
+                        );
+                    }
+                    else
+                    {
+                        if (TargetShip.Tokens.HasToken<FocusToken>())
+                        {
+                            KeepToken(TargetShip.Tokens.GetToken<FocusToken>());
+                        }
+                        else if (TargetShip.Tokens.HasToken<EvadeToken>())
+                        {
+                            KeepToken(TargetShip.Tokens.GetToken<EvadeToken>());
+                        }
 
-                callback();
-            }
+                        callback();
+                    }
+                }
+            );            
         }
 
         private void KeepEvade(Action callback)

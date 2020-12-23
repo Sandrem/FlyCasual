@@ -56,9 +56,8 @@ namespace Abilities.SecondEdition
 
         protected void RegisterPredictiveShot(object sender, System.EventArgs e)
         {
-            HostShip.State.Force--;
             Combat.Defender.AfterGotNumberOfDefenceDiceCap += SetDefenseDic;
-            DecisionSubPhase.ConfirmDecision();
+            HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
         }
 
         private void SetDefenseDic(ref int result)

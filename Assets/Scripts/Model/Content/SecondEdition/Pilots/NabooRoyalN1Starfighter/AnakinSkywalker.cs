@@ -75,18 +75,24 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            HostShip.State.Force--;
             Sounds.PlayShipSound("Ill try spinning - thats a good trick!");
 
             BarrelRollAction brAction = new BarrelRollAction { IsRealAction = false };
-            HostShip.AskPerformFreeAction(
-                brAction,
-                Triggers.FinishTrigger,
-                HostShip.PilotInfo.PilotName,
-                "You must perform Barrel Roll (this is not an action)",
-                HostShip,
-                isForced: true
-            );
+
+            HostShip.State.SpendForce(
+                1,
+                delegate
+                {
+                    HostShip.AskPerformFreeAction(
+                        brAction,
+                        Triggers.FinishTrigger,
+                        HostShip.PilotInfo.PilotName,
+                        "You must perform Barrel Roll (this is not an action)",
+                        HostShip,
+                        isForced: true
+                    );
+                }
+            );            
         }
     }
 }

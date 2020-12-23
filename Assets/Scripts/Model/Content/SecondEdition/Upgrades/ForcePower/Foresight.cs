@@ -230,15 +230,19 @@ namespace Abilities.SecondEdition
                 HostShip.OnAttackFinishAsAttacker += SetIsAbilityIsUsed;
                 HostShip.IsCannotAttackSecondTime = true;
 
-                HostShip.State.Force--;
-
-                Combat.StartSelectAttackTarget(
-                    HostShip,
-                    AfterFiresightAttackSubPhase,
-                    ForesightAttackFilter,
-                    HostUpgrade.UpgradeInfo.Name,
-                    "You may perform a bonus Foresight attack against " + foresightTarget.PilotInfo.PilotName,
-                    HostUpgrade
+                HostShip.State.SpendForce(
+                    1,
+                    delegate
+                    {
+                        Combat.StartSelectAttackTarget(
+                            HostShip,
+                            AfterFiresightAttackSubPhase,
+                            ForesightAttackFilter,
+                            HostUpgrade.UpgradeInfo.Name,
+                            "You may perform a bonus Foresight attack against " + foresightTarget.PilotInfo.PilotName,
+                            HostUpgrade
+                        );
+                    }
                 );
             }
             else

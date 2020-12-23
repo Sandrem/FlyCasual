@@ -44,7 +44,7 @@ namespace Abilities.SecondEdition
         {
             if (HostShip.State.Force < HostShip.State.MaxForce)
             {
-                HostShip.State.Force++;
+                HostShip.State.RestoreForce();
                 Messages.ShowInfo(HostShip.PilotInfo.PilotName + " recovered 1 Force");
             }
         }

@@ -87,8 +87,7 @@ namespace ActionsList.SecondEdition
         public override void ActionEffect(System.Action callBack)
         {
             Combat.DiceRollDefence.ChangeOne(DieSide.Success, DieSide.Blank, false);
-            Combat.Attacker.State.Force -= 2;
-            callBack();
+            Combat.Attacker.State.SpendForce(2, callBack);
         }
 
     }

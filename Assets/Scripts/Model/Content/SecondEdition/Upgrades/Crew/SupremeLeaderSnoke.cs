@@ -86,13 +86,14 @@ namespace Abilities.SecondEdition
 
         private void FlipDialsFaceup(Action callback)
         {
+            int forceToSpend = 0;
             foreach (GenericShip ship in Selection.MultiSelectedShips)
             {
                 Roster.ToggleManeuverVisibility(ship, true);
-                HostShip.State.Force--;
+                forceToSpend++;
                 Messages.ShowInfo(string.Format("{0}: Dial of {1} is flipped faceup", HostUpgrade.UpgradeInfo.Name, ship.PilotInfo.PilotName));
             }
-            callback();
+            HostShip.State.SpendForce(forceToSpend, callback);
         }
 
         private bool FilterSelection(GenericShip ship)

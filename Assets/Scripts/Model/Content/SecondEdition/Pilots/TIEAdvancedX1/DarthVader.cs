@@ -1,6 +1,7 @@
 ﻿using Abilities.SecondEdition;
 using ActionsList;
 using Ship;
+using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -76,8 +77,13 @@ namespace Abilities.SecondEdition
 
         private void PayForceCost(GenericAction action, ref bool isFreeAction)
         {
-            HostShip.State.Force--;
             HostShip.BeforeActionIsPerformed -= PayForceCost;
+            RegisterAbilityTrigger(TriggerTypes.BeforeActionIsPerformed, SpendForce);
+        }
+
+        private void SpendForce(object sender, EventArgs e)
+        {
+            HostShip.State.SpendForce(1, Triggers.FinishTrigger);
         }
 
         private void CleanUp()

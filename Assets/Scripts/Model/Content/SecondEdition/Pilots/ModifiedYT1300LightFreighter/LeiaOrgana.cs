@@ -105,19 +105,22 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": " + TargetShip.PilotInfo.PilotName + " recovers 1 force");
             DecisionSubPhase.ConfirmDecisionNoCallback();
-            HostShip.State.Force--;
-            TargetShip.State.Force++;
+            TargetShip.State.RestoreForce();
             TargetShip = null;
-            Triggers.FinishTrigger();
+            HostShip.State.SpendForce(1, Triggers.FinishTrigger);
         }
 
         private void GainFocus(object sender, EventArgs e)
         {
             Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": " + TargetShip.PilotInfo.PilotName + " gains 1 focus token");
             DecisionSubPhase.ConfirmDecisionNoCallback();
-            HostShip.State.Force--;
-            TargetShip.Tokens.AssignToken(typeof(Tokens.FocusToken), Triggers.FinishTrigger);
-            TargetShip = null;
+            TargetShip.Tokens.AssignToken(
+                typeof(Tokens.FocusToken),
+                delegate {
+                    TargetShip = null;
+                    HostShip.State.SpendForce(1, Triggers.FinishTrigger);
+                }
+            );
         }
     }
 }

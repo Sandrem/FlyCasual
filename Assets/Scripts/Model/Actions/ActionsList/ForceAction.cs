@@ -17,8 +17,7 @@ namespace ActionsList
         public override void ActionEffect(System.Action callBack)
         {
             Combat.CurrentDiceRoll.ChangeOne(DieSide.Focus, DieSide.Success);
-            HostShip.State.Force--;
-            callBack();
+            HostShip.State.SpendForce(1, callBack);
         }
 
         public override int GetDiceModificationPriority()

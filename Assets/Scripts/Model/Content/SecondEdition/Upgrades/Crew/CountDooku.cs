@@ -129,11 +129,10 @@ namespace Abilities.SecondEdition
 
         private void NameResult(DieSide dieSide, string dieDescription)
         {
-            HostShip.State.Force--;
             NamedResult = dieSide;
             Messages.ShowInfo($"{HostName} chooses '{dieDescription}'.");
             TargetShip.OnImmediatelyAfterRolling += HandleDiceChange;
-            DecisionSubPhase.ConfirmDecision();
+            HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
         }
 
 

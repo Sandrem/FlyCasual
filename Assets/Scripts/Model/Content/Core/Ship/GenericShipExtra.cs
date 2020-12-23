@@ -52,6 +52,8 @@ namespace Ship
         public event EventHandlerBool OnSelectDamageCardToExpose;
         public event EventHandlerDamageCard OnFaceupDamageCardIsRepaired;
 
+        public static event EventHandlerShipRefInt OnForceTokensAreSpent;
+
         public GenericShip DockingHost;
 
         public List<GenericShip> TwoTargetLocksOnDifferentTargetsAreAllowed = new List<GenericShip>();
@@ -409,6 +411,12 @@ namespace Ship
         {
             OnFaceupDamageCardIsRepaired?.Invoke(damageCard);
             Triggers.ResolveTriggers(TriggerTypes.OnFaceupDamageCardIsRepaired, callback);
+        }
+
+        public void CallForceTokensAreSpent(int count, Action callback)
+        {
+            OnForceTokensAreSpent?.Invoke(this, ref count);
+            Triggers.ResolveTriggers(TriggerTypes.OnForceTokensAreSpent, callback);
         }
     }
 

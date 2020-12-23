@@ -134,8 +134,10 @@ namespace Abilities.SecondEdition
 
         private void AssignFocusToken(object sender, EventArgs e)
         {
-            HostShip.State.Force--;
-            TriggedShip.Tokens.AssignToken(typeof(FocusToken), DecisionSubPhase.ConfirmDecision);
+            HostShip.State.SpendForce(
+                1,
+                delegate { TriggedShip.Tokens.AssignToken(typeof(FocusToken), DecisionSubPhase.ConfirmDecision); }
+            );
         }
     }
 }

@@ -183,6 +183,58 @@ namespace Abilities
         }
 
         /// <summary>
+        /// Shows "Take a decision" window for ability with various buttons
+        /// </summary>
+        public void AskForDecision(
+            string descriptionShort,
+            string descriptionLong = null,
+            IImageHolder imageHolder = null,
+            Dictionary<string, EventHandler> decisions = null,
+            Dictionary<string, string> tooltips = null,
+            string defaultDecision = null,
+            Action callback = null,
+            bool showSkipButton = true,
+            PlayerNo requiredPlayer = PlayerNo.PlayerNone
+        )
+        {
+            if (callback == null) callback = Triggers.FinishTrigger;
+
+            DecisionSubPhase pilotAbilityDecision = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew(
+                Name,
+                typeof(AbilityDecisionSubphase),
+                callback
+            );
+
+            pilotAbilityDecision.DescriptionShort = descriptionShort;
+            pilotAbilityDecision.DescriptionLong = descriptionLong;
+            pilotAbilityDecision.ImageSource = imageHolder;
+
+            pilotAbilityDecision.RequiredPlayer = (requiredPlayer == PlayerNo.PlayerNone) ? HostShip.Owner.PlayerNo : requiredPlayer;
+
+            foreach (var decision in decisions)
+            {
+                pilotAbilityDecision.AddDecision(
+                    decision.Key,
+                    delegate
+                    {
+                        DecisionSubPhase.ConfirmDecisionNoCallback();
+                        decision.Value.Invoke(null, null);
+                    }
+                );
+            }
+
+            foreach (var tooltip in tooltips)
+            {
+                pilotAbilityDecision.AddTooltip(tooltip.Key, tooltip.Value);
+            }
+
+            pilotAbilityDecision.DefaultDecisionName = defaultDecision;
+            pilotAbilityDecision.ShowSkipButton = showSkipButton;
+
+            pilotAbilityDecision.Start();
+        }
+
+        /// <summary>
         /// Shows "Take a decision" window for ability with Yes / No buttons to Opponent
         /// </summary>
         protected void AskOpponent(

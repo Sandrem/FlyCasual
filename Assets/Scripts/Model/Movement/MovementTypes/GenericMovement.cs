@@ -8,12 +8,14 @@ using Remote;
 using Ship;
 
 namespace Movement
-{ 
+{
     public abstract class GenericMovement
     {
-        public bool IsRevealDial = true;
-        public string GrantedBy;
-        public bool IsIonManeuver;
+        public bool IsRevealDial { get; set; } = true;
+        public string GrantedBy { get; set; }
+        public bool IsIonManeuver { get; set; }
+        public bool IsDeployManeuver { get; set; }
+        public bool IsMovedThroughObstacle { get; set; }
 
         public ManeuverSpeed ManeuverSpeed { get; set; }
         public int Speed { get; set; }
@@ -123,6 +125,7 @@ namespace Movement
 
             if (movementPrediction.AsteroidsHit.Count > 0)
             {
+                IsMovedThroughObstacle = true;
                 TheShip.ObstaclesHit.AddRange(movementPrediction.AsteroidsHit);
             }
 

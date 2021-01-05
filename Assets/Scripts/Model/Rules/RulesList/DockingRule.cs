@@ -307,6 +307,8 @@ namespace RulesList
 
         private void RegisterPerformManeuver(bool isEmergencyDeploy)
         {
+            Selection.ThisShip.AssignedManeuver.IsDeployManeuver = true;
+
             Triggers.RegisterTrigger(new Trigger()
             {
                 Name = "Undocking Execution",

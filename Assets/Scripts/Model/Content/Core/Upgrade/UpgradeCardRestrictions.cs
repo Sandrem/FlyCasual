@@ -127,6 +127,21 @@ namespace Upgrade
         }
     }
 
+    public class AbilityPresenceRestriction : UpgradeCardRestriction
+    {
+        public Type AbilityType { get; private set; }
+
+        public AbilityPresenceRestriction(Type abilityType)
+        {
+            AbilityType = abilityType;
+        }
+
+        public override bool IsAllowedForShip(GenericShip ship)
+        {
+            return ship.ShipAbilities.Any(n => n.GetType() == AbilityType);
+        }
+    }
+
     public class StatValueRestriction : UpgradeCardRestriction
     {
         public enum Stats { Attack, Agility, Hull, Shields, Force, Charges, Initiative}

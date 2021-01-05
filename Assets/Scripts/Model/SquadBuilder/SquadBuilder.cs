@@ -610,6 +610,7 @@ namespace SquadBuilderNS
             if (!ValidateSquadCost(playerNo)) return false;
             if (!ValidateFeLimitedCards(playerNo)) return false;
             if (!ValidateSolitaryCards(playerNo)) return false;
+            if (!ValidateStandardizedCards(playerNo)) return false;
             if (!ValidateShipAiReady(playerNo)) return false;
             if (!ValidateUpgradePostChecks(playerNo)) return false;
             if (!ValidateSlotsRequirements(playerNo)) return false;
@@ -774,6 +775,50 @@ namespace SquadBuilderNS
             }
 
             return result;
+        }
+
+        private static bool ValidateStandardizedCards(PlayerNo playerNo)
+        {
+            Dictionary<string, GenericUpgrade> standardizedUpgradesFound = new Dictionary<string, GenericUpgrade>();
+
+            foreach (var shipConfig in GetSquadList(playerNo).GetShips())
+            {
+                foreach (var upgrade in shipConfig.Instance.UpgradeBar.GetUpgradesAll())
+                {
+                    if (upgrade.UpgradeInfo.IsStandardazed)
+                    {
+                        if (standardizedUpgradesFound.ContainsKey(shipConfig.Instance.ShipInfo.ShipName))
+                        {
+                            if (standardizedUpgradesFound[shipConfig.Instance.ShipInfo.ShipName].GetType() != upgrade.GetType())
+                            {
+                                Messages.ShowError($"All {shipConfig.Instance.ShipInfo.ShipName} ships must have the same Standardized upgrade installed");
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            standardizedUpgradesFound.Add(shipConfig.Instance.ShipInfo.ShipName, upgrade);
+                        }
+                    }
+                }
+            }
+
+            foreach (var standardizedPair in standardizedUpgradesFound)
+            {
+                foreach (var shipConfig in GetSquadList(playerNo).GetShips())
+                {
+                    if (shipConfig.Instance.ShipInfo.ShipName == standardizedPair.Key)
+                    {
+                        if (!shipConfig.Instance.UpgradeBar.HasUpgradeInstalled(standardizedPair.Value.GetType()))
+                        {
+                            Messages.ShowError($"All {shipConfig.Instance.ShipInfo.ShipName} ships must have the Standardized upgrade {standardizedPair.Value.UpgradeInfo.Name} installed");
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         private static bool ValidateShipAiReady(PlayerNo playerNo)

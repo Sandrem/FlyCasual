@@ -127,6 +127,11 @@ namespace Ship
             get { return Tokens.HasToken<DepleteToken>(); }
         }
 
+        public bool IsReinforced
+        {
+            get { return Tokens.HasToken<ReinforceAftToken>() || Tokens.HasToken<ReinforceForeToken>(); }
+        }
+
         public bool IsReinforcedAgainstShip(GenericShip attacker)
         {
             if (Tokens.HasToken<ReinforceAftToken>()

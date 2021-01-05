@@ -591,9 +591,12 @@ namespace SubPhases
         private void SyncCollisions(ObstaclesStayDetectorForced collider)
         {
             TheShip.ObstaclesLanded = new List<GenericObstacle>(collider.OverlappedAsteroidsNow);
-            collider.OverlappedAsteroidsNow
-                .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
-                .ForEach(TheShip.ObstaclesHit.Add);
+            if (!TheShip.IsIgnoreObstaclesDuringBarrelRoll)
+            {
+                collider.OverlappedAsteroidsNow
+                    .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
+                    .ForEach(TheShip.ObstaclesHit.Add);
+            }
         }
 
         protected virtual void StartRepositionExecutionSubphase()

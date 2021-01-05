@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Ship;
 using System.Collections.Generic;
+using System;
 
 namespace UpgradesList.SecondEdition
 {
@@ -27,14 +28,19 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.IsIgnoreObstaclesDuringBarrelRoll = true;
-            HostShip.IsIgnoreObstaclesDuringBoost = true;
+            HostShip.OnCheckIgnoreObstaclesDuringBarrelRoll += Allow;
+            HostShip.OnCheckIgnoreObstaclesDuringBoost += Allow;
+        }
+
+        private void Allow(ref bool isAllowed)
+        {
+            isAllowed = true;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.IsIgnoreObstaclesDuringBarrelRoll = false;
-            HostShip.IsIgnoreObstaclesDuringBoost = false;
+            HostShip.OnCheckIgnoreObstaclesDuringBarrelRoll -= Allow;
+            HostShip.OnCheckIgnoreObstaclesDuringBoost -= Allow;
         }
     }
 }

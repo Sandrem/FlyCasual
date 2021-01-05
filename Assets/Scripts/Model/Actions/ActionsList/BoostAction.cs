@@ -11,6 +11,7 @@ using Actions;
 using Bombs;
 using Ship;
 using Movement;
+using System;
 
 namespace ActionsList
 {
@@ -18,6 +19,8 @@ namespace ActionsList
     public class BoostAction : GenericAction
     {
         public string SelectedBoostTemplate;
+
+        public bool IsThroughObstacle { get; set; }
 
         public BoostAction()
         {
@@ -341,6 +344,7 @@ namespace SubPhases
             List<ActionFailReason> boostProblems = CheckBoostProblems();
             if (boostProblems.Count == 0)
             {
+                CheckBoostThroughObstacle();
                 CheckMines();
                 TheShip.ObstaclesLanded = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
                 obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
@@ -351,6 +355,19 @@ namespace SubPhases
             else
             {
                 CancelBoost(boostProblems);
+            }
+        }
+
+        private void CheckBoostThroughObstacle()
+        {
+            Debug.Log(obstaclesStayDetectorBase.OverlapsAsteroidNow);
+            Debug.Log(obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow);
+            if (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow)
+            {
+                if (HostAction is BoostAction)
+                {
+                    (HostAction as BoostAction).IsThroughObstacle = true;
+                }
             }
         }
 
@@ -372,7 +389,7 @@ namespace SubPhases
                 if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship overlapping another ship");
                 result.Add(ActionFailReason.Bumped);
             }
-            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBoost && !IsTractorBeamBoost
+            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBoost() && !IsTractorBeamBoost
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
                 if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship overlapping an obstacle");

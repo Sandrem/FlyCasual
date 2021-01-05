@@ -7,6 +7,8 @@ namespace ActionsList
 
     public class BarrelRollAction : GenericAction
     {
+        public bool IsThroughObstacle { get; set; }
+
         public BarrelRollAction()
         {
             Name = "Barrel Roll";

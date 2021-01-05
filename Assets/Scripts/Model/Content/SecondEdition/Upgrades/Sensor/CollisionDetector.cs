@@ -33,18 +33,23 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            HostShip.IsIgnoreObstaclesDuringBoost = true;
-            HostShip.IsIgnoreObstaclesDuringBarrelRoll = true;
+            HostShip.OnCheckIgnoreObstaclesDuringBoost += Allow;
+            HostShip.OnCheckIgnoreObstaclesDuringBarrelRoll += Allow;
 
             HostShip.OnPositionIsReadyToFinish += TryRegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.IsIgnoreObstaclesDuringBoost = false;
-            HostShip.IsIgnoreObstaclesDuringBarrelRoll = false;
+            HostShip.OnCheckIgnoreObstaclesDuringBoost -= Allow;
+            HostShip.OnCheckIgnoreObstaclesDuringBarrelRoll -= Allow;
 
             HostShip.OnPositionIsReadyToFinish -= TryRegisterAbility;
+        }
+
+        private void Allow(ref bool isAllowed)
+        {
+            isAllowed = true;
         }
 
         private void TryRegisterAbility(GenericShip ship)

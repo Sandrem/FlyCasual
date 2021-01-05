@@ -23,8 +23,6 @@ namespace Ship
         public List<GenericRemote> RemotesMovedThrough = new List<GenericRemote>();
 
         public bool IsIgnoreObstacles;
-        public bool IsIgnoreObstaclesDuringBoost;
-        public bool IsIgnoreObstaclesDuringBarrelRoll;
         public bool IsIgnoreObstacleObstructionWhenAttacking;
 
         public bool IsLandedModel;
@@ -33,6 +31,8 @@ namespace Ship
         public List<Type> IgnoreObstacleTypes = new List<Type>();
 
         public EventHandlerBool OnTryCanPerformRedManeuverWhileStressed;
+        public EventHandlerBool OnCheckIgnoreObstaclesDuringBoost;
+        public EventHandlerBool OnCheckIgnoreObstaclesDuringBarrelRoll;
 
         public bool IsLandedOnObstacle
         {
@@ -345,6 +345,24 @@ namespace Ship
             bool result = false;
 
             OnTryCanPerformRedManeuverWhileStressed?.Invoke(ref result);
+
+            return result;
+        }
+
+        public bool IsIgnoreObstaclesDuringBoost()
+        {
+            bool result = false;
+
+            OnCheckIgnoreObstaclesDuringBoost?.Invoke(ref result);
+
+            return result;
+        }
+
+        public bool IsIgnoreObstaclesDuringBarrelRoll()
+        {
+            bool result = false;
+
+            OnCheckIgnoreObstaclesDuringBarrelRoll?.Invoke(ref result);
 
             return result;
         }

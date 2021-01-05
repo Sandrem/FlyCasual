@@ -255,7 +255,10 @@ namespace SubPhases
 
         private bool IsBoostTemplateColliderDataAllowed(ObstaclesStayDetectorForced collider)
         {
-            if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBarrelRoll && !IsTractorBeamBarrelRoll && collider.OverlapsAsteroidNow)
+            if (!TheShip.IsIgnoreObstacles
+                && !TheShip.IsIgnoreObstaclesDuringBarrelRoll()
+                && !IsTractorBeamBarrelRoll
+                && collider.OverlapsAsteroidNow)
             {
                 BarrelRollProblems.Add(ActionFailReason.ObstacleHit);
             }
@@ -273,7 +276,10 @@ namespace SubPhases
             {
                 BarrelRollProblems.Add(ActionFailReason.Bumped);
             }
-            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBarrelRoll && !IsTractorBeamBarrelRoll && collider.OverlapsAsteroidNow)
+            else if (!TheShip.IsIgnoreObstacles
+                && !TheShip.IsIgnoreObstaclesDuringBarrelRoll()
+                && !IsTractorBeamBarrelRoll
+                && collider.OverlapsAsteroidNow)
             {
                 BarrelRollProblems.Add(ActionFailReason.ObstacleHit);
             }

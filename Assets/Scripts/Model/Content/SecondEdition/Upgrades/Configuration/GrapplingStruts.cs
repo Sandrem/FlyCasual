@@ -142,7 +142,7 @@ namespace Abilities.SecondEdition
             IgnoreObstaclesList.AddRange(HostShip.ObstaclesLanded);
 
             HostShip.IgnoreObstaclesList.AddRange(IgnoreObstaclesList);
-            HostShip.IsIgnoreObstaclesDuringBarrelRoll = true;
+            HostShip.OnCheckIgnoreObstaclesDuringBarrelRoll += Allow;
 
             HostShip.OnManeuverIsRevealed += CheckSpecialManeuvers;
             HostShip.OnMovementFinish += FlipThisCard;
@@ -154,7 +154,12 @@ namespace Abilities.SecondEdition
             HostShip.OnMovementFinish -= FlipThisCard;
 
             HostShip.IgnoreObstaclesList.RemoveAll(n => IgnoreObstaclesList.Contains(n));
-            HostShip.IsIgnoreObstaclesDuringBarrelRoll = false;
+            HostShip.OnCheckIgnoreObstaclesDuringBarrelRoll -= Allow;
+        }
+
+        private void Allow(ref bool isAllowed)
+        {
+            isAllowed = true;
         }
 
         private void FlipThisCard(GenericShip ship)

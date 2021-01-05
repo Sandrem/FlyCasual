@@ -133,11 +133,23 @@ namespace SubPhases
 
         public void ConfirmBarrelRollPosition()
         {
+            CheckBoostThroughObstacle();
             CheckMines();
             SyncCollisions(TemporaryBaseCollider);
             DestroyTemporaryElements();
 
             StartRepositionExecution();
+        }
+
+        private void CheckBoostThroughObstacle()
+        {
+            if (SelectedTemplate.Collider.OverlapsAsteroidNow || TemporaryBaseCollider.OverlapsAsteroidNow)
+            {
+                if (HostAction is BarrelRollAction)
+                {
+                    (HostAction as BarrelRollAction).IsThroughObstacle = true;
+                }
+            }
         }
 
         public void StartRepositionExecution()
@@ -373,7 +385,7 @@ namespace SubPhases
                 BarrelRollProblems.Add(ActionFailReason.Bumped);
             }
             else if (!TheShip.IsIgnoreObstacles 
-                && !TheShip.IsIgnoreObstaclesDuringBarrelRoll 
+                && !TheShip.IsIgnoreObstaclesDuringBarrelRoll() 
                 && !IsTractorBeamBarrelRoll 
                 && collider.OverlapsAsteroidNow
                 && !TheShip.IgnoreObstacleTypes.Contains(typeof(Asteroid)))
@@ -591,7 +603,7 @@ namespace SubPhases
         private void SyncCollisions(ObstaclesStayDetectorForced collider)
         {
             TheShip.ObstaclesLanded = new List<GenericObstacle>(collider.OverlappedAsteroidsNow);
-            if (!TheShip.IsIgnoreObstaclesDuringBarrelRoll)
+            if (!TheShip.IsIgnoreObstaclesDuringBarrelRoll())
             {
                 collider.OverlappedAsteroidsNow
                     .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()

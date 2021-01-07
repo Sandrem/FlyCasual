@@ -181,9 +181,11 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnMovementActivationStart, callBack);
         }
 
-        public void CallMovementActivationFinish()
+        public void CallMovementActivationFinish(Action callback)
         {
             if (OnMovementActivationFinish != null) OnMovementActivationFinish(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnMovementActivationFinish, callback);
         }
 
         public void CallOnActionDecisionSubphaseEnd(Action callback)

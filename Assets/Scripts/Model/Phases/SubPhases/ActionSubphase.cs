@@ -36,14 +36,14 @@ namespace SubPhases
                         TriggerType = TriggerTypes.OnActionSubPhaseStart,
                         EventHandler = StartActionDecisionSubphase
                     }
-                );                
+                );
+
+                Phases.Events.CallOnActionSubPhaseTrigger();
             }
             else
             {
-                ship.CallMovementActivationFinish();
+                ship.CallMovementActivationFinish(Phases.Events.CallOnActionSubPhaseTrigger);
             }
-
-            Phases.Events.CallOnActionSubPhaseTrigger();
         }
 
         private void StartActionDecisionSubphase(object sender, System.EventArgs e)
@@ -66,10 +66,13 @@ namespace SubPhases
             UI.HideSkipButton();
 
             Phases.FinishSubPhase(typeof(ActionDecisonSubPhase));
-            Selection.ThisShip.CallMovementActivationFinish();
-            (Phases.CurrentPhase as MainPhases.ActivationPhase).ActivationShip = null;
 
-            Triggers.FinishTrigger();
+            Selection.ThisShip.CallMovementActivationFinish(
+                delegate {
+                    (Phases.CurrentPhase as MainPhases.ActivationPhase).ActivationShip = null;
+                    Triggers.FinishTrigger();
+                }
+            );
         }
 
         public override void Next()

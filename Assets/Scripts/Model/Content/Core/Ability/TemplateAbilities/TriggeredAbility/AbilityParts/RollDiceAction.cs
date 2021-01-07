@@ -1,6 +1,7 @@
 ﻿using Arcs;
 using Ship;
 using SubPhases;
+using System;
 using UnityEngine;
 
 namespace Abilities
@@ -24,9 +25,37 @@ namespace Abilities
         {
             Ability = ability;
 
-            Debug.Log("Dice Roll action");
+            AbilityDiceRollCheckSubphase subphase = Phases.StartTemporarySubPhaseNew<AbilityDiceRollCheckSubphase>("Ability Check", Triggers.FinishTrigger);
 
-            Triggers.FinishTrigger();
+            subphase.AfterRoll = CheckResults;
+            subphase.DiceKind = DiceType;
+            subphase.DiceCount = 1;
+
+            subphase.RequiredPlayer = Ability.HostShip.Owner.PlayerNo;
+            subphase.Start();            
         }
+
+        private void CheckResults()
+        {
+            (Phases.CurrentSubPhase as DiceRollCheckSubPhase).HideDiceResultMenu();
+
+            switch ((Phases.CurrentSubPhase as AbilityDiceRollCheckSubphase).CurrentDiceRoll.ResultsArray[0])
+            {
+                case DieSide.Crit:
+                    Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                    OnCrit.DoAction(Ability);
+                    break;
+                case DieSide.Success:
+                    Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                    OnHit.DoAction(Ability);
+                    break;
+                default:
+                    Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                    Triggers.FinishTrigger();
+                    break;
+            }
+        }
+
+        private class AbilityDiceRollCheckSubphase : DiceRollCheckSubPhase { }
     }
 }

@@ -32,7 +32,7 @@ namespace Abilities
         public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
-            Messages.ShowInfo(GetMessage());
+            if (GetMessage != null) Messages.ShowInfo(GetMessage());
             int count = (GetCount != null) ? GetCount() : 1;
             GetShip().Tokens.AssignTokens(CreateToken, count, FinishAbilityPart);
         }

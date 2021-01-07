@@ -3,7 +3,6 @@ using ActionsList;
 using Tokens;
 using Ship;
 using Movement;
-using Actions;
 using System;
 
 namespace UpgradesList.SecondEdition
@@ -12,8 +11,6 @@ namespace UpgradesList.SecondEdition
     {
         public IonLimiterOverride() : base()
         {
-            IsHidden = true;
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Ion Limiter Override",
                 UpgradeType.Talent,
@@ -45,14 +42,13 @@ namespace Abilities.SecondEdition
         (
             description: new Parameters.AbilityDescription
             (
-                name: "",
-                description: "",
+                name: HostUpgrade.UpgradeInfo.Name,
+                description: "You may perform a Barrel Roll action, even while stressed. If you do, roll an attack die; on a Hit result gain 1 strain token, and on a Critical Hit result gain 1 ion token",
                 HostUpgrade
             ),
             actionInfo: new Parameters.ActionInfo
             (
                 actionType: typeof(BarrelRollAction),
-                actionColor: ActionColor.Red,
                 canBePerformedWhileStressed: true
             ),
             afterAction: new RollDiceAction
@@ -61,15 +57,27 @@ namespace Abilities.SecondEdition
                 onHit: new AssignTokenAction
                 (
                     tokenType: typeof(StrainToken),
-                    targetShip: GetThisShip
+                    targetShip: GetThisShip,
+                    showMessage: ShowStrainTokenMessage
                 ),
                 onCrit: new AssignTokenAction
                 (
                     tokenType: typeof(IonToken),
-                    targetShip: GetThisShip
+                    targetShip: GetThisShip,
+                    showMessage: ShowIonTokenMessage
                 )
             )
         );
+
+        private string ShowStrainTokenMessage()
+        {
+            return $"{HostUpgrade.UpgradeInfo.Name}: {HostShip.PilotInfo.PilotName} gains 1 Strain token";
+        }
+
+        private string ShowIonTokenMessage()
+        {
+            return $"{HostUpgrade.UpgradeInfo.Name}: {HostShip.PilotInfo.PilotName} gains 1 Ion token";
+        }
 
         private GenericShip GetThisShip()
         {

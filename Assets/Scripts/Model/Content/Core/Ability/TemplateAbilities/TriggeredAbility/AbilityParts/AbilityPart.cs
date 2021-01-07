@@ -6,6 +6,6 @@ namespace Abilities
     {
         public GenericUpgrade TargetUpgrade { get; set; }
 
-        public abstract void DoAction(TriggeredAbility ability);
+        public abstract void DoAction(GenericAbility ability);
     }
 }

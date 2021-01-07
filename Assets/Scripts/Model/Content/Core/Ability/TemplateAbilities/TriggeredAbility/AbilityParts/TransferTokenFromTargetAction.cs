@@ -4,7 +4,7 @@ namespace Abilities
 {
     public class TransferTokenFromTargetAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
         public Type TokenType { get; }
         public Func<string> GetMessage { get; }
 
@@ -14,7 +14,7 @@ namespace Abilities
             GetMessage = showMessage;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
             Messages.ShowInfo(GetMessage());

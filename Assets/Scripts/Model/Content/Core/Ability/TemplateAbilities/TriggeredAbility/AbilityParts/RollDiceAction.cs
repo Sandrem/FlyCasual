@@ -7,7 +7,7 @@ namespace Abilities
 {
     public class RollDiceAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
 
         public DiceKind DiceType { get; }
         public AbilityPart OnCrit { get; }
@@ -20,7 +20,7 @@ namespace Abilities
             OnHit = onHit;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
 

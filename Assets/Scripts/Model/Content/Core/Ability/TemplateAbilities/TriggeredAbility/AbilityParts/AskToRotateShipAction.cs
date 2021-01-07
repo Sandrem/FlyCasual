@@ -6,7 +6,7 @@ namespace Abilities
 {
     public class AskToRotateShipAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
         private readonly AbilityDescription Description;
         private readonly bool Rotate90Allowed;
         private readonly bool Rotate180Allowed;
@@ -29,7 +29,7 @@ namespace Abilities
             AfterAction = afterAction;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
 

@@ -7,7 +7,7 @@ namespace Abilities
 {
     public class FlipCardAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
 
         public Func<GenericDualUpgrade> GetDualCard { get; }
         public FlipCardAction(Func<GenericDualUpgrade> getDualCard)
@@ -15,7 +15,7 @@ namespace Abilities
             GetDualCard = getDualCard;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
 

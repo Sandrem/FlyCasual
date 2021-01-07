@@ -4,7 +4,7 @@ namespace Abilities
 {
     public class ChangeManeuverAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
         public bool ChangeToSideslip { get; }
 
         public ChangeManeuverAction(bool changeToSideslip = false)
@@ -12,7 +12,7 @@ namespace Abilities
             ChangeToSideslip = changeToSideslip;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
 

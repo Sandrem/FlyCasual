@@ -9,7 +9,7 @@ namespace Abilities
 {
     public class AskAquireLockAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
 
         public AbilityDescription Description { get; }
         public Func<GenericShip> GetTargetShip { get; }
@@ -24,7 +24,7 @@ namespace Abilities
             Action = action;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
 

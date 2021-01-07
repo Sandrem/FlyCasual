@@ -5,7 +5,7 @@ namespace Abilities
 {
     public class AskToUseAbilityAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
         private readonly AbilityDescription Description;
 
         public AbilityPart OnYes { get; }
@@ -26,7 +26,7 @@ namespace Abilities
             AiUseByDefault = aiUseByDefault ?? delegate { return false; };
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
 

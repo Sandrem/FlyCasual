@@ -33,7 +33,7 @@ namespace Abilities.Parameters
             ShipTypesOnly = shipTypesOnly;
         }
 
-        public bool FilterTargets(TriggeredAbility ability, GenericShip ship)
+        public bool FilterTargets(GenericAbility ability, GenericShip ship)
         {
             return ability.FilterTargetsByParameters(ship, MinRange, MaxRange, InArcType, TargetTypes, HasToken, ShipTypesOnly);
         }

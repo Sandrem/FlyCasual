@@ -8,7 +8,7 @@ namespace Abilities
 {
     public class EachShipCanDoAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
 
         private Action<GenericShip, Action> EachShipAction;
         private Action OnFinish;
@@ -29,7 +29,7 @@ namespace Abilities
             AbilityDescription = description;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
             ShipsThatCanBeActivated = Ability.GetTargetsForAbility(FilterTargets);

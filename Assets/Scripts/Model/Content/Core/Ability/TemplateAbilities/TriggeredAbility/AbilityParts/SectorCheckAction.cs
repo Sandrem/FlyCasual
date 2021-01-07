@@ -7,7 +7,7 @@ namespace Abilities
 {
     public class SectorCheckAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
         public ArcType SectorType { get; }
         public Func<GenericShip> GetTargetShip { get; }
         public AbilityPart Action { get; }
@@ -19,7 +19,7 @@ namespace Abilities
             Action = action;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
 

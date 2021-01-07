@@ -8,7 +8,7 @@ namespace Abilities
 {
     public class SelectShipAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
         public SelectShipFilter Filter { get; }
         public AbilityPart Action { get; }
         public AiSelectShipPlan AiSelectShipPlan { get; }
@@ -24,7 +24,7 @@ namespace Abilities
             ShowSkipButton = true;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
 

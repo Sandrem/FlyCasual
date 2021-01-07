@@ -11,7 +11,7 @@ namespace Abilities
 {
     public class EachUpgradeCanDoAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
 
         private AbilityPart EachUpgradeAction;
         private Action OnFinish;
@@ -30,7 +30,7 @@ namespace Abilities
             Conditions = conditions;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
             UpgradesThatCanBeTransfered = GetUpgradesFiltered();

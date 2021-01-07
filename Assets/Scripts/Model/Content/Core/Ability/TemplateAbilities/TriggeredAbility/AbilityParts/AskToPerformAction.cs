@@ -5,7 +5,7 @@ namespace Abilities
 {
     public class AskToPerformAction : AbilityPart
     {
-        private TriggeredAbility Ability;
+        private GenericAbility Ability;
         private readonly AbilityDescription Description;
         private readonly ActionInfo ActionInfo;
 
@@ -20,7 +20,7 @@ namespace Abilities
             AfterAction = afterAction;
         }
 
-        public override void DoAction(TriggeredAbility ability)
+        public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
 

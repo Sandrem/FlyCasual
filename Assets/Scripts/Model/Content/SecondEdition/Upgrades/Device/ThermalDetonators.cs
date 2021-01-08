@@ -28,7 +28,7 @@ namespace UpgradesList.SecondEdition
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/52/bf/52bff580-897d-4af0-9084-5088765babf0/swz80_upgrade_thermal-detonators.png";
 
-            bombPrefabPath = "Prefabs/Bombs/Bomblet";
+            bombPrefabPath = "Prefabs/Bombs/ThermalDetonator";
         }
 
         public override void ExplosionEffect(GenericShip ship, Action callBack)

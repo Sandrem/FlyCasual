@@ -134,7 +134,7 @@ namespace Players
 
         public override void PerformSystemsActivation()
         {
-            UI.ShowSkipButton();
+            if (Phases.Events.CheckSystemSubphaseCanBeSkipped()) UI.ShowSkipButton();
 
             base.PerformSystemsActivation();
         }

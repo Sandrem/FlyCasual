@@ -132,7 +132,7 @@ namespace Ship
         private void SufferHullDamage(object sender, EventArgs e)
         {
             Messages.ShowInfoToHuman(string.Format("{0}: Facedown card is dealt", Host.PilotInfo.PilotName));
-            Host.SufferHullDamage(false, e);
+            Host.SufferHullDamage(false, e, Triggers.FinishTrigger);
         }
 
         // Suffer regular damage

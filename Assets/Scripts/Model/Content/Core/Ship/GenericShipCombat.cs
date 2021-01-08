@@ -536,27 +536,26 @@ namespace Ship
             }
             else
             {
-                SufferHullDamage(CheckFaceupCrit(isCritical), e);
+                SufferHullDamage(CheckFaceupCrit(isCritical), e, Triggers.FinishTrigger);
             }
         }
 
-        public void SufferHullDamage(bool isFaceup, EventArgs e)
+        public void SufferHullDamage(bool isFaceup, EventArgs e, Action callback)
         {
             if (DebugManager.DebugAllDamageIsCrits) isFaceup = true;
 
-            DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e);
+            DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e, callback);
         }
 
-        public void ProcessDrawnDamageCard(EventArgs e)
+        public void ProcessDrawnDamageCard(EventArgs e, Action callback)
         {
             AssignedDamageDiceroll.CancelHitsSpecial(1);
             AssignedDamageDiceroll.RemoveAllFailures();
 
             if (Combat.CurrentCriticalHitCard.IsFaceup)
             {
-                if (OnFaceupCritCardReadyToBeDealt != null) OnFaceupCritCardReadyToBeDealt(this, Combat.CurrentCriticalHitCard);
-
-                if (OnFaceupCritCardReadyToBeDealtGlobal != null) OnFaceupCritCardReadyToBeDealtGlobal(this, Combat.CurrentCriticalHitCard, e);
+                OnFaceupCritCardReadyToBeDealt?.Invoke(this, Combat.CurrentCriticalHitCard);
+                OnFaceupCritCardReadyToBeDealtGlobal?.Invoke(this, Combat.CurrentCriticalHitCard, e);
 
                 Triggers.RegisterTrigger(new Trigger
                 {
@@ -566,30 +565,33 @@ namespace Ship
                     EventHandler = InformCrit.LoadAndShow
                 });
 
-                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, SufferFaceupDamageCard);
+                Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealt, delegate { SufferFaceupDamageCard(callback); });
             }
             else
             {
-                CallOnDamageCardIsDealt(delegate { Damage.DealDrawnCard(Triggers.FinishTrigger); });
+                CallOnDamageCardIsDealt(delegate { Damage.DealDrawnCard(callback); });
             }
         }
 
-        private void SufferFaceupDamageCard()
+        private void SufferFaceupDamageCard(Action callback)
         {
-            Triggers.ResolveTriggers(TriggerTypes.OnFaceupCritCardReadyToBeDealtUI, SufferFaceupDamageCardPart2);
+            Triggers.ResolveTriggers(
+                TriggerTypes.OnFaceupCritCardReadyToBeDealtUI,
+                delegate { SufferFaceupDamageCardPart2(callback); }
+            );
         }
 
-        private void SufferFaceupDamageCardPart2()
+        private void SufferFaceupDamageCardPart2(Action callback)
         {
-            if (OnAssignCrit != null) OnAssignCrit(this, Combat.CurrentCriticalHitCard);
+            OnAssignCrit?.Invoke(this, Combat.CurrentCriticalHitCard);
 
             if (Combat.CurrentCriticalHitCard != null)
             {
-                CallOnDamageCardIsDealt(delegate { Damage.DealDrawnCard(Triggers.FinishTrigger); });
+                CallOnDamageCardIsDealt(delegate { Damage.DealDrawnCard(callback); });
             }
             else
             {
-                Triggers.FinishTrigger();
+                callback();
             }
         }
 

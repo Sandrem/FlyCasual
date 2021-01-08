@@ -161,7 +161,8 @@ namespace Abilities.SecondEdition
                     {
                         Source = HostShip,
                         DamageType = DamageTypes.CardAbility
-                    }
+                    },
+                    Triggers.FinishTrigger
                 );
             }
             else

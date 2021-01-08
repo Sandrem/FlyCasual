@@ -85,7 +85,8 @@ namespace CommandsList
                             {
                                 Source = "Console",
                                 DamageType = DamageTypes.Console
-                            }
+                            },
+                            Triggers.FinishTrigger
                         );
                     },
                 });

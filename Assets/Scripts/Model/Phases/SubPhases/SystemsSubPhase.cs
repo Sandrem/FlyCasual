@@ -5,6 +5,7 @@ using System.Linq;
 using Ship;
 using GameModes;
 using GameCommands;
+using System;
 
 namespace SubPhases
 {
@@ -188,9 +189,8 @@ namespace SubPhases
 
         public override void Resume()
         {
-            UI.ShowSkipButton();
+            if (Phases.Events.CheckSystemSubphaseCanBeSkipped()) UI.ShowSkipButton();
         }
-
     }
 
 }

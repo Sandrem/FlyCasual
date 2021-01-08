@@ -158,7 +158,7 @@ namespace Abilities.FirstEdition
                 AssignedDamageCard = null;
                 RemoveConditions(ship);
 
-                ship.ProcessDrawnDamageCard(e);
+                ship.ProcessDrawnDamageCard(e, Triggers.FinishTrigger);
             }
         }
 

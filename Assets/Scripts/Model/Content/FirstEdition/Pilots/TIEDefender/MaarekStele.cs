@@ -92,7 +92,8 @@ namespace SubPhases
                     {
                         Source = Combat.Attacker,
                         DamageType = DamageTypes.ShipAttack
-                    }
+                    },
+                    Triggers.FinishTrigger
                 );
             }
 
@@ -115,9 +116,10 @@ namespace SubPhases
             callBack();
         }
 
-        private void AddToCriticalHitCardsToChoose(EventArgs e)
+        private void AddToCriticalHitCardsToChoose(EventArgs e, Action callback)
         {
             criticalHitCardsToChoose.Add(Combat.CurrentCriticalHitCard);
+            callback();
         }
 
         private void DealCard(GenericDamageCard critCard)

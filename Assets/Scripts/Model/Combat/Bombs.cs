@@ -46,10 +46,12 @@ namespace Bombs
         private static List<Vector3> generatedBombPoints = new List<Vector3>();
         private static Dictionary<GenericDeviceGameObject, GenericBomb> bombsList;
 
+        public delegate void EventHandlerBool(ref bool flag);
         public delegate void EventHandlerBomb(GenericBomb bomb, GenericDeviceGameObject model);
         public delegate void EventHandlerBombShip(GenericBomb bomb, GenericShip detonatedShip);
         public static event EventHandlerBomb OnBombIsRemoved;
         public static event EventHandlerBombShip OnCheckPermissionToDetonate;
+        public static event EventHandlerBool OnCheckBombDropCanBeSkipped;
 
         public static bool IsOverriden = false;
 
@@ -279,16 +281,26 @@ namespace Bombs
 
             selectBombToDrop.IsForced = selectBombToDrop.DefaultDecisionName != "None";
 
-            selectBombToDrop.AddDecision(
-                "None",
-                delegate { SelectBomb(null); }
-            );
+            if (CheckBombDropCanBeSkipped())
+            {
+                selectBombToDrop.AddDecision(
+                    "None",
+                    delegate { SelectBomb(null); }
+                );
+            }
 
             selectBombToDrop.DescriptionShort = "Select a device to drop";
 
             selectBombToDrop.RequiredPlayer = Selection.ThisShip.Owner.PlayerNo;
 
             selectBombToDrop.Start();
+        }
+
+        private static bool CheckBombDropCanBeSkipped()
+        {
+            bool canBeSkipped = true;
+            OnCheckBombDropCanBeSkipped?.Invoke(ref canBeSkipped);
+            return canBeSkipped;
         }
 
         private static void SelectBomb(GenericUpgrade device)

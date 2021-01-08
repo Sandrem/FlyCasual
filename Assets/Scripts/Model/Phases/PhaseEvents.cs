@@ -30,6 +30,7 @@ public class PhaseEvents
     public event EventHandler OnGameEnd;
     public event EventHandler OnEngagementInitiativeChanged;
     public event EventHandlerBool OnEngagementInitiativeIsReadyToChange;
+    public event EventHandlerBool OnCheckSystemSubphaseCanBeSkipped;
 
     public bool HasOnActivationPhaseEnd { get { return OnActivationPhaseEnd_Triggers != null; } }
     public bool HasOnCombatPhaseStartEvents { get { return OnCombatPhaseStart_Triggers != null; } }
@@ -163,6 +164,13 @@ public class PhaseEvents
         Selection.ThisShip.CallOnActionSubPhaseStart();
 
         Triggers.ResolveTriggers(TriggerTypes.OnActionSubPhaseStart, delegate () { Phases.FinishSubPhase(typeof(ActionSubPhase)); });
+    }
+
+    public bool CheckSystemSubphaseCanBeSkipped()
+    {
+        bool canBeSkipped = true;
+        OnCheckSystemSubphaseCanBeSkipped?.Invoke(ref canBeSkipped);
+        return canBeSkipped;
     }
 
     public void CallEndGame()

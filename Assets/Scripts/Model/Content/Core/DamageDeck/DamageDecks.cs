@@ -42,9 +42,9 @@ public static class DamageDecks
         return damadeDecks.Find(n => n.PlayerNo == playerNo);
     }
 
-    public static void DrawDamageCard(PlayerNo playerNo, bool isFaceup, Action<EventArgs> doWithDamageCard, EventArgs e)
+    public static void DrawDamageCard(PlayerNo playerNo, bool isFaceup, Action<EventArgs, Action> doWithDamageCard, EventArgs e, Action callback)
     {
-        GetDamageDeck(playerNo).DrawDamageCard(isFaceup, doWithDamageCard, e);
+        GetDamageDeck(playerNo).DrawDamageCard(isFaceup, doWithDamageCard, e, callback);
     }
 
     public static GameCommand GenerateDeckShuffleCommand(PlayerNo playerNo, int seed)
@@ -98,7 +98,7 @@ public class DamageDeck
         Deck.Insert(0, card);
     }
 
-    public void DrawDamageCard(bool isFaceup, Action<EventArgs> doWithDamageCard, EventArgs e)
+    public void DrawDamageCard(bool isFaceup, Action<EventArgs, Action> doWithDamageCard, EventArgs e, Action callback)
     {
         if (Deck.Count == 0) ReCreateDeck();
 
@@ -108,7 +108,7 @@ public class DamageDeck
 
         Combat.CurrentCriticalHitCard = drawedCard;
 
-        doWithDamageCard(e);
+        doWithDamageCard(e, callback);
     }
 
     public void RemoveFromDamageDeck(GenericDamageCard card)

@@ -267,7 +267,8 @@ namespace RulesList
                 {
                     DamageType = DamageTypes.Rules,
                     Source = null
-                }
+                },
+                Triggers.FinishTrigger
             );
         }
 

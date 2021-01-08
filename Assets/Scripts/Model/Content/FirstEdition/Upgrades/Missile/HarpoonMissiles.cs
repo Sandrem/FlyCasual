@@ -207,13 +207,14 @@ namespace Conditions
                 {
                     DamageType = DamageTypes.Rules,
                     Source = null
-                }
+                },
+                Triggers.FinishTrigger
             );
         }
 
-        private void DealDrawnCard(System.EventArgs e)
+        private void DealDrawnCard(System.EventArgs e, Action callback)
         {
-            Host.Damage.DealDrawnCard(Triggers.FinishTrigger);
+            Host.Damage.DealDrawnCard(callback);
         }
 
         private void DoSplashDamageOnDestroyed(GenericShip harpoonedShip, bool isFled)

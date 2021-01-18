@@ -91,6 +91,10 @@ public partial class MainMenu : MonoBehaviour {
         }
 
         GameObject.Find("UI/BackgroundImage").GetComponent<Image>().sprite = background;
+
+        //Fix of bug in Unity 2020.2
+        GameObject.Find("UI/BackgroundImage").GetComponent<AspectRatioFitter>().enabled = false;
+        GameObject.Find("UI/BackgroundImage").GetComponent<AspectRatioFitter>().enabled = true;
     }
 
     public static Sprite GetRandomMenuBackground()

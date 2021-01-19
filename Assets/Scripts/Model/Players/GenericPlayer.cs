@@ -84,6 +84,11 @@ namespace Players
             Roster.HighlightPlayer(PlayerNo);
         }
 
+        public virtual void SetupRemote()
+        {
+            Roster.HighlightPlayer(PlayerNo);
+        }
+
         public virtual void SetupBomb()
         {
             Roster.HighlightPlayer(PlayerNo);

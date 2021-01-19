@@ -49,6 +49,13 @@ namespace Players
             Phases.Next();
         }
 
+        public override void SetupRemote()
+        {
+            base.SetupRemote();
+
+            UI.CallClickNextPhase();
+        }
+
         public override void PerformManeuver()
         {
             base.PerformManeuver();

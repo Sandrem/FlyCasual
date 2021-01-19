@@ -4,9 +4,6 @@ using Players;
 using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Remote
@@ -79,8 +76,14 @@ namespace Remote
             SetRaycastTarget(true);
             SetSpotlightMask();
             SetShipIdText(Model);
+            SetPlayerCustomization();
 
             // InitializeShipBase();
+        }
+
+        protected virtual void SetPlayerCustomization()
+        {
+            // Customize to show different view of remote for Player1 and Player2
         }
 
         public Vector3 GetJointAngles(int jointIndex)

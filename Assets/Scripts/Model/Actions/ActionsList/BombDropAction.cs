@@ -144,7 +144,7 @@ namespace SubPhases
             Quaternion bombRotation = bombDropTemplate.GetFinalRotation();
 
             // TODO: get type of remote from upgrade
-            ShipFactory.SpawnRemove(
+            ShipFactory.SpawnRemote(
                 (GenericRemote) Activator.CreateInstance(BombsManager.CurrentDevice.UpgradeInfo.RemoteType, Selection.ThisShip.Owner),
                 bombPosition,
                 bombRotation

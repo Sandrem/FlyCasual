@@ -66,7 +66,7 @@ public static class ShipFactory {
         return newShipContainer;
 	}
 
-    public static void SpawnRemove(GenericRemote remote, Vector3 position, Quaternion rotation)
+    public static GenericRemote SpawnRemote(GenericRemote remote, Vector3 position, Quaternion rotation)
     {
         remote.SpawnModel(ShipFactory.lastId++, position, rotation);
 
@@ -80,5 +80,7 @@ public static class ShipFactory {
         remote.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;
         remote.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;
         remote.AfterStatsAreChanged += Roster.UpdateShipStats;
+
+        return remote;
     }
 }

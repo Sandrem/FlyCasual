@@ -48,6 +48,7 @@ namespace Abilities.SecondEdition
             if (count > 0
                 && HostShip.State.Force > 0
                 && HostShip.ShipId != ship.ShipId
+                && Tools.IsSameTeam(ship, HostShip)
                 && distInfo.Range < 4
             )
             {

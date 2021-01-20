@@ -360,8 +360,6 @@ namespace SubPhases
 
         private void CheckBoostThroughObstacle()
         {
-            Debug.Log(obstaclesStayDetectorBase.OverlapsAsteroidNow);
-            Debug.Log(obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow);
             if (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow)
             {
                 if (HostAction is BoostAction)

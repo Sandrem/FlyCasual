@@ -103,9 +103,12 @@ namespace ExtraOptions
                     {
                         StandardShaderUtils.ChangeRenderMode(render.material, StandardShaderUtils.BlendMode.Fade);
 
-                        Color colorToChange = render.material.color;
-                        colorToChange.a = 100f / 256f;
-                        render.material.color = colorToChange;
+                        if (render.material.HasProperty("_Color"))
+                        {
+                            Color colorToChange = render.material.color;
+                            colorToChange.a = 100f / 256f;
+                            render.material.color = colorToChange;
+                        }
                     }
                     catch (Exception) { }
                 }

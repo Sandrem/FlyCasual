@@ -140,7 +140,7 @@ public partial class DiceRoll
             DiceRoll.CurrentDiceRoll.UpdateDiceCompareHelperPrediction();
         }
 
-        ReplaysManager.ExecuteWithDelay(CurrentDiceRoll.ExecuteCallback);
+        CurrentDiceRoll.ExecuteCallback();
     }
 
     private void ExecuteCallback()

@@ -30,7 +30,14 @@ public class TextureScale
 
     public static void Bilinear(Texture2D tex, int newWidth, int newHeight)
     {
-        ThreadedScale(tex, newWidth, newHeight, true);
+        try
+        {
+            ThreadedScale(tex, newWidth, newHeight, true);
+        }
+        catch
+        {
+            Messages.ShowError("Error during scaling of image");
+        }        
     }
 
     private static void ThreadedScale(Texture2D tex, int newWidth, int newHeight, bool useBilinear)

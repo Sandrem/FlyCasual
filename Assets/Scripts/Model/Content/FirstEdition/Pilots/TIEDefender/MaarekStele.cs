@@ -93,7 +93,7 @@ namespace SubPhases
                         Source = Combat.Attacker,
                         DamageType = DamageTypes.ShipAttack
                     },
-                    Triggers.FinishTrigger
+                    delegate { }
                 );
             }
 

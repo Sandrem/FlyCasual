@@ -37,7 +37,7 @@ namespace UpgradesList.SecondEdition
             ThermalDetonatorsCheckSubPhase sufferBombletDamageSubphase = Phases.StartTemporarySubPhaseNew<ThermalDetonatorsCheckSubPhase>(
                 "Damage from " + UpgradeInfo.Name,
                 () => {
-                    Phases.FinishSubPhase(typeof(BombletCheckSubPhase));
+                    Phases.FinishSubPhase(typeof(ThermalDetonatorsCheckSubPhase));
                     callBack();
                 }
             );

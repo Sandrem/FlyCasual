@@ -142,7 +142,7 @@ namespace Abilities.SecondEdition
         {
             HostShip.OnGetAvailableBombDropTemplatesForbid -= RestrictLastTemplate;
 
-            ManeuverTemplate existingTemplate = availableTemplates.FirstOrDefault(n => n.Name == ForbiddenTemplate.Name);
+            ManeuverTemplate existingTemplate = availableTemplates.FirstOrDefault(n => n.Name == ForbiddenTemplate?.Name);
             if (existingTemplate != null) availableTemplates.Remove(existingTemplate);
         }
 

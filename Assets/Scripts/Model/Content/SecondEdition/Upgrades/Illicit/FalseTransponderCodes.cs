@@ -43,7 +43,7 @@ namespace Abilities.SecondEdition
             if (HostUpgrade.State.Charges > 0
                 && token is BlueTargetLockToken
                 && (((token as BlueTargetLockToken).Host.ShipId == HostShip.ShipId)
-                    || ((token as BlueTargetLockToken).OtherTargetLockTokenOwner as GenericShip).ShipId == HostShip.ShipId)
+                    || ((token as BlueTargetLockToken).OtherTargetLockTokenOwner as GenericShip)?.ShipId == HostShip.ShipId)
             )
             {
                 ObjectForAbility = (token.Host == HostShip) ? (token as BlueTargetLockToken).OtherTargetLockTokenOwner as GenericShip : ship;

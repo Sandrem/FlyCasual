@@ -102,7 +102,7 @@ namespace Abilities.SecondEdition
 
         private void CheckSecondDrop()
         {
-            if (!IsSecondBombDropped && HostUpgrade.State.Charges > 0)
+            if (BombsManager.CurrentDevice.GetType() == HostUpgrade.GetType() && !IsSecondBombDropped && HostUpgrade.State.Charges > 0)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCheckDropOfSecondDevice, AskSecondDrop);
             }

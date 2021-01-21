@@ -49,6 +49,7 @@ namespace Abilities.SecondEdition
             {
                 ImageUrl = HostUpgrade.ImageUrl,
                 HostShip = HostShip,
+                Source = HostUpgrade,
                 DoDiceModification = DoTreacherousDiceModification
             };
             HostShip.AddAvailableDiceModificationOwn(newAction);
@@ -123,13 +124,12 @@ namespace Abilities.SecondEdition
         {
             SubPhases.DecisionSubPhase.ConfirmDecisionNoCallback();
             CancelResultAndFinish(DieSide.Crit);
+            Phases.CurrentSubPhase.Resume();
         }
 
         private void CancelResultAndFinish(DieSide dieSide)
         {
             Combat.DiceRollAttack.RemoveType(dieSide);
-            Phases.CurrentSubPhase.CallBack();
-            Phases.CurrentSubPhase.Resume();
         }
 
         private bool FilterTargets(GenericShip ship)

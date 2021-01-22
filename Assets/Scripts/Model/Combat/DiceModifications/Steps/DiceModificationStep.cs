@@ -53,6 +53,7 @@ public class DiceModificationStep : IDiceRollStep
         Phases.CurrentSubPhase.Start();
 
         ShowDiceModifications();
+        AskPlayerToContinue();
     }
 
     public void ShowDiceModifications()
@@ -61,10 +62,14 @@ public class DiceModificationStep : IDiceRollStep
         List<GenericAction> diceModifications = Selection.ActiveShip.GetDiceModificationsGenerated();
 
         Combat.DiceModifications.ShowDiceModificationButtons(diceModifications);
+    }
 
+    public void AskPlayerToContinue()
+    {
         Roster.HighlightPlayer(Selection.ActiveShip.Owner.PlayerNo);
         Phases.CurrentSubPhase.IsReadyForCommands = true;
 
+        List<GenericAction> diceModifications = Selection.ActiveShip.GetDiceModificationsGenerated();
         if (diceModifications.Count > 0 || IsVital)
         {
             if (diceModifications.Any(m => m.IsForced)) Combat.DiceModifications.HideOkButton();

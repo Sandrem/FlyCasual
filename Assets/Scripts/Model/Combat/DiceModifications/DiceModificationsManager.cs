@@ -71,7 +71,8 @@ public partial class DiceModificationsManager
             diceModification.ActionEffect(
                 delegate {
                     Combat.CurrentDiceRoll.MarkAsModifiedBy(diceModification.HostShip.Owner.PlayerNo);
-                    ReplaysManager.ExecuteWithDelay(Combat.DiceModifications.RefreshButtonsList);
+                    Combat.DiceModifications.RefreshButtonsList();
+                    ReplaysManager.ExecuteWithDelay(Combat.DiceModifications.AskPlayerToContinue);
                 }
             );
         }
@@ -96,6 +97,14 @@ public partial class DiceModificationsManager
         if (CurrentDiceModificationStep is DiceModificationStep)
         {
             (CurrentDiceModificationStep as DiceModificationStep).ShowDiceModifications();
+        }
+    }
+
+    public void AskPlayerToContinue()
+    {
+        if (CurrentDiceModificationStep is DiceModificationStep)
+        {
+            (CurrentDiceModificationStep as DiceModificationStep).AskPlayerToContinue();
         }
     }
 

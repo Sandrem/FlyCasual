@@ -59,7 +59,7 @@ namespace Abilities.SecondEdition
                     HostShip.SectorsInfo.Arcs.First(n => n.Facing == Arcs.ArcFacing.Front)
                 );
 
-                if (arcInfo.Range <= 1) result = true;
+                if (arcInfo.InArc && arcInfo.Range <= 1) result = true;
             }
 
             return result;

@@ -107,7 +107,7 @@ namespace Abilities.SecondEdition
 
         private void PreventRangeOneBonus(ref bool isActive)
         {
-            Rules.DistanceBonus.OnCheckAllowRangeOneBonus -= PreventRangeOneBonus;
+            Rules.DistanceBonus.OnCheckPreventRangeOneBonus -= PreventRangeOneBonus;
 
             Messages.ShowInfo($"{HostShip.PilotInfo.PilotName}: Range 1 bonus is prevented");
             isActive = false;

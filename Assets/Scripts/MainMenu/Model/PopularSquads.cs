@@ -107,7 +107,7 @@ namespace SquadBuilderNS
                 string shipIcons = "";
                 foreach (JSONObject ship in archetype["ships"].list)
                 {
-                    ShipRecord shipRecord = SquadBuilder.AllShips.FirstOrDefault(n => n.ShipName == ship.str);
+                    ShipRecord shipRecord = Global.SquadBuilder.Database.AllShips.FirstOrDefault(n => n.ShipName == ship.str);
                     if (shipRecord != null)
                     {
                         shipIcons += shipRecord.Instance.ShipIconLetter;
@@ -217,7 +217,7 @@ namespace SquadBuilderNS
                 if (existingLists.Contains(squadJsonFixed.ToString())) continue;
                 existingLists.Add(squadJsonFixed.ToString());
 
-                SquadBuilder.SetPlayerSquadFromImportedJson(squadJsonFixed, squadList, delegate { });
+                squadList.SetPlayerSquadFromImportedJson(squadJsonFixed);
 
                 GameObject SquadListRecord;
 
@@ -229,7 +229,7 @@ namespace SquadBuilderNS
                 RectTransform descriptionRectTransform = SquadListRecord.transform.Find("Description").GetComponent<RectTransform>();
                 if (squadJson.HasField("json"))
                 {
-                    descriptionText.text = SquadBuilder.GetDescriptionOfSquadJson(squadJsonFixed).Replace("\\\"", "\"");
+                    descriptionText.text = SquadJsonHelper.GetDescriptionOfSquadJson(squadJsonFixed).Replace("\\\"", "\"");
                 }
                 else
                 {
@@ -247,7 +247,7 @@ namespace SquadBuilderNS
                 );
 
                 SquadListRecord.transform.Find("DeleteButton").gameObject.SetActive(false);
-                SquadListRecord.transform.Find("LoadButton").GetComponent<Button>().onClick.AddListener(delegate { SquadBuilder.LoadSavedSquadAndReturn(squadJsonFixed); });
+                SquadListRecord.transform.Find("LoadButton").GetComponent<Button>().onClick.AddListener(delegate { Global.SquadBuilder.View.LoadSavedSquadAndReturn(squadJsonFixed); });
             }
 
             OrganizePanels(contentTransform, FREE_SPACE);

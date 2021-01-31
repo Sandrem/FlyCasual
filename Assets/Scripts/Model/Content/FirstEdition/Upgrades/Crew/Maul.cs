@@ -25,39 +25,22 @@ namespace UpgradesList.FirstEdition
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
-            bool result = false;
-
-            if (squadList.SquadFaction == Faction.Scum)
-            {
-                result = true;
-            }
+            if (squadList.SquadFaction == Faction.Scum) return true;
 
             if (squadList.SquadFaction == Faction.Rebel)
             {
-                foreach (var shipHolder in squadList.GetShips())
+                if (squadList.HasPilot("Ezra Bridger") || squadList.HasUpgrade("Ezra Bridger"))
                 {
-                    if (shipHolder.Instance.PilotInfo.PilotName == "Ezra Bridger")
-                    {
-                        return true;
-                    }
-
-                    foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
-                    {
-                        if (upgrade.UpgradeInfo.Name == "Ezra Bridger")
-                        {
-                            return true;
-                        }
-                    }
+                    return true;
                 }
-
-                if (result != true)
+                else
                 {
                     Messages.ShowError("Maul cannot be in a Rebel squad that does not contain Ezra Bridger");
+                    return false;
                 }
-
             }
 
-            return result;
+            return false;
         }
     }
 }

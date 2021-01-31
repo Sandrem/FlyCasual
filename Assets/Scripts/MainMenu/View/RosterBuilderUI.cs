@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using SquadBuilderNS;
 using Players;
 
 public class RosterBuilderUI : MonoBehaviour {
@@ -21,12 +18,8 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void Import()
     {
-        SquadBuilder.CreateSquadFromImportedJson
-        (
-            GameObject.Find("UI/Panels/ImportExportPanel/Content/InputField").GetComponent<InputField>().text,
-            SquadBuilder.GetSquadList(SquadBuilder.CurrentPlayer),
-            delegate { MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel"); }
-        );
+        Global.SquadBuilder.CurrentSquad.CreateSquadFromImportedJson(GameObject.Find("UI/Panels/ImportExportPanel/Content/InputField").GetComponent<InputField>().text);
+        MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
     }
 
     // NEW
@@ -34,26 +27,26 @@ public class RosterBuilderUI : MonoBehaviour {
     public void SetCurrentPlayerFactionAndNext(string factionText)
     {
         Faction faction = (Faction) Enum.Parse(typeof(Faction), factionText);
-        SquadBuilder.SetCurrentPlayerFaction(faction);
+        Global.SquadBuilder.CurrentSquad.SquadFaction = faction;
 
-        SquadBuilder.ReturnToSquadBuilder();
+        Global.SquadBuilder.View.ReturnToSquadBuilder();
     }
 
     public void RemoveCurrentShip()
     {
-        SquadBuilder.RemoveCurrentShip();
-        SquadBuilder.ReturnToSquadBuilder();
+        Global.SquadBuilder.CurrentSquad.RemoveShip(Global.SquadBuilder.CurrentShip);
+        Global.SquadBuilder.View.ReturnToSquadBuilder();
     }
 
     public void NextPlayer()
     {
-        if (SquadBuilder.ValidateCurrentPlayersRoster())
+        if (Global.SquadBuilder.CurrentSquad.IsValid)
         {
-            if (SquadBuilder.IsVsAiGame)
+            if (Global.IsVsAiGame)
             {
                 MainMenu.CurrentMainMenu.ChangePanel("AiDecisionPanel");
             }
-            else if (SquadBuilder.IsNetworkGame)
+            else if (Global.IsNetworkGame)
             {
                 MainMenu.CurrentMainMenu.ChangePanel("MultiplayerDecisionPanel");
             }
@@ -66,27 +59,28 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void NextPlayerOpen()
     {
-        SquadBuilder.SetCurrentPlayer(PlayerNo.Player2);
+        Global.SquadBuilder.CurrentPlayer = PlayerNo.Player2;
         MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
     }
 
     public void NextPlayerRandomAi()
     {
-        SquadBuilder.SetRandomAiSquad(StartBattle);
+        Global.SquadBuilder.View.SetRandomAiSquad();
+        StartBattle();
     }
 
     public void FactionSelectionBackIsPressed()
     {
-        if (SquadBuilder.CurrentPlayer == PlayerNo.Player1)
+        if (Global.SquadBuilder.CurrentPlayer == PlayerNo.Player1)
         {
             MainMenu.CurrentMainMenu.ChangePanel("GameModeDecisionPanel");
         }
-        else if (SquadBuilder.CurrentPlayer == PlayerNo.Player2)
+        else if (Global.SquadBuilder.CurrentPlayer == PlayerNo.Player2)
         {
-            if (!SquadBuilder.IsVsAiGame)
+            if (!Global.IsVsAiGame)
             {
-                SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
-                SquadBuilder.ReturnToSquadBuilder();
+                Global.SquadBuilder.CurrentPlayer = PlayerNo.Player1;
+                Global.SquadBuilder.View.ReturnToSquadBuilder();
             }
             else
             {
@@ -97,25 +91,24 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void AiDecisionPanelBack()
     {
-        SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
+        Global.SquadBuilder.CurrentPlayer = PlayerNo.Player1;
         MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
     }
 
     public void ClearSquadList()
     {
-        SquadBuilder.ClearShipsOfPlayer(SquadBuilder.CurrentPlayer);
-        // TODO: Set default name for Squad
-        SquadBuilder.ReturnToSquadBuilder();
+        Global.SquadBuilder.CurrentSquad.ClearAll();
+        Global.SquadBuilder.View.ReturnToSquadBuilder();
     }
 
     public void OpenImportPanel()
     {
-        SquadBuilder.OpenImportExportPanel(true);
+        Global.SquadBuilder.View.OpenImportExportPanel(true);
     }
 
     public void OpenExportPanel()
     {
-        SquadBuilder.OpenImportExportPanel(false);
+        Global.SquadBuilder.View.OpenImportExportPanel(false);
     }
 
     public void TrySaveSquadron()
@@ -123,19 +116,19 @@ public class RosterBuilderUI : MonoBehaviour {
         string squadName = GameObject.Find("UI/Panels/SaveSquadronPanel/Panel/Name/InputField").GetComponent<InputField>().text;
         if (squadName == "") squadName = "Unnamed squadron";
 
-        SquadBuilder.SaveSquadronToFile(SquadBuilder.CurrentSquadList, squadName, SquadBuilder.ReturnToSquadBuilder);
+        Global.SquadBuilder.CurrentSquad.SaveSquadronToFile(squadName);
+        Global.SquadBuilder.View.ReturnToSquadBuilder();
     }
 
     public void StartBattle()
     {
-        if (SquadBuilder.ValidateCurrentPlayersRoster())
+        if (Global.SquadBuilder.CurrentSquad.IsValid)
         {
-            SquadBuilder.SaveAutosaveSquadConfigurations();
+            Global.SquadBuilder.SaveAutosaveSquadConfigurations();
 
-            if (!SquadBuilder.IsNetworkGame)
+            if (!Global.IsNetworkGame)
             {
-                SquadBuilder.GenerateSavedConfigurationsLocal();
-
+                Global.SquadBuilder.GenerateSavedConfigurationsLocal();
                 GameController.StartBattle();
             }
             else
@@ -150,29 +143,26 @@ public class RosterBuilderUI : MonoBehaviour {
         MainMenu.CurrentMainMenu.ChangePanel("BrowseSavedSquadsPanel");
     }
 
-    public void ChangeAiMode(Text textComponent)
-    {
-        SquadBuilder.ToggleAiType();
-    }
-
     public void ClearUpgradesOfCurrentShip()
     {
-        SquadBuilder.ClearUpgradesOfCurrentShip();
+        Global.SquadBuilder.CurrentShip.ClearUpgrades();
+        Global.SquadBuilder.View.ShowPilotWithSlots();
     }
 
     public void CopyCurrentShip()
     {
-        SquadBuilder.CopyCurrentShip();
+        Global.SquadBuilder.CurrentSquad.CopyShip(Global.SquadBuilder.CurrentShip);
+        Global.SquadBuilder.View.UpdateSquadCost("ShipSlotsPanel");
     }
 
     public void SetDefaultObstacles()
     {
-        SquadBuilder.SetDefaultObstacles();
+        Global.SquadBuilder.View.SetDefaultObstacles();
     }
 
     public void OnUpgradeFilterTextChanged(InputField input)
     {
-        SquadBuilder.FilterVisibleUpgrades(input.text.ToLower());
+        Global.SquadBuilder.View.FilterVisibleUpgrades(input.text.ToLower());
     }
 
 }

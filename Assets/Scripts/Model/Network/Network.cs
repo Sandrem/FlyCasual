@@ -57,7 +57,7 @@ public static class Network
             Options.NickName,
             Options.Title,
             Options.Avatar,
-            SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString(),
+            Global.SquadBuilder.SquadLists[PlayerNo.Player1].GetSquadInJson().ToString(),
             Global.CurrentVersion
         );
     }

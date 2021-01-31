@@ -194,10 +194,9 @@ public partial class MainMenu : MonoBehaviour {
 
     public void InitializeSquadBuilder(string modeName)
     {
-        SquadBuilder.Initialize();
-        SquadBuilder.SetCurrentPlayer(PlayerNo.Player1);
-        SquadBuilder.SetPlayers(modeName);
-        SquadBuilder.SetDefaultPlayerNames();
+        Global.SquadBuilder = new SquadBuilder();
+        new SquadBuilderView(Global.SquadBuilder);
+        Global.SquadBuilder.SetPlayers(modeName);
     }
 
     public void InitializePlayerCustomization()
@@ -303,7 +302,7 @@ public partial class MainMenu : MonoBehaviour {
 
     public static void ShowLoadingScreenNetwork()
     {
-        if ((SquadBuilder.GetSquadList(PlayerNo.Player2).PlayerType == typeof(HotacAiPlayer)) && (!Options.DontShowAiInfo))
+        if ((Global.SquadBuilder.SquadLists[PlayerNo.Player2].PlayerType == typeof(AggressorAiPlayer)) && (!Options.DontShowAiInfo))
         {
             GameObject.Find("GlobalUI/LoadingScreen").transform.Find("AiInformation").gameObject.SetActive(true);
             GameObject.Find("GlobalUI/LoadingScreen/AiInformation").transform.Find("ToggleBlock").gameObject.SetActive(false);

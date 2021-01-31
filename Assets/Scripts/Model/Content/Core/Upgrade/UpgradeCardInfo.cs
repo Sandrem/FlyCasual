@@ -281,5 +281,12 @@ namespace Upgrade
                 ability.DeactivateAbilityForSquadBuilder();
             }
         }
+
+        public string GetCleanName()
+        {
+            string cleanName = Name;
+            if (Name.Contains("(")) cleanName = Name.Substring(0, Name.LastIndexOf("(") - 1);
+            return cleanName;
+        }
     }
 }

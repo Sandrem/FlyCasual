@@ -1,15 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.Reflection;
-using System.Linq;
-using Players;
 using Mods;
 using SquadBuilderNS;
 using Editions;
-using Ship;
 
 public partial class MainMenu : MonoBehaviour {
 
@@ -80,36 +73,30 @@ public partial class MainMenu : MonoBehaviour {
                 BrowseMatches();
                 break;
             case "SelectFactionPanel":
-                SquadBuilder.SetCurrentPlayerFaction(Faction.None);
-                SquadBuilder.ClearShipsOfPlayer(SquadBuilder.CurrentPlayer);
-                SquadBuilder.ShowFactionsImages();
+                Global.SquadBuilder.CurrentSquad.ClearAll();
+                Global.SquadBuilder.View.ShowFactionsImages();
                 break;
             case "SquadBuilderPanel":
-                SquadBuilder.CheckAiButtonVisibility();
-                SquadBuilder.UpdateSquadName("SquadBuilderPanel");
-                SquadBuilder.ShowShipsAndUpgrades();
-                SquadBuilder.UpdateNextButton();
+                Global.SquadBuilder.View.ShowShipsAndUpgrades();
+                Global.SquadBuilder.View.UpdateNextButton();
                 break;
             case "SelectShipPanel":
-                SquadBuilder.ShowShipsFilteredByFaction();
+                Global.SquadBuilder.View.ShowShipsFilteredByFaction();
                 break;
             case "SelectPilotPanel":
-                SquadBuilder.ShowPilotsFilteredByShipAndFaction();
+                Global.SquadBuilder.View.ShowPilotsFilteredByShipAndFaction();
                 break;
             case "ShipSlotsPanel":
-                SquadBuilder.ShowPilotWithSlots();
+                Global.SquadBuilder.View.ShowPilotWithSlots();
                 break;
             case "SelectUpgradePanel":
-                SquadBuilder.ShowUpgradesList();
-                break;
-            case "SquadronOptionsPanel":
-                SquadBuilder.UpdateSquadName("SquadronOptionsPanel");
+                Global.SquadBuilder.View.ShowUpgradesList();
                 break;
             case "BrowseSavedSquadsPanel":
-                SquadBuilder.BrowseSavedSquads();
+                Global.SquadBuilder.View.BrowseSavedSquads();
                 break;
             case "SaveSquadronPanel":
-                SquadBuilder.PrepareSaveSquadronPanel();
+                Global.SquadBuilder.View.PrepareSaveSquadronPanel();
                 break;
             case "AvatarsPanel":
                 InitializePlayerCustomization();
@@ -118,16 +105,16 @@ public partial class MainMenu : MonoBehaviour {
                 ShowActiveEdition(Options.Edition);
                 break;
             case "ShipInfoPanel":
-                SquadBuilder.ShowShipInformation();
+                Global.SquadBuilder.View.ShowShipInformation();
                 break;
             case "SkinsPanel":
-                SquadBuilder.ShowSkinsPanel();
+                Global.SquadBuilder.View.ShowSkinsPanel();
                 break;
             case "ChosenObstaclesPanel":
-                SquadBuilder.ShowChosenObstaclesPanel();
+                Global.SquadBuilder.View.ShowChosenObstaclesPanel();
                 break;
             case "BrowseObstaclesPanel":
-                SquadBuilder.ShowBrowseObstaclesPanel();
+                Global.SquadBuilder.View.ShowBrowseObstaclesPanel();
                 break;
             case "BrowsePopularSquadsPanel":
                 if (previousPanelName == "SquadOptionsPanel") PopularSquads.LastChosenFaction = "All";

@@ -28,19 +28,15 @@ namespace Ship
 
             public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
             {
-                foreach (var shipHolder in squadList.GetShips())
+                if (squadList.HasUpgrade("Hound's Tooth"))
                 {
-                    foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
-                    {
-                        if (upgrade.UpgradeInfo.Name == "Hound's Tooth")
-                        {
-                            return true;
-                        }
-                    }
+                    return true;
                 }
-
-                Messages.ShowError("You need YV-666 ship with the Hound's Tooth title\nto use Nashtah Pup in a squad");
-                return false;
+                else
+                {
+                    Messages.ShowError("You need YV-666 ship with the Hound's Tooth title\nto use Nashtah Pup in a squad");
+                    return false;
+                }
             }
         }
     }

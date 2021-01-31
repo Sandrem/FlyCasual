@@ -57,7 +57,7 @@ public class NetworkIdentity : NetworkBehaviour
     private void RpcStartNetworkGame()
     {
         Network.ConnectionIsEstablished = true;
-        SquadBuilder.StartNetworkGame();
+        Global.StartNetworkGame();
     }
 
     [ClientRpc]
@@ -79,7 +79,7 @@ public class NetworkIdentity : NetworkBehaviour
                     Options.NickName,
                     Options.Title,
                     Options.Avatar,
-                    SquadBuilder.GetSquadInJson(PlayerNo.Player1).ToString()
+                    Global.SquadBuilder.SquadLists[PlayerNo.Player1].GetSquadInJson().ToString()
                 );
 
                 RpcSendPlayerInfoToClients
@@ -113,7 +113,7 @@ public class NetworkIdentity : NetworkBehaviour
     [ClientRpc]
     private void RpcSendPlayerInfoToClients(int playerNo, string playerName, string title, string avatar, string squadString)
     {
-        SquadBuilder.PrepareOnlineMatchLists
+        Global.PrepareOnlineMatchLists
         (
             playerNo,
             playerName,

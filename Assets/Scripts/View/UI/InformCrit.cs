@@ -33,13 +33,13 @@ public static class InformCrit
     {
         InformCritPanel.Find("CritCardImage").gameObject.SetActive(false);
 
-        if (!SquadBuilder.TextureCache.ContainsKey(url))
+        if (!TextureCache.Cache.ContainsKey(url))
         {
             Behavior.StartCoroutine(ImageManager.GetTexture((texture) =>
             {
                 if (texture != null)
                 {
-                    if (!SquadBuilder.TextureCache.ContainsKey(url)) SquadBuilder.TextureCache.Add(url, texture);
+                    if (!TextureCache.Cache.ContainsKey(url)) TextureCache.Cache.Add(url, texture);
                     SetObjectSprite(InformCritPanel.Find("CritCardImage").gameObject, texture);
                 }
                 else
@@ -50,7 +50,7 @@ public static class InformCrit
         }
         else
         {
-            SetObjectSprite(InformCritPanel.Find("CritCardImage").gameObject, SquadBuilder.TextureCache[url]);
+            SetObjectSprite(InformCritPanel.Find("CritCardImage").gameObject, TextureCache.Cache[url]);
         }
     }
 

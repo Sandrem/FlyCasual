@@ -24,39 +24,22 @@ namespace UpgradesList.SecondEdition
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
-            bool result = false;
-
-            if (squadList.SquadFaction == Faction.Scum)
-            {
-                result = true;
-            }
+            if (squadList.SquadFaction == Faction.Scum) return true;
 
             if (squadList.SquadFaction == Faction.Imperial)
             {
-                foreach (var shipHolder in squadList.GetShips())
+                if (squadList.HasUpgrade("Darth Vader") || squadList.HasPilot("Darth Vader"))
                 {
-                    if (shipHolder.Instance.PilotInfo.PilotName == "Darth Vader")
-                    {
-                        return true;
-                    }
-
-                    foreach (var upgrade in shipHolder.Instance.UpgradeBar.GetUpgradesAll())
-                    {
-                        if (upgrade.UpgradeInfo.Name == "Darth Vader")
-                        {
-                            return true;
-                        }
-                    }
+                    return true;
                 }
-
-                if (result != true)
+                else
                 {
                     Messages.ShowError("0-0-0 cannot be in an Imperial squad without Darth Vader");
+                    return false;
                 }
-
             }
 
-            return result;
+            return false;
         }
     }
 }

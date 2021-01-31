@@ -23,7 +23,7 @@ public static class GameController
         {
             if (mode == ReplaysMode.Read) MainMenu.CurrentMainMenu.InitializeSquadBuilder("Replay");
 
-            SquadBuilder.StartLocalGame();
+            Global.StartLocalGame();
         }
     }
 

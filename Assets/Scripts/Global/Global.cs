@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using GameModes;
+using Players;
+using SquadBuilderNS;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SceneManagement;
@@ -12,6 +15,8 @@ public class Global : MonoBehaviour {
     public static string CurrentVersion = "1.8.1";
     public static int CurrentVersionInt = 101080100;
     public static int LatestVersionInt = 101080100;
+
+    public static SquadBuilderNS.SquadBuilder SquadBuilder { get; set;}
 
     void Awake()
     {
@@ -93,6 +98,67 @@ public class Global : MonoBehaviour {
     public static void ShowAnotherPlayerDisconnected()
     {
         UI.ShowGameResults(Roster.GetOpponent().NickName + " is disconnected");
+    }
+
+    public static void StartNetworkGame()
+    {
+        GameController.Initialize();
+        ReplaysManager.TryInitialize(ReplaysMode.Write);
+
+        GameMode.CurrentGameMode = new NetworkGame();
+        SwitchToBattleScene();
+    }
+
+    public static void StartLocalGame()
+    {
+        GameMode.CurrentGameMode = new LocalGame();
+        SwitchToBattleScene();
+    }
+
+    public static void SwitchToBattleScene()
+    {
+        LoadingScreen.Show();
+        LoadBattleScene();
+    }
+
+    private static void LoadBattleScene()
+    {
+        SceneManager.LoadScene("Battle");
+    }
+
+    public static bool IsNetworkGame
+    {
+        get { return SquadBuilder.SquadLists[PlayerNo.Player2].PlayerType == typeof(NetworkOpponentPlayer); }
+    }
+
+    public static bool IsVsAiGame
+    {
+        get { return SquadBuilder.SquadLists[PlayerNo.Player2].PlayerType.IsSubclassOf(typeof(GenericAiPlayer)); }
+    }
+
+    public static void PrepareOnlineMatchLists(int playerInt, string playerName, string title, string avatar, string squadString)
+    {
+        PlayerNo playerNo = Tools.IntToPlayer(playerInt);
+        SquadList squadList = SquadBuilder.SquadLists[playerNo];
+
+        if (Network.IsServer)
+        {
+            squadList.PlayerType = (playerNo == PlayerNo.Player1) ? typeof(HumanPlayer) : typeof(NetworkOpponentPlayer);
+        }
+        else
+        {
+            squadList.PlayerType = (playerNo == PlayerNo.Player1) ? typeof(NetworkOpponentPlayer) : typeof(HumanPlayer);
+        }
+
+        SquadBuilder.SquadLists[playerNo].CreateSquadFromImportedJson(squadString);
+
+        squadList.SavedConfiguration = SquadBuilder.SquadLists[playerNo].GetSquadInJson();
+
+        JSONObject playerInfoJson = new JSONObject();
+        playerInfoJson.AddField("NickName", playerName);
+        playerInfoJson.AddField("Title", title);
+        playerInfoJson.AddField("Avatar", avatar);
+        squadList.SavedConfiguration.AddField("PlayerInfo", playerInfoJson);
     }
 
 }

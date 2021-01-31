@@ -23,7 +23,7 @@ public static class ShipFactory {
     }
 
 	//TODO: REWRITE ASAP
-	public static GenericShip SpawnShip(SquadBuilderShip shipConfig)
+	public static GenericShip SpawnShip(SquadListShip shipConfig)
     {
         Vector3 position = Vector3.zero;
 

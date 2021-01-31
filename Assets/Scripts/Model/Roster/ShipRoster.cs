@@ -56,7 +56,7 @@ public static partial class Roster
 
         if (ReplaysManager.Mode == ReplaysMode.Write)
         {
-            foreach (var squad in SquadBuilder.SquadLists)
+            foreach (var squad in Global.SquadBuilder.SquadLists.Squads.Values)
             {
                 squad.SavedConfiguration["description"].str = squad.SavedConfiguration["description"].str.Replace("\n", "");
 
@@ -103,7 +103,7 @@ public static partial class Roster
 
     private static void CreatePlayers()
     {
-        foreach (var squadList in SquadBuilder.SquadLists)
+        foreach (var squadList in Global.SquadBuilder.SquadLists.Squads.Values)
         {
             Type playerType = squadList.PlayerType;
 
@@ -134,9 +134,9 @@ public static partial class Roster
     {
         ObstaclesManager.Instance.ChosenObstacles = new List<GenericObstacle>();
 
-        foreach (var squadList in SquadBuilder.SquadLists)
+        foreach (SquadList squadList in Global.SquadBuilder.SquadLists.Squads.Values)
         {
-            SquadBuilder.SetPlayerSquadFromImportedJson(squadList.SavedConfiguration, SquadBuilder.GetSquadList(squadList.PlayerNo), delegate { });
+            squadList.SetPlayerSquadFromImportedJson(squadList.SavedConfiguration);
 
             if (Roster.GetPlayer(squadList.PlayerNo).PlayerType != PlayerType.Ai)
             {
@@ -158,12 +158,12 @@ public static partial class Roster
 
         // Keep order, ships must have same ID on both clients
         ShipFactory.Initialize();
-        foreach (SquadBuilderShip shipConfig in SquadBuilder.GetSquadList(PlayerNo.Player1).GetShips())
+        foreach (SquadListShip shipConfig in Global.SquadBuilder.SquadLists[PlayerNo.Player1].Ships)
         {
             GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
             AddShipToLists(newShip);
         }
-        foreach (SquadBuilderShip shipConfig in SquadBuilder.GetSquadList(PlayerNo.Player2).GetShips())
+        foreach (SquadListShip shipConfig in Global.SquadBuilder.SquadLists[PlayerNo.Player2].Ships)
         {
             GenericShip newShip = ShipFactory.SpawnShip(shipConfig);
             AddShipToLists(newShip);

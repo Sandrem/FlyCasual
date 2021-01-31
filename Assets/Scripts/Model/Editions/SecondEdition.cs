@@ -152,7 +152,7 @@ namespace Editions
 
         private bool HasYv666InSquad()
         {
-            return SquadBuilder.CurrentSquadList.GetShips().Any(n => n.Instance is Ship.SecondEdition.YV666LightFreighter.YV666LightFreighter);
+            return Global.SquadBuilder.CurrentSquad.Ships.Any(n => n.Instance is Ship.SecondEdition.YV666LightFreighter.YV666LightFreighter);
         }
 
         public override void EvadeDiceModification(DiceRoll diceRoll)
@@ -250,7 +250,7 @@ namespace Editions
         public override void SquadBuilderIsOpened()
         {
             MainMenu.CurrentMainMenu.ChangePanel("SquadBuilderPanel");
-            if (IsSquadBuilderLocked && SquadBuilder.CurrentSquadList.Points == 0)
+            if (IsSquadBuilderLocked && Global.SquadBuilder.CurrentSquad.Points == 0)
             {
                 MainMenu.CurrentMainMenu.ChangePanel("BrowseSavedSquadsPanel");
             }

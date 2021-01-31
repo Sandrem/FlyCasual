@@ -27,7 +27,7 @@ namespace GameCommands
 
             Console.Write($"Squad for Player {Tools.PlayerToInt(playerNo)} ({playerType}) is ready");
 
-            SquadList playerList = SquadBuilder.SquadLists.First(n => n.PlayerNo == playerNo);
+            SquadList playerList = Global.SquadBuilder.SquadLists[playerNo];
             playerList.SavedConfiguration = (JSONObject)GetParameter("list");
             playerList.PlayerType = System.Type.GetType(playerType);
         }

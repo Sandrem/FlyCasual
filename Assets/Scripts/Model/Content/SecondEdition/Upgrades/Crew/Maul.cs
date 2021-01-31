@@ -33,7 +33,7 @@ namespace UpgradesList.SecondEdition
 
             if (squadList.SquadFaction == Faction.Rebel)
             {
-                foreach (var shipHolder in squadList.GetShips())
+                foreach (var shipHolder in squadList.Ships)
                 {
                     if (shipHolder.Instance.PilotInfo.PilotName == "Ezra Bridger")
                     {

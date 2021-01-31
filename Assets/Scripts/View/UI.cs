@@ -364,7 +364,8 @@ public class UI : MonoBehaviour {
         Rules.FinishGame();
         if (ReplaysManager.Mode == ReplaysMode.Write)
         {
-            SquadBuilder.ReGenerateSquads(SquadBuilder.SwitchToBattleScene);
+            Global.SquadBuilder.ReGenerateSquads();
+            Global.SwitchToBattleScene();
         }
         else if (ReplaysManager.Mode == ReplaysMode.Read)
         {

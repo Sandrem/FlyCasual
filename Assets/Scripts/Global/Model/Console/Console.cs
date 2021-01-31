@@ -141,8 +141,8 @@ public partial class Console : MonoBehaviour {
 
         try
         {
-            jsonData.AddField("p1squad", SquadBuilder.SquadLists[0].SavedConfiguration.ToString().Replace("\"", "\\\""));
-            jsonData.AddField("p2squad", SquadBuilder.SquadLists[1].SavedConfiguration.ToString().Replace("\"", "\\\""));
+            jsonData.AddField("p1squad", Global.SquadBuilder.SquadLists[Players.PlayerNo.Player1].SavedConfiguration.ToString().Replace("\"", "\\\""));
+            jsonData.AddField("p2squad", Global.SquadBuilder.SquadLists[Players.PlayerNo.Player2].SavedConfiguration.ToString().Replace("\"", "\\\""));
         }
         catch (Exception)
         {

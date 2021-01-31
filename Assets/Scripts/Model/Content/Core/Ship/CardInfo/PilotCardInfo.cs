@@ -57,5 +57,13 @@ namespace Ship
             if (extraUpgradeIcons != null) ExtraUpgrades.AddRange(extraUpgradeIcons);
             if (factionOverride != Faction.None) Faction = factionOverride;
         }
+
+
+        public string GetCleanName()
+        {
+            string cleanName = PilotName;
+            if (PilotName.Contains("(")) cleanName = PilotName.Substring(0, PilotName.LastIndexOf("(") - 1);
+            return cleanName;
+        }
     }
 }

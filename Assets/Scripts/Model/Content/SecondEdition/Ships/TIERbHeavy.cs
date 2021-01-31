@@ -87,6 +87,8 @@ namespace Ship.SecondEdition.TIERbHeavy
                 "TIE-Fire", 2
             );
 
+            ShipIconLetter = 'J';
+
             ShipAbilities.Add(new Abilities.SecondEdition.RotatingCannons());
         }
     }

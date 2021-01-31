@@ -89,7 +89,7 @@ namespace Ship.SecondEdition.DroidTriFighter
                 "TIE-Fire", 2
             );
 
-            ShipIconLetter = '*';
+            ShipIconLetter = '+';
         }
     }
 }

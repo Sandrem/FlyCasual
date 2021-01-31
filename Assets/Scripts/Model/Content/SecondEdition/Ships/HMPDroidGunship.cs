@@ -86,6 +86,8 @@ namespace Ship.SecondEdition.HMPDroidGunship
                 },
                 "XWing-Laser", 3
             );
+
+            ShipIconLetter = '.';
         }
     }
 }

@@ -88,6 +88,8 @@ namespace Ship.SecondEdition.NimbusClassVWing
                 },
                 "TIE-Fire", 2
             );
+
+            ShipIconLetter = ',';
         }
     }
 }

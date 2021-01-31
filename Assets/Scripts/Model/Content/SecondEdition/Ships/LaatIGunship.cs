@@ -87,6 +87,8 @@ namespace Ship.SecondEdition.LaatIGunship
                 },
                 "Falcon-Fire", 2
             );
+
+            ShipIconLetter = '/';
         }
     }
 }

@@ -92,7 +92,7 @@ namespace Ship.SecondEdition.TIEBaInterceptor
                 "TIE-Fire", 3
             );
 
-            // ManeuversImageUrl
+            ShipIconLetter = 'j';
         }
     }
 }

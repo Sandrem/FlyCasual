@@ -87,7 +87,7 @@ namespace Ship.SecondEdition.Fireball
                 "XWing-Laser", 2
             );
 
-            // ManeuversImageUrl
+            ShipIconLetter = '0';
         }
     }
 }

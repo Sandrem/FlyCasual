@@ -72,6 +72,8 @@ namespace Ship.SecondEdition.XiClassLightShuttle
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal)
             );
 
+            ShipIconLetter = 'Q';
+
             SoundInfo = new ShipSoundInfo(
                 new List<string>()
                 {

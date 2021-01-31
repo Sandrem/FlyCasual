@@ -84,7 +84,7 @@ namespace Ship.SecondEdition.Eta2Actis
                 "XWing-Laser", 2
             );
 
-            ShipIconLetter = '*';
+            ShipIconLetter = '-';
         }
     }
 }

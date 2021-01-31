@@ -209,6 +209,11 @@ namespace ActionsList
 
         public virtual void RevertActionOnFail(bool hasSecondChance = false) {}
 
+        //override this for actions that require further initialization
+        public virtual GenericAction Clone()
+        {
+            return (GenericAction)Activator.CreateInstance(GetType());
+        }
     }
 
 }

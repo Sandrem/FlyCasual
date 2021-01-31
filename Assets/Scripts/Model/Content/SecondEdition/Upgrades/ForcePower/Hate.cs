@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
                 //seImageNumber: 22
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/4a10b5c8a3d796116163a741d145f4e9.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/4a10b5c8a3d796116163a741d145f4e9.png";
         }
 
         public void UpdateCost(GenericShip ship)

@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Resistance)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/9f8baf4893cd90288df44b69b50fa788.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/9f8baf4893cd90288df44b69b50fa788.png";
         }
 
         public void UpdateCost(GenericShip ship)

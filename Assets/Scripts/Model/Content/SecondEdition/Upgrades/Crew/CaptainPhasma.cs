@@ -20,7 +20,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.CaptainPhasmaCrewAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/784566afc8c540d5e392689865207059.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/784566afc8c540d5e392689865207059.png";
         }        
     }
 }

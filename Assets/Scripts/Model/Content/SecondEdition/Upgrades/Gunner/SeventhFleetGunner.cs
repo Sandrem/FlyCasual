@@ -20,7 +20,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.SeventhFleetGunnerAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/a532c1de311e8d0a288af8232495a007.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a532c1de311e8d0a288af8232495a007.png";
         }
     }
 }

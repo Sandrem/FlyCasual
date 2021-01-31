@@ -23,7 +23,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.HoloAbility)
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/ee53482be8e59ff44f272e76c4e8123d.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/ee53482be8e59ff44f272e76c4e8123d.png";
             }
         }
     }

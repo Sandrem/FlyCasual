@@ -26,7 +26,7 @@ namespace UpgradesList.SecondEdition
                 remoteType: typeof(Remote.Drk1ProbeDroid)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/44556cd042e536b41e7e89850e13081a.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/44556cd042e536b41e7e89850e13081a.png";
         }
 
         public override List<ManeuverTemplate> GetDefaultDropTemplates()

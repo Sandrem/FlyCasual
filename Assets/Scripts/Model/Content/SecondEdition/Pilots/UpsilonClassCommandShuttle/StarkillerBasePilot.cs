@@ -15,7 +15,7 @@ namespace Ship
                     //seImageNumber: 120
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/41f6d936f14a058ed1c5e6ac12de37c2.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/41f6d936f14a058ed1c5e6ac12de37c2.png";
             }
         }
     }

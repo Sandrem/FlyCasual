@@ -24,7 +24,7 @@ namespace Ship
 
                 ModelInfo.SkinName = "Crimson";
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/c9189c7e510b4d734d4d78c4f595010f.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/c9189c7e510b4d734d4d78c4f595010f.png";
             }
         }
     }

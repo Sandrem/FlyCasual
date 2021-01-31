@@ -24,7 +24,7 @@ namespace UpgradesList.SecondEdition
                 subType: UpgradeSubType.Mine
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/c27f0dcda78915239450bedf5b931d86.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/c27f0dcda78915239450bedf5b931d86.png";
 
             bombPrefabPath = "Prefabs/Bombs/ClusterMinesCentral";
 

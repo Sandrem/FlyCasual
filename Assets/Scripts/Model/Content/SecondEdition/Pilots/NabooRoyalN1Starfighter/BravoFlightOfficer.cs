@@ -16,7 +16,7 @@ namespace Ship
                     33
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/274db1f70ed4da939b9440837a30c39a.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/274db1f70ed4da939b9440837a30c39a.png";
             }
         }
     }

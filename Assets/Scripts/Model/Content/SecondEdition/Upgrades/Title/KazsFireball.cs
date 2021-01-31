@@ -22,7 +22,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.KazsFireballAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/793a1b659936801101622a5fc0a71e73.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/793a1b659936801101622a5fc0a71e73.png";
         }
     }
 }

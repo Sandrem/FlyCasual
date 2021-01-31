@@ -28,7 +28,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.GA97Ability)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/3af44c6d32812dc07238b40842d67b47.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3af44c6d32812dc07238b40842d67b47.png";
         }        
     }
 }

@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                                                                         //seImageNumber: 22
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/e0100c63b2753daf68a9d3948824b086.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e0100c63b2753daf68a9d3948824b086.png";
         }
     }
 }

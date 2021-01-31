@@ -22,7 +22,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                 abilityType: typeof(NodinChavdriGoodeAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/9f41de269cb1ff091487554fb53b2374.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/9f41de269cb1ff091487554fb53b2374.png";
         }
     }
 }

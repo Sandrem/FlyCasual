@@ -22,7 +22,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.LieutenantBastianAbility)
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/3f43d6b3c6e87bde6a681e9d4421dec8.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3f43d6b3c6e87bde6a681e9d4421dec8.png";
             }
         }
     }

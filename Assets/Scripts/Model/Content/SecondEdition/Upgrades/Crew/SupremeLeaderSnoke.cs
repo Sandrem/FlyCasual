@@ -26,7 +26,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.SupremeLeaderSnokeAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/5b699f8b5268e5290c42adce0fd2ee3e.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/5b699f8b5268e5290c42adce0fd2ee3e.png";
         }
     }
 }

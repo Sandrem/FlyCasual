@@ -22,7 +22,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.ReyGunnerAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/e11aec8ae6ec855694947bc2f9d1917e.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e11aec8ae6ec855694947bc2f9d1917e.png";
         }        
     }
 }

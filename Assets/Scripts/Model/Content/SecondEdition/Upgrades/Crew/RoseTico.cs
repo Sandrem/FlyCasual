@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.RoseTicoAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/60ac08169a90794c33d1d582f1a08480.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/60ac08169a90794c33d1d582f1a08480.png";
         }        
     }
 }

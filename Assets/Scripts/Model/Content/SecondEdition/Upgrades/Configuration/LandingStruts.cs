@@ -25,7 +25,7 @@ namespace UpgradesList.SecondEdition
             AnotherSide = typeof(LandingStrutsOpen);
             SelectSideOnSetup = false;
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/c23a0130bad7330c0abb6218745910aa.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/c23a0130bad7330c0abb6218745910aa.png";
         }
     }
 
@@ -46,7 +46,7 @@ namespace UpgradesList.SecondEdition
 
             AnotherSide = typeof(LandingStrutsClosed);
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/aba79159308e850b635f6c43721ccdee.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/aba79159308e850b635f6c43721ccdee.png";
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 pilotTitle: "Preservation Protocol Not Found"
             );
             
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/3e647295c7237a5eb36b94d887eb8e56.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3e647295c7237a5eb36b94d887eb8e56.png";
         }
     }
 }

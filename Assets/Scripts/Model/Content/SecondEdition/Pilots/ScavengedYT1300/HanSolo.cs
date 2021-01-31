@@ -26,7 +26,7 @@ namespace Ship
 
                 PilotNameCanonical = "hansolo-scavengedyt1300";
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/5816bd53c272ed50096e22ae1af2b38a.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/5816bd53c272ed50096e22ae1af2b38a.png";
             }
         }
     }

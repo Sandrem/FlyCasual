@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.FinnAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/79477be319935f42270f1712cd269dff.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/79477be319935f42270f1712cd269dff.png";
         }        
     }
 }

@@ -20,7 +20,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.PettyOfficerThanissonCrewAbility)
             );
             
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/900397d209adfd3f7bd6429909cc20cc.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/900397d209adfd3f7bd6429909cc20cc.png";
         }        
     }
 }

@@ -24,7 +24,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.PaigeTicoAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/9dc15f634233b5daba107a07aa63d04c.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/9dc15f634233b5daba107a07aa63d04c.png";
         }        
     }
 }

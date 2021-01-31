@@ -20,10 +20,9 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 addAction: new ActionInfo(typeof(CalculateAction)),
-                abilityType: typeof(Abilities.SecondEdition.C3P0RebelCrewAbility)
+                abilityType: typeof(Abilities.SecondEdition.C3P0RebelCrewAbility),
+                seImageNumber: 80
             );
-
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/Card_Upgrade_80.png";
         }        
     }
 }

@@ -141,6 +141,11 @@ namespace SquadBuilderNS
             Console.Write("Squadbuilder content database is ready", isBold: true);
             Console.Write($"Pilots: {AllPilots.Count}, (Unique: {{AllPilots.Count(n => n.Instance.PilotInfo.IsLimited)}})");
             Console.Write($"Upgrades: {AllUpgrades.Count}");
+
+            foreach (PilotRecord pilot in AllPilots.Where(n => n.Instance.Faction == Faction.Republic))
+            {
+                Debug.Log($"{pilot.Instance.PilotInfo.PilotName}: {pilot.Instance.ImageUrl}");
+            }
         }
     }    
 }

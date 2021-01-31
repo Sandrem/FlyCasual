@@ -17,7 +17,7 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/00a3c393a33b33168bc61e47749e1474.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/00a3c393a33b33168bc61e47749e1474.png";
             }
         }
     }

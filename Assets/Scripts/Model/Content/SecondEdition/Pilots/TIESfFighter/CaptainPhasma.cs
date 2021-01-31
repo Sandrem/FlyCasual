@@ -25,7 +25,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.CaptainPhasmaPilotAbility)
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/7c0bc32446e17991aff226d0fcab7b19.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/7c0bc32446e17991aff226d0fcab7b19.png";
             }
         }
     }

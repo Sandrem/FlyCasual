@@ -11,7 +11,7 @@
                 extraUpgradeIcon: Upgrade.UpgradeType.Talent
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/ceb7a3bc406ff17be5dee5de62b39195.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/ceb7a3bc406ff17be5dee5de62b39195.png";
         }
     }
 }

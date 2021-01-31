@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Resistance)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/cd67f33e8aa52d2aeb07f432125a8c73.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/cd67f33e8aa52d2aeb07f432125a8c73.png";
         }
     }
 }

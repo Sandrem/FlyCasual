@@ -28,7 +28,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
             ModelInfo.SkinName = "Anakin Skywalker";
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/d60f4eca355471465ca3f6b99fb98e56.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/d60f4eca355471465ca3f6b99fb98e56.png";
         }
     }
 }

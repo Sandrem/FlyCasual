@@ -26,7 +26,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.GeneralHuxAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/fa0b8492eff625bc66f00bd561015465.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/fa0b8492eff625bc66f00bd561015465.png";
         }        
     }
 }

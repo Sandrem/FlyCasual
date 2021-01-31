@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.R5X3)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/aed4536536b67bae316b260ed151c22a.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/aed4536536b67bae316b260ed151c22a.png";
         }
     }
 }

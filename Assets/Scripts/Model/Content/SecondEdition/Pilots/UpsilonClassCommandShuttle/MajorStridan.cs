@@ -19,7 +19,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.MajorStridanAbility)
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/8420beca035dedf1596c7c99255fb2e7.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/8420beca035dedf1596c7c99255fb2e7.png";
             }
         }
     }

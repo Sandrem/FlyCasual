@@ -29,7 +29,7 @@ namespace UpgradesList.SecondEdition
                 remoteType: typeof(Remote.BuzzDroidSwarm)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/ee2f0b906cb4f1dbcafc274f44b76d3d.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/ee2f0b906cb4f1dbcafc274f44b76d3d.png";
         }
 
         public override List<ManeuverTemplate> GetDefaultDropTemplates()

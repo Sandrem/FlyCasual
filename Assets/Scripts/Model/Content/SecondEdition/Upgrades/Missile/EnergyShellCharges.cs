@@ -28,7 +28,7 @@ namespace UpgradesList.SecondEdition
                restrictions: new UpgradeCardRestrictions(new ActionBarRestriction(typeof(CalculateAction)), new FactionRestriction(Faction.Separatists)),
                abilityType: typeof(Abilities.SecondEdition.EnergyShellChargesAbility)
             );
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/4b6213e5ed13735bb381df08bdd1398d.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/4b6213e5ed13735bb381df08bdd1398d.png";
         }
     }
 }

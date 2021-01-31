@@ -25,7 +25,7 @@ namespace UpgradesList.SecondEdition
             AnotherSide = typeof(GrapplingStrutsOpen);
             SelectSideOnSetup = false;
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/ca74271f47c42b390ca0ba0b389144a5.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/ca74271f47c42b390ca0ba0b389144a5.png";
         }
     }
 
@@ -46,7 +46,7 @@ namespace UpgradesList.SecondEdition
 
             AnotherSide = typeof(GrapplingStrutsClosed);
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/be82da17cfd39003fda380bead210eb9.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/be82da17cfd39003fda380bead210eb9.png";
         }
     }
 }

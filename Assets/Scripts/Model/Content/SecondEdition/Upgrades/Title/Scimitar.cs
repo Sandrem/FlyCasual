@@ -30,7 +30,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.ScimitarAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/73d545fd02afd29fa8aa9e9015e7be6e.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/73d545fd02afd29fa8aa9e9015e7be6e.png";
         }
     }
 }

@@ -25,7 +25,7 @@ namespace UpgradesList.SecondEdition
                 subType: UpgradeSubType.Bomb
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/e4c43791c16aea639f2e811c16d1dbcf.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e4c43791c16aea639f2e811c16d1dbcf.png";
 
             bombPrefabPath = "Prefabs/Bombs/IonBomb";
         }

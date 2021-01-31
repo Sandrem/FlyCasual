@@ -24,7 +24,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.K2B4Ability)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/2178079ef9488899e51e927b2e136572.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/2178079ef9488899e51e927b2e136572.png";
         }        
     }
 }

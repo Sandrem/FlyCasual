@@ -24,7 +24,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
             ModelInfo.SkinName = "Ahsoka Tano";
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/15f6bf84f63970c982dd722a5473217f.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/15f6bf84f63970c982dd722a5473217f.png";
         }
     }
 }

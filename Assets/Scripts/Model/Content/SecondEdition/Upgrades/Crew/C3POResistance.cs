@@ -29,7 +29,7 @@ namespace UpgradesList.SecondEdition
 
             NameCanonical = "c3po-crew";
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/a0e80bb89748e7415e945a050f82ba84.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a0e80bb89748e7415e945a050f82ba84.png";
         }        
     }
 }

@@ -22,7 +22,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.RushAbility)
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/886d715885da65bdf10ad7c68e4d0a93.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/886d715885da65bdf10ad7c68e4d0a93.png";
             }
         }
     }

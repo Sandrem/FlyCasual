@@ -20,7 +20,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.R1J5AstromechAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/07ef542a7250abbf79d27526f17ac879.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/07ef542a7250abbf79d27526f17ac879.png";
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Ship
 
                 ModelInfo.SkinName = "Blue";
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/d7f37dbb86bb706dd535e9a65b69149a.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/d7f37dbb86bb706dd535e9a65b69149a.png";
             }
         }
     }

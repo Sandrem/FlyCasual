@@ -21,7 +21,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.JessikaPavaAbility)
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/bc26d8864f421f1362473aa4982108ba.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/bc26d8864f421f1362473aa4982108ba.png";
             }
         }
     }

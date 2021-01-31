@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.KorrSellaAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/dd102b8e517399d12b17756a863d19ee.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/dd102b8e517399d12b17756a863d19ee.png";
         }        
     }
 }

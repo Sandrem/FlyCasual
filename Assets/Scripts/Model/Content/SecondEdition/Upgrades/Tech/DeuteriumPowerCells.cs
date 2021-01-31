@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.DeuteriumPowerCellsAbility)
             );
             
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/c0e458b69076138e2408664be131f61e.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/c0e458b69076138e2408664be131f61e.png";
         }
     }
 }

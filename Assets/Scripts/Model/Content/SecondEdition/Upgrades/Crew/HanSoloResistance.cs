@@ -25,7 +25,7 @@ namespace UpgradesList.SecondEdition
 
             NameCanonical = "hansolo-crew";
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/622ea4b573afbb5c95b3e9f2989a8aef.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/622ea4b573afbb5c95b3e9f2989a8aef.png";
         }        
     }
 }

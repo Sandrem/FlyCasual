@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 pilotTitle: "Time on Target"
             );
             
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/099422de35fb5ad2c2d238237e7dfe2c.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/099422de35fb5ad2c2d238237e7dfe2c.png";
         }
     }
 }

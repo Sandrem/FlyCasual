@@ -26,7 +26,7 @@ namespace UpgradesList.SecondEdition
 
             NameCanonical = "chewbacca-crew-swz19";
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/3090c218acff7dc71a81e791ce15860e.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3090c218acff7dc71a81e791ce15860e.png";
         }
     }
 }

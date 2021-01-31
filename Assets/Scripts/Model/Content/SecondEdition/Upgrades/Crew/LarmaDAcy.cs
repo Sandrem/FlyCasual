@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.LarmaDAcyAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/555a815e60cd7bf4612109c3fd65beaa.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/555a815e60cd7bf4612109c3fd65beaa.png";
         }        
     }
 }

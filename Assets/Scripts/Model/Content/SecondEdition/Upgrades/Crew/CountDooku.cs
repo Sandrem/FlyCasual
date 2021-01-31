@@ -24,7 +24,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.CountDookuCrewAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/a1920988dd8634d9780c6363e3f36f6e.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a1920988dd8634d9780c6363e3f36f6e.png";
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.NimiChereenAbility)
                 );
 
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c3/49/c349eef1-f13a-4c31-9b73-73dab884af41/swz68_nimi-chereen.png";
+                ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b5/Nimi_chireen.png";
             }
         }
     }

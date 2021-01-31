@@ -22,7 +22,7 @@ namespace UpgradesList.SecondEdition
                 charges: 1
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/a10d907fea50e32ab28d924c67486d37.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a10d907fea50e32ab28d924c67486d37.png";
         }        
     }
 }

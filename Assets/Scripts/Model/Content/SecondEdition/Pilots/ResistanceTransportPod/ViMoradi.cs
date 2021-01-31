@@ -23,7 +23,7 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 abilityType: typeof(ViMoradiAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/14139a2d20ff13b01bd5810371a89064.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/14139a2d20ff13b01bd5810371a89064.png";
         }
     }
 }

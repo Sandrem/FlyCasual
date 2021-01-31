@@ -22,7 +22,7 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 extraUpgradeIcon: UpgradeType.Talent
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/311d88e51a039b79e9a422ab3c475288.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/311d88e51a039b79e9a422ab3c475288.png";
         }
     }
 }

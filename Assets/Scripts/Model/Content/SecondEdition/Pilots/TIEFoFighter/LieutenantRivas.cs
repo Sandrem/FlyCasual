@@ -20,7 +20,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.LieutenantRivasAbility)
                 );
 
-                ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/7188ec2eb699261dbd47a15df6164f4c.png";
+                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/7188ec2eb699261dbd47a15df6164f4c.png";
             }
         }
     }

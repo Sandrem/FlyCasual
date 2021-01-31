@@ -27,7 +27,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.BlackOneAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/3e9870bff7f61acc12970c254eaeca89.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3e9870bff7f61acc12970c254eaeca89.png";
         }        
     }
 }

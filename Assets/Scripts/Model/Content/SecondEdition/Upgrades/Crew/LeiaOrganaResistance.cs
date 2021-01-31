@@ -31,7 +31,7 @@ namespace UpgradesList.SecondEdition
 
             NameCanonical = "leiaorgana-resistance";
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/0a194c8c529278b471e64edc597b06fc.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/0a194c8c529278b471e64edc597b06fc.png";
         }        
     }
 }

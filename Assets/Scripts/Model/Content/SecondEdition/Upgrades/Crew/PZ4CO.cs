@@ -25,7 +25,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.PZ4COAbility)
             );
 
-            ImageUrl = "https://sb-cdn.fantasyflightgames.com/card_images/en/11c5bdf18a62dc43bdda0834026dace2.png";
+            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/11c5bdf18a62dc43bdda0834026dace2.png";
         }        
     }
 }

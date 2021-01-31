@@ -165,4 +165,19 @@ public class RosterBuilderUI : MonoBehaviour {
         Global.SquadBuilder.View.FilterVisibleUpgrades(input.text.ToLower());
     }
 
+    public void ConfirmGoBack()
+    {
+        GameObject.Find("UI").transform.Find("ConfirmGoBack").gameObject.SetActive(false);
+        MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
+    }
+
+    public void ConfirmDontGoBack()
+    {
+        GameObject.Find("UI").transform.Find("ConfirmGoBack").gameObject.SetActive(false);
+    }
+
+    public void GoBackToFactionSelect()
+    {
+        GameObject.Find("UI").transform.Find("ConfirmGoBack").gameObject.SetActive(true);
+    }
 }

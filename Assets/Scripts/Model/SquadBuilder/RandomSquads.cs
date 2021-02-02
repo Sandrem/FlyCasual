@@ -1,6 +1,9 @@
 ﻿using Editions;
+using ExtraOptions.ExtraOptionsList;
 using Players;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace SquadBuilderNS
@@ -24,15 +27,30 @@ namespace SquadBuilderNS
 
         private static JSONObject GetRandomAiSquad()
         {
-            string directoryPath = Application.persistentDataPath + "/" + Edition.Current.Name + "/RandomAiSquadrons";
-            if (!Directory.Exists(directoryPath)) Directory.CreateDirectory(directoryPath);
+            string oldDirectoryPath = Application.persistentDataPath + "/" + Edition.Current.Name + "/RandomAiSquadrons";
+            if (Directory.Exists(oldDirectoryPath)) Directory.Move(oldDirectoryPath, oldDirectoryPath + "-IsNotUsedAnymore");
+
+            string directoryPathPrefix = Application.persistentDataPath + "/" + Edition.Current.Name + "/AiSquadrons";
+            if (!Directory.Exists(directoryPathPrefix)) Directory.CreateDirectory(directoryPathPrefix);
+            string directoryPathDefault = directoryPathPrefix + "/Default";
+            if (!Directory.Exists(directoryPathDefault)) Directory.CreateDirectory(directoryPathDefault);
 
             ManagePreGeneratedRandomAiSquads();
 
-            string[] filePaths = Directory.GetFiles(directoryPath);
-            if (filePaths.Length != 0)
+            string directoryPathCustom = directoryPathPrefix + "/Custom";
+            if (!Directory.Exists(directoryPathCustom)) Directory.CreateDirectory(directoryPathCustom);
+
+            List<string> filePaths = new List<string>();
+
+            if (!ExtraOptions.ExtraOptionsManager.ExtraOptions[typeof(NoDefaultAiSquadronsExtraOption)].IsOn)
             {
-                int randomFileIndex = UnityEngine.Random.Range(0, filePaths.Length);
+                filePaths.AddRange(Directory.GetFiles(directoryPathDefault).ToList());
+            }
+            filePaths.AddRange(Directory.GetFiles(directoryPathCustom).ToList());
+
+            if (filePaths.Count != 0)
+            {
+                int randomFileIndex = UnityEngine.Random.Range(0, filePaths.Count);
 
                 string content = File.ReadAllText(filePaths[randomFileIndex]);
                 JSONObject squadJson = new JSONObject(content);
@@ -49,7 +67,7 @@ namespace SquadBuilderNS
 
         private static void ManagePreGeneratedRandomAiSquads()
         {
-            string directoryPath = Application.persistentDataPath + "/" + Edition.Current.Name + "/RandomAiSquadrons";
+            string directoryPath = Application.persistentDataPath + "/" + Edition.Current.Name + "/AiSquadrons/Default";
 
             foreach (var squadron in Edition.Current.PreGeneratedAiSquadrons)
             {

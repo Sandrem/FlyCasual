@@ -18,7 +18,7 @@ namespace Players
 
             NickName = "HotAC AI";
             Title = "Protocol Droid";
-            Avatar = "UpgradesList.FirstEdition.C3PO";
+            Avatar = "UpgradesList.SecondEdition.C3PO";
 
             UsesHotacAiRules = true;
         }

@@ -424,6 +424,8 @@ namespace Editions
 
         public override UpgradeType XwsToUpgradeType(string upgradeXws)
         {
+            Debug.Log(upgradeXws);
+
             UpgradeType result = UpgradeType.Astromech;
 
             switch (upgradeXws)
@@ -432,6 +434,7 @@ namespace Editions
                     result = UpgradeType.ForcePower;
                     break;
                 case "tactical-relay":
+                case "tacticalrelay":
                     result = UpgradeType.TacticalRelay;
                     break;
                 default:

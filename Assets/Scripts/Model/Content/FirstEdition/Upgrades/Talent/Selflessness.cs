@@ -21,8 +21,6 @@ namespace UpgradesList.FirstEdition
                     new BaseSizeRestriction(BaseSize.Small)
                 )
             );
-
-            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(9, 0));
         }        
     }
 }

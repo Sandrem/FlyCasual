@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -22,6 +23,12 @@ namespace UpgradesList.SecondEdition
                 addForce: 1,
                 restriction: new FactionRestriction(Faction.Separatists),
                 abilityType: typeof(Abilities.SecondEdition.CountDookuCrewAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Separatists,
+                new Vector2(307, 1),
+                new Vector2(150, 150)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a1920988dd8634d9780c6363e3f36f6e.png";

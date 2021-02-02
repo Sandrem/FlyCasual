@@ -21,6 +21,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.CassianAndorCrewAbility),
                 seImageNumber: 81
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(373, 1),
+                new Vector2(200, 200)
+            );
         }        
     }
 }

@@ -7,6 +7,7 @@ using Tokens;
 using ActionsList;
 using System;
 using Actions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -27,6 +28,12 @@ namespace UpgradesList.SecondEdition
                 seImageNumber: 117,
                 charges: 2,
                 regensCharges: true
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(436, 10),
+                new Vector2(150, 150)
             );
         }        
     }

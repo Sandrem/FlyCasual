@@ -3,6 +3,7 @@ using Ship;
 using System;
 using System.Collections.Generic;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -22,6 +23,11 @@ namespace UpgradesList.SecondEdition
 
             SelectSideOnSetup = false;
             AnotherSide = typeof(CommanderMalarusPerfected);
+
+            Avatar = new AvatarInfo(
+                Faction.FirstOrder,
+                new Vector2(239, 1)
+            );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/6d/2a/6d2a8204-2de1-4b1e-8980-456501628a24/swz69_malarus_card.png";
         }

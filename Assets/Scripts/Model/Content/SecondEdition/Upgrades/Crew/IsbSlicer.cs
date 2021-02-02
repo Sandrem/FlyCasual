@@ -19,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.IsbSlicerAbility),
                 seImageNumber: 118
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(421, 1),
+                new Vector2(125, 125)
+            );
         }        
     }
 }

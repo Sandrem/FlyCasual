@@ -1,6 +1,5 @@
-﻿using ActionsList;
-using Ship;
-using System;
+﻿using System;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -18,6 +17,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.FifthBrotherGunnerAbility),
                 seImageNumber: 122
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(422, 14),
+                new Vector2(150, 150)
             );
         }        
     }

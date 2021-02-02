@@ -18,8 +18,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.BosskCrewAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(47, 1));
         }        
     }
 }

@@ -2,6 +2,7 @@
 using SquadBuilderNS;
 using System.Collections.Generic;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,6 +18,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.BT1Ability),
                 restriction: new FactionRestriction(Faction.Scum, Faction.Imperial),
                 seImageNumber: 140
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(400, 1),
+                new Vector2(150, 150)
             );
         }
 

@@ -22,7 +22,10 @@ namespace UpgradesList.SecondEdition
             );
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/f3740c47b0253ec848c4cfcdde195393.png";
 
-            Avatar = new AvatarInfo(Faction.Separatists, new Vector2(330, 42));
+            Avatar = new AvatarInfo(
+                Faction.Separatists,
+                new Vector2(330, 42)
+            );
         }
     }
 }

@@ -2,6 +2,7 @@
 using SubPhases;
 using System;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -21,6 +22,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.BazeMalbusCrewAbility),
                 seImageNumber: 79
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(427, 1),
+                new Vector2(150, 150)
             );
         }
     }

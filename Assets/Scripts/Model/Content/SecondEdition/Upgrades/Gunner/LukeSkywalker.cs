@@ -2,6 +2,7 @@
 using ActionsList;
 using Ship;
 using System;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -19,6 +20,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.LukeSkywalkerGunnerAbility),
                 seImageNumber: 98
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(509, 34)
             );
         }        
     }

@@ -3,6 +3,7 @@ using Upgrade;
 using System;
 using SubPhases;
 using BoardTools;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.BobaFettCrewAbility),
                 seImageNumber: 129
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(447, 1),
+                new Vector2(150, 150)
             );
         }        
     }

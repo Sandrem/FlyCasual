@@ -6,6 +6,7 @@ using Actions;
 using Tokens;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -21,6 +22,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 addActions: new List<ActionInfo> { new ActionInfo(typeof(CalculateAction)), new ActionInfo(typeof(JamAction)) },
                 abilityType: typeof(Abilities.SecondEdition.K2SOAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(233, 1)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e9/71/e97130c3-368d-4453-a0ff-51a63d30394c/swz66_k-2so_upgrade.png";

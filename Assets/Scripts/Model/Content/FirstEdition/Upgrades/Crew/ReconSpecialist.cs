@@ -18,7 +18,7 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.ReconSpecialistAbility)
             );
 
-            Avatar = new AvatarInfo(Faction.None, new Vector2(42, 3));
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(42, 3));
         }        
     }
 }

@@ -19,7 +19,10 @@ namespace UpgradesList.SecondEdition
                 seImageNumber: 109
             );
 
-            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(385, 11));
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(385, 11)
+            );
         }
     }
 }

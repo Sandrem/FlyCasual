@@ -4,6 +4,7 @@ using System;
 using Tokens;
 using System.Collections.Generic;
 using BoardTools;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -21,6 +22,11 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b6/39/b6395ed5-2a9c-46fd-9945-b906224aa05d/swz82_a1_upgrade_boba-fett.png";
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(233, 12)
+            );
 
             NameCanonical = "bobafett-gunner";
         }        

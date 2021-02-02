@@ -6,6 +6,7 @@ using System;
 using GameModes;
 using Movement;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.KaydelConnixCrewAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(251, 1)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/29a0eb418850a3821c38874daf0a6b0d.png";

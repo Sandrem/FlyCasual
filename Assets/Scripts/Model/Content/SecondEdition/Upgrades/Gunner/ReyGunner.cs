@@ -4,6 +4,7 @@ using BoardTools;
 using Ship;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -20,6 +21,11 @@ namespace UpgradesList.SecondEdition
                 addForce: 1,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.ReyGunnerAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(339, 1)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e11aec8ae6ec855694947bc2f9d1917e.png";

@@ -2,6 +2,7 @@
 using Ship;
 using ActionsList;
 using Actions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,6 +18,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.HanSoloScumGunnerAbility),
                 restriction: new FactionRestriction(Faction.Scum),
                 seImageNumber: 163
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(309, 1),
+                new Vector2(75, 75)
             );
 
             NameCanonical = "hansolo-gunner";

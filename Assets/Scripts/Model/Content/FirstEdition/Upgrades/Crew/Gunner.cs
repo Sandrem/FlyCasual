@@ -15,8 +15,6 @@ namespace UpgradesList.FirstEdition
                 cost: 5,
                 abilityType: typeof(Abilities.FirstEdition.GunnerAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.None, new Vector2(61, 1));
         }        
     }
 }

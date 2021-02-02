@@ -15,8 +15,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.HeraSyndullaCrewAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(36, 1));
         }        
     }
 }

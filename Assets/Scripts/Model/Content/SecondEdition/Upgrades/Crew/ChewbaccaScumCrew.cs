@@ -3,6 +3,7 @@ using Upgrade;
 using System;
 using Tokens;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.ChewbaccaScumCrewAbility),
                 seImageNumber: 157
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(283, 1),
+                new Vector2(150, 150)
             );
 
             NameCanonical = "chewbacca-crew";

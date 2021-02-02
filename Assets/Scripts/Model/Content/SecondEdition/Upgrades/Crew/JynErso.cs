@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using UnityEngine;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,6 +15,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.JynErsoAbility),
                 seImageNumber: 85
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(426, 18),
+                new Vector2(125, 125)
             );
         }        
     }

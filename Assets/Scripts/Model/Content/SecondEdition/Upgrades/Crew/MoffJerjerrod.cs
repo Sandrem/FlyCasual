@@ -4,6 +4,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 using ActionsList;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -26,8 +27,11 @@ namespace UpgradesList.SecondEdition
                 seImageNumber: 120
             );
 
-            // TODO: Avatar
-            // Avatar = new AvatarInfo(Faction.Imperial, new Vector2(385, 11));
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(417, 4),
+                new Vector2(150, 150)
+            );
         }
     }
 }

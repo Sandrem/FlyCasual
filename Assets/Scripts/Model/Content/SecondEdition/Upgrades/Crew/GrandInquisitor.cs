@@ -4,6 +4,7 @@ using System.Linq;
 using BoardTools;
 using ActionsList;
 using System;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.GrandInquisitorCrewAbility),
                 seImageNumber: 116
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(452, 10),
+                new Vector2(125, 125)
             );
         }
     }

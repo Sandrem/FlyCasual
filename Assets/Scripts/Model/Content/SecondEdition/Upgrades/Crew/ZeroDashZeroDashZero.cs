@@ -20,6 +20,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.ZeroDashZeroDashZeroAbility),
                 seImageNumber: 127
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(367, 1),
+                new Vector2(200, 200)
+            );
         }
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)

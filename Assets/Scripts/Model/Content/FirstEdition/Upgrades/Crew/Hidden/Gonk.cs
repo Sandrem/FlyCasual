@@ -15,9 +15,7 @@ namespace UpgradesList.FirstEdition
                 UpgradeType.Crew,
                 cost: 2,
                 isLimited: true
-            );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(20, 1));
+            );;
         }        
     }
 }

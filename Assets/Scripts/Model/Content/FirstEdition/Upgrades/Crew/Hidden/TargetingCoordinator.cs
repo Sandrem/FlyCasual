@@ -8,8 +8,6 @@ namespace UpgradesList.FirstEdition
     {
         public TargetingCoordinator() : base()
         {
-            IsHidden = true;
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Targeting Coordinator",
                 UpgradeType.Crew,
@@ -17,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 isLimited: true
             );
 
-            Avatar = new AvatarInfo(Faction.None, new Vector2(39, 1));
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(39, 1));
         }        
     }
 }

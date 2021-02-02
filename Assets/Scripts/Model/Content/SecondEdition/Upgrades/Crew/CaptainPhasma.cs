@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Tokens;
 using BoardTools;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.FirstOrder),
                 abilityType: typeof(Abilities.SecondEdition.CaptainPhasmaCrewAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.FirstOrder,
+                new Vector2(323, 2),
+                new Vector2(75, 75)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/784566afc8c540d5e392689865207059.png";

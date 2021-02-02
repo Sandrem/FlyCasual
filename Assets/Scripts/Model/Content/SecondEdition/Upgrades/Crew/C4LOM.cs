@@ -2,6 +2,7 @@
 using SubPhases;
 using System;
 using System.Linq;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -18,6 +19,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.C4LOMAbility),
                 seImageNumber: 128
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(393, 10)
             );
         }
     }

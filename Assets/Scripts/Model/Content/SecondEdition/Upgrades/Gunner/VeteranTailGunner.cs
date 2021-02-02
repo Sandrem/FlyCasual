@@ -2,6 +2,7 @@
 using Ship;
 using Arcs;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,6 +17,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.VeteranTailGunnerAbility),
                 restriction: new ArcRestriction(ArcType.Rear),
                 seImageNumber: 51
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(409, 32),
+                new Vector2(125, 125)
             );
         }
     }

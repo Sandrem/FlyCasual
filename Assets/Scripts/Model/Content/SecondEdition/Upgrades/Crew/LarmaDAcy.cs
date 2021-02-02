@@ -5,6 +5,7 @@ using ActionsList;
 using System;
 using System.Collections.Generic;
 using Actions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,6 +20,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.LarmaDAcyAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(261, 1)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/555a815e60cd7bf4612109c3fd65beaa.png";

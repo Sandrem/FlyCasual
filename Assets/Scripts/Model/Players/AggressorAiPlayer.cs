@@ -19,7 +19,7 @@ namespace Players
 
             NickName = "Aggressor";
             Title = "Assassin Droid";
-            Avatar = "UpgradesList.FirstEdition.IG88D";
+            Avatar = "UpgradesList.SecondEdition.IG88D";
         }
 
         public override void AssignManeuversStart()

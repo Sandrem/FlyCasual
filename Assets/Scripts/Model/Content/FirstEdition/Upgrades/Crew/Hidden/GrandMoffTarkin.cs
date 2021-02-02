@@ -16,8 +16,6 @@ namespace UpgradesList.FirstEdition
                 cost: 6,
                 isLimited: true
             );
-
-            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(68, 1));
         }        
     }
 }

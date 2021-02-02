@@ -9,6 +9,7 @@ using SubPhases;
 using Tokens;
 using BoardTools;
 using Conditions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -26,6 +27,11 @@ namespace UpgradesList.SecondEdition
                 regensCharges: true,
                 addAction: new ActionInfo(typeof(CalculateAction)),
                 abilityType: typeof(Abilities.SecondEdition.GA97Ability)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Republic,
+                new Vector2(339, 12)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3af44c6d32812dc07238b40842d67b47.png";

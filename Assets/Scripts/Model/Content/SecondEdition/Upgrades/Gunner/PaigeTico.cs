@@ -7,6 +7,7 @@ using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -22,6 +23,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.PaigeTicoAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(295, 1)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/9dc15f634233b5daba107a07aa63d04c.png";

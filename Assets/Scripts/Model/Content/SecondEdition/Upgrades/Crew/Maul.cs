@@ -3,6 +3,7 @@ using Upgrade;
 using ActionsList;
 using Actions;
 using SquadBuilderNS;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,6 +20,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum, Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.MaulCrewAbility),
                 seImageNumber: 136
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(418, 15)
             );
         }
 

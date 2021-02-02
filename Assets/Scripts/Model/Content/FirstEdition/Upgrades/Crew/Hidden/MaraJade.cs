@@ -8,8 +8,6 @@ namespace UpgradesList.FirstEdition
     {
         public MaraJade() : base()
         {
-            IsHidden = true;
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Mara Jade",
                 UpgradeType.Crew,

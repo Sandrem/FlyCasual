@@ -18,6 +18,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.NienNunbCrewAbility),
                 seImageNumber: 90
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(429, 21),
+                new Vector2(150, 150)
+            );
         }        
     }
 }

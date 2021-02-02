@@ -1,6 +1,7 @@
 ﻿using System;
 using ActionsList;
 using Ship;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -16,6 +17,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.GonkCrewAbility),
                 charges: 1,
                 seImageNumber: 43
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(342, 2),
+                new Vector2(200, 200)
             );
         }        
     }

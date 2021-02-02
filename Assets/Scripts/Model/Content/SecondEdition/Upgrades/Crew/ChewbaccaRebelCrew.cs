@@ -3,6 +3,7 @@ using Upgrade;
 using System;
 using System.Linq;
 using SubPhases;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,12 @@ namespace UpgradesList.SecondEdition
                 regensCharges: true,
                 abilityType: typeof(Abilities.SecondEdition.ChewbaccaRebelCrewAbility),
                 seImageNumber: 82
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(434, 26),
+                new Vector2(150, 150)
             );
         }
     }

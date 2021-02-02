@@ -1,6 +1,7 @@
 ﻿using Ship;
 using Upgrade;
 using ActionsList;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,6 +16,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.RoseTicoAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(301, 3)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/60ac08169a90794c33d1d582f1a08480.png";

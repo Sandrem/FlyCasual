@@ -6,6 +6,7 @@ using ActionsList;
 using SubPhases;
 using System;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -24,6 +25,11 @@ namespace UpgradesList.SecondEdition
                 ),
                 abilityType: typeof(Abilities.SecondEdition.CienaReeCrewAbility),
                 seImageNumber: 111
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(445, 12)
             );
         }
     }

@@ -19,8 +19,6 @@ namespace UpgradesList.FirstEdition
                 cost: 1,
                 abilityType: typeof(Abilities.FirstEdition.BombardierAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.None, new Vector2(23, 1));
         }        
     }
 }

@@ -3,6 +3,7 @@ using SubPhases;
 using System;
 using System.Linq;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -17,6 +18,11 @@ namespace UpgradesList.SecondEdition
                 cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.FreelanceSlicerCrewAbility),
                 seImageNumber: 42
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(369, 7)
             );
         }
     }

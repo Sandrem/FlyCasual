@@ -2,6 +2,7 @@
 using Obstacles;
 using Ship;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -11,13 +12,19 @@ namespace UpgradesList.SecondEdition
         public QiRa()
         {
             UpgradeInfo = new UpgradeCardInfo(
-            "Qi'Ra",
-            UpgradeType.Crew,
-            cost: 2,
-            abilityType: typeof(Abilities.SecondEdition.QiRaAbility),
-            seImageNumber: 161,
-            isLimited: true,
-            restriction: new FactionRestriction(Faction.Scum));
+                "Qi'Ra",
+                UpgradeType.Crew,
+                cost: 2,
+                abilityType: typeof(Abilities.SecondEdition.QiRaAbility),
+                seImageNumber: 161,
+                isLimited: true,
+                restriction: new FactionRestriction(Faction.Scum)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(269, 9)
+            );
         }
     }
 }

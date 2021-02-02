@@ -15,8 +15,9 @@ public class AvatarFromUpgrade : MonoBehaviour {
     private GenericUpgrade Upgrade;
     private AvatarInfo Avatar;
     private Action<string> OnClick;
+    public Action OnDownloaded;
 
-    public void Initialize(string upgradeType, Action<string> onClick = null)
+    public void Initialize(string upgradeType, Action<string> onClick = null, Action onDownloaded = null)
     {
         UpgradeType = upgradeType;
 
@@ -30,6 +31,7 @@ public class AvatarFromUpgrade : MonoBehaviour {
         Upgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeType));
         Avatar = Upgrade.Avatar;
         OnClick = onClick;
+        OnDownloaded = onDownloaded;
 
         this.gameObject.SetActive(false);
         LoadTooltipImage(this.gameObject, (Upgrade.GetType().ToString().Contains("UpgradesList.FirstEdition")) ? Upgrade.ImageUrlFE : Upgrade.ImageUrl);
@@ -47,16 +49,19 @@ public class AvatarFromUpgrade : MonoBehaviour {
                 {
                     if (!TextureCache.Cache.ContainsKey(url)) TextureCache.Cache.Add(url, texture); //Since we did not scale/modify this texture, just cache using the url for future use
                     SetObjectSprite(thisGameObject, texture);
+                    OnDownloaded?.Invoke();
                 }
                 else
                 {
                     ShowTextVersionOfCard();
+                    OnDownloaded?.Invoke();
                 }
             }, url));
         }
         else
         {
             SetObjectSprite(thisGameObject, TextureCache.Cache[url]);
+            OnDownloaded?.Invoke();
         }
     }
 

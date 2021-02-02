@@ -4,6 +4,7 @@ using Arcs;
 using System.Linq;
 using BoardTools;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,6 +20,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.BistanGunnerAbility),
                 restriction: new FactionRestriction(Faction.Rebel),
                 seImageNumber: 95
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(397, 4),
+                new Vector2(125, 125)
             );
         }
     }

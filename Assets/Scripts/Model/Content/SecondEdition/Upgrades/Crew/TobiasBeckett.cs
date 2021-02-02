@@ -5,6 +5,7 @@ using SubPhases;
 using BoardTools;
 using Bombs;
 using Obstacles;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.TobiasBeckettAbility),
                 seImageNumber: 160
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(342, 6)
             );
         }        
     }

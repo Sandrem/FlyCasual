@@ -4,6 +4,7 @@ using ActionsList;
 using System;
 using BoardTools;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Republic),
                 charges: 1,
                 abilityType: typeof(Abilities.SecondEdition.SeventhFleetGunnerAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Republic,
+                new Vector2(289, 59),
+                new Vector2(50, 50)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a532c1de311e8d0a288af8232495a007.png";

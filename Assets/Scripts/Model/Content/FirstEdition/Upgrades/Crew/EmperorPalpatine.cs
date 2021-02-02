@@ -22,8 +22,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.FirstEdition.EmperorPalpatineCrewAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(68, 9));
         }        
     }
 }

@@ -5,6 +5,7 @@ using SubPhases;
 using Actions;
 using Tokens;
 using System;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.ChopperCrewAbility),
                 seImageNumber: 83
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(349, 57)
             );
 
             NameCanonical = "chopper-crew";

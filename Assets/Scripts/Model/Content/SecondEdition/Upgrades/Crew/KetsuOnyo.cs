@@ -1,6 +1,7 @@
 ﻿using BoardTools;
 using Ship;
 using SubPhases;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -17,6 +18,11 @@ namespace UpgradesList.SecondEdition
                 seImageNumber: 134,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(424, 6)
             );
         }
     }

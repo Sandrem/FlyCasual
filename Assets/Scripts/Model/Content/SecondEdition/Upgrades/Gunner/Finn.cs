@@ -2,6 +2,7 @@
 using Upgrade;
 using Arcs;
 using ActionsList;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,6 +17,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.FinnAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(349, 1)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/79477be319935f42270f1712cd269dff.png";

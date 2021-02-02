@@ -6,6 +6,7 @@ using System;
 using SubPhases;
 using BoardTools;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -22,6 +23,11 @@ namespace UpgradesList.SecondEdition
                 addAction: new ActionInfo(typeof(ReinforceAction), ActionColor.Purple),
                 abilityType: typeof(Abilities.SecondEdition.PloKoonCrewAbility),
                 addForce: 1
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Republic,
+                new Vector2(235, 1)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/9a/a5/9aa5ef62-7c41-425d-9f27-01369d3e1571/swz70_a1_plo-koon_upgrade.png";

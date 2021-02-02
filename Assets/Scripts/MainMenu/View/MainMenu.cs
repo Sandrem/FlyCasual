@@ -123,6 +123,9 @@ public partial class MainMenu : MonoBehaviour {
             case "BrowsePopularSquadsVariantsPanel":
                 PopularSquads.LoadPopularSquadsVariants();
                 break;
+            case "BrowseAvatarsPanel":
+                AvatarsManager.LoadAvatars(Faction.None);
+                break;
         }
     }
 
@@ -188,6 +191,11 @@ public partial class MainMenu : MonoBehaviour {
     public void SetFaction(string factionChar)
     {
         PopularSquads.SetFaction(factionChar);
+    }
+
+    public void SetFactionForAvatars(string factionChar)
+    {
+        AvatarsManager.LoadAvatars(factionChar);
     }
 
 }

@@ -18,8 +18,6 @@ namespace UpgradesList.FirstEdition
                 isLimited: true,
                 abilityType: typeof(Abilities.FirstEdition.TailGunnerAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(45, 0));
         }        
     }
 }

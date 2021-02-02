@@ -8,8 +8,6 @@ namespace UpgradesList.FirstEdition
     {
         public YsanneIsard() : base()
         {
-            IsHidden = true;
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Ysanne Isard",
                 UpgradeType.Crew,

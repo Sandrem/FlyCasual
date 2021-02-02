@@ -2,6 +2,7 @@
 using SubPhases;
 using System;
 using System.Linq;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -18,6 +19,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumAbility),
                 seImageNumber: 159
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(312, 4)
             );
 
             NameCanonical = "landocalrissian-crew";

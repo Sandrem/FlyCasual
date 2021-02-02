@@ -17,8 +17,6 @@ namespace UpgradesList.FirstEdition
                 cost: 1,
                 abilityType: typeof(Abilities.FirstEdition.RageAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(53, 1));
         }        
     }
 }

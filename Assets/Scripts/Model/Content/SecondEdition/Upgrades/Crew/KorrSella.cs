@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Tokens;
 using BoardTools;
 using System;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,6 +20,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.KorrSellaAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(255, 1)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/dd102b8e517399d12b17756a863d19ee.png";

@@ -17,8 +17,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.NienNunbCrewAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(50, 1));
         }        
     }
 }

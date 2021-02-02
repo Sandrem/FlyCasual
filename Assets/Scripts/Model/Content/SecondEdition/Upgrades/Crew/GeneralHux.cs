@@ -7,6 +7,7 @@ using BoardTools;
 using ActionsList;
 using System;
 using Actions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -24,6 +25,11 @@ namespace UpgradesList.SecondEdition
                     new ActionBarRestriction(typeof(CoordinateAction))
                 ),
                 abilityType: typeof(Abilities.SecondEdition.GeneralHuxAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.FirstOrder,
+                new Vector2(326, 1)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/fa0b8492eff625bc66f00bd561015465.png";

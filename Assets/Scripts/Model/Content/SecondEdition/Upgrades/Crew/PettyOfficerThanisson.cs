@@ -4,6 +4,7 @@ using Arcs;
 using SubPhases;
 //using System.Collections.Generic;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,7 +20,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.FirstOrder),
                 abilityType: typeof(Abilities.SecondEdition.PettyOfficerThanissonCrewAbility)
             );
-            
+
+            Avatar = new AvatarInfo(
+                Faction.FirstOrder,
+                new Vector2(308, 1)
+            );
+
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/900397d209adfd3f7bd6429909cc20cc.png";
         }        
     }

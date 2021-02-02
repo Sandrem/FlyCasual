@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using ActionsList;
 using Actions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,6 +20,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.MinisterTuaCrewAbility),
                 seImageNumber: 119
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(416, 1),
+                new Vector2(125, 125)
             );
         }        
     }

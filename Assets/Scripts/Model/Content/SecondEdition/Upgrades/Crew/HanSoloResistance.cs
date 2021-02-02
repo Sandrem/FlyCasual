@@ -6,6 +6,7 @@ using ActionsList;
 using System;
 using BoardTools;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -24,6 +25,12 @@ namespace UpgradesList.SecondEdition
             );
 
             NameCanonical = "hansolo-crew";
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(298, 1),
+                new Vector2(150, 150)
+            );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/622ea4b573afbb5c95b3e9f2989a8aef.png";
         }        

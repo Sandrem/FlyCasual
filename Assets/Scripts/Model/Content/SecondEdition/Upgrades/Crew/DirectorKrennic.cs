@@ -7,6 +7,7 @@ using Tokens;
 using ActionsList;
 using System;
 using Actions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -23,6 +24,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.DirectorKrennicAbility),
                 seImageNumber: 114
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(381, 0),
+                new Vector2(150, 150)
             );
         }        
     }

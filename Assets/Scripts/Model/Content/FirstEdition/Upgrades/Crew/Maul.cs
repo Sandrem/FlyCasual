@@ -19,8 +19,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Scum, Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.MaulCrewAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(59, 0));
         }
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)

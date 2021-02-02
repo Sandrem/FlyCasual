@@ -2,6 +2,7 @@
 using Upgrade;
 using System.Collections.Generic;
 using Movement;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -13,8 +14,14 @@ namespace UpgradesList.SecondEdition
                 "Seasoned Navigator",
                 UpgradeType.Crew,
                 cost: 3,
-                abilityType: typeof(Abilities.SecondEdition.SeasonedNavigator),
+                abilityType: typeof(Abilities.SecondEdition.SeasonedNavigatorAbility),
                 seImageNumber: 47
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(369, 24),
+                new Vector2(125, 125)
             );
         }
 
@@ -40,7 +47,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class SeasonedNavigator : GenericAbility
+    public class SeasonedNavigatorAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

@@ -16,7 +16,7 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.WeaponsEngineerAbility)
             );
 
-            Avatar = new AvatarInfo(Faction.None, new Vector2(60, 1));
+            Avatar = new AvatarInfo(Faction.Scum, new Vector2(60, 1));
         }        
     }
 }

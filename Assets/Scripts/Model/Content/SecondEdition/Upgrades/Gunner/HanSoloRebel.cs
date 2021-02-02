@@ -7,6 +7,7 @@ using System;
 using BoardTools;
 using Tokens;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -22,6 +23,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.HanSoloRebelGunnerAbility),
                 seImageNumber: 97
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(477, 4),
+                new Vector2(150, 150)
             );
         }        
     }

@@ -6,6 +6,7 @@ using Actions;
 using Tokens;
 using System;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -22,6 +23,12 @@ namespace UpgradesList.SecondEdition
                 addAction: new ActionInfo(typeof(CalculateAction)),
                 abilityType: typeof(Abilities.SecondEdition.C3P0RebelCrewAbility),
                 seImageNumber: 80
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(390, 6),
+                new Vector2(150, 150)
             );
         }        
     }

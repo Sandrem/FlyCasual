@@ -3,6 +3,7 @@ using Upgrade;
 using System.Collections.Generic;
 using BoardTools;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -22,6 +23,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.DeathTroopersAbility),
                 seImageNumber: 113
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(436, 1)
             );
         }        
     }

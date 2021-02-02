@@ -21,8 +21,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.FirstEdition.DirectorKrennicAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(71, 1));
         }        
     }
 }

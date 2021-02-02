@@ -4,6 +4,7 @@ using SubPhases;
 using Conditions;
 using Tokens;
 using BoardTools;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.InformantAbility),
                 seImageNumber: 44
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(474, 20)
             );
         }        
     }

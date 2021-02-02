@@ -3,6 +3,7 @@ using Upgrade;
 using SubPhases;
 using System.Linq;
 using Movement;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,12 @@ namespace UpgradesList.SecondEdition
                 regensCharges: true,
                 abilityType: typeof(Abilities.SecondEdition.LeiaOrganaAbility),
                 seImageNumber: 88
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(505, 0),
+                new Vector2(150, 150)
             );
         }        
     }

@@ -16,8 +16,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.SawGerreraCrewAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(60, 2), new Vector2(140, 140));
         }        
     }
 }

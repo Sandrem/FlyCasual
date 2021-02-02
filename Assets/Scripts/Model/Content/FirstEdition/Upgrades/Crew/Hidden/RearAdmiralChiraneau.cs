@@ -8,8 +8,6 @@ namespace UpgradesList.FirstEdition
     {
         public RearAdmiralChiraneau() : base()
         {
-            IsHidden = true;
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Rear Admiral Chiraneau",
                 UpgradeType.Crew,

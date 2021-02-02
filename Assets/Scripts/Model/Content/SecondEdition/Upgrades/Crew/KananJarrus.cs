@@ -21,6 +21,11 @@ namespace UpgradesList.SecondEdition
                 addForce: 1,
                 seImageNumber: 86
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(409, 10)
+            );
         }        
     }
 }

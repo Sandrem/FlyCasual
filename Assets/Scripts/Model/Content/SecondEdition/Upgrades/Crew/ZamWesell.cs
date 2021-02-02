@@ -4,6 +4,7 @@ using System.Linq;
 using Tokens;
 using System;
 using Conditions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,6 +20,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Separatists, Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.ZamWesellCrewAbility),
                 charges: 2
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(239, 1)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/77/bd/77bd5f12-05de-4c34-9e5a-e8dfa636de52/swz82_a1_upgrade_zam-wessel.png";

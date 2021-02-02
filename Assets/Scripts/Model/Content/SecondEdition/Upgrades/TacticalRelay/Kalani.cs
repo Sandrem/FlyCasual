@@ -9,6 +9,7 @@ using BoardTools;
 using SubPhases;
 using Tokens;
 using Arcs;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -27,6 +28,11 @@ namespace UpgradesList.SecondEdition
                 regensChargesCount: 3,
                 restriction: new FactionRestriction(Faction.Separatists),
                 abilityType: typeof(Abilities.SecondEdition.KalaniAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Separatists,
+                new Vector2(200, 1)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/81/b3/81b32459-3421-4da7-8a45-9bbdbcf1bc31/swz71_upgrade_kalani.png";

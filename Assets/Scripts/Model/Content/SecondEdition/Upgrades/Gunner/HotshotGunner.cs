@@ -5,6 +5,7 @@ using Tokens;
 using System.Linq;
 using ActionsList;
 using System;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 cost: 7,
                 abilityType: typeof(Abilities.SecondEdition.HotshotGunnerAbility),
                 seImageNumber: 49
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(355, 9),
+                new Vector2(125, 125)
             );
         }        
     }

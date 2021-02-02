@@ -4,6 +4,7 @@ using ActionsList;
 using Actions;
 using System;
 using SubPhases;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,11 @@ namespace UpgradesList.SecondEdition
                 addAction: new ActionInfo(typeof(EvadeAction), ActionColor.Purple),
                 abilityType: typeof(Abilities.SecondEdition.KitFistoAbility),
                 addForce: 1
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Republic,
+                new Vector2(261, 1)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/18/f5/18f5a7f6-8fce-4dba-b6cf-f5c739f807ca/swz70_a1_kit-fisto_upgrade.png";

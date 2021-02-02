@@ -3,8 +3,6 @@ using Upgrade;
 using System.Linq;
 using Tokens;
 using System;
-using GameModes;
-using Movement;
 using System.Collections.Generic;
 using UnityEngine;
 using SubPhases;
@@ -22,6 +20,12 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.AmilynHoldoCrewAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(315, 15),
+                new Vector2(75, 75)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/cbe5e849e9daa4f3f968b2ff6e2879b1.png";

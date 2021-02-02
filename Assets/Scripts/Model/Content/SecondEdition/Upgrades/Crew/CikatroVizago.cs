@@ -21,6 +21,11 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.CikatroVizagoAbility),
                 seImageNumber: 131
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(417, 23)
+            );
         }        
     }
 }

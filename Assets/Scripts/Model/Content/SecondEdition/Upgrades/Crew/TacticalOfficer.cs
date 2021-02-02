@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Abilities;
 using ActionsList;
 using Actions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 addAction: new ActionInfo(typeof(CoordinateAction)),
                 restriction: new ActionBarRestriction(typeof(CoordinateAction), ActionColor.Red),
                 seImageNumber: 48
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(550, 3),
+                new Vector2(125, 125)
             );
         }
     }

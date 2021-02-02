@@ -3,6 +3,7 @@ using Upgrade;
 using ActionsList;
 using System;
 using Abilities;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,6 +18,12 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Republic),
                 abilityType: typeof(Abilities.SecondEdition.CloneCaptainRexAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Republic,
+                new Vector2(235, 1),
+                new Vector2(75, 75)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/41/90/4190fb29-a8d8-4576-b112-48df9944fc4c/swz70_a1_cpt-rex_upgrade.png";

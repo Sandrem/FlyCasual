@@ -2,6 +2,7 @@
 using SubPhases;
 using System;
 using System.Linq;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.LandoCalrissianRebelAbility),
                 seImageNumber: 87
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(379, 8),
+                new Vector2(150, 150)
             );
         }
     }

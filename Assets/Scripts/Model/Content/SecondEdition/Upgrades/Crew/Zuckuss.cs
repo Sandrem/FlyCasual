@@ -2,6 +2,7 @@
 using Upgrade;
 using System.Linq;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,6 +18,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.ZuckussCrewAbility),
                 seImageNumber: 138
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(467, 1),
+                new Vector2(125, 125)
             );
         }        
     }

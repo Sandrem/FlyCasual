@@ -20,7 +20,7 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.ExperimentalInterfaceAbility)
             );
 
-            Avatar = new AvatarInfo(Faction.None, new Vector2(55, 4));
+            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(55, 4));
         }
     }
 }

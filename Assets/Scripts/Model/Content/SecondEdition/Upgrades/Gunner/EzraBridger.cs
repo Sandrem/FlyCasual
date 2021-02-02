@@ -5,6 +5,7 @@ using System.Linq;
 using BoardTools;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -21,6 +22,11 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.EzraBridgerGunnerAbility),
                 restriction: new FactionRestriction(Faction.Rebel),
                 seImageNumber: 96
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(397, 13)
             );
         }
     }

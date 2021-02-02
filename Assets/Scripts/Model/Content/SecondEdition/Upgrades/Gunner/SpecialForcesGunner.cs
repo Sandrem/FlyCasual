@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Ship;
 using Arcs;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,6 +18,11 @@ namespace UpgradesList.SecondEdition
                     new ShipRestriction(typeof(Ship.SecondEdition.TIESfFighter.TIESfFighter))
                 ),
                 abilityType: typeof(Abilities.SecondEdition.SpecialForcesGunnerAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.FirstOrder,
+                new Vector2(336, 1)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/d3aed19c7eb6f9ebc2352ac49cdd6b87.png";

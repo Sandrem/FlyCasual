@@ -6,6 +6,7 @@ using ActionsList;
 using Actions;
 using System;
 using BoardTools;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -21,6 +22,11 @@ namespace UpgradesList.SecondEdition
                 isSolitary: true,
                 restriction: new FactionRestriction(Faction.Separatists),
                 abilityType: typeof(Abilities.SecondEdition.TV94Ability)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Separatists,
+                new Vector2(192, 1)
             );
 
             ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/9/97/TacRelay_TV-94.png";

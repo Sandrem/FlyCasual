@@ -21,6 +21,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.AgentKallusAbility),
                 seImageNumber: 110
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(409, 15),
+                new Vector2(125, 125)
+            );
         }        
     }
 }

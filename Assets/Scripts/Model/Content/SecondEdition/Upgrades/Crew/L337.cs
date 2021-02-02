@@ -8,6 +8,7 @@ using BoardTools;
 using System.Linq;
 using Movement;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -22,6 +23,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.L337CrewAbility),
                 seImageNumber: 158
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(315, 1)
             );
 
             SelectSideOnSetup = false;

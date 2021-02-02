@@ -17,8 +17,6 @@ namespace UpgradesList.FirstEdition
                 cost: 4,
                 abilityType: typeof(Abilities.FirstEdition.FlightInstructorAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(32, 1));
         }        
     }
 }

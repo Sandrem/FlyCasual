@@ -18,8 +18,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.OutlawTechAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(50, 4));
         }        
     }
 }

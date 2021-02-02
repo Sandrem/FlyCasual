@@ -18,6 +18,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.MagvaYarroCrewAbility),
                 seImageNumber: 89
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(431, 1),
+                new Vector2(125, 125)
+            );
         }        
     }
 }

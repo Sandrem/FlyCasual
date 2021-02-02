@@ -25,6 +25,11 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.EmperorPalpatineCrewAbility),
                 seImageNumber: 115
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(450, 16)
+            );
         }
     }
 }

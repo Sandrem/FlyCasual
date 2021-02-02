@@ -18,8 +18,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.FinnAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(53, 0));
         }        
     }
 }

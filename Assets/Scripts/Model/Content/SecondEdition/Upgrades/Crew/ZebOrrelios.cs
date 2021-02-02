@@ -18,6 +18,11 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.ZebOrreliosCrewAbility),
                 seImageNumber: 94
             );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(391, 9)
+            );
         }        
     }
 }

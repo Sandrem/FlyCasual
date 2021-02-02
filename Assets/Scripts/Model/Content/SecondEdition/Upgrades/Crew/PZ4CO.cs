@@ -8,6 +8,7 @@ using System;
 using BoardTools;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -23,6 +24,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Resistance),
                 addAction: new ActionInfo(typeof(CalculateAction)),
                 abilityType: typeof(Abilities.SecondEdition.PZ4COAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Resistance,
+                new Vector2(269, 7),
+                new Vector2(125, 125)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/11c5bdf18a62dc43bdda0834026dace2.png";

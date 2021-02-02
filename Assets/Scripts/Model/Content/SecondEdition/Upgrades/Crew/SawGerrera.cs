@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Ship;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,6 +17,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.FirstEdition.SawGerreraCrewAbility),
                 seImageNumber: 93
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(384, 0),
+                new Vector2(200, 200)
             );
         }        
     }

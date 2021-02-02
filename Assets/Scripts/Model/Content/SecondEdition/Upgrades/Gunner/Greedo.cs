@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,6 +18,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 charges: 1,
                 seImageNumber: 142
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(497, 27),
+                new Vector2(150, 150)
             );
         }
     }

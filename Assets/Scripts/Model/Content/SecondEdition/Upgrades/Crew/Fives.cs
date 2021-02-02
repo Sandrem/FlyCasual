@@ -6,6 +6,7 @@ using Movement;
 using System;
 using Tokens;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Republic),
                 abilityType: typeof(Abilities.SecondEdition.FivesAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Republic,
+                new Vector2(227, 9)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fa/fe/fafeeec4-919f-4968-b26f-93f3cdda03b3/swz70_a1_fives_upgrade.png";

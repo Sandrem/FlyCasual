@@ -4,6 +4,7 @@ using System.Linq;
 using Tokens;
 using SubPhases;
 using System;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.FirstOrder),
                 abilityType: typeof(Abilities.SecondEdition.CommanderPyreAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.FirstOrder,
+                new Vector2(259, 1),
+                new Vector2(75, 75)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/10/5d/105d386c-ff1b-44be-9b9c-a2c1dc2877ec/swz69_pyre_card.png";

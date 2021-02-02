@@ -17,8 +17,6 @@ namespace UpgradesList.FirstEdition
                 cost: 1,
                 isLimited: true
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(79, 1));
         }        
     }
 }

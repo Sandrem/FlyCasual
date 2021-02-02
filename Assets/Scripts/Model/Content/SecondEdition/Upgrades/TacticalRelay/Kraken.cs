@@ -8,6 +8,7 @@ using System;
 using BoardTools;
 using SubPhases;
 using Tokens;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -24,6 +25,11 @@ namespace UpgradesList.SecondEdition
                 addAction: new ActionInfo(typeof(CalculateAction), ActionColor.White, this),
                 restriction: new FactionRestriction(Faction.Separatists),
                 abilityType: typeof(Abilities.SecondEdition.KrakenAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Separatists,
+                new Vector2(209, 1)
             );
 
             ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/7/77/Swz29_kraken.png";

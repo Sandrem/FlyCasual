@@ -4,6 +4,7 @@ using SubPhases;
 using System;
 using BoardTools;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,11 @@ namespace UpgradesList.SecondEdition
                 addForce: 1,
                 abilityType: typeof(Abilities.SecondEdition.DarthVaderCrewAbility),
                 seImageNumber: 112
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(429, 24)
             );
         }        
     }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using SubPhases;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -24,6 +25,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.JabbaTheHuttAbility),
                 seImageNumber: 133
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(388, 2),
+                new Vector2(200, 200)
             );
         }        
     }

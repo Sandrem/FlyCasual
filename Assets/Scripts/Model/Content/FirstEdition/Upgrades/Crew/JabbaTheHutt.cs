@@ -23,8 +23,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.JabbaTheHuttAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(58, 5));
         }        
     }
 }

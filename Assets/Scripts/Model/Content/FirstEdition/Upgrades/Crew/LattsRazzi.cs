@@ -18,8 +18,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.LattsRazziCrewAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(37, 0));
         }        
     }
 }

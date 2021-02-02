@@ -2,6 +2,7 @@
 using SubPhases;
 using System;
 using System.Linq;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -16,6 +17,11 @@ namespace UpgradesList.SecondEdition
                 cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.NoviceTechnicianCrewAbility),
                 seImageNumber: 45
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(418, 21)
             );
         }
     }

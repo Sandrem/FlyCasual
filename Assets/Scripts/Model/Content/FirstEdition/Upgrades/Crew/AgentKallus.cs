@@ -1,6 +1,5 @@
 ﻿using Ship;
 using Upgrade;
-using UnityEngine;
 
 namespace UpgradesList.FirstEdition
 {
@@ -16,8 +15,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.FirstEdition.AgentKallusAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Imperial, new Vector2(43, 1));
         }        
     }
 }

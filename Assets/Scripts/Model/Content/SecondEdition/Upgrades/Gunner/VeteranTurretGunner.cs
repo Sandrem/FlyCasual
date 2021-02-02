@@ -6,6 +6,7 @@ using ActionsList;
 using Actions;
 using BoardTools;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,12 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.VeteranTurretGunnerAbility),
                 restriction: new ActionBarRestriction(typeof(RotateArcAction)),
                 seImageNumber: 52
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(423, 17),
+                new Vector2(150, 150)
             );
         }
 

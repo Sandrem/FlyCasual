@@ -16,8 +16,6 @@ namespace UpgradesList.FirstEdition
                 cost: 2,
                 isLimited: true
             );
-
-            Avatar = new AvatarInfo(Faction.Rebel, new Vector2(88, 2));
         }        
     }
 }

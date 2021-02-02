@@ -3,6 +3,7 @@ using Upgrade;
 using System;
 using BoardTools;
 using SubPhases;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,6 +21,12 @@ namespace UpgradesList.SecondEdition
                 charges: 1,
                 regensCharges: true,
                 seImageNumber: 141
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(341, 1),
+                new Vector2(150, 150)
             );
         }        
     }

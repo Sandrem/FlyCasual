@@ -3,6 +3,7 @@ using Ship;
 using ActionsList;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,6 +17,12 @@ namespace UpgradesList.SecondEdition
                 cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.AgileGunnerAbility),
                 seImageNumber: 162
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Imperial,
+                new Vector2(367, 5),
+                new Vector2(100, 100)
             );
         }
 

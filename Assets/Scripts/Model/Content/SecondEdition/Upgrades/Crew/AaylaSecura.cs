@@ -2,6 +2,7 @@
 using ActionsList;
 using Actions;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,7 +21,13 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.AaylaSecuraAbility),
                 addForce: 1
             );
-            
+
+            Avatar = new AvatarInfo(
+                Faction.Republic,
+                new Vector2(269, 3),
+                new Vector2(63, 63)
+            );
+
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/40/9a/409a5444-ec9c-48ae-a91c-0301bc0575df/swz70_a1_aayla_upgrade.png";
         }        
     }

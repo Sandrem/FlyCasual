@@ -8,8 +8,6 @@ namespace UpgradesList.FirstEdition
     {
         public FleetOfficer() : base()
         {
-            IsHidden = true;
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Fleet Officer",
                 UpgradeType.Crew,

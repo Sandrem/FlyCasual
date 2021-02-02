@@ -17,8 +17,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.Ig2000Ability)
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(44, 2));
         }        
     }
 }

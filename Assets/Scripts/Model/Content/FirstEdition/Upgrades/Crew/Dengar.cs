@@ -17,8 +17,6 @@ namespace UpgradesList.FirstEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.FirstEdition.DengarCrewAbility)
             );
-
-            Avatar = new AvatarInfo(Faction.Scum, new Vector2(16, 1));
         }        
     }
 }

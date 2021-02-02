@@ -2,6 +2,7 @@
 using Upgrade;
 using SubPhases;
 using System;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,6 +18,12 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.R2D2CrewAbility),
                 seImageNumber: 91
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(435, 2),
+                new Vector2(200, 200)
             );
 
             NameCanonical = "r2d2-crew";

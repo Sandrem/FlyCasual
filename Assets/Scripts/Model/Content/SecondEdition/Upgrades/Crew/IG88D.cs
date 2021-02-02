@@ -2,6 +2,7 @@
 using Upgrade;
 using ActionsList;
 using Actions;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 addAction: new ActionInfo(typeof(CalculateAction)),
                 abilityType: typeof(Abilities.SecondEdition.Ig88DCrewAbility),
                 seImageNumber: 132
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Scum,
+                new Vector2(368, 2),
+                new Vector2(200, 200)
             );
         }        
     }

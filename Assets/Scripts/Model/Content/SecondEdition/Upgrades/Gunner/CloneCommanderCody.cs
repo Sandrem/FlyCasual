@@ -1,4 +1,5 @@
 ﻿using Ship;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -14,6 +15,11 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Republic),
                 abilityType: typeof(Abilities.SecondEdition.CloneCommanderCodyAbility)
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Republic,
+                new Vector2(234, 1)
             );
 
             ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/d7/Swz33_cody-upgrade.png";

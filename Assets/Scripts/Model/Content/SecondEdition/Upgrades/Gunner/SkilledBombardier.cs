@@ -5,6 +5,7 @@ using BoardTools;
 using System.Collections.Generic;
 using Movement;
 using System.Linq;
+using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,6 +19,12 @@ namespace UpgradesList.SecondEdition
                 cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.SkilledBombardierAbility),
                 seImageNumber: 50
+            );
+
+            Avatar = new AvatarInfo(
+                Faction.Rebel,
+                new Vector2(342, 7),
+                new Vector2(125, 125)
             );
         }
     }

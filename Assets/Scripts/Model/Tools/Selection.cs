@@ -163,7 +163,7 @@ public static class Selection {
     {
         DeselectThisShip();
         ThisShip = Roster.GetShipById(shipId);
-        ChangeActiveShipUsingThisShip ();
+        ChangeActiveShipUsingThisShip();
     }
 
     public static void ChangeActiveShip(GenericShip genShip)
@@ -171,7 +171,7 @@ public static class Selection {
         DeselectThisShip();
         ThisShip = genShip;
 
-        ChangeActiveShipUsingThisShip ();
+        ChangeActiveShipUsingThisShip();
     }
 
     private static void ChangeActiveShipUsingThisShip()

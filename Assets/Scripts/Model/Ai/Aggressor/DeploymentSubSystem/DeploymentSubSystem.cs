@@ -198,23 +198,32 @@ namespace AI.Aggressor
                 {
                     Selection.ChangeActiveShip(shipToSetup);
 
-                    GameManagerScript.Wait(
-                        0.5f,
-                        delegate {
-                            GameCommand command = SetupSubPhase.GeneratePlaceShipCommand(
-                                shipToSetup.ShipId,
-                                PlannedShipPositions[shipToSetup],
-                                shipToSetup.GetAngles()
-                            );
-                            GameMode.CurrentGameMode.ExecuteCommand(command);
-                        }
-                    );
-
+                    if (!DebugManager.BatchAiSquadTestingModeActive)
+                    {
+                        GameManagerScript.Wait(
+                            0.5f,
+                            delegate { GenerateSetupShip(shipToSetup); }
+                        );
+                    }
+                    else
+                    {
+                        GenerateSetupShip(shipToSetup);
+                    }
                     return;
                 }
             }
 
             Phases.Next();
+        }
+
+        private void GenerateSetupShip(GenericShip shipToSetup)
+        {
+            GameCommand command = SetupSubPhase.GeneratePlaceShipCommand(
+                shipToSetup.ShipId,
+                PlannedShipPositions[shipToSetup],
+                shipToSetup.GetAngles()
+            );
+            GameMode.CurrentGameMode.ExecuteCommand(command);
         }
     }
 

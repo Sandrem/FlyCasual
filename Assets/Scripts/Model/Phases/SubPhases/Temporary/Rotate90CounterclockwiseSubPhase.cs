@@ -27,16 +27,24 @@ namespace SubPhases
 
         public override void Update()
         {
-            float progressStep = Mathf.Min(Time.deltaTime * ANIMATION_SPEED * Options.AnimationSpeed, progressTarget - progressCurrent);
-            progressCurrent += progressStep;
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                float progressStep = Mathf.Min(Time.deltaTime * ANIMATION_SPEED * Options.AnimationSpeed, progressTarget - progressCurrent);
+                progressCurrent += progressStep;
 
-            Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), -progressStep);
+                Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), -progressStep);
 
-            float positionY = (progressCurrent < progressTarget/2) ? progressCurrent : progressTarget - progressCurrent;
-            positionY = positionY / 90;
-            Selection.ThisShip.SetHeight(positionY);
+                float positionY = (progressCurrent < progressTarget/2) ? progressCurrent : progressTarget - progressCurrent;
+                positionY = positionY / 90;
+                Selection.ThisShip.SetHeight(positionY);
 
-            if (progressCurrent == progressTarget) EndRotation();
+                if (progressCurrent == progressTarget) EndRotation();
+            }
+            else
+            {
+                Selection.ThisShip.RotateAround(Selection.ThisShip.GetCenter(), -progressTarget);
+                EndRotation();
+            }
         }
 
         private void EndRotation()

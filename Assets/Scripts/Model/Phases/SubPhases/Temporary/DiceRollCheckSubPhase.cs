@@ -36,7 +36,7 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").gameObject.SetActive(true);
+            if (!DebugManager.BatchAiSquadTestingModeActive) GameObject.Find("UI").transform.Find("CheckDiceResultsPanel").gameObject.SetActive(true);
 
             DiceRoll DiceRollCheck;
             DiceRollCheck = new DiceRoll(DiceKind, DiceCount, DiceRollCheckType.Check, Selection.ActiveShip.Owner.PlayerNo);

@@ -251,7 +251,7 @@ namespace Players
 
         public virtual void InformAboutCrit()
         {
-            InformCrit.ShowPanelVisible();
+            if (!DebugManager.BatchAiSquadTestingModeActive) InformCrit.ShowPanelVisible();
             InformCrit.DisableConfirmButton();
         }
 

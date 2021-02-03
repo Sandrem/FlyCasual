@@ -106,7 +106,14 @@ namespace Movement
 
         public virtual void LaunchShipMovement()
         {
-            GameManagerScript.Wait(0.5f, delegate { TheShip.StartMoving(LaunchShipMovementContinue); });
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                GameManagerScript.Wait(0.5f, delegate { TheShip.StartMoving(LaunchShipMovementContinue); });
+            }
+            else
+            {
+                TheShip.StartMoving(LaunchShipMovementContinue);
+            }
         }
 
         private void LaunchShipMovementContinue()
@@ -134,15 +141,21 @@ namespace Movement
                 TheShip.MinesHit.AddRange(movementPrediction.MinesHit);
             }
 
-            Sounds.PlayFly(TheShip);
-            AdaptSuccessProgress();
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                Sounds.PlayFly(TheShip);
+                AdaptSuccessProgress();
 
-            LaunchSimple();
+                LaunchSimple();
+            }
+            else
+            {
+                FinishMovement();
+            }
         }
 
         public void LaunchSimple()
         {
-            //TEMP
             if (ProgressTarget > 0)
             {
                 GameManagerScript Game = GameObject.Find("GameManager").GetComponent<GameManagerScript>();

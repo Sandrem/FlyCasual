@@ -23,10 +23,13 @@ public class TokensChangePanel : MonoBehaviour
 
     public static void CreateTokensChangePanel(GenericShip host, GenericToken token, bool isAssigned)
     {
-        GameObject prefab = (GameObject)Resources.Load("Prefabs/TokensChange", typeof(GameObject));
-        GameObject MessagePanelsHolder = GameObject.Find("UI/TokensChangeHolder");
-        GameObject Message = MonoBehaviour.Instantiate(prefab, MessagePanelsHolder.transform);
-        Message.GetComponent<TokensChangePanel>().Initialize(host, token, isAssigned);
+        if (!DebugManager.BatchAiSquadTestingModeActive)
+        {
+            GameObject prefab = (GameObject)Resources.Load("Prefabs/TokensChange", typeof(GameObject));
+            GameObject MessagePanelsHolder = GameObject.Find("UI/TokensChangeHolder");
+            GameObject Message = MonoBehaviour.Instantiate(prefab, MessagePanelsHolder.transform);
+            Message.GetComponent<TokensChangePanel>().Initialize(host, token, isAssigned);
+        }        
     }
 
     public void Initialize(GenericShip host, GenericToken token, bool isAssigned)

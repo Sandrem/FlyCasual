@@ -418,16 +418,23 @@ namespace Ship
 
         public void PlayDestroyedAnimSound(System.Action callBack)
         {
-            int random = Random.Range(1, 8);
-            float playSoundDelay = Sounds.PlayShipSound("Explosion-" + random);
-            playSoundDelay = Mathf.Max(playSoundDelay, 1f);
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                int random = Random.Range(1, 8);
+                float playSoundDelay = Sounds.PlayShipSound("Explosion-" + random);
+                playSoundDelay = Mathf.Max(playSoundDelay, 1f);
 
-            ShipAllParts.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
-            ShipAllParts.Find("Explosion/Debris").GetComponent<ParticleSystem>().Play();
-            ShipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
-            ShipAllParts.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
+                ShipAllParts.Find("Explosion/Explosion").GetComponent<ParticleSystem>().Play();
+                ShipAllParts.Find("Explosion/Debris").GetComponent<ParticleSystem>().Play();
+                ShipAllParts.Find("Explosion/Sparks").GetComponent<ParticleSystem>().Play();
+                ShipAllParts.Find("Explosion/Ring").GetComponent<ParticleSystem>().Play();
 
-            GameManagerScript.Wait(playSoundDelay, delegate { callBack(); });
+                GameManagerScript.Wait(playSoundDelay, delegate { callBack(); });
+            }
+            else
+            {
+                callBack();
+            }            
         }
 
         public void MoveUpwards(float progress)
@@ -450,23 +457,32 @@ namespace Ship
 
         public void HighlightThisSelected()
         {
-            Transform projector = GetSelectionProjector();
-            projector.gameObject.SetActive(true);
-            projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                Transform projector = GetSelectionProjector();
+                projector.gameObject.SetActive(true);
+                projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionThisProjector", typeof(Material));
+            }
         }
 
         public void HighlightAnyHovered()
         {
-            Transform projector = GetSelectionProjector();
-            projector.gameObject.SetActive(true);
-            projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionAnyHovered", typeof(Material));
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                Transform projector = GetSelectionProjector();
+                projector.gameObject.SetActive(true);
+                projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionAnyHovered", typeof(Material));
+            }
         }
 
         public void HighlightEnemySelected()
         {
-            Transform projector = GetSelectionProjector();
-            projector.gameObject.SetActive(true);
-            projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                Transform projector = GetSelectionProjector();
+                projector.gameObject.SetActive(true);
+                projector.GetComponent<Projector>().material = (Material)Resources.Load("Projectors/Materials/SelectionEnemyProjector", typeof(Material));
+            }
         }
 
         public void ToggleMultiSelectionProjector()

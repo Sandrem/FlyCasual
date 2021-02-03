@@ -55,7 +55,7 @@ public partial class MainMenu : MonoBehaviour {
         switch (panelName)
         {
             case "MainMenuPanel":
-                UpdatePlayerInfo();
+                ClearBatchAiSquadsTestingMode();
                 break;
             case "OptionsPanel":
                 OptionsUI.Instance.InitializeOptionsPanel();

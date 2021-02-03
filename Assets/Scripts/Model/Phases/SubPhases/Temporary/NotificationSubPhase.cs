@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Ship;
 using UnityEngine.UI;
-using GameModes;
 
 namespace SubPhases
 {
@@ -25,12 +22,20 @@ namespace SubPhases
 
         public void FinishAfterDelay()
         {
-            GameObject notificationPanel = GameObject.Find("UI").transform.Find("NotificationPanel").gameObject;
-            notificationPanel.GetComponentInChildren<Text>().text = TextToShow;
-            notificationPanel.SetActive(true);
-            notificationPanel.GetComponent<Animation>().Play();
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                GameObject notificationPanel = GameObject.Find("UI").transform.Find("NotificationPanel").gameObject;
+                notificationPanel.GetComponentInChildren<Text>().text = TextToShow;
+                notificationPanel.SetActive(true);
+                notificationPanel.GetComponent<Animation>().Play();
 
-            GameManagerScript.Wait(1.5f, Next);
+                GameManagerScript.Wait(1.5f, Next);
+            }
+            else
+            {
+                Next();
+            }
+            
         }
 
         public override void Next()

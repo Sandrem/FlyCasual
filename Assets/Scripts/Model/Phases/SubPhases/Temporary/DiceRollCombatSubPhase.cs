@@ -33,8 +33,6 @@ namespace SubPhases
 
         public override void Initialize()
         {
-            
-
             if (Combat.AttackStep == CombatStep.Attack)
             {
                 Combat.Attacker.CallDiceAboutToBeRolled(RollDice);

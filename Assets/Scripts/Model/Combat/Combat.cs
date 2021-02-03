@@ -203,7 +203,7 @@ public static class Combat
             && Rules.TargetIsLegalForShot.IsLegal(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon, isSilent)
         )
         {
-            if (!DebugManager.NoCinematicCamera)
+            if (!DebugManager.NoCinematicCamera && !DebugManager.BatchAiSquadTestingModeActive)
             {
                 CommandsList.ShotCameraCommand.ShowShotCamera(Selection.ThisShip, Selection.AnotherShip);
                 GameManagerScript.Wait(3, StartLegalAttack);

@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using SquadBuilderNS;
 using BoardTools;
 using GameCommands;
+using System;
 
 //Todo: Move to different scripts by menu names
 
@@ -104,6 +105,16 @@ public class UI : MonoBehaviour {
         rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, 350);
 
         gameResultsPanel.SetActive(true);
+
+        CheckBatchMode(results);
+    }
+
+    private static void CheckBatchMode(string results)
+    {
+        if (DebugManager.BatchAiSquadTestingModeActive)
+        {
+            RestartMatchStatic();
+        }
     }
 
     public static void ToggleInGameMenu()
@@ -361,6 +372,11 @@ public class UI : MonoBehaviour {
 
     public void RestartMatch()
     {
+        RestartMatchStatic();
+    }
+
+    public static void RestartMatchStatic()
+    {
         Rules.FinishGame();
         if (ReplaysManager.Mode == ReplaysMode.Write)
         {
@@ -371,6 +387,5 @@ public class UI : MonoBehaviour {
         {
             GameController.StartBattle(ReplaysMode.Read);
         }
-        
     }
 }

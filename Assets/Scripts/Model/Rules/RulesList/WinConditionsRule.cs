@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using ExtraOptions.ExtraOptionsList;
+using Players;
+using UnityEngine;
 using UnityEngine.Analytics;
 
 namespace RulesList
@@ -24,11 +26,20 @@ namespace RulesList
             {
                 if (eliminatedTeam < 3)
                 {
+                    if (DebugManager.BatchAiSquadTestingModeActive)
+                    {
+                        BatchAiSquadsTestingModeExtraOption.Results[Tools.IntToPlayer(Roster.AnotherPlayer(eliminatedTeam))]++;
+                    }
                     UI.AddTestLogEntry(GetPlayerName(Roster.AnotherPlayer(eliminatedTeam)) + " Wins!");
                     UI.ShowGameResults(GetPlayerName(Roster.AnotherPlayer(eliminatedTeam)) + " Wins!");
                 }
                 else
                 {
+                    if (DebugManager.BatchAiSquadTestingModeActive)
+                    {
+                        BatchAiSquadsTestingModeExtraOption.Results[PlayerNo.Player1]++;
+                        BatchAiSquadsTestingModeExtraOption.Results[PlayerNo.Player2]++;
+                    }
                     UI.AddTestLogEntry("Draw!");
                     UI.ShowGameResults("Draw!");
                 }

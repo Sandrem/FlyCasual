@@ -426,6 +426,8 @@ public static partial class Roster
 
     public static void ToggleCalculatingStatus(PlayerNo playerNo, bool isActive)
     {
+        if (DebugManager.BatchAiSquadTestingModeActive) return;
+
         Roster.GetPlayer(playerNo).PlayerInfoPanel.transform.Find("StatusPanel").gameObject.SetActive(isActive);
     }
 

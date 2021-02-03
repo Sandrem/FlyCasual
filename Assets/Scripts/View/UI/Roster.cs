@@ -706,7 +706,16 @@ public static partial class Roster {
 
             player.PlayerInfoPanel.transform.Find("PlayerAvatarImage").GetComponent<AvatarFromUpgrade>().Initialize(Roster.GetPlayer(i).Avatar);
             player.PlayerInfoPanel.transform.Find("PlayerNickName").GetComponent<Text>().text = Roster.GetPlayer(i).NickName;
-            player.PlayerInfoPanel.transform.Find("PlayerTitle").GetComponent<Text>().text = Roster.GetPlayer(i).Title;
+            
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                player.PlayerInfoPanel.transform.Find("PlayerTitle").GetComponent<Text>().text = Roster.GetPlayer(i).Title;
+            }
+            else
+            {
+                player.PlayerInfoPanel.transform.Find("PlayerTitle").GetComponent<Text>().text = ExtraOptions.ExtraOptionsList.BatchAiSquadsTestingModeExtraOption.Results[Tools.IntToPlayer(i)].ToString();
+            }
+            
         }
     }
 

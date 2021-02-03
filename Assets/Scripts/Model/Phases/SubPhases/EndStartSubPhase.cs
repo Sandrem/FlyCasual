@@ -30,7 +30,14 @@ namespace SubPhases
 
         public override void Next()
         {
-            GameManagerScript.Wait(1, Phases.CurrentPhase.NextPhase);
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                GameManagerScript.Wait(1, Phases.CurrentPhase.NextPhase);
+            }
+            else
+            {
+                Phases.CurrentPhase.NextPhase();
+            }
         }
 
     }

@@ -40,7 +40,7 @@ public partial class MainMenu : MonoBehaviour {
         ExtraOptionsManager.Initialize();
         SetBackground();
         UpdateVersionInfo();
-        UpdatePlayerInfo();
+        ClearBatchAiSquadsTestingMode();
 
         PrepareUpdateChecker();
 
@@ -62,12 +62,9 @@ public partial class MainMenu : MonoBehaviour {
         GameObject.Find("UI/Panels/MainMenuPanel/Background/Version/Version Text").GetComponent<Text>().text = Global.CurrentVersion;
     }
 
-    private void UpdatePlayerInfo()
+    private void ClearBatchAiSquadsTestingMode()
     {
-        AvatarFromUpgrade script = GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/AvatarImage").GetComponent<AvatarFromUpgrade>();
-        script.Initialize(Options.Avatar);
-
-        GameObject.Find("UI/Panels/MainMenuPanel/PlayerInfoPanel/NicknameAndTitleText").GetComponent<Text>().text = Options.NickName + "\n" + Options.Title;
+        ExtraOptions.ExtraOptionsList.BatchAiSquadsTestingModeExtraOption.ClearResults();
     }
 
     public static void SetBackground()

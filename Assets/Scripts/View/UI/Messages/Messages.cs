@@ -52,6 +52,8 @@ public static class Messages{
 
     private static void ShowMessage(string text, MessageType type, bool allowCopies = false)
     {
+        if (DebugManager.BatchAiSquadTestingModeActive) return;
+
         if (!allowCopies)
         {
             if (AllMessages.LastOrDefault() != null && AllMessages.LastOrDefault().name == text) return;

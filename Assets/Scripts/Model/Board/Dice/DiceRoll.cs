@@ -9,7 +9,37 @@ using Players;
 
 public partial class DiceRoll
 {
-    // INITIALIZE
+    public static readonly Dictionary<DiceKind, DieSide[]> PossibleSides = new Dictionary<DiceKind, DieSide[]>()
+    {
+        {
+            DiceKind.Attack,
+            new DieSide[]
+            {
+                DieSide.Crit,
+                DieSide.Success,
+                DieSide.Success,
+                DieSide.Success,
+                DieSide.Focus,
+                DieSide.Focus,
+                DieSide.Blank,
+                DieSide.Blank
+            }
+        },
+        {
+            DiceKind.Defence,
+            new DieSide[]
+            {
+                DieSide.Success,
+                DieSide.Success,
+                DieSide.Success,
+                DieSide.Focus,
+                DieSide.Focus,
+                DieSide.Blank,
+                DieSide.Blank,
+                DieSide.Blank
+            }
+        }
+    };
 
     public DiceRoll(DiceKind type, int countOfInitialRoll, DiceRollCheckType checkType, PlayerNo owner = PlayerNo.PlayerNone)
     {
@@ -50,8 +80,23 @@ public partial class DiceRoll
 
         if (!ShouldSkipToSync())
         {
-            foreach (Die die in DiceList) die.RandomizeRotation();
-            RollPreparedDice();
+            if (!DebugManager.BatchAiSquadTestingModeActive)
+            {
+                foreach (Die die in DiceList) die.RandomizeRotation();
+                RollPreparedDice();
+            }
+            else
+            {
+                System.Random random = new System.Random();
+                DieSide[] sides = PossibleSides[Type];
+                foreach (Die die in DiceList)
+                {
+                    die.TrySetSide(sides[random.Next(0, 8)], isInitial: true);
+                }
+
+                Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
+                Phases.CurrentSubPhase.IsReadyForCommands = true;
+            }
         }
         else
         {

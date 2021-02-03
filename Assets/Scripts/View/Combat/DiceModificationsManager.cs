@@ -39,7 +39,7 @@ public partial class DiceModificationsManager
     public static void CreateDiceModificationsButton(GenericAction actionEffect, Vector3 position)
     {
         GameObject prefab = (GameObject)Resources.Load("Prefabs/GenericButton", typeof(GameObject));
-        GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/CombatDiceResultsPanel").transform.Find("DiceModificationsPanel"));
+        GameObject newButton = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel"));
         newButton.GetComponent<RectTransform>().localPosition = position;
 
         newButton.name = "Button" + actionEffect.DiceModificationName;
@@ -80,7 +80,7 @@ public partial class DiceModificationsManager
 
     public void ShowDiceModificationsUiEmpty()
     {
-        GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
+        if (!DebugManager.BatchAiSquadTestingModeActive) GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
         GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").Find("DiceModificationsPanel").gameObject.SetActive(true);
         HideAllButtons();
     }

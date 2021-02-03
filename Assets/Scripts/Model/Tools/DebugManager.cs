@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Players;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +31,10 @@ public static class DebugManager
     public static bool DebugMovementShowPlanning; // = true;
 
     public static bool FreeMode;
+    public static bool BatchAiSquadTestingMode;
+    public static bool BatchAiSquadTestingModeActive => BatchAiSquadTestingMode
+        && Roster.GetPlayer(PlayerNo.Player1) is GenericAiPlayer
+        && Roster.GetPlayer(PlayerNo.Player2) is GenericAiPlayer;
 
     public static bool ManualCollisionPrediction;
 

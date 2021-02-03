@@ -261,19 +261,36 @@ namespace Players
                 {
                     isActionEffectTaken = true;
 
-                    GameManagerScript.Wait(1, delegate {
+                    if (!DebugManager.BatchAiSquadTestingModeActive)
+                    {
+                        GameManagerScript.Wait(1, delegate
+                        {
+                            GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
+                            GameMode.CurrentGameMode.ExecuteCommand(command);
+                        });
+                    }
+                    else
+                    {
                         GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand(prioritizedActionEffect.Key.Name);
                         GameMode.CurrentGameMode.ExecuteCommand(command);
-                    });
+                    }
                 }
             }
 
             if (!isActionEffectTaken)
             {
-                GameManagerScript.Wait(1, delegate {
+                if (!DebugManager.BatchAiSquadTestingModeActive)
+                {
+                    GameManagerScript.Wait(1, delegate {
+                        GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand("OK");
+                        GameMode.CurrentGameMode.ExecuteCommand(command);
+                    });
+                }
+                else
+                {
                     GameCommand command = DiceModificationsManager.GenerateDiceModificationCommand("OK");
                     GameMode.CurrentGameMode.ExecuteCommand(command);
-                });
+                }
             }
         }
 
@@ -357,7 +374,7 @@ namespace Players
             base.PlaceObstacle();
 
             ObstaclesPlacementSubPhase subphase = Phases.CurrentSubPhase as ObstaclesPlacementSubPhase;
-            if (subphase.IsRandomSetupSelected[Roster.AnotherPlayer(this.PlayerNo)])
+            if (subphase.IsRandomSetupSelected[Roster.AnotherPlayer(this.PlayerNo)] || DebugManager.BatchAiSquadTestingModeActive)
             {
                 (Phases.CurrentSubPhase as ObstaclesPlacementSubPhase).PlaceRandom();
             }
@@ -383,7 +400,14 @@ namespace Players
 
             if (!Roster.Players.Any(p => p is HumanPlayer))
             {
-                GameManagerScript.Wait(3, InformCrit.ButtonConfirm);
+                if (!DebugManager.BatchAiSquadTestingModeActive)
+                {
+                    GameManagerScript.Wait(3, InformCrit.ButtonConfirm);
+                }
+                else
+                {
+                    InformCrit.ButtonConfirm();
+                }
             }
             else
             {

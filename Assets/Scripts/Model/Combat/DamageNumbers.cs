@@ -29,6 +29,8 @@ static partial class DamageNumbers
 
     public static void ShowChangedHP()
     {
+        if (DebugManager.BatchAiSquadTestingModeActive) return;
+
         foreach (var shipHolder in Roster.AllUnits)
         {
             if (!SavedHP.ContainsKey(shipHolder.Key)) continue;

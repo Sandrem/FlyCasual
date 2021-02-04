@@ -90,6 +90,7 @@ namespace Conditions
         public FearfulPrey(GenericShip host) : base(host)
         {
             Name = ImageName = "Fearful Prey";
+            Temporary = false;
             Tooltip = "https://images-cdn.fantasyflightgames.com/filer_public/4c/b2/4cb268d8-346f-4a42-a4bf-aa04a7d312ec/swz81_fearful-prey_cutout.png";
         }
 

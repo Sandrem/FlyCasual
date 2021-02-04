@@ -275,7 +275,7 @@ namespace Abilities.SecondEdition
 
         private void CheckCombatFinishCondition()
         {
-            if (AssignedCondition != null && !AssignedCondition.IsRevealed && IsInAnyEnemyArc())
+            if (AssignedCondition != null && !AssignedCondition.IsRevealed && IsInAnyEnemyArc() && !HostShip.IsDestroyed)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseEnd, AfterCombat);
             }

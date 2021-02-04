@@ -178,6 +178,13 @@ public class RosterBuilderUI : MonoBehaviour {
 
     public void GoBackToFactionSelect()
     {
-        GameObject.Find("UI").transform.Find("ConfirmGoBack").gameObject.SetActive(true);
+        if (Global.SquadBuilder.CurrentSquad.Ships.Count > 0)
+        {
+            GameObject.Find("UI").transform.Find("ConfirmGoBack").gameObject.SetActive(true);
+        }
+        else
+        {
+            MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
+        }
     }
 }

@@ -49,9 +49,10 @@ namespace Bombs
         public delegate void EventHandlerBool(ref bool flag);
         public delegate void EventHandlerBomb(GenericBomb bomb, GenericDeviceGameObject model);
         public delegate void EventHandlerBombShip(GenericBomb bomb, GenericShip detonatedShip);
+        public delegate void EventHandlerShipBool(GenericShip ship, ref bool flag);
         public static event EventHandlerBomb OnBombIsRemoved;
         public static event EventHandlerBombShip OnCheckPermissionToDetonate;
-        public static event EventHandlerBool OnCheckBombDropCanBeSkipped;
+        public static event EventHandlerShipBool OnCheckBombDropCanBeSkipped;
 
         public static bool IsOverriden = false;
 
@@ -299,7 +300,7 @@ namespace Bombs
         private static bool CheckBombDropCanBeSkipped()
         {
             bool canBeSkipped = true;
-            OnCheckBombDropCanBeSkipped?.Invoke(ref canBeSkipped);
+            OnCheckBombDropCanBeSkipped?.Invoke(Selection.ThisShip, ref canBeSkipped);
             return canBeSkipped;
         }
 

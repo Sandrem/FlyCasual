@@ -126,18 +126,31 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            Phases.Events.OnCheckSystemSubphaseCanBeSkipped += CheckAbility;
-            BombsManager.OnCheckBombDropCanBeSkipped += CheckAbility;
+            Phases.Events.OnCheckSystemSubphaseCanBeSkipped += CheckSystemPhaseSkip;
+            BombsManager.OnCheckBombDropCanBeSkipped += CheckBombDropFix;
         }
 
         public override void DeactivateAbility()
         {
-            Phases.Events.OnCheckSystemSubphaseCanBeSkipped -= CheckAbility;
-            BombsManager.OnCheckBombDropCanBeSkipped -= CheckAbility;
+            Phases.Events.OnCheckSystemSubphaseCanBeSkipped -= CheckSystemPhaseSkip;
+            BombsManager.OnCheckBombDropCanBeSkipped -= CheckBombDropFix;
         }
 
-        private void CheckAbility(ref bool canBeSkipped)
+        private void CheckSystemPhaseSkip(ref bool canBeSkipped)
         {
+            if (HostUpgrade.State.Charges > 0
+                && HostUpgrade.State.Charges < HostUpgrade.State.MaxCharges
+                && !HostShip.IsBombAlreadyDropped)
+            {
+                canBeSkipped = false;
+            }
+        }
+
+        private void CheckBombDropFix(GenericShip ship, ref bool canBeSkipped)
+        {
+            //Only for ship that owns this upgrade
+            if (HostUpgrade.HostShip != ship) return;
+
             if (HostUpgrade.State.Charges > 0
                 && HostUpgrade.State.Charges < HostUpgrade.State.MaxCharges
                 && !HostShip.IsBombAlreadyDropped)

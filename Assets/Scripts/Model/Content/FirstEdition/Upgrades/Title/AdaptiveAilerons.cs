@@ -173,7 +173,7 @@ namespace Abilities.FirstEdition
                 subphase.Start();
                 subphase.IsReadyForCommands = true;
 
-                ShipMovementScript.SendAssignManeuverCommand(SavedManeuver.ToString());
+                ShipMovementScript.AssignManeuver(Selection.ThisShip.ShipId, SavedManeuver.ToString());
             }
             else
             {

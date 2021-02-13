@@ -33,6 +33,13 @@ namespace Players
 
             InformCrit.ShowConfirmButton();
         }
+
+        public override void ChangeManeuver(Action<string> doWithManeuverString, Action callback, Func<string, bool> filter = null)
+        {
+            base.ChangeManeuver(doWithManeuverString, callback, filter);
+
+            DirectionsMenu.Show(doWithManeuverString, callback, filter);
+        }
     }
 
 }

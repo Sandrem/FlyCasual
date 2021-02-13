@@ -168,6 +168,8 @@ namespace SquadBuilderNS
 
         public static void SetPlayerSquadFromImportedJson(SquadList squad, JSONObject squadJson)
         {
+            squad.ClearAll();
+
             if (squadJson.HasField("name"))
             {
                 squad.Name = squadJson["name"].str;

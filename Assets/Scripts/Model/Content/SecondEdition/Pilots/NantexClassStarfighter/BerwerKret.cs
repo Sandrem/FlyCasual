@@ -95,7 +95,7 @@ namespace Abilities.SecondEdition
                 Selection.ChangeActiveShip(currentShip);
 
                 currentShip.AskPerformFreeAction(
-                    new FocusAction() { Color = Actions.ActionColor.Red },
+                    new CalculateAction() { Color = Actions.ActionColor.Red },
                     delegate
                     {
                         PerformRedCalculateActionRecursive(callback);

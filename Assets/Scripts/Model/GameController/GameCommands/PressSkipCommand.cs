@@ -17,7 +17,7 @@ namespace GameCommands
         public override void Execute()
         {
             Console.Write("Button \"Skip\" is used");
-            UI.SkipButtonEffect();
+            Phases.CurrentSubPhase.SkipButton();
         }
     }
 

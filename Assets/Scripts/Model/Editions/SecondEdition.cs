@@ -189,14 +189,8 @@ namespace Editions
             {
                 if (!IsTractorBeamFailed())
                 {
-                    // if (!overWrittenInstead) Messages.ShowError("Action is skipped");
                     Phases.CurrentSubPhase.IsReadyForCommands = true;
-                    Phases.Skip();
-                    if (Phases.CurrentSubPhase is ActivationSubPhase)
-                    {
-                        Selection.DeselectAllShips();
-                        Phases.Next();
-                    }
+                    Phases.CurrentSubPhase.SkipButton();
                 }
                 else
                 {

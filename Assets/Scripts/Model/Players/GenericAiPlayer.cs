@@ -338,7 +338,7 @@ namespace Players
             }
             else
             {
-                UI.SkipButtonEffect();
+                UI.SkipButtonPressedEffect();
             }
         }
 
@@ -391,7 +391,7 @@ namespace Players
         public override void PerformSystemsActivation()
         {
             base.PerformSystemsActivation();
-            UI.CallClickSkipPhase();
+            UI.SkipButtonPressedEffect();
         }
 
         public override void InformAboutCrit()

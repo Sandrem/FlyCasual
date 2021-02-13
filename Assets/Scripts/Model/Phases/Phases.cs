@@ -142,11 +142,6 @@ public static partial class Phases
         CurrentSubPhase.Resume();
     }
 
-    public static void Skip()
-    {
-        UI.CallClickSkipPhase();
-    }
-
 }
 
 

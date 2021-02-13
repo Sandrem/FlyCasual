@@ -102,6 +102,7 @@ namespace SubPhases
             HideSubphaseDescription();
 
             Board.ToggleObstaclesHolder(false);
+            Board.ToggleOffTheBoardHolder(true);
             ObstaclesManager.SetObstaclesCollisionDetectionQuality(CollisionDetectionQuality.High);
 
             GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartSetupPhase);

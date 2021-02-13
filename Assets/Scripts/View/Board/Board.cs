@@ -394,8 +394,7 @@ namespace BoardTools
 
         public static void ToggleOffTheBoardHolder(bool isActive)
         {
-            // Never hide
-            BoardTransform.Find("OffTheBoardHolder").gameObject.SetActive(true);
+            BoardTransform.Find("OffTheBoardHolder").gameObject.SetActive(isActive);
         }
 
         public static void HighlightOfStartingZoneOn()

@@ -206,7 +206,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterExtraAttackAbility(GenericShip ship)
         {
-            ship.OnCombatCheckExtraAttack -= RegisterAbility;
+            ship.OnCombatCheckExtraAttack -= RegisterExtraAttackAbility;
 
             RegisterAbilityTrigger(TriggerTypes.OnCombatCheckExtraAttack, DoCounterAttack);
         }

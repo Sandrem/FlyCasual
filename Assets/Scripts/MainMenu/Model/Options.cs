@@ -46,7 +46,7 @@ public static class Options
         SfxVolume = PlayerPrefs.GetFloat("SFX Volume", 0.25f);
         AnimationSpeed = PlayerPrefs.GetFloat("Animation Speed V2", 0.25f);
         ManeuverSpeed = PlayerPrefs.GetFloat("Maneuver Speed V2", 0.25f);
-        Avatar = PlayerPrefs.GetString("Avatar", Options.DefaultAvatar);
+        Avatar = PlayerPrefs.GetString("AvatarV2", Options.DefaultAvatar);
         NickName = PlayerPrefs.GetString("NickName", "Unknown Pilot");
         Title = PlayerPrefs.GetString("Title", "Test Pilot");
         DontShowAiInfo = PlayerPrefs.GetInt("DontShowAiInfo", 0) == 1;

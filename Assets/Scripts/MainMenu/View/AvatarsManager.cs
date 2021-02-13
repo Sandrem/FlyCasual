@@ -89,7 +89,7 @@ public static class AvatarsManager
     private static void ChangeAvatar(string avatarName)
     {
         Options.Avatar = avatarName;
-        Options.ChangeParameterValue("Avatar", avatarName);
+        Options.ChangeParameterValue("AvatarV2", avatarName);
 
         SetAvatarSelected();
     }

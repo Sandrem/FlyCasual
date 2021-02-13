@@ -95,13 +95,11 @@ public partial class DiceRoll
                 }
 
                 Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
-                Phases.CurrentSubPhase.IsReadyForCommands = true;
             }
         }
         else
         {
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
         }
     }
 
@@ -154,7 +152,6 @@ public partial class DiceRoll
         }
 
         Roster.GetPlayer(PlayerNo.Player1).SyncDiceResults(); // Server synchs dice
-        Phases.CurrentSubPhase.IsReadyForCommands = true;
     }
 
     public static void SyncDiceResults(List<DieSide> sides)
@@ -208,7 +205,6 @@ public partial class DiceRoll
         else
         {
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
         }
     }
 
@@ -238,7 +234,6 @@ public partial class DiceRoll
         {
             CurrentDiceRoll.DeselectAll();
             Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
         }
     }
 

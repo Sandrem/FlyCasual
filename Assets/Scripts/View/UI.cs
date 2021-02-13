@@ -243,10 +243,10 @@ public class UI : MonoBehaviour {
 
     public void ClickSkipPhase()
     {
-        CallClickSkipPhase();
+        SkipButtonPressedEffect();
     }
 
-    public static void CallClickSkipPhase()
+    public static void SkipButtonPressedEffect()
     {
         HideSkipButton();
         Roster.AllShipsHighlightOff();
@@ -260,11 +260,6 @@ public class UI : MonoBehaviour {
             GameCommandTypes.PressSkip,
             Phases.CurrentSubPhase.GetType()
         );
-    }
-
-    public static void SkipButtonEffect()
-    {
-        Phases.CurrentSubPhase.SkipButton();
     }
 
     public static void ClickDeclareTarget()
@@ -387,5 +382,11 @@ public class UI : MonoBehaviour {
         {
             GameController.StartBattle(ReplaysMode.Read);
         }
+    }
+
+    public static void ToggleDebugMenu()
+    {
+        bool isActive = GameObject.Find("UI").transform.Find("DebugMenuPanel").gameObject.activeSelf;
+        GameObject.Find("UI").transform.Find("DebugMenuPanel").gameObject.SetActive(!isActive);
     }
 }

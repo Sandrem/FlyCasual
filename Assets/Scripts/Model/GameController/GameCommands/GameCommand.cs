@@ -87,28 +87,29 @@ namespace GameCommands
             {
                 if (subphase == null)
                 {
-                    //Debug.Log(Type + " command is skipped (subphase is null)");
+                    GameController.LastMessage = "Command is skipped (subphase is null)";
                     return;
                 }
                 else if (subphase.GetType() != SubPhase)
                 {
-                    //Debug.Log(Type + " command is skipped: subphase is " + subphase + " instead of " + SubPhase);
+                    GameController.LastMessage = "Command is skipped: subphase needed: " + SubPhase;
                     return;
                 }
                 else if (!subphase.AllowedGameCommandTypes.Contains(Type) && Type != GameCommandTypes.ConfirmCrit)
                 {
-                    //Debug.Log(Type + " command is skipped: " + subphase + " doesn't support this type of commands");
+                    GameController.LastMessage = "Command is skipped: subphase doesn't support this type of commands";
                     return;
                 }
                 else if (!subphase.IsReadyForCommands)
                 {
-                    //Debug.Log(Type + " command is skipped: " + subphase + " is not ready for commands");
+                    GameController.LastMessage = "Command is skipped: subphase is not ready for commands";
                     return;
                 }
             }
 
             GameController.ConfirmCommand();
             Console.Write($"Command is executed: {this.GetType().ToString().Replace("GameCommands.", "")}", isBold: true, color: "cyan");
+            GameController.LastMessage = $"Command is executed: {this.GetType().ToString().Replace("GameCommands.", "")}";
             Execute();
         }
 

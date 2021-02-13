@@ -7,6 +7,7 @@ public static class GameController
 {
     private static readonly float COMMANDS_CHECK_DELAY = 0.01f;
     public static List<GameCommand> CommandsReceived { get; private set; }
+    public static string LastMessage { get; set; }
 
     public static void Initialize()
     {

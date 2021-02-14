@@ -559,10 +559,7 @@ namespace Ship
 
         public List<GenericAction> GetDiceModificationsGenerated()
         {
-            if (AvailableDiceModifications.Any(m => m.IsForced))
-                return AvailableDiceModifications.Where(m => m.IsForced).ToList();
-            else
-                return AvailableDiceModifications;
+            return AvailableDiceModifications;
         }
 
         // TOKENS

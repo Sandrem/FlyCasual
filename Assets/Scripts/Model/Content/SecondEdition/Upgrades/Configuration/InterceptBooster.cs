@@ -60,6 +60,7 @@ namespace Abilities.SecondEdition
             HostShip.OnCheckSystemsAbilityActivation += HasAbility;
 
             Phases.Events.OnEndPhaseStart_NoTriggers += CheckEndPhaseAbility;
+            Phases.Events.OnCheckSystemSubphaseCanBeSkipped += CheckSystemPhaseSkip;
         }
 
         public override void DeactivateAbility()
@@ -68,6 +69,7 @@ namespace Abilities.SecondEdition
             HostShip.OnCheckSystemsAbilityActivation -= HasAbility;
 
             Phases.Events.OnEndPhaseStart_NoTriggers -= CheckEndPhaseAbility;
+            Phases.Events.OnCheckSystemSubphaseCanBeSkipped -= CheckSystemPhaseSkip;
         }
 
         private void RegisterSystemAbilityActivation(GenericShip ship)
@@ -117,6 +119,11 @@ namespace Abilities.SecondEdition
             {
                 (HostUpgrade as GenericDualUpgrade).Flip();
             }
+        }
+
+        private void CheckSystemPhaseSkip(ref bool canBeSkipped)
+        {
+            canBeSkipped = false;
         }
     }
 }

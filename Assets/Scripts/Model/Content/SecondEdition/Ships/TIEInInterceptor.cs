@@ -17,6 +17,7 @@ namespace Ship
                 ShipInfo.ShipName = "TIE/in Interceptor";
 
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Modification);
+                if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AutoThrustersAbility());
 

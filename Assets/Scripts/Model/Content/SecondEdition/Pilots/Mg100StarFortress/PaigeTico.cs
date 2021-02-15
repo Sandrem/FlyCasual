@@ -17,7 +17,7 @@ namespace Ship
                     56,
                     isLimited: true,
                     charges: 1,
-                    regensCharges: true,
+                    regensCharges: 1,
                     abilityType: typeof(Abilities.SecondEdition.PaigeTicoPilotAbility),
                     extraUpgradeIcon: Upgrade.UpgradeType.Talent
                 );

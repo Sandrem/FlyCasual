@@ -210,7 +210,7 @@ namespace Ship
             }
         }
 
-        public bool RegensCharges = false;
+        public int RegensCharges = 0;
 
         public ShipStateInfo(GenericShip host)
         {

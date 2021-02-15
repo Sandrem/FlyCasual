@@ -18,7 +18,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(WampaAbility),
                     charges: 1,
-                    regensCharges: true,
+                    regensCharges: 1,
                     seImageNumber: 89
                 );
             }

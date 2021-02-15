@@ -8,7 +8,7 @@ namespace RulesList
         public void RegenerateCharge(GenericShip ship)
         {
             // Ships
-            if (ship.State.RegensCharges && ship.State.Charges < ship.State.MaxCharges) ship.RestoreCharge();
+            ship.RestoreCharges(ship.State.RegensCharges);
 
             // Upgrades of the ship
             ship.UpgradeBar.GetUpgradesAll().Where(u => u.UpgradeInfo.RegensChargesCount != 0).ToList().ForEach(u =>

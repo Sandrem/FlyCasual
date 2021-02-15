@@ -18,7 +18,7 @@ namespace Ship
 
         public int Force { get; set; }
         public int Charges { get; private set; }
-        public bool RegensCharges { get; private set; }
+        public int RegensCharges { get; private set; }
 
         public int Cost { get; private set; }
 
@@ -26,7 +26,7 @@ namespace Ship
         public Faction Faction { get; private set; }
         public int SEImageNumber { get; private set; }
 
-        public PilotCardInfo(string pilotName, int initiative, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, bool regensCharges = false, UpgradeType extraUpgradeIcon = UpgradeType.None, List<UpgradeType> extraUpgradeIcons = null, Faction factionOverride = Faction.None, int seImageNumber = 0, string abilityText = "")
+        public PilotCardInfo(string pilotName, int initiative, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, int regensCharges = 0, UpgradeType extraUpgradeIcon = UpgradeType.None, List<UpgradeType> extraUpgradeIcons = null, Faction factionOverride = Faction.None, int seImageNumber = 0, string abilityText = "")
         {
             PilotName = pilotName;
             PilotTitle = pilotTitle;

@@ -18,7 +18,7 @@ namespace Ship
                     59,
                     isLimited: true,
                     charges: 1,
-                    regensCharges: true,
+                    regensCharges: 1,
                     abilityType: typeof(Abilities.SecondEdition.PettyOfficerThanissonPilotAbility)
                 );
 

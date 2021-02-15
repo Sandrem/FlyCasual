@@ -159,7 +159,7 @@ namespace Ship
             State.MaxForce = PilotInfo.Force;
 
             State.MaxCharges = PilotInfo.Charges > 0 ? PilotInfo.Charges : ShipInfo.Charges;
-            State.RegensCharges = PilotInfo.RegensCharges || ShipInfo.RegensCharges;
+            State.RegensCharges = PilotInfo.RegensCharges + ShipInfo.RegensCharges;
 
             Maneuvers = new Dictionary<string, Movement.MovementComplexity>();
             if (DialInfo != null)
@@ -388,11 +388,15 @@ namespace Ship
             callBack();
         }
 
-        public void RestoreCharge()
+        public void RestoreCharges(int count)
         {
-            if (State.Charges < State.MaxCharges)
+            if (count > 0 && State.Charges < State.MaxCharges)
             {
-                State.Charges++;
+                State.Charges = Math.Min(State.Charges + count, State.MaxCharges);
+            }
+            else if (count < 0 && State.Charges > 0)
+            {
+                State.Charges = Math.Max(State.Charges + count, 0);
             }
         }
 

@@ -19,12 +19,9 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainSeevorAbility),
                     charges: 1,
-                    regensCharges: true,
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         // seImageNumber: 92
+                    regensCharges: 1,
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
-
-                // Ability
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c9/f5/c9f5de03-e3e2-45b9-a86e-10ba74d1baed/swz23_a1_captain-seevor.png";
             }

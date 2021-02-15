@@ -42,7 +42,7 @@ namespace Ship.SecondEdition.LaatIGunship
             );
 
             ShipInfo.Charges = 2;
-            ShipInfo.RegensCharges = true;
+            ShipInfo.RegensCharges = 1;
             ShipAbilities.Add(new FireConvergenceAbility());
 
             IconicPilots = new Dictionary<Faction, System.Type> {

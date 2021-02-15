@@ -19,7 +19,7 @@ namespace Ship
                     64,
                     isLimited: true,
                     charges: 2,
-                    regensCharges: true,
+                    regensCharges: 1,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantTavsonPilotAbility)
                 );
 

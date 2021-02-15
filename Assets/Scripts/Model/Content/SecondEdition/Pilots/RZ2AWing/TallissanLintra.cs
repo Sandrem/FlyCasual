@@ -23,7 +23,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TallissanLintraAbility),
                     charges: 1,
-                    regensCharges: true,
+                    regensCharges: 1,
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
                 );
 

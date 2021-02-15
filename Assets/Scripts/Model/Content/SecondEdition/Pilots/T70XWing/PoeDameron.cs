@@ -19,7 +19,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PoeDameronAbility),
                     charges: 1,
-                    regensCharges: true,
+                    regensCharges: 1,
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 

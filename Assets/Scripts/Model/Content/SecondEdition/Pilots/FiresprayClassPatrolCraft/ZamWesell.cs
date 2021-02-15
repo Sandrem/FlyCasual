@@ -163,10 +163,7 @@ namespace Abilities.SecondEdition
 
         protected virtual void RestoreCharges(int count)
         {
-            for (int i = 0; i < count; i++)
-            {
-                HostShip.RestoreCharge();
-            }
+            HostShip.RestoreCharges(count);
         }
 
         // AFTER ATTACK A: GET LOCK

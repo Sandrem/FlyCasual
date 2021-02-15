@@ -17,7 +17,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OverseerYushynAbility),
                     charges: 1,
-                    regensCharges: true
+                    regensCharges: 1
                 );
                 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c1/78/c178c035-befe-44dd-bdb6-541c377ed85b/swz23_overseer-yushyn.png";

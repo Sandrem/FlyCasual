@@ -19,7 +19,7 @@ namespace Ship
                     32,
                     isLimited: true,
                     charges: 1,
-                    regensCharges: true,
+                    regensCharges: 1,
                     abilityType: typeof(Abilities.SecondEdition.KlickAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );

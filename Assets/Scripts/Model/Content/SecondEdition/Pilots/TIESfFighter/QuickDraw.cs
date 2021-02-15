@@ -18,7 +18,7 @@ namespace Ship
                     extraUpgradeIcon: UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.QuickdrawAbility),
                     charges: 1,
-                    regensCharges: true
+                    regensCharges: 1
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/d038dadd7a62bbe2de89d3866e1a3639.png";

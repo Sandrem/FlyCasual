@@ -1,6 +1,7 @@
 ﻿using ActionsList;
 using SubPhases;
 using System;
+using System.Linq;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -29,7 +30,9 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            HostShip.ShipAbilities.RemoveAll(n => n.GetType() == typeof(NetworkedCalculationsAbility));
+            NetworkedCalculationsAbility oldAbility = (NetworkedCalculationsAbility)HostShip.ShipAbilities.First(n => n.GetType() == typeof(NetworkedCalculationsAbility));
+            oldAbility.DeactivateAbility();
+            HostShip.ShipAbilities.Remove(oldAbility);
 
             GenericAbility ability = new IndependentCalculationsAbility();
             ability.HostUpgrade = HostUpgrade;

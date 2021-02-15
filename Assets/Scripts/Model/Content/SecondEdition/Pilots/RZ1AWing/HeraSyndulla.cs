@@ -13,20 +13,20 @@ namespace Ship
             {
                 PilotInfo = new PilotCardInfo(
                     "Hera Syndulla",
-                    5,
-                    38,
-                    pilotTitle: "Spectre-2",
+                    6,
+                    42,
+                    pilotTitle: "Phoenix Leader",
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility),
+                    abilityType: typeof(Abilities.SecondEdition.HeraSyndullaBWingAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent }
                 );
 
-                RequiredMods = new List<Type>() { typeof(PhoenixSquadronModSE) };
-                PilotNameCanonical = "herasyndulla-rz1awing-phoenixsquadronmod";
+                RequiredMods = new List<Type>() { typeof(UnreleasedContentMod) };
+                PilotNameCanonical = "herasyndulla-rz1awing";
 
                 ModelInfo.SkinName = "Hera Syndulla";
 
-                ImageUrl = "https://i.imgur.com/kIxZ2u1.png";
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/da/1c/da1cbafb-3893-4ebb-aa80-516f21c2186a/swz83_ship_herasyndulla.png";
             }
         }
     }

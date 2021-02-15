@@ -17,13 +17,14 @@ namespace Ship
             {
                 ShipInfo.ShipName = "RZ-1 A-wing";
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
+                if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction)));
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.SegnorsLoop), MovementComplexity.Complex);
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.SegnorsLoop), MovementComplexity.Complex);
                 DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn));
 
-                ShipAbilities.Add(new VectoredThrusters());
+                ShipAbilities.Add(new VectoredThrustersAbility());
 
                 IconicPilots[Faction.Rebel] = typeof(JakeFarrell);
 
@@ -36,7 +37,7 @@ namespace Ship
 namespace Abilities.SecondEdition
 {
     //After you perform an action, you may perform a red boost action.
-    public class VectoredThrusters : GenericAbility
+    public class VectoredThrustersAbility : GenericAbility
     {
         public override string Name { get { return "Vectored Thrusters"; } }
 

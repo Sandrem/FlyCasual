@@ -1,6 +1,7 @@
 ﻿using Abilities;
 using Actions;
 using ActionsList;
+using Arcs;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace Upgrade
         public int AddShields { get; private set; }
         public int AddForce { get; private set; }
         public ShipArcInfo AddArc { get; private set; }
+        public ArcType RemoveArc { get; private set; }
         public Type RemoteType { get; private set; }
 
         public UpgradeCardInfo(
@@ -59,6 +61,7 @@ namespace Upgrade
             int seImageNumber = 0,
             SpecialWeaponInfo weaponInfo = null,
             ShipArcInfo addArc = null,
+            ArcType removeArc = ArcType.None,
             ActionInfo addAction = null,
             List<ActionInfo> addActions = null,
             LinkedActionInfo addActionLink = null,
@@ -124,6 +127,7 @@ namespace Upgrade
             AddForce = addForce;
 
             AddArc = addArc;
+            RemoveArc = removeArc;
 
             SubType = subType;
             RemoteType = remoteType;
@@ -140,6 +144,7 @@ namespace Upgrade
             HostShip = hostUpgrade.HostShip;
 
             AddStats();
+            ForbidArcs();
             AddArcs();
             AddSlots();
             AddActions();
@@ -160,6 +165,11 @@ namespace Upgrade
             HostShip.ShipInfo.Hull += AddHull;
             HostShip.ShipInfo.Shields += AddShields;
             HostShip.PilotInfo.Force += AddForce;
+        }
+
+        public void ForbidArcs()
+        {
+            if (RemoveArc != ArcType.None) HostShip.ShipInfo.ArcInfo.Arcs.RemoveAll(n => n.ArcType == RemoveArc);
         }
 
         private void AddArcs()

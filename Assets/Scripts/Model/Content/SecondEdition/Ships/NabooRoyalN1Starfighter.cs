@@ -79,7 +79,7 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
                 "XWing-Laser", 2
             );
 
-            ShipAbilities.Add(new Abilities.SecondEdition.FullThrottle());
+            ShipAbilities.Add(new Abilities.SecondEdition.FullThrottleAbility());
 
             ShipIconLetter = '<';
         }

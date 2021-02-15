@@ -20,13 +20,14 @@ namespace Ship
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Sensor);
+                if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
 
                 ShipInfo.Shields = 4;
 
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(EvadeAction)));
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BoostAction)));
 
-                ShipAbilities.Add(new Abilities.SecondEdition.FullThrottle());
+                ShipAbilities.Add(new Abilities.SecondEdition.FullThrottleAbility());
 
                 IconicPilots[Faction.Imperial] = typeof(CountessRyad);
 
@@ -42,7 +43,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class FullThrottle: Abilities.FirstEdition.TIEx7Ability
+    public class FullThrottleAbility: Abilities.FirstEdition.TIEx7Ability
     {
         public override string Name { get { return "Full Throttle"; } }
 

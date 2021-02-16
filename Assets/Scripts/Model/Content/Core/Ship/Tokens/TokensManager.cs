@@ -22,6 +22,11 @@ namespace Ship
             return AssignedTokens;
         }
 
+        public List<GenericToken> GetTokensByColor(params TokenColors[] colors)
+        {
+            return AssignedTokens.Where(n => colors.Contains(n.TokenColor)).ToList();
+        }
+
         public bool HasGreenTokens => HasTokenByColor(TokenColors.Green);
 
         public bool HasTokenByColor(TokenColors tokensColor)

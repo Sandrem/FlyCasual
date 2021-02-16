@@ -127,11 +127,11 @@ namespace Abilities
         /// <summary>
         /// Register trigger of ability
         /// </summary>
-        public Trigger RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null, bool isSkippable = false)
+        public Trigger RegisterAbilityTrigger(TriggerTypes triggerType, EventHandler eventHandler, System.EventArgs e = null, bool isSkippable = false, string customTriggerName = null)
         {
             var trigger = new Trigger()
             {
-                Name = Name,
+                Name = customTriggerName ?? Name,
                 TriggerType = triggerType,
                 TriggerOwner = HostShip.Owner.PlayerNo,
                 EventHandler = eventHandler,

@@ -14,6 +14,8 @@ namespace UpgradesList.SecondEdition
     {
         public Cutthroat() : base()
         {
+            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Cutthroat",
                 UpgradeType.Talent,

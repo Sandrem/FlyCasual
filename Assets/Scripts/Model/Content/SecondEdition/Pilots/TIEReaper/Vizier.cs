@@ -16,7 +16,7 @@ namespace Ship
                     2,
                     45,
                     isLimited: true,
-                    abilityType: typeof(VizierAbility)
+                    abilityType: typeof(VizierAbility),
                     seImageNumber: 115
                 );
             }

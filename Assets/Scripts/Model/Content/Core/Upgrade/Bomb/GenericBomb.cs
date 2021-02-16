@@ -21,6 +21,9 @@ namespace Upgrade
 
         public List<GenericDeviceGameObject> CurrentBombObjects = new List<GenericDeviceGameObject>();
 
+        public delegate void SimpleEvent();
+        public static SimpleEvent OnBombIsDetonated;
+
         public GenericBomb() : base()
         {
 
@@ -122,6 +125,10 @@ namespace Upgrade
             callBack();
         }
 
+        public static void CallBombIsDetonated()
+        {
+            OnBombIsDetonated?.Invoke();
+        }
     }
 
 }

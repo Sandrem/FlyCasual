@@ -108,17 +108,16 @@ namespace Bombs
 
         public static List<GenericShip> GetShipsInRange(GenericDeviceGameObject bombObject)
         {
+            return GetShipsInRange(bombObject, bombObject.ParentUpgrade.detonationRange);
+        }
+
+        public static List<GenericShip> GetShipsInRange(GenericDeviceGameObject bombObject, int range)
+        {
             List<GenericShip> result = new List<GenericShip>();
 
             foreach (var ship in Roster.AllShips.Select(n => n.Value))
             {
-                if (!ship.IsDestroyed)
-                {
-                    if (IsShipInRange(ship, bombObject, bombObject.ParentUpgrade.detonationRange))
-                    {
-                        result.Add(ship);
-                    }
-                }
+                if (!ship.IsDestroyed && IsShipInRange(ship, bombObject, range)) result.Add(ship);
             }
 
             return result;
@@ -171,6 +170,8 @@ namespace Bombs
 
         public static void ResolveDetonationTriggers()
         {
+            GenericBomb.CallBombIsDetonated();
+
             Triggers.ResolveTriggers(TriggerTypes.OnBombIsDetonated, ResolveRemoveModelTriggers);
         }
 

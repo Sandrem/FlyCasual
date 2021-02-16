@@ -53,8 +53,9 @@ namespace Obstacles
         {
             if (Selection.ThisShip.ObstaclesLanded.Contains(this) && !Selection.ThisShip.CanAttackWhileLandedOnObstacle())
             {
-                stringList.Add(Selection.ThisShip.PilotInfo.PilotName + " landed on an asteroid and cannot attack");
                 result = false;
+                Selection.ThisShip.CallCheckObstacleDenyAttack(this, ref result);
+                if (!result) stringList.Add(Selection.ThisShip.PilotInfo.PilotName + " landed on an asteroid and cannot attack");
             }
         }
 

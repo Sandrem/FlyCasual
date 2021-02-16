@@ -9,6 +9,7 @@ using Editions;
 using SquadBuilderNS;
 using Tokens;
 using System.Linq;
+using Obstacles;
 
 namespace Ship
 {
@@ -23,6 +24,8 @@ namespace Ship
     {
         public Dictionary<Faction, Type> IconicPilots;
         public ShipSoundInfo SoundInfo;
+
+        public delegate void EventHandlerObstacleRefBool(GenericObstacle obstacle, ref bool isAllowed);
 
         public event EventHandlerShip OnDocked;
         public event EventHandlerShip OnUndocked;
@@ -53,6 +56,7 @@ namespace Ship
         public event EventHandlerDamageCard OnFaceupDamageCardIsRepaired;
 
         public static event EventHandlerShipRefInt OnForceTokensAreSpent;
+        public event EventHandlerObstacleRefBool OnCheckObstacleDenyAttack;
 
         public GenericShip DockingHost;
 
@@ -422,6 +426,11 @@ namespace Ship
         {
             OnForceTokensAreSpent?.Invoke(this, ref count);
             Triggers.ResolveTriggers(TriggerTypes.OnForceTokensAreSpent, callback);
+        }
+
+        public void CallCheckObstacleDenyAttack(GenericObstacle obstacle, ref bool isAllowed)
+        {
+            OnCheckObstacleDenyAttack?.Invoke(obstacle, ref isAllowed);
         }
     }
 

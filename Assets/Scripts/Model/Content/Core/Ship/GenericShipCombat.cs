@@ -39,6 +39,7 @@ namespace Ship
         public int DiceRolledLastAttack { get; set; }
 
         // EVENTS
+        public delegate void EventHandlerShipWeaponRefBool(GenericShip ship, IShipWeapon weapon, ref bool isAllowed);
 
         public event EventHandlerShip OnSystemsPhaseStart;
 
@@ -177,6 +178,8 @@ namespace Ship
         public event EventHandlerShipRefInt OnShotObstructedByMe;
 
         public event EventHandlerShipRefBool OnTargetForAttackIsAllowed;
+
+        public event EventHandlerShipWeaponRefBool OnCheckIsForbiddenWeapon;
 
         // TRIGGERS
 
@@ -1017,6 +1020,13 @@ namespace Ship
         public void CallTargetForAttackIsAllowed(GenericShip target, ref bool isAllowed)
         {
             OnTargetForAttackIsAllowed?.Invoke(target, ref isAllowed);
+        }
+
+        public bool CheckIsForbiddenWeapon(GenericShip ship, IShipWeapon weapon)
+        {
+            bool isForbidden = false;
+            OnCheckIsForbiddenWeapon?.Invoke(ship, weapon, ref isForbidden);
+            return isForbidden;
         }
     }
 

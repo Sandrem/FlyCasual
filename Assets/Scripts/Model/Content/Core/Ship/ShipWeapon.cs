@@ -48,6 +48,8 @@ namespace Ship
         {
             bool result = true;
 
+            if (HostShip.CheckIsForbiddenWeapon(HostShip, this)) return false;
+
             int minRange = WeaponInfo.MinRange;
             int maxRange = WeaponInfo.MaxRange;
             HostShip.CallUpdateWeaponRange(this, ref minRange, ref maxRange, targetShip);

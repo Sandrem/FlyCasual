@@ -28,7 +28,14 @@ namespace SquadBuilderNS
         private static JSONObject GetRandomAiSquad()
         {
             string oldDirectoryPath = Application.persistentDataPath + "/" + Edition.Current.Name + "/RandomAiSquadrons";
-            if (Directory.Exists(oldDirectoryPath)) Directory.Move(oldDirectoryPath, oldDirectoryPath + "-IsNotUsedAnymore");
+            try
+            {
+                if (Directory.Exists(oldDirectoryPath)) Directory.Move(oldDirectoryPath, oldDirectoryPath + "-IsNotUsedAnymore");
+            }
+            catch
+            {
+                Messages.ShowError("Backup of old directory is failed: " + oldDirectoryPath);
+            }
 
             string directoryPathPrefix = Application.persistentDataPath + "/" + Edition.Current.Name + "/AiSquadrons";
             if (!Directory.Exists(directoryPathPrefix)) Directory.CreateDirectory(directoryPathPrefix);

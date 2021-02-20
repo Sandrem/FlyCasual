@@ -26,7 +26,7 @@ namespace Ship
         public Faction SubFaction { get; set; }
 
         public string Description { get; set; }
-        public string AbilityText { get; private set; }
+        public string AbilityText { get; set; }
 
         public ShipCardInfo(string shipName, BaseSize baseSize, Faction faction, ShipArcsInfo arcInfo, int agility, int hull, int shields, ShipActionsInfo actionIcons, ShipUpgradesInfo upgradeIcons, Faction subFaction = Faction.None, List<Faction> factionsAll = null, string description = null, string abilityText = "")
         {

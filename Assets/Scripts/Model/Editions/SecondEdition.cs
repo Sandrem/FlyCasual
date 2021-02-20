@@ -325,7 +325,7 @@ namespace Editions
 
         public override string GetPilotImageUrl(GenericShip ship, string filename)
         {
-            return RootUrlForImages + "Card_Pilot_" + ship.PilotInfo.SEImageNumber + ".png";
+            return (ship.PilotInfo.SEImageNumber == 0) ? null : RootUrlForImages + "Card_Pilot_" + ship.PilotInfo.SEImageNumber + ".png";
         }
 
         public override string GetUpgradeImageUrl(GenericUpgrade upgrade, string filename = null)

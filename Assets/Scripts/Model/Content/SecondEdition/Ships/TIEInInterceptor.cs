@@ -30,6 +30,8 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.SegnorsLoop), MovementComplexity.Complex);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/da/Maneuver_tie_interceptor.png";
+
+                ShipInfo.AbilityText = "Autothrusters: After you perform an action, you may perform a red Barrel Roll or red Boost action.";
             }
         }
     }

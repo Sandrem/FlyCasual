@@ -281,6 +281,7 @@ namespace SquadBuilderNS
 
                 if (squadJson.HasField("obstacles"))
                 {
+                    squad.ChosenObstacles.Clear();
                     squad.ChosenObstacles.AddRange(
                         new List<GenericObstacle>()
                         {

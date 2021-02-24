@@ -37,6 +37,7 @@ namespace SquadBuilderNS
 
         public void SetDefaultObstacles()
         {
+            ChosenObstacles.Clear();
             ChosenObstacles.AddRange
             (
                 new List<GenericObstacle>()

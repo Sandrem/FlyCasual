@@ -25,7 +25,9 @@ namespace Ship
                 RequiredMods = new List<Type>() { typeof(UnreleasedContentMod) };
                 PilotNameCanonical = "ahsokatano-rz1awing";
 
-                ModelInfo.SkinName = "Phoenix Squadron";
+                ModelInfo.SkinName = "Blue";
+
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f2/84/f284aa2b-9e09-4c3c-968b-935360a65edc/swz83_pilot_ahsokatano.png";
             }
         }
     }

@@ -26,7 +26,9 @@ namespace Ship
                 RequiredMods = new List<Type>() { typeof(UnreleasedContentMod) };
                 PilotNameCanonical = "wedgeantilles-rz1awing";
 
-                ModelInfo.SkinName = "Phoenix Squadron";
+                ModelInfo.SkinName = "Blue";
+
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/3f/b7/3fb7e02c-21fc-4f85-bbcd-2fcf2c5efcab/swz83_pilot_wedgeantilles.png";
             }
         }
     }

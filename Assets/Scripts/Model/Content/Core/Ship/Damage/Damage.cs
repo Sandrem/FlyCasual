@@ -64,6 +64,8 @@ namespace Ship
         {
             if (Combat.CurrentCriticalHitCard != null)
             {
+                if (Combat.Defender == Host) Combat.DamageCardsWereDealtToDefender++;
+
                 DamageCards.Add(Combat.CurrentCriticalHitCard);
                 Combat.CurrentCriticalHitCard.Assign(
                     Host,

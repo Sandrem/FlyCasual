@@ -57,6 +57,7 @@ public static class Combat
     public static IShipWeapon ChosenWeapon;
 
     public static GenericDamageCard CurrentCriticalHitCard;
+    public static int DamageCardsWereDealtToDefender;
 
     private static int attacksCounter;
     private static int hitsCounter;
@@ -230,6 +231,8 @@ public static class Combat
         SetArcAsUsedForAttack();
         DeclareAttackerAndDefender();
         ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);
+        DamageCardsWereDealtToDefender = 0;
+
         PayAttackCost();
     }
 

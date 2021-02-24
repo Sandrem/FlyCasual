@@ -110,7 +110,7 @@ namespace Abilities.SecondEdition
             HostShip.State.SpendForce(1, Triggers.FinishTrigger);
         }
 
-        private bool FilterTargets(GenericShip ship)
+        protected virtual bool FilterTargets(GenericShip ship)
         {
             return FilterByTargetType(ship, TargetTypes.This, TargetTypes.OtherFriendly) && FilterTargetsByRange(ship, 0, 1);
         }

@@ -21,6 +21,8 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
 
+                if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Title);
+
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(FocusAction), typeof(BarrelRollAction)));
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.TallonRoll), MovementComplexity.Complex);

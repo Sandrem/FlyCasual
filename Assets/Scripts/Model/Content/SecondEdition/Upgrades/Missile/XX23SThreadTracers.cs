@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
                     attackValue: 3,
                     minRange: 1,
                     maxRange: 3,
-                    requiresTokens: new List<System.Type>()
+                    requiresTokens: new List<Type>()
                     {
                         typeof(FocusToken),
                         typeof(CalculateToken),
@@ -45,7 +45,8 @@ namespace Abilities.SecondEdition
 
         public override AbilityPart Action => new EachShipCanDoAction(
             CanAcquireLock,
-            CancelAllResults,
+            onFinish: CancelAllResultsAndFinish,
+            onSkip: CancelAllResults,
             new ConditionsBlock(
                 new RangeToDefenderCondition(1, 3),
                 new TeamCondition(Team.Type.Friendly)
@@ -67,14 +68,18 @@ namespace Abilities.SecondEdition
             );
         }
 
+        private void CancelAllResultsAndFinish()
+        {
+            CancelAllResults();
+            Triggers.FinishTrigger();
+        }
+
         private void CancelAllResults()
         {
             Debug.Log("Cancel");
 
             Combat.DiceRollAttack.CancelAllResults();
             Combat.DiceRollAttack.RemoveAllFailures();
-
-            Triggers.FinishTrigger();
         }
     }
 }

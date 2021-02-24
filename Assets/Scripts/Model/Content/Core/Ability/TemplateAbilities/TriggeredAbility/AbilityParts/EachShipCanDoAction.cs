@@ -12,6 +12,7 @@ namespace Abilities
 
         private Action<GenericShip, Action> EachShipAction;
         private Action OnFinish;
+        private Action OnSkip;
         private ConditionsBlock Conditions;
         private AbilityDescription AbilityDescription;
 
@@ -20,11 +21,13 @@ namespace Abilities
         public EachShipCanDoAction(
             Action<GenericShip, Action> eachShipAction,
             Action onFinish = null,
+            Action onSkip = null,
             ConditionsBlock conditions = null,
             AbilityDescription description = null)
         {
             EachShipAction = eachShipAction;
             OnFinish = onFinish ?? Triggers.FinishTrigger;
+            OnSkip = onSkip;
             Conditions = conditions;
             AbilityDescription = description;
         }
@@ -61,7 +64,8 @@ namespace Abilities
                     AbilityDescription.Description,
                     AbilityDescription.ImageSource,
                     showSkipButton: true,
-                    callback: AfterShipIsSelected
+                    callback: AfterShipIsSelected,
+                    onSkip: OnSkip
                 );
             }
             else

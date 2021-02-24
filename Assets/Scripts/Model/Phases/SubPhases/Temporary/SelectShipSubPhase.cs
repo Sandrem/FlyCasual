@@ -43,6 +43,8 @@ namespace SubPhases
 
         public GenericAction HostAction { get; set; }
 
+        public Action OnSkip { get; private set; }
+
         public override void Start()
         {
             IsTemporary = true;
@@ -72,7 +74,17 @@ namespace SubPhases
 
         }
 
-        public void PrepareByParameters(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, bool showSkipButton, string abilityName, string description, IImageHolder imageSource = null)
+        public void PrepareByParameters(
+            Action selectTargetAction,
+            Func<GenericShip, bool> filterTargets,
+            Func<GenericShip, int> getAiPriority,
+            PlayerNo subphaseOwnerPlayerNo,
+            bool showSkipButton,
+            string abilityName,
+            string description,
+            IImageHolder imageSource = null,
+            Action onSkip = null
+        )
         {
             FilterShipTargets = filterTargets;
             GetAiPriority = getAiPriority;
@@ -89,6 +101,7 @@ namespace SubPhases
             DescriptionShort = abilityName;
             DescriptionLong = description;
             ImageSource = imageSource;
+            OnSkip = onSkip;
         }
 
         public override void Initialize()
@@ -340,6 +353,11 @@ namespace SubPhases
 
             ShowSubphaseDescription(DescriptionShort, DescriptionLong, ImageSource);
             IsLocked = false;
+        }
+
+        public override void SkipButton()
+        {
+            OnSkip?.Invoke();
         }
 
     }

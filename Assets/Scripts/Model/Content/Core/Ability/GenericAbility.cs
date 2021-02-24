@@ -307,7 +307,7 @@ namespace Abilities
         /// <summary>
         /// Starts "Select ship for ability" subphase
         /// </summary>
-        public void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true, Action callback = null)
+        public void SelectTargetForAbility(Action selectTargetAction, Func<GenericShip, bool> filterTargets, Func<GenericShip, int> getAiPriority, PlayerNo subphaseOwnerPlayerNo, string name = null, string description = null, IImageHolder imageSource = null, bool showSkipButton = true, Action callback = null, Action onSkip = null)
         {
             if (callback == null) callback = Triggers.FinishTrigger;
 
@@ -327,7 +327,8 @@ namespace Abilities
                 showSkipButton,
                 name,
                 description,
-                imageSource
+                imageSource,
+                onSkip
             );
 
             selectTargetSubPhase.Start();
@@ -441,6 +442,8 @@ namespace Abilities
 
             public override void SkipButton()
             {
+                base.SkipButton();
+
                 UI.HideSkipButton();
                 FinishSelection();
             }

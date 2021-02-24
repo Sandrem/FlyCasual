@@ -14,22 +14,60 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Sabine Wren",
                     3,
-                    40,
-                    pilotTitle: "Spectre-5",
+                    32,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.SabineWrenPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent }
+                    abilityType: typeof(Abilities.SecondEdition.SabineWrenAWingAbility),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent },
+                    abilityText: "While you defend or perform an attack, if the attack range is 1 and you are in the enemy ship's front arc, you may change 1 of your results to a hit or evade result."
                 );
 
-                RequiredMods = new List<Type>() { typeof(PhoenixSquadronModSE) };
-                PilotNameCanonical = "sabinewren-rz1awing-phoenixsquadronmod";
-
-                ImageUrl = "https://i.imgur.com/YpP14NT.png";
+                RequiredMods = new List<Type>() { typeof(UnreleasedContentMod) };
+                PilotNameCanonical = "sabinewren-rz1awing";
 
                 ModelInfo.SkinName = "Phoenix Squadron";
 
                 ModelInfo.SkinName = "Green";
             }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    public class SabineWrenAWingAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            AddDiceModification(
+                "Sabine Wren",
+                IsAvailable,
+                AiPriority,
+                DiceModificationType.Change,
+                1,
+                sideCanBeChangedTo: DieSide.Success
+            );
+        }
+
+        public override void DeactivateAbility()
+        {
+            RemoveDiceModification();
+        }
+
+        public bool IsAvailable()
+        {
+            return
+            (
+                Combat.ShotInfo.Range == 1 &&
+                (
+                    (Combat.Defender == HostShip && Combat.Attacker.SectorsInfo.IsShipInSector(HostShip, Arcs.ArcType.Front))
+                    || (Combat.Attacker == HostShip && Combat.Defender.SectorsInfo.IsShipInSector(HostShip, Arcs.ArcType.Front))
+                )
+            );
+        }
+
+        public int AiPriority()
+        {
+            return 100;
         }
     }
 }

@@ -33,7 +33,15 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         WaitingToLoad++;
         AllLoadingPanels.Add(this);
 
-        LoadTooltipImage(this.gameObject, Ship.ImageUrl);
+        if (Ship.ImageUrl != null)
+        {
+            LoadTooltipImage(this.gameObject, Ship.ImageUrl);
+        }
+        else
+        {
+            ShowTextVersionOfCard();
+        }
+
         if (ShowFromModInfo) SetFromModeName();
         SetOnClickHandler();
     }

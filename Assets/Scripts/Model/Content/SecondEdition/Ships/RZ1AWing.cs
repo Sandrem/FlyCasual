@@ -29,6 +29,8 @@ namespace Ship
                 IconicPilots[Faction.Rebel] = typeof(JakeFarrell);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b4/Maneuver_a-wing.png";
+
+                ShipInfo.AbilityText = "Vectored Thrusters: After you perfrom and action, you may perform a red boost action.";
             }
         }
     }

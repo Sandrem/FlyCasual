@@ -89,7 +89,7 @@ namespace Abilities.SecondEdition
             private bool FilterMultiSelection(GenericShip ship)
             {
                 DistanceInfo distInfo = new DistanceInfo(HostShip, ship);
-                return distInfo.Range >= 1 && distInfo.Range <= 2 && AllShipsInSelectionAreSameTeam(ship);
+                return distInfo.Range >= 1 && distInfo.Range <= 3 && AllShipsInSelectionAreSameTeam(ship);
             }
 
             private bool AllShipsInSelectionAreSameTeam(GenericShip ship)

@@ -75,7 +75,7 @@ public static class DirectionsMenu
 
     public static void FinishManeuverSelections()
     {
-        Phases.FinishSubPhase(typeof(ManeuverSelectionSubphase));
+        if (Phases.CurrentSubPhase is ManeuverSelectionSubphase) Phases.FinishSubPhase(typeof(ManeuverSelectionSubphase));
     }
 
     private static void PrepareSubphase(Action<string> doWithSelectedManeuver, Action callback)

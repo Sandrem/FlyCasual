@@ -51,6 +51,8 @@ namespace SubPhases
         protected const int PILOTSKILL_MIN = 0;
         protected const int PILOTSKILL_MAX = 12;
 
+        public virtual bool AllowsMultiplayerSelection { get; set; }
+
         public virtual void Start()
         {
             Roster.HighlightPlayer(RequiredPlayer);

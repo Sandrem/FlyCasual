@@ -726,6 +726,14 @@ public static partial class Roster {
         TogglePlayerHighlight(GetPlayer(playerNo), true);
     }
 
+    public static void HighlightOfPlayersTurnOn()
+    {
+        foreach (var player in Players)
+        {
+            player.PlayerInfoPanel.transform.Find("Highlight").gameObject.SetActive(true);
+        }
+    }
+
     public static void HighlightOfPlayersTurnOff()
     {
         foreach (var player in Players)

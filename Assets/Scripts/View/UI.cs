@@ -275,7 +275,7 @@ public class UI : MonoBehaviour {
 
     public static void ShowNextButton()
     {
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).PlayerType == Players.PlayerType.Human)
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).PlayerType == Players.PlayerType.Human || Phases.CurrentSubPhase.AllowsMultiplayerSelection)
         {
             GameObject.Find("UI").transform.Find("NextPanel").gameObject.SetActive(true);
             GameObject.Find("UI/NextPanel").transform.Find("NextButton").GetComponent<Animator>().enabled = false;

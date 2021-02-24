@@ -96,7 +96,14 @@ namespace Players
 
         public virtual void AssignManeuversStart()
         {
-            Roster.HighlightPlayer(PlayerNo);
+            if (Global.IsNetworkGame)
+            {
+                Roster.HighlightOfPlayersTurnOn();
+            }
+            else
+            {
+                Roster.HighlightPlayer(PlayerNo);
+            }
         }
 
         public virtual void PerformManeuver()

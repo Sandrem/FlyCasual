@@ -22,6 +22,8 @@ namespace GameCommands
             Console.Write($"Maneuver is assigned: \"{maneuverCode}\" for {Roster.GetShipById("ShipId:" + shipId).PilotInfo.PilotName} (ID:{shipId})");
 
             ShipMovementScript.AssignManeuver(shipId, maneuverCode);
+
+            if (Phases.CurrentSubPhase is PlanningSubPhase)  PlanningSubPhase.CheckForFinish();
         }
     }
 

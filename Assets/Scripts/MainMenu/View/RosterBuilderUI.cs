@@ -46,7 +46,7 @@ public class RosterBuilderUI : MonoBehaviour {
             {
                 MainMenu.CurrentMainMenu.ChangePanel("AiDecisionPanel");
             }
-            else if (Global.IsNetworkGame)
+            else if (Global.IsVsNetworkOpponent)
             {
                 MainMenu.CurrentMainMenu.ChangePanel("MultiplayerDecisionPanel");
             }
@@ -126,7 +126,7 @@ public class RosterBuilderUI : MonoBehaviour {
         {
             Global.SquadBuilder.SaveAutosaveSquadConfigurations();
 
-            if (!Global.IsNetworkGame)
+            if (!Global.IsVsNetworkOpponent)
             {
                 Global.SquadBuilder.GenerateSavedConfigurationsLocal();
                 GameController.StartBattle();

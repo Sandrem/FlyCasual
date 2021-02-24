@@ -73,12 +73,12 @@ namespace SquadBuilderNS
         {
             GameObject nextButton = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel").transform.Find("NextButton").gameObject;
             GameObject startGameButton = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel").transform.Find("StartGameButton").gameObject;
-            if (playerNo == PlayerNo.Player1 && !Global.IsNetworkGame)
+            if (playerNo == PlayerNo.Player1 && !Global.IsVsNetworkOpponent)
             {
                 nextButton.SetActive(true);
                 startGameButton.SetActive(false);
             }
-            else if (playerNo == PlayerNo.Player2 || Global.IsNetworkGame)
+            else if (playerNo == PlayerNo.Player2 || Global.IsVsNetworkOpponent)
             {
                 nextButton.SetActive(false);
                 startGameButton.SetActive(true);

@@ -126,9 +126,28 @@ public class Global : MonoBehaviour {
         SceneManager.LoadScene("Battle");
     }
 
-    public static bool IsNetworkGame
+    public static bool IsVsNetworkOpponent
     {
         get { return SquadBuilder.SquadLists[PlayerNo.Player2].PlayerType == typeof(NetworkOpponentPlayer); }
+    }
+
+    public static bool IsNetworkGame
+    {
+        get { return SquadBuilder.SquadLists[PlayerNo.Player2].PlayerType == typeof(NetworkOpponentPlayer) 
+                || SquadBuilder.SquadLists[PlayerNo.Player1].PlayerType == typeof(NetworkOpponentPlayer); }
+    }
+
+    public static PlayerNo MyPlayer
+    {
+        get {
+            if (IsNetworkGame)
+            {
+                if (SquadBuilder.SquadLists[PlayerNo.Player2].PlayerType == typeof(NetworkOpponentPlayer)) return PlayerNo.Player1;
+                if (SquadBuilder.SquadLists[PlayerNo.Player1].PlayerType == typeof(NetworkOpponentPlayer)) return PlayerNo.Player2;
+            }
+
+            return PlayerNo.Player1;
+        }
     }
 
     public static bool IsVsAiGame

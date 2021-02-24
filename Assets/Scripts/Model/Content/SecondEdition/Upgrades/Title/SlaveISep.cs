@@ -25,7 +25,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.SlaveISeparatistsAbility)
             );
 
-            NameCanonical = "slavei-separatists";
+            NameCanonical = "slavei-swz82";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/1e/db/1edb3304-9368-442f-95fd-f6a56d93deec/swz82_a1_upgrade_slave1.png";
         }        

@@ -23,6 +23,11 @@ namespace Players
         {
             DirectionsMenu.Show(doWithManeuverString, callback, filter);
         }
+
+        public override void SelectManeuver(Action<string> doWithManeuverString, Action callback, Func<string, bool> filter = null)
+        {
+            DirectionsMenu.Show(doWithManeuverString, callback, filter);
+        }
     }
 
 }

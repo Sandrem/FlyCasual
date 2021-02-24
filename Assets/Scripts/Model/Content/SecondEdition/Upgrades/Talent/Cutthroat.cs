@@ -51,11 +51,41 @@ namespace Abilities.SecondEdition
             DistanceInfo distanceInfo = new DistanceInfo(HostShip, ship);
             if (distanceInfo.Range > 3) return;
 
-            RegisterAbilityTrigger(
-                TriggerTypes.OnShipIsDestroyed,
-                AskWhatToDo,
-                customTriggerName: $"{HostUpgrade.UpgradeInfo.Name} (ID: {HostShip.ShipId})"
-            );
+            if (HasWhatToDo())
+            {
+                RegisterAbilityTrigger(
+                    TriggerTypes.OnShipIsDestroyed,
+                    AskWhatToDo,
+                    customTriggerName: $"{HostUpgrade.UpgradeInfo.Name} (ID: {HostShip.ShipId})"
+                );
+            }
+        }
+
+        private bool HasWhatToDo()
+        {
+            return HostShip.Tokens.HasTokenByColor(TokenColors.Red)
+                || HostShip.Tokens.HasTokenByColor(TokenColors.Orange)
+                || (HostShip.State.MaxCharges > 0
+                    && HostShip.State.RegensCharges == 0
+                    && HostShip.State.Charges < HostShip.State.MaxCharges)
+                || HasUpgradeToRecharge();
+        }
+
+        private bool HasUpgradeToRecharge()
+        {
+            foreach (GenericUpgrade upgrade in HostShip.UpgradeBar.GetUpgradesAll())
+            {
+                if (upgrade.State.MaxCharges > 0
+                    && upgrade.UpgradeInfo.RegensChargesCount == 0
+                    && upgrade.State.Charges < upgrade.State.MaxCharges
+                    && !upgrade.UpgradeInfo.CannotBeRecharged
+                )
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void AskWhatToDo(object sender, EventArgs e)

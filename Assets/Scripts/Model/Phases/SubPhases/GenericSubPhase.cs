@@ -160,6 +160,7 @@ namespace SubPhases
             }
         }
 
+        public virtual void NextButtonLocal() { }
     }
 
 }

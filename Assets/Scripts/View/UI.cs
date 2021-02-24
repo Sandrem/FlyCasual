@@ -225,6 +225,7 @@ public class UI : MonoBehaviour {
 
     public void ClickNextPhase()
     {
+        Phases.CurrentSubPhase.NextButtonLocal();
         CallClickNextPhase();
     }
 

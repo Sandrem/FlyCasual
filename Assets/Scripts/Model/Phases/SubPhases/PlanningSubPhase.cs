@@ -14,6 +14,7 @@ namespace SubPhases
 
         private static bool IsLocked;
         private int PlayersConfirmedFinish { get; set; }
+        private static bool IsPlanningFinished { get; set; }
 
         public override bool AllowsMultiplayerSelection => Global.IsNetworkGame;
 
@@ -51,6 +52,7 @@ namespace SubPhases
 
             IsLocked = false;
             IsReadyForCommands = true;
+            IsPlanningFinished = false;
             Roster.GetPlayer(RequiredPlayer).AssignManeuversStart();
         }
 
@@ -106,7 +108,14 @@ namespace SubPhases
             {
                 if (!(ship is GenericRemote))
                 {
-                    result = true;
+                    if (IsPlanningFinished)
+                    {
+                        Messages.ShowError("Your Planning Phase is finished");
+                    }
+                    else
+                    {
+                        result = true;
+                    }
                 }
                 else
                 {
@@ -135,6 +144,11 @@ namespace SubPhases
                     || (Global.IsNetworkGame == true && ship.Owner is Players.HumanPlayer))
                 && !RulesList.IonizationRule.IsIonized(ship)
                 && !(ship is GenericRemote);
+        }
+
+        public override void NextButtonLocal()
+        {
+            IsPlanningFinished = true;
         }
 
         public override void NextButton()
@@ -199,8 +213,11 @@ namespace SubPhases
             {
                 if (Roster.AllManuversAreAssigned(Global.MyPlayer))
                 {
-                    UI.ShowNextButton();
-                    UI.HighlightNextButton();
+                    if (!IsPlanningFinished)
+                    {
+                        UI.ShowNextButton();
+                        UI.HighlightNextButton();
+                    }
                 }
             }
         }

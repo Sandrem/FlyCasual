@@ -109,13 +109,20 @@ public static class Selection {
         if (Phases.CurrentSubPhase != null)
         {
             GenericShip ship = Roster.GetShipById(shipId);
-            if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
+            if (Phases.CurrentSubPhase.AllowsMultiplayerSelection)
             {
                 result = TryToChangeThisShip(shipId, mouseKeyIsPressed);
             }
             else
             {
-                result = TryToChangeAnotherShip(shipId, mouseKeyIsPressed);
+                if (ship.Owner.PlayerNo == Phases.CurrentSubPhase.RequiredPlayer)
+                {
+                    result = TryToChangeThisShip(shipId, mouseKeyIsPressed);
+                }
+                else
+                {
+                    result = TryToChangeAnotherShip(shipId, mouseKeyIsPressed);
+                }
             }
         }
 
@@ -183,7 +190,10 @@ public static class Selection {
 
     private static void DoSelectThisShip(int mouseKeyIsPressed)
     {
-        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer)) Phases.CurrentSubPhase.DoSelectThisShip(ThisShip, mouseKeyIsPressed);
+        if (Roster.GetPlayer(Phases.CurrentPhasePlayer).GetType() == typeof(Players.HumanPlayer) || Phases.CurrentSubPhase.AllowsMultiplayerSelection)
+        {
+            Phases.CurrentSubPhase.DoSelectThisShip(ThisShip, mouseKeyIsPressed);
+        }
     }
 
     public static void DeselectThisShip()

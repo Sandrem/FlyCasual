@@ -368,7 +368,7 @@ public static partial class Roster
     {
         AllShipsHighlightOff();
 
-        if (GetPlayer(Phases.CurrentSubPhase.RequiredPlayer) is HumanPlayer)
+        if (GetPlayer(Phases.CurrentSubPhase.RequiredPlayer) is HumanPlayer || Phases.CurrentSubPhase.AllowsMultiplayerSelection)
         {
             foreach (GenericShip ship in Roster.AllUnits.Values)
             {

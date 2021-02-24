@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Ship;
 using Remote;
-using System;
 using GameModes;
 using GameCommands;
 
@@ -12,9 +10,13 @@ namespace SubPhases
 
     public class PlanningSubPhase : GenericSubPhase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext, GameCommandTypes.SelectShipToAssignManeuver }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.PressNext, GameCommandTypes.SelectShipToAssignManeuver, GameCommandTypes.AssignManeuver }; } }
 
         private static bool IsLocked;
+        private int PlayersConfirmedFinish { get; set; }
+        private static bool IsPlanningFinished { get; set; }
+
+        public override bool AllowsMultiplayerSelection => Global.IsNetworkGame;
 
         public override void Start()
         {
@@ -50,24 +52,33 @@ namespace SubPhases
 
             IsLocked = false;
             IsReadyForCommands = true;
+            IsPlanningFinished = false;
             Roster.GetPlayer(RequiredPlayer).AssignManeuversStart();
         }
 
         public override void Next()
         {
-            if (Roster.AllManuversAreAssigned(RequiredPlayer))
+            if (!Global.IsNetworkGame)
             {
-                HideAssignedManeuversInHotSeatGame();
+                if (Roster.AllManuversAreAssigned(RequiredPlayer))
+                {
+                    HideAssignedManeuversInHotSeatGame();
 
-                if (RequiredPlayer == Phases.PlayerWithInitiative)
-                {
-                    RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
-                    PlayerAssignsManeuvers();
+                    if (RequiredPlayer == Phases.PlayerWithInitiative)
+                    {
+                        RequiredPlayer = Roster.AnotherPlayer(RequiredPlayer);
+                        PlayerAssignsManeuvers();
+                    }
+                    else
+                    {
+                        FinishPhase();
+                    }
                 }
-                else
-                {
-                    FinishPhase();
-                }
+            }
+            else
+            {
+                PlayersConfirmedFinish++;
+                if (PlayersConfirmedFinish == 2) FinishPhase();
             }
         }
 
@@ -90,11 +101,21 @@ namespace SubPhases
         public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
         {
             bool result = false;
-            if ((ship.Owner.PlayerNo == RequiredPlayer) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+            if (
+                ((ship.Owner.PlayerNo == RequiredPlayer) && (Roster.GetPlayer(RequiredPlayer).GetType() == typeof(Players.HumanPlayer)))
+                || (Global.IsNetworkGame == true && ship.Owner is Players.HumanPlayer)
+            )
             {
                 if (!(ship is GenericRemote))
                 {
-                    result = true;
+                    if (IsPlanningFinished)
+                    {
+                        Messages.ShowError("Your Planning Phase is finished");
+                    }
+                    else
+                    {
+                        result = true;
+                    }
                 }
                 else
                 {
@@ -119,9 +140,15 @@ namespace SubPhases
         private bool FilterShipsToAssignManeuver(GenericShip ship)
         {
             return ship.AssignedManeuver == null
-                && ship.Owner.PlayerNo == RequiredPlayer
+                && (ship.Owner.PlayerNo == RequiredPlayer
+                    || (Global.IsNetworkGame == true && ship.Owner is Players.HumanPlayer))
                 && !RulesList.IonizationRule.IsIonized(ship)
                 && !(ship is GenericRemote);
+        }
+
+        public override void NextButtonLocal()
+        {
+            IsPlanningFinished = true;
         }
 
         public override void NextButton()
@@ -138,8 +165,12 @@ namespace SubPhases
             {
                 IsLocked = true;
 
-                GameCommand command = GenerateSelectShipToAssignManeuver(ship.ShipId);
-                GameMode.CurrentGameMode.ExecuteCommand(command);
+                Selection.ChangeActiveShip(ship);
+                DirectionsMenu.Show(
+                    SendAssignManeuverCommand,
+                    CheckForFinish,
+                    isRegularPlanning: true
+                );
             }
             else
             {
@@ -147,15 +178,47 @@ namespace SubPhases
             }
         }
 
+        private void SendAssignManeuverCommand(string maneuverCode)
+        {
+            DirectionsMenu.FinishManeuverSelections();
+
+            JSONObject parameters = new JSONObject();
+            parameters.AddField("id", Selection.ThisShip.ShipId.ToString());
+            parameters.AddField("maneuver", maneuverCode);
+
+            GameMode.CurrentGameMode.ExecuteCommand(
+                GameController.GenerateGameCommand
+                (
+                    GameCommandTypes.AssignManeuver,
+                    typeof(PlanningSubPhase),
+                    parameters.ToString()
+                )
+            );
+        }
+
         public static void CheckForFinish()
         {
             Roster.HighlightShipOff(Selection.ThisShip);
             IsLocked = false;
 
-            if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
+            if (!Global.IsNetworkGame)
             {
-                UI.ShowNextButton();
-                UI.HighlightNextButton();
+                if (Roster.AllManuversAreAssigned(Phases.CurrentPhasePlayer))
+                {
+                    UI.ShowNextButton();
+                    UI.HighlightNextButton();
+                }
+            }
+            else
+            {
+                if (Roster.AllManuversAreAssigned(Global.MyPlayer))
+                {
+                    if (!IsPlanningFinished)
+                    {
+                        UI.ShowNextButton();
+                        UI.HighlightNextButton();
+                    }
+                }
             }
         }
 

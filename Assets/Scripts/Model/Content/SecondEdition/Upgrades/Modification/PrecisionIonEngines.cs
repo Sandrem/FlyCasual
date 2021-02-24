@@ -6,16 +6,16 @@ using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
-    public class PrecisionIonEngine : GenericUpgrade
+    public class PrecisionIonEngines : GenericUpgrade
     {
-        public PrecisionIonEngine() : base()
+        public PrecisionIonEngines() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
-                "Precision Ion Engine",
+                "Precision Ion Engines",
                 UpgradeType.Modification,
                 cost: 3,
                 charges: 2,
-                abilityType: typeof(Abilities.SecondEdition.PrecisionIonEngineAbility)
+                abilityType: typeof(Abilities.SecondEdition.PrecisionIonEnginesAbility)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/bb/fb/bbfb4727-e2f5-4f23-be9a-3341ea4de7b5/swz80_upgrade_precison-ion-engines.png";
@@ -31,7 +31,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class PrecisionIonEngineAbility : GenericAbility
+    public class PrecisionIonEnginesAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

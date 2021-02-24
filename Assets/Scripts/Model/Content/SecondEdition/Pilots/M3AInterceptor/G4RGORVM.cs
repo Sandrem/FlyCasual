@@ -8,16 +8,16 @@ namespace Ship
 {
     namespace SecondEdition.M3AInterceptor
     {
-        public class G4RG0RVM : M3AInterceptor
+        public class G4RGORVM : M3AInterceptor
         {
-            public G4RG0RVM() : base()
+            public G4RGORVM() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "G4R-G0R V/M",
+                    "G4R-GOR V/M",
                     0,
                     28,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.G4RG0RVMAbility)
+                    abilityType: typeof(Abilities.SecondEdition.G4RGORVMAbility)
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/4c/2c/4c2c309f-f9b0-4a93-a3a5-28b43fe981c3/swz66_g4r-g0r_vm.png";
@@ -29,7 +29,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class G4RG0RVMAbility : GenericAbility
+    public class G4RGORVMAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

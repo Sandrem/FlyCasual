@@ -29,7 +29,6 @@ namespace SquadBuilderNS
             {
                 GameObject newObstacleViewPanel = GameObject.Instantiate(prefab, contentGO.transform);
                 GenericObstacle obstacle = Global.SquadBuilder.CurrentSquad.ChosenObstacles[i];
-                Debug.Log(obstacle.Name);
                 newObstacleViewPanel.GetComponent<ObstacleViewPanelScript>().Initialize(
                     obstacle,
                     i + 1,
@@ -65,11 +64,6 @@ namespace SquadBuilderNS
                         MainMenu.CurrentMainMenu.ChangePanel("ChosenObstaclesPanel");
                     }
                 );
-
-                if (Global.SquadBuilder.CurrentSquad.ChosenObstacles.Contains(obstacle))
-                {
-                    Debug.Log(obstacle.Name);
-                }
 
                 if (Global.SquadBuilder.CurrentSquad.ChosenObstacles.Contains(obstacle) && obstacle != CurrentObstacle)
                 {

@@ -10,6 +10,8 @@ namespace Ship
         {
             public JinataSecurityOfficer() : base()
             {
+                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+
                 PilotInfo = new PilotCardInfo
                 (
                     "Jinata Security Officer",

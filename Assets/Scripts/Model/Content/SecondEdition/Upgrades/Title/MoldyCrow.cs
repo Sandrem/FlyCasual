@@ -57,10 +57,6 @@ namespace Abilities.SecondEdition
                     remove = false;
                 }
             }
-            else
-            {
-                if (token is FocusToken) remove = true;
-            }
         }
     }
 }

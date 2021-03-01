@@ -16,6 +16,7 @@ namespace Tokens
         {
             Name = ImageName = "Red Target Lock Token";
             TokenColor = TokenColors.Red;
+            TokenShape = TokenShapes.Square;
             PriorityUI = 20;
 
             HostTargetable = host;

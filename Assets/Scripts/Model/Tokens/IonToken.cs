@@ -15,6 +15,7 @@ namespace Tokens
             Name = ImageName = "Ion Token";
             Temporary = false;
             TokenColor = TokenColors.Red;
+            TokenShape = TokenShapes.Square;
             PriorityUI = 35;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/IonToken.png";
         }

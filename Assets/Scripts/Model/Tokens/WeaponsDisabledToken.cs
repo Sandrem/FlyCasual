@@ -15,6 +15,7 @@ namespace Tokens
             Temporary = true;
             PriorityUI = 45;
             TokenColor = TokenColors.Orange;
+            TokenShape = TokenShapes.Cirular;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/SlamAction.png";
         }
 

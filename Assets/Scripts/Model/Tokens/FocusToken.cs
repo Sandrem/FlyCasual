@@ -12,6 +12,7 @@ namespace Tokens
         {
             Name = ImageName = "Focus Token";
             TokenColor = TokenColors.Green;
+            TokenShape = TokenShapes.Cirular;
             PriorityUI = 70;
             Action = new ActionsList.FocusAction() { HostShip = host};
         }

@@ -13,6 +13,7 @@ namespace Tokens
         {
             Name = ImageName = "Blue Target Lock Token";
             TokenColor = TokenColors.Blue;
+            TokenShape = TokenShapes.Square;
             PriorityUI = 55;
             Action = new ActionsList.TargetLockAction() { HostShip = host };
         }

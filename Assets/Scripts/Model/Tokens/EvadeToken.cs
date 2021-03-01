@@ -12,6 +12,7 @@ namespace Tokens
         {
             Name = ImageName = "Evade Token";
             TokenColor = TokenColors.Green;
+            TokenShape = TokenShapes.Cirular;
             PriorityUI = 60;
             Action = new ActionsList.EvadeAction() { HostShip = host };
         }

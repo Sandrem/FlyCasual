@@ -14,6 +14,7 @@ namespace Tokens
             Temporary = false;
             PriorityUI = 30;
             TokenColor = TokenColors.Red;
+            TokenShape = TokenShapes.Square;
         }
 
     }

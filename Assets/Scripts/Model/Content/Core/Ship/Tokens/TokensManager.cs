@@ -27,6 +27,11 @@ namespace Ship
             return AssignedTokens.Where(n => colors.Contains(n.TokenColor)).ToList();
         }
 
+        public List<GenericToken> GetTokensByShape(TokenShapes shape)
+        {
+            return AssignedTokens.Where(n => n.TokenShape == shape).ToList();
+        }
+
         public bool HasGreenTokens => HasTokenByColor(TokenColors.Green);
 
         public bool HasTokenByColor(TokenColors tokensColor)
@@ -48,6 +53,11 @@ namespace Ship
         public int CountTokensByType(Type type)
         {
             return GetAllTokens().Count(n => n.GetType() == type);
+        }
+
+        public int CountTokensByShape(TokenShapes shape)
+        {
+            return GetAllTokens().Count(n => n.TokenShape == shape);
         }
 
         public bool HasToken<T>(char letter = ' ') where T : GenericToken

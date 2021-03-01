@@ -14,6 +14,13 @@ namespace Tokens
         Empty
     }
 
+    public enum TokenShapes
+    {
+        Other,
+        Cirular,
+        Square
+    }
+
     public class GenericToken
     {
         public string Name;
@@ -24,6 +31,7 @@ namespace Tokens
         public bool CanBeUsed = true;
         public string Tooltip;
         public TokenColors TokenColor = TokenColors.Empty;
+        public TokenShapes TokenShape = TokenShapes.Other;
         public Type TooltipType;
         public int PriorityUI { get; protected set; }
 

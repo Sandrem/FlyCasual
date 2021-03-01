@@ -16,6 +16,7 @@ namespace Tokens
             ImageName = (Edition.Current is SecondEdition) ? "Tractor Beam Token SE" : "Tractor Beam Token FE";
             Temporary = true;
             TokenColor = TokenColors.Orange;
+            TokenShape = TokenShapes.Cirular;
             PriorityUI = 40;
             Tooltip = "https://raw.githubusercontent.com/guidokessels/xwing-data/master/images/reference-cards/TractorBeamToken.png";
             Assigner = assigner;

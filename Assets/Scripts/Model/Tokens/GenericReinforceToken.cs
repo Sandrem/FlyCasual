@@ -11,6 +11,7 @@ namespace Tokens
         public GenericReinforceToken(GenericShip host): base(host)
         {
             TokenColor = TokenColors.Green;
+            TokenShape = TokenShapes.Cirular;
             PriorityUI = 80;
         }
 

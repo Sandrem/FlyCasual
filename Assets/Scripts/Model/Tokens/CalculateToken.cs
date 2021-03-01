@@ -12,6 +12,7 @@ namespace Tokens
         {
             Name = ImageName = "Calculate Token";
             TokenColor = TokenColors.Green;
+            TokenShape = TokenShapes.Cirular;
             PriorityUI = 65;
             Action = new ActionsList.CalculateAction() { HostShip = host};
         }

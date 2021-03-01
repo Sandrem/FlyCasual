@@ -27,6 +27,8 @@ namespace Ship
                 PilotNameCanonical = "vultskerris-tieinterceptor";
 
                 ModelInfo.SkinName = "Vult Skerris";
+
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fc/c9/fcc90b4b-afb5-4e62-a385-7053fde0d825/swz84_pilot_vultskerris.png";
             }
         }
     }

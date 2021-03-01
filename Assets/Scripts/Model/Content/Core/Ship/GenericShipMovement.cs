@@ -100,6 +100,7 @@ namespace Ship
         public event EventHandlerShip OnMovementBumped;
         public static event EventHandlerShip OnMovementFinishGlobal;
         public static event EventHandlerShip OnMovementFinishSuccessfullyGlobal;
+        public static event EventHandlerShip OnMovementFinishUnsuccessfullyGlobal;
 
         public event EventHandlerShip OnPositionIsReadyToFinish;
         public static event EventHandlerShip OnPositionIsReadyToFinishGlobal;
@@ -198,8 +199,9 @@ namespace Ship
             else if (IsBumped)
             {
                 if (OnMovementFinishUnsuccessfully != null) OnMovementFinishUnsuccessfully(this);
+                if (OnMovementFinishUnsuccessfullyGlobal != null) OnMovementFinishUnsuccessfullyGlobal(this);
 
-                foreach(GenericShip ship in ShipsBumped)
+                foreach (GenericShip ship in ShipsBumped)
                 {
                     ship.CallOnMovementBumped(this);
                 }

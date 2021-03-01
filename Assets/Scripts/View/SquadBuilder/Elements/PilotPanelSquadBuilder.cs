@@ -153,6 +153,8 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             }
 
             if (Ship.Faction != Faction.Scum) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Illicit); i++) slotsText.text += "I";
+
+            if (Ship.Faction != Faction.FirstOrder && Ship.Faction != Faction.Resistance) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Tech); i++) slotsText.text += "X";
         }
     }
 

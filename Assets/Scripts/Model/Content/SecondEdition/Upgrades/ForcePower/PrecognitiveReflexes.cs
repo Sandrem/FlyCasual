@@ -58,9 +58,9 @@ namespace Abilities.SecondEdition
             RegisterAbilityTrigger(TriggerTypes.OnManeuverIsRevealed, AskPerformFreeAction);
         }
 
-        private void AskPerformFreeAction(object sender, System.EventArgs e)
+        private void AskPerformFreeAction(object sender, EventArgs e)
         {
-            if (HostShip.State.Force > 0)
+            if (HostShip.State.Force > 0 && HostShip.IsCanUseForceNow())
             {
                 HostShip.BeforeActionIsPerformed += PayForceToken;
                 HostShip.OnActionIsPerformed += CheckDebuff;

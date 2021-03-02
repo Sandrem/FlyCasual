@@ -12,8 +12,7 @@ namespace UpgradesList.SecondEdition
                 "Predictive Shot",
                 UpgradeType.ForcePower,
                 cost: 1,
-                abilityType: typeof(Abilities.SecondEdition.PredictiveShotAbility)//,
-                                                                        //seImageNumber: 22
+                abilityType: typeof(Abilities.SecondEdition.PredictiveShotAbility)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e0100c63b2753daf68a9d3948824b086.png";
@@ -37,7 +36,10 @@ namespace Abilities.SecondEdition
 
         private void RegisterAbility()
         {
-            if (HostShip.State.Force > 0 && HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye))
+            if (HostShip.State.Force > 0 &&
+                HostShip.IsCanUseForceNow() &&
+                HostShip.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye)
+            )
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskUsePredictiveShot);
             }

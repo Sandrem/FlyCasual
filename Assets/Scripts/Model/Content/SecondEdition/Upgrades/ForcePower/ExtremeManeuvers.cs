@@ -43,8 +43,11 @@ namespace Abilities.SecondEdition
 
         private void ChangeBoostTemplates(List<BoostMove> availableMoves, GenericAction action)
         {
-            availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.LeftTurn1, isPurple: true));
-            availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.RightTurn1, isPurple: true));
+            if (HostShip.IsCanUseForceNow())
+            {
+                availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.LeftTurn1, isPurple: true));
+                availableMoves.Add(new BoostMove(ActionsHolder.BoostTemplates.RightTurn1, isPurple: true));
+            }
         }
     }
 }

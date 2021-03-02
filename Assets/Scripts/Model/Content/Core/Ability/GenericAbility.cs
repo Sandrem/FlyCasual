@@ -546,7 +546,8 @@ namespace Abilities
             Action payAbilityPostCost = null,
             bool isTrueReroll = true,
             bool isForcedFullReroll = false,
-            bool isForcedModification = false
+            bool isForcedModification = false,
+            bool canBeUsedFewTimes = false
         )
         {
             AddDiceModification(
@@ -563,7 +564,8 @@ namespace Abilities
                 payAbilityPostCost,
                 isTrueReroll,
                 isForcedFullReroll,
-                isForcedModification
+                isForcedModification,
+                canBeUsedFewTimes
             );
         }
 
@@ -584,7 +586,8 @@ namespace Abilities
             Action payAbilityPostCost = null,
             bool isTrueReroll = true,
             bool isForcedFullReroll = false,
-            bool isForcedModification = false
+            bool isForcedModification = false,
+            bool canBeUsedFewTimes = false
         )
         {
             if (sidesCanBeSelected == null) sidesCanBeSelected = new List<DieSide>() { DieSide.Blank, DieSide.Focus, DieSide.Success, DieSide.Crit };
@@ -630,6 +633,7 @@ namespace Abilities
                         });
                     },
                     IsReroll = modificationType == DiceModificationType.Reroll,
+                    CanBeUsedFewTimes = canBeUsedFewTimes
                 };
 
                 if (!isGlobal)

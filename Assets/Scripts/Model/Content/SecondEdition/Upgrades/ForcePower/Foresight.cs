@@ -165,7 +165,8 @@ namespace Abilities.SecondEdition
                 if (shotInfo.Range <= (HostUpgrade as IShipWeapon).WeaponInfo.MaxRange &&
                     shotInfo.Range >= (HostUpgrade as IShipWeapon).WeaponInfo.MinRange &&
                     shotInfo.IsShotAvailable &&
-                    HostShip.State.Force > 0)
+                    HostShip.State.Force > 0 &&
+                    HostShip.IsCanUseForceNow())
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnMovementFinish, AskForesightAbility);
                 }

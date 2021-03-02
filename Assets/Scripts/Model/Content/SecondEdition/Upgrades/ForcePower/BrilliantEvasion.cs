@@ -37,7 +37,8 @@ namespace Abilities.SecondEdition
                 2,
                 new List<DieSide> { DieSide.Focus },
                 DieSide.Success, 
-                payAbilityCost: SpendForce);
+                payAbilityCost: SpendForce
+            );
         }
 
         public override void DeactivateAbility()
@@ -54,6 +55,8 @@ namespace Abilities.SecondEdition
             if (Combat.Defender != HostShip) return false;
 
             if (Combat.Attacker.SectorsInfo.IsShipInSector(Combat.Defender, ArcType.Bullseye)) return false;
+
+            if (!HostShip.IsCanUseForceNow()) return false;
 
             return true;
         }

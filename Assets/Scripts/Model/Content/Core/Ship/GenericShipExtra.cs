@@ -58,6 +58,8 @@ namespace Ship
         public static event EventHandlerShipRefInt OnForceTokensAreSpent;
         public event EventHandlerObstacleRefBool OnCheckObstacleDenyAttack;
 
+        public event EventHandlerBool OnCheckCanUseForceNow;
+
         public GenericShip DockingHost;
 
         public List<GenericShip> TwoTargetLocksOnDifferentTargetsAreAllowed = new List<GenericShip>();
@@ -431,6 +433,13 @@ namespace Ship
         public void CallCheckObstacleDenyAttack(GenericObstacle obstacle, ref bool isAllowed)
         {
             OnCheckObstacleDenyAttack?.Invoke(obstacle, ref isAllowed);
+        }
+
+        public bool IsCanUseForceNow()
+        {
+            bool canUseForceNow = true;
+            OnCheckCanUseForceNow?.Invoke(ref canUseForceNow);
+            return canUseForceNow;
         }
     }
 

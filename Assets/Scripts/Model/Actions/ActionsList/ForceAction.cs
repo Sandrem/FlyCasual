@@ -69,7 +69,9 @@ namespace ActionsList
 
         public override bool IsDiceModificationAvailable()
         {
-            return HostShip.State.Force > 0 && Combat.CurrentDiceRoll.Focuses != 0;
+            return HostShip.State.Force > 0
+                && HostShip.IsCanUseForceNow()
+                && Combat.CurrentDiceRoll.Focuses != 0;
         }
 
     }

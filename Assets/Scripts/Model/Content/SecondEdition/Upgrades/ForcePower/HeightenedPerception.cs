@@ -41,7 +41,7 @@ namespace Abilities.SecondEdition
 
         private void RegisterTrigger()
         {
-            if (HostShip.Tokens.CountTokensByType(typeof(ForceToken)) > 0)
+            if (HostShip.State.Force > 0 && HostShip.IsCanUseForceNow())
             {
                 RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskToUseHeightenedPerception);
             }

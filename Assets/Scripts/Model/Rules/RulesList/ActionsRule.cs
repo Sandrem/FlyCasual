@@ -17,7 +17,7 @@ namespace RulesList
         {
             if (ship.IsAlreadyExecutedAction(action)) result = false;
 
-            if (action.Color == ActionColor.Purple && ship.State.Force == 0) result = false;
+            if (action.Color == ActionColor.Purple && (ship.State.Force == 0 || !ship.IsCanUseForceNow())) result = false;
         }
 
         public void ActionColorCheck(GenericAction action)

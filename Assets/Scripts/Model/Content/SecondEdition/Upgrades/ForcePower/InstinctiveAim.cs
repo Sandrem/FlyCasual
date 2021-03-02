@@ -36,7 +36,7 @@ namespace Abilities.SecondEdition
 
         private void AddForceTokenAsAlternative(List<GenericToken> waysToPay)
         {
-            if (HostShip.State.Force > 0)
+            if (HostShip.State.Force > 0 && HostShip.IsCanUseForceNow())
             {
                 GenericToken forceToken = HostShip.Tokens.GetToken(typeof(ForceToken));
                 waysToPay.Add(forceToken);

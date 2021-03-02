@@ -43,7 +43,10 @@ namespace Abilities.SecondEdition
 
         private void RegisterAbility(GenericShip ship)
         {
-            if (Board.GetShipsAtRange(HostShip, new Vector2(MinRange, MaxRange), Team.Type.Enemy).Count > 0)
+            if (Board.GetShipsAtRange(HostShip, new Vector2(MinRange, MaxRange), Team.Type.Enemy).Count > 0 &&
+                HostShip.State.Force > 0 &&
+                HostShip.IsCanUseForceNow()
+            )
             {
                 RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, StartSelectTargetForAbility);
             }
@@ -51,7 +54,13 @@ namespace Abilities.SecondEdition
 
         private void RegisterAbilityTriggerByShip(GenericShip ship, ref bool flag)
         {
-            if (Board.GetShipsAtRange(HostShip, new Vector2(MinRange, MaxRange), Team.Type.Enemy).Count > 0) flag = true;
+            if (Board.GetShipsAtRange(HostShip, new Vector2(MinRange, MaxRange), Team.Type.Enemy).Count > 0 &&
+                HostShip.State.Force > 0 &&
+                HostShip.IsCanUseForceNow()
+            )
+            {
+                flag = true;
+            }
         }
 
         protected override void SeeAssignedManuver()

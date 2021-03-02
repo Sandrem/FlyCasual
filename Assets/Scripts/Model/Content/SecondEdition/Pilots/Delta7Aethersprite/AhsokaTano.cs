@@ -35,6 +35,10 @@ namespace Abilities.SecondEdition
     //That ship may perform an action, even if it is stressed.
     public class AhsokaTanoAbility : GenericAbility
     {
+        protected virtual int ForceCost => 1;
+        protected virtual int MinRange => 0;
+        protected virtual int MaxRange => 1;
+
         public override void ActivateAbility()
         {
             HostShip.OnMovementFinishSuccessfully += RegisterTrigger;
@@ -52,7 +56,7 @@ namespace Abilities.SecondEdition
 
         private void SelectTargetForAbility(object sender, EventArgs e)
         {
-            if (HostShip.State.Force > 0)
+            if (HostShip.State.Force >= ForceCost && HasTargetsForAbility())
             {
                 SelectTargetForAbility(
                     GrantAction,
@@ -69,7 +73,17 @@ namespace Abilities.SecondEdition
                 Triggers.FinishTrigger();
             }
         }
-        
+
+        private bool HasTargetsForAbility()
+        {
+            foreach (GenericShip ship in HostShip.Owner.Ships.Values)
+            {
+                if (FilterTargets(ship)) return true;
+            }
+
+            return false;
+        }
+
         private void GrantAction()
         {
             TargetShip.BeforeActionIsPerformed += PayForceCost;
@@ -107,12 +121,12 @@ namespace Abilities.SecondEdition
 
         private void SpendForce(object sender, EventArgs e)
         {
-            HostShip.State.SpendForce(1, Triggers.FinishTrigger);
+            HostShip.State.SpendForce(ForceCost, Triggers.FinishTrigger);
         }
 
-        protected virtual bool FilterTargets(GenericShip ship)
+        private bool FilterTargets(GenericShip ship)
         {
-            return FilterByTargetType(ship, TargetTypes.This, TargetTypes.OtherFriendly) && FilterTargetsByRange(ship, 0, 1);
+            return FilterByTargetType(ship, TargetTypes.This, TargetTypes.OtherFriendly) && FilterTargetsByRange(ship, MinRange, MaxRange);
         }
 
         private int GetAiPriority(GenericShip ship)

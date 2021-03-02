@@ -39,9 +39,8 @@ namespace Abilities.SecondEdition
 {
     public class AhsokaTanoRebelAbility: AhsokaTanoAbility
     {
-        protected override bool FilterTargets(GenericShip ship)
-        {
-            return FilterByTargetType(ship, TargetTypes.This, TargetTypes.OtherFriendly) && FilterTargetsByRange(ship, 1, 2);
-        }
+        protected override int ForceCost => 2;
+        protected override int MinRange => 1;
+        protected override int MaxRange => 2;
     }
 }

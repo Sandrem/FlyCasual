@@ -17,6 +17,8 @@ namespace SubPhases
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.CombatActivation, GameCommandTypes.PressSkip }; } }
         public static bool IsLocked;
 
+        public static int CurrentInitiative { get; private set; }
+
         public override void Start()
         {
             base.Start();
@@ -30,6 +32,7 @@ namespace SubPhases
         {
             RequiredPlayer = Phases.PlayerWithInitiative;
             RequiredInitiative = PILOTSKILL_MAX + 1;
+            CurrentInitiative = RequiredInitiative;
         }
 
         public override void Initialize()
@@ -86,6 +89,7 @@ namespace SubPhases
             if (pilotSkillResults.Count() > 0)
             {
                 RequiredInitiative = initiative;
+                CurrentInitiative = RequiredInitiative;
 
                 var playerNoResults =
                     from n in pilotSkillResults
@@ -110,6 +114,7 @@ namespace SubPhases
         private void ChangeInitiative()
         {
             RequiredInitiative--;
+            CurrentInitiative = RequiredInitiative;
 
             if (RequiredInitiative != -1)
             {

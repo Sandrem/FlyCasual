@@ -149,7 +149,7 @@ namespace SubPhases
                 if (CameraScript.InputTouchIsEnabled) PerformTouchDragRotate();
                 CheckLimits();
             }
-            CheckPerformRotation();
+            if (Selection.ThisShip != null) CheckPerformRotation();
         }
 
         private void CheckLimits()

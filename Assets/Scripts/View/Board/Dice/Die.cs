@@ -93,6 +93,8 @@ public partial class Die
         GameObject prefabDiceType = (type == DiceKind.Attack) ? DiceManager.DiceAttack : DiceManager.DiceDefence;
         Transform diceSpawningPoint = ParentDiceRoll.SpawningPoint;
         GameObject model = MonoBehaviour.Instantiate(prefabDiceType, diceSpawningPoint.transform.position, prefabDiceType.transform.rotation, diceSpawningPoint.transform);
+        model.GetComponentInChildren<Rigidbody>().isKinematic = true;
+        model.transform.Find("Dice").GetComponent<Rigidbody>().isKinematic = true;
         model.name = "DiceN" + DiceIDCounter++;
         return model;
     }

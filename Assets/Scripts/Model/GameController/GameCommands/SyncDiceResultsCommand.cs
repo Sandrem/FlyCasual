@@ -33,7 +33,7 @@ namespace GameCommands
 
             Console.Write($"Dice results are synchronized: {diceToText}");
 
-            Phases.CurrentSubPhase.IsReadyForCommands = true;
+            Phases.FinishSubPhase(typeof(DiceSyncSubphase));
         }
     }
 

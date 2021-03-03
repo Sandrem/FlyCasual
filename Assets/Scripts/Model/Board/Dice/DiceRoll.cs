@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Players;
+using SubPhases;
 
 public partial class DiceRoll
 {
@@ -78,29 +79,34 @@ public partial class DiceRoll
         DiceRoll.CurrentDiceRoll = this;
         this.CallBack = callBack;
 
-        if (!ShouldSkipToSync())
+        if (ShouldSkipToSync())
         {
-            if (!DebugManager.BatchAiSquadTestingModeActive)
+            StartDiceSynchronization();
+        }
+        else
+        {
+            if (DebugManager.BatchAiSquadTestingModeActive)
+            {
+                GenerateRangomResultsQuick();
+            }
+            else
             {
                 foreach (Die die in DiceList) die.RandomizeRotation();
                 RollPreparedDice();
             }
-            else
-            {
-                System.Random random = new System.Random();
-                DieSide[] sides = PossibleSides[Type];
-                foreach (Die die in DiceList)
-                {
-                    die.TrySetSide(sides[random.Next(0, 8)], isInitial: true);
-                }
+        }
+    }
 
-                Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
-            }
-        }
-        else
+    private void GenerateRangomResultsQuick()
+    {
+        System.Random random = new System.Random();
+        DieSide[] sides = PossibleSides[Type];
+        foreach (Die die in DiceList)
         {
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
+            die.TrySetSide(sides[random.Next(0, 8)], isInitial: true);
         }
+
+        StartDiceSynchronization();
     }
 
     private void RollPreparedDice()
@@ -151,7 +157,19 @@ public partial class DiceRoll
             UpdateDiceCompareHelperPrediction();
         }
 
-        Roster.GetPlayer(PlayerNo.Player1).SyncDiceResults(); // Server synchs dice
+        StartDiceSynchronization();
+    }
+
+    private void StartDiceSynchronization()
+    {
+        DiceSyncSubphase subphase = Phases.StartTemporarySubPhaseNew<DiceSyncSubphase>
+        (
+            "DiceSync Subphase",
+            ExecuteCallback
+        );
+        subphase.Start();
+
+        Roster.GetPlayer(PlayerNo.Player1).SyncDiceResults();
     }
 
     public static void SyncDiceResults(List<DieSide> sides)
@@ -173,7 +191,7 @@ public partial class DiceRoll
             }
         }
 
-        if (wasFixed)
+        if (DiceRoll.CurrentDiceRoll.IsDiceFacesVisibilityWrong() || wasFixed)
         {
             DiceRoll.CurrentDiceRoll.OrganizeDicePositions();
         }
@@ -181,8 +199,6 @@ public partial class DiceRoll
         {
             DiceRoll.CurrentDiceRoll.UpdateDiceCompareHelperPrediction();
         }
-
-        CurrentDiceRoll.ExecuteCallback();
     }
 
     private void ExecuteCallback()
@@ -204,7 +220,7 @@ public partial class DiceRoll
         }
         else
         {
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
+            StartDiceSynchronization();
         }
     }
 
@@ -233,7 +249,7 @@ public partial class DiceRoll
         else
         {
             CurrentDiceRoll.DeselectAll();
-            Roster.GetPlayer(Phases.CurrentSubPhase.RequiredPlayer).SyncDiceResults();
+            StartDiceSynchronization();
         }
     }
 
@@ -493,7 +509,11 @@ public partial class DiceRoll
 
     public bool IsDiceFacesVisibilityWrong()
     {
-        foreach (var dice in DiceList) if (dice.IsDiceFaceVisibilityWrong()) return true;
+        foreach (var dice in DiceList)
+        {
+            if (dice.IsDiceFaceVisibilityWrong()) return true;
+        }
+
         return false;
     }
 

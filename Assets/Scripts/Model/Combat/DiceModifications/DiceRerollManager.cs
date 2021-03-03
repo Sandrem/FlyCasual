@@ -349,6 +349,6 @@ namespace SubPhases
 {
     public class DiceRerollSubphase : DiceModificationSubphase
     {
-        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SyncDiceResults, GameCommandTypes.SyncDiceRerollSelected  }; } }
+        public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.SyncDiceRerollSelected  }; } }
     }
 }

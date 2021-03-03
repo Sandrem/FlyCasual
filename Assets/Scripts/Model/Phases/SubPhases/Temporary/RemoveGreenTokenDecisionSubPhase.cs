@@ -83,6 +83,8 @@ namespace SubPhases
                 );
             }
 
+            DefaultDecisionName = GetDecisions().First().Name;
+
             PrepareCustomDecisions();
             callBack();
         }

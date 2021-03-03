@@ -73,7 +73,18 @@ namespace Abilities.SecondEdition
 
         private int GetAiPriority()
         {
-            return (Combat.DiceRollAttack.Successes - Combat.DiceRollDefence.Successes > 0 && Combat.DiceRollDefence.Failures > 0) ? 10 : 0;
+            if (Combat.AttackStep == CombatStep.Attack)
+            {
+                return (Combat.DiceRollAttack.BlanksNotRerolled > 1) ? 10 : 0;
+            }
+            else if (Combat.AttackStep == CombatStep.Defence)
+            {
+                return (Combat.DiceRollAttack.Successes - Combat.DiceRollDefence.Successes > 0 && Combat.DiceRollDefence.Failures > 0) ? 10 : 0;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         private bool IsAvailable()

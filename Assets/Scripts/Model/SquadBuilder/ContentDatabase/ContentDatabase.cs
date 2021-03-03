@@ -142,5 +142,14 @@ namespace SquadBuilderNS
             Console.Write($"Pilots: {AllPilots.Count}, (Unique: {{AllPilots.Count(n => n.Instance.PilotInfo.IsLimited)}})");
             Console.Write($"Upgrades: {AllUpgrades.Count}");
         }
+
+        public void ClearData()
+        {
+            AllPilots.Clear();
+            AllShips.Clear();
+            AllUpgrades.Clear();
+            TextureCache.Cache.Clear();
+            Resources.UnloadUnusedAssets();
+        }
     }    
 }

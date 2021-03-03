@@ -61,6 +61,7 @@ public class Global : MonoBehaviour {
             });
         }
 
+        SquadBuilder.Instance.Database.ClearData();
         LoadingScreen.NextSceneIsReady(Phases.StartPhases);
     }
 

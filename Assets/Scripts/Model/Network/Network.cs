@@ -44,10 +44,18 @@ public static class Network
         ConnectionIsEstablished = false;
         ConnectionAttempt = GameObject.FindObjectOfType<NetworkConnectionAttemptHandler>();
 
-        Uri uri = new Uri(Network.ServerUri);
-        NetworkManager.singleton.StartClient(uri);
+        try
+        {
+            Uri uri = new Uri(Network.ServerUri);
 
-        ConnectionAttempt.StartAttempt();
+            NetworkManager.singleton.StartClient(uri);
+
+            ConnectionAttempt.StartAttempt();
+        }
+        catch
+        {
+            Messages.ShowError("Error during connection. Check entered IP address");
+        }
     }
 
     public static void SendClientInfoToServer()

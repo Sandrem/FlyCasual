@@ -26,10 +26,15 @@ namespace SquadBuilderNS
         {
             Instance = this;
 
-            Database = new ContentDatabase(Edition.Current);
+            GenerateDatabase();
             SquadLists = new SquadLists();
 
             CurrentPlayer = PlayerNo.Player1;
+        }
+
+        public void GenerateDatabase()
+        {
+            Database = new ContentDatabase(Edition.Current);
         }
 
         public void SetPlayers(string modeName)

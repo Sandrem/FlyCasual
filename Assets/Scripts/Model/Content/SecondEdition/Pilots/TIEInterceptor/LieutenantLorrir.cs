@@ -25,6 +25,8 @@ namespace Ship
                 );
 
                 ModelInfo.SkinName = "Vult Skerris";
+
+                ImageUrl = "https://i.imgur.com/5bOPsfP.png";
             }
         }
     }

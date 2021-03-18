@@ -25,6 +25,8 @@ namespace Ship.SecondEdition.ASF01BWing
                 extraUpgradeIcon: UpgradeType.Talent,
                 abilityText: "After you barrel rolled you may choose 1 friendly ship that is not stressed at range 0-1 - that ship gains 1 stress token and can rotate 90 degrees"
             );
+
+            ImageUrl = "https://i.imgur.com/tDMmS4S.png";
         }
     }
 }

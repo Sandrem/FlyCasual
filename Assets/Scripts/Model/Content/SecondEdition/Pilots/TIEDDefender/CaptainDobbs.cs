@@ -24,6 +24,8 @@ namespace Ship.SecondEdition.TIEDDefender
                 extraUpgradeIcon: UpgradeType.Talent,
                 abilityText: "When another friendly ship defends, before the Neutralize Results step, if you are in the attack arc and you are not ionized, you may gain 1 ion token to cancel 1 hit or crit result"
             );
+
+            ImageUrl = "https://i.imgur.com/RfgdAPL.png";
         }
     }
 }

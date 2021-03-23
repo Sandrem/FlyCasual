@@ -308,6 +308,14 @@ namespace Ship
             );
         }
 
+        public void TransferToken(GenericToken token, GenericShip targetShip, Action callback, Players.GenericPlayer assigner = null)
+        {
+            Host.Tokens.RemoveToken(
+                token,
+                () => targetShip.Tokens.AssignToken(token, callback)
+            );
+        }
+
         // CONDITIONS - don't trigger any abilities
 
         public void RemoveCondition(Type type)

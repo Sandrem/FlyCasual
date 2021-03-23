@@ -1,15 +1,12 @@
 ﻿using Actions;
 using ActionsList;
 using BoardTools;
-using RulesList;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
-using UnityEngine;
 
 namespace Actions
 {
@@ -126,6 +123,8 @@ namespace ActionsList
 
         private void PerformMultiCoordinateEffect(GenericShip targetShip)
         {
+            CoordinateActionData.CoordinateProvider.State.LastCoordinatedShip = targetShip;
+
             Selection.ChangeActiveShip(targetShip);
             GenericAction currentAction = ActionsHolder.CurrentAction;
 
@@ -263,6 +262,8 @@ namespace SubPhases
 
         private void SelectCoordinateTarget()
         {
+            Selection.ThisShip.State.LastCoordinatedShip = TargetShip;
+
             Selection.ThisShip.CallCoordinateTargetIsSelected(TargetShip, PerformCoordinateEffect);
         }
 

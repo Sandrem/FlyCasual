@@ -1,8 +1,8 @@
-﻿using Upgrade;
+﻿using Abilities.Parameters;
 using ActionsList;
-using Actions;
 using System.Collections.Generic;
-using UnityEngine;
+using Tokens;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -10,13 +10,14 @@ namespace UpgradesList.SecondEdition
     {
         public ProtectorateGleb() : base()
         {
-            UpgradeInfo = new UpgradeCardInfo(
+            UpgradeInfo = new UpgradeCardInfo
+            (
                 "Protectorate Gleb",
                 UpgradeType.Crew,
                 cost: 2,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum, Faction.Imperial, Faction.FirstOrder),
-                addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Red),
+                addAction: new Actions.ActionInfo(typeof(CoordinateAction), Actions.ActionColor.Red),
                 abilityType: typeof(Abilities.SecondEdition.ProtectorateGlebAbility)
             );
 
@@ -28,16 +29,30 @@ namespace UpgradesList.SecondEdition
 namespace Abilities.SecondEdition
 {
     //After you coordinate, you may transfer 1 orange or red token to the ship you coordinated.
-    public class ProtectorateGlebAbility : GenericAbility
+    public class ProtectorateGlebAbility : TriggeredAbility
     {
-        public override void ActivateAbility()
-        {
+        public override TriggerForAbility Trigger => new AfterAction(typeof(CoordinateAction));
 
-        }
+        public override AbilityPart Action => new SelectToken
+        (
+            abilityDescription: new AbilityDescription
+            (
+                HostUpgrade.UpgradeInfo.Name,
+                "You may transfer 1 orange or red token to the ship you coordinated",
+                HostUpgrade
+            ),
+            colorsFilter: new List<TokenColors>() {TokenColors.Orange, TokenColors.Red },
+            decisionOwner: HostShip.Owner,
+            next: new TransferToken
+            (
+                target: ShipRole.CoordinatedShip,
+                showMessage: ShowTransferTokenMessage
+            )
+        );
 
-        public override void DeactivateAbility()
+        private string ShowTransferTokenMessage()
         {
-            
+            return $"{HostUpgrade.UpgradeInfo.Name}: {TargetToken.Name} is transfered to {HostShip.State.LastCoordinatedShip.PilotInfo.PilotName}";
         }
     }
 }

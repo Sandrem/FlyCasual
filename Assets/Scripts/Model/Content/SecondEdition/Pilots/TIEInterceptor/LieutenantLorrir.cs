@@ -12,19 +12,17 @@ namespace Ship
         {
             public LieutenantLorrir() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Lieutenant Lorrir",
                     3,
-                    36,
+                    41,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantLorrirAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
                     abilityText: "While you barrel roll, you may use bank templates, instead of straight template"
                 );
 
-                ModelInfo.SkinName = "Vult Skerris";
+                ModelInfo.SkinName = "Skystrike Academy";
 
                 ImageUrl = "https://i.imgur.com/5bOPsfP.png";
             }

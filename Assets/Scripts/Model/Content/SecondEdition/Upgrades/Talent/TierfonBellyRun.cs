@@ -11,12 +11,10 @@ namespace UpgradesList.SecondEdition
     {
         public TierfonBellyRun() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Tierfon Belly Run",
                 UpgradeType.Talent,
-                cost: 1,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.TierfonBellyRunAbility),
                 restriction: new ShipRestriction(
                     typeof(Ship.SecondEdition.BTLA4YWing.BTLA4YWing),

@@ -18,15 +18,13 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "TIE Defender Elite",
                 UpgradeType.Configuration,
-                cost: 0,
+                cost: 2,
                 restrictions: new UpgradeCardRestrictions(
                     new FactionRestriction(Faction.Imperial),
                     new ShipRestriction(typeof(Ship.SecondEdition.TIEDDefender.TIEDDefender))
                 ),
                 abilityType: typeof(Abilities.SecondEdition.TIEDefenderEliteAbility)
             );
-
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/44/f5/44f50470-c0b2-41e8-9ee8-c24edab9d8e7/swz84_upgrade_tiedefenderelite.png";
         }

@@ -1,4 +1,5 @@
 ﻿using Upgrade;
+using System.Collections.Generic;
 
 namespace Ship
 {
@@ -14,7 +15,7 @@ namespace Ship
                     81,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.ColonelVesseryAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Sensor },
                     seImageNumber: 123
                 );
             }

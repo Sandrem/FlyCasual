@@ -1,4 +1,6 @@
-﻿namespace Ship
+﻿using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.TIEDDefender
     {
@@ -10,7 +12,8 @@
                     "Delta Squadron Pilot",
                     1,
                     68,
-                    seImageNumber: 126
+                    seImageNumber: 126,
+                    extraUpgradeIcon: UpgradeType.Sensor
                 );
             }
         }

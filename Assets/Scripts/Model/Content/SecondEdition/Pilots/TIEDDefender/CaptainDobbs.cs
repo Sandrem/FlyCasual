@@ -13,15 +13,13 @@ namespace Ship.SecondEdition.TIEDDefender
     {
         public CaptainDobbs() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             PilotInfo = new PilotCardInfo(
                 "Captain Dobbs",
                 3,
-                73,
+                75,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.CaptainDobbsAbility),
-                extraUpgradeIcon: UpgradeType.Talent,
+                extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Sensor },
                 abilityText: "When another friendly ship defends, before the Neutralize Results step, if you are in the attack arc and you are not ionized, you may gain 1 ion token to cancel 1 hit or crit result"
             );
 

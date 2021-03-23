@@ -16,8 +16,10 @@ namespace Ship
             public RZ1AWing() : base()
             {
                 ShipInfo.ShipName = "RZ-1 A-wing";
+                
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
-                if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
+
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction)));
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.SegnorsLoop), MovementComplexity.Complex);

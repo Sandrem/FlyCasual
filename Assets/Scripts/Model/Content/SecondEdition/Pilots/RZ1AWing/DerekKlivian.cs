@@ -16,13 +16,11 @@ namespace Ship.SecondEdition.RZ1AWing
             PilotInfo = new PilotCardInfo(
                 "Derek Klivian",
                 3,
-                32,
+                30,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DerekKlivianAbility),
-                extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent }
+                extraUpgradeIcon: UpgradeType.Talent
             );
-
-            RequiredMods = new List<Type>() { typeof(UnreleasedContentMod) };
 
             ModelInfo.SkinName = "Blue";
 

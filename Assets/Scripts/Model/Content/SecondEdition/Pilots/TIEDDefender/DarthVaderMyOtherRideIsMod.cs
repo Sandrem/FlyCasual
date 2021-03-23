@@ -19,7 +19,7 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DarthVaderAbility),
                     force: 3,
-                    extraUpgradeIcon: UpgradeType.ForcePower
+                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.ForcePower, UpgradeType.Sensor }
                 );
 
                 RequiredMods = new List<Type>() { typeof(MyOtherRideIsModSE) };

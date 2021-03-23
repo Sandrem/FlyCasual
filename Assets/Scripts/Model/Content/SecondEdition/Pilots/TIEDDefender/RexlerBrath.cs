@@ -1,5 +1,6 @@
 ﻿using Tokens;
 using Upgrade;
+using System.Collections.Generic;
 
 namespace Ship
 {
@@ -15,7 +16,7 @@ namespace Ship
                     78,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RexlerBrathAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Sensor },
                     seImageNumber: 122
                 );
             }

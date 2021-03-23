@@ -11,20 +11,16 @@ namespace Ship
         {
             public GideoHask() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Gideo Hask",
                     4,
-                    42,
+                    48,
                     isLimited: true,
                     abilityType: typeof(GideoHaskTieInterceptorAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 PilotNameCanonical = "gideonhask-tieininterceptor";
-
-                ModelInfo.SkinName = "Vult Skerris";
 
                 ImageUrl = "https://i.imgur.com/AF5bPjw.png";
             }

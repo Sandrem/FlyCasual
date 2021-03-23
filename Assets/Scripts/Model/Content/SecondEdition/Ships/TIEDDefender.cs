@@ -19,8 +19,7 @@ namespace Ship
                 ShipInfo.ShipName = "TIE/D Defender";
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Sensor);
-                if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
 
                 ShipInfo.Shields = 4;
 

@@ -8,12 +8,10 @@ namespace Ship.SecondEdition.TIEDDefender
     {
         public DarthVader() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             PilotInfo = new PilotCardInfo(
                 "Darth Vader",
                 6,
-                100,
+                115,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DarthVaderDefenderAbility),
                 extraUpgradeIcon: UpgradeType.ForcePower,

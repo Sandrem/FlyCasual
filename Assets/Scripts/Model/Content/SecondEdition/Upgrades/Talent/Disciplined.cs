@@ -12,8 +12,6 @@ namespace UpgradesList.SecondEdition
     {
         public Disciplined() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Disciplined",
                 UpgradeType.Talent,

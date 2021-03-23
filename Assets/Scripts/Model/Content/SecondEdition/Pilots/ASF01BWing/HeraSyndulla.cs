@@ -14,8 +14,6 @@ namespace Ship
         {
             public HeraSyndulla() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Hera Syndulla",
                     6,

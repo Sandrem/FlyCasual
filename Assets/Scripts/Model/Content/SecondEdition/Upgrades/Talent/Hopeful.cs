@@ -15,8 +15,6 @@ namespace UpgradesList.SecondEdition
     {
         public Hopeful() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Hopeful",
                 UpgradeType.Talent,

@@ -21,7 +21,6 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent }
                 );
 
-                RequiredMods = new List<Type>() { typeof(UnreleasedContentMod) };
                 PilotNameCanonical = "herasyndulla-rz1awing";
 
                 ModelInfo.SkinName = "Hera Syndulla";

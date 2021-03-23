@@ -12,8 +12,6 @@ namespace Ship.SecondEdition.BTLA4YWing
     {
         public LeemaKai() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             PilotInfo = new PilotCardInfo
             (
                 "Leema Kai",
@@ -24,7 +22,6 @@ namespace Ship.SecondEdition.BTLA4YWing
                 extraUpgradeIcons: new List<UpgradeType>()
                 {
                     UpgradeType.Talent,
-                    UpgradeType.Illicit,
                     UpgradeType.Tech
                 },
                 factionOverride: Faction.Scum

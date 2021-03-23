@@ -13,15 +13,13 @@ namespace Ship
         {
             public KannanJarrus() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Kannan Jarrus",
                     3,
-                    41,
+                    42,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KannanJarrusHwk290Ability),
-                    extraUpgradeIcon: UpgradeType.ForcePower,
+                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.ForcePower, UpgradeType.Illicit },
                     force: 1,
                     factionOverride: Faction.Scum
                 );

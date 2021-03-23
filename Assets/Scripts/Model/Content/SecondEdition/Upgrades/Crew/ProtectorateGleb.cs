@@ -10,12 +10,10 @@ namespace UpgradesList.SecondEdition
     {
         public ProtectorateGleb() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Protectorate Gleb",
                 UpgradeType.Crew,
-                cost: 1,
+                cost: 2,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum, Faction.Imperial, Faction.FirstOrder),
                 addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Red),

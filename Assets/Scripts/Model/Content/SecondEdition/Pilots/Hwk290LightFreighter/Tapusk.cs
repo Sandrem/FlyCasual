@@ -13,15 +13,13 @@ namespace Ship.SecondEdition.Hwk290LightFreighter
     {
         public Tapusk() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             PilotInfo = new PilotCardInfo(
                 "Tapusk",
                 5,
-                38,
+                36,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.TapuskAbility),
-                extraUpgradeIcon: UpgradeType.Talent,
+                extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Illicit },
                 factionOverride: Faction.Scum,
                 charges: 2,
                 regensCharges: 1

@@ -12,12 +12,10 @@ namespace UpgradesList.SecondEdition
     {
         public GamutKey()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo(
                 "Gamut Key",
                 UpgradeType.Crew,
-                cost: 1,
+                cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.GamutKeyCrewAbility),
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),

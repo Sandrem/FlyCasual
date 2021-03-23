@@ -6,13 +6,11 @@ namespace UpgradesList.SecondEdition
     {
         public R4B11() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "R4-B11",
                 UpgradeType.Astromech,
-                cost: 1, 
+                cost: 3, 
                 abilityType: typeof(Abilities.SecondEdition.R4B11Ability),
                 restriction: new FactionRestriction(Faction.Scum)
             );

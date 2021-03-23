@@ -6,13 +6,11 @@ namespace UpgradesList.SecondEdition
     {
         public B6BladeWingPrototype() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "B6 Blade Wing Prototype",
                 UpgradeType.Title,
-                cost: 1,
+                cost: 2,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Gunner),
                 restrictions: new UpgradeCardRestrictions

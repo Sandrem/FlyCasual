@@ -2,6 +2,7 @@
 using Ship;
 using System;
 using Upgrade;
+using System.Collections.Generic;
 
 namespace Ship
 {
@@ -17,7 +18,7 @@ namespace Ship
                     79,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CountessRyadAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Sensor },
                     seImageNumber: 124
                 );
 

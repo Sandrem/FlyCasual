@@ -21,7 +21,7 @@ namespace Ship.SecondEdition.TIEDDefender
 
             PilotNameCanonical = "darthvader-tieddefender";
 
-            ImageUrl = "https://i.imgur.com/9f1i7VS.png";
+            ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/23/1c/231cae81-8fda-49a0-964d-9fb544b5e846/swz84_pilot_darthvader.png";
         }
     }
 }

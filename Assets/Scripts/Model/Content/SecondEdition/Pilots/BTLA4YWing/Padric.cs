@@ -14,8 +14,6 @@ namespace Ship
         {
             public Padric() : base()
             {
-                IsHidden = true;
-
                 RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
                 PilotInfo = new PilotCardInfo(
@@ -38,6 +36,9 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
+    // TODO
+    // You need to lock the bomb first
+
     public class PadricAbility : GenericAbility
     {
         public override void ActivateAbility()

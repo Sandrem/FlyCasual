@@ -1,5 +1,6 @@
 ﻿using System;
 using Abilities.Parameters;
+using SubPhases;
 
 namespace Abilities
 {
@@ -45,11 +46,12 @@ namespace Abilities
         {
             if (OnYes != null)
             {
+                DecisionSubPhase.ConfirmDecisionNoCallback();
                 OnYes.DoAction(Ability);
             }
             else
             {
-                Triggers.FinishTrigger();
+                DecisionSubPhase.ConfirmDecision();
             }
         }
 
@@ -57,11 +59,12 @@ namespace Abilities
         {
             if (OnNo != null)
             {
+                DecisionSubPhase.ConfirmDecisionNoCallback();
                 OnNo.DoAction(Ability);
             }
             else
             {
-                Triggers.FinishTrigger();
+                DecisionSubPhase.ConfirmDecision();
             }
         }
     }

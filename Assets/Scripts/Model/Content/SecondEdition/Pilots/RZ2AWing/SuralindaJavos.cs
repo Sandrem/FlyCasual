@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
             onYes: new AssignTokenAction
             (
                 tokenType: typeof(StrainToken),
-                targetShip: GetThisShip,
+                targetShipRole: ShipRole.HostShip,
                 showMessage: GetGainedStrainTokenMessage,
                 afterAction: new AskToRotateShipAction
                 (
@@ -67,11 +67,6 @@ namespace Abilities.SecondEdition
                 )
             )
         );
-
-        private GenericShip GetThisShip()
-        {
-            return HostShip;
-        }
 
         private string GetGainedStrainTokenMessage()
         {

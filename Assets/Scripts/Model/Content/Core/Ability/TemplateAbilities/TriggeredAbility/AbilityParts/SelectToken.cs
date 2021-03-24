@@ -24,7 +24,7 @@ namespace Abilities
             AbilityDescription abilityDescription,
             GenericPlayer decisionOwner,
             List<TokenColors> colorsFilter,
-            ShipRole tokenOwner = ShipRole.ThisShip,
+            ShipRole tokenOwner = ShipRole.HostShip,
             AbilityPart next = null
         )
         {

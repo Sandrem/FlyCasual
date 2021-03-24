@@ -50,14 +50,9 @@ namespace Abilities.SecondEdition
             public override AbilityPart Action => new AssignTokenAction
             (
                 typeof(CalculateToken),
-                targetShip: GetThisShip,
+                targetShipRole: ShipRole.HostShip,
                 showMessage: GetMessage
             );
-
-            private GenericShip GetThisShip()
-            {
-                return HostShip;
-            }
 
             private string GetMessage()
             {
@@ -76,14 +71,9 @@ namespace Abilities.SecondEdition
             public override AbilityPart Action => new AssignTokenAction
             (
                 typeof(CalculateToken),
-                targetShip: GetThisShip,
+                targetShipRole: ShipRole.HostShip,
                 showMessage: GetMessage
             );
-
-            private GenericShip GetThisShip()
-            {
-                return HostShip;
-            }
 
             private string GetMessage()
             {

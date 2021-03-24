@@ -55,7 +55,7 @@ namespace Abilities.SecondEdition
                     action: new AssignTokenAction
                     (
                         tokenType: typeof(StrainToken),
-                        targetShip: GetDefender,
+                        targetShipRole: ShipRole.Defender,
                         showMessage: GetTokenMessageToShow
                     )
                 )

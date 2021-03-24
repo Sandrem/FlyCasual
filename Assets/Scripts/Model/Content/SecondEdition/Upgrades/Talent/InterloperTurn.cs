@@ -1,7 +1,6 @@
 ﻿using Upgrade;
-using System.Collections.Generic;
-using Ship;
-using BoardTools;
+using Movement;
+using Abilities.Parameters;
 
 namespace UpgradesList.SecondEdition
 {
@@ -9,7 +8,8 @@ namespace UpgradesList.SecondEdition
     {
         public InterloperTurn() : base()
         {
-            UpgradeInfo = new UpgradeCardInfo(
+            UpgradeInfo = new UpgradeCardInfo
+            (
                 "Interloper Turn",
                 UpgradeType.Talent,
                 cost: 1,
@@ -24,16 +24,34 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class InterloperTurnAbility : GenericAbility
+    // Before you execute a speed 1-2 Turn or speed 1-2 Koiogran K-Turn maneuver,
+    // if you are at range 0-1 of an asteroid, structure, or huge ship, you may gain 1 tractor token.
+    public class InterloperTurnAbility : TriggeredAbility
     {
-        public override void ActivateAbility()
-        {
-            
-        }
+        public override TriggerForAbility Trigger => new BeforeYouExecuteManeuver
+        (
+            conditions: new ConditionsBlock
+            (
+                new ManeuverSpeedCondition(1, 2),
+                new ManeuverBearingCondition(ManeuverBearing.Turn, ManeuverBearing.KoiogranTurn),
+                new AsteroidRangeCondition(0, 1)
+            )
+        );
 
-        public override void DeactivateAbility()
-        {
-            
-        }
+        public override AbilityPart Action => new AskToUseAbilityAction
+        (
+            new AbilityDescription
+            (
+                HostUpgrade.UpgradeInfo.Name,
+                "Do you want to gain tractor token?",
+                HostUpgrade
+            ),
+            onYes: new AssignTokenAction
+            (
+                tokenType: typeof(Tokens.TractorBeamToken),
+                targetShipRole: ShipRole.HostShip
+            ),
+            aiUseByDefault: NeverUseByDefault
+        );
     }
 }

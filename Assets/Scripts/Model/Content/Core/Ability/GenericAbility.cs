@@ -1013,7 +1013,8 @@ namespace Abilities
         {
             switch (shipRole)
             {
-                case ShipRole.ThisShip : return HostShip;
+                case ShipRole.HostShip : return HostShip;
+                case ShipRole.ThisShip : return Selection.ThisShip;
                 case ShipRole.Attacker : return Combat.Attacker;
                 case ShipRole.Defender : return Combat.Defender;
                 case ShipRole.TargetShip : return TargetShip;

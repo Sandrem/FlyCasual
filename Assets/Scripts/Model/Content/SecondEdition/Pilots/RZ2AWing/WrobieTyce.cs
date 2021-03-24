@@ -51,14 +51,9 @@ namespace Abilities.SecondEdition
             public override AbilityPart Action => new AssignTokenAction
             (
                 tokenType: typeof(DepleteToken),
-                targetShip: GetAttacker,
+                targetShipRole: ShipRole.Attacker,
                 showMessage: ShowDepleteAttackerMessage
             );
-
-            private GenericShip GetAttacker()
-            {
-                return Combat.Attacker;
-            }
 
             private string ShowDepleteAttackerMessage()
             {
@@ -78,14 +73,9 @@ namespace Abilities.SecondEdition
             public override AbilityPart Action => new AssignTokenAction
             (
                 tokenType: typeof(DepleteToken),
-                targetShip: GetDefender,
+                targetShipRole: ShipRole.Defender,
                 showMessage: ShowDepleteDefenderMessage
             );
-
-            private GenericShip GetDefender()
-            {
-                return Combat.Defender;
-            }
 
             private string ShowDepleteDefenderMessage()
             {

@@ -13,6 +13,8 @@ namespace Ship.SecondEdition.Hwk290LightFreighter
     {
         public Tapusk() : base()
         {
+            IsHidden = true;
+
             PilotInfo = new PilotCardInfo(
                 "Tapusk",
                 5,

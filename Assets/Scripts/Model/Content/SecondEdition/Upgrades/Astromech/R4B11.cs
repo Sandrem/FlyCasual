@@ -14,7 +14,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.R4B11Ability),
                 restriction: new FactionRestriction(Faction.Scum)
             );
-            ImageUrl = "";
+            
+            ImageUrl = "https://i.imgur.com/fyETLhg.png";
         }
     }
 }

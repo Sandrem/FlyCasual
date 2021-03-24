@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.ProtectorateGlebAbility)
             );
 
-            ImageUrl = "";
+            ImageUrl = "https://i.imgur.com/tWQx5NL.png";
         }        
     }
 }

@@ -94,4 +94,44 @@ namespace SubPhases
             // implement in your subclass
         }
     }
+
+    public class RemoveBadTokenFromDefenderDecisionSubPhase : DecisionSubPhase
+    {
+        public override void PrepareDecision(Action callBack)
+        {
+            Dictionary<string, GenericToken> tokens = new Dictionary<string, GenericToken>(); 
+
+            foreach(GenericToken token in Combat.Defender.Tokens.GetAllTokens())
+            {
+                if (token.TokenColor != TokenColors.Orange && token.TokenColor != TokenColors.Red)
+                    continue;
+
+                if (tokens.ContainsKey(token.Name))
+                    continue;
+
+                string tokenName = token.Name.ToLower() + ((token is RedTargetLockToken) ? $" \"{(token as RedTargetLockToken).Letter}\"" : "");
+                tokens[tokenName] = token;
+            }
+
+            foreach(KeyValuePair<string, GenericToken> kv in tokens)
+            {
+                AddDecision(
+                    "Remove " + kv.Key,
+                    delegate {
+                        Messages.ShowInfo($"{kv.Key} is removed from {Combat.Defender.PilotInfo.PilotName}");
+                        Combat.Defender.Tokens.RemoveToken(
+                            kv.Value,
+                            DecisionSubPhase.ConfirmDecision
+                        );
+                    }
+                );
+            }
+
+            DefaultDecisionName = decisions.First().Name;
+
+            ShowSkipButton = false;
+
+            callBack();
+        }
+    }
 }

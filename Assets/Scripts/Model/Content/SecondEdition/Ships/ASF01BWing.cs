@@ -20,9 +20,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Cannon);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
-
-                // No title in PDF file (1 title card is present)
-                if (Mods.ModsManager.Mods[typeof(Mods.ModsList.BWingTitleSlotMod)].IsOn) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Title);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Title);
 
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(FocusAction), typeof(BarrelRollAction)));
 

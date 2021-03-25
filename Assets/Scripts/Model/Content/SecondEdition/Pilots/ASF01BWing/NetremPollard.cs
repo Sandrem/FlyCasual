@@ -4,7 +4,6 @@ using BoardTools;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -14,14 +13,14 @@ namespace Ship.SecondEdition.ASF01BWing
     {
         public NetremPollard() : base()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo
+            (
                 "Netrem Pollard",
                 3,
                 44,
                 isLimited: true,
                 abilityType: typeof(NetremPollardAbility),
-                extraUpgradeIcon: UpgradeType.Talent,
-                abilityText: "After you barrel rolled you may choose 1 friendly ship that is not stressed at range 0-1 - that ship gains 1 stress token and can rotate 90 degrees"
+                extraUpgradeIcon: UpgradeType.Talent
             );
 
             ModelInfo.SkinName = "Red";
@@ -35,6 +34,8 @@ namespace Abilities.SecondEdition
 {
     public class NetremPollardAbility : GenericAbility
     {
+        // After you barrel roll, you may choose 1 friendly ship that is not stressed at range 0-1.
+        // That ship gains 1 stress token, then you rotate 180o
         public override void ActivateAbility()
         {
             HostShip.OnActionIsPerformed += CheckAbility;
@@ -67,72 +68,36 @@ namespace Abilities.SecondEdition
         {
             SelectTargetForAbility
             (
-                AskWhatToDo,
+                ExecuteAbility,
                 FilterTargets,
                 GetAiPriority,
                 HostShip.Owner.PlayerNo,
                 name: HostShip.PilotInfo.PilotName,
-                description: "You may choose 1 friendly ship - that ship gains 1 stress token and can rotate",
+                description: "You may choose 1 friendly ship - that ship gains 1 stress token, then you can rotate 180 degrees",
                 imageSource: HostShip
             );
         }
 
-        private void AskWhatToDo()
+        private void ExecuteAbility()
         {
             SelectShipSubPhase.FinishSelectionNoCallback();
-
-            NetremPollardDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<NetremPollardDecisionSubphase>("Rotate the ship?", Triggers.FinishTrigger);
-
-            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
-            subphase.DescriptionLong = "Gain 1 Stress to rotate the ship?";
-            subphase.ImageSource = HostUpgrade;
-
-            subphase.AddDecision("90 Counterclockwise", Rotate90Counterclockwise);
-            subphase.AddDecision("90 Clockwise", Rotate90Clockwise);
-            subphase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); }, isCentered: true);
-
-            subphase.Start();
+            TargetShip.Tokens.AssignToken(typeof(StressToken), Rotate180);
         }
 
-        private void Rotate90Clockwise(object sender, EventArgs e)
+        private void Rotate180()
         {
-            DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            Selection.ThisShip = TargetShip;
-            Selection.ThisShip.Tokens.AssignToken(
-                typeof(StressToken),
-                delegate { Selection.ThisShip.Rotate90Clockwise(FinishAbility); }
-            );
-        }
-
-        private void Rotate90Counterclockwise(object sender, EventArgs e)
-        {
-            DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            Selection.ThisShip = TargetShip;
-            Selection.ThisShip.Tokens.AssignToken(
-                typeof(StressToken),
-                delegate { Selection.ThisShip.Rotate90Counterclockwise(Triggers.FinishTrigger); }
-            );
-        }
-
-        private void FinishAbility()
-        {
-            Selection.ThisShip = HostShip;
-            Triggers.FinishTrigger();
+            HostShip.Rotate180(Triggers.FinishTrigger);
         }
 
         private bool FilterTargets(GenericShip ship)
         {
             DistanceInfo distInfo = new DistanceInfo(HostShip, ship);
-            return (distInfo.Range <= 1 && !ship.IsStressed);
+            return (distInfo.Range <= 1 && !ship.IsStressed && Tools.IsSameTeam(HostShip, ship));
         }
 
         private int GetAiPriority(GenericShip ship)
         {
             return 0;
         }
-
-        private class NetremPollardDecisionSubphase : DecisionSubPhase { };
     }
 }

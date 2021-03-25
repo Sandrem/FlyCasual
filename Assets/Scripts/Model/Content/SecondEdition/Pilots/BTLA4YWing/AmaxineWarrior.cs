@@ -11,8 +11,6 @@ namespace Ship
         {
             public AmaxineWarrior() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo
                 (
                     "Amaxine Warrior",
@@ -21,8 +19,7 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Tech,
-                        UpgradeType.Illicit
+                        UpgradeType.Tech
                     },
                     factionOverride: Faction.Scum
                 );

@@ -14,17 +14,17 @@ namespace Ship
         {
             public Padric() : base()
             {
-                IsHidden = true;
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Padric",
                     3,
-                    35,
+                    36,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PadricAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech 
+                    },
                     factionOverride: Faction.Scum
                 );
 
@@ -38,6 +38,9 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
+    // TODO
+    // You need to lock the bomb first
+
     public class PadricAbility : GenericAbility
     {
         public override void ActivateAbility()

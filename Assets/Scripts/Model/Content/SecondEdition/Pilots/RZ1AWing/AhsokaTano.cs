@@ -16,15 +16,14 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Ahsoka Tano",
                     5,
-                    45,
+                    49,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AhsokaTanoRebelAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.ForcePower, UpgradeType.Talent },
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.ForcePower, UpgradeType.ForcePower },
                     force: 3,
                     abilityText: "After you fully execute a maneuver, you may choose a friendly ship at range 0-1 and spend 1 Force. That ship may perform an action, even if it is stressed."
                 );
 
-                RequiredMods = new List<Type>() { typeof(UnreleasedContentMod) };
                 PilotNameCanonical = "ahsokatano-rz1awing";
 
                 ModelInfo.SkinName = "Blue";

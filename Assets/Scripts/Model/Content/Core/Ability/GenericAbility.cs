@@ -9,6 +9,7 @@ using System.Linq;
 using ActionsList;
 using BoardTools;
 using Arcs;
+using Tokens;
 
 namespace Abilities
 {
@@ -74,6 +75,8 @@ namespace Abilities
         }
 
         private Func<GenericShip, bool> FilterDockableShips;
+
+        public GenericToken TargetToken {get; set;}
 
         public virtual void Initialize(GenericShip hostShip)
         {
@@ -1004,6 +1007,20 @@ namespace Abilities
 
             Rules.Docking.Dock(chosenHostShip, dockingShip);
             Triggers.FinishTrigger();
+        }
+
+        public GenericShip GetShip(ShipRole shipRole)
+        {
+            switch (shipRole)
+            {
+                case ShipRole.HostShip : return HostShip;
+                case ShipRole.ThisShip : return Selection.ThisShip;
+                case ShipRole.Attacker : return Combat.Attacker;
+                case ShipRole.Defender : return Combat.Defender;
+                case ShipRole.TargetShip : return TargetShip;
+                case ShipRole.CoordinatedShip : return HostShip.State.LastCoordinatedShip;
+                default: return null;
+            }
         }
     }
 }

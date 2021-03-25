@@ -16,14 +16,13 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Wedge Antilles",
                     4,
-                    34,
+                    35,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WedgeAntillesAWingAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent },
+                    extraUpgradeIcon: UpgradeType.Talent,
                     abilityText: "While you perform a primary attack, if the defender is your front arc. The defender rolls 1 fewer defense die."
                 );
 
-                RequiredMods = new List<Type>() { typeof(UnreleasedContentMod) };
                 PilotNameCanonical = "wedgeantilles-rz1awing";
 
                 ModelInfo.SkinName = "Blue";

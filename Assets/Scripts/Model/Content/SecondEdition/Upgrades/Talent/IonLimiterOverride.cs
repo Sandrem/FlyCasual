@@ -57,13 +57,13 @@ namespace Abilities.SecondEdition
                 onHit: new AssignTokenAction
                 (
                     tokenType: typeof(StrainToken),
-                    targetShip: GetThisShip,
+                    targetShipRole: ShipRole.HostShip,
                     showMessage: ShowStrainTokenMessage
                 ),
                 onCrit: new AssignTokenAction
                 (
                     tokenType: typeof(IonToken),
-                    targetShip: GetThisShip,
+                    targetShipRole: ShipRole.HostShip,
                     showMessage: ShowIonTokenMessage
                 )
             )
@@ -77,11 +77,6 @@ namespace Abilities.SecondEdition
         private string ShowIonTokenMessage()
         {
             return $"{HostUpgrade.UpgradeInfo.Name}: {HostShip.PilotInfo.PilotName} gains 1 Ion token";
-        }
-
-        private GenericShip GetThisShip()
-        {
-            return HostShip;
         }
     }
 }

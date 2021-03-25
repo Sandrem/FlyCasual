@@ -13,15 +13,13 @@ namespace Ship
         {
             public VultSkerrisDefender() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Vult Skerris",
                     5,
-                    78,
+                    82,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VultSkerrisDefenderAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Sensor },
                     charges: 1,
                     regensCharges: -1
                 );

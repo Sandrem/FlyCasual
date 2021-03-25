@@ -13,15 +13,13 @@ namespace Ship.SecondEdition.Hwk290LightFreighter
     {
         public GamutKey() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             PilotInfo = new PilotCardInfo(
                 "Gamut Key",
                 4,
-                35,
+                34,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.GamutKeyPilotAbility),
-                extraUpgradeIcon: UpgradeType.Talent,
+                extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Illicit },
                 factionOverride: Faction.Scum,
                 charges: 2,
                 regensCharges: 1

@@ -25,7 +25,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Torpedo);
-                if (Mods.ModsManager.Mods[typeof(Mods.ModsList.UnreleasedContentMod)].IsOn) ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
 
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Normal);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);

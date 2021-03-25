@@ -12,18 +12,16 @@ namespace Ship.SecondEdition.TIEInterceptor
     {
         public CommandantGoran() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             PilotInfo = new PilotCardInfo(
                 "Commandant Goran",
                 4,
-                42,
+                43,
                 isLimited: true,
                 abilityType: typeof(CommandantGoranAbility),
                 extraUpgradeIcon: UpgradeType.Talent
             );
 
-            ModelInfo.SkinName = "Vult Skerris";
+            ModelInfo.SkinName = "Skystrike Academy";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/94/37/94377171-95d9-40e5-99be-8f8d6e52eb28/swz84_pilot_commandantgoran.png";
         }

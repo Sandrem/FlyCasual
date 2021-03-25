@@ -14,18 +14,17 @@ namespace Ship
         {
             public NashWindrider() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Nash Windrider",
                     2,
-                    35,
+                    40,
                     isLimited: true,
                     abilityType: typeof(NashWindriderAbility),
                     charges: 1,
                     regensCharges: 1
                 );
-                ModelInfo.SkinName = "Vult Skerris";
+
+                ModelInfo.SkinName = "Skystrike Academy";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/be/1b/be1bc184-02e3-4b23-9006-6c299ec2a7a6/swz84_pilot_nashwindrider.png";
             }

@@ -16,15 +16,13 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Vectored Сannons (RZ-1)",
                 UpgradeType.Configuration,
-                cost: 0,
+                cost: 1,
                 restriction: new AbilityPresenceRestriction(typeof(Abilities.SecondEdition.VectoredThrustersAbility)),
                 addArc: new ShipArcInfo(ArcType.SingleTurret, 2),
                 removeArc: ArcType.Front,
                 abilityType: typeof(Abilities.SecondEdition.VectoredCannonsRZ1Ability),
                 isStandardazed: true
             );
-
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b0/1a/b01a4dff-267b-436c-a719-878335302bca/swz83_upgrade_vectoredcannonsrz1.png";
         }

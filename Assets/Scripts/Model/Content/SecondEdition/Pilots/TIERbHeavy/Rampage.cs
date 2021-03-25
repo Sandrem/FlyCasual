@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
             action: new AssignTokenAction
             (
                 tokenType: typeof(StrainToken),
-                targetShip: GetChosenTarget,
+                targetShipRole: ShipRole.TargetShip,
                 getCount: GetCountOfStrainTokens,
                 showMessage: GetMessageToShow
             ),
@@ -66,11 +66,6 @@ namespace Abilities.SecondEdition
                 aiSelectShipSpecial: AiSelectShipSpecial.Agile
             )
         );
-
-        private GenericShip GetChosenTarget()
-        {
-            return TargetShip;
-        }
 
         private string GetMessageToShow()
         {

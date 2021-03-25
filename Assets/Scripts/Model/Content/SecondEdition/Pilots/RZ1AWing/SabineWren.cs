@@ -14,14 +14,13 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Sabine Wren",
                     3,
-                    32,
+                    37,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SabineWrenAWingAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent },
+                    extraUpgradeIcon: UpgradeType.Talent,
                     abilityText: "While you defend or perform an attack, if the attack range is 1 and you are in the enemy ship's front arc, you may change 1 of your results to a hit or evade result."
                 );
 
-                RequiredMods = new List<Type>() { typeof(UnreleasedContentMod) };
                 PilotNameCanonical = "sabinewren-rz1awing";
 
                 ModelInfo.SkinName = "Phoenix Squadron";

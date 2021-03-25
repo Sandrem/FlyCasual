@@ -11,18 +11,12 @@ namespace Ship
         {
             public JinataSecurityOfficer() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo
                 (
                     "Jinata Security Officer",
                     2,
-                    32,
-                    extraUpgradeIcons: new List<UpgradeType>()
-                    {
-                        UpgradeType.Tech,
-                        UpgradeType.Illicit
-                    },
+                    31,
+                    extraUpgradeIcon: UpgradeType.Tech,
                     factionOverride: Faction.Scum
                 );
 

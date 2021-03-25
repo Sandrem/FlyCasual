@@ -12,23 +12,22 @@ namespace Ship.SecondEdition.BTLA4YWing
     {
         public ArlizHadrassian() : base()
         {
-            RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             PilotInfo = new PilotCardInfo
             (
                 "Arliz Hadrassian",
                 4,
-                35,
+                39,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.ArlizHadrassianAbility),
                 extraUpgradeIcons: new List<UpgradeType>()
                 {
                     UpgradeType.Talent,
-                    UpgradeType.Illicit,
                     UpgradeType.Tech
                 },
                 factionOverride: Faction.Scum
             );
+
+            ModelInfo.SkinName = "Gray";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/14/35/1435fe85-32d8-4fb3-8e80-e4d68add15ef/swz85_pilot_arlizhadrassian.png";
         }

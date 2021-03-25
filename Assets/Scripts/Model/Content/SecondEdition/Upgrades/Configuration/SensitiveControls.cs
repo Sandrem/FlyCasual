@@ -16,13 +16,11 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Sensitive Controls",
                 UpgradeType.Configuration,
-                cost: 0,
+                cost: 2,
                 restriction: new AbilityPresenceRestriction(typeof(Abilities.SecondEdition.AutoThrustersAbility)),
                 abilityType: typeof(Abilities.SecondEdition.SensitiveControlsHolderAbility),
                 isStandardazed: true
             );
-
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/a7/e5/a7e50b41-b3d2-44d5-ad8d-c9b2028e5fc6/swz84_upgrade_sensitivecontrols.png";
         }

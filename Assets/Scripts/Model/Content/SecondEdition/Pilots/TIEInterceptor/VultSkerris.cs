@@ -10,12 +10,10 @@ namespace Ship
         {
             public VultSkerris() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo(
                     "Vult Skerris",
                     5,
-                    45,
+                    46,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VultSkerrisDefenderAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
@@ -26,7 +24,7 @@ namespace Ship
 
                 PilotNameCanonical = "vultskerris-tieinterceptor";
 
-                ModelInfo.SkinName = "Vult Skerris";
+                ModelInfo.SkinName = "Skystrike Academy";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fc/c9/fcc90b4b-afb5-4e62-a385-7053fde0d825/swz84_pilot_vultskerris.png";
             }

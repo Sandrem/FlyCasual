@@ -66,9 +66,7 @@ namespace Abilities.SecondEdition
             }
             else
             {
-                Messages.ShowInfo($"False Transponder Codes: non-ship object is Jammed");
-
-                HostUpgrade.State.LoseCharge();
+                Messages.ShowInfo($"False Transponder Codes: non-ship object is not Jammed");
                 Triggers.FinishTrigger();
             }
             

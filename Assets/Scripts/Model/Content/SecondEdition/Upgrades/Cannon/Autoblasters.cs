@@ -59,14 +59,11 @@ namespace Abilities.SecondEdition
 
         private void MakeCritsUncancellable()
         {
-            if (Combat.ChosenWeapon.GetType() == HostUpgrade.GetType() && !Board.IsShipInArcByType(Combat.Defender, Combat.Attacker, ArcType.Front))
+            if (Combat.ChosenWeapon.GetType() == HostUpgrade.GetType() && !Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, ArcType.Front))
             {
                 foreach (Die die in Combat.DiceRollAttack.DiceList)
                 {
-                    if (die.Side == DieSide.Crit)
-                    {
-                        die.IsUncancelable = true;
-                    }
+                    if (die.Side == DieSide.Crit) die.IsUncancelable = true;
                 }
             }
         }

@@ -23,7 +23,7 @@ namespace Ship
                     35,
                     isLimited: true,
                     abilityType: typeof(EvaanVerlaineAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
                     seImageNumber: 16
                 );
             }

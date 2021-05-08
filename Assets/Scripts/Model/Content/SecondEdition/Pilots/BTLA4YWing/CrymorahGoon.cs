@@ -14,7 +14,7 @@ namespace Ship
                     "Crymorah Goon",
                     1,
                     30,
-                    extraUpgradeIcon: UpgradeType.Illicit,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Illicit, UpgradeType.Modification },
                     factionOverride: Faction.Scum,
                     seImageNumber: 168
                 );

@@ -152,6 +152,11 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
                 for (int i = 0; i < CountUpgradeIcons(UpgradeType.Modification); i++) slotsText.text += "m";
             }
 
+            if (Ship is Ship.SecondEdition.BTLA4YWing.BTLA4YWing && Ship.Faction == Faction.Scum)
+            {
+                for (int i = 0; i < CountUpgradeIcons(UpgradeType.Modification); i++) slotsText.text += "m";
+            }
+
             if (Ship.Faction != Faction.Scum) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Illicit); i++) slotsText.text += "I";
 
             if (Ship.Faction != Faction.FirstOrder && Ship.Faction != Faction.Resistance) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Tech); i++) slotsText.text += "X";

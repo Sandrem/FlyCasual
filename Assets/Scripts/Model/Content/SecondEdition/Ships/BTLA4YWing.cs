@@ -21,6 +21,7 @@ namespace Ship
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction), ActionColor.Red));
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
+                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Device);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 

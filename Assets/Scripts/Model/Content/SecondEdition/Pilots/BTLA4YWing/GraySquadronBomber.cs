@@ -15,6 +15,7 @@ namespace Ship
                     "Gray Squadron Bomber",
                     2,
                     30,
+                    extraUpgradeIcon: UpgradeType.Modification,
                     seImageNumber: 18
                 );
             }

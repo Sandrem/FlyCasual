@@ -21,7 +21,7 @@ namespace Ship
                     37,
                     isLimited: true,
                     abilityType: typeof(HortonSalmAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
                     seImageNumber: 15
                 );
 

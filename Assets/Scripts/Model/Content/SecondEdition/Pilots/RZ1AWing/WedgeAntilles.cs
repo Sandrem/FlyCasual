@@ -19,7 +19,7 @@ namespace Ship
                     35,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WedgeAntillesAWingAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent },
                     abilityText: "While you perform a primary attack, if the defender is your front arc. The defender rolls 1 fewer defense die."
                 );
 

@@ -19,7 +19,7 @@ namespace Ship.SecondEdition.RZ1AWing
                 30,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DerekKlivianAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
             );
 
             ModelInfo.SkinName = "Blue";

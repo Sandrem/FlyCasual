@@ -21,7 +21,8 @@ namespace Ship
                     isLimited: true,
                     abilityType: typeof(NashWindriderAbility),
                     charges: 1,
-                    regensCharges: 1
+                    regensCharges: 1,
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ModelInfo.SkinName = "Skystrike Academy";

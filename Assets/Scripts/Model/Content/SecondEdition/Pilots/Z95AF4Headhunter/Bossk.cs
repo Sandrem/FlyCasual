@@ -24,7 +24,7 @@ namespace Ship
                     factionOverride: Faction.Scum
                 );
 
-                PilotNameCanonical = "bossk-z-95headhunter";
+                PilotNameCanonical = "bossk-z95af4headhunter";
 
                 ModelInfo.SkinName = "Nashtah Pup";
 

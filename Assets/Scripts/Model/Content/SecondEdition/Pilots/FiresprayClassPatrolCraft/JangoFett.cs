@@ -78,7 +78,7 @@ namespace Abilities.SecondEdition
 
             if (HostShip.RevealedManeuver != null && anotherShip.RevealedManeuver != null)
             {
-                if (HostShip.RevealedManeuver.Speed < anotherShip.RevealedManeuver.Speed) result = true;
+                if (HostShip.RevealedManeuver.ColorComplexity < anotherShip.RevealedManeuver.ColorComplexity) result = true;
             }
 
             return result;

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.Hwk290LightFreighter
@@ -37,6 +38,7 @@ namespace Abilities.SecondEdition
     public class GamutKeyPilotAbility : GenericAbility
     {
         GenericShip ShipThatKeepTokens { get; set; }
+        private bool IsDelayed = false;
 
         public override void ActivateAbility()
         {
@@ -92,6 +94,7 @@ namespace Abilities.SecondEdition
             Messages.ShowInfo($"{GetAbilityName()}: {TargetShip.PilotInfo.PilotName} doesn't remove cirular tokens during this End Phase");
             ShipThatKeepTokens = TargetShip;
 
+            IsDelayed = true;
             ShipThatKeepTokens.BeforeRemovingTokenInEndPhase += DontRemoveCircularTokens;
             ShipThatKeepTokens.OnRoundEnd += UnsubscribeGainedAbility;
 
@@ -110,10 +113,18 @@ namespace Abilities.SecondEdition
 
         private void UnsubscribeGainedAbility(GenericShip ship)
         {
-            ShipThatKeepTokens.BeforeRemovingTokenInEndPhase -= DontRemoveCircularTokens;
-            ShipThatKeepTokens.OnRoundEnd -= UnsubscribeGainedAbility;
+            //Don't remove ability in the same turn
+            if (!IsDelayed)
+            {
+                ShipThatKeepTokens.BeforeRemovingTokenInEndPhase -= DontRemoveCircularTokens;
+                ShipThatKeepTokens.OnRoundEnd -= UnsubscribeGainedAbility;
 
-            ShipThatKeepTokens = null;
+                ShipThatKeepTokens = null;
+            }
+            else
+            {
+                IsDelayed = false;
+            }
         }
 
         protected virtual bool FilterTargets(GenericShip ship)

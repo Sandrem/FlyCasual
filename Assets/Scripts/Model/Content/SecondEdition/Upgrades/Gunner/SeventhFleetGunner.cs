@@ -5,6 +5,7 @@ using System;
 using BoardTools;
 using System.Linq;
 using UnityEngine;
+using SubPhases;
 
 namespace UpgradesList.SecondEdition
 {
@@ -123,7 +124,7 @@ namespace Abilities.SecondEdition
         private void DontUseGunnerAbility(object sender, EventArgs e)
         {
             Selection.ChangeActiveShip(Combat.Attacker);
-            Triggers.FinishTrigger();
+            DecisionSubPhase.ConfirmDecision();
         }
 
         private void UseGunnerAbility(object sender, EventArgs e)

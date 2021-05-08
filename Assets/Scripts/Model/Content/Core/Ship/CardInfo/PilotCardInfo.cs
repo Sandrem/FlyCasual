@@ -24,9 +24,26 @@ namespace Ship
 
         public List<UpgradeType> ExtraUpgrades { get; private set; }
         public Faction Faction { get; private set; }
+        public ForceAlignment ForceAlignment { get; private set; }
         public int SEImageNumber { get; private set; }
 
-        public PilotCardInfo(string pilotName, int initiative, int cost, bool isLimited = false, int limited = 0, Type abilityType = null, string pilotTitle = "", int force = 0, int charges = 0, int regensCharges = 0, UpgradeType extraUpgradeIcon = UpgradeType.None, List<UpgradeType> extraUpgradeIcons = null, Faction factionOverride = Faction.None, int seImageNumber = 0, string abilityText = "")
+        public PilotCardInfo(string pilotName,
+            int initiative,
+            int cost,
+            bool isLimited = false,
+            int limited = 0,
+            Type abilityType = null,
+            string pilotTitle = "",
+            int force = 0,
+            int charges = 0,
+            int regensCharges = 0,
+            UpgradeType extraUpgradeIcon = UpgradeType.None,
+            List<UpgradeType> extraUpgradeIcons = null,
+            Faction factionOverride = Faction.None,
+            ForceAlignment forceAlignmentOverride = ForceAlignment.None,
+            int seImageNumber = 0,
+            string abilityText = ""
+        )
         {
             PilotName = pilotName;
             PilotTitle = pilotTitle;
@@ -55,7 +72,10 @@ namespace Ship
             ExtraUpgrades = new List<UpgradeType>();
             if (extraUpgradeIcon != UpgradeType.None) ExtraUpgrades.Add(extraUpgradeIcon);
             if (extraUpgradeIcons != null) ExtraUpgrades.AddRange(extraUpgradeIcons);
+
             if (factionOverride != Faction.None) Faction = factionOverride;
+
+            ForceAlignment = forceAlignmentOverride;
         }
 
 

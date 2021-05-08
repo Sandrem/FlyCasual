@@ -409,22 +409,29 @@ namespace Ship
         {
             var result = false;
 
-            switch (alignment)
+            if (PilotInfo.ForceAlignment != ForceAlignment.None)
             {
-                case ForceAlignment.Light:
-                    result = Faction == Faction.Republic ||
-                             Faction == Faction.Rebel ||
-                             Faction == Faction.Resistance;
-                    break;
-                case ForceAlignment.Dark:
-                    result = Faction == Faction.Separatists ||
-                             Faction == Faction.Imperial ||
-                             Faction == Faction.FirstOrder ||
-                             Faction == Faction.Scum;
-                    break;
-                default:
-                    result = true;
-                    break;
+                result = PilotInfo.ForceAlignment == alignment;
+            }
+            else
+            {
+                switch (alignment)
+                {
+                    case ForceAlignment.Light:
+                        result = Faction == Faction.Republic ||
+                                 Faction == Faction.Rebel ||
+                                 Faction == Faction.Resistance;
+                        break;
+                    case ForceAlignment.Dark:
+                        result = Faction == Faction.Separatists ||
+                                 Faction == Faction.Imperial ||
+                                 Faction == Faction.FirstOrder ||
+                                 Faction == Faction.Scum;
+                        break;
+                    default:
+                        result = true;
+                        break;
+                }
             }
 
             OnForceAlignmentEquipCheck?.Invoke(alignment, ref result);

@@ -84,10 +84,9 @@ namespace Abilities.SecondEdition
 
         private bool IsAvailable()
         {
-            DistanceInfo distInfo = new DistanceInfo(HostShip, Combat.Attacker);
             return Combat.AttackStep == CombatStep.Attack
                 && Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo
-                && distInfo.Range <= 1
+                && Board.CheckInRange(HostShip, Combat.Attacker, 0, 1, RangeCheckReason.UpgradeCard)
                 && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
                 && Combat.DiceRollAttack.HasResult(DieSide.Blank)
                 && !Combat.Attacker.PilotInfo.IsLimited;

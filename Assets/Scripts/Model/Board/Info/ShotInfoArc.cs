@@ -61,7 +61,10 @@ namespace BoardTools
         {
             if (Arc.CannotBeUsedForAttackThisRound) return;
 
-            if (Range > Weapon.WeaponInfo.MaxRange) return;
+            int minRange = Weapon.WeaponInfo.MinRange;
+            int maxRange = Weapon.WeaponInfo.MaxRange;
+            Ship1.CallUpdateWeaponRange(Weapon, ref minRange, ref maxRange, Ship2);
+            if (Range > maxRange) return;
 
             if (Arc.Limits != null && Arc.Limits.Count > 0)
             {
@@ -133,7 +136,10 @@ namespace BoardTools
         {
             if (IsNormalArc() || IsSubArc() || IsWeaponCanAttackFromBullseyeArc())
             {
-                if (Range >= Weapon.WeaponInfo.MinRange) IsShotAvailable = true;
+                int minRange = Weapon.WeaponInfo.MinRange;
+                int maxRange = Weapon.WeaponInfo.MaxRange;
+                Ship1.CallUpdateWeaponRange(Weapon, ref minRange, ref maxRange, Ship2);
+                if (Range >= minRange) IsShotAvailable = true;
             }
 
             if (Arc.ArcType != ArcType.None && Ship1 != Ship2)

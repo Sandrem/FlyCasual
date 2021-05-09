@@ -1,12 +1,8 @@
 ﻿using Ship;
 using Tokens;
-using UnityEngine;
 using BoardTools;
-using GameModes;
 using System;
 using Players;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Editions;
 using ActionsList;
@@ -29,10 +25,7 @@ namespace RulesList
 
         private void CheckForTractorBeam(GenericShip ship, GenericToken token)
         {
-            if (!(token is TractorBeamToken)) 
-            {
-                return;
-            }
+            if (!(token is TractorBeamToken)) return;
 
             if (ShouldDecreaseAgility(ship)) ship.ChangeAgilityBy(-1);
 
@@ -50,15 +43,8 @@ namespace RulesList
 
         private bool ShouldDecreaseAgility(GenericShip ship)
         {
-            bool result = true;
-
-            if (Edition.Current is SecondEdition)
-            {
-                int tractorBeamTokensCount = ship.Tokens.CountTokensByType(typeof(TractorBeamToken));
-                if (tractorBeamTokensCount > 1) result = false;
-            }
-
-            return result;
+            int tractorBeamTokensCount = ship.Tokens.GetAllTokens().Count(n => n is TractorBeamToken);
+            return (tractorBeamTokensCount >= Edition.Current.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
         }
 
         public static void PerfromManualTractorBeamReposition(GenericShip ship, GenericPlayer assinger)
@@ -84,10 +70,7 @@ namespace RulesList
 
         private void CheckForTractorBeamRemoval(GenericShip ship, Type tokenType)
         {
-            if (tokenType != typeof(TractorBeamToken)) 
-            {
-                return;
-            }
+            if (tokenType != typeof(TractorBeamToken)) return;
 
             if (ShouldIncreaseAgility(ship)) ship.ChangeAgilityBy(+1);
         }

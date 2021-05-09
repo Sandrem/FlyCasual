@@ -173,6 +173,11 @@ namespace SubPhases
             GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(false);
         }
 
+        public override void Pause(Type pausedBySubphase)
+        {
+            if (pausedBySubphase != typeof(DiceSyncSubphase)) Pause();
+        }
+
         public override void Resume()
         {
             GameObject.Find("UI").transform.Find("CombatDiceResultsPanel").gameObject.SetActive(true);
@@ -215,6 +220,11 @@ namespace SubPhases
             Phases.CurrentSubPhase = PreviousSubPhase;
 
             Combat.DiceModifications.Next();
+        }
+
+        public override void Pause(Type pausedBySubphase)
+        {
+            if (pausedBySubphase != typeof(DiceSyncSubphase)) Pause();
         }
 
     }

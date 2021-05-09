@@ -93,7 +93,7 @@ public static partial class Phases
 
     public static GenericSubPhase StartTemporarySubPhaseNew(string name, System.Type subPhaseType, Action callBack)
     {
-        if (CurrentSubPhase != null) CurrentSubPhase.Pause();
+        if (CurrentSubPhase != null) CurrentSubPhase.Pause(subPhaseType);
 
         if (DebugManager.DebugPhases) Debug.Log("Temporary phase " + subPhaseType + " is started directly");
         GenericSubPhase previousSubPhase = CurrentSubPhase;

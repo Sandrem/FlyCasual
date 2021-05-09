@@ -64,6 +64,11 @@ namespace SubPhases
 
         public virtual void Pause() { }
 
+        public virtual void Pause(Type pausedBySubphase)
+        {
+            Pause();
+        }
+
         public virtual void Resume()
         {
             Roster.HighlightPlayer(RequiredPlayer);

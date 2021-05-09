@@ -87,10 +87,13 @@ namespace ActionsList
             Combat.Defender.OnDefenceStartAsDefender -= RemoveDiceModificationRestriction;
         }
 
-        private void UseDiceModificationRestriction(GenericShip ship, GenericAction action, ref bool canBeUsed)
+        private void UseDiceModificationRestriction(GenericShip ship, GenericAction diceModification, ref bool canBeUsed)
         {
-            Messages.ShowInfoToHuman("Accuracy corrector: All dice modifications are disabled");
-            canBeUsed = false;
+            if (!diceModification.IsNotRealDiceModification)
+            {
+                Messages.ShowInfoToHuman("Accuracy corrector: All dice modifications are disabled");
+                canBeUsed = false;
+            }
         }       
     }
 }

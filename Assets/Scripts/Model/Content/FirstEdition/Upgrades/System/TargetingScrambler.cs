@@ -92,9 +92,9 @@ namespace Abilities.FirstEdition
             return 50;
         }
 
-        private void UseDiceModificationRestriction(GenericShip ship, GenericAction action, ref bool canBeUsed)
+        private void UseDiceModificationRestriction(GenericShip ship, GenericAction diceModification, ref bool canBeUsed)
         {
-            if (Combat.Defender.ShipId == HostShip.ShipId && Combat.ShotInfo.Range == 1)
+            if (Combat.Defender.ShipId == HostShip.ShipId && Combat.ShotInfo.Range == 1 && !diceModification.IsNotRealDiceModification)
             {
                 Messages.ShowInfoToHuman("Targeting Scrambler: All dice modifications are disabled");
                 canBeUsed = false;

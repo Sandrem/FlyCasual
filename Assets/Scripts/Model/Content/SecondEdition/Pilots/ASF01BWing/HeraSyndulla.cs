@@ -3,6 +3,7 @@ using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tokens;
 using Upgrade;
 
@@ -20,7 +21,7 @@ namespace Ship
                     55,
                     pilotTitle: "Phoenix Leader",
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.HeraSyndullaBWingAbility),
+                    abilityType: typeof(Abilities.SecondEdition.HeraSyndullaABWingAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 
@@ -28,7 +29,7 @@ namespace Ship
 
                 ModelInfo.SkinName = "Prototype";
 
-                ImageUrl = "https://i.imgur.com/eGmyOQm.png";
+                ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/bd/Herasyndullabwing.png";
             }
         }
     }
@@ -36,92 +37,112 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class HeraSyndullaBWingAbility : GenericAbility
+    public class HeraSyndullaABWingAbility : GenericAbility
     {
-        private GenericShip ShipToTransferToken;
-
         private static readonly List<Type> TokenTypesTransferable = new List<Type>()
         {
-            typeof(Tokens.FocusToken),
-            typeof(Tokens.EvadeToken),
-            typeof(Tokens.BlueTargetLockToken)
+            typeof(FocusToken),
+            typeof(EvadeToken),
+            typeof(BlueTargetLockToken)
         };
 
         public override void ActivateAbility()
         {
-            GenericShip.OnAttackStartAsAttackerGlobal += CheckAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnAttackStartAsAttackerGlobal -= CheckAbility;
+            GenericShip.OnGenerateDiceModificationsGlobal -= CheckAbility;
         }
 
-        private void CheckAbility()
+        private void CheckAbility(GenericShip ship)
         {
-            if (!HasTokensToTransfter()) return;
+            ship.AddAvailableDiceModification(new HeraSyndullaDiceModification(), HostShip);
+        }
 
-            if (Tools.IsAnotherFriendly(HostShip, Combat.Attacker))
+        private class HeraSyndullaDiceModification : ActionsList.GenericAction
+        {
+            public HeraSyndullaDiceModification()
             {
-                DistanceInfo distInfo = new DistanceInfo(HostShip, Combat.Attacker);
-                if (distInfo.Range >= 1 && distInfo.Range <= 2)
+                Name = DiceModificationName = "Get Hera's token";
+                IsNotRealDiceModification = true;
+            }
+
+            public override bool IsDiceModificationAvailable()
+            {
+                return HasTokensToTransfter()
+                    && Tools.IsAnotherFriendly(HostShip, DiceModificationShip)
+                    && IsInRangeOfAbility();
+            }
+
+            private bool IsInRangeOfAbility()
+            {
+                DistanceInfo distInfo = new DistanceInfo(HostShip, DiceModificationShip);
+                return (distInfo.Range >= 1 && distInfo.Range <= 2);
+            }
+
+            private bool HasTokensToTransfter()
+            {
+                foreach (Type tokenType in TokenTypesTransferable)
                 {
-                    ShipToTransferToken = Combat.Attacker;
-                    RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskToTransfterToken);
+                    if (HostShip.Tokens.HasToken(tokenType, '*')) return true;
                 }
+
+                return false;
             }
-            else if(Tools.IsAnotherFriendly(HostShip, Combat.Defender))
+
+            public override int GetDiceModificationPriority()
             {
-                DistanceInfo distInfo = new DistanceInfo(HostShip, Combat.Defender);
-                if (distInfo.Range >= 1 && distInfo.Range <= 2)
+                return 0;
+            }
+
+            public override void ActionEffect(Action callBack)
+            {
+                Triggers.RegisterTrigger
+                (
+                    new Trigger()
+                    {
+                        Name = "Choose Hera's token",
+                        EventHandler = AskToTransfterToken,
+                        TriggerOwner = HostShip.Owner.PlayerNo,
+                        TriggerType = TriggerTypes.OnAbilityDirect
+                    }
+                );
+
+                Triggers.ResolveTriggers(TriggerTypes.OnAbilityDirect, callBack);
+            }
+
+            private void AskToTransfterToken(object sender, EventArgs e)
+            {
+                HeraSyndullaDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<HeraSyndullaDecisionSubPhase>("Hera Syndulla Decision", Triggers.FinishTrigger);
+
+                subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
+                subphase.DescriptionLong = $"Choose which token do you want to transfer to {DiceModificationShip.PilotInfo.PilotName}";
+                subphase.ImageSource = HostShip;
+
+                foreach (GenericToken token in HostShip.Tokens.GetAllTokens())
                 {
-                    ShipToTransferToken = Combat.Defender;
-                    RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskToTransfterToken);
+                    if (TokenTypesTransferable.Contains(token.GetType()))
+                    {
+                        string tokenName = (token is BlueTargetLockToken) ? $"Lock \"{(token as BlueTargetLockToken).Letter}\"" : token.Name;
+                        subphase.AddDecision(tokenName, delegate { TransferToken(token); });
+                    }
                 }
-            }
-        }
 
-        private bool HasTokensToTransfter()
-        {
-            foreach (Type tokenType in TokenTypesTransferable)
+                subphase.DefaultDecisionName = subphase.GetDecisions().First().Name;
+                subphase.DecisionOwner = HostShip.Owner;
+                subphase.ShowSkipButton = false;
+
+                subphase.Start();
+            }
+
+            private void TransferToken(GenericToken token)
             {
-                if (HostShip.Tokens.HasToken(tokenType, '*')) return true;
+                DecisionSubPhase.ConfirmDecisionNoCallback();
+
+                ActionsHolder.ReassignToken(token, HostShip, DiceModificationShip, Triggers.FinishTrigger);
             }
-
-            return false;
-        }
-
-        private void AskToTransfterToken(object sender, EventArgs e)
-        {
-            HeraSyndullaDecisionSubPhase subphase = Phases.StartTemporarySubPhaseNew<HeraSyndullaDecisionSubPhase>("Hera Syndulla Decision", Triggers.FinishTrigger);
-
-            subphase.DescriptionShort = HostShip.PilotInfo.PilotName;
-            subphase.DescriptionLong = $"Do you want to transfer 1 of your tokens to {ShipToTransferToken.PilotInfo.PilotName}?";
-            subphase.ImageSource = HostShip;
-
-            foreach (GenericToken token in HostShip.Tokens.GetAllTokens())
-            {
-                if (TokenTypesTransferable.Contains(token.GetType()))
-                {
-                    string tokenName = (token is BlueTargetLockToken) ? $"Lock \"{(token as BlueTargetLockToken).Letter}\"" : token.Name;
-                    subphase.AddDecision(tokenName, delegate { TransferToken(token); });
-                }
-            }
-
-            subphase.AddDecision("No", delegate { DecisionSubPhase.ConfirmDecision(); });
-
-            subphase.DefaultDecisionName = "No";
-            
-            subphase.DecisionOwner = HostShip.Owner;
-
-            subphase.Start();
-        }
-
-        private void TransferToken(GenericToken token)
-        {
-            DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            ActionsHolder.ReassignToken(token, HostShip, ShipToTransferToken, Triggers.FinishTrigger);
         }
 
         private class HeraSyndullaDecisionSubPhase : DecisionSubPhase { };

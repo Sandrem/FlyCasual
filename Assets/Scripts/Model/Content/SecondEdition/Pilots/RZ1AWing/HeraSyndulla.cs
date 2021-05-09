@@ -1,6 +1,4 @@
-﻿using Mods.ModsList;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -17,7 +15,7 @@ namespace Ship
                     42,
                     pilotTitle: "Phoenix Leader",
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.HeraSyndullaBWingAbility),
+                    abilityType: typeof(Abilities.SecondEdition.HeraSyndullaABWingAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent }
                 );
 
@@ -25,7 +23,7 @@ namespace Ship
 
                 ModelInfo.SkinName = "Hera Syndulla";
 
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/da/1c/da1cbafb-3893-4ebb-aa80-516f21c2186a/swz83_ship_herasyndulla.png";
+                ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/dc/Herasyndullaawing.png";
             }
         }
     }

@@ -100,9 +100,11 @@ namespace Abilities.SecondEdition
             }
         }
 
-        protected virtual void ForesightRestrictionForAttacker(GenericShip ship, GenericAction action, ref bool canBeUsed)
+        protected virtual void ForesightRestrictionForAttacker(GenericShip ship, GenericAction diceModification, ref bool canBeUsed)
         {
-            if (action.DiceModificationTiming != DiceModificationTimingType.Opposite && action.DiceModificationName != "Foresight")
+            if (diceModification.DiceModificationTiming != DiceModificationTimingType.Opposite
+                && diceModification.DiceModificationName != "Foresight"
+                && !diceModification.IsNotRealDiceModification)
             {
                 Messages.ShowErrorToHuman("Foresight: You cannot modify your attack dice in another ways");
                 canBeUsed = false;

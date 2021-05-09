@@ -139,11 +139,11 @@ namespace Conditions
             Host.OnTryAddAvailableDiceModification -= CheckFocusRestriction;
         }
 
-        private void CheckFocusRestriction(GenericShip ship, GenericAction action, ref bool diceModificationIsAllowed)
+        private void CheckFocusRestriction(GenericShip ship, GenericAction diceModification, ref bool diceModificationIsAllowed)
         {
             if (Combat.Attacker == Assigner || Combat.Defender == Assigner)
             {
-                if (action is FocusAction) diceModificationIsAllowed = false;
+                if (diceModification is FocusAction) diceModificationIsAllowed = false;
             }
         }
 

@@ -26,15 +26,9 @@ namespace ActionsList
         public bool IsRealAction = true;
         public bool IsCoordinatedAction = false;
 
-        public bool IsRed
-        {
-            get { return Color == ActionColor.Red; }
-        }
+        public bool IsRed { get { return Color == ActionColor.Red; } }
 
-        public bool IsPurple
-        {
-            get { return Color == ActionColor.Purple; }
-        }
+        public bool IsPurple { get { return Color == ActionColor.Purple; } }
 
         public ActionColor Color;
 
@@ -48,38 +42,23 @@ namespace ActionsList
         public bool IsTurnsAllFocusIntoSuccess;
         public bool IsForced;
 
+        // Allow to use even if dice modifications are forbidden
+        public bool IsNotRealDiceModification;
+
         public bool CanBeUsedFewTimes;
 
         public DiceModificationTimingType DiceModificationTiming = DiceModificationTimingType.Normal;
 
         public bool CanBePerformedWhileStressed;
-        public virtual bool CanBePerformedAsAFreeAction
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public virtual bool CanBePerformedAsAFreeAction { get { return true; } }
 
-        private GenericShip host;
-        public GenericShip HostShip
-        {
-            get
-            {
-                return host;
-            }
-            set { host = value; }
-        }
+        //Ship that owns this dice modification (for aura-like abilities - source of aura-like ability)
+        public GenericShip HostShip { get; set; }
 
-        private GenericUpgrade source;
-        public GenericUpgrade Source
-        {
-            get
-            {
-                return source;
-            }
-            set { source = value; }
-        }
+        //Ship that uses this dice modification (for aura-like abilities - user of aura-like ability)
+        public GenericShip DiceModificationShip { get; set; }
+
+        public GenericUpgrade Source { get; set; }
 
         public GenericAction AsRedAction
         {

@@ -61,10 +61,13 @@ namespace Abilities.FirstEdition
             }
         }
 
-        private void UseOmegaLeaderRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseOmegaLeaderRestriction(GenericShip ship, ActionsList.GenericAction diceModification, ref bool canBeUsed)
         {
-            Messages.ShowErrorToHuman("\"Omega Leader\": The target is unable to modify dice");
-            canBeUsed = false;
+            if (!diceModification.IsNotRealDiceModification)
+            {
+                Messages.ShowErrorToHuman("\"Omega Leader\": The target is unable to modify dice");
+                canBeUsed = false;
+            }
         }
 
         private void RemoveOmegaLeaderPilotAbility(GenericShip ship)

@@ -67,10 +67,13 @@ namespace Abilities.SecondEdition
             }
         }
 
-        private void UseDiceRestriction(GenericShip ship, ActionsList.GenericAction action, ref bool canBeUsed)
+        private void UseDiceRestriction(GenericShip ship, ActionsList.GenericAction diceModification, ref bool canBeUsed)
         {
-            Messages.ShowErrorToHuman(HostShip.PilotInfo.PilotName + ": Enemy's dice cannot be modified.");
-            canBeUsed = false;
+            if (!diceModification.IsNotRealDiceModification)
+            {
+                Messages.ShowErrorToHuman(HostShip.PilotInfo.PilotName + ": Enemy's dice cannot be modified.");
+                canBeUsed = false;
+            }
         }
 
         private void RemoveOmegaLeaderPilotAbility(GenericShip ship)

@@ -67,9 +67,9 @@ namespace Abilities.FirstEdition
             // Do nothing
         }
 
-        protected virtual void SnapShotRestrictionForAttacker(GenericShip ship, GenericAction action, ref bool canBeUsed)
+        protected virtual void SnapShotRestrictionForAttacker(GenericShip ship, GenericAction diceModification, ref bool canBeUsed)
         {
-            if (action.DiceModificationTiming != DiceModificationTimingType.Opposite)
+            if (diceModification.DiceModificationTiming != DiceModificationTimingType.Opposite && !diceModification.IsNotRealDiceModification)
             {
                 Messages.ShowErrorToHuman("Snap Shot: You cannot modify your attack dice");
                 canBeUsed = false;

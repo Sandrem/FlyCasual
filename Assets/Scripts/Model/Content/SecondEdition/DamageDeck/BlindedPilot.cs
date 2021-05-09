@@ -26,9 +26,12 @@ namespace DamageDeckCardSE
             Triggers.FinishTrigger();
         }
 
-        private void RestrictActionEffectsToForceOnly(GenericShip ship, GenericAction action, ref bool canBeUsed)
+        private void RestrictActionEffectsToForceOnly(GenericShip ship, GenericAction diceModification, ref bool canBeUsed)
         {            
-            if (Combat.AttackStep == CombatStep.Attack && Combat.Attacker.ShipId == Host.ShipId && !(action is ForceAction))
+            if (Combat.AttackStep == CombatStep.Attack
+                && Combat.Attacker.ShipId == Host.ShipId
+                && !(diceModification is ForceAction)
+                && !diceModification.IsNotRealDiceModification)
             {
                 canBeUsed = false;
             }

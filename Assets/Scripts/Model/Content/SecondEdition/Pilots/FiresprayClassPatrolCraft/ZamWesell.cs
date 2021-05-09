@@ -46,7 +46,7 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            HostShip.OnSetupPlaced += LoseCharges;
+            HostShip.OnSetupPlaced += LoseChargesOnSetup;
 
             HostShip.OnCheckSystemsAbilityActivation += CheckAbility;
             HostShip.OnSystemsAbilityActivation += RegisterAbility;
@@ -57,7 +57,7 @@ namespace Abilities.SecondEdition
             HostShip.OnSystemsPhaseStart += RemoveOwnConditions;
         }
 
-        protected virtual void LoseCharges(GenericShip ship)
+        protected virtual void LoseChargesOnSetup(GenericShip ship)
         {
             Messages.ShowInfo($"{HostShip.PilotInfo.PilotName}: 2 Charges are lost during Setup");
             HostShip.State.Charges -= 2;
@@ -83,8 +83,8 @@ namespace Abilities.SecondEdition
                 imageHolder: HostReal as IImageHolder,
                 decisions: new Dictionary<string, EventHandler>()
                 {
-                    { "You Should Thank Me", delegate{ Assign(typeof(YouShouldThankMeCondition)); } },
-                    { "You'd Better Mean Business", delegate{ Assign(typeof(YoudBetterMeanBusiness)); } }
+                    { "You Should Thank Me", delegate{ AssignSecretCondition(typeof(YouShouldThankMeCondition)); } },
+                    { "You'd Better Mean Business", delegate{ AssignSecretCondition(typeof(YoudBetterMeanBusiness)); } }
                 },
                 tooltips: new Dictionary<string, string>()
                 {
@@ -96,7 +96,7 @@ namespace Abilities.SecondEdition
             );;
         }
 
-        protected virtual void Assign(Type conditionType)
+        protected virtual void AssignSecretCondition(Type conditionType)
         {
             AssignedCondition = Activator.CreateInstance(conditionType, HostShip) as ZamWesellSecretCondition;
             Messages.ShowInfo($"{HostShip.PilotInfo.PilotName}: Secret condition is assigned");
@@ -293,14 +293,22 @@ namespace Abilities.SecondEdition
         {
             if (AssignedCondition is YouShouldThankMeCondition)
             {
-                AskToUseAbility(
-                    AssignedCondition.Name,
-                    AlwaysUseByDefault,
-                    ConfirmExtraAttackFree,
-                    descriptionLong: "Do you want to perform a bonus attack?",
-                    imageHolder: HostReal as IImageHolder,
-                    requiredPlayer: HostShip.Owner.PlayerNo
-                );
+                if (GetCharges() >= 2)
+                {
+                    AskToUseAbility(
+                        AssignedCondition.Name,
+                        AlwaysUseByDefault,
+                        ConfirmExtraAttackFree,
+                        descriptionLong: "Do you want to perform a bonus attack?",
+                        imageHolder: HostReal as IImageHolder,
+                        requiredPlayer: HostShip.Owner.PlayerNo
+                    );
+                }
+                else
+                {
+                    Messages.ShowInfo("You Should Thank Me: There are not enough charges for extra attack");
+                    Triggers.FinishTrigger();
+                }
             }
             else if (AssignedCondition is YoudBetterMeanBusiness)
             {
@@ -387,11 +395,13 @@ namespace Abilities.SecondEdition
         {
             HostShip.Tokens.RemoveCondition(AssignedCondition);
             AssignedCondition = null;
+
+            IsAbilityUsed = false;
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.OnSetupPlaced -= LoseCharges;
+            HostShip.OnSetupPlaced -= LoseChargesOnSetup;
 
             HostShip.OnCheckSystemsAbilityActivation -= CheckAbility;
             HostShip.OnSystemsAbilityActivation -= RegisterAbility;

@@ -38,13 +38,13 @@ namespace Abilities.SecondEdition
     {
         protected override string AbilityHostName { get { return HostUpgrade.UpgradeInfo.Name; } }
 
-        protected override void LoseCharges(GenericShip ship)
+        protected override void LoseChargesOnSetup(GenericShip ship)
         {
             Messages.ShowInfo($"{HostShip.PilotInfo.PilotName}: 2 Charges on {HostUpgrade.UpgradeInfo.Name} are lost during Setup");
             HostUpgrade.State.SpendCharges(2);
         }
 
-        protected override void Assign(Type conditionType)
+        protected override void AssignSecretCondition(Type conditionType)
         {
             AssignedCondition = Activator.CreateInstance(conditionType, HostShip) as ZamWesellSecretCondition;
             Messages.ShowInfo($"{HostShip.PilotInfo.PilotName}: Secret condition of {HostUpgrade.UpgradeInfo.Name} is assigned");

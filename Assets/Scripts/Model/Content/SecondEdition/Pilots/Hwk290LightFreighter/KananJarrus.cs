@@ -9,16 +9,16 @@ namespace Ship
 {
     namespace SecondEdition.Hwk290LightFreighter
     {
-        public class KannanJarrus : Hwk290LightFreighter
+        public class KananJarrus : Hwk290LightFreighter
         {
-            public KannanJarrus() : base()
+            public KananJarrus() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Kannan Jarrus",
+                    "Kanan Jarrus",
                     3,
                     42,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.KannanJarrusHwk290Ability),
+                    abilityType: typeof(Abilities.SecondEdition.KananJarrusHwk290Ability),
                     extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.ForcePower, UpgradeType.Illicit },
                     force: 1,
                     factionOverride: Faction.Scum,
@@ -29,7 +29,7 @@ namespace Ship
 
                 ModelInfo.SkinName = "Black";
 
-                PilotNameCanonical = "kannanjarrus-hwk290lightfreighter";
+                PilotNameCanonical = "kananjarrus-hwk290lightfreighter";
             }
         }
     }
@@ -37,7 +37,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class KannanJarrusHwk290Ability : Abilities.FirstEdition.KananJarrusPilotAbility
+    public class KananJarrusHwk290Ability : Abilities.FirstEdition.KananJarrusPilotAbility
     {
         protected override void CheckPilotAbility()
         {

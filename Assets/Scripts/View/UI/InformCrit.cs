@@ -97,7 +97,8 @@ public static class InformCrit
 
         GameCommand command = GameController.GenerateGameCommand(
             GameCommandTypes.ConfirmCrit,
-            Phases.CurrentSubPhase.GetType()
+            Phases.CurrentSubPhase.GetType(),
+            Phases.CurrentSubPhase.ID
         );
         GameMode.CurrentGameMode.ExecuteCommand(command);
     }

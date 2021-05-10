@@ -9,7 +9,7 @@ namespace GameCommands
 {
     public class AssignManeuverCommand : GameCommand
     {
-        public AssignManeuverCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public AssignManeuverCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

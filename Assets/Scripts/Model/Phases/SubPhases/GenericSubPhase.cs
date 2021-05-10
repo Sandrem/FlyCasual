@@ -17,6 +17,9 @@ namespace SubPhases
 
     public class GenericSubPhase
     {
+        public static int IDCounter { get; set; }
+        public int ID { get; set; }
+
         public GenericSubPhase PreviousSubPhase { get; set; }
 
         public string Name;
@@ -52,6 +55,14 @@ namespace SubPhases
         protected const int PILOTSKILL_MAX = 12;
 
         public virtual bool AllowsMultiplayerSelection { get; set; }
+
+        public virtual bool DoNotSync { get; set; }
+
+        public GenericSubPhase()
+        {
+            if (!DoNotSync) IDCounter++;
+            ID = IDCounter;
+        }
 
         public virtual void Start()
         {

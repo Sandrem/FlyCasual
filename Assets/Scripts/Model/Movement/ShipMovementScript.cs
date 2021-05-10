@@ -68,6 +68,7 @@ public class ShipMovementScript : MonoBehaviour {
             (
                 GameCommandTypes.AssignManeuver,
                 Phases.CurrentSubPhase.GetType(),
+                Phases.CurrentSubPhase.ID,
                 parameters.ToString()
             )
         );
@@ -167,6 +168,7 @@ public class ShipMovementScript : MonoBehaviour {
         return GameController.GenerateGameCommand(
             GameCommandTypes.ActivateAndMove,
             Phases.CurrentSubPhase.GetType(),
+            Phases.CurrentSubPhase.ID,
             parameters.ToString()
         );
     }

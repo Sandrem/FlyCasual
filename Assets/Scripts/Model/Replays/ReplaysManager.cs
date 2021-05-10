@@ -46,7 +46,8 @@ public static class ReplaysManager
                     JSONObject json = new JSONObject(line);
                     GameController.SendCommand(
                         (GameCommandTypes)Enum.Parse(typeof(GameCommandTypes), json["command"].str),
-                        System.Type.GetType(json["subphase"].str),
+                        Type.GetType(json["subphase"].str),
+                        (int) json["subphaseId"].i,
                         json["parameters"].ToString()
                     );
                 }

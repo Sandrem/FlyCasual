@@ -5,7 +5,7 @@ namespace GameCommands
 {
     public class SystemActivationCommand : GameCommand
     {
-        public SystemActivationCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public SystemActivationCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

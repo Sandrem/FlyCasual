@@ -369,6 +369,7 @@ namespace SubPhases
     public class ManeuverSelectionSubphase : GenericSubPhase
     {
         public override List<GameCommandTypes> AllowedGameCommandTypes { get { return new List<GameCommandTypes>() { GameCommandTypes.AssignManeuver }; } }
+        public override bool DoNotSync => true;
 
         public override void Next()
         {

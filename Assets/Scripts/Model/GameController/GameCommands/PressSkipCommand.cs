@@ -9,7 +9,7 @@ namespace GameCommands
 {
     public class PressSkipCommand : GameCommand
     {
-        public PressSkipCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public PressSkipCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

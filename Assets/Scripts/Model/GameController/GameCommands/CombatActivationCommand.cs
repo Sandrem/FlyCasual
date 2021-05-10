@@ -9,7 +9,7 @@ namespace GameCommands
 {
     public class CombatActivationCommand : GameCommand
     {
-        public CombatActivationCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public CombatActivationCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

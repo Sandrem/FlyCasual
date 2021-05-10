@@ -45,7 +45,9 @@ public static partial class Phases
 
     private static void StartGame()
     {
+        GenericSubPhase.IDCounter = 0;
         RoundCounter = 0;
+
         GameIsEnded = false;
         CurrentPhase = new SetupPhase();
 

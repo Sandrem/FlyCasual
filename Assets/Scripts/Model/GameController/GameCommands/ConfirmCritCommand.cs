@@ -9,7 +9,7 @@ namespace GameCommands
 {
     public class ConfirmCritCommand : GameCommand
     {
-        public ConfirmCritCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public ConfirmCritCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
             
         }

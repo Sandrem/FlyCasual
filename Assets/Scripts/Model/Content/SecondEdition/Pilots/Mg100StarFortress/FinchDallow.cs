@@ -238,6 +238,7 @@ namespace SubPhases
             return GameController.GenerateGameCommand(
                 GameCommandTypes.BombPlacement,
                 typeof(PlaceBombTokenSubphase),
+                Phases.CurrentSubPhase.ID,
                 parameters.ToString()
             );
         }

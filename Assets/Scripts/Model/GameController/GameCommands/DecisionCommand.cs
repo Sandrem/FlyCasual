@@ -9,7 +9,7 @@ namespace GameCommands
 {
     public class DecisionCommand : GameCommand
     {
-        public DecisionCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public DecisionCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

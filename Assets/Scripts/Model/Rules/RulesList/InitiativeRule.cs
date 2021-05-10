@@ -63,6 +63,7 @@ namespace RulesList
             return GameController.GenerateGameCommand(
                 GameCommandTypes.SyncPlayerWithInitiative,
                 null,
+                0,
                 parameters.ToString()
             );
         }

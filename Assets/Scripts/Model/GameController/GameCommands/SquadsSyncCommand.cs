@@ -10,7 +10,7 @@ namespace GameCommands
 {
     public class SquadsSyncCommand : GameCommand
     {
-        public SquadsSyncCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public SquadsSyncCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

@@ -192,6 +192,7 @@ namespace SubPhases
             return GameController.GenerateGameCommand(
                 GameCommandTypes.ShipPlacement,
                 Phases.CurrentSubPhase.GetType(),
+                Phases.CurrentSubPhase.ID,
                 parameters.ToString()
             );
         }

@@ -233,7 +233,8 @@ public class UI : MonoBehaviour {
     {
         return GameController.GenerateGameCommand(
             GameCommandTypes.PressNext,
-            Phases.CurrentSubPhase.GetType()
+            Phases.CurrentSubPhase.GetType(),
+            Phases.CurrentSubPhase.ID
         );
     }
 
@@ -259,7 +260,8 @@ public class UI : MonoBehaviour {
     {
         return GameController.GenerateGameCommand(
             GameCommandTypes.PressSkip,
-            Phases.CurrentSubPhase.GetType()
+            Phases.CurrentSubPhase.GetType(),
+            Phases.CurrentSubPhase.ID
         );
     }
 

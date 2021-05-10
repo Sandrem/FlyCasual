@@ -191,6 +191,7 @@ namespace SubPhases
                 (
                     GameCommandTypes.AssignManeuver,
                     typeof(PlanningSubPhase),
+                    Phases.CurrentSubPhase.ID,
                     parameters.ToString()
                 )
             );
@@ -229,6 +230,7 @@ namespace SubPhases
             return GameController.GenerateGameCommand(
                 GameCommandTypes.SelectShipToAssignManeuver,
                 Phases.CurrentSubPhase.GetType(),
+                Phases.CurrentSubPhase.ID,
                 parameters.ToString()
             );
         }

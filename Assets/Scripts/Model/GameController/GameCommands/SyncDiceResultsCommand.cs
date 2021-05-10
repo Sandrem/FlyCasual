@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 namespace GameCommands
 {
     public class SyncDiceResultsCommand : GameCommand
     {
-        public SyncDiceResultsCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public SyncDiceResultsCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }
@@ -29,6 +30,7 @@ namespace GameCommands
 
                 diceToText += side + " ";
             }
+
             DiceRoll.SyncDiceResults(correctSides);
 
             Console.Write($"Dice results are synchronized: {diceToText}");

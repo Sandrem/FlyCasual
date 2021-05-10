@@ -160,6 +160,7 @@ namespace Players
                         GameController.SendCommand(
                             GameCommandTypes.Decision,
                             Phases.CurrentSubPhase.GetType(),
+                            Phases.CurrentSubPhase.ID,
                             parameters.ToString()
                         );
                     }

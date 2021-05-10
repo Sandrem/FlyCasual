@@ -56,6 +56,7 @@ public static class DamageDecks
         return GameController.GenerateGameCommand(
             GameCommandTypes.DamageDecksSync,
             null,
+            0,
             parameters.ToString()
         );
     }

@@ -266,7 +266,8 @@ namespace Players
         {
             GameController.SendCommand(
                 GameCommandTypes.ConfirmDiceCheck,
-                Phases.CurrentSubPhase.GetType()
+                Phases.CurrentSubPhase.GetType(),
+                Phases.CurrentSubPhase.ID
             );
         }
     }

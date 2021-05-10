@@ -9,7 +9,7 @@ namespace GameCommands
 {
     public class SyncDiceRerollSelectedCommand : GameCommand
     {
-        public SyncDiceRerollSelectedCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public SyncDiceRerollSelectedCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

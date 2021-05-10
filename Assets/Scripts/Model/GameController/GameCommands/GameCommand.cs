@@ -38,14 +38,16 @@ namespace GameCommands
     {
         public GameCommandTypes Type { get; private set; }
         public Type SubPhase { get; private set; }
+        public int SubPhaseID { get; private set; }
         public string RawParameters { get; private set; }
         public JSONObject Parameters { get; private set; }
         protected virtual bool IsPreparationCommand { get; }
 
-        public GameCommand(GameCommandTypes type, Type subPhase, string rawParameters)
+        public GameCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters)
         {
             Type = type;
             SubPhase = subPhase;
+            SubPhaseID = subphaseId;
             RawParameters = rawParameters;
             Parameters = new JSONObject(rawParameters);
         }
@@ -75,6 +77,7 @@ namespace GameCommands
             JSONObject json = new JSONObject();
             json.AddField("command", Type.ToString());
             json.AddField("subphase", (SubPhase != null) ? SubPhase.ToString() : null);
+            json.AddField("subphaseId", SubPhaseID);
             json.AddField("parameters", new JSONObject(RawParameters));
             return json.ToString();
         }
@@ -92,7 +95,12 @@ namespace GameCommands
                 }
                 else if (subphase.GetType() != SubPhase)
                 {
-                    GameController.LastMessage = "Command is skipped: subphase needed: " + SubPhase;
+                    GameController.LastMessage = "Command is skipped: subphase is needed: " + SubPhase;
+                    return;
+                }
+                else if (subphase.ID != SubPhaseID)
+                {
+                    GameController.LastMessage = "Command is skipped: subphase ID is needed: " + SubPhaseID;
                     return;
                 }
                 else if (!subphase.AllowedGameCommandTypes.Contains(Type) && Type != GameCommandTypes.ConfirmCrit)

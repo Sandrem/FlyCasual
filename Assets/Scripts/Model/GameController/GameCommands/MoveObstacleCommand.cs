@@ -9,7 +9,7 @@ namespace GameCommands
 {
     public class MoveObstacleCommand : GameCommand
     {
-        public MoveObstacleCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public MoveObstacleCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

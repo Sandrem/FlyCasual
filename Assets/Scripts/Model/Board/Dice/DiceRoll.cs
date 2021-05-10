@@ -629,6 +629,7 @@ public partial class DiceRoll
         return GameController.GenerateGameCommand(
             GameCommandTypes.SyncDiceResults,
             Phases.CurrentSubPhase.GetType(),
+            Phases.CurrentSubPhase.ID,
             parameters.ToString()
         );
     }

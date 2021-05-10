@@ -153,6 +153,7 @@ namespace SubPhases
             return GameController.GenerateGameCommand(
                 GameCommandTypes.SelectObstacle,
                 Phases.CurrentSubPhase.GetType(),
+                Phases.CurrentSubPhase.ID,
                 parameters.ToString()
             );
         }

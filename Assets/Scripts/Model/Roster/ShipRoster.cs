@@ -95,6 +95,7 @@ public static partial class Roster
         return GameController.GenerateGameCommand(
             GameCommandTypes.SquadsSync,
             null,
+            0,
             parameters.ToString()
         );
     }

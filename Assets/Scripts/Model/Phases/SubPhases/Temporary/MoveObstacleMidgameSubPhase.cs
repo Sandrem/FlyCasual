@@ -366,6 +366,7 @@ namespace SubPhases
             return GameController.GenerateGameCommand(
                 GameCommandTypes.MoveObstacle,
                 typeof(MoveObstacleMidgameSubPhase),
+                Phases.CurrentSubPhase.ID,
                 parameters.ToString()
             );
         }

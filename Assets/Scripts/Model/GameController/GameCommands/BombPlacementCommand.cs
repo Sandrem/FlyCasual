@@ -8,7 +8,7 @@ namespace GameCommands
 {
     public class BombPlacementCommand : GameCommand
     {
-        public BombPlacementCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public BombPlacementCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

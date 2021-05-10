@@ -277,6 +277,7 @@ namespace SubPhases
                 (
                     GameCommandTypes.SelectShip,
                     Phases.CurrentSubPhase.GetType(),
+                    Phases.CurrentSubPhase.ID,
                     parameters.ToString()
                 )
             );
@@ -303,7 +304,8 @@ namespace SubPhases
         {
             return GameController.GenerateGameCommand(
                 GameCommandTypes.CancelShipSelection,
-                Phases.CurrentSubPhase.GetType()
+                Phases.CurrentSubPhase.GetType(),
+                Phases.CurrentSubPhase.ID
             );
         }
 

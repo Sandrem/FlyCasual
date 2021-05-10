@@ -11,7 +11,7 @@ namespace GameCommands
 {
     public class DeclareAttackCommand : GameCommand
     {
-        public DeclareAttackCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public DeclareAttackCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

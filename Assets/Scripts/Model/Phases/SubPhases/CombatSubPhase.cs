@@ -187,6 +187,7 @@ namespace SubPhases
             return GameController.GenerateGameCommand(
                 GameCommandTypes.CombatActivation,
                 typeof(CombatSubPhase),
+                Phases.CurrentSubPhase.ID,
                 parameters.ToString()
             );
         }

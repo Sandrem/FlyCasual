@@ -10,7 +10,7 @@ namespace GameCommands
 {
     public class SelectShipToAssignManeuverCommand : GameCommand
     {
-        public SelectShipToAssignManeuverCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public SelectShipToAssignManeuverCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

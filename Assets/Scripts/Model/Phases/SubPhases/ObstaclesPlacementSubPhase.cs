@@ -470,6 +470,7 @@ namespace SubPhases
             return GameController.GenerateGameCommand(
                 GameCommandTypes.ObstaclePlacement,
                 typeof(ObstaclesPlacementSubPhase),
+                Phases.CurrentSubPhase.ID,
                 parameters.ToString()
             );
         }

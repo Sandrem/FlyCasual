@@ -36,98 +36,99 @@ public static class GameController
         }
     }
 
-    public static void SendCommand(GameCommandTypes commandType, Type subPhase, string parameters = null)
+    public static void SendCommand(GameCommandTypes commandType, Type subPhase, int subPhaseId, string parameters = null)
     {
-        SendCommand(GenerateGameCommand(commandType, subPhase, parameters));
+        SendCommand(GenerateGameCommand(commandType, subPhase, subPhaseId, parameters));
     }
 
     public static GameCommand GenerateGameCommand(string textjson, bool isRpc = false)
     {
         JSONObject json = new JSONObject(textjson);
         GameCommandTypes commandType = (GameCommandTypes)Enum.Parse(typeof(GameCommandTypes), json["command"].str);
-        Type subPhase = System.Type.GetType(json["subphase"].str);
+        Type subPhase = Type.GetType(json["subphase"].str);
+        int subPhaseId = (int) json["subphaseId"].i;
         string parameters = json["parameters"].ToString();
 
-        return GenerateGameCommand(commandType, subPhase, parameters, isRpc);
+        return GenerateGameCommand(commandType, subPhase, subPhaseId, parameters, isRpc);
     }
 
-    public static GameCommand GenerateGameCommand(GameCommandTypes commandType, Type subPhase, string parameters = null, bool isRpc = false)
+    public static GameCommand GenerateGameCommand(GameCommandTypes commandType, Type subPhase, int subPhaseId, string parameters = null, bool isRpc = false)
     {
         GameCommand command = null;
 
         switch (commandType)
         {
             case GameCommandTypes.DamageDecksSync:
-                command = new DamageDeckSyncCommand(commandType, subPhase, parameters);
+                command = new DamageDeckSyncCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.SquadsSync:
-                command = new SquadsSyncCommand(commandType, subPhase, parameters);
+                command = new SquadsSyncCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.Decision:
-                command = new DecisionCommand(commandType, subPhase, parameters);
+                command = new DecisionCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.ObstaclePlacement:
-                command = new ObstaclePlacementCommand(commandType, subPhase, parameters);
+                command = new ObstaclePlacementCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.ShipPlacement:
-                command = new ShipPlacementCommand(commandType, subPhase, parameters);
+                command = new ShipPlacementCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.AssignManeuver:
-                command = new AssignManeuverCommand(commandType, subPhase, parameters);
+                command = new AssignManeuverCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.PressNext:
-                command = new PressNextCommand(commandType, subPhase, parameters);
+                command = new PressNextCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.ActivateAndMove:
-                command = new ActivateAndMoveCommand(commandType, subPhase, parameters);
+                command = new ActivateAndMoveCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.SelectShipToAssignManeuver:
-                command = new SelectShipToAssignManeuverCommand(commandType, subPhase, parameters);
+                command = new SelectShipToAssignManeuverCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.DeclareAttack:
-                command = new DeclareAttackCommand(commandType, subPhase, parameters);
+                command = new DeclareAttackCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.DiceModification:
-                command = new DiceModificationCommand(commandType, subPhase, parameters);
+                command = new DiceModificationCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.SelectShip:
-                command = new SelectShipCommand(commandType, subPhase, parameters);
+                command = new SelectShipCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.SyncDiceResults:
-                command = new SyncDiceResultsCommand(commandType, subPhase, parameters);
+                command = new SyncDiceResultsCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.SyncDiceRerollSelected:
-                command = new SyncDiceRerollSelectedCommand(commandType, subPhase, parameters);
+                command = new SyncDiceRerollSelectedCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.ConfirmCrit:
-                command = new ConfirmCritCommand(commandType, subPhase, parameters);
+                command = new ConfirmCritCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.ConfirmDiceCheck:
-                command = new ConfirmDiceCheckCommand(commandType, subPhase, parameters);
+                command = new ConfirmDiceCheckCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.PressSkip:
-                command = new PressSkipCommand(commandType, subPhase, parameters);
+                command = new PressSkipCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.SyncPlayerWithInitiative:
-                command = new SyncPlayerWithInitiativeCommand(commandType, subPhase, parameters);
+                command = new SyncPlayerWithInitiativeCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.SystemActivation:
-                command = new SystemActivationCommand(commandType, subPhase, parameters);
+                command = new SystemActivationCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.CombatActivation:
-                command = new CombatActivationCommand(commandType, subPhase, parameters);
+                command = new CombatActivationCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.SelectObstacle:
-                command = new SelectObstacleCommand(commandType, subPhase, parameters);
+                command = new SelectObstacleCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.BombPlacement:
-                command = new BombPlacementCommand(commandType, subPhase, parameters);
+                command = new BombPlacementCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.MoveObstacle:
-                command = new MoveObstacleCommand(commandType, subPhase, parameters);
+                command = new MoveObstacleCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             case GameCommandTypes.CancelShipSelection:
-                command = new CancelShipSelectionCommand(commandType, subPhase, parameters);
+                command = new CancelShipSelectionCommand(commandType, subPhase, subPhaseId, parameters);
                 break;
             default:
                 break;

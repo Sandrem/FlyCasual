@@ -339,6 +339,7 @@ public partial class DiceRerollManager
         return GameController.GenerateGameCommand(
             GameCommandTypes.SyncDiceRerollSelected,
             Phases.CurrentSubPhase.GetType(),
+            Phases.CurrentSubPhase.ID,
             parameters.ToString()
         );
     }

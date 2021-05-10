@@ -9,7 +9,7 @@ namespace GameCommands
 {
     public class ConfirmDiceCheckCommand : GameCommand
     {
-        public ConfirmDiceCheckCommand(GameCommandTypes type, Type subPhase, string rawParameters) : base(type, subPhase, rawParameters)
+        public ConfirmDiceCheckCommand(GameCommandTypes type, Type subPhase, int subphaseId, string rawParameters) : base(type, subPhase, subphaseId, rawParameters)
         {
 
         }

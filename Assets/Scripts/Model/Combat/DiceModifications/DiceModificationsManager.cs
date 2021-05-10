@@ -116,6 +116,7 @@ public partial class DiceModificationsManager
         return GameController.GenerateGameCommand(
             GameCommandTypes.DiceModification,
             Phases.CurrentSubPhase.GetType(),
+            Phases.CurrentSubPhase.ID,
             parameters.ToString()
         );
     }

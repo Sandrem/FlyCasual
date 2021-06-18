@@ -66,7 +66,8 @@ namespace Abilities.SecondEdition
                 HostShip.Owner.PlayerNo,
                 "Treacherous",
                 "Choose a ship obstructing the attack and to cancel 1 damage and assign 1 strain token to it",
-                imageSource: HostUpgrade
+                imageSource: HostUpgrade,
+                showSkipButton: false
             );
         }
 

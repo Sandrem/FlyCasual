@@ -107,6 +107,7 @@ namespace Abilities.SecondEdition
                     phase.AddDecision(token.Name, delegate { HostShip.Tokens.TransferToken(token.GetType(), TargetShip, DecisionSubPhase.ConfirmDecision); });
                 });
 
+                phase.DefaultDecisionName = phase.GetDecisions().First().Name;
 
                 phase.Start();
             }

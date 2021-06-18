@@ -40,8 +40,7 @@ namespace Abilities.SecondEdition
                 count: 1,
                 sidesCanBeSelected: new List<DieSide>() { DieSide.Blank },
                 sideCanBeChangedTo: DieSide.Success,
-                payAbilityCost: SpendForce,
-                canBeUsedFewTimes: true
+                payAbilityCost: SpendForce
             );
 
             HostShip.OnCheckCanUseForceNow += AddRestriction;

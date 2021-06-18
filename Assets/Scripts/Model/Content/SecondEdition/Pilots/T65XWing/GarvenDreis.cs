@@ -5,6 +5,7 @@ using SubPhases;
 using Tokens;
 using Abilities.FirstEdition;
 using Upgrade;
+using BoardTools;
 
 namespace Ship
 {
@@ -54,7 +55,7 @@ namespace Abilities.FirstEdition
 
         private void StartSubphaseForGarvenDreisPilotAbility(object sender, System.EventArgs e)
         {
-            if (HostShip.Owner.Ships.Count > 1)
+            if (HasFriendlyShipsInRange())
             {
                 SelectTargetForAbility(
                     SelectGarvenDreisAbilityTarget,
@@ -72,9 +73,23 @@ namespace Abilities.FirstEdition
             }
         }
 
+        private bool HasFriendlyShipsInRange()
+        {
+            foreach (GenericShip friendlyShip in HostShip.Owner.Ships.Values)
+            {
+                if (friendlyShip.ShipId != HostShip.ShipId)
+                {
+                    DistanceInfo distInfo = new DistanceInfo(HostShip, friendlyShip);
+                    if (distInfo.Range >= 1 && distInfo.Range <= 3) return true;
+                }
+            }
+
+            return false;
+        }
+
         protected virtual bool FilterAbilityTarget(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 2);
+            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 3);
         }
 
         private int GetAiAbilityPriority(GenericShip ship)

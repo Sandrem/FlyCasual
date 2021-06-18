@@ -37,6 +37,7 @@ namespace Abilities.SecondEdition
                 IsAvailable,
                 GetAiPriority,
                 DiceModificationType.Reroll,
+                timing: DiceModificationTimingType.Opposite,
                 count: int.MaxValue,
                 payAbilityCost: PayAbilityCost
             );

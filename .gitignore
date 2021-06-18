@@ -60,6 +60,7 @@ Logs
 /.vs/
 
 # Visual Studio / VS Code
+/Fly Casual
 .vsconfig
 .vscode
 

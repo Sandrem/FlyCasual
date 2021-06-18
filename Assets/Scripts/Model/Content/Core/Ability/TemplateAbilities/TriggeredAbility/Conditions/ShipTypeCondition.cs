@@ -5,11 +5,11 @@ namespace Abilities
 {
     public class ShipTypeCondition : Condition
     {
-        private Type ShipType;
+        private Type[] ShipTypes;
 
-        public ShipTypeCondition(Type shipType)
+        public ShipTypeCondition(params Type[] shipTypes)
         {
-            ShipType = shipType;
+            ShipTypes = shipTypes;
         }
 
         public override bool Passed(ConditionArgs args)
@@ -20,7 +20,12 @@ namespace Abilities
                 return false;
             }
 
-            return args.ShipToCheck.GetType().IsSubclassOf(ShipType);
+            foreach (Type shipType in ShipTypes)
+            {
+                if (args.ShipToCheck.GetType().IsSubclassOf(shipType)) return true;
+            }
+
+            return false;
         }
     }
 }

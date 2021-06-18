@@ -11,6 +11,7 @@ namespace Abilities
 
         public AbilityPart OnYes { get; }
         public AbilityPart OnNo { get; }
+        public ConditionsBlock Conditions { get; }
         public Func<bool> AiUseByDefault { get; }
 
         public AskToUseAbilityAction
@@ -18,28 +19,39 @@ namespace Abilities
             AbilityDescription description, 
             AbilityPart onYes,
             AbilityPart onNo = null,
+            ConditionsBlock conditions = null,
             Func<bool> aiUseByDefault = null
         )
         {
             Description = description;
             OnYes = onYes;
             OnNo = onNo;
+            Conditions = conditions;
             AiUseByDefault = aiUseByDefault ?? delegate { return false; };
         }
 
         public override void DoAction(GenericAbility ability)
         {
             Ability = ability;
+            ConditionArgs args = new ConditionArgs() { ShipAbilityHost = Ability.HostShip, ShipToCheck = Ability.HostShip };
 
-            Ability.AskToUseAbility(
-                Description.Name,
-                AiUseByDefault,
-                DoOnYes,
-                DoOnNo,
-                descriptionLong: Description.Description,
-                imageHolder: Description.ImageSource,
-                requiredPlayer: Ability.HostShip.Owner.PlayerNo
-            );
+            if (Conditions != null && Conditions.Passed(args))
+            {
+                Ability.AskToUseAbility
+                (
+                    Description.Name,
+                    AiUseByDefault,
+                    DoOnYes,
+                    DoOnNo,
+                    descriptionLong: Description.Description,
+                    imageHolder: Description.ImageSource,
+                    requiredPlayer: Ability.HostShip.Owner.PlayerNo
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
         }
 
         private void DoOnYes(object sender, EventArgs e)

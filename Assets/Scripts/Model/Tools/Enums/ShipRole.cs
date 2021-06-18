@@ -1,5 +1,6 @@
 public enum ShipRole
 {
+    CheckingShip,
     HostShip,
     ThisShip,
     Attacker,

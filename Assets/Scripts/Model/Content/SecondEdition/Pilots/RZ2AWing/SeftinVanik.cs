@@ -52,11 +52,10 @@ namespace Abilities.SecondEdition
                 description: "You may transfer Evade token to a friendly ship",
                 imageSource: HostShip
             ),
-            filter: new SelectShipFilter
+            conditions: new ConditionsBlock
             (
-                minRange: 1,
-                maxRange: 1,
-                targetTypes: TargetTypes.OtherFriendly                
+                new RangeToHostCondition(1, 1),
+                new TeamCondition(ShipTypes.OtherFriendly)
             ),
             action: new TransferTokenToTargetAction
             (

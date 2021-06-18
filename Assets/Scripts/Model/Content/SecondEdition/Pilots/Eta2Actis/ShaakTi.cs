@@ -35,22 +35,17 @@ namespace Abilities.SecondEdition
     {
         private List<GenericToken> TokensToKeep = new List<GenericToken>();
 
-        public override TriggerForAbility Trigger => new AtTheStartOfEndPhase();
+        public override TriggerForAbility Trigger => new AtTheStartOfPhase(typeof(SubPhases.EndStartSubPhase));
 
         public override AbilityPart Action => new EachShipCanDoAction
         (
             eachShipAction: SelectFocusOrEvadeToken,
             conditions: new ConditionsBlock
             (
-                new TeamCondition(Team.Type.Friendly),
+                new TeamCondition(ShipTypes.Friendly),
                 new RangeToHostCondition(minRange: 0, maxRange: 2),
-                new HostHasForceCondition(),
-                new HasTokenCondition(
-                    new List<Type>() {
-                        typeof(FocusToken),
-                        typeof(EvadeToken)
-                    }
-                )
+                new CanSpendForceCondition(),
+                new HasTokenCondition(tokensList: new List<Type>() {typeof(FocusToken), typeof(EvadeToken)})
             ),
             description: new AbilityDescription
             (

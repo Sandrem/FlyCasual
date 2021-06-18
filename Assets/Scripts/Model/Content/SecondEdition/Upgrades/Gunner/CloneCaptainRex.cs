@@ -84,7 +84,7 @@ namespace ActionsList.SecondEdition
                 },
                 conditions: new ConditionsBlock
                 (
-                    new TeamCondition(Team.Type.Friendly),
+                    new TeamCondition(ShipTypes.Friendly),
                     new DefenderInSectorCondition(Arcs.ArcType.Bullseye)
                 ),
                 description: new Abilities.Parameters.AbilityDescription

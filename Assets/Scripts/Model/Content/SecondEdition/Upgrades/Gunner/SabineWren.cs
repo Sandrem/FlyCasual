@@ -64,9 +64,9 @@ namespace Abilities.SecondEdition
                 onFinish: FinishAbility,
                 conditions: new ConditionsBlock
                 (
-                    new TeamCondition(Team.Type.Friendly),
+                    new TeamCondition(ShipTypes.Friendly),
                     new RangeToDefenderCondition(0, 3),
-                    new HasTokenCondition(new List<Type>() { typeof(Tokens.StrainToken), typeof(Tokens.StressToken) })
+                    new HasTokenCondition(tokensList: new List<Type>() { typeof(Tokens.StrainToken), typeof(Tokens.StressToken) })
                 ),
                 description: new Abilities.Parameters.AbilityDescription
                 (

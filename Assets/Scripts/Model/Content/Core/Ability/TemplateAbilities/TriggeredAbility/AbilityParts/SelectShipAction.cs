@@ -1,24 +1,22 @@
 ﻿using Abilities.Parameters;
-using Arcs;
 using Ship;
 using SubPhases;
-using UnityEngine;
 
 namespace Abilities
 {
     public class SelectShipAction : AbilityPart
     {
         private GenericAbility Ability;
-        public SelectShipFilter Filter { get; }
+        public ConditionsBlock Conditions { get; }
         public AbilityPart Action { get; }
         public AiSelectShipPlan AiSelectShipPlan { get; }
         public AbilityDescription AbilityDescription { get; }
         public bool ShowSkipButton { get; }
 
-        public SelectShipAction(AbilityDescription abilityDescription, SelectShipFilter filter, AbilityPart action, AiSelectShipPlan aiSelectShipPlan)
+        public SelectShipAction(AbilityDescription abilityDescription, ConditionsBlock conditions, AbilityPart action, AiSelectShipPlan aiSelectShipPlan)
         {
             AbilityDescription = abilityDescription;
-            Filter = filter;
+            Conditions = conditions;
             Action = action;
             AiSelectShipPlan = aiSelectShipPlan;
             ShowSkipButton = true;
@@ -61,7 +59,12 @@ namespace Abilities
 
         private bool FilterTargets(GenericShip ship)
         {
-            return Filter.FilterTargets(Ability, ship);
+            ConditionArgs args = new ConditionArgs()
+            {
+                ShipAbilityHost = Ability.HostShip,
+                ShipToCheck = ship
+            };
+            return Conditions.Passed(args);
         }
     }
 }

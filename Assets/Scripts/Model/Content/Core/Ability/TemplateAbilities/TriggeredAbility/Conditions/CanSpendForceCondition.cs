@@ -1,6 +1,6 @@
 ﻿namespace Abilities
 {
-    public class HostHasForceCondition : Condition
+    public class CanSpendForceCondition : Condition
     {
         public override bool Passed(ConditionArgs args)
         {

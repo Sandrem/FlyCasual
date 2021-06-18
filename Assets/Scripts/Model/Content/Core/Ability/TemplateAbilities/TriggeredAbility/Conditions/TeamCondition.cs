@@ -1,16 +1,14 @@
-﻿using BoardTools;
-using System;
-using System.Collections.Generic;
+﻿using UnityEngine;
 
 namespace Abilities
 {
     public class TeamCondition : Condition
     {
-        private Team.Type TeamType { get; }
+        private ShipTypes ShipType { get; }
 
-        public TeamCondition(Team.Type teamType)
+        public TeamCondition(ShipTypes shipType)
         {
-            TeamType = teamType;
+            ShipType = shipType;
         }
 
         public override bool Passed(ConditionArgs args)
@@ -21,13 +19,21 @@ namespace Abilities
                 return false;
             }
 
-            switch (TeamType)
+            switch (ShipType)
             {
-                case Team.Type.Friendly:
+                case ShipTypes.This:
+                    return args.ShipToCheck.ShipId == args.ShipAbilityHost.ShipId;
+                case ShipTypes.Friendly:
                     return args.ShipToCheck.Owner.PlayerNo == args.ShipAbilityHost.Owner.PlayerNo;
-                case Team.Type.Enemy:
+                case ShipTypes.OtherFriendly:
+                    return args.ShipToCheck.Owner.PlayerNo == args.ShipAbilityHost.Owner.PlayerNo
+                        && args.ShipToCheck.ShipId != args.ShipAbilityHost.ShipId;
+                case ShipTypes.Enemy:
                     return args.ShipToCheck.Owner.PlayerNo != args.ShipAbilityHost.Owner.PlayerNo;
+                case ShipTypes.Any:
+                    return true;
                 default:
+                    Debug.Log("Unknown shiptype");
                     return false;
             }
         }

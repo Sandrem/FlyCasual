@@ -34,14 +34,14 @@ namespace Abilities.SecondEdition
 {
     public class TemminWexleyHoHAbility : TriggeredAbility
     {
-        public override TriggerForAbility Trigger => new AtTheStartOfEngagementPhase();
+        public override TriggerForAbility Trigger => new AtTheStartOfPhase(typeof(SubPhases.CombatStartSubPhase));
 
         public override AbilityPart Action => new EachShipCanDoAction
         (
             eachShipAction: FlipConfiguration,
             conditions: new ConditionsBlock
             (
-                new TeamCondition(Team.Type.Friendly),
+                new TeamCondition(ShipTypes.Friendly),
                 new RangeToHostCondition(minRange: 0, maxRange: 3),
                 new ShipTypeCondition(typeof(Ship.SecondEdition.T70XWing.T70XWing)),
                 new HasUpgradeTypeInstalledCondition(UpgradeType.Configuration)

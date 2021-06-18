@@ -13,6 +13,15 @@ using Tokens;
 
 namespace Abilities
 {
+    public enum ShipTypes
+    {
+        This,
+        Friendly,
+        OtherFriendly,
+        Enemy,
+        Any
+    }
+
     public abstract class GenericAbility
     {
         public virtual string Name { get; private set; }

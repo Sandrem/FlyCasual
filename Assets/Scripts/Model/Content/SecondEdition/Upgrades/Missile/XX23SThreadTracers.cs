@@ -49,7 +49,7 @@ namespace Abilities.SecondEdition
             onSkip: CancelAllResults,
             new ConditionsBlock(
                 new RangeToDefenderCondition(1, 3),
-                new TeamCondition(Team.Type.Friendly)
+                new TeamCondition(ShipTypes.Friendly)
             ),
             new AbilityDescription(
                 HostUpgrade.UpgradeInfo.Name,

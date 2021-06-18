@@ -44,13 +44,13 @@ namespace Abilities.SecondEdition
             eachUpgradeAction: new SelectShipAction
             (
                 action: new TransferUpgradeAction(),
-                filter: new SelectShipFilter
+                conditions: new ConditionsBlock
                 (
-                    shipTypesOnly: new List<Type>()
-                    {
+                    new ShipTypeCondition
+                    (
                         typeof(Ship.SecondEdition.TIEFoFighter.TIEFoFighter),
                         typeof(Ship.SecondEdition.TIESfFighter.TIESfFighter)
-                    }
+                    )
                 ),
                 abilityDescription: new AbilityDescription
                 (

@@ -1,6 +1,4 @@
-﻿using Movement;
-using System;
-using UnityEngine;
+﻿using System;
 using Upgrade;
 
 namespace Abilities
@@ -10,6 +8,7 @@ namespace Abilities
         private GenericAbility Ability;
 
         public Func<GenericDualUpgrade> GetDualCard { get; }
+
         public FlipCardAction(Func<GenericDualUpgrade> getDualCard)
         {
             GetDualCard = getDualCard;

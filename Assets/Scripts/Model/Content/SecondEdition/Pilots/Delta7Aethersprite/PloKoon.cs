@@ -1,8 +1,4 @@
-﻿using Ship;
-using SubPhases;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Abilities.Parameters;
 using Tokens;
 using Upgrade;
 
@@ -33,118 +29,82 @@ namespace Abilities.SecondEdition
 {
     //At the start of the Engagement Phase, you may spend 1 force and choose another friendly ship at range 0-2. 
     //If you do, you may transfer 1 green token to it or transfer one orange token from it to you.
-    public class PloKoonAbility : GenericAbility
+    public class PloKoonAbility : TriggeredAbility
     {
-        public override void ActivateAbility()
+        public override TriggerForAbility Trigger => new AtTheStartOfPhase(typeof(SubPhases.CombatStartSubPhase));
+
+        public override AbilityPart Action => new AskToUseAbilityAction
+        (
+            description: new AbilityDescription
+            (
+                name: "Plo Koon",
+                description: "Do you want to spend Force to transfer tokens?",
+                imageSource: HostShip
+            ),
+            conditions: new ConditionsBlock
+            (
+                new CanSpendForceCondition(),
+                new OrCondition
+                (
+                    new AndCondition
+                    (
+                        new HasTokenCondition(tokenColor: TokenColors.Green),
+                        new HasAnyShipAtRange
+                        (
+                            new ConditionsBlock
+                            (
+                                new RangeToHostCondition(0, 2),
+                                new TeamCondition(ShipTypes.OtherFriendly)
+                            )
+                        )
+                    ),
+                    new HasAnyShipAtRange
+                    (
+                        new ConditionsBlock
+                        (
+                            new RangeToHostCondition(0, 2),
+                            new HasTokenCondition(tokenColor: TokenColors.Orange),
+                            new TeamCondition(ShipTypes.OtherFriendly)
+                        )
+                    )
+                )
+            ),
+            onYes: new SelectShipAction
+            (
+                new AbilityDescription
+                (
+                    name: "Plo Koon",
+                    description: "Choose another friendly ship to transfer token",
+                    imageSource: HostShip
+                ),
+                new ConditionsBlock
+                (
+                    new CanSpendForceCondition(),
+                    new AndCondition
+                    (
+                        new RangeToHostCondition(0, 2),
+                        new TeamCondition(ShipTypes.OtherFriendly),
+                        new OrCondition
+                        (
+                            new HasTokenCondition(tokenColor: TokenColors.Orange),
+                            new HasTokenCondition(tokenColor: TokenColors.Green, shipRoleToCheck: ShipRole.HostShip)
+                        )
+                    )
+                ),
+                new ExchangeToken
+                (
+                    getByColor: TokenColors.Orange,
+                    giveByColor: TokenColors.Green,
+                    showMessage: ShowMessage,
+                    doNext: new SpendForceAction()
+                ),
+                aiSelectShipPlan: new AiSelectShipPlan(AiSelectShipTeamPriority.Friendly, AiSelectShipSpecial.None)
+            )
+        );
+
+        private string ShowMessage()
         {
-            Phases.Events.OnCombatPhaseStart_Triggers += RegisterAbility;
-        }
-
-        public override void DeactivateAbility()
-        {
-            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterAbility;
-        }
-
-        private void RegisterAbility()
-        {
-            if (HostShip.State.Force > 0)
-            {
-                RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
-            }
-        }
-
-        private void Ability(object sender, EventArgs e)
-        {
-            if (TargetsForAbilityExist(FilterAbilityTarget))
-            {
-                Messages.ShowInfoToHuman(HostName + ": Select a ship to transfer a token to or from");
-
-                SelectTargetForAbility(
-                    SelectAbilityTarget,
-                    FilterAbilityTarget,
-                    GetAiAbilityPriority,
-                    HostShip.Owner.PlayerNo,
-                    HostShip.PilotInfo.PilotName,
-                    "Choose a ship to transfer 1 green token to it or transfer one orange token from it to you",
-                    HostShip
-                );
-            }
-            else
-            {
-                Triggers.FinishTrigger();
-            }
-        }
-
-        private void SelectAbilityTarget()
-        {
-            var greenTokens = HostShip.Tokens.GetAllTokens()
-                .Where(token => token.TokenColor == TokenColors.Green)
-                .Distinct(new TokenComparer())
-                .ToList();
-
-            var orangeTokens = TargetShip.Tokens.GetAllTokens()
-                .Where(token => token.TokenColor == TokenColors.Orange)
-                .Distinct(new TokenComparer())
-                .ToList();
-
-            if (greenTokens.Any() || orangeTokens.Any()) { 
-
-                DecisionSubPhase phase = (DecisionSubPhase)Phases.StartTemporarySubPhaseNew(
-                    Name,
-                    typeof(DecisionSubPhase),
-                    SelectShipSubPhase.FinishSelection
-                );
-
-                phase.DescriptionShort = "Select token to transfer";
-                phase.RequiredPlayer = HostShip.Owner.PlayerNo;
-                phase.ShowSkipButton = true;
-
-                greenTokens.ForEach(token =>
-                {
-                    phase.AddDecision(token.Name, delegate { TransferToken(token.GetType(), HostShip, TargetShip); });
-                });
-
-                orangeTokens.ForEach(token =>
-                {
-                    phase.AddDecision(token.Name, delegate { TransferToken(token.GetType(), TargetShip, HostShip); });
-                });
-
-                phase.Start();
-            }
-            else
-            {
-                SelectShipSubPhase.FinishSelection();
-            }
-        }
-
-        private void TransferToken(Type tokenType, GenericShip fromShip, GenericShip toShip)
-        {
-            HostShip.State.SpendForce(
-                1,
-                delegate
-                {
-                    fromShip.Tokens.TransferToken(
-                        tokenType,
-                        toShip,
-                        () => {
-                            DecisionSubPhase.ConfirmDecisionNoCallback();
-                            SelectShipSubPhase.FinishSelection();
-                        },
-                        HostShip.Owner
-                    );
-                }
-            );
-        }
-
-        private int GetAiAbilityPriority(GenericShip ship)
-        {
-            //TODO: when should the AI use this ability?   
-            return 0;
-        }
-
-        protected virtual bool FilterAbilityTarget(GenericShip ship)
-        {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 0, 2);
+            return "Message";
         }
     }
 }

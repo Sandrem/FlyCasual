@@ -47,11 +47,10 @@ namespace Abilities.SecondEdition
                 description: "Choose a ship to assign it 1 strain token (2 if you are damaged)",
                 imageSource: HostShip
             ),
-            filter: new SelectShipFilter
+            conditions: new ConditionsBlock
             (
-                minRange: 0,
-                maxRange: 1,
-                inArcType: ArcType.SingleTurret
+                new RangeToHostCondition(0, 1),
+                new InArcCondition(ArcType.SingleTurret)
             ),
             action: new AssignTokenAction
             (

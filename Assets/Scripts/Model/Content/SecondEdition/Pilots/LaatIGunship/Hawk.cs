@@ -32,14 +32,14 @@ namespace Abilities.SecondEdition
 {
     public class HawkAbility : TriggeredAbility
     {
-        public override TriggerForAbility Trigger => new AtTheStartOfEndPhase();
+        public override TriggerForAbility Trigger => new AtTheStartOfPhase(typeof(SubPhases.EndStartSubPhase));
 
         public override AbilityPart Action => new EachShipCanDoAction
         (
             eachShipAction: PerformReposition,
             conditions: new ConditionsBlock
             (
-                new TeamCondition(Team.Type.Friendly),
+                new TeamCondition(ShipTypes.Friendly),
                 new RangeToHostCondition(minRange: 0, maxRange: 1),
                 new RevealedManeuverCondition(minSpeed: 3, maxSpeed: 5)
             ),

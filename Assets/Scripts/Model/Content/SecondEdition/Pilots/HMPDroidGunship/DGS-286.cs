@@ -41,12 +41,11 @@ namespace Abilities.SecondEdition
                 description: "Choose another friendly ship to transfer Calculate token to you",
                 imageSource: HostShip
             ),
-            filter: new SelectShipFilter
+            conditions: new ConditionsBlock
             (
-                minRange: 0,
-                maxRange: 1,
-                targetTypes: TargetTypes.OtherFriendly,
-                hasToken: typeof(CalculateToken)
+                new RangeToHostCondition(0, 1),
+                new TeamCondition(ShipTypes.OtherFriendly),
+                new HasTokenCondition(tokenType: typeof(CalculateToken))
             ),
             action: new TransferTokenFromTargetAction
             (

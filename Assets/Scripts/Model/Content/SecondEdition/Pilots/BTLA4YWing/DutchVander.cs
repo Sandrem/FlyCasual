@@ -86,7 +86,7 @@ namespace Abilities.SecondEdition
         {
             ITargetLockable result = null;
 
-            BlueTargetLockToken blueTargetLock = HostShip.Tokens.GetToken<BlueTargetLockToken>(letter: '*');
+            BlueTargetLockToken blueTargetLock = HostShip.Tokens.GetTokens<BlueTargetLockToken>(letter: '*').Last();
             if (blueTargetLock != null)
             {
                 result = blueTargetLock.OtherTargetLockTokenOwner;

@@ -67,6 +67,11 @@ namespace Abilities.SecondEdition
 
         protected virtual void AssignFearfulPrey()
         {
+            foreach (GenericShip enemyShip in HostShip.Owner.EnemyShips.Values)
+            {
+                if (enemyShip.Tokens.HasToken(typeof(Conditions.FearfulPrey))) enemyShip.Tokens.RemoveCondition(typeof(Conditions.FearfulPrey));
+            }
+
             TargetShip.Tokens.AssignCondition(new FearfulPrey(TargetShip));
             SelectShipSubPhase.FinishSelection();
         }

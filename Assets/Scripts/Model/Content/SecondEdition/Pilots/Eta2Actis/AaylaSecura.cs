@@ -22,8 +22,6 @@ namespace Ship.SecondEdition.Eta2Actis
 
             ModelInfo.SkinName = "Blue";
 
-            PilotNameCanonical = "aaylasecura-eta2actis";
-
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c2/e2/c2e2ee1f-1bdd-4ff7-ad95-c442af9b510a/swz79_aayla-secura.png";
         }
     }

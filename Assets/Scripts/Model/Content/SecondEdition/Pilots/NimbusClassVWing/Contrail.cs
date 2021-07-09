@@ -66,14 +66,17 @@ namespace Abilities.SecondEdition
 
         private GenericShip GetAnotherShip()
         {
-            switch (Combat.AttackStep)
+            if (Combat.Attacker.ShipId == HostShip.ShipId)
             {
-                case CombatStep.Attack:
-                    return Combat.Defender;
-                case CombatStep.Defence:
-                    return Combat.Attacker;
-                default:
-                    return null;
+                return Combat.Defender;
+            }
+            else if (Combat.Defender.ShipId == HostShip.ShipId)
+            {
+                return Combat.Attacker;
+            }
+            else
+            {
+                return null;
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using Ship;
-using SubPhases;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
@@ -35,51 +34,61 @@ namespace Abilities
         {
             public override void ActivateAbility()
             {
-                HostShip.OnAttackStartAsAttacker += CheckAbility;
+                HostShip.OnGenerateDiceModifications += AddAbilityActivation;
             }
 
             public override void DeactivateAbility()
             {
-                HostShip.OnAttackStartAsAttacker -= CheckAbility;
+                HostShip.OnGenerateDiceModifications -= AddAbilityActivation;
             }
 
-            private void CheckAbility()
+            private void AddAbilityActivation(GenericShip ship)
             {
-                if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.State.Charges > 0))
+                ship.AddAvailableDiceModificationOwn(new JoyRekkoffAbilityActivation());
+            }
+
+            private class JoyRekkoffAbilityActivation : ActionsList.GenericAction
+            {
+                public JoyRekkoffAbilityActivation()
                 {
-                    RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskYoUseJoyRekkoffAbility);
-                }
-            }
+                    Name = DiceModificationName = "Joy Rekkoff";
 
-            private void AskYoUseJoyRekkoffAbility(object sender, System.EventArgs e)
-            {
-                if (HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.State.Charges > 0))
+                    IsNotRealDiceModification = true;
+                }
+
+                public override void ActionEffect(System.Action callBack)
                 {
-                    AskToUseAbility(
-                        HostShip.PilotInfo.PilotName,
-                        AlwaysUseByDefault,
-                        UseJoyRekkoffAbility,
-                        descriptionLong: "Do you wand to spend 1 Charge from an equipped Torpedo Upgrade? (If you do, the defender rolls 1 fewer defense die)",
-                        imageHolder: HostShip
-                    );
+                    GenericSpecialWeapon torpedo = (GenericSpecialWeapon)HostShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.State.Charges > 0);
+                    torpedo.State.SpendCharge();
+                    Combat.Defender.Tokens.AssignCondition(typeof(Conditions.JoyRekkoffCondition));
+
+                    callBack();
                 }
-                else
+
+                public override bool IsDiceModificationAvailable()
                 {
-                    Triggers.FinishTrigger();
+                    return Combat.AttackStep == CombatStep.Attack
+                        && HostShip.UpgradeBar.GetUpgradesOnlyFaceup().Any(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo)
+                        && n.State.Charges > 0);
                 }
-            }
 
-            private void UseJoyRekkoffAbility(object sender, System.EventArgs e)
-            {
-                GenericSpecialWeapon torpedo = (GenericSpecialWeapon)HostShip.UpgradeBar.GetUpgradesOnlyFaceup().FirstOrDefault(n => n.UpgradeInfo.HasType(UpgradeType.Torpedo) && n.State.Charges > 0);
-                torpedo.State.SpendCharge();
-                AssignConditionToDefender();
-            }
+                public override int GetDiceModificationPriority()
+                {
+                    int defenderRollsDiceCount = Combat.Defender.State.Agility;
+                    if (Combat.ShotInfo.IsObstructedByObstacle) defenderRollsDiceCount++;
+                    if (Combat.ShotInfo.Range == 3) defenderRollsDiceCount++;
 
-            private void AssignConditionToDefender()
-            {
-                Combat.Defender.Tokens.AssignCondition(typeof(Conditions.JoyRekkoffCondition));
-                DecisionSubPhase.ConfirmDecision();
+                    // don't use if there are no green dice
+                    if (defenderRollsDiceCount == 0) return 0;
+
+                    //don't use if overkill
+                    if ((Combat.Defender.State.HullCurrent + Combat.Defender.State.ShieldsCurrent) + defenderRollsDiceCount - Combat.DiceRollAttack.Successes < 0)
+                    {
+                        return 0;
+                    }
+
+                    return 1;
+                }
             }
         }
     }

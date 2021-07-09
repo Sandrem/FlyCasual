@@ -71,7 +71,7 @@ namespace Abilities.SecondEdition
 
         private int GetAiPriority()
         {
-            return 20;
+            return 100;
         }
 
         private void IncreaseAILockPriority(GenericAction action, ref int priority)

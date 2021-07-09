@@ -149,7 +149,7 @@ namespace Players
         {
             foreach (var shipHolder in Roster.GetPlayer(Phases.CurrentPhasePlayer).Ships)
             {
-                if (shipHolder.Value.State.Initiative == Phases.CurrentSubPhase.RequiredInitiative)
+                if (shipHolder.Value.State.CombatActivationAtInitiative == Phases.CurrentSubPhase.RequiredInitiative)
                 {
                     if (!shipHolder.Value.IsAttackPerformed)
                     {

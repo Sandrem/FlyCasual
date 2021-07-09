@@ -207,6 +207,7 @@ public static class Combat
         {
             if (!DebugManager.NoCinematicCamera && !DebugManager.BatchAiSquadTestingModeActive)
             {
+                UI.HideSkipButton();
                 CommandsList.ShotCameraCommand.ShowShotCamera(Selection.ThisShip, Selection.AnotherShip);
                 GameManagerScript.Wait(3, StartLegalAttack);
             }

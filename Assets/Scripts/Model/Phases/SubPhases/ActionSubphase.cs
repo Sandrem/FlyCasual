@@ -186,6 +186,9 @@ namespace SubPhases
 
                 if (!addedDecision)
                 {
+                    Actions.ActionColor actionColor = action.Color;
+                    Selection.ThisShip.CallOnCheckActionComplexity(action, ref actionColor);
+
                     AddDecision(
                         action.Name,
                         delegate {
@@ -198,7 +201,7 @@ namespace SubPhases
                         },
                         action.ImageUrl,
                         -1,
-                        action.Color
+                        actionColor
                     );
                 }
             }

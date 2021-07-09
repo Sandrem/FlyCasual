@@ -183,11 +183,7 @@ namespace Abilities.SecondEdition
 
         private void TreatFocusAsRed(GenericAction action, ref ActionColor color)
         {
-            if (action is FocusAction)
-            {
-                color = ActionColor.Red;
-                Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + ": Focus action is treated as red");
-            }
+            if (action is FocusAction) color = ActionColor.Red;
         }
     }
 }

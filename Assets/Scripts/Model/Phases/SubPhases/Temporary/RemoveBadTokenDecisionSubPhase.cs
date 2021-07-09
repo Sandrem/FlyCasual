@@ -46,7 +46,12 @@ namespace SubPhases
 
             foreach (GenericToken token in Selection.ThisShip.Tokens.GetAllTokens())
             {
-                if (token.TokenColor == TokenColors.Red) tokens[token.Name] = token;
+                if (token.TokenColor == TokenColors.Red)
+                {
+                    string tokenName = token.Name;
+                    if (token is RedTargetLockToken) tokenName += " \"" + (token as RedTargetLockToken).Letter + "\"";
+                    tokens[tokenName] = token;
+                }
             }
 
             foreach (KeyValuePair<string, GenericToken> kv in tokens)
@@ -55,7 +60,7 @@ namespace SubPhases
                     "Discard " + kv.Key.ToLower(),
                     delegate {
                         Selection.ThisShip.Tokens.RemoveToken(
-                            kv.Value.GetType(),
+                            kv.Value,
                             DoCustomFinishDecision
                         );
                     }

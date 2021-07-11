@@ -776,9 +776,9 @@ namespace Ship
             List<ManeuverTemplate> availableTemplates = new List<ManeuverTemplate>();
             availableTemplates.AddRange(upgrade.GetDefaultDropTemplates());
 
+            OnGetAvailableBombDropTemplatesNoConditions?.Invoke(availableTemplates, upgrade);
             OnGetAvailableBombDropTemplatesTwoConditions?.Invoke(availableTemplates, upgrade);
             OnGetAvailableBombDropTemplatesOneCondition?.Invoke(availableTemplates, upgrade);
-            OnGetAvailableBombDropTemplatesNoConditions?.Invoke(availableTemplates, upgrade);
 
             OnGetAvailableBombDropTemplatesForbid?.Invoke(availableTemplates, upgrade);
 

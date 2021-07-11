@@ -68,7 +68,7 @@ namespace Abilities.SecondEdition
 
         public override void ActivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplatesTwoConditions += TryToAddSecondTemplate;
+            HostShip.OnGetAvailableBombDropTemplatesNoConditions += TryToAddSecondTemplate;
             HostShip.OnGetReloadChargesCount += CheckAdditionalReload;
             HostShip.OnCheckDropOfSecondDevice += CheckSecondDrop;
         }
@@ -148,7 +148,7 @@ namespace Abilities.SecondEdition
 
         public override void DeactivateAbility()
         {
-            HostShip.OnGetAvailableBombDropTemplatesTwoConditions -= TryToAddSecondTemplate;
+            HostShip.OnGetAvailableBombDropTemplatesNoConditions -= TryToAddSecondTemplate;
             HostShip.OnGetReloadChargesCount -= CheckAdditionalReload;
             HostShip.OnCheckDropOfSecondDevice -= CheckSecondDrop;
         }

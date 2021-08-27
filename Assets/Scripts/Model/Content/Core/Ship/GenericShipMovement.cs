@@ -75,6 +75,8 @@ namespace Ship
 
         public List<GenericShip> ShipsMovedThrough = new List<GenericShip>();
 
+        public List<GenericShip> ShipsBoostedThrough = new List<GenericShip>();
+
         public GenericShip LastShipCollision { get; set; }
 
         public Dictionary<string, MovementComplexity> Maneuvers { get; set; }

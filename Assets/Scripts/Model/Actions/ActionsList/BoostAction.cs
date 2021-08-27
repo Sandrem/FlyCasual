@@ -326,7 +326,7 @@ namespace SubPhases
             return isFinished;
         }
 
-        private void GetResults(System.Action<bool> canBoostCallback = null)
+        private void GetResults(Action<bool> canBoostCallback = null)
         {
             obstaclesStayDetectorBase.ReCheckCollisionsFinish();
             obstaclesStayDetectorMovementTemplate.ReCheckCollisionsFinish();
@@ -347,6 +347,7 @@ namespace SubPhases
                 CheckBoostThroughObstacle();
                 CheckMines();
                 TheShip.ObstaclesLanded = new List<GenericObstacle>(obstaclesStayDetectorBase.OverlappedAsteroidsNow);
+                TheShip.ShipsBoostedThrough = new List<GenericShip>(obstaclesStayDetectorMovementTemplate.OverlappedShipsNow);
                 obstaclesStayDetectorMovementTemplate.OverlappedAsteroidsNow
                     .Where((a) => !TheShip.ObstaclesHit.Contains(a)).ToList()
                     .ForEach(TheShip.ObstaclesHit.Add);

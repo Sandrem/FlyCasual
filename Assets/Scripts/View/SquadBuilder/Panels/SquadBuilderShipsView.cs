@@ -7,8 +7,8 @@ namespace SquadBuilderNS
 {
     public enum FactionSize
     {
-        Small4,
-        Medium6,
+        Small4, // Not used anymore
+        Medium6, // Not used anymore
         Medium8,
         Large20
     }
@@ -121,7 +121,7 @@ namespace SquadBuilderNS
                 case Faction.Resistance:
                     return FactionSize.Medium8;
                 case Faction.FirstOrder:
-                    return FactionSize.Medium6;
+                    return FactionSize.Medium8;
                 case Faction.Republic:
                     return FactionSize.Medium8;
                 case Faction.Separatists:

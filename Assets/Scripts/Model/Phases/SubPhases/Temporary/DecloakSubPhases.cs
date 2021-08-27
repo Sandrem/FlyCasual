@@ -20,7 +20,7 @@ namespace SubPhases
 
         public override void PrepareDecision(Action callBack)
         {
-            DescriptionShort = "Do you want to perform decloak?";
+            DescriptionShort = "Do you want to decloak?";
 
             DecisionOwner = Selection.ThisShip.Owner;
 
@@ -69,7 +69,7 @@ namespace SubPhases
             IsTemporary = true;
             UpdateHelpInfo();
 
-            StartBarrelRollPlanning();
+            StartBarrelRollPlanning(isDeckloak: true);
         }
 
         public override void PerfromTemplatePlanning()

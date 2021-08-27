@@ -89,6 +89,8 @@ namespace Ship
 
         public bool IsJammed { get { return Tokens.HasToken<Tokens.JamToken>(); } }
 
+        public bool IsCloaked { get { return Tokens.HasToken<Tokens.CloakToken>(); } }
+
         public bool IsTractored
         {
             get

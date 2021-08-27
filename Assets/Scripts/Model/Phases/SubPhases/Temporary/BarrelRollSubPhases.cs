@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using BoardTools;
-using GameModes;
 using System;
 using System.Linq;
 using Editions;
@@ -88,6 +87,8 @@ namespace SubPhases
 
         public bool inReposition;
 
+        private bool IsDecloak;
+
         public override void Start()
         {
             Name = "Barrel Roll planning";
@@ -99,8 +100,9 @@ namespace SubPhases
 
         // Core
 
-        protected void StartBarrelRollPlanning()
+        protected void StartBarrelRollPlanning(bool isDeckloak = false)
         {
+            IsDecloak = isDeckloak;
             AskToSelectTemplate(PerfromTemplatePlanning);
         }
 
@@ -133,7 +135,7 @@ namespace SubPhases
 
         public void ConfirmBarrelRollPosition()
         {
-            CheckBoostThroughObstacle();
+            CheckBarrelRollThroughObstacle();
             CheckMines();
             SyncCollisions(TemporaryBaseCollider);
             DestroyTemporaryElements();
@@ -141,7 +143,7 @@ namespace SubPhases
             StartRepositionExecution();
         }
 
-        private void CheckBoostThroughObstacle()
+        private void CheckBarrelRollThroughObstacle()
         {
             if (SelectedTemplate.Collider.OverlapsAsteroidNow || TemporaryBaseCollider.OverlapsAsteroidNow)
             {
@@ -206,13 +208,18 @@ namespace SubPhases
 
             GenerateSelectTemplateDecisions(selectBarrelRollTemplate);
 
-            selectBarrelRollTemplate.DescriptionShort = "Barrel Roll: Select template";
+            selectBarrelRollTemplate.DescriptionShort = GetBarrelRollDescriptions();
 
             selectBarrelRollTemplate.DefaultDecisionName = selectBarrelRollTemplate.GetDecisions().First().Name;
 
             selectBarrelRollTemplate.RequiredPlayer = Controller.PlayerNo;
 
             selectBarrelRollTemplate.Start();
+        }
+
+        private string GetBarrelRollDescriptions()
+        {
+            return (!IsDecloak) ? "Barrel Roll: Select template" : "Decloak: Select template";
         }
 
         protected virtual void GenerateSelectTemplateDecisions(DecisionSubPhase subphase)
@@ -289,31 +296,6 @@ namespace SubPhases
             SelectedTemplate = template;
             SelectedDirectionPrimary = directionPrimary;
             SelectedDirectionSecondary = directionSecondary;
-        }
-
-        //OLD
-        public void PerfromTemplatePlanningFirstEdition()
-        {
-            PerfromTemplatePlanningSecondEdition();
-
-            /*useMobileControls = Application.isMobilePlatform;
-
-            ShowBarrelRollTemplate();
-
-            if (!useMobileControls)
-            {
-                StartReposition();
-            }
-            else
-            {
-                SliderMenu.ShowSlider(
-                    -0.75f * TheShip.ShipBase.SHIPSTAND_SIZE,
-                    -0.25f * TheShip.ShipBase.SHIPSTAND_SIZE,
-                    -0.5f * TheShip.ShipBase.SHIPSTAND_SIZE,
-                    ProcessTemplatePositionSlider
-                );
-                IsReadyForCommands = true;
-            }*/
         }
 
         protected virtual IEnumerator CheckCollisionsOfTemporaryElements(Action callback)

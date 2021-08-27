@@ -42,7 +42,7 @@ namespace Ship.SecondEdition.TIESeBomber
             );
 
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)));
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(EvadeAction)));
+            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(ReloadAction), typeof(EvadeAction)));
 
             ShipAbilities.Add(new Abilities.SecondEdition.PursuitThrustersAbility());
 

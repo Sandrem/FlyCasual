@@ -2,6 +2,7 @@
 using Movement;
 using Players;
 using Remote;
+using RulesList;
 using Ship;
 using SubPhases;
 using System;
@@ -96,14 +97,13 @@ namespace Abilities.SecondEdition
             }
         }
 
-        private void CanPerformJam(ref bool result, GenericShip ship, ITargetLockable defender)
+        private void CanPerformJam(ref List<JamIsNotAllowedReasons> blockers, GenericShip jamSource, ITargetLockable jamTarget)
         {
-            if (ship.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
-
-            if (defender.GetRangeToShip(HostShip) < 2)
+            if (blockers.Contains(JamIsNotAllowedReasons.NotInRange)
+                && Tools.IsSameTeam(jamSource, HostShip)
+                && jamTarget.GetRangeToShip(HostShip) < 2)
             {
-                result = true;
-                return;
+                blockers.Remove(JamIsNotAllowedReasons.NotInRange);
             }
         }
 

@@ -143,68 +143,66 @@ namespace SubPhases
             List<GenericAction> availableActions = Selection.ThisShip.GetAvailableActions();
             foreach (var action in availableActions)
             {
-                bool addedDecision = false;
+                bool addedDecisionWithLink = false;
 
-                foreach(var kv in Selection.ThisShip.ActionBar.LinkedActions)
+                string decisionName = GetActionNameColored(action);
+
+                foreach (var kv in Selection.ThisShip.ActionBar.LinkedActions)
                 {
                     Type actionType = kv.Key;
                     GenericAction linkedAction = kv.Value;
 
                     if (action.GetType() == actionType)
                     {
-                        addedDecision = true;
-                        string linkedActionName = linkedAction.Name;
-                        switch (linkedAction.Color)
-                        {
-                            case Actions.ActionColor.Red:
-                                linkedActionName = "<color=red>" + linkedActionName + "</color>";
-                                break;
-                            case Actions.ActionColor.Purple:
-                                linkedActionName = "<color=purple>" + linkedActionName + "</color>";
-                                break;
-                            default:
-                                break;
-                        }
-                        string decisionName = action.Name + " > " + linkedActionName;
+                        string linkedActionName = GetActionNameColored(kv.Value);
 
-                        AddDecision(
-                            decisionName,
-                            delegate {
-                                ActionWasPerformed = true;
-                                Selection.ThisShip.CallBeforeActionIsPerformed(
-                                    (GenericAction)action,
-                                    (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
-                                    isFree: false
-                                );
-                            },
-                            action.ImageUrl,
-                            -1,
-                            action.Color
-                        );
+                        if (!addedDecisionWithLink)
+                        {
+                            decisionName += " > " + linkedActionName;
+                            addedDecisionWithLink = true;
+                        }
+                        else
+                        {
+                            decisionName += " / " + linkedActionName;
+                        }
                     }
                 }
 
-                if (!addedDecision)
-                {
-                    Actions.ActionColor actionColor = action.Color;
-                    Selection.ThisShip.CallOnCheckActionComplexity(action, ref actionColor);
-
-                    AddDecision(
-                        action.Name,
-                        delegate {
-                            ActionWasPerformed = true;
-                            Selection.ThisShip.CallBeforeActionIsPerformed(
-                                (GenericAction)action,
-                                (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
-                                isFree: false
-                            );
-                        },
-                        action.ImageUrl,
-                        -1,
-                        actionColor
-                    );
-                }
+                AddDecision(
+                    decisionName,
+                    delegate {
+                        ActionWasPerformed = true;
+                        Selection.ThisShip.CallBeforeActionIsPerformed(
+                            (GenericAction)action,
+                            (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
+                            isFree: false
+                        );
+                    },
+                    action.ImageUrl
+                );
             }
+        }
+
+        private string GetActionNameColored(GenericAction action)
+        {
+            string actionName = action.Name;
+
+            Actions.ActionColor actionColor = action.Color;
+            Selection.ThisShip.CallOnCheckActionComplexity(action, ref actionColor);
+
+            switch (actionColor)
+            {
+                case Actions.ActionColor.Red:
+                    actionName = "<color=red>" + actionName + "</color>";
+                    break;
+                case Actions.ActionColor.Purple:
+                    actionName = "<color=purple>" + actionName + "</color>";
+                    break;
+                default:
+                    break;
+            }
+
+            return actionName;
         }
 
         public override void Resume()
@@ -259,7 +257,9 @@ namespace SubPhases
 
             foreach (var action in availableActions)
             {
-                bool addedDecision = false;
+                bool addedDecisionWithLink = false;
+
+                string decisionName = GetActionNameColored(action);
 
                 foreach (var kv in Selection.ThisShip.ActionBar.LinkedActions)
                 {
@@ -268,56 +268,55 @@ namespace SubPhases
 
                     if (action.GetType() == actionType)
                     {
-                        addedDecision = true;
-                        string linkedActionName = linkedAction.Name;
-                        switch (linkedAction.Color)
-                        {
-                            case Actions.ActionColor.Red:
-                                linkedActionName = "<color=red>" + linkedActionName + "</color>";
-                                break;
-                            case Actions.ActionColor.Purple:
-                                linkedActionName = "<color=purple>" + linkedActionName + "</purple>";
-                                break;
-                            default:
-                                break;
-                        }
-                        string decisionName = action.Name + " > " + linkedActionName;
+                        string linkedActionName = GetActionNameColored(kv.Value);
 
-                        AddDecision(
-                            decisionName,
-                            delegate {
-                                ActionWasPerformed = true;
-                                Selection.ThisShip.CallBeforeActionIsPerformed(
-                                    (GenericAction)action,
-                                    (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
-                                    isFree: true
-                                );
-                            },
-                            action.ImageUrl,
-                            -1,
-                            action.Color
-                        );
+                        if (!addedDecisionWithLink)
+                        {
+                            decisionName += " > " + linkedActionName;
+                            addedDecisionWithLink = true;
+                        }
+                        else
+                        {
+                            decisionName += " / " + linkedActionName;
+                        }
                     }
                 }
 
-                if (!addedDecision)
-                {
-                    AddDecision(
-                        action.Name,
-                        delegate {
-                            ActionWasPerformed = true;
-                            Selection.ThisShip.CallBeforeActionIsPerformed(
-                                (GenericAction)action,
-                                (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
-                                isFree: true
-                            );
-                        },
-                        action.ImageUrl,
-                        -1,
-                        action.Color
-                    );
-                }
+                AddDecision(
+                    decisionName,
+                    delegate {
+                        ActionWasPerformed = true;
+                        Selection.ThisShip.CallBeforeActionIsPerformed(
+                            (GenericAction)action,
+                            (Action)delegate { ActionsHolder.TakeActionStart((GenericAction)action); },
+                            isFree: false
+                        );
+                    },
+                    action.ImageUrl
+                );
             }
+        }
+
+        private string GetActionNameColored(GenericAction action)
+        {
+            string actionName = action.Name;
+
+            Actions.ActionColor actionColor = action.Color;
+            Selection.ThisShip.CallOnCheckActionComplexity(action, ref actionColor);
+
+            switch (actionColor)
+            {
+                case Actions.ActionColor.Red:
+                    actionName = "<color=red>" + actionName + "</color>";
+                    break;
+                case Actions.ActionColor.Purple:
+                    actionName = "<color=purple>" + actionName + "</color>";
+                    break;
+                default:
+                    break;
+            }
+
+            return actionName;
         }
 
         public override void Resume()

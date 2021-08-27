@@ -87,6 +87,8 @@ namespace Ship
 
         public bool IsStressed { get { return Tokens.HasToken<Tokens.StressToken>(); } }
 
+        public bool IsJammed { get { return Tokens.HasToken<Tokens.JamToken>(); } }
+
         public bool IsTractored
         {
             get

@@ -96,12 +96,8 @@ namespace SubPhases
 
         private bool FilterJamTargets(GenericShip ship)
         {
-            if (ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo) return false;
-
             bool result = false;
-            
             if (Rules.Jam.JamIsAllowed(Selection.ThisShip, ship)) result = true;
-
             return result;
         }
 

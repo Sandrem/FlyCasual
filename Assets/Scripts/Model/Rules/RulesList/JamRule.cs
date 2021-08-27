@@ -8,12 +8,19 @@ using Players;
 
 namespace RulesList
 {
+    public enum JamIsNotAllowedReasons
+    {
+        NotInRange,
+        FriendlyShip
+    }
+
     public class JamRule
     {
         static bool RuleIsInitialized = false;
 
-        public static event GenericShip.EventHandlerBool2Ships OnCheckJamIsAllowed;
-        public static event GenericShip.EventHandlerBool2Ships OnCheckJamIsDisallowed;
+        public delegate void EventHandlerListJamIsNotAllowedReasons2Ships(ref List<JamIsNotAllowedReasons> blockReasons, GenericShip jamSource, GenericShip jamTarget);
+        public static event EventHandlerListJamIsNotAllowedReasons2Ships OnCheckJamIsAllowed;
+        public static event EventHandlerListJamIsNotAllowedReasons2Ships OnCheckJamIsDisallowed;
 
         public JamRule()
         {
@@ -24,12 +31,17 @@ namespace RulesList
             }
         }
 
-        public bool JamIsAllowed(GenericShip ship, GenericShip target)
+        public bool JamIsAllowed(GenericShip jamSource, GenericShip jamTarget)
         {
-            bool result = true;
+            List<JamIsNotAllowedReasons> blockReasons = new List<JamIsNotAllowedReasons>();
 
-            int rangeBetween = target.GetRangeToShip(ship);
-            bool isInBullseyeArc = ship.SectorsInfo.IsShipInSector(target, Arcs.ArcType.Bullseye);
+            if (Tools.IsSameTeam(jamSource, jamTarget))
+            {
+                blockReasons.Add(JamIsNotAllowedReasons.FriendlyShip);
+            }
+
+            int rangeBetween = jamTarget.GetRangeToShip(jamSource);
+            bool isInBullseyeArc = jamSource.SectorsInfo.IsShipInSector(jamTarget, Arcs.ArcType.Bullseye);
             if (rangeBetween == 1 ||
                 (rangeBetween == 2 && isInBullseyeArc))
             {
@@ -38,14 +50,13 @@ namespace RulesList
             }
             else
             {
-                result = false;
+                blockReasons.Add(JamIsNotAllowedReasons.NotInRange);
             }
             
+            if (blockReasons.Count > 0) OnCheckJamIsAllowed?.Invoke(ref blockReasons, jamSource, jamTarget);
+            if (blockReasons.Count == 0) OnCheckJamIsDisallowed?.Invoke(ref blockReasons, jamSource, jamTarget);
 
-            if (result != true) OnCheckJamIsAllowed?.Invoke(ref result, ship, target);
-            if (result == true) OnCheckJamIsDisallowed?.Invoke(ref result, ship, target);
-
-            return result;
+            return blockReasons.Count == 0;
         }
 
         private bool IsJammableToken(Type tokenType)

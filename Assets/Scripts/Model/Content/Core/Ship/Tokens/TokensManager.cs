@@ -60,6 +60,11 @@ namespace Ship
             return GetAllTokens().Count(n => n.TokenShape == shape);
         }
 
+        public int CountTokensByColor(TokenColors color)
+        {
+            return GetAllTokens().Count(n => n.TokenColor == color);
+        }
+
         public bool HasToken<T>(char letter = ' ') where T : GenericToken
         {
             return GetToken<T>(letter) != null;

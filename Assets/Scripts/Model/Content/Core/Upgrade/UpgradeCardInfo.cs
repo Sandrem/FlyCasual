@@ -31,7 +31,7 @@ namespace Upgrade
         public UpgradeCardRestrictions Restrictions { get; private set; }
         public SpecialWeaponInfo WeaponInfo { get; private set; }
         public List<ActionInfo> AddedActions { get; private set; }
-        public LinkedActionInfo AddActionLink { get; private set; }
+        public List<LinkedActionInfo> AddActionLinks { get; private set; }
         public List<UpgradeSlot> AddedSlots { get; private set; }
         public List<UpgradeType> ForbiddenSlots { get; private set; }
         public Dictionary<UpgradeType, int> CostReductionByType { get; private set; }
@@ -64,6 +64,7 @@ namespace Upgrade
             ArcType removeArc = ArcType.None,
             ActionInfo addAction = null,
             List<ActionInfo> addActions = null,
+            List<LinkedActionInfo> addActionLinks = null,
             LinkedActionInfo addActionLink = null,
             UpgradeSlot addSlot = null,
             List<UpgradeSlot> addSlots = null,
@@ -84,7 +85,6 @@ namespace Upgrade
             CannotBeRecharged = cannotBeRecharged;
             SEImageNumber = seImageNumber;
             WeaponInfo = weaponInfo;
-            AddActionLink = addActionLink;
             IsSolitary = isSolitary;
             IsStandardazed = isStandardazed;
 
@@ -102,6 +102,10 @@ namespace Upgrade
             UpgradeTypes = new List<UpgradeType>();
             if (type != UpgradeType.None) UpgradeTypes.Add(type);
             if (types != null) UpgradeTypes.AddRange(types);
+
+            AddActionLinks = new List<LinkedActionInfo>();
+            if (addActionLink != null) AddActionLinks.Add(addActionLink);
+            if (addActionLinks != null) AddActionLinks.AddRange(addActionLinks);
 
             Restrictions = new UpgradeCardRestrictions();
             if (restriction != null) Restrictions = new UpgradeCardRestrictions(restriction);
@@ -213,13 +217,13 @@ namespace Upgrade
                 }
             }
 
-            if (AddActionLink != null)
+            foreach (LinkedActionInfo linkedActionInfo in AddActionLinks)
             {
-                GenericAction linkedAction = (GenericAction)Activator.CreateInstance(AddActionLink.ActionLinkedType);
-                linkedAction.Color = AddActionLink.LinkedColor;
+                GenericAction linkedAction = (GenericAction)Activator.CreateInstance(linkedActionInfo.ActionLinkedType);
+                linkedAction.Color = linkedActionInfo.LinkedColor;
                 linkedAction.HostShip = HostUpgrade.HostShip;
 
-                HostUpgrade.HostShip.ActionBar.AddActionLink(AddActionLink.ActionType, linkedAction);
+                HostUpgrade.HostShip.ActionBar.AddActionLink(linkedActionInfo.ActionType, linkedAction);
             }
         }
 
@@ -278,9 +282,9 @@ namespace Upgrade
                 }
             }
 
-            if (AddActionLink != null)
+            foreach (LinkedActionInfo linkedActionInfo in AddActionLinks)
             {
-                HostUpgrade.HostShip.ActionBar.RemoveActionLink(AddActionLink.ActionType, AddActionLink.ActionLinkedType);
+                HostUpgrade.HostShip.ActionBar.RemoveActionLink(linkedActionInfo.ActionType, linkedActionInfo.ActionLinkedType);
             }
         }
 

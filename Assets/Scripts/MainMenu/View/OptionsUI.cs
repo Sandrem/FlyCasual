@@ -103,7 +103,9 @@ public class OptionsUI : MonoBehaviour {
         AvatarFromUpgrade avatar = avatarButton.transform.GetComponent<AvatarFromUpgrade>();
         avatar.Initialize(Options.Avatar.ToString(), delegate { MainMenu.CurrentMainMenu.ChangePanel("BrowseAvatarsPanel"); });
 
-        panel.transform.Find("TitleInputPanel/InputField").GetComponent<InputField>().text = Options.Title;
+        InputField titleText = panel.transform.Find("TitleInputPanel/InputField").GetComponent<InputField>();
+        titleText.text = Options.Title;
+        titleText.onEndEdit.AddListener(delegate { MainMenu.CurrentMainMenu.ChangeTitle(titleText.text); });
     }
 
     private void ShowBackgroundSelection()

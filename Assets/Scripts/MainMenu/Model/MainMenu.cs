@@ -291,10 +291,10 @@ public partial class MainMenu : MonoBehaviour {
         Options.ChangeParameterValue("NickName", text);
     }
 
-    public void ChangeTitle(Text inputText)
+    public void ChangeTitle(string text)
     {
-        Options.Title = inputText.text;
-        Options.ChangeParameterValue("Title", inputText.text);
+        Options.Title = text;
+        Options.ChangeParameterValue("Title", text);
     }
 
     public static void ShowLoadingScreenNetwork()

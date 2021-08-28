@@ -43,7 +43,7 @@ namespace Abilities.FirstEdition
 
         private void RegisterAbility()
         {
-            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, Ability);
+            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, DoAbility);
         }
 
         protected virtual string GenerateAbilityString()
@@ -51,11 +51,17 @@ namespace Abilities.FirstEdition
             return "Choose another ship to assign 1 of your Focus tokens to it";
         }
 
-        private void Ability(object sender, EventArgs e)
+        protected virtual Type GetTokenType()
         {
-            if (HostShip.Owner.Ships.Count > 1 && HostShip.Tokens.HasToken(typeof(FocusToken)))
+            return typeof(FocusToken);
+        }
+
+        private void DoAbility(object sender, EventArgs e)
+        {
+            if (HostShip.Owner.Ships.Count > 1 && HostShip.Tokens.HasToken(GetTokenType()))
             {
-                SelectTargetForAbility(
+                SelectTargetForAbility
+                (
                     SelectAbilityTarget,
                     FilterAbilityTarget,
                     GetAiAbilityPriority,
@@ -79,18 +85,18 @@ namespace Abilities.FirstEdition
         private int GetAiAbilityPriority(GenericShip ship)
         {
             int result = 0;
-            int shipFocusTokens = ship.Tokens.CountTokensByType(typeof(FocusToken));
-            if (shipFocusTokens == 0) result += 100;
-            result += (5 - shipFocusTokens);
+            int shipRequiredTokens = ship.Tokens.CountTokensByType(GetTokenType());
+            if (shipRequiredTokens == 0) result += 100;
+            result += (5 - shipRequiredTokens);
             return result;
         }
 
         protected virtual void SelectAbilityTarget()
         {
             HostShip.Tokens.RemoveToken(
-                typeof(FocusToken),
+                GetTokenType(),
                 delegate {
-                    TargetShip.Tokens.AssignToken(typeof(FocusToken), SelectShipSubPhase.FinishSelection);
+                    TargetShip.Tokens.AssignToken(GetTokenType(), SelectShipSubPhase.FinishSelection);
                 }
             );
         }

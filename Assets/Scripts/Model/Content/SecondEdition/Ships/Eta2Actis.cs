@@ -40,7 +40,7 @@ namespace Ship.SecondEdition.Eta2Actis
             ShipAbilities.Add(new Abilities.SecondEdition.IntuitiveControlsAbility());
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(JediGeneral) }
+                { Faction.Republic, typeof(ObiWanKenobi) }
             };
 
             ModelInfo = new ShipModelInfo(

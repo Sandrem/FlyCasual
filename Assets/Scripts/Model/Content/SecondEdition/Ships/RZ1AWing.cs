@@ -28,7 +28,7 @@ namespace Ship
 
                 ShipAbilities.Add(new VectoredThrustersAbility());
 
-                IconicPilots[Faction.Rebel] = typeof(JakeFarrell);
+                IconicPilots[Faction.Rebel] = typeof(HeraSyndulla);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b4/Maneuver_a-wing.png";
 

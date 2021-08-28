@@ -27,7 +27,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Cannon);
 
-                IconicPilots[Faction.Scum] = typeof(Dengar);
+                IconicPilots[Faction.Scum] = typeof(NomLumb);
 
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn), MovementComplexity.Normal);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn), MovementComplexity.Complex);

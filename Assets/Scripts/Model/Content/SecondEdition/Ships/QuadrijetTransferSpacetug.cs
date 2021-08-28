@@ -27,7 +27,7 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);
 
                 IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Scum, typeof(JakkuGunrunner) }
+                    { Faction.Scum, typeof(ConstableZuvio) }
                 };
 
                 ShipAbilities.Add(new Abilities.SecondEdition.SpacetugAbility());

@@ -40,7 +40,7 @@ namespace Ship.SecondEdition.XiClassLightShuttle
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.FirstOrder, typeof(GideonHask) }
+                { Faction.FirstOrder, typeof(CommanderMalarus) }
             };
 
             ModelInfo = new ShipModelInfo(

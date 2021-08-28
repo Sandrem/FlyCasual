@@ -25,7 +25,7 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.TallonRoll), MovementComplexity.Complex);
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.TallonRoll), MovementComplexity.Complex);
 
-                IconicPilots[Faction.Scum] = typeof(TalonbaneCobra);
+                IconicPilots[Faction.Scum] = typeof(CaptainJostero);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/7/73/Maneuver_kihraxz.png";
             }

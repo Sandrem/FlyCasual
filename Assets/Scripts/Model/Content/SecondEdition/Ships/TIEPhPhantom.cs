@@ -26,7 +26,7 @@ namespace Ship
                 
                 ShipAbilities.Add(new Abilities.SecondEdition.StygiumArray());
 
-                IconicPilots[Faction.Imperial] = typeof(Whisper);
+                IconicPilots[Faction.Imperial] = typeof(Echo);
 
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Normal);
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);

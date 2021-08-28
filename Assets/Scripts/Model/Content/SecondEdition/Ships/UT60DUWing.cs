@@ -23,7 +23,7 @@ namespace Ship.SecondEdition.UT60DUWing
 
             DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.PivotWingOpen));
 
-            IconicPilots[Faction.Rebel] = typeof(BlueSquadronScout);
+            IconicPilots[Faction.Rebel] = typeof(K2SO);
 
             ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/61/Maneuver_u-wing.png";
         }

@@ -21,7 +21,7 @@ namespace Ship
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AutoThrustersAbility());
 
-                IconicPilots[Faction.Imperial] = typeof(SoontirFel);
+                IconicPilots[Faction.Imperial] = typeof(NashWindrider);
 
                 DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn));
                 DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn));

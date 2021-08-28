@@ -28,7 +28,7 @@ namespace Ship
                 DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.TallonRoll), MovementComplexity.Complex);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.Straight), MovementComplexity.Easy);
 
-                IconicPilots[Faction.Rebel] = typeof(BraylenStramm);
+                IconicPilots[Faction.Rebel] = typeof(TenNumb);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/f/ff/Maneuver_b-wing.png";
             }

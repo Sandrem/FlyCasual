@@ -14,7 +14,7 @@ namespace Ship
                 ShipInfo.Hull = 8;
                 ShipInfo.Shields = 2;
 
-                IconicPilots[Faction.Scum] = typeof(ShadowportHunter);
+                IconicPilots[Faction.Scum] = typeof(AsajjVentress);
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/5/5b/Maneuver_lancer.png";
             }

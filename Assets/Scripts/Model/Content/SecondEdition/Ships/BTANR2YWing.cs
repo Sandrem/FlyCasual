@@ -40,7 +40,7 @@ namespace Ship.SecondEdition.BTANR2YWing
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(NewRepublicPatrol) }
+                { Faction.Resistance, typeof(CaiThrenalli) }
             };
 
             ModelInfo = new ShipModelInfo

@@ -46,7 +46,7 @@ namespace Ship.SecondEdition.LaatIGunship
             ShipAbilities.Add(new FireConvergenceAbility());
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(P212thBattalionPilot) }
+                { Faction.Republic, typeof(Warthog) }
             };
 
             ModelInfo = new ShipModelInfo(

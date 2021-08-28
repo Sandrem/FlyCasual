@@ -20,7 +20,7 @@ namespace Ship
                 ShipInfo.Hull = 5;
                 ShipInfo.Shields = 3;
 
-                IconicPilots[Faction.Scum] = typeof(IG88A);
+                IconicPilots[Faction.Scum] = typeof(IG88D);
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AdvancedDroidBrain());
 

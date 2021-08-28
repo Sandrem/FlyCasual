@@ -28,7 +28,7 @@ namespace Ship.SecondEdition.VCX100LightFreighter
             DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn));
             DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn), MovementComplexity.Complex);
 
-            IconicPilots[Faction.Rebel] = typeof(KananJarrus);
+            IconicPilots[Faction.Rebel] = typeof(HeraSyndulla);
 
             ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/61/Maneuver_vcx-100.png";
 

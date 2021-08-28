@@ -49,6 +49,13 @@ namespace Abilities.SecondEdition
             );
         }
 
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers -= CheckAssignStrainAbility;
+
+            RemoveDiceModification();
+        }
+
         private bool IsAvailable()
         {
             return Combat.AttackStep == CombatStep.Attack
@@ -85,11 +92,6 @@ namespace Abilities.SecondEdition
             if (redNonLockTokensCount > 0) return true;
 
             return false;
-        }
-
-        public override void DeactivateAbility()
-        {
-            Phases.Events.OnCombatPhaseStart_Triggers -= CheckAssignStrainAbility;
         }
 
         private void CheckAssignStrainAbility()

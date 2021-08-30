@@ -63,7 +63,10 @@ namespace Abilities.SecondEdition
 
         private bool IsDiceModificationAvailable()
         {
-            return (HostUpgrade.State.Charges > 0 && Combat.AttackStep == CombatStep.Attack && (Combat.Attacker == HostShip || Combat.Defender == HostShip));
+            return (HostUpgrade.State.Charges > 0
+                && Combat.AttackStep == CombatStep.Attack
+                && (Combat.Attacker == HostShip || Combat.Defender == HostShip)
+                && Combat.DiceRollAttack.RegularSuccesses > 0);
         }
 
         private int GetDiceModificationAiPriority()

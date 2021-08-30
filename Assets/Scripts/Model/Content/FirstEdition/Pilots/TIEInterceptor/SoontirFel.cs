@@ -40,9 +40,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsAssigned -= RegisterSoontirFelAbility;
         }
 
-        private void RegisterSoontirFelAbility(GenericShip ship, System.Type tokenType)
+        private void RegisterSoontirFelAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(StressToken))
+            if (token is StressToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AskAssignFocus);
             }

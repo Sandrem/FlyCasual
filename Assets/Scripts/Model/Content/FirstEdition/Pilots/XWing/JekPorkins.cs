@@ -44,9 +44,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsAssigned -= CheckAbilityConditions;
         }
 
-        private void CheckAbilityConditions(GenericShip ship, Type tokenType)
+        private void CheckAbilityConditions(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(StressToken))
+            if (token is StressToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AskToUsePilotAbility);
             }

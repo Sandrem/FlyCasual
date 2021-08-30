@@ -1,6 +1,7 @@
 ﻿using Ship;
 using Upgrade;
 using SubPhases;
+using Tokens;
 
 namespace UpgradesList.FirstEdition
 {
@@ -50,14 +51,14 @@ namespace Abilities.FirstEdition
         }
 
 
-        private void RegisterElectronicBaffle(object sender, System.Type tokenType)
+        private void RegisterElectronicBaffle(object sender, GenericToken token)
         {
-            if (tokenType == typeof(Tokens.StressToken))
+            if (token is StressToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, ShowUseEBStress);
             }
 
-            if (tokenType == typeof(Tokens.IonToken))
+            if (token is IonToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, ShowUseEBIon);
             }

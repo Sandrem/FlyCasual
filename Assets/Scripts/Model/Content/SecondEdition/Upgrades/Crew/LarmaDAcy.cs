@@ -1,11 +1,11 @@
 ﻿using Ship;
 using Upgrade;
-using System.Linq;
 using ActionsList;
 using System;
 using System.Collections.Generic;
 using Actions;
 using UnityEngine;
+using Tokens;
 
 namespace UpgradesList.SecondEdition
 {
@@ -72,11 +72,11 @@ namespace Abilities.SecondEdition
             }
         }
 
-        private void CheckAbilityRestrictions(GenericShip ship, System.Type type)
+        private void CheckAbilityRestrictions(GenericShip ship, GenericToken token)
         {
-            if (type == typeof(Tokens.StressToken))
+            if (token is StressToken)
             {
-                if (!set && HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) <= 2)
+                if (!set && HostShip.Tokens.CountTokensByType(typeof(StressToken)) <= 2)
                 {
                     foreach (Type actionType in AllowedActionTypes)
                     {
@@ -84,7 +84,7 @@ namespace Abilities.SecondEdition
                     }
                     set = true;
                 }
-                else if (set && HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) > 2)
+                else if (set && HostShip.Tokens.CountTokensByType(typeof(StressToken)) > 2)
                 {
                     foreach (Type actionType in AllowedActionTypes)
                     {

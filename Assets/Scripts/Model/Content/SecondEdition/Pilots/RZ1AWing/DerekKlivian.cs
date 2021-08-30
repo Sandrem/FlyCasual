@@ -45,9 +45,9 @@ namespace Abilities.SecondEdition
             HostShip.OnTokenIsAssigned -= CheckDerekKlivialAbility;
         }
 
-        private void CheckDerekKlivialAbility(GenericShip ship, Type type)
+        private void CheckDerekKlivialAbility(GenericShip ship, GenericToken token)
         {
-            if (type == typeof(BlueTargetLockToken))
+            if (token is BlueTargetLockToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, TryToRemoveRedToken);
             }

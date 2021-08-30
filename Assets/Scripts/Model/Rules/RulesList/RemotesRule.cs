@@ -1,19 +1,13 @@
-﻿using Actions;
-using ActionsList;
-using Ship;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Ship;
 using Tokens;
-using UnityEngine;
 
 namespace RulesList
 {
     public class RemotesRule
     {
-        public void AllowOnlyLocks(GenericShip ship, Type type)
+        public void AllowOnlyLocks(GenericShip ship, GenericToken token)
         {
-            if (type != typeof(RedTargetLockToken))
+            if (!(token is RedTargetLockToken))
             {
                 Messages.ShowInfo("Remotes cannot be assigned tokens except for locks");
                 ship.Tokens.TokenToAssign = null;

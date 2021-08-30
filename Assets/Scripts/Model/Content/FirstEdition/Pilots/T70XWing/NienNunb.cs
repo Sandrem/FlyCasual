@@ -42,9 +42,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsAssigned -= RegisterNienNunbAbility;
         }
 
-        private void RegisterNienNunbAbility(GenericShip ship, System.Type tokenType)
+        private void RegisterNienNunbAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(Tokens.StressToken))
+            if (token is StressToken)
             {
                 var shipCount = Roster.AllShips.Values
                     .Where(s => s.Owner.Id != HostShip.Owner.Id)

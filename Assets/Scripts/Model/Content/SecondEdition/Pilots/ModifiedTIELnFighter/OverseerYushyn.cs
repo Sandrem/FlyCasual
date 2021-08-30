@@ -1,6 +1,7 @@
 ﻿using Ship;
 using SubPhases;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -43,9 +44,13 @@ namespace Abilities.SecondEdition
             GenericShip.BeforeTokenIsAssignedGlobal -= RegisterAbility;
         }
 
-        private void RegisterAbility(GenericShip ship, Type tokenType)
+        private void RegisterAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(Tokens.WeaponsDisabledToken) && ship.Owner == HostShip.Owner && !ship.IsStressed && ship != HostShip && HostShip.State.Charges > 0)
+            if (token is WeaponsDisabledToken
+                && ship.Owner == HostShip.Owner
+                && !ship.IsStressed
+                && ship != HostShip
+                && HostShip.State.Charges > 0)
             {
                 BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(ship, HostShip);
                 if (positionInfo.Range == 1)

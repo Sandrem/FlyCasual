@@ -38,18 +38,18 @@ namespace Abilities.FirstEdition
             ToggleBonusOfExistingEvadeTokens(false);
         }
 
-        private void CommRelayRestriction(GenericShip ship, System.Type tokenType)
+        private void CommRelayRestriction(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(EvadeToken) && ship.Tokens.HasToken(typeof(EvadeToken)))
+            if (token is EvadeToken && ship.Tokens.HasToken(typeof(EvadeToken)))
             {
                 Messages.ShowError("Comm Relay: This ship cannot have more than 1 Evade token");
                 ship.Tokens.TokenToAssign = null;
             }
         }
 
-        private void CommRelayBonus(GenericShip ship, System.Type tokenType)
+        private void CommRelayBonus(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(EvadeToken))
+            if (token is EvadeToken)
             {
                 ToggleBonusOfExistingEvadeTokens(true);
             }

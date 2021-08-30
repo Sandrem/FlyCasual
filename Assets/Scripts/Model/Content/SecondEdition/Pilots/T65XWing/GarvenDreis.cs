@@ -45,9 +45,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsSpent -= RegisterGarvenDreisPilotAbility;
         }
 
-        private void RegisterGarvenDreisPilotAbility(GenericShip ship, System.Type type)
+        private void RegisterGarvenDreisPilotAbility(GenericShip ship, GenericToken token)
         {
-            if (type == typeof(FocusToken))
+            if (token is FocusToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, StartSubphaseForGarvenDreisPilotAbility);
             }

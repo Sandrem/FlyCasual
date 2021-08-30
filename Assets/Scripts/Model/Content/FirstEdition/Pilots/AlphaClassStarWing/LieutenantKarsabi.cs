@@ -37,9 +37,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsAssigned -= RegisterLieutenantKarsabiAbility;
         }
 
-        private void RegisterLieutenantKarsabiAbility(Ship.GenericShip ship, System.Type tokenType)
+        private void RegisterLieutenantKarsabiAbility(Ship.GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(WeaponsDisabledToken))
+            if (token is WeaponsDisabledToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, CheckStress);
             }

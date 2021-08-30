@@ -57,19 +57,19 @@ namespace Ship
         public static event EventHandlerAction OnActionIsPerformedGlobal;
         public event EventHandlerAction OnActionIsPerformed_System;
 
-        public event EventHandlerShipType OnTokenIsAssigned;
-        public event EventHandlerShipType BeforeTokenIsAssigned;
-        public static event EventHandlerShipType BeforeTokenIsAssignedGlobal;
+        public event EventHandlerShipToken OnTokenIsAssigned;
+        public event EventHandlerShipToken BeforeTokenIsAssigned;
+        public static event EventHandlerShipToken BeforeTokenIsAssignedGlobal;
         public static event EventHandlerShipToken OnTokenIsAssignedGlobal;
-        public event EventHandlerShipType OnTokenIsSpent;
-        public static event EventHandlerShipType OnTokenIsSpentGlobal;
-        public event EventHandlerShipType OnTokenIsRemoved;
-        public static event EventHandlerShipType OnTokenIsRemovedGlobal;
+        public event EventHandlerShipToken OnTokenIsSpent;
+        public static event EventHandlerShipToken OnTokenIsSpentGlobal;
+        public event EventHandlerShipToken OnTokenIsRemoved;
+        public static event EventHandlerShipToken OnTokenIsRemovedGlobal;
         public event EventHandlerShipTokenBool OnBeforeTokenIsRemoved;
         public static event EventHandlerShipTokenBool OnBeforeTokenIsRemovedGlobal;
 
-        public event EventHandlerShipType OnConditionIsAssigned;
-        public event EventHandlerShipType OnConditionIsRemoved;
+        public event EventHandlerShipToken OnConditionIsAssigned;
+        public event EventHandlerShipToken OnConditionIsRemoved;
 
         public event EventHandlerTargetLockable OnTargetLockIsAcquired;
         public static event EventHandlerShipTargetLockable OnTargetLockIsAcquiredGlobal;
@@ -567,8 +567,8 @@ namespace Ship
 
         public void CallBeforeAssignToken(GenericToken token, Action callback)
         {
-            if (BeforeTokenIsAssigned != null) BeforeTokenIsAssigned(this, token.GetType());
-            if (BeforeTokenIsAssignedGlobal != null) BeforeTokenIsAssignedGlobal(this, token.GetType());
+            if (BeforeTokenIsAssigned != null) BeforeTokenIsAssigned(this, token);
+            if (BeforeTokenIsAssignedGlobal != null) BeforeTokenIsAssignedGlobal(this, token);
 
             Triggers.ResolveTriggers(TriggerTypes.OnBeforeTokenIsAssigned, callback);
         }
@@ -577,7 +577,7 @@ namespace Ship
         {
             TokensChangePanel.CreateTokensChangePanel(this, token, isAssigned: true);
 
-            OnTokenIsAssigned?.Invoke(this, token.GetType());
+            OnTokenIsAssigned?.Invoke(this, token);
             OnTokenIsAssignedGlobal?.Invoke(this, token);
 
             Tokens.TokenToAssign = null;
@@ -585,14 +585,14 @@ namespace Ship
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsAssigned, callback);
         }
 
-        public void CallOnConditionIsAssigned(System.Type tokenType)
+        public void CallOnConditionIsAssigned(GenericToken token)
         {
-            if (OnConditionIsAssigned != null) OnConditionIsAssigned(this, tokenType);
+            if (OnConditionIsAssigned != null) OnConditionIsAssigned(this, token);
         }
 
-        public void CallOnConditionIsRemoved(System.Type tokenType)
+        public void CallOnConditionIsRemoved(GenericToken token)
         {
-            if (OnConditionIsRemoved != null) OnConditionIsRemoved(this, tokenType);
+            if (OnConditionIsRemoved != null) OnConditionIsRemoved(this, token);
         }
 
         public bool CanRemoveToken(GenericToken token)
@@ -610,8 +610,8 @@ namespace Ship
         {
             TokensChangePanel.CreateTokensChangePanel(this, token, isAssigned: false);
 
-            OnTokenIsRemoved?.Invoke(this, token.GetType());
-            OnTokenIsRemovedGlobal?.Invoke(this, token.GetType());
+            OnTokenIsRemoved?.Invoke(this, token);
+            OnTokenIsRemovedGlobal?.Invoke(this, token);
         }
 
         public void CallOnTargetLockIsAcquiredEvent(ITargetLockable target, Action callback)
@@ -639,19 +639,19 @@ namespace Ship
             selectTargetLockSubPhase.Start();
         }
 
-        public void CallFinishSpendToken(Type type, Action callback)
+        public void CallFinishSpendToken(GenericToken token, Action callback)
         {
-            OnTokenIsSpent?.Invoke(this, type);
+            OnTokenIsSpent?.Invoke(this, token);
 
-            OnTokenIsSpentGlobal?.Invoke(this, type);
+            OnTokenIsSpentGlobal?.Invoke(this, token);
 
             if (Combat.SpentTokens.ContainsKey(this))
             {
-                Combat.SpentTokens[this].Add(type);
+                Combat.SpentTokens[this].Add(token.GetType());
             }
             else
             {
-                Combat.SpentTokens.Add(this, new List<Type>() { type });
+                Combat.SpentTokens.Add(this, new List<Type>() { token.GetType() });
             }
 
             Triggers.ResolveTriggers(TriggerTypes.OnTokenIsSpent, callback);

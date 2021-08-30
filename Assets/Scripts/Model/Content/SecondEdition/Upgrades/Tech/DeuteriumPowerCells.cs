@@ -2,6 +2,7 @@
 using SubPhases;
 using System;
 using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -51,12 +52,11 @@ namespace Abilities.SecondEdition
             isAbilityActive = ((HostShip.State.ShieldsCurrent < HostShip.State.ShieldsMax) && (HostUpgrade.State.Charges > 0));
         }
 
-        private void CheckTokenProtection(GenericShip ship, Type type)
+        private void CheckTokenProtection(GenericShip ship, GenericToken token)
         {
             if (!HostShip.IsStressed && HostUpgrade.State.Charges > 0
-                && type != typeof(Tokens.RedTargetLockToken)
-                && type != typeof(Tokens.BlueTargetLockToken)
-                && type != typeof(Tokens.StressToken)
+                && !(token is GenericTargetLockToken)
+                && !(token is StressToken)
             )
             {
                 RegisterAbilityTrigger(TriggerTypes.OnBeforeTokenIsAssigned, AskToReplaceToken);

@@ -35,9 +35,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsAssigned -= CheckTrigger;
         }
 
-        private void CheckTrigger(GenericShip host, Type type)
+        private void CheckTrigger(GenericShip host, GenericToken token)
         {
-            if (type == typeof(StressToken))
+            if (token is StressToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, UseCoolHandAbility);
             }

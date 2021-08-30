@@ -36,9 +36,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsSpent -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, Type type)
+        private void CheckAbility(GenericShip ship, GenericToken token)
         {
-            if (Phases.CurrentPhase is MainPhases.CombatPhase && type == typeof(FocusToken))
+            if (Phases.CurrentPhase is MainPhases.CombatPhase && token is FocusToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, AskAssignFocusToken);
             }

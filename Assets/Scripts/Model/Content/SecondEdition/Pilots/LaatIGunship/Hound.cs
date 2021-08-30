@@ -41,17 +41,17 @@ namespace Abilities.SecondEdition
             GenericShip.BeforeTokenIsAssignedGlobal -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, Type tokenType)
+        private void CheckAbility(GenericShip ship, GenericToken token)
         {
-            if ((tokenType == typeof(DepleteToken) || tokenType == typeof(StrainToken)) 
+            if ((token is DepleteToken || token is StrainToken) 
                 && ship.Owner == HostShip.Owner 
                 && ship != HostShip 
                 && ship.ShipBase.Size == BaseSize.Small
-                && HostShip.Tokens.CountTokensByType(tokenType) == 0
+                && HostShip.Tokens.CountTokensByType(token.GetType()) == 0
                 && HostShip.ArcsInfo.HasShipInTurretArc(ship))
             {
                 TargetShip = ship;
-                TokenType = tokenType;
+                TokenType = token.GetType();
                 RegisterAbilityTrigger(TriggerTypes.OnBeforeTokenIsAssigned, ShowDecision);
             }
         }

@@ -38,18 +38,18 @@ namespace Abilities.FirstEdition
             ToggleBonusOfExistingFocusTokens(false);
         }
 
-        private void AdvancedOpticsRestriction(GenericShip ship, System.Type tokenType)
+        private void AdvancedOpticsRestriction(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(FocusToken) && ship.Tokens.HasToken(typeof(FocusToken)))
+            if (token is FocusToken && ship.Tokens.HasToken(typeof(FocusToken)))
             {
                 Messages.ShowError("Advanced Optics: This ship cannot have more than 1 Focus token");
                 ship.Tokens.TokenToAssign = null;
             }
         }
 
-        private void AdvancedOpticsBonus(GenericShip ship, System.Type tokenType)
+        private void AdvancedOpticsBonus(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(FocusToken))
+            if (token is FocusToken)
             {
                 ToggleBonusOfExistingFocusTokens(true);
             }

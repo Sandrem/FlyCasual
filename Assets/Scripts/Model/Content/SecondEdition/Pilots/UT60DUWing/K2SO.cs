@@ -46,9 +46,9 @@ namespace Abilities.SecondEdition
             HostShip.OnTokenIsAssigned -= RegisterK2SOAbility;
         }
 
-        private void RegisterK2SOAbility(GenericShip ship, Type tokenType)
+        private void RegisterK2SOAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(StressToken))
+            if (token is StressToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, AssignToken);
             }

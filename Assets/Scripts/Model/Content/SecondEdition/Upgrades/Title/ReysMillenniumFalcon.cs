@@ -59,9 +59,9 @@ namespace Abilities.SecondEdition
             }
         }
 
-        private void UseReysMillenniumFalcon(GenericShip ship, System.Type type)
+        private void UseReysMillenniumFalcon(GenericShip ship, GenericToken token)
         {
-            if (type == typeof(StressToken))
+            if (token is StressToken)
             {
                 if (!set && HostShip.Tokens.CountTokensByType(typeof(StressToken)) <= 2)
                 {

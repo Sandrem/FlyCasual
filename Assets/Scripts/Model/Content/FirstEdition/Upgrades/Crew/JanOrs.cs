@@ -44,9 +44,11 @@ namespace Abilities.FirstEdition
             Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
-        private void RegisterJanOrsCrewAbility(GenericShip ship, System.Type tokenType)
+        private void RegisterJanOrsCrewAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(FocusToken) && ship.Owner == HostShip.Owner && !IsAbilityUsed)
+            if (token is FocusToken
+                && ship.Owner == HostShip.Owner
+                && !IsAbilityUsed)
             {
                 BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(ship, HostShip);
                 if (positionInfo.Range <= 3)

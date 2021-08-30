@@ -1,6 +1,7 @@
 ﻿using ActionsList;
 using Ship;
 using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 namespace UpgradesList.SecondEdition
 {
@@ -55,9 +56,9 @@ namespace Abilities.SecondEdition
             HostShip.OnTokenIsRemoved -= UsePrimedThruster;
         }
 
-        private void UsePrimedThruster(GenericShip ship, System.Type type)
+        private void UsePrimedThruster(GenericShip ship, GenericToken token)
         {
-            if (type == typeof(Tokens.StressToken))
+            if (token is StressToken)
             {
                 if (!set && HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) <= 2)
                 {

@@ -43,9 +43,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsAssigned -= RegisterJakeFarrellAbility;
         }
 
-        private void RegisterJakeFarrellAbility(GenericShip ship, Type tokenType)
+        private void RegisterJakeFarrellAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(FocusToken))
+            if (token is FocusToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, FreeRepositionAction);
             }

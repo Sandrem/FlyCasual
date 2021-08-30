@@ -41,9 +41,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsAssigned -= DutchVanderPilotAbility;
         }
 
-        private void DutchVanderPilotAbility(GenericShip ship, System.Type tokenType)
+        private void DutchVanderPilotAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(Tokens.BlueTargetLockToken))
+            if (token is BlueTargetLockToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsAssigned, StartSubphaseForDutchVanderPilotAbility);
             }

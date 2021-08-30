@@ -472,7 +472,7 @@ public static partial class Roster {
         thisShip.ToggleDamaged(thisShip.State.HullCurrent == 1);
     }
 
-    public static void UpdateTokensIndicator(GenericShip thisShip, System.Type type)
+    public static void UpdateTokensIndicator(GenericShip thisShip, GenericToken token)
     {
         List<GameObject> keys = new List<GameObject>();
         foreach (Transform icon in thisShip.InfoPanel.transform.Find("ShipInfo/TokensBar").transform)
@@ -488,22 +488,22 @@ public static partial class Roster {
         int columnCounter = 0;
         int rowCounter = 0;
 
-        foreach (var token in GetTokensSorted(thisShip))
+        foreach (var ownedToken in GetTokensSorted(thisShip))
         {
             GameObject prefab = (GameObject)Resources.Load("Prefabs/TokenPanel", typeof(GameObject));
             GameObject tokenPanel = MonoBehaviour.Instantiate(prefab, thisShip.InfoPanel.transform.Find("ShipInfo").Find("TokensBar"));
-            Sprite tokenSprite = Resources.Load<Sprite>("Sprites/Tokens/" + token.ImageName);
+            Sprite tokenSprite = Resources.Load<Sprite>("Sprites/Tokens/" + ownedToken.ImageName);
             tokenPanel.GetComponentInChildren<Image>().sprite = tokenSprite;
             tokenPanel.GetComponent<RectTransform>().localPosition = Vector3.zero;
-            tokenPanel.name = token.Name;
+            tokenPanel.name = ownedToken.Name;
 
-            Tooltips.AddTooltip(tokenPanel, token.Tooltip);
+            Tooltips.AddTooltip(tokenPanel, ownedToken.Tooltip);
 
-            if (token.GetType().BaseType == typeof(GenericTargetLockToken))
+            if (ownedToken.GetType().BaseType == typeof(GenericTargetLockToken))
             {
                 Text tokenText = tokenPanel.transform.Find("Image/Letter").GetComponent<Text>();
-                tokenText.text = (token as GenericTargetLockToken).Letter.ToString();
-                tokenText.color = (token is BlueTargetLockToken) ? new Color(0, 0.6f, 1) : Color.red;
+                tokenText.text = (ownedToken as GenericTargetLockToken).Letter.ToString();
+                tokenText.color = (ownedToken is BlueTargetLockToken) ? new Color(0, 0.6f, 1) : Color.red;
             }
 
             tokenPanel.SetActive(true);

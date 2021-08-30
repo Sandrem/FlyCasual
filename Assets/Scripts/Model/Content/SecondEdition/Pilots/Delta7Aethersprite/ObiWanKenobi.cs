@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tokens;
 using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
@@ -40,11 +41,11 @@ namespace Abilities.SecondEdition
             GenericShip.OnTokenIsSpentGlobal -= RegisterAbility;
         }
 
-        private void RegisterAbility(GenericShip ship, Type tokenType)
+        private void RegisterAbility(GenericShip ship, GenericToken token)
         {
             if (HostShip.State.Force > 0 
                 && ship.Owner == HostShip.Owner 
-                && tokenType == typeof(Tokens.FocusToken) 
+                && token is FocusToken
                 && new BoardTools.DistanceInfo(ship, HostShip).Range < 3)
             {
                 TargetShip = ship;

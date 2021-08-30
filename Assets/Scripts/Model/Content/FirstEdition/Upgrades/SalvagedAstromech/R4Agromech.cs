@@ -36,9 +36,12 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsSpent -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, Type type)
+        private void CheckAbility(GenericShip ship, GenericToken token)
         {
-            if (Combat.AttackStep == CombatStep.Attack && type == typeof(FocusToken) && Combat.Attacker == HostShip && Combat.Defender != null)
+            if (Combat.AttackStep == CombatStep.Attack
+                && token is FocusToken
+                && Combat.Attacker == HostShip
+                && Combat.Defender != null)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, AskAcquireTargetLock);
             }

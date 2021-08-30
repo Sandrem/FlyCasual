@@ -73,9 +73,9 @@ namespace Abilities.SecondEdition
 
         private bool set = false;
 
-        private void CheckAbilityRestrictions(GenericShip ship, Type type)
+        private void CheckAbilityRestrictions(GenericShip ship, GenericToken token)
         {
-            if (type == typeof(StressToken))
+            if (token is StressToken)
             {
                 if (!set && HostShip.Tokens.CountTokensByType(typeof(StressToken)) <= 2)
                 {

@@ -59,9 +59,9 @@ namespace Abilities.FirstEdition
             ship.OnAttackFinish += RemoveCondition;
         }
 
-        private void CheckRemoveCondition(GenericShip ship, System.Type tokenType)
+        private void CheckRemoveCondition(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(FocusToken)) RemoveCondition(ship);
+            if (token is FocusToken) RemoveCondition(ship);
         }
 
         private void RemoveCondition(GenericShip ship)

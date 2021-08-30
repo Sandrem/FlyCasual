@@ -1,6 +1,7 @@
 ﻿using BoardTools;
 using Ship;
 using System;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -37,16 +38,16 @@ namespace Abilities.SecondEdition
             HostShip.BeforeTokenIsAssigned -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, Type tokenType)
+        private void CheckAbility(GenericShip ship, GenericToken token)
         {
             if
             (
                 !ship.IsStressed
-                && (tokenType == typeof(Tokens.IonToken) || tokenType == typeof(Tokens.JamToken))
+                && (token is IonToken || token is JamToken)
                 && Board.GetShipsAtRange(HostShip, new Vector2(0, 1), Team.Type.Any).Count > 1
             )
             {
-                TokenType = tokenType;
+                TokenType = token.GetType();
                 RegisterAbilityTrigger(TriggerTypes.OnBeforeTokenIsAssigned, AskToUseOwnAbility);
             }
         }

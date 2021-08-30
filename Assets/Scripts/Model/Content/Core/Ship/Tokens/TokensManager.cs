@@ -198,7 +198,7 @@ namespace Ship
             if (AssignedTokens.Remove(token))
             {
                 token.WhenRemoved();
-                Host.CallOnConditionIsRemoved(token.GetType());
+                Host.CallOnConditionIsRemoved(token);
             }
         }
 
@@ -298,11 +298,18 @@ namespace Ship
 
         public void SpendToken(Type type, Action callback, char letter = ' ')
         {
-            RemoveToken(
-                type,
-                delegate { Host.CallFinishSpendToken(type, callback); },
-                letter
-            );
+            GenericToken assignedToken = GetToken(type, letter);
+            if (assignedToken != null)
+            {
+                RemoveToken(
+                    assignedToken,
+                    delegate { Host.CallFinishSpendToken(assignedToken, callback); }
+                );
+            }
+            else
+            {
+                callback();
+            }
         }
 
         public void TransferToken(Type tokenType, GenericShip targetShip, Action callback, Players.GenericPlayer assigner = null)
@@ -335,7 +342,7 @@ namespace Ship
 
             token.InitializeTooltip();
             token.WhenAssigned();
-            Host.CallOnConditionIsAssigned(token.GetType());
+            Host.CallOnConditionIsAssigned(token);
         }
 
         public void AssignCondition(Type tokenType)

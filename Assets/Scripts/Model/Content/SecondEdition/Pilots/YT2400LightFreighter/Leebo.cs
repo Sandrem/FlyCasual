@@ -1,6 +1,7 @@
 ﻿using Ship;
 using System.Collections;
 using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -45,7 +46,7 @@ namespace Abilities.SecondEdition
             HostShip.OnTokenIsSpent -= CheckCalculateSpent;
         }
 
-        private void CheckCalculateSpent(GenericShip ship, System.Type type)
+        private void CheckCalculateSpent(GenericShip ship, GenericToken token)
         {
             if (Combat.AttackStep == CombatStep.None)
                 return;
@@ -53,7 +54,7 @@ namespace Abilities.SecondEdition
             if (HostShip != Combat.Attacker && HostShip != Combat.Defender)
                 return;
 
-            if (type != typeof(Tokens.CalculateToken))
+            if (!(token is CalculateToken))
                 return;
 
             spentCalculate = true;

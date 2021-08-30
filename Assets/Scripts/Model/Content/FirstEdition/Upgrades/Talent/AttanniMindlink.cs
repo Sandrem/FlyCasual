@@ -44,14 +44,14 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsAssigned -= RegisterAttanniMindlinkAbility;
         }
 
-        private void RegisterAttanniMindlinkAbility(GenericShip ship, Type tokenType)
+        private void RegisterAttanniMindlinkAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(FocusToken) || tokenType == typeof(StressToken))
+            if (token is FocusToken || token is StressToken)
             {
                 RegisterAbilityTrigger(
                     TriggerTypes.OnTokenIsAssigned,
                     CheckAttanniMindlinkAbility,
-                    new TokensArgs { TokenType = tokenType }
+                    new TokensArgs { TokenType = token.GetType() }
                 );
             }
         }

@@ -35,9 +35,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsSpent -= RegisterR5K6Ability;
         }
 
-        private void RegisterR5K6Ability(GenericShip ship, System.Type type)
+        private void RegisterR5K6Ability(GenericShip ship, GenericToken token)
         {
-            if (type == typeof(BlueTargetLockToken))
+            if (token is BlueTargetLockToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, StartSubphaseForR5K6Ability);
             }

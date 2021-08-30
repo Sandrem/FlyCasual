@@ -1,6 +1,7 @@
 ﻿using Ship;
 using SubPhases;
 using System;
+using Tokens;
 
 namespace Ship
 {
@@ -37,9 +38,12 @@ namespace Abilities.FirstEdition
             GenericShip.BeforeTokenIsAssignedGlobal -= CaptainYorrPilotAbility;
         }
 
-        private void CaptainYorrPilotAbility(GenericShip ship, System.Type tokenType)
+        private void CaptainYorrPilotAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(Tokens.StressToken) && ship.Owner == HostShip.Owner && ship != HostShip && HostShip.Tokens.CountTokensByType(typeof(Tokens.StressToken)) <= 2)
+            if (token is StressToken
+                && ship.Owner == HostShip.Owner
+                && ship != HostShip
+                && HostShip.Tokens.CountTokensByType(typeof(StressToken)) <= 2)
             {
 
                 BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(ship, HostShip);

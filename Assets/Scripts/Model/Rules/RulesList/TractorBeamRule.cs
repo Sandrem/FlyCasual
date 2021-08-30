@@ -68,9 +68,9 @@ namespace RulesList
             });
         }
 
-        private void CheckForTractorBeamRemoval(GenericShip ship, Type tokenType)
+        private void CheckForTractorBeamRemoval(GenericShip ship, GenericToken token)
         {
-            if (tokenType != typeof(TractorBeamToken)) return;
+            if (!(token is TractorBeamToken)) return;
 
             if (ShouldIncreaseAgility(ship)) ship.ChangeAgilityBy(+1);
         }

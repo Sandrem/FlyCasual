@@ -42,10 +42,10 @@ namespace Abilities.FirstEdition
             Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
         }
 
-        private void CheckAbility(GenericShip ship, Type tokenType)
+        private void CheckAbility(GenericShip ship, GenericToken token)
         {
             if (IsAbilityUsed) return;
-            if (tokenType != typeof(StressToken)) return;
+            if (!(token is StressToken)) return;
             if (ship.Owner.PlayerNo != HostShip.Owner.PlayerNo) return;
 
             BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(HostShip, ship);

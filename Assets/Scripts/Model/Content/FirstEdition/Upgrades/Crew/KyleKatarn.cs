@@ -39,9 +39,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTokenIsRemoved -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship, Type tokenType)
+        private void CheckAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(Tokens.StressToken))
+            if (token is StressToken)
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsRemoved, AskAssignFocusToken);
             }

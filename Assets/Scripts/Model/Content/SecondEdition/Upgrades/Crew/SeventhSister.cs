@@ -5,6 +5,7 @@ using System;
 using BoardTools;
 using System.Linq;
 using UnityEngine;
+using Tokens;
 
 namespace UpgradesList.SecondEdition
 {
@@ -47,9 +48,9 @@ namespace Abilities.SecondEdition
             GenericShip.BeforeTokenIsAssignedGlobal -= RegisterAbility;
         }
 
-        private void RegisterAbility(GenericShip ship, Type tokenType)
+        private void RegisterAbility(GenericShip ship, GenericToken token)
         {
-            if (tokenType == typeof(Tokens.StressToken) 
+            if (token is StressToken
                 && ship.Owner != HostShip.Owner
                 && new DistanceInfo(ship, HostShip).Range <= 1)
             {

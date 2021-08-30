@@ -41,9 +41,9 @@ namespace Abilities.FirstEdition
             HostShip.OnTargetLockIsAcquired -= RegisterHobbieKlivianPilotAbility;
         }
 
-        private void RegisterHobbieKlivianPilotAbility(GenericShip ship, System.Type type)
+        private void RegisterHobbieKlivianPilotAbility(GenericShip ship, GenericToken token)
         {
-            if (type == typeof(BlueTargetLockToken) && HostShip.Tokens.HasToken(typeof(StressToken)))
+            if (token is BlueTargetLockToken && HostShip.Tokens.HasToken(typeof(StressToken)))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnTokenIsSpent, AskToRemoveStress);
             }

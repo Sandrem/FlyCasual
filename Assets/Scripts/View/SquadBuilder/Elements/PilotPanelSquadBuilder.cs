@@ -19,6 +19,8 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
     public static int WaitingToLoad = 0;
     public static List<PilotPanelSquadBuilder> AllLoadingPanels = new List<PilotPanelSquadBuilder>();
 
+    public Material GrayscaleMaterial;
+
     public void Initialize(GenericShip ship, Action<GenericShip> onClick = null, bool showFromModInfo = false)
     {
         Ship = ship;
@@ -43,7 +45,16 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
         }
 
         if (ShowFromModInfo) SetFromModeName();
-        SetOnClickHandler();
+
+        if (!Ship.IsWIP)
+        {
+            SetOnClickHandler();
+        }
+        else
+        {
+            this.gameObject.transform.Find("PilotImage").GetComponent<Image>().material = GrayscaleMaterial;
+            this.gameObject.transform.Find("WIPInfo").gameObject.SetActive(true);
+        }
     }
 
     private void LoadTooltipImage(GameObject thisGameObject, string url)

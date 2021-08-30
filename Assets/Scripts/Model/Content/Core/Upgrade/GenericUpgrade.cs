@@ -114,7 +114,9 @@ namespace Upgrade
 
         // SQUAD BUILDER ONLY
 
-        public bool IsHidden;
+        public bool IsHidden { get; set; }
+
+        public bool IsWIP { get; protected set; }
 
         internal void TryDiscard(object confirmDecision)
         {

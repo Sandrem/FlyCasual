@@ -24,6 +24,8 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
     public static int WaitingToLoad = 0;
     public static List<UpgradePanelSquadBuilder> AllLoadingPanels = new List<UpgradePanelSquadBuilder>();
 
+    public Material GrayscaleMaterial;
+
     public void Initialize(string upgradeName, UpgradeSlot slot, GenericUpgrade upgrade = null, Action<UpgradeSlot, GenericUpgrade> onClick = null, bool showFromModInfo = false, bool compact = false)
     {
         UpgradeName = upgradeName;
@@ -46,15 +48,24 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
         if (IsSlotImage())
         {
             SetSlotImage();
+            SetOnClickHandler();
         }
         else
         {
             textureCacheKey = TEXTURENAME + Upgrade.ImageUrl;
             LoadTooltipImage(gameObject, Upgrade.ImageUrl);
             if (ShowFromModInfo) SetFromModeName();
-        }
 
-        SetOnClickHandler();
+            if (!Upgrade.IsWIP)
+            {
+                SetOnClickHandler();
+            }
+            else
+            {
+                this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().material = GrayscaleMaterial;
+                this.gameObject.transform.Find("WIPInfo").gameObject.SetActive(true);
+            }
+        }
     }
 
     private bool IsSlotImage()

@@ -83,7 +83,8 @@ namespace Ship
 
         public bool IsHidden { get; protected set; }
         public bool IsHiddenSquadbuilderOnly { get; protected set; }
-        
+
+        public bool IsWIP { get; protected set; }
 
         public bool IsStressed { get { return Tokens.HasToken<Tokens.StressToken>(); } }
 

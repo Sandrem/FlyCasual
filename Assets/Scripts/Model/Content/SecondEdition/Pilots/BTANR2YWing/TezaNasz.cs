@@ -22,7 +22,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.TezaNaszAbility)
                 );
 
-                ImageUrl = "https://i.imgur.com/6ZuYTth.png";
+                ImageUrl = "https://i.imgur.com/qyerxjI.png";
             }
         }
     }

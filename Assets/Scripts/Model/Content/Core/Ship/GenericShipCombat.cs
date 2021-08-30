@@ -105,6 +105,8 @@ namespace Ship
         public event EventHandlerShipCritArgs OnAssignCrit;
 
         public event EventHandlerShipBool OnDamageWasSuccessfullyDealt;
+        public event EventHandlerShip OnDamageCardSeverityIsChecked;
+        public static event EventHandlerShip OnDamageCardSeverityIsCheckedGlobal;
         public event EventHandlerShip OnDamageCardIsDealt;
         public static event EventHandlerShip OnDamageCardIsDealtGlobal;
         public static event EventHandlerShipDamage OnDamageInstanceResolvedGlobal;
@@ -555,6 +557,14 @@ namespace Ship
             AssignedDamageDiceroll.CancelHitsSpecial(1);
             AssignedDamageDiceroll.RemoveAllFailures();
 
+            OnDamageCardSeverityIsChecked?.Invoke(this);
+            OnDamageCardSeverityIsCheckedGlobal?.Invoke(this);
+
+            Triggers.ResolveTriggers(TriggerTypes.OnDamageCardSeverityIsChecked, delegate { ProcessDrawnDamageCardContinue(e, callback); });
+        }
+
+        private void ProcessDrawnDamageCardContinue(EventArgs e, Action callback)
+        {
             if (Combat.CurrentCriticalHitCard.IsFaceup)
             {
                 OnFaceupCritCardReadyToBeDealt?.Invoke(this, Combat.CurrentCriticalHitCard);

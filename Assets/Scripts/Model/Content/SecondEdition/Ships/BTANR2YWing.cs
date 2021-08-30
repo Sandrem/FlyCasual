@@ -5,6 +5,7 @@ using Upgrade;
 using Actions;
 using Arcs;
 using UnityEngine;
+using System;
 
 namespace Ship.SecondEdition.BTANR2YWing
 {
@@ -94,15 +95,37 @@ namespace Abilities.SecondEdition
 {
     public class IntuitiveInterfaceAbility : GenericAbility
     {
-        // TODO
         public override void ActivateAbility()
         {
-            
+            HostShip.OnActionIsPerformed += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            
+            HostShip.OnActionIsPerformed -= CheckAbility;
+        }
+
+        private void CheckAbility(GenericAction action)
+        {
+            if (action.Source != null
+                && (action.Source.UpgradeInfo.HasType(UpgradeType.Talent)
+                    || action.Source.UpgradeInfo.HasType(UpgradeType.Illicit)
+                    || action.Source.UpgradeInfo.HasType(UpgradeType.Modification))
+                )
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnActionIsPerformed, PerformCalculateAction);
+            }
+        }
+
+        private void PerformCalculateAction(object sender, EventArgs e)
+        {
+            HostShip.AskPerformFreeAction
+            (
+                new CalculateAction(),
+                Triggers.FinishTrigger,
+                descriptionShort: "Intuitive Interface",
+                descriptionLong: "You may perform a Calculate action"
+            );
         }
     }
 }

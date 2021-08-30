@@ -1,10 +1,4 @@
-﻿using BoardTools;
-using Ship;
-using SubPhases;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Tokens;
+﻿using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship.SecondEdition.Hwk290LightFreighter
@@ -13,9 +7,10 @@ namespace Ship.SecondEdition.Hwk290LightFreighter
     {
         public Tapusk() : base()
         {
-            IsHidden = true;
+            IsWIP = true;
 
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo
+            (
                 "Tapusk",
                 5,
                 36,

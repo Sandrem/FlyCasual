@@ -20,7 +20,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.LegaFossangAbility)
                 );
 
-                ImageUrl = "https://i.imgur.com/0uhUP03.png";
+                ImageUrl = "https://i.imgur.com/SIFbsBi.png";
             }
         }
     }

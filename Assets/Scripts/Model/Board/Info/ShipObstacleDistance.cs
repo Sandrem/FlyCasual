@@ -44,8 +44,7 @@ namespace BoardTools
             MeshCollider obstacleCollider = Obstacle.ObstacleGO.GetComponentInChildren<MeshCollider>();
             NearestPointObstacle = obstacleCollider.ClosestPoint(Ship.GetPosition());
 
-            MeshCollider shipCollider = Ship.GetCollider();
-            NearestPointShip = shipCollider.ClosestPoint(NearestPointObstacle);
+            NearestPointShip = Ship.Collider.ClosestPoint(NearestPointObstacle);
 
             DistanceReal = Vector3.Distance(NearestPointShip, NearestPointObstacle);
             Range = Board.DistanceToRange(DistanceReal);

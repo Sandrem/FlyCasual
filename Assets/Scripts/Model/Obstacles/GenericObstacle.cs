@@ -10,13 +10,17 @@ using UnityEngine;
 
 namespace Obstacles
 {
-    public abstract class GenericObstacle : ITargetLockable
+    public abstract class GenericObstacle : ITargetLockable, IBoardObject
     {
         public string Name { get; set; }
         public string ShortName { get; protected set; }
         public bool IsPlaced { get; set; }
         public GameObject ObstacleGO { get; set; }
         public List<GenericToken> Tokens { get; private set; } = new List<GenericToken>();
+
+        private MeshCollider collider;
+        public MeshCollider Collider => collider;
+        public BoardObjectType BoardObjectType => BoardObjectType.Obstacle;
 
         public GenericObstacle(string name, string shortName)
         {
@@ -34,6 +38,7 @@ namespace Obstacles
         {
             GameObject obstacleModelPrefab = Resources.Load<GameObject>(string.Format("Prefabs/Obstacles/{0}/{1}", GetTypeName, Name));
             ObstacleGO = GameObject.Instantiate<GameObject>(obstacleModelPrefab, obstacleHolder);
+            collider = ObstacleGO.GetComponentInChildren<MeshCollider>();
             Name = name;
             ObstacleGO.name = name;
             ObstacleGO.transform.Find("default").name = name;

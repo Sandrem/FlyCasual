@@ -19,14 +19,24 @@ namespace Ship
 
         protected string SpecialModel;
 
+        private MeshCollider baseCollider;
+        public MeshCollider Collider => baseCollider;
+        public BoardObjectType BoardObjectType => BoardObjectType.Ship;
+
         public void CreateModel(Vector3 position)
         {
             Model = CreateShipModel(position);
             ShipAllParts = Model.transform.Find("RotationHelper/RotationHelper2/ShipAllParts").transform;
             modelCenter = ShipAllParts.Find("ShipModels/" + (SpecialModel ?? FixTypeName(ModelInfo.ModelName)) + "/ModelCenter").transform;
             InitializeShipBase();
+            SetCollider();
             SetRaycastTarget(true);
             SetSpotlightMask();
+        }
+
+        private void SetCollider()
+        {
+            baseCollider = ShipAllParts.Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<MeshCollider>();
         }
 
         private void InitializeShipBase()
@@ -344,11 +354,6 @@ namespace Ship
         {
             ShipAllParts.Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<Collider>().enabled = value;
             ShipAllParts.Find("ShipBase/ObstaclesHitsDetector").GetComponent<Collider>().enabled = value;
-        }
-
-        public MeshCollider GetCollider()
-        {
-            return ShipAllParts.Find("ShipBase/ShipBaseCollider/ObstaclesStayDetector").GetComponent<MeshCollider>();
         }
 
         public void SetActive(bool argument)

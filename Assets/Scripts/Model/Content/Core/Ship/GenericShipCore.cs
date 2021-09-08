@@ -19,7 +19,7 @@ namespace Ship
     public interface TIE { } //marker interface for ships that counts as "TIEs", ie. Twin Ion Engine MkII
     public interface AWing { } //marker interface for ships that counts as "A-Wing", ie. Starbird Slash
 
-    public partial class GenericShip : IImageHolder
+    public partial class GenericShip : IImageHolder, IBoardObject
     {
         public ShipCardInfo ShipInfo;
         public PilotCardInfo PilotInfo;

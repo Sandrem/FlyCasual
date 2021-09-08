@@ -14,6 +14,7 @@ namespace Remote
         public RemoteInfo RemoteInfo { get; protected set; }
         public new RemoteTokensHolder Tokens { get; protected set; } // Assign only Red TLs
         public abstract Dictionary<string, Vector3> BaseEdges { get; }
+        public new BoardObjectType BoardObjectType => BoardObjectType.Remote;
 
         public GenericRemote(GenericPlayer owner)
         {

@@ -35,6 +35,8 @@ namespace BoardTools
 
         public static void Initialize()
         {
+            BoardState.Initialize();
+
             BoardTransform = GameObject.Find("SceneHolder/Board").transform;
             RulersHolderTransform = BoardTransform.Find("RulersHolder");
             ObstacleHolderTransform = BoardTransform.Find("ObstaclesZone/ObstaclesHolder");

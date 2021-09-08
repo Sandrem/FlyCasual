@@ -7,7 +7,7 @@ using Upgrade;
 
 namespace Bombs
 {
-    public class GenericDeviceGameObject : MonoBehaviour
+    public class GenericDeviceGameObject : MonoBehaviour, IBoardObject
     {
         protected DeviceObjectInfoPanel infoPanel;
 
@@ -30,9 +30,14 @@ namespace Bombs
         public GameObject Model => gameObject;
         public GenericBomb ParentUpgrade { get; set; }
 
+        private MeshCollider deviceCollider;
+        public MeshCollider Collider => deviceCollider;
+        public BoardObjectType BoardObjectType => BoardObjectType.Device;
+
         public void Initialize(GenericBomb parentUpgrade, int fuses = 0)
         {
             ParentUpgrade = parentUpgrade;
+            deviceCollider = this.transform.GetComponentInChildren<MeshCollider>();
             this.fuses = fuses;
             FusesChanging += DebugLog;
         }

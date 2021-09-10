@@ -27,11 +27,12 @@ namespace SubPhases
             {
                 AddDecision(
                     "Discard " + kv.Key.ToLower(),
-                    delegate {
+                    delegate
+                    {
                         Messages.ShowInfo(Selection.ThisShip.PilotInfo.PilotName + " discarded " + kv.Key.ToLower());
                         Selection.ThisShip.Tokens.RemoveToken(
                             kv.Value.GetType(),
-                            DecisionSubPhase.ConfirmDecision
+                            delegate { AfterTokenIsDiscarded(); }
                         );
                     }
                 );
@@ -42,6 +43,11 @@ namespace SubPhases
             DefaultDecisionName = decisions.First().Name;
 
             callBack();
+        }
+
+        protected virtual void AfterTokenIsDiscarded()
+        {
+            DecisionSubPhase.ConfirmDecision();
         }
 
         public virtual void PrepareCustomDecisions()

@@ -31,6 +31,7 @@ namespace Ship
                     (
                         UpgradeType.Modification,
                         UpgradeType.Crew,
+                        UpgradeType.Crew,
                         UpgradeType.Illicit
                     )
                 );
@@ -41,7 +42,7 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo(
                     "ST-70 Assault Ship",
-                    "ST-70 Assault Ship",
+                    "Default",
                     new Vector3(-3.7f, 7.84f, 5.55f),
                     1.75f,
                     isMetallic: true

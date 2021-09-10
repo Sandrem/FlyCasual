@@ -16,7 +16,7 @@ namespace Ship
 
                 PilotInfo = new PilotCardInfo
                 (
-                    "TheMandalorian",
+                    "The Mandalorian",
                     5,
                     55,
                     isLimited: true,

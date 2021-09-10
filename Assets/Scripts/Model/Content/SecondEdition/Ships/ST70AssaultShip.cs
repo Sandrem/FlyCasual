@@ -16,7 +16,7 @@ namespace Ship
             {
                 ShipInfo = new ShipCardInfo
                 (
-                    "ST-70 AssaultShip",
+                    "ST-70 Assault Ship",
                     BaseSize.Medium,
                     Faction.Scum,
                     new ShipArcsInfo(ArcType.Front, 3), 2, 7, 2,

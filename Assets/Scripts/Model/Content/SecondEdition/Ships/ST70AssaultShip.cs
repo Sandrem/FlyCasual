@@ -40,10 +40,11 @@ namespace Ship
                 };
 
                 ModelInfo = new ShipModelInfo(
-                    "ST-70 AssaultShip",
-                    "ST-70 AssaultShip",
+                    "ST-70 Assault Ship",
+                    "ST-70 Assault Ship",
                     new Vector3(-3.7f, 7.84f, 5.55f),
-                    1.75f
+                    1.75f,
+                    isMetallic: true
                 );
 
                 DialInfo = new ShipDialInfo

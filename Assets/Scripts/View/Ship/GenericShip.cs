@@ -290,6 +290,12 @@ namespace Ship
                     {
                         renderer.material.SetTexture("_MainTex", skin);
                         renderer.material.SetColor("_Color", Color.white);
+
+                        if (ModelInfo.IsMetallic)
+                        {
+                            renderer.material.SetFloat("_Metallic", 0.5f);
+                            renderer.material.SetFloat("_Glossiness", 0.5f);
+                        }
                     }
                 }
             }

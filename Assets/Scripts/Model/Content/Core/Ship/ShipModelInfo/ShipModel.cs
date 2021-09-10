@@ -10,15 +10,17 @@ namespace Ship
     {
         public string ModelName { get; set; }
         public string SkinName { get; set; }
-        public Vector3 PreviewCameraPosition { get; set; }
-        public float PreviewScale { get; set; }
+        public Vector3 PreviewCameraPosition { get; }
+        public float PreviewScale { get; }
+        public bool IsMetallic { get; }
 
-        public ShipModelInfo(string modelName, string skinName, Vector3 previewCameraPosition = default, float previewScale = 0, WingsPositions wingsPositions = WingsPositions.None)
+        public ShipModelInfo(string modelName, string skinName, Vector3 previewCameraPosition = default, float previewScale = 0, WingsPositions wingsPositions = WingsPositions.None, bool isMetallic = false)
         {
             ModelName = modelName;
             SkinName = skinName;
             PreviewCameraPosition = previewCameraPosition;
             PreviewScale = previewScale;
+            IsMetallic = isMetallic;
         }
     }
 }

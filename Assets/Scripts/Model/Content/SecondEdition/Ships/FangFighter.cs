@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ActionsList;
 using Upgrade;
 using Actions;
+using System;
 
 namespace Ship
 {
@@ -14,7 +15,13 @@ namespace Ship
             {
                 ShipInfo.ShipName = "Fang Fighter";
 
-                IconicPilots[Faction.Scum] = typeof(FennRau);
+                ShipInfo.FactionsAll.Add(Faction.Rebel);
+
+                IconicPilots = new Dictionary<Faction, Type>()
+                {
+                    { Faction.Scum, typeof(FennRau) },
+                    { Faction.Rebel, typeof(FennRauRebel) },
+                };
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
 

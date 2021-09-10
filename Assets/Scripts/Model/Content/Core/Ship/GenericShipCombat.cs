@@ -391,6 +391,7 @@ namespace Ship
 
         public void CallOnDamageInstanceResolved(DamageSourceEventArgs dsource, Action callback)
         {
+            if (this == Combat.Defender) Combat.DamageInfo.IsDefenderSufferedDamage = true;
             if (OnDamageInstanceResolvedGlobal != null) OnDamageInstanceResolvedGlobal(this, dsource);
 
             Triggers.ResolveTriggers(TriggerTypes.OnDamageInstanceResolved, callback);

@@ -8,7 +8,11 @@ namespace RulesList
 
         public void RegenerateForce(GenericShip ship)
         {
-            if (ship.State.Force < ship.State.MaxForce) ship.State.RestoreForce();
+            if (ship.State.Force < ship.State.MaxForce
+                && ship.IsForceRecurring)
+            {
+                ship.State.RestoreForce();
+            }
         }
 
         public void AddForceAction(GenericShip ship)

@@ -84,7 +84,7 @@ namespace Abilities.SecondEdition
 
         private bool FilterSelection(GenericShip ship)
         {
-            return ship.Owner.PlayerNo == HostShip.Owner.AnotherPlayer.PlayerNo;
+            return true;
         }
 
         private int GetAiPriority(GenericShip ship)
@@ -97,10 +97,7 @@ namespace Abilities.SecondEdition
             foreach (GenericShip ship in Selection.MultiSelectedShips)
             {
                 Messages.ShowInfo($"Merciless Pursuit condition is assigned to {ship.PilotInfo.PilotName}");
-                ship.Tokens.AssignCondition
-                (
-                    new Conditions.MercilessPursuitCondition(ship) { TheChild = HostUpgrade as UpgradesList.SecondEdition.TheChild }
-                );
+                ship.Tokens.AssignCondition(new Conditions.MercilessPursuitCondition(ship));
             }
             callback();
         }
@@ -119,7 +116,7 @@ namespace Conditions
             Name = ImageName = "Merciless Pursuit Condition";
             Temporary = false;
 
-            Tooltip = "https://i.imgur.com/K9qa95i.png";
+            Tooltip = "";
         }
 
         public override void WhenAssigned()
@@ -169,15 +166,12 @@ namespace Conditions
 
         private void AcquireLock(object sender, EventArgs e)
         {
-            DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            Messages.ShowInfo($"Merciless Pursuit: {Combat.Attacker.PilotInfo.PilotName} aquires a lock on {Combat.Defender.PilotInfo.PilotName}");
-            ActionsHolder.AcquireTargetLock(Combat.Attacker, Combat.Defender, Triggers.FinishTrigger, Triggers.FinishTrigger);
+            throw new NotImplementedException();
         }
 
         private void SkipLock(object sender, EventArgs e)
         {
-            DecisionSubPhase.ConfirmDecision();
+            throw new NotImplementedException();
         }
 
         public class MercilessPursuitDecisionSubphase : DecisionSubPhase { };

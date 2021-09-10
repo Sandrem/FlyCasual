@@ -126,6 +126,8 @@ namespace Ship
 
         public event EventHandlerCheckRange OnCheckRange;
 
+        public event EventHandlerBool OnCheckForceRecurring;
+
         public Func<Direction, bool> FilterUndockDirection { get; set; } = delegate { return true; };
 
         public bool IsStrained
@@ -159,6 +161,16 @@ namespace Ship
         public virtual bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
         {
             return true;
+        }
+
+        public bool IsForceRecurring
+        {
+            get
+            {
+                bool isForceRecurring = true;
+                OnCheckForceRecurring?.Invoke(ref isForceRecurring);
+                return isForceRecurring;
+            }
         }
 
         public void CallOnGameStart()

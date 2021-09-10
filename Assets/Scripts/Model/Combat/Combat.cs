@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -9,7 +8,6 @@ using SubPhases;
 using GameCommands;
 using Upgrade;
 using Arcs;
-using Tokens;
 
 public enum PlayerRole
 {
@@ -63,6 +61,7 @@ public static class Combat
     private static int hitsCounter;
 
     public static ShotInfo ShotInfo;
+    public static DamageInfo DamageInfo;
 
     public static Action<Action> PayExtraAttackCost;
 
@@ -230,6 +229,7 @@ public static class Combat
         Roster.AllShipsHighlightOff();
 
         SpentTokens = new Dictionary<GenericShip, List<Type>>();
+        DamageInfo = new DamageInfo();
         SetArcAsUsedForAttack();
         DeclareAttackerAndDefender();
         ShotInfo = new ShotInfo(Selection.ThisShip, Selection.AnotherShip, ChosenWeapon);

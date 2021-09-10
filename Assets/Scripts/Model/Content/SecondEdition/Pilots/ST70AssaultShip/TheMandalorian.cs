@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Arcs;
+using BoardTools;
+using Ship;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -10,8 +14,6 @@ namespace Ship
         {
             public TheMandalorian() : base()
             {
-                IsWIP = true;
-
                 RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
                 PilotInfo = new PilotCardInfo
@@ -36,12 +38,48 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            
+            AddDiceModification(
+                HostShip.PilotInfo.PilotName,
+                IsAvailable,
+                GetAiPriority,
+                DiceModificationType.Change,
+                1,
+                sidesCanBeSelected: new List<DieSide>() { DieSide.Blank },
+                sideCanBeChangedTo: DieSide.Focus
+            );
+        }
+
+        private bool IsAvailable()
+        {
+            return IsInFrontSectorOf2Ships()
+                && DiceRoll.CurrentDiceRoll.Blanks > 0;
+        }
+
+        private bool IsInFrontSectorOf2Ships()
+        {
+            int count = 0;
+
+            foreach (GenericShip enemyShip in HostShip.Owner.EnemyShips.Values)
+            {
+                int rangeInFrontSector = enemyShip.SectorsInfo.RangeToShipBySector(HostShip, ArcType.Front);
+                if (rangeInFrontSector >= 1 && rangeInFrontSector <= 2)
+                {
+                    count++;
+                    if (count == 2) return true;
+                }
+            }
+
+            return false;
+        }
+
+        private int GetAiPriority()
+        {
+            return 100; // Free change limited by side if 1
         }
 
         public override void DeactivateAbility()
         {
-            
+            RemoveDiceModification();
         }
     }
 }

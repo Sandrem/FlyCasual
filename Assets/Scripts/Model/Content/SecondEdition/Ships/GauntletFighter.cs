@@ -8,15 +8,15 @@ using Arcs;
 
 namespace Ship
 {
-    namespace SecondEdition.GaunlentFighter
+    namespace SecondEdition.GauntletFighter
     {
-        public class GaunlentFighter : GenericShip
+        public class GauntletFighter : GenericShip
         {
-            public GaunlentFighter() : base()
+            public GauntletFighter() : base()
             {
                 ShipInfo = new ShipCardInfo
                 (
-                    "Gaunlent Fighter",
+                    "Gauntlet Fighter",
                     BaseSize.Large,
                     Faction.Republic,
                     new ShipArcsInfo
@@ -50,10 +50,11 @@ namespace Ship
 
                 ModelInfo = new ShipModelInfo
                 (
-                    "Gaunlent Fighter",
-                    "Gaunlent Fighter",
+                    "Gauntlet Fighter",
+                    "Default",
                     new Vector3(-3.7f, 7.84f, 5.55f),
-                    1.75f
+                    4f,
+                    isMetallic: true
                 );
 
                 DialInfo = new ShipDialInfo

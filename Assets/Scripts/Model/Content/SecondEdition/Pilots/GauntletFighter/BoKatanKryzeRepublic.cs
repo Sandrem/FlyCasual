@@ -4,14 +4,12 @@ using Upgrade;
 
 namespace Ship
 {
-    namespace SecondEdition.GaunlentFighter
+    namespace SecondEdition.GauntletFighter
     {
-        public class BoKatanKryzeRepublic : GaunlentFighter
+        public class BoKatanKryzeRepublic : GauntletFighter
         {
             public BoKatanKryzeRepublic() : base()
             {
-                IsWIP = true;
-
                 RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
 
                 PilotInfo = new PilotCardInfo

@@ -11,11 +11,10 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Ahhav",
                     3,
-                    30,
+                    28,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AhhavAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         // seImageNumber: 92
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d5/af/d5af765f-4c49-4209-98a8-e76f52bf9608/swz23_ahhav.png";

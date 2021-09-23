@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Sol Sixxa",
                     3,
-                    46,
+                    44,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SolSixxaAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

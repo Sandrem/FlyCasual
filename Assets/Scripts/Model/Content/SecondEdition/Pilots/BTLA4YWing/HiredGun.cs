@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Hired Gun",
                     2,
-                    32,
+                    31,
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit, UpgradeType.Modification },
                     factionOverride: Faction.Scum,
                     seImageNumber: 167

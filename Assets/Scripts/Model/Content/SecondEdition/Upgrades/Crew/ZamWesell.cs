@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Zam Wesell",
                 UpgradeType.Crew,
-                cost: 4,
+                cost: 11,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Separatists, Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.ZamWesellCrewAbility),

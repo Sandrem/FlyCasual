@@ -17,7 +17,7 @@ namespace Ship
 
                 IconicPilots[Faction.Scum] = typeof(Guri);
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Sensor);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Tech);
 
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)));
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction)));

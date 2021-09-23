@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Crymorah Goon",
                     1,
-                    30,
+                    29,
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Illicit, UpgradeType.Modification },
                     factionOverride: Faction.Scum,
                     seImageNumber: 168

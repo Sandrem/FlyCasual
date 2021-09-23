@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Kavil",
                     5,
-                    43,
+                    41,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KavilAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit, UpgradeType.Modification },

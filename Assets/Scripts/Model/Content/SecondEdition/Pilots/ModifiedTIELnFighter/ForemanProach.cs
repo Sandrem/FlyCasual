@@ -15,14 +15,11 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Foreman Proach",
                     4,
-                    32,
+                    29,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ForemanProachAbility),
-                    extraUpgradeIcon: UpgradeType.Talent //,
-                                                         // seImageNumber: 92
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
-
-                // Ability
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/a0/bf/a0bf95a7-36ba-4e1b-a946-2372bed3cf2a/swz23_foreman_proach.png";
             }

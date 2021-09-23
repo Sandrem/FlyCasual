@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Lok Revenant",
                     2,
-                    45,
+                    43,
                     seImageNumber: 206
                 );
             }

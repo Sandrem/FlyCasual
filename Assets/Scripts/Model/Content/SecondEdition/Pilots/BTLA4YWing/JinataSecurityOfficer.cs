@@ -15,7 +15,7 @@ namespace Ship
                 (
                     "Jinata Security Officer",
                     2,
-                    31,
+                    30,
                     extraUpgradeIcon: UpgradeType.Tech,
                     factionOverride: Faction.Scum
                 );

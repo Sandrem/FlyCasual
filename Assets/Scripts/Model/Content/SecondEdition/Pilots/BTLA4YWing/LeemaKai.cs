@@ -16,7 +16,7 @@ namespace Ship.SecondEdition.BTLA4YWing
             (
                 "Leema Kai",
                 5,
-                40,
+                39,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.LeemaKaiAbility),
                 extraUpgradeIcons: new List<UpgradeType>()

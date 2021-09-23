@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Landing Struts (Closed)",
                 UpgradeType.Configuration,
-                cost: 1,
+                cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.HyenaClassDroidBomber.HyenaClassDroidBomber)),
                 abilityType: typeof(Abilities.SecondEdition.LandingStrutsClosedAbility)
             );

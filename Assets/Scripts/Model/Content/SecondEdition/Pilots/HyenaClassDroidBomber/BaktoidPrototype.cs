@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
             PilotInfo = new PilotCardInfo(
                 "Baktoid Prototype",
                 1,
-                28,
+                29,
                 limited: 2,
                 abilityType: typeof(Abilities.SecondEdition.BaktoidPrototypeAbility),
                 extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Sensor, UpgradeType.Missile, UpgradeType.Missile },

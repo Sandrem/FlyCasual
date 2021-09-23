@@ -1,11 +1,6 @@
-﻿using Actions;
-using Ship;
+﻿using Ship;
 using SubPhases;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Upgrade;
 
@@ -18,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Count Dooku",
                 UpgradeType.Crew,
-                cost: 10,
+                cost: 14,
                 isLimited: true,
                 addForce: 1,
                 restriction: new FactionRestriction(Faction.Separatists),

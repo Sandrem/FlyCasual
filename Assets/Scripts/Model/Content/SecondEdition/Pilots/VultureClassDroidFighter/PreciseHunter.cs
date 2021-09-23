@@ -13,7 +13,7 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
             PilotInfo = new PilotCardInfo(
                 "Precise Hunter",
                 3,
-                23,
+                24,
                 limited: 3,
                 abilityType: typeof(Abilities.SecondEdition.PreciseHunterAbility),
                 pilotTitle: "Pinpoint Protocols"

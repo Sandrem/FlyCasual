@@ -13,7 +13,7 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
             PilotInfo = new PilotCardInfo(
                 "DBS-404",
                 4,
-                30,
+                31,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DBS404Ability),
                 extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Device },

@@ -11,7 +11,7 @@ namespace Ship.SecondEdition.DroidTriFighter
             PilotInfo = new PilotCardInfo(
                 "Separatist Interceptor",
                 3,
-                37,
+                35,
                 extraUpgradeIcon: UpgradeType.Talent
             );
 

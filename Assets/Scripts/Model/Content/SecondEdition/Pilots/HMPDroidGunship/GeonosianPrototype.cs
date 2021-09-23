@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Geonosian Prototype",
                     2,
-                    35,
+                    38,
                     limited: 2,
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Cannon, UpgradeType.Cannon },
                     abilityType: typeof(Abilities.SecondEdition.GeonosianPrototypeAbility)

@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Repulsorlift Stabilizers (Inactive)",
                 UpgradeType.Configuration,
-                cost: 3,
+                cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.HMPDroidGunship.HMPDroidGunship)),
                 abilityType: typeof(Abilities.SecondEdition.RepulsorliftStabilizersInactiveAbility)
             );
@@ -38,7 +38,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Repulsorlift Stabilizers (Active)",
                 UpgradeType.Configuration,
-                cost: 3,
+                cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.HMPDroidGunship.HMPDroidGunship)),
                 abilityType: typeof(Abilities.SecondEdition.RepulsorliftStabilizersActiveAbility)
             );

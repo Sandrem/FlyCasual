@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Zam Wesell",
                     5,
-                    76,
+                    84,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZamWesellPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Crew },

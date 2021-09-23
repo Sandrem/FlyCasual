@@ -12,13 +12,11 @@ namespace UpgradesList.SecondEdition
     {
         public BabuFrik() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Babu Frik",
                 UpgradeType.Illicit,
-                cost: 1,
+                cost: 7,
                 isLimited: true,
                 charges: 3,
                 restriction: new FactionRestriction(Faction.Resistance, Faction.Scum),

@@ -12,7 +12,7 @@ namespace Ship
                 (
                     "C'ai Threnalli",
                     2,
-                    28,
+                    34,
                     extraUpgradeIcon: UpgradeType.Talent,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaiThrenalliAbility)

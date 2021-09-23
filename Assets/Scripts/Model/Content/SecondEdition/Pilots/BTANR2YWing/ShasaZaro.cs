@@ -4,20 +4,20 @@ namespace Ship
 {
     namespace SecondEdition.BTANR2YWing
     {
-        public class ShasaZard : BTANR2YWing
+        public class ShasaZaro : BTANR2YWing
         {
-            public ShasaZard() : base()
+            public ShasaZaro() : base()
             {
                 IsWIP = true;
 
                 PilotInfo = new PilotCardInfo
                 (
-                    "Shasa Zard",
+                    "Shasa Zaro",
                     3,
-                    31,
+                    33,
                     extraUpgradeIcon: UpgradeType.Talent,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.ShasaZardAbility)
+                    abilityType: typeof(Abilities.SecondEdition.ShasaZaroAbility)
                 );
 
                 ImageUrl = "https://i.imgur.com/AL8m0H5.png";
@@ -28,7 +28,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class ShasaZardAbility : GenericAbility
+    public class ShasaZaroAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

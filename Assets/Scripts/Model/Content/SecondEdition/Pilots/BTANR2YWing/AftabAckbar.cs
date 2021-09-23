@@ -15,7 +15,7 @@ namespace Ship
                 (
                     "Aftab Ackbar",
                     2,
-                    28,
+                    34,
                     extraUpgradeIcon: UpgradeType.Talent,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AftabAckbarAbility)

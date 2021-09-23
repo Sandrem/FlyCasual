@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Underslung Blaster Cannon",
                 UpgradeType.Cannon,
-                cost: 3,
+                cost: 2,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     minRange: 1,

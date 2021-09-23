@@ -18,7 +18,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Kazuda Xiono",
                     4,
-                    39,
+                    38,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KazudaXionoAbility),
                     extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Astromech }

@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Kaz's Fireball",
                 UpgradeType.Title,
-                cost: 2,
+                cost: 1,
                 isLimited: true,
                 restrictions: new UpgradeCardRestrictions(
                     new ShipRestriction(typeof(Ship.SecondEdition.Fireball.Fireball)),

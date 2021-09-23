@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Poe Dameron",
                     6,
-                    62,
+                    61,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PoeDameronAbility),
                     charges: 1,

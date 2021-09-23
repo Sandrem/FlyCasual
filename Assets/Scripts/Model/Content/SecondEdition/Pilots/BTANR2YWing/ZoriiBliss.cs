@@ -17,7 +17,7 @@ namespace Ship
                 (
                     "Zorii Bliss",
                     5,
-                    35,
+                    40,
                     extraUpgradeIcon: UpgradeType.Talent,
                     isLimited: true,
                     charges: 1,

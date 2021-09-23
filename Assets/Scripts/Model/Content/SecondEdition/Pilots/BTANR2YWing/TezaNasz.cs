@@ -16,7 +16,7 @@ namespace Ship
                 (
                     "Teza Nasz",
                     4,
-                    33,
+                    37,
                     extraUpgradeIcon: UpgradeType.Talent,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TezaNaszAbility)

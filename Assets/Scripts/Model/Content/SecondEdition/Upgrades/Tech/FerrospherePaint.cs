@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Ferrosphere Paint",
                 UpgradeType.Tech,
-                cost: 4,
+                cost: 3,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.FerrospherePaintAbility)
             );

@@ -13,8 +13,6 @@ namespace Ship.SecondEdition.BTANR2YWing
     {
         public BTANR2YWing() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "BTA-NR2 Y-wing",
@@ -86,7 +84,7 @@ namespace Ship.SecondEdition.BTANR2YWing
 
             ShipAbilities.Add(new Abilities.SecondEdition.IntuitiveInterfaceAbility());
 
-            ShipIconLetter = ' '; // TODO
+            ShipIconLetter = ' ';
         }
     }
 }

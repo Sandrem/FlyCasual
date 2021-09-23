@@ -14,13 +14,11 @@ namespace UpgradesList.SecondEdition
     {
         public L4ER5() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "L4E-R5",
                 UpgradeType.Astromech,
-                cost: 1,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.L4ER5Ability),
                 isLimited: true,
                 restrictions: new UpgradeCardRestrictions

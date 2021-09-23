@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Nien Nunb",
                     5,
-                    55,
+                    54,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.NienNunbAbility),
                     extraUpgradeIcon: UpgradeType.Talent

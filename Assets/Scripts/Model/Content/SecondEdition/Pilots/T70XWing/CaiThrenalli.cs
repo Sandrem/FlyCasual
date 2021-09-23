@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "C’ai Threnalli",
                     4,
-                    48,
+                    46,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaiThrenalliAbility),
                     extraUpgradeIcon: UpgradeType.Talent

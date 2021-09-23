@@ -18,7 +18,7 @@ namespace Ship
                 (
                     "\"Whirlwind\"",
                     3,
-                    40,
+                    47,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WhirlwindPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent }

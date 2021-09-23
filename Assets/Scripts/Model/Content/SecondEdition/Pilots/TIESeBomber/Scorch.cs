@@ -17,7 +17,7 @@ namespace Ship
                 (
                     "\"Scorch\"",
                     4,
-                    37,
+                    35,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ScorchBomberPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent

@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Commander Malarus",
                     5,
-                    38,
+                    33,
                     charges: 2,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CommanderMalarusAbility),

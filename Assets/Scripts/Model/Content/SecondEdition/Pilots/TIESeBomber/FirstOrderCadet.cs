@@ -12,7 +12,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "First Order Cadet",
                     3,
-                    33,
+                    32,
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 

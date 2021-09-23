@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Blackout\"",
                     5,
-                    63,
+                    61,
                     isLimited: true,
                     abilityType: typeof(Abilities.FirstEdition.TestPilotBlackoutAbility),
                     extraUpgradeIcon: UpgradeType.Talent

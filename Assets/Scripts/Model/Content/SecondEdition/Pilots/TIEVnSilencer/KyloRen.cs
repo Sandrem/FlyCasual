@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Kylo Ren",
                     5,
-                    76,
+                    77,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyloRenPilotAbility),
                     force: 2,

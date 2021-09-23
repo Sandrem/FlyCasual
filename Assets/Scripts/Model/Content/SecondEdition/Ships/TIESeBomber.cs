@@ -14,8 +14,6 @@ namespace Ship.SecondEdition.TIESeBomber
     {
         public TIESeBomber() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "TIE/se Bomber",

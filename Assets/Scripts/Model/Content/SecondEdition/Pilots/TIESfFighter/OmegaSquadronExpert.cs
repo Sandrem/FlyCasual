@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Omega Squadron Expert",
                     3,
-                    34,
+                    33,
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 

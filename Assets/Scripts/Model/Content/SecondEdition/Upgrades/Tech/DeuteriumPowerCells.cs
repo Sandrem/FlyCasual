@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Deuterium Power Cells",
                 types: new List<UpgradeType> { UpgradeType.Tech, UpgradeType.Modification },
-                cost: 9,
+                cost: 8,
                 charges: 2,
                 restriction: new FactionRestriction(Faction.FirstOrder),
                 abilityType: typeof(Abilities.SecondEdition.DeuteriumPowerCellsAbility)

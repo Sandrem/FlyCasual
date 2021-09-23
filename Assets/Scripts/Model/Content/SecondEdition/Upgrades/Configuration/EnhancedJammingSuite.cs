@@ -12,13 +12,11 @@ namespace UpgradesList.SecondEdition
     {
         public EnhancedJammingSuite() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Enhanced Jamming Suite",
                 types: new List<UpgradeType> { UpgradeType.Configuration, UpgradeType.Tech },
-                cost: 1,
+                cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.TIEWiWhisperModifiedInterceptor.TIEWiWhisperModifiedInterceptor)),
                 abilityType: typeof(Abilities.SecondEdition.EnhancedJammingSuiteAbility),
                 addAction: new ActionInfo(typeof(JamAction)),

@@ -16,7 +16,7 @@ namespace Ship
                 (
                     "Kylo Ren",
                     5,
-                    55,
+                    63,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyloRenWhisperPilotAbility),
                     force: 3,

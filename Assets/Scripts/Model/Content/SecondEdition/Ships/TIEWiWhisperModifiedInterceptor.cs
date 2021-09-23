@@ -12,8 +12,6 @@ namespace Ship.SecondEdition.TIEWiWhisperModifiedInterceptor
     {
         public TIEWiWhisperModifiedInterceptor() : base()
         {
-            RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
             ShipInfo = new ShipCardInfo
             (
                 "TIE/wi Whisper Modified Interceptor",

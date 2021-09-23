@@ -17,7 +17,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Major Vonreg",
                     6,
-                    55,
+                    54,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MajorVonregAbility)
                 );

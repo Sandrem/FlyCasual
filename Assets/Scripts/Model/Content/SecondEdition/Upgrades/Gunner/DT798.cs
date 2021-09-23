@@ -12,13 +12,11 @@ namespace UpgradesList.SecondEdition
     {
         public DT798() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "DT-798",
                 UpgradeType.Gunner,
-                cost: 1,
+                cost: 5,
                 restriction: new FactionRestriction(Faction.FirstOrder),
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DT798Ability)

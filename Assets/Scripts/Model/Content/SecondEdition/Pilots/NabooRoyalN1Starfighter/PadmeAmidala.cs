@@ -19,7 +19,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Padmé Amidala",
                     4,
-                    44,
+                    43,
                     isLimited: true,
                     abilityText: "While an enemy ship in your [Front Arc] defends or performs an attack, that ship can modify only 1 [Focus] result (other results can still be modified).",
                     abilityType: typeof(PadmeAmidalaAbility),

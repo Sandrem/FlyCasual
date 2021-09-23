@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Aayla Secura",
                 UpgradeType.Crew,
-                cost: 16,
+                cost: 14,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Republic),
                 addAction: new ActionInfo(typeof(FocusAction), ActionColor.White),

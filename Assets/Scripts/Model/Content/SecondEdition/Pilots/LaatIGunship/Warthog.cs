@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Warthog\"",
                     3,
-                    54,
+                    52,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WarthogAbility)
                 );

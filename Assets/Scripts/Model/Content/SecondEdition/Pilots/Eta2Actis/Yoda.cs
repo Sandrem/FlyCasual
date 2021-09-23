@@ -13,7 +13,7 @@ namespace Ship.SecondEdition.Eta2Actis
             PilotInfo = new PilotCardInfo(
                 "Yoda",
                 3,
-                48,
+                45,
                 true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.YodaPilotAbility),

@@ -1,8 +1,5 @@
-﻿
-using Abilities.SecondEdition;
+﻿using Abilities.SecondEdition;
 using Ship;
-// using System.Collections;
-// using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -16,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Dineé Ellberger",
                     3,
-                    38,
+                    36,
                     isLimited: true,
                     abilityText: "While you defend or perform an attack, if the speed of your revealed maneuver is the same as the enemy ship's, that ship's dice cannot be modified.",
                     abilityType: typeof(DineeEllbergerAbility),

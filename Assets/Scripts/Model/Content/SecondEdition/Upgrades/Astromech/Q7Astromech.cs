@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Q7 Astromech",
                 UpgradeType.Astromech,
-                cost: 4,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.Q7AstromechAbility),
                 restriction: new FactionRestriction(Faction.Republic)
             );

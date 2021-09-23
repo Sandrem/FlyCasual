@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Alpha-3E \"Esk\"",
                 UpgradeType.Configuration,
-                cost: 1,
+                cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.NimbusClassVWing.NimbusClassVWing)),
                 abilityType: typeof(Abilities.SecondEdition.Alpha3EEskAbility),
                 charges: 2,

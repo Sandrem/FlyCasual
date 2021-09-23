@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Shadow Squadron Escort",
                     3,
-                    29,
+                    28,
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 

@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
             PilotInfo = new PilotCardInfo(
                 "\"Tucker\"",
                 2,
-                27,
+                26,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.TuckerAbility)
             );

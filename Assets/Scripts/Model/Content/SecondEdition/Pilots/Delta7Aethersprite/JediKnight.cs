@@ -12,7 +12,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
             PilotInfo = new PilotCardInfo(
                 "Jedi Knight",
                 3,
-                37,
+                36,
                 force: 1,
                 extraUpgradeIcon: UpgradeType.ForcePower
             );

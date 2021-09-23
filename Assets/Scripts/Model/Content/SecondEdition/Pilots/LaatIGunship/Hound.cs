@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Hound\"",
                     2,
-                    50,
+                    48,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HoundAbility)
                 );

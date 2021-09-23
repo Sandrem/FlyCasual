@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Plo Koon",
                 UpgradeType.Crew,
-                cost: 10,
+                cost: 9,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Republic),
                 addAction: new ActionInfo(typeof(ReinforceAction), ActionColor.Purple),

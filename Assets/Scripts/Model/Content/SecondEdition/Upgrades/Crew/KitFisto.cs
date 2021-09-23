@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Kit Fisto",
                 UpgradeType.Crew,
-                cost: 9,
+                cost: 8,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Republic),
                 addAction: new ActionInfo(typeof(EvadeAction), ActionColor.Purple),

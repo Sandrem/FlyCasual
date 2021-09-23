@@ -29,7 +29,6 @@ namespace Ship.SecondEdition.Eta2Actis
                 ),
                 new ShipUpgradesInfo(
                     UpgradeType.ForcePower,
-                    UpgradeType.Cannon,
                     UpgradeType.Astromech,
                     UpgradeType.Modification
                 )

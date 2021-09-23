@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Klick\"",
                     4,
-                    32,
+                    31,
                     isLimited: true,
                     charges: 1,
                     regensCharges: 1,

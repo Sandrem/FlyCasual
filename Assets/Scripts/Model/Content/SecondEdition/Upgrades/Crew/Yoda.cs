@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Yoda",
                 UpgradeType.Crew,
-                cost: 15,
+                cost: 12,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Republic),
                 addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Purple),

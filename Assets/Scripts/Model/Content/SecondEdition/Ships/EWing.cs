@@ -19,6 +19,8 @@ namespace Ship
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(TargetLockAction)));
                 ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)));
 
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Tech);
+
                 SetTargetLockRange(2, int.MaxValue);
 
                 IconicPilots[Faction.Rebel] = typeof(KnaveSquadronEscort);

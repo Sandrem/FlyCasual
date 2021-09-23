@@ -22,6 +22,7 @@ namespace Ship
 
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
                 ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Device);
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
 

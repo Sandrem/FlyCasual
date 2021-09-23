@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Stabilized S-Foils (Closed)",
                 UpgradeType.Configuration,
-                cost: 2,
+                cost: 0,
                 addAction: new ActionInfo(typeof(ReloadAction), ActionColor.Red), 
                 addActionLink: new LinkedActionInfo(typeof(BarrelRollAction), typeof(EvadeAction)),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.ASF01BWing.ASF01BWing)),
@@ -42,7 +42,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Stabilized S-Foils (Open)",
                 UpgradeType.Configuration,
-                cost: 2,
+                cost: 0,
                 addActionLink: new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.ASF01BWing.ASF01BWing)),
                 abilityType: typeof(Abilities.SecondEdition.StabilizedSFoilsOpenAbility)

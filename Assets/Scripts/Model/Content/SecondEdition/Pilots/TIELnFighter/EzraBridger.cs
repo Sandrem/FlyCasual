@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Ezra Bridger",
                     3,
-                    28,
+                    26,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
                     force: 1,

@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Vectored Сannons (RZ-1)",
                 UpgradeType.Configuration,
-                cost: 1,
+                cost: 0,
                 restriction: new AbilityPresenceRestriction(typeof(Abilities.SecondEdition.VectoredThrustersAbility)),
                 addArc: new ShipArcInfo(ArcType.SingleTurret, 2),
                 removeArc: ArcType.Front,

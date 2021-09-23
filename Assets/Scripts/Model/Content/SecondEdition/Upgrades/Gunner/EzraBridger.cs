@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Ezra Bridger",
                 UpgradeType.Gunner,
-                cost: 12,
+                cost: 10,
                 isLimited: true,
                 addForce: 1,
                 abilityType: typeof(Abilities.SecondEdition.EzraBridgerGunnerAbility),

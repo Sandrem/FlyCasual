@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Airen Cracken",
                     5,
-                    36,
+                    35,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AirenCrackenAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

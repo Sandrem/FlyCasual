@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Jyn Erso",
                 UpgradeType.Crew,
-                cost: 2,
+                cost: 3,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.JynErsoAbility),

@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Bistan",
                 UpgradeType.Gunner,
-                cost: 10,
+                cost: 8,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.BistanGunnerAbility),
                 restriction: new FactionRestriction(Faction.Rebel),

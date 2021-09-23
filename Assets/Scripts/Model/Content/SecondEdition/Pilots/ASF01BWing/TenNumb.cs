@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Ten Numb",
                     4,
-                    48,
+                    49,
                     isLimited: true,
                     abilityType: typeof(TenNumbAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

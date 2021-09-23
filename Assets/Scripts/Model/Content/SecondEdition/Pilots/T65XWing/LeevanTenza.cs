@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Leevan Tenza",
                     3,
-                    43,
+                    41,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeevanTenzaAbility),
                     extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },

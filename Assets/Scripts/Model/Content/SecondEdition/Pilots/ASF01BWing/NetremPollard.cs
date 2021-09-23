@@ -17,7 +17,7 @@ namespace Ship.SecondEdition.ASF01BWing
             (
                 "Netrem Pollard",
                 3,
-                44,
+                43,
                 isLimited: true,
                 abilityType: typeof(NetremPollardAbility),
                 extraUpgradeIcon: UpgradeType.Talent

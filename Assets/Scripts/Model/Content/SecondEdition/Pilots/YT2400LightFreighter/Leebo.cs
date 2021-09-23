@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Leebo",
                     3,
-                    76,
+                    72,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeeboAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
@@ -23,6 +23,8 @@ namespace Ship
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();
+                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
+                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
             }
         }
     }

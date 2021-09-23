@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "K-2SO",
                 UpgradeType.Crew,
-                cost: 7,
+                cost: 6,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 addActions: new List<ActionInfo> { new ActionInfo(typeof(CalculateAction)), new ActionInfo(typeof(JamAction)) },

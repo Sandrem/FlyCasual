@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Lieutenant Blount",
                     4,
-                    30,
+                    29,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LtBlountAbiliity),
                     extraUpgradeIcon: UpgradeType.Talent,

@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Gray Squadron Bomber",
                     2,
-                    30,
+                    29,
                     extraUpgradeIcon: UpgradeType.Modification,
                     seImageNumber: 18
                 );

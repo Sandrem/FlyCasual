@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Onyx Squadron Sentry",
                     3,
-                    36,
+                    35,
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 

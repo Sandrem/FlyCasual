@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             (
                 "Protectorate Gleb",
                 UpgradeType.Crew,
-                cost: 2,
+                cost: 6,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum, Faction.Imperial, Faction.FirstOrder),
                 addAction: new Actions.ActionInfo(typeof(CoordinateAction), Actions.ActionColor.Red),

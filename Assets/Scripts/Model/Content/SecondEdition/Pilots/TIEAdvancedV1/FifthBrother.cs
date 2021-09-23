@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Fifth Brother",
                     4,
-                    42,
+                    44,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FifthBrotherPilotAbility),
                     force: 2,

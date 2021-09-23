@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Zertik Strom",
                     3,
-                    41,
+                    40,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZertikStromAbility),
                     seImageNumber: 96

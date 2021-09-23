@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Countdown\"",
                     4,
-                    43,
+                    41,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CountdownAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

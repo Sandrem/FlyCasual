@@ -16,7 +16,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Vagabond\"",
                     2,
-                    34,
+                    32,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VagabondAbility),
                     extraUpgradeIcon: UpgradeType.Talent

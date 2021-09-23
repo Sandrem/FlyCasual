@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Soontir Fel",
                     6,
-                    54,
+                    53,
                     isLimited: true,
                     abilityType: typeof(SoontirFelAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

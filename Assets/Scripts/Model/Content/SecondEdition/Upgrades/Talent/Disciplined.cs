@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Disciplined",
                 UpgradeType.Talent,
-                cost: 1,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.DisciplinedAbility),
                 restriction: new FactionRestriction(Faction.Imperial)
             );

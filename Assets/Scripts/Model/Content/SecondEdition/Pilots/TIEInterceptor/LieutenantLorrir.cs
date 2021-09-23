@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Lieutenant Lorrir",
                     3,
-                    41,
+                    39,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantLorrirAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

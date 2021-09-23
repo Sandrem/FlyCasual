@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Maneuver-Assist MGK-300",
                 UpgradeType.Configuration,
-                cost: 2,
+                cost: 0,
                 addActions: new List<ActionInfo>()
                 {
                     new ActionInfo(typeof(CalculateAction)),

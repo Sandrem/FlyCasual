@@ -11,7 +11,7 @@ namespace Ship.SecondEdition.TIEDDefender
             PilotInfo = new PilotCardInfo(
                 "Darth Vader",
                 6,
-                115,
+                112,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DarthVaderDefenderAbility),
                 extraUpgradeIcon: UpgradeType.ForcePower,

@@ -14,7 +14,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "\"Vizier\"",
                     2,
-                    45,
+                    42,
                     isLimited: true,
                     abilityType: typeof(VizierAbility),
                     seImageNumber: 115

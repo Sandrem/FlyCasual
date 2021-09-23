@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "ISB Slicer",
                 UpgradeType.Crew,
-                cost: 3,
+                cost: 1,
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.IsbSlicerAbility),
                 seImageNumber: 118

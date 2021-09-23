@@ -13,7 +13,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Vult Skerris",
                     5,
-                    46,
+                    43,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VultSkerrisDefenderAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

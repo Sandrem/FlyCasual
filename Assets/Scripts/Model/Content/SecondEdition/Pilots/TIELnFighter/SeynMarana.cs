@@ -15,7 +15,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Seyn Marana",
                     4,
-                    29,
+                    27,
                     isLimited: true,
                     abilityType: typeof(SeynMaranaAbility),
                     extraUpgradeIcon: UpgradeType.Talent,

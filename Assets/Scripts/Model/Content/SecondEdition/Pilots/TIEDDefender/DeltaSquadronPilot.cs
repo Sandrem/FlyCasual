@@ -11,7 +11,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Delta Squadron Pilot",
                     1,
-                    68,
+                    67,
                     seImageNumber: 126,
                     extraUpgradeIcon: UpgradeType.Sensor
                 );

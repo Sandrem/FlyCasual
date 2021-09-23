@@ -16,7 +16,7 @@ namespace Ship.SecondEdition.TIEDDefender
             PilotInfo = new PilotCardInfo(
                 "Captain Dobbs",
                 3,
-                75,
+                73,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.CaptainDobbsAbility),
                 extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Sensor }

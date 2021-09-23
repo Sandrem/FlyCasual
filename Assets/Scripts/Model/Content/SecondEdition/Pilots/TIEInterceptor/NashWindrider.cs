@@ -17,7 +17,7 @@ namespace Ship
                 PilotInfo = new PilotCardInfo(
                     "Nash Windrider",
                     2,
-                    40,
+                    41,
                     isLimited: true,
                     abilityType: typeof(NashWindriderAbility),
                     charges: 1,

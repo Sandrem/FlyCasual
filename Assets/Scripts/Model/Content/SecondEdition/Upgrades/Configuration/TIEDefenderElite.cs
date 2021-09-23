@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "TIE Defender Elite",
                 UpgradeType.Configuration,
-                cost: 2,
+                cost: 0,
                 restrictions: new UpgradeCardRestrictions(
                     new FactionRestriction(Faction.Imperial),
                     new ShipRestriction(typeof(Ship.SecondEdition.TIEDDefender.TIEDDefender))

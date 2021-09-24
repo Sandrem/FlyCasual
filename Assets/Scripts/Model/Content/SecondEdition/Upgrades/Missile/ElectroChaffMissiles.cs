@@ -9,8 +9,6 @@ namespace UpgradesList.SecondEdition
         {
             IsWIP = true;
 
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Electro-Chaff Missiles",
@@ -19,7 +17,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Missile,
                     UpgradeType.Device
                 },
-                cost: 1,
+                cost: 4,
                 limited: 2,
                 charges: 1,
                 abilityType: typeof(Abilities.SecondEdition.ElectroChaffMissilesAbility)

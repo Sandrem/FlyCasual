@@ -7,9 +7,6 @@ namespace UpgradesList.SecondEdition
         public Compassion() : base()
         {
             IsWIP = true;
-
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Compassion",

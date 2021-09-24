@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Precision Ion Engines",
                 UpgradeType.Modification,
-                cost: 3,
+                cost: 2,
                 charges: 2,
                 abilityType: typeof(Abilities.SecondEdition.PrecisionIonEnginesAbility)
             );

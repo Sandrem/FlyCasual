@@ -7,14 +7,14 @@ using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
-    public class AgileGunner : GenericUpgrade, IVariableCost
+    public class AgileGunner : GenericUpgrade
     {
         public AgileGunner() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Agile Gunner",
                 UpgradeType.Gunner,
-                cost: 8,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.AgileGunnerAbility),
                 seImageNumber: 162
             );
@@ -24,18 +24,6 @@ namespace UpgradesList.SecondEdition
                 new Vector2(367, 5),
                 new Vector2(100, 100)
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
-                {
-                    {BaseSize.Small, 6},
-                    {BaseSize.Medium, 5},
-                    {BaseSize.Large, 4},
-                };
-
-            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
         }
     }
 }

@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Sensitive Controls",
                 UpgradeType.Configuration,
-                cost: 2,
+                cost: 0,
                 restriction: new AbilityPresenceRestriction(typeof(Abilities.SecondEdition.AutoThrustersAbility)),
                 abilityType: typeof(Abilities.SecondEdition.SensitiveControlsHolderAbility),
                 isStandardazed: true

@@ -8,13 +8,11 @@ namespace UpgradesList.SecondEdition
         {
             IsWIP = true;
 
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Malice",
                 UpgradeType.ForcePower,
-                cost: 1,
+                cost: 6,
                 restriction: new ForceAlignmentRestriction(ForceAlignment.Dark),
                 abilityType: typeof(Abilities.SecondEdition.MaliceAbility)       
             );

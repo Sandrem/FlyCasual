@@ -21,7 +21,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Spare Parts Canisters",
                 UpgradeType.Modification,
-                cost: 4,
+                cost: 3,
                 restriction: new UpgradeBarRestriction(UpgradeType.Astromech),
                 abilityType: typeof(Abilities.SecondEdition.SparePartsCanistersAbility),
                 charges: 1

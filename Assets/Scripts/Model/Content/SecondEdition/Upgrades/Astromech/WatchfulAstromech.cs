@@ -10,13 +10,11 @@ namespace UpgradesList.SecondEdition
     {
         public WatchfulAstromech() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Watchful Astromech",
                 UpgradeType.Astromech,
-                cost: 1,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.WatchfulAstromechAbility)
             );
 

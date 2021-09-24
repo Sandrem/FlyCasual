@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Static Discharge Vanes",
                 UpgradeType.Modification,
-                cost: 6,
+                cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.StaticDischargeVanesAbility),
                 seImageNumber: 76
             );

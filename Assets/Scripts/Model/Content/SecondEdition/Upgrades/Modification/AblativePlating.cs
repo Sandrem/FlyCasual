@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Ablative Plating",
                 UpgradeType.Modification,
-                cost: 6,
+                cost: 4,
                 restriction: new BaseSizeRestriction(BaseSize.Medium, BaseSize.Large),
                 abilityType: typeof(Abilities.SecondEdition.AblativePlatingAbility),
                 charges: 2,

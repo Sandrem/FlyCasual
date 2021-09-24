@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Tierfon Belly Run",
                 UpgradeType.Talent,
-                cost: 2,
+                cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.TierfonBellyRunAbility),
                 restriction: new ShipRestriction(
                     typeof(Ship.SecondEdition.BTLA4YWing.BTLA4YWing),

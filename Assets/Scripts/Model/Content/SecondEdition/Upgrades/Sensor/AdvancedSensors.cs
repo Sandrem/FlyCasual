@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
-    public class AdvancedSensors : GenericUpgrade
+    public class AdvancedSensors : GenericUpgrade, IVariableCost
     {
         public AdvancedSensors() : base()
         {
@@ -17,7 +17,19 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.AdvancedSensorsAbility),
                 seImageNumber: 23
             );
-        }        
+        }
+
+        public void UpdateCost(GenericShip ship)
+        {
+            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
+            {
+                {BaseSize.Small, 13},
+                {BaseSize.Medium, 11},
+                {BaseSize.Large, 9},
+            };
+
+            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
+        }
     }
 }
 

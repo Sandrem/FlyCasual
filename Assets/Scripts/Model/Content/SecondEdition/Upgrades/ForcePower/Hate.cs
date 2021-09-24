@@ -11,10 +11,9 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Hate",
                 UpgradeType.ForcePower,
-                cost: 6,
+                cost: 4,
                 restriction: new ForceAlignmentRestriction(ForceAlignment.Dark),
-                abilityType: typeof(Abilities.SecondEdition.HateAbility)//,
-                //seImageNumber: 22
+                abilityType: typeof(Abilities.SecondEdition.HateAbility)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/4a10b5c8a3d796116163a741d145f4e9.png";

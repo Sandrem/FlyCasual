@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Hondo Ohnaka",
                 UpgradeType.Crew,
-                cost: 6,
+                cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.HondoOhnakaAbility)
             );
 

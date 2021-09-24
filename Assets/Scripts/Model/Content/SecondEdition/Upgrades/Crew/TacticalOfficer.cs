@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Tactical Officer",
                 UpgradeType.Crew,
-                cost: 6,
+                cost: 2,
                 addAction: new ActionInfo(typeof(CoordinateAction)),
                 restriction: new ActionBarRestriction(typeof(CoordinateAction), ActionColor.Red),
                 seImageNumber: 48

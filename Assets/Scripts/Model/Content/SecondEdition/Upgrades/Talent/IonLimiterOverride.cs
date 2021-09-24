@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Ion Limiter Override",
                 UpgradeType.Talent,
-                cost: 3,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.IonLimiterOverrideAbility)
             );
 

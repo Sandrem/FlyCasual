@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Novice Technician",
                 UpgradeType.Crew,
-                cost: 4,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.NoviceTechnicianCrewAbility),
                 seImageNumber: 45
             );

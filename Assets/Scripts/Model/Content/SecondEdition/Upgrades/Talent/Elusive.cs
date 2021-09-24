@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Elusive",
                 UpgradeType.Talent,
-                cost: 3,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.Elusive),
                 restriction: new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium),
                 charges: 1,

@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Autoblasters",
                 UpgradeType.Cannon,
-                cost: 3,
+                cost: 4,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     minRange: 1,

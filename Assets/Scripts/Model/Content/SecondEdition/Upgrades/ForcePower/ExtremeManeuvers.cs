@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Extreme Maneuvers",
                 UpgradeType.ForcePower,
-                cost: 4,
+                cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.ExtremeManeuversAbility),
                 restrictions: new UpgradeCardRestrictions(
                     new BaseSizeRestriction(BaseSize.Small),

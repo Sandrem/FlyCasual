@@ -20,7 +20,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Thermal Detonators",
                 type: UpgradeType.Device,
-                cost: 3,
+                cost: 5,
                 charges: 4,
                 abilityType: typeof(Abilities.SecondEdition.ThermalDetonatorsAbility),
                 subType: UpgradeSubType.Bomb

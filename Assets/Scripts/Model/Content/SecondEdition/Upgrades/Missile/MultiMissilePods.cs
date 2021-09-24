@@ -19,7 +19,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Missile,
                     UpgradeType.Missile
                 },
-                cost: 6,
+                cost: 4,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     minRange: 1,

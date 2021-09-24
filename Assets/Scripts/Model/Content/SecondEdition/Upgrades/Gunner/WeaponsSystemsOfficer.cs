@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Weapons Systems Officer",
                 UpgradeType.Gunner,
-                cost: 7,
+                cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.WeaponsSystemsOfficerAbility)
             );
 

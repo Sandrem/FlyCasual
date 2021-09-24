@@ -10,8 +10,6 @@ namespace UpgradesList.SecondEdition
         {
             IsWIP = true;
 
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Feedback Ping",

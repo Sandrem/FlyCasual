@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "XX-23 S-Thread Tracers",
                 UpgradeType.Missile,
-                cost: 2,
+                cost: 4,
                 limited: 2,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 3,

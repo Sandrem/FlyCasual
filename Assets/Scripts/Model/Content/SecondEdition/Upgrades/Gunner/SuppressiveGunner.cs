@@ -7,30 +7,18 @@ using SubPhases;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SuppressiveGunner : GenericUpgrade, IVariableCost
+    public class SuppressiveGunner : GenericUpgrade
     {
         public SuppressiveGunner() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Suppressive Gunner",
                 UpgradeType.Gunner,
-                cost: 0,
+                cost: 7,
                 abilityType: typeof(Abilities.SecondEdition.SuppressiveGunnerAbility)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/71/36/7136b2b9-dc7c-494a-9509-4ffbe0d2870d/swz70_a1_suppressive-gunner_upgrade.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
-            {
-                {BaseSize.Small, 8},
-                {BaseSize.Medium, 7},
-                {BaseSize.Large, 6},
-            };
-
-            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
         }
     }
 }

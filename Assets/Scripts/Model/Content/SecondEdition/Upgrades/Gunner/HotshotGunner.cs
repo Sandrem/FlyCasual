@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Hotshot Gunner",
                 UpgradeType.Gunner,
-                cost: 7,
+                cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.HotshotGunnerAbility),
                 seImageNumber: 49
             );

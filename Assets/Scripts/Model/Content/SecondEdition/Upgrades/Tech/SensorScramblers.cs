@@ -14,8 +14,6 @@ namespace UpgradesList.SecondEdition
     {
         public SensorScramblers() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Sensor Scramblers",

@@ -10,13 +10,11 @@ namespace UpgradesList.SecondEdition
     {
         public OvertunedModulators() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Overtuned Modulators",
                 UpgradeType.Illicit,
-                cost: 1,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.OvertunedModulatorsAbility),
                 charges: 1
             );

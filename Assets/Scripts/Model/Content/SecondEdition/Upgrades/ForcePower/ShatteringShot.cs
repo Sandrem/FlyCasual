@@ -7,13 +7,11 @@ namespace UpgradesList.SecondEdition
     {
         public ShatteringShot() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "Shattering Shot",
                 UpgradeType.ForcePower,
-                cost: 1,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.ShatteringShotAbility)                
             );
 

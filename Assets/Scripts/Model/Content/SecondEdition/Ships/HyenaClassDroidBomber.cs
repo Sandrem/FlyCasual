@@ -40,6 +40,8 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction), ActionColor.Red)
             );
 
+            DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.LandingStrutsClosed));
+
             ShipAbilities.Add(new Abilities.SecondEdition.NetworkedCalculationsAbility());
 
             IconicPilots = new Dictionary<Faction, System.Type> {

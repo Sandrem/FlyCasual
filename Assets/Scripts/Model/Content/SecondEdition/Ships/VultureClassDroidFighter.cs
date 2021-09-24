@@ -40,6 +40,8 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
 
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(CalculateAction)));
 
+            DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.GrapplingStrutsClosed));
+
             IconicPilots = new Dictionary<Faction, System.Type> {
                 { Faction.Separatists, typeof(Dfs081) }
             };

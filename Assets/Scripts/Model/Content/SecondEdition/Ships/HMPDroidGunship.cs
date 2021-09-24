@@ -40,6 +40,8 @@ namespace Ship.SecondEdition.HMPDroidGunship
 
             ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(ReloadAction), typeof(CalculateAction), ActionColor.Red));
 
+            DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.RepulsorliftStabilizersInactive));
+
             ShipAbilities.Add(new Abilities.SecondEdition.NetworkedAimAbility());
 
             IconicPilots = new Dictionary<Faction, System.Type> {

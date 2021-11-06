@@ -35,7 +35,8 @@ namespace Ship.SecondEdition.TIESeBomber
                     UpgradeType.Missile,
                     UpgradeType.Gunner,
                     UpgradeType.Device,
-                    UpgradeType.Configuration
+                    UpgradeType.Device,
+                    UpgradeType.Modification
                 )
             );
 

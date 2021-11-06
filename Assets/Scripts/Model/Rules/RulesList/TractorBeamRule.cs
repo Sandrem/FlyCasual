@@ -44,6 +44,14 @@ namespace RulesList
         private bool ShouldDecreaseAgility(GenericShip ship)
         {
             int tractorBeamTokensCount = ship.Tokens.GetAllTokens().Count(n => n is TractorBeamToken);
+            
+            if (Edition.Current is SecondEdition)
+            {
+                // only decrease agility after gaining a token which takes us to the exact NegativeTokensToAffectShip value.
+                // gaining additional tokens beyond this value should not decrease agility
+                return (tractorBeamTokensCount == Edition.Current.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
+            }
+
             return (tractorBeamTokensCount >= Edition.Current.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
         }
 
@@ -81,8 +89,10 @@ namespace RulesList
 
             if (Edition.Current is SecondEdition)
             {
-                int tractorBeamTokensCount = ship.Tokens.CountTokensByType(typeof(TractorBeamToken));
-                if (tractorBeamTokensCount > 0) result = false;
+                // only increase agility after losing a token which takes us to one less than the NegativeTokensToAffectShip value
+                // losing additional tokens beyond this should not increase agility
+                int tractorBeamTokensCount = ship.Tokens.CountTokensByType(typeof(TractorBeamToken));   
+                return (tractorBeamTokensCount + 1 == Edition.Current.NegativeTokensToAffectShip[ship.ShipInfo.BaseSize]);
             }
 
             return result;

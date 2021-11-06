@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Brilliant Evasion",
                 UpgradeType.ForcePower,
-                cost: 1,
+                cost: 2,
                 abilityType: typeof(Abilities.SecondEdition.BrilliantEvasion)                
             );
 

@@ -80,7 +80,7 @@ namespace Abilities.SecondEdition
 
             public override void ActionEffect(Action callBack)
             {
-                HostShip.Tokens.SpendToken(
+                Combat.Defender.Tokens.SpendToken(
                     typeof(Tokens.CalculateToken),
                     delegate { AskAttackerToGainStrainToken(callBack); }
                 );

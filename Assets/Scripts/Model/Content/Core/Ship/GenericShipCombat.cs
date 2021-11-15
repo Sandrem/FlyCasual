@@ -967,12 +967,19 @@ namespace Ship
 
         public void CallDeviceWasDropped(Action callback)
         {
-            OnBombWasDropped?.Invoke();
+            if (Bombs.BombsManager.CurrentDevice.UpgradeInfo.SubType == UpgradeSubType.Bomb || Bombs.BombsManager.CurrentDevice.UpgradeInfo.SubType == UpgradeSubType.Mine)
+            {
+                OnBombWasDropped?.Invoke();
 
-            Triggers.ResolveTriggers(
-                TriggerTypes.OnBombWasDropped,
-                delegate { CallCheckDropOfSecondDevice(callback); }
-            );
+                Triggers.ResolveTriggers(
+                    TriggerTypes.OnBombWasDropped,
+                    delegate { CallCheckDropOfSecondDevice(callback); }
+                );
+            }
+            else
+            {
+                callback();
+            }
         }
 
         public void CallCheckDropOfSecondDevice(Action callback)
@@ -984,9 +991,16 @@ namespace Ship
 
         public void CallBombWasLaunched(Action callback)
         {
-            if (OnBombWasLaunched != null) OnBombWasLaunched();
+            if (Bombs.BombsManager.CurrentDevice.UpgradeInfo.SubType == UpgradeSubType.Bomb || Bombs.BombsManager.CurrentDevice.UpgradeInfo.SubType == UpgradeSubType.Mine)
+            {
+                if (OnBombWasLaunched != null) OnBombWasLaunched();
 
-            Triggers.ResolveTriggers(TriggerTypes.OnBombWasLaunched, callback);
+                Triggers.ResolveTriggers(TriggerTypes.OnBombWasLaunched, callback);
+            }
+            else
+            {
+                callback();
+            }
         }
 
         public void CallUpdateWeaponRange(IShipWeapon weapon, ref int minRange, ref int maxRange, GenericShip target=null)

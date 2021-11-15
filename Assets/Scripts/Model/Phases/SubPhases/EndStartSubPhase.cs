@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Ship;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,6 +39,16 @@ namespace SubPhases
             {
                 Phases.CurrentPhase.NextPhase();
             }
+        }
+
+        public override bool ThisShipCanBeSelected(GenericShip ship, int mouseKeyIsPressed)
+        {
+            return false;
+        }
+
+        public override bool AnotherShipCanBeSelected(GenericShip targetShip, int mouseKeyIsPressed)
+        {
+            return false;
         }
 
     }

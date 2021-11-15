@@ -12,7 +12,7 @@ namespace Ship
             public GideoHask() : base()
             {
                 PilotInfo = new PilotCardInfo(
-                    "Gideo Hask",
+                    "Gideon Hask",
                     4,
                     48,
                     isLimited: true,

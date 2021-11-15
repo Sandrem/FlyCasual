@@ -95,6 +95,8 @@ namespace Abilities.SecondEdition
 
         private void SpendChargeToMakeNearbyRollDamage(object sender, EventArgs ev)
         {
+            HostUpgrade.State.SpendCharge();
+
             var shipsAtRange = BoardTools.Board.GetShipsAtRange(Combat.Defender, new Vector2(0, 1))
                 .Where(ship => ship.State.Agility <= Combat.Defender.State.Agility)
                 .ToArray();

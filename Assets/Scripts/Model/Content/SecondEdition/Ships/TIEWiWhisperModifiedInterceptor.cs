@@ -30,6 +30,7 @@ namespace Ship.SecondEdition.TIEWiWhisperModifiedInterceptor
                 (
                     UpgradeType.Missile,
                     UpgradeType.Tech,
+                    UpgradeType.Tech,
                     UpgradeType.Configuration     
                 )
             );

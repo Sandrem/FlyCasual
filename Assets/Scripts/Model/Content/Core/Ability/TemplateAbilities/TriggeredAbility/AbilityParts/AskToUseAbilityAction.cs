@@ -35,7 +35,7 @@ namespace Abilities
             Ability = ability;
             ConditionArgs args = new ConditionArgs() { ShipAbilityHost = Ability.HostShip, ShipToCheck = Ability.HostShip };
 
-            if (Conditions != null && Conditions.Passed(args))
+            if (Conditions == null || (Conditions != null && Conditions.Passed(args)))
             {
                 Ability.AskToUseAbility
                 (

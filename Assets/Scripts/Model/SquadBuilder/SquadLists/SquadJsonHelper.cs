@@ -281,15 +281,23 @@ namespace SquadBuilderNS
 
                 if (squadJson.HasField("obstacles"))
                 {
-                    squad.ChosenObstacles.Clear();
-                    squad.ChosenObstacles.AddRange(
-                        new List<GenericObstacle>()
-                        {
-                        ObstaclesManager.GetPossibleObstacle(squadJson["obstacles"][0].str),
-                        ObstaclesManager.GetPossibleObstacle(squadJson["obstacles"][1].str),
-                        ObstaclesManager.GetPossibleObstacle(squadJson["obstacles"][2].str)
-                        }
-                    );
+                    if (squadJson["obstacles"].Count == 3)
+                    {
+                        squad.ChosenObstacles.Clear();
+                        squad.ChosenObstacles.AddRange(
+                            new List<GenericObstacle>()
+                            {
+                                ObstaclesManager.GetPossibleObstacle(squadJson["obstacles"][0].str),
+                                ObstaclesManager.GetPossibleObstacle(squadJson["obstacles"][1].str),
+                                ObstaclesManager.GetPossibleObstacle(squadJson["obstacles"][2].str)
+                            }
+                        );
+                    }
+                    else
+                    {
+                        Messages.ShowError("Not enough obstacles in imported XWS, default obstacles are set");
+                        squad.SetDefaultObstacles();
+                    }
                 }
                 else
                 {

@@ -109,7 +109,7 @@ namespace Abilities.SecondEdition
 
         private void CheckRemoteOverlapping(GenericShip ship)
         {
-            if (ship.RemotesOverlapped.Contains(HostShip))
+            if (ship.RemotesOverlapped.Contains(HostShip) && !Tools.IsSameTeam(ship, HostShip))
             {
                 RegisterAbilityTrigger(TriggerTypes.OnPositionFinish, RollForDestruction);
             }

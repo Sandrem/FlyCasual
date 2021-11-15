@@ -28,6 +28,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                 new ShipUpgradesInfo(
                     UpgradeType.Tech,
                     UpgradeType.Cannon,
+                    UpgradeType.Cannon,
                     UpgradeType.Torpedo,
                     UpgradeType.Crew,
                     UpgradeType.Crew,

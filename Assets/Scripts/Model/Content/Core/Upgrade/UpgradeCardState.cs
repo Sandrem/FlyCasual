@@ -65,7 +65,11 @@ namespace Upgrade
         public void SpendCharge()
         {
             Charges--;
-            if (Charges < 0) throw new InvalidOperationException("Cannot spend charge when you have none left");
+            if (Charges < 0)
+            {
+                Messages.ShowError("You are trying to remove charges that are not present!");
+                Charges = 0;
+            }
 
             if (Charges == 0) Roster.ShowUpgradeAsInactive(HostShip, HostUpgrade.UpgradeInfo.Name);
 

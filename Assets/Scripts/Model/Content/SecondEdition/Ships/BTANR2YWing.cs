@@ -24,7 +24,7 @@ namespace Ship.SecondEdition.BTANR2YWing
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction), ActionColor.Red),
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
-                    new ActionInfo(typeof(ReloadAction), ActionColor.Red)
+                    new ActionInfo(typeof(BoostAction), ActionColor.Red)
                 ),
                 new ShipUpgradesInfo
                 (

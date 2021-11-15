@@ -40,15 +40,15 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            GenericShip.OnShipIsReadyToBeRemovedGlobal += CheckAbility;
+            GenericShip.OnShipIsDestroyedGlobal += CheckAbility;
         }
 
         public override void DeactivateAbility()
         {
-            GenericShip.OnShipIsReadyToBeRemovedGlobal -= CheckAbility;
+            GenericShip.OnShipIsDestroyedGlobal -= CheckAbility;
         }
 
-        private void CheckAbility(GenericShip ship)
+        private void CheckAbility(GenericShip ship, bool isFled)
         {
 
             if (ship.Owner.PlayerNo == HostShip.Owner.PlayerNo
@@ -56,7 +56,7 @@ namespace Abilities.SecondEdition
                 && Board.CheckInRange(HostShip, ship, 0, 3, RangeCheckReason.UpgradeCard))
             {
                 RegisterAbilityTrigger(
-                    TriggerTypes.OnShipIsReadyToBeRemoved,
+                    TriggerTypes.OnShipIsDestroyed,
                     delegate { AssignCalculateTokens(ship); }
                 );
             }

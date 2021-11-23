@@ -21,7 +21,6 @@ namespace UpgradesList.SecondEdition
                 type: UpgradeType.Device,
                 cost: 4,
                 charges: 3,
-                subType: UpgradeSubType.Bomb,
                 abilityType: typeof(Abilities.SecondEdition.ConcussionBombsAbility)
             );
 

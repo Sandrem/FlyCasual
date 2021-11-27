@@ -178,6 +178,7 @@ namespace Conditions
             CachedAttacker = null;
             CachedDefender = null;
             DecisionSubPhase.ConfirmDecisionNoCallback();
+            //Without these two additional calls, the game gets stuck in the SelectTargetForAttackSubPhase.
             DecisionSubPhase.ConfirmDecisionNoCallback();
             DecisionSubPhase.ConfirmDecisionNoCallback();
         }

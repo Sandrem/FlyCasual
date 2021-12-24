@@ -69,6 +69,7 @@ namespace SubPhases
         protected Direction SelectedShift;
 
         public bool IsTractorBeamBarrelRoll = false;
+        public bool IsIgnoreObstacles = false;
 
         private Players.GenericPlayer controller;
         public Players.GenericPlayer Controller
@@ -368,7 +369,7 @@ namespace SubPhases
             }
             else if (!TheShip.IsIgnoreObstacles 
                 && !TheShip.IsIgnoreObstaclesDuringBarrelRoll() 
-                && !IsTractorBeamBarrelRoll 
+                && !IsIgnoreObstacles 
                 && collider.OverlapsAsteroidNow
                 && !TheShip.IgnoreObstacleTypes.Contains(typeof(Asteroid)))
             {

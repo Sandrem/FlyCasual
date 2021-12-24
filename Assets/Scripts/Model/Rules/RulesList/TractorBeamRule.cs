@@ -117,20 +117,21 @@ namespace SubPhases
             CheckCanBoost();
         }
 
-        private void InitializeBostPlanning(BoostPlanningSubPhase boostPlanning)
+        private void InitializeBoostPlanning(BoostPlanningSubPhase boostPlanning)
         {
             boostPlanning.TheShip = TheShip;
             boostPlanning.Name = "Tractor beam boost";
             boostPlanning.IsTemporary = true;
             boostPlanning.SelectedBoostHelper = "Straight 1";
             boostPlanning.IsTractorBeamBoost = true;
+            boostPlanning.IsIgnoreObstacles = Edition.Current.RuleSet.AllowTractoringOnObstacle;
             boostPlanning.InitializeRendering();
         }
 
         private void CheckCanBoost()
         {
             BoostPlanningSubPhase boostPlanning = new BoostPlanningSubPhase ();
-            InitializeBostPlanning(boostPlanning);
+            InitializeBoostPlanning(boostPlanning);
             boostPlanning.TryConfirmBoostPosition(CheckCanBoostCallback);
         }
 
@@ -185,6 +186,7 @@ namespace SubPhases
             brPlanning.HostAction = stubAction;
 
             brPlanning.IsTractorBeamBarrelRoll = true;
+            brPlanning.IsIgnoreObstacles = Edition.Current.RuleSet.AllowTractoringOnObstacle;
             brPlanning.SelectTemplate(
                 new ManeuverTemplate(
                     Movement.ManeuverBearing.Straight,
@@ -221,7 +223,7 @@ namespace SubPhases
                 }
             );
             boostPlanning.HostAction = stubAction;
-            InitializeBostPlanning(boostPlanning);
+            InitializeBoostPlanning(boostPlanning);
             Phases.UpdateHelpInfo();
             boostPlanning.TryConfirmBoostPosition();
         }

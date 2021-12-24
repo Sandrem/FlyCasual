@@ -115,6 +115,7 @@ namespace SubPhases
         public string SelectedBoostHelper;
 
         public bool IsTractorBeamBoost = false;
+        public bool IsIgnoreObstacles = false;
 
         public override void Start()
         {
@@ -383,14 +384,16 @@ namespace SubPhases
         {
             List<ActionFailReason> result = new List<ActionFailReason>();
 
+            Debug.Log(IsIgnoreObstacles);
             if (obstaclesStayDetectorBase.OverlapsShipNow)
             {
                 if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship overlapping another ship");
                 result.Add(ActionFailReason.Bumped);
             }
-            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBoost() && !IsTractorBeamBoost
+            else if (!TheShip.IsIgnoreObstacles && !TheShip.IsIgnoreObstaclesDuringBoost() && !IsIgnoreObstacles
                 && (obstaclesStayDetectorBase.OverlapsAsteroidNow || obstaclesStayDetectorMovementTemplate.OverlapsAsteroidNow))
             {
+                Debug.Log("allowed");
                 if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship overlapping an obstacle");
                 result.Add(ActionFailReason.ObstacleHit);
             }

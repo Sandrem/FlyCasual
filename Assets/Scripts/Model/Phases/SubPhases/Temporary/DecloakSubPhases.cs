@@ -257,7 +257,7 @@ namespace SubPhases
         {
             if (!TheShip.IsIgnoreObstacles
                 && !TheShip.IsIgnoreObstaclesDuringBarrelRoll()
-                && !IsTractorBeamBarrelRoll
+                && !IsIgnoreObstacles
                 && collider.OverlapsAsteroidNow)
             {
                 BarrelRollProblems.Add(ActionFailReason.ObstacleHit);
@@ -278,7 +278,7 @@ namespace SubPhases
             }
             else if (!TheShip.IsIgnoreObstacles
                 && !TheShip.IsIgnoreObstaclesDuringBarrelRoll()
-                && !IsTractorBeamBarrelRoll
+                && !IsIgnoreObstacles
                 && collider.OverlapsAsteroidNow)
             {
                 BarrelRollProblems.Add(ActionFailReason.ObstacleHit);

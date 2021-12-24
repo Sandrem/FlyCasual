@@ -151,7 +151,8 @@ namespace Ship
 
         public void RestoreForce(int count = 1)
         {
-            UpdateTokens(Force + count, typeof(ForceToken));
+            int maxCountToRestore = (Force + count <= MaxForce) ? count : MaxForce - Force;
+            if (maxCountToRestore != 0) UpdateTokens(Force + count, typeof(ForceToken));
         }
 
         public void SpendForce(int count, Action callback)

@@ -52,7 +52,7 @@ namespace Abilities.SecondEdition
 
         private void CheckForceRegenAbility(GenericShip ship)
         {
-            if (Combat.DamageInfo.IsDefenderSufferedDamage)
+            if (Combat.DamageInfo.IsDefenderSufferedDamage && HostShip.State.Force < HostShip.State.MaxForce)
             {
                 Messages.ShowInfo($"{HostUpgrade.UpgradeInfo.Name}: {HostShip.PilotInfo.PilotName} recovers 1 Force");
                 HostShip.State.RestoreForce();
@@ -156,7 +156,14 @@ namespace Conditions
 
         private void AskToAcqureLock(object sender, EventArgs e)
         {
-            MercilessPursuitDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<MercilessPursuitDecisionSubphase>("Merciless Pursuit Decision", Triggers.FinishTrigger);
+            MercilessPursuitDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<MercilessPursuitDecisionSubphase>(
+                "Merciless Pursuit Decision",
+                delegate
+                {
+                    Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                    Phases.FinishSubPhase(Phases.CurrentSubPhase.GetType());
+                    Triggers.FinishTrigger();
+                });
 
             subphase.DescriptionShort = "Merciless Pursuit";
             subphase.DescriptionLong = "Do you want to acquire a lock on the defender?";

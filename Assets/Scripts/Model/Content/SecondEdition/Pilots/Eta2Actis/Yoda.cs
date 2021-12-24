@@ -73,7 +73,7 @@ namespace Abilities.SecondEdition
         {
             DecisionSubPhase.ConfirmDecisionNoCallback();
 
-            if (TriggeredShip.State.Force < TriggeredShip.State.MaxForce) TriggeredShip.State.RestoreForce();
+            TriggeredShip.State.RestoreForce();
             HostShip.State.SpendForce(1, Triggers.FinishTrigger);
         }
     }

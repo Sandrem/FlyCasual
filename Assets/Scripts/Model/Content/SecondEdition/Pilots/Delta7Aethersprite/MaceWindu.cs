@@ -53,7 +53,7 @@ namespace Abilities.SecondEdition
         
         private void AssignTokens(object sender, EventArgs e)
         {
-            if (HostShip.State.Force < HostShip.State.MaxForce) HostShip.State.RestoreForce();
+            HostShip.State.RestoreForce();
             Triggers.FinishTrigger();
         }
     }

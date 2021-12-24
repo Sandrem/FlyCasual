@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Players;
+using Obstacles;
 using Ship;
 using SubPhases;
-using UnityEngine;
 
 namespace Obstacles
 {
@@ -24,12 +22,26 @@ namespace Obstacles
                 return;
             }
 
-            if (!Selection.ThisShip.CanPerformActionsWhenOverlapping)
+            if (!Selection.ThisShip.CanPerformActionsWhenOverlapping
+                && Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet20))
             {
                 Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement, their action subphase is skipped");
                 Selection.ThisShip.IsSkipsActionSubPhase = true;
             }
 
+            if (Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet25))
+            {
+                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} hit an asteroid during movement and suffered damage");
+                DealAutoAsteroidDamage(ship, () => StartToRoll(ship));
+            }
+            else
+            {
+                StartToRoll(ship);
+            }
+        }
+
+        private void StartToRoll(GenericShip ship)
+        {
             Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement, rolling for damage");
 
             AsteroidHitCheckSubPhase newPhase = (AsteroidHitCheckSubPhase)Phases.StartTemporarySubPhaseNew(
@@ -41,22 +53,8 @@ namespace Obstacles
                     Triggers.FinishTrigger();
                 });
             newPhase.TheShip = ship;
+            newPhase.TheObstacle = this;
             newPhase.Start();
-        }
-
-        public override void OnLanded(GenericShip ship)
-        {
-            ship.OnTryPerformAttack += DenyAttack;
-        }
-
-        public void DenyAttack(ref bool result, List<string> stringList)
-        {
-            if (Selection.ThisShip.ObstaclesLanded.Contains(this) && !Selection.ThisShip.CanAttackWhileLandedOnObstacle())
-            {
-                result = false;
-                Selection.ThisShip.CallCheckObstacleDenyAttack(this, ref result);
-                if (!result) stringList.Add(Selection.ThisShip.PilotInfo.PilotName + " landed on an asteroid and cannot attack");
-            }
         }
 
         public override void OnShotObstructedExtra(GenericShip attacker, GenericShip defender)
@@ -64,6 +62,45 @@ namespace Obstacles
             // Only default effect
         }
 
+        private void DealAutoAsteroidDamage(GenericShip ship, Action callback)
+        {
+            ship.Damage.TryResolveDamage(1, new DamageSourceEventArgs() { DamageType = DamageTypes.ObstacleCollision, Source = this }, callback);
+        }
+
+        public override void AfterObstacleRoll(GenericShip ship, DieSide side, Action callback)
+        {
+            if (side == DieSide.Crit || side == DieSide.Success)
+            {
+                DealAsteroidDamage(ship, side, callback);
+            }
+            else
+            {
+                NoEffect(callback);
+            }
+        }
+
+        private void DealAsteroidDamage(GenericShip ship, DieSide side, Action callback)
+        {
+            int normalDamage = 0;
+            int criticalDamage = 0;
+            if (side == DieSide.Crit && Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet20))
+            {
+                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered critical damage after damage roll");
+                criticalDamage = 1;
+            }
+            else
+            {
+                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered damage after damage roll");
+                normalDamage = 1;
+            }
+            ship.Damage.TryResolveDamage(normalDamage, criticalDamage, new DamageSourceEventArgs() { DamageType = DamageTypes.ObstacleCollision, Source = this }, callback);
+        }
+
+        private void NoEffect(Action callback)
+        {
+            Messages.ShowInfoToHuman("No damage");
+            callback();
+        }
     }
 }
 
@@ -73,6 +110,7 @@ namespace SubPhases
     public class AsteroidHitCheckSubPhase : DiceRollCheckSubPhase
     {
         private GenericShip prevActiveShip = Selection.ActiveShip;
+        public GenericObstacle TheObstacle { get; set; }
 
         public override void Prepare()
         {
@@ -88,42 +126,7 @@ namespace SubPhases
             HideDiceResultMenu();
             Selection.ActiveShip = prevActiveShip;
 
-            switch (CurrentDiceRoll.DiceList[0].Side)
-            {
-                case DieSide.Blank:
-                    NoDamage();
-                    break;
-                case DieSide.Focus:
-                    NoDamage();
-                    break;
-                case DieSide.Success:
-                    Messages.ShowErrorToHuman("The ship takes a hit!");
-                    SufferDamage();
-                    break;
-                case DieSide.Crit:
-                    Messages.ShowErrorToHuman("The ship takes a critical hit!");
-                    SufferDamage();
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private void NoDamage()
-        {
-            Messages.ShowInfoToHuman("No damage");
-            CallBack();
-        }
-
-        private void SufferDamage()
-        {
-            DamageSourceEventArgs asteroidDamage = new DamageSourceEventArgs()
-            {
-                Source = "Asteroid",
-                DamageType = DamageTypes.ObstacleCollision
-            };
-
-            TheShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, asteroidDamage, CallBack);
+            TheObstacle.AfterObstacleRoll(TheShip, CurrentDiceRoll.DiceList[0].Side, CallBack);
         }
     }
 }

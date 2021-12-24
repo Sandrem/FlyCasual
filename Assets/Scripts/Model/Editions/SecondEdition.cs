@@ -4,6 +4,7 @@ using BoardTools;
 using Bombs;
 using GameModes;
 using Movement;
+using Obstacles;
 using Ship;
 using SquadBuilderNS;
 using SubPhases;
@@ -21,7 +22,11 @@ namespace Editions
     {
         public override string Name { get { return "Second Edition"; } }
         public override string NameShort { get { return "SecondEdition"; } }
-        //public override bool IsSquadBuilderLocked { get { return true; } }
+
+        public SecondEdition()
+        {
+            RuleSet = new Editions.RuleSets.RuleSet25();
+        }
 
         public override int MaxPoints { get { return 200; } }
         public override int MinShipsCount { get { return 1; } }
@@ -445,6 +450,5 @@ namespace Editions
 
             return result;
         }
-
     }
 }

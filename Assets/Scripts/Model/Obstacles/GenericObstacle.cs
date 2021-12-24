@@ -31,7 +31,21 @@ namespace Obstacles
         public abstract string GetTypeName { get; }
 
         public abstract void OnHit(GenericShip ship);
-        public abstract void OnLanded(GenericShip ship);
+
+        public void OnLanded(GenericShip ship)
+        {
+            if (Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet25) || this is Asteroid)
+            {
+                ship.OnTryPerformAttack += DenyAttack;
+            }
+
+            if (Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet25))
+            {
+                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " landed on an obstacle during movement, their action subphase is skipped");
+                Selection.ThisShip.IsSkipsActionSubPhase = true;
+            }
+        }
+
         public abstract void OnShotObstructedExtra(GenericShip attacker, GenericShip defender);
 
         public void Spawn(string name, Transform obstacleHolder)
@@ -77,6 +91,18 @@ namespace Obstacles
         {
             Tokens.Remove(token);
             //TODO: Hide token from obstacle
+        }
+
+        public abstract void AfterObstacleRoll(GenericShip ship, DieSide side, Action callback);
+
+        private void DenyAttack(ref bool result, List<string> stringList)
+        {
+            if (Selection.ThisShip.ObstaclesLanded.Contains(this) && !Selection.ThisShip.CanAttackWhileLandedOnObstacle())
+            {
+                result = false;
+                Selection.ThisShip.CallCheckObstacleDenyAttack(this, ref result);
+                if (!result) stringList.Add(Selection.ThisShip.PilotInfo.PilotName + " landed on an obstacle and cannot attack");
+            }
         }
     }
 }

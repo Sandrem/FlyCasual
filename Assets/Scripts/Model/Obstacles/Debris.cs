@@ -1,11 +1,7 @@
-﻿using Players;
+﻿using Obstacles;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
 
 namespace Obstacles
 {
@@ -23,16 +19,16 @@ namespace Obstacles
             Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit debris during movement, Stress token is assigned");
             ship.Tokens.AssignToken(
                 typeof(Tokens.StressToken), 
-                delegate { RollForDamage(ship); }
+                delegate { StartToRoll(ship); }
             );
         }
 
-        private void RollForDamage(GenericShip ship)
+        private void StartToRoll(GenericShip ship)
         {
-            Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit debris during movement, rolling for critical damage");
+            Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit debris during movement, rolling for effect");
 
             DebrisHitCheckSubPhase newPhase = (DebrisHitCheckSubPhase)Phases.StartTemporarySubPhaseNew(
-                "Damage from asteroid collision",
+                "Damage from debris collision",
                 typeof(DebrisHitCheckSubPhase),
                 delegate
                 {
@@ -40,17 +36,50 @@ namespace Obstacles
                     Triggers.FinishTrigger();
                 });
             newPhase.TheShip = ship;
+            newPhase.TheObstacle = this;
             newPhase.Start();
-        }
-
-        public override void OnLanded(GenericShip ship)
-        {
-            // Nothing
         }
 
         public override void OnShotObstructedExtra(GenericShip attacker, GenericShip defender)
         {
             // Only default effect
+        }
+
+        public override void AfterObstacleRoll(GenericShip ship, DieSide side, Action callback)
+        {
+            if (side == DieSide.Crit
+                || (side == DieSide.Success && Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet25))
+            )
+            {
+                DealDebrisDamage(ship, side, callback);
+            }
+            else
+            {
+                NoEffect(callback);
+            }
+        }
+
+        private void DealDebrisDamage(GenericShip ship, DieSide side, Action callback)
+        {
+            int normalDamage = 0;
+            int criticalDamage = 0;
+            if (side == DieSide.Crit && Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet20))
+            {
+                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered critical damage after damage roll");
+                criticalDamage = 1;
+            }
+            else
+            {
+                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered damage after damage roll");
+                normalDamage = 1;
+            }
+            ship.Damage.TryResolveDamage(normalDamage, criticalDamage, new DamageSourceEventArgs() { DamageType = DamageTypes.ObstacleCollision, Source = this }, callback);
+        }
+
+        private void NoEffect(Action callback)
+        {
+            Messages.ShowInfoToHuman("No damage");
+            callback();
         }
     }
 }
@@ -61,6 +90,7 @@ namespace SubPhases
     public class DebrisHitCheckSubPhase : DiceRollCheckSubPhase
     {
         private GenericShip prevActiveShip = Selection.ActiveShip;
+        public GenericObstacle TheObstacle { get; set; }
 
         public override void Prepare()
         {
@@ -76,32 +106,7 @@ namespace SubPhases
             HideDiceResultMenu();
             Selection.ActiveShip = prevActiveShip;
 
-            if (CurrentDiceRoll.DiceList[0].Side == DieSide.Crit)
-            {
-                Messages.ShowErrorToHuman("The ship takes a critical hit!");
-                SufferDamage();
-            }
-            else
-            {
-                NoDamage();
-            }
-        }
-
-        private void NoDamage()
-        {
-            Messages.ShowInfoToHuman("No damage");
-            CallBack();
-        }
-
-        private void SufferDamage()
-        {
-            DamageSourceEventArgs asteroidDamage = new DamageSourceEventArgs()
-            {
-                Source = "Asteroid",
-                DamageType = DamageTypes.ObstacleCollision
-            };
-
-            TheShip.Damage.TryResolveDamage(CurrentDiceRoll.DiceList, asteroidDamage, CallBack);
+            TheObstacle.AfterObstacleRoll(TheShip, CurrentDiceRoll.DiceList[0].Side, CallBack);
         }
     }
 }

@@ -4,11 +4,11 @@ using Movement;
 using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Tokens;
 using UnityEngine;
 using Upgrade;
+using Editions.RuleSets;
+using Obstacles;
 
 namespace Editions
 {
@@ -18,6 +18,7 @@ namespace Editions
 
         public abstract string Name { get; }
         public abstract string NameShort { get; }
+        public RuleSet RuleSet { get; set; }
         public abstract int MaxPoints { get; }
         public abstract int MaxShipsCount { get; }
         public abstract int MinShipsCount { get; }

@@ -253,7 +253,8 @@ namespace Ship
             {
                 RemoveToken(
                     tokenType,
-                    delegate { RemoveAllTokensByType(tokenType, callback); }
+                    delegate { RemoveAllTokensByType(tokenType, callback); },
+                    letter: '*'
                 );
             }
             else

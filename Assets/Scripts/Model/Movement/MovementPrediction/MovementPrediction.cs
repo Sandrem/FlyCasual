@@ -21,6 +21,7 @@ namespace Movement
         public bool IsOffTheBoard;
         public bool IsBumped { get { return ShipsBumped.Count != 0; } }
         public List<GenericShip> ShipsBumped = new List<GenericShip>();
+        public List<GenericShip> ShipsBumpedOnTheEnd = new List<GenericShip>();
         public List<GenericRemote> RemotesOverlapped = new List<GenericRemote>();
         public List<GenericRemote> RemotesMovedThrough = new List<GenericRemote>();
         public List<GenericShip> ShipsMovedThrough = new List<GenericShip>();
@@ -94,6 +95,7 @@ namespace Movement
                     {
                         // Save information in which ships we are bumped
                         lastShipBumpDetector = obstacleStayDetector;
+                        if (ShipsBumpedOnTheEnd.Count == 0) ShipsBumpedOnTheEnd.AddRange(obstacleStayDetector.OverlapedShips);
                     }
                     else
                     {

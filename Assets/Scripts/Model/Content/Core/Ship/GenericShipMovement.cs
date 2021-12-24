@@ -74,6 +74,7 @@ namespace Ship
         public List<GenericShip> ShipsBumped = new List<GenericShip>();
 
         public List<GenericShip> ShipsMovedThrough = new List<GenericShip>();
+        public List<GenericShip> ShipsBumpedOnTheEnd = new List<GenericShip>();
 
         public List<GenericShip> ShipsBoostedThrough = new List<GenericShip>();
 

@@ -126,6 +126,7 @@ namespace Movement
             }
 
             TheShip.ShipsMovedThrough = new List<GenericShip>(movementPrediction.ShipsMovedThrough);
+            TheShip.ShipsBumpedOnTheEnd = new List<GenericShip>(movementPrediction.ShipsBumpedOnTheEnd);
             TheShip.RemotesMovedThrough = new List<GenericRemote>(movementPrediction.RemotesMovedThrough);
             TheShip.RemotesOverlapped = new List<GenericRemote>(movementPrediction.RemotesOverlapped);
             TheShip.ObstaclesLanded = new List<GenericObstacle>(movementPrediction.LandedOnObstacles);

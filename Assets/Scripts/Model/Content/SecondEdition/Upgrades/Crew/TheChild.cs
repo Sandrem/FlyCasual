@@ -114,6 +114,9 @@ namespace Conditions
         public GenericUpgrade SourceUpgrade;
         public UpgradesList.SecondEdition.TheChild TheChild;
 
+        private GenericShip CachedAttacker;
+        private GenericShip CachedDefender;
+
         public MercilessPursuitCondition(GenericShip host) : base(host)
         {
             Name = ImageName = "Merciless Pursuit Condition";
@@ -136,6 +139,8 @@ namespace Conditions
         {
             if (Combat.Defender.UpgradeBar.HasUpgradeInstalled(typeof(UpgradesList.SecondEdition.TheChild)))
             {
+                CachedAttacker = Combat.Attacker;
+                CachedDefender = Combat.Defender;
                 Triggers.RegisterTrigger
                 (
                     new Trigger()
@@ -153,7 +158,6 @@ namespace Conditions
         {
             MercilessPursuitDecisionSubphase subphase = Phases.StartTemporarySubPhaseNew<MercilessPursuitDecisionSubphase>("Merciless Pursuit Decision", Triggers.FinishTrigger);
 
-
             subphase.DescriptionShort = "Merciless Pursuit";
             subphase.DescriptionLong = "Do you want to acquire a lock on the defender?";
             subphase.ImageSource = TheChild;
@@ -169,10 +173,14 @@ namespace Conditions
 
         private void AcquireLock(object sender, EventArgs e)
         {
+            Messages.ShowInfo($"Merciless Pursuit: {CachedAttacker.PilotInfo.PilotName} aquires a lock on {CachedDefender.PilotInfo.PilotName}");
+            ActionsHolder.AcquireTargetLock(CachedAttacker, CachedDefender, Triggers.FinishTrigger, Triggers.FinishTrigger);
+            CachedAttacker = null;
+            CachedDefender = null;
             DecisionSubPhase.ConfirmDecisionNoCallback();
-
-            Messages.ShowInfo($"Merciless Pursuit: {Combat.Attacker.PilotInfo.PilotName} aquires a lock on {Combat.Defender.PilotInfo.PilotName}");
-            ActionsHolder.AcquireTargetLock(Combat.Attacker, Combat.Defender, Triggers.FinishTrigger, Triggers.FinishTrigger);
+            //Without these two additional calls, the game gets stuck in the SelectTargetForAttackSubPhase.
+            DecisionSubPhase.ConfirmDecisionNoCallback();
+            DecisionSubPhase.ConfirmDecisionNoCallback();
         }
 
         private void SkipLock(object sender, EventArgs e)

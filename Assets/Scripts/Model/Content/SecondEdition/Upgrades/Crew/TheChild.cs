@@ -174,13 +174,7 @@ namespace Conditions
         private void AcquireLock(object sender, EventArgs e)
         {
             Messages.ShowInfo($"Merciless Pursuit: {CachedAttacker.PilotInfo.PilotName} aquires a lock on {CachedDefender.PilotInfo.PilotName}");
-            ActionsHolder.AcquireTargetLock(CachedAttacker, CachedDefender, Triggers.FinishTrigger, Triggers.FinishTrigger);
-            CachedAttacker = null;
-            CachedDefender = null;
-            DecisionSubPhase.ConfirmDecisionNoCallback();
-            //Without these two additional calls, the game gets stuck in the SelectTargetForAttackSubPhase.
-            DecisionSubPhase.ConfirmDecisionNoCallback();
-            DecisionSubPhase.ConfirmDecisionNoCallback();
+            ActionsHolder.AcquireTargetLock(CachedAttacker, CachedDefender, DecisionSubPhase.ConfirmDecision, DecisionSubPhase.ConfirmDecision);
         }
 
         private void SkipLock(object sender, EventArgs e)

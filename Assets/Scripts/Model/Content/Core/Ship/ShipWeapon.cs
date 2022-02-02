@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Editions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace Ship
             // Firepower is temporary
             WeaponInfo = new SpecialWeaponInfo(
                 arcInfo.Firepower,
-                1, 3,
+                Edition.Current.RuleSet.PrimaryWeaponMinRange, 3,
                 arc: arcInfo.ArcType,
                 canShootOutsideArc: arcInfo.ArcType == ArcType.TurretPrimaryWeapon
             );

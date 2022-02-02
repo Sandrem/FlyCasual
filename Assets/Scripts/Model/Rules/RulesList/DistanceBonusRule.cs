@@ -26,12 +26,11 @@ namespace RulesList
 
         private bool IsRangeOneBonusActive()
         {
-            bool isActive = Combat.ShotInfo.Range <= 1;
+            bool isActive = Edition.Current.RuleSet.HasAttackRangeBonus(Combat.ShotInfo.Range);
             OnCheckAllowRangeOneBonus?.Invoke(ref isActive);
             OnCheckPreventRangeOneBonus?.Invoke(ref isActive);
             return isActive;
         }
-
 
         public void CheckDefenceDistanceBonus(ref int result)
         {

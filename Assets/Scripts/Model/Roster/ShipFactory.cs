@@ -60,6 +60,10 @@ public static class ShipFactory {
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterHullDamageIndicators;
         newShipContainer.AfterAssignedDamageIsChanged += Roster.UpdateRosterShieldsDamageIndicators;
         newShipContainer.AfterStatsAreChanged += Roster.UpdateShipStats;
+        newShipContainer.OnTryAddAvailableDiceModification += Rules.DiceModification.PreventRangeZeroOwnModifications;
+        newShipContainer.OnTryAddDiceModificationAfterRolled += Rules.DiceModification.PreventRangeZeroOwnModifications;
+        newShipContainer.OnTryAddDiceModificationCompareResults += Rules.DiceModification.PreventRangeZeroCompareResultsModifications;
+        newShipContainer.OnTryAddDiceModificationOpposite += Rules.DiceModification.PreventRangeZeroOwnModifications;
 
         Edition.Current.SubScribeToGenericShipEvents(newShipContainer);
 

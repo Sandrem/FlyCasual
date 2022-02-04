@@ -23,7 +23,18 @@ public static partial class Phases
         get { return CurrentSubPhase.IsTemporary; }
     }
 
-    public static PlayerNo PlayerWithInitiative = PlayerNo.Player1;
+    private static PlayerNo playerWithInitiative;
+
+    public static PlayerNo PlayerWithInitiative
+    {
+        get { return playerWithInitiative; }
+        
+        set
+        {
+            playerWithInitiative = value;
+            Roster.ShowPlayerWithInititive(value);
+        }
+    }
 
     public static PlayerNo CurrentPhasePlayer
     {

@@ -31,6 +31,33 @@ public static partial class Roster {
         CreatePlayers();
         SpawnAllShips();
         SetPlayerCustomization();
+        ClearPlayerWithInitiative();
+    }
+
+    public static void ShowPlayerWithInititive(PlayerNo playerNo)
+    {
+        ClearPlayerWithInitiative();
+        SetPlayerInitiative(GetPlayer(playerNo), true);
+    }
+
+    private static void ClearPlayerWithInitiative()
+    {
+        foreach (GenericPlayer player in Players)
+        {
+            SetPlayerInitiative(player, false);
+        }
+    }
+
+    private static void SetPlayerInitiative(GenericPlayer player, bool active)
+    {
+        try
+        {
+            player.PlayerInfoPanel.transform.Find("P1Mark").gameObject.SetActive(active);
+        }
+        catch (Exception)
+        {
+            Debug.Log($"Cannot clear P1Mark for {player.PlayerNo}");
+        }
     }
 
     public static GameObject CreateRosterInfo(GenericShip newShip)

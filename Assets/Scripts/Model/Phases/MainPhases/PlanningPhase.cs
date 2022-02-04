@@ -30,14 +30,23 @@ namespace MainPhases
 
             if (anyShipHasSystemsAbility)
             {
-                GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), StartSystemsPhase);
+                GenericSubPhase subphase = Phases.StartTemporarySubPhaseNew("Notification", typeof(NotificationSubPhase), FinishPlanningPhase);
                 (subphase as NotificationSubPhase).TextToShow = "Systems";
                 subphase.Start();
             }
             else
             {
-                StartSystemsPhase();
+                FinishPlanningPhase();
             }
+        }
+
+        private void FinishPlanningPhase()
+        {
+            int randomPlayer = UnityEngine.Random.Range(1, 3);
+            if (randomPlayer != Tools.PlayerToInt(Phases.PlayerWithInitiative)) Messages.ShowInfo("First Player is changed");
+            Phases.PlayerWithInitiative = Tools.IntToPlayer(randomPlayer);
+
+            StartSystemsPhase();
         }
 
         private void StartSystemsPhase()

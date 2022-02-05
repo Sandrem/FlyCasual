@@ -16,6 +16,7 @@ using Obstacles;
 public partial class MainMenu : MonoBehaviour {
 
     string NewVersionUrl;
+    const string PatreonUrl = "https://www.patreon.com/Sandrem";
 
     public static MainMenu CurrentMainMenu;
 
@@ -55,6 +56,11 @@ public partial class MainMenu : MonoBehaviour {
     public void OnUpdateAvailableClick()
     {
         Application.OpenURL(NewVersionUrl);
+    }
+
+    public void OnSupportOnPatreonClick()
+    {
+        Application.OpenURL(PatreonUrl);
     }
 
     private void UpdateVersionInfo()
@@ -105,6 +111,7 @@ public partial class MainMenu : MonoBehaviour {
     private void PrepareUpdateChecker()
     {
         RemoteSettings.Completed += CheckUpdateNotification;
+        RemoteSettings.Completed += CheckPatreonSupportNotification;
         RemoteSettings.ForceUpdate();
     }
 
@@ -119,6 +126,14 @@ public partial class MainMenu : MonoBehaviour {
         }
 
         RemoteSettings.Completed -= CheckUpdateNotification;
+    }
+
+    private void CheckPatreonSupportNotification(bool arg1, bool arg2, int arg3)
+    {
+        int support = RemoteSettings.GetInt("SupportOnPatreon", -1);
+        if (support != -1) ShowSupportOnPatreon(support);
+
+        RemoteSettings.Completed -= CheckPatreonSupportNotification;
     }
 
     // 0.3.2 UI

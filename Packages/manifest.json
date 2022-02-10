@@ -16,6 +16,8 @@
     "com.unity.toolchain.linux-x86_64": "0.1.18-preview",
     "com.unity.toolchain.win-x86_64-linux-x86_64": "0.1.20-preview",
     "com.unity.ugui": "1.0.0",
+    "com.unity.xr.arcore": "4.1.9",
+    "com.unity.xr.arfoundation": "4.1.9",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",

@@ -55,6 +55,9 @@ namespace BoardTools
 
         private static void SetPlaymatScene()
         {
+            SetSceneAR();
+            return;
+
             if (Options.Playmat.StartsWith("3DScene"))
             {
                 SetScene3D(Options.Playmat);
@@ -85,6 +88,16 @@ namespace BoardTools
             GameObject.Find("SceneHolder/Board/").transform.Find("CombatDiceHolder").transform.position += new Vector3(0, 100, 0);
             GameObject.Find("SceneHolder/Board/").transform.Find("CheckDiceHolder").transform.position += new Vector3(0, 100, 0);
             GameObject.Find("SceneHolder/Board/").transform.Find("RulersHolder").transform.position += new Vector3(0, 100, 0);
+        }
+
+        private static void SetSceneAR()
+        {
+            LoadSceneFromResources("ARScene");
+
+            Texture playmatTexture = (Texture)Resources.Load("Playmats/Playmat" + Options.Playmat + "Texture", typeof(Texture));
+            GameObject.Find("SceneHolder/ARScene/TableClassic/Playmat").GetComponent<Renderer>().material.mainTexture = playmatTexture;
+
+            RenderSettings.fog = false;
         }
 
         private static void LoadSceneFromResources(string sceneName)

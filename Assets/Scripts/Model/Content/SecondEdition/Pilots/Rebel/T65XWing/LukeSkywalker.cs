@@ -1,4 +1,6 @@
 ﻿using Abilities.SecondEdition;
+using Content;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,18 +11,32 @@ namespace Ship
         {
             public LukeSkywalker() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Luke Skywalker",
+                    "Red Five",
+                    Faction.Rebel,
                     5,
-                    60,
+                    7,
+                    28,
                     isLimited: true,
                     abilityType: typeof(LukeSkywalkerAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.ForcePower,
-                    seImageNumber: 2
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.LightSide,
+                        Tags.XWing
+                    },
+                    seImageNumber: 2,
+                    skinName: "Luke Skywalker"
                 );
-
-                ModelInfo.SkinName = "Luke Skywalker";
             }
         }
     }

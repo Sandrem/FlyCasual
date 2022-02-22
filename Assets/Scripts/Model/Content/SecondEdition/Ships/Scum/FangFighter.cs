@@ -1,47 +1,59 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Movement;
+﻿using System.Collections.Generic;
 using ActionsList;
-using Arcs;
-using Actions;
 using Upgrade;
+using Actions;
+using System;
+using Ship.CardInfo;
+using Arcs;
+using Movement;
 
 namespace Ship
 {
-    namespace FirstEdition.ProtectorateStarfighter
+    namespace SecondEdition.FangFighter
     {
-        public class ProtectorateStarfighter : GenericShip
+        public class FangFighter : GenericShip
         {
-            public ProtectorateStarfighter() : base()
+            public FangFighter() : base()
             {
-                ShipInfo = new ShipCardInfo
+                ShipInfo = new ShipCardInfo25
                 (
-                    "Protectorate Starfighter",
+                    "Fang Fighter",
                     BaseSize.Small,
-                    Faction.Scum,
+                    new FactionData
+                    (
+                        new Dictionary<Faction, Type>
+                        {
+                            { Faction.Scum, typeof(FennRau) } //,
+                            //{ Faction.Rebel, typeof(FennRauRebel) },
+                        }
+                    ),
                     new ShipArcsInfo(ArcType.Front, 3), 3, 4, 0,
-                    new ShipActionsInfo(
+                    new ShipActionsInfo
+                    (
                         new ActionInfo(typeof(FocusAction)),
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(BarrelRollAction)),
                         new ActionInfo(typeof(BoostAction))
                     ),
-                    new ShipUpgradesInfo(
-                        UpgradeType.Modification,
-                        UpgradeType.Torpedo
-                    )
+                    new ShipUpgradesInfo
+                    (
+                        UpgradeType.Modification
+                    ),
+                    linkedActions: new List<LinkedActionInfo>
+                    {
+                        new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)),
+                        new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction))
+                    }
                 );
 
-                IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Scum, typeof(KadSolus) }
-                };
-
-                ModelInfo = new ShipModelInfo(
+                ModelInfo = new ShipModelInfo
+                (
                     "Protectorate Starfighter",
                     "Zealous Recruit"
                 );
 
-                DialInfo = new ShipDialInfo(
+                DialInfo = new ShipDialInfo
+                (
                     new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                     new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
 
@@ -65,7 +77,8 @@ namespace Ship
                     new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal)
                 );
 
-                SoundInfo = new ShipSoundInfo(
+                SoundInfo = new ShipSoundInfo
+                (
                     new List<string>()
                     {
                         "TIE-Fly1",
@@ -82,8 +95,53 @@ namespace Ship
 
                 ShipIconLetter = 'M';
 
-                HotacManeuverTable = new AI.ProtectorateStarfighterTable();
+                ShipAbilities.Add(new Abilities.SecondEdition.ConcordiaFaceoffAbility());
             }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    // While you defend, if the attack range is 1 and you are in the attacker's forward firing arc,
+    // change 1 result to an evade result.
+
+    public class ConcordiaFaceoffAbility : GenericAbility
+    {
+        public override string Name { get { return "Concordia Faceoff"; } }
+
+        public override void ActivateAbility()
+        {
+            AddDiceModification(
+                "Concordia Faceoff",
+                IsAvailable,
+                AiPriority,
+                DiceModificationType.Change,
+                1,
+                sideCanBeChangedTo: DieSide.Success
+            );
+        }
+
+        public override void DeactivateAbility()
+        {
+            RemoveDiceModification();
+        }
+
+        public bool IsAvailable()
+        {
+            return
+            (
+                Combat.AttackStep == CombatStep.Defence &&
+                Combat.Defender == HostShip &&
+                Combat.ShotInfo.Range == 1 &&
+                Combat.Attacker.SectorsInfo.IsShipInSector(HostShip, Arcs.ArcType.Front)
+            );
+        }
+
+        public int AiPriority()
+        {
+            //TODO: Change to enum
+            return 100;
         }
     }
 }

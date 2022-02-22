@@ -10,6 +10,7 @@ namespace Content
     {
         DarkSide,
         LightSide,
+        Mandalorian,
         Partisan,
         Tie,
         XWing        

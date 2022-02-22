@@ -1,29 +1,43 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.ProtectorateStarfighter
+    namespace SecondEdition.FangFighter
     {
-        public class FennRau : ProtectorateStarfighter
+        public class FennRau : FangFighter
         {
             public FennRau() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Fenn Rau",
-                    9,
-                    28,
+                    "Skull Leader",
+                    Faction.Scum,
+                    6,
+                    7,
+                    12,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.FennRauScumAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.FennRauScumAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Mandalorian
+                    },
+                    seImageNumber: 155
                 );
-
-                ModelInfo.SkinName = "Skull Squadron";
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class FennRauScumAbility : GenericAbility
     {

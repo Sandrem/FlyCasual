@@ -1,33 +1,49 @@
 ﻿using BoardTools;
+using Content;
 using Movement;
 using Ship;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.ProtectorateStarfighter
+    namespace SecondEdition.FangFighter
     {
-        public class KadSolus : ProtectorateStarfighter
+        public class KadSolus : FangFighter
         {
             public KadSolus() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Kad Solus",
-                    6,
-                    25,
+                    "Skilled Commando",
+                    Faction.Scum,
+                    4,
+                    4,
+                    4,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.KadSolusAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.KadSolusAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Mandalorian
+                    },
+                    seImageNumber: 158,
+                    skinName: "Skull Squadron"
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
-    //After you execute a red maneuver, assign 2 focus tokens to your ship.
+    //After you fully execute a red maneuver, gain 2 focus tokens.
+
     public class KadSolusAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -48,8 +64,9 @@ namespace Abilities.FirstEdition
             }
         }
 
-        protected virtual bool CheckAbility()
+        private bool CheckAbility()
         {
+            if (HostShip.IsBumped) return false;
             if (HostShip.GetLastManeuverColor() != MovementComplexity.Complex) return false;
             if (Board.IsOffTheBoard(HostShip)) return false;
 

@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
@@ -12,13 +13,25 @@ namespace Ship
         {
             public JoyRekkoff() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Joy Rekkoff",
+                    "Skull Squadron Ace",
+                    Faction.Scum,
                     4,
-                    47,
+                    5,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JoyRekkoffAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Mandalorian
+                    },
                     seImageNumber: 157
                 );
             }

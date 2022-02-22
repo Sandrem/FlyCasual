@@ -1,4 +1,6 @@
-﻿using BoardTools;
+﻿using Arcs;
+using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
@@ -7,33 +9,48 @@ using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.ProtectorateStarfighter
+    namespace SecondEdition.FangFighter
     {
-        public class OldTeroch : ProtectorateStarfighter
+        public class OldTeroch : FangFighter
         {
             public OldTeroch() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Old Teroch",
-                    7,
-                    26,
+                    "Mandalorian Mentor",
+                    Faction.Scum,
+                    5,
+                    6,
+                    16,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.OldTerochAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.OldTerochAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Mandalorian
+                    },
+                    seImageNumber: 156
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
-    // At the start of the combat phase, you may choose 1 enemy ship
-    //  at range 1. If you're inside its firing arc, it discards all
-    //  focus and evade tokens.
+    //At the start of the Engagement Phase, you may choose 1 enemy ship at range 1.
+    //If you do and you are in its (front arc), it removes all of its green tokens.
+
     public class OldTerochAbility : GenericAbility
     {
-        protected string AbilityDescription = "Choose a ship: if you are inside its firing arc, it discards all focus and evade tokens";
+        private string AbilityDescription = "Choose a ship. If you are inside its front firing arc, it removes all of its green tokens.";
+
         public override void ActivateAbility()
         {
             Phases.Events.OnCombatPhaseStart_Triggers += CheckOldTerochAbility;
@@ -93,10 +110,10 @@ namespace Abilities.FirstEdition
             return priority;
         }
 
-        protected virtual bool FilterTargetByArcAndTokens(GenericShip ship)
+        private bool FilterTargetByArcAndTokens(GenericShip ship)
         {
-            ShotInfo shotInfo = new ShotInfo(ship, HostShip, ship.PrimaryWeapons);
-            return shotInfo.InArc && (ship.Tokens.HasToken(typeof(FocusToken)) || ship.Tokens.HasToken(typeof(EvadeToken)));
+            bool inFrontArcOfEnemy = ship.SectorsInfo.IsShipInSector(HostShip, ArcType.Front);
+            return inFrontArcOfEnemy && ship.Tokens.HasGreenTokens;
         }
 
         private void ActivateOldTerochAbility()
@@ -117,10 +134,10 @@ namespace Abilities.FirstEdition
             }
         }
 
-        protected virtual void DiscardTokens()
+        private void DiscardTokens()
         {
-            Messages.ShowInfo(string.Format("{0} discarded all Focus and Evade tokens from {1}", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
-            DiscardAllFocusTokens();
+            Messages.ShowInfo(string.Format("{0} removed all green tokens from {1}", HostShip.PilotInfo.PilotName, TargetShip.PilotInfo.PilotName));
+            TargetShip.Tokens.RemoveAllTokensByColor(TokenColors.Green, SelectShipSubPhase.FinishSelection);
         }
 
         private void DiscardAllFocusTokens()

@@ -18,8 +18,8 @@ namespace Ship
         public int Charges { get; set; }
         public int RegensCharges { get; set; }
 
-        public ShipActionsInfo ActionIcons { get; private set; }
-        public ShipUpgradesInfo UpgradeIcons { get; private set; }
+        public ShipActionsInfo ActionIcons { get; set; }
+        public ShipUpgradesInfo UpgradeIcons { get; set; }
 
         public List<Faction> FactionsAll { get; set; }
 
@@ -51,5 +51,7 @@ namespace Ship
 
             AbilityText = abilityText;
         }
+
+        public virtual Type IconicPilot(Faction squadFaction) => null;
     }
 }

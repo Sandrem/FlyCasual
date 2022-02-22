@@ -135,9 +135,13 @@ namespace SquadBuilderNS
         {
             string image = null;
 
-            if (ship.Instance.IconicPilots != null)
+            if (ship.Instance.IconicPilots != null && ship.Instance.IconicPilots.Count > 0)
             {
                 image = Global.SquadBuilder.Database.AllPilots.Find(n => n.PilotTypeName == ship.Instance.IconicPilots[Global.SquadBuilder.CurrentSquad.SquadFaction].ToString()).Instance.ImageUrl;
+            }
+            else
+            {
+                image = Global.SquadBuilder.Database.AllPilots.Find(n => n.PilotTypeName == ship.Instance.ShipInfo.IconicPilot(Global.SquadBuilder.CurrentSquad.SquadFaction).ToString()).Instance.ImageUrl;
             }
 
             return image;

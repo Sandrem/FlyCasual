@@ -17,7 +17,7 @@ namespace Ship
                     4,
                     49,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.GarvenDreisAbility),
+                    abilityType: typeof(Abilities.SecondEdition.GarvenDreisArcAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 66
                 );
@@ -28,7 +28,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class GarvenDreisAbility : Abilities.FirstEdition.GarvenDreisAbility
+    public class GarvenDreisArcAbility : GarvenDreisXWingAbility
     {
         protected override bool FilterAbilityTarget(GenericShip ship)
         {

@@ -1,8 +1,8 @@
 ﻿using Abilities.SecondEdition;
+using Content;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Tokens;
 using UnityEngine;
@@ -16,16 +16,29 @@ namespace Ship
         {
             public GinaMoonsong() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Gina Moonsong",
+                    "Insubordinate Ace",
+                    Faction.Rebel,
                     5,
-                    45,
+                    4,
+                    11,
                     isLimited: true,
                     abilityType: typeof(GinaMoonsongAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.BWing
+                    },
+                    skinName: "Gina Moonsong"
                 );
-
-                ModelInfo.SkinName = "Gina Moonsong";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/32/8a/328a4f31-c01e-4966-a418-59c6fd42739e/swz66_gina-moonsong.png";
             }
@@ -36,6 +49,7 @@ namespace Ship
 namespace Abilities.SecondEdition
 {
     //At the start of the Engagement Phase, you must transfer 1 of your stress tokens to another friendly ship at range 0-2.
+
     public class GinaMoonsongAbility : GenericAbility
     {
         public override void ActivateAbility()

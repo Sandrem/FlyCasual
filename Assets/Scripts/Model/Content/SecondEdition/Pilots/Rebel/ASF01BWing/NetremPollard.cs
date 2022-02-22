@@ -1,9 +1,11 @@
 ﻿using Abilities.SecondEdition;
 using ActionsList;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -13,17 +15,29 @@ namespace Ship.SecondEdition.ASF01BWing
     {
         public NetremPollard() : base()
         {
-            PilotInfo = new PilotCardInfo
+            PilotInfo = new PilotCardInfo25
             (
                 "Netrem Pollard",
+                "Dagger Leader",
+                Faction.Rebel,
                 3,
-                43,
+                4,
+                11,
                 isLimited: true,
                 abilityType: typeof(NetremPollardAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Missile,
+                    UpgradeType.Device,
+                    UpgradeType.Modification
+                },
+                tags: new List<Tags>
+                {
+                    Tags.BWing
+                },
+                skinName: "Red"
             );
-
-            ModelInfo.SkinName = "Red";
 
             ImageUrl = "https://i.imgur.com/tDMmS4S.png";
         }

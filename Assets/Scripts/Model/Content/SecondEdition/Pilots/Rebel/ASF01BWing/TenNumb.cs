@@ -1,6 +1,6 @@
 ﻿using Abilities.SecondEdition;
+using Content;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -13,17 +13,30 @@ namespace Ship
         {
             public TenNumb() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Ten Numb",
+                    "Blue Five",
+                    Faction.Rebel,
                     4,
-                    49,
+                    5,
+                    20,
                     isLimited: true,
                     abilityType: typeof(TenNumbAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 24
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.BWing
+                    },
+                    seImageNumber: 24,
+                    skinName: "Dark Blue"
                 );
-
-                ModelInfo.SkinName = "Dark Blue";
             }
         }
     }

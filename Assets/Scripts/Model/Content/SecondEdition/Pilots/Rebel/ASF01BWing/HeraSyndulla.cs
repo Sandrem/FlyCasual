@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -15,19 +16,34 @@ namespace Ship
         {
             public HeraSyndulla() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Hera Syndulla",
+                    "Phoenix Leader",
+                    Faction.Rebel,
                     6,
-                    48,
-                    pilotTitle: "Phoenix Leader",
+                    6,
+                    27,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HeraSyndullaABWingAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.BWing,
+                        Tags.Spectre
+                    },
+                    skinName: "Prototype"
                 );
 
                 PilotNameCanonical = "herasyndulla-asf01bwing";
-
-                ModelInfo.SkinName = "Prototype";
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/bd/Herasyndullabwing.png";
             }

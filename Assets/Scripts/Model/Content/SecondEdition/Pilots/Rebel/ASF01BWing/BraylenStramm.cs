@@ -1,5 +1,5 @@
 ﻿using Abilities.SecondEdition;
-using System.Collections;
+using Content;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -12,17 +12,30 @@ namespace Ship
         {
             public BraylenStramm() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Braylen Stramm",
+                    "Blade Leader",
+                    Faction.Rebel,
                     4,
-                    52,
+                    5,
+                    18,
                     isLimited: true,
                     abilityType: typeof(BraylenStrammAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 23
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.BWing
+                    },
+                    seImageNumber: 23,
+                    skinName: "Dark Blue"
                 );
-
-                ModelInfo.SkinName = "Dark Blue";
             }
         }
     }

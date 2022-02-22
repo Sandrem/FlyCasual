@@ -1,4 +1,5 @@
-﻿using SubPhases;
+﻿using Content;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,14 +12,29 @@ namespace Ship
         {
             public GrandInquisitor() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Grand Inquisitor",
+                    "Master of the Inquisitorious",
+                    Faction.Imperial,
                     5,
-                    52,
+                    6,
+                    17,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GrandInquisitorAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.ForcePower,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.ForcePower,
+                        UpgradeType.Talent,
+                        UpgradeType.Missile
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.DarkSide,
+                        Tags.Tie
+                    },
                     seImageNumber: 99
                 );
             }

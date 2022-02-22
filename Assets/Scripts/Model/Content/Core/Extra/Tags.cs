@@ -8,8 +8,10 @@ namespace Content
 {
     public enum Tags
     {
+        DarkSide,
         LightSide,
         Partisan,
+        Tie,
         XWing        
     }
 }

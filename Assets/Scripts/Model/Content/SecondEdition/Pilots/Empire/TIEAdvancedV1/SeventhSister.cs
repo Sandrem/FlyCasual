@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,14 +12,28 @@ namespace Ship
         {
             public SeventhSister() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Seventh Sister",
+                    "Sadistic Interrogator",
+                    Faction.Imperial,
                     4,
-                    43,
+                    5,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SeventhSisterAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.ForcePower,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.Talent,
+                        UpgradeType.Cannon
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.DarkSide,
+                        Tags.Tie
+                    },
                     seImageNumber: 100
                 );
             }

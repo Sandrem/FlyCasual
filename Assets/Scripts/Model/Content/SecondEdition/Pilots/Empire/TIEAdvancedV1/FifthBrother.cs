@@ -1,4 +1,5 @@
-﻿using SubPhases;
+﻿using Content;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,14 +12,28 @@ namespace Ship
         {
             public FifthBrother() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Fifth Brother",
+                    "Ruthless Brute",
+                    Faction.Imperial,
                     4,
-                    44,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FifthBrotherPilotAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.ForcePower
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.Talent,
+                        UpgradeType.Cannon
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.DarkSide,
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/01a02a00ef5aad21bc1f0a58028136ec.png";

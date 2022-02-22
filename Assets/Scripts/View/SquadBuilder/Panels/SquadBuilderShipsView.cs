@@ -26,7 +26,7 @@ namespace SquadBuilderNS
             bool isAnyShipShown = false;
             ShipPanelSquadBuilder.WaitingToLoad = 0;
 
-            foreach (ShipRecord ship in Global.SquadBuilder.Database.AllShips.OrderBy(s => s.Instance.ShipInfo.ShipName))
+            foreach (ShipRecord ship in Global.SquadBuilder.Database.AllShips.OrderBy(s => s.Instance.ShipInfo.ShipName).Where(n => n.Instance.ShipInfo.GetType() == typeof(Ship.ShipCardInfo25)))
             {
                 if (ship.Instance.ShipInfo.FactionsAll.Contains(faction) && !ship.Instance.IsHidden && HasPilots(ship, faction))
                 {

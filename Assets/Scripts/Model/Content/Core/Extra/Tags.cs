@@ -9,6 +9,7 @@ namespace Content
     public enum Tags
     {
         LightSide,
-        XWing
+        Partisan,
+        XWing        
     }
 }

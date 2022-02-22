@@ -5,6 +5,7 @@ using Tokens;
 using Upgrade;
 using BoardTools;
 using Abilities.SecondEdition;
+using Content;
 
 namespace Ship
 {
@@ -14,13 +15,27 @@ namespace Ship
         {
             public GarvenDreis() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Garven Dreis",
+                    "Red Leader",
+                    Faction.Rebel,
                     4,
-                    46,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(GarvenDreisXWingAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
                     seImageNumber: 4
                 );
 

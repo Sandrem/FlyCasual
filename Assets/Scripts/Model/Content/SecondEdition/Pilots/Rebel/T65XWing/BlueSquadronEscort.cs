@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
-using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
@@ -10,14 +10,25 @@ namespace Ship
         {
             public BlueSquadronEscort() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Blue Squadron Escort",
+                    "",
+                    Faction.Rebel,
                     2,
-                    38,
-                    seImageNumber: 11
+                    4,
+                    4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Astromech
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
+                    seImageNumber: 11,
+                    skinName: "Blue"
                 );
-
-                ModelInfo.SkinName = "Blue";
             }
         }
     }

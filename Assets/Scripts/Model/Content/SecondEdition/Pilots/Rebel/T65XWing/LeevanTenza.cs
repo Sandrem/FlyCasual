@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Actions;
 using ActionsList;
+using Content;
 using Upgrade;
 
 namespace Ship
@@ -12,17 +12,32 @@ namespace Ship
         {
             public LeevanTenza() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Leevan Tenza",
+                    "Rebel Alliance Defector",
+                    Faction.Rebel,
                     3,
-                    41,
+                    4,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeevanTenzaAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
-                    seImageNumber: 8
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Partisan,
+                        Tags.XWing
+                    },
+                    seImageNumber: 8,
+                    skinName: "Partisan"
                 );
-
-                ModelInfo.SkinName = "Partisan";
             }
         }
     }

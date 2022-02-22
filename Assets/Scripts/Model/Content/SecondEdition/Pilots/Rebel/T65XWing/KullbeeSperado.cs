@@ -3,6 +3,7 @@ using Abilities.SecondEdition;
 using System.Collections.Generic;
 using ActionsList;
 using SubPhases;
+using Content;
 
 namespace Ship
 {
@@ -12,17 +13,32 @@ namespace Ship
         {
             public KullbeeSperado() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Kullbee Sperado",
+                    "Enigmatic Gunslinger",
+                    Faction.Rebel,
                     4,
-                    43,
+                    4,
+                    6,
                     isLimited: true,
                     abilityType: typeof(KullbeeSperadoAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
-                    seImageNumber: 6
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Partisan,
+                        Tags.XWing
+                    },
+                    seImageNumber: 6,
+                    skinName: "Partisan"
                 );
-
-                ModelInfo.SkinName = "Partisan";
             }
         }
     }

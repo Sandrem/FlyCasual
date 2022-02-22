@@ -5,6 +5,7 @@ using ActionsList.SecondEdition;
 using System;
 using SubPhases;
 using Upgrade;
+using Content;
 
 namespace Ship
 {
@@ -14,13 +15,27 @@ namespace Ship
         {
             public ThaneKyrell() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Thane Kyrell",
+                    "Corona Four",
+                    Faction.Rebel,
                     5,
-                    46,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ThaneKyrellAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
                     seImageNumber: 3
                 );
             }

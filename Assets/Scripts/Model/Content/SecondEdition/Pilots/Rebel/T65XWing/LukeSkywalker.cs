@@ -27,6 +27,7 @@ namespace Ship
                         UpgradeType.ForcePower,
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

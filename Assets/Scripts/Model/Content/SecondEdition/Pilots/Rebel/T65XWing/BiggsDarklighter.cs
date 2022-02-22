@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Ship;
 using SubPhases;
 using BoardTools;
+using Content;
+using Upgrade;
 
 namespace Ship
 {
@@ -12,16 +13,29 @@ namespace Ship
         {
             public BiggsDarklighter() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Biggs Darklighter",
+                    "Red Three",
+                    Faction.Rebel,
                     3,
-                    47,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BiggsDarklighterAbility),
-                    seImageNumber: 7
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
+                    seImageNumber: 7,
+                    skinName: "Biggs Darklighter"
                 );
-
-                ModelInfo.SkinName = "Biggs Darklighter";
             }
         }
     }

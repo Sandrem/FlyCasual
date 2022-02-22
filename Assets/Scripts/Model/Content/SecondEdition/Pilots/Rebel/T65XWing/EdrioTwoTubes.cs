@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Abilities.SecondEdition;
+using Content;
 using Ship;
 using Tokens;
 using Upgrade;
@@ -12,17 +14,31 @@ namespace Ship
         {
             public EdrioTwoTubes() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Edrio Two Tubes",
+                    "Cavern Angels Veteran",
+                    Faction.Rebel,
                     2,
-                    42,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(EdrioTwoTubesAbility),
-                    extraUpgradeIcon: UpgradeType.Illicit,
-                    seImageNumber: 9
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Partisan,
+                        Tags.XWing
+                    },
+                    seImageNumber: 9,
+                    skinName: "Partisan"
                 );
-
-                ModelInfo.SkinName = "Partisan";
             }
         }
     }

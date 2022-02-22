@@ -1,7 +1,5 @@
-﻿using Editions;
-using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
-using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -12,15 +10,27 @@ namespace Ship
         {
             public CavernAngelsZealot() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Cavern Angels Zealot",
+                    "",
+                    Faction.Rebel,
                     1,
-                    38,
-                    extraUpgradeIcon: UpgradeType.Illicit,
-                    seImageNumber: 12
+                    4,
+                    4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Astromech,
+                        UpgradeType.Illicit
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Partisan,
+                        Tags.XWing
+                    },
+                    seImageNumber: 12,
+                    skinName: "Partisan"
                 );
-
-                ModelInfo.SkinName = "Partisan";
             }
         }
     }

@@ -1,5 +1,7 @@
 ﻿using Conditions;
+using Content;
 using Ship;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -11,17 +13,31 @@ namespace Ship
         {
             public WedgeAntilles() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Wedge Antilles",
+                    "Red Two",
+                    Faction.Rebel,
                     6,
-                    54,
+                    6,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WedgeAntillesAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 1
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
+                    seImageNumber: 1,
+                    skinName: "Wedge Antilles"
                 );
-
-                ModelInfo.SkinName = "Wedge Antilles";
             }
         }
     }

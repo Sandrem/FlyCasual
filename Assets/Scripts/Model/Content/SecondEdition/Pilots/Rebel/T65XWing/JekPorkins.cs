@@ -1,7 +1,9 @@
 ﻿using Abilities.SecondEdition;
+using Content;
 using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -13,17 +15,29 @@ namespace Ship
         {
             public JekPorkins() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Jek Porkins",
+                    "Red Six",
+                    Faction.Rebel,
                     4,
-                    44,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(JekPorkinsAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 5
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
+                    seImageNumber: 5,
+                    skinName: "Jek Porkins"
                 );
-
-                ModelInfo.SkinName = "Jek Porkins";
             }
         }
     }

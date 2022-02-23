@@ -1,27 +1,79 @@
-﻿using GameModes;
-using Movement;
+﻿using Movement;
 using Ship;
+using System;
 using Upgrade;
+using System.Collections.Generic;
+using Content;
 
 namespace Ship
 {
-    namespace FirstEdition.TIEDefender
+    namespace SecondEdition.TIEDDefender
     {
-        public class CountessRyad : TIEDefender
+        public class CountessRyad : TIEDDefender
         {
             public CountessRyad() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Countess Ryad",
-                    5,
-                    34,
+                    "Cutthroat Politico",
+                    Faction.Imperial,
+                    4,
+                    8,
+                    12,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.CountessRyadAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.CountessRyadAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Sensor,
+                        UpgradeType.Missile
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    seImageNumber: 124,
+                    skinName: "Crimson"
                 );
-
-                ModelInfo.SkinName = "Crimson";
             }
+        }
+    }
+}
+
+namespace Abilities.SecondEdition
+{
+    //While you would execute a straight maneuver, you may increase difficulty of the maeuver. If you do, execute it as a koiogran turn maneuver instead.
+    public class CountessRyadAbility : Abilities.FirstEdition.CountessRyadAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.BeforeMovementIsExecuted += RegisterAskChangeManeuver;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.BeforeMovementIsExecuted -= RegisterAskChangeManeuver;
+        }
+
+        protected override void RegisterAskChangeManeuver(GenericShip ship)
+        {
+            //I have assumed that you can not use this ability if you execute a red maneuver
+            if (HostShip.AssignedManeuver.ColorComplexity != MovementComplexity.Complex
+                && HostShip.AssignedManeuver.Bearing == ManeuverBearing.Straight
+                && !HostShip.AssignedManeuver.IsIonManeuver)
+            {
+                RegisterAbilityTrigger(TriggerTypes.BeforeMovementIsExecuted, AskChangeManeuver);
+            }
+        }
+
+        protected override MovementComplexity GetNewManeuverComplexity()
+        {
+            if (HostShip.AssignedManeuver.ColorComplexity == MovementComplexity.Complex)
+                throw new Exception("Can't increase difficulty of red maneuvers");
+
+            return HostShip.AssignedManeuver.ColorComplexity + 1;
         }
     }
 }

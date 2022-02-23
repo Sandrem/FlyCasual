@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,31 @@ namespace Ship
         {
             public VultSkerrisDefender() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Vult Skerris",
+                    "Arrogant Ace",
+                    Faction.Imperial,
                     5,
-                    77,
+                    8,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VultSkerrisDefenderAbility),
-                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Sensor },
                     charges: 1,
-                    regensCharges: -1
+                    regensCharges: -1,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Missile
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    skinName: "Yellow Edges"
                 );
-
-                ModelInfo.SkinName = "Yellow Edges";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/50/1e/501ea754-bb34-499e-aec9-1f65f941666a/swz84_ship_vultskerris.png";
             }

@@ -1,6 +1,7 @@
 ﻿using Tokens;
 using Upgrade;
 using System.Collections.Generic;
+using Content;
 
 namespace Ship
 {
@@ -10,13 +11,27 @@ namespace Ship
         {
             public RexlerBrath() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Rexler Brath",
+                    "Onyx Leader",
+                    Faction.Imperial,
                     5,
-                    78,
+                    8,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RexlerBrathAbility),
-                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Sensor },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
                     seImageNumber: 122
                 );
             }

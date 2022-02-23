@@ -1,27 +1,43 @@
 ﻿using Upgrade;
+using System.Collections.Generic;
+using Content;
 
 namespace Ship
 {
-    namespace FirstEdition.TIEDefender
+    namespace SecondEdition.TIEDDefender
     {
-        public class ColonelVessery : TIEDefender
+        public class ColonelVessery : TIEDDefender
         {
             public ColonelVessery() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Colonel Vessery",
-                    6,
-                    35,
+                    "Contemplative Commander",
+                    Faction.Imperial,
+                    4,
+                    8,
+                    10,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.ColonelVesseryAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.ColonelVesseryAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Missile
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    seImageNumber: 123
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class ColonelVesseryAbility : GenericAbility
     {

@@ -1,5 +1,5 @@
-﻿using ActionsList;
-using BoardTools;
+﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -13,13 +13,26 @@ namespace Ship.SecondEdition.TIEDDefender
     {
         public CaptainDobbs() : base()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Captain Dobbs",
+                "Reliable Replacement",
+                Faction.Imperial,
                 3,
-                73,
+                7,
+                12,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.CaptainDobbsAbility),
-                extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Sensor }
+                extraUpgradeIcons: new List<UpgradeType>()
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Sensor,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Tie
+                }
             );
 
             ImageUrl = "https://i.imgur.com/RfgdAPL.png";

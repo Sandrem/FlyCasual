@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Content;
+using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -8,13 +9,28 @@ namespace Ship.SecondEdition.TIEDDefender
     {
         public DarthVader() : base()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Darth Vader",
+                "Dark Lord of the Sith",
+                Faction.Imperial,
                 6,
-                112,
+                11,
+                14,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DarthVaderDefenderAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower,
+                extraUpgradeIcons: new List<UpgradeType>()
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.Tech,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Tie,
+                    Tags.DarkSide,
+                    Tags.Sith
+                },
                 abilityText: "You may not spend force charges except when attacking. While you perform an attack, you may spend 1 force charge to turn a blank result into a hit.",
                 force: 3
             );

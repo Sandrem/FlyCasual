@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,16 +10,29 @@ namespace Ship
         {
             public HiredGun() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Hired Gun",
+                    "",
+                    Faction.Scum,
                     2,
-                    31,
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit, UpgradeType.Modification },
-                    factionOverride: Faction.Scum,
-                    seImageNumber: 167
+                    4,
+                    6,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    },
+                    seImageNumber: 167,
+                    skinName: "Gray"
                 );
-
-                ModelInfo.SkinName = "Gray";
             }
         }
     }

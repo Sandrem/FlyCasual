@@ -21,7 +21,8 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Device,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

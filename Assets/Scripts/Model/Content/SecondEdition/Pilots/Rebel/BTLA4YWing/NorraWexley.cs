@@ -27,7 +27,8 @@ namespace Ship
                         UpgradeType.Turret,
                         UpgradeType.Torpedo,
                         UpgradeType.Astromech,
-                        UpgradeType.Device
+                        UpgradeType.Device,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

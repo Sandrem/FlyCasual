@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,16 +10,28 @@ namespace Ship
         {
             public CrymorahGoon() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Crymorah Goon",
+                    "",
+                    Faction.Scum,
                     1,
-                    29,
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Illicit, UpgradeType.Modification },
-                    factionOverride: Faction.Scum,
-                    seImageNumber: 168
+                    4,
+                    4,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Turret,
+                        UpgradeType.Missile,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    },
+                    seImageNumber: 168,
+                    skinName: "Brown"
                 );
-
-                ModelInfo.SkinName = "Brown";
             }
         }
     }

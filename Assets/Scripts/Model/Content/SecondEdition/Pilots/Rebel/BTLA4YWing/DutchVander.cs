@@ -35,7 +35,8 @@ namespace Ship
                         UpgradeType.Missile,
                         UpgradeType.Astromech,
                         UpgradeType.Device,
-                        UpgradeType.Device
+                        UpgradeType.Device,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

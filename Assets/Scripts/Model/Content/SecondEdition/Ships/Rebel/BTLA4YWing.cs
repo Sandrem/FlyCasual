@@ -35,10 +35,7 @@ namespace Ship
                         new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                         new ActionInfo(typeof(ReloadAction), ActionColor.Red)
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Modification
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ModelInfo = new ShipModelInfo

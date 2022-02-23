@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -11,17 +10,26 @@ namespace Ship
         {
             public AmaxineWarrior() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "Amaxine Warrior",
+                    "",
+                    Faction.Scum,
                     3,
-                    33,
+                    4,
+                    6,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Talent,
-                        UpgradeType.Tech
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device
                     },
-                    factionOverride: Faction.Scum
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/52/7d/527dd63a-1c64-4d78-bac3-b7b999accaf9/swz85_pilot_amaxinewarrior.png";

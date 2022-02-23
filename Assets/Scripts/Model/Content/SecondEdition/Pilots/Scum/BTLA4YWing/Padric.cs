@@ -1,4 +1,5 @@
 ﻿using Bombs;
+using Content;
 using Ship;
 using System;
 using System.Collections;
@@ -14,21 +15,33 @@ namespace Ship
         {
             public Padric() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Padric",
+                    "Napkin Bomber",
+                    Faction.Scum,
                     3,
-                    36,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PadricAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Tech 
+                        UpgradeType.Tech,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
                     },
-                    factionOverride: Faction.Scum
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    },
+                    skinName: "Gray"
                 );
-
-                ModelInfo.SkinName = "Gray";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/df/43/df43e318-057c-4c0e-9419-104687ed1ef2/swz85_ship_padric.png";
             }

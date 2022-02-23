@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,14 +10,31 @@ namespace Ship
         {
             public Kavil() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Kavil",
+                    "Callous Corsair",
+                    Faction.Scum,
                     5,
-                    41,
+                    6,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KavilAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit, UpgradeType.Modification },
-                    factionOverride: Faction.Scum,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    },
                     seImageNumber: 165
                 );
             }

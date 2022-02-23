@@ -1,8 +1,8 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -12,19 +12,30 @@ namespace Ship.SecondEdition.BTLA4YWing
     {
         public LeemaKai() : base()
         {
-            PilotInfo = new PilotCardInfo
+            PilotInfo = new PilotCardInfo25
             (
                 "Leema Kai",
+                "Opportunity Knocks",
+                Faction.Scum,
                 5,
-                39,
+                5,
+                14,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.LeemaKaiAbility),
                 extraUpgradeIcons: new List<UpgradeType>()
                 {
                     UpgradeType.Talent,
-                    UpgradeType.Tech
+                    UpgradeType.Tech,
+                    UpgradeType.Turret,
+                    UpgradeType.Torpedo,
+                    UpgradeType.Missile,
+                    UpgradeType.Astromech,
+                    UpgradeType.Device
                 },
-                factionOverride: Faction.Scum
+                tags: new List<Tags>
+                {
+                    Tags.YWing
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f5/ce/f5ce6adb-194d-458f-a6df-f84a6cc57d33/swz85_pilot_leemakai.png";

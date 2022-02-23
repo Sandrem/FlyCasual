@@ -23,7 +23,8 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Turret,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

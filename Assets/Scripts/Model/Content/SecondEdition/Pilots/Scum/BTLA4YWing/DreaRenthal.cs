@@ -1,6 +1,6 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -12,14 +12,31 @@ namespace Ship
         {
             public DreaRenthal() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Drea Renthal",
+                    "Pirate Lord",
+                    Faction.Scum,
                     4,
-                    46,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DreaRenthalAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit, UpgradeType.Modification},
-                    factionOverride: Faction.Scum,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    },
                     seImageNumber: 166
                 );
             }

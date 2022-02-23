@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "C-3PO",
                 UpgradeType.Crew,
-                cost: 7,
+                cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 addAction: new ActionInfo(typeof(CalculateAction)),

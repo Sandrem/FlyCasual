@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Sabine Wren",
                 UpgradeType.Gunner,
-                cost: 1,
+                cost: 2,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.SabineWrenGunnerAbility),
                 restriction: new FactionRestriction(Faction.Rebel)

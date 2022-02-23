@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Moldy Crow",
                 UpgradeType.Title,
-                cost: 16, 
+                cost: 0, 
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.Hwk290LightFreighter.Hwk290LightFreighter)),
                 addArc: new ShipArcInfo(ArcType.Front, 3),

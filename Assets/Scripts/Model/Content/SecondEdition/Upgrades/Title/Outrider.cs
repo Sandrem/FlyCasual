@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Outrider",
                 UpgradeType.Title,
-                cost: 6,
+                cost: 0,
                 isLimited: true,
                 restrictions: new UpgradeCardRestrictions
                 (

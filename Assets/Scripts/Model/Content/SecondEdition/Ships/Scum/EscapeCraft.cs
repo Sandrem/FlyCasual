@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Actions;
@@ -7,7 +6,7 @@ using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
-using Upgrade;
+using Ship.CardInfo;
 
 namespace Ship.SecondEdition.EscapeCraft
 {
@@ -15,33 +14,35 @@ namespace Ship.SecondEdition.EscapeCraft
     {
         public EscapeCraft() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Escape Craft",
                 BaseSize.Small,
-                Faction.Scum,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Scum, typeof(AutopilotDrone) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 2, 2, 2,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(CoordinateAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Modification,
-                    UpgradeType.Crew
-                )
+                new ShipUpgradesInfo()
             );
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Scum, typeof(AutopilotDrone) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Escape Craft",
                 "Default"
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary, MovementComplexity.Complex),
 
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
@@ -60,7 +61,8 @@ namespace Ship.SecondEdition.EscapeCraft
                 new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "XWing-Fly1",
@@ -69,8 +71,6 @@ namespace Ship.SecondEdition.EscapeCraft
                 },
                 "XWing-Laser", 2
             );
-
-            HotacManeuverTable = new AI.EscapeCraftTable();
 
             ShipIconLetter = 'X';
         }

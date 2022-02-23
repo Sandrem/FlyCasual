@@ -11,13 +11,22 @@ namespace Ship
         {
             public OuterRimPioneer() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Outer Rim Pioneer",
+                    "Skillful Outlaw",
+                    Faction.Scum,
                     3,
-                    28,
+                    3,
+                    4,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OuterRimPioneerAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 227
                 );
 

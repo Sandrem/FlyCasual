@@ -1,9 +1,7 @@
-﻿using Actions;
-using ActionsList;
-using BoardTools;
+﻿using BoardTools;
+using Content;
 using Ship;
 using System.Collections.Generic;
-using Upgrade;
 
 namespace Ship
 {
@@ -13,17 +11,22 @@ namespace Ship
         {
             public AutopilotDrone() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Autopilot Drone",
+                    "Set to Blow",
+                    Faction.Scum,
                     1,
-                    12,
+                    2,
+                    0,
                     isLimited: true,
                     charges: 3,
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid
+                    },
                     seImageNumber: 229
                 );
-
-                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
-                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Modification);
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();
 

@@ -1,5 +1,5 @@
 ﻿using Actions;
-using ActionsList;
+using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -11,13 +11,26 @@ namespace Ship
         {
             public L337EscapeCraft() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "L3-37",
+                    "Droid Revolutionary",
+                    Faction.Scum,
                     2,
-                    26,
+                    3,
+                    4,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.L337Ability),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid
+                    },
                     seImageNumber: 228
                 );
 

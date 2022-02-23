@@ -1,7 +1,8 @@
-﻿using Movement;
+﻿using Content;
+using Movement;
 using Ship;
-using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -11,12 +12,29 @@ namespace Ship
         {
             public L337() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "L3-37",
+                    "Droid Revolutionary",
+                    Faction.Scum,
                     2,
-                    41,
+                    6,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.L337Ability),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.YT1300,
+                        Tags.Droid
+                    },
                     seImageNumber: 224
                 );
 

@@ -9,13 +9,22 @@ namespace Ship
         {
             public LandoCalrissianEscapeCraft() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lando Calrissian",
+                    "Smooth-talking Gambler",
+                    Faction.Scum,
                     4,
-                    29,
+                    3,
+                    4,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 226
                 );
 

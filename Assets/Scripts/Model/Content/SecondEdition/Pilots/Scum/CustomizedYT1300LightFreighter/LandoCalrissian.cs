@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using Content;
+using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -11,13 +11,29 @@ namespace Ship
         {
             public LandoCalrissian() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lando Calrissian",
+                    "Smooth-talking Gambler",
+                    Faction.Scum,
                     4,
-                    42,
+                    6,
+                    17,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LandoCalrissianScumPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.YT1300
+                    },
                     seImageNumber: 223
                 );
             }

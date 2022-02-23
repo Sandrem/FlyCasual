@@ -1,6 +1,6 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -12,13 +12,29 @@ namespace Ship
         {
             public HanSolo() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Han Solo",
+                    "The Corellian Kid",
+                    Faction.Scum,
                     6,
-                    48,
+                    7,
+                    24,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloScumPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.YT1300
+                    },
                     seImageNumber: 222
                 );
             }

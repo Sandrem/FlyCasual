@@ -7,25 +7,25 @@ using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
-namespace Ship.SecondEdition.ModifiedYT1300LightFreighter
+namespace Ship.SecondEdition.CustomizedYT1300LightFreighter
 {
-    public class ModifiedYT1300LightFreighter : GenericShip
+    public class CustomizedYT1300LightFreighter : GenericShip
     {
-        public ModifiedYT1300LightFreighter() : base()
+        public CustomizedYT1300LightFreighter() : base()
         {
             ShipInfo = new ShipCardInfo25
             (
-                "Modified YT-1300 Light Freighter",
+                "Customized YT-1300 Light Freighter",
                 BaseSize.Large,
                 new FactionData
                 (
                     new Dictionary<Faction, System.Type>
                     {
-                        { Faction.Rebel, typeof(HanSolo) }
+                        { Faction.Scum, typeof(HanSolo) }
                     }
                 ),
-                new ShipArcsInfo(ArcType.DoubleTurret, 3),
-                1, 8, 5,
+                new ShipArcsInfo(ArcType.DoubleTurret, 2),
+                1, 8, 3,
                 new ShipActionsInfo
                 (
                     new ActionInfo(typeof(FocusAction)),
@@ -36,28 +36,29 @@ namespace Ship.SecondEdition.ModifiedYT1300LightFreighter
                 new ShipUpgradesInfo
                 (
                     UpgradeType.Missile,
-                    UpgradeType.Gunner
+                    UpgradeType.Gunner,
+                    UpgradeType.Illicit
                 )
             );
 
             ModelInfo = new ShipModelInfo
             (
-                "YT-1300",
-                "YT-1300",
-                new Vector3(-3.25f, 7.55f, 5.55f),
+                "Customized YT-1300 Light Freighter",
+                "Default",
+                new Vector3(-3.3f, 7.3f, 5.55f),
                 3.5f
             );
 
             DialInfo = new ShipDialInfo
             (
-                new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
-                new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
+                new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
 
                 new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
-                new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
+                new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
-                new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
+                new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
 
                 new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
@@ -83,7 +84,7 @@ namespace Ship.SecondEdition.ModifiedYT1300LightFreighter
                 "Falcon-Fire", 2
             );
 
-            ShipIconLetter = 'm';
+            ShipIconLetter = 'W';
         }
     }
 }

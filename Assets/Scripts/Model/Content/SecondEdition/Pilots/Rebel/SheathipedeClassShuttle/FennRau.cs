@@ -1,35 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Ship;
-using Conditions;
-using Tokens;
-using ActionsList;
-using SubPhases;
+﻿using ActionsList;
 using BoardTools;
+using Conditions;
+using Content;
+using Ship;
+using SubPhases;
+using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.SheathipedeClassShuttle
+    namespace SecondEdition.SheathipedeClassShuttle
     {
         public class FennRau : SheathipedeClassShuttle
         {
             public FennRau() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Fenn Rau",
-                    9,
-                    20,
+                    "Reluctant Rebel",
+                    Faction.Rebel,
+                    6,
+                    5,
+                    15,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.FennRauRebelAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.FennRauRebelAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Spectre,
+                        Tags.Mandalorian
+                    },
+                    seImageNumber: 38
                 );
+
+                PilotNameCanonical = "fennrau-sheathipedeclassshuttle";
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class FennRauRebelAbility : GenericAbility
     {

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,14 +10,26 @@ namespace Ship
         {
             public EzraBridger() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Ezra Bridger",
+                    "Spectre-6",
+                    Faction.Rebel,
                     3,
-                    40,
+                    4,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
                     force: 1,
-                    extraUpgradeIcon: UpgradeType.ForcePower,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.ForcePower
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Spectre,
+                        Tags.LightSide
+                    },
                     seImageNumber: 39
                 );
 

@@ -11,7 +11,7 @@
                     2,
                     22,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.ZebOrreliosPilotAbility),
+                    abilityType: typeof(Abilities.SecondEdition.ZebOrreliosPilotAbility),
                     factionOverride: Faction.Rebel,
                     seImageNumber: 49
                 );

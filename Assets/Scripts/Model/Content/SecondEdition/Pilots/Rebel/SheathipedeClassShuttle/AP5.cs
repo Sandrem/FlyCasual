@@ -1,10 +1,8 @@
-﻿using Actions;
-using ActionsList;
+﻿using ActionsList;
+using Content;
 using Ship;
-using System.Collections;
 using System.Collections.Generic;
 using Tokens;
-using Upgrade;
 
 namespace Ship
 {
@@ -14,13 +12,21 @@ namespace Ship
         {
             public AP5() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "AP-5",
+                    "Escaped Analyst Droid",
+                    Faction.Rebel,
                     1,
-                    32,
+                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AP5PilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    tags: new List<Tags>
+                    {
+                        Tags.Spectre,
+                        Tags.Droid
+                    },
                     seImageNumber: 41
                 );
 

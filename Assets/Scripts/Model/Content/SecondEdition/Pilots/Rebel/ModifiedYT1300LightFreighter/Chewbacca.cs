@@ -1,6 +1,6 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -12,15 +12,33 @@ namespace Ship
         {
             public Chewbacca() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Chewbacca",
+                    "The Mighty",
+                    Faction.Rebel,
                     4,
-                    70,
+                    7,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChewbaccaRebelPilotAbility),
                     charges: 1,
                     regensCharges: 1,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Title,
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.YT1300
+                    },
                     seImageNumber: 71
                 );
             }

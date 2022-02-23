@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
 
 namespace Ship
@@ -9,10 +9,19 @@ namespace Ship
         {
             public OuterRimSmuggler() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Outer Rim Smuggler",
+                    "",
+                    Faction.Rebel,
                     1,
-                    67,
+                    7,
+                    6,
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.YT1300
+                    },
                     seImageNumber: 72
                 );
             }

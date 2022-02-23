@@ -11,6 +11,7 @@
         Spectre,
         Tie,
         XWing,
+        YT1300,
         YWing
     }
 }

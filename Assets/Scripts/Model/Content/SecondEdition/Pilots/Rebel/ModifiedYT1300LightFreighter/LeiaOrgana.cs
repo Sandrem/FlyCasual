@@ -1,4 +1,4 @@
-﻿using BoardTools;
+﻿using Content;
 using Movement;
 using Ship;
 using SubPhases;
@@ -14,15 +14,34 @@ namespace Ship
         {
             public LeiaOrgana() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Leia Organa",
+                    "There Is Another",
+                    Faction.Rebel,
                     5,
-                    77,
+                    8,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeiaOrganaPilotAbility),
-                    extraUpgradeIcon: UpgradeType.ForcePower,
-                    force: 1
+                    force: 1,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Title,
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.YT1300,
+                        Tags.LightSide
+                    }
                 );
+
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/5b/ff/5bffb367-cb6e-4b8b-948f-25a70acd3a3f/swz66_leia-organa.png";
             }
         }

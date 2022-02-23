@@ -1,6 +1,6 @@
 ﻿using BoardTools;
+using Content;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -12,15 +12,33 @@ namespace Ship
         {
             public HanSolo() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Han Solo",
+                    "Scoundrel for Hire",
+                    Faction.Rebel,
                     6,
-                    79,
+                    9,
+                    25,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloRebelPilotAbility),
                     charges: 1,
                     regensCharges: 1,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Title,
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.YT1300
+                    },
                     seImageNumber: 69
                 );
 

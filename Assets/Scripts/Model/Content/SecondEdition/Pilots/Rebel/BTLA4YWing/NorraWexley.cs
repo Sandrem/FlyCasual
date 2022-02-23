@@ -1,7 +1,5 @@
-﻿using Ship;
-using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Upgrade;
 
@@ -13,13 +11,28 @@ namespace Ship
         {
             public NorraWexley() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Norra Wexley",
+                    "Gold Nine",
+                    Faction.Rebel,
                     5,
-                    40,
+                    5,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NorraWexleyAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    },
                     seImageNumber: 13
                 );
 

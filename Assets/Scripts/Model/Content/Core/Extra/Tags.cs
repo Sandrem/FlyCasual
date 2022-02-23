@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Content
+﻿namespace Content
 {
     public enum Tags
     {
@@ -15,6 +9,7 @@ namespace Content
         Partisan,
         Spectre,
         Tie,
-        XWing        
+        XWing,
+        YWing
     }
 }

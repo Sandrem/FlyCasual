@@ -3,7 +3,7 @@ using ActionsList;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections;
+using Content;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
@@ -18,13 +18,29 @@ namespace Ship
         {
             public DutchVander() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Dutch\" Vander",
+                    "Gold Leader",
+                    Faction.Rebel,
                     4,
-                    40,
+                    4,
+                    12,
                     isLimited: true,
                     abilityType: typeof(DutchVanderAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Device
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    },
                     seImageNumber: 14
                 );
             }

@@ -1,5 +1,6 @@
 ﻿using Abilities.SecondEdition;
 using BoardTools;
+using Content;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,17 +16,32 @@ namespace Ship
         {
             public HortonSalm() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Horton Salm",
+                    "Gray Leader",
+                    Faction.Rebel,
                     4,
-                    36,
+                    4,
+                    14,
                     isLimited: true,
                     abilityType: typeof(HortonSalmAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
-                    seImageNumber: 15
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    },
+                    seImageNumber: 15,
+                    skinName: "Gray"
                 );
-
-                ModelInfo.SkinName = "Gray";
             }
         }
     }

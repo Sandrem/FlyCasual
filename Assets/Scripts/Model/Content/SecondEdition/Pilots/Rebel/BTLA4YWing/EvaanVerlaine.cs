@@ -1,11 +1,9 @@
 ﻿using Abilities.SecondEdition;
 using Conditions;
+using Content;
 using Ship;
 using SubPhases;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Tokens;
 using Upgrade;
 
@@ -17,13 +15,30 @@ namespace Ship
         {
             public EvaanVerlaine() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Evaan Verlaine",
+                    "Gold Three",
+                    Faction.Rebel,
                     3,
-                    34,
+                    4,
+                    15,
                     isLimited: true,
                     abilityType: typeof(EvaanVerlaineAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Modification },
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    },
                     seImageNumber: 16
                 );
             }

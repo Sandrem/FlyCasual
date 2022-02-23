@@ -1,4 +1,5 @@
-﻿using Mods.ModsList;
+﻿using Content;
+using Mods.ModsList;
 using System;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,21 +12,35 @@ namespace Ship
         {
             public SabineWren() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Sabine Wren",
+                    "Daughter of Mandalore",
+                    Faction.Rebel,
                     3,
-                    35,
+                    4,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SabineWrenAWingAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent },
-                    abilityText: "While you defend or perform an attack, if the attack range is 1 and you are in the enemy ship's front arc, you may change 1 of your results to a hit or evade result."
+                    abilityText: "While you defend or perform an attack, if the attack range is 1 and you are in the enemy ship's front arc, you may change 1 of your results to a hit or evade result.",
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing,
+                        Tags.Mandalorian
+                    },
+                    skinName: "Green"
                 );
 
                 PilotNameCanonical = "sabinewren-rz1awing";
-
-                ModelInfo.SkinName = "Phoenix Squadron";
-
-                ModelInfo.SkinName = "Green";
 
                 ImageUrl = "https://i.imgur.com/zpIsycf.png";
             }

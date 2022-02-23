@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -14,17 +15,30 @@ namespace Ship
         {
             public JakeFarrell() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Jake Farrell",
+                    "Sage Instructor",
+                    Faction.Rebel,
                     4,
-                    34,
+                    4,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JakeFarrellAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent },
-                    seImageNumber: 19
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    },
+                    seImageNumber: 19,
+                    skinName: "Blue"
                 );
-
-                ModelInfo.SkinName = "Blue";
             }
         }
     }

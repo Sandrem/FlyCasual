@@ -1,7 +1,6 @@
 ﻿using Conditions;
-using Mods.ModsList;
+using Content;
 using Ship;
-using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -13,19 +12,31 @@ namespace Ship
         {
             public WedgeAntilles() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Wedge Antilles",
+                    "Promising Pilot",
+                    Faction.Rebel,
                     4,
-                    35,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WedgeAntillesAWingAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent },
-                    abilityText: "While you perform a primary attack, if the defender is your front arc. The defender rolls 1 fewer defense die."
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    },
+                    abilityText: "While you perform a primary attack, if the defender is your front arc. The defender rolls 1 fewer defense die.",
+                    skinName: "Blue"
                 );
 
                 PilotNameCanonical = "wedgeantilles-rz1awing";
-
-                ModelInfo.SkinName = "Blue";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/3f/b7/3fb7e02c-21fc-4f85-bbcd-2fcf2c5efcab/swz83_pilot_wedgeantilles.png";
             }

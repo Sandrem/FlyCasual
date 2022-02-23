@@ -1,5 +1,6 @@
 ﻿using Actions;
 using ActionsList;
+using Content;
 using Movement;
 using Ship;
 using SubPhases;
@@ -18,13 +19,24 @@ namespace Ship
         {
             public ArvelCrynyd() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Arvel Crynyd",
+                    "Green Leader",
+                    Faction.Rebel,
                     3,
-                    32,
+                    3,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ArvelCrynydAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent },
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    },
                     seImageNumber: 20
                 );
             }

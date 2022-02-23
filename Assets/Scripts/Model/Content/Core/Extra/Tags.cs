@@ -2,6 +2,7 @@
 {
     public enum Tags
     {
+        AWing,
         BWing,
         DarkSide,
         Freighter,

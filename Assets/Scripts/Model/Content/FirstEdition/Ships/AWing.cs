@@ -32,7 +32,7 @@ namespace Ship.FirstEdition.AWing
             );
 
             IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(TychoCelchu) }
+                { Faction.Rebel, null }
             };
 
             ModelInfo = new ShipModelInfo(

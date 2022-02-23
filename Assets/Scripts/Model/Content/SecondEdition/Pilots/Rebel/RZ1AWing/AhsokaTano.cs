@@ -1,4 +1,5 @@
-﻿using Mods.ModsList;
+﻿using Content;
+using Mods.ModsList;
 using Ship;
 using SubPhases;
 using System;
@@ -13,20 +14,35 @@ namespace Ship
         {
             public AhsokaTano() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Ahsoka Tano",
+                    "Fulcrum",
+                    Faction.Rebel,
                     5,
-                    49,
+                    6,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AhsokaTanoRebelAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.ForcePower, UpgradeType.ForcePower },
                     force: 3,
-                    abilityText: "After you fully execute a maneuver, you may choose a friendly ship at range 0-1 and spend 1 Force. That ship may perform an action, even if it is stressed."
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.ForcePower,
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing,
+                        Tags.LightSide
+                    },
+                    abilityText: "After you fully execute a maneuver, you may choose a friendly ship at range 0-1 and spend 1 Force. That ship may perform an action, even if it is stressed.",
+                    skinName: "Blue"
                 );
 
                 PilotNameCanonical = "ahsokatano-rz1awing";
-
-                ModelInfo.SkinName = "Blue";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f2/84/f284aa2b-9e09-4c3c-968b-935360a65edc/swz83_pilot_ahsokatano.png";
             }

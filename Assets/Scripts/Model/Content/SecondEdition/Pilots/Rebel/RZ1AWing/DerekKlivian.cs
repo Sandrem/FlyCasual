@@ -1,4 +1,5 @@
-﻿using Mods.ModsList;
+﻿using Content;
+using Mods.ModsList;
 using Ship;
 using SubPhases;
 using System;
@@ -13,16 +14,22 @@ namespace Ship.SecondEdition.RZ1AWing
     {
         public DerekKlivian() : base()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Derek Klivian",
+                "Hobbie",
+                Faction.Rebel,
                 3,
-                30,
+                2,
+                0,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DerekKlivianAbility),
-                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
+                tags: new List<Tags>
+                {
+                    Tags.AWing
+                },
+                skinName: "Blue"
             );
-
-            ModelInfo.SkinName = "Blue";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d3/b1/d3b16ec1-de8e-446c-8fab-b7749a6537c8/swz83_pilot_derekklivian.png";
         }

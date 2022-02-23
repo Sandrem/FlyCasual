@@ -1,32 +1,45 @@
-﻿using System.Collections;
+﻿using Ship;
 using System.Collections.Generic;
-using Ship;
 using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.ARC170
+    namespace SecondEdition.ARC170Starfighter
     {
-        public class BraylenStramm : ARC170
+        public class Ibtisam : ARC170Starfighter
         {
-            public BraylenStramm() : base()
+            public Ibtisam() : base()
             {
-                PilotInfo = new PilotCardInfo(
-                    "Braylen Stramm",
+                PilotInfo = new PilotCardInfo25
+                (
+                    "Ibtisam",
+                    "Survivor of Endor",
+                    Faction.Rebel,
                     3,
-                    25,
+                    4,
+                    8,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.BraylenStrammAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.IbtisamAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 68
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
-    public class BraylenStrammAbility : GenericAbility
+    public class IbtisamAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

@@ -12,13 +12,27 @@ namespace Ship
         {
             public GarvenDreis() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Garven Dreis",
+                    "Red Leader",
+                    Faction.Rebel,
                     4,
-                    49,
+                    5,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GarvenDreisArcAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 66
                 );
             }

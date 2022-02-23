@@ -12,13 +12,27 @@ namespace Ship
         {
             public SharaBey() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Shara Bey",
+                    "Green Four",
+                    Faction.Rebel,
                     4,
-                    50,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SharaBeyAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 67
                 );
             }
@@ -29,6 +43,7 @@ namespace Ship
 namespace Abilities.SecondEdition
 {
     //While you defend or perform a primary attack, you may spend 1 lock you have on the enemy ship to add 1 focus result to your dice results.
+
     public class SharaBeyAbility : GenericAbility
     {
         public override void ActivateAbility()

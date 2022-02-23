@@ -3,6 +3,7 @@
     public enum Tags
     {
         AWing,
+        BountyHunter,
         BWing,
         Clone,
         DarkSide,

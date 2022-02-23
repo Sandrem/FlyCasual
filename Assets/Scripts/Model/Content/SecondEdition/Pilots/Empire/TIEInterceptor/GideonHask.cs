@@ -1,5 +1,5 @@
 ﻿using Abilities.SecondEdition;
-using System;
+using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -11,13 +11,25 @@ namespace Ship
         {
             public GideoHask() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Gideon Hask",
+                    "Inferno Two",
+                    Faction.Imperial,
                     4,
-                    48,
+                    5,
+                    8,
                     isLimited: true,
                     abilityType: typeof(GideoHaskTieInterceptorAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 PilotNameCanonical = "gideonhask-tieininterceptor";

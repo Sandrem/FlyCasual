@@ -1,5 +1,6 @@
 ﻿using Abilities.SecondEdition;
 using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,25 @@ namespace Ship.SecondEdition.TIEInterceptor
     {
         public CienaRee() : base()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Ciena Ree",
+                "Look Through My Eyes",
+                Faction.Imperial,
                 6,
-                48,
+                5,
+                10,
                 isLimited: true,
                 abilityType: typeof(CienaReeAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>()
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Talent
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Tie
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/19/2b/192b0e2b-9b56-4480-bced-13933545bae3/swz84_pilot_cienaree.png";

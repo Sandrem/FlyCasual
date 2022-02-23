@@ -1,6 +1,7 @@
 ﻿using Abilities.SecondEdition;
 using ActionsList;
 using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,27 @@ namespace Ship.SecondEdition.TIEInterceptor
     {
         public CommandantGoran() : base()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Commandant Goran",
+                "Skystrike Superintendent",
+                Faction.Imperial,
                 4,
-                43,
+                4,
+                8,
                 isLimited: true,
                 abilityType: typeof(CommandantGoranAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>()
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Modification
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Tie
+                },
+                skinName: "Skystrike Academy"
             );
-
-            ModelInfo.SkinName = "Skystrike Academy";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/94/37/94377171-95d9-40e5-99be-8f8d6e52eb28/swz84_pilot_commandantgoran.png";
         }

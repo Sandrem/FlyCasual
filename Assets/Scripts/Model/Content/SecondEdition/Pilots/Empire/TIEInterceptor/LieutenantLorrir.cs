@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Movement;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,29 @@ namespace Ship
         {
             public LieutenantLorrir() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lieutenant Lorrir",
+                    "Requiem for Brentaal",
+                    Faction.Imperial,
                     3,
-                    39,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantLorrirAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    abilityText: "While you barrel roll, you may use bank templates, instead of straight template"
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    abilityText: "While you barrel roll, you may use bank templates, instead of straight template",
+                    skinName: "Skystrike Academy"
                 );
-
-                ModelInfo.SkinName = "Skystrike Academy";
 
                 ImageUrl = "https://i.imgur.com/5bOPsfP.png";
             }

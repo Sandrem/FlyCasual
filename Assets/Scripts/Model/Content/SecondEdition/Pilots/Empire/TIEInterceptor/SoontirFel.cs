@@ -1,4 +1,5 @@
 ﻿using Abilities.SecondEdition;
+using Content;
 using System;
 using System.Collections.Generic;
 using Tokens;
@@ -12,17 +13,29 @@ namespace Ship
         {
             public SoontirFel() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Soontir Fel",
+                    "Ace of Legend",
+                    Faction.Imperial,
                     6,
-                    53,
+                    6,
+                    12,
                     isLimited: true,
                     abilityType: typeof(SoontirFelAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 103
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    seImageNumber: 103,
+                    skinName: "Red Stripes"
                 );
-
-                ModelInfo.SkinName = "Red Stripes";
             }
         }
     }

@@ -1,8 +1,8 @@
 ﻿using Abilities.Parameters;
 using Arcs;
+using Content;
 using Movement;
-using Ship;
-using System;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -14,13 +14,26 @@ namespace Ship
         {
             public Rampage() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Rampage\"",
+                    "Implacable Pursuer",
+                    Faction.Imperial,
                     4,
-                    38,
+                    5,
+                    14,
                     abilityType: typeof(Abilities.SecondEdition.RampagePilotAbility),
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/ee/88/ee888bad-fa08-42e2-a558-cbf9a6f2da62/swz67_rampage.png";

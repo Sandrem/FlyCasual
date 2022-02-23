@@ -5,6 +5,7 @@ using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -14,42 +15,48 @@ namespace Ship.SecondEdition.TIERbHeavy
     {
         public TIERbHeavy() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "TIE/rb Heavy",
                 BaseSize.Medium,
-                Faction.Imperial,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Imperial, typeof(CardiaAcademyPilot) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.SingleTurret, 2), 1, 8, 0,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(ReinforceAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(RotateArcAction))
                 ),
-                new ShipUpgradesInfo(
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Cannon,
                     UpgradeType.Cannon,
-                    UpgradeType.Modification,
-                    UpgradeType.Modification,
                     UpgradeType.Configuration
-                )
+                ),
+                linkedActions: new List<LinkedActionInfo>
+                {
+                    new LinkedActionInfo(typeof(RotateArcAction), typeof(CalculateAction), ActionColor.Red)
+                }
             );
 
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(RotateArcAction), typeof(CalculateAction), ActionColor.Red));
-
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Imperial, typeof(CardiaAcademyPilot) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "TIE Heavy",
                 "Default",
                 new Vector3(-3.73f, 7.9f, 5.55f),
                 2.3f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Complex),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
@@ -73,7 +80,8 @@ namespace Ship.SecondEdition.TIERbHeavy
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "TIE-Fly1",

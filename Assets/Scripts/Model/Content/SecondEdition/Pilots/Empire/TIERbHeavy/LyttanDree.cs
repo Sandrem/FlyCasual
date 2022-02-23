@@ -1,5 +1,7 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
+using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
@@ -11,12 +13,26 @@ namespace Ship
         {
             public LyttanDree() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lyttan Dree",
+                    "Onyx 2",
+                    Faction.Imperial,
                     3,
-                    36,
+                    4,
+                    10,
                     abilityType: typeof(Abilities.SecondEdition.LyttanDreePilotAbility),
-                    isLimited: true
+                    isLimited: true,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/6f/37/6f375dcd-61b2-407d-bb3f-0c01cf9491ae/swz67_lyttan-dree.png";

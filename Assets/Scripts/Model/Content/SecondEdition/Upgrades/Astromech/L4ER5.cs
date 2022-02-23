@@ -36,7 +36,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class L4ER5Ability : Abilities.FirstEdition.KyleKatarnAbility
+    public class L4ER5Ability : KyleKatarnAbility
     {
         protected override string GenerateAbilityString()
         {

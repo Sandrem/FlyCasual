@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -37,9 +38,19 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class KananJarrusHwk290Ability : Abilities.FirstEdition.KananJarrusPilotAbility
+    public class KananJarrusHwk290Ability : GenericAbility
     {
-        protected override void CheckPilotAbility()
+        public override void ActivateAbility()
+        {
+            GenericShip.OnAttackStartAsAttackerGlobal += CheckPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnAttackStartAsAttackerGlobal -= CheckPilotAbility;
+        }
+
+        private void CheckPilotAbility()
         {
             bool hasForceTokens = HostShip.State.Force > 0;
 
@@ -47,6 +58,34 @@ namespace Abilities.SecondEdition
             {
                 RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskDecreaseAttack);
             }
+        }
+
+        private void AskDecreaseAttack(object sender, EventArgs e)
+        {
+            AskToUseAbility(
+                HostShip.PilotInfo.PilotName,
+                AlwaysUseByDefault,
+                DecreaseAttack,
+                descriptionLong: "Do you want to spend a force token? (If you do, the attacker rolls 1 fewer attack die)",
+                imageHolder: HostShip
+            );
+        }
+
+        private void DecreaseAttack(object sender, EventArgs e)
+        {
+            RegisterDecreaseNumberOfAttackDice();
+            HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void RegisterDecreaseNumberOfAttackDice()
+        {
+            Combat.Attacker.AfterGotNumberOfAttackDice += DecreaseNumberOfAttackDice;
+        }
+
+        private void DecreaseNumberOfAttackDice(ref int diceCount)
+        {
+            diceCount--;
+            Combat.Attacker.AfterGotNumberOfAttackDice -= DecreaseNumberOfAttackDice;
         }
 
         private bool IsDefenderMe()
@@ -58,23 +97,6 @@ namespace Abilities.SecondEdition
         {
             ShotInfo shotInfo = new ShotInfo(HostShip, Combat.Defender, HostShip.PrimaryWeapons);
             return shotInfo.InArcByType(ArcType.SingleTurret);
-        }
-
-        protected override void AskDecreaseAttack(object sender, EventArgs e)
-        {
-            AskToUseAbility(
-                HostShip.PilotInfo.PilotName,
-                AlwaysUseByDefault,
-                DecreaseAttack,
-                descriptionLong: "Do you want to spend a force token? (If you do, the attacker rolls 1 fewer attack die)",
-                imageHolder: HostShip
-            );
-        }
-
-        protected override void DecreaseAttack(object sender, EventArgs e)
-        {
-            RegisterDecreaseNumberOfAttackDice();
-            HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
         }
     }
 }

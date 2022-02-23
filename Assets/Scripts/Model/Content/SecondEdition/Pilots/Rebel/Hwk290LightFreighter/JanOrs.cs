@@ -1,31 +1,50 @@
-﻿using Ship;
-using System.Collections;
+﻿using BoardTools;
+using Content;
+using Ship;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.Hwk290
+    namespace SecondEdition.Hwk290LightFreighter
     {
-        public class JanOrs : Hwk290
+        public class JanOrs : Hwk290LightFreighter
         {
             public JanOrs() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Jan Ors",
-                    8,
-                    25,
+                    "Espionage Expert",
+                    Faction.Rebel,
+                    5,
+                    6,
+                    10,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.JanOrsAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.JanOrsAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
+                    seImageNumber: 42
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class JanOrsAbility : GenericAbility
     {
@@ -41,17 +60,18 @@ namespace Abilities.FirstEdition
 
         protected virtual void RegisterJanOrsAbility()
         {
-            if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId != HostShip.ShipId)
+            if (Combat.Attacker.Owner.PlayerNo == HostShip.Owner.PlayerNo && Combat.Attacker.ShipId != HostShip.ShipId
+                            && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
-                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Attacker, HostShip);
-                if (distanceInfo.Range < 4)
+                DistanceInfo distanceInfo = new DistanceInfo(Combat.Attacker, HostShip);
+                if (distanceInfo.Range < 4 && Board.IsShipInArc(HostShip, Combat.Attacker))
                 {
                     RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskJanOrsAbility);
                 }
             }
         }
 
-        protected void AskJanOrsAbility(object sender, System.EventArgs e)
+        private void AskJanOrsAbility(object sender, System.EventArgs e)
         {
             if (!HostShip.Tokens.HasToken(typeof(StressToken)))
             {

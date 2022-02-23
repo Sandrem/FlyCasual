@@ -1,4 +1,5 @@
-﻿using Players;
+﻿using BoardTools;
+using Players;
 using Ship;
 using SubPhases;
 using System;
@@ -10,27 +11,28 @@ using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.Hwk290
+    namespace SecondEdition.Hwk290LightFreighter
     {
-        public class PalobGodalhi : Hwk290
+        public class PalobGodalhi : Hwk290LightFreighter
         {
             public PalobGodalhi() : base()
             {
                 PilotInfo = new PilotCardInfo(
                     "Palob Godalhi",
-                    5,
-                    20,
+                    3,
+                    40,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.PalobGodalhi),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit},
-                    factionOverride: Faction.Scum
+                    abilityType: typeof(Abilities.SecondEdition.PalobGodalhi),
+                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
+                    factionOverride: Faction.Scum,
+                    seImageNumber: 175
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class PalobGodalhi : GenericAbility
     {
@@ -72,12 +74,16 @@ namespace Abilities.FirstEdition
             }
         }
 
-        protected virtual bool FilterAbilityTarget(GenericShip ship)
+        private bool FilterAbilityTarget(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) && FilterTargetsByRange(ship, 1, 2) && FilterTargetWithTokens(ship);
+            return
+                FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.Enemy }) &&
+                FilterTargetsByRange(ship, 0, 2) &&
+                Board.IsShipInArc(HostShip, ship) &&
+                FilterTargetWithTokens(ship);
         }
 
-        protected bool FilterTargetWithTokens(GenericShip ship)
+        private bool FilterTargetWithTokens(GenericShip ship)
         {
             return (ship.Tokens.HasToken(typeof(FocusToken)) || ship.Tokens.HasToken(typeof(EvadeToken)));
         }
@@ -225,6 +231,5 @@ namespace Abilities.FirstEdition
         }
 
         private class WhichTokenDecisionSubphase : DecisionSubPhase { }
-
     }
 }

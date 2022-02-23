@@ -1,33 +1,51 @@
-﻿using Ship;
+﻿using BoardTools;
+using Content;
+using Ship;
 using SubPhases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.Hwk290
+    namespace SecondEdition.Hwk290LightFreighter
     {
-        public class KyleKatarn : Hwk290
+        public class KyleKatarn : Hwk290LightFreighter
         {
             public KyleKatarn() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Kyle Katarn",
+                    "Relentless Operative",
+                    Faction.Rebel,
+                    3,
                     6,
-                    21,
+                    12,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.KyleKatarnAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.KyleKatarnAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
+                    seImageNumber: 43
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class KyleKatarnAbility : GenericAbility
     {
@@ -44,11 +62,6 @@ namespace Abilities.FirstEdition
         private void RegisterAbility()
         {
             RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, DoAbility);
-        }
-
-        protected virtual string GenerateAbilityString()
-        {
-            return "Choose another ship to assign 1 of your Focus tokens to it";
         }
 
         protected virtual Type GetTokenType()
@@ -77,9 +90,17 @@ namespace Abilities.FirstEdition
             }
         }
 
+        protected virtual string GenerateAbilityString()
+        {
+            return "Choose another ship in arc to assign 1 of your Focus tokens to it";
+        }
+
         protected virtual bool FilterAbilityTarget(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 3);
+            return
+                FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) &&
+                FilterTargetsByRange(ship, 1, 3) &&
+                Board.IsShipInArc(HostShip, ship);
         }
 
         private int GetAiAbilityPriority(GenericShip ship)
@@ -91,7 +112,7 @@ namespace Abilities.FirstEdition
             return result;
         }
 
-        protected virtual void SelectAbilityTarget()
+        private void SelectAbilityTarget()
         {
             HostShip.Tokens.RemoveToken(
                 GetTokenType(),

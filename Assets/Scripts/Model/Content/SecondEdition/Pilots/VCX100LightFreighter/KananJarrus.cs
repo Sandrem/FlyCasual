@@ -1,4 +1,8 @@
-﻿using BoardTools;
+﻿using Arcs;
+using BoardTools;
+using Ship;
+using SubPhases;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
@@ -28,9 +32,19 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class KananJarrusPilotAbility : Abilities.FirstEdition.KananJarrusPilotAbility
+    public class KananJarrusPilotAbility : GenericAbility
     {
-        protected override void CheckPilotAbility()
+        public override void ActivateAbility()
+        {
+            GenericShip.OnAttackStartAsAttackerGlobal += CheckPilotAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.OnAttackStartAsAttackerGlobal -= CheckPilotAbility;
+        }
+
+        private void CheckPilotAbility()
         {
             bool friendly = HostShip.Owner.PlayerNo == Combat.Defender.Owner.PlayerNo;
             bool hasForceTokens = HostShip.State.Force > 0;
@@ -43,7 +57,7 @@ namespace Abilities.SecondEdition
             }
         }
 
-        protected override void AskDecreaseAttack(object sender, System.EventArgs e)
+        private void AskDecreaseAttack(object sender, EventArgs e)
         {
             AskToUseAbility(
                 HostShip.PilotInfo.PilotName,
@@ -54,10 +68,32 @@ namespace Abilities.SecondEdition
             );
         }
 
-        protected override void DecreaseAttack(object sender, System.EventArgs e)
+        private void DecreaseAttack(object sender, EventArgs e)
         {
             RegisterDecreaseNumberOfAttackDice();
-            HostShip.State.SpendForce(1, SubPhases.DecisionSubPhase.ConfirmDecision);
+            HostShip.State.SpendForce(1, DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void RegisterDecreaseNumberOfAttackDice()
+        {
+            Combat.Attacker.AfterGotNumberOfAttackDice += DecreaseNumberOfAttackDice;
+        }
+
+        private void DecreaseNumberOfAttackDice(ref int diceCount)
+        {
+            diceCount--;
+            Combat.Attacker.AfterGotNumberOfAttackDice -= DecreaseNumberOfAttackDice;
+        }
+
+        private bool IsDefenderMe()
+        {
+            return Combat.Defender.ShipId == HostShip.ShipId;
+        }
+
+        private bool IsDefenderInMyMobileArc()
+        {
+            ShotInfo shotInfo = new ShotInfo(HostShip, Combat.Defender, HostShip.PrimaryWeapons);
+            return shotInfo.InArcByType(ArcType.SingleTurret);
         }
     }
 }

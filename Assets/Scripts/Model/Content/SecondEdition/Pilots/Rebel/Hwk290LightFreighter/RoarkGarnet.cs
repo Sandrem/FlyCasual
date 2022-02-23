@@ -1,30 +1,50 @@
-﻿using Ship;
+﻿using BoardTools;
+using Content;
+using Ship;
 using SubPhases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.Hwk290
+    namespace SecondEdition.Hwk290LightFreighter
     {
-        public class RoarkGarnet : Hwk290
+        public class RoarkGarnet : Hwk290LightFreighter
         {
             public RoarkGarnet() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Roark Garnet",
+                    "Good-Hearted Smuggler",
+                    Faction.Rebel,
                     4,
-                    19,
+                    6,
+                    15,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.RoarkGarnetAbility)
+                    abilityType: typeof(Abilities.SecondEdition.RoarkGarnetAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
+                    seImageNumber: 44
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class RoarkGarnetAbility : GenericAbility, IModifyPilotSkill
     {
@@ -45,7 +65,7 @@ namespace Abilities.FirstEdition
 
         protected virtual string GenerateAbilityMessage()
         {
-            return "Choose another friendly ship in arc:\nUntil the end of the phase, treat that ship's pilot skill value as \"12\"";
+            return "Choose another friendly ship in arc.\nUntil the end of the phase, treat that ship's pilot skill value as \"7\".";
         }
 
         private void Ability(object sender, EventArgs e)
@@ -70,7 +90,10 @@ namespace Abilities.FirstEdition
 
         protected virtual bool FilterAbilityTarget(GenericShip ship)
         {
-            return FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) && FilterTargetsByRange(ship, 1, 3);
+            return
+                FilterByTargetType(ship, new List<TargetTypes>() { TargetTypes.OtherFriendly }) &&
+                FilterTargetsByRange(ship, 1, 3) &&
+                Board.IsShipInArc(HostShip, ship);
         }
 
         private int GetAiAbilityPriority(GenericShip ship)
@@ -88,7 +111,7 @@ namespace Abilities.FirstEdition
             SelectShipSubPhase.FinishSelection();
         }
 
-        private void RemovePilotSkillModifieer()
+        public virtual void RemovePilotSkillModifieer()
         {
             Phases.Events.OnEndPhaseStart_NoTriggers -= RemovePilotSkillModifieer;
             TargetShip.State.RemovePilotSkillModifier(this);
@@ -96,7 +119,7 @@ namespace Abilities.FirstEdition
 
         public virtual void ModifyPilotSkill(ref int pilotSkill)
         {
-            pilotSkill = 12;
+            pilotSkill = 7;
         }
     }
 }

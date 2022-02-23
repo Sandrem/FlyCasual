@@ -1,7 +1,5 @@
 ﻿using BoardTools;
 using Ship;
-using System.Collections;
-using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship

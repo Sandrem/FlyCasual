@@ -4,6 +4,7 @@
     {
         BWing,
         DarkSide,
+        Freighter,
         LightSide,
         Mandalorian,
         Partisan,

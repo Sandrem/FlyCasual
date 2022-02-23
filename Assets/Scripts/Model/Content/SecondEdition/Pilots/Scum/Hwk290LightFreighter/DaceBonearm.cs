@@ -1,8 +1,8 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -15,16 +15,31 @@ namespace Ship
         {
             public DaceBonearm() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Dace Bonearm",
+                    "Outer Rim Mercenary",
+                    Faction.Scum,
                     4,
-                    31,
+                    3,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DaceBonearmAbility),
                     charges: 3,
                     regensCharges: 1,
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
-                    factionOverride: Faction.Scum,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
                     seImageNumber: 174
                 );
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Content;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship.SecondEdition.Hwk290LightFreighter
@@ -9,22 +10,35 @@ namespace Ship.SecondEdition.Hwk290LightFreighter
         {
             IsWIP = true;
 
-            PilotInfo = new PilotCardInfo
+            PilotInfo = new PilotCardInfo25
             (
                 "Tapusk",
+                "Order 66 Informant",
+                Faction.Scum,
                 5,
-                36,
+                4,
+                10,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.TapuskAbility),
-                extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Illicit },
-                factionOverride: Faction.Scum,
                 charges: 2,
-                regensCharges: 1
+                regensCharges: 1,
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Crew,
+                    UpgradeType.Device,
+                    UpgradeType.Illicit,
+                    UpgradeType.Modification,
+                    UpgradeType.Modification
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Freighter
+                },
+                skinName: "Black"
             );
 
             ImageUrl = "https://i.imgur.com/oIZlcvg.png";
-
-            ModelInfo.SkinName = "Black";
         }
     }
 }

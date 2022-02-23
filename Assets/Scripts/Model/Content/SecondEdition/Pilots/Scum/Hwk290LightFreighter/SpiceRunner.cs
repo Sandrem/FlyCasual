@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,12 +10,23 @@ namespace Ship
         {
             public SpiceRunner() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Spice Runner",
+                    "",
+                    Faction.Scum,
                     1,
-                    28,
-                    extraUpgradeIcon: UpgradeType.Illicit,
-                    factionOverride: Faction.Scum,
+                    3,
+                    4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Device,
+                        UpgradeType.Illicit
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
                     seImageNumber: 177
                 );
             }

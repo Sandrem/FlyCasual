@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -14,21 +15,36 @@ namespace Ship
         {
             public KananJarrus() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Kanan Jarrus",
+                    "Lost Padawan",
+                    Faction.Scum,
                     3,
-                    42,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KananJarrusHwk290Ability),
-                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.ForcePower, UpgradeType.Illicit },
                     force: 1,
-                    factionOverride: Faction.Scum,
-                    forceAlignmentOverride: ForceAlignment.Light
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.Jedi,
+                        Tags.LightSide
+                    },
+                    skinName: "Black"
                 );
 
                 ImageUrl = "https://i.imgur.com/yDkh3To.png";
-
-                ModelInfo.SkinName = "Black";
 
                 PilotNameCanonical = "kananjarrus-hwk290lightfreighter";
             }

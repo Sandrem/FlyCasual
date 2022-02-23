@@ -1,5 +1,7 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -10,14 +12,28 @@ namespace Ship
         {
             public TorkilMux() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Torkil Mux",
+                    "Mercenary Miner",
+                    Faction.Scum,
                     2,
-                    38,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TorkilMuxAbility),
-                    extraUpgradeIcon: UpgradeType.Illicit,
-                    factionOverride: Faction.Scum,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
                     seImageNumber: 176
                 );
             }

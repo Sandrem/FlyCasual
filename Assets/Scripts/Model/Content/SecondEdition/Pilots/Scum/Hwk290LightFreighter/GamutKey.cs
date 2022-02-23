@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -14,14 +15,29 @@ namespace Ship.SecondEdition.Hwk290LightFreighter
     {
         public GamutKey() : base()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Gamut Key",
+                "Collaborationist Governor",
+                Faction.Scum,
                 3,
-                34,
+                3,
+                8,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.GamutKeyPilotAbility),
-                extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Illicit },
-                factionOverride: Faction.Scum,
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Crew,
+                    UpgradeType.Device,
+                    UpgradeType.Illicit,
+                    UpgradeType.Modification,
+                    UpgradeType.Modification
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Freighter
+                },
                 charges: 2,
                 regensCharges: 1
             );

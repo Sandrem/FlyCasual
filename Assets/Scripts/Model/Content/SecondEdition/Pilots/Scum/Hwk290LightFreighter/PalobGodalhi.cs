@@ -1,9 +1,9 @@
 ﻿using BoardTools;
+using Content;
 using Players;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
@@ -17,14 +17,29 @@ namespace Ship
         {
             public PalobGodalhi() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Palob Godalhi",
+                    "Tethan Resister",
+                    Faction.Scum,
                     3,
-                    40,
+                    6,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PalobGodalhi),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
-                    factionOverride: Faction.Scum,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
                     seImageNumber: 175
                 );
             }

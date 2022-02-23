@@ -1,7 +1,6 @@
 ﻿using Ship;
 using SquadBuilderNS;
 using System;
-using Upgrade;
 
 namespace Ship
 {
@@ -11,17 +10,18 @@ namespace Ship
         {
             public NashtahPup() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Nashtah Pup",
+                    "Contingency Plan",
+                    Faction.Scum,
                     0,
-                    4,
+                    1,
+                    0,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Illicit,
-                    factionOverride: Faction.Scum,
-                    seImageNumber: 171
+                    seImageNumber: 171,
+                    skinName: "Nashtah Pup"
                 );
-
-                ModelInfo.SkinName = "Nashtah Pup";
 
                 ShipAbilities.Add(new Abilities.SecondEdition.EscapeCraftSE());
             }

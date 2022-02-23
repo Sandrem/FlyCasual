@@ -1,10 +1,10 @@
 ﻿using Ship;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Upgrade;
 using System.Linq;
 using Tokens;
+using Content;
 
 namespace Ship
 {
@@ -14,19 +14,32 @@ namespace Ship
         {
             public Bossk() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Bossk",
+                    "Fearsome Hunter",
+                    Faction.Scum,
                     4,
-                    27,
+                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
-                    factionOverride: Faction.Scum
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification,
+                        UpgradeType.Illicit
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter
+                    },
+                    skinName: "Nashtah Pup"
                 );
 
                 PilotNameCanonical = "bossk-z95af4headhunter";
-
-                ModelInfo.SkinName = "Nashtah Pup";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f5/a0/f5a0b23e-82c1-4092-98b2-7f01bd2577db/swz58_bossk.png";
 

@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -8,16 +9,21 @@ namespace Ship
         {
             public BinayrePirate() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Binayre Pirate",
+                    "",
+                    Faction.Scum,
                     1,
-                    22,
-                    extraUpgradeIcon: UpgradeType.Illicit,
-                    factionOverride: Faction.Scum,
-                    seImageNumber: 173
+                    3,
+                    2,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Illicit
+                    },
+                    seImageNumber: 173,
+                    skinName: "Binayre Pirate"
                 );
-
-                ModelInfo.SkinName = "Binayre Pirate";
             }
         }
     }

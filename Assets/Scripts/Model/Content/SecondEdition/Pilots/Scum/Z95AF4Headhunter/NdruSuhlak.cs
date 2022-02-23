@@ -1,7 +1,5 @@
 ﻿using Ship;
-using System.Collections.Generic;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship
 {
@@ -11,18 +9,19 @@ namespace Ship
         {
             public NdruSuhlak() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "N'dru Suhlak",
+                    "Hunt Saboteur",
+                    Faction.Scum,
                     4,
-                    28,
+                    2,
+                    0,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
-                    factionOverride: Faction.Scum,
-                    seImageNumber: 169
+                    seImageNumber: 169,
+                    skinName: "N'dru Suhlak"
                 );
-
-                ModelInfo.SkinName = "N'dru Suhlak";
             }
         }
     }

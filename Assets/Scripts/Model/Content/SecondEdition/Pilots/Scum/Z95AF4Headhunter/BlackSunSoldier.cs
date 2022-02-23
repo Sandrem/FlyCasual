@@ -9,16 +9,23 @@ namespace Ship
         {
             public BlackSunSoldier() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Black Sun Soldier",
+                    "",
+                    Faction.Scum,
                     3,
-                    23,
-                    extraUpgradeIcons: new List<UpgradeType>(){ UpgradeType.Talent, UpgradeType.Illicit },
-                    factionOverride: Faction.Scum,
-                    seImageNumber: 172
+                    3,
+                    4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Modification,
+                        UpgradeType.Illicit
+                    },
+                    seImageNumber: 172,
+                    skinName: "Black Sun"
                 );
-
-                ModelInfo.SkinName = "Black Sun";
             }
         }
     }

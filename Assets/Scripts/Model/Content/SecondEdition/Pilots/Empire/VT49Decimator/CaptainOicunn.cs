@@ -1,6 +1,4 @@
-﻿using Ship;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -11,13 +9,23 @@ namespace Ship
         {
             public CaptainOicunn() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Captain Oicunn",
+                    "Inspired Tactician",
+                    Faction.Imperial,
                     3,
-                    71,
+                    8,
+                    25,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainOicunnAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Title
+                    },
                     seImageNumber: 146
                 );
             }

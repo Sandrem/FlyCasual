@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace Ship
+﻿namespace Ship
 {
     namespace SecondEdition.VT49Decimator
     {
@@ -9,10 +6,14 @@ namespace Ship
         {
             public PatrolLeader() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Patrol Leader",
+                    "",
+                    Faction.Imperial,
                     2,
-                    67,
+                    8,
+                    22,
                     seImageNumber: 148
                 );
             }

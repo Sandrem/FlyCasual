@@ -1,32 +1,104 @@
-﻿using Ship;
-using Upgrade;
-using System.Collections.Generic;
-using System;
-using SubPhases;
+﻿using System.Collections.Generic;
 using Movement;
-using GameModes;
+using Upgrade;
+using Ship;
+using SubPhases;
+using System;
 using Tokens;
-using System.Linq;
+using Arcs;
+using Actions;
+using ActionsList;
 using UnityEngine;
+using Ship.CardInfo;
+using System.Linq;
 
-namespace UpgradesList.FirstEdition
+namespace Ship
 {
-    public class AdaptiveAilerons : GenericUpgrade
+    namespace SecondEdition.TIESkStriker
     {
-        public AdaptiveAilerons() : base()
+        public class TIESkStriker : GenericShip, TIE
         {
-            UpgradeInfo = new UpgradeCardInfo(
-                "Adaptive Ailerons",
-                UpgradeType.Title,
-                cost: 0,          
-                restriction: new ShipRestriction(typeof(Ship.FirstEdition.TIEStriker.TIEStriker)),
-                abilityType: typeof(Abilities.FirstEdition.AdaptiveAileronsAbility)
-            );
-        }        
+            public TIESkStriker() : base()
+            {
+                ShipInfo = new ShipCardInfo25
+                (
+                    "TIE/sk Striker",
+                    BaseSize.Small,
+                    new FactionData
+                    (
+                        new Dictionary<Faction, Type>
+                        {
+                            { Faction.Imperial, typeof(Duchess) }
+                        }
+                    ),
+                    new ShipArcsInfo(ArcType.Front, 3), 2, 4, 0,
+                    new ShipActionsInfo
+                    (
+                        new ActionInfo(typeof(FocusAction)),
+                        new ActionInfo(typeof(EvadeAction)),
+                        new ActionInfo(typeof(BarrelRollAction))
+                    ),
+                    new ShipUpgradesInfo
+                    (
+                        UpgradeType.Device,
+                        UpgradeType.Gunner
+                    )
+                );
+
+                ShipAbilities.Add(new Abilities.SecondEdition.AdaptiveAileronsAbility());
+
+                ModelInfo = new ShipModelInfo
+                (
+                    "TIE Striker",
+                    "Gray",
+                    new Vector3(-3.45f, 7.15f, 5.55f),
+                    2f
+                );
+
+                DialInfo = new ShipDialInfo
+                (
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.SegnorsLoop, MovementComplexity.Complex),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.SegnorsLoop, MovementComplexity.Complex),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal)
+                );
+
+                SoundInfo = new ShipSoundInfo
+                (
+                    new List<string>()
+                    {
+                        "TIE-Fly1",
+                        "TIE-Fly2",
+                        "TIE-Fly3",
+                        "TIE-Fly4",
+                        "TIE-Fly5",
+                        "TIE-Fly6",
+                        "TIE-Fly7"
+                    },
+                    "TIE-Fire", 3
+                );
+
+                ShipIconLetter = 'T';
+            }
+        }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class AdaptiveAileronsAbility : GenericAbility
     {

@@ -1,31 +1,46 @@
-﻿using ActionsList;
+﻿using Abilities.SecondEdition;
+using ActionsList;
+using Content;
 using Ship;
+using System.Collections.Generic;
 using System.Linq;
-using Tokens;
 using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.TIEReaper
+    namespace SecondEdition.TIEReaper
     {
         public class MajorVermeil : TIEReaper
         {
             public MajorVermeil() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Major Vermeil",
-                    6,
-                    26,
+                    "Veteran of Scarif",
+                    Faction.Imperial,
+                    4,
+                    5,
+                    8,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.MajorVermeilAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(MajorVermeilAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    seImageNumber: 113
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class MajorVermeilAbility : GenericAbility
     {
@@ -39,10 +54,10 @@ namespace Abilities.FirstEdition
             HostShip.OnGenerateDiceModifications -= AddMajorVermeilModifierEffect;
         }
 
-        protected virtual void AddMajorVermeilModifierEffect(GenericShip ship)
+        private void AddMajorVermeilModifierEffect(GenericShip ship)
         {
             if (Combat.Attacker.ShipId == ship.ShipId
-                && !(Combat.Defender.Tokens.HasToken<EvadeToken>() || Combat.Defender.Tokens.HasToken<FocusToken>())
+                && !Combat.Defender.Tokens.HasGreenTokens
                 && (Combat.DiceRollAttack.Focuses > 0 || Combat.DiceRollAttack.Blanks > 0))
             {
                 ship.AddAvailableDiceModificationOwn(new MajorVermeilAction

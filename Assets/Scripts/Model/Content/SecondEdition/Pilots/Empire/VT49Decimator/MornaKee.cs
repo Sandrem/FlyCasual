@@ -14,14 +14,24 @@ namespace Ship
         {
             public MornaKee() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Morna Kee",
+                    "Determined Attaché",
+                    Faction.Imperial,
                     4,
-                    73,
+                    8,
+                    20,
                     isLimited: true,
                     charges: 3,
                     abilityType: typeof(Abilities.SecondEdition.MornaKeeAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/53/16/53162173-c0c4-423e-8bbe-d5d0be9554cb/swz66_morna-kee.png";

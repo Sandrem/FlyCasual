@@ -1,4 +1,5 @@
 ﻿using Bombs;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,25 @@ namespace Ship
         {
             public Vagabond() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Vagabond\"",
+                    "Destitute Demolitionist",
+                    Faction.Imperial,
                     2,
-                    32,
+                    4,
+                    10,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.VagabondAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 

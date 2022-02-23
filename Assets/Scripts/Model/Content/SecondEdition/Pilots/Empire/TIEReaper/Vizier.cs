@@ -1,6 +1,8 @@
 ﻿using Abilities.SecondEdition;
 using ActionsList;
+using Content;
 using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -11,12 +13,24 @@ namespace Ship
         {
             public Vizier() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Vizier\"",
+                    "Ruthless Tactician",
+                    Faction.Imperial,
                     2,
-                    42,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(VizierAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Crew
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
                     seImageNumber: 115
                 );
             }

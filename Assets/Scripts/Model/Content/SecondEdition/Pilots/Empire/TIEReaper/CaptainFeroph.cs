@@ -2,6 +2,8 @@
 using System.Linq;
 using Upgrade;
 using Tokens;
+using System.Collections.Generic;
+using Content;
 
 namespace Ship
 {
@@ -11,13 +13,25 @@ namespace Ship
         {
             public CaptainFeroph() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Captain Feroph",
+                    "Imperial Courier",
+                    Faction.Imperial,
                     3,
-                    47,
+                    5,
+                    9,
                     isLimited: true,
                     abilityType: typeof(CaptainFerophAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
                     seImageNumber: 114
                 );
             }

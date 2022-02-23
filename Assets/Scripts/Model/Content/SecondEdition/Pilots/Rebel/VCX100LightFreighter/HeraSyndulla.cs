@@ -1,30 +1,51 @@
-﻿using GameModes;
+﻿using Content;
 using Movement;
 using Ship;
-using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.VCX100
+    namespace SecondEdition.VCX100LightFreighter
     {
-        public class HeraSyndulla : VCX100
+        public class HeraSyndulla : VCX100LightFreighter
         {
             public HeraSyndulla() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Hera Syndulla",
-                    7,
-                    40,
+                    "Spectre-2",
+                    Faction.Rebel,
+                    5,
+                    8,
+                    20,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.HeraSyndullaAbility)
+                    abilityType: typeof(Abilities.SecondEdition.HeraSyndullaAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.Spectre
+                    },
+                    seImageNumber: 73
                 );
+
+                PilotNameCanonical = "herasyndulla-vcx100lightfreighter";
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class HeraSyndullaAbility : GenericAbility
     {

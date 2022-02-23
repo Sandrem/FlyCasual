@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
 
 namespace Ship
@@ -9,10 +9,18 @@ namespace Ship
         {
             public LothalRebel() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lothal Rebel",
+                    "",
+                    Faction.Rebel,
                     2,
-                    68,
+                    7,
+                    8,
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
                     seImageNumber: 76
                 );
             }

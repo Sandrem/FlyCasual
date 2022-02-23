@@ -1,9 +1,9 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -15,14 +15,33 @@ namespace Ship
         {
             public KananJarrus() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Kanan Jarrus",
+                    "Spectre-1",
+                    Faction.Rebel,
                     3,
-                    73,
+                    9,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KananJarrusPilotAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.ForcePower,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.Spectre,
+                        Tags.LightSide,
+                        Tags.Jedi
+                    },
                     seImageNumber: 74
                 );
             }

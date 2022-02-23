@@ -1,4 +1,4 @@
-﻿using Ship;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,13 +10,30 @@ namespace Ship
         {
             public AlexandrKallus() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Alexandr Kallus",
+                    "Fulcrum",
+                    Faction.Rebel,
                     4,
-                    68,
+                    8,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AlexandrKallusAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.Spectre
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d0/bf/d0bf7c63-2c2c-4372-8ace-7299d180c774/swz66_alexsandr-kallus.png";
@@ -28,6 +45,7 @@ namespace Ship
 namespace Abilities.SecondEdition
 {
     //While you defend, if the attacker modified any attack dice, you may roll an additional defense die.
+
     public class AlexandrKallusAbility : GenericAbility
     {
         public override void ActivateAbility()

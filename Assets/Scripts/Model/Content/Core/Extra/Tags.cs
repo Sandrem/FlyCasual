@@ -7,6 +7,7 @@
         DarkSide,
         Droid,
         Freighter,
+        Jedi,
         LightSide,
         Mandalorian,
         Partisan,

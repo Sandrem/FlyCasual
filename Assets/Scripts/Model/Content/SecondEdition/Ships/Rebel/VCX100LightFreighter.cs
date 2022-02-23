@@ -1,57 +1,59 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using Movement;
 using Actions;
 using ActionsList;
 using Arcs;
-using Upgrade;
+using Movement;
+using Ship;
+using Ship.CardInfo;
 using UnityEngine;
+using Upgrade;
 
-namespace Ship.FirstEdition.VCX100
+namespace Ship.SecondEdition.VCX100LightFreighter
 {
-    public class VCX100 : GenericShip
+    public class VCX100LightFreighter : GenericShip
     {
-        public VCX100() : base()
+        public VCX100LightFreighter() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
-                "VCX-100",
+                "VCX-100 Light Freighter",
                 BaseSize.Large,
-                Faction.Rebel,
-                new ShipArcsInfo(
-                    new ShipArcInfo(ArcType.Front, 4),
-                    new ShipArcInfo(ArcType.SpecialGhost, 4)
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Rebel, typeof(HeraSyndulla) }
+                    }
                 ),
-                0, 10, 6,
-                new ShipActionsInfo(
+                new ShipArcsInfo(ArcType.Front, 4),
+                0, 10, 4,
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),
-                    new ActionInfo(typeof(EvadeAction))
+                    new ActionInfo(typeof(ReinforceAction))
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Title,
-                    UpgradeType.Modification,
-                    UpgradeType.Sensor,
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Turret,
                     UpgradeType.Torpedo,
-                    UpgradeType.Torpedo,
-                    UpgradeType.Crew,
-                    UpgradeType.Crew
+                    UpgradeType.Gunner
                 )
             );
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(KananJarrus) }
-            };
+            ShipAbilities.Add(new Abilities.SecondEdition.TailGunnerAbility());
 
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "VCX-100",
                 "VCX-100",
                 new Vector3(-3.7f, 9.17f, 5.55f),
                 4f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Complex),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
@@ -71,11 +73,11 @@ namespace Ship.FirstEdition.VCX100
                 new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Complex),
 
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal),
-
-                new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
+                new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "Falcon-Fly1",
@@ -86,8 +88,43 @@ namespace Ship.FirstEdition.VCX100
             );
 
             ShipIconLetter = 'G';
+        }
+    }
+}
 
-            HotacManeuverTable = new AI.VCX100Table();
+namespace Abilities.SecondEdition
+{
+    public class TailGunnerAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnAnotherShipDocked += ActivateRearArc;
+            HostShip.OnAnotherShipUndocked += DectivateRearArc;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAnotherShipDocked -= ActivateRearArc;
+            HostShip.OnAnotherShipUndocked -= DectivateRearArc;
+        }
+
+        private void ActivateRearArc(GenericShip ship)
+        {
+            HostShip.PrimaryWeapons.Add(new PrimaryWeaponClass(HostShip, new ShipArcInfo(ArcType.Rear, ship.ShipInfo.Firepower)));
+            HostShip.ArcsInfo.Arcs.Add(new ArcRear(HostShip.ShipBase));
+            HostShip.SetShipInsertImage();
+        }
+
+        private void DectivateRearArc(GenericShip ship)
+        {
+            HostShip.PrimaryWeapons
+                .RemoveAll(
+                    a => a.WeaponType == WeaponTypes.PrimaryWeapon
+                    && a.WeaponInfo.AttackValue == ship.ShipInfo.Firepower
+                    && a.WeaponInfo.ArcRestrictions.Contains(ArcType.Rear)
+                );
+            HostShip.ArcsInfo.Arcs.RemoveAll(a => a is ArcRear);
+            HostShip.SetShipInsertImage();
         }
     }
 }

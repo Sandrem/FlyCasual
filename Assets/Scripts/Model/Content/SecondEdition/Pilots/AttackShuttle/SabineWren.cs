@@ -16,7 +16,7 @@ namespace Ship
                     3,
                     41,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.SabineWrenPilotAbility),
+                    abilityType: typeof(Abilities.SecondEdition.SabineWrenPilotAbility),
                     extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 35
                 );

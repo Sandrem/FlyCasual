@@ -40,7 +40,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class SupernaturalReflexesAbility : FirstEdition.SabineWrenPilotAbility
+    public class SupernaturalReflexesAbility : SecondEdition.SabineWrenPilotAbility
     {
         public override void ActivateAbility()
         {

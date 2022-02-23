@@ -4,6 +4,7 @@
     {
         AWing,
         BWing,
+        Clone,
         DarkSide,
         Droid,
         Freighter,
@@ -11,6 +12,7 @@
         LightSide,
         Mandalorian,
         Partisan,
+        Sith,
         Spectre,
         Tie,
         XWing,

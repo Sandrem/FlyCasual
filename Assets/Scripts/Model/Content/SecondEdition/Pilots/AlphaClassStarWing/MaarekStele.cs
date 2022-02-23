@@ -17,7 +17,7 @@ namespace Ship
                     42,
                     pilotTitle: "Servant of the Empire",
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.MaarekSteleAbility),
+                    abilityType: typeof(Abilities.SecondEdition.MaarekSteleAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 

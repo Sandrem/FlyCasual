@@ -41,7 +41,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class PrecognitiveReflexesAbility : FirstEdition.SabineWrenPilotAbility
+    public class PrecognitiveReflexesAbility : SecondEdition.SabineWrenPilotAbility
     {
         public override void ActivateAbility()
         {

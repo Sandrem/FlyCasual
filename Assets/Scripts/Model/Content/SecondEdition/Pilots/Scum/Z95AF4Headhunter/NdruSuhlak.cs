@@ -31,9 +31,20 @@ namespace Ship
 namespace Abilities.SecondEdition
 {
     //While you perform a primary attack, if there are no other friendly ships at range 0-2, roll 1 additional attack die.
-    public class NdruSuhlakAbility : Abilities.FirstEdition.NdruSuhlakAbility
+
+    public class NdruSuhlakAbility : GenericAbility
     {
-        protected override void CheckNdruSuhlakAbility(ref int value)
+        public override void ActivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice += CheckNdruSuhlakAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.AfterGotNumberOfAttackDice -= CheckNdruSuhlakAbility;
+        }
+
+        private void CheckNdruSuhlakAbility(ref int value)
         {
             if (Combat.ChosenWeapon.WeaponType != WeaponTypes.PrimaryWeapon)
                 return;

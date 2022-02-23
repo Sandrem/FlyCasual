@@ -7,28 +7,37 @@ using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.Z95Headhunter
+    namespace SecondEdition.Z95AF4Headhunter
     {
-        public class AirenCracken : Z95Headhunter
+        public class AirenCracken : Z95AF4Headhunter
         {
             public AirenCracken() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Airen Cracken",
-                    8,
-                    19,
+                    "Intelligence Chief",
+                    Faction.Rebel,
+                    5,
+                    3,
+                    9,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.AirenCrackenAbiliity),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.AirenCrackenAbiliity),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 27
                 );
-
-                ModelInfo.SkinName = "Red";
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class AirenCrackenAbiliity : GenericAbility
     {
@@ -88,18 +97,18 @@ namespace Abilities.FirstEdition
             return 0;
         }
 
-        protected virtual void PerformFreeAction()
+        private void PerformFreeAction()
         {
             Selection.ThisShip = TargetShip;
 
             TargetShip.AskPerformFreeAction(
-                TargetShip.GetAvailableActions(),
+                TargetShip.GetAvailableActionsAsRed(),
                 delegate {
                     Selection.ThisShip = HostShip;
                     SelectShipSubPhase.FinishSelection();
                 },
                 HostShip.PilotInfo.PilotName,
-                "You may perform 1 free action",
+                "You may perform an action, treating it as red",
                 HostShip
             );
         }

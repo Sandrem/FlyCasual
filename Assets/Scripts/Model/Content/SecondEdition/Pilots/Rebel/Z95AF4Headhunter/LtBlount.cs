@@ -12,13 +12,16 @@ namespace Ship
         {
             public LtBlount() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lieutenant Blount",
+                    "Team Player",
+                    Faction.Rebel,
                     4,
-                    29,
+                    2,
+                    0,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LtBlountAbiliity),
-                    extraUpgradeIcon: UpgradeType.Talent,
                     seImageNumber: 28
                 );
             }

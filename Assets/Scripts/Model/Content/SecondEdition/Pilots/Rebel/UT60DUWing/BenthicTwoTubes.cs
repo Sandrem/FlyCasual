@@ -1,33 +1,51 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
-using System.Collections;
-using System.Collections.Generic;
 using SubPhases;
+using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.UWing
+    namespace SecondEdition.UT60DUWing
     {
-        public class BenthicTwoTubes : UWing
+        public class BenthicTwoTubes : UT60DUWing
         {
             public BenthicTwoTubes() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Benthic Two Tubes",
-                    4,
-                    24,
+                    "Cavern Angels Marksman",
+                    Faction.Rebel,
+                    2,
+                    5,
+                    16,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.BenthicTwoTubesAbility)
+                    abilityType: typeof(Abilities.SecondEdition.BenthicTwoTubesAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Partisan
+                    },
+                    seImageNumber: 58,
+                    skinName: "Partisan"
                 );
-
-                ModelInfo.SkinName = "Partisan";
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class BenthicTwoTubesAbility : GenericAbility
     {
@@ -92,4 +110,3 @@ namespace Abilities.FirstEdition
         }
     }
 }
-

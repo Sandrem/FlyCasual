@@ -5,6 +5,7 @@
         AWing,
         BWing,
         DarkSide,
+        Droid,
         Freighter,
         LightSide,
         Mandalorian,

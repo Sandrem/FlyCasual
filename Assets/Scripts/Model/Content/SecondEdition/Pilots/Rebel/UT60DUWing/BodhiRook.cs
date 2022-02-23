@@ -1,7 +1,5 @@
 ﻿using Abilities.SecondEdition;
-using BoardTools;
 using Ship;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -13,13 +11,23 @@ namespace Ship
         {
             public BodhiRook() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Bodhi Rook",
+                    "Imperial Defector",
+                    Faction.Rebel,
                     4,
-                    48,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(BodhiRookAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 54
                 );
             }

@@ -1,9 +1,7 @@
 ﻿using Abilities.SecondEdition;
-using ActionsList;
 using Ship;
 using SubPhases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -16,13 +14,23 @@ namespace Ship
         {
             public CassianAndor() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Cassian Andor",
+                    "Raised by the Rebellion",
+                    Faction.Rebel,
                     3,
-                    51,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(CassianAndorAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 56
                 );
             }

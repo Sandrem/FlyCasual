@@ -14,17 +14,27 @@ namespace Ship
         {
             public HeffTobber() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Heff Tobber",
+                    "Blue Eight",
+                    Faction.Rebel,
                     2,
-                    44,
+                    5,
+                    9,
                     isLimited: true,
                     abilityType: typeof(HeffTobberAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 59
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 59,
+                    skinName: "Blue"
                 );
-
-                ModelInfo.SkinName = "Blue";
             }
         }
     }

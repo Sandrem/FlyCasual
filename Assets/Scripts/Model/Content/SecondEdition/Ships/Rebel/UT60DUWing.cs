@@ -1,46 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Movement;
+﻿using System.Collections.Generic;
 using Actions;
 using ActionsList;
 using Arcs;
-using Upgrade;
-using Mods;
-using Mods.ModsList;
+using Movement;
+using Ship.CardInfo;
 using UnityEngine;
+using Upgrade;
 
-namespace Ship.FirstEdition.UWing
+namespace Ship.SecondEdition.UT60DUWing
 {
-    public class UWing : GenericShip, IMovableWings
+    public class UT60DUWing : GenericShip, IMovableWings
     {
         public WingsPositions CurrentWingsPosition { get; set; }
 
-        public UWing() : base()
+        public UT60DUWing() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
-                "U-wing",
-                BaseSize.Large,
-                Faction.Rebel,
-                new ShipArcsInfo(ArcType.Front, 3), 1, 4, 4,
-                new ShipActionsInfo(
+                "UT-60D U-wing",
+                BaseSize.Medium,
+                new FactionData
+                (
+                    new Dictionary<Faction, System.Type>
+                    {
+                        { Faction.Rebel, typeof(K2SO) }
+                    }
+                ),
+                new ShipArcsInfo(ArcType.Front, 3), 2, 5, 3,
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
-                    new ActionInfo(typeof(TargetLockAction))
+                    new ActionInfo(typeof(TargetLockAction)),
+                    new ActionInfo(typeof(CoordinateAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Modification,
-                    UpgradeType.Sensor,
-                    UpgradeType.Crew,
-                    UpgradeType.Crew
-                ),
-                description: "The UT-60D U-wing starfighter/support craft also known as the UT-60D, or U-wing, was a transport/gunship model manufactured by Incom Corporation and used by the Alliance to Restore the Republic during the Galactic Civil War. Used to drop troops into battle, and provide cover fire for them, U-wings were pivotal in transport and protection of the Rebel Alliance's ground forces during the Battle of Scarif."
+                new ShipUpgradesInfo
+                (
+                    UpgradeType.Configuration
+                )
             );
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Rebel, typeof(BlueSquadronPathfinder) }
-            };
+            DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.PivotWingOpen));
 
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "U-wing",
                 "Blue Squadron",
                 new Vector3(-3.25f, 7.16f, 5.55f),
@@ -48,7 +50,8 @@ namespace Ship.FirstEdition.UWing
                 wingsPositions: WingsPositions.Closed
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary, MovementComplexity.Complex),
 
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
@@ -68,7 +71,8 @@ namespace Ship.FirstEdition.UWing
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "Falcon-Fly1",
@@ -79,8 +83,6 @@ namespace Ship.FirstEdition.UWing
             );
 
             ShipIconLetter = 'u';
-
-            HotacManeuverTable = new AI.UWingTable();
 
             CurrentWingsPosition = WingsPositions.Closed;
         }

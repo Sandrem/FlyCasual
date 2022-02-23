@@ -1,5 +1,6 @@
 ﻿using Abilities.SecondEdition;
 using ActionsList;
+using Content;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,17 +15,32 @@ namespace Ship
         {
             public SawGerrera() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Saw Gerrera",
+                    "Obsessive Outlaw",
+                    Faction.Rebel,
                     4,
-                    52,
+                    6,
+                    18,
                     isLimited: true,
                     abilityType: typeof(SawGerreraPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
-                    seImageNumber: 55
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Partisan
+                    },
+                    seImageNumber: 55,
+                    skinName: "Partisan"
                 );
-
-                ModelInfo.SkinName = "Partisan";
             }
         }
     }

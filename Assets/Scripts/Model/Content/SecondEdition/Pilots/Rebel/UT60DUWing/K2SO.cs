@@ -1,8 +1,7 @@
 ﻿using Abilities.SecondEdition;
-using ActionsList;
+using Content;
 using Ship;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -15,13 +14,27 @@ namespace Ship
         {
             public K2SO() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "K-2SO",
+                    "Cassian Said I Had To",
+                    Faction.Rebel,
                     3,
-                    46,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(K2SOPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid
+                    }
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();

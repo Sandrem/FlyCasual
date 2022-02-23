@@ -1,7 +1,6 @@
 ﻿using Abilities.SecondEdition;
 using BoardTools;
-using Ship;
-using System.Collections;
+using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -13,17 +12,32 @@ namespace Ship
         {
             public MagvaYarro() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Magva Yarro",
+                    "Cavern Angels Spotter",
+                    Faction.Rebel,
                     3,
-                    50,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(MagvaYarroPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Illicit },
-                    seImageNumber: 57
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Partisan
+                    },
+                    seImageNumber: 57,
+                    skinName: "Partisan"
                 );
-
-                ModelInfo.SkinName = "Partisan";
             }
         }
     }

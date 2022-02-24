@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Ship;
-using Upgrade;
-
-namespace Ship.SecondEdition.SithInfiltrator
+﻿namespace Ship.SecondEdition.SithInfiltrator
 {
     public class DarkCourier : SithInfiltrator
     {
         public DarkCourier()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Dark Courier",
+                "",
+                Faction.Separatists,
                 2,
-                50
+                6,
+                6
             );
             
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e2/02/e20245ab-47e9-41f9-abdf-62f571246faf/swz30_dark-courier.png";

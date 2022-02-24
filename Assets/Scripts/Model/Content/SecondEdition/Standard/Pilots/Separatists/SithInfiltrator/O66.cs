@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Content;
 using Ship;
 using Upgrade;
 
@@ -9,13 +10,25 @@ namespace Ship.SecondEdition.SithInfiltrator
     {
         public O66()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "O-66",
+                "Sinister Automaton",
+                Faction.Separatists,
                 3,
-                49,
-                true,
+                6,
+                11,
+                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.O66PilotAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Crew
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c4/a7/c4a7f563-fae2-4dd2-a0bb-fa0fd697d2a5/swz30_0-66.png";

@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -13,41 +15,43 @@ namespace Ship.SecondEdition.SithInfiltrator
     {
         public SithInfiltrator() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Sith Infiltrator",
                 BaseSize.Large,
-                Faction.Separatists,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Separatists, typeof(DarthMaulPilot) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 3), 1, 6, 4,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Title,
-                    UpgradeType.Modification,
+                new ShipUpgradesInfo
+                (
+                    UpgradeType.Torpedo,
                     UpgradeType.Cannon,
-                    UpgradeType.Crew,
-                    UpgradeType.Crew,
                     UpgradeType.Device,
-                    UpgradeType.TacticalRelay,
-                    UpgradeType.Torpedo
+                    UpgradeType.Modification
                 )
             );
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(DarthMaulPilot) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Sith Infiltrator",
                 "Default",
                 new Vector3(-4.17f, 8.25f, 5.55f),
                 2.5f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Complex),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
@@ -73,7 +77,8 @@ namespace Ship.SecondEdition.SithInfiltrator
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "Slave1-Fly1",
@@ -81,9 +86,6 @@ namespace Ship.SecondEdition.SithInfiltrator
                 },
                 "Slave1-Fire", 3
             );
-
-            // TODO: HotAC AI
-            HotacManeuverTable = new AI.Jumpmaster5000Table();
 
             ShipIconLetter = ']';
         }

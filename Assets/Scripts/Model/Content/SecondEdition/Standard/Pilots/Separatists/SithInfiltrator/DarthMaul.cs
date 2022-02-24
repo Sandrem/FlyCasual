@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Content;
 using Ship;
 using Upgrade;
 
@@ -9,15 +10,31 @@ namespace Ship.SecondEdition.SithInfiltrator
     {
         public DarthMaulPilot()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Darth Maul",
+                "Sith Assassin",
+                Faction.Separatists,
                 5,
-                64,
-                true,
+                8,
+                20,
+                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DarthMaulPilotAbility),
-                pilotTitle: "Sith Assassin",
                 force: 3,
-                extraUpgradeIcon: UpgradeType.ForcePower
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.ForcePower,
+                    UpgradeType.Crew,
+                    UpgradeType.Crew,
+                    UpgradeType.TacticalRelay,
+                    UpgradeType.Title
+                },
+                tags: new List<Tags>
+                {
+                    Tags.DarkSide,
+                    Tags.Sith
+                }
             );
             
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/35/d8/35d8295c-1018-4ed7-94a0-c0bff4e6fbbc/swz30_darth-maul.png";

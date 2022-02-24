@@ -6,6 +6,7 @@ using BoardTools;
 using SubPhases;
 using Tokens;
 using System.Linq;
+using Content;
 
 namespace Ship.SecondEdition.SithInfiltrator
 {
@@ -13,15 +14,30 @@ namespace Ship.SecondEdition.SithInfiltrator
     {
         public CountDooku()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Count Dooku",
+                "Darth Tyranus",
+                Faction.Separatists,
                 3,
-                63,
-                true,
+                8,
+                24,
+                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.CountDookuPilotAbility),
-                pilotTitle: "Darth Tyranus",
                 force: 3,
-                extraUpgradeIcon: UpgradeType.ForcePower
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.Crew,
+                    UpgradeType.Crew,
+                    UpgradeType.TacticalRelay,
+                    UpgradeType.Title
+                },
+                tags: new List<Tags>
+                {
+                    Tags.DarkSide,
+                    Tags.Sith
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/3d/83/3d83b84f-e7d4-46b3-83ae-4d49245ae50d/swz30_count-dooku.png";

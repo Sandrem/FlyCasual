@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using Tokens;
@@ -15,12 +17,24 @@ namespace Ship
         {
             public Holo() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Holo\"",
+                    "Trick of the Light",
+                    Faction.FirstOrder,
                     5,
-                    53,
+                    6,
+                    12,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.HoloAbility)
+                    abilityType: typeof(Abilities.SecondEdition.HoloAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/ee53482be8e59ff44f272e76c4e8123d.png";

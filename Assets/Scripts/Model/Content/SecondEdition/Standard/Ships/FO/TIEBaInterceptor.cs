@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
+using Ship.CardInfo;
 using SubPhases;
 using Tokens;
 using UnityEngine;
@@ -18,20 +17,28 @@ namespace Ship.SecondEdition.TIEBaInterceptor
     {
         public TIEBaInterceptor() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "TIE/ba Interceptor",
                 BaseSize.Small,
-                Faction.FirstOrder,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.FirstOrder, typeof(MajorVonreg) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 3), 3, 2, 2,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(EvadeAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo(
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Talent,
                     UpgradeType.Missile,
                     UpgradeType.Tech,
@@ -41,18 +48,16 @@ namespace Ship.SecondEdition.TIEBaInterceptor
 
             ShipAbilities.Add(new Abilities.SecondEdition.FineTunedThrusters());
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.FirstOrder, typeof(MajorVonreg) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "TIE Ba Interceptor",
                 "Crimson",
                 new Vector3(-3.4f, 7.5f, 5.55f),
                 1.5f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Easy),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
@@ -78,7 +83,8 @@ namespace Ship.SecondEdition.TIEBaInterceptor
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "TIE-Fly1",

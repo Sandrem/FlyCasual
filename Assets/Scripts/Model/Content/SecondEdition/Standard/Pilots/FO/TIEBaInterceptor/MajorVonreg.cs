@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using Tokens;
@@ -14,12 +15,25 @@ namespace Ship
         {
             public MajorVonreg() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Major Vonreg",
+                    "Red Baron",
+                    Faction.FirstOrder,
                     6,
-                    54,
+                    6,
+                    18,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.MajorVonregAbility)
+                    abilityType: typeof(Abilities.SecondEdition.MajorVonregAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b6/de/b6de4a15-0b5d-4c39-8a2e-c96af5dff9fe/swz62_card_major-vonreg.png";

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ActionsList;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using Tokens;
@@ -16,12 +18,24 @@ namespace Ship
         {
             public Ember() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Ember\"",
+                    "Dying Flame",
+                    Faction.FirstOrder,
                     4,
-                    45,
+                    4,
+                    7,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.EmberAbility)
+                    abilityType: typeof(Abilities.SecondEdition.EmberAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/4de956edddeacb92ef3e4f94e0a63db3.png";

@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Upgrade;
 using Abilities.Parameters;
-using System;
 
 namespace Ship
 {
@@ -12,10 +10,14 @@ namespace Ship
         {
             public AgentTerex() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Agent Terex",
+                    "Devious Provocateur",
+                    Faction.FirstOrder,
                     3,
-                    38,
+                    5,
+                    20,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {

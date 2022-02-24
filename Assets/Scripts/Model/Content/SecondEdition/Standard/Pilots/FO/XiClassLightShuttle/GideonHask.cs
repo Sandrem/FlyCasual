@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using BoardTools;
-using Arcs;
 using Upgrade;
 using Ship;
 using System;
@@ -14,14 +12,22 @@ namespace Ship
         {
             public GideonHask() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Gideon Hask",
+                    "Merciless Hard-Liner",
+                    Faction.FirstOrder,
                     4,
-                    40,
-                    pilotTitle: "Merciless Hard-Liner",
+                    4,
+                    15,
                     isLimited: true,
-                    extraUpgradeIcon: Upgrade.UpgradeType.Talent,
-                    abilityType: typeof(Abilities.SecondEdition.GideonHaskXiClassLightShuttleAbility)
+                    abilityType: typeof(Abilities.SecondEdition.GideonHaskXiClassLightShuttleAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Crew
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fc/47/fc47d552-1b3f-4281-8a0e-5ced929d7ec8/swz69_a1_ship_hask.png";

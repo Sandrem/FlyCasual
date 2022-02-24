@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
-using Ship;
-using SubPhases;
-using Tokens;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -18,39 +14,44 @@ namespace Ship.SecondEdition.XiClassLightShuttle
     {
         public XiClassLightShuttle() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Xi-class Light Shuttle",
                 BaseSize.Medium,
-                Faction.FirstOrder,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.FirstOrder, typeof(CommanderMalarus) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 2, 5, 2,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction), ActionColor.Red),
                     new ActionInfo(typeof(CoordinateAction), ActionColor.Red),
                     new ActionInfo(typeof(JamAction))
                 ),
-                new ShipUpgradesInfo(
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Tech,
                     UpgradeType.Tech,
-                    UpgradeType.Crew,
                     UpgradeType.Crew,
                     UpgradeType.Modification
                 )
             );
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.FirstOrder, typeof(CommanderMalarus) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Xi-Class Light Shuttle",
                 "Gray",
                 new Vector3(-3.73f, 8.65f, 5.55f),
                 2.3f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary, MovementComplexity.Complex),
 
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
@@ -74,7 +75,8 @@ namespace Ship.SecondEdition.XiClassLightShuttle
 
             ShipIconLetter = 'Q';
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "Slave1-Fly1",

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BoardTools;
 using Ship;
+using Upgrade;
 
 namespace Ship
 {
@@ -11,14 +12,22 @@ namespace Ship
         {
             public CommanderMalarus() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Commander Malarus",
+                    "Vindictive Taskmaster",
+                    Faction.FirstOrder,
                     5,
-                    44,
-                    pilotTitle: "Vindictive Taskmaster",
+                    5,
+                    15,
                     isLimited: true,
-                    extraUpgradeIcon: Upgrade.UpgradeType.Talent,
-                    abilityType: typeof(Abilities.SecondEdition.CommanderMalarusXiClassLightShuttleAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CommanderMalarusXiClassLightShuttleAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/85/c4/85c41c14-3071-401b-b3ee-89d048acd9f0/swz69_a1_ship_malarus.png";

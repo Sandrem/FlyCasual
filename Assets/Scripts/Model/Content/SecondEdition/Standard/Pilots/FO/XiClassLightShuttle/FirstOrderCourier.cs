@@ -6,10 +6,14 @@
         {
             public FirstOrderCourier() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "First Order Courier",
+                    "",
+                    Faction.FirstOrder,
                     2,
-                    35
+                    4,
+                    10
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/9f/49/9f490467-49a5-456f-b649-42cb74ecdd8a/swz69_a1_ship_courier.png";

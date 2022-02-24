@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -14,14 +15,28 @@ namespace Ship
         {
             public Breach() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "\"Breach\"",
+                    "Ordnance Expert",
+                    Faction.FirstOrder,
                     5,
-                    36,
+                    6,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BreachPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Gunner
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/Mj8XIc4.png";

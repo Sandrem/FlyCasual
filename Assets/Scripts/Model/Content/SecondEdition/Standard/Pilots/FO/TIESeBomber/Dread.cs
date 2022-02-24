@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using Arcs;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,26 @@ namespace Ship
         {
             public Dread() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "\"Dread\"",
+                    "Devotee of Devastation",
+                    Faction.FirstOrder,
                     3,
-                    32,
+                    4,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DreadPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/pK2cqXm.png";

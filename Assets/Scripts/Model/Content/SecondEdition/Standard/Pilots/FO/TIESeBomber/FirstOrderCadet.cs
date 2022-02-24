@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Content;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,11 +10,24 @@ namespace Ship
         {
             public FirstOrderCadet() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "First Order Cadet",
+                    "",
+                    Faction.FirstOrder,
                     3,
-                    32,
-                    extraUpgradeIcon: UpgradeType.Talent
+                    4,
+                    7,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/VWm0SbB.png";

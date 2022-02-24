@@ -5,6 +5,7 @@ using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -14,11 +15,17 @@ namespace Ship.SecondEdition.TIESeBomber
     {
         public TIESeBomber() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "TIE/se Bomber",
                 BaseSize.Small,
-                Faction.FirstOrder,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.FirstOrder, typeof(FirstOrderCadet) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 2, 4, 2,
                 new ShipActionsInfo
                 (
@@ -31,26 +38,21 @@ namespace Ship.SecondEdition.TIESeBomber
                 new ShipUpgradesInfo
                 (
                     UpgradeType.Tech,
-                    UpgradeType.Torpedo,
                     UpgradeType.Missile,
-                    UpgradeType.Gunner,
-                    UpgradeType.Device,
                     UpgradeType.Device,
                     UpgradeType.Modification
-                )
+                ),
+                linkedActions: new List<LinkedActionInfo>
+                {
+                    new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)),
+                    new LinkedActionInfo(typeof(ReloadAction), typeof(EvadeAction))
+                }
             );
-
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)));
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(ReloadAction), typeof(EvadeAction)));
 
             ShipAbilities.Add(new Abilities.SecondEdition.PursuitThrustersAbility());
 
-            IconicPilots = new Dictionary<Faction, System.Type>
-            {
-                { Faction.FirstOrder, typeof(FirstOrderCadet) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "TIE Se Bomber",
                 "First Order",
                 new Vector3(-3.4f, 7.5f, 5.55f),
@@ -82,7 +84,8 @@ namespace Ship.SecondEdition.TIESeBomber
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "TIE-Fly1",

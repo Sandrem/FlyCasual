@@ -1,8 +1,8 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -13,14 +13,27 @@ namespace Ship
         {
             public Scorch() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "\"Scorch\"",
+                    "Jad Bean",
+                    Faction.FirstOrder,
                     4,
-                    35,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ScorchBomberPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 PilotNameCanonical = "scorch-tiesebomber";

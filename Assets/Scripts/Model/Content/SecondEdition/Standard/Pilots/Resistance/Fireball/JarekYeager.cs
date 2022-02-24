@@ -9,13 +9,27 @@ namespace Ship
         {
             public JarekYeager() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Jarek Yeager",
+                    "Too Old for This",
+                    Faction.Resistance,
                     5,
-                    31,
+                    3,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JarekYeagerAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Astromech }
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/cc580fd073ea51094b881e37775ef1f0.png";

@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
-using Ship;
+using Ship.CardInfo;
 using SubPhases;
 using Tokens;
 using UnityEngine;
-using Upgrade;
 
 namespace Ship.SecondEdition.Fireball
 {
@@ -18,42 +16,41 @@ namespace Ship.SecondEdition.Fireball
     {
         public Fireball() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Fireball",
                 BaseSize.Small,
-                Faction.Resistance,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Resistance, typeof(KazudaXiono) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 2, 6, 0,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(EvadeAction)),
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(SlamAction))
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Title,
-                    UpgradeType.Missile,
-                    UpgradeType.Illicit,
-                    UpgradeType.Modification,
-                    UpgradeType.Modification
-                ),
+                new ShipUpgradesInfo(),
                 abilityText: "Setup: You are dealt 1 facedown damage card. After you perform a slam action, you may expose 1 damage card to remove 1 disarm token"
             );
 
             ShipAbilities.Add(new Abilities.SecondEdition.ExplosionWithWings());
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(KazudaXiono) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Fireball",
                 "Fireball",
                 new Vector3(-3.8f, 7.5f, 5.55f),
                 1.6f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
@@ -77,7 +74,8 @@ namespace Ship.SecondEdition.Fireball
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "XWing-Fly1",

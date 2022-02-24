@@ -1,8 +1,8 @@
-﻿using SubPhases;
+﻿using Content;
+using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Upgrade;
 
 namespace Ship
 {
@@ -12,13 +12,20 @@ namespace Ship
         {
             public R1J5() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "R1-J5",
+                    "",
+                    Faction.Resistance,
                     1,
-                    27,
+                    2,
+                    0,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.R1J5PilotAbility),
-                    extraUpgradeIcon: UpgradeType.Crew
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid
+                    }
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();

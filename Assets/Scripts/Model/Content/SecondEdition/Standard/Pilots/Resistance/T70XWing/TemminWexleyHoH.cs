@@ -1,6 +1,8 @@
 ﻿using Abilities.Parameters;
+using Content;
 using Ship;
 using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -11,18 +13,29 @@ namespace Ship
         {
             public TemminWexleyHoH() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Temmin Wexley",
+                    "Snap",
+                    Faction.Resistance,
                     4,
-                    53,
+                    5,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TemminWexleyHoHAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
+                    skinName: "Green (HoH)"
                 );
 
                 PilotNameCanonical = "temminwexley-swz68";
-
-                ModelInfo.SkinName = "Green (HoH)";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/2c/81/2c81e32f-8c0d-4d26-a9b5-e6bfbe9dab0e/swz68_temmin-wexley.png";
             }

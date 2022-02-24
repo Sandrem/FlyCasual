@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Content;
+using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,16 +11,26 @@ namespace Ship
         {
             public BlackSquadronAce() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Black Squadron Ace",
+                    "",
+                    Faction.Resistance,
                     4,
-                    46,
-                    extraUpgradeIcon: UpgradeType.Talent
+                    5,
+                    10,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
+                    skinName: "Black One"
                 );
 
                 PilotNameCanonical = "blacksquadronace-t70xwing";
-
-                ModelInfo.SkinName = "Black One";
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/a/a7/Swz25_black-sqd-ace_a1.png";
             }

@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,13 +11,25 @@ namespace Ship
         {
             public KareKun() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Kare Kun",
+                    "Woman of Action",
+                    Faction.Resistance,
                     4,
-                    47,
+                    5,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KareKunAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Cannon
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/42/59/42597afe-f592-4bac-98ad-f70e876fb451/swz25_kare_a1.png";

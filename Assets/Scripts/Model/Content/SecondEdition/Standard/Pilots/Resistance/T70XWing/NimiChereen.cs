@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Content;
 using System.Collections.Generic;
-using Upgrade;
 
 namespace Ship
 {
@@ -10,12 +9,20 @@ namespace Ship
         {
             public NimiChereen() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Nimi Chereen",
+                    "Hopeful Hero",
+                    Faction.Resistance,
                     2,
-                    47,
+                    5,
+                    10,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.NimiChereenAbility)
+                    abilityType: typeof(Abilities.SecondEdition.NimiChereenAbility),
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    }
                 );
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b5/Nimi_chireen.png";

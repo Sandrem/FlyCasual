@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,31 @@ namespace Ship
         {
             public PoeDameron() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Poe Dameron",
+                    "Trigger-Happy Flyboy",
+                    Faction.Resistance,
                     6,
-                    61,
+                    7,
+                    25,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PoeDameronAbility),
                     charges: 1,
                     regensCharges: 1,
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
+                    skinName: "Black One"
                 );
-
-                ModelInfo.SkinName = "Black One";
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/14c504c0815213a66010c4013d9296ee.png";
             }

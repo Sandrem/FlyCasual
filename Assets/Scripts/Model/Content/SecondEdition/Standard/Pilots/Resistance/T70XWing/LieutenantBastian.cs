@@ -1,10 +1,9 @@
-﻿using ActionsList;
-using BoardTools;
+﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
 using Tokens;
-using Upgrade;
 
 namespace Ship
 {
@@ -14,12 +13,20 @@ namespace Ship
         {
             public LieutenantBastian() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lieutenant Bastian",
+                    "Optimistic Analyst",
+                    Faction.Resistance,
                     2,
-                    47,
+                    5,
+                    10,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.LieutenantBastianAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LieutenantBastianAbility),
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3f43d6b3c6e87bde6a681e9d4421dec8.png";

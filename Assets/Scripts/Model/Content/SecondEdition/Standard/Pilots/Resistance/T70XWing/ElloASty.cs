@@ -1,5 +1,7 @@
-﻿using Movement;
+﻿using Content;
+using Movement;
 using Ship;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -11,13 +13,25 @@ namespace Ship
         {
             public ElloAsty() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Ello Asty",
+                    "Born to Ill",
+                    Faction.Resistance,
                     5,
-                    53,
+                    6,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ElloAstyAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/f77180ae05fd919a0dff2225380246a6.png";
@@ -28,7 +42,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class ElloAstyAbility : Abilities.FirstEdition.ElloAstyAbility
+    public class ElloAstyAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

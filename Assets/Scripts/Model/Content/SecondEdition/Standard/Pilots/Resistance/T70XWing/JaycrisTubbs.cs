@@ -1,9 +1,9 @@
-﻿using ActionsList;
+﻿using Content;
 using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using Tokens;
-using Upgrade;
 
 namespace Ship
 {
@@ -13,12 +13,20 @@ namespace Ship
         {
             public JaycrisTubbs() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Jaycris Tubbs",
+                    "Loving Father",
+                    Faction.Resistance,
                     1,
-                    45,
+                    4,
+                    8,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.JaycrisTubbsAbility)
+                    abilityType: typeof(Abilities.SecondEdition.JaycrisTubbsAbility),
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/5f3abacb9a081f5a3ca42f7a30da0e6c.png";

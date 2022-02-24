@@ -1,6 +1,5 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Ship
 {
@@ -10,10 +9,18 @@ namespace Ship
         {
             public BlueSquadronRookie() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Blue Squadron Rookie",
+                    "",
+                    Faction.Resistance,
                     1,
-                    41
+                    5,
+                    4,
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    }
                 );
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/2/24/Swz25_blue-sqd_a1.png";

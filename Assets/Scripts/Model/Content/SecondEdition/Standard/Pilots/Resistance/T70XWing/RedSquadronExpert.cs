@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,14 +10,24 @@ namespace Ship
         {
             public RedSquadronExpert() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Red Squadron Expert",
+                    "",
+                    Faction.Resistance,
                     3,
-                    43,
-                    extraUpgradeIcon: UpgradeType.Talent
+                    5,
+                    2,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
+                    skinName: "Red"
                 );
-
-                ModelInfo.SkinName = "Red";
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/a/a9/Swz25_red-sqd_a1.png";
             }

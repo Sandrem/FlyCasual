@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using BoardTools;
+using Content;
 using Ship;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,18 +14,30 @@ namespace Ship
         {
             public PoeDameronHoH() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Poe Dameron",
+                    "Resistance Commander",
+                    Faction.Resistance,
                     6,
-                    55,
+                    6,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PoeDameronHoHAbility),
                     charges: 2,
                     regensCharges: 1,
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Tech
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.XWing
+                    },
+                    skinName: "Poe Dameron (RoS)"
                 );
-
-                ModelInfo.SkinName = "Poe Dameron (RoS)";
 
                 PilotNameCanonical = "poedameron-swz68";
 

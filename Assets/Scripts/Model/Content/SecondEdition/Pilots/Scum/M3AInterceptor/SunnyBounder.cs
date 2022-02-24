@@ -1,25 +1,44 @@
 ﻿using Ship;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Ship
 {
-    namespace FirstEdition.M3AInterceptor
+    namespace SecondEdition.M3AInterceptor
     {
         public class SunnyBounder : M3AInterceptor
         {
             public SunnyBounder() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Sunny Bounder",
+                    "Incurable Optimist",
+                    Faction.Scum,
                     1,
-                    14,
+                    4,
+                    10,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.SunnyBounderAbility)
+                    abilityType: typeof(Abilities.SecondEdition.SunnyBounderAbility),
+                    seImageNumber: 188
                 );
+            }
+        }
+    }
+}
 
-                ModelInfo.SkinName = "Sunny Bounder";
+namespace Abilities.SecondEdition
+{
+    public class SunnyBounderAbility : Abilities.FirstEdition.SunnyBounderAbility
+    {
+        // No more "once per round".
+        protected override void AddAbility(GenericShip ship)
+        {
+            if (Combat.CurrentDiceRoll.DiceList.All(die => die.Side == Combat.CurrentDiceRoll.DiceList.First().Side))
+            {
+                HostShip.AddAvailableDiceModificationOwn(
+                    new ActionsList.FirstEdition.SunnyBounderAbilityAction(() => { IsAbilityUsed = true; HostShip = HostShip; })
+                );
             }
         }
     }

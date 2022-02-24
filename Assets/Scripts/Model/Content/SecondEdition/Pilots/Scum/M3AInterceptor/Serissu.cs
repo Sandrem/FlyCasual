@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -10,13 +11,22 @@ namespace Ship
         {
             public Serissu() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Serissu",
+                    "Flight Instructor",
+                    Faction.Scum,
                     5,
-                    40,
+                    5,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SerissuAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 183
                 );
             }

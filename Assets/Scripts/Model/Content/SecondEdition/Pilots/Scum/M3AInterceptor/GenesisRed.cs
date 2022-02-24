@@ -12,13 +12,20 @@ namespace Ship
         {
             public GenesisRed() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Genesis Red",
+                    "Tansarii Point Crime Lord",
+                    Faction.Scum,
                     4,
-                    31,
+                    5,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GenesisRedAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
                     seImageNumber: 184
                 );
             }

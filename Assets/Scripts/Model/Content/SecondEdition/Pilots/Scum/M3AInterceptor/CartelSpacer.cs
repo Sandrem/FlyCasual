@@ -6,10 +6,14 @@
         {
             public CartelSpacer() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Cartel Spacer",
+                    "",
+                    Faction.Scum,
                     1,
-                    27,
+                    4,
+                    6,
                     seImageNumber: 190
                 );
             }

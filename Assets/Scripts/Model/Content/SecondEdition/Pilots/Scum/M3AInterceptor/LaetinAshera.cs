@@ -1,4 +1,5 @@
-﻿using Tokens;
+﻿using System.Collections.Generic;
+using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -9,13 +10,20 @@ namespace Ship
         {
             public LaetinAshera() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Laetin A'shera",
+                    "Car’das Enforcer",
+                    Faction.Scum,
                     3,
-                    30,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LaetinAshera),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
                     seImageNumber: 185
                 );
             }

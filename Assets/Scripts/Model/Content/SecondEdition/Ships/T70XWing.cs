@@ -30,7 +30,7 @@ namespace Ship
 
                 IconicPilots[Faction.Resistance] = typeof(PoeDameron);
 
-                ShipAbilities.Add(new Abilities.FirstEdition.HardPointAbility());
+                ShipAbilities.Add(new Abilities.SecondEdition.HardPointAbility());
 
                 ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/bc/Maneuver_t-70_x-wing.png";
             }

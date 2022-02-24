@@ -8,11 +8,14 @@ namespace Ship
         {
             public TansariiPointVeteran() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Tansarii Point Veteran",
+                    "",
+                    Faction.Scum,
                     3,
-                    29,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    4,
+                    8,
                     seImageNumber: 189
                 );
             }

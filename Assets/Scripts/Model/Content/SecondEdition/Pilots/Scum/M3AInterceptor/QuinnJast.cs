@@ -1,4 +1,5 @@
-﻿using SubPhases;
+﻿using Content;
+using SubPhases;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
@@ -12,13 +13,24 @@ namespace Ship
         {
             public QuinnJast() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Quinn Jast",
+                    "Fortune Seeker",
+                    Faction.Scum,
                     3,
-                    31,
+                    4,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.QuinnJastAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter
+                    },
                     seImageNumber: 186
                 );
             }

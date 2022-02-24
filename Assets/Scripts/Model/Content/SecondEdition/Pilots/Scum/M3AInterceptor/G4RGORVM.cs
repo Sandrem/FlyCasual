@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,25 @@ namespace Ship
         {
             public G4RGORVM() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "G4R-GOR V/M",
+                    "Tilted Droid",
+                    Faction.Scum,
                     0,
-                    28,
+                    4,
+                    11,
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid
+                    },
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.G4RGORVMAbility)
                 );
 
-                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/4c/2c/4c2c309f-f9b0-4a93-a3a5-28b43fe981c3/swz66_g4r-g0r_vm.png";
                 ShipInfo.ActionIcons.SwitchToDroidActions();
+
+                ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/4c/2c/4c2c309f-f9b0-4a93-a3a5-28b43fe981c3/swz66_g4r-g0r_vm.png";
             }
         }
     }

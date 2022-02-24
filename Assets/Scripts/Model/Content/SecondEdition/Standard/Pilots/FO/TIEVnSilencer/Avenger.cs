@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,13 +12,25 @@ namespace Ship
         {
             public Avenger() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Avenger\"",
+                    "Wrathful Wingmate",
+                    Faction.FirstOrder,
                     3,
-                    56,
+                    6,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AvengerAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/d90d3057ead18b5df5f6de55a199a4cd.png";

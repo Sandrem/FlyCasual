@@ -1,9 +1,7 @@
-﻿using ActionsList;
+﻿using Content;
 using MainPhases;
 using Ship;
-using System;
 using System.Collections.Generic;
-using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -14,12 +12,25 @@ namespace Ship
         {
             public Rush() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Rush\"",
+                    "Adrenaline Junkie",
+                    Faction.FirstOrder,
                     2,
-                    57,
+                    6,
+                    10,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.RushAbility)
+                    abilityType: typeof(Abilities.SecondEdition.RushAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/886d715885da65bdf10ad7c68e4d0a93.png";

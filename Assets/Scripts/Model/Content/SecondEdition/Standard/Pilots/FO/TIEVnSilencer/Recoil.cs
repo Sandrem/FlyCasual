@@ -1,4 +1,4 @@
-﻿using ActionsList;
+﻿using Content;
 using Ship;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,13 +11,25 @@ namespace Ship
         {
             public Recoil() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Recoil\"",
+                    "Quantity Over Quality",
+                    Faction.FirstOrder,
                     4,
-                    56,
+                    5,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RecoilAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/ab11858b2b9ac5c8bbfb2dc21023ba34.png";

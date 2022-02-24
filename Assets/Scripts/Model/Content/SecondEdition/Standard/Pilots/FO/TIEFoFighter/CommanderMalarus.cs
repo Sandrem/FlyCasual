@@ -1,6 +1,8 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using SubPhases;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -12,14 +14,29 @@ namespace Ship
         {
             public CommanderMalarus() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Commander Malarus",
+                    "First Order Enforcer",
+                    Faction.FirstOrder,
                     5,
-                    33,
+                    3,
+                    4,
                     charges: 2,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CommanderMalarusAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/d/d2/Swz26_a1_malarus.png";

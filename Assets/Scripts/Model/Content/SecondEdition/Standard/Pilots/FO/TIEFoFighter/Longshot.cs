@@ -1,4 +1,6 @@
 ﻿using BoardTools;
+using Content;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,13 +11,27 @@ namespace Ship
         {
             public Longshot() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Longshot\"",
+                    "Zeta Ace",
+                    Faction.FirstOrder,
                     3,
-                    30,
+                    3,
+                    3,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LongshotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/a6/a3/a6a34b16-16d8-43f7-b250-0e8dd9299a5f/swz26_a1_longshot.png";

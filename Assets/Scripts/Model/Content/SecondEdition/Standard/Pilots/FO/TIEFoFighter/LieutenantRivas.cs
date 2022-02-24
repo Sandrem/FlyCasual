@@ -1,7 +1,8 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
-using System;
+using System.Collections.Generic;
 using Tokens;
 
 namespace Ship
@@ -12,12 +13,20 @@ namespace Ship
         {
             public LieutenantRivas() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lieutenant Rivas",
+                    "Inconvenient Witness",
+                    Faction.FirstOrder,
                     1,
-                    28,
+                    2,
+                    0,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.LieutenantRivasAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LieutenantRivasAbility),
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/7188ec2eb699261dbd47a15df6164f4c.png";

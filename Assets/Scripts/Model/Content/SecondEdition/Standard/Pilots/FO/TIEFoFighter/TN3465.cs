@@ -1,6 +1,8 @@
 ﻿using BoardTools;
 using System;
+using System.Collections.Generic;
 using Upgrade;
+using Content;
 
 namespace Ship
 {
@@ -10,12 +12,25 @@ namespace Ship
         {
             public TN3465() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "TN-3465",
+                    "Loose End",
+                    Faction.FirstOrder,
                     2,
-                    28,
+                    3,
+                    4,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.TN3465Ability)
+                    abilityType: typeof(Abilities.SecondEdition.TN3465Ability),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Tech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/333cbf0da8849edb38c4e93944d8fe57.png";

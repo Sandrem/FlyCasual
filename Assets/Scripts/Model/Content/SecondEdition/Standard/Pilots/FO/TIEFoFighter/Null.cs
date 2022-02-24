@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System.Collections.Generic;
 using Tokens;
@@ -12,12 +13,27 @@ namespace Ship
         {
             public Null() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Null\"",
+                    "Epsilon Ace",
+                    Faction.FirstOrder,
                     0,
-                    30,
+                    3,
+                    6,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.NullAbility)
+                    abilityType: typeof(Abilities.SecondEdition.NullAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/f/f2/TieFO_Null.png";

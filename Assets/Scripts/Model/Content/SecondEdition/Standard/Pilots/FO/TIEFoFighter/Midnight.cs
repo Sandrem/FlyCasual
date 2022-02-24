@@ -1,4 +1,6 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,13 +11,29 @@ namespace Ship
         {
             public Midnight() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Midnight\"",
+                    "Omega Leader",
+                    Faction.FirstOrder,
                     6,
-                    35,
+                    4,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MidnightAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Tech,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/56/94/56940164-d919-4b04-8303-f39357555fad/swz18_a1_midnight.png";

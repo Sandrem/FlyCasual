@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,16 +14,32 @@ namespace Ship
         {
             public Sinker() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Sinker\"",
+                    "Wolfpack Veteran",
+                    Faction.Republic,
                     3,
-                    53,
+                    6,
+                    18,
                     isLimited: true,
-                    factionOverride: Faction.Republic,
-                    abilityType: typeof(Abilities.SecondEdition.SinkerAbility)
+                    abilityType: typeof(Abilities.SecondEdition.SinkerAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone
+                    },
+                    skinName: "Red"
                 );
-
-                ModelInfo.SkinName = "Red";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/4e/2b/4e2bb1a3-4865-421d-898f-5272f1ab3b73/swz33_sinker.png";
             }

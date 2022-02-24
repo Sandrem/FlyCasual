@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,19 +10,35 @@ namespace Ship
         {
             public OddBall() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Odd Ball\"",
+                    "CC-2237",
+                    Faction.Republic,
                     5,
-                    48,
+                    6,
+                    22,
                     isLimited: true,
-                    factionOverride: Faction.Republic,
                     abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone
+                    },
+                    skinName: "Red"
                 );
 
                 PilotNameCanonical = "oddball-arc170starfighter";
-
-                ModelInfo.SkinName = "Red";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/ff/29/ff29970e-5ed7-416d-b5da-3918e226b3dc/swz33_odd-ball.png";
             }

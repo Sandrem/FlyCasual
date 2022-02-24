@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,16 +12,32 @@ namespace Ship
         {
             public Jag() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Jag\"",
+                    "CT-55/11-9009",
+                    Faction.Republic,
                     3,
-                    47,
+                    5,
+                    14,
                     isLimited: true,
-                    factionOverride: Faction.Republic,
-                    abilityType: typeof(Abilities.SecondEdition.JagAbility)
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone 
+                    },
+                    abilityType: typeof(Abilities.SecondEdition.JagAbility),
+                    skinName: "Red"
                 );
-
-                ModelInfo.SkinName = "Red";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/06/ec/06ecf59a-74bb-425b-9b5e-0d90a76d3261/swz33_jag.png";
             }

@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,32 @@ namespace Ship
         {
             public Wolffe() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Wolffe\"",
+                    "CC-3636",
+                    Faction.Republic,
                     4,
-                    49,
+                    5,
+                    12,
                     isLimited: true,
-                    factionOverride: Faction.Republic,
                     abilityType: typeof(Abilities.SecondEdition.WolffeAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    charges: 1
+                    charges: 1,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone
+                    },
+                    skinName: "Wolffe"
                 );
-
-                ModelInfo.SkinName = "Wolffe";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fb/ae/fbae3c90-c9bb-483a-a929-4381c205d416/swz33_wolffe.png";
             }

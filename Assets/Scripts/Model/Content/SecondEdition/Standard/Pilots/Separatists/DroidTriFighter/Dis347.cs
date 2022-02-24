@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -11,13 +12,26 @@ namespace Ship.SecondEdition.DroidTriFighter
     {
         public Dis347()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "DIS-347",
+                "Target Acquired",
+                Faction.Separatists,
                 3,
-                36,
-                true,
-                extraUpgradeIcon: UpgradeType.Talent,
-                abilityType: typeof(Abilities.SecondEdition.Dis347Ability)
+                4,
+                12,
+                isLimited: true,
+                abilityType: typeof(Abilities.SecondEdition.Dis347Ability),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Sensor,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/8f/96/8f96a822-921a-4c77-ae90-2fe15e196171/swz81_dis-347_cutout.png";

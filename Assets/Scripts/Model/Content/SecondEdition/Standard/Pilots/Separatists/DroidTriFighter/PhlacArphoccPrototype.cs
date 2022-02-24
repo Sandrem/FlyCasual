@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,26 @@ namespace Ship.SecondEdition.DroidTriFighter
     {
         public PhlacArphoccPrototype()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Phlac-Arphocc Prototype",
+                "Predictive Analysis Protocol",
+                Faction.Separatists,
                 5,
-                38,
+                5,
+                14,
                 limited: 2,
-                extraUpgradeIcon: UpgradeType.Talent,
-                abilityType: typeof(Abilities.SecondEdition.PhlacArphoccPrototypeAbility)
+                abilityType: typeof(Abilities.SecondEdition.PhlacArphoccPrototypeAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Sensor,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/57/f7/57f74986-1cbf-4745-9792-360153f75719/swz81_phlac-prototype_cutout.png";

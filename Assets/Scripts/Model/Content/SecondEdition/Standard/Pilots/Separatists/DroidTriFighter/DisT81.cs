@@ -1,9 +1,9 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Tokens;
 using Upgrade;
 
@@ -13,13 +13,26 @@ namespace Ship.SecondEdition.DroidTriFighter
     {
         public DisT81()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "DIS-T81",
+                "Clever Circuits",
+                Faction.Separatists,
                 4,
-                37,
-                true,
-                extraUpgradeIcon: UpgradeType.Talent,
-                abilityType: typeof(Abilities.SecondEdition.DisT81Ability)
+                4,
+                10,
+                isLimited: true,
+                abilityType: typeof(Abilities.SecondEdition.DisT81Ability),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Sensor,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
 
             ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/c2/DIS-T81.png";

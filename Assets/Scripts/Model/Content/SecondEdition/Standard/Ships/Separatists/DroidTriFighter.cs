@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -13,44 +13,50 @@ namespace Ship.SecondEdition.DroidTriFighter
     {
         public DroidTriFighter() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Droid Tri-Fighter",
                 BaseSize.Small,
-                Faction.Separatists,
+                new FactionData
+                (
+                    new Dictionary<Faction, System.Type>
+                    {
+                        { Faction.Separatists, typeof(SeparatistInterceptor) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 3), 3, 3, 0,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(CalculateAction)),
                     new ActionInfo(typeof(EvadeAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Sensor,
-                    UpgradeType.Missile,
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Modification,
                     UpgradeType.Configuration
-                )
+                ),
+                linkedActions: new List<LinkedActionInfo>
+                {
+                    new LinkedActionInfo(typeof(BarrelRollAction), typeof(EvadeAction), ActionColor.Red),
+                    new LinkedActionInfo(typeof(BoostAction), typeof(CalculateAction), ActionColor.Red)
+                }
             );
 
             ShipAbilities.Add(new Abilities.SecondEdition.NetworkedCalculationsAbility());
 
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(EvadeAction), ActionColor.Red));
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction), typeof(CalculateAction), ActionColor.Red));
-
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(SeparatistInterceptor) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Droid Tri-Fighter",
                 "Default",
                 new Vector3(-3.7f, 7.85f, 5.55f),
                 1f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.TallonRoll, MovementComplexity.Complex),
@@ -75,7 +81,8 @@ namespace Ship.SecondEdition.DroidTriFighter
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "TIE-Fly1",

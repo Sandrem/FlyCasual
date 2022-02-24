@@ -1,4 +1,5 @@
 ﻿using Conditions;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -13,13 +14,26 @@ namespace Ship.SecondEdition.DroidTriFighter
     {
         public FearsomePredator()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Fearsome Predator",
+                "Fixated Pursuit",
+                Faction.Separatists,
                 3,
-                36,
+                5,
+                16,
                 limited: 3,
-                extraUpgradeIcon: UpgradeType.Talent,
-                abilityType: typeof(Abilities.SecondEdition.FearsomePredatorAbility)
+                abilityType: typeof(Abilities.SecondEdition.FearsomePredatorAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Sensor,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/91/bb/91bb3546-290e-4131-895e-a77d79ebbc99/swz81_fearsome-predator_cutout.png";

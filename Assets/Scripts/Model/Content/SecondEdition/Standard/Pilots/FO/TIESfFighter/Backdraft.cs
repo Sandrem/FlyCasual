@@ -1,5 +1,7 @@
 ﻿using Arcs;
+using Content;
 using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -10,13 +12,26 @@ namespace Ship
         {
             public Backdraft() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Backdraft\"",
+                    "Fiery Fanatic",
+                    Faction.FirstOrder,
                     4,
-                    36,
+                    4,
+                    12,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    abilityType: typeof(Abilities.SecondEdition.BackdraftAbility)
+                    abilityType: typeof(Abilities.SecondEdition.BackdraftAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/a/ac/Swz18_backdraft_a3.png";

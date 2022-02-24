@@ -1,11 +1,6 @@
-﻿using Arcs;
-using BoardTools;
+﻿using Content;
 using Ship;
-using SubPhases;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -16,13 +11,27 @@ namespace Ship
         {
             public CaptainPhasma() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Captain Phasma",
+                    "Scyre Survivor",
+                    Faction.FirstOrder,
                     4,
-                    34,
+                    4,
+                    14,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    abilityType: typeof(Abilities.SecondEdition.CaptainPhasmaPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CaptainPhasmaPilotAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/7c0bc32446e17991aff226d0fcab7b19.png";

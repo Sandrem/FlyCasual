@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -16,13 +17,27 @@ namespace Ship
         {
             public LieutenantLeHuse() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lieutenant LeHuse",
+                    "Unflinching Executioner",
+                    Faction.FirstOrder,
                     5,
-                    37,
+                    5,
+                    18,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    abilityType: typeof(Abilities.SecondEdition.LieutenantLeHuseAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LieutenantLeHuseAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/b823438eb2b32a407bf6a757a4ecb7d5.png";

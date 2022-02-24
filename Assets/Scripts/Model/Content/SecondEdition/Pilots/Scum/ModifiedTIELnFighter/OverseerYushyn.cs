@@ -1,7 +1,10 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -11,14 +14,27 @@ namespace Ship
         {
             public OverseerYushyn() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Overseer Yushyn",
+                    "Overbearing Boss",
+                    Faction.Scum,
                     2,
-                    24,
+                    3,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OverseerYushynAbility),
                     charges: 1,
-                    regensCharges: 1
+                    regensCharges: 1,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
                 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c1/78/c178c035-befe-44dd-bdb6-541c377ed85b/swz23_overseer-yushyn.png";

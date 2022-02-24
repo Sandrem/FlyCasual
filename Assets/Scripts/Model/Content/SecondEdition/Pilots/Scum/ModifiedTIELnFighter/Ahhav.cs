@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
 
 namespace Ship
 {
@@ -8,13 +9,20 @@ namespace Ship
         {
             public Ahhav() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Ahhav",
+                    "Vengeful Survivor",
+                    Faction.Scum,
                     3,
-                    28,
+                    2,
+                    0,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AhhavAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d5/af/d5af765f-4c49-4209-98a8-e76f52bf9608/swz23_ahhav.png";

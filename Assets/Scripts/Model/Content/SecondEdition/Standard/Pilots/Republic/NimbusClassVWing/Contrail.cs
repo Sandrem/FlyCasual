@@ -1,7 +1,6 @@
-﻿using Ship;
-using System;
+﻿using Content;
+using Ship;
 using System.Collections.Generic;
-using Upgrade;
 
 namespace Ship
 {
@@ -11,13 +10,21 @@ namespace Ship
         {
             public Contrail() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Contrail\"",
+                    "CT-4981",
+                    Faction.Republic,
                     5,
-                    32,
+                    2,
+                    0,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ContrailAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone,
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b0/bc/b0bcccdb-fd02-4ab1-847b-66bae01e7ddc/swz80_ship_contrail.png";

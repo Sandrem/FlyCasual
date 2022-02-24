@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using Tokens;
@@ -15,13 +16,27 @@ namespace Ship
         {
             public WilhuffTarkin() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Wilhuff Tarkin",
+                    "Aspiring Admiral",
+                    Faction.Republic,
                     3,
-                    31,
+                    3,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WilhuffTarkinAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/bf/0e/bf0e3b50-3f36-4940-953b-f0a2d9f2b9b9/swz80_ship_tarkin.png";

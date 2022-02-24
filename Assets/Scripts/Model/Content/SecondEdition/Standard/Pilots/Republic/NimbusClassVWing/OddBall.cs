@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Ship;
-using SubPhases;
-using Tokens;
+﻿using System.Collections.Generic;
+using Content;
 using Upgrade;
 
 namespace Ship
@@ -13,13 +10,28 @@ namespace Ship
         {
             public OddBall() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Odd Ball\"",
+                    "CC-2237",
+                    Faction.Republic,
                     5,
-                    31,
+                    4,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone,
+                        Tags.Tie
+                    }
                 );
 
                 PilotNameCanonical = "oddball-nimbusclassvwing";

@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -13,15 +14,29 @@ namespace Ship
         {
             public Klick() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Klick\"",
+                    "GC-1000",
+                    Faction.Republic,
                     4,
-                    31,
+                    3,
+                    8,
                     isLimited: true,
                     charges: 1,
                     regensCharges: 1,
                     abilityType: typeof(Abilities.SecondEdition.KlickAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone,
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d6/ba/d6baed95-5960-4615-9949-faf5a5c0d96f/swz80_ship_klick.png";

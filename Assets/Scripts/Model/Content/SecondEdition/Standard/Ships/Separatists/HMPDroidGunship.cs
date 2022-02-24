@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Actions;
@@ -7,6 +6,7 @@ using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
+using Ship.CardInfo;
 using Tokens;
 using UnityEngine;
 using Upgrade;
@@ -17,45 +17,50 @@ namespace Ship.SecondEdition.HMPDroidGunship
     {
         public HMPDroidGunship() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "HMP Droid Gunship",
                 BaseSize.Small,
-                Faction.Separatists,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Separatists, typeof(BaktoidDrone) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.FullFront, 2), 1, 5, 3,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(CalculateAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(ReloadAction))
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Missile,
-                    UpgradeType.Missile,
-                    UpgradeType.TacticalRelay,
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Modification,
                     UpgradeType.Configuration
-                )
+                ),
+                linkedActions: new List<LinkedActionInfo>
+                {
+                    new LinkedActionInfo(typeof(ReloadAction), typeof(CalculateAction), ActionColor.Red)
+                }
             );
-
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(ReloadAction), typeof(CalculateAction), ActionColor.Red));
 
             DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.RepulsorliftStabilizersInactive));
 
             ShipAbilities.Add(new Abilities.SecondEdition.NetworkedAimAbility());
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(BaktoidDrone) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "HMP Droid Gunship",
                 "Default",
                 new Vector3(-3.62f, 7.62f, 5.55f),
                 1.5f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary, MovementComplexity.Complex),
 
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Complex),
@@ -79,7 +84,8 @@ namespace Ship.SecondEdition.HMPDroidGunship
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "XWing-Fly1",

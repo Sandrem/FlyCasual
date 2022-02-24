@@ -1,5 +1,6 @@
 ﻿using Abilities.Parameters;
 using Arcs;
+using Content;
 using Ship;
 using System.Collections.Generic;
 using Tokens;
@@ -13,13 +14,28 @@ namespace Ship
         {
             public DGS047() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "DGS-047",
+                    "Adaptive Intelligence",
+                    Faction.Separatists,
                     1,
-                    38,
+                    5,
+                    14,
                     isLimited: true,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Crew, UpgradeType.Device },
-                    abilityType: typeof(Abilities.SecondEdition.DGS047Ability)
+                    abilityType: typeof(Abilities.SecondEdition.DGS047Ability),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.TacticalRelay,
+                        UpgradeType.Crew,
+                        UpgradeType.Device
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/27/e8/27e89f93-eaa8-40bc-b62f-d8d009e54b82/swz71_card_dgs047.png";

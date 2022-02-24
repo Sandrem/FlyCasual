@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System;
 using System.Collections.Generic;
 using Tokens;
@@ -12,13 +13,28 @@ namespace Ship
         {
             public GeonosianPrototype() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Geonosian Prototype",
+                    "Devastation Protocols",
+                    Faction.Separatists,
                     2,
-                    38,
+                    5,
+                    18,
                     limited: 2,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Cannon, UpgradeType.Cannon },
-                    abilityType: typeof(Abilities.SecondEdition.GeonosianPrototypeAbility)
+                    abilityType: typeof(Abilities.SecondEdition.GeonosianPrototypeAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
+                        UpgradeType.TacticalRelay
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/46/92/469279ec-b2cc-4168-81e2-f1bc616b0037/swz71_card_prototype.png";

@@ -1,5 +1,5 @@
 ﻿using Abilities.Parameters;
-using SubPhases;
+using Content;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -12,13 +12,28 @@ namespace Ship
         {
             public DGS286() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "DGS-286",
+                    "Ambush Protocols",
+                    Faction.Separatists,
                     3,
-                    39,
+                    5,
+                    20,
                     isLimited: true,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Crew, UpgradeType.Device },
-                    abilityType: typeof(Abilities.SecondEdition.DGS286Ability)
+                    abilityType: typeof(Abilities.SecondEdition.DGS286Ability),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Torpedo,
+                        UpgradeType.TacticalRelay,
+                        UpgradeType.Crew,
+                        UpgradeType.Device
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/26/c0/26c041f8-90e4-4cc6-8fa4-219b87ac502b/swz71_card_dgs286.png";

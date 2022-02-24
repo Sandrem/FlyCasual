@@ -1,6 +1,6 @@
 ﻿using ActionsList;
+using Content;
 using Movement;
-using Ship;
 using System;
 using System.Collections.Generic;
 using Tokens;
@@ -14,13 +14,26 @@ namespace Ship
         {
             public OnderonOppressor() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Onderon Oppressor",
+                    "Atmospheric Attack Module",
+                    Faction.Separatists,
                     3,
-                    40,
+                    4,
+                    7,
                     limited: 2,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Crew, UpgradeType.Device },
-                    abilityType: typeof(Abilities.SecondEdition.OnderonOppressorAbility)
+                    abilityType: typeof(Abilities.SecondEdition.OnderonOppressorAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Device
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d7/74/d774cd1d-eadc-4cf4-bf7f-f8169f9d14a3/swz71_card_oppressor.png";

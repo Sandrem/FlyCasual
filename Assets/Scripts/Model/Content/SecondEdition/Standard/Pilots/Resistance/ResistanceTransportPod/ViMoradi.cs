@@ -4,10 +4,7 @@ using BoardTools;
 using Conditions;
 using Ship;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Tokens;
-using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransportPod
 {
@@ -15,10 +12,14 @@ namespace Ship.SecondEdition.ResistanceTransportPod
     {
         public ViMoradi()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Vi Moradi",
+                "Starling",
+                Faction.Resistance,
                 1,
-                27,
+                3,
+                6,
                 isLimited: true,
                 abilityType: typeof(ViMoradiAbility)
             );

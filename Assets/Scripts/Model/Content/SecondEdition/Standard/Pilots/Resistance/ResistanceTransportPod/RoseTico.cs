@@ -1,7 +1,6 @@
 ﻿using Abilities.SecondEdition;
 using BoardTools;
 using Ship;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -12,13 +11,21 @@ namespace Ship.SecondEdition.ResistanceTransportPod
     {
         public RoseTico()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Rose Tico",
+                "Earnest Engineer",
+                Faction.Resistance,
                 3,
-                28,
+                3,
+                8,
                 isLimited: true,
                 abilityType: typeof(RoseTicoResistanceTransportPodAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Modification
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e7/36/e736f7ba-c5dd-4222-9bdb-b889eea03293/swz45_rose-tico.png";

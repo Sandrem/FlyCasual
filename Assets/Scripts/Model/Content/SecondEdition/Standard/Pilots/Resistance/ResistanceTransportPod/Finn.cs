@@ -1,10 +1,8 @@
 ﻿using Abilities.SecondEdition;
 using ActionsList;
-using BoardTools;
 using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransportPod
@@ -13,13 +11,21 @@ namespace Ship.SecondEdition.ResistanceTransportPod
     {
         public Finn()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Finn",
+                "Big Deal",
+                Faction.Resistance,
                 2,
-                32,
+                4,
+                15,
                 isLimited: true,
                 abilityType: typeof(FinnResistanceTransportPodAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Talent
+                }
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/311d88e51a039b79e9a422ab3c475288.png";

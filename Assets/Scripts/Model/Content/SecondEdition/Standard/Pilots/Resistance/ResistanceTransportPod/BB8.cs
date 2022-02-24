@@ -1,10 +1,9 @@
 ﻿using Abilities.SecondEdition;
 using ActionsList;
-using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransportPod
@@ -13,13 +12,24 @@ namespace Ship.SecondEdition.ResistanceTransportPod
     {
         public BB8()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "BB-8",
+                "Full of Surprises",
+                Faction.Resistance,
                 3,
-                25,
+                3,
+                8,
                 isLimited: true,
                 abilityType: typeof(BB8TransportPodAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Tech
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid 
+                }
             );
 
             ShipInfo.ActionIcons.SwitchToDroidActions();

@@ -1,6 +1,4 @@
-﻿using BoardTools;
-using Ship;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Abilities.SecondEdition;
@@ -14,12 +12,24 @@ namespace Ship.SecondEdition.ResistanceTransport
     {
         public NodinChavdri()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Nodin Chavdri",
+                "Insubordinate Insurgent",
+                Faction.Resistance,
                 2,
-                37,
+                5,
+                16,
                 isLimited: true,
-                abilityType: typeof(NodinChavdriGoodeAbility)
+                abilityType: typeof(NodinChavdriGoodeAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Tech,
+                    UpgradeType.Cannon,
+                    UpgradeType.Torpedo,
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
+                }
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/9f41de269cb1ff091487554fb53b2374.png";

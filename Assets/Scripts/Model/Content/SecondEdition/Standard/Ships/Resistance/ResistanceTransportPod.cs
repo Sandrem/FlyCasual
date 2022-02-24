@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -13,37 +14,43 @@ namespace Ship.SecondEdition.ResistanceTransportPod
     {
         public ResistanceTransportPod() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Resistance Transport Pod",
                 BaseSize.Small,
-                Faction.Resistance,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Resistance, typeof(RoseTico) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 2, 3, 1,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction), ActionColor.Red),
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(JamAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo(
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Tech,
                     UpgradeType.Crew,
                     UpgradeType.Modification
                 )
             );
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(RoseTico) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Resistance Transport Pod",
                 "Default",
                 new Vector3(-3.66f, 7.95f, 5.55f),
                 0.75f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Complex),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
@@ -64,7 +71,8 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "XWing-Fly1",

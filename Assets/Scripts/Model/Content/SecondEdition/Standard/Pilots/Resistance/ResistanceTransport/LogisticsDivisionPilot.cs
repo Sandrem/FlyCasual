@@ -1,8 +1,5 @@
-﻿using BoardTools;
-using Ship;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.ResistanceTransport
 {
@@ -10,10 +7,18 @@ namespace Ship.SecondEdition.ResistanceTransport
     {
         public LogisticsDivisionPilot()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Logistics Division Pilot",
+                "",
+                Faction.Resistance,
                 1,
-                34
+                4,
+                6,
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Astromech
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/95/69/95692636-a7ef-499c-afb7-5891b998f696/swz45_logistics-pilot.png";

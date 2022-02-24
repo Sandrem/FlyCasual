@@ -1,8 +1,4 @@
-﻿using BoardTools;
-using Ship;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Abilities.SecondEdition;
 using Upgrade;
 
@@ -12,12 +8,25 @@ namespace Ship.SecondEdition.ResistanceTransport
     {
         public PammichNerroGoode()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Pammich Nerro Goode",
+                "D’Qar Dispatcher",
+                Faction.Resistance,
                 3,
-                35,
+                4,
+                12,
                 isLimited: true,
-                abilityType: typeof(PammichNerroGoodeAbility)
+                abilityType: typeof(PammichNerroGoodeAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Sensor,
+                    UpgradeType.Tech,
+                    UpgradeType.Cannon,
+                    UpgradeType.Torpedo,
+                    UpgradeType.Crew,
+                    UpgradeType.Modification
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/8b/2d/8b2da8f2-041a-43e0-a48d-84fc958eb05e/swz45_pammich-goode.png";

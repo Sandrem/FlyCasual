@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -13,42 +14,43 @@ namespace Ship.SecondEdition.ResistanceTransport
     {
         public ResistanceTransport() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Resistance Transport",
                 BaseSize.Small,
-                Faction.Resistance,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Resistance, typeof(CovaNell) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 1, 5, 3,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(CoordinateAction), ActionColor.Red),
                     new ActionInfo(typeof(JamAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Tech,
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Cannon,
-                    UpgradeType.Cannon,
-                    UpgradeType.Torpedo,
                     UpgradeType.Crew,
-                    UpgradeType.Crew,
-                    UpgradeType.Astromech,
-                    UpgradeType.Modification
+                    UpgradeType.Astromech
                 )
             );
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(CovaNell) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Resistance Transport",
                 "Default",
                 new Vector3(-3.7f, 8f, 5.55f),
                 2.5f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.ReverseStraight, MovementComplexity.Complex),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.ReverseStraight, MovementComplexity.Complex),
 
@@ -73,7 +75,8 @@ namespace Ship.SecondEdition.ResistanceTransport
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "XWing-Fly1",

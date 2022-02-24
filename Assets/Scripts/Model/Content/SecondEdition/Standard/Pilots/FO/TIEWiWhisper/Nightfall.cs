@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -14,13 +15,25 @@ namespace Ship
         {
             public Nightfall() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Nightfall\"",
+                    "709th Legion Veteran",
+                    Faction.FirstOrder,
                     4,
-                    49,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NightfallPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Talent }
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Tech
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/XEhy6Ej.png";

@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,24 @@ namespace Ship
         {
             public Wrath() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "\"Wrath\"",
+                    "Herald of Destruction",
+                    Faction.FirstOrder,
                     5,
-                    53,
+                    5,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WrathPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent }
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/AOPpXkq.png";

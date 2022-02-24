@@ -1,4 +1,5 @@
 ﻿using Arcs;
+using Content;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
@@ -12,15 +13,30 @@ namespace Ship
         {
             public KyloRenWhisper() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "Kylo Ren",
+                    "Supreme Leader of the First Order",
+                    Faction.FirstOrder,
                     5,
-                    63,
+                    7,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyloRenWhisperPilotAbility),
                     force: 3,
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.ForcePower, UpgradeType.Talent }
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.ForcePower,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie,
+                        Tags.DarkSide,
+                        Tags.LightSide
+                    }
                 );
 
                 PilotNameCanonical = "kyloren-tiewiwhispermodifiedinterceptor";

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -12,12 +14,23 @@ namespace Ship.SecondEdition.TIEWiWhisperModifiedInterceptor
     {
         public TIEWiWhisperModifiedInterceptor() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "TIE/wi Whisper Modified Interceptor",
                 BaseSize.Small,
-                Faction.FirstOrder,
-                new ShipArcsInfo(ArcType.SingleTurret, 2), 2, 3, 2,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.FirstOrder, typeof(P709thLegionAce) }
+                    }
+                ),
+                new ShipArcsInfo
+                (
+                    new ShipArcInfo(ArcType.SingleTurret, 2),
+                    new ShipArcInfo(ArcType.Bullseye, 3)
+                ),
+                2, 3, 2,
                 new ShipActionsInfo
                 (
                     new ActionInfo(typeof(FocusAction)),
@@ -28,27 +41,23 @@ namespace Ship.SecondEdition.TIEWiWhisperModifiedInterceptor
                 ),
                 new ShipUpgradesInfo
                 (
-                    UpgradeType.Missile,
+                    UpgradeType.Talent,
                     UpgradeType.Tech,
                     UpgradeType.Tech,
                     UpgradeType.Configuration     
-                )
+                ),
+                linkedActions: new List<LinkedActionInfo>
+                {
+                    new LinkedActionInfo(typeof(FocusAction), typeof(RotateArcAction), ActionColor.White),
+                    new LinkedActionInfo(typeof(BarrelRollAction), typeof(RotateArcAction), ActionColor.White),
+                    new LinkedActionInfo(typeof(BoostAction), typeof(RotateArcAction), ActionColor.White)
+                }
             );
-
-            ShipInfo.ArcInfo.Arcs.Add(new ShipArcInfo(ArcType.Bullseye, 3));
-
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(FocusAction),      typeof(RotateArcAction), ActionColor.White));
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(RotateArcAction), ActionColor.White));
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BoostAction),      typeof(RotateArcAction), ActionColor.White));
 
             ShipAbilities.Add(new Abilities.SecondEdition.HeavyWeaponTurret());
 
-            IconicPilots = new Dictionary<Faction, System.Type>
-            {
-                { Faction.FirstOrder, typeof(P709thLegionAce) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "TIE Wi Whisper Modified Interceptor",
                 "First Order",
                 new Vector3(-3.4f, 7.5f, 5.55f),
@@ -81,7 +90,8 @@ namespace Ship.SecondEdition.TIEWiWhisperModifiedInterceptor
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "TIE-Fly1",

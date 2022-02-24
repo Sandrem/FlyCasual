@@ -1,3 +1,4 @@
+using Content;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -9,11 +10,22 @@ namespace Ship
         {
             public RedFuryZealot() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Red Fury Zealot",
+                    "",
+                    Faction.FirstOrder,
                     2,
-                    44,
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent }
+                    4,
+                    3,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Missile
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    }
                 );
 
                 ImageUrl = "https://meta.listfortress.com/assets/pilots/redfuryzealot-f740cbbb920e579f88f70619b299e0e495411de02d130387ba3305071703c8ad.png";

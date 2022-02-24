@@ -11,14 +11,21 @@ namespace Ship
         {
             public RicOlie() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Ric Olie",
+                    "Bravo Leader",
+                    Faction.Republic,
                     5,
-                    44,
+                    5,
+                    15,
                     isLimited: true,
                     abilityText: "When you defend or perform a primary attack, if the maneuver you revealed is greater than the enemy ship’s maneuver, roll 1 additional die.",
                     abilityType: typeof(RicOlieAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d2/7b/d27baa36-e835-4311-b86b-b9b19ce8a0b9/swz40_ric-olie.png";

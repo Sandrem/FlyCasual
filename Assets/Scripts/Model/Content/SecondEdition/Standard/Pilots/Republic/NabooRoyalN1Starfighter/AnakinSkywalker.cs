@@ -1,8 +1,8 @@
 ﻿using Abilities.SecondEdition;
 using ActionsList;
+using Content;
 using Ship;
 using SubPhases;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -14,15 +14,26 @@ namespace Ship
         {
             public AnakinSkywalker() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Anakin Skywalker",
+                    "Hero of Naboo",
+                    Faction.Republic,
                     4,
-                    41,
+                    5,
+                    20,
                     isLimited: true,
                     force: 1,
                     abilityText: "Before you reveal your maneuver, you may spend 1 force to barrel roll (this does not count as an action).",
                     abilityType: typeof(AnakinSkywalkerNabooN1StarfighterAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.LightSide
+                    }
                 );
 
                 PilotNameCanonical = "anakinskywalker-nabooroyaln1starfighter";

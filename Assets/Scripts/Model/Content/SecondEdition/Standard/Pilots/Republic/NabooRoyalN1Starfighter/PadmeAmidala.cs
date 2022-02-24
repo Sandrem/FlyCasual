@@ -1,5 +1,4 @@
 ﻿using Abilities.SecondEdition;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 using Ship;
@@ -16,14 +15,21 @@ namespace Ship
         {
             public PadmeAmidala() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Padmé Amidala",
+                    "Aggressive Negotiator",
+                    Faction.Republic,
                     4,
-                    43,
+                    5,
+                    22,
                     isLimited: true,
                     abilityText: "While an enemy ship in your [Front Arc] defends or performs an attack, that ship can modify only 1 [Focus] result (other results can still be modified).",
                     abilityType: typeof(PadmeAmidalaAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/80/40/8040bcab-ebc0-487e-8dff-bd69da7311dd/swz40_padme-amidala.png";
@@ -32,7 +38,6 @@ namespace Ship
                 {
                     ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e8/c1/e8c1866f-a83a-469f-b2c0-a144c166fced/swzp02_padme-amidala.jpg";
                     ModelInfo.SkinName = "Silver";
-
                 }
             }
         }

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Upgrade;
-
-namespace Ship
+﻿namespace Ship
 {
     namespace SecondEdition.NabooRoyalN1Starfighter
     {
@@ -10,10 +6,14 @@ namespace Ship
         {
             public BravoFlightOfficer() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Bravo Flight Officer",
+                    "",
+                    Faction.Republic,
                     2,
-                    33
+                    4,
+                    8
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/274db1f70ed4da939b9440837a30c39a.png";

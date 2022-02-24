@@ -1,5 +1,4 @@
-﻿
-using Abilities.SecondEdition;
+﻿using Abilities.SecondEdition;
 using BoardTools;
 using Ship;
 using SubPhases;
@@ -17,15 +16,19 @@ namespace Ship
         {
             public NabooHandmaiden() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Naboo Handmaiden",
+                    "Regal Ruse",
+                    Faction.Republic,
                     1,
-                    41,
+                    3,
+                    10,
                     limited: 2,
                     abilityText: "Setup: After placing forces, assign the Decoyed condition to 1 friendly ship other than Naboo Handmaiden.",
-                    abilityType: typeof(NabooHandmaidenAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(NabooHandmaidenAbility)
                 );
+
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/ad/b6/adb64448-5777-4fd3-8311-293207d7103b/swz40_naboo-handmaiden.png";
             }
         }

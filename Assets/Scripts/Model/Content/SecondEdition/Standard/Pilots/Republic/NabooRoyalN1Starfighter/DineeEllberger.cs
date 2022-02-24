@@ -1,5 +1,6 @@
 ﻿using Abilities.SecondEdition;
 using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -10,14 +11,21 @@ namespace Ship
         {
             public DineeEllberger() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Dineé Ellberger",
+                    "Bravo Five",
+                    Faction.Republic,
                     3,
-                    36,
+                    3,
+                    9,
                     isLimited: true,
                     abilityText: "While you defend or perform an attack, if the speed of your revealed maneuver is the same as the enemy ship's, that ship's dice cannot be modified.",
                     abilityType: typeof(DineeEllbergerAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/48/69/4869e3a3-e56f-4abb-8af3-19bf76c80764/swz40_dinee-ellberger.png";

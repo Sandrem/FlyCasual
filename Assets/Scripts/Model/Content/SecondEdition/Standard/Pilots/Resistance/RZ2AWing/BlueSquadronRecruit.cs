@@ -1,6 +1,4 @@
-﻿using Upgrade;
-
-namespace Ship
+﻿namespace Ship
 {
     namespace SecondEdition.RZ2AWing
     {
@@ -8,14 +6,16 @@ namespace Ship
         {
             public BlueSquadronRecruit() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Blue Squadron Recruit",
+                    "",
+                    Faction.Resistance,
                     1,
-                    33,
-                    extraUpgradeIcon: UpgradeType.Talent
+                    4,
+                    4,
+                    skinName: "Blue"
                 );
-
-                ModelInfo.SkinName = "Blue";
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e033b2729305ac0b678d6031ada7b2b8.png";
             }

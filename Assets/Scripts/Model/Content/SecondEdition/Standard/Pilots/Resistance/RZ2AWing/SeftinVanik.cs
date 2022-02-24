@@ -1,10 +1,6 @@
 ﻿using Abilities.Parameters;
 using ActionsList;
-using Arcs;
-using Ship;
-using SubPhases;
-using System;
-using System.Collections;
+using Content;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -17,16 +13,28 @@ namespace Ship
         {
             public SeftinVanik() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Seftin Vanik",
+                    "Skillful Wingmate",
+                    Faction.Resistance,
                     5,
-                    37,
+                    4,
+                    5,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SeftinVanikAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    },
+                    skinName: "Green (HoH)"
                 );
-
-                ModelInfo.SkinName = "Green (HoH)";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/73/ef/73ef0cdc-deb6-451d-a76c-0b3d9ef147ec/swz68_seftin-vanik.png";
             }

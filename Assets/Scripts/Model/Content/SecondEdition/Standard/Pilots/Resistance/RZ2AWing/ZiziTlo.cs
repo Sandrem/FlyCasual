@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Content;
 using Ship;
 using SubPhases;
 using Tokens;
@@ -13,18 +14,30 @@ namespace Ship
         {
             public ZiziTlo() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Zizi Tlo",
+                    "Committed to the Cause",
+                    Faction.Resistance,
                     5,
-                    41,
+                    5,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZiziTloAbility),
                     charges: 1,
                     regensCharges: 1,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } 
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    },
+                    skinName: "Red"
                 );
-
-                ModelInfo.SkinName = "Red";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/bf/4f/bf4f8372-b151-45ee-b38b-5c67bba7d2d8/swz66_zizi-tlo.png";
             }

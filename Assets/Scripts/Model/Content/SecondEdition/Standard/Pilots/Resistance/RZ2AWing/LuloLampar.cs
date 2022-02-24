@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,16 +11,27 @@ namespace Ship
         {
             public LuloLampar() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "L'ulo L'ampar",
+                    "Luminous Mentor",
+                    Faction.Resistance,
                     5,
-                    40,
+                    5,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LuloLamparAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    },
+                    skinName: "Red"
                 );
-
-                ModelInfo.SkinName = "Red";
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e15d3e2a2fc082b95a64a83df0c96f7f.png";
             }

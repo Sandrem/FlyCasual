@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -16,16 +17,27 @@ namespace Ship
         {
             public RonithBlario() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Ronith Blario",
+                    "Reckless Rookie",
+                    Faction.Resistance,
                     2,
-                    34,
+                    4,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RonithBlarioAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent } 
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    },
+                    skinName: "Red"
                 );
-
-                ModelInfo.SkinName = "Red";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/27/9a/279ac02a-e274-4bcb-9570-d469cd12936e/swz66_ronith-blario.png";
             }

@@ -1,8 +1,5 @@
 ﻿using Abilities.Parameters;
-using Arcs;
-using BoardTools;
-using Ship;
-using System;
+using Content;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -15,18 +12,30 @@ namespace Ship
         {
             public SuralindaJavos() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Suralinda Javos",
+                    "Inquisitive Journalist",
+                    Faction.Resistance,
                     3,
-                    35,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SuralindaJavosAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent } 
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    },
+                    skinName: "Blue"
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e1/64/e1644adc-8d8a-4408-90a1-621e0dd4b0c6/swz68_suralinda-javos.png";
-
-                ModelInfo.SkinName = "Blue";
             }
         }
     }

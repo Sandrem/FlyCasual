@@ -1,10 +1,6 @@
-﻿using ActionsList;
-using Arcs;
-using BoardTools;
+﻿using Arcs;
+using Content;
 using Ship;
-using SubPhases;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -16,18 +12,31 @@ namespace Ship
         {
             public TallissanLintra() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Tallissan Lintra",
+                    "Deadly Approach",
+                    Faction.Resistance,
                     5,
-                    37,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TallissanLintraAbility),
                     charges: 1,
                     regensCharges: 1,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Talent }
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    },
+                    skinName: "Blue"
                 );
-
-                ModelInfo.SkinName = "Blue";
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/72cb6c4e50b0ad24af0bb84ce0aa53f0.png";
             }

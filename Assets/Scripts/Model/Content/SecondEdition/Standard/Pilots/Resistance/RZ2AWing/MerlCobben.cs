@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,25 @@ namespace Ship
         {
             public MerlCobben() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Merl Cobben",
+                    "Distracting Daredevil",
+                    Faction.Resistance,
                     1,
-                    33,
+                    3,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MerlCobbenAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent } 
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.AWing
+                    }
                 );
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/c0/Merl_cobben.png";

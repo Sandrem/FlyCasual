@@ -1,7 +1,9 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.VultureClassDroidFighter
 {
@@ -9,13 +11,24 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
     {
         public Dfs311()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "DFS-311",
+                "Scouting Drone",
+                Faction.Separatists,
                 1,
-                23,
+                3,
+                12,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.Dfs311Ability),
-                pilotTitle: "Scouting Drone"
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/07/b9/07b9dde5-0302-4c31-b54e-92ef136400b1/swz31_dfs-311.png";

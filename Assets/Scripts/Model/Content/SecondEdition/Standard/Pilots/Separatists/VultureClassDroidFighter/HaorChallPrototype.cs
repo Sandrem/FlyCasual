@@ -1,8 +1,10 @@
 ﻿using ActionsList;
 using Arcs;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.VultureClassDroidFighter
 {
@@ -10,16 +12,27 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
     {
         public HaorChallPrototype()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Haor Chall Prototype",
+                "Xi Char Offering",
+                Faction.Separatists,
                 1,
-                22,
+                3,
+                8,
                 limited: 2,
                 abilityType: typeof(Abilities.SecondEdition.HaorChallPrototypeAbility),
-                pilotTitle: "Xi Char Offering"
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                },
+                skinName: "Gray"
             );
-
-            ModelInfo.SkinName = "Gray";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/04/05/0405890a-0f0a-444e-b9eb-8d92dbdf3d63/swz29_hadr-chall.png";
         }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Content;
+using System;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.VultureClassDroidFighter
 {
@@ -7,13 +9,25 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
     {
         public Dfs081()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "DFS-081",
+                "Preservation Programming",
+                Faction.Separatists,
                 3,
-                23,
-                true,
+                3,
+                16,
+                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.Dfs081Ability),
-                pilotTitle: "Preservation Programming"
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b4/04/b4044057-fae9-4638-b758-14339c1ce98a/swz29_dfs-081.png";

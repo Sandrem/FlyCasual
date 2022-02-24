@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Actions;
@@ -7,6 +6,7 @@ using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
+using Ship.CardInfo;
 using SubPhases;
 using Tokens;
 using UnityEngine;
@@ -18,42 +18,49 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
     {
         public VultureClassDroidFighter() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Vulture-class Droid Fighter",
                 BaseSize.Small,
-                Faction.Separatists,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Separatists, typeof(Dfs081) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 2, 3, 0,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(CalculateAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction))
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Missile,
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Modification,
                     UpgradeType.Configuration
-                )
+                ),
+                linkedActions: new List<LinkedActionInfo>
+                {
+                    new LinkedActionInfo(typeof(BarrelRollAction), typeof(CalculateAction))
+                }
             );
 
             ShipAbilities.Add(new Abilities.SecondEdition.NetworkedCalculationsAbility());
 
-            ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(CalculateAction)));
-
             DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.GrapplingStrutsClosed));
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(Dfs081) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Vulture",
                 "Default",
                 new Vector3(-3.7f, 7.85f, 5.55f),
                 1f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex),
@@ -77,7 +84,8 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "TIE-Fly1",
@@ -90,9 +98,6 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 },
                 "TIE-Fire", 2
             );
-
-            // TODO: AI Table
-            HotacManeuverTable = new AI.EscapeCraftTable();
 
             ShipIconLetter = '_';
         }

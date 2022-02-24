@@ -1,7 +1,6 @@
 ﻿using Arcs;
-using System;
+using Content;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship.SecondEdition.VultureClassDroidFighter
@@ -10,13 +9,24 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
     {
         public PreciseHunter()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Precise Hunter",
+                "Pinpoint Protocols",
+                Faction.Separatists,
                 3,
-                24,
+                3,
+                10,
                 limited: 3,
                 abilityType: typeof(Abilities.SecondEdition.PreciseHunterAbility),
-                pilotTitle: "Pinpoint Protocols"
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Cannon
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
             
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/37/0c/370c5cb2-0f0d-4d6f-9358-eb3cad9088dc/swz29_precise-hunter.png";

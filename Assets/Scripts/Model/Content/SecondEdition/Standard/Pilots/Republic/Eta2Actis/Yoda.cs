@@ -1,7 +1,9 @@
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship.SecondEdition.Eta2Actis
@@ -10,14 +12,26 @@ namespace Ship.SecondEdition.Eta2Actis
     {
         public Yoda()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Yoda",
+                "Grand Master",
+                Faction.Republic,
                 3,
-                45,
-                true,
+                5,
+                12,
+                isLimited: true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.YodaPilotAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/5b/fb/5bfbf23b-29c5-47c9-a6ba-1a2a7ddba319/swz79_yoda.png";

@@ -1,4 +1,5 @@
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -14,17 +15,28 @@ namespace Ship.SecondEdition.Eta2Actis
     {
         public ObiWanKenobi()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Obi-Wan Kenobi",
+                "Guardian of Democracy",
+                Faction.Republic,
                 5,
-                48,
-                true,
+                5,
+                10,
+                isLimited: true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.ObiWanKenobiActisAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Blue"
             );
-
-            ModelInfo.SkinName = "Blue";
 
             PilotNameCanonical = "obiwankenobi-eta2actis";
 

@@ -1,4 +1,5 @@
 using Abilities.Parameters;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -12,17 +13,28 @@ namespace Ship.SecondEdition.Eta2Actis
     {
         public ShaakTi()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Shaak Ti",
+                "Compassionate Mentor",
+                Faction.Republic,
                 4,
-                43,
-                true,
+                5,
+                8,
+                isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.ShaakTiAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Red"
             );
-
-            ModelInfo.SkinName = "Red";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/fa/6a/fa6afe10-be85-46ee-93e6-0637b3ce34b0/swz79_shaak-ti.png";
         }

@@ -5,6 +5,7 @@ using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -14,42 +15,52 @@ namespace Ship.SecondEdition.Eta2Actis
     {
         public Eta2Actis() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Eta-2 Actis",
                 BaseSize.Small,
-                Faction.Republic,
-                new ShipArcsInfo(ArcType.Bullseye, 3), 3, 3, 0,
-                new ShipActionsInfo(
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Republic, typeof(ObiWanKenobi) }
+                    }
+                ),
+                new ShipArcsInfo
+                (
+                    new ShipArcInfo(ArcType.Front, 2),
+                    new ShipArcInfo(ArcType.Bullseye, 3)
+                ),
+                3, 3, 0,
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(EvadeAction)),
                     new ActionInfo(typeof(TargetLockAction), ActionColor.Purple),
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo(
+                new ShipUpgradesInfo
+                (
                     UpgradeType.ForcePower,
+                    UpgradeType.Cannon,
                     UpgradeType.Astromech,
                     UpgradeType.Modification
                 )
             );
 
-            ShipInfo.ArcInfo.Arcs.Add(new ShipArcInfo(ArcType.Front, 2));
-
             ShipAbilities.Add(new Abilities.SecondEdition.IntuitiveControlsAbility());
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(ObiWanKenobi) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Eta-2 Actis",
                 "Yellow",
                 new Vector3(-3.75f, 7.85f, 5.55f),
                 1f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
 
@@ -73,7 +84,8 @@ namespace Ship.SecondEdition.Eta2Actis
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "XWing-Fly1",

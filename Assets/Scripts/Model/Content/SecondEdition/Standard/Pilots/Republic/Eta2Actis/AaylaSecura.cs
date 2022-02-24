@@ -1,5 +1,5 @@
 using BoardTools;
-using System;
+using Content;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -10,17 +10,28 @@ namespace Ship.SecondEdition.Eta2Actis
     {
         public AaylaSecura()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Aayla Secura",
+                "Confident Warrior",
+                Faction.Republic,
                 5,
-                48,
-                true,
+                5,
+                10,
+                isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.AaylaSecuraActisAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Blue"
             );
-
-            ModelInfo.SkinName = "Blue";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c2/e2/c2e2ee1f-1bdd-4ff7-ad95-c442af9b510a/swz79_aayla-secura.png";
         }

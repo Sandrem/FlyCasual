@@ -1,11 +1,11 @@
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tokens;
-using UnityEngine;
 using Upgrade;
 
 namespace Ship.SecondEdition.Eta2Actis
@@ -14,17 +14,29 @@ namespace Ship.SecondEdition.Eta2Actis
     {
         public AnakinSkywalker()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Anakin Skywalker",
+                "Hero of Coruscant",
+                Faction.Republic,
                 6,
-                51,
-                true,
+                7,
+                20,
+                isLimited: true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerActisAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide,
+                    Tags.DarkSide
+                },
+                skinName: "Yellow"
             );
-
-            ModelInfo.SkinName = "Yellow";
 
             PilotNameCanonical = "anakinskywalker-eta2actis";
 

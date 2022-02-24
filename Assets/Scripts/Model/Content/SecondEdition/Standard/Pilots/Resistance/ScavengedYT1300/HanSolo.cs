@@ -1,10 +1,9 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -15,13 +14,28 @@ namespace Ship
         {
             public HanSolo() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Han Solo",
+                    "Jaded Smuggler",
+                    Faction.Resistance,
                     6,
-                    62,
+                    6,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloResistancePilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.YT1300
+                    }
                 );
 
                 PilotNameCanonical = "hansolo-scavengedyt1300";

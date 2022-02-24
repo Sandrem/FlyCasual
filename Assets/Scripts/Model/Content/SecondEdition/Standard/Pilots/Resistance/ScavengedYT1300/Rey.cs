@@ -1,6 +1,5 @@
-﻿using BoardTools;
+﻿using Content;
 using Ship;
-using System.Collections;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -13,14 +12,30 @@ namespace Ship
         {
             public Rey() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Rey",
+                    "Resourceful Scavenger",
+                    Faction.Resistance,
                     5,
-                    68,
+                    8,
+                    25,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ReyPilotAbility),
                     force: 2,
-                    extraUpgradeIcon: UpgradeType.ForcePower
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Title,
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.YT1300
+                    }
                 );
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/0ee7006e6cc51d8c08b784c9b770f1b0.png";
             }

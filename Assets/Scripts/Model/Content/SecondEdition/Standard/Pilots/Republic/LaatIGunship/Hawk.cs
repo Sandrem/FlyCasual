@@ -1,9 +1,9 @@
 ﻿using Abilities.Parameters;
 using ActionsList;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -14,13 +14,25 @@ namespace Ship
         {
             public Hawk() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Hawk\"",
+                    "Valkyrie 2929",
+                    Faction.Republic,
                     4,
-                    51,
+                    5,
+                    23,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HawkAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone
+                    }
                 );
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/a0/d0/a0d0bfa8-544c-4872-8f6e-ef5fc3329c3a/swz70_a1_hawk_ship.png";
             }

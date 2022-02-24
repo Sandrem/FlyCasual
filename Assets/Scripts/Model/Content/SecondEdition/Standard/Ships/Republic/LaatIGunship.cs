@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Abilities.SecondEdition;
 using Actions;
 using ActionsList;
 using Arcs;
-using BoardTools;
 using Movement;
-using Ship;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -17,46 +15,52 @@ namespace Ship.SecondEdition.LaatIGunship
     {
         public LaatIGunship() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "LAAT/i Gunship",
                 BaseSize.Medium,
-                Faction.Republic,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Republic, typeof(Warthog) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.DoubleTurret, 2), 1, 8, 2,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(ReinforceAction), ActionColor.Red),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(RotateArcAction)),
                     new ActionInfo(typeof(ReloadAction))
                 ),
-                new ShipUpgradesInfo(
+                new ShipUpgradesInfo
+                (
+                    UpgradeType.Missile,
                     UpgradeType.Crew,
                     UpgradeType.Crew,
                     UpgradeType.Gunner,
                     UpgradeType.Gunner,
-                    UpgradeType.Missile,
-                    UpgradeType.Missile,
                     UpgradeType.Modification
                 )
             );
 
             ShipInfo.Charges = 2;
             ShipInfo.RegensCharges = 1;
+
             ShipAbilities.Add(new FireConvergenceAbility());
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(Warthog) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "LAAT Gunship",
                 "212th Battalion",
                 new Vector3(-4f, 8.65f, 5.55f),
                 2.3f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary, MovementComplexity.Complex),
 
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
@@ -78,7 +82,8 @@ namespace Ship.SecondEdition.LaatIGunship
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "Falcon-Fly1",

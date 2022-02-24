@@ -1,7 +1,10 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -11,12 +14,25 @@ namespace Ship
         {
             public Hound() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Hound\"",
+                    "Vigilant Tracker",
+                    Faction.Republic,
                     2,
-                    48,
+                    5,
+                    14,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.HoundAbility)
+                    abilityType: typeof(Abilities.SecondEdition.HoundAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Missile
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/61/ee/61ee228d-9369-4a23-9cb6-3068c0920f10/swz70_a1_hound_ship.png";

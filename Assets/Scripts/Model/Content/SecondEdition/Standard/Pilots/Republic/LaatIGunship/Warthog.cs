@@ -1,8 +1,10 @@
-﻿using MainPhases;
+﻿using Content;
+using MainPhases;
 using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -12,12 +14,25 @@ namespace Ship
         {
             public Warthog() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Warthog\"",
+                    "Veteran of Kadavo",
+                    Faction.Republic,
                     3,
-                    52,
+                    6,
+                    18,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.WarthogAbility)
+                    abilityType: typeof(Abilities.SecondEdition.WarthogAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone
+                    }
                 );
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/63/a5/63a5a158-1bb9-43f9-a461-a4778edb212d/swz70_a1_warthog_ship.png";
             }

@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -10,14 +12,25 @@ namespace Ship
             {
                 IsWIP = true;
 
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "Lega Fossang",
+                    "Hero of Humbarine",
+                    Faction.Resistance,
                     3,
-                    33,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    4,
+                    13,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.LegaFossangAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LegaFossangAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/SIFbsBi.png";

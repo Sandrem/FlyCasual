@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -10,14 +12,25 @@ namespace Ship
             {
                 IsWIP = true;
 
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "Wilsa Teshlo",
+                    "Veiled Sorority Privateer",
+                    Faction.Resistance,
                     4,
-                    34,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    3,
+                    8,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.WilsaTeshloAbility)
+                    abilityType: typeof(Abilities.SecondEdition.WilsaTeshloAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/m8nrMvg.png";

@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -14,14 +15,24 @@ namespace Ship
         {
             public CorusKapellim() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "Corus Kapellim",
+                    "\"Gentleman Flyer\"",
+                    Faction.Resistance,
                     1,
-                    33,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    4,
+                    14,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.CorusKapellimAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CorusKapellimAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Illicit
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/0uhUP03.png";

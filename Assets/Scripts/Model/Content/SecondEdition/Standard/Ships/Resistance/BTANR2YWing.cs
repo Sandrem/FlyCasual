@@ -6,6 +6,7 @@ using Actions;
 using Arcs;
 using UnityEngine;
 using System;
+using Ship.CardInfo;
 
 namespace Ship.SecondEdition.BTANR2YWing
 {
@@ -13,11 +14,17 @@ namespace Ship.SecondEdition.BTANR2YWing
     {
         public BTANR2YWing() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "BTA-NR2 Y-wing",
                 BaseSize.Small,
-                Faction.Resistance,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Resistance, typeof(CaiThrenalli) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 1, 4, 3,
                 new ShipActionsInfo
                 (
@@ -37,10 +44,6 @@ namespace Ship.SecondEdition.BTANR2YWing
                     UpgradeType.Configuration
                 )
             );
-
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Resistance, typeof(CaiThrenalli) }
-            };
 
             ModelInfo = new ShipModelInfo
             (

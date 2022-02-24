@@ -1,6 +1,8 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -11,14 +13,26 @@ namespace Ship
         {
             public AftabAckbar() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "Aftab Ackbar",
+                    "\"Junior\"",
+                    Faction.Resistance,
                     2,
-                    34,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    4,
+                    12,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.AftabAckbarAbility)
+                    abilityType: typeof(Abilities.SecondEdition.AftabAckbarAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Configuration
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/j59sl9p.png";

@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -10,14 +12,25 @@ namespace Ship
             {
                 IsWIP = true;
 
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "Shasa Zaro",
+                    "Artistic Ace",
+                    Faction.Resistance,
                     3,
-                    33,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    3,
+                    7,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.ShasaZaroAbility)
+                    abilityType: typeof(Abilities.SecondEdition.ShasaZaroAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/AL8m0H5.png";

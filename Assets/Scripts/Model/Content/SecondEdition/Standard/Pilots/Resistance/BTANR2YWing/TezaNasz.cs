@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
 using Ship;
 using System.Collections.Generic;
 using Upgrade;
@@ -12,14 +13,25 @@ namespace Ship
         {
             public TezaNasz() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "Teza Nasz",
+                    "Old Soldier",
+                    Faction.Resistance,
                     4,
-                    37,
-                    extraUpgradeIcon: UpgradeType.Talent,
+                    4,
+                    11,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.TezaNaszAbility)
+                    abilityType: typeof(Abilities.SecondEdition.TezaNaszAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/qyerxjI.png";

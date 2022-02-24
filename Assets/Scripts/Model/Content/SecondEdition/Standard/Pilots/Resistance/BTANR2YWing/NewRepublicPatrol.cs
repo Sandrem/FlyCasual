@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -8,11 +10,22 @@ namespace Ship
         {
             public NewRepublicPatrol() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "New Republic Patrol",
+                    "",
+                    Faction.Resistance,
                     3,
-                    32,
-                    extraUpgradeIcon: UpgradeType.Talent
+                    4,
+                    7,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://i.imgur.com/7zFI7ZH.png";

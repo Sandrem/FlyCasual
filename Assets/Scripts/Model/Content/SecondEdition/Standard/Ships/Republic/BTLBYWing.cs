@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Movement;
 using ActionsList;
-using Upgrade;
 using Actions;
 using Arcs;
-using BoardTools;
 using UnityEngine;
+using Ship.CardInfo;
 
 namespace Ship.SecondEdition.BTLBYWing
 {
@@ -14,40 +12,39 @@ namespace Ship.SecondEdition.BTLBYWing
     {
         public BTLBYWing() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "BTL-B Y-wing",
                 BaseSize.Small,
-                Faction.Republic,
+                new FactionData
+                (
+                    new Dictionary<Faction, System.Type>
+                    {
+                        { Faction.Republic, typeof(ShadowSquadronVeteran) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 1, 5, 3,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(ReloadAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Modification,
-                    UpgradeType.Turret,
-                    UpgradeType.Torpedo,
-                    UpgradeType.Gunner,
-                    UpgradeType.Device                    
-                ),
+                new ShipUpgradesInfo(),
                 abilityText: "<b>Plated Hull:</b> While you defend, if you are not critically damaged, change 1 crit result to a hit result."
             );
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(ShadowSquadronVeteran) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "BTL-B Y-wing",
                 "Yellow",
                 new Vector3(-4f, 7.9f, 5.55f),
                 1.75f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
@@ -68,7 +65,8 @@ namespace Ship.SecondEdition.BTLBYWing
                 new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "YWing-Fly1",

@@ -1,10 +1,7 @@
-﻿using BoardTools;
-using Bombs;
+﻿using Content;
 using Ship;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -15,13 +12,32 @@ namespace Ship
         {
             public R2D2() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "R2-D2",
+                    "Bucket of Bolts",
+                    Faction.Republic,
                     2,
-                    31,
+                    4,
+                    14,
                     isLimited: true,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Crew },
-                    abilityType: typeof(Abilities.SecondEdition.R2D2PilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.R2D2PilotAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Gunner,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid,
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b5/43/b543af57-7466-4c68-8a21-427b00e7cbd6/swz48_pilot-r2-d2.png";

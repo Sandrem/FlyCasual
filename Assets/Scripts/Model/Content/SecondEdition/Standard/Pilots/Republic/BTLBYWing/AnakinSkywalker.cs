@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Content;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,15 +10,34 @@ namespace Ship
         {
             public AnakinSkywalker() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Anakin Skywalker",
+                    "Hero of the Republic",
+                    Faction.Republic,
                     6,
-                    50,
+                    6,
+                    28,
                     isLimited: true,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.ForcePower, UpgradeType.Astromech },
                     force: 3,
                     abilityText: "After you fully execute a maneuver, if there is an enemy ship in your standard front arc at range 0-1 or in your bullseye arc, you may spend 1 force to remove 1 stress token.",
-                    abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerAbility)
+                    abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Gunner,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Jedi,
+                        Tags.LightSide,
+                        Tags.YWing
+                    }
                 );
 
                 PilotNameCanonical = "anakinskywalker-btlbywing";

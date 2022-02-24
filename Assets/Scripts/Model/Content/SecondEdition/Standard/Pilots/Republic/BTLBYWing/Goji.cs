@@ -1,7 +1,9 @@
 ﻿using BoardTools;
 using Bombs;
+using Content;
 using Ship;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
@@ -13,13 +15,32 @@ namespace Ship
         {
             public Goji() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Goji\"",
+                    "Payload Specialist",
+                    Faction.Republic,
                     2,
-                    29,
+                    4,
+                    12,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Astromech,
-                    abilityType: typeof(Abilities.SecondEdition.GojiAbility)
+                    abilityType: typeof(Abilities.SecondEdition.GojiAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Gunner,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone,
+                        Tags.YWing
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/71/ca/71ca5555-2cf9-4d11-8163-c443669897bd/swz48_pilot-goji.png";

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Content;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,15 +10,33 @@ namespace Ship
         {
             public OddBall() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Odd Ball\"",
+                    "CC-2237",
+                    Faction.Republic,
                     5,
-                    39,
+                    5,
+                    18,
                     isLimited: true,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Astromech },
                     //January 2020 errata: Should read: "After you fully execute...":
                     abilityText: "After you fully execute a red maneuver or perform a red action, if there is an enemy ship in your bullseye arc, you may acquire a lock on that ship.",
-                    abilityType: typeof(Abilities.SecondEdition.OddBallAbility)
+                    abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Gunner,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone,
+                        Tags.YWing
+                    }
                 );
 
                 PilotNameCanonical = "oddball-btlbywing";

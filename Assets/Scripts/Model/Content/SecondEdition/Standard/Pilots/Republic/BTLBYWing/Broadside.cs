@@ -1,10 +1,6 @@
 ﻿using Arcs;
-using Ship;
-using System;
-using System.Collections;
+using Content;
 using System.Collections.Generic;
-using System.Linq;
-using Tokens;
 using Upgrade;
 
 namespace Ship
@@ -15,12 +11,30 @@ namespace Ship
         {
             public Broadside() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Broadside\"",
+                    "Shadow Three",
+                    Faction.Republic,
                     3,
-                    36,
+                    5,
+                    16,
                     isLimited: true,
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Astromech },
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Gunner,
+                        UpgradeType.Astromech,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Clone,
+                        Tags.YWing
+                    },
                     abilityType: typeof(Abilities.SecondEdition.BroadsideAbility)
                 );
 

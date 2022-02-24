@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -13,42 +13,46 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
     {
         public Belbullab22Starfighter() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Belbullab-22 Starfighter",
                 BaseSize.Small,
-                Faction.Separatists,
+                new FactionData
+                (
+                    new Dictionary<Faction, System.Type>
+                    {
+                        { Faction.Separatists, typeof(GeneralGrievous) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 3), 2, 3, 2,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo(
-                    UpgradeType.Title,
-                    UpgradeType.Modification,
-                    UpgradeType.TacticalRelay
-                )
+                new ShipUpgradesInfo
+                (
+                    UpgradeType.Modification
+                ),
+                linkedActions: new List<LinkedActionInfo>
+                {
+                    new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)),
+                    new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction))
+                }
             );
 
-            ShipInfo.ActionIcons.AddLinkedAction(
-                new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)),
-                new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction))
-            );
-
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(GeneralGrievous) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Belbullab-22",
                 "Default",
                 new Vector3(-3.7f, 7.77f, 5.55f),
                 0.8f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
@@ -73,7 +77,8 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "XWing-Fly1",
@@ -82,9 +87,6 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                 },
                 "XWing-Laser", 2
             );
-
-            //TODO: AI
-            HotacManeuverTable = new AI.EscapeCraftTable();
 
             ShipIconLetter = '[';
         }

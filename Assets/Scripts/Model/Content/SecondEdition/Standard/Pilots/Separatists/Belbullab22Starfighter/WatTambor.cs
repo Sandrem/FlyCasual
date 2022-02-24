@@ -1,6 +1,5 @@
 ﻿using BoardTools;
 using Ship;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -11,17 +10,24 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
     {
         public WatTambor()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Wat Tambor",
+                "Techno Union Foreman",
+                Faction.Separatists,
                 3,
-                42,
-                true,
+                4,
+                7,
+                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.WatTamborAbility),
-                pilotTitle: "Techno Union Foreman",
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.TacticalRelay,
+                    UpgradeType.Modification
+                },
+                skinName: "Wat Tambor"
             );
-
-            ModelInfo.SkinName = "Wat Tambor";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/5e/3d/5e3d8e36-3989-40f4-9908-6bd6583bb88a/swz29_wat-tambor.png";
         }

@@ -1,9 +1,9 @@
 ﻿using ActionsList;
 using BoardTools;
+using Content;
 using Movement;
 using Ship;
 using SubPhases;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -14,13 +14,26 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
     {
         public OddBall()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "\"Odd Ball\"",
+                "CC-2237",
+                Faction.Republic,
                 5,
-                29,
-                true,
+                5,
+                16,
+                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Torpedo,
+                    UpgradeType.Modification
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Clone
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/18/d2/18d2b2c2-482a-4b6f-8c53-c3f0f24bea4b/swz32_odd-ball.png";

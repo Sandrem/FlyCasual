@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -12,13 +13,25 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
     {
         public Axe()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "\"Axe\"",
+                "Blue Two",
+                Faction.Republic,
                 3,
-                28,
-                true,
+                4,
+                12,
+                isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.AxeAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Clone
+                }
             );
             
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/2c/ee/2ceea646-b5bd-42ce-aeb1-7f38dc88e045/swz32_axe.png";

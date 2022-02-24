@@ -1,8 +1,8 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship.SecondEdition.V19TorrentStarfighter
@@ -11,12 +11,25 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
     {
         public Tucker()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "\"Tucker\"",
+                "Blue Five",
+                Faction.Republic,
                 2,
-                26,
-                true,
-                abilityType: typeof(Abilities.SecondEdition.TuckerAbility)
+                4,
+                12,
+                isLimited: true,
+                abilityType: typeof(Abilities.SecondEdition.TuckerAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Clone
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/79/05/790527b0-486c-4f5e-a1cb-bab1cf29fb5b/swz32_tucker.png";

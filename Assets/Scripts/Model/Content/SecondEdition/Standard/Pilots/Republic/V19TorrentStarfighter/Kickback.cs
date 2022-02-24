@@ -1,7 +1,7 @@
 ﻿using Actions;
 using ActionsList;
+using Content;
 using Ship;
-using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -11,13 +11,26 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
     {
         public Kickback()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "\"Kickback\"",
+                "Blue Four",
+                Faction.Republic,
                 4,
-                29,
+                5,
+                16,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.KickbackAbility),
-                extraUpgradeIcon: UpgradeType.Talent
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Talent,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Clone
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/57/c4/57c43689-5d1f-4fd2-b1f6-d4bec9448634/swz32_kickback.png";

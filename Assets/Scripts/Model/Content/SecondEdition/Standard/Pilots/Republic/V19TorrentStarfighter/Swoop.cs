@@ -1,7 +1,7 @@
 ﻿using Actions;
 using ActionsList;
+using Content;
 using Ship;
-using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -11,12 +11,25 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
     {
         public Swoop()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "\"Swoop\"",
+                "Blue Six",
+                Faction.Republic,
                 3,
-                27,
-                true,
-                abilityType: typeof(Abilities.SecondEdition.SwoopAbility)
+                4,
+                12,
+                isLimited: true,
+                abilityType: typeof(Abilities.SecondEdition.SwoopAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Talent,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Clone
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c3/9f/c39f4623-a983-4fea-98aa-c11b37e867c0/swz32_swoop.png";

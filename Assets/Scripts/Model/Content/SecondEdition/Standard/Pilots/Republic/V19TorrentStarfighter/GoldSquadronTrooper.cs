@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Content;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
 
 namespace Ship.SecondEdition.V19TorrentStarfighter
@@ -9,10 +8,22 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
     {
         public GoldSquadronTrooper()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Gold Squadron Trooper",
+                "",
+                Faction.Republic,
                 2,
-                25
+                4,
+                10,
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Modification
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Clone
+                }
             );
             
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/ab/a7/aba7c941-3472-453f-bfd8-032f5f854e0b/swz32_gold-sqd-trooper.png";

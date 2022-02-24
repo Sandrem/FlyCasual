@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using Upgrade;
-using System.Linq;
 using System;
-using Ship;
+using Content;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
 {
@@ -10,14 +9,26 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
     {
         public DBS404()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "DBS-404",
+                "Preservation Protocol Not Found",
+                Faction.Separatists,
                 4,
-                31,
+                4,
+                10,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DBS404Ability),
-                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Torpedo, UpgradeType.Missile, UpgradeType.Device },
-                pilotTitle: "Preservation Protocol Not Found"
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Torpedo,
+                    UpgradeType.Missile,
+                    UpgradeType.Device
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
             
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3e647295c7237a5eb36b94d887eb8e56.png";

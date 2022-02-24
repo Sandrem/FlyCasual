@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Content;
 using Ship;
 using Tokens;
 using Upgrade;
@@ -11,14 +12,26 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
     {
         public BaktoidPrototype()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Baktoid Prototype",
+                "Function over Form",
+                Faction.Separatists,
                 1,
-                29,
+                3,
+                9,
                 limited: 2,
                 abilityType: typeof(Abilities.SecondEdition.BaktoidPrototypeAbility),
-                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Sensor, UpgradeType.Missile, UpgradeType.Missile },
-                pilotTitle: "Function over Form"
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Sensor,
+                    UpgradeType.Missile,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
             
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/254bc7be63cc9f4e629198f8d45f2f9b.png";

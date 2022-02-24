@@ -5,6 +5,7 @@ using System;
 using Ship;
 using ActionsList;
 using Actions;
+using Content;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
 {
@@ -12,14 +13,25 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
     {
         public DBS32C()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "DBS-32C",
+                "Droid Control Signal Relay",
+                Faction.Separatists,
                 3,
-                40,
+                4,
+                16,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DBS32CAbility),
-                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Sensor, UpgradeType.TacticalRelay },
-                pilotTitle: "Droid Control Signal Relay"
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Sensor,
+                    UpgradeType.TacticalRelay
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
 
             ShipInfo.ActionIcons.RemoveActions(typeof(ReloadAction));

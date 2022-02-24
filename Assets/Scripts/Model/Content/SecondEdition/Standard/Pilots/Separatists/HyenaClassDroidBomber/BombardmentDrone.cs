@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BoardTools;
+using Content;
 using Upgrade;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
@@ -10,14 +11,25 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
     {
         public BombardmentDrone()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Bombardment Drone",
+                "Time on Target",
+                Faction.Separatists,
                 3,
-                30,
+                3,
+                8,
                 limited: 3,
                 abilityType: typeof(Abilities.SecondEdition.BombardmentDroneAbility),
-                extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Sensor, UpgradeType.Device, UpgradeType.Device },
-                pilotTitle: "Time on Target"
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Device,
+                    UpgradeType.Device
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Droid
+                }
             );
             
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/099422de35fb5ad2c2d238237e7dfe2c.png";

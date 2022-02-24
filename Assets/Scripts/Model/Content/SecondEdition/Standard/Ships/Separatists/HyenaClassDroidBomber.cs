@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
-using Ship;
-using SubPhases;
 using Upgrade;
 using UnityEngine;
+using Ship.CardInfo;
 
 namespace Ship.SecondEdition.HyenaClassDroidBomber
 {
@@ -17,45 +14,51 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
     {
         public HyenaClassDroidBomber() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Hyena-class Droid Bomber",
                 BaseSize.Small,
-                Faction.Separatists,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Separatists, typeof(SeparatistBomber) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 2, 5, 0,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(CalculateAction)),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(ReloadAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo(
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Modification,
                     UpgradeType.Configuration
                 ),
-                abilityText: "<b>Networked Calculations:</b> While you defend or perform an attack, you may spend 1 calculate token from a friendly ship at range 0-1 to change 1 eye result to evade or hit result."
-            );
-
-            ShipInfo.ActionIcons.AddLinkedAction(
-                new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction), ActionColor.Red)
+                abilityText: "<b>Networked Calculations:</b> While you defend or perform an attack, you may spend 1 calculate token from a friendly ship at range 0-1 to change 1 eye result to evade or hit result.",
+                linkedActions: new List<LinkedActionInfo>
+                {
+                    new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction), ActionColor.Red)
+                }
             );
 
             DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.LandingStrutsClosed));
 
             ShipAbilities.Add(new Abilities.SecondEdition.NetworkedCalculationsAbility());
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(SeparatistBomber) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Hyena-class Droid Bomber",
                 "Gray",
                 new Vector3(-3.75f, 7.95f, 5.55f),
                 1f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Complex),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal),
@@ -80,7 +83,8 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "TIE-Fly1",

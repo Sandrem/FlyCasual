@@ -18,7 +18,7 @@ namespace Ship
                 ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Configuration);
                 ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(BarrelRollAction)));
 
-                DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.ServomotorSFoilsAttack));
+                DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.ServomotorSFoilsClosed));
 
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Easy);
                 DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Easy);

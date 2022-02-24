@@ -1,5 +1,6 @@
 ﻿using BoardTools;
 using Conditions;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -15,18 +16,31 @@ namespace Ship
         {
             public ZamWesell() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Zam Wesell",
+                    "Clawdite Changeling",
+                    Faction.Separatists,
                     5,
-                    84,
+                    10,
+                    22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZamWesellPilotAbility),
-                    extraUpgradeIcons: new List<UpgradeType>() { UpgradeType.Talent, UpgradeType.Crew },
-                    factionOverride: Faction.Separatists,
-                    charges: 4
+                    charges: 4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter
+                    },
+                    skinName: "Jango Fett"
                 );
-
-                ModelInfo.SkinName = "Jango Fett";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/08/f3/08f343b7-9d01-4e1f-91d8-e6eca0eb4fe0/swz82_a1_zam-wessel.png";
             }

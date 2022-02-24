@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Upgrade;
-
-namespace Ship
+﻿namespace Ship
 {
     namespace SecondEdition.FiresprayClassPatrolCraft
     {
@@ -10,15 +6,16 @@ namespace Ship
         {
             public SeparatistRacketeer() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Separatist Racketeer",
+                    "",
+                    Faction.Separatists,
                     2,
-                    63,
-                    factionOverride: Faction.Separatists,
-                    extraUpgradeIcon: UpgradeType.Crew
+                    7,
+                    7,
+                    skinName: "Jango Fett"
                 );
-
-                ModelInfo.SkinName = "Jango Fett";
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/16/8c/168ca8f4-0015-44a3-9a7c-099caff70881/swz82_a1_separatist-racketeer.png";
             }

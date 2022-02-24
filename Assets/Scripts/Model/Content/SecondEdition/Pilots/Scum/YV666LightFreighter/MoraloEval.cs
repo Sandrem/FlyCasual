@@ -1,4 +1,6 @@
-﻿using SubPhases;
+﻿using Content;
+using SubPhases;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,18 +11,32 @@ namespace Ship
         {
             public MoraloEval() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Moralo Eval",
+                    "Criminal Mastermind",
+                    Faction.Scum,
                     4,
-                    64,
+                    7,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MoraloEvalAbility),
                     charges: 2,
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 211
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Illicit
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
+                    seImageNumber: 211,
+                    skinName: "Crimson"
                 );
-
-                ModelInfo.SkinName = "Crimson";
             }
         }
     }

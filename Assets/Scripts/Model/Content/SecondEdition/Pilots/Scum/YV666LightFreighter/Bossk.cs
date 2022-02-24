@@ -1,32 +1,52 @@
-﻿using SubPhases;
+﻿using Content;
+using Ship;
+using SubPhases;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
 namespace Ship
 {
-    namespace FirstEdition.YV666
+    namespace SecondEdition.YV666LightFreighter
     {
-        public class Bossk : YV666
+        public class Bossk : YV666LightFreighter
         {
             public Bossk() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Bossk",
+                    "Fearsome Hunter",
+                    Faction.Scum,
+                    4,
                     7,
-                    35,
+                    22,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.BosskPilotAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Illicit,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter,
+                        Tags.BountyHunter
+                    },
+                    seImageNumber: 210
                 );
             }
         }
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
-    //When you perform an attack that hits, before dealing damage. you may cancel 1 critical result to add 2 success results.
     public class BosskPilotAbility : GenericAbility
     {
         public override void ActivateAbility()
@@ -41,7 +61,7 @@ namespace Abilities.FirstEdition
 
         protected virtual void RegisterBosskPilotAbility()
         {
-            if (Combat.DiceRollAttack.CriticalSuccesses > 0)
+            if (Combat.DiceRollAttack.CriticalSuccesses > 0 && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon)
             {
                 Phases.CurrentSubPhase.Pause();
                 RegisterAbilityTrigger(TriggerTypes.OnShotHit, PromptToChangeCritSuccess);

@@ -1,58 +1,58 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Movement;
+﻿using System.Collections.Generic;
 using ActionsList;
 using Actions;
 using Arcs;
 using Upgrade;
 using UnityEngine;
+using Movement;
+using System;
+using Ship.CardInfo;
 
 namespace Ship
 {
-    namespace FirstEdition.YV666
+    namespace SecondEdition.YV666LightFreighter
     {
-        public class YV666 : GenericShip
+        public class YV666LightFreighter : GenericShip
         {
-            public YV666() : base()
+            public YV666LightFreighter() : base()
             {
-                ShipInfo = new ShipCardInfo
+                ShipInfo = new ShipCardInfo25
                 (
-                    "YV-666",
+                    "YV-666 Light Freighter",
                     BaseSize.Large,
-                    Faction.Scum,
-                    new ShipArcsInfo(
-                        new ShipArcInfo(ArcType.Front, 3),
-                        new ShipArcInfo(ArcType.FullFront, 3)
+                    new FactionData
+                    (
+                        new Dictionary<Faction, Type>
+                        {
+                            { Faction.Scum, typeof(Bossk) }
+                        }
                     ),
-                    1, 6, 6,
-                    new ShipActionsInfo(
+                    new ShipArcsInfo(ArcType.FullFront, 3),
+                    1, 9, 3,
+                    new ShipActionsInfo
+                    (
                         new ActionInfo(typeof(FocusAction)),
-                        new ActionInfo(typeof(TargetLockAction))
+                        new ActionInfo(typeof(TargetLockAction)),
+                        new ActionInfo(typeof(ReinforceAction))
                     ),
-                    new ShipUpgradesInfo(
-                        UpgradeType.Title,
-                        UpgradeType.Modification,
+                    new ShipUpgradesInfo
+                    (
                         UpgradeType.Cannon,
                         UpgradeType.Missile,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
-                        UpgradeType.Illicit
+                        UpgradeType.Modification
                     )
                 );
 
-                IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Scum, typeof(Bossk) }
-                };
-
-                ModelInfo = new ShipModelInfo(
+                ModelInfo = new ShipModelInfo
+                (
                     "YV-666",
                     "Brown",
                     new Vector3(-4.45f, 8f, 5.55f),
                     3.5f
                 );
 
-                DialInfo = new ShipDialInfo(
+                DialInfo = new ShipDialInfo
+                (
                     new ManeuverInfo(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary, MovementComplexity.Complex),
 
                     new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
@@ -74,7 +74,8 @@ namespace Ship
                     new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal)
                 );
 
-                SoundInfo = new ShipSoundInfo(
+                SoundInfo = new ShipSoundInfo
+                (
                     new List<string>()
                     {
                         "Slave1-Fly1",
@@ -84,8 +85,6 @@ namespace Ship
                 );
 
                 ShipIconLetter = 't';
-
-                HotacManeuverTable = new AI.YV666Table();
             }
         }
     }

@@ -1,9 +1,9 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
-using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
@@ -11,18 +11,24 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public AhsokaTano()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Ahsoka Tano",
+                "\"Snips\"",
+                Faction.Republic,
                 3,
-                41,
-                true,
+                4,
+                9,
+                isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.AhsokaTanoAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower,
-                pilotTitle: "\"Snips\""
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Ahsoka Tano"
             );
-
-            ModelInfo.SkinName = "Ahsoka Tano";
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/15f6bf84f63970c982dd722a5473217f.png";
         }

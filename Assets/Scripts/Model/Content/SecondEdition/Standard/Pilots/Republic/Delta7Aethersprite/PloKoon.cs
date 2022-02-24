@@ -1,4 +1,6 @@
 ﻿using Abilities.Parameters;
+using Content;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -8,17 +10,29 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public PloKoon()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Plo Koon",
+                "Serene Mentor",
+                Faction.Republic,
                 5,
-                43,
-                true,
+                5,
+                12,
+                isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.PloKoonAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Plo Koon"
             );
-
-            ModelInfo.SkinName = "Plo Koon";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/6a/6f/6a6fef51-fb5f-49c1-b5cc-8e96b6d09051/swz32_plo-koon.png";
         }

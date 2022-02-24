@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Movement;
 using Ship;
 using System;
@@ -11,17 +12,28 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public MaceWindu()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Mace Windu",
+                "Harsh Traditionalist",
+                Faction.Republic,
                 4,
-                44,
-                true,
+                4,
+                7,
+                isLimited: true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.MaceWinduAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Mace Windu"
             );
-
-            ModelInfo.SkinName = "Mace Windu";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/de/33/de3326f7-521c-4f50-8599-483db5f32d6d/swz32_mace-windu.png";
         }

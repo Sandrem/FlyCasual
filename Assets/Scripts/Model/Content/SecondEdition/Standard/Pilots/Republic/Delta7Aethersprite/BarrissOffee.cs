@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System;
 using System.Collections.Generic;
 using Upgrade;
@@ -9,18 +10,28 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public BarrissOffee()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Barriss Offee",
+                "Conflicted Padawan",
+                Faction.Republic,
                 4,
-                36,
+                3,
+                7,
                 true,
                 force: 1,
                 abilityType: typeof(Abilities.SecondEdition.BarrissOffeeAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower,
-                pilotTitle: "Conflicted Padawan"
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Blue"
             );
-
-            ModelInfo.SkinName = "Blue";
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/f8f58005da18d7041b1ec2374701465c.png";
         }

@@ -1,7 +1,7 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Tokens;
 using Upgrade;
 
@@ -11,14 +11,27 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public ObiWanKenobi()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Obi-Wan Kenobi",
+                "Guardian of the Republic",
+                Faction.Republic,
                 5,
-                47,
+                5,
+                10,
                 true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.ObiWanKenobiAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                }
             );
             
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/f9/24/f9246e39-4852-4a8f-a331-9b78f62439e9/swz32_obi-wan-kenobi.png";

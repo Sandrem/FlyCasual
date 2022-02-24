@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Content;
 using System.Collections.Generic;
-using System.Linq;
-using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
@@ -9,12 +7,20 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public JediKnight()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Jedi Knight",
+                "",
+                Faction.Republic,
                 3,
-                36,
+                4,
+                3,
                 force: 1,
-                extraUpgradeIcon: UpgradeType.ForcePower
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b0/b3/b0b3f463-a3ea-4fe6-be69-41afed1b4110/swz32_jedi-knight.png";

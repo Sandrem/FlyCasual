@@ -1,10 +1,7 @@
-﻿using GameModes;
+﻿using Content;
 using Movement;
 using Ship;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
@@ -12,17 +9,24 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public SaeseeTiin()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Saesee Tiin",
+                "Prophetic Pilot",
+                Faction.Republic,
                 4,
-                40,
-                true,
+                4,
+                8,
+                isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.SaeseeTiinAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Saesee Tiin"
             );
-
-            ModelInfo.SkinName = "Saesee Tiin";
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/77/73/777350cb-614b-48fd-ad8d-d9c867053c6b/swz32_saesee-tiin.png";
         }

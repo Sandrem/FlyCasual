@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Actions;
 using ActionsList;
@@ -7,6 +6,7 @@ using Arcs;
 using BoardTools;
 using Movement;
 using Ship;
+using Ship.CardInfo;
 using UnityEngine;
 using Upgrade;
 
@@ -16,20 +16,29 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public Delta7Aethersprite() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Delta-7 Aethersprite",
                 BaseSize.Small,
-                Faction.Republic,
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Republic, typeof(ObiWanKenobi) }
+                    }
+                ),
                 new ShipArcsInfo(ArcType.Front, 2), 3, 3, 1,
-                new ShipActionsInfo(
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(EvadeAction), ActionColor.Purple),
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
                 ),
-                new ShipUpgradesInfo(
+                new ShipUpgradesInfo
+                (
+                    UpgradeType.ForcePower,
                     UpgradeType.Modification,
                     UpgradeType.Configuration,
                     UpgradeType.Astromech
@@ -38,18 +47,16 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
             ShipAbilities.Add(new Abilities.SecondEdition.FineTunedControlsAbility());
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Republic, typeof(ObiWanKenobi) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Delta-7 Aethersprite",
                 "Red",
                 new Vector3(-3.75f, 7.85f, 5.55f),
                 0.6f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
@@ -74,7 +81,8 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "XWing-Fly1",
@@ -83,9 +91,6 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 },
                 "XWing-Laser", 2
             );
-
-            // TODO: AI
-            HotacManeuverTable = new AI.EscapeCraftTable();
 
             ShipIconLetter = '\\';
         }

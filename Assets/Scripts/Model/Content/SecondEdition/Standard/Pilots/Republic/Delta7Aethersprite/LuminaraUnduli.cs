@@ -1,8 +1,8 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System;
 using System.Collections.Generic;
 using Tokens;
-using Upgrade;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
@@ -10,18 +10,24 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public LuminaraUnduli()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Luminara Unduli",
+                "Wise Protector",
+                Faction.Republic,
                 4,
-                40,
-                true,
+                4,
+                7,
+                isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.LuminaraUnduliAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower,
-                pilotTitle: "Wise Protector"
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Green"
             );
-
-            ModelInfo.SkinName = "Green";
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/7f87b6c12631687bedf75a18582af0b0.png";
         }

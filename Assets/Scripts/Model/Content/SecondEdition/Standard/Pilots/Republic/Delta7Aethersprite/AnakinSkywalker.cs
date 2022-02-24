@@ -1,14 +1,11 @@
 using Ship;
-using System;
 using SubPhases;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
-using Team;
 using Tokens;
-using Movement;
 using BoardTools;
 using UnityEngine;
+using Content;
 
 namespace Ship.SecondEdition.Delta7Aethersprite
 {
@@ -16,17 +13,29 @@ namespace Ship.SecondEdition.Delta7Aethersprite
     {
         public AnakinSkywalker()
         {
-            PilotInfo = new PilotCardInfo(
+            PilotInfo = new PilotCardInfo25
+            (
                 "Anakin Skywalker",
+                "Hero of the Republic",
+                Faction.Republic,
                 6,
-                59,
+                6,
+                10,
                 true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerAbility),
-                extraUpgradeIcon: UpgradeType.ForcePower
+                extraUpgradeIcons: new List<UpgradeType>
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.Missile
+                },
+                tags: new List<Tags>
+                {
+                    Tags.Jedi,
+                    Tags.LightSide
+                },
+                skinName: "Anakin Skywalker"
             );
-
-            ModelInfo.SkinName = "Anakin Skywalker";
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/d60f4eca355471465ca3f6b99fb98e56.png";
         }

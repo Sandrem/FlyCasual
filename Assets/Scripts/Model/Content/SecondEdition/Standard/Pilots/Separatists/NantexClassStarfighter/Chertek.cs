@@ -1,5 +1,5 @@
 ﻿using Ship;
-using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -10,14 +10,21 @@ namespace Ship
         {
             public Chertek() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Chertek",
+                    "Opportunistic Ace",
+                    Faction.Separatists,
                     4,
-                    36,
+                    5,
+                    15,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.ChertekAbility),
-                    abilityText: "While you perform a primary attack, if the defender is tractored, you may reroll up to 2 attack dice."
+                    abilityText: "While you perform a primary attack, if the defender is tractored, you may reroll up to 2 attack dice.",
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/cb/32/cb321604-f7ca-4429-9d8f-0da43b7b5d5f/swz47_cards-chertek.png";

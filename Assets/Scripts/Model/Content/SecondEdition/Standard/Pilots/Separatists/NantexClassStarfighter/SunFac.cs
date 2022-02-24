@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -8,14 +9,23 @@ namespace Ship
         {
             public SunFac() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Sun Fac",
+                    "Archduke’s Enforcer",
+                    Faction.Separatists,
                     6,
-                    44,
+                    6,
+                    18,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.SunFacAbility),
-                    abilityText: "while you perform a primary attack, if the defender is tractored, roll 1 additional attack die."
+                    abilityText: "while you perform a primary attack, if the defender is tractored, roll 1 additional attack die.",
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/57/9f/579f4d25-2f04-4463-8a15-465fcd7ee83e/swz47_cards-sun-fac.png";

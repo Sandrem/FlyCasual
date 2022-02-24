@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Actions;
 using ActionsList;
 using Arcs;
 using Movement;
 using Ship;
+using Ship.CardInfo;
 using SubPhases;
 using UnityEngine;
 using Upgrade;
@@ -17,38 +16,47 @@ namespace Ship.SecondEdition.NantexClassStarfighter
     {
         public NantexClassStarfighter() : base()
         {
-            ShipInfo = new ShipCardInfo
+            ShipInfo = new ShipCardInfo25
             (
                 "Nantex-class Starfighter",
                 BaseSize.Small,
-                Faction.Separatists,
-                new ShipArcsInfo(ArcType.Bullseye, 3), 3, 4, 0,
-                new ShipActionsInfo(
+                new FactionData
+                (
+                    new Dictionary<Faction, Type>
+                    {
+                        { Faction.Separatists, typeof(StalgasinHiveGuard) }
+                    }
+                ),
+                new ShipArcsInfo
+                (
+                    new ShipArcInfo(ArcType.Bullseye, 3),
+                    new ShipArcInfo(ArcType.SingleTurret, 2)
+                ),
+                3, 4, 0,
+                new ShipActionsInfo
+                (
                     new ActionInfo(typeof(FocusAction)),
                     new ActionInfo(typeof(EvadeAction))
                 ),
-                new ShipUpgradesInfo(
+                new ShipUpgradesInfo
+                (
                     UpgradeType.Talent
                 ),
                 abilityText: "<b>Pinpoint Tractor Array:</b> You cannot rotate your turret indicator in your rear sector. After you execute a maneuver, you main gain 1 tractor token to perform a rotate turret indicator action."
             );
 
-            ShipInfo.ArcInfo.Arcs.Add(new ShipArcInfo(ArcType.SingleTurret, 2));
-
             ShipAbilities.Add(new Abilities.SecondEdition.PinpointTractorArray());
 
-            IconicPilots = new Dictionary<Faction, System.Type> {
-                { Faction.Separatists, typeof(StalgasinHiveGuard) }
-            };
-
-            ModelInfo = new ShipModelInfo(
+            ModelInfo = new ShipModelInfo
+            (
                 "Nantex-class Starfighter",
                 "Default",
                 new Vector3(-3.8f, 7.9f, 5.55f),
                 0.75f
             );
 
-            DialInfo = new ShipDialInfo(
+            DialInfo = new ShipDialInfo
+            (
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
                 new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
@@ -74,7 +82,8 @@ namespace Ship.SecondEdition.NantexClassStarfighter
                 new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
             );
 
-            SoundInfo = new ShipSoundInfo(
+            SoundInfo = new ShipSoundInfo
+            (
                 new List<string>()
                 {
                     "TIE-Fly1",

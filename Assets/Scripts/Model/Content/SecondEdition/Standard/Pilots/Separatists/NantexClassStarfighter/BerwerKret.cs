@@ -2,6 +2,7 @@
 using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
@@ -13,14 +14,21 @@ namespace Ship
         {
             public BerwerKret() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Berwer Kret",
+                    "Hive Guard Captain",
+                    Faction.Separatists,
                     5,
-                    37,
+                    4,
+                    7,
                     isLimited: true,
-                    extraUpgradeIcon: UpgradeType.Talent,
                     abilityType: typeof(Abilities.SecondEdition.BerwerKretAbility),
-                    abilityText: "After you perform an attack that hits, each friendly ship with Calculate on its action bar and a lock on the defender may perform a red Calculate action."
+                    abilityText: "After you perform an attack that hits, each friendly ship with Calculate on its action bar and a lock on the defender may perform a red Calculate action.",
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/b8/a1/b8a10569-18ca-4111-be65-38d48be9b788/swz47_cards-berwer-kret.png";

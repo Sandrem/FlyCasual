@@ -17,11 +17,6 @@ namespace UpgradesList.FirstEdition
 
             ImageUrl = ImageUrls.GetImageUrl(this, "twin-ion-engine-mkii");
         }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship is TIE;
-        }
     }
 }
 

@@ -26,7 +26,7 @@ namespace SquadBuilderNS
             bool isAnyShipShown = false;
             ShipPanelSquadBuilder.WaitingToLoad = 0;
 
-            foreach (ShipRecord ship in Global.SquadBuilder.Database.AllShips.OrderBy(s => s.Instance.ShipInfo.ShipName))
+            foreach (ShipRecord ship in Global.SquadBuilder.Database.AllShips.OrderBy(s => s.Instance.ShipInfo.ShipName).Where(n => n.Instance.ShipInfo.GetType() == typeof(Ship.ShipCardInfo25)))
             {
                 if (ship.Instance.ShipInfo.FactionsAll.Contains(faction) && !ship.Instance.IsHidden && HasPilots(ship, faction))
                 {
@@ -113,11 +113,11 @@ namespace SquadBuilderNS
             switch (faction)
             {
                 case Faction.Rebel:
-                    return FactionSize.Large20;
+                    return FactionSize.Medium8;
                 case Faction.Imperial:
-                    return FactionSize.Large20;
+                    return FactionSize.Medium8;
                 case Faction.Scum:
-                    return FactionSize.Large20;
+                    return FactionSize.Medium8;
                 case Faction.Resistance:
                     return FactionSize.Medium8;
                 case Faction.FirstOrder:
@@ -135,9 +135,13 @@ namespace SquadBuilderNS
         {
             string image = null;
 
-            if (ship.Instance.IconicPilots != null)
+            if (ship.Instance.IconicPilots != null && ship.Instance.IconicPilots.Count > 0)
             {
                 image = Global.SquadBuilder.Database.AllPilots.Find(n => n.PilotTypeName == ship.Instance.IconicPilots[Global.SquadBuilder.CurrentSquad.SquadFaction].ToString()).Instance.ImageUrl;
+            }
+            else
+            {
+                image = Global.SquadBuilder.Database.AllPilots.Find(n => n.PilotTypeName == ship.Instance.ShipInfo.IconicPilot(Global.SquadBuilder.CurrentSquad.SquadFaction).ToString()).Instance.ImageUrl;
             }
 
             return image;

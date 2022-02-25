@@ -23,13 +23,6 @@ public enum Faction
     Separatists
 }
 
-public enum ForceAlignment
-{
-    None,
-    Light,
-    Dark
-}
-
 namespace Players
 {
     public enum PlayerNo

@@ -15,11 +15,6 @@ namespace UpgradesList.FirstEdition
                 abilityType: typeof(Abilities.FirstEdition.LightweightFrameAbility)
             );
         }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return (ship.ShipInfo.Agility < 3 && ship is TIE);
-        }
     }
 }
 

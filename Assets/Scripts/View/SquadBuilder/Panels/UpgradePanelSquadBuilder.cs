@@ -56,14 +56,19 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
             LoadTooltipImage(gameObject, Upgrade.ImageUrl);
             if (ShowFromModInfo) SetFromModeName();
 
-            if (!Upgrade.IsWIP)
-            {
-                SetOnClickHandler();
-            }
-            else
+            if (Upgrade.IsWIP)
             {
                 this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().material = GrayscaleMaterial;
                 this.gameObject.transform.Find("WIPInfo").gameObject.SetActive(true);
+            }
+            else if (Upgrade.UpgradeInfo.LegalityInfo.Contains(Content.Legality.StandartBanned))
+            {
+                this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().material = GrayscaleMaterial;
+                this.gameObject.transform.Find("BannedInfo").gameObject.SetActive(true);
+            }
+            else
+            {
+                SetOnClickHandler();
             }
         }
     }

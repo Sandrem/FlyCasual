@@ -39,11 +39,6 @@ namespace SquadBuilderNS
             {
                 GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeTypeName));
                 Edition.Current.AdaptUpgradeToRules(newUpgrade);
-                if (newUpgrade is IVariableCost && Edition.Current is SecondEdition)
-                {
-                    (newUpgrade as IVariableCost).UpdateCost(Instance);
-                    if (newUpgrade.UpgradeInfo.Cost == int.MaxValue) newUpgrade.IsHidden = true;
-                }
 
                 return TryInstallUpgade(newUpgrade);
             }

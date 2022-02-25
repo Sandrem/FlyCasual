@@ -11,7 +11,7 @@ namespace Ship
 {
     namespace FirstEdition.TIEPunisher
     {
-        public class TIEPunisher : GenericShip, TIE
+        public class TIEPunisher : GenericShip
         {
             public TIEPunisher() : base()
             {

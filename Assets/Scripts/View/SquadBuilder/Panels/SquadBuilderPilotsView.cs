@@ -21,6 +21,7 @@ namespace SquadBuilderNS
                     && n.PilotFaction == faction
                     && n.Instance.GetType().ToString().Contains(Edition.Current.NameShort)
                     && !n.Instance.IsHiddenSquadbuilderOnly
+                    && n.Instance.PilotInfo.GetType() == typeof(Ship.PilotCardInfo25)
                 )
                 .OrderByDescending(n => n.PilotSkill).
                 OrderByDescending(n => n.Instance.PilotInfo.Cost).

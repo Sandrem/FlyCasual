@@ -6,26 +6,25 @@ namespace Ship
 {
     public class PilotCardInfo
     {
-        public string PilotName { get; private set; }
-        public string PilotTitle { get; private set; }
+        public string PilotName { get; set; }
+        public string PilotTitle { get; set; }
         public int Initiative { get; set; }
 
-        public int Limited { get; private set; }
+        public int Limited { get; set; }
         public bool IsLimited { get { return Limited != 0; } }
 
-        public Type AbilityType { get; protected set; }
-        public string AbilityText { get; private set; }
+        public Type AbilityType { get; set; }
+        public string AbilityText { get; set; }
 
         public int Force { get; set; }
-        public int Charges { get; private set; }
-        public int RegensCharges { get; private set; }
+        public int Charges { get; set; }
+        public int RegensCharges { get; set; }
 
-        public int Cost { get; private set; }
+        public int Cost { get; set; }
 
-        public List<UpgradeType> ExtraUpgrades { get; private set; }
-        public Faction Faction { get; private set; }
-        public ForceAlignment ForceAlignment { get; private set; }
-        public int SEImageNumber { get; private set; }
+        public List<UpgradeType> ExtraUpgrades { get; set; }
+        public Faction Faction { get; set; }
+        public int SEImageNumber { get; set; }
 
         public PilotCardInfo(string pilotName,
             int initiative,
@@ -40,7 +39,6 @@ namespace Ship
             UpgradeType extraUpgradeIcon = UpgradeType.None,
             List<UpgradeType> extraUpgradeIcons = null,
             Faction factionOverride = Faction.None,
-            ForceAlignment forceAlignmentOverride = ForceAlignment.None,
             int seImageNumber = 0,
             string abilityText = ""
         )
@@ -74,8 +72,6 @@ namespace Ship
             if (extraUpgradeIcons != null) ExtraUpgrades.AddRange(extraUpgradeIcons);
 
             if (factionOverride != Faction.None) Faction = factionOverride;
-
-            ForceAlignment = forceAlignmentOverride;
         }
 
 

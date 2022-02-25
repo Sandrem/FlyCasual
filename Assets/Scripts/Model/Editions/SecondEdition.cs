@@ -25,7 +25,7 @@ namespace Editions
 
         public SecondEdition()
         {
-
+            RuleSet = new RuleSets.RuleSet25();
         }
 
         public override int MaxPoints { get { return 200; } }

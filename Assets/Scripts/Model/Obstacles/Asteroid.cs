@@ -18,26 +18,10 @@ namespace Obstacles
 
         public override void OnHit(GenericShip ship)
         {
-            if (Selection.ThisShip.IgnoreObstacleTypes.Contains(typeof(Asteroid))) {
-                return;
-            }
+            if (Selection.ThisShip.IgnoreObstacleTypes.Contains(typeof(Asteroid))) return;
 
-            if (!Selection.ThisShip.CanPerformActionsWhenOverlapping
-                && Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet20))
-            {
-                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit an asteroid during movement, their action subphase is skipped");
-                Selection.ThisShip.IsSkipsActionSubPhase = true;
-            }
-
-            if (Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet25))
-            {
-                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} hit an asteroid during movement and suffered damage");
-                DealAutoAsteroidDamage(ship, () => StartToRoll(ship));
-            }
-            else
-            {
-                StartToRoll(ship);
-            }
+            Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} hit an asteroid during movement and suffered damage");
+            DealAutoAsteroidDamage(ship, () => StartToRoll(ship));
         }
 
         private void StartToRoll(GenericShip ship)
@@ -81,19 +65,9 @@ namespace Obstacles
 
         private void DealAsteroidDamage(GenericShip ship, DieSide side, Action callback)
         {
-            int normalDamage = 0;
-            int criticalDamage = 0;
-            if (side == DieSide.Crit && Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet20))
-            {
-                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered critical damage after damage roll");
-                criticalDamage = 1;
-            }
-            else
-            {
-                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered damage after damage roll");
-                normalDamage = 1;
-            }
-            ship.Damage.TryResolveDamage(normalDamage, criticalDamage, new DamageSourceEventArgs() { DamageType = DamageTypes.ObstacleCollision, Source = this }, callback);
+            Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered damage after damage roll");
+            
+            ship.Damage.TryResolveDamage(1, 0, new DamageSourceEventArgs() { DamageType = DamageTypes.ObstacleCollision, Source = this }, callback);
         }
 
         private void NoEffect(Action callback)

@@ -14,7 +14,7 @@ namespace Ship
                     7,
                     27,
                     isLimited: true,
-                    abilityType: typeof(Abilities.FirstEdition.MaarekSteleAbility),
+                    abilityType: typeof(Abilities.SecondEdition.MaarekSteleAbility),
                     extraUpgradeIcon: UpgradeType.Talent
                 );
 

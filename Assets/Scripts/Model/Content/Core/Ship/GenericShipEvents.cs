@@ -3,6 +3,7 @@ using Actions;
 using ActionsList;
 using Arcs;
 using BoardTools;
+using Content;
 using Movement;
 using System;
 using System.Collections;
@@ -37,14 +38,14 @@ namespace Ship
         public delegate void EventHandlerBoolShipLock(ref bool result, GenericShip attacker, ITargetLockable defender);
         public delegate void EventHandler2Ships(GenericShip attacker, GenericShip defender);
         public delegate void EventHandlerShipTargetLockable(GenericShip ship, ITargetLockable target);
-        public delegate void EventHandlerTargetLockableType(ITargetLockable target, System.Type type);
-        public delegate void EventHandlerShipType(GenericShip ship, System.Type type);
+        public delegate void EventHandlerTargetLockableType(ITargetLockable target, Type type);
+        public delegate void EventHandlerShipType(GenericShip ship, Type type);
         public delegate void EventHandlerShipToken(GenericShip ship, GenericToken token);
-        public delegate void EventHandlerShipTypeBool(GenericShip ship, System.Type type, ref bool data);
-        public delegate void EventHandlerShipMovement(GenericShip ship, ref Movement.ManeuverHolder movement);
+        public delegate void EventHandlerShipTypeBool(GenericShip ship, Type type, ref bool data);
+        public delegate void EventHandlerShipMovement(GenericShip ship, ref ManeuverHolder movement);
         public delegate void EventHandlerShipCritArgs(GenericShip ship, GenericDamageCard crit, EventArgs e = null);
-        public delegate void EventHandlerTokenBool(Tokens.GenericToken token, ref bool data);
-        public delegate void EventHandlerShipTokenBool(GenericShip ship, Tokens.GenericToken token, ref bool data);
+        public delegate void EventHandlerTokenBool(GenericToken token, ref bool data);
+        public delegate void EventHandlerShipTokenBool(GenericShip ship, GenericToken token, ref bool data);
         public delegate void EventHandlerBombDropTemplates(List<ManeuverTemplate> availableTemplates, GenericUpgrade upgrade);
         public delegate void EventHandlerBarrelRollTemplates(List<ManeuverTemplate> availableTemplates);
         public delegate void EventHandlerDecloakTemplates(List<ManeuverTemplate> availableTemplates);
@@ -53,7 +54,7 @@ namespace Ship
         public delegate void EventHandlerRefManeuverTemplate(ref ManeuverTemplate maneuverTemplate);
         public delegate void EventHandlerMovement(GenericMovement movement);
         public delegate void EventHandlerDiceroll(DiceRoll diceroll);
-        public delegate void EventHandlerTokensList(List<Tokens.GenericToken> tokens);
+        public delegate void EventHandlerTokensList(List<GenericToken> tokens);
         public delegate void EventHandlerShipWeaponTypeBool(GenericShip ship, GenericSpecialWeapon weapon, ref List<Type> tokenTypes, bool isSilent);
         public delegate void EventHandlerBoolStringList(ref bool result, List<string> stringList);
         public delegate void EventHandlerObjArgsBool(object sender, EventArgs e, ref bool isChanged);
@@ -62,8 +63,8 @@ namespace Ship
         public delegate void EventHandelerWeaponRange(IShipWeapon weapon, ref int minRange, ref int maxRange, GenericShip target);
         public delegate void EventHandlerArcFacingList(List<ArcFacing> facings);
         public delegate void EventHandlerFailedAction(GenericAction action, List<ActionFailReason> failReasons, ref bool isDefaultFailOverwritten);
-        public delegate void EventHandlerCheckRange(GenericShip anotherShip, int minRange, int maxRange, BoardTools.RangeCheckReason reason, ref bool isInRange);
-        public delegate void EventHandlerForceAlignmentBool(ForceAlignment alignment, ref bool data);
+        public delegate void EventHandlerCheckRange(GenericShip anotherShip, int minRange, int maxRange, RangeCheckReason reason, ref bool isInRange);
+        public delegate void EventHandlerTagsBool(Tags tag, ref bool data);
         public delegate void EventHandlerShipBomb(GenericShip ship, GenericBomb bomb);
         public delegate void EventHandlerActionShip(GenericAction action, GenericShip wrongTarget);
         public delegate void EventHandlerCoordinateData(ref CoordinateActionData coordinateActionData);
@@ -73,7 +74,7 @@ namespace Ship
         public delegate void EventHandlerTrySelectDie(Die die, ref bool isAllowed);
         public event EventHandlerShip AfterStatsAreChanged;
         public event EventHandlerInt AfterGetMaxHull;
-        public event EventHandlerForceAlignmentBool OnForceAlignmentEquipCheck;
+        public event EventHandlerTagsBool OnUpgradeEquipTagCheck;
 
     }
 

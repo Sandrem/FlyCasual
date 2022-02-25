@@ -6,35 +6,19 @@ using BoardTools;
 
 namespace UpgradesList.SecondEdition
 {
-    public class Ensnare : GenericUpgrade, IVariableCost
+    public class Ensnare : GenericUpgrade
     {
         public Ensnare() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Ensnare",
                 UpgradeType.Talent,
-                cost: 0,
+                cost: 10,
                 abilityType: typeof(Abilities.SecondEdition.EnsnareAbility),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.NantexClassStarfighter.NantexClassStarfighter))
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/a0/4e/a04e0bc0-8028-46f1-acfa-33c8dc815da2/swz_w5_card-ensnare.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 19},
-                {1, 19},
-                {2, 19},
-                {3, 19},
-                {4, 19},
-                {5, 21},
-                {6, 24}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

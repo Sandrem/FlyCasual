@@ -43,6 +43,8 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                 }
             );
 
+            DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.ImperviumPlating));
+
             ModelInfo = new ShipModelInfo
             (
                 "Belbullab-22",

@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Scimitar",
                 UpgradeType.Title,
-                cost: 3,
+                cost: 0,
                 isLimited: true,
                 addActions: new List<ActionInfo>()
                 {

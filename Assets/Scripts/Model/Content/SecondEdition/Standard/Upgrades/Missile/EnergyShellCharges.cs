@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Energy-Shell Charges",
                 UpgradeType.Missile,
-                cost: 5,
+                cost: 4,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 3,
                     minRange: 2,

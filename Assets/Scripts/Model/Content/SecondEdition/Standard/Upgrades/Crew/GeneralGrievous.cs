@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "General Grievous",
                 UpgradeType.Crew,
-                cost: 3,
+                cost: 4,
                 charges: 1,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Separatists),

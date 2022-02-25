@@ -47,6 +47,8 @@ namespace Ship.SecondEdition.DroidTriFighter
 
             ShipAbilities.Add(new Abilities.SecondEdition.NetworkedCalculationsAbility());
 
+            DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.InterceptBoosterAttached));
+
             ModelInfo = new ShipModelInfo
             (
                 "Droid Tri-Fighter",

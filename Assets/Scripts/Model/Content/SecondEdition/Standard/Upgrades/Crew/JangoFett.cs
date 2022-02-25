@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Jango Fett",
                 UpgradeType.Crew,
-                cost: 3,
+                cost: 6,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Separatists, Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.JangoFettCrewAbility)

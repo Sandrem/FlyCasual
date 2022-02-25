@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Intercept Booster (Attached)",
                 UpgradeType.Configuration,
-                cost: 1,
+                cost: 0,
                 charges: 3,
                 regensChargesCount: -1,
                 addAction: new ActionInfo(typeof(SlamAction), source: this),

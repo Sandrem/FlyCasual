@@ -11,11 +11,10 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Impervium Plating",
                 UpgradeType.Modification,
-                cost: 4,
+                cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.Belbullab22Starfighter.Belbullab22Starfighter)),
                 abilityType: typeof(Abilities.SecondEdition.ImperviumPlatingAbility),
                 charges: 2
-                //seImageNumber: ??
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/10/67/10676484-b596-43fd-a218-2d85707cf476/swz29_impervium-plating.png";

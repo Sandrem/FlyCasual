@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "K2-B4",
                 UpgradeType.TacticalRelay,
-                cost: 5,
+                cost: 6,
                 isLimited: true,
                 isSolitary: true,
                 restriction: new FactionRestriction(Faction.Separatists),

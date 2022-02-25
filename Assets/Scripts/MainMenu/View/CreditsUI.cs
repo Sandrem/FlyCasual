@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Mods;
 
 public static class CreditsUI {
 
@@ -19,7 +17,12 @@ public static class CreditsUI {
         { "Fonts", "Pixel Sagas \"Rebellion\", \"Strike Fighter\" (Daniel Zadorozny, Iconian Fonts), xwing-miniatures-font (geordanr)" },
         { "Additional assets", "Skybox Volume 2: Nebula (Hedgehog Team), Simple Table Glass (Quadrante Studio), sFuture Modules PRO Space and Ground (Sami Lehtonen), Sci Fi Doors (MASH Virtual)" },
         { "Testing", "djeknemesis2012, LiquidLogic, doji" },
-        { "Thanks for support", "Andy Selby, Emmanuel Broto, Phillip Manwaring, Arik Roshanzamir, Andrew Ballentine, Kent, Scott Milam, John T. Harrison IV, Rick Servello, Spencer Loper, Landon, Dual Torpedoes, Vittorio Rosa, GregFromParis#42, Charlie King, Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug, John Snape, Bryan Froh, Ross Kushnereit, David Gausebeck, Alan Michael, Brian Hall, Byron Harder, shaun p kelleher, James Campbell, Willy Fortin, Spqan x, Shawn Mason, X-Wing Tavern Wars, Phillip Manwaring, Andrew Ballentine, Kevin Vu, Mark Dyson, Ryan Fisher, Blarghle Hargle, indianajonesey, Maxwell Hathaway, Jozeph" },
+        { "Thanks for support", "Andy Selby, Emmanuel Broto, Phillip Manwaring, Arik Roshanzamir, Andrew Ballentine, Kent, Scott Milam," +
+            " John T. Harrison IV, Rick Servello, Spencer Loper, Landon, Dual Torpedoes, Vittorio Rosa, GregFromParis#42, Charlie King," +
+            " Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug, John Snape, Bryan Froh, Ross Kushnereit, David Gausebeck," +
+            " Alan Michael, Brian Hall, Byron Harder, shaun p kelleher, James Campbell, Willy Fortin, Spqan x, Shawn Mason," +
+            " X-Wing Tavern Wars, Phillip Manwaring, Andrew Ballentine, Kevin Vu, Mark Dyson, Ryan Fisher, Blarghle Hargle," +
+            " indianajonesey, Maxwell Hathaway, Jozeph, Ted Savage, KEN0Bl, Matthew Roesener" },
     };
 
     public static void InitializePanel()

@@ -113,11 +113,11 @@ namespace SquadBuilderNS
             switch (faction)
             {
                 case Faction.Rebel:
-                    return FactionSize.Large20;
+                    return FactionSize.Medium8;
                 case Faction.Imperial:
-                    return FactionSize.Large20;
+                    return FactionSize.Medium8;
                 case Faction.Scum:
-                    return FactionSize.Large20;
+                    return FactionSize.Medium8;
                 case Faction.Resistance:
                     return FactionSize.Medium8;
                 case Faction.FirstOrder:

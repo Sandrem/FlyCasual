@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Slave I",
                 UpgradeType.Title,
-                cost: 3,
+                cost: 0,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Gunner),
                 restrictions: new UpgradeCardRestrictions(

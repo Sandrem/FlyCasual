@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Mist Hunter",
                 UpgradeType.Title,
-                cost: 1,       
+                cost: 0,       
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Cannon),
                 addAction: new ActionInfo(typeof(BarrelRollAction)),

@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Hound's Tooth",
                 UpgradeType.Title,
-                cost: 1,
+                cost: 0,
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.YV666LightFreighter.YV666LightFreighter)),
                 abilityType: typeof(Abilities.SecondEdition.HoundsToothAbility),

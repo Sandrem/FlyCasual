@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Shadow Caster",
                 UpgradeType.Title,
-                cost: 1,
+                cost: 0,
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.LancerClassPursuitCraft.LancerClassPursuitCraft)),
                 abilityType: typeof(Abilities.SecondEdition.ShadowCasterAbility),

@@ -4,6 +4,8 @@ using System;
 using SubPhases;
 using BoardTools;
 using UnityEngine;
+using Content;
+using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,7 +20,8 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.BobaFettCrewAbility),
-                seImageNumber: 129
+                seImageNumber: 129,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(

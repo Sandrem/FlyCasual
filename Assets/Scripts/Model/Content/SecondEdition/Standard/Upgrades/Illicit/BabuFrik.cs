@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             (
                 "Babu Frik",
                 UpgradeType.Illicit,
-                cost: 7,
+                cost: 5,
                 isLimited: true,
                 charges: 3,
                 restriction: new FactionRestriction(Faction.Resistance, Faction.Scum),

@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Lando's Millennium Falcon",
                 UpgradeType.Title,
-                cost: 3,
+                cost: 0,
                 isLimited: true,
                 restrictions: new UpgradeCardRestrictions(
                     new FactionRestriction(Faction.Scum),

@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Marauder",
                 UpgradeType.Title,
-                cost: 6,
+                cost: 0,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Gunner),
                 restrictions: new UpgradeCardRestrictions(

@@ -3,9 +3,10 @@ using Upgrade;
 using System;
 using SubPhases;
 using BoardTools;
-using Bombs;
 using Obstacles;
 using UnityEngine;
+using Content;
+using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,7 +21,8 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.TobiasBeckettAbility),
-                seImageNumber: 160
+                seImageNumber: 160,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(

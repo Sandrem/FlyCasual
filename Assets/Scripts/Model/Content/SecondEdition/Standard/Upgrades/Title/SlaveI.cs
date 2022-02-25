@@ -1,9 +1,8 @@
-﻿using GameModes;
-using Movement;
+﻿using Movement;
 using Ship;
 using System.Collections.Generic;
-using System.Linq;
 using Upgrade;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Slave I",
                 UpgradeType.Title,
-                cost: 6,
+                cost: 0,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Torpedo),
                 restrictions: new UpgradeCardRestrictions(
@@ -22,7 +21,8 @@ namespace UpgradesList.SecondEdition
                     new FactionRestriction(Faction.Scum)
                 ),
                 abilityType: typeof(Abilities.SecondEdition.SlaveIAbility),
-                seImageNumber: 154
+                seImageNumber: 154,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
         }        
     }

@@ -28,7 +28,7 @@ namespace Editions
             RuleSet = new RuleSets.RuleSet25();
         }
 
-        public override int MaxPoints { get { return 200; } }
+        public override int MaxPoints { get { return 20; } }
         public override int MinShipsCount { get { return 1; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Engagement"; } }
@@ -142,25 +142,7 @@ namespace Editions
 
         public override int MinShipCost(Faction faction)
         {
-            switch (faction)
-            {
-                case Faction.Rebel:
-                    return 22;
-                case Faction.Imperial:
-                    return 22;
-                case Faction.Scum:
-                    return (HasYv666InSquad()) ? 6 : 22;
-                case Faction.Resistance:
-                    return 26;
-                case Faction.FirstOrder:
-                    return 25;
-                case Faction.Republic:
-                    return 25;
-                case Faction.Separatists:
-                    return 20;
-                default:
-                    return 0;
-            }
+            return 1;
         }
 
         private bool HasYv666InSquad()

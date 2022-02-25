@@ -63,6 +63,11 @@ public partial class MainMenu : MonoBehaviour {
         Application.OpenURL(PatreonUrl);
     }
 
+    public void OnSupportUkraineClick()
+    {
+        Application.OpenURL("https://ukraine.ua/news/stand-with-ukraine/");
+    }
+
     private void UpdateVersionInfo()
     {
         GameObject.Find("UI/Panels/MainMenuPanel/Background/Version/Version Text").GetComponent<Text>().text = Global.CurrentVersion;
@@ -112,6 +117,7 @@ public partial class MainMenu : MonoBehaviour {
     {
         RemoteSettings.Completed += CheckUpdateNotification;
         RemoteSettings.Completed += CheckPatreonSupportNotification;
+        RemoteSettings.Completed += CheckSupportUkraineNotification;
         RemoteSettings.ForceUpdate();
     }
 
@@ -134,6 +140,14 @@ public partial class MainMenu : MonoBehaviour {
         if (support != -1) ShowSupportOnPatreon(support);
 
         RemoteSettings.Completed -= CheckPatreonSupportNotification;
+    }
+
+    private void CheckSupportUkraineNotification(bool arg1, bool arg2, int arg3)
+    {
+        bool support = RemoteSettings.GetBool("SupportUkraine", false);
+        if (support != false) ShowSupportUkraine();
+
+        RemoteSettings.Completed -= CheckSupportUkraineNotification;
     }
 
     // 0.3.2 UI

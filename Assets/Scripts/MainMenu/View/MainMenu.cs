@@ -160,6 +160,15 @@ public partial class MainMenu : MonoBehaviour {
         }        
     }
 
+    private void ShowSupportUkraine()
+    {
+        GameObject mainMenuPanel = GameObject.Find("UI/Panels").transform.Find("MainMenuPanel").gameObject;
+        if (!mainMenuPanel.activeSelf) return;
+
+        GameObject panel = GameObject.Find("UI/Panels").transform.Find("MainMenuPanel").Find("SupportUkraine").gameObject;
+        panel.SetActive(true);
+    }
+
     public void ChangeEditionIsClicked(GameObject editionGO)
     {
         ShowActiveEdition(editionGO.name);

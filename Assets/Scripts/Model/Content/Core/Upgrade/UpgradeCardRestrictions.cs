@@ -91,9 +91,21 @@ namespace Upgrade
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.ShipInfo.ActionIcons.Actions.Any(a => 
+            return HasRealAction(ship) || HasPotentialAction(ship);
+        }
+
+        private bool HasRealAction(GenericShip ship)
+        {
+            return ship.ShipInfo.ActionIcons.Actions.Any(a =>
                 a.ActionType == ActionType
                 && ((a.Color == ActionColor) || ActionColor == null)
+            );
+        }
+
+        private bool HasPotentialAction(GenericShip ship)
+        {
+            return ship.ShipInfo.PotentialActionIcons.Actions.Any(
+                a => a.ActionType == ActionType && ((a.Color == ActionColor) || ActionColor == null)
             );
         }
     }

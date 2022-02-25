@@ -19,6 +19,7 @@ namespace Ship
         public int RegensCharges { get; set; }
 
         public ShipActionsInfo ActionIcons { get; set; }
+        public ShipActionsInfo PotentialActionIcons { get; set; }
         public ShipUpgradesInfo UpgradeIcons { get; set; }
 
         public List<Faction> FactionsAll { get; set; }
@@ -43,6 +44,7 @@ namespace Ship
             Shields = shields;
 
             ActionIcons = actionIcons;
+            PotentialActionIcons = new ShipActionsInfo();
             UpgradeIcons = upgradeIcons;
 
             FactionsAll = (factionsAll != null) ? factionsAll : new List<Faction>() { faction };

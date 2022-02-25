@@ -32,6 +32,7 @@ namespace Upgrade
         public UpgradeCardRestrictions Restrictions { get; private set; }
         public SpecialWeaponInfo WeaponInfo { get; private set; }
         public List<ActionInfo> AddedActions { get; private set; }
+        public List<ActionInfo> AddedPotentialActions { get; private set; }
         public List<LinkedActionInfo> AddActionLinks { get; private set; }
         public List<UpgradeSlot> AddedSlots { get; private set; }
         public List<UpgradeType> ForbiddenSlots { get; private set; }
@@ -65,6 +66,7 @@ namespace Upgrade
             ShipArcInfo addArc = null,
             ArcType removeArc = ArcType.None,
             ActionInfo addAction = null,
+            ActionInfo addPotentialAction = null,
             List<ActionInfo> addActions = null,
             List<LinkedActionInfo> addActionLinks = null,
             LinkedActionInfo addActionLink = null,
@@ -121,6 +123,9 @@ namespace Upgrade
             AddedActions = new List<ActionInfo>();
             if (addAction != null) AddedActions.Add(addAction);
             if (addActions != null) AddedActions.AddRange(addActions);
+
+            AddedPotentialActions = new List<ActionInfo>();
+            if (addPotentialAction != null) AddedActions.Add(addPotentialAction);
 
             ForbiddenSlots = new List<UpgradeType>();
             if (forbidSlot != UpgradeType.None) ForbiddenSlots.Add(forbidSlot);
@@ -219,6 +224,14 @@ namespace Upgrade
 
                         HostUpgrade.HostShip.ActionBar.AddGrantedAction(addedAction, HostUpgrade);
                     }
+                }
+            }
+
+            if (AddedPotentialActions.Count > 0)
+            {
+                foreach (ActionInfo actionInfo in AddedPotentialActions)
+                {
+                    HostShip.ShipInfo.PotentialActionIcons.AddActions(new ActionInfo(actionInfo.ActionType, actionInfo.Color, HostUpgrade));
                 }
             }
 

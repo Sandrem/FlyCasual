@@ -39,6 +39,7 @@ namespace UpgradesList.SecondEdition
                 "Servomotor S-Foils (Open)",
                 UpgradeType.Configuration,
                 cost: 0,
+                addPotentialAction: new ActionInfo(typeof(BoostAction)),
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.T65XWing.T65XWing)),
                 abilityType: typeof(Abilities.SecondEdition.ServomotorSFoilsAttackAbility),
                 seImageNumber: 108

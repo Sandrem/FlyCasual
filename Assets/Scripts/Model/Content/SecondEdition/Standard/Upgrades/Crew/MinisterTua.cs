@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Minister Tua",
                 UpgradeType.Crew,
-                cost: 7,
+                cost: 4,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.MinisterTuaCrewAbility),

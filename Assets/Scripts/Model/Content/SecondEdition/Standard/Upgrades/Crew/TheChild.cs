@@ -10,8 +10,6 @@ namespace UpgradesList.SecondEdition
     {
         public TheChild() : base()
         {
-            FromMod = typeof(Mods.ModsList.UnreleasedContentMod);
-
             UpgradeInfo = new UpgradeCardInfo
             (
                 "The Child",

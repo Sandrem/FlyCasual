@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using Movement;
 using Abilities.Parameters;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {

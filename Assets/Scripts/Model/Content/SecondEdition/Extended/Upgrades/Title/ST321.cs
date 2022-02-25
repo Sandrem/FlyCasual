@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "ST-321",
                 UpgradeType.Title,
-                cost: 3,
+                cost: 0,
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.LambdaClassT4AShuttle.LambdaClassT4AShuttle)),
                 abilityType: typeof(Abilities.SecondEdition.ST321Ability),

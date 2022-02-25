@@ -2,6 +2,7 @@
 using Actions;
 using ActionsList;
 using Arcs;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,7 @@ namespace Upgrade
         public ShipArcInfo AddArc { get; private set; }
         public ArcType RemoveArc { get; private set; }
         public Type RemoteType { get; private set; }
+        public List<Legality> LegalityInfo { get; private set; }
 
         public UpgradeCardInfo(
             string name,
@@ -76,7 +78,8 @@ namespace Upgrade
             int addHull = 0,
             int addForce = 0,
             UpgradeSubType subType = UpgradeSubType.None,
-            Type remoteType = null
+            Type remoteType = null,
+            List<Legality> legalityInfo = null
         )
         {
             Name = name;
@@ -135,6 +138,8 @@ namespace Upgrade
 
             SubType = subType;
             RemoteType = remoteType;
+
+            LegalityInfo = legalityInfo ?? new List<Legality> { Legality.StandartLegal };
         }
 
         public bool HasType(UpgradeType upgradeType)

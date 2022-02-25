@@ -26,7 +26,7 @@ namespace Ship
                     6,
                     12,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.PalobGodalhi),
+                    abilityType: typeof(Abilities.SecondEdition.PalobGodalhiAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
@@ -49,7 +49,7 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class PalobGodalhi : GenericAbility
+    public class PalobGodalhiAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

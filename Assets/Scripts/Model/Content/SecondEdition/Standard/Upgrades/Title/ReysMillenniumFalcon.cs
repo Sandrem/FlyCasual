@@ -12,14 +12,13 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Rey's Millennium Falcon",
                 UpgradeType.Title,
-                cost: 2,
+                cost: 0,
                 isLimited: true,
                 restrictions: new UpgradeCardRestrictions(
                     new ShipRestriction(typeof(Ship.SecondEdition.ScavengedYT1300.ScavengedYT1300)),
                     new FactionRestriction(Faction.Resistance)
                 ),
-                abilityType: typeof(Abilities.SecondEdition.ReysMillenniumFalconAbility)//,
-                //seImageNumber: 103
+                abilityType: typeof(Abilities.SecondEdition.ReysMillenniumFalconAbility)
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/23627443c7f5e7447c306ea7c6242634.png";

@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Overdrive Thruster",
                 UpgradeType.Modification,
-                cost: 2,
+                cost: 5,
                 isLimited: true,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.T70XWing.T70XWing)),
                 abilityType: typeof(Abilities.SecondEdition.OverdriveThrusterAbility)

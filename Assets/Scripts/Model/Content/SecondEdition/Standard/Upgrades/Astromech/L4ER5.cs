@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
             (
                 "L4E-R5",
                 UpgradeType.Astromech,
-                cost: 4,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.L4ER5Ability),
                 isLimited: true,
                 restrictions: new UpgradeCardRestrictions

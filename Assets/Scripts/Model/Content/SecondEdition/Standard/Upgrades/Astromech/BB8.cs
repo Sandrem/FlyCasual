@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
                 "BB-8",
                 UpgradeType.Astromech,
                 charges: 2,
-                cost: 8,
+                cost: 7,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.BB8Ability)

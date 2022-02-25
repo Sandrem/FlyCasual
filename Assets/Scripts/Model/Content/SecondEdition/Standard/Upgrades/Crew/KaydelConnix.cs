@@ -3,7 +3,7 @@ using Upgrade;
 using System.Linq;
 using Tokens;
 using System;
-using GameModes;
+using Content;
 using Movement;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +20,8 @@ namespace UpgradesList.SecondEdition
                 cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Resistance),
-                abilityType: typeof(Abilities.SecondEdition.KaydelConnixCrewAbility)
+                abilityType: typeof(Abilities.SecondEdition.KaydelConnixCrewAbility),
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(

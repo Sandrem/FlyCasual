@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Rey",
                 UpgradeType.Gunner,
-                cost: 10,
+                cost: 12,
                 isLimited: true,
                 addForce: 1,
                 restriction: new FactionRestriction(Faction.Resistance),

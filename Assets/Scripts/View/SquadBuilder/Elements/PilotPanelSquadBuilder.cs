@@ -149,37 +149,16 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             this.transform.Find("FromModInfo").GetComponent<RectTransform>().localPosition += new Vector3(0, -30, 0);
 
             Text SeCostText = this.transform.Find("SeCostInfo").GetComponent<Text>();
-            SeCostText.text = Ship.PilotInfo.Cost.ToString();
+            SeCostText.text = Ship.PilotInfo.Cost.ToString() + "\n" + (Ship.PilotInfo as PilotCardInfo25).LoadoutValue.ToString();
 
             // Show extra icons (that not present on all pilots of this ship)
             Text slotsText = this.transform.Find("SlotsInfo").GetComponent<Text>();
             for (int i = 0; i < CountUpgradeIcons(UpgradeType.Talent); i++) slotsText.text += "E";
             for (int i = 0; i < CountUpgradeIcons(UpgradeType.ForcePower); i++) slotsText.text += "F";
 
-            if (Ship is Ship.SecondEdition.YT2400LightFreighter.YT2400LightFreighter
-                || (Ship is Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft && Ship.Faction == Faction.Scum)
-            )
-            {
-                for (int i = 0; i < CountUpgradeIcons(UpgradeType.Crew); i++) slotsText.text += "W";
-            }
-
-            if (Ship is Ship.SecondEdition.FiresprayClassPatrolCraft.FiresprayClassPatrolCraft && Ship.Faction == Faction.Scum)
-            {
-                for (int i = 0; i < CountUpgradeIcons(UpgradeType.Modification); i++) slotsText.text += "m";
-            }
-
-            if (Ship is Ship.SecondEdition.BTLA4YWing.BTLA4YWing && Ship.Faction == Faction.Scum)
-            {
-                for (int i = 0; i < CountUpgradeIcons(UpgradeType.Modification); i++) slotsText.text += "m";
-            }
-
             if (Ship.Faction != Faction.Scum) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Illicit); i++) slotsText.text += "I";
 
             if (Ship.Faction != Faction.FirstOrder && Ship.Faction != Faction.Resistance) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Tech); i++) slotsText.text += "X";
-
-            if (Ship is Ship.SecondEdition.TIEDDefender.TIEDDefender) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Sensor); i++) slotsText.text += "S";
-
-            if (Ship is Ship.SecondEdition.FangFighter.FangFighter) for (int i = 0; i < CountUpgradeIcons(UpgradeType.Modification); i++) slotsText.text += "m";
         }
     }
 

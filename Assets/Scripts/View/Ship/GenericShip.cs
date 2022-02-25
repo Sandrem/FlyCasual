@@ -303,7 +303,8 @@ namespace Ship
 
         public Texture GetSkinTexture()
         {
-            Texture skin = GetAvailableSkins().FirstOrDefault(n => n.name == ModelInfo.SkinName);
+            string skinName = (this.PilotInfo as PilotCardInfo25).SkinName ?? ModelInfo.SkinName;
+            Texture skin = GetAvailableSkins().FirstOrDefault(n => n.name == skinName);
 
             if (skin == null)
             {

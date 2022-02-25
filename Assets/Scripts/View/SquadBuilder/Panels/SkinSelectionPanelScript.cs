@@ -101,7 +101,8 @@ public class SkinSelectionPanelScript : MonoBehaviour
 
     private int GetCurrentSkinIndex()
     {
-        Texture currentTexture = AvailableSkins.Find(n => n.name == Ship.ModelInfo.SkinName);
+        string skinName = (Ship.PilotInfo as PilotCardInfo25).SkinName ?? Ship.ModelInfo.SkinName;
+        Texture currentTexture = AvailableSkins.Find(n => n.name == skinName);
         //return index if skin is found, otherwise default to 0
         return (currentTexture != null) ? AvailableSkins.IndexOf(currentTexture) : 0;
     }

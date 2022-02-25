@@ -17,13 +17,6 @@ namespace Obstacles
 
         public override void OnHit(GenericShip ship)
         {
-            if (!Selection.ThisShip.CanPerformActionsWhenOverlapping
-                && Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet20))
-            {
-                Messages.ShowErrorToHuman(ship.PilotInfo.PilotName + " hit a gas cloud during movement, their action subphase is skipped");
-                Selection.ThisShip.IsSkipsActionSubPhase = true;
-            }
-
             if (Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet25))
             {
                 BreakAllLocks(ship, ()=> StartToRoll(ship));
@@ -64,36 +57,20 @@ namespace Obstacles
 
         public override void AfterObstacleRoll(GenericShip ship, DieSide side, Action callback)
         {
-            if (Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet20))
+            if (side == DieSide.Crit)
             {
-                if (side == DieSide.Focus || side == DieSide.Success)
-                {
-                    Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} gains a Strain token");
-                    ship.Tokens.AssignToken(typeof(StrainToken), callback);
-                }
-                else
-                {
-                    Messages.ShowInfoToHuman("No effect");
-                    callback();
-                }
+                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} gains 3 Ion tokens");
+                ship.Tokens.AssignTokens(() => CreateIonToken(ship), 3, callback);
             }
-            else if (Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet25))
+            else if (side == DieSide.Success)
             {
-                if (side == DieSide.Crit)
-                {
-                    Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} gains 3 Ion tokens");
-                    ship.Tokens.AssignTokens(() => CreateIonToken(ship), 3, callback);
-                }
-                else if (side == DieSide.Success)
-                {
-                    Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} gains 1 Ion token");
-                    ship.Tokens.AssignToken(typeof(Tokens.IonToken), callback);
-                }
-                else
-                {
-                    Messages.ShowInfoToHuman("No effect");
-                    callback();
-                }
+                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} gains 1 Ion token");
+                ship.Tokens.AssignToken(typeof(Tokens.IonToken), callback);
+            }
+            else
+            {
+                Messages.ShowInfoToHuman("No effect");
+                callback();
             }
         }
 

@@ -61,19 +61,9 @@ namespace Obstacles
 
         private void DealDebrisDamage(GenericShip ship, DieSide side, Action callback)
         {
-            int normalDamage = 0;
-            int criticalDamage = 0;
-            if (side == DieSide.Crit && Editions.Edition.Current.RuleSet.GetType() == typeof(Editions.RuleSets.RuleSet20))
-            {
-                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered critical damage after damage roll");
-                criticalDamage = 1;
-            }
-            else
-            {
-                Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered damage after damage roll");
-                normalDamage = 1;
-            }
-            ship.Damage.TryResolveDamage(normalDamage, criticalDamage, new DamageSourceEventArgs() { DamageType = DamageTypes.ObstacleCollision, Source = this }, callback);
+            Messages.ShowErrorToHuman($"{ship.PilotInfo.PilotName} suffered damage after damage roll");
+
+            ship.Damage.TryResolveDamage(1, 0, new DamageSourceEventArgs() { DamageType = DamageTypes.ObstacleCollision, Source = this }, callback);
         }
 
         private void NoEffect(Action callback)

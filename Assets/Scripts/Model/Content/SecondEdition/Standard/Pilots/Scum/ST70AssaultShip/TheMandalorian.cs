@@ -14,8 +14,6 @@ namespace Ship
         {
             public TheMandalorian() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo
                 (
                     "The Mandalorian",

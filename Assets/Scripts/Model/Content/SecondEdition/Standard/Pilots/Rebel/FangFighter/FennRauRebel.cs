@@ -13,8 +13,6 @@ namespace Ship
         {
             public FennRauRebel() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo
                 (
                     "Fenn Rau",

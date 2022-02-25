@@ -12,8 +12,6 @@ namespace Ship
             {
                 IsWIP = true;
 
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo
                 (
                     "Bo-Katan Kryze",

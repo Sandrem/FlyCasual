@@ -15,8 +15,6 @@ namespace Ship
         {
             public IsbJingoist() : base()
             {
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
-
                 PilotInfo = new PilotCardInfo25
                 (
                     "ISB Jingoist",

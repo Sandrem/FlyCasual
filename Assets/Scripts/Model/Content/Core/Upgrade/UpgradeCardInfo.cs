@@ -300,6 +300,19 @@ namespace Upgrade
                 }
             }
 
+            if (AddedPotentialActions.Count > 0)
+            {
+                foreach (ActionInfo actionInfo in AddedPotentialActions)
+                {
+                    ActionInfo addedAction = HostShip.ShipInfo.PotentialActionIcons.Actions.First(a =>
+                        a.ActionType == actionInfo.ActionType
+                        && a.Color == actionInfo.Color
+                        && a.Source == HostUpgrade
+                    );
+                    HostShip.ShipInfo.PotentialActionIcons.Actions.Remove(addedAction);
+                }
+            }
+
             foreach (LinkedActionInfo linkedActionInfo in AddActionLinks)
             {
                 HostUpgrade.HostShip.ActionBar.RemoveActionLink(linkedActionInfo.ActionType, linkedActionInfo.ActionLinkedType);

@@ -29,7 +29,7 @@ namespace Editions
         }
 
         public override int MaxPoints { get { return 20; } }
-        public override int MinShipsCount { get { return 1; } }
+        public override int MinShipsCount { get { return 3; } }
         public override int MaxShipsCount { get { return 8; } }
         public override string CombatPhaseName { get { return "Engagement"; } }
         public override Color MovementEasyColor { get { return new Color(0, 0.5f, 1); } }

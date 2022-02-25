@@ -69,6 +69,13 @@ namespace SquadBuilderNS
             targetText.color = (Global.SquadBuilder.CurrentSquad.Points > Edition.Current.MaxPoints) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
         }
 
+        public void UpdateLoadoutCost(string panelName, GenericShip ship)
+        {
+            Text targetText = GameObject.Find("UI/Panels/" + panelName + "/ControlsPanel/SquadCostText").GetComponent<Text>();
+            targetText.text = ship.UpgradeBar.GetTotalUsedLoadoutCost() + " / " + (ship.PilotInfo as PilotCardInfo25).LoadoutValue;
+            targetText.color = (ship.UpgradeBar.GetTotalUsedLoadoutCost() > (ship.PilotInfo as PilotCardInfo25).LoadoutValue) ? new Color(1, 0, 0, 200f / 255f) : new Color(0, 0, 0, 200f / 255f);
+        }
+
         private void ShowNextButtonFor(PlayerNo playerNo)
         {
             GameObject nextButton = GameObject.Find("UI/Panels/SquadBuilderPanel/ControlsPanel").transform.Find("NextButton").gameObject;
@@ -215,7 +222,7 @@ namespace SquadBuilderNS
 
         public void ShowPilotWithSlots()
         {
-            UpdateSquadCost("ShipSlotsPanel");
+            UpdateLoadoutCost("ShipSlotsPanel", Global.SquadBuilder.CurrentShip.Instance);
             PilotWithSlotsView.GeneratePilotWithSlotsPanels();
         }
 
@@ -230,9 +237,10 @@ namespace SquadBuilderNS
             MainMenu.CurrentMainMenu.ChangePanel("ShipSlotsPanel");
         }
 
-        public static void OpenSelectUpgradeMenu(UpgradeSlot slot, GenericUpgrade upgrade)
+        public void OpenSelectUpgradeMenu(UpgradeSlot slot, GenericUpgrade upgrade)
         {
             Global.SquadBuilder.CurrentUpgradeSlot = slot;
+            UpdateLoadoutCost("ShipSlotsPanel", Global.SquadBuilder.CurrentShip.Instance);
             MainMenu.CurrentMainMenu.ChangePanel("SelectUpgradePanel");
         }
 
@@ -246,7 +254,7 @@ namespace SquadBuilderNS
         public void ShowUpgradesList()
         {
             ShowLoadingContentStub("Upgrade");
-            UpdateSquadCost("SelectUpgradePanel");
+            UpdateLoadoutCost("SelectUpgradePanel", Global.SquadBuilder.CurrentShip.Instance);
             UpgradesView.ShowAvailableUpgrades(Model.CurrentUpgradeSlot);
         }
 

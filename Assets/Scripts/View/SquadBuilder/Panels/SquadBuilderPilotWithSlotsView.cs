@@ -79,7 +79,7 @@ namespace SquadBuilderNS
 
                 if (slot.InstalledUpgrade == null)
                 {
-                    script.Initialize("Slot:" + slot.Type.ToString(), slot, null, SquadBuilderView.OpenSelectUpgradeMenu, compact: true);
+                    script.Initialize("Slot:" + slot.Type.ToString(), slot, null, SquadBuilder.Instance.View.OpenSelectUpgradeMenu, compact: true);
                     UpgradeSlotPanels.Add(new UpgradeSlotPanel(null, slot.Type, newUpgradePanel));
                 }
                 else

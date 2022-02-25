@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using Ship;
 using Editions;
 using System.Linq;
@@ -172,10 +171,11 @@ namespace SubPhases
 
             if (CurrentDiceRoll.DiceList[0].Side == DieSide.Success || CurrentDiceRoll.DiceList[0].Side == DieSide.Crit)
             {
-                Messages.ShowErrorToHuman($"{TheShip.PilotInfo.PilotName} is dealt a damage card");
-                DamageDecks.GetDamageDeck(TheShip.Owner.PlayerNo).DrawDamageCard(
-                    false,
-                    DealDrawnCard,
+                Messages.ShowErrorToHuman($"{TheShip.PilotInfo.PilotName} is dealt damage");
+                TheShip.Damage.TryResolveDamage
+                (
+                    1,
+                    0,
                     new DamageSourceEventArgs
                     {
                         DamageType = DamageTypes.Rules,
@@ -189,11 +189,6 @@ namespace SubPhases
                 Messages.ShowInfoToHuman("No damage");
                 CallBack();
             }
-        }
-
-        private void DealDrawnCard(EventArgs e, Action callback)
-        {
-            TheShip.Damage.DealDrawnCard(callback);
         }
     }
 }

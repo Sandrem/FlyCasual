@@ -36,6 +36,10 @@ namespace Ship
                         Tags.Freighter,
                         Tags.Spectre
                     },
+                    legality: new List<Legality>
+                    {
+                        Legality.StandartBanned
+                    },
                     seImageNumber: 73
                 );
 

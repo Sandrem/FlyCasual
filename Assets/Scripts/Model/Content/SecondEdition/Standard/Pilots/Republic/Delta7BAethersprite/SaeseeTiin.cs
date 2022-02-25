@@ -23,6 +23,10 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                     Tags.Jedi,
                     Tags.LightSide
                 },
+                legality: new List<Legality>
+                {
+                    Legality.StandartBanned
+                },
                 skinName: "Saesee Tiin"
             );
 

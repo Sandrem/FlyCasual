@@ -3,7 +3,7 @@ using ActionsList;
 using BoardTools;
 using Conditions;
 using Ship;
-using System;
+using Content;
 using Tokens;
 
 namespace Ship.SecondEdition.ResistanceTransportPod
@@ -21,7 +21,11 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 3,
                 6,
                 isLimited: true,
-                abilityType: typeof(ViMoradiAbility)
+                abilityType: typeof(ViMoradiAbility),
+                legality: new List<Legality>
+                {
+                    Legality.StandartBanned
+                },
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/14139a2d20ff13b01bd5810371a89064.png";

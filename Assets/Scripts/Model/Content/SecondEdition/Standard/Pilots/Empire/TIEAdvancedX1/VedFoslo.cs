@@ -33,6 +33,10 @@ namespace Ship
                     {
                         Tags.Tie
                     },
+                    legality: new List<Legality>
+                    {
+                        Legality.StandartBanned 
+                    },
                     seImageNumber: 95
                 );
             }

@@ -35,6 +35,10 @@ namespace Ship
                     {
                         Tags.Freighter,
                         Tags.YT1300
+                    },
+                    legality: new List<Legality>
+                    {
+                        Legality.StandartBanned
                     }
                 );
 

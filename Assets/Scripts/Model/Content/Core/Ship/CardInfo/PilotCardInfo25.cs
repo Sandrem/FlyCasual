@@ -33,7 +33,8 @@ namespace Ship
             int seImageNumber = 0,
             string abilityText = "",
             string skinName = null,
-            List<Tags> tags = null) : base(pilotName, initiative, cost, isLimited, limited, abilityType, pilotTitle, force, charges, regensCharges,
+            List<Tags> tags = null,
+            List<Legality> legality = null) : base(pilotName, initiative, cost, isLimited, limited, abilityType, pilotTitle, force, charges, regensCharges,
             extraUpgradeIcon, extraUpgradeIcons, factionOverride, forceAlignmentOverride, seImageNumber, abilityText)
         {
             PilotName = pilotName;
@@ -68,7 +69,7 @@ namespace Ship
 
             SkinName = skinName;
             Tags = tags ?? new List<Tags>();
-            LegalityInfo = new List<Legality> { Legality.StandartLegal };
+            LegalityInfo = legality ?? new List<Legality> { Legality.StandartLegal };
         }
     }
 }

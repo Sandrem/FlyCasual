@@ -5,6 +5,8 @@ using System;
 using BoardTools;
 using UnityEngine;
 using Movement;
+using System.Collections.Generic;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -19,7 +21,8 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.CassianAndorCrewAbility),
-                seImageNumber: 81
+                seImageNumber: 81,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(

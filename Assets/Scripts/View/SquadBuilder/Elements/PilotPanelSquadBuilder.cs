@@ -46,14 +46,19 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
 
         if (ShowFromModInfo) SetFromModeName();
 
-        if (!Ship.IsWIP)
-        {
-            SetOnClickHandler();
-        }
-        else
+        if (Ship.IsWIP)
         {
             this.gameObject.transform.Find("PilotImage").GetComponent<Image>().material = GrayscaleMaterial;
             this.gameObject.transform.Find("WIPInfo").gameObject.SetActive(true);
+        }
+        else if ((Ship.PilotInfo as PilotCardInfo25).LegalityInfo.Contains(Content.Legality.StandartBanned))
+        {
+            this.gameObject.transform.Find("PilotImage").GetComponent<Image>().material = GrayscaleMaterial;
+            this.gameObject.transform.Find("BannedInfo").gameObject.SetActive(true);
+        }
+        else
+        {
+            SetOnClickHandler();
         }
     }
 

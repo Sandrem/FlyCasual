@@ -5,6 +5,7 @@ using Conditions;
 using Ship;
 using Content;
 using Tokens;
+using System.Collections.Generic;
 
 namespace Ship.SecondEdition.ResistanceTransportPod
 {
@@ -25,7 +26,7 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 legality: new List<Legality>
                 {
                     Legality.StandartBanned
-                },
+                }
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/14139a2d20ff13b01bd5810371a89064.png";

@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -6,34 +7,19 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SupernaturalReflexes : GenericUpgrade, IVariableCost
+    public class SupernaturalReflexes : GenericUpgrade
     {
         public SupernaturalReflexes() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Supernatural Reflexes",
                 UpgradeType.ForcePower,
-                cost: 12,
+                cost: 24,
                 abilityType: typeof(Abilities.SecondEdition.SupernaturalReflexesAbility),
                 restriction: new BaseSizeRestriction(BaseSize.Small),
-                seImageNumber: 22
+                seImageNumber: 22,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 4},
-                {1, 4},
-                {2, 4},
-                {3, 8},
-                {4, 16},
-                {5, 24},
-                {6, 32}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

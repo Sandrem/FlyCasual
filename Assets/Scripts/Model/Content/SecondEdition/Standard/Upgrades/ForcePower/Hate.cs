@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -12,7 +13,7 @@ namespace UpgradesList.SecondEdition
                 "Hate",
                 UpgradeType.ForcePower,
                 cost: 4,
-                restriction: new ForceAlignmentRestriction(ForceAlignment.Dark),
+                restriction: new TagRestriction(Tags.DarkSide),
                 abilityType: typeof(Abilities.SecondEdition.HateAbility)
             );
 

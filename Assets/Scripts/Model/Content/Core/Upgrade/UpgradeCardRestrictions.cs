@@ -4,6 +4,7 @@ using System.Linq;
 using Actions;
 using Arcs;
 using System;
+using Content;
 
 namespace Upgrade
 {
@@ -127,18 +128,18 @@ namespace Upgrade
         }
     }
 
-    public class ForceAlignmentRestriction : UpgradeCardRestriction
+    public class TagRestriction : UpgradeCardRestriction
     {
-        public ForceAlignment Alignment { get; private set; }
+        public Tags Tag { get; private set; }
 
-        public ForceAlignmentRestriction(ForceAlignment alignment)
+        public TagRestriction(Tags tag)
         {
-            Alignment = alignment;
+            Tag = tag;
         }
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship.CanEquipForceAlignedCard(Alignment);
+            return (ship.PilotInfo as PilotCardInfo25).Tags.Contains(Tag);
         }
     }
 

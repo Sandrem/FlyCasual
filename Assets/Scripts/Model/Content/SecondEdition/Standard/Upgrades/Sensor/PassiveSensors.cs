@@ -6,36 +6,20 @@ using ActionsList;
 
 namespace UpgradesList.SecondEdition
 {
-    public class PassiveSensors : GenericUpgrade, IVariableCost
+    public class PassiveSensors : GenericUpgrade
     {
         public PassiveSensors() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Passive Sensors",
                 UpgradeType.Sensor,
-                cost: 3,
+                cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.PassiveSensorsAbility),
                 regensCharges: true,
                 charges: 1
             );
 
             ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/08a980b359fb73dbcb9a315e94d505f0.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 4},
-                {1, 4},
-                {2, 4},
-                {3, 4},
-                {4, 4},
-                {5, 6},
-                {6, 7}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

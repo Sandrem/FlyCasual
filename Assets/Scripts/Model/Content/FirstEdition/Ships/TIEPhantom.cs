@@ -11,7 +11,7 @@ namespace Ship
 {
     namespace FirstEdition.TIEPhantom
     {
-        public class TIEPhantom : GenericShip, TIE
+        public class TIEPhantom : GenericShip
         {
             public TIEPhantom() : base()
             {

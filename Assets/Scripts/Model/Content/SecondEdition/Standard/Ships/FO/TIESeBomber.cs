@@ -11,7 +11,7 @@ using Upgrade;
 
 namespace Ship.SecondEdition.TIESeBomber
 {
-    public class TIESeBomber : GenericShip, TIE
+    public class TIESeBomber : GenericShip
     {
         public TIESeBomber() : base()
         {

@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 "Patience",
                 UpgradeType.ForcePower,
                 cost: 2,
-                restriction: new ForceAlignmentRestriction(ForceAlignment.Light),
+                restriction: new TagRestriction(Tags.DarkSide),
                 abilityType: typeof(Abilities.SecondEdition.PatienceAbility)
             );
 

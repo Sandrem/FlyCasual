@@ -4,7 +4,7 @@ namespace Ship
 {
     namespace SecondEdition.TIEAgAggressor
     {
-        public class OnyxSquadronScout : TIEAgAggressor, TIE
+        public class OnyxSquadronScout : TIEAgAggressor
         {
             public OnyxSquadronScout() : base()
             {

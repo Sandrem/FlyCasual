@@ -1,36 +1,22 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System.Collections.Generic;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class InertialDampeners : GenericUpgrade, IVariableCost
+    public class InertialDampeners : GenericUpgrade
     {
         public InertialDampeners() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Inertial Dampeners",
                 UpgradeType.Illicit,
-                cost: 3,
+                cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.InertialDampenersAbility),
-                seImageNumber: 61
+                seImageNumber: 61,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 0},
-                {1, 1},
-                {2, 2},
-                {3, 3},
-                {4, 4},
-                {5, 5},
-                {6, 6}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

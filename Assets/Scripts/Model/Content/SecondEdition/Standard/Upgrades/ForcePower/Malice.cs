@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using Content;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -13,7 +14,7 @@ namespace UpgradesList.SecondEdition
                 "Malice",
                 UpgradeType.ForcePower,
                 cost: 6,
-                restriction: new ForceAlignmentRestriction(ForceAlignment.Dark),
+                restriction: new TagRestriction(Tags.DarkSide),
                 abilityType: typeof(Abilities.SecondEdition.MaliceAbility)       
             );
 

@@ -7,7 +7,7 @@ namespace Ship
 {
     namespace SecondEdition.TIEAgAggressor
     {
-        public class LieutenantKestal : TIEAgAggressor, TIE
+        public class LieutenantKestal : TIEAgAggressor
         {
             public LieutenantKestal() : base()
             {

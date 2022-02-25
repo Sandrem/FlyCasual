@@ -6,7 +6,7 @@ namespace Ship
 {
     namespace SecondEdition.TIESaBomber
     {
-        public class MajorRhymer : TIESaBomber, TIE
+        public class MajorRhymer : TIESaBomber
         {
             public MajorRhymer() : base()
             {

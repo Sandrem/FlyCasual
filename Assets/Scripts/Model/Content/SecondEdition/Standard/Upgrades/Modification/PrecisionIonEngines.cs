@@ -3,6 +3,7 @@ using Ship;
 using SubPhases;
 using Movement;
 using UnityEngine;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,6 +16,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Modification,
                 cost: 2,
                 charges: 2,
+                restriction: new TagRestriction(Tags.Tie),
                 abilityType: typeof(Abilities.SecondEdition.PrecisionIonEnginesAbility)
             );
 
@@ -23,8 +25,7 @@ namespace UpgradesList.SecondEdition
 
         public override bool IsAllowedForShip(GenericShip ship)
         {
-            return ship is TIE
-                && ship.ShipInfo.Agility == 3;
+            return ship.ShipInfo.Agility == 3;
         }
     }
 }

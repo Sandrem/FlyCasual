@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -6,35 +7,20 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class PrecognitiveReflexes : GenericUpgrade, IVariableCost
+    public class PrecognitiveReflexes : GenericUpgrade
     {
         public PrecognitiveReflexes() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Precognitive Reflexes",
                 UpgradeType.ForcePower,
-                cost: 13,
+                cost: 15,
                 abilityType: typeof(Abilities.SecondEdition.PrecognitiveReflexesAbility),
-                restriction: new BaseSizeRestriction(BaseSize.Small)
+                restriction: new BaseSizeRestriction(BaseSize.Small),
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/de/c2/dec27d21-73b1-4b44-b61e-78188a5555cb/swz48_cards-precog-reflexes.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 3},
-                {1, 3},
-                {2, 3},
-                {3, 4},
-                {4, 7},
-                {5, 10},
-                {6, 13}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

@@ -11,7 +11,7 @@ using Upgrade;
 
 namespace Ship.SecondEdition.TIERbHeavy
 {
-    public class TIERbHeavy : GenericShip, TIE
+    public class TIERbHeavy : GenericShip
     {
         public TIERbHeavy() : base()
         {

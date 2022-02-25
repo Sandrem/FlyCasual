@@ -12,7 +12,7 @@ namespace Ship
 {
     namespace SecondEdition.TIEPhPhantom
     {
-        public class TIEPhPhantom : FirstEdition.TIEPhantom.TIEPhantom, TIE
+        public class TIEPhPhantom : FirstEdition.TIEPhantom.TIEPhantom
         {
             public TIEPhPhantom() : base()
             {

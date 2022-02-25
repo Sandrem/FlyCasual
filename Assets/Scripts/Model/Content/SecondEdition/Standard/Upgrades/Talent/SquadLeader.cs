@@ -1,42 +1,22 @@
 ﻿using Upgrade;
-using System.Collections.Generic;
-using Ship;
-using System.Linq;
-using SubPhases;
 using ActionsList;
 using Actions;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SquadLeader : GenericUpgrade, IVariableCost
+    public class SquadLeader : GenericUpgrade
     {
         public SquadLeader() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Squad Leader",
                 UpgradeType.Talent,
-                cost: 4,
+                cost: 8,
                 isLimited: true,
                 addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Red),
                 //abilityType: typeof(Abilities.SecondEdition.SquadLeaderAbility),
                 seImageNumber: 16
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 2},
-                {1, 4},
-                {2, 6},
-                {3, 8},
-                {4, 10},
-                {5, 12},
-                {6, 14}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Ship
 {
     namespace SecondEdition.TIESaBomber
     {
-        public class Deathfire : TIESaBomber, TIE
+        public class Deathfire : TIESaBomber
         {
             public Deathfire() : base()
             {

@@ -4,7 +4,7 @@ namespace Ship
 {
     namespace SecondEdition.TIESaBomber
     {
-        public class GammaSquadronAce : TIESaBomber, TIE
+        public class GammaSquadronAce : TIESaBomber
         {
             public GammaSquadronAce() : base()
             {

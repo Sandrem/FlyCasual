@@ -11,7 +11,7 @@ namespace Ship
 {
     namespace FirstEdition.TIEAggressor
     {
-        public class TIEAggressor : GenericShip, TIE
+        public class TIEAggressor : GenericShip
         {
 
             public TIEAggressor() : base()

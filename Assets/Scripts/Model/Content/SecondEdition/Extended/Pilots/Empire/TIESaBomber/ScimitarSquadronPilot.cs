@@ -2,7 +2,7 @@
 {
     namespace SecondEdition.TIESaBomber
     {
-        public class ScimitarSquadronPilot : TIESaBomber, TIE
+        public class ScimitarSquadronPilot : TIESaBomber
         {
             public ScimitarSquadronPilot() : base()
             {

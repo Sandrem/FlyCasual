@@ -24,7 +24,6 @@ namespace Ship
 
         public List<UpgradeType> ExtraUpgrades { get; set; }
         public Faction Faction { get; set; }
-        public ForceAlignment ForceAlignment { get; set; }
         public int SEImageNumber { get; set; }
 
         public PilotCardInfo(string pilotName,
@@ -40,7 +39,6 @@ namespace Ship
             UpgradeType extraUpgradeIcon = UpgradeType.None,
             List<UpgradeType> extraUpgradeIcons = null,
             Faction factionOverride = Faction.None,
-            ForceAlignment forceAlignmentOverride = ForceAlignment.None,
             int seImageNumber = 0,
             string abilityText = ""
         )
@@ -74,8 +72,6 @@ namespace Ship
             if (extraUpgradeIcons != null) ExtraUpgrades.AddRange(extraUpgradeIcons);
 
             if (factionOverride != Faction.None) Faction = factionOverride;
-
-            ForceAlignment = forceAlignmentOverride;
         }
 
 

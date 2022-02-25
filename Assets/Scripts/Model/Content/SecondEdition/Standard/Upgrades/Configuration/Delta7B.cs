@@ -6,7 +6,7 @@ using Content;
 
 namespace UpgradesList.SecondEdition
 {
-    public class Delta7B : GenericUpgrade, IVariableCost
+    public class Delta7B : GenericUpgrade
     {
         public Delta7B() : base()
         {
@@ -20,22 +20,6 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d6/97/d697602c-8614-4192-a44d-986fa2d2fd7a/swz_delta-7b.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 6},
-                {1, 6},
-                {2, 10},
-                {3, 14},
-                {4, 17},
-                {5, 20},
-                {6, 24}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

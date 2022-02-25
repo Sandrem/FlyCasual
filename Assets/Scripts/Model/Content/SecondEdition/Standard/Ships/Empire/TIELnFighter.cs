@@ -10,7 +10,7 @@ namespace Ship
 {
     namespace SecondEdition.TIELnFighter
     {
-        public class TIELnFighter : GenericShip, TIE
+        public class TIELnFighter : GenericShip
         {
             public TIELnFighter() : base()
             {

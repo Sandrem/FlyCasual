@@ -8,7 +8,7 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class OverdriveThruster : GenericUpgrade, IVariableCost
+    public class OverdriveThruster : GenericUpgrade
     {
         public OverdriveThruster() : base()
         {
@@ -22,22 +22,6 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/21/3e/213e1b33-19c8-4081-9ed2-e30b0fe345dd/swz68_overdrive-thruster.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 2},
-                {1, 3},
-                {2, 4},
-                {3, 5},
-                {4, 6},
-                {5, 7},
-                {6, 8}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

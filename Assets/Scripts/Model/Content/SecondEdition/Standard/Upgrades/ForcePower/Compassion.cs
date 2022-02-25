@@ -1,4 +1,5 @@
-﻿using Upgrade;
+﻿using Content;
+using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
@@ -12,7 +13,7 @@ namespace UpgradesList.SecondEdition
                 "Compassion",
                 UpgradeType.ForcePower,
                 cost: 1,
-                restriction: new ForceAlignmentRestriction(ForceAlignment.Light),
+                restriction: new TagRestriction(Tags.LightSide),
                 abilityType: typeof(Abilities.SecondEdition.CompassionAbility)       
             );
 

@@ -6,35 +6,19 @@ using ActionsList;
 
 namespace UpgradesList.SecondEdition
 {
-    public class AfterBurners : GenericUpgrade, IVariableCost
+    public class AfterBurners : GenericUpgrade
     {
         public AfterBurners() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "AfterBurners",
                 UpgradeType.Modification,
-                cost: 0,
+                cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.AfterBurnersAbility),
                 charges: 2,
                 restriction: new BaseSizeRestriction(BaseSize.Small),
                 seImageNumber: 70
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 4},
-                {1, 4},
-                {2, 4},
-                {3, 4},
-                {4, 5},
-                {5, 6},
-                {6, 7}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

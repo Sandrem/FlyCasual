@@ -8,7 +8,7 @@ namespace Ship
 {
     namespace SecondEdition.TIEAgAggressor
     {
-        public class TIEAgAggressor : FirstEdition.TIEAggressor.TIEAggressor, TIE
+        public class TIEAgAggressor : FirstEdition.TIEAggressor.TIEAggressor
         {
             public TIEAgAggressor() : base()
             {

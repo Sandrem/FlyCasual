@@ -8,7 +8,6 @@ namespace Ship
     public class PilotCardInfo25 : PilotCardInfo
     {
         private static Faction factionOverride;
-        private static ForceAlignment forceAlignmentOverride;
 
         public int LoadoutValue { get; }
         public string SkinName { get; }
@@ -35,7 +34,7 @@ namespace Ship
             string skinName = null,
             List<Tags> tags = null,
             List<Legality> legality = null) : base(pilotName, initiative, cost, isLimited, limited, abilityType, pilotTitle, force, charges, regensCharges,
-            extraUpgradeIcon, extraUpgradeIcons, factionOverride, forceAlignmentOverride, seImageNumber, abilityText)
+            extraUpgradeIcon, extraUpgradeIcons, factionOverride, seImageNumber, abilityText)
         {
             PilotName = pilotName;
             PilotTitle = pilotTitle;

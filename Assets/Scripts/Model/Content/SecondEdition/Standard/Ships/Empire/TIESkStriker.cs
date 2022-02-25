@@ -16,7 +16,7 @@ namespace Ship
 {
     namespace SecondEdition.TIESkStriker
     {
-        public class TIESkStriker : GenericShip, TIE
+        public class TIESkStriker : GenericShip
         {
             public TIESkStriker() : base()
             {

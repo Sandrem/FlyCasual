@@ -8,7 +8,7 @@ namespace Ship
 {
     namespace SecondEdition.TIESaBomber
     {
-        public class TomaxBren : TIESaBomber, TIE
+        public class TomaxBren : TIESaBomber
         {
             public TomaxBren() : base()
             {

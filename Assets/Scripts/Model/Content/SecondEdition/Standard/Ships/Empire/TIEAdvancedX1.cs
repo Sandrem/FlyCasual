@@ -13,7 +13,7 @@ namespace Ship
 {
     namespace SecondEdition.TIEAdvancedX1
     {
-        public class TIEAdvancedX1 : GenericShip, TIE
+        public class TIEAdvancedX1 : GenericShip
         {
             public TIEAdvancedX1() : base()
             {

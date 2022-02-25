@@ -10,7 +10,7 @@ namespace Ship
 {
     namespace SecondEdition.TIEFoFighter
     {
-        public class TIEFoFighter : GenericShip, TIE
+        public class TIEFoFighter : GenericShip
         {
             public TIEFoFighter() : base()
             {

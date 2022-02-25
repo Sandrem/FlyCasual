@@ -8,14 +8,14 @@ using Ship;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SnapShot : GenericSpecialWeapon, IVariableCost
+    public class SnapShot : GenericSpecialWeapon
     {
         public SnapShot() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "SnapShot",
                 UpgradeType.Talent,
-                cost: 7,
+                cost: 9,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     minRange: 2,
@@ -26,18 +26,6 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/0c/6b/0c6b9e6c-7c2f-4322-bcf0-f6f2fce44323/swz47_upgrade-snap-shot.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
-            {
-                {BaseSize.Small, 7},
-                {BaseSize.Medium, 8},
-                {BaseSize.Large, 9},
-            };
-
-            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
         }
     }
 }

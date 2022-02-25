@@ -9,7 +9,7 @@ namespace Ship
 {
     namespace SecondEdition.TIECaPunisher
     {
-        public class TIECaPunisher : FirstEdition.TIEPunisher.TIEPunisher, TIE
+        public class TIECaPunisher : FirstEdition.TIEPunisher.TIEPunisher
         {
             public TIECaPunisher() : base()
             {

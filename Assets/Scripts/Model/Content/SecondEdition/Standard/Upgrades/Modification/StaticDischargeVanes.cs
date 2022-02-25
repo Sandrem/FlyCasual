@@ -1,6 +1,8 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using System;
+using System.Collections.Generic;
 using Tokens;
 using UnityEngine;
 using Upgrade;
@@ -11,12 +13,14 @@ namespace UpgradesList.SecondEdition
     {
         public StaticDischargeVanes() : base()
         {
-            UpgradeInfo = new UpgradeCardInfo(
+            UpgradeInfo = new UpgradeCardInfo
+            (
                 "Static Discharge Vanes",
                 UpgradeType.Modification,
                 cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.StaticDischargeVanesAbility),
-                seImageNumber: 76
+                seImageNumber: 76,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
         }
     }

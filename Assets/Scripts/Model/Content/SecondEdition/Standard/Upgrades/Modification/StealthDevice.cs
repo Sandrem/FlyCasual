@@ -1,33 +1,23 @@
 ﻿using Upgrade;
 using Ship;
 using System.Collections.Generic;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
-    public class StealthDevice : GenericUpgrade, IVariableCost
+    public class StealthDevice : GenericUpgrade
     {
         public StealthDevice() : base()
         {
-            UpgradeInfo = new UpgradeCardInfo(
+            UpgradeInfo = new UpgradeCardInfo
+            (
                 "Stealth Device",
                 UpgradeType.Modification,
-                cost: 3,
+                cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.StealthDeviceAbility),
-                seImageNumber: 77
+                seImageNumber: 77,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
-            {
-                {0, 3},
-                {1, 4},
-                {2, 6},
-                {3, 8}
-            };
-
-            UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];
         }
     }
 }

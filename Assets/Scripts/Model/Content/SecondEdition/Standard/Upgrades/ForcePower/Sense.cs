@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,8 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.ForcePower,
                 cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.SenseAbility),
-                seImageNumber: 21
+                seImageNumber: 21,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
         }        
     }

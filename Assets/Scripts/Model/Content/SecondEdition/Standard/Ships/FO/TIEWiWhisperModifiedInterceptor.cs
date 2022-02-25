@@ -10,7 +10,7 @@ using Upgrade;
 
 namespace Ship.SecondEdition.TIEWiWhisperModifiedInterceptor
 {
-    public class TIEWiWhisperModifiedInterceptor : GenericShip, TIE
+    public class TIEWiWhisperModifiedInterceptor : GenericShip
     {
         public TIEWiWhisperModifiedInterceptor() : base()
         {

@@ -12,7 +12,7 @@ namespace Ship
 {
     namespace SecondEdition.TIEVnSilencer
     {
-        public class TIEVnSilencer : GenericShip, TIE
+        public class TIEVnSilencer : GenericShip
         {
             public TIEVnSilencer() : base()
             {

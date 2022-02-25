@@ -8,7 +8,7 @@ namespace Ship
 {
     namespace SecondEdition.TIESaBomber
     {
-        public class CaptainJonus : TIESaBomber, TIE
+        public class CaptainJonus : TIESaBomber
         {
             public CaptainJonus() : base()
             {

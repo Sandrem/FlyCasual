@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Talent,
                 cost: 2,
                 restrictions: new UpgradeCardRestrictions(
-                    new ShipRestriction(typeof(Ship.SecondEdition.T65XWing.T65XWing), typeof(Ship.SecondEdition.T70XWing.T70XWing)),
+                    new TagRestriction(Content.Tags.XWing),
                     new UpgradePresentRestriction(UpgradeType.Configuration)
                 ),
                 abilityType: typeof(Abilities.SecondEdition.BackwardsTailslideAbility)

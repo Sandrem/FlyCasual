@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
-    public class R2D2 : GenericUpgrade, IVariableCost
+    public class R2D2 : GenericUpgrade
     {
         public R2D2() : base()
         {
@@ -19,19 +19,6 @@ namespace UpgradesList.SecondEdition
                 charges: 3,
                 seImageNumber: 100
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
-            {
-                {0, 4},
-                {1, 6},
-                {2, 8},
-                {3, 10}
-            };
-
-            UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];
         }
     }
 }

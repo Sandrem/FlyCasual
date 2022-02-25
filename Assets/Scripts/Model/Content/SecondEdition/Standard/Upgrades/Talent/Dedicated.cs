@@ -17,8 +17,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.DedicatedAbility),
                 restrictions: new UpgradeCardRestrictions
                 (
-                    new FactionRestriction(Faction.Republic)
-                    //TODO: Clone tag
+                    new FactionRestriction(Faction.Republic),
+                    new TagRestriction(Content.Tags.Clone)
                 )
             );
 

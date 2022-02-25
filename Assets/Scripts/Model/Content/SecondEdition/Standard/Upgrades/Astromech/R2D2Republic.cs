@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace UpgradesList.SecondEdition
 {
-    public class R2D2Republic : GenericUpgrade, IVariableCost
+    public class R2D2Republic : GenericUpgrade
     {
         public R2D2Republic() : base()
         {
@@ -26,19 +26,6 @@ namespace UpgradesList.SecondEdition
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c3/6f/c36f6f13-6998-4120-acbf-3c85132ea416/swz79_r2d2.png";
 
             NameCanonical = "r2d2-republic";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
-            {
-                {0, 4},
-                {1, 6},
-                {2, 8},
-                {3, 10}
-            };
-
-            UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];
         }
     }
 }

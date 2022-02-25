@@ -5,6 +5,8 @@ using Conditions;
 using Tokens;
 using BoardTools;
 using UnityEngine;
+using Content;
+using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,7 +20,8 @@ namespace UpgradesList.SecondEdition
                 cost: 4,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.InformantAbility),
-                seImageNumber: 44
+                seImageNumber: 44,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(

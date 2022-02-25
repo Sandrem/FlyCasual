@@ -7,7 +7,7 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class BattleMeditation : GenericUpgrade, IVariableCost
+    public class BattleMeditation : GenericUpgrade
     {
         public BattleMeditation() : base()
         {
@@ -22,22 +22,6 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e3/0b/e30ba082-91c7-408b-9738-d631079911c7/swz32_battle-meditation.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 3},
-                {1, 3},
-                {2, 3},
-                {3, 3},
-                {4, 4},
-                {5, 6},
-                {6, 8}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

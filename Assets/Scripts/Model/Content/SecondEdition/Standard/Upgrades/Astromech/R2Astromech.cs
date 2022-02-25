@@ -7,31 +7,18 @@ using Tokens;
 
 namespace UpgradesList.SecondEdition
 {
-    public class R2Astromech : GenericUpgrade, IVariableCost
+    public class R2Astromech : GenericUpgrade
     {
         public R2Astromech() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "R2 Astromech",
                 UpgradeType.Astromech,
-                cost: 3,
+                cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.R2AstromechAbility),
                 charges: 2,
                 seImageNumber: 53
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
-            {
-                {0, 3},
-                {1, 4},
-                {2, 5},
-                {3, 8}
-            };
-
-            UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -12,7 +14,8 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Talent,
                 cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.IntimidationAbility),
-                seImageNumber: 7
+                seImageNumber: 7,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
         }        
     }

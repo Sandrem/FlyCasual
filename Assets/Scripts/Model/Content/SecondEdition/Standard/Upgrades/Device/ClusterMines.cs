@@ -18,7 +18,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Cluster Mines",
                 UpgradeType.Device,
-                cost: 7,
+                cost: 5,
                 charges: 1,
                 cannotBeRecharged: true,
                 subType: UpgradeSubType.Mine

@@ -10,7 +10,7 @@ namespace Ship
 {
     namespace SecondEdition.TIESaBomber
     {
-        public class TIESaBomber : FirstEdition.TIEBomber.TIEBomber, TIE
+        public class TIESaBomber : FirstEdition.TIEBomber.TIEBomber
         {
             public TIESaBomber() : base()
             {

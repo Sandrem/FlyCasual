@@ -3,32 +3,23 @@ using Upgrade;
 using ActionsList;
 using System;
 using System.Collections.Generic;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
-    public class AdvancedSensors : GenericUpgrade, IVariableCost
+    public class AdvancedSensors : GenericUpgrade
     {
         public AdvancedSensors() : base()
         {
-            UpgradeInfo = new UpgradeCardInfo(
+            UpgradeInfo = new UpgradeCardInfo
+            (
                 "Advanced Sensors",
                 UpgradeType.Sensor,
-                cost: 10,
+                cost: 12,
                 abilityType: typeof(Abilities.SecondEdition.AdvancedSensorsAbility),
-                seImageNumber: 23
+                seImageNumber: 23,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
-            {
-                {BaseSize.Small, 13},
-                {BaseSize.Medium, 11},
-                {BaseSize.Large, 9},
-            };
-
-            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
         }
     }
 }

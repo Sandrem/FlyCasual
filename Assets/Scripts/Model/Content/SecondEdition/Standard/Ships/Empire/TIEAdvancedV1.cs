@@ -11,7 +11,7 @@ namespace Ship
 {
     namespace SecondEdition.TIEAdvancedV1
     {
-        public class TIEAdvancedV1 : GenericShip, TIE
+        public class TIEAdvancedV1 : GenericShip
         {
             public TIEAdvancedV1() : base()
             {

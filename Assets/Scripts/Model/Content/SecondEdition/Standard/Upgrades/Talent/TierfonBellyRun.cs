@@ -16,10 +16,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Talent,
                 cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.TierfonBellyRunAbility),
-                restriction: new ShipRestriction(
-                    typeof(Ship.SecondEdition.BTLA4YWing.BTLA4YWing),
-                    typeof(Ship.SecondEdition.BTLBYWing.BTLBYWing)
-                )
+                restriction: new TagRestriction(Content.Tags.YWing)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e1/fc/e1fc1361-b9c1-4c44-8144-1bb7a16da4f3/swz85_upgrade_tierfonbellyrun.png";

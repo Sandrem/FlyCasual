@@ -7,6 +7,7 @@ using System;
 using Editions;
 using Upgrade;
 using Players;
+using Content;
 
 namespace Ship
 {
@@ -15,9 +16,6 @@ namespace Ship
     {
         void ModifyPilotSkill(ref int pilotSkill);
     }
-
-    public interface TIE { } //marker interface for ships that counts as "TIEs", ie. Twin Ion Engine MkII
-    public interface AWing { } //marker interface for ships that counts as "A-Wing", ie. Starbird Slash
 
     public partial class GenericShip : IImageHolder, IBoardObject
     {
@@ -405,36 +403,11 @@ namespace Ship
             State.Charges = State.MaxCharges;
         }
 
-        public bool CanEquipForceAlignedCard(ForceAlignment alignment)
+        public bool CanEquipTagRestrictedUpgrade(Tags tag)
         {
-            var result = false;
+            var result = ((PilotInfo as PilotCardInfo25).Tags.Contains(tag));
 
-            if (PilotInfo.ForceAlignment != ForceAlignment.None)
-            {
-                result = PilotInfo.ForceAlignment == alignment;
-            }
-            else
-            {
-                switch (alignment)
-                {
-                    case ForceAlignment.Light:
-                        result = Faction == Faction.Republic ||
-                                 Faction == Faction.Rebel ||
-                                 Faction == Faction.Resistance;
-                        break;
-                    case ForceAlignment.Dark:
-                        result = Faction == Faction.Separatists ||
-                                 Faction == Faction.Imperial ||
-                                 Faction == Faction.FirstOrder ||
-                                 Faction == Faction.Scum;
-                        break;
-                    default:
-                        result = true;
-                        break;
-                }
-            }
-
-            OnForceAlignmentEquipCheck?.Invoke(alignment, ref result);
+            OnUpgradeEquipTagCheck?.Invoke(tag, ref result);
 
             return result;
         }

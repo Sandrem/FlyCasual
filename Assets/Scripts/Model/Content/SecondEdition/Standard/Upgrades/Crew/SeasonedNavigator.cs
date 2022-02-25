@@ -3,19 +3,21 @@ using Upgrade;
 using System.Collections.Generic;
 using Movement;
 using UnityEngine;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
-    public class SeasonedNavigator : GenericUpgrade, IVariableCost
+    public class SeasonedNavigator : GenericUpgrade
     {
         public SeasonedNavigator() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Seasoned Navigator",
                 UpgradeType.Crew,
-                cost: 3,
+                cost: 7,
                 abilityType: typeof(Abilities.SecondEdition.SeasonedNavigatorAbility),
-                seImageNumber: 47
+                seImageNumber: 47,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(
@@ -23,24 +25,6 @@ namespace UpgradesList.SecondEdition
                 new Vector2(369, 24),
                 new Vector2(125, 125)
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 2},
-                {1, 3},
-                {2, 4},
-                {3, 5},
-                {4, 6},
-                {5, 7},
-                {6, 8},
-                {7, 9},
-                {8, 10}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

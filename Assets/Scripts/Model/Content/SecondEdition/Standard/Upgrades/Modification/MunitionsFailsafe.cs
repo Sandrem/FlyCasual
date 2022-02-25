@@ -9,11 +9,14 @@ namespace UpgradesList.SecondEdition
     {
         public MunitionsFailsafe() : base()
         {
-            UpgradeInfo = new UpgradeCardInfo("Munitions Failsafe",
+            UpgradeInfo = new UpgradeCardInfo
+            (
+                "Munitions Failsafe",
                 UpgradeType.Modification,
                 cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.MunitionsFailsafeAbility),
-                seImageNumber: 74);
+                seImageNumber: 74
+            );
         }
     }
 }

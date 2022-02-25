@@ -10,14 +10,14 @@ using UnityEngine;
 
 namespace UpgradesList.SecondEdition
 {
-    public class VeteranTurretGunner : GenericUpgrade, IVariableCost
+    public class VeteranTurretGunner : GenericUpgrade
     {
         public VeteranTurretGunner() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Veteran Turret Gunner",
                 UpgradeType.Gunner,
-                cost: 10,
+                cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.VeteranTurretGunnerAbility),
                 restriction: new ActionBarRestriction(typeof(RotateArcAction)),
                 seImageNumber: 52
@@ -28,18 +28,6 @@ namespace UpgradesList.SecondEdition
                 new Vector2(423, 17),
                 new Vector2(150, 150)
             );
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<BaseSize, int> sizeToCost = new Dictionary<BaseSize, int>()
-            {
-                {BaseSize.Small, 11},
-                {BaseSize.Medium, 8},
-                {BaseSize.Large, 7},
-            };
-
-            UpgradeInfo.Cost = sizeToCost[ship.ShipInfo.BaseSize];
         }
     }
 }

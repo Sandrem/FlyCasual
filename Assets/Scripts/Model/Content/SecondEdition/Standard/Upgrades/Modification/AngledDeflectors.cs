@@ -6,14 +6,14 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class AngledDeflectors : GenericUpgrade, IVariableCost
+    public class AngledDeflectors : GenericUpgrade
     {
         public AngledDeflectors() : base()
         {
             UpgradeInfo = new UpgradeCardInfo(
                 "Angled Deflectors",
                 UpgradeType.Modification,
-                cost: 6,
+                cost: 4,
                 restrictions: new UpgradeCardRestrictions(
                     new BaseSizeRestriction(BaseSize.Small, BaseSize.Medium), 
                     new StatValueRestriction(
@@ -27,19 +27,6 @@ namespace UpgradesList.SecondEdition
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/50/91/5091f169-b8ea-449a-909d-9d8dd39b2efb/swz45_angled-deflectors.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> agilityToCost = new Dictionary<int, int>()
-            {
-                {0, 6},
-                {1, 3},
-                {2, 1},
-                {3, 1}
-            };
-
-            UpgradeInfo.Cost = agilityToCost[ship.ShipInfo.Agility];
         }
     }
 }

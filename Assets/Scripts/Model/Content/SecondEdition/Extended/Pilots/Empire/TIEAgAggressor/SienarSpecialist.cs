@@ -2,7 +2,7 @@
 {
     namespace SecondEdition.TIEAgAggressor
     {
-        public class SienarSpecialist : TIEAgAggressor, TIE
+        public class SienarSpecialist : TIEAgAggressor
         {
             public SienarSpecialist() : base()
             {

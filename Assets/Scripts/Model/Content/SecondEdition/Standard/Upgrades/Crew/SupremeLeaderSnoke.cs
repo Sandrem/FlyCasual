@@ -5,6 +5,7 @@ using UnityEngine;
 using SubPhases;
 using System;
 using BoardTools;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -23,7 +24,8 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 addForce: 1,                
                 restriction: new FactionRestriction(Faction.FirstOrder),
-                abilityType: typeof(Abilities.SecondEdition.SupremeLeaderSnokeAbility)
+                abilityType: typeof(Abilities.SecondEdition.SupremeLeaderSnokeAbility),
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(

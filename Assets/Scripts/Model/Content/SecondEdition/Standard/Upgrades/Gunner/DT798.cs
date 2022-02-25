@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
             (
                 "DT-798",
                 UpgradeType.Gunner,
-                cost: 5,
+                cost: 3,
                 restriction: new FactionRestriction(Faction.FirstOrder),
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DT798Ability)

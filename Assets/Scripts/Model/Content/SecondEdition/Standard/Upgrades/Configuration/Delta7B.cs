@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -14,7 +15,8 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Configuration,
                 cost: 15,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.Delta7Aethersprite.Delta7Aethersprite)),
-                abilityType: typeof(Abilities.SecondEdition.Delta7BAbility)
+                abilityType: typeof(Abilities.SecondEdition.Delta7BAbility),
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/d6/97/d697602c-8614-4192-a44d-986fa2d2fd7a/swz_delta-7b.png";

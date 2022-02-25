@@ -47,6 +47,8 @@ namespace Ship.SecondEdition.Delta7Aethersprite
 
             ShipAbilities.Add(new Abilities.SecondEdition.FineTunedControlsAbility());
 
+            DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.CalibratedLaserTargeting));
+
             ModelInfo = new ShipModelInfo
             (
                 "Delta-7 Aethersprite",

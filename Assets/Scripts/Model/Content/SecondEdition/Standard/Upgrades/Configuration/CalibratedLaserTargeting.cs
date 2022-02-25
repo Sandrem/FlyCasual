@@ -5,36 +5,20 @@ using Upgrade;
 
 namespace UpgradesList.SecondEdition
 {
-    public class CalibratedLaserTargeting : GenericUpgrade, IVariableCost
+    public class CalibratedLaserTargeting : GenericUpgrade
     {
         public CalibratedLaserTargeting() : base()
         {
-            UpgradeInfo = new UpgradeCardInfo(
+            UpgradeInfo = new UpgradeCardInfo
+            (
                 "Calibrated Laser Targeting",
                 types: new List<UpgradeType> { UpgradeType.Configuration, UpgradeType.Modification },
                 cost: 0,
                 restriction: new ShipRestriction(typeof(Ship.SecondEdition.Delta7Aethersprite.Delta7Aethersprite)),
                 abilityType: typeof(Abilities.SecondEdition.CalibratedLaserTargetingAbility)
-                //seImageNumber: ??
             );
             
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/4a/32/4a32d934-9d57-433c-8fb6-ce6c1cb52224/swz34_calibrated-laser-targeting.png";
-        }
-
-        public void UpdateCost(GenericShip ship)
-        {
-            Dictionary<int, int> initiativeToCost = new Dictionary<int, int>()
-            {
-                {0, 2},
-                {1, 2},
-                {2, 3},
-                {3, 4},
-                {4, 5},
-                {5, 6},
-                {6, 7}
-            };
-
-            UpgradeInfo.Cost = initiativeToCost[ship.PilotInfo.Initiative];
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using Tokens;
 using Ship;
-using GameModes;
+using Content;
 using Movement;
 
 namespace UpgradesList.SecondEdition
@@ -19,7 +19,8 @@ namespace UpgradesList.SecondEdition
                 cost: 6,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Republic),
-                abilityType: typeof(Abilities.SecondEdition.R2A6Ability)
+                abilityType: typeof(Abilities.SecondEdition.R2A6Ability),
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             ImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/c4/Swz40_card-r2-a6.png";

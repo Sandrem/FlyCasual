@@ -25,6 +25,11 @@ namespace Ship
             Actions.AddRange(actions.ToList());
         }
 
+        public void AddActionsFirst(params ActionInfo[] actions)
+        {
+            Actions.InsertRange(0, actions.ToList());
+        }
+
         public void RemoveActions(params Type[] actionTypes)
         {
             Actions.RemoveAll(a => actionTypes.Contains(a.ActionType));
@@ -43,7 +48,7 @@ namespace Ship
         public void SwitchToDroidActions()
         {
             RemoveActions(typeof(FocusAction));
-            AddActions(new ActionInfo(typeof(CalculateAction)));
+            AddActionsFirst(new ActionInfo(typeof(CalculateAction)));
 
             if (LinkedActions.Any(a => a.ActionType == typeof(BoostAction) && a.ActionLinkedType == typeof(FocusAction)))
             {

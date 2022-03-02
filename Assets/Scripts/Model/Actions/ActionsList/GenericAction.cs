@@ -113,7 +113,7 @@ namespace ActionsList
             * 55 - Free side to hit
             * 53 - Spend die with eye result
             * 50 - Regular Focus to hits if 1+
-            * 45 - Force to change eye to evade if 1
+            * 45 - Force to change eye to evade if 1 / charge to change eye to crit
             * 41 - Calculate
             * 40 - Regular Focus to hits if 1
             * 35 - Force to change eye to evade if 1+

@@ -119,31 +119,6 @@ namespace ActionsList.SecondEdition
 
 }
 
-namespace Abilities.FirstEdition
-{
-    public class JessPavaAbility : GenericAbility
-    {
-
-        public override void ActivateAbility()
-        {
-            HostShip.OnGenerateDiceModifications += AddJessPavaActionEffect;
-        }
-
-        public override void DeactivateAbility()
-        {
-            HostShip.OnGenerateDiceModifications -= AddJessPavaActionEffect;
-        }
-
-        private void AddJessPavaActionEffect(GenericShip host)
-        {
-            ActionsList.GenericAction newAction = new ActionsList.FirstEdition.JessPavaActionEffect();
-            newAction.HostShip = host;
-            newAction.ImageUrl = host.ImageUrl;
-            host.AddAvailableDiceModificationOwn(newAction);
-        }
-    }
-}
-
 namespace ActionsList.FirstEdition
 {
 

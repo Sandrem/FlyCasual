@@ -23,7 +23,7 @@ namespace Ship
                     Faction.Rebel,
                     6,
                     6,
-                    27,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HeraSyndullaABWingAbility),
                     extraUpgradeIcons: new List<UpgradeType>

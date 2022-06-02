@@ -1,7 +1,9 @@
 ﻿using Arcs;
-using Content;
+using BoardTools;
 using Ship;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Upgrade;
 
 namespace Ship
@@ -12,29 +14,14 @@ namespace Ship
         {
             public TheMandalorian() : base()
             {
-                PilotInfo = new PilotCardInfo25
+                PilotInfo = new PilotCardInfo
                 (
                     "The Mandalorian",
-                    "Din Djarin",
-                    Faction.Scum,
                     5,
-                    7,
-                    28,
+                    55,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TheMandalorianAbility),
-                    extraUpgradeIcons: new List<UpgradeType>
-                    {
-                        UpgradeType.Talent,
-                        UpgradeType.Talent,
-                        UpgradeType.Crew,
-                        UpgradeType.Cannon,
-                        UpgradeType.Illicit,
-                        UpgradeType.Title
-                    },
-                    tags: new List<Tags>
-                    {
-                        Tags.Mandalorian
-                    }
+                    extraUpgradeIcon: UpgradeType.Talent
                 );
 
                 ImageUrl = "https://i.imgur.com/Ncx2wka.png";

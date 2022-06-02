@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.TIEDDefender
                 Faction.Imperial,
                 3,
                 7,
-                12,
+                15,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.CaptainDobbsAbility),
                 extraUpgradeIcons: new List<UpgradeType>()

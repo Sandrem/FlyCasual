@@ -18,14 +18,13 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 "Xi Char Offering",
                 Faction.Separatists,
                 1,
-                3,
-                8,
+                2,
+                4,
                 limited: 2,
                 abilityType: typeof(Abilities.SecondEdition.HaorChallPrototypeAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Missile,
-                    UpgradeType.Modification
+                    UpgradeType.Missile
                 },
                 tags: new List<Tags>
                 {

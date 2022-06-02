@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Rebel,
                     4,
                     5,
-                    20,
+                    14,
                     isLimited: true,
                     abilityType: typeof(TenNumbAbility),
                     extraUpgradeIcons: new List<UpgradeType>

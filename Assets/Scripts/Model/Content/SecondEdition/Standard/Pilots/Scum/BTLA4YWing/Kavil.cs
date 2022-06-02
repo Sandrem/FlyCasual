@@ -16,7 +16,7 @@ namespace Ship
                     "Callous Corsair",
                     Faction.Scum,
                     5,
-                    6,
+                    5,
                     18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KavilAbility),

@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.DroidTriFighter
                 "Fixated Pursuit",
                 Faction.Separatists,
                 3,
-                5,
+                4,
                 16,
                 limited: 3,
                 abilityType: typeof(Abilities.SecondEdition.FearsomePredatorAbility),
@@ -28,7 +28,8 @@ namespace Ship.SecondEdition.DroidTriFighter
                 {
                     UpgradeType.Talent,
                     UpgradeType.Sensor,
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

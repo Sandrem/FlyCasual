@@ -1,6 +1,7 @@
 ﻿using Content;
 using Ship;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,10 +17,16 @@ namespace Ship
                     "CT-4981",
                     Faction.Republic,
                     5,
-                    2,
-                    0,
+                    3,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ContrailAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Clone,

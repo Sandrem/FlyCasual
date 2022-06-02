@@ -13,7 +13,7 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 "",
                 Faction.Republic,
                 3,
-                4,
+                6,
                 3,
                 force: 1,
                 tags: new List<Tags>

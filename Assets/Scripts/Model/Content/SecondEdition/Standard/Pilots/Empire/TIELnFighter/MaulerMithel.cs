@@ -18,14 +18,13 @@ namespace Ship
                     Faction.Imperial,
                     5,
                     3,
-                    3,
+                    4,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MaulerMithelAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Talent,
-                        UpgradeType.Modification
+                        UpgradeType.Cannon
                     },
                     tags: new List<Tags>
                     {

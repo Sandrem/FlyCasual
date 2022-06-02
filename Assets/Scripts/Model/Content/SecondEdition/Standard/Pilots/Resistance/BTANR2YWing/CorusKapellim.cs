@@ -22,7 +22,7 @@ namespace Ship
                     Faction.Resistance,
                     1,
                     4,
-                    14,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CorusKapellimAbility),
                     extraUpgradeIcons: new List<UpgradeType>

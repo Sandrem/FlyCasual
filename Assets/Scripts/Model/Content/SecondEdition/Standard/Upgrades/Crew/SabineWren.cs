@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SubPhases;
 using UnityEngine;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -20,7 +21,8 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.SabineWrenCrewAbility),
-                seImageNumber: 92
+                seImageNumber: 92,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(

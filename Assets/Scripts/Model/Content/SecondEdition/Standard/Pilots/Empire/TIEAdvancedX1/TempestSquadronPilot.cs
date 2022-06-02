@@ -16,11 +16,11 @@ namespace Ship
                     "",
                     Faction.Imperial,
                     2,
-                    3,
+                    4,
                     4,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Modification
+
                     },
                     tags: new List<Tags>
                     {

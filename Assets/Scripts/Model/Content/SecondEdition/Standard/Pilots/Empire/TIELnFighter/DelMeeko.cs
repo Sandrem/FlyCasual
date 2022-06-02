@@ -20,14 +20,13 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     3,
-                    4,
+                    6,
                     isLimited: true,
                     abilityType: typeof(DelMeekoAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Talent,
-                        UpgradeType.Modification
+                        UpgradeType.Cannon
                     },
                     tags: new List<Tags>
                     {

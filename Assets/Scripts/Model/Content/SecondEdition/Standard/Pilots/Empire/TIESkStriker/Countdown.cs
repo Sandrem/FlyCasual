@@ -19,8 +19,8 @@ namespace Ship
                     "Death Defier",
                     Faction.Imperial,
                     4,
-                    5,
-                    15,
+                    4,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CountdownAbility),
                     extraUpgradeIcons: new List<UpgradeType>

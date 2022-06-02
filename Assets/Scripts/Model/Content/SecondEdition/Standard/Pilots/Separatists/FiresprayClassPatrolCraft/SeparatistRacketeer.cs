@@ -13,7 +13,7 @@
                     Faction.Separatists,
                     2,
                     7,
-                    7,
+                    10,
                     skinName: "Jango Fett"
                 );
 

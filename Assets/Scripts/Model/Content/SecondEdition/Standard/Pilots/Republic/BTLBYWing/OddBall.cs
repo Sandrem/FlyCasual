@@ -16,8 +16,8 @@ namespace Ship
                     "CC-2237",
                     Faction.Republic,
                     5,
-                    5,
-                    18,
+                    4,
+                    15,
                     isLimited: true,
                     //January 2020 errata: Should read: "After you fully execute...":
                     abilityText: "After you fully execute a red maneuver or perform a red action, if there is an enemy ship in your bullseye arc, you may acquire a lock on that ship.",

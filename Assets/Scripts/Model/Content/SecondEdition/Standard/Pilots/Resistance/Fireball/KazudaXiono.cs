@@ -16,7 +16,7 @@ namespace Ship
                     Faction.Resistance,
                     4,
                     4,
-                    10,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KazudaXionoAbility),
                     extraUpgradeIcons: new List<UpgradeType>

@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Republic,
                     6,
                     6,
-                    28,
+                    23,
                     isLimited: true,
                     force: 3,
                     abilityText: "After you fully execute a maneuver, if there is an enemy ship in your standard front arc at range 0-1 or in your bullseye arc, you may spend 1 force to remove 1 stress token.",

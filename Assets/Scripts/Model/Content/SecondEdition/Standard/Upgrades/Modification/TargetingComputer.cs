@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Targeting Computer",
                 UpgradeType.Modification,
-                cost: 3,
+                cost: 1,
                 addAction: new ActionInfo(typeof(TargetLockAction))
             );
 

@@ -12,7 +12,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Special Forces Gunner",
                 UpgradeType.Gunner,
-                cost: 9,
+                cost: 5,
                 restrictions: new UpgradeCardRestrictions(
                     new FactionRestriction(Faction.FirstOrder),
                     new ShipRestriction(typeof(Ship.SecondEdition.TIESfFighter.TIESfFighter))

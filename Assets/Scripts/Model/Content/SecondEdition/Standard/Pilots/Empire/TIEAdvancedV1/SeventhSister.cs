@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     5,
-                    11,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SeventhSisterAbility),
                     force: 2,
@@ -27,7 +27,8 @@ namespace Ship
                     {
                         UpgradeType.ForcePower,
                         UpgradeType.Talent,
-                        UpgradeType.Cannon
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
                     },
                     tags: new List<Tags>
                     {

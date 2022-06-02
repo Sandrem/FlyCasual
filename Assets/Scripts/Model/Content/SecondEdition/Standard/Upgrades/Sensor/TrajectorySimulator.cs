@@ -3,6 +3,7 @@ using Movement;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -15,7 +16,8 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Sensor,
                 cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.TrajectorySimulatorAbility),
-                seImageNumber: 26
+                seImageNumber: 26,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
         }        
     }

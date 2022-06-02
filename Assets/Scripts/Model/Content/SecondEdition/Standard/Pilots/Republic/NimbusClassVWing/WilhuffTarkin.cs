@@ -23,7 +23,7 @@ namespace Ship
                     Faction.Republic,
                     3,
                     3,
-                    10,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WilhuffTarkinAbility),
                     extraUpgradeIcons: new List<UpgradeType>

@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Scum,
                     4,
                     7,
-                    12,
+                    17,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EmonAzzameenAbility),
                     extraUpgradeIcons: new List<UpgradeType>

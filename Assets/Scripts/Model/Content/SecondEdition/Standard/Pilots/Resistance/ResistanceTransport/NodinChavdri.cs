@@ -19,7 +19,7 @@ namespace Ship.SecondEdition.ResistanceTransport
                 Faction.Resistance,
                 2,
                 5,
-                16,
+                20,
                 isLimited: true,
                 abilityType: typeof(NodinChavdriGoodeAbility),
                 extraUpgradeIcons: new List<UpgradeType>

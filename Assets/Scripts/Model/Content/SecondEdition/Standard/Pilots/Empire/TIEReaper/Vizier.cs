@@ -19,8 +19,8 @@ namespace Ship
                     "Ruthless Tactician",
                     Faction.Imperial,
                     2,
-                    5,
-                    14,
+                    4,
+                    12,
                     isLimited: true,
                     abilityType: typeof(VizierAbility),
                     extraUpgradeIcons: new List<UpgradeType>

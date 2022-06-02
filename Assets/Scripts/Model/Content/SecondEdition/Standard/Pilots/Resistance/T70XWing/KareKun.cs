@@ -18,7 +18,7 @@ namespace Ship
                     Faction.Resistance,
                     4,
                     5,
-                    13,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KareKunAbility),
                     extraUpgradeIcons: new List<UpgradeType>

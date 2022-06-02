@@ -22,8 +22,8 @@ namespace Ship
                     "Reluctant Rebel",
                     Faction.Rebel,
                     6,
-                    5,
-                    15,
+                    4,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FennRauRebelAbility),
                     extraUpgradeIcons: new List<UpgradeType>

@@ -18,12 +18,13 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 Faction.Republic,
                 3,
                 4,
-                12,
+                13,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.SwoopAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
+                    UpgradeType.Missile,
                     UpgradeType.Missile
                 },
                 tags: new List<Tags>

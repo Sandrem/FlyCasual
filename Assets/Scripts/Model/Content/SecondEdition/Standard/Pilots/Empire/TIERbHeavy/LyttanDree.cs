@@ -19,14 +19,14 @@ namespace Ship
                     "Onyx 2",
                     Faction.Imperial,
                     3,
-                    4,
-                    10,
+                    5,
+                    14,
                     abilityType: typeof(Abilities.SecondEdition.LyttanDreePilotAbility),
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Sensor,
-                        UpgradeType.Modification,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

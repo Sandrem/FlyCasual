@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Commander Malarus",
                 UpgradeType.Crew,
-                cost: 3,
+                cost: 2,
                 restriction: new FactionRestriction(Faction.FirstOrder),
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.CommanderMalarusCrewAbility)

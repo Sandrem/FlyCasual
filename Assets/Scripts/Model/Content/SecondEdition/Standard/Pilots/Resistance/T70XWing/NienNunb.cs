@@ -20,8 +20,8 @@ namespace Ship
                     "Sarcastic Survivor",
                     Faction.Resistance,
                     5,
-                    6,
-                    13,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NienNunbAbility),
                     extraUpgradeIcons: new List<UpgradeType>

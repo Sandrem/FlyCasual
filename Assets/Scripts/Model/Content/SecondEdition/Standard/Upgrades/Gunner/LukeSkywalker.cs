@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Luke Skywalker",
                 UpgradeType.Gunner,
-                cost: 16,
+                cost: 12,
                 isLimited: true,
                 addForce: 1,
                 restriction: new FactionRestriction(Faction.Rebel),

@@ -18,7 +18,7 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 Faction.Republic,
                 3,
                 4,
-                9,
+                7,
                 isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.AhsokaTanoAbility),

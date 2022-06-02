@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
             (
                 "B6 Blade Wing Prototype",
                 UpgradeType.Title,
-                cost: 1,
+                cost: 0,
                 isLimited: true,
                 addSlot: new UpgradeSlot(UpgradeType.Gunner),
                 restrictions: new UpgradeCardRestrictions

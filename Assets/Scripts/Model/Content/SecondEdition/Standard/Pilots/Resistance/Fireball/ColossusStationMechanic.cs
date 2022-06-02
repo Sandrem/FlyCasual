@@ -16,7 +16,7 @@ namespace Ship
                     Faction.Resistance,
                     2,
                     3,
-                    2,
+                    5,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Missile,

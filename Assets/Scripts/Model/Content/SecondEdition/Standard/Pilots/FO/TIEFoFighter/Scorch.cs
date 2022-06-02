@@ -19,13 +19,13 @@ namespace Ship
                     Faction.FirstOrder,
                     4,
                     3,
-                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ScorchAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Tech,
+                        UpgradeType.Talent,
                         UpgradeType.Tech,
                         UpgradeType.Modification
                     },

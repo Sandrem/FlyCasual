@@ -1,6 +1,7 @@
 ﻿using Ship;
 using System.Collections.Generic;
 using Upgrade;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -11,9 +12,10 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Hull Upgrade",
                 UpgradeType.Modification,
-                cost: 4,
+                cost: 6,
                 addHull: 1,
-                seImageNumber: 73
+                seImageNumber: 73,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
         }
     }

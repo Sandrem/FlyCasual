@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.Eta2Actis
                 "Hero of Coruscant",
                 Faction.Republic,
                 6,
-                7,
+                6,
                 20,
                 isLimited: true,
                 force: 3,

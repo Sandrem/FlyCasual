@@ -18,8 +18,8 @@ namespace Ship
                     "Wrathful Wingmate",
                     Faction.FirstOrder,
                     3,
+                    5,
                     6,
-                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AvengerAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

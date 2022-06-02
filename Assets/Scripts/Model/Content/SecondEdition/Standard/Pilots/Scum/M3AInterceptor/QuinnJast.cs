@@ -19,8 +19,8 @@ namespace Ship
                     "Fortune Seeker",
                     Faction.Scum,
                     3,
-                    4,
-                    11,
+                    3,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.QuinnJastAbility),
                     extraUpgradeIcons: new List<UpgradeType>

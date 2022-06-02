@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Baze Malbus",
                 UpgradeType.Crew,
-                cost: 3,
+                cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.BazeMalbusCrewAbility),

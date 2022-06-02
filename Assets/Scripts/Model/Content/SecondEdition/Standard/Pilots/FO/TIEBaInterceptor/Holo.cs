@@ -23,12 +23,13 @@ namespace Ship
                     "Trick of the Light",
                     Faction.FirstOrder,
                     5,
-                    6,
+                    5,
                     12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HoloAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
+                        UpgradeType.Missile,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

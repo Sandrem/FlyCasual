@@ -21,8 +21,8 @@ namespace Ship
                     "Ordnance Expert",
                     Faction.FirstOrder,
                     5,
-                    6,
-                    20,
+                    5,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BreachPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

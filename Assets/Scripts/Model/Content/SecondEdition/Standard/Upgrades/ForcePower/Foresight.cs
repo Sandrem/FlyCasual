@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Foresight",
                 UpgradeType.ForcePower,
-                cost: 5,
+                cost: 6,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     arc: Arcs.ArcType.Bullseye,

@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Resistance,
                     3,
                     5,
-                    12,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JophSeastrikerAbility),
                     extraUpgradeIcons: new List<UpgradeType>

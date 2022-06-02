@@ -36,7 +36,6 @@ namespace Ship.SecondEdition.NabooRoyalN1Starfighter
                 new ShipUpgradesInfo
                 (
                     UpgradeType.Sensor,
-                    UpgradeType.Torpedo,
                     UpgradeType.Astromech
                 ),
                 abilityText: "<b>Full Throttle:</b> After you fully execute a speed 3-5 maneuver, you may perform an evade action."

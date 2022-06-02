@@ -18,8 +18,8 @@ namespace Ship
                     "Tansarii Point Crime Lord",
                     Faction.Scum,
                     4,
-                    5,
-                    20,
+                    4,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GenesisRedAbility),
                     extraUpgradeIcons: new List<UpgradeType>

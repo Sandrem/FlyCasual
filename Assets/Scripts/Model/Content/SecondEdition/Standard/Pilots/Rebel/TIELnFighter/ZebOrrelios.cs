@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Rebel,
                     2,
                     3,
-                    6,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZebOrreliosPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>

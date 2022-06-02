@@ -4,6 +4,7 @@ using Ship;
 using System;
 using System.Collections.Generic;
 using Tokens;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -17,7 +18,8 @@ namespace UpgradesList.SecondEdition
                 cost: 6,
                 abilityType: typeof(Abilities.SecondEdition.R2AstromechAbility),
                 charges: 2,
-                seImageNumber: 53
+                seImageNumber: 53,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
         }
     }

@@ -2,6 +2,8 @@
 using Upgrade;
 using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
+using Content;
 
 namespace UpgradesList.SecondEdition
 {
@@ -16,7 +18,8 @@ namespace UpgradesList.SecondEdition
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.AdmiralSloaneCrewAbility),
-                seImageNumber: 109
+                seImageNumber: 109,
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(

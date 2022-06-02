@@ -16,7 +16,7 @@ namespace Ship
                     "Green Four",
                     Faction.Rebel,
                     4,
-                    3,
+                    4,
                     7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SharaBeyAbility),

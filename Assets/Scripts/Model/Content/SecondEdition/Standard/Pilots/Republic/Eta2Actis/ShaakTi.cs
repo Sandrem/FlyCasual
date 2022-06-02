@@ -20,12 +20,13 @@ namespace Ship.SecondEdition.Eta2Actis
                 Faction.Republic,
                 4,
                 5,
-                8,
+                18,
                 isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.ShaakTiAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
+                    UpgradeType.ForcePower,
                     UpgradeType.Talent
                 },
                 tags: new List<Tags>

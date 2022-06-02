@@ -15,8 +15,8 @@ namespace Ship
                     "",
                     Faction.Imperial,
                     1,
-                    5,
-                    8,
+                    4,
+                    6,
                     tags: new List<Tags>
                     {
                         Tags.Tie

@@ -35,7 +35,6 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 ),
                 new ShipUpgradesInfo
                 (
-                    UpgradeType.Missile,
                     UpgradeType.Modification
                 ),
                 linkedActions: new List<LinkedActionInfo>

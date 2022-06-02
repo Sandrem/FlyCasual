@@ -21,16 +21,15 @@ namespace Ship
                     "Corona Four",
                     Faction.Rebel,
                     5,
-                    4,
-                    7,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ThaneKyrellAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
-                        UpgradeType.Astromech,
-                        UpgradeType.Modification
+                        UpgradeType.Astromech
                     },
                     tags: new List<Tags>
                     {

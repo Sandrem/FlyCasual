@@ -17,7 +17,7 @@ namespace Ship
                     "Simple Man",
                     Faction.Separatists,
                     6,
-                    9,
+                    8,
                     27,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JangoFettAbility),

@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Rebel,
                     3,
                     5,
-                    12,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BiggsDarklighterAbility),
                     extraUpgradeIcons: new List<UpgradeType>

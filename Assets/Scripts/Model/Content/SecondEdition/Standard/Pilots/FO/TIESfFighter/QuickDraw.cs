@@ -18,7 +18,7 @@ namespace Ship
                     Faction.FirstOrder,
                     6,
                     6,
-                    20,
+                    25,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.QuickDrawPilotAbility),
                     charges: 1,

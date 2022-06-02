@@ -19,7 +19,7 @@ namespace Ship
                     "Cutthroat Politico",
                     Faction.Imperial,
                     4,
-                    8,
+                    7,
                     12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CountessRyadAbility),

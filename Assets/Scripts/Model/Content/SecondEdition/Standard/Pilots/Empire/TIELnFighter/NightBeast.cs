@@ -2,6 +2,7 @@
 using Content;
 using Ship;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,10 +18,15 @@ namespace Ship
                     "Obsidian Two",
                     Faction.Imperial,
                     2,
-                    2,
-                    0,
+                    3,
+                    4,
                     isLimited: true,
                     abilityType: typeof(NightBeastAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Tie

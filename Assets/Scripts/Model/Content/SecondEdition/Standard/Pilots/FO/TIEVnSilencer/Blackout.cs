@@ -17,7 +17,7 @@ namespace Ship
                     Faction.FirstOrder,
                     5,
                     6,
-                    11,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TestPilotBlackoutAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

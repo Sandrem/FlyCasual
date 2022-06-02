@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Scum,
                     4,
                     3,
-                    9,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ForemanProachAbility),
                     extraUpgradeIcons: new List<UpgradeType>

@@ -5,6 +5,8 @@ using Tokens;
 using SubPhases;
 using System;
 using UnityEngine;
+using Content;
+using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
@@ -18,7 +20,8 @@ namespace UpgradesList.SecondEdition
                 cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.FirstOrder),
-                abilityType: typeof(Abilities.SecondEdition.CommanderPyreAbility)
+                abilityType: typeof(Abilities.SecondEdition.CommanderPyreAbility),
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             Avatar = new AvatarInfo(

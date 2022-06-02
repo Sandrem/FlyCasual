@@ -20,7 +20,7 @@ namespace UpgradesList.SecondEdition
                 "Discord Missiles",
                 UpgradeType.Missile,
                 subType: UpgradeSubType.Remote,
-                cost: 4,
+                cost: 3,
                 limited: 3,
                 charges: 1,
                 cannotBeRecharged: true,

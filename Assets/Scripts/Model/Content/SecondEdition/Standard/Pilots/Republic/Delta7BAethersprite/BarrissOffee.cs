@@ -21,7 +21,7 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 abilityType: typeof(Abilities.SecondEdition.BarrissOffeeAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Missile
+                    
                 },
                 tags: new List<Tags>
                 {

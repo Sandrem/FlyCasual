@@ -19,7 +19,7 @@ namespace Ship
                     "Inferno Leader",
                     Faction.Imperial,
                     4,
-                    4,
+                    3,
                     8,
                     isLimited: true,
                     abilityType: typeof(IdenVersioAbility),
@@ -29,7 +29,6 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Talent,
                         UpgradeType.Cannon,
-                        UpgradeType.Torpedo,
                         UpgradeType.Missile,
                         UpgradeType.Modification
                     },

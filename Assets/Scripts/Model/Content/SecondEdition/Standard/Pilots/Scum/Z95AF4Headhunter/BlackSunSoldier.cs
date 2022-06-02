@@ -19,7 +19,6 @@ namespace Ship
                     4,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Missile,
                         UpgradeType.Modification,
                         UpgradeType.Illicit
                     },

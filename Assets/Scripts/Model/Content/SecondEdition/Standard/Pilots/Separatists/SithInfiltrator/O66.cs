@@ -17,7 +17,7 @@ namespace Ship.SecondEdition.SithInfiltrator
                 Faction.Separatists,
                 3,
                 6,
-                11,
+                16,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.O66PilotAbility),
                 extraUpgradeIcons: new List<UpgradeType>

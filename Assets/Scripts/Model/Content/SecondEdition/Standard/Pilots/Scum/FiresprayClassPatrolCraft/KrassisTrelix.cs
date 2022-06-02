@@ -17,7 +17,7 @@ namespace Ship
                     "Imperial Deserter",
                     Faction.Scum,
                     3,
-                    8,
+                    7,
                     18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KrassisTrelixAbility),

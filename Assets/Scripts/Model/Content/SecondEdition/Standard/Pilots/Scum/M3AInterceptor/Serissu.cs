@@ -17,8 +17,8 @@ namespace Ship
                     "Flight Instructor",
                     Faction.Scum,
                     5,
-                    5,
-                    18,
+                    4,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SerissuAbility),
                     extraUpgradeIcons: new List<UpgradeType>

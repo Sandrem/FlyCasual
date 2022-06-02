@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "AfterBurners",
                 UpgradeType.Modification,
-                cost: 6,
+                cost: 10,
                 abilityType: typeof(Abilities.SecondEdition.AfterBurnersAbility),
                 charges: 2,
                 restriction: new BaseSizeRestriction(BaseSize.Small),

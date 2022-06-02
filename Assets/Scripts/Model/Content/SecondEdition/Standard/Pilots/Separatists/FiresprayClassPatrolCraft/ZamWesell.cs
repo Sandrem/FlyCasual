@@ -22,7 +22,7 @@ namespace Ship
                     "Clawdite Changeling",
                     Faction.Separatists,
                     5,
-                    10,
+                    9,
                     22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ZamWesellPilotAbility),

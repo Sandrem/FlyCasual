@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R4-P17",
                 UpgradeType.Astromech,
-                cost: 5,
+                cost: 4,
                 charges: 2,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.R4P17Ability),

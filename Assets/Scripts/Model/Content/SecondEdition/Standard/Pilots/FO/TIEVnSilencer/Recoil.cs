@@ -18,7 +18,7 @@ namespace Ship
                     Faction.FirstOrder,
                     4,
                     5,
-                    7,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RecoilAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Scum,
                     2,
                     4,
-                    4,
+                    5,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Turret,

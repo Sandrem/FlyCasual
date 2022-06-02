@@ -20,14 +20,14 @@ namespace Ship
                     Faction.Imperial,
                     5,
                     5,
-                    18,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MaarekSteleAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Sensor,
+                        UpgradeType.Missile,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

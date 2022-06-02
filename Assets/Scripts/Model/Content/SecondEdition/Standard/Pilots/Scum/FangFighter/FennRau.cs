@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Scum,
                     6,
                     7,
-                    12,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FennRauScumAbility),
                     extraUpgradeIcons: new List<UpgradeType>

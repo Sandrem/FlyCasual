@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Shield Upgrade",
                 UpgradeType.Modification,
-                cost: 6,
+                cost: 8,
                 addShields: 1,
                 seImageNumber: 75
             );

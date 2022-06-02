@@ -14,8 +14,8 @@ namespace Ship
                     "",
                     Faction.Scum,
                     3,
-                    4,
-                    8,
+                    3,
+                    3,
                     seImageNumber: 189
                 );
             }

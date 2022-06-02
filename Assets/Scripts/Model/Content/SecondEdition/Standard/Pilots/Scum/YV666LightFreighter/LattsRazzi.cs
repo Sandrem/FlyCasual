@@ -32,7 +32,8 @@ namespace Ship
                         UpgradeType.Crew,
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
-                        UpgradeType.Illicit
+                        UpgradeType.Illicit,
+                        UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {

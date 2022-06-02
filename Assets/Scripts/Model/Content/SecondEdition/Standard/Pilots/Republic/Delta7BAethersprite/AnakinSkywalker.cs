@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 "Hero of the Republic",
                 Faction.Republic,
                 6,
-                8,
+                7,
                 15,
                 true,
                 force: 3,
@@ -22,7 +22,7 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.ForcePower,
-                    UpgradeType.Missile
+                    UpgradeType.Talent
                 },
                 tags: new List<Tags>
                 {

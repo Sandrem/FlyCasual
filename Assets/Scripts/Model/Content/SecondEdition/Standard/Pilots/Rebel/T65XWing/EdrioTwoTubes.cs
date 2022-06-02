@@ -21,15 +21,13 @@ namespace Ship
                     Faction.Rebel,
                     2,
                     4,
-                    7,
+                    10,
                     isLimited: true,
                     abilityType: typeof(EdrioTwoTubesAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Torpedo,
                         UpgradeType.Missile,
-                        UpgradeType.Illicit,
-                        UpgradeType.Modification
+                        UpgradeType.Illicit
                     },
                     tags: new List<Tags>
                     {

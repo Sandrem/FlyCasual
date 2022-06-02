@@ -19,8 +19,8 @@ namespace Ship
                     "Born to Ill",
                     Faction.Resistance,
                     5,
-                    6,
-                    14,
+                    5,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ElloAstyAbility),
                     extraUpgradeIcons: new List<UpgradeType>

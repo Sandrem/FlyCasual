@@ -21,14 +21,14 @@ namespace Ship
                     Faction.Scum,
                     2,
                     3,
-                    6,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OverseerYushynAbility),
                     charges: 1,
                     regensCharges: 1,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Missile,
+                        UpgradeType.Talent,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

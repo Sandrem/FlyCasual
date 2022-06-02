@@ -20,7 +20,7 @@ namespace Ship
                     Faction.FirstOrder,
                     0,
                     3,
-                    6,
+                    5,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NullAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

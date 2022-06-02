@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Rebel,
                     6,
                     6,
-                    20,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WedgeAntillesAbility),
                     extraUpgradeIcons: new List<UpgradeType>

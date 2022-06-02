@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Scum,
                     4,
                     3,
-                    8,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BosskPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>

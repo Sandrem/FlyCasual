@@ -26,12 +26,13 @@ namespace Ship
                     Faction.Rebel,
                     3,
                     3,
-                    6,
+                    5,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ArvelCrynydAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Modification
+                        UpgradeType.Talent,
+                        UpgradeType.Talent
                     },
                     tags: new List<Tags>
                     {

@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Resistance,
                     4,
                     3,
-                    8,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WilsaTeshloAbility),
                     extraUpgradeIcons: new List<UpgradeType>

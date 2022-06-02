@@ -21,8 +21,8 @@ namespace Ship
                     "Outer Rim Mercenary",
                     Faction.Scum,
                     4,
-                    3,
-                    9,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DaceBonearmAbility),
                     charges: 3,
@@ -34,7 +34,8 @@ namespace Ship
                         UpgradeType.Device,
                         UpgradeType.Illicit,
                         UpgradeType.Illicit,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {

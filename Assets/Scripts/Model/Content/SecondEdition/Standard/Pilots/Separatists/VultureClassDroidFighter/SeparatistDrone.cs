@@ -14,8 +14,8 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 "",
                 Faction.Separatists,
                 3,
+                2,
                 3,
-                4,
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Missile

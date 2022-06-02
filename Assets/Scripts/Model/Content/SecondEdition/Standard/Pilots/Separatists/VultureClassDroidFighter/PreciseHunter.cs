@@ -16,7 +16,7 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 Faction.Separatists,
                 3,
                 3,
-                10,
+                8,
                 limited: 3,
                 abilityType: typeof(Abilities.SecondEdition.PreciseHunterAbility),
                 extraUpgradeIcons: new List<UpgradeType>

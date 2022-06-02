@@ -20,15 +20,13 @@ namespace Ship
                     Faction.Imperial,
                     5,
                     4,
-                    6,
+                    8,
                     isLimited: true,
                     abilityType: typeof(HowlrunnerAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Modification,
-                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

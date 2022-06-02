@@ -19,14 +19,15 @@ namespace Ship.SecondEdition.DroidTriFighter
                 Faction.Separatists,
                 3,
                 4,
-                12,
+                14,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.Dis347Ability),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
                     UpgradeType.Sensor,
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

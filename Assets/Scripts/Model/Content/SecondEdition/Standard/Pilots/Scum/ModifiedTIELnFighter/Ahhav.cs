@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,10 +16,17 @@ namespace Ship
                     "Vengeful Survivor",
                     Faction.Scum,
                     3,
-                    2,
-                    0,
+                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AhhavAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Tie

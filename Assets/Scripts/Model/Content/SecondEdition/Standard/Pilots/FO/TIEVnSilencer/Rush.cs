@@ -18,8 +18,8 @@ namespace Ship
                     "Adrenaline Junkie",
                     Faction.FirstOrder,
                     2,
-                    6,
-                    10,
+                    5,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RushAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

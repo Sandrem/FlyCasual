@@ -16,7 +16,7 @@ namespace Ship
                     "Contemplative Commander",
                     Faction.Imperial,
                     4,
-                    8,
+                    7,
                     10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ColonelVesseryAbility),

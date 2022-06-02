@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Imperial,
                     6,
                     6,
-                    12,
+                    15,
                     isLimited: true,
                     abilityType: typeof(SoontirFelAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

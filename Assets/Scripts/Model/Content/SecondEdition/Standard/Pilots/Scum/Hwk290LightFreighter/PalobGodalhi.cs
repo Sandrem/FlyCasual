@@ -23,8 +23,8 @@ namespace Ship
                     "Tethan Resister",
                     Faction.Scum,
                     3,
-                    6,
-                    12,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PalobGodalhiAbility),
                     extraUpgradeIcons: new List<UpgradeType>

@@ -3,6 +3,8 @@ using BoardTools;
 using Ship;
 using System.Linq;
 using Upgrade;
+using Content;
+using System.Collections.Generic;
 
 namespace UpgradesList.SecondEdition
 {
@@ -13,14 +15,15 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Autoblasters",
                 UpgradeType.Cannon,
-                cost: 4,
+                cost: 7,
                 weaponInfo: new SpecialWeaponInfo(
                     attackValue: 2,
                     minRange: 1,
                     maxRange: 2,
                     arc: ArcType.Front
                 ),
-                abilityType: typeof(Abilities.SecondEdition.AutoblastersAbility)
+                abilityType: typeof(Abilities.SecondEdition.AutoblastersAbility),
+                legalityInfo: new List<Legality> { Legality.StandartBanned }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/e5/8d/e58d4426-4b4b-4fed-a2e9-0ed970600df5/swz45_autoblasters.png";            

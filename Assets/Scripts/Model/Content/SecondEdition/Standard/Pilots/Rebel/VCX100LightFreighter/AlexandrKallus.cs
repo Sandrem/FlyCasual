@@ -16,7 +16,7 @@ namespace Ship
                     "Fulcrum",
                     Faction.Rebel,
                     4,
-                    8,
+                    7,
                     16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AlexandrKallusAbility),

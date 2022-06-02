@@ -28,6 +28,7 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.NomLumbAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Cannon,
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Modification

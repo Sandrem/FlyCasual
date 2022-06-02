@@ -15,14 +15,14 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 Faction.Republic,
                 5,
                 7,
-                12,
+                15,
                 true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.ObiWanKenobiAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.ForcePower,
-                    UpgradeType.Missile
+                    UpgradeType.Talent
                 },
                 tags: new List<Tags>
                 {

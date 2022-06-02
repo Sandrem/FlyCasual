@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Scum,
                     4,
                     5,
-                    10,
+                    6,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Torpedo

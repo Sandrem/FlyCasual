@@ -7,6 +7,7 @@ using Upgrade;
 using Conditions;
 using System.Linq;
 using ActionsList;
+using System.Collections.Generic;
 
 namespace Ship
 {
@@ -22,11 +23,15 @@ namespace Ship
                     "Regal Ruse",
                     Faction.Republic,
                     1,
-                    3,
-                    10,
+                    4,
+                    8,
                     limited: 2,
                     abilityText: "Setup: After placing forces, assign the Decoyed condition to 1 friendly ship other than Naboo Handmaiden.",
-                    abilityType: typeof(NabooHandmaidenAbility)
+                    abilityType: typeof(NabooHandmaidenAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Modification
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/ad/b6/adb64448-5777-4fd3-8311-293207d7103b/swz40_naboo-handmaiden.png";

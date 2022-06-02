@@ -12,8 +12,8 @@
                     "",
                     Faction.Scum,
                     1,
+                    3,
                     4,
-                    6,
                     seImageNumber: 190
                 );
             }

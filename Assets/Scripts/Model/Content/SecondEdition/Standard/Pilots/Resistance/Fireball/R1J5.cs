@@ -3,6 +3,7 @@ using SubPhases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -18,10 +19,17 @@ namespace Ship
                     "",
                     Faction.Resistance,
                     1,
-                    2,
-                    0,
+                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.R1J5PilotAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Droid

@@ -40,7 +40,6 @@ namespace Ship.SecondEdition.TIEBaInterceptor
                 new ShipUpgradesInfo
                 (
                     UpgradeType.Talent,
-                    UpgradeType.Missile,
                     UpgradeType.Tech,
                     UpgradeType.Modification                    
                 )

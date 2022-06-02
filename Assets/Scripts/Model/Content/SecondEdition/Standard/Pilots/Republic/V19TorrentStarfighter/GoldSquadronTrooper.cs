@@ -15,10 +15,11 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 Faction.Republic,
                 2,
                 4,
-                10,
+                6,
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Modification
+                    UpgradeType.Talent,
+                    UpgradeType.Missile
                 },
                 tags: new List<Tags>
                 {

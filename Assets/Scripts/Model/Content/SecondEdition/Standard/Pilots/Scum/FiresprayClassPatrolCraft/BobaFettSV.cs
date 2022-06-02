@@ -16,7 +16,7 @@ namespace Ship
                     "Notorious Bounty Hunter",
                     Faction.Scum,
                     5,
-                    10,
+                    9,
                     22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.BobaFettScumAbility),

@@ -40,7 +40,6 @@ namespace Ship.SecondEdition.BTANR2YWing
                     UpgradeType.Astromech,
                     UpgradeType.Device,
                     UpgradeType.Modification,
-                    UpgradeType.Modification,
                     UpgradeType.Configuration
                 )
             );

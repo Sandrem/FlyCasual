@@ -16,7 +16,7 @@ namespace Ship
                     "",
                     Faction.Imperial,
                     1,
-                    3,
+                    2,
                     3,
                     extraUpgradeIcons: new List<UpgradeType>
                     {

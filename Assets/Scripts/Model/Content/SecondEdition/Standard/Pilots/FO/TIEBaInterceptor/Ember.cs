@@ -30,7 +30,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.EmberAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Missile
                     },
                     tags: new List<Tags>
                     {

@@ -18,12 +18,14 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     5,
-                    8,
+                    12,
                     isLimited: true,
                     abilityType: typeof(GideoHaskTieInterceptorAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

@@ -17,8 +17,8 @@ namespace Ship
                     "Shadow Three",
                     Faction.Republic,
                     3,
-                    5,
-                    16,
+                    4,
+                    13,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>
                     {

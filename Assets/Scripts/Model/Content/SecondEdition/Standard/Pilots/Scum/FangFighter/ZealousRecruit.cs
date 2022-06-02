@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Scum,
                     1,
                     5,
-                    10,
+                    8,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Modification

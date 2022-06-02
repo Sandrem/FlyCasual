@@ -16,14 +16,14 @@ namespace Ship.SecondEdition.Delta7Aethersprite
                 "Conflicted Padawan",
                 Faction.Republic,
                 4,
-                3,
-                7,
+                4,
+                9,
                 true,
                 force: 1,
                 abilityType: typeof(Abilities.SecondEdition.BarrissOffeeAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Missile
+                    
                 },
                 tags: new List<Tags>
                 {

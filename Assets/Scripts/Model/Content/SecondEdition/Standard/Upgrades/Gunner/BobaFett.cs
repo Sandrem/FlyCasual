@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Boba Fett",
                 UpgradeType.Gunner,
-                cost: 4,
+                cost: 2,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum, Faction.Separatists),
                 abilityType: typeof(Abilities.SecondEdition.BobaFettGunnerAbility)

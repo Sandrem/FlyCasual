@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Republic,
                     2,
                     5,
-                    14,
+                    23,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HoundAbility),
                     extraUpgradeIcons: new List<UpgradeType>

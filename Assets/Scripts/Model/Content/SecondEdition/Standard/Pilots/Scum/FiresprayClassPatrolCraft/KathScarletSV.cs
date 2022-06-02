@@ -18,7 +18,7 @@ namespace Ship
                     Faction.Scum,
                     4,
                     7,
-                    13,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KathScarletAbility),
                     extraUpgradeIcons: new List<UpgradeType>

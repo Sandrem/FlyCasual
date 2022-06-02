@@ -21,8 +21,8 @@ namespace Ship
                     "General of the Alliance",
                     Faction.Rebel,
                     5,
-                    9,
-                    22,
+                    8,
+                    21,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LandoCalrissianRebelPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>

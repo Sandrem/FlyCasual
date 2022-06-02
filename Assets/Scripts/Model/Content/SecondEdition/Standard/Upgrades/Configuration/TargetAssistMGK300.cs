@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Target-Assist MGK-300",
                 UpgradeType.Configuration,
-                cost: 1,
+                cost: 0,
                 addActions: new List<ActionInfo>()
                 {
                     new ActionInfo(typeof(CalculateAction)),

@@ -19,8 +19,8 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 "Blue Two",
                 Faction.Republic,
                 3,
-                4,
-                12,
+                3,
+                8,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.AxeAbility),
                 extraUpgradeIcons: new List<UpgradeType>

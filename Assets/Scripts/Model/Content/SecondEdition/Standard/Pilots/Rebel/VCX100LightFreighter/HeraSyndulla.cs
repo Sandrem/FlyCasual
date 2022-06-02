@@ -18,7 +18,7 @@ namespace Ship
                     "Spectre-2",
                     Faction.Rebel,
                     5,
-                    8,
+                    7,
                     20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HeraSyndullaAbility),

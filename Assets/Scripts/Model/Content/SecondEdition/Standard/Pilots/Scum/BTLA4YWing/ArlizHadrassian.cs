@@ -14,7 +14,7 @@ namespace Ship.SecondEdition.BTLA4YWing
                 "Crimson Blade",
                 Faction.Scum,
                 4,
-                5,
+                4,
                 13,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.ArlizHadrassianAbility),

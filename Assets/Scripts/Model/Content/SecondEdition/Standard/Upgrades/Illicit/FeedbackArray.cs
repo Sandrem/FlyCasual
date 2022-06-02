@@ -15,7 +15,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Feedback Array",
                 UpgradeType.Illicit,
-                cost: 3,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.FeedbackArrayAbility),
                 seImageNumber: 60
             );

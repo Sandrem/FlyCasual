@@ -27,7 +27,8 @@ namespace Ship
                     abilityType: typeof(Abilities.SecondEdition.WrathPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Cannon
                     },
                     tags: new List<Tags>
                     {

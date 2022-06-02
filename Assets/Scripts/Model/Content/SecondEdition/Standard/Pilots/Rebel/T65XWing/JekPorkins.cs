@@ -21,15 +21,15 @@ namespace Ship
                     "Red Six",
                     Faction.Rebel,
                     4,
-                    4,
-                    7,
+                    5,
+                    15,
                     isLimited: true,
                     abilityType: typeof(JekPorkinsAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
                         UpgradeType.Torpedo,
                         UpgradeType.Astromech,
-                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

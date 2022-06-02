@@ -18,10 +18,16 @@ namespace Ship
                     "Team Player",
                     Faction.Rebel,
                     4,
-                    2,
-                    0,
+                    3,
+                    5,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LtBlountAbiliity),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 28
                 );
             }

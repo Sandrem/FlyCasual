@@ -15,8 +15,8 @@ namespace Ship
                     "Inspired Tactician",
                     Faction.Imperial,
                     3,
-                    8,
-                    25,
+                    7,
+                    19,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainOicunnAbility),
                     extraUpgradeIcons: new List<UpgradeType>

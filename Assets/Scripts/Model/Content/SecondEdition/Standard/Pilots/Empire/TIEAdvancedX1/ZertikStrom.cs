@@ -20,13 +20,12 @@ namespace Ship
                     "Pitiless Administrator",
                     Faction.Imperial,
                     3,
-                    3,
+                    4,
                     6,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Talent,
-                        UpgradeType.Sensor
+                        UpgradeType.Missile,
                     },
                     tags: new List<Tags>
                     {

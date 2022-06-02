@@ -17,8 +17,8 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 "Big Deal",
                 Faction.Resistance,
                 2,
-                4,
-                15,
+                3,
+                12,
                 isLimited: true,
                 abilityType: typeof(FinnResistanceTransportPodAbility),
                 extraUpgradeIcons: new List<UpgradeType>

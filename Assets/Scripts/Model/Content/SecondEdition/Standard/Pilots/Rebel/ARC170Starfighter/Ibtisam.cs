@@ -16,8 +16,8 @@ namespace Ship
                     "Survivor of Endor",
                     Faction.Rebel,
                     3,
-                    4,
-                    8,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.IbtisamAbility),
                     extraUpgradeIcons: new List<UpgradeType>

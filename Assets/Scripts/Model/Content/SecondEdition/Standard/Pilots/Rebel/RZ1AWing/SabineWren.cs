@@ -19,17 +19,14 @@ namespace Ship
                     Faction.Rebel,
                     3,
                     4,
-                    15,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SabineWrenAWingAbility),
                     abilityText: "While you defend or perform an attack, if the attack range is 1 and you are in the enemy ship's front arc, you may change 1 of your results to a hit or evade result.",
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Talent,
                         UpgradeType.Torpedo,
-                        UpgradeType.Missile,
-                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

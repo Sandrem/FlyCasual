@@ -20,10 +20,15 @@ namespace Ship.SecondEdition.RZ1AWing
                 "Hobbie",
                 Faction.Rebel,
                 3,
-                2,
-                0,
+                3,
+                6,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DerekKlivianAbility),
+                extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile
+                    },
                 tags: new List<Tags>
                 {
                     Tags.AWing

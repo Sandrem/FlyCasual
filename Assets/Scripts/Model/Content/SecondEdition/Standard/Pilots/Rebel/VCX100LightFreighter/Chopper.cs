@@ -19,7 +19,7 @@ namespace Ship
                     "Spectre-3",
                     Faction.Rebel,
                     2,
-                    8,
+                    7,
                     18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ChopperPilotAbility),

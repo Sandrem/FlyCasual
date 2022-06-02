@@ -16,7 +16,7 @@ namespace Ship
                     Faction.Resistance,
                     5,
                     3,
-                    6,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JarekYeagerAbility),
                     extraUpgradeIcons: new List<UpgradeType>

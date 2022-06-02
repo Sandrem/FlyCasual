@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Resistance,
                     3,
                     3,
-                    7,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ShasaZaroAbility),
                     extraUpgradeIcons: new List<UpgradeType>

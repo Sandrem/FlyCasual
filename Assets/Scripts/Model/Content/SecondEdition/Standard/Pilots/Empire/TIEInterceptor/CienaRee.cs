@@ -26,7 +26,8 @@ namespace Ship.SecondEdition.TIEInterceptor
                 extraUpgradeIcons: new List<UpgradeType>()
                 {
                     UpgradeType.Talent,
-                    UpgradeType.Talent
+                    UpgradeType.Talent,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

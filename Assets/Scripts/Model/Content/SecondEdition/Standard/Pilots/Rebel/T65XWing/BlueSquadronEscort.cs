@@ -16,7 +16,7 @@ namespace Ship
                     "",
                     Faction.Rebel,
                     2,
-                    4,
+                    5,
                     4,
                     extraUpgradeIcons: new List<UpgradeType>
                     {

@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Rebel,
                     3,
                     3,
-                    8,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
                     force: 1,

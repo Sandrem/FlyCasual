@@ -19,7 +19,7 @@ namespace Ship.SecondEdition.Eta2Actis
                 Faction.Republic,
                 3,
                 5,
-                12,
+                16,
                 isLimited: true,
                 force: 3,
                 abilityType: typeof(Abilities.SecondEdition.YodaPilotAbility),

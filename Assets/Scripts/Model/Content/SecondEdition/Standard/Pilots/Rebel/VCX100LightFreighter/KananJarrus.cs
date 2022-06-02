@@ -21,7 +21,7 @@ namespace Ship
                     "Spectre-1",
                     Faction.Rebel,
                     3,
-                    9,
+                    8,
                     20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KananJarrusPilotAbility),

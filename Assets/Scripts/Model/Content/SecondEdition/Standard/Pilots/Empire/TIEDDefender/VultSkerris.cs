@@ -20,7 +20,7 @@ namespace Ship
                     "Arrogant Ace",
                     Faction.Imperial,
                     5,
-                    8,
+                    7,
                     13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VultSkerrisDefenderAbility),

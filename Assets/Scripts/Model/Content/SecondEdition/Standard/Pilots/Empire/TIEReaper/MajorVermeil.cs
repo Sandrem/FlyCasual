@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     5,
-                    8,
+                    16,
                     isLimited: true,
                     abilityType: typeof(MajorVermeilAbility),
                     extraUpgradeIcons: new List<UpgradeType>

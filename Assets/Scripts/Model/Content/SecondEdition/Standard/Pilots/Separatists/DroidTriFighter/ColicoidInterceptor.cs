@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.DroidTriFighter
 {
@@ -15,6 +16,10 @@ namespace Ship.SecondEdition.DroidTriFighter
                 1,
                 4,
                 4,
+                extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
                 tags: new List<Tags>
                 {
                     Tags.Droid

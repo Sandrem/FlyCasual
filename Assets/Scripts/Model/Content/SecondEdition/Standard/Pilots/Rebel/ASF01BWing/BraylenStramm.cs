@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Rebel,
                     4,
                     5,
-                    18,
+                    12,
                     isLimited: true,
                     abilityType: typeof(BraylenStrammAbility),
                     extraUpgradeIcons: new List<UpgradeType>

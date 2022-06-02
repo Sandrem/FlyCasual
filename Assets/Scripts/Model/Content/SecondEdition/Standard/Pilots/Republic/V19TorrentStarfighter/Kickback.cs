@@ -17,13 +17,12 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 "Blue Four",
                 Faction.Republic,
                 4,
-                5,
-                16,
+                3,
+                8,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.KickbackAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Talent,
                     UpgradeType.Talent,
                     UpgradeType.Missile
                 },

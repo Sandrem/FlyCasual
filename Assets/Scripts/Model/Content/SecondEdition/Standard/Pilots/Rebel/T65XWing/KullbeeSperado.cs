@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Rebel,
                     4,
                     4,
-                    6,
+                    7,
                     isLimited: true,
                     abilityType: typeof(KullbeeSperadoAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -28,8 +28,7 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Missile,
                         UpgradeType.Illicit,
-                        UpgradeType.Astromech,
-                        UpgradeType.Modification
+                        UpgradeType.Astromech
                     },
                     tags: new List<Tags>
                     {

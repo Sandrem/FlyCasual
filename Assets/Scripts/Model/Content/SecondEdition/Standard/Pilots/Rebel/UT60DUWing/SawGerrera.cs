@@ -21,7 +21,7 @@ namespace Ship
                     "Obsessive Outlaw",
                     Faction.Rebel,
                     4,
-                    6,
+                    5,
                     18,
                     isLimited: true,
                     abilityType: typeof(SawGerreraPilotAbility),

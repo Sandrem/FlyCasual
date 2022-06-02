@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Resistance,
                     4,
                     5,
-                    13,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TemminWexleyHoHAbility),
                     extraUpgradeIcons: new List<UpgradeType>

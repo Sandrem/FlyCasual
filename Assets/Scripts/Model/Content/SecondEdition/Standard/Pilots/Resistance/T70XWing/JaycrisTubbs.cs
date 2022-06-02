@@ -19,8 +19,8 @@ namespace Ship
                     "Loving Father",
                     Faction.Resistance,
                     1,
-                    4,
-                    8,
+                    5,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.JaycrisTubbsAbility),
                     tags: new List<Tags>

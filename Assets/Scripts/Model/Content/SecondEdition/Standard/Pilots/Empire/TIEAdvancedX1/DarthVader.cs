@@ -20,8 +20,8 @@ namespace Ship
                     "Black Leader",
                     Faction.Imperial,
                     6,
-                    8,
-                    22,
+                    7,
+                    21,
                     isLimited: true,
                     abilityType: typeof(DarthVaderAbility),
                     force: 3,
@@ -29,9 +29,10 @@ namespace Ship
                     {
                         UpgradeType.ForcePower,
                         UpgradeType.ForcePower,
+                        UpgradeType.Talent,
                         UpgradeType.Tech,
-                        UpgradeType.Sensor,
-                        UpgradeType.Modification
+                        UpgradeType.Missile,
+                        UpgradeType.Modification,
                     },
                     tags: new List<Tags>
                     {

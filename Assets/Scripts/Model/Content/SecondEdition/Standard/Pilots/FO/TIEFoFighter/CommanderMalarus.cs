@@ -21,7 +21,7 @@ namespace Ship
                     Faction.FirstOrder,
                     5,
                     3,
-                    4,
+                    5,
                     charges: 2,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CommanderMalarusAbility),

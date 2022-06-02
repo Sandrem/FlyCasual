@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.SithInfiltrator
                 "Darth Tyranus",
                 Faction.Separatists,
                 3,
-                8,
+                7,
                 24,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.CountDookuPilotAbility),

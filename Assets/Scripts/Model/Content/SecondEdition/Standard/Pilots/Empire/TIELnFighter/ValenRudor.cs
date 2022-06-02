@@ -19,14 +19,13 @@ namespace Ship
                     "Braggadocious Baron",
                     Faction.Imperial,
                     3,
-                    3,
-                    8,
+                    2,
+                    1,
                     isLimited: true,
                     abilityType: typeof(ValenRudorAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
-                        UpgradeType.Modification
+                        UpgradeType.Talent
                     },
                     tags: new List<Tags>
                     {

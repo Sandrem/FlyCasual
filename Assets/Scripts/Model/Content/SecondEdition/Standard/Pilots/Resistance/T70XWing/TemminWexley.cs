@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Resistance,
                     4,
                     6,
-                    14,
+                    17,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SnapWexleyAbility),
                     extraUpgradeIcons: new List<UpgradeType>

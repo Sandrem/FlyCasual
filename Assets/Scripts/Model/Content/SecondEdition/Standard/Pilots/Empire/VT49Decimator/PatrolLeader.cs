@@ -12,8 +12,8 @@
                     "",
                     Faction.Imperial,
                     2,
-                    8,
-                    22,
+                    7,
+                    12,
                     seImageNumber: 148
                 );
             }

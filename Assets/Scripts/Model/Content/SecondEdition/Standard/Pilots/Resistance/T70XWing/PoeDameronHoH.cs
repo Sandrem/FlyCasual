@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Resistance,
                     6,
                     6,
-                    12,
+                    19,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PoeDameronHoHAbility),
                     charges: 2,

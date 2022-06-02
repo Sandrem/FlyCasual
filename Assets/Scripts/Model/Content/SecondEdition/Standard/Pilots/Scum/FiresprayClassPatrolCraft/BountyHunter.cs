@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Scum,
                     2,
                     7,
-                    6,
+                    10,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Illicit

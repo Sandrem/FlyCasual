@@ -17,7 +17,7 @@ namespace Ship
                     "Onyx Leader",
                     Faction.Imperial,
                     5,
-                    8,
+                    7,
                     13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RexlerBrathAbility),

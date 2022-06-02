@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Rebel,
                     3,
                     4,
-                    6,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeevanTenzaAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -27,8 +27,7 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Missile,
                         UpgradeType.Illicit,
-                        UpgradeType.Astromech,
-                        UpgradeType.Modification
+                        UpgradeType.Astromech
                     },
                     tags: new List<Tags>
                     {

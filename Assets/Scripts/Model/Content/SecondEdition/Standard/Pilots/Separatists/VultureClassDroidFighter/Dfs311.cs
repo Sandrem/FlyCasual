@@ -18,12 +18,13 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 Faction.Separatists,
                 1,
                 3,
-                12,
+                10,
                 true,
                 abilityType: typeof(Abilities.SecondEdition.Dfs311Ability),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             (
                 "Stealth Device",
                 UpgradeType.Modification,
-                cost: 6,
+                cost: 8,
                 abilityType: typeof(Abilities.SecondEdition.StealthDeviceAbility),
                 seImageNumber: 77,
                 legalityInfo: new List<Legality> { Legality.StandartBanned }

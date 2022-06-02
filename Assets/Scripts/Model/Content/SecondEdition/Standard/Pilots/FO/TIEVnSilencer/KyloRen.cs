@@ -22,7 +22,7 @@ namespace Ship
                     "Tormented Apprentice",
                     Faction.FirstOrder,
                     5,
-                    8,
+                    7,
                     16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyloRenPilotAbility),

@@ -32,6 +32,7 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Turret,
+                        UpgradeType.Torpedo,
                         UpgradeType.Missile,
                         UpgradeType.Astromech,
                         UpgradeType.Device,

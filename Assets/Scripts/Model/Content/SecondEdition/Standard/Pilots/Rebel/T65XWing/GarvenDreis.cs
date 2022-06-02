@@ -22,7 +22,7 @@ namespace Ship
                     Faction.Rebel,
                     4,
                     5,
-                    10,
+                    16,
                     isLimited: true,
                     abilityType: typeof(GarvenDreisXWingAbility),
                     extraUpgradeIcons: new List<UpgradeType>

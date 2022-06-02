@@ -26,7 +26,8 @@ namespace Ship.SecondEdition.DroidTriFighter
                 {
                     UpgradeType.Talent,
                     UpgradeType.Sensor,
-                    UpgradeType.Missile
+                    UpgradeType.Missile,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

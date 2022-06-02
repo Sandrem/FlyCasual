@@ -16,8 +16,8 @@ namespace Ship
                     "Car’das Enforcer",
                     Faction.Scum,
                     3,
-                    4,
-                    10,
+                    3,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LaetinAshera),
                     extraUpgradeIcons: new List<UpgradeType>

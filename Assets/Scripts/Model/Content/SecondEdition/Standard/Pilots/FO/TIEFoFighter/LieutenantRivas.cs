@@ -4,6 +4,7 @@ using Ship;
 using SubPhases;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -19,10 +20,16 @@ namespace Ship
                     "Inconvenient Witness",
                     Faction.FirstOrder,
                     1,
-                    2,
-                    0,
+                    3,
+                    4,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantRivasAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Modification
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Tie

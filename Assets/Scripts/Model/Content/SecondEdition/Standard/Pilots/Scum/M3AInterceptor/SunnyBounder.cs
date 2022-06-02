@@ -16,8 +16,8 @@ namespace Ship
                     "Incurable Optimist",
                     Faction.Scum,
                     1,
-                    4,
-                    10,
+                    3,
+                    5,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SunnyBounderAbility),
                     seImageNumber: 188

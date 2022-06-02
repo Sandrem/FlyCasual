@@ -17,12 +17,13 @@ namespace Ship.SecondEdition.Eta2Actis
                 Faction.Republic,
                 5,
                 5,
-                10,
+                15,
                 isLimited: true,
                 force: 2,
                 abilityType: typeof(Abilities.SecondEdition.AaylaSecuraActisAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
+                    UpgradeType.ForcePower,
                     UpgradeType.Talent
                 },
                 tags: new List<Tags>

@@ -1,5 +1,7 @@
 ﻿using Ship;
+using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
@@ -15,10 +17,17 @@ namespace Ship
                     "Hunt Saboteur",
                     Faction.Scum,
                     4,
-                    2,
-                    0,
+                    3,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.NdruSuhlakAbility),
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit
+                    },
                     seImageNumber: 169,
                     skinName: "N'dru Suhlak"
                 );

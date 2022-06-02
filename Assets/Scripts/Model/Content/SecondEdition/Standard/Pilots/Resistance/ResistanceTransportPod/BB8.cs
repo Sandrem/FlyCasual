@@ -18,8 +18,8 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 "Full of Surprises",
                 Faction.Resistance,
                 3,
-                3,
-                8,
+                2,
+                4,
                 isLimited: true,
                 abilityType: typeof(BB8TransportPodAbility),
                 extraUpgradeIcons: new List<UpgradeType>

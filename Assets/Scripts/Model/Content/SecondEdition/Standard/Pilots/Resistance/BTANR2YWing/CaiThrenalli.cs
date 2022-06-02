@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Resistance,
                     2,
                     3,
-                    9,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaiThrenalliAbility),
                     extraUpgradeIcons: new List<UpgradeType>

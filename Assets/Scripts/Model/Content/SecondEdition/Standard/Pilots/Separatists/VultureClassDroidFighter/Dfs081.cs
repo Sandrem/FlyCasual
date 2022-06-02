@@ -15,14 +15,13 @@ namespace Ship.SecondEdition.VultureClassDroidFighter
                 "Preservation Programming",
                 Faction.Separatists,
                 3,
-                3,
-                16,
+                2,
+                7,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.Dfs081Ability),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Missile,
-                    UpgradeType.Modification
+                    UpgradeType.Missile
                 },
                 tags: new List<Tags>
                 {

@@ -38,7 +38,6 @@ namespace Ship
                     ),
                     new ShipUpgradesInfo
                     (
-                        UpgradeType.Modification,
                         UpgradeType.Configuration
                     )
                 );

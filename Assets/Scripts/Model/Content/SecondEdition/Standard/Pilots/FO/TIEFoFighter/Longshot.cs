@@ -18,7 +18,7 @@ namespace Ship
                     Faction.FirstOrder,
                     3,
                     3,
-                    3,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LongshotAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

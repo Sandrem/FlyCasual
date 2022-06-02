@@ -18,8 +18,8 @@ namespace Ship
                     "The Corellian Kid",
                     Faction.Scum,
                     6,
-                    7,
-                    24,
+                    6,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HanSoloScumPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>

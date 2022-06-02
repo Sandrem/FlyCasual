@@ -19,7 +19,7 @@ namespace Ship
                     "Imperial Courier",
                     Faction.Imperial,
                     3,
-                    5,
+                    4,
                     9,
                     isLimited: true,
                     abilityType: typeof(CaptainFerophAbility),

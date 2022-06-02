@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Scum,
                     3,
                     7,
-                    11,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KoshkaFrostAbility),
                     extraUpgradeIcons: new List<UpgradeType>

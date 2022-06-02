@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Scum,
                     3,
                     3,
-                    8,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KaatoLeeachosAbility),
                     extraUpgradeIcons: new List<UpgradeType>

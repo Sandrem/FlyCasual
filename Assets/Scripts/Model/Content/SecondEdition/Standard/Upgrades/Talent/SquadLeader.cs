@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Squad Leader",
                 UpgradeType.Talent,
-                cost: 8,
+                cost: 6,
                 isLimited: true,
                 addAction: new ActionInfo(typeof(CoordinateAction), ActionColor.Red),
                 //abilityType: typeof(Abilities.SecondEdition.SquadLeaderAbility),

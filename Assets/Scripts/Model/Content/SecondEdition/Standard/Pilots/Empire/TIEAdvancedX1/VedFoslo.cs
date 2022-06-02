@@ -19,14 +19,13 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     4,
-                    11,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VedFosloAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Talent,
-                        UpgradeType.Sensor,
+                        UpgradeType.Missile,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

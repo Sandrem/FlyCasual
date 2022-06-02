@@ -20,13 +20,12 @@ namespace Ship
                     Faction.Imperial,
                     3,
                     4,
-                    10,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantLorrirAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

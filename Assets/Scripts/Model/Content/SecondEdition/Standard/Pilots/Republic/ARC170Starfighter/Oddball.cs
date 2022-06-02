@@ -16,8 +16,8 @@ namespace Ship
                     "CC-2237",
                     Faction.Republic,
                     5,
-                    6,
-                    22,
+                    5,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
                     extraUpgradeIcons: new List<UpgradeType>

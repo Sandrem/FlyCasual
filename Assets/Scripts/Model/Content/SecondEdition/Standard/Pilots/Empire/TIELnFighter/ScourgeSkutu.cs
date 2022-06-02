@@ -24,9 +24,7 @@ namespace Ship
                     abilityType: typeof(ScourgeSkutuAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
-                        UpgradeType.Talent,
-                        UpgradeType.Modification
+                        UpgradeType.Talent
                     },
                     tags: new List<Tags>
                     {

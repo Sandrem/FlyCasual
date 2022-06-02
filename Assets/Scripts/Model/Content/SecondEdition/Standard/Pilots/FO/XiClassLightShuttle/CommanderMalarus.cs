@@ -18,7 +18,7 @@ namespace Ship
                     "Vindictive Taskmaster",
                     Faction.FirstOrder,
                     5,
-                    5,
+                    4,
                     15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CommanderMalarusXiClassLightShuttleAbility),

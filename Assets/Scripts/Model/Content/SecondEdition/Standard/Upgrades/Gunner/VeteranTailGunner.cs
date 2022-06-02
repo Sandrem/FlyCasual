@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Veteran Tail Gunner",
                 UpgradeType.Gunner,
-                cost: 2,
+                cost: 3,
                 abilityType: typeof(Abilities.SecondEdition.VeteranTailGunnerAbility),
                 restriction: new ArcRestriction(ArcType.Rear),
                 seImageNumber: 51

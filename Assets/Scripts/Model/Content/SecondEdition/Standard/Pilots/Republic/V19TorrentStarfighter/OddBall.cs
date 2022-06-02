@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 "CC-2237",
                 Faction.Republic,
                 5,
-                5,
+                4,
                 16,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.OddBallAbility),
@@ -28,7 +28,7 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 {
                     UpgradeType.Talent,
                     UpgradeType.Torpedo,
-                    UpgradeType.Modification
+                    UpgradeType.Missile
                 },
                 tags: new List<Tags>
                 {

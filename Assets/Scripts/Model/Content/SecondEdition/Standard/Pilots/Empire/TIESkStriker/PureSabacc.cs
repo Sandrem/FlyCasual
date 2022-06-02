@@ -17,13 +17,12 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     4,
-                    11,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PureSabaccAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

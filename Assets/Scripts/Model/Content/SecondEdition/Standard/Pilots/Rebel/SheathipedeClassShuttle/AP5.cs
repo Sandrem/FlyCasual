@@ -18,8 +18,8 @@ namespace Ship
                     "Escaped Analyst Droid",
                     Faction.Rebel,
                     1,
-                    3,
-                    8,
+                    4,
+                    4,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AP5PilotAbility),
                     tags: new List<Tags>

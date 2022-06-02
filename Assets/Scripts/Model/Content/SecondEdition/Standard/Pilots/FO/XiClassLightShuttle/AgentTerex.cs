@@ -16,8 +16,8 @@ namespace Ship
                     "Devious Provocateur",
                     Faction.FirstOrder,
                     3,
-                    5,
-                    20,
+                    4,
+                    13,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {

@@ -19,8 +19,8 @@ namespace Ship
                     "Tilted Droid",
                     Faction.Scum,
                     0,
-                    4,
-                    11,
+                    3,
+                    6,
                     tags: new List<Tags>
                     {
                         Tags.Droid

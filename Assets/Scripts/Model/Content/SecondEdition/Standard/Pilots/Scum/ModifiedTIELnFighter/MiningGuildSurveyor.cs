@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -16,7 +17,11 @@ namespace Ship
                     Faction.Scum,
                     2,
                     3,
-                    0,
+                    1,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Talent
+                    },
                     tags: new List<Tags>
                     {
                         Tags.Tie

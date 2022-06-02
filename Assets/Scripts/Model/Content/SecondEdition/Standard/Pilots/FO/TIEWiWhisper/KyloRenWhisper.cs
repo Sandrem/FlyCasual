@@ -19,7 +19,7 @@ namespace Ship
                     "Supreme Leader of the First Order",
                     Faction.FirstOrder,
                     5,
-                    7,
+                    6,
                     18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.KyloRenWhisperPilotAbility),

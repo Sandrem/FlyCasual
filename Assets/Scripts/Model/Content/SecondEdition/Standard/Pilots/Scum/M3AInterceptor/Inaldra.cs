@@ -16,8 +16,8 @@ namespace Ship
                     "Tansarii Point Boss",
                     Faction.Scum,
                     2,
-                    4,
-                    10,
+                    3,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.InaldraAbilitySE),
                     seImageNumber: 187

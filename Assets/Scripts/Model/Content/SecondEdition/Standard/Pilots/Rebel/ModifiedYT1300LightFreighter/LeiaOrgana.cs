@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Rebel,
                     5,
                     8,
-                    20,
+                    24,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeiaOrganaPilotAbility),
                     force: 1,

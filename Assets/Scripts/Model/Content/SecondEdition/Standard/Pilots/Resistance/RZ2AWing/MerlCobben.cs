@@ -20,7 +20,7 @@ namespace Ship
                     "Distracting Daredevil",
                     Faction.Resistance,
                     1,
-                    3,
+                    4,
                     7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MerlCobbenAbility),

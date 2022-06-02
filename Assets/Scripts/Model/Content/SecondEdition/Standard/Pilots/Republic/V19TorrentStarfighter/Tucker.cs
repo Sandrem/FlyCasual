@@ -18,12 +18,13 @@ namespace Ship.SecondEdition.V19TorrentStarfighter
                 Faction.Republic,
                 2,
                 4,
-                12,
+                13,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.TuckerAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
                     UpgradeType.Talent,
+                    UpgradeType.Missile,
                     UpgradeType.Missile
                 },
                 tags: new List<Tags>

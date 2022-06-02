@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
             (
                 "Malice",
                 UpgradeType.ForcePower,
-                cost: 6,
+                cost: 4,
                 restriction: new TagRestriction(Tags.DarkSide),
                 abilityType: typeof(Abilities.SecondEdition.MaliceAbility)       
             );

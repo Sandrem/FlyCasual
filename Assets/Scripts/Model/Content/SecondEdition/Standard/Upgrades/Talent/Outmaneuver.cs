@@ -11,7 +11,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "Outmaneuver",
                 UpgradeType.Talent,
-                cost: 6,
+                cost: 12,
                 abilityType: typeof(Abilities.SecondEdition.OutmaneuverAbilitySE),
                 seImageNumber: 11
             );

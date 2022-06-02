@@ -14,7 +14,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Cannon,
                     UpgradeType.Cannon
                 },
-                cost: 7,
+                cost: 8,
                 weaponInfo: new SyncedLaserCannonsWeaponInfo(this)                
             );
 

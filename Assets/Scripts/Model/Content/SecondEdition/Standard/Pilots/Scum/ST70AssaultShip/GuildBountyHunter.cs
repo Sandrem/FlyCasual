@@ -30,7 +30,11 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Illicit
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {
@@ -38,7 +42,7 @@ namespace Ship
                     }
                 );
 
-                ImageUrl = "https://infinitearenas.com/xw2/images/pilots/guildbountyhunter.png";
+                ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/c0/Guildbountyhunter.png";
             }
         }
     }

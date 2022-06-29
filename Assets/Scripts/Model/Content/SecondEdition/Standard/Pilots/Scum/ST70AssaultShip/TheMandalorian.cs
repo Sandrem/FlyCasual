@@ -1,5 +1,6 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,37 @@ namespace Ship
         {
             public TheMandalorian() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "The Mandalorian",
+                    "Din Djarin",
+                    Faction.Scum,
                     5,
-                    55,
+                    7,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TheMandalorianAbility),
-                    extraUpgradeIcon: UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Cannon,
+                        UpgradeType.Gunner,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    tags: new List<Tags>()
+                    {
+                        Tags.Mandalorian,
+                        Tags.BountyHunter
+                    }
                 );
 
-                ImageUrl = "https://i.imgur.com/Ncx2wka.png";
+                ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/bb/Themandalorian.png";
             }
         }
     }

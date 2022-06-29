@@ -5,6 +5,8 @@ using ActionsList;
 using Upgrade;
 using Actions;
 using Arcs;
+using Ship.CardInfo;
+using System;
 
 namespace Ship
 {
@@ -14,11 +16,17 @@ namespace Ship
         {
             public ST70AssaultShip() : base()
             {
-                ShipInfo = new ShipCardInfo
+                ShipInfo = new ShipCardInfo25
                 (
                     "ST-70 Assault Ship",
                     BaseSize.Medium,
-                    Faction.Scum,
+                    new FactionData
+                    (
+                        new Dictionary<Faction, Type>
+                        {
+                            { Faction.Scum, typeof(TheMandalorian) }
+                        }
+                    ),
                     new ShipArcsInfo(ArcType.Front, 3), 2, 7, 2,
                     new ShipActionsInfo
                     (
@@ -26,21 +34,11 @@ namespace Ship
                         new ActionInfo(typeof(EvadeAction)),
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(BarrelRollAction), ActionColor.Red)
-                    ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Modification,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
-                        UpgradeType.Illicit
                     )
                 );
 
-                IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Scum, typeof(TheMandalorian) }
-                };
-
-                ModelInfo = new ShipModelInfo(
+                ModelInfo = new ShipModelInfo
+                (
                     "ST-70 Assault Ship",
                     "Default",
                     new Vector3(-3.7f, 7.84f, 5.55f),
@@ -77,7 +75,8 @@ namespace Ship
                     new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
                 );
 
-                SoundInfo = new ShipSoundInfo(
+                SoundInfo = new ShipSoundInfo
+                (
                     new List<string>()
                     {
                         "Slave1-Fly1",

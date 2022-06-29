@@ -20,14 +20,18 @@ namespace Ship
                     Faction.Scum,
                     5,
                     6,
-                    20,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.Q9Dash0Ability),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Crew,
+                        UpgradeType.Crew,
                         UpgradeType.Cannon,
+                        UpgradeType.Gunner,
                         UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Title
                     },
                     tags: new List<Tags>
@@ -38,7 +42,7 @@ namespace Ship
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();
 
-                ImageUrl = "https://infinitearenas.com/xw2/images/pilots/q90.png";
+                ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/0f/Q90.png";
             }
         }
     }

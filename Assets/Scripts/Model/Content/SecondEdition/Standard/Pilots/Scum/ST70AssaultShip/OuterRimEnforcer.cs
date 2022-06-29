@@ -19,6 +19,10 @@ namespace Ship
                     10,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     }
                 );

@@ -33,7 +33,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.Mandalorian 
-                    }
+                    },
+                    skinName: "Fenn Rau"
                 );
 
                 PilotNameCanonical = "fennrau-rebelalliance";

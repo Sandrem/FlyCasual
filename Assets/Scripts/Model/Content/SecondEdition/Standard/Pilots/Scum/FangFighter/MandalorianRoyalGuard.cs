@@ -30,7 +30,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.Mandalorian 
-                    }
+                    },
+                    skinName: "Skull Squadron"
                 );
 
                 ImageUrl = "https://infinitearenas.com/xw2/images/pilots/mandalorianroyalguard.png";

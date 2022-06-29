@@ -33,7 +33,8 @@ namespace Ship
                     {
                         Tags.Mandalorian
                     },
-                    seImageNumber: 157
+                    seImageNumber: 157,
+                    skinName: "Zealous Recruit"
                 );
             }
         }

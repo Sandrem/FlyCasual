@@ -29,7 +29,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.Mandalorian 
-                    }
+                    },
+                    skinName: "Dirk Ullodin"
                 );
 
                 ImageUrl = "https://infinitearenas.com/xw2/images/pilots/dirkullodin.png";

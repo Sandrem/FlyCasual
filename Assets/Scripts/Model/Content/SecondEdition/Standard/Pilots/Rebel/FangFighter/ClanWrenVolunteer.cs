@@ -31,7 +31,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.Mandalorian 
-                    }
+                    },
+                    skinName: "Clan Wren Volunteers"
                 );
 
                 ImageUrl = "https://infinitearenas.com/xw2/images/pilots/clanwrenvolunteer.png";

@@ -127,7 +127,7 @@ namespace SquadBuilderNS
 
             JSONObject vendorJson = new JSONObject();
             JSONObject skinJson = new JSONObject();
-            skinJson.AddField("skin", shipHolder.Instance.ModelInfo.SkinName);
+            skinJson.AddField("skin", (shipHolder.Instance.PilotInfo as PilotCardInfo25).SkinName);
             vendorJson.AddField("Sandrem.FlyCasual", skinJson);
 
             pilotJson.AddField("vendor", vendorJson);
@@ -268,7 +268,7 @@ namespace SquadBuilderNS
                                 JSONObject myVendorData = vendorData["Sandrem.FlyCasual"];
                                 if (myVendorData.HasField("skin"))
                                 {
-                                    newShip.Instance.ModelInfo.SkinName = myVendorData["skin"].str;
+                                    (newShip.Instance.PilotInfo as PilotCardInfo25).SkinName = myVendorData["skin"].str;
                                 }
                             }
                         }

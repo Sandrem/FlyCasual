@@ -10,7 +10,7 @@ namespace Ship
         private static Faction factionOverride;
 
         public int LoadoutValue { get; }
-        public string SkinName { get; }
+        public string SkinName { get; set; }
         public List<Tags> Tags { get; }
         public List<Legality> LegalityInfo { get; }
 

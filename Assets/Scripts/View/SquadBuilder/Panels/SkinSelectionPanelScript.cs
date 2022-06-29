@@ -15,6 +15,7 @@ public class SkinSelectionPanelScript : MonoBehaviour
 
     private GenericShip Ship;
     private int Number;
+    private int SkinIndex;
     private GameObject ShipModel;
     private GameObject SkinPreview;
 
@@ -44,7 +45,8 @@ public class SkinSelectionPanelScript : MonoBehaviour
     private void ApplyDefaultSkin()
     {
         AvailableSkins = Ship.GetAvailableSkins();
-        ApplySkinChangeSkin(GetCurrentSkinIndex());
+        SkinIndex = GetCurrentSkinIndex();
+        ApplySkinChangeSkin(SkinIndex);
     }
 
     private void CreateShipModel()
@@ -87,16 +89,14 @@ public class SkinSelectionPanelScript : MonoBehaviour
 
     public void NextSkin()
     {
-        int index = GetCurrentSkinIndex();
-        index = (index == AvailableSkins.Count - 1) ? 0 : index + 1;
-        ApplySkinChangeSkin(index);
+        SkinIndex = (SkinIndex == AvailableSkins.Count - 1) ? 0 : SkinIndex + 1;
+        ApplySkinChangeSkin(SkinIndex);
     }
 
     public void PreviousSkin()
     {
-        int index = GetCurrentSkinIndex();
-        index = (index == 0) ? AvailableSkins.Count - 1 : index - 1;
-        ApplySkinChangeSkin(index);
+        SkinIndex = (SkinIndex == 0) ? AvailableSkins.Count - 1 : SkinIndex - 1;
+        ApplySkinChangeSkin(SkinIndex);
     }
 
     private int GetCurrentSkinIndex()
@@ -109,8 +109,9 @@ public class SkinSelectionPanelScript : MonoBehaviour
 
     private void ApplySkinChangeSkin(int index)
     {
-        Ship.ModelInfo.SkinName = AvailableSkins[index].name;
+        string newSkinName = AvailableSkins[index].name;
+        (Ship.PilotInfo as PilotCardInfo25).SkinName = newSkinName;
         Ship.SetShipSkin(ShipModel.transform, AvailableSkins[index]);
-        SkinName.text = Ship.ModelInfo.SkinName;
+        SkinName.text = newSkinName;
     }
 }

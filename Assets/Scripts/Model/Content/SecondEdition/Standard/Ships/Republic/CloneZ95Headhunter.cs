@@ -5,6 +5,9 @@ using Actions;
 using Arcs;
 using System;
 using Ship.CardInfo;
+using Upgrade;
+using System.Linq;
+using Ship;
 
 namespace Ship
 {
@@ -76,7 +79,76 @@ namespace Ship
                 );
 
                 ShipIconLetter = 'z';
+
+                ShipAbilities.Add(new Abilities.SecondEdition.VersatileFrameAbility());
             }
         }
     }
 }
+
+namespace Abilities.SecondEdition
+{
+    public class VersatileFrameAbility : GenericAbility
+    {
+        private readonly List<UpgradeType> HardpointSlotTypes = new List<UpgradeType>
+        {
+            UpgradeType.Torpedo,
+            UpgradeType.Missile
+        };
+
+        public override void ActivateAbilityForSquadBuilder()
+        {
+            foreach (UpgradeType upgradeType in HardpointSlotTypes)
+            {
+                //HostShip.ShipInfo.UpgradeIcons.Upgrades.Add(upgradeType);
+                HostShip.UpgradeBar.AddSlot(upgradeType);
+            };
+
+            HostShip.OnPreInstallUpgrade += OnPreInstallUpgrade;
+            HostShip.OnRemovePreInstallUpgrade += OnRemovePreInstallUpgrade;
+        }
+
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateActions += CheckBoostActionAvailability;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateActions -= CheckBoostActionAvailability;
+        }
+
+        public override void DeactivateAbilityForSquadBuilder() { }
+
+        private void OnPreInstallUpgrade(GenericUpgrade upgrade)
+        {
+            if (HardpointSlotTypes.Contains(upgrade.UpgradeInfo.UpgradeTypes.First()))
+            {
+                HardpointSlotTypes
+                    .Where(slot => slot != upgrade.UpgradeInfo.UpgradeTypes.First())
+                    .ToList()
+                    .ForEach(slot => HostShip.UpgradeBar.RemoveSlot(slot));
+            }
+        }
+
+        private void OnRemovePreInstallUpgrade(GenericUpgrade upgrade)
+        {
+            if (HardpointSlotTypes.Contains(upgrade.UpgradeInfo.UpgradeTypes.First()))
+            {
+                HardpointSlotTypes
+                    .Where(slot => slot != upgrade.UpgradeInfo.UpgradeTypes.First())
+                    .ToList()
+                    .ForEach(slot => HostShip.UpgradeBar.AddSlot(slot));
+            }
+        }
+
+        private void CheckBoostActionAvailability(GenericShip ship)
+        {
+            if (ship.RevealedManeuver != null && ship.RevealedManeuver.ColorComplexity == MovementComplexity.Easy)
+            {
+                ship.AddAvailableAction(new BoostAction());
+            }
+        }
+    }
+}
+

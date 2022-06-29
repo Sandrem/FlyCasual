@@ -38,7 +38,7 @@ namespace Ship
                 (
                     "Clone Z-95 Headhunter",
                     "Red",
-                    previewScale: 1.25f
+                    previewScale: 2f
                 );
 
                 DialInfo = new ShipDialInfo

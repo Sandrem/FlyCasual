@@ -23,9 +23,9 @@ namespace Ship
                     (
                         new Dictionary<Faction, Type>
                         {
-                            { Faction.Rebel, typeof(BoKatanKryzeRepublic) },
-                            { Faction.Imperial, typeof(BoKatanKryzeRepublic) },
-                            { Faction.Scum, typeof(BoKatanKryzeRepublic) },
+                            { Faction.Rebel, typeof(EzraBridger) },
+                            { Faction.Imperial, typeof(GarSaxon) },
+                            { Faction.Scum, typeof(RookKast) },
                             { Faction.Republic, typeof(BoKatanKryzeRepublic) },
                             { Faction.Separatists, typeof(BoKatanKryzeSeparatists) }
                         }

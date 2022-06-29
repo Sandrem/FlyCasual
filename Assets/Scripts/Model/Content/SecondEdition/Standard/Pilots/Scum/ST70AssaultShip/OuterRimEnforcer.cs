@@ -24,7 +24,8 @@ namespace Ship
                         UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Modification
-                    }
+                    },
+                    skinName: "Red Stripes"
                 );
 
                 ImageUrl = "https://infinitearenas.com/xw2/images/pilots/outerrimenforcer.png";

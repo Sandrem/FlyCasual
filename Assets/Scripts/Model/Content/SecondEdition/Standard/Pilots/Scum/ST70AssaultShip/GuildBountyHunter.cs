@@ -39,7 +39,8 @@ namespace Ship
                     tags: new List<Tags>
                     {
                         Tags.BountyHunter
-                    }
+                    },
+                    skinName: "Red Stripes"
                 );
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/c/c0/Guildbountyhunter.png";

@@ -23,8 +23,8 @@ namespace Ship
                     (
                         new Dictionary<Faction, Type>
                         {
-                            { Faction.Scum, typeof(FennRau) } //,
-                            //{ Faction.Rebel, typeof(FennRauRebel) },
+                            { Faction.Scum, typeof(FennRau) },
+                            { Faction.Rebel, typeof(ClanWrenVolunteer) }
                         }
                     ),
                     new ShipArcsInfo(ArcType.Front, 3), 3, 4, 0,

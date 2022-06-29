@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,26 @@ namespace Ship
         {
             public FennRauRebel() : base()
             {
-                PilotInfo = new PilotCardInfo
+                PilotInfo = new PilotCardInfo25
                 (
                     "Fenn Rau",
+                    "Mandalorian Protector",
+                    Faction.Rebel,
                     6,
-                    60,
+                    6,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FennRauRebelFangAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    factionOverride: Faction.Rebel
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo
+                    },
+                    tags: new List<Tags>()
+                    {
+                        Tags.Mandalorian 
+                    }
                 );
 
                 PilotNameCanonical = "fennrau-rebelalliance";

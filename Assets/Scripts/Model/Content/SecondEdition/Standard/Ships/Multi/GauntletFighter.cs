@@ -2,9 +2,10 @@
 using UnityEngine;
 using Movement;
 using ActionsList;
-using Upgrade;
 using Actions;
 using Arcs;
+using Ship.CardInfo;
+using System;
 
 namespace Ship
 {
@@ -14,11 +15,21 @@ namespace Ship
         {
             public GauntletFighter() : base()
             {
-                ShipInfo = new ShipCardInfo
+                ShipInfo = new ShipCardInfo25
                 (
                     "Gauntlet Fighter",
                     BaseSize.Large,
-                    Faction.Republic,
+                    new FactionData
+                    (
+                        new Dictionary<Faction, Type>
+                        {
+                            { Faction.Rebel, typeof(BoKatanKryzeRepublic) },
+                            { Faction.Imperial, typeof(BoKatanKryzeRepublic) },
+                            { Faction.Scum, typeof(BoKatanKryzeRepublic) },
+                            { Faction.Republic, typeof(BoKatanKryzeRepublic) },
+                            { Faction.Separatists, typeof(BoKatanKryzeSeparatists) }
+                        }
+                    ),
                     new ShipArcsInfo
                     (
                         new ShipArcInfo(ArcType.Front, 3),
@@ -31,22 +42,8 @@ namespace Ship
                         new ActionInfo(typeof(ReinforceAction), ActionColor.Red),
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(CoordinateAction), ActionColor.Red)
-                    ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Modification,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew,
-                        UpgradeType.Crew
-                    ),
-                    factionsAll: new List<Faction>() { Faction.Republic, Faction.Separatists }
+                    )
                 );
-
-                IconicPilots = new Dictionary<Faction, System.Type> 
-                {
-                    { Faction.Republic, typeof(BoKatanKryzeRepublic) },
-                    { Faction.Separatists, typeof(BoKatanKryzeSeparatists) }
-                };
 
                 ModelInfo = new ShipModelInfo
                 (

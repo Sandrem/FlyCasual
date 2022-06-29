@@ -21,7 +21,7 @@ namespace Ship
             FactionData factionData,
             ShipArcsInfo arcInfo, int agility, int hull, int shields,
             ShipActionsInfo actionIcons,
-            ShipUpgradesInfo upgradeIcons,
+            ShipUpgradesInfo upgradeIcons = null,
             List<LinkedActionInfo> linkedActions = null,
             string abilityText = "") : base(shipName, baseSize, faction, arcInfo, agility, hull, shields, actionIcons, upgradeIcons, subFaction, factionsAll, description, abilityText)
         {
@@ -41,7 +41,7 @@ namespace Ship
             ActionIcons = actionIcons;
             if (linkedActions != null) foreach (LinkedActionInfo linkedAction in linkedActions) { ActionIcons.AddLinkedAction(linkedAction); };
 
-            UpgradeIcons = upgradeIcons;
+            UpgradeIcons = upgradeIcons ?? new ShipUpgradesInfo();
 
             AbilityText = abilityText;
         }

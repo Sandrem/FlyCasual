@@ -35,7 +35,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.Mandalorian 
-                    }
+                    },
+                    skinName: "Gray"
                 );
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/10/Captainhark.png";

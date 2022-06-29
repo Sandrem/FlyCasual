@@ -40,7 +40,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.Mandalorian
-                    }
+                    },
+                    skinName: "Dark Blue"
                 );
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/b/b7/Bokatankryze-republic.png";

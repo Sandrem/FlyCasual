@@ -40,7 +40,8 @@ namespace Ship
                     {
                         Tags.LightSide,
                         Tags.Spectre
-                    }
+                    },
+                    skinName: "Red"
                 );
 
                 PilotNameCanonical = "ezrabridger-gauntletfighter";

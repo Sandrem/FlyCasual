@@ -39,7 +39,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.Mandalorian 
-                    }
+                    },
+                    skinName: "CIS"
                 );
 
                 PilotNameCanonical = "bokatankryze-separatistalliance";

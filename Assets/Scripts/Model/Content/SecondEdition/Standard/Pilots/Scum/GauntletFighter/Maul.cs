@@ -41,7 +41,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.DarkSide 
-                    }
+                    },
+                    skinName: "Red Old"
                 );
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/a/a2/Maulgauntlet.png";

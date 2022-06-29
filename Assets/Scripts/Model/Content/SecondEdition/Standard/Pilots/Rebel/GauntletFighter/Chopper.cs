@@ -35,7 +35,8 @@ namespace Ship
                     {
                         Tags.Droid,
                         Tags.Spectre
-                    }
+                    },
+                    skinName: "Red"
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();

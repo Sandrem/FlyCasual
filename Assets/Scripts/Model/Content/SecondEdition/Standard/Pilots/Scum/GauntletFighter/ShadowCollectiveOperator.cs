@@ -33,7 +33,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.Mandalorian 
-                    }
+                    },
+                    skinName: "Red"
                 );
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/8/8f/Shadowcollectiveoperator.png";

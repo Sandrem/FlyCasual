@@ -36,7 +36,8 @@ namespace Ship
                     tags: new List<Tags>()
                     {
                         Tags.Mandalorian 
-                    }
+                    },
+                    skinName: "CIS Dark"
                 );
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/7/79/Garsaxon.png";

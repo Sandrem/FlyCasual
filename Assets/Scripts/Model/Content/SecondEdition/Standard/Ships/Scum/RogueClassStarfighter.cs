@@ -45,7 +45,8 @@ namespace Ship
                 ModelInfo = new ShipModelInfo
                 (
                     "Rogue-class Starfighter",
-                    "Default"
+                    "Default",
+                    previewScale: 2f
                 );
 
                 DialInfo = new ShipDialInfo

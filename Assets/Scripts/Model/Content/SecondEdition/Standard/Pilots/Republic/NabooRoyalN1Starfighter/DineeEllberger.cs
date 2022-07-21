@@ -24,7 +24,7 @@ namespace Ship
                     abilityType: typeof(DineeEllbergerAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent, UpgradeType.Torpedo
                     }
                 );
 

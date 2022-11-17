@@ -20,8 +20,8 @@ namespace Ship
                     "Vigilant Tracker",
                     Faction.Republic,
                     2,
-                    5,
-                    23,
+                    6,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HoundAbility),
                     extraUpgradeIcons: new List<UpgradeType>

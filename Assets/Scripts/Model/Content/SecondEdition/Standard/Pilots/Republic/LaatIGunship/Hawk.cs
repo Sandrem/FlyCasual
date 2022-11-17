@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Republic,
                     4,
                     5,
-                    20,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HawkAbility),
                     extraUpgradeIcons: new List<UpgradeType>

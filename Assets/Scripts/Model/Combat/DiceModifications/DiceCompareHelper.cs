@@ -10,11 +10,11 @@ public class DiceCompareHelper
     private GameObject helperPanel;
     private GameObject iconPrefabHit;
     private GameObject iconPrefabCrit;
-    private int iconsCount;
+    private int IconsCount;
 
     public static DiceCompareHelper currentDiceCompareHelper;
 
-    private List<GameObject> diceIcons = new List<GameObject>();
+    private List<GameObject> DiceIcons = new List<GameObject>();
 
     public DiceCompareHelper(DiceRoll attackDiceroll)
     {
@@ -31,6 +31,14 @@ public class DiceCompareHelper
         helperPanel = GameObject.Find("UI").gameObject.transform.Find("CombatDiceResultsPanel").gameObject.transform.Find("DiceCompareHelp").gameObject;
         iconPrefabHit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackHit").gameObject;
         iconPrefabCrit = helperPanel.transform.Find("DiceImages").gameObject.transform.Find("AttackCrit").gameObject;
+
+        GenerateIcons();
+    }
+
+    private void GenerateIcons()
+    {
+        IconsCount = 0;
+        DiceIcons = new List<GameObject>();
 
         if (!AttackDiceroll.CancelCritsFirst)
         {
@@ -58,7 +66,7 @@ public class DiceCompareHelper
     {
         GameObject iconPrefab = (die.Side == DieSide.Success) ? iconPrefabHit : iconPrefabCrit;
         GameObject newIcon = MonoBehaviour.Instantiate(iconPrefab, helperPanel.transform.Find("DiceImages"));
-        newIcon.transform.localPosition = new Vector3(iconsCount * 100, 0, 0);
+        newIcon.transform.localPosition = new Vector3(IconsCount * 100, 0, 0);
         newIcon.name = (die.Side == DieSide.Success) ? "Hit" : "Crit";
         newIcon.SetActive(true);
 
@@ -67,20 +75,20 @@ public class DiceCompareHelper
             newIcon.transform.Find("Uncancellable").gameObject.SetActive(true);
         }
 
-        diceIcons.Add(newIcon);
+        DiceIcons.Add(newIcon);
 
-        iconsCount++;
+        IconsCount++;
     }
 
     private void ToggleHelperPanel(bool isActive)
     {
-        if (iconsCount == 0) isActive = false;
+        if (IconsCount == 0) isActive = false;
         helperPanel.SetActive(isActive);
     }
 
     private void UpdatePanelSize()
     {
-        helperPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(20 + iconsCount * 100, 100);
+        helperPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(20 + IconsCount * 100, 100);
     }
 
     public void Close()
@@ -109,7 +117,9 @@ public class DiceCompareHelper
         int cancelledRegularHits = results["hits"];
         int cancelledCriticalHits = results["crits"];
 
-        List<GameObject> reversedDiceIcons = new List<GameObject>(diceIcons);
+        GenerateIcons();
+
+        List<GameObject> reversedDiceIcons = new List<GameObject>(DiceIcons);
         reversedDiceIcons.Reverse();
 
         foreach (var diceIcon in reversedDiceIcons)

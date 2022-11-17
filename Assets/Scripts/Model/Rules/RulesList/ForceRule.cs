@@ -11,7 +11,7 @@ namespace RulesList
             if (ship.State.Force < ship.State.MaxForce
                 && ship.IsForceRecurring)
             {
-                ship.State.RestoreForce();
+                ship.State.RestoreForce(ship.PilotInfo.RegensForce);
             }
         }
 

@@ -17,6 +17,7 @@ namespace Ship
         public string AbilityText { get; set; }
 
         public int Force { get; set; }
+        public int RegensForce { get; set; }
         public int Charges { get; set; }
         public int RegensCharges { get; set; }
 

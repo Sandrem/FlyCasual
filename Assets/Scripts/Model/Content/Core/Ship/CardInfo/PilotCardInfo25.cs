@@ -25,6 +25,7 @@ namespace Ship
             int limited = 0,
             Type abilityType = null,
             int force = 0,
+            int regensForce = 1,
             int charges = 0,
             int regensCharges = 0,
             UpgradeType extraUpgradeIcon = UpgradeType.None,
@@ -57,6 +58,7 @@ namespace Ship
             AbilityText = abilityText;
 
             Force = force;
+            RegensForce = regensForce;
             Charges = charges;
             RegensCharges = regensCharges;
 

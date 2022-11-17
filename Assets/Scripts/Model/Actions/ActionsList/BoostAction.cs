@@ -384,7 +384,6 @@ namespace SubPhases
         {
             List<ActionFailReason> result = new List<ActionFailReason>();
 
-            Debug.Log(IsIgnoreObstacles);
             if (obstaclesStayDetectorBase.OverlapsShipNow)
             {
                 if (!quiet) Messages.ShowError("That Boost action is not allowed, as it results in this ship overlapping another ship");

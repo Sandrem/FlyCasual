@@ -10,7 +10,7 @@ namespace UpgradesList.SecondEdition
             UpgradeInfo = new UpgradeCardInfo(
                 "R3 Astromech",
                 UpgradeType.Astromech,
-                cost: 3,
+                cost: 4,
                 abilityType: typeof(Abilities.SecondEdition.R3AstromechAbility),
                 seImageNumber: 54
             );

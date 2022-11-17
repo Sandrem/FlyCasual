@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
                     UpgradeType.Missile,
                     UpgradeType.Device
                 },
-                cost: 4,
+                cost: 9,
                 limited: 2,
                 charges: 1,
                 abilityType: typeof(Abilities.SecondEdition.ElectroChaffMissilesAbility)

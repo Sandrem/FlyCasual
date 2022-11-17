@@ -48,7 +48,7 @@ namespace SquadBuilderNS
 
         private static bool NoPointsLimit()
         {
-            return ExtraOptionsManager.ExtraOptions[typeof(NoPointsLimitExtraOption)].IsOn;
+            return ExtraOptionsManager.ExtraOptions[typeof(NoSquadBuilderLimitsExtraOption)].IsOn;
         }
 
         private static bool HasEnoughFreePointsToAddCheapestShip()

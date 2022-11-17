@@ -2,23 +2,23 @@
 {
     namespace ExtraOptionsList
     {
-        public class NoPointsLimitExtraOption : ExtraOption
+        public class NoSquadBuilderLimitsExtraOption : ExtraOption
         {
-            public NoPointsLimitExtraOption()
+            public NoSquadBuilderLimitsExtraOption()
             {
-                Name = "No points limit";
-                Description = "You can use squads with total points cost more than " + Editions.Edition.Current.MaxPoints + ".\n"
-                    + "Max 10 ships per player.";
+                Name = "No squad builder limits";
+                Description = "You can use squads with total points cost more than " + Editions.Edition.Current.MaxPoints + " (Max 10 ships per player).\n"
+                    + "You can use less than 3 ships in squad.";
             }
 
             protected override void Activate()
             {
-                DebugManager.DebugNoSquadPointsLimit = true;
+                DebugManager.DebugNoSquadBuilderLimits = true;
             }
 
             protected override void Deactivate()
             {
-                DebugManager.DebugNoSquadPointsLimit = false;
+                DebugManager.DebugNoSquadBuilderLimits = false;
             }
         }
     }

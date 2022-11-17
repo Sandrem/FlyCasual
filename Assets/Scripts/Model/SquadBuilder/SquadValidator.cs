@@ -26,7 +26,7 @@ namespace SquadBuilderNS
 
         private bool ValidateShipsCount(SquadList squad)
         {
-            if (!DebugManager.DebugNoSquadPointsLimit)
+            if (!DebugManager.DebugNoSquadBuilderLimits)
             {
                 if (squad.Ships.Count < Edition.Current.MinShipsCount)
                 {
@@ -104,7 +104,7 @@ namespace SquadBuilderNS
 
         private bool ValidateSquadCost(SquadList squad)
         {
-            if (!DebugManager.DebugNoSquadPointsLimit)
+            if (!DebugManager.DebugNoSquadBuilderLimits)
             {
                 if (squad.Points > Edition.Current.MaxPoints)
                 {
@@ -118,7 +118,7 @@ namespace SquadBuilderNS
 
         private bool ValidateLoadoutCost(SquadList squad)
         {
-            if (!DebugManager.DebugNoSquadPointsLimit)
+            if (!DebugManager.DebugNoSquadBuilderLimits)
             {
                 foreach (SquadListShip ship in squad.Ships)
                 {

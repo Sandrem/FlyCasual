@@ -17,11 +17,7 @@ namespace Ship
                     Faction.Imperial,
                     3,
                     2,
-                    2,
-                    extraUpgradeIcons: new List<UpgradeType>
-                    {
-                        UpgradeType.Talent,
-                    },
+                    0,
                     tags: new List<Tags>
                     {
                         Tags.Tie

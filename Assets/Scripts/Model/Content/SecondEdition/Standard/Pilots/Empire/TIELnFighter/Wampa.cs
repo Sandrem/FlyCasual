@@ -18,15 +18,16 @@ namespace Ship
                     "Black Eleven",
                     Faction.Imperial,
                     1,
-                    2,
-                    2,
+                    3,
+                    5,
                     isLimited: true,
                     abilityType: typeof(WampaAbility),
                     charges: 1,
                     regensCharges: 1,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

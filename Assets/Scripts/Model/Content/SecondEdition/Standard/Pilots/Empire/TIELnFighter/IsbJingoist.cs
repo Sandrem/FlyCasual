@@ -21,12 +21,13 @@ namespace Ship
                     "Heartless Enforcer",
                     Faction.Imperial,
                     4,
-                    2,
                     3,
+                    5,
                     limited: 2,
                     abilityType: typeof(Abilities.SecondEdition.IsbJingoistAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
+                        UpgradeType.Talent,
                         UpgradeType.Illicit
                     },
                     tags: new List<Tags>

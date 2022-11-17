@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Resistance,
                     2,
                     4,
-                    18,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.AftabAckbarAbility),
                     extraUpgradeIcons: new List<UpgradeType>

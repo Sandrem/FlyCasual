@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Resistance,
                     4,
                     4,
-                    17,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TezaNaszAbility),
                     extraUpgradeIcons: new List<UpgradeType>

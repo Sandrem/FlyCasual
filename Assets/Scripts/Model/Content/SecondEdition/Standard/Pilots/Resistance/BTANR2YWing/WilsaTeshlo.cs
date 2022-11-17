@@ -18,8 +18,8 @@ namespace Ship
                     "Veiled Sorority Privateer",
                     Faction.Resistance,
                     4,
-                    3,
-                    14,
+                    4,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WilsaTeshloAbility),
                     extraUpgradeIcons: new List<UpgradeType>

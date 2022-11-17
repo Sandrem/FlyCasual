@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Resistance,
                     3,
                     4,
-                    19,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LegaFossangAbility),
                     extraUpgradeIcons: new List<UpgradeType>

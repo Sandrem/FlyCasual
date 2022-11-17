@@ -18,7 +18,7 @@ namespace Ship
                     "Artistic Ace",
                     Faction.Resistance,
                     3,
-                    3,
+                    4,
                     13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ShasaZaroAbility),

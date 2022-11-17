@@ -16,8 +16,8 @@ namespace Ship
                     "Tenacious Survivor",
                     Faction.Resistance,
                     2,
-                    3,
-                    15,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaiThrenalliAbility),
                     extraUpgradeIcons: new List<UpgradeType>

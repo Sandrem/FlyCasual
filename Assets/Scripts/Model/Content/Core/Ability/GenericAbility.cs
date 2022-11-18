@@ -359,6 +359,8 @@ namespace Abilities
 
             if (targetTypes.Contains(TargetTypes.This) && ship.ShipId == hostShip.ShipId) result = true;
 
+            if (targetTypes.Contains(TargetTypes.OtherAny) && ship.ShipId != hostShip.ShipId) result = true;
+
             if (targetTypes.Contains(TargetTypes.OtherFriendly) && ship.Owner.PlayerNo == hostShip.Owner.PlayerNo && ship.ShipId != hostShip.ShipId) result = true;
 
             return result;

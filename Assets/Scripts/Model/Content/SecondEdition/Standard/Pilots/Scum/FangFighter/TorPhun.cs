@@ -84,6 +84,7 @@ namespace Abilities.SecondEdition
             HostShip.OnCanPerformActionWhileStressed += TemporaryAllowAnyActionsWhileStressed;
             HostShip.OnCheckCanPerformActionsWhileStressed += TemporaryAllowActionsWhileStressed;
             HostShip.OnActionIsPerformed += DisallowActionsWhileStressed;
+            HostShip.OnActionIsSkipped += DisallowActionsWhileStressedAlt;
 
             List<GenericAction> actions = HostShip.GetAvailableActions();
 
@@ -100,6 +101,15 @@ namespace Abilities.SecondEdition
             HostShip.OnCanPerformActionWhileStressed -= TemporaryAllowAnyActionsWhileStressed;
             HostShip.OnCheckCanPerformActionsWhileStressed -= TemporaryAllowActionsWhileStressed;
             HostShip.OnActionIsPerformed -= DisallowActionsWhileStressed;
+            HostShip.OnActionIsSkipped-= DisallowActionsWhileStressedAlt;
+        }
+
+        private void DisallowActionsWhileStressedAlt(GenericShip ship)
+        {
+            HostShip.OnCanPerformActionWhileStressed -= TemporaryAllowAnyActionsWhileStressed;
+            HostShip.OnCheckCanPerformActionsWhileStressed -= TemporaryAllowActionsWhileStressed;
+            HostShip.OnActionIsPerformed -= DisallowActionsWhileStressed;
+            HostShip.OnActionIsSkipped -= DisallowActionsWhileStressedAlt;
         }
 
         private void TemporaryAllowAnyActionsWhileStressed(GenericAction action, ref bool isAllowed)

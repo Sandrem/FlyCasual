@@ -40,6 +40,11 @@ public class DiceCompareHelper
         IconsCount = 0;
         DiceIcons = new List<GameObject>();
 
+        foreach (Transform item in helperPanel.transform.Find("DiceImages").transform)
+        {
+            if (item.gameObject.name == "Hit" || item.gameObject.name == "Crit") GameObject.Destroy(item.gameObject);
+        }
+
         if (!AttackDiceroll.CancelCritsFirst)
         {
             CreateIcons(AttackDiceroll.DiceList.Where(n => n.Side == DieSide.Crit).ToList());

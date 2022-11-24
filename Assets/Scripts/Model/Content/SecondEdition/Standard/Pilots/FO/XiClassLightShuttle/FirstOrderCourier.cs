@@ -1,4 +1,7 @@
-﻿namespace Ship
+﻿using System.Collections.Generic;
+using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.XiClassLightShuttle
     {
@@ -13,7 +16,14 @@
                     Faction.FirstOrder,
                     2,
                     4,
-                    10
+                    10,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/9f/49/9f490467-49a5-456f-b649-42cb74ecdd8a/swz69_a1_ship_courier.png";

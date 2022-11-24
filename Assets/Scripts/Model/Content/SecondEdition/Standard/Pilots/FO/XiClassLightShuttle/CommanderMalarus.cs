@@ -26,6 +26,10 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Crew,
                         UpgradeType.Modification
                     }
                 );

@@ -32,8 +32,7 @@ namespace Ship
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(EvadeAction)),
                         new ActionInfo(typeof(BarrelRollAction))
-                    ),
-                    new ShipUpgradesInfo()
+                    )
                 );
 
                 ModelInfo = new ShipModelInfo

@@ -24,7 +24,11 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Illicit,
                         UpgradeType.Illicit,
-                        UpgradeType.Illicit
+                        UpgradeType.Illicit,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
                     },
                     abilityType: typeof(Abilities.SecondEdition.AgentTerexPilotAbility)
                 );

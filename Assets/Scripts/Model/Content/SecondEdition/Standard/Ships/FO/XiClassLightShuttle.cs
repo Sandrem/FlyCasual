@@ -32,13 +32,6 @@ namespace Ship.SecondEdition.XiClassLightShuttle
                     new ActionInfo(typeof(TargetLockAction), ActionColor.Red),
                     new ActionInfo(typeof(CoordinateAction), ActionColor.Red),
                     new ActionInfo(typeof(JamAction))
-                ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Tech,
-                    UpgradeType.Tech,
-                    UpgradeType.Crew,
-                    UpgradeType.Modification
                 )
             );
 

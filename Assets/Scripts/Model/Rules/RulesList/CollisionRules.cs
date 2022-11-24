@@ -22,9 +22,9 @@ namespace RulesList
             if (!RuleIsInitialized)
             {
                 GenericShip.OnTryPerformAttackGlobal += CanPerformAttack;
+                GenericShip.OnMovementFinishGlobal += CheckBumps;
                 RuleIsInitialized = true;
             }
-            GenericShip.OnMovementFinishGlobal += CheckBumps;
         }
 
         public void CheckBumps(GenericShip ship)

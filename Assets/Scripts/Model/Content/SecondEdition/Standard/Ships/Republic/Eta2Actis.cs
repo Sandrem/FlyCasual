@@ -39,13 +39,6 @@ namespace Ship.SecondEdition.Eta2Actis
                     new ActionInfo(typeof(TargetLockAction), ActionColor.Purple),
                     new ActionInfo(typeof(BarrelRollAction)),
                     new ActionInfo(typeof(BoostAction))
-                ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.ForcePower,
-                    UpgradeType.Cannon,
-                    UpgradeType.Astromech,
-                    UpgradeType.Modification
                 )
             );
 

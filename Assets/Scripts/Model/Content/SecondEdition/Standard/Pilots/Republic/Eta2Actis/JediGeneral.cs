@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship.SecondEdition.Eta2Actis
 {
@@ -16,6 +17,13 @@ namespace Ship.SecondEdition.Eta2Actis
                 5,
                 4,
                 force: 2,
+                extraUpgradeIcons: new List<UpgradeType>()
+                {
+                    UpgradeType.ForcePower,
+                    UpgradeType.Cannon,
+                    UpgradeType.Astromech,
+                    UpgradeType.Modification
+                },
                 tags: new List<Tags>
                 {
                     Tags.Jedi,

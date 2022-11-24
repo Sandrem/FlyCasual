@@ -27,7 +27,11 @@ namespace Ship.SecondEdition.Eta2Actis
                 abilityType: typeof(Abilities.SecondEdition.AnakinSkywalkerActisAbility),
                 extraUpgradeIcons: new List<UpgradeType>
                 {
-                    UpgradeType.Talent
+                    UpgradeType.Talent,
+                    UpgradeType.ForcePower,
+                    UpgradeType.Cannon,
+                    UpgradeType.Astromech,
+                    UpgradeType.Modification
                 },
                 tags: new List<Tags>
                 {

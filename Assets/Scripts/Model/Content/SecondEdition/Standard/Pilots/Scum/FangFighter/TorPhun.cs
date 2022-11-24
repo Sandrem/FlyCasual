@@ -21,14 +21,15 @@ namespace Ship
                     "Direct Pressure",
                     Faction.Scum,
                     3,
-                    5,
-                    12,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TorPhunAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Missile
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {
@@ -38,8 +39,6 @@ namespace Ship
                 );
 
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/bbede7a9-748c-4269-8d6c-cdab20cc7029/SWZ97_TorPhunlegal.png";
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

@@ -20,14 +20,15 @@ namespace Ship
                     Faction.Rebel,
                     5,
                     5,
-                    14,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WesJansonAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Torpedo,
-                        UpgradeType.Astromech
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {
@@ -38,8 +39,6 @@ namespace Ship
                 );
 
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/be88838d-bbd6-42d5-8b1d-161eb2fa98f3/SWZ97_WesJansonlegal.png";
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

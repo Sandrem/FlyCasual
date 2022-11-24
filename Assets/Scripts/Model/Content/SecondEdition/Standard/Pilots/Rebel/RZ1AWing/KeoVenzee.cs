@@ -19,8 +19,8 @@ namespace Ship
                     "Auspicious Ace",
                     Faction.Rebel,
                     3,
-                    4,
-                    10,
+                    3,
+                    5,
                     force: 1,
                     regensForce: 0,
                     isLimited: true,
@@ -28,9 +28,7 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Talent,
-                        UpgradeType.Missile,
-                        UpgradeType.Modification
+                        UpgradeType.Missile
                     },
                     tags: new List<Tags>
                     {
@@ -40,8 +38,6 @@ namespace Ship
                 );
 
                 ImageUrl = "https://i.imgur.com/DFRzYC6.png";
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

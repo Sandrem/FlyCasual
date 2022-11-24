@@ -24,7 +24,7 @@ namespace Ship
                     Faction.Rebel,
                     3,
                     4,
-                    15,
+                    16,
                     isLimited: true,
                     abilityType: typeof(PopsKrailAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -32,10 +32,9 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Turret,
                         UpgradeType.Torpedo,
-                        UpgradeType.Missile,
                         UpgradeType.Astromech,
                         UpgradeType.Device,
-                        UpgradeType.Modification,
+                        UpgradeType.Missile,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>
@@ -45,8 +44,6 @@ namespace Ship
                 );
 
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/bec9574e-4585-4b27-8988-bf27c2548a7f/SWZ97_PopsKraillegal.png";
-
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

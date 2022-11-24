@@ -20,26 +20,25 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     5,
-                    12,
+                    14,
                     force: 2,
                     isLimited: true,
                     abilityType: typeof(SecondSisterAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Talent,
                         UpgradeType.ForcePower,
-                        UpgradeType.Modification,
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {
+                        Tags.DarkSide,
                         Tags.Tie
                     }
                 );
 
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/f542f260-755f-48ff-84bf-7d8486ffd6b7/SWZ97_SecondSisterlegal.png";
-
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

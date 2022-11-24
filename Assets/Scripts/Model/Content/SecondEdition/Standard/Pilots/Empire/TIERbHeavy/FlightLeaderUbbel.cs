@@ -19,13 +19,14 @@ namespace Ship
                     Faction.Imperial,
                     5,
                     5,
-                    16,
+                    15,
                     abilityType: typeof(Abilities.SecondEdition.FlightLeaderUbbelAbility),
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Gunner,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>
@@ -35,8 +36,6 @@ namespace Ship
                 );
 
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/c4b1a1ef-76b0-4da2-a06e-eb8e04fe0d84/SWZ97_FlightLeaderUbbellegal+%281%29.png";
-
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

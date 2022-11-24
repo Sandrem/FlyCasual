@@ -24,29 +24,27 @@ namespace Ship
                     Faction.Scum,
                     3,
                     6,
-                    16,
+                    22,
                     charges: 3,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DoctorAphraPilotAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent,
                         UpgradeType.Crew,
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
                         UpgradeType.Title
                     },
                     tags: new List<Tags>
                     {
-                        Tags.Freighter,
-                        Tags.BountyHunter
+                        Tags.Freighter
                     }
                 );
 
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/cab18bcf-9835-49d1-840b-82cc8f5ac976/SWZ97_DoctorAphralegal.png";
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

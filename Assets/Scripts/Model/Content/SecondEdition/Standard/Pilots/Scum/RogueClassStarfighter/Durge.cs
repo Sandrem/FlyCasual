@@ -17,20 +17,16 @@ namespace Ship
                     "Hard to Kill",
                     Faction.Scum,
                     5,
-                    5,
-                    18,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DurgeAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Cannon,
-                        UpgradeType.Cannon,
-                        UpgradeType.Missile,
-                        UpgradeType.Illicit,
-                        UpgradeType.Illicit,
                         UpgradeType.Modification,
-                        UpgradeType.Title
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>()
                     {
@@ -39,8 +35,6 @@ namespace Ship
                 );
 
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/9e694fa9-2526-4309-9c51-ad78603548bb/SWZ97_Durge2legal.png";
-
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

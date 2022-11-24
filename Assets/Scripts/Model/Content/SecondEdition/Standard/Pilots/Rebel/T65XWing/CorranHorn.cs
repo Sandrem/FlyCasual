@@ -22,7 +22,7 @@ namespace Ship
                     Faction.Rebel,
                     5,
                     5,
-                    14,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CorranHornXWingAbility),
                     extraUpgradeIcons: new List<UpgradeType>
@@ -39,9 +39,7 @@ namespace Ship
 
                 ImageUrl = "https://i.imgur.com/0lxticA.png";
 
-                PilotNameCanonical = "fennrau-t65xwing";
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
+                PilotNameCanonical = "corranhorn-t65xwing";
             }
         }
     }

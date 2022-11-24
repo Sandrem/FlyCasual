@@ -22,13 +22,14 @@ namespace Ship
                     Faction.Imperial,
                     3,
                     3,
-                    5,
+                    9,
                     isLimited: true,
                     abilityType: typeof(MagnaTolvanAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Talent
+                        UpgradeType.Cannon,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {
@@ -37,8 +38,6 @@ namespace Ship
                 );
 
                 ImageUrl = "https://i.imgur.com/KXRxwN1.png";
-
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

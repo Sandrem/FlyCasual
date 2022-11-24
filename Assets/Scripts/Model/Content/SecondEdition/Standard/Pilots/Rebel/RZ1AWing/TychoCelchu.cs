@@ -19,15 +19,15 @@ namespace Ship
                     Faction.Rebel,
                     5,
                     4,
-                    10,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TychoCelchuAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Missile,
-                        UpgradeType.Modification
+                        UpgradeType.Cannon,
+                        UpgradeType.Missile
                     },
                     tags: new List<Tags>
                     {
@@ -36,8 +36,6 @@ namespace Ship
                 );
 
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/790214c2-924a-4066-894a-ac71d59cc82b/SWZ97_TychoCelchulegal.png";
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

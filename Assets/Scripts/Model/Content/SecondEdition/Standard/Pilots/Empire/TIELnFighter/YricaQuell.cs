@@ -21,13 +21,14 @@ namespace Ship
                     Faction.Imperial,
                     3,
                     3,
-                    5,
+                    9,
                     isLimited: true,
                     abilityType: typeof(YricaQuellAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Talent
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {
@@ -36,8 +37,6 @@ namespace Ship
                 );
 
                 ImageUrl = "https://i.imgur.com/c9QpLZa.png";
-
-                RequiredMods = new List<Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

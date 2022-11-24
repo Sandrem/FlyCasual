@@ -20,12 +20,14 @@ namespace Ship
                     Faction.Scum,
                     2,
                     3,
-                    8,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LapinAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>
@@ -35,8 +37,6 @@ namespace Ship
                 );
                 
                 ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/1437f98b-cff9-42d8-bca6-2f466f9b9d89/SWZ97_Lapinlegal.png";
-
-                RequiredMods = new List<System.Type>() { typeof(Mods.ModsList.UnreleasedContentMod) };
             }
         }
     }

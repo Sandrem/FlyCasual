@@ -28,7 +28,7 @@ namespace Ship
                     abilityType: typeof(AnakinSkywalkerNabooN1StarfighterAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent, UpgradeType.Torpedo
                     },
                     tags: new List<Tags>
                     {

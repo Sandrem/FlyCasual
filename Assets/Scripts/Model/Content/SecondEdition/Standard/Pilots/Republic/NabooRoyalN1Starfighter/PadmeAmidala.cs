@@ -28,7 +28,7 @@ namespace Ship
                     abilityType: typeof(PadmeAmidalaAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Talent
+                        UpgradeType.Talent, UpgradeType.Torpedo
                     }
                 );
 

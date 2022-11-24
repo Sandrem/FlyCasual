@@ -33,13 +33,6 @@ namespace Ship.SecondEdition.ScavengedYT1300
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(RotateArcAction), ActionColor.Red),
                     new ActionInfo(typeof(BoostAction), ActionColor.Red)
-                ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Talent,
-                    UpgradeType.Missile,
-                    UpgradeType.Gunner,
-                    UpgradeType.Modification
                 )
             );
 

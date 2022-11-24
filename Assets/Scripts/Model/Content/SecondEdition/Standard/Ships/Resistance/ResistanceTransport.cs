@@ -32,12 +32,6 @@ namespace Ship.SecondEdition.ResistanceTransport
                     new ActionInfo(typeof(TargetLockAction)),
                     new ActionInfo(typeof(CoordinateAction), ActionColor.Red),
                     new ActionInfo(typeof(JamAction), ActionColor.Red)
-                ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Cannon,
-                    UpgradeType.Crew,
-                    UpgradeType.Astromech
                 )
             );
 

@@ -1,41 +1,42 @@
-﻿using Content;
+﻿using ActionsList;
+using Content;
 using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
 {
-    namespace SecondEdition.RZ2AWing
+    namespace SecondEdition.T70XWing
     {
-        public class ZariBangel : RZ2AWing
+        public class ZayVersio : T70XWing
         {
-            public ZariBangel() : base()
+            public ZayVersio() : base()
             {
+                IsWIP = true;
+
                 PilotInfo = new PilotCardInfo25
                 (
-                    "Zari Bangel",
-                    "Aerial Exhibitionist",
+                    "Zay Versio",
+                    "Her Father's Daughter",
                     Faction.Resistance,
                     3,
                     4,
-                    11,
+                    7,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.ZariBangelAbility),
+                    abilityType: typeof(Abilities.SecondEdition.ZayVersioAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
-                        UpgradeType.Tech,
                         UpgradeType.Missile,
-                        UpgradeType.Modification,
+                        UpgradeType.Missile,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {
-                        Tags.AWing
-                    },
-                    skinName: "Blue"
+                        Tags.XWing
+                    }
                 );
 
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/d7f37dbb86bb706dd535e9a65b69149a.png";
+                ImageUrl = "https://images.squarespace-cdn.com/content/v1/5ce432b1f9d2be000134d8ae/b6b11bba-184a-4b05-9f79-a3d77effa82b/SWZ97_ZayVersiolegal+%281%29.png";
             }
         }
     }
@@ -43,16 +44,16 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class ZariBangelAbility : GenericAbility
+    public class ZayVersioAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
-            HostShip.CanPerformActionsWhenBumped = true;
+            
         }
 
         public override void DeactivateAbility()
         {
-            HostShip.CanPerformActionsWhenBumped = false;
+            
         }
     }
 }

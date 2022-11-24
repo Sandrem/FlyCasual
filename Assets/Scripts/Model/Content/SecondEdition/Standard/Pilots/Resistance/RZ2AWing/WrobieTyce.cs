@@ -19,8 +19,8 @@ namespace Ship
                     "Dynamic Aerialist",
                     Faction.Resistance,
                     4,
+                    3,
                     4,
-                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WrobieTyceAbility),
                     extraUpgradeIcons: new List<UpgradeType>

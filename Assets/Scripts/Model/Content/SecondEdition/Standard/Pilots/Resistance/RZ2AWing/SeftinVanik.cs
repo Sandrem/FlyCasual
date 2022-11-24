@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Resistance,
                     5,
                     4,
-                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SeftinVanikAbility),
                     extraUpgradeIcons: new List<UpgradeType>

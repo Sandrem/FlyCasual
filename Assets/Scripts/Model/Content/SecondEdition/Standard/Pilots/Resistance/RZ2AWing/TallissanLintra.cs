@@ -18,7 +18,7 @@ namespace Ship
                     "Deadly Approach",
                     Faction.Resistance,
                     5,
-                    5,
+                    4,
                     12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TallissanLintraAbility),

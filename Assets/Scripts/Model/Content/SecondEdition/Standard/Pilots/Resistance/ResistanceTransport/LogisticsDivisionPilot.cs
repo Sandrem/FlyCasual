@@ -17,6 +17,9 @@ namespace Ship.SecondEdition.ResistanceTransport
                 6,
                 extraUpgradeIcons: new List<UpgradeType>
                 {
+                    UpgradeType.Cannon,
+                    UpgradeType.Crew,
+                    UpgradeType.Astromech,
                     UpgradeType.Astromech
                 }
             );

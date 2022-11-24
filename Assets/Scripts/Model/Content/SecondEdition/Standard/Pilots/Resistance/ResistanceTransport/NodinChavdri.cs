@@ -26,8 +26,11 @@ namespace Ship.SecondEdition.ResistanceTransport
                 {
                     UpgradeType.Tech,
                     UpgradeType.Cannon,
+                    UpgradeType.Cannon,
                     UpgradeType.Torpedo,
                     UpgradeType.Missile,
+                    UpgradeType.Crew,
+                    UpgradeType.Astromech,
                     UpgradeType.Modification
                 }
             );

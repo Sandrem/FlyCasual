@@ -17,8 +17,8 @@ namespace Ship
                     "Luminous Mentor",
                     Faction.Resistance,
                     5,
-                    5,
-                    16,
+                    4,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LuloLamparAbility),
                     extraUpgradeIcons: new List<UpgradeType>

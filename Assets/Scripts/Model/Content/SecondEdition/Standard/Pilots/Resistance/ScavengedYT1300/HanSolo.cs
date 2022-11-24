@@ -29,7 +29,11 @@ namespace Ship
                         UpgradeType.Crew,
                         UpgradeType.Crew,
                         UpgradeType.Illicit,
-                        UpgradeType.Illicit
+                        UpgradeType.Illicit,
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

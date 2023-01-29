@@ -27,6 +27,7 @@ namespace RulesList
 
             ActionColor color = action.Color;
             color = Selection.ThisShip.CallOnCheckActionComplexity(action, ref color);
+            Selection.ThisShip.CallOnCheckActionColor(action, ref color);
 
             //AI perfroms red actions as white, because it is hard to calculate correct priority of red action
             if (color == ActionColor.Red && !(Selection.ThisShip.Owner is Players.GenericAiPlayer))

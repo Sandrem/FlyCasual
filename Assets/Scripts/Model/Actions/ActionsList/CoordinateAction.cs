@@ -14,6 +14,7 @@ namespace Actions
     {
         public int MaxTargets { get; set; }
         public bool SameShipTypeLimit { get; set; }
+        public bool TargetLowerInitiave { get; set; }
         public bool SameActionLimit { get; set; }
         public bool TreatCoordinatedActionAsRed { get; set; }
         public GenericShip CoordinateProvider { get; private set; }
@@ -186,6 +187,7 @@ namespace ActionsList
             return ship.Owner.PlayerNo == Selection.ThisShip.Owner.PlayerNo
                 && Board.CheckInRange(CoordinateActionData.CoordinateProvider, ship, 1, 2, RangeCheckReason.CoordinateAction)
                 && ship.CanBeCoordinated
+                && (!CoordinateActionData.TargetLowerInitiave || ship.PilotInfo.Initiative < HostShip.PilotInfo.Initiative)
                 && (!CoordinateActionData.SameShipTypeLimit || Selection.MultiSelectedShips.Count == 0 || ship.ShipInfo.ShipName == Selection.MultiSelectedShips.First().ShipInfo.ShipName)
                 && CoordinateActionData.CoordinateProvider.CallCheckCanCoordinate(ship);
         }

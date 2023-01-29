@@ -87,6 +87,7 @@ namespace Ship
         public event EventHandler OnSlam;
 
         public event EventHandlerActionColor OnCheckActionComplexity;
+        public event EventHandlerActionColor OnCheckActionColor;
 
         public event EventHandlerArcFacingList OnGetAvailableArcFacings;
 
@@ -716,6 +717,14 @@ namespace Ship
         public ActionColor CallOnCheckActionComplexity(GenericAction action, ref ActionColor color)
         {
             OnCheckActionComplexity?.Invoke(action, ref color);
+            return color;
+        }
+
+        // TODO: Added by sampson-matt, need to check difference against my CallOnCheckActionComplexity
+
+        public ActionColor CallOnCheckActionColor(GenericAction action, ref ActionColor color)
+        {
+            OnCheckActionColor?.Invoke(action, ref color);
             return color;
         }
 

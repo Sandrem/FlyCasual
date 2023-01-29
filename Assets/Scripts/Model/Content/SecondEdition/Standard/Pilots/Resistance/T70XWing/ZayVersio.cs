@@ -11,8 +11,6 @@ namespace Ship
         {
             public ZayVersio() : base()
             {
-                IsWIP = true;
-
                 PilotInfo = new PilotCardInfo25
                 (
                     "Zay Versio",
@@ -48,12 +46,30 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            
+            AddDiceModification(
+                HostName,
+                IsAvailable,
+                GetAiPriority,
+                DiceModificationType.Reroll,
+                1
+            );
         }
 
         public override void DeactivateAbility()
         {
-            
+            RemoveDiceModification();
+        }
+
+        private int GetAiPriority()
+        {
+            return 90;
+        }
+
+        private bool IsAvailable()
+        {
+            return Combat.Defender == HostShip
+                && Combat.AttackStep == CombatStep.Defence
+                && Combat.Attacker.Damage.IsDamaged;
         }
     }
 }

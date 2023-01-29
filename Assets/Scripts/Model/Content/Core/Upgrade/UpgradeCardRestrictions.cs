@@ -63,21 +63,6 @@ namespace Upgrade
         }
     }
 
-    public class UpgradePresentRestriction : UpgradeCardRestriction
-    {
-        public UpgradeType UpgradeSlot { get; private set; }
-
-        public UpgradePresentRestriction(UpgradeType upgradeSlot)
-        {
-            UpgradeSlot = upgradeSlot;
-        }
-
-        public override bool IsAllowedForShip(GenericShip ship)
-        {
-            return ship.UpgradeBar.GetInstalledUpgrade(UpgradeSlot) != null;
-        }
-    }
-
     public class ActionBarRestriction : UpgradeCardRestriction
     {
         public Type ActionType { get; private set; }

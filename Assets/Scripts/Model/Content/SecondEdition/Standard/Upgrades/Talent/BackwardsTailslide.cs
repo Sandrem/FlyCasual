@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using Ship;
+using SquadBuilderNS;
 using System;
 using UnityEngine;
 using Upgrade;
@@ -14,15 +15,26 @@ namespace UpgradesList.SecondEdition
                 "Backwards Tailslide",
                 UpgradeType.Talent,
                 cost: 2,
-                restrictions: new UpgradeCardRestrictions(
-                    new TagRestriction(Content.Tags.XWing),
-                    new UpgradePresentRestriction(UpgradeType.Configuration)
-                ),
+                restriction: new TagRestriction(Content.Tags.XWing),
                 abilityType: typeof(Abilities.SecondEdition.BackwardsTailslideAbility)
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/c4/d5/c4d543bc-bcf0-4c88-b8df-f652210752b9/swz68_backward-tailslide.png";
-        }        
+        }
+
+        public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)
+        {
+            int installedConfigurationUpgrades = HostShip.UpgradeBar.GetInstalledUpgrades(UpgradeType.Configuration).Count;
+            if (installedConfigurationUpgrades == 0)
+            {
+                Messages.ShowError($"{HostShip.PilotInfo.PilotName} has {UpgradeInfo.Name} upgrade, but doesn't have any Configuration upgrades");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }
 

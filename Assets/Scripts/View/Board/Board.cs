@@ -360,6 +360,33 @@ namespace BoardTools
             return shipsInBullseyeArc;
         }
 
+        public static List<GenericShip> GetShipsInArcAtRange(GenericShip ship, ArcType arc, Vector2 fromto, Team.Type team = Team.Type.Any)
+        {
+            List<GenericShip> shipsInArcAtRange = new List<GenericShip>();
+            foreach (var kv in Roster.AllShips)
+            {
+                GenericShip otherShip = kv.Value;
+
+                if (team == Team.Type.Friendly && ship.Owner.Id != otherShip.Owner.Id)
+                    continue;
+
+                if (team == Team.Type.Enemy && ship.Owner.Id == otherShip.Owner.Id)
+                    continue;
+
+                if (!ship.SectorsInfo.IsShipInSector(otherShip, arc))
+                    continue;
+
+                int range = GetRangeOfShips(ship, otherShip);
+                if (range >= fromto.x && range <= fromto.y)
+                {
+                    shipsInArcAtRange.Add(otherShip);
+                }
+
+            }
+
+            return shipsInArcAtRange;
+        }
+
         public static List<GenericShip> GetShipsAtRange(GenericShip ship, Vector2 fromto, Team.Type team = Team.Type.Any)
         {
             List<GenericShip> ships = new List<GenericShip>();

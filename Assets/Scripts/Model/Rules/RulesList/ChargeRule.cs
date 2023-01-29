@@ -1,5 +1,7 @@
 ﻿using Ship;
 using System.Linq;
+using Upgrade;
+using System.Collections.Generic;
 
 namespace RulesList
 {
@@ -15,6 +17,15 @@ namespace RulesList
             {
                 u.State.RestoreCharges(u.UpgradeInfo.RegensChargesCount);
             });
+
+            ship.UpgradeBar.GetSpecialWeaponsAll().ForEach(u =>
+            {
+                GenericSpecialWeapon specialWeapon = (GenericSpecialWeapon)u;
+                if (specialWeapon.WeaponInfo.RegensCharges)
+                {
+                    u.State.RestoreCharge();
+                }
+            });            
         }
     }
 }

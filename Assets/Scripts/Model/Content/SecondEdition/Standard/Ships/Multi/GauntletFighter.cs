@@ -45,6 +45,8 @@ namespace Ship
                     )
                 );
 
+                DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.SwivelWingDown));
+
                 ModelInfo = new ShipModelInfo
                 (
                     "Gauntlet Fighter",

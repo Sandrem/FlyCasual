@@ -93,6 +93,7 @@ namespace Ship
         public static event EventHandlerShip OnManeuverIsReadyToBeRevealedGlobal;
         public event EventHandlerShip OnManeuverIsRevealed;
         public static event EventHandlerShip OnManeuverIsRevealedGlobal;
+        public static event EventHandlerShip OnManeuverIsSkippedGlobal;
         public static event EventHandlerShip OnNoManeuverWasRevealedGlobal;
         public event EventHandlerShip BeforeMovementIsExecuted;
         public event EventHandlerShip OnMovementStart;
@@ -143,7 +144,15 @@ namespace Ship
                     TriggerTypes.OnManeuverIsRevealed,
                     delegate
                     {
-                        if (!IsManeuverSkipped) callBack(); else whenSkippedCallback();
+                        if (!IsManeuverSkipped)
+                        {
+                            callBack();
+                        }
+                        else
+                        {
+                            OnManeuverIsSkippedGlobal?.Invoke(this);
+                            Triggers.ResolveTriggers(TriggerTypes.OnManeuverIsSkipped, whenSkippedCallback);
+                        }
                     }
                 );
             }

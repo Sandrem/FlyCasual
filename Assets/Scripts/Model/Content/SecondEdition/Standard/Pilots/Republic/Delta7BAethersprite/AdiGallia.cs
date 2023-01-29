@@ -8,8 +8,6 @@ namespace Ship.SecondEdition.Delta7BAethersprite
     {
         public AdiGallia()
         {
-            IsWIP = true;
-
             PilotInfo = new PilotCardInfo25
             (
                 "Adi Gallia",

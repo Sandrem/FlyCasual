@@ -191,7 +191,8 @@ namespace SquadBuilderNS
                 {
                     if (shipConfig.Instance.ShipInfo.ShipName == standardizedPair.Key)
                     {
-                        if (!shipConfig.Instance.UpgradeBar.HasUpgradeInstalled(standardizedPair.Value.GetType()))
+                        if (shipConfig.Instance.UpgradeBar.HasUpgradeSlot(standardizedPair.Value.Slot.Type)
+                            && !shipConfig.Instance.UpgradeBar.HasUpgradeInstalled(standardizedPair.Value.GetType()))
                         {
                             Messages.ShowError($"All {shipConfig.Instance.ShipInfo.ShipName} ships must have the Standardized upgrade {standardizedPair.Value.UpgradeInfo.Name} installed");
                             return false;

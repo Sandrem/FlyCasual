@@ -7,22 +7,20 @@ namespace Ship
 {
     namespace SecondEdition.NabooRoyalN1Starfighter
     {
-        public class GavinSykes : NabooRoyalN1Starfighter
+        public class GavynSykes : NabooRoyalN1Starfighter
         {
-            public GavinSykes() : base()
+            public GavynSykes() : base()
             {
-                IsWIP = true;
-
                 PilotInfo = new PilotCardInfo25
                 (
-                    "Gavin Sykes",
+                    "Gavyn Sykes",
                     "Bravo Six",
                     Faction.Republic,
                     3,
                     4,
                     16,
                     isLimited: true,
-                    abilityType: typeof(GavinSykesAbility),
+                    abilityType: typeof(GavynSykesAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
@@ -39,16 +37,37 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class GavinSykesAbility : GenericAbility
+    public class GavynSykesAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
-
+            AddDiceModification(
+                "Gavyn Sykes",
+                IsDiceModificationAvailable,
+                GetAiPriority,
+                DiceModificationType.Reroll,
+                int.MaxValue,
+                new List<DieSide>() { DieSide.Blank },
+                timing: DiceModificationTimingType.AfterRolled
+            );
         }
 
         public override void DeactivateAbility()
         {
+            RemoveDiceModification();
+        }
 
+        private bool IsDiceModificationAvailable()
+        {
+            if (HostShip.RevealedManeuver == null || Combat.Defender.RevealedManeuver == null) return false;
+
+            return ((Combat.AttackStep == CombatStep.Attack && Combat.Attacker == HostShip && HostShip.RevealedManeuver.Speed > Combat.Defender.RevealedManeuver.Speed)
+                || (Combat.AttackStep == CombatStep.Defence && Combat.Defender == HostShip && HostShip.RevealedManeuver.Speed > Combat.Attacker.RevealedManeuver.Speed)) && Combat.CurrentDiceRoll.Blanks > 0;
+        }
+
+        private int GetAiPriority()
+        {
+            return 95;
         }
     }
 }

@@ -109,13 +109,13 @@ namespace Abilities.SecondEdition
         public override void ActivateAbility()
         {
             HostShip.OnGetAvailableArcFacings += RestrictArcFacings;
-            HostShip.OnMovementFinish += RegisterAbility;
+            HostShip.OnMovementFinishSuccessfully += RegisterAbility;
         }
 
         public override void DeactivateAbility()
         {
             HostShip.OnGetAvailableArcFacings -= RestrictArcFacings;
-            HostShip.OnMovementFinish -= RegisterAbility;
+            HostShip.OnMovementFinishSuccessfully -= RegisterAbility;
         }
 
         private void RestrictArcFacings(List<ArcFacing> facings)

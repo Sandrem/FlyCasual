@@ -1,4 +1,7 @@
-﻿using Content;
+﻿using BoardTools;
+using Content;
+using Ship;
+using System;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,8 +13,6 @@ namespace Ship
         {
             public MandalorianRoyalGuard() : base()
             {
-                IsWIP = true;
-
                 PilotInfo = new PilotCardInfo25
                 (
                     "Mandalorian Royal Guard",
@@ -46,12 +47,49 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            
+            AddDiceModification(
+                "Mandalorian Royal Guard",
+                IsAvailable,
+                AiPriority,
+                DiceModificationType.Change,
+                1,
+                sideCanBeChangedTo: DieSide.Success,
+                isGlobal: true,
+                payAbilityCost: PayAbilityCost
+            );
+        }
+        private void PayAbilityCost(Action<bool> callback)
+        {
+            HostShip.Tokens.AssignToken(typeof(Tokens.DepleteToken), delegate { });
+            HostShip.Tokens.AssignToken(typeof(Tokens.StrainToken), () => callback(true));
+        }
+
+        public bool IsAvailable()
+        {
+            bool result = false;
+
+            if (Combat.AttackStep == CombatStep.Defence && Tools.IsSameTeam(Combat.Defender, HostShip) && Combat.Defender.ShipInfo.BaseSize != BaseSize.Small)
+            {
+                ShotInfoArc arcInfo = new ShotInfoArc(
+                    Combat.Attacker,
+                    HostShip,
+                    Combat.ArcForShot
+                );
+
+                if (arcInfo.InArc) result = true;
+            }
+
+            return result;
+        }
+
+        private int AiPriority()
+        {
+            return 95;
         }
 
         public override void DeactivateAbility()
         {
-            
+            RemoveDiceModification();
         }
     }
 }

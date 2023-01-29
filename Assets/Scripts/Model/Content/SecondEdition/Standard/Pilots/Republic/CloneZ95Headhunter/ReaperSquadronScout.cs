@@ -15,7 +15,7 @@ namespace Ship
                     "Reaper Squadron Scout",
                     "",
                     Faction.Republic,
-                    2,
+                    3,
                     3,
                     2,
                     extraUpgradeIcons: new List<UpgradeType>

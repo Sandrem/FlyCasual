@@ -631,6 +631,18 @@ public static partial class ActionsHolder
                 callBack
             );
         }
+        else if (tokenToReassign.GetType() == typeof(JamToken) || tokenToReassign.GetType() == typeof(TractorBeamToken))
+        {
+            if (fromShip == null)
+                throw new InvalidOperationException("assigner must be specified when assigning a " + tokenToReassign.GetType().ToString());
+
+            GenericToken tokenToAssign = (GenericToken)Activator.CreateInstance(tokenToReassign.GetType(), toShip, fromShip.Owner);
+            fromShip.Tokens.RemoveToken(
+                tokenToReassign.GetType(),
+                delegate {
+                    toShip.Tokens.AssignToken(tokenToAssign, callBack);
+                });
+        }
         else
         {
             GenericToken tokenToAssign = (GenericToken)Activator.CreateInstance(tokenToReassign.GetType(), new [] { toShip });

@@ -81,12 +81,26 @@ namespace Abilities.SecondEdition
 
         private void DoSideSlip(object sender, EventArgs e)
         {
-            GenericMovement movement = new SideslipBankMovement(
-                HostShip.RevealedManeuver.Speed,
-                HostShip.RevealedManeuver.Direction,
-                ManeuverBearing.SideslipBank,
-                GenericMovement.IncreaseComplexity(HostShip.RevealedManeuver.ColorComplexity)
-            );
+            GenericMovement movement = null;
+            if (HostShip.RevealedManeuver.Bearing == ManeuverBearing.Bank)
+            {
+                movement = new SideslipBankMovement(
+                    HostShip.RevealedManeuver.Speed,
+                    HostShip.RevealedManeuver.Direction,
+                    ManeuverBearing.SideslipBank,
+                    GenericMovement.IncreaseComplexity(HostShip.RevealedManeuver.ColorComplexity)
+                    );
+            }
+
+            if (HostShip.RevealedManeuver.Bearing == ManeuverBearing.Turn)
+            {
+                movement = new SideslipTurnMovement(
+                    HostShip.RevealedManeuver.Speed,
+                    HostShip.RevealedManeuver.Direction,
+                    ManeuverBearing.SideslipTurn,
+                    GenericMovement.IncreaseComplexity(HostShip.RevealedManeuver.ColorComplexity)
+                    );
+            }
 
             Messages.ShowInfo($"{HostShip.PilotInfo.PilotName}: Maneuver is changed to Sideslip");
             HostShip.SetAssignedManeuver(movement);

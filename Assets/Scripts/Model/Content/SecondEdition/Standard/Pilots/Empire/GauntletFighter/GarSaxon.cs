@@ -1,4 +1,5 @@
 ﻿using Content;
+using Ship;
 using System;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,8 +12,6 @@ namespace Ship
         {
             public GarSaxon() : base()
             {
-                IsWIP = true;
-
                 PilotInfo = new PilotCardInfo25
                 (
                     "Gar Saxon",
@@ -22,6 +21,8 @@ namespace Ship
                     8,
                     18,
                     isLimited: true,
+                    charges: 2,
+                    regensCharges: 1,
                     abilityType: typeof(Abilities.SecondEdition.GarSaxonAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
@@ -52,12 +53,62 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            
+            GenericShip.OnAttackStartAsAttackerGlobal += RegisterGarSaxonAbility;
         }
 
         public override void DeactivateAbility()
         {
-            
+            GenericShip.OnAttackStartAsAttackerGlobal -= RegisterGarSaxonAbility;
+        }
+
+        protected void RegisterGarSaxonAbility()
+        {
+            if (Tools.IsSameTeam(Combat.Attacker, HostShip)
+                && Combat.Attacker.ShipId != HostShip.ShipId
+                && Combat.ChosenWeapon.WeaponType == WeaponTypes.PrimaryWeapon
+                && Combat.Defender.SectorsInfo.IsShipInSector(Combat.Attacker, Arcs.ArcType.Rear))
+            {
+                BoardTools.DistanceInfo distanceInfo = new BoardTools.DistanceInfo(Combat.Attacker, HostShip);
+                if (distanceInfo.Range < 3)
+                {
+                    RegisterAbilityTrigger(TriggerTypes.OnAttackStart, AskGarSaxonAbility);
+                }
+            }
+        }
+        protected void AskGarSaxonAbility(object sender, System.EventArgs e)
+        {
+            if (HostShip.State.Charges > 0)
+            {
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    UseGarSaxonAbility,
+                    descriptionLong: "Do you want to spend 1 charge to allow attacker to roll 1 additional attack die?",
+                    imageHolder: HostShip
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void UseGarSaxonAbility(object sender, System.EventArgs e)
+        {
+            HostShip.SpendCharge();
+            AllowRollAdditionalDice();
+        }
+
+        private void AllowRollAdditionalDice()
+        {
+            Combat.Attacker.AfterGotNumberOfAttackDice += IncreaseByOne;
+            SubPhases.DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void IncreaseByOne(ref int value)
+        {
+            value++;
+            Combat.Attacker.AfterGotNumberOfAttackDice -= IncreaseByOne;
         }
     }
 }

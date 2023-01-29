@@ -10,8 +10,6 @@ namespace Ship
         {
             public Stub() : base()
             {
-                IsWIP = true;
-
                 PilotInfo = new PilotCardInfo25
                 (
                     "\"Stub\"",
@@ -46,12 +44,36 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-
+            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += CheckAttackAbility;
+            HostShip.AfterGotNumberOfDefenceDice += CheckDefensebility;
         }
 
         public override void DeactivateAbility()
         {
+            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= CheckAttackAbility;
+            HostShip.AfterGotNumberOfDefenceDice -= CheckDefensebility;
+        }
 
+        private void CheckAttackAbility(ref int count)
+        {
+            if (HostShip.RevealedManeuver == null) return;
+
+            if (HostShip.RevealedManeuver.Speed % 2 != 0)
+            {
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 attack die");
+                count++;
+            }
+        }
+
+        private void CheckDefensebility(ref int count)
+        {
+            if (HostShip.RevealedManeuver == null) return;
+
+            if (HostShip.RevealedManeuver.Speed % 2 == 0)
+            {
+                Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 defense die");
+                count++;
+            }
         }
     }
 }

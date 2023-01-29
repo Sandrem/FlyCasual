@@ -11,8 +11,6 @@ namespace Ship
         {
             public PreVizsla() : base()
             {
-                IsWIP = true;
-
                 PilotInfo = new PilotCardInfo25
                 (
                     "Pre Vizsla",
@@ -22,6 +20,8 @@ namespace Ship
                     7,
                     18,
                     isLimited: true,
+                    charges: 2,
+                    regensCharges: 1,
                     abilityType: typeof(Abilities.SecondEdition.PreVizslaAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
@@ -52,12 +52,54 @@ namespace Abilities.SecondEdition
     {
         public override void ActivateAbility()
         {
-            
+            HostShip.OnAttackStartAsAttacker += RegisterPreVizslaAbility;
         }
 
         public override void DeactivateAbility()
         {
-            
+            HostShip.OnAttackStartAsAttacker -= RegisterPreVizslaAbility;
+        }
+
+        // Offensive portion
+        private void RegisterPreVizslaAbility()
+        {
+            if (Combat.Defender.PilotInfo.Initiative >= HostShip.PilotInfo.Initiative)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnAttackStart, ShowDecision);
+            }
+        }
+
+        private void ShowDecision(object sender, System.EventArgs e)
+        {
+            if (HostShip.State.Charges > 1)
+            {
+                // give user the option to use ability
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    UseAbility,
+                    descriptionLong: "Do you want ot spend 2 Charge to roll 1 additional attack die?",
+                    imageHolder: HostShip
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void UseAbility(object sender, System.EventArgs e)
+        {
+            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice += PreVizslaAddAttackDice;
+            HostShip.State.Charges -= 2;
+            SubPhases.DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void PreVizslaAddAttackDice(ref int value)
+        {
+            Messages.ShowInfo(HostShip.PilotInfo.PilotName + ": +1 attack die");
+            value++;
+            HostShip.AfterGotNumberOfPrimaryWeaponAttackDice -= PreVizslaAddAttackDice;
         }
     }
 }

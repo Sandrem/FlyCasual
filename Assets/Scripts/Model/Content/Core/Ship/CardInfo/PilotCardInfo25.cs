@@ -13,6 +13,7 @@ namespace Ship
         public string SkinName { get; set; }
         public List<Tags> Tags { get; }
         public List<Legality> LegalityInfo { get; }
+        public bool AffectedByStandardized { get; }
 
         public PilotCardInfo25(
             string pilotName,
@@ -34,6 +35,7 @@ namespace Ship
             string abilityText = "",
             string skinName = null,
             List<Tags> tags = null,
+            bool affectedByStandardized = true,
             List<Legality> legality = null) : base(pilotName, initiative, cost, isLimited, limited, abilityType, pilotTitle, force, charges, regensCharges,
             extraUpgradeIcon, extraUpgradeIcons, factionOverride, seImageNumber, abilityText)
         {
@@ -67,6 +69,8 @@ namespace Ship
             ExtraUpgrades = new List<UpgradeType>();
             if (extraUpgradeIcon != UpgradeType.None) ExtraUpgrades.Add(extraUpgradeIcon);
             if (extraUpgradeIcons != null) ExtraUpgrades.AddRange(extraUpgradeIcons);
+
+            AffectedByStandardized = affectedByStandardized;
 
             SkinName = skinName;
             Tags = tags ?? new List<Tags>();

@@ -72,7 +72,7 @@ namespace Abilities.SecondEdition
 
         private void TreatActionAsRed(object sender, EventArgs e)
         {
-            HostShip.OnCheckActionComplexity += TreatThisCoordinateActionAsRed;
+            HostShip.OnCheckActionColor += TreatThisCoordinateActionAsRed;
             HostShip.OnCheckCoordinateModeModification += SetCustomCoordinateMode;
 
             SubPhases.DecisionSubPhase.ConfirmDecision();
@@ -93,7 +93,7 @@ namespace Abilities.SecondEdition
             if (action is CoordinateAction && color == ActionColor.White)
             {
                 color = ActionColor.Red;
-                HostShip.OnCheckActionComplexity -= TreatThisCoordinateActionAsRed;
+                HostShip.OnCheckActionColor -= TreatThisCoordinateActionAsRed;
             }
         }
     }

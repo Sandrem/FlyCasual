@@ -1,4 +1,8 @@
-﻿namespace Ship
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.TIESaBomber
     {
@@ -6,11 +10,28 @@
         {
             public ScimitarSquadronPilot() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Scimitar Squadron Pilot",
+                    "",
+                    Faction.Imperial,
                     2,
-                    27,
-                    seImageNumber: 112
+                    4,
+                    6,
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 112,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

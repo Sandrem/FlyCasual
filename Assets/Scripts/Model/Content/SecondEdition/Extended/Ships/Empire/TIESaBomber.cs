@@ -5,33 +5,94 @@ using Actions;
 using Upgrade;
 using BoardTools;
 using System.Linq;
+using Arcs;
+using UnityEngine;
+using Ship.CardInfo;
 
 namespace Ship
 {
     namespace SecondEdition.TIESaBomber
     {
-        public class TIESaBomber : FirstEdition.TIEBomber.TIEBomber
+        public class TIESaBomber : GenericShip
         {
             public TIESaBomber() : base()
             {
-                ShipInfo.ShipName = "TIE/sa Bomber";
+                ShipInfo = new ShipCardInfo25
+                (
+                    "TIE/sa Bomber",
+                    BaseSize.Small,
+                    new FactionData
+                    (
+                        new Dictionary<Faction, System.Type>
+                        {
+                            { Faction.Imperial, typeof(TomaxBren) }
+                        }
+                    ),
+                    new ShipArcsInfo(ArcType.Front, 2), 2, 6, 0,
+                    new ShipActionsInfo
+                    (
+                        new ActionInfo(typeof(FocusAction)),
+                        new ActionInfo(typeof(TargetLockAction)),
+                        new ActionInfo(typeof(BarrelRollAction)),
+                        new ActionInfo(typeof(ReloadAction), ActionColor.Red)
+                    ),
+                    new ShipUpgradesInfo(),
+                    linkedActions: new List<LinkedActionInfo>
+                    {
+                        new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction))
+                    }
+                );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Device);
-                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
+                ModelInfo = new ShipModelInfo
+                (
+                    "TIE Bomber",
+                    "Gray",
+                    new Vector3(-3.9f, 8f, 5.55f),
+                    2f
+                );
 
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction), ActionColor.Red));
-                ShipInfo.ActionIcons.AddLinkedAction(new LinkedActionInfo(typeof(BarrelRollAction), typeof(TargetLockAction)));
+                DialInfo = new ShipDialInfo
+                (
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed5, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
+                );
+
+                SoundInfo = new ShipSoundInfo
+                (
+                    new List<string>()
+                    {
+                        "TIE-Fly1",
+                        "TIE-Fly2",
+                        "TIE-Fly3",
+                        "TIE-Fly4",
+                        "TIE-Fly5",
+                        "TIE-Fly6",
+                        "TIE-Fly7"
+                    },
+                    "TIE-Fire", 2
+                );
+
+                ShipIconLetter = 'B';
 
                 ShipAbilities.Add(new Abilities.SecondEdition.NimbleBomber());
-
-                IconicPilots[Faction.Imperial] = typeof(TomaxBren);
-
-                DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn), MovementComplexity.Complex);
-                DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Turn), MovementComplexity.Normal);
-                DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn), MovementComplexity.Normal);
-
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/0e/Maneuver_tie_bomber.png";
             }
         }
     }
@@ -76,7 +137,6 @@ namespace Abilities.SecondEdition
                     }
                 }
             }
-
         }
     }
 }

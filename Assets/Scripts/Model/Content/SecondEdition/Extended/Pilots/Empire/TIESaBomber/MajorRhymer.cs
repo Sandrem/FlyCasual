@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,14 +11,32 @@ namespace Ship
         {
             public MajorRhymer() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Major Rhymer",
+                    "Scimitar Leader",
+                    Faction.Imperial,
                     4,
-                    37,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MajorRhymerAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 109
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 109,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

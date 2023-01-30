@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using Bombs;
+using Content;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
@@ -14,13 +15,31 @@ namespace Ship
         {
             public Deathfire() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Deathfire\"",
+                    "Unflinching Diehard",
+                    Faction.Imperial,
                     2,
-                    32,
+                    4,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DeathfireAbility),
-                    seImageNumber: 110
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 110,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Gamma Squadron";

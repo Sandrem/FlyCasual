@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using Tokens;
@@ -12,19 +13,35 @@ namespace Ship
         {
             public Leebo() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Leebo",
+                    "Dry-Witted Droid",
+                    Faction.Rebel,
                     3,
-                    72,
+                    8,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LeeboAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 78
+                    tags: new List<Tags>
+                    {
+                        Tags.Droid,
+                        Tags.Freighter
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 78,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();
-                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Illicit);
             }
         }
     }

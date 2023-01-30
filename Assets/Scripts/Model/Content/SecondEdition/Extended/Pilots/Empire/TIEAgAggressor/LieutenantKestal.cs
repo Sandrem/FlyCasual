@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Content;
+using System;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -11,14 +12,32 @@ namespace Ship
         {
             public LieutenantKestal() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lieutenant Kestal",
+                    "Innate Deadeye",
+                    Faction.Imperial,
                     4,
-                    29,
+                    5,
+                    19,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantKestalAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 127
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 127,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

@@ -1,5 +1,6 @@
 ﻿using ActionsList;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -16,14 +17,33 @@ namespace Ship
         {
             public IG88A() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25(
                     "IG-88A",
+                    "Aggressive Automaton",
+                    Faction.Scum,
                     4,
-                    65,
+                    7,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.IG88AAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 197
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter,
+                        Tags.Droid
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 197,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Green";

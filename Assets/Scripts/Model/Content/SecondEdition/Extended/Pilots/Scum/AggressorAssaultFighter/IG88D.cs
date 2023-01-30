@@ -1,7 +1,9 @@
-﻿using Movement;
+﻿using Content;
+using Movement;
 using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -12,14 +14,34 @@ namespace Ship
         {
             public IG88D() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "IG-88D",
+                    "Deadly Device",
+                    Faction.Scum,
                     4,
-                    61,
+                    6,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.IG88DAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 200
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter,
+                        Tags.Droid
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 200,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
                 
                 ModelInfo.SkinName = "Red";

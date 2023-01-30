@@ -4,24 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
-namespace UpgradesList.FirstEdition
+namespace UpgradesList.SecondEdition
 {
     public class Ig2000 : GenericUpgrade
     {
         public Ig2000() : base()
         {
-            UpgradeInfo = new UpgradeCardInfo(
+            UpgradeInfo = new UpgradeCardInfo
+            (
                 "IG-2000",
                 UpgradeType.Title,
                 cost: 0,
-                restriction: new ShipRestriction(typeof(Ship.FirstEdition.Aggressor.Aggressor)),
-                abilityType: typeof(Abilities.FirstEdition.Ig2000Ability)
+                restriction: new ShipRestriction(typeof(Ship.SecondEdition.AggressorAssaultFighter.AggressorAssaultFighter)),
+                abilityType: typeof(Abilities.SecondEdition.Ig2000Ability),
+                seImageNumber: 149
             );
         }        
     }
 }
 
-namespace Abilities.FirstEdition
+namespace Abilities.SecondEdition
 {
     public class Ig2000Ability : GenericAbility
     {

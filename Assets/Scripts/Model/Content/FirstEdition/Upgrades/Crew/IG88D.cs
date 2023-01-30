@@ -15,7 +15,7 @@ namespace UpgradesList.FirstEdition
                 cost: 1,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Scum),
-                abilityType: typeof(Abilities.FirstEdition.Ig2000Ability)
+                abilityType: typeof(Abilities.SecondEdition.Ig2000Ability)
             );
         }        
     }

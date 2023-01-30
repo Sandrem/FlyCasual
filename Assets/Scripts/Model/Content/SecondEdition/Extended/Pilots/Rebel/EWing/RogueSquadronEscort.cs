@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Content;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Upgrade;
@@ -11,12 +12,23 @@ namespace Ship
         {
             public RogueSquadronEscort() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Rogue Squadron Escort",
+                    "",
+                    Faction.Rebel,
                     4,
-                    51,
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 52
+                    6,
+                    12,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 52,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

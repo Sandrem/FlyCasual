@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,14 +12,27 @@ namespace Ship
         {
             public GavinDarklighter() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Gavin Darklighter",
+                    "Bold Wingman",
+                    Faction.Rebel,
                     4,
-                    55,
+                    6,
+                    18,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GavinDarklighterAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 51
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 51,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

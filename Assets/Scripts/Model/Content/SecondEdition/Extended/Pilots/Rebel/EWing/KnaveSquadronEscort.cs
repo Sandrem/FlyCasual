@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using Content;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
@@ -10,11 +12,23 @@ namespace Ship
         {
             public KnaveSquadronEscort() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Knave Squadron Escort",
+                    "",
+                    Faction.Rebel,
                     2,
-                    48,
-                    seImageNumber: 53
+                    6,
+                    14,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Astromech,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 53,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

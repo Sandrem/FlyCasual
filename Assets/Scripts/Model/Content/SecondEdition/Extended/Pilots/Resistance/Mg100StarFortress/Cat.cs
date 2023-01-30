@@ -1,7 +1,9 @@
 ﻿using Bombs;
+using Content;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -11,12 +13,29 @@ namespace Ship
         {
             public Cat() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Cat",
+                    "Cobalt Wasp",
+                    Faction.Resistance,
                     1,
-                    51,
+                    5,
+                    7,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.CatAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CatAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Cobalt";

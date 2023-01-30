@@ -1,4 +1,5 @@
 ﻿using Bombs;
+using Content;
 using Ship;
 using SubPhases;
 using System;
@@ -15,13 +16,29 @@ namespace Ship
         {
             public EdonKappehl() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Edon Kappehl",
+                    "Crimson Hailstorm",
+                    Faction.Resistance,
                     3,
-                    55,
+                    6,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EdonKappehlAbility),
-                    pilotTitle: "Crimson Hailstorm"
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Cannon,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Crimson";

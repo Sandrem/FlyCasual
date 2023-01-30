@@ -1,9 +1,11 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
 using Players;
 using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
 
@@ -15,14 +17,26 @@ namespace Ship
         {
             public PrinceXizor() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Prince Xizor",
+                    "Black Sun Kingpin",
+                    Faction.Scum,
                     4,
-                    51,
+                    5,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PrinceXizorAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 180
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 180,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

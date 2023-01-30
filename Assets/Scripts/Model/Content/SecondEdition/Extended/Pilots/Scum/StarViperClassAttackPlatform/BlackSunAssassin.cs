@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -8,12 +10,20 @@ namespace Ship
         {
             public BlackSunAssassin() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Black Sun Assassin",
+                    "",
+                    Faction.Scum,
                     3,
-                    49,
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 181
+                    5,
+                    7,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Tech
+                    },
+                    seImageNumber: 181,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Black Sun Assassin";

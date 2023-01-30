@@ -1,6 +1,8 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -12,14 +14,29 @@ namespace Ship
         {
             public DalanOberos() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Dalan Oberos",
+                    "Elite Bounty Hunter",
+                    Faction.Scum,
                     4,
-                    51,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DalanOberosStarviperAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 179
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 179,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 PilotNameCanonical = "dalanoberos-starviperclassattackplatform";

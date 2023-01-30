@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,12 +12,28 @@ namespace Ship
         {
             public MajorStridan() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Major Stridan",
+                    "Stentorian Commander",
+                    Faction.FirstOrder,
                     4,
-                    61,
+                    7,
+                    13,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.MajorStridanAbility)
+                    abilityType: typeof(Abilities.SecondEdition.MajorStridanAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Cannon,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/8420beca035dedf1596c7c99255fb2e7.png";

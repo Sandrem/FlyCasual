@@ -1,9 +1,11 @@
 ﻿using ActionsList;
 using Arcs;
+using Content;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,14 +15,29 @@ namespace Ship
         {
             public LieutenantTavson() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lieutenant Tavson",
+                    "Obedient Shuttle Pilot",
+                    Faction.FirstOrder,
                     3,
-                    64,
+                    8,
+                    17,
                     isLimited: true,
                     charges: 2,
                     regensCharges: 1,
-                    abilityType: typeof(Abilities.SecondEdition.LieutenantTavsonPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LieutenantTavsonPilotAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Cannon,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/20fbf3ed79c50d2082cdb44caac26064.png";

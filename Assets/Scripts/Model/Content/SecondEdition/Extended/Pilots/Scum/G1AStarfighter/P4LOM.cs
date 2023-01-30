@@ -1,9 +1,11 @@
 ﻿using Actions;
 using ActionsList;
+using Content;
 using Movement;
 using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Tokens;
 using Upgrade;
@@ -16,14 +18,32 @@ namespace Ship
         {
             public P4LOM() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "4-LOM",
+                    "Reprogrammed Protocol Droid",
+                    Faction.Scum,
                     3,
-                    49,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.P4LOMAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 201
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter,
+                        Tags.Droid
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 201,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();

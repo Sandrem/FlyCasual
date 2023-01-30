@@ -1,4 +1,6 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,15 +11,32 @@ namespace Ship
         {
             public EzraBridger() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Ezra Bridger",
+                    "Spectre-6",
+                    Faction.Rebel,
                     3,
-                    40,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EzraBridgerPilotAbility),
                     force: 1,
-                    extraUpgradeIcon: UpgradeType.ForcePower,
-                    seImageNumber: 36
+                    tags: new List<Tags>
+                    {
+                        Tags.Spectre,
+                        Tags.LightSide
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.ForcePower,
+                        UpgradeType.Turret,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 36,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

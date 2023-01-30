@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Content;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,14 +10,30 @@ namespace Ship
         {
             public HeraSyndulla() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Hera Syndulla",
+                    "Spectre-2",
+                    Faction.Rebel,
                     5,
-                    38,
+                    4,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.HeraSyndullaAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 34
+                    tags: new List<Tags>
+                    {
+                        Tags.Spectre
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 34,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

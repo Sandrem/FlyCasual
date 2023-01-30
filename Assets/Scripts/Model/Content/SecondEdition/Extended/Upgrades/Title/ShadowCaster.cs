@@ -25,15 +25,41 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class ShadowCasterAbility : Abilities.FirstEdition.ShadowCasterAbility
+    public class ShadowCasterAbility : GenericAbility
     {
-        protected override void CheckShadowCasterAbility()
+        public override void ActivateAbility()
+        {
+            HostShip.OnAttackHitAsAttacker += CheckShadowCasterAbility;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackHitAsAttacker -= CheckShadowCasterAbility;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
+        }
+
+        private void CheckShadowCasterAbility()
         {
             if (IsAbilityUsed) return;
 
             if (!(Combat.ShotInfo.InArcByType(ArcType.SingleTurret) && Combat.ShotInfo.InArcByType(ArcType.Front))) return;
 
             RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AssignTractorBeamToken);
+        }
+
+        private void AssignTractorBeamToken(object sender, System.EventArgs e)
+        {
+            Tokens.TractorBeamToken token = new Tokens.TractorBeamToken(Combat.Defender, Combat.Attacker.Owner);
+
+            Combat.Defender.Tokens.AssignToken(
+                token,
+                delegate
+                {
+                    IsAbilityUsed = true;
+                    Triggers.FinishTrigger();
+                }
+            );
         }
     }
 }

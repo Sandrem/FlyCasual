@@ -7,32 +7,88 @@ using Ship;
 using SubPhases;
 using System.Collections.Generic;
 using Tokens;
+using Arcs;
+using Ship.CardInfo;
+using UnityEngine;
+using Upgrade;
 
 namespace Ship
 {
     namespace SecondEdition.QuadrijetTransferSpacetug
     {
-        public class QuadrijetTransferSpacetug : FirstEdition.Quadjumper.Quadjumper
+        public class QuadrijetTransferSpacetug : GenericShip
         {
             public QuadrijetTransferSpacetug() : base()
             {
-                ShipInfo.ShipName = "Quadrijet Transfer Spacetug";
+                ShipInfo = new ShipCardInfo25
+                (
+                    "Quadrijet Transfer Spacetug",
+                    BaseSize.Small,
+                    new FactionData
+                    (
+                        new Dictionary<Faction, System.Type>
+                        {
+                            { Faction.Scum, typeof(ConstableZuvio) }
+                        }
+                    ),
+                    new ShipArcsInfo(ArcType.Front, 2), 2, 5, 0,
+                    new ShipActionsInfo
+                    (
+                        new ActionInfo(typeof(FocusAction)),
+                        new ActionInfo(typeof(BarrelRollAction)),
+                        new ActionInfo(typeof(EvadeAction), ActionColor.Red)
+                    ),
+                    new ShipUpgradesInfo()
+                );
 
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(EvadeAction), ActionColor.Red));
+                ModelInfo = new ShipModelInfo
+                (
+                    "Quadjumper",
+                    "Quadjumper",
+                    new Vector3(-4f, 8f, 5.55f),
+                    1.75f
+                );
 
-                DialInfo.RemoveManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.ReverseStraight));
-                DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.ReverseStraight), MovementComplexity.Complex);
+                DialInfo = new ShipDialInfo
+                (
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.ReverseStraight, MovementComplexity.Complex),
 
-                DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Normal);
-                DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.ReverseStraight, MovementComplexity.Complex),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.ReverseStraight, MovementComplexity.Complex),
 
-                IconicPilots = new Dictionary<Faction, System.Type> {
-                    { Faction.Scum, typeof(ConstableZuvio) }
-                };
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.SegnorsLoop, MovementComplexity.Complex),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.SegnorsLoop, MovementComplexity.Complex),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal)
+                );
+
+                SoundInfo = new ShipSoundInfo
+                (
+                    new List<string>()
+                    {
+                        "XWing-Fly1",
+                        "XWing-Fly2",
+                        "XWing-Fly3"
+                    },
+                    "XWing-Laser", 2
+                );
+
+                ShipIconLetter = 'q';
 
                 ShipAbilities.Add(new Abilities.SecondEdition.SpacetugAbility());
-
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/6/64/Maneuver_quadrijet.png";
             }
         }
     }
@@ -185,6 +241,113 @@ namespace SubPhases
 
             TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
             TargetShip.Tokens.AssignToken(token, CallBack);
+        }
+    }
+}
+
+namespace Abilities.FirstEdition
+{
+    public class SpacetugAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateActions += AddAction;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateActions -= AddAction;
+        }
+
+        private void AddAction(GenericShip ship)
+        {
+            ActionsList.GenericAction newAction = new ActionsList.SpacetugAction()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                HostShip = HostShip,
+                Source = HostUpgrade
+            };
+            HostShip.AddAvailableAction(newAction);
+        }
+    }
+}
+
+namespace ActionsList
+{
+
+    public class SpacetugAction : GenericAction
+    {
+
+        public SpacetugAction()
+        {
+            Name = DiceModificationName = "Spacetug Tractor Array";
+        }
+
+        public override void ActionTake()
+        {
+            SelectSpacetugTargetSubPhase newPhase = (SelectSpacetugTargetSubPhase)Phases.StartTemporarySubPhaseNew(
+                "Select target for Spacetug Tractor Array",
+                typeof(SelectSpacetugTargetSubPhase),
+                FinishAction
+            );
+
+            newPhase.SpacetugOwner = this.HostShip;
+            newPhase.SpacetugUpgrade = this.Source;
+            newPhase.Start();
+        }
+
+        private void FinishAction()
+        {
+            Phases.CurrentSubPhase.CallBack();
+        }
+    }
+}
+
+
+namespace SubPhases
+{
+    public class SelectSpacetugTargetSubPhase : SelectShipSubPhase
+    {
+        public GenericShip SpacetugOwner;
+        public GenericUpgrade SpacetugUpgrade;
+
+        public override void Prepare()
+        {
+            PrepareByParameters(
+                SelectSpacetugTarget,
+                FilterAbilityTargets,
+                GetAiAbilityPriority,
+                Selection.ThisShip.Owner.PlayerNo,
+                true,
+                SpacetugUpgrade.UpgradeInfo.Name,
+                "Choose a ship inside your firing arc to assign a tractor beam token to it.",
+                SpacetugUpgrade
+            );
+        }
+
+        private bool FilterAbilityTargets(GenericShip ship)
+        {
+            ShotInfo shotInfo = new ShotInfo(SpacetugOwner, ship, SpacetugOwner.PrimaryWeapons);
+            return shotInfo.InArc && shotInfo.Range == 1;
+        }
+
+        private int GetAiAbilityPriority(GenericShip ship)
+        {
+            // TODO, calculate inverse distance to closest rock
+            return 0;
+        }
+
+        private void SelectSpacetugTarget()
+        {
+            MovementTemplates.ReturnRangeRuler();
+            TractorBeamToken token = new TractorBeamToken(TargetShip, SpacetugOwner.Owner);
+            TargetShip.Tokens.AssignToken(token, SelectShipSubPhase.FinishSelection);
+        }
+
+        public override void SkipButton()
+        {
+            Phases.FinishSubPhase(typeof(SelectSpacetugTargetSubPhase));
+            CallBack();
         }
     }
 }

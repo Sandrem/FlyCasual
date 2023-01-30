@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -8,13 +10,33 @@ namespace Ship
         {
             public Deathrain() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Deathrain\"",
+                    "Dexterous Bombardier",
+                    Faction.Imperial,
                     4,
-                    43,
+                    6,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DeathrainAbility),
-                    seImageNumber: 140
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 140,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

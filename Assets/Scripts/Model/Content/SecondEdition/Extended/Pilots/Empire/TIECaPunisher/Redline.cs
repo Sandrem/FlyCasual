@@ -1,5 +1,7 @@
 ﻿using ActionsList;
+using Content;
 using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -10,13 +12,33 @@ namespace Ship
         {
             public Redline() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Redline\"",
+                    "Adrenaline Junkie",
+                    Faction.Imperial,
                     5,
-                    51,
+                    7,
+                    25,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RedlineAbility),
-                    seImageNumber: 139
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 139,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Content;
+using System;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -10,14 +12,30 @@ namespace Ship
         {
             public Whisper() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Whisper\"",
+                    "Soft-Spoken Slayer",
+                    Faction.Imperial,
                     5,
-                    60,
+                    7,
+                    15,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WhisperAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 131
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 131,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }
@@ -26,14 +44,46 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class WhisperAbility : Abilities.FirstEdition.WhisperAbility
+    public class WhisperAbility : GenericAbility
     {
-        protected override string DescriptionLong => "Do you want to gain 1 Evade Token?";
-        protected override string TokenIsAssignedMessage => " gains Evade token";
-
-        protected override Type GetTokenType()
+        public override void ActivateAbility()
         {
-            return typeof(EvadeToken);
+            HostShip.OnAttackHitAsAttacker += RegisterWhisperAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnAttackHitAsAttacker -= RegisterWhisperAbility;
+        }
+
+        public void RegisterWhisperAbility()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnAttackHit, AskAssignFocus);
+        }
+
+        private void AskAssignFocus(object sender, System.EventArgs e)
+        {
+            if (!alwaysUseAbility)
+            {
+                AskToUseAbility(
+                    HostShip.PilotInfo.PilotName,
+                    AlwaysUseByDefault,
+                    AssignToken,
+                    descriptionLong: "Do you want to gain 1 Evade Token?",
+                    imageHolder: HostShip,
+                    showAlwaysUseOption: true
+                );
+            }
+            else
+            {
+                HostShip.Tokens.AssignToken(typeof(EvadeToken), Triggers.FinishTrigger);
+            }
+        }
+
+        private void AssignToken(object sender, System.EventArgs e)
+        {
+            Messages.ShowInfo($"{HostShip.PilotInfo.PilotName} gains Evade token");
+            HostShip.Tokens.AssignToken(typeof(EvadeToken), SubPhases.DecisionSubPhase.ConfirmDecision);
         }
     }
 }

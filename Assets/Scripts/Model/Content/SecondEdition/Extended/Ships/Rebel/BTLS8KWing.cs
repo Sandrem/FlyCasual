@@ -5,33 +5,80 @@ using ActionsList;
 using Upgrade;
 using Actions;
 using Arcs;
+using Ship.CardInfo;
+using UnityEngine;
 
 namespace Ship
 {
     namespace SecondEdition.BTLS8KWing
     {
-        public class BTLS8KWing : FirstEdition.KWing.KWing
+        public class BTLS8KWing : GenericShip
         {
             public BTLS8KWing() : base()
             {
-                ShipInfo.ShipName = "BTL-S8 K-wing";
+                ShipInfo = new ShipCardInfo25
+                (
+                    "BTL-S8 K-wing",
+                    BaseSize.Medium,
+                    new FactionData
+                    (
+                        new Dictionary<Faction, System.Type>
+                        {
+                            { Faction.Rebel, typeof(MirandaDoni) }
+                        }
+                    ),
+                    new ShipArcsInfo
+                    (
+                        new ShipArcInfo(ArcType.DoubleTurret, 2)
+                    ),
+                    1, 6, 3,
+                    new ShipActionsInfo
+                    (
+                        new ActionInfo(typeof(FocusAction)),
+                        new ActionInfo(typeof(TargetLockAction)),
+                        new ActionInfo(typeof(SlamAction)),
+                        new ActionInfo(typeof(ReloadAction)),
+                        new ActionInfo(typeof(RotateArcAction))
+                    ),
+                    new ShipUpgradesInfo()
+                );
 
-                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.DoubleTurret, 2);
-                ShipInfo.Hull = 6;
-                ShipInfo.Shields = 3;
-                ShipInfo.BaseSize = BaseSize.Medium;
+                ModelInfo = new ShipModelInfo
+                (
+                    "K-wing",
+                    "Red",
+                    new Vector3(-3.55f, 7.3f, 5.55f),
+                    3f
+                );
 
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction)));
+                DialInfo = new ShipDialInfo
+                (
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
 
-                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Turret);
-                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Torpedo);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Missile);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
 
-                IconicPilots[Faction.Rebel] = typeof(MirandaDoni);
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal)
+                );
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/5/58/Maneuver_k-wing.png";
+                SoundInfo = new ShipSoundInfo
+                (
+                    new List<string>()
+                    {
+                        "YWing-Fly1",
+                        "YWing-Fly2"
+                    },
+                    "XWing-Laser", 2
+                );
+
+                ShipIconLetter = 'k';
             }
         }
     }

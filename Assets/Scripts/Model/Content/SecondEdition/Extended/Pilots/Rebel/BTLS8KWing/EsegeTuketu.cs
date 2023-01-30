@@ -1,9 +1,11 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,13 +15,28 @@ namespace Ship
         {
             public EsegeTuketu() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Esege Tuketu",
+                    "Selfless Hero",
+                    Faction.Rebel,
                     3,
-                    43,
+                    5,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EsegeTuketuAbility),
-                    seImageNumber: 63
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 63,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

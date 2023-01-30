@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Content;
+using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,14 +11,25 @@ namespace Ship
         {
             public Wullffwarro() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Wullffwarro",
+                    "Wookiee Chief",
+                    Faction.Rebel,
                     4,
-                    53,
+                    5,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WullffwarroAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 31
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 31,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

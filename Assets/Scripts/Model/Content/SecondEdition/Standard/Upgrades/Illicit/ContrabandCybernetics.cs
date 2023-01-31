@@ -1,4 +1,7 @@
-﻿using System;
+﻿using ActionsList;
+using Ship;
+using SubPhases;
+using System;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -21,22 +24,93 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class ContrabandCyberneticsAbility : Abilities.FirstEdition.ContrabandCyberneticsAbility
+    public class ContrabandCyberneticsAbility : GenericAbility
     {
-        protected override void PayActivationCost(Action callback)
+        public override void ActivateAbility()
         {
+            HostShip.OnMovementActivationStart += RegisterTrigger;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnMovementActivationStart -= RegisterTrigger;
+        }
+
+        private void RegisterTrigger(GenericShip ship)
+        {
+            if (HostUpgrade.State.Charges > 0)
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = Name,
+                    TriggerType = TriggerTypes.OnMovementActivationStart,
+                    TriggerOwner = HostShip.Owner.PlayerNo,
+                    EventHandler = AskUseContrabandCybernetics
+                });
+            }
+        }
+
+        private void AskUseContrabandCybernetics(object sender, System.EventArgs e)
+        {
+            if (HostUpgrade.State.Charges > 0)
+            {
+                AskToUseAbility(
+                    HostUpgrade.UpgradeInfo.Name,
+                    NeverUseByDefault,
+                    ActivateContrabandCyberneticsAbility,
+                    descriptionLong: "Do you want to spend 1 Charge? (If you do, until the end of the round, you can perform actions and execute red maneuvers, even while stressed)",
+                    imageHolder: HostUpgrade
+                );
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
+        public void ActivateContrabandCyberneticsAbility(object sender, System.EventArgs e)
+        {
+            Phases.Events.OnEndPhaseStart_NoTriggers += DeactivateContrabandCyberneticsAbility;
+
             HostUpgrade.State.SpendCharge();
-            callback();
+            RemoveRestrictions();
         }
 
-        protected override bool IsAbilityCanBeUsed()
+        private void RemoveRestrictions()
         {
-            return HostUpgrade.State.Charges > 0;
-        }
+            DecisionSubPhase.ConfirmDecisionNoCallback();
 
-        protected override void FinishAbility()
-        {
+            Messages.ShowInfo(HostUpgrade.UpgradeInfo.Name + " allows " + HostShip.PilotInfo.PilotName + " to perform actions and red maneuvers even while stressed");
+
+            HostShip.OnCheckCanPerformActionsWhileStressed += ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed += AllowRedActionsWhileStressed;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed += AllowRedManeuversWhileStressed;
+
             Triggers.FinishTrigger();
+        }
+
+        private void AllowRedManeuversWhileStressed(ref bool isAllowed)
+        {
+            isAllowed = true;
+        }
+
+        private void ConfirmThatIsPossible(ref bool isAllowed)
+        {
+            isAllowed = true;
+        }
+
+        private void AllowRedActionsWhileStressed(GenericAction action, ref bool isAllowed)
+        {
+            isAllowed = true;
+        }
+
+        public void DeactivateContrabandCyberneticsAbility()
+        {
+            Phases.Events.OnEndPhaseStart_NoTriggers -= DeactivateContrabandCyberneticsAbility;
+
+            HostShip.OnCheckCanPerformActionsWhileStressed -= ConfirmThatIsPossible;
+            HostShip.OnCanPerformActionWhileStressed -= AllowRedActionsWhileStressed;
+            HostShip.OnTryCanPerformRedManeuverWhileStressed -= AllowRedManeuversWhileStressed;
         }
     }
 }

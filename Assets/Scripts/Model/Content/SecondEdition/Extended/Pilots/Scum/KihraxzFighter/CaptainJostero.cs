@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,13 +12,26 @@ namespace Ship
         {
             public CaptainJostero() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Captain Jostero",
+                    "Aggressive Opportunist",
+                    Faction.Scum,
                     3,
-                    41,
+                    4,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainJosteroAbility),
-                    seImageNumber: 194
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 194,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

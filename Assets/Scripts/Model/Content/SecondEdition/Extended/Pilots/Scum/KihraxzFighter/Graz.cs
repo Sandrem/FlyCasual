@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,14 +12,30 @@ namespace Ship
         {
             public Graz() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25(
                     "Graz",
+                    "The Hunter",
+                    Faction.Scum,
                     4,
-                    45,
+                    4,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GrazAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 192
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter,
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 192,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Content;
+using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -9,11 +11,20 @@ namespace Ship
         {
             public CartelMarauder() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Cartel Marauder",
+                    "",
+                    Faction.Scum,
                     2,
-                    37,
-                    seImageNumber: 196
+                    4,
+                    5,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Illicit
+                    },
+                    seImageNumber: 196,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

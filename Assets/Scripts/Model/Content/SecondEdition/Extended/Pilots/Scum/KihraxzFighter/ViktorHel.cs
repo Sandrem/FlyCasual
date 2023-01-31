@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,14 +14,31 @@ namespace Ship
         {
             public ViktorHel() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Viktor Hel",
+                    "Storied Bounty Hunter",
+                    Faction.Scum,
                     4,
-                    43,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ViktorHelAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 193
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter,
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 193,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

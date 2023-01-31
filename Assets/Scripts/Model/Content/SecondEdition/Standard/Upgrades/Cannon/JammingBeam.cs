@@ -27,10 +27,27 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class JammingBeamAbility : Abilities.FirstEdition.JammingBeamAbility
+    public class JammingBeamAbility : GenericAbility
     {
+        public override void ActivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker += RegisterJammingBeamEffect;
+        }
 
-        protected void JammingBeamEffect(object sender, System.EventArgs e)
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker -= RegisterJammingBeamEffect;
+        }
+
+        private void RegisterJammingBeamEffect()
+        {
+            if (Combat.ChosenWeapon == HostUpgrade)
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnShotHit, JammingBeamEffect);
+            }
+        }
+
+        private void JammingBeamEffect(object sender, System.EventArgs e)
         {
             int jammingBeamTokens = Combat.DiceRollAttack.Successes;
             Combat.DiceRollAttack.CancelAllResults();

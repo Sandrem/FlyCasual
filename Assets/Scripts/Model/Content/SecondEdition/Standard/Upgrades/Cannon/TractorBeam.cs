@@ -27,9 +27,27 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class TractorBeamAbility : Abilities.FirstEdition.TractorBeamAbility
+    public class TractorBeamAbility : GenericAbility
     {
-        protected override void TractorBeamEffect(object sender, System.EventArgs e)
+        public override void ActivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker += RegisterTractorBeamEffect;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker -= RegisterTractorBeamEffect;
+        }
+
+        private void RegisterTractorBeamEffect()
+        {
+            if (Combat.ChosenWeapon.GetType() == HostUpgrade.GetType())
+            {
+                RegisterAbilityTrigger(TriggerTypes.OnShotHit, TractorBeamEffect);
+            }
+        }
+
+        private void TractorBeamEffect(object sender, System.EventArgs e)
         {
             int tractorBeamTokens = Combat.DiceRollAttack.Successes;
             Combat.DiceRollAttack.CancelAllResults();

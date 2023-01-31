@@ -38,7 +38,8 @@ namespace Ship
                         new ActionInfo(typeof(BarrelRollAction)),
                         new ActionInfo(typeof(EvadeAction), ActionColor.Red)
                     ),
-                    new ShipUpgradesInfo()
+                    new ShipUpgradesInfo(),
+                    legality: new List<Content.Legality>() { Content.Legality.ExtendedLegal }
                 );
 
                 ModelInfo = new ShipModelInfo

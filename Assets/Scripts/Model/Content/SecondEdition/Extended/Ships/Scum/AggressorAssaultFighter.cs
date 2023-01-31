@@ -34,7 +34,8 @@ namespace Ship
                         new ActionInfo(typeof(EvadeAction)),
                         new ActionInfo(typeof(BoostAction))
                     ),
-                    new ShipUpgradesInfo( )
+                    new ShipUpgradesInfo(),
+                    legality: new List<Content.Legality>() { Content.Legality.ExtendedLegal }
                 );
 
                 ModelInfo = new ShipModelInfo

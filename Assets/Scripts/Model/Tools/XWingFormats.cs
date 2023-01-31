@@ -10,6 +10,13 @@ namespace Content
 {
     public static class XWingFormats
     {
+        public static bool IsShipLegalForFormat(GenericShip ship)
+        {
+            if (Options.Format == "Standard") return (ship.ShipInfo as ShipCardInfo25).LegalityInfo.Contains(Legality.StandardLegal);
+            else if (Options.Format == "Extended") return (ship.ShipInfo as ShipCardInfo25).LegalityInfo.Contains(Legality.ExtendedLegal);
+            else return false;
+        }
+
         public static bool IsLegalForFormat(GenericShip ship)
         {
             if (Options.Format == "Standard") return (ship.PilotInfo as PilotCardInfo25).LegalityInfo.Contains(Legality.StandardLegal);

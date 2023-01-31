@@ -37,7 +37,8 @@ namespace Ship
                         new ActionInfo(typeof(EvadeAction)),
                         new ActionInfo(typeof(RotateArcAction))
                     ),
-                    new ShipUpgradesInfo()
+                    new ShipUpgradesInfo(),
+                    legality: new List<Content.Legality>() { Content.Legality.ExtendedLegal }
                 );
 
 

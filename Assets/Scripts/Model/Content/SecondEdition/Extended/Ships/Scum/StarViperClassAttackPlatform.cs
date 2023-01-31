@@ -42,7 +42,8 @@ namespace Ship
                     {
                         new LinkedActionInfo(typeof(BarrelRollAction), typeof(FocusAction)),
                         new LinkedActionInfo(typeof(BoostAction), typeof(FocusAction))
-                    }
+                    },
+                    legality: new List<Content.Legality>() { Content.Legality.ExtendedLegal }
                 );
 
                 ModelInfo = new ShipModelInfo

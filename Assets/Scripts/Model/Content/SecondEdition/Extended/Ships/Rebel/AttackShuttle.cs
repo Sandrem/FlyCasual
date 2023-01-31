@@ -36,7 +36,8 @@ namespace Ship
                     linkedActions: new List<LinkedActionInfo>
                     {
                         new LinkedActionInfo(typeof(BarrelRollAction), typeof(EvadeAction))
-                    }
+                    },
+                    legality: new List<Content.Legality>() { Content.Legality.ExtendedLegal }
                 );
 
                 ModelInfo = new ShipModelInfo

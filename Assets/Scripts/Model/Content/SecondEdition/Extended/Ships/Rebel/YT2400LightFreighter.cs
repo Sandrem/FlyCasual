@@ -33,7 +33,8 @@ namespace Ship.SecondEdition.YT2400LightFreighter
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(RotateArcAction))
                 ),
-                new ShipUpgradesInfo()
+                new ShipUpgradesInfo(),
+                legality: new List<Content.Legality>() { Content.Legality.ExtendedLegal }
             );
 
             ModelInfo = new ShipModelInfo

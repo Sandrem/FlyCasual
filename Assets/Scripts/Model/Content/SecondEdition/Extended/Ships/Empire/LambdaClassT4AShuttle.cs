@@ -39,7 +39,8 @@ namespace Ship
                         new ActionInfo(typeof(CoordinateAction)),
                         new ActionInfo(typeof(JamAction), ActionColor.Red)
                     ),
-                    new ShipUpgradesInfo()
+                    new ShipUpgradesInfo(),
+                    legality: new List<Content.Legality>() { Content.Legality.ExtendedLegal }
                 );
 
                 ModelInfo = new ShipModelInfo

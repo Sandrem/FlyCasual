@@ -29,6 +29,7 @@ namespace SquadBuilderNS
 
             List<ShipRecord> shipsFiltered = Global.SquadBuilder.Database.AllShips
                 .Where(n => n.Instance.ShipInfo.GetType() == typeof(Ship.ShipCardInfo25))
+                .Where(n => Content.XWingFormats.IsShipLegalForFormat(n.Instance))
                 .OrderBy(s => s.Instance.ShipInfo.ShipName)
                 .ToList();
 

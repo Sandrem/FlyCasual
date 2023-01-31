@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using Ship;
+using SubPhases;
+using System;
+using Tokens;
+using UnityEngine;
 using Upgrade;
 
 namespace UpgradesList.SecondEdition
@@ -13,7 +17,7 @@ namespace UpgradesList.SecondEdition
                 cost: 5,
                 isLimited: true,
                 restriction: new FactionRestriction(Faction.Rebel),
-                abilityType: typeof(Abilities.SecondEdition.JynErsoAbility),
+                abilityType: typeof(Abilities.SecondEdition.JynErsoCrewAbility),
                 seImageNumber: 85
             );
 
@@ -28,11 +32,55 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class JynErsoAbility : FirstEdition.JanOrsCrewAbility
+    public class JynErsoCrewAbility : GenericAbility
     {
-        protected override void MarkAbilityAsUsed()
+
+        public override void ActivateAbility()
         {
-            // Do nothing
+            GenericShip.BeforeTokenIsAssignedGlobal += RegisterJanOrsCrewAbility;
+            Phases.Events.OnRoundEnd += ClearIsAbilityUsedFlag;
+        }
+
+        public override void DeactivateAbility()
+        {
+            GenericShip.BeforeTokenIsAssignedGlobal -= RegisterJanOrsCrewAbility;
+            Phases.Events.OnRoundEnd -= ClearIsAbilityUsedFlag;
+        }
+
+        private void RegisterJanOrsCrewAbility(GenericShip ship, GenericToken token)
+        {
+            if (token is FocusToken
+                && ship.Owner == HostShip.Owner
+                && !IsAbilityUsed)
+            {
+                BoardTools.DistanceInfo positionInfo = new BoardTools.DistanceInfo(ship, HostShip);
+                if (positionInfo.Range <= 3)
+                {
+                    TargetShip = ship;
+                    RegisterAbilityTrigger(TriggerTypes.OnBeforeTokenIsAssigned, ShowDecision);
+                }
+            }
+        }
+
+        private void ShowDecision(object sender, EventArgs e)
+        {
+            AskToUseAbility(
+                HostUpgrade.UpgradeInfo.Name,
+                NeverUseByDefault,
+                UseJanOrsAbility,
+                descriptionLong: "Do you want to assign an evade token instead?",
+                imageHolder: HostUpgrade
+            );
+        }
+
+        private void UseJanOrsAbility(object sender, System.EventArgs e)
+        {
+            TargetShip.Tokens.AssignToken(typeof(EvadeToken), delegate
+            {
+                TargetShip.Tokens.TokenToAssign = null;
+                TargetShip = null;
+                DecisionSubPhase.ConfirmDecision();
+            });
         }
     }
 }

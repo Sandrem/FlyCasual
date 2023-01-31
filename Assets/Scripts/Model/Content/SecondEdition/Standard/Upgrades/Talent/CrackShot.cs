@@ -88,3 +88,79 @@ namespace ActionsList.SecondEdition
     }
 
 }
+
+namespace Abilities.FirstEdition
+{
+    public class CrackShotAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnGenerateDiceModificationsCompareResults += CrackShotDiceModification;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnGenerateDiceModificationsCompareResults -= CrackShotDiceModification;
+        }
+
+        private void CrackShotDiceModification(GenericShip host)
+        {
+            ActionsList.GenericAction newAction = new ActionsList.CrackShotDiceModification()
+            {
+                ImageUrl = HostUpgrade.ImageUrl,
+                HostShip = host,
+                Source = this.HostUpgrade
+            };
+            host.AddAvailableDiceModificationOwn(newAction);
+        }
+    }
+}
+
+namespace ActionsList
+{
+    public class CrackShotDiceModification : GenericAction
+    {
+
+        public CrackShotDiceModification()
+        {
+            Name = DiceModificationName = "Crack Shot";
+            DiceModificationTiming = DiceModificationTimingType.CompareResults;
+        }
+
+        public override int GetDiceModificationPriority()
+        {
+            int result = 0;
+
+            int additionalDamageReduction = Combat.Defender.IsReinforcedAgainstShip(Combat.Attacker) ? 1 : 0;
+
+            //Don't use if there are already enough hits to kill the defender
+            if (Combat.DiceRollAttack.Successes - (Combat.DiceRollDefence.Successes + additionalDamageReduction)
+                >= Combat.Defender.State.HullCurrent + Combat.Defender.State.ShieldsCurrent)
+                return result;
+
+            if (Combat.DiceRollDefence.Successes <= Combat.DiceRollAttack.Successes) result = 100;
+
+            return result;
+        }
+
+        public override bool IsDiceModificationAvailable()
+        {
+            bool result = false;
+
+            if (Combat.DiceRollDefence.Successes > 0 && Combat.ShotInfo.InArc)
+            {
+                result = true;
+            }
+
+            return result;
+        }
+
+        public override void ActionEffect(System.Action callBack)
+        {
+            Combat.DiceRollDefence.ChangeOne(DieSide.Success, DieSide.Blank, false);
+            Source.TryDiscard(callBack);
+        }
+
+    }
+
+}

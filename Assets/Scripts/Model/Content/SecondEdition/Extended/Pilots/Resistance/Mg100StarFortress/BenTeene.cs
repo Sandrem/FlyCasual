@@ -2,7 +2,9 @@
 using Arcs;
 using Bombs;
 using Conditions;
+using Content;
 using Ship;
+using System.Collections.Generic;
 using Tokens;
 using Upgrade;
 
@@ -14,12 +16,29 @@ namespace Ship
         {
             public BenTeene() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Ben Teene",
+                    "Crimson Bolide",
+                    Faction.Resistance,
                     3,
-                    54,
+                    5,
+                    9,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.BenTeeneAbility)
+                    abilityType: typeof(Abilities.SecondEdition.BenTeeneAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Crimson";

@@ -1,5 +1,7 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -10,13 +12,31 @@ namespace Ship
         {
             public SarcoPlank() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Sarco Plank",
+                    "The Scavenger",
+                    Faction.Scum,
                     2,
-                    29,
+                    4,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SarcoPlankAbility),
-                    seImageNumber: 162
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Tech,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 162,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

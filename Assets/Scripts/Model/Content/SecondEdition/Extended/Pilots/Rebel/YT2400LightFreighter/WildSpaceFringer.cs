@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Content;
+using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -9,12 +11,25 @@ namespace Ship
         {
             public WildSpaceFringer() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Wild Space Fringer",
+                    "",
+                    Faction.Rebel,
                     1,
-                    72,
-                    extraUpgradeIcon: Upgrade.UpgradeType.Crew,
-                    seImageNumber: 79
+                    8,
+                    7,
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit,
+                    },
+                    seImageNumber: 79,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

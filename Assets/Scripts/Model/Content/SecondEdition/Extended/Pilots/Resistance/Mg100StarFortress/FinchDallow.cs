@@ -1,5 +1,6 @@
 ﻿using BoardTools;
 using Bombs;
+using Content;
 using GameCommands;
 using GameModes;
 using Ship;
@@ -19,12 +20,29 @@ namespace Ship
         {
             public FinchDallow() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Finch Dallow",
+                    "Cobalt Hammer",
+                    Faction.Resistance,
                     4,
-                    55,
+                    6,
+                    14,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.FinchDallowAbility)
+                    abilityType: typeof(Abilities.SecondEdition.FinchDallowAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Cobalt";

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using Content;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Upgrade;
 
 namespace Ship
@@ -11,11 +11,24 @@ namespace Ship
         {
             public WardenSquadronPilot() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Warden Squadron Pilot",
+                    "",
+                    Faction.Rebel,
                     2,
-                    38,
-                    seImageNumber: 64
+                    5,
+                    7,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device
+                    },
+                    seImageNumber: 64,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

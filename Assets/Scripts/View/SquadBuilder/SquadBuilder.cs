@@ -186,6 +186,11 @@ namespace SquadBuilderNS
             }
         }
 
+        public void ShowCurrentFormat()
+        {
+            GameObject.Find("UI/Panels/SelectFactionPanel/BottomPanel/FormatButton/Text").GetComponent<Text>().text = Options.Format;
+        }
+
         private void ShowLoadingContentStub(string panelType)
         {
             GameObject noContentText = GameObject.Find("UI/Panels/Select" + panelType +"Panel").transform.Find("NoContentText")?.gameObject;

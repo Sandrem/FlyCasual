@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -8,12 +10,27 @@ namespace Ship
         {
             public OnyxSquadronScout() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Onyx Squadron Scout",
+                    "",
+                    Faction.Imperial,
                     3,
-                    28,
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 129
+                    4,
+                    12,
+                    seImageNumber: 129,
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

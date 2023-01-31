@@ -18,7 +18,11 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.SupernaturalReflexesAbility),
                 restriction: new BaseSizeRestriction(BaseSize.Small),
                 seImageNumber: 22,
-                legalityInfo: new List<Legality> { Legality.StandartBanned }
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
         }
     }

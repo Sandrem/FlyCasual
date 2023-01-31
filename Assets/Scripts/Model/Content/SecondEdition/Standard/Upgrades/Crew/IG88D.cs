@@ -33,7 +33,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class Ig88DCrewAbility : Abilities.FirstEdition.Ig2000Ability
+    public class Ig88DCrewAbility : Abilities.SecondEdition.Ig2000Ability
     {
         bool addedAbility = false;
 

@@ -5,38 +5,86 @@ using ActionsList;
 using Upgrade;
 using Actions;
 using Arcs;
+using Ship.CardInfo;
+using UnityEngine;
 
 namespace Ship
 {
     namespace SecondEdition.Mg100StarFortress
     {
-        public class Mg100StarFortress : FirstEdition.BSF17Bomber.BSF17Bomber
+        public class Mg100StarFortress : GenericShip
         {
             public Mg100StarFortress() : base()
             {
-                ShipInfo.ShipName = "MG-100 StarFortress";
-
-                ShipInfo.DefaultShipFaction = Faction.Resistance;
-                ShipInfo.FactionsAll = new List<Faction>() { Faction.Resistance };
-
-                ShipInfo.ArcInfo = new ShipArcsInfo(
-                    new ShipArcInfo(ArcType.Front, 3),
-                    new ShipArcInfo(ArcType.DoubleTurret, 2)
+                ShipInfo = new ShipCardInfo25
+                (
+                    "MG-100 StarFortress",
+                    BaseSize.Large,
+                    new FactionData
+                    (
+                        new Dictionary<Faction, System.Type>
+                        {
+                            { Faction.Resistance, typeof(CobaltSquadronBomber) }
+                        }
+                    ),
+                    new ShipArcsInfo
+                    (
+                        new ShipArcInfo(ArcType.Front, 3),
+                        new ShipArcInfo(ArcType.DoubleTurret, 2)
+                    ),
+                    1, 9, 3,
+                    new ShipActionsInfo
+                    (
+                        new ActionInfo(typeof(FocusAction)),
+                        new ActionInfo(typeof(TargetLockAction)),
+                        new ActionInfo(typeof(RotateArcAction)),
+                        new ActionInfo(typeof(ReloadAction))
+                    ),
+                    new ShipUpgradesInfo(),
+                    legality: new List<Content.Legality>() { Content.Legality.ExtendedLegal }
                 );
 
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(RotateArcAction)));
-                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(ReloadAction)));
+                ModelInfo = new ShipModelInfo
+                (
+                    "B/SF-17 Bomber",
+                    "Crimson",
+                    new Vector3(-4.25f, 8.3f, 5.55f),
+                    3f
+                );
 
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Crew);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
+                DialInfo = new ShipDialInfo
+                (
+                    new ManeuverInfo(ManeuverSpeed.Speed0, ManeuverDirection.Stationary, ManeuverBearing.Stationary, MovementComplexity.Complex),
 
-                DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Complex);
-                DialInfo.ChangeManeuverComplexity(new ManeuverHolder(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Complex);
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Complex),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Complex),
 
-                IconicPilots[Faction.Resistance] = typeof(CobaltSquadronBomber);
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
 
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/17/Maneuver_mg-100.png";
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Complex),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Complex)
+                );
+
+                SoundInfo = new ShipSoundInfo
+                (
+                    new List<string>()
+                    {
+                        "Falcon-Fly1",
+                        "Falcon-Fly2",
+                        "Falcon-Fly3"
+                    },
+                    "Falcon-Fire", 2
+                );
+
+                ShipIconLetter = 'Z';
             }
         }
     }

@@ -34,7 +34,8 @@ namespace Ship
                     },
                     legality: new List<Legality>
                     {
-                        Legality.StandartBanned 
+                        Legality.StandardBanned,
+                        Legality.ExtendedLegal
                     },
                     seImageNumber: 95
                 );

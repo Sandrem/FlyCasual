@@ -27,10 +27,33 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class IonDamageAbility : Abilities.FirstEdition.IonDamageAbility
+    public class IonDamageAbility : GenericAbility
     {
+        public override void ActivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker += RegisterIonWeaponEffect;
+        }
 
-        protected override void IonWeaponEffect(object sender, System.EventArgs e)
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotHitAsAttacker -= RegisterIonWeaponEffect;
+        }
+
+        protected void RegisterIonWeaponEffect()
+        {
+            if (Combat.ChosenWeapon == HostUpgrade)
+            {
+                Triggers.RegisterTrigger(new Trigger()
+                {
+                    Name = "Ion weapon effect",
+                    TriggerType = TriggerTypes.OnShotHit,
+                    TriggerOwner = Combat.Attacker.Owner.PlayerNo,
+                    EventHandler = IonWeaponEffect
+                });
+            }
+        }
+
+        protected virtual void IonWeaponEffect(object sender, System.EventArgs e)
         {
             int ionTokens = Combat.DiceRollAttack.Successes - 1;
             Combat.DiceRollAttack.CancelAllResults();
@@ -53,5 +76,17 @@ namespace Abilities.SecondEdition
                 DefenderSuffersDamage(Triggers.FinishTrigger);
             }
         }
+
+        protected void DefenderSuffersDamage(System.Action callback)
+        {
+            DamageSourceEventArgs ionWeaponDamage = new DamageSourceEventArgs()
+            {
+                Source = HostShip,
+                DamageType = DamageTypes.ShipAttack
+            };
+
+            Combat.Defender.Damage.TryResolveDamage(1, ionWeaponDamage, callback);
+        }
     }
+
 }

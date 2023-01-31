@@ -17,7 +17,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Title,
                 cost: 0,
                 isLimited: true,
-                restriction: new ShipRestriction(typeof(Ship.FirstEdition.StarViper.StarViper)),
+                restriction: new ShipRestriction(typeof(Ship.SecondEdition.StarViperClassAttackPlatform.StarViperClassAttackPlatform)),
                 addSlot: new UpgradeSlot(UpgradeType.Modification),
                 addShields: 1,
                 charges: 2,

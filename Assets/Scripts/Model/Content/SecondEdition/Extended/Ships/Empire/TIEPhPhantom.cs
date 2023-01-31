@@ -1,37 +1,92 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Movement;
 using ActionsList;
 using Actions;
 using Arcs;
-using Upgrade;
-using Ship;
 using Tokens;
+using Ship.CardInfo;
+using UnityEngine;
 
 namespace Ship
 {
     namespace SecondEdition.TIEPhPhantom
     {
-        public class TIEPhPhantom : FirstEdition.TIEPhantom.TIEPhantom
+        public class TIEPhPhantom : GenericShip
         {
             public TIEPhPhantom() : base()
             {
-                ShipInfo.ShipName = "TIE/ph Phantom";
+                ShipInfo = new ShipCardInfo25
+                (
+                    "TIE/ph Phantom",
+                    BaseSize.Small,
+                    new FactionData
+                    (
+                        new Dictionary<Faction, System.Type>
+                        {
+                            { Faction.Imperial, typeof(Echo) }
+                        }
+                    ),
+                    new ShipArcsInfo(ArcType.Front, 3), 2, 2, 2,
+                    new ShipActionsInfo(
+                        new ActionInfo(typeof(FocusAction)),
+                        new ActionInfo(typeof(EvadeAction)),
+                        new ActionInfo(typeof(BarrelRollAction)),
+                        new ActionInfo(typeof(CloakAction))
+                    ),
+                    new ShipUpgradesInfo(),
+                    legality: new List<Content.Legality>() { Content.Legality.ExtendedLegal }
+                );
 
-                ShipInfo.ArcInfo = new ShipArcsInfo(ArcType.Front, 3);
-                ShipInfo.Hull = 3;
+                ModelInfo = new ShipModelInfo
+                (
+                    "TIE Phantom",
+                    "Gray",
+                    new Vector3(-3.28f, 7.4f, 5.55f),
+                    1.5f
+                );
 
-                ShipInfo.UpgradeIcons.Upgrades.Remove(UpgradeType.Crew);
-                ShipInfo.UpgradeIcons.Upgrades.Add(UpgradeType.Gunner);
+                DialInfo = new ShipDialInfo
+                (
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed2, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Left, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Easy),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Bank, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Right, ManeuverBearing.Turn, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed3, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex),
+
+                    new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.Straight, MovementComplexity.Normal),
+                    new ManeuverInfo(ManeuverSpeed.Speed4, ManeuverDirection.Forward, ManeuverBearing.KoiogranTurn, MovementComplexity.Complex)
+                );
+
+                SoundInfo = new ShipSoundInfo
+                (
+                    new List<string>()
+                    {
+                        "TIE-Fly1",
+                        "TIE-Fly2",
+                        "TIE-Fly3",
+                        "TIE-Fly4",
+                        "TIE-Fly5",
+                        "TIE-Fly6",
+                        "TIE-Fly7"
+                    },
+                    "TIE-Fire", 4
+                );
+
+                ShipIconLetter = 'P';
                 
                 ShipAbilities.Add(new Abilities.SecondEdition.StygiumArray());
-
-                IconicPilots[Faction.Imperial] = typeof(Echo);
-
-                DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Left, ManeuverBearing.Bank), MovementComplexity.Normal);
-                DialInfo.AddManeuver(new ManeuverHolder(ManeuverSpeed.Speed1, ManeuverDirection.Right, ManeuverBearing.Bank), MovementComplexity.Normal);
-                
-                ManeuversImageUrl = "https://vignette.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/44/Maneuver_tie_phantom.png";
             }
         }
     }

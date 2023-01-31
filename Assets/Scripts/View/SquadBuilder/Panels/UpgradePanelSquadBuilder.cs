@@ -61,7 +61,7 @@ public class UpgradePanelSquadBuilder : MonoBehaviour {
                 this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().material = GrayscaleMaterial;
                 this.gameObject.transform.Find("WIPInfo").gameObject.SetActive(true);
             }
-            else if (Upgrade.UpgradeInfo.LegalityInfo.Contains(Content.Legality.StandartBanned))
+            else if (Content.XWingFormats.IsBanned(Upgrade))
             {
                 this.gameObject.transform.Find("UpgradeImage").GetComponent<Image>().material = GrayscaleMaterial;
                 this.gameObject.transform.Find("BannedInfo").gameObject.SetActive(true);

@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,28 @@ namespace Ship
         {
             public ColonelJendon() : base()
             {
-                PilotInfo = new PilotCardInfo(
-                    pilotName: "Colonel Jendon",
-                    initiative: 3,
-                    cost: 49,
+                PilotInfo = new PilotCardInfo25
+                (
+                    "Colonel Jendon",
+                    "Darth Vader’s Shuttle Pilot",
+                    Faction.Imperial,
+                    3,
+                    6,
+                    20,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.ColonelJendonAbility),
                     charges: 2,
-                    seImageNumber: 143
+                    abilityType: typeof(Abilities.SecondEdition.ColonelJendonAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 143,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

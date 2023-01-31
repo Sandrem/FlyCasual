@@ -28,7 +28,7 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class HeavyLaserCannonAbility : Abilities.FirstEdition.HeavyLaserCannonAbility
+    public class HeavyLaserCannonAbility : GenericAbility
     {
         public override void ActivateAbility()
         {

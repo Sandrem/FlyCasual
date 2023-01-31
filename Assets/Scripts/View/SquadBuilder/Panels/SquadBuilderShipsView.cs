@@ -1,4 +1,5 @@
 ﻿using Editions;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +27,13 @@ namespace SquadBuilderNS
             bool isAnyShipShown = false;
             ShipPanelSquadBuilder.WaitingToLoad = 0;
 
-            foreach (ShipRecord ship in Global.SquadBuilder.Database.AllShips.OrderBy(s => s.Instance.ShipInfo.ShipName).Where(n => n.Instance.ShipInfo.GetType() == typeof(Ship.ShipCardInfo25)))
+            List<ShipRecord> shipsFiltered = Global.SquadBuilder.Database.AllShips
+                .Where(n => n.Instance.ShipInfo.GetType() == typeof(Ship.ShipCardInfo25))
+                .Where(n => Content.XWingFormats.IsShipLegalForFormat(n.Instance))
+                .OrderBy(s => s.Instance.ShipInfo.ShipName)
+                .ToList();
+
+            foreach (ShipRecord ship in shipsFiltered)
             {
                 if (ship.Instance.ShipInfo.FactionsAll.Contains(faction) && !ship.Instance.IsHidden && HasPilots(ship, faction))
                 {

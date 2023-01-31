@@ -2,7 +2,9 @@
 {
     public enum Legality
     {
-        StandartLegal,
-        StandartBanned
+        StandardLegal,
+        ExtendedLegal,
+        StandardBanned,
+        ExtendedBanned
     }
 }

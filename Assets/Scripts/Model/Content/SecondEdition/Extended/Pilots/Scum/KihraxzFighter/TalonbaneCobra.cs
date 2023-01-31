@@ -1,4 +1,6 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -9,14 +11,27 @@ namespace Ship
         {
             public TalonbaneCobra() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Talonbane Cobra",
+                    "Scourge of Tansarii Point",
+                    Faction.Scum,
                     5,
-                    48,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TalonbaneCobraAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 191
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 191,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

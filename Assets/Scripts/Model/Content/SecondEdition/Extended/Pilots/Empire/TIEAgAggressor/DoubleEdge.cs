@@ -1,5 +1,5 @@
-﻿using Ship;
-using System;
+﻿using Content;
+using Ship;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -12,14 +12,31 @@ namespace Ship
         {
             public DoubleEdge() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Double Edge\"",
+                    "Contingency Planner",
+                    Faction.Imperial,
                     2,
-                    28,
+                    4,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DoubleEdgeAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 128
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Turret,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 128,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

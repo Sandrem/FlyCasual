@@ -1,8 +1,10 @@
 ﻿using Arcs;
 using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -13,15 +15,32 @@ namespace Ship
         {
             public DalanOberos() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Dalan Oberos",
+                    "Returned from the Grave",
+                    Faction.Scum,
                     3,
-                    45,
+                    5,
+                    12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DalanOberosKimogilaAbility),
                     charges: 2,
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 208
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Astromech,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 208,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Dalan Oberos";

@@ -1,6 +1,8 @@
-﻿using SubPhases;
+﻿using Content;
+using SubPhases;
 using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -10,13 +12,28 @@ namespace Ship
         {
             public MirandaDoni() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Miranda Doni",
+                    "Heavy Hitter",
+                    Faction.Rebel,
                     4,
-                    40,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MirandaDoniAbility),
-                    seImageNumber: 62
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Crew,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 62,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }
@@ -25,9 +42,21 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class MirandaDoniAbility : Abilities.FirstEdition.MirandaDoniAbility
+    public class MirandaDoniAbility : GenericAbility
     {
-        protected override void CheckConditions()
+        public override void ActivateAbility()
+        {
+            HostShip.OnShotStartAsAttacker += CheckConditions;
+            Phases.Events.OnRoundEnd += ClearAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnShotStartAsAttacker -= CheckConditions;
+            Phases.Events.OnRoundEnd -= ClearAbility;
+        }
+
+        protected virtual void CheckConditions()
         {
             if (Combat.ChosenWeapon.WeaponType == Ship.WeaponTypes.PrimaryWeapon)
             {
@@ -35,7 +64,7 @@ namespace Abilities.SecondEdition
             }
         }
 
-        protected override void StartQuestionSubphase(object sender, System.EventArgs e)
+        protected virtual void StartQuestionSubphase(object sender, System.EventArgs e)
         {
             MirandaDoniDecisionSubPhase selectMirandaDoniSubPhase = (MirandaDoniDecisionSubPhase)Phases.StartTemporarySubPhaseNew(
                 Name,
@@ -68,7 +97,7 @@ namespace Abilities.SecondEdition
             selectMirandaDoniSubPhase.Start();
         }
 
-        protected override string GetDefaultDecision()
+        protected virtual string GetDefaultDecision()
         {
             string result = "No";
 
@@ -83,5 +112,48 @@ namespace Abilities.SecondEdition
 
             return result;
         }
+
+        protected void RegisterRollExtraDice(object sender, System.EventArgs e)
+        {
+            IsAbilityUsed = true;
+            HostShip.AfterGotNumberOfAttackDice += RollExtraDice;
+
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void RollExtraDice(ref int count)
+        {
+            count++;
+            HostShip.LoseShield();
+
+            Messages.ShowInfo("Miranda Doni spends 1 shield to gain +1 attack die");
+
+            HostShip.AfterGotNumberOfAttackDice -= RollExtraDice;
+        }
+
+        protected void RegisterRegeneration(object sender, System.EventArgs e)
+        {
+            IsAbilityUsed = true;
+            HostShip.AfterGotNumberOfAttackDice += RegenerateShield;
+
+            DecisionSubPhase.ConfirmDecision();
+        }
+
+        private void RegenerateShield(ref int count)
+        {
+            count--;
+            HostShip.TryRegenShields();
+
+            Messages.ShowInfo("Miranda Doni rolls 1 fewer defense die to recover 1 shield");
+
+            HostShip.AfterGotNumberOfAttackDice -= RegenerateShield;
+        }
+
+        private void ClearAbility()
+        {
+            IsAbilityUsed = false;
+        }
+
+        protected class MirandaDoniDecisionSubPhase : DecisionSubPhase { }
     }
 }

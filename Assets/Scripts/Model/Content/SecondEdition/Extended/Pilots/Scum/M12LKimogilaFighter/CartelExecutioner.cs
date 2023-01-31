@@ -1,4 +1,6 @@
-﻿using Upgrade;
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -8,12 +10,20 @@ namespace Ship
         {
             public CartelExecutioner() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Cartel Executioner",
+                    "",
+                    Faction.Scum,
                     3,
-                    41,
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 209
+                    5,
+                    3,
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Missile
+                    },
+                    seImageNumber: 209,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Cartel Executioner";

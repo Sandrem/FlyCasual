@@ -1,5 +1,9 @@
 ﻿using Actions;
 using ActionsList;
+using Content;
+using System;
+using System.Collections.Generic;
+using Tokens;
 using UnityEngine;
 using Upgrade;
 
@@ -11,14 +15,30 @@ namespace Ship
         {
             public Guri() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Guri",
+                    "Prince Xizor’s Bodyguard",
+                    Faction.Scum,
                     5,
-                    60,
+                    7,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.GuriAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 178
+                    tags: new List<Tags>
+                    {
+                        Tags.BountyHunter
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 178,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();
@@ -29,11 +49,58 @@ namespace Ship
 
 namespace Abilities.SecondEdition
 {
-    public class GuriAbility : Abilities.FirstEdition.GuriAbility
+    public class GuriAbility : GenericAbility
     {
-        protected override Vector2 AbilityRange
+
+        public override void ActivateAbility()
         {
-            get { return new Vector2(0, 1); }
+            Phases.Events.OnCombatPhaseStart_Triggers += RegisterGuriAbility;
         }
+
+        public override void DeactivateAbility()
+        {
+            Phases.Events.OnCombatPhaseStart_Triggers -= RegisterGuriAbility;
+        }
+
+        private void RegisterGuriAbility()
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnCombatPhaseStart, AskGuriAbility);
+        }
+        private void AskGuriAbility(object sender, EventArgs e)
+        {
+            if (BoardTools.Board.GetShipsAtRange(HostShip, new Vector2(0, 1), Team.Type.Enemy).Count > 0)
+            {
+                if (!alwaysUseAbility)
+                {
+                    AskToUseAbility(
+                        HostShip.PilotInfo.PilotName,
+                        AlwaysUseByDefault,
+                        UseAbility,
+                        descriptionLong: "Do you want to gain 1 Focus Token?",
+                        imageHolder: HostShip,
+                        showAlwaysUseOption: true
+                    );
+                }
+                else
+                {
+                    AssignFocus(Triggers.FinishTrigger);
+                }
+            }
+            else
+            {
+                Triggers.FinishTrigger();
+            }
+        }
+
+        private void UseAbility(object sender, EventArgs e)
+        {
+            AssignFocus(SubPhases.DecisionSubPhase.ConfirmDecision);
+        }
+
+        private void AssignFocus(Action callback)
+        {
+            HostShip.Tokens.AssignToken(typeof(FocusToken), callback);
+        }
+
     }
 }

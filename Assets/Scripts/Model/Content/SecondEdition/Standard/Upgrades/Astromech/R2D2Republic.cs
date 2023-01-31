@@ -161,7 +161,7 @@ namespace Abilities.SecondEdition
                 {
                     Phases.StartTemporarySubPhaseOld(
                         HostUpgrade.UpgradeInfo.Name + ": Select faceup ship Crit",
-                        typeof(SubPhases.R5AstromechDecisionSubPhase),
+                        typeof(SubPhases.FixCritDecisionSubPhase),
                         Triggers.FinishTrigger
                     );
                 }
@@ -213,4 +213,34 @@ namespace Abilities.SecondEdition
 
         private class R2D2RepublicDecisionSubphase : DecisionSubPhase { }
     }
+}
+
+namespace SubPhases
+{
+
+    public class FixCritDecisionSubPhase : DecisionSubPhase
+    {
+        public override void PrepareDecision(System.Action callBack)
+        {
+            DecisionViewType = DecisionViewTypes.ImagesDamageCard;
+
+            foreach (var shipCrit in Selection.ActiveShip.Damage.GetFaceupCrits(CriticalCardType.Ship).ToList())
+            {
+                AddDecision(shipCrit.Name, delegate { DiscardCrit(shipCrit); }, shipCrit.ImageUrl);
+            }
+
+            DefaultDecisionName = GetDecisions().First().Name;
+
+            callBack();
+        }
+
+        private void DiscardCrit(GenericDamageCard critCard)
+        {
+            Selection.ActiveShip.Damage.FlipFaceupCritFacedown(critCard);
+            Sounds.PlayShipSound("R2D2-Proud");
+            ConfirmDecision();
+        }
+
+    }
+
 }

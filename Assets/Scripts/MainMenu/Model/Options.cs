@@ -29,8 +29,9 @@ public static class Options
     public static int Quality;
     public static string Resolution;
     public static int DisplayId;
+    public static string Format;
 
-    public static readonly string DefaultAvatar = "UpgradesList.FirstEdition.VeteranInstincts";
+    public static readonly string DefaultAvatar = "UpgradesList.SecondEdition.AgileGunner";
 
     static Options()
     {
@@ -54,6 +55,7 @@ public static class Options
         Edition = "SecondEdition";
         ShowFps = PlayerPrefs.GetInt("ShowFps", 0) == 1;
         Resolution = PlayerPrefs.GetString("Resolution", Screen.currentResolution.ToString());
+        Format = PlayerPrefs.GetString("Format", "Standard");
 
         FullScreen = PlayerPrefs.GetInt("FullScreen", 1) == 1;
         Screen.fullScreen = FullScreen;

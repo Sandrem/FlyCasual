@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using System.Collections.Generic;
 using Upgrade;
@@ -11,13 +12,30 @@ namespace Ship
         {
             public CaptainCardinal() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Captain Cardinal",
+                    "Principled Instructor",
+                    Faction.FirstOrder,
                     4,
-                    62,
+                    7,
+                    12,
                     isLimited: true,
                     charges: 2,
-                    abilityType: typeof(Abilities.SecondEdition.CaptainCardinalAbility)
+                    abilityType: typeof(Abilities.SecondEdition.CaptainCardinalAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Cannon,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/be29a69f75726ad48f607eecca671e01.png";

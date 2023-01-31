@@ -17,7 +17,11 @@ namespace UpgradesList.SecondEdition
                 cost: 7,
                 abilityType: typeof(Abilities.SecondEdition.SeasonedNavigatorAbility),
                 seImageNumber: 47,
-                legalityInfo: new List<Legality> { Legality.StandartBanned }
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
 
             Avatar = new AvatarInfo(

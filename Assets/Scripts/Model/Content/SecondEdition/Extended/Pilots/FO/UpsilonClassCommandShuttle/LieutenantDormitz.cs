@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
@@ -13,12 +14,29 @@ namespace Ship
         {
             public LieutenantDormitz() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lieutenant Dormitz",
+                    "Hypercomms Specialist",
+                    Faction.FirstOrder,
                     2,
-                    73,
+                    8,
+                    20,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.LieutenantDormitzAbility)
+                    abilityType: typeof(Abilities.SecondEdition.LieutenantDormitzAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Cannon,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e4acd80da2c39e25d4f999cb7c314fe5.png";

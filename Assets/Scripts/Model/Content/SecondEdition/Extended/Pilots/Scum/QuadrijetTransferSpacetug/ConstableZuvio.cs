@@ -1,4 +1,5 @@
 ﻿using BoardTools;
+using Content;
 using Movement;
 using Ship;
 using SubPhases;
@@ -14,14 +15,27 @@ namespace Ship
         {
             public ConstableZuvio() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Constable Zuvio",
+                    "Missing Sheriff of Niima Outpost",
+                    Faction.Scum,
                     4,
-                    29,
+                    4,
+                    13,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.ConstableZuvioAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 161
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Tech,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 161,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

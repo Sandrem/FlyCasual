@@ -21,7 +21,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Scum),
                 abilityType: typeof(Abilities.SecondEdition.BobaFettCrewAbility),
                 seImageNumber: 129,
-                legalityInfo: new List<Legality> { Legality.StandartBanned }
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
 
             Avatar = new AvatarInfo(

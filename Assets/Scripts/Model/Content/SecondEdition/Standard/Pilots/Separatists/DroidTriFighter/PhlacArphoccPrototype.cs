@@ -35,7 +35,8 @@ namespace Ship.SecondEdition.DroidTriFighter
                 },
                 legality: new List<Legality>
                 {
-                    Legality.StandartBanned
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
                 }
             );
 

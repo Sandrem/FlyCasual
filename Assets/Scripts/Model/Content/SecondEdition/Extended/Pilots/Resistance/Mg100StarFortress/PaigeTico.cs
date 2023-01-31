@@ -1,7 +1,9 @@
 ﻿using Bombs;
+using Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Upgrade;
 
 namespace Ship
 {
@@ -11,15 +13,30 @@ namespace Ship
         {
             public PaigeTico() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Paige Tico",
+                    "Hero",
+                    Faction.Resistance,
                     5,
-                    55,
+                    6,
+                    15,
                     isLimited: true,
                     charges: 1,
                     regensCharges: 1,
                     abilityType: typeof(Abilities.SecondEdition.PaigeTicoPilotAbility),
-                    extraUpgradeIcon: Upgrade.UpgradeType.Talent
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Cobalt";

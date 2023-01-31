@@ -22,7 +22,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Rebel),
                 abilityType: typeof(Abilities.SecondEdition.CassianAndorCrewAbility),
                 seImageNumber: 81,
-                legalityInfo: new List<Legality> { Legality.StandartBanned }
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
 
             Avatar = new AvatarInfo(

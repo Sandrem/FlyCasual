@@ -1,9 +1,11 @@
 ﻿using ActionsList;
 using Arcs;
 using BoardTools;
+using Content;
 using Ship;
 using System.Collections;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -13,12 +15,28 @@ namespace Ship
         {
             public Vennie() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Vennie",
+                    "Crimson Cutter",
+                    Faction.Resistance,
                     2,
-                    53,
+                    6,
+                    14,
                     isLimited: true,
-                    abilityType: typeof(Abilities.SecondEdition.VennieAbility)
+                    abilityType: typeof(Abilities.SecondEdition.VennieAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Crimson";

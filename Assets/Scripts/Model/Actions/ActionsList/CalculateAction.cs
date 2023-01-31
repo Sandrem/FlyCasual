@@ -73,9 +73,6 @@ namespace ActionsList
         public override int GetActionPriority()
         {
             int result = 0;
-
-            if (Selection.ThisShip.UpgradeBar.HasUpgradeInstalled(typeof(UpgradesList.FirstEdition.Expertise))) return 10;
-
             result = (ActionsHolder.HasTarget(Selection.ThisShip)) ? 50 : 20;
             return result;
         }

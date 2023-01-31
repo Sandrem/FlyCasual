@@ -1,6 +1,7 @@
 ﻿using Upgrade;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace UpgradesList.SecondEdition
 {
@@ -21,7 +22,8 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class TrickShotAbility : Abilities.FirstEdition.TrickShotAbility
+    // When attacking, if the attack is obstructed, you may roll one additional attack die
+    public class TrickShotAbility : GenericAbility
     {
         public override void ActivateAbility()
         {
@@ -39,6 +41,13 @@ namespace Abilities.SecondEdition
             {
                 HostShip.AfterGotNumberOfAttackDice += RollExtraDie;
             }
+        }
+
+        protected void RollExtraDie(ref int diceCount)
+        {
+            HostShip.AfterGotNumberOfAttackDice -= RollExtraDie;
+            Messages.ShowInfo("The attack is obstructed, Trick Shot causes " + HostShip.PilotInfo.PilotName + " to roll +1 attack die");
+            diceCount++;
         }
     }
 }

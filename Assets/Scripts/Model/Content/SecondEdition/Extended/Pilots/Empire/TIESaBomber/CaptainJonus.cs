@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,33 @@ namespace Ship
         {
             public CaptainJonus() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Captain Jonus",
+                    "Disciplined Instructor",
+                    Faction.Imperial,
                     4,
-                    45,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainJonusAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 108
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Torpedo,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 108,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

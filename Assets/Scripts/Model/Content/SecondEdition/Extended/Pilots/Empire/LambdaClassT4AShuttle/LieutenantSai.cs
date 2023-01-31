@@ -1,6 +1,8 @@
 ﻿using ActionsList;
+using Content;
 using Ship;
 using System;
+using System.Collections.Generic;
 using Upgrade;
 
 namespace Ship
@@ -11,13 +13,27 @@ namespace Ship
         {
             public LieutenantSai() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Lieutenant Sai",
+                    "Death Squadron Veteran",
+                    Faction.Imperial,
                     3,
-                    46,
+                    5,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantSaiAbility),
-                    seImageNumber: 144
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Cannon,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 144,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

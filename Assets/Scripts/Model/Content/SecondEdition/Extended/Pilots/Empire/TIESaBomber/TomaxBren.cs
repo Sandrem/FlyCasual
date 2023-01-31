@@ -1,4 +1,5 @@
 ﻿using ActionsList;
+using Content;
 using SubPhases;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,33 @@ namespace Ship
         {
             public TomaxBren() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Tomax Bren",
+                    "Brash Maverick",
+                    Faction.Imperial,
                     5,
-                    35,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TomaxBrenAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 107
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Missile,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 107,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "White Death";

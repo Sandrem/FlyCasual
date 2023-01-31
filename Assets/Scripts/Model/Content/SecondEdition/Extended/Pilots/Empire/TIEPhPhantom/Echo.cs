@@ -1,6 +1,6 @@
 ﻿using BoardTools;
+using Content;
 using Movement;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Upgrade;
@@ -13,14 +13,30 @@ namespace Ship
         {
             public Echo() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "\"Echo\"",
+                    "Slippery Trickster",
+                    Faction.Imperial,
                     4,
-                    51,
+                    6,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EchoAbility),
-                    extraUpgradeIcon: UpgradeType.Talent,
-                    seImageNumber: 132
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Talent,
+                        UpgradeType.Sensor,
+                        UpgradeType.Gunner,
+                        UpgradeType.Modification
+                    },
+                    seImageNumber: 132,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Echo";

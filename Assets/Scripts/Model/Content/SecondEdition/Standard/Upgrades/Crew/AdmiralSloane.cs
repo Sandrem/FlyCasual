@@ -19,7 +19,11 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Imperial),
                 abilityType: typeof(Abilities.SecondEdition.AdmiralSloaneCrewAbility),
                 seImageNumber: 109,
-                legalityInfo: new List<Legality> { Legality.StandartBanned }
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
 
             Avatar = new AvatarInfo(

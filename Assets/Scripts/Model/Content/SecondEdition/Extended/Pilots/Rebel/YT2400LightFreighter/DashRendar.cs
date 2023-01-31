@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Content;
+using System.Collections;
 using System.Collections.Generic;
 using Upgrade;
 
@@ -10,14 +11,32 @@ namespace Ship
         {
             public DashRendar() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Dash Rendar",
+                    "Hotshot Mercenary",
+                    Faction.Rebel,
                     5,
-                    79,
+                    10,
+                    22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DashRendarAbility),
-                    extraUpgradeIcons: new List<UpgradeType> { UpgradeType.Talent, UpgradeType.Crew },
-                    seImageNumber: 77
+                    tags: new List<Tags>
+                    {
+                        Tags.Freighter
+                    },
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Talent,
+                        UpgradeType.Missile,
+                        UpgradeType.Crew,
+                        UpgradeType.Illicit,
+                        UpgradeType.Illicit,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 77,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

@@ -3,6 +3,7 @@ using Ship.CardInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Content;
 
 namespace Ship
 {
@@ -12,6 +13,7 @@ namespace Ship
         private static Faction subFaction; // TODO: Remove
         private static List<Faction> factionsAll; // TODO: Remove
         private static string description; // TODO: Remove
+        public List<Legality> LegalityInfo { get; }
         public FactionData FactionData { get; }
         public override Type IconicPilot(Faction faction) => FactionData.IconicPilot(faction);
 
@@ -23,7 +25,8 @@ namespace Ship
             ShipActionsInfo actionIcons,
             ShipUpgradesInfo upgradeIcons = null,
             List<LinkedActionInfo> linkedActions = null,
-            string abilityText = "") : base(shipName, baseSize, faction, arcInfo, agility, hull, shields, actionIcons, upgradeIcons, subFaction, factionsAll, description, abilityText)
+            string abilityText = "",
+            List<Legality> legality = null) : base(shipName, baseSize, faction, arcInfo, agility, hull, shields, actionIcons, upgradeIcons, subFaction, factionsAll, description, abilityText)
         {
             ShipName = shipName;
             BaseSize = baseSize;
@@ -44,6 +47,8 @@ namespace Ship
             UpgradeIcons = upgradeIcons ?? new ShipUpgradesInfo();
 
             AbilityText = abilityText;
+
+            LegalityInfo = legality ?? new List<Legality> { Legality.StandardLegal, Legality.ExtendedLegal };
         }
     }
 }

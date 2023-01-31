@@ -1,4 +1,5 @@
-﻿using Ship;
+﻿using Content;
+using Ship;
 using SubPhases;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,27 @@ namespace Ship
         {
             public CaptainKagi() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Captain Kagi",
+                    "The Emperor’s Shuttle Pilot",
+                    Faction.Imperial,
                     4,
-                    47,
+                    6,
+                    22,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainKagiAbility),
-                    seImageNumber: 142
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Cannon,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification,
+                        UpgradeType.Title
+                    },
+                    seImageNumber: 142,
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
             }
         }

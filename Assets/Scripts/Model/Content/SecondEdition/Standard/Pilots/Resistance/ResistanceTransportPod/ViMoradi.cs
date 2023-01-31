@@ -25,7 +25,8 @@ namespace Ship.SecondEdition.ResistanceTransportPod
                 abilityType: typeof(ViMoradiAbility),
                 legality: new List<Legality>
                 {
-                    Legality.StandartBanned
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
                 }
             );
 

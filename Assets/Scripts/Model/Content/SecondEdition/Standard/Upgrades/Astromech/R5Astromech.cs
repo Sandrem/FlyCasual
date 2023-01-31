@@ -18,7 +18,11 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.R5AstromechAbility),
                 charges: 2,
                 seImageNumber: 56,
-                legalityInfo: new List<Legality> { Legality.StandartBanned }
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
         }
     }
@@ -123,7 +127,7 @@ namespace ActionsList
                     {
                         Phases.StartTemporarySubPhaseOld(
                             Source.UpgradeInfo.Name + ": Select faceup ship Crit",
-                            typeof(SubPhases.R5AstromechDecisionSubPhase),
+                            typeof(SubPhases.FixCritDecisionSubPhase),
                             Phases.CurrentSubPhase.CallBack
                         );
                     }

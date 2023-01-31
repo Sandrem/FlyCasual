@@ -1,8 +1,10 @@
 ﻿using Arcs;
+using Content;
 using Ship;
 using SubPhases;
 using System.Collections.Generic;
 using Tokens;
+using Upgrade;
 
 namespace Ship
 {
@@ -12,14 +14,31 @@ namespace Ship
         {
             public PettyOfficerThanisson() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Petty Officer Thanisson",
+                    "Alert Flight Controller",
+                    Faction.FirstOrder,
                     1,
-                    59,
+                    7,
+                    14,
                     isLimited: true,
                     charges: 1,
                     regensCharges: 1,
-                    abilityType: typeof(Abilities.SecondEdition.PettyOfficerThanissonPilotAbility)
+                    abilityType: typeof(Abilities.SecondEdition.PettyOfficerThanissonPilotAbility),
+                    extraUpgradeIcons: new List<UpgradeType>()
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Tech,
+                        UpgradeType.Tech,
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification
+                    },
+                    legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
 
                 ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3a2232a5238d8bf5e7538fe1d6003dbc.png";

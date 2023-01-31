@@ -25,9 +25,19 @@ namespace UpgradesList.SecondEdition
 
 namespace Abilities.SecondEdition
 {
-    public class AdvancedSlamAbility : Abilities.FirstEdition.AdvancedSlamAbility
+    public class AdvancedSlamAbility : GenericAbility
     {
-        protected override void CheckSlamAction(GenericAction action)
+        public override void ActivateAbility()
+        {
+            HostShip.OnActionIsPerformed += CheckSlamAction;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnActionIsPerformed -= CheckSlamAction;
+        }
+
+        private void CheckSlamAction(GenericAction action)
         {
             if (action is SlamAction)
             {
@@ -42,7 +52,18 @@ namespace Abilities.SecondEdition
             }
         }
 
-        protected override void PerfromFreeActionFromUpgradeBar(object sender, EventArgs e)
+        private void RegisterTrigger()
+        {
+            Triggers.RegisterTrigger(new Trigger()
+            {
+                Name = "Advanced SLAM",
+                TriggerType = TriggerTypes.OnActionIsPerformed,
+                TriggerOwner = HostShip.Owner.PlayerNo,
+                EventHandler = PerfromFreeActionFromUpgradeBar
+            });
+        }
+
+        private void PerfromFreeActionFromUpgradeBar(object sender, System.EventArgs e)
         {
             List<GenericAction> actions = HostShip.GetAvailableActions();
             List<GenericAction> whiteActionBarActionsAsRed = actions

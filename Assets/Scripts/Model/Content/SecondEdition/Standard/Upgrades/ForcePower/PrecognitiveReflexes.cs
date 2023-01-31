@@ -17,7 +17,11 @@ namespace UpgradesList.SecondEdition
                 cost: 15,
                 abilityType: typeof(Abilities.SecondEdition.PrecognitiveReflexesAbility),
                 restriction: new BaseSizeRestriction(BaseSize.Small),
-                legalityInfo: new List<Legality> { Legality.StandartBanned }
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
 
             ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/de/c2/dec27d21-73b1-4b44-b61e-78188a5555cb/swz48_cards-precog-reflexes.png";

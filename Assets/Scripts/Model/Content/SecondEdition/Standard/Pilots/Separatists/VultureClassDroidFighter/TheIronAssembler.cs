@@ -124,7 +124,7 @@ namespace Abilities.SecondEdition
             {
                 Phases.StartTemporarySubPhaseOld(
                     HostShip.PilotInfo.PilotName + ": Select faceup ship Crit",
-                    typeof(SubPhases.R5AstromechDecisionSubPhase),
+                    typeof(SubPhases.FixCritDecisionSubPhase),
                     Triggers.FinishTrigger
                 );
             }

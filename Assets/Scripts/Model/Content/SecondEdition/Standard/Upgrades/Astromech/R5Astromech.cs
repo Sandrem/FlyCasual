@@ -123,7 +123,7 @@ namespace ActionsList
                     {
                         Phases.StartTemporarySubPhaseOld(
                             Source.UpgradeInfo.Name + ": Select faceup ship Crit",
-                            typeof(SubPhases.R5AstromechDecisionSubPhase),
+                            typeof(SubPhases.FixCritDecisionSubPhase),
                             Phases.CurrentSubPhase.CallBack
                         );
                     }

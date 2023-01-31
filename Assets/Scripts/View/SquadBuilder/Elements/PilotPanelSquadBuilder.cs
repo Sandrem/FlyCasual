@@ -51,7 +51,7 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             this.gameObject.transform.Find("PilotImage").GetComponent<Image>().material = GrayscaleMaterial;
             this.gameObject.transform.Find("WIPInfo").gameObject.SetActive(true);
         }
-        else if ((Ship.PilotInfo as PilotCardInfo25).LegalityInfo.Contains(Content.Legality.StandartBanned))
+        else if (Content.XWingFormats.IsBanned(Ship))
         {
             this.gameObject.transform.Find("PilotImage").GetComponent<Image>().material = GrayscaleMaterial;
             this.gameObject.transform.Find("BannedInfo").gameObject.SetActive(true);

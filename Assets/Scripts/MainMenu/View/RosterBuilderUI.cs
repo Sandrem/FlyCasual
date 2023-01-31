@@ -187,4 +187,12 @@ public class RosterBuilderUI : MonoBehaviour {
             MainMenu.CurrentMainMenu.ChangePanel("SelectFactionPanel");
         }
     }
+
+    public void ToggleFormat()
+    {
+        Options.Format = (Options.Format == "Standard") ? "Extended" : "Standard";
+        Options.ChangeParameterValue("Format", Options.Format);
+
+        Global.SquadBuilder.View.ShowCurrentFormat();
+    }
 }

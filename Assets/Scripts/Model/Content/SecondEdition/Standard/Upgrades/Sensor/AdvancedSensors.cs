@@ -18,7 +18,11 @@ namespace UpgradesList.SecondEdition
                 cost: 12,
                 abilityType: typeof(Abilities.SecondEdition.AdvancedSensorsAbility),
                 seImageNumber: 23,
-                legalityInfo: new List<Legality> { Legality.StandartBanned }
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
         }
     }

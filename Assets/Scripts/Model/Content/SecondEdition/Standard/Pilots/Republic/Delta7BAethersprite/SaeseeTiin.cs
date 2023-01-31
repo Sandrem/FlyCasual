@@ -25,7 +25,8 @@ namespace Ship.SecondEdition.Delta7BAethersprite
                 },
                 legality: new List<Legality>
                 {
-                    Legality.StandartBanned
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
                 },
                 skinName: "Saesee Tiin"
             );

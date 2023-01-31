@@ -1,4 +1,5 @@
-﻿using Editions;
+﻿using Content;
+using Editions;
 using Players;
 using Ship;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace SquadBuilderNS
             if (!ValidateStandardizedCards(squad)) return false;
             if (!ValidateUpgradePostChecks(squad)) return false;
             if (!ValidateSpecialSlotsRequirements(squad)) return false;
+            if (!ValidateLegality(squad)) return false;
 
             return true;
         }
@@ -256,6 +258,29 @@ namespace SquadBuilderNS
             }
 
             return result;
+        }
+
+        private bool ValidateLegality(SquadList squad)
+        {
+            foreach (SquadListShip ship in squad.Ships)
+            {
+                if (!XWingFormats.IsLegalForFormat(ship.Instance))
+                {
+                    Messages.ShowError($"{ship.Instance.PilotInfo.PilotName} is not legal for format {Options.Format}!");
+                    return false;
+                }
+
+                foreach (GenericUpgrade upgrade in ship.Instance.UpgradeBar.GetUpgradesAll())
+                {
+                    if (!XWingFormats.IsLegalForFormat(upgrade))
+                    {
+                        Messages.ShowError($"{upgrade.UpgradeInfo.Name} is not legal for format {Options.Format}!");
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

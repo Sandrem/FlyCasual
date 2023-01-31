@@ -15,7 +15,11 @@ namespace UpgradesList.SecondEdition
                 cost: 6,
                 addHull: 1,
                 seImageNumber: 73,
-                legalityInfo: new List<Legality> { Legality.StandartBanned }
+                legalityInfo: new List<Legality>
+                {
+                    Legality.StandardBanned,
+                    Legality.ExtendedLegal
+                }
             );
         }
     }

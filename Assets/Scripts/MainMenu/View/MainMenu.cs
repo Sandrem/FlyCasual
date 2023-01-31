@@ -75,6 +75,7 @@ public partial class MainMenu : MonoBehaviour {
             case "SelectFactionPanel":
                 Global.SquadBuilder.CurrentSquad.ClearAll();
                 Global.SquadBuilder.View.ShowFactionsImages();
+                Global.SquadBuilder.View.ShowCurrentFormat();
                 break;
             case "SquadBuilderPanel":
                 Global.SquadBuilder.View.ShowShipsAndUpgrades();

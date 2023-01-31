@@ -30,7 +30,7 @@ public static class Options
     public static string Resolution;
     public static int DisplayId;
 
-    public static readonly string DefaultAvatar = "UpgradesList.FirstEdition.VeteranInstincts";
+    public static readonly string DefaultAvatar = "UpgradesList.SecondEdition.AgileGunner";
 
     static Options()
     {

@@ -69,11 +69,24 @@ namespace SquadBuilderNS
             targetText.color = (Global.SquadBuilder.CurrentSquad.Points > Edition.Current.MaxPoints) ? new Color(1, 0, 0, 200f/255f) : new Color(0, 0, 0, 200f / 255f);
         }
 
+        public void UpdateClearButtonVisibility(GenericShip ship)
+        {
+            GameObject target = GameObject.Find("UI/Panels/ShipSlotsPanel/TopPanel").transform.Find("ClearButton").gameObject;
+            target.SetActive(!(ship.PilotInfo as PilotCardInfo25).IsStandardLayout);
+        }
+
         public void UpdateLoadoutCost(string panelName, GenericShip ship)
         {
             Text targetText = GameObject.Find("UI/Panels/" + panelName + "/ControlsPanel/SquadCostText").GetComponent<Text>();
-            targetText.text = ship.UpgradeBar.GetTotalUsedLoadoutCost() + " / " + (ship.PilotInfo as PilotCardInfo25).LoadoutValue;
-            targetText.color = (ship.UpgradeBar.GetTotalUsedLoadoutCost() > (ship.PilotInfo as PilotCardInfo25).LoadoutValue) ? new Color(1, 0, 0, 200f / 255f) : new Color(0, 0, 0, 200f / 255f);
+            if ((ship.PilotInfo as PilotCardInfo25).IsStandardLayout)
+            {
+                targetText.text = "";
+            }
+            else
+            {
+                targetText.text = ship.UpgradeBar.GetTotalUsedLoadoutCost() + " / " + (ship.PilotInfo as PilotCardInfo25).LoadoutValue;
+                targetText.color = (ship.UpgradeBar.GetTotalUsedLoadoutCost() > (ship.PilotInfo as PilotCardInfo25).LoadoutValue) ? new Color(1, 0, 0, 200f / 255f) : new Color(0, 0, 0, 200f / 255f);
+            }
         }
 
         private void ShowNextButtonFor(PlayerNo playerNo)
@@ -227,6 +240,7 @@ namespace SquadBuilderNS
 
         public void ShowPilotWithSlots()
         {
+            UpdateClearButtonVisibility(Global.SquadBuilder.CurrentShip.Instance);
             UpdateLoadoutCost("ShipSlotsPanel", Global.SquadBuilder.CurrentShip.Instance);
             PilotWithSlotsView.GeneratePilotWithSlotsPanels();
         }

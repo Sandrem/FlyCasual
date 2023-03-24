@@ -1,4 +1,5 @@
 ﻿using Editions;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,7 +54,16 @@ namespace SquadBuilderNS
             GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/PilotPanel", typeof(GameObject));
             Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel/").transform;
             GameObject newPilotPanel = MonoBehaviour.Instantiate(prefab, contentTransform);
-            newPilotPanel.transform.localPosition = new Vector3(SquadBuilderView.DISTANCE_MEDIUM, -SquadBuilderView.DISTANCE_MEDIUM, 0);
+
+            if ((Global.SquadBuilder.CurrentShip.Instance.PilotInfo as PilotCardInfo25).IsStandardLayout)
+            {
+                newPilotPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(722, 418);
+                newPilotPanel.transform.localPosition = new Vector3(-722f/2f, -SquadBuilderView.DISTANCE_MEDIUM, 0);
+            }
+            else
+            {
+                newPilotPanel.transform.localPosition = new Vector3(SquadBuilderView.DISTANCE_MEDIUM, -SquadBuilderView.DISTANCE_MEDIUM, 0);
+            }
 
             PilotPanelSquadBuilder script = newPilotPanel.GetComponent<PilotPanelSquadBuilder>();
             script.Initialize(Global.SquadBuilder.CurrentShip.Instance);
@@ -61,32 +71,39 @@ namespace SquadBuilderNS
 
         private void CreateSlotsPanels()
         {
-            UpgradeSlotPanels = new List<UpgradeSlotPanel>();
-            UpgradePanelSquadBuilder.WaitingToLoad = 0;
-
-            List<UpgradeSlot> availableSlots = Global.SquadBuilder.CurrentShip.Instance.UpgradeBar.GetUpgradeSlots().OrderBy(s => s.Type).ToList();
-
-            foreach (UpgradeSlot slot in availableSlots)
+            if (!(Global.SquadBuilder.CurrentShip.Instance.PilotInfo as PilotCardInfo25).IsStandardLayout)
             {
-                //Skip for slots with empty upgrade
-                if (!slot.IsEmpty && slot.InstalledUpgrade.GetType() == typeof(UpgradesList.EmptyUpgrade)) continue;
+                UpgradeSlotPanels = new List<UpgradeSlotPanel>();
+                UpgradePanelSquadBuilder.WaitingToLoad = 0;
 
-                GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
-                Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel/").transform;
-                GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
+                List<UpgradeSlot> availableSlots = Global.SquadBuilder.CurrentShip.Instance.UpgradeBar.GetUpgradeSlots().OrderBy(s => s.Type).ToList();
 
-                UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
-
-                if (slot.InstalledUpgrade == null)
+                foreach (UpgradeSlot slot in availableSlots)
                 {
-                    script.Initialize("Slot:" + slot.Type.ToString(), slot, null, SquadBuilder.Instance.View.OpenSelectUpgradeMenu, compact: true);
-                    UpgradeSlotPanels.Add(new UpgradeSlotPanel(null, slot.Type, newUpgradePanel));
+                    //Skip for slots with empty upgrade
+                    if (!slot.IsEmpty && slot.InstalledUpgrade.GetType() == typeof(UpgradesList.EmptyUpgrade)) continue;
+
+                    GameObject prefab = (GameObject)Resources.Load("Prefabs/SquadBuilder/UpgradePanel", typeof(GameObject));
+                    Transform contentTransform = GameObject.Find("UI/Panels/ShipSlotsPanel/Panel/ShipWithSlotsHolderPanel/").transform;
+                    GameObject newUpgradePanel = MonoBehaviour.Instantiate(prefab, contentTransform);
+
+                    UpgradePanelSquadBuilder script = newUpgradePanel.GetComponent<UpgradePanelSquadBuilder>();
+
+                    if (slot.InstalledUpgrade == null)
+                    {
+                        script.Initialize("Slot:" + slot.Type.ToString(), slot, null, SquadBuilder.Instance.View.OpenSelectUpgradeMenu, compact: true);
+                        UpgradeSlotPanels.Add(new UpgradeSlotPanel(null, slot.Type, newUpgradePanel));
+                    }
+                    else
+                    {
+                        script.Initialize(slot.InstalledUpgrade.UpgradeInfo.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked, compact: true);
+                        UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
+                    }
                 }
-                else
-                {
-                    script.Initialize(slot.InstalledUpgrade.UpgradeInfo.Name, slot, slot.InstalledUpgrade, RemoveUpgradeClicked, compact: true);
-                    UpgradeSlotPanels.Add(new UpgradeSlotPanel(slot.InstalledUpgrade, slot.Type, newUpgradePanel));
-                }
+            }
+            else
+            {
+                UpgradeSlotPanels = new List<UpgradeSlotPanel>();
             }
         }
 

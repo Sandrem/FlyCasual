@@ -1,4 +1,5 @@
 ﻿using Editions;
+using Ship;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace SquadBuilderNS
     public class ShipWithUpgradesPanelInfo : IRosterViewPanelInfo
     {
         private const float PILOT_CARD_WIDTH = 300;
+        private const float PILOT_CARD_STANDARDLAYOUT_WIDTH = 722;
         private const float PILOT_CARD_HEIGHT = 418;
 
         public GameObject Panel;
@@ -36,8 +38,15 @@ namespace SquadBuilderNS
             Panel = MonoBehaviour.Instantiate(prefab, GameObject.Find("UI/Panels").transform.Find("SquadBuilderPanel").Find("Panel").Find("SquadListPanel").transform);
 
             RectTransform contentRect = Panel.transform.GetComponent<RectTransform>();
-            int installedUpgradesCount = ship.Instance.UpgradeBar.GetUpgradesAll().Count;
-            contentRect.sizeDelta = new Vector2(SquadBuilderView.PILOT_CARD_WIDTH + (Edition.Current.UpgradeCardCompactSize.x + SquadBuilderView.DISTANCE_SMALL) * installedUpgradesCount, contentRect.sizeDelta.y);
+            if (!(Ship.Instance.PilotInfo as PilotCardInfo25).IsStandardLayout)
+            {
+                int installedUpgradesCount = ship.Instance.UpgradeBar.GetUpgradesAll().Count;
+                contentRect.sizeDelta = new Vector2(SquadBuilderView.PILOT_CARD_WIDTH + (Edition.Current.UpgradeCardCompactSize.x + SquadBuilderView.DISTANCE_SMALL) * installedUpgradesCount, contentRect.sizeDelta.y);
+            }
+            else
+            {
+                contentRect.sizeDelta = new Vector2(PILOT_CARD_STANDARDLAYOUT_WIDTH, contentRect.sizeDelta.y);
+            }
         }
 
         private void ShowPilot(SquadListShip ship)
@@ -46,26 +55,34 @@ namespace SquadBuilderNS
             PilotPanel = MonoBehaviour.Instantiate(prefab, Panel.transform);
             PilotPanel.transform.localPosition = Vector3.zero;
 
+            if ((Ship.Instance.PilotInfo as PilotCardInfo25).IsStandardLayout)
+            {
+                PilotPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(PILOT_CARD_STANDARDLAYOUT_WIDTH, PILOT_CARD_HEIGHT);
+            }
+
             PilotPanelSquadBuilder script = PilotPanel.GetComponent<PilotPanelSquadBuilder>();
             script.Initialize(ship.Instance, Global.SquadBuilder.View.OpenShipInfo);
         }
 
         private void ShowUpgradesOfPilot(SquadListShip ship)
         {
-            AvailableUpgradesCounter = 0;
-            UpgradePanelSquadBuilder.WaitingToLoad = 0;
-
-            List<GenericUpgrade> shipUpgrades = ship.Instance.UpgradeBar.GetUpgradesAll().OrderBy(s => s.UpgradeInfo.UpgradeTypes[0]).ToList();
-
-            if (shipUpgrades.Any(n => n.HasType(UpgradeType.Configuration)))
+            if (!(Ship.Instance.PilotInfo as PilotCardInfo25).IsStandardLayout)
             {
-                HasConfigurationInstalled = true;
-                ShowConfigurationUpgrade();
-            }
+                AvailableUpgradesCounter = 0;
+                UpgradePanelSquadBuilder.WaitingToLoad = 0;
 
-            foreach (GenericUpgrade upgrade in shipUpgrades)
-            {
-                if (!upgrade.HasType(UpgradeType.Configuration)) ShowUpgradeOfPilot(upgrade, ship);
+                List<GenericUpgrade> shipUpgrades = ship.Instance.UpgradeBar.GetUpgradesAll().OrderBy(s => s.UpgradeInfo.UpgradeTypes[0]).ToList();
+
+                if (shipUpgrades.Any(n => n.HasType(UpgradeType.Configuration)))
+                {
+                    HasConfigurationInstalled = true;
+                    ShowConfigurationUpgrade();
+                }
+
+                foreach (GenericUpgrade upgrade in shipUpgrades)
+                {
+                    if (!upgrade.HasType(UpgradeType.Configuration)) ShowUpgradeOfPilot(upgrade, ship);
+                }
             }
         }
 
@@ -102,11 +119,24 @@ namespace SquadBuilderNS
         private void SetSize()
         {
             float configurationOffset = (HasConfigurationInstalled) ? Edition.Current.UpgradeCardCompactSize.x : 0;
-            Size = new Vector2
-            (
-                configurationOffset + SquadBuilderView.PILOT_CARD_WIDTH + (Edition.Current.UpgradeCardCompactSize.x * AvailableUpgradesCounter),
-                SquadBuilderView.PILOT_CARD_HEIGHT
-            );
+
+            if (!(Ship.Instance.PilotInfo as PilotCardInfo25).IsStandardLayout)
+            {
+                Size = new Vector2
+                (
+                    configurationOffset + SquadBuilderView.PILOT_CARD_WIDTH + (Edition.Current.UpgradeCardCompactSize.x * AvailableUpgradesCounter),
+                    SquadBuilderView.PILOT_CARD_HEIGHT
+                );
+            }
+            else
+            {
+                Size = new Vector2
+                (
+                    PILOT_CARD_STANDARDLAYOUT_WIDTH,
+                    PILOT_CARD_HEIGHT
+                );
+            }
+            
             Panel.GetComponent<RectTransform>().sizeDelta = Size;
         }
     }

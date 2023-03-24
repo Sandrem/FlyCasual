@@ -149,9 +149,28 @@ public class PilotPanelSquadBuilder : MonoBehaviour {
             this.transform.Find("FromModInfo").GetComponent<RectTransform>().localPosition += new Vector3(0, -30, 0);
 
             Text SeCostText = this.transform.Find("SeCostInfo").GetComponent<Text>();
-            SeCostText.text = Ship.PilotInfo.Cost.ToString() + "\n" + (Ship.PilotInfo as PilotCardInfo25).LoadoutValue.ToString();
+            SeCostText.text = GetCostText();
 
-            // Show extra icons (that not present on all pilots of this ship)
+            ShowExtraUpgradeIcons();
+        }
+    }
+
+    private string GetCostText()
+    {
+        if (!(Ship.PilotInfo as PilotCardInfo25).IsStandardLayout)
+        {
+            return Ship.PilotInfo.Cost.ToString() + "\n" + (Ship.PilotInfo as PilotCardInfo25).LoadoutValue.ToString();
+        }
+        else
+        {
+            return Ship.PilotInfo.Cost.ToString() + "\n";
+        }
+    }
+
+    private void ShowExtraUpgradeIcons()
+    {
+        if (!(Ship.PilotInfo as PilotCardInfo25).IsStandardLayout)
+        {
             Text slotsText = this.transform.Find("SlotsInfo").GetComponent<Text>();
             for (int i = 0; i < CountUpgradeIcons(UpgradeType.Talent); i++) slotsText.text += "E";
             for (int i = 0; i < CountUpgradeIcons(UpgradeType.ForcePower); i++) slotsText.text += "F";

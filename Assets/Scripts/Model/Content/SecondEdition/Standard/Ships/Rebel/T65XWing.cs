@@ -12,7 +12,7 @@ namespace Ship
 {
     namespace SecondEdition.T65XWing
     {
-        public class T65XWing : GenericShip25, IMovableWings
+        public class T65XWing : GenericShip, IMovableWings
         {
             public WingsPositions CurrentWingsPosition { get; set; }
 

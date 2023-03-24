@@ -40,6 +40,8 @@ namespace Ship
                 DefaultUpgrades.Add(typeof(Ruthless));
                 DefaultUpgrades.Add(typeof(PrecisionIonEngines));
 
+                ShipInfo.Hull++;
+
                 PilotNameCanonical = "darkcurse-battleofyavin";
             }
         }

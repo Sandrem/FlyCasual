@@ -39,9 +39,9 @@ namespace Ship
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/3/33/Backstabber-battleofyavin.png";
 
-                DefaultUpgrades.Add(typeof(CrackShot));
-                DefaultUpgrades.Add(typeof(Disciplined));
-                DefaultUpgrades.Add(typeof(AfterBurners));
+                MustHaveUpgrades.Add(typeof(CrackShot));
+                MustHaveUpgrades.Add(typeof(Disciplined));
+                MustHaveUpgrades.Add(typeof(AfterBurners));
 
                 ShipInfo.Hull++;
 

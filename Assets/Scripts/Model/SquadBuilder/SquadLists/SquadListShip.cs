@@ -49,6 +49,22 @@ namespace SquadBuilderNS
             }
         }
 
+        public bool InstallUpgrade(string upgradeTypeName)
+        {
+            try
+            {
+                GenericUpgrade newUpgrade = (GenericUpgrade)System.Activator.CreateInstance(Type.GetType(upgradeTypeName));
+                Edition.Current.AdaptUpgradeToRules(newUpgrade);
+
+                return TryInstallUpgade(newUpgrade);
+            }
+            catch
+            {
+                if (!string.IsNullOrEmpty(upgradeTypeName)) Messages.ShowError($"Cannot find upgrade: {upgradeTypeName}");
+                return false;
+            }
+        }
+
         public bool TryInstallUpgade(GenericUpgrade upgrade)
         {
             List<UpgradeSlot> slots = FindFreeSlots(upgrade.UpgradeInfo.UpgradeTypes);

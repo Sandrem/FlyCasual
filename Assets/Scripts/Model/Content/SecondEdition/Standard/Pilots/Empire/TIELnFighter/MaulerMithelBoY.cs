@@ -38,8 +38,8 @@ namespace Ship
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/4/41/Maulermithel-battleofyavin.png";
 
-                DefaultUpgrades.Add(typeof(Predator));
-                DefaultUpgrades.Add(typeof(AfterBurners));
+                MustHaveUpgrades.Add(typeof(Predator));
+                MustHaveUpgrades.Add(typeof(AfterBurners));
 
                 ShipInfo.Hull++;
 

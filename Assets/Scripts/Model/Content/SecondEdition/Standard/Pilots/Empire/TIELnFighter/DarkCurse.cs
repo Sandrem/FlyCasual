@@ -37,8 +37,8 @@ namespace Ship
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/9/90/Darkcurse-battleofyavin.png";
 
-                DefaultUpgrades.Add(typeof(Ruthless));
-                DefaultUpgrades.Add(typeof(PrecisionIonEngines));
+                MustHaveUpgrades.Add(typeof(Ruthless));
+                MustHaveUpgrades.Add(typeof(PrecisionIonEngines));
 
                 ShipInfo.Hull++;
 

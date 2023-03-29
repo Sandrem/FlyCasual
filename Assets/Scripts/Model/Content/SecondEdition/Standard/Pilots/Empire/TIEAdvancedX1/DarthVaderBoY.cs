@@ -40,9 +40,9 @@ namespace Ship
                     isStandardLayout: true
                 );
 
-                DefaultUpgrades.Add(typeof(Marksmanship));
-                DefaultUpgrades.Add(typeof(Hate));
-                DefaultUpgrades.Add(typeof(AfterBurners));
+                MustHaveUpgrades.Add(typeof(Marksmanship));
+                MustHaveUpgrades.Add(typeof(Hate));
+                MustHaveUpgrades.Add(typeof(AfterBurners));
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/a/a9/Darthvader-battleofyavin.png";
 

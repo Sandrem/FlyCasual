@@ -16,7 +16,7 @@ namespace UpgradesList.SecondEdition
                 UpgradeType.Astromech,
                 cost: 0,
                 isLimited: true,
-                abilityType: typeof(Abilities.SecondEdition.R2AstromechAbility),
+                abilityType: typeof(Abilities.SecondEdition.R2AstromechBoYAbility),
                 charges: 2
             );
 

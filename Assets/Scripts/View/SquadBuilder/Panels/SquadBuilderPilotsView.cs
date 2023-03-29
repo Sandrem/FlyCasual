@@ -35,13 +35,14 @@ namespace SquadBuilderNS
             Transform contentTransform = GameObject.Find("UI/Panels/SelectPilotPanel/Panel/Scroll View/Viewport/Content").transform;
             SquadBuilderView.DestroyChildren(contentTransform);
             contentTransform.localPosition = new Vector3(0, contentTransform.localPosition.y, contentTransform.localPosition.z);
-            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(pilotsCount * (SquadBuilderView.PILOT_CARD_WIDTH + SquadBuilderView.DISTANCE_MEDIUM) + 2 * SquadBuilderView.DISTANCE_MEDIUM, 0);
 
             FromLeft = 25f;
             foreach (PilotRecord pilot in AllPilotsFiltered)
             {
                 ShowAvailablePilot(pilot);
             }
+
+            contentTransform.GetComponent<RectTransform>().sizeDelta = new Vector2(FromLeft, 0);
         }
 
         private void ShowAvailablePilot(PilotRecord pilotRecord)

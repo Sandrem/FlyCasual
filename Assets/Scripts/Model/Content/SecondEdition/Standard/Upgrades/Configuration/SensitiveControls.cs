@@ -114,7 +114,12 @@ namespace Abilities.SecondEdition
 
         private void RegisterAbility(GenericShip ship)
         {
-            RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToPerformTwoRedActions);
+            RegisterAbilityTrigger
+            (
+                TriggerTypes.OnSystemsAbilityActivation,
+                AskToPerformTwoRedActions,
+                customTriggerName: "Sensitive Controls"
+            );
         }
 
         private void AskToPerformTwoRedActions(object sender, EventArgs e)

@@ -50,7 +50,9 @@ namespace UpgradesList.SecondEdition
                 seImageNumber: 158
             );
 
+            SelectSideOnSetup = false;
             AnotherSide = typeof(L337Crew);
+            
             IsSecondSide = true;
         }
     }

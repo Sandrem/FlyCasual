@@ -3,6 +3,8 @@ using Ship;
 using Abilities.SecondEdition;
 using Upgrade;
 using Content;
+using Actions;
+using ActionsList;
 
 namespace Ship
 {
@@ -35,6 +37,8 @@ namespace Ship
                     },
                     isStandardLayout: true
                 );
+
+                ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(TargetLockAction)));
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/0/0c/Wampa-battleofyavin.png";
 

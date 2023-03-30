@@ -92,4 +92,42 @@ namespace Abilities.SecondEdition
             );
         }
     }
+
+    public class SensitiveControlsBoYRealAbility : GenericAbility
+    {
+        public override void ActivateAbility()
+        {
+            HostShip.OnCheckSystemsAbilityActivation += CheckAbility;
+            HostShip.OnSystemsAbilityActivation += RegisterAbility;
+        }
+
+        public override void DeactivateAbility()
+        {
+            HostShip.OnCheckSystemsAbilityActivation -= CheckAbility;
+            HostShip.OnSystemsAbilityActivation -= RegisterAbility;
+        }
+
+        private void CheckAbility(GenericShip ship, ref bool flag)
+        {
+            flag = true;
+        }
+
+        private void RegisterAbility(GenericShip ship)
+        {
+            RegisterAbilityTrigger(TriggerTypes.OnSystemsAbilityActivation, AskToPerformTwoRedActions);
+        }
+
+        private void AskToPerformTwoRedActions(object sender, EventArgs e)
+        {
+            HostShip.AskPerformFreeAction(
+                new List<GenericAction>() {
+                    new BarrelRollAction(){ HostShip = HostShip, Color = ActionColor.Red },
+                    new BoostAction(){ HostShip = HostShip, Color = ActionColor.Red }
+                },
+                Triggers.FinishTrigger,
+                descriptionShort: "Sensitive Controls",
+                descriptionLong: "You may perform a red barrel roll or boost action"
+            );
+        }
+    }
 }

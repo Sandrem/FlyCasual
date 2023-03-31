@@ -21,7 +21,7 @@ public static class CreditsUI {
             " Fabian Falconett, Julian Munoz Bermejo, Benny Tsai, Ignatius Bug, John Snape, Bryan Froh, Ross Kushnereit, David Gausebeck," +
             " Alan Michael, Brian Hall, Byron Harder, shaun p kelleher, James Campbell, Willy Fortin, Spqan x, Shawn Mason," +
             " X-Wing Tavern Wars, Phillip Manwaring, Andrew Ballentine, Kevin Vu, Mark Dyson, Ryan Fisher, Blarghle Hargle," +
-            " indianajonesey, Maxwell Hathaway, Jozeph, Ted Savage, KEN0Bl, Matthew Roesener" },
+            " indianajonesey, Maxwell Hathaway, Jozeph, Ted Savage, KEN0Bl, Matthew Roesener, LarryDotOrg" },
     };
 
     public static void InitializePanel()

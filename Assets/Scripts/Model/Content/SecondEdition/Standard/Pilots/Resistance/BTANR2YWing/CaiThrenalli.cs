@@ -28,7 +28,8 @@ namespace Ship
                     tags: new List<Tags>
                     {
                         Tags.YWing
-                    }
+                    },
+                    skinName: "Red"
                 );
 
                 PilotNameCanonical = "caithrenalli-btanr2ywing";

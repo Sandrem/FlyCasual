@@ -33,7 +33,8 @@ namespace Ship
                     tags: new List<Tags>
                     {
                         Tags.YWing
-                    }
+                    },
+                    skinName: "Red"
                 );
 
                 ImageUrl = "https://i.imgur.com/AL8m0H5.png";

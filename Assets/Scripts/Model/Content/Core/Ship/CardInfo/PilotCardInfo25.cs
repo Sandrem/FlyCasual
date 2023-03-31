@@ -47,7 +47,7 @@ namespace Ship
 
             Initiative = initiative;
             Cost = cost;
-            LoadoutValue = loadoutValue;
+            LoadoutValue = (isStandardLayout) ? int.MaxValue : loadoutValue;
 
             if (isLimited)
             {

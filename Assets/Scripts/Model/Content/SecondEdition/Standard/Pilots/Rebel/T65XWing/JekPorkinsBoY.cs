@@ -48,7 +48,7 @@ namespace Ship
 
                 ImageUrl = "https://static.wikia.nocookie.net/xwing-miniatures-second-edition/images/1/1b/Jekporkins-battleofyavin.png";
 
-                PilotNameCanonical = "jekporkings-battleofyavin";
+                PilotNameCanonical = "jekporkins-battleofyavin";
             }
         }
     }

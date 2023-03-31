@@ -209,6 +209,10 @@ public static class Tooltips {
 
     private static string GetNameOfImagePanelBySize(Sprite sprite)
     {
+        if (sprite.rect.height > 800 && sprite.rect.width > 1000)
+        {
+            return "ImagePilotStandardLayout";
+        }
         if (sprite.rect.height > 290 && sprite.rect.width < 210)
         {
             return "ImageUpgradeFE";

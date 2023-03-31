@@ -10,7 +10,12 @@ namespace RulesList
         public void RegenerateCharge(GenericShip ship)
         {
             // Ships
-            ship.RestoreCharges(ship.State.RegensCharges);
+            bool doesRecover = true;
+            ship.CallBeforeChargeRecovers(ref doesRecover);
+            if (doesRecover)
+            {
+                ship.RestoreCharges(ship.State.RegensCharges);
+            }
 
             // Upgrades of the ship
             ship.UpgradeBar.GetUpgradesAll().Where(u => u.UpgradeInfo.RegensChargesCount != 0).ToList().ForEach(u =>

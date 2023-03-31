@@ -11,7 +11,12 @@ namespace RulesList
             if (ship.State.Force < ship.State.MaxForce
                 && ship.IsForceRecurring)
             {
-                ship.State.RestoreForce(ship.PilotInfo.RegensForce);
+                bool doesRecover = true;
+                ship.CallBeforeForceRecovers(ref doesRecover);
+                if (doesRecover)
+                {
+                    ship.State.RestoreForce(ship.PilotInfo.RegensForce);
+                }
             }
         }
 

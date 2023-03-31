@@ -105,6 +105,7 @@ namespace Ship
         public event EventHandlerShipCritArgs OnAssignCrit;
 
         public event EventHandlerShipBool OnDamageWasSuccessfullyDealt;
+        public static event EventHandlerShipBoolArgs OnSufferHullDamageGlobal;
         public event EventHandlerShip OnDamageCardSeverityIsChecked;
         public static event EventHandlerShip OnDamageCardSeverityIsCheckedGlobal;
         public event EventHandlerShip OnDamageCardIsDealt;
@@ -548,6 +549,7 @@ namespace Ship
 
         public void SufferHullDamage(bool isFaceup, EventArgs e, Action callback)
         {
+            OnSufferHullDamageGlobal?.Invoke(this, ref isFaceup, e);
             if (DebugManager.DebugAllDamageIsCrits) isFaceup = true;
 
             DamageDecks.DrawDamageCard(Owner.PlayerNo, isFaceup, ProcessDrawnDamageCard, e, callback);
@@ -601,6 +603,7 @@ namespace Ship
 
             if (Combat.CurrentCriticalHitCard != null)
             {
+                if (this == Combat.Defender) Combat.DamageInfo.IsDefenderDealtFaceUpDamageCard = true;
                 CallOnDamageCardIsDealt(delegate { Damage.DealDrawnCard(callback); });
             }
             else

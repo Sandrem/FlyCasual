@@ -31,6 +31,7 @@ namespace Ship
         public delegate void EventHandlerTargetLockable(ITargetLockable target);
         public delegate void EventHandlerShipDamage(GenericShip ship, DamageSourceEventArgs e);
         public delegate void EventHandlerShipBool(GenericShip ship, bool flag);
+        public delegate void EventHandlerShipBoolArgs(GenericShip ship, ref bool isFaceup, EventArgs e);
         public delegate void EventHandlerShipRefBool(GenericShip ship, ref bool flag);
         public delegate void EventHandlerShipRefInt(GenericShip ship, ref int count);
         public delegate void EventHandlerShipRefVector(GenericShip ship, ref Vector2 range);

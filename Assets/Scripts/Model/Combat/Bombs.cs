@@ -8,6 +8,7 @@ using Ship;
 using SubPhases;
 using BoardTools;
 using Remote;
+using Arcs;
 
 namespace Bombs
 {
@@ -136,6 +137,36 @@ namespace Bombs
             }
 
             return result;
+        }
+
+        public static bool IsDeviceInArc(GenericShip ship, GenericDeviceGameObject bombObject, GenericArc Arc, IShipWeapon Weapon)
+        {
+            if (Arc.CannotBeUsedForAttackThisRound)  return false;
+
+            int minRange = Weapon.WeaponInfo.MinRange;
+            int maxRange = Weapon.WeaponInfo.MaxRange;
+
+            ColliderDistanceInfo distInfo = new ColliderDistanceInfo(ship, bombObject);
+
+            Vector3 bombPoint = bombObject.Collider.ClosestPoint(ship.Collider.transform.position);
+            Vector3 shipPoint = ship.Collider.ClosestPoint(bombObject.Collider.transform.position);
+
+            if (distInfo.Range > maxRange) return false;
+
+            if (Arc.Limits != null && Arc.Limits.Count > 0)
+            {
+                float signedAngle = (float)Math.Round(Vector3.SignedAngle(bombPoint-shipPoint, ship.GetFrontFacing(), Vector3.down), 2);
+                if (Arc.Facing != ArcFacing.Rear && Arc.Facing != ArcFacing.FullRear)
+                {
+                    if (signedAngle < Arc.Limits.First().Value || signedAngle > Arc.Limits.Last().Value) return false;
+                }
+                else
+                {
+                    if (signedAngle > Arc.Limits.First().Value && signedAngle < Arc.Limits.Last().Value) return false;
+                }
+            }
+
+            return true;
         }
 
         public static bool IsShipInRange(GenericShip ship, GenericDeviceGameObject bombObject, int range = 1)

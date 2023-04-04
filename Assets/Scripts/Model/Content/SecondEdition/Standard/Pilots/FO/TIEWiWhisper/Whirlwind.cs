@@ -99,8 +99,13 @@ namespace Abilities.SecondEdition
         {
             Messages.ShowInfo($"{HostShip.PilotInfo.PilotName}: {count} Jam token(s) are removed");
 
-            List<GenericToken> tokensToRemove = HostShip.Tokens.GetAllTokens().Where( n => n is JamToken).Take(count).ToList();
-            HostShip.Tokens.RemoveTokens(tokensToRemove, callback);
+            List<GenericToken> tokensToRemove = HostShip.Tokens.GetAllTokens()
+                .Where(n => n is JamToken)
+                .ToList();
+                
+            tokensToRemove.Count > 0 ?
+                HostShip.Tokens.RemoveTokens(tokensToRemove.Take(count).ToList(), callback) :
+                callback();
         }
 
         private void GainFocusTokens()

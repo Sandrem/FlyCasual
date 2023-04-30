@@ -85,7 +85,7 @@ namespace Abilities.SecondEdition
             RegisterAbilityTrigger(
                 TriggerTypes.OnShipIsDestroyed,
                 AskWhatToDo,
-                customTriggerName: $"{HostUpgrade.UpgradeInfo.Name} (ID: {HostShip.ShipId})"
+                customTriggerName: $"Hope (ID: {HostShip.ShipId})"
             );
         }
 
@@ -101,9 +101,8 @@ namespace Abilities.SecondEdition
                     new BoostAction(){ HostShip = HostShip },
                 },
                 FinishAbility,
-                descriptionShort: HostUpgrade.UpgradeInfo.Name,
-                descriptionLong: "You may perform a Focus or Boost action",
-                imageHolder: HostUpgrade
+                descriptionShort: "Hope",
+                descriptionLong: "You may perform a Focus or Boost action"
             );
         }
 

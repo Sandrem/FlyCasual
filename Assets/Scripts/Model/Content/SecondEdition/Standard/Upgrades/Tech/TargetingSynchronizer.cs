@@ -18,8 +18,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new ActionBarRestriction(typeof(TargetLockAction)),
                 abilityType: typeof(Abilities.SecondEdition.TargetingSynchronizerAbility)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/83782f01cd3486006c4d279864d2983a.png";
         }
     }
 }

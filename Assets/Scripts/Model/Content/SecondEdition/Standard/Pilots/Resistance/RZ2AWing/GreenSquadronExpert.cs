@@ -28,8 +28,6 @@ namespace Ship
                     },
                     skinName: "Green"
                 );
-
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3f7ad9efb4c5af8b4d1f5c07a3c7538b.png";
             }
         }
     }

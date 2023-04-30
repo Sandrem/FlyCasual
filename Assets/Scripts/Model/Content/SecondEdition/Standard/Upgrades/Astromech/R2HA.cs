@@ -17,8 +17,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Resistance),
                 abilityType: typeof(Abilities.SecondEdition.R2HAAbility)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/b3e6d35ca6b6fd297312248ddf4e69a7.png";
         }
     }
 }

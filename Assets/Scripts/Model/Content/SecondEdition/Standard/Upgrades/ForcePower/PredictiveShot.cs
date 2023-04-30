@@ -14,8 +14,6 @@ namespace UpgradesList.SecondEdition
                 cost: 1,
                 abilityType: typeof(Abilities.SecondEdition.PredictiveShotAbility)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e0100c63b2753daf68a9d3948824b086.png";
         }
     }
 }

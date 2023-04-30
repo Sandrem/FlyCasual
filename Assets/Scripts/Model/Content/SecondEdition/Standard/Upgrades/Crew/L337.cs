@@ -52,7 +52,9 @@ namespace UpgradesList.SecondEdition
 
             SelectSideOnSetup = false;
             AnotherSide = typeof(L337Crew);
-            
+
+            NameCanonical = "l337-sideb";
+
             IsSecondSide = true;
         }
     }

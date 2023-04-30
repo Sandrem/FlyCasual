@@ -22,8 +22,6 @@ namespace UpgradesList.SecondEdition
 
             SelectSideOnSetup = false;
             AnotherSide = typeof(FalseTradition);
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/09ec8bb3b37800437bbff7963db6aec6.png";
         }
     }
     public class FalseTradition : GenericDualUpgrade
@@ -41,7 +39,7 @@ namespace UpgradesList.SecondEdition
             AnotherSide = typeof(ProudTradition);
             IsSecondSide = true;
 
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a060961e9ee792e605c75aaf6d65ad34.png";
+            NameCanonical = "proudtradition-sideb";
         }
     }
 }

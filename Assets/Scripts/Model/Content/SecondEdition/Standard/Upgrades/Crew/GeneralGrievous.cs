@@ -20,7 +20,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Separatists),
                 abilityType: typeof(Abilities.SecondEdition.GeneralGrievousCrewAbility)
             );
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/f3740c47b0253ec848c4cfcdde195393.png";
 
             Avatar = new AvatarInfo(
                 Faction.Separatists,

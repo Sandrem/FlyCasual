@@ -37,7 +37,7 @@ namespace Editions
         public override MovementComplexity IonManeuverComplexity { get { return MovementComplexity.Easy; } }
         public override string PathToSavedSquadrons { get { return "SavedSquadrons"; } } //RandomAiSquadrons
 
-        public override string RootUrlForImages { get { return "https://squadbuilder.fantasyflightgames.com/card_images/"; } }
+        public override string RootUrlForImages { get { return "https://squadbuilder.fantasyflightgames.com/card_images/"; } } // OBSOLETE
         public override Vector2 UpgradeCardSize { get { return new Vector2(418, 300); } }
         public override Vector2 UpgradeCardCompactOffset { get { return new Vector2(168, 2); } }
         public override Vector2 UpgradeCardCompactSize { get { return new Vector2(237, 296); } }
@@ -263,15 +263,12 @@ namespace Editions
 
         public override string GetPilotImageUrl(GenericShip ship, string filename)
         {
-            return (ship.PilotInfo.SEImageNumber == 0) ? null : RootUrlForImages + "Card_Pilot_" + ship.PilotInfo.SEImageNumber + ".png";
+            return "https://infinitearenas.com/xw2/images/pilots/" + ship.PilotNameCanonical + ".png";
         }
 
         public override string GetUpgradeImageUrl(GenericUpgrade upgrade, string filename = null)
         {
-            return RootUrlForImages
-                + "Card_Upgrade_" + upgrade.UpgradeInfo.SEImageNumber
-                + ((upgrade.IsSecondSide)?"b":"")
-                + ".png";
+            return "https://infinitearenas.com/xw2/images/upgrades/" + upgrade.NameCanonical + ".png";
         }
 
         public override string FactionToXws(Faction faction)

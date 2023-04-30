@@ -32,8 +32,6 @@ namespace Ship
                         Tags.YT1300
                     }
                 );
-
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/28411b84c1b15f0bfa9928f2206e44f5.png";
             }
         }
     }

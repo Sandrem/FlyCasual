@@ -26,8 +26,6 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.SparePartsCanistersAbility),
                 charges: 1
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/79d9f2b2bc32bd78ab67dc82eece696a.png";
         }
 
         public override bool IsAllowedForSquadBuilderPostCheck(SquadList squadList)

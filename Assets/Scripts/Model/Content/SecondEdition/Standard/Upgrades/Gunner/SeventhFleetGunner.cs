@@ -27,8 +27,6 @@ namespace UpgradesList.SecondEdition
                 new Vector2(289, 59),
                 new Vector2(50, 50)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a532c1de311e8d0a288af8232495a007.png";
         }
     }
 }

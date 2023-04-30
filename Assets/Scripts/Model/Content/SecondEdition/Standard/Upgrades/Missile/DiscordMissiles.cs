@@ -28,8 +28,6 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.DiscordMissilesAbility),
                 remoteType: typeof(Remote.BuzzDroidSwarm)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/ee2f0b906cb4f1dbcafc274f44b76d3d.png";
         }
 
         public override List<ManeuverTemplate> GetDefaultDropTemplates()

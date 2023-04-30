@@ -37,8 +37,6 @@ namespace Ship
                 );
 
                 ShipInfo.ActionIcons.SwitchToDroidActions();
-
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/c5cfd1d89a204722ff95e9a4b134e7f1.png";
             }
         }
     }

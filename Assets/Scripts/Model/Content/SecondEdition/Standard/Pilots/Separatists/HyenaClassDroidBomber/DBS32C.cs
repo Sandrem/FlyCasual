@@ -36,8 +36,6 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
 
             ShipInfo.ActionIcons.RemoveActions(typeof(ReloadAction));
             ShipInfo.ActionIcons.AddActions(new ActionInfo(typeof(JamAction), ActionColor.Red));
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/1befc5619a02e2ea8b7bfb8df93471a1.png";
         }
     }
 }

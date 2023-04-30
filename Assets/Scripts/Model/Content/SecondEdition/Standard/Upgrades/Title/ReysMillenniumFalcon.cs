@@ -20,8 +20,6 @@ namespace UpgradesList.SecondEdition
                 ),
                 abilityType: typeof(Abilities.SecondEdition.ReysMillenniumFalconAbility)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/23627443c7f5e7447c306ea7c6242634.png";
         }
     }
 }

@@ -37,8 +37,6 @@ namespace Ship
                     },
                     legality: new List<Legality>() { Legality.ExtendedLegal }
                 );
-
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/be29a69f75726ad48f607eecca671e01.png";
             }
         }
     }

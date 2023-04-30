@@ -16,8 +16,6 @@
                     4,
                     skinName: "Blue"
                 );
-
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e033b2729305ac0b678d6031ada7b2b8.png";
             }
         }
     }

@@ -13,7 +13,7 @@ namespace UpgradesList.SecondEdition
         public IntegratedSFoilsClosed() : base()
         {
             IsHidden = true;
-            NameCanonical = "integratedsfoils-anotherside";
+            NameCanonical = "integratedsfoils";
 
             UpgradeInfo = new UpgradeCardInfo(
                 "Integrated S-Foils (Closed)",
@@ -27,8 +27,6 @@ namespace UpgradesList.SecondEdition
 
             IsSecondSide = true;
             AnotherSide = typeof(IntegratedSFoilsOpen);
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/e3b44142faf0f13e541bf674a6c06dbc.png";
         }
     }
 
@@ -36,6 +34,8 @@ namespace UpgradesList.SecondEdition
     {
         public IntegratedSFoilsOpen() : base()
         {
+            NameCanonical = "integratedsfoils-sideb";
+
             UpgradeInfo = new UpgradeCardInfo(
                 "Integrated S-Foils (Open)",
                 UpgradeType.Configuration,
@@ -45,8 +45,6 @@ namespace UpgradesList.SecondEdition
             );
 
             AnotherSide = typeof(IntegratedSFoilsClosed);
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/49372b4efb974ff673a1b79441186fd5.png";
         }
     }
 }

@@ -18,8 +18,6 @@ namespace UpgradesList.SecondEdition
                 regensCharges: true,
                 charges: 1
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/08a980b359fb73dbcb9a315e94d505f0.png";
         }
     }
 }

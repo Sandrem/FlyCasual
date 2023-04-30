@@ -21,8 +21,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new FactionRestriction(Faction.Separatists),
                 charges: 1
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a10d907fea50e32ab28d924c67486d37.png";
         }        
     }
 }

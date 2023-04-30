@@ -26,8 +26,6 @@ namespace UpgradesList.SecondEdition
                     ),
                 abilityType: typeof(Abilities.SecondEdition.HyperspaceTrackingDataAbility)
                 );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/a48713c6784bf33bd3f8b36eb19221c3.png";
         }
     }
 }

@@ -22,8 +22,6 @@ namespace UpgradesList.SecondEdition
                 ),
                 abilityType: typeof(Abilities.SecondEdition.BiohexacryptCodesAbility)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/094f3bbc6e3041886398e9eaf692d4ab.png";
         }
     }
 }

@@ -22,10 +22,10 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.LandingStrutsClosedAbility)
             );
 
+            NameCanonical = "landingstruts";
+
             AnotherSide = typeof(LandingStrutsOpen);
             SelectSideOnSetup = false;
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/c23a0130bad7330c0abb6218745910aa.png";
         }
     }
 
@@ -34,7 +34,7 @@ namespace UpgradesList.SecondEdition
         public LandingStrutsOpen() : base()
         {
             IsHidden = true;
-            NameCanonical = "landingstruts-anotherside";
+            NameCanonical = "landingstruts-sideb";
 
             UpgradeInfo = new UpgradeCardInfo(
                 "Landing Struts (Open)",
@@ -45,8 +45,6 @@ namespace UpgradesList.SecondEdition
             );
 
             AnotherSide = typeof(LandingStrutsClosed);
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/aba79159308e850b635f6c43721ccdee.png";
         }
     }
 }

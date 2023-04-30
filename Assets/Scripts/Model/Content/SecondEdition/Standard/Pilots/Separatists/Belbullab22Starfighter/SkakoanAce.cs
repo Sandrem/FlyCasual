@@ -21,8 +21,6 @@ namespace Ship.SecondEdition.Belbullab22Starfighter
                     UpgradeType.Modification
                 }
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/ceb7a3bc406ff17be5dee5de62b39195.png";
         }
     }
 }

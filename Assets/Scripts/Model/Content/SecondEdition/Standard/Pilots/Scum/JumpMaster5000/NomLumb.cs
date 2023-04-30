@@ -38,8 +38,6 @@ namespace Ship
                         Tags.BountyHunter
                     }
                 );
-
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/4a13a4b7493d39f53b9c37c6a82edf5a.png";
             }
         }
     }

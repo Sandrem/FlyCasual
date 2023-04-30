@@ -26,8 +26,6 @@ namespace UpgradesList.SecondEdition
                 Faction.Resistance,
                 new Vector2(261, 1)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/555a815e60cd7bf4612109c3fd65beaa.png";
         }        
     }
 }

@@ -33,8 +33,6 @@ namespace Ship
                         Tags.XWing
                     }
                 );
-
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/f77180ae05fd919a0dff2225380246a6.png";
             }
         }
     }

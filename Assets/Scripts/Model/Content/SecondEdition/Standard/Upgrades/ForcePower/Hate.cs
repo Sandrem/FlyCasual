@@ -16,8 +16,6 @@ namespace UpgradesList.SecondEdition
                 restriction: new TagRestriction(Tags.DarkSide),
                 abilityType: typeof(Abilities.SecondEdition.HateAbility)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/4a10b5c8a3d796116163a741d145f4e9.png";
         }
     }
 }

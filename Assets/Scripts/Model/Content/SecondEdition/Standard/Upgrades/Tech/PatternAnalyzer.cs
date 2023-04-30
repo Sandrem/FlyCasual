@@ -15,8 +15,6 @@ namespace UpgradesList.SecondEdition
                 cost: 5,
                 abilityType: typeof(Abilities.SecondEdition.PatternAnalyzerAbility)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/ace963fc4fe9d97f64ab8564dc4beae7.png";
         }
     }
 }

@@ -30,8 +30,6 @@ namespace Ship.SecondEdition.HyenaClassDroidBomber
                     Tags.Droid
                 }
             );
-            
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/3e647295c7237a5eb36b94d887eb8e56.png";
         }
     }
 }

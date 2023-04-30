@@ -13,7 +13,6 @@ namespace UpgradesList.SecondEdition
         public ServomotorSFoilsClosed() : base()
         {
             IsHidden = true;
-            NameCanonical = "servomotorsfoils-anotherside";
 
             UpgradeInfo = new UpgradeCardInfo(
                 "Servomotor S-Foils (Closed)",
@@ -44,6 +43,8 @@ namespace UpgradesList.SecondEdition
                 abilityType: typeof(Abilities.SecondEdition.ServomotorSFoilsAttackAbility),
                 seImageNumber: 108
             );
+
+            NameCanonical = "servomotorsfoils-sideb";
 
             AnotherSide = typeof(ServomotorSFoilsClosed);
         }

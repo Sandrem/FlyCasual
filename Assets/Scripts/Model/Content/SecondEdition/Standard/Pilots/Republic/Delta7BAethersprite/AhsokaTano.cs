@@ -27,8 +27,6 @@ namespace Ship.SecondEdition.Delta7BAethersprite
             );
 
             PilotNameCanonical = "ahsokatano-delta7baethersprite";
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/15f6bf84f63970c982dd722a5473217f.png";
         }
     }
 }

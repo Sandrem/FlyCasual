@@ -38,8 +38,6 @@ namespace Ship
                         Tags.Tie
                     }
                 );
-
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/4de956edddeacb92ef3e4f94e0a63db3.png";
             }
         }
     }

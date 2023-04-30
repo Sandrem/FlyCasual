@@ -32,8 +32,6 @@ namespace UpgradesList.SecondEdition
                 Faction.Republic,
                 new Vector2(272, 8)
             );
-
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/8218d7b903ea8c0c0f88375124a93a5f.png";
         }
     }
 
@@ -61,7 +59,7 @@ namespace UpgradesList.SecondEdition
                 new Vector2(75, 75)
             );
 
-            ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/fe4d36bbd6f43ada43a5cf55354211c0.png";
+            NameCanonical = "chancellorpalpatine-sideb";
         }
     }
 }

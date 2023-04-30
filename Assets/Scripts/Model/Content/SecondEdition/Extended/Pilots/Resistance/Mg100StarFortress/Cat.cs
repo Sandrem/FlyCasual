@@ -39,8 +39,6 @@ namespace Ship
                 );
 
                 ModelInfo.SkinName = "Cobalt";
-
-                ImageUrl = "https://squadbuilder.fantasyflightgames.com/card_images/en/b386dc25736682ebc785b15551de903b.png";
             }
         }
     }

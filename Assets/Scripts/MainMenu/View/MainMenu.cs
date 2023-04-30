@@ -154,7 +154,7 @@ public partial class MainMenu : MonoBehaviour {
 
             GameObject panel = GameObject.Find("UI/Panels").transform.Find("MainMenuPanel").Find("SupportOnPatreon").gameObject;
 
-            panel.transform.Find("Text").GetComponent<Text>().text = $"\"Rules 2.5\" and new expansions are coming! If you want\nto see them in Fly Casual -\nsupport me on patreon\n{support} / 200";
+            //panel.transform.Find("Text").GetComponent<Text>().text = $"\"Rules 2.5\" and new expansions are coming! If you want\nto see them in Fly Casual -\nsupport me on patreon\n{support} / 200";
             panel.transform.position = new Vector2(Screen.width - 20, 20);
 
             panel.SetActive(true);

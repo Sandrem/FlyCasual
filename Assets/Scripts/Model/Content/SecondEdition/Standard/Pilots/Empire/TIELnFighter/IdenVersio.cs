@@ -19,7 +19,7 @@ namespace Ship
                     "Inferno Leader",
                     Faction.Imperial,
                     4,
-                    3,
+                    4,
                     8,
                     isLimited: true,
                     abilityType: typeof(IdenVersioAbility),

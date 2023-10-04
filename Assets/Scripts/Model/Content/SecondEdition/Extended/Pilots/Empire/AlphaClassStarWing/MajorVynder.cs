@@ -17,8 +17,8 @@ namespace Ship
                     "Pragmatic Survivor",
                     Faction.Imperial,
                     4,
-                    6,
-                    21,
+                    5,
+                    16,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MajorVynderAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

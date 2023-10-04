@@ -19,7 +19,7 @@ namespace Ship
                     "Disciplined Instructor",
                     Faction.Imperial,
                     4,
-                    5,
+                    4,
                     10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainJonusAbility),
@@ -39,7 +39,7 @@ namespace Ship
                         UpgradeType.Modification
                     },
                     seImageNumber: 108,
-                    legality: new List<Legality>() { Legality.ExtendedLegal }
+                    legality: new List<Legality>() { Legality.StandardLegal, Legality.ExtendedLegal }
                 );
             }
         }

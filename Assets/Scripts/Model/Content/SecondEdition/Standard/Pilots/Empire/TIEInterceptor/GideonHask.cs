@@ -17,15 +17,15 @@ namespace Ship
                     "Inferno Two",
                     Faction.Imperial,
                     4,
-                    5,
-                    12,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(GideoHaskTieInterceptorAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Modification,
+                        UpgradeType.Missile,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

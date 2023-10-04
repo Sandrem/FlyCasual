@@ -19,16 +19,15 @@ namespace Ship
                     "Servant of the Empire",
                     Faction.Imperial,
                     5,
-                    5,
-                    14,
+                    4,
+                    10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MaarekSteleAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
-                        UpgradeType.Missile,
-                        UpgradeType.Modification
+                        UpgradeType.Missile
                     },
                     tags: new List<Tags>
                     {

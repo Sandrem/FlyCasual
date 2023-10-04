@@ -17,7 +17,7 @@ namespace Ship
                     "Scimitar Leader",
                     Faction.Imperial,
                     4,
-                    5,
+                    3,
                     12,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.MajorRhymerAbility),
@@ -36,7 +36,7 @@ namespace Ship
                         UpgradeType.Modification
                     },
                     seImageNumber: 109,
-                    legality: new List<Legality>() { Legality.ExtendedLegal }
+                    legality: new List<Legality>() { Legality.StandardLegal, Legality.ExtendedLegal }
                 );
             }
         }

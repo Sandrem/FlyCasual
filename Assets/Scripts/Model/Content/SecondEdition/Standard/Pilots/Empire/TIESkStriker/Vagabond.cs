@@ -21,7 +21,7 @@ namespace Ship
                     Faction.Imperial,
                     2,
                     4,
-                    10,
+                    9,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
@@ -32,8 +32,7 @@ namespace Ship
                     tags: new List<Tags>
                     {
                         Tags.Tie
-                    },
-                    extraUpgradeIcon: UpgradeType.Talent
+                    }
                 );
 
                 ImageUrl = "https://images-cdn.fantasyflightgames.com/filer_public/98/a8/98a8c9cc-53b2-4b57-ac0b-96da7c064740/swz66_vagabond.png";

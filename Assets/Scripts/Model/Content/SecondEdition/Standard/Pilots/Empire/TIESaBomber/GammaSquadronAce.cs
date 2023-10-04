@@ -6,33 +6,35 @@ namespace Ship
 {
     namespace SecondEdition.TIESaBomber
     {
-        public class ScimitarSquadronPilot : TIESaBomber
+        public class GammaSquadronAce : TIESaBomber
         {
-            public ScimitarSquadronPilot() : base()
+            public GammaSquadronAce() : base()
             {
                 PilotInfo = new PilotCardInfo25
                 (
-                    "Scimitar Squadron Pilot",
+                    "Gamma Squadron Ace",
                     "",
                     Faction.Imperial,
-                    2,
+                    3,
                     4,
-                    6,
+                    10,
                     tags: new List<Tags>
                     {
                         Tags.Tie
                     },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Missile,
+                        UpgradeType.Torpedo,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
                         UpgradeType.Device,
                         UpgradeType.Modification
                     },
-                    seImageNumber: 112,
-                    legality: new List<Legality>() { Legality.ExtendedLegal }
+                    seImageNumber: 111,
+                    legality: new List<Legality>() { Legality.StandardLegal, Legality.ExtendedLegal }
                 );
+
+                ModelInfo.SkinName = "Gamma Squadron";
             }
         }
     }

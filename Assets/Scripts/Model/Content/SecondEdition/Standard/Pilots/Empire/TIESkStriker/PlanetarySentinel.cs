@@ -1,4 +1,8 @@
-﻿namespace Ship
+﻿using Content;
+using System.Collections.Generic;
+using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.TIESkStriker
     {
@@ -6,10 +10,22 @@
         {
             public PlanetarySentinel() : base()
             {
-                PilotInfo = new PilotCardInfo(
+                PilotInfo = new PilotCardInfo25
+                (
                     "Planetary Sentinel",
+                    "",
+                    Faction.Imperial,
                     1,
-                    31,
+                    4,
+                    4,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Modification
+                    },
+                    tags: new List<Tags>
+                    {
+                        Tags.Tie
+                    },
                     seImageNumber: 121
                 );
             }

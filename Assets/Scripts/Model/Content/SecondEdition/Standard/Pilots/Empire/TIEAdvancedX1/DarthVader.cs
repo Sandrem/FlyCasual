@@ -32,7 +32,7 @@ namespace Ship
                         UpgradeType.Talent,
                         UpgradeType.Tech,
                         UpgradeType.Missile,
-                        UpgradeType.Modification,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

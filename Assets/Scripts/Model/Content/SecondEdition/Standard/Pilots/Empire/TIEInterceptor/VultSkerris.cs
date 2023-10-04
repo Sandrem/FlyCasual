@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Imperial,
                     5,
                     4,
-                    6,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.VultSkerrisDefenderAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

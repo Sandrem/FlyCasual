@@ -20,7 +20,7 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     4,
-                    8,
+                    11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CountdownAbility),
                     extraUpgradeIcons: new List<UpgradeType>

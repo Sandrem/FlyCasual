@@ -1,4 +1,7 @@
-﻿namespace Ship
+﻿using System.Collections.Generic;
+using Upgrade;
+
+namespace Ship
 {
     namespace SecondEdition.VT49Decimator
     {

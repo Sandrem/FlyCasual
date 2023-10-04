@@ -20,8 +20,8 @@ namespace Ship
                     "Implacable Pursuer",
                     Faction.Imperial,
                     4,
-                    5,
-                    16,
+                    4,
+                    10,
                     abilityType: typeof(Abilities.SecondEdition.RampagePilotAbility),
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>

@@ -19,8 +19,8 @@ namespace Ship
                     "Slippery Trickster",
                     Faction.Imperial,
                     4,
-                    6,
-                    11,
+                    5,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.EchoAbility),
                     tags: new List<Tags>

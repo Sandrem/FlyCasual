@@ -19,8 +19,8 @@ namespace Ship
                     "Ace of Legend",
                     Faction.Imperial,
                     6,
-                    6,
-                    15,
+                    5,
+                    10,
                     isLimited: true,
                     abilityType: typeof(SoontirFelAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

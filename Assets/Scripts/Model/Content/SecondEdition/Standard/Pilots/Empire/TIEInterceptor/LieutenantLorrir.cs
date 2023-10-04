@@ -19,7 +19,7 @@ namespace Ship
                     "Requiem for Brentaal",
                     Faction.Imperial,
                     3,
-                    4,
+                    3,
                     6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantLorrirAbility),

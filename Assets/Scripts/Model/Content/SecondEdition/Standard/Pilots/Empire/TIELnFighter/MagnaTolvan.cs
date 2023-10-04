@@ -22,7 +22,7 @@ namespace Ship
                     Faction.Imperial,
                     3,
                     3,
-                    9,
+                    10,
                     isLimited: true,
                     abilityType: typeof(MagnaTolvanAbility),
                     extraUpgradeIcons: new List<UpgradeType>

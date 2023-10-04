@@ -18,15 +18,14 @@ namespace Ship
                     "Sadistic Interrogator",
                     Faction.Imperial,
                     4,
-                    5,
-                    14,
+                    4,
+                    6,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.SeventhSisterAbility),
                     force: 2,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.ForcePower,
-                        UpgradeType.Talent,
                         UpgradeType.Talent,
                         UpgradeType.Missile,
                     },

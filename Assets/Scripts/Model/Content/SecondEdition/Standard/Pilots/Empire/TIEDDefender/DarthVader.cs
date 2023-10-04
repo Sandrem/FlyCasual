@@ -16,13 +16,12 @@ namespace Ship.SecondEdition.TIEDDefender
                 Faction.Imperial,
                 6,
                 9,
-                14,
+                10,
                 isLimited: true,
                 abilityType: typeof(Abilities.SecondEdition.DarthVaderDefenderAbility),
                 extraUpgradeIcons: new List<UpgradeType>()
                 {
                     UpgradeType.ForcePower,
-                    UpgradeType.Talent,
                     UpgradeType.Tech,
                     UpgradeType.Missile
                 },

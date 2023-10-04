@@ -18,8 +18,8 @@ namespace Ship
                     "Ruthless Brute",
                     Faction.Imperial,
                     4,
-                    5,
-                    10,
+                    4,
+                    7,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.FifthBrotherPilotAbility),
                     force: 2,
@@ -27,7 +27,7 @@ namespace Ship
                     {
                         UpgradeType.ForcePower,
                         UpgradeType.Talent,
-                        UpgradeType.Cannon
+                        UpgradeType.Missile
                     },
                     tags: new List<Tags>
                     {

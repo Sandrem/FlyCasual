@@ -18,7 +18,7 @@ namespace Ship
                     "Treacherous Viceroy",
                     Faction.Imperial,
                     3,
-                    8,
+                    7,
                     18,
                     isLimited: true,
                     charges: 2,
@@ -28,9 +28,9 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Crew,
-                        UpgradeType.Torpedo,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Configuration
                     },

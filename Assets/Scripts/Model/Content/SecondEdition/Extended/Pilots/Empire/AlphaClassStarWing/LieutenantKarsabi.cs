@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Imperial,
                     3,
                     5,
-                    11,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.LieutenantKarsabiAbility),
                     extraUpgradeIcons: new List<UpgradeType>()

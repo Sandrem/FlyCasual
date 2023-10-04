@@ -21,11 +21,11 @@ namespace Ship
                     Faction.Imperial,
                     3,
                     4,
-                    6,
+                    14,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Missile,
+                        UpgradeType.Missile
                     },
                     tags: new List<Tags>
                     {

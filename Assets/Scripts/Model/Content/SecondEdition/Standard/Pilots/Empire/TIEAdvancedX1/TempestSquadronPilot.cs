@@ -18,10 +18,6 @@ namespace Ship
                     2,
                     4,
                     4,
-                    extraUpgradeIcons: new List<UpgradeType>()
-                    {
-
-                    },
                     tags: new List<Tags>
                     {
                         Tags.Tie

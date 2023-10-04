@@ -21,7 +21,7 @@ namespace Ship
                     "Unflinching Diehard",
                     Faction.Imperial,
                     2,
-                    4,
+                    3,
                     11,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.DeathfireAbility),
@@ -32,14 +32,13 @@ namespace Ship
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
                         UpgradeType.Torpedo,
-                        UpgradeType.Torpedo,
                         UpgradeType.Missile,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
                         UpgradeType.Modification
                     },
                     seImageNumber: 110,
-                    legality: new List<Legality>() { Legality.ExtendedLegal }
+                    legality: new List<Legality>() { Legality.StandardLegal, Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "Gamma Squadron";

@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Imperial,
                     5,
                     5,
-                    15,
+                    12,
                     abilityType: typeof(Abilities.SecondEdition.FlightLeaderUbbelAbility),
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>

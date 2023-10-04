@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     4,
-                    7,
+                    9,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.PureSabaccAbility),
                     extraUpgradeIcons: new List<UpgradeType>

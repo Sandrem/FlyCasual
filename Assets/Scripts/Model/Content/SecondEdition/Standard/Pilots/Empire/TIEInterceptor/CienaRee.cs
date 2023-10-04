@@ -20,7 +20,7 @@ namespace Ship.SecondEdition.TIEInterceptor
                 Faction.Imperial,
                 6,
                 5,
-                10,
+                14,
                 isLimited: true,
                 abilityType: typeof(CienaReeAbility),
                 extraUpgradeIcons: new List<UpgradeType>()

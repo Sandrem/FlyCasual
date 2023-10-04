@@ -17,7 +17,7 @@ namespace Ship
                     Faction.Imperial,
                     5,
                     5,
-                    15,
+                    18,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>
                     {

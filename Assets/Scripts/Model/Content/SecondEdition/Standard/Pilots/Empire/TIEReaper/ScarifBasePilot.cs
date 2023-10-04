@@ -1,5 +1,6 @@
 ﻿using Content;
 using System.Collections.Generic;
+using Upgrade;
 
 namespace Ship
 {
@@ -17,11 +18,11 @@ namespace Ship
                     1,
                     4,
                     6,
+                    seImageNumber: 116,
                     tags: new List<Tags>
                     {
                         Tags.Tie
-                    },
-                    seImageNumber: 116
+                    }
                 );
             }
         }

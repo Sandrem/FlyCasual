@@ -21,12 +21,13 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     3,
-                    8,
+                    12,
                     isLimited: true,
                     abilityType: typeof(SeynMaranaAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Cannon,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

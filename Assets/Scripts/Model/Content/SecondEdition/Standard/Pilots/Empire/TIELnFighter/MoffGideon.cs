@@ -23,7 +23,7 @@ namespace Ship
                     "Ruthless Remnant Leader",
                     Faction.Imperial,
                     4,
-                    3,
+                    4,
                     8,
                     isLimited: true,
                     charges: 2,

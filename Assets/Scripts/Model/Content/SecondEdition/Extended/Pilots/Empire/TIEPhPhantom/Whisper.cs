@@ -1,5 +1,4 @@
 ﻿using Content;
-using System;
 using System.Collections.Generic;
 using Tokens;
 using Upgrade;
@@ -18,8 +17,8 @@ namespace Ship
                     "Soft-Spoken Slayer",
                     Faction.Imperial,
                     5,
-                    7,
-                    15,
+                    5,
+                    8,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.WhisperAbility),
                     tags: new List<Tags>

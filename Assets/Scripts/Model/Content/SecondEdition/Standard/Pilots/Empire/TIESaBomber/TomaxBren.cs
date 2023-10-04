@@ -19,7 +19,7 @@ namespace Ship
                     "Brash Maverick",
                     Faction.Imperial,
                     5,
-                    4,
+                    3,
                     10,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.TomaxBrenAbility),
@@ -39,7 +39,7 @@ namespace Ship
                         UpgradeType.Modification
                     },
                     seImageNumber: 107,
-                    legality: new List<Legality>() { Legality.ExtendedLegal }
+                    legality: new List<Legality>() { Legality.StandardLegal, Legality.ExtendedLegal }
                 );
 
                 ModelInfo.SkinName = "White Death";

@@ -25,6 +25,7 @@ namespace Ship
                     },
                     tags: new List<Tags>
                     {
+                        Tags.DarkSide,
                         Tags.Tie
                     },
                     seImageNumber: 102

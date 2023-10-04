@@ -20,8 +20,8 @@ namespace Ship
                     "Obedient Underling",
                     Faction.Imperial,
                     3,
-                    7,
-                    15,
+                    6,
+                    14,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.CaptainHarkAbility),
                     extraUpgradeIcons: new List<UpgradeType>()
@@ -30,6 +30,7 @@ namespace Ship
                         UpgradeType.Crew,
                         UpgradeType.Gunner,
                         UpgradeType.Device,
+                        UpgradeType.Illicit,
                         UpgradeType.Modification,
                         UpgradeType.Configuration
                     },

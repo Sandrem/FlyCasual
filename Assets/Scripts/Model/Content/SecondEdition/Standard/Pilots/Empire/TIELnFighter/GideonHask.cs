@@ -19,7 +19,7 @@ namespace Ship
                     Faction.Imperial,
                     4,
                     3,
-                    8,
+                    12,
                     isLimited: true,
                     abilityType: typeof(GideonHaskTieLnAbility),
                     extraUpgradeIcons: new List<UpgradeType>

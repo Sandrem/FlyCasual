@@ -25,9 +25,9 @@ namespace Ship
                     },
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Talent,
                         UpgradeType.Turret,
                         UpgradeType.Missile,
+                        UpgradeType.Gunner,
                         UpgradeType.Modification
                     },
                     legality: new List<Legality>() { Legality.ExtendedLegal }

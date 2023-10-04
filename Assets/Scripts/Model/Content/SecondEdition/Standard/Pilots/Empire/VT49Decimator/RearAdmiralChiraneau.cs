@@ -18,8 +18,8 @@ namespace Ship
                     "Advisor to Admiral Piett",
                     Faction.Imperial,
                     5,
-                    8,
-                    26,
+                    7,
+                    20,
                     isLimited: true,
                     abilityType: typeof(Abilities.SecondEdition.RearAdmiralChiraneauAbility),
                     extraUpgradeIcons: new List<UpgradeType>

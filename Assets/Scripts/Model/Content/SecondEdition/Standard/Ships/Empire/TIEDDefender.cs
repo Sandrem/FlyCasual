@@ -38,11 +38,7 @@ namespace Ship
                         new ActionInfo(typeof(EvadeAction)),
                         new ActionInfo(typeof(BoostAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Cannon,
-                        UpgradeType.Configuration
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ShipAbilities.Add(new Abilities.SecondEdition.FullThrottleAbility());

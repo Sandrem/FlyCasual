@@ -42,7 +42,8 @@ namespace Ship
                         new ActionInfo(typeof(ReinforceAction), ActionColor.Red),
                         new ActionInfo(typeof(TargetLockAction)),
                         new ActionInfo(typeof(CoordinateAction), ActionColor.Red)
-                    )
+                    ),
+                    new ShipUpgradesInfo()
                 );
 
                 DefaultUpgrades.Add(typeof(UpgradesList.SecondEdition.SwivelWingDown));

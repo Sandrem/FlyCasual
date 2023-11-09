@@ -29,7 +29,8 @@ namespace Ship
                         UpgradeType.ForcePower,
                         UpgradeType.Talent,
                         UpgradeType.Missile,
-                        UpgradeType.Modification
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

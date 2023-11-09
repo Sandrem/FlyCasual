@@ -28,7 +28,9 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Tech,
-                        UpgradeType.Missile
+                        UpgradeType.Sensor,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

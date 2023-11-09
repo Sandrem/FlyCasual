@@ -23,7 +23,9 @@ namespace Ship.SecondEdition.TIEDDefender
                 {
                     UpgradeType.ForcePower,
                     UpgradeType.Tech,
-                    UpgradeType.Missile
+                    UpgradeType.Cannon,
+                    UpgradeType.Missile,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

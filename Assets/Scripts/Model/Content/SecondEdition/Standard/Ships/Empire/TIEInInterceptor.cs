@@ -36,10 +36,7 @@ namespace Ship
                         new ActionInfo(typeof(BarrelRollAction)),
                         new ActionInfo(typeof(BoostAction))
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Configuration
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AutoThrustersAbility());

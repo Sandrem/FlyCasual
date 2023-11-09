@@ -22,6 +22,11 @@ namespace Ship
                     {
                         Tags.Tie
                     },
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Sensor,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 98
                 );
             }

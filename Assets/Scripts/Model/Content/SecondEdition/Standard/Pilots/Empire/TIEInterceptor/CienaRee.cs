@@ -27,7 +27,8 @@ namespace Ship.SecondEdition.TIEInterceptor
                 {
                     UpgradeType.Talent,
                     UpgradeType.Talent,
-                    UpgradeType.Modification
+                    UpgradeType.Modification,
+                    UpgradeType.Configuration
                 },
                 tags: new List<Tags>
                 {

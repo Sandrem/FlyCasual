@@ -35,10 +35,7 @@ namespace Ship
                         new ActionInfo(typeof(BarrelRollAction)),
                         new ActionInfo(typeof(TargetLockAction))
                     ),
-                    new ShipUpgradesInfo(
-                        UpgradeType.Modification,
-                        UpgradeType.Sensor
-                    ),
+                    new ShipUpgradesInfo(),
                     linkedActions: new List<LinkedActionInfo>
                     {
                         new LinkedActionInfo(typeof(FocusAction), typeof(BarrelRollAction))

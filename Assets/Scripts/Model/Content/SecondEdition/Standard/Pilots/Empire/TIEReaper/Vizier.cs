@@ -25,7 +25,9 @@ namespace Ship
                     abilityType: typeof(VizierAbility),
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Crew
+                        UpgradeType.Crew,
+                        UpgradeType.Crew,
+                        UpgradeType.Modification                        
                     },
                     tags: new List<Tags>
                     {

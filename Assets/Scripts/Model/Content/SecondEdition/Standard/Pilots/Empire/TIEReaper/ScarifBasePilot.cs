@@ -18,6 +18,11 @@ namespace Ship
                     1,
                     4,
                     6,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Crew,
+                        UpgradeType.Modification                        
+                    },
                     seImageNumber: 116,
                     tags: new List<Tags>
                     {

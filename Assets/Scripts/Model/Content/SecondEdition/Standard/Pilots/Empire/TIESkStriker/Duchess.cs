@@ -23,6 +23,8 @@ namespace Ship
                     {
                         UpgradeType.Talent,
                         UpgradeType.Talent,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

@@ -17,6 +17,14 @@ namespace Ship
                     2,
                     7,
                     12,
+                    extraUpgradeIcons: new List<UpgradeType>
+                    {
+                        UpgradeType.Torpedo,
+                        UpgradeType.Crew,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
+                        UpgradeType.Modification
+                    },
                     seImageNumber: 148
                 );
             }

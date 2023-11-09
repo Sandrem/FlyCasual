@@ -20,7 +20,7 @@ namespace Ship
                     "Battle of Yavin",
                     Faction.Imperial,
                     4,
-                    6,
+                    5,
                     0,
                     charges: 2,
                     regensCharges: 1,

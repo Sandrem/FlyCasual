@@ -21,11 +21,13 @@ namespace Ship
                     Faction.Imperial,
                     2,
                     4,
-                    9,
+                    12,
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
                         UpgradeType.Talent,
+                        UpgradeType.Gunner,
+                        UpgradeType.Device,
                         UpgradeType.Device,
                         UpgradeType.Modification
                     },

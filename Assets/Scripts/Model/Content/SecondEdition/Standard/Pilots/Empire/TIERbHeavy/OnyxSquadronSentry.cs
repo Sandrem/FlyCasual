@@ -20,7 +20,10 @@ namespace Ship
                     7,
                     extraUpgradeIcons: new List<UpgradeType>
                     {
-                        UpgradeType.Modification
+                        UpgradeType.Cannon,
+                        UpgradeType.Cannon,
+                        UpgradeType.Modification,
+                        UpgradeType.Configuration
                     },
                     tags: new List<Tags>
                     {

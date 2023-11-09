@@ -21,7 +21,8 @@ namespace Ship
                     force: 1,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.ForcePower
+                        UpgradeType.ForcePower,
+                        UpgradeType.Sensor
                     },
                     tags: new List<Tags>
                     {

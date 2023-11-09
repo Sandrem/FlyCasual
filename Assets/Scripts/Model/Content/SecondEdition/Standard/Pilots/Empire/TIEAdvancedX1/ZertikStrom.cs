@@ -25,7 +25,9 @@ namespace Ship
                     isLimited: true,
                     extraUpgradeIcons: new List<UpgradeType>()
                     {
-                        UpgradeType.Missile
+                        UpgradeType.Sensor,
+                        UpgradeType.Missile,
+                        UpgradeType.Modification
                     },
                     tags: new List<Tags>
                     {

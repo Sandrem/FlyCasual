@@ -35,12 +35,7 @@ namespace Ship.SecondEdition.TIERbHeavy
                     new ActionInfo(typeof(BarrelRollAction), ActionColor.Red),
                     new ActionInfo(typeof(RotateArcAction))
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Cannon,
-                    UpgradeType.Cannon,
-                    UpgradeType.Configuration
-                ),
+                new ShipUpgradesInfo(),
                 linkedActions: new List<LinkedActionInfo>
                 {
                     new LinkedActionInfo(typeof(RotateArcAction), typeof(CalculateAction), ActionColor.Red)

@@ -31,7 +31,9 @@ namespace Ship
                         UpgradeType.ForcePower,
                         UpgradeType.Talent,
                         UpgradeType.Tech,
+                        UpgradeType.Sensor,
                         UpgradeType.Missile,
+                        UpgradeType.Modification,
                         UpgradeType.Modification
                     },
                     tags: new List<Tags>

@@ -35,14 +35,7 @@ namespace Ship.SecondEdition.VT49Decimator
                     new ActionInfo(typeof(RotateArcAction)),
                     new ActionInfo(typeof(CoordinateAction), ActionColor.Red)
                 ),
-                new ShipUpgradesInfo
-                (
-                    UpgradeType.Torpedo,
-                    UpgradeType.Crew,
-                    UpgradeType.Gunner,
-                    UpgradeType.Device,
-                    UpgradeType.Modification
-                )
+                new ShipUpgradesInfo()
             );
 
             ModelInfo = new ShipModelInfo

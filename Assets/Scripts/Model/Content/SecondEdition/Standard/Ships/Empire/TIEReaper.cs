@@ -34,11 +34,7 @@ namespace Ship
                         new ActionInfo(typeof(JamAction)),
                         new ActionInfo(typeof(CoordinateAction), ActionColor.Red)
                     ),
-                    new ShipUpgradesInfo
-                    (
-                        UpgradeType.Modification,
-                        UpgradeType.Crew
-                    )
+                    new ShipUpgradesInfo()
                 );
 
                 ShipAbilities.Add(new Abilities.SecondEdition.AdvancedAileronsAbility());
